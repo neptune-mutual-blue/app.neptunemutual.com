@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true,
+    "[javascriptreact]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        }
+    },
+    "[javascript]": {
+        "editor.formatOnSave": false,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": true
+        }
+    },
+    "files.associations": {
+        "*.css": "postcss"
+    },
+    "emmet.includeLanguages": {
+        "postcss": "css"
+    },
+    "emmet.syntaxProfiles": {
+        "postcss": "css"
+    },
+    "editor.tabSize": 2
+}
