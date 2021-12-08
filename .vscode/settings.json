@@ -7,7 +7,7 @@
         }
     },
     "[javascript]": {
-        "editor.formatOnSave": false,
+        "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
             "source.fixAll.eslint": true
         }
@@ -21,5 +21,6 @@
     "emmet.syntaxProfiles": {
         "postcss": "css"
     },
-    "editor.tabSize": 2
+    "editor.tabSize": 2,
+    "javascript.preferences.importModuleSpecifier": "non-relative"
 }
