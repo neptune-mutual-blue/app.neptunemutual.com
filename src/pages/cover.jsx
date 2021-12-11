@@ -81,6 +81,7 @@ export default function Home() {
                       href="https://google.com"
                       className="inline-block mr-4 hover:text-primary"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <FacebookIcon />
                     </a>
@@ -88,6 +89,7 @@ export default function Home() {
                       href="https://google.com"
                       className="inline-block mr-4 hover:text-primary"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <LinkedinIcon />
                     </a>
@@ -95,6 +97,7 @@ export default function Home() {
                       href="https://google.com"
                       className="inline-block mr-4 hover:text-primary"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       <TwitterIcon />
                     </a>
