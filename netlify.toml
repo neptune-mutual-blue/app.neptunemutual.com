@@ -1,0 +1,15 @@
+
+[[redirects]]
+  from = "/*"
+  to = "/unavailable"
+  status = 307
+  force = true
+  conditions = {Country = ["US"]}
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' *"
+    X-XSS-Protection = "1; mode=block"
