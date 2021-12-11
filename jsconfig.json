@@ -12,9 +12,18 @@
       "@/translations/*": [
         "src/translations/*"
       ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/icons/*": [
+        "src/icons/*"
+      ],
       "@/components/*": [
         "src/components/*"
-      ]
+      ],
+      "@/src/*": [
+        "src/*"
+      ],
     }
   },
   "exclude": [
