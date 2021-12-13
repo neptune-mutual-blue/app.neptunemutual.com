@@ -1,5 +1,13 @@
 import { Container } from "@/components/layout/Container";
 
+export const getStaticProps = async (ctx) => {
+  return {
+    props: {
+      noWrappers: true,
+    },
+  };
+};
+
 export default function PageNotAvailable() {
   return (
     <>
@@ -10,7 +18,7 @@ export default function PageNotAvailable() {
         <img
           src="/unavailable.png"
           alt="Access Denied"
-          className="block w-52 h-5w-52 mx-auto"
+          className="block w-52 h-52 mx-auto"
         />
         <h2 className="text-h3 leading-10 font-sora font-bold text-center my-6">
           Oops, Neptune Mutual is not available in your region

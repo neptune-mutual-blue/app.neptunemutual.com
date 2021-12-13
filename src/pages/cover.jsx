@@ -15,12 +15,20 @@ import { actions as coverActions } from "@/src/config/cover/actions";
 import { ImageContainer } from "@/components/common/image-container";
 import { OutlinedCard } from "@/components/common/outlined-card";
 import { classNames } from "@/utils/classnames";
+import { Checkbox } from "@/components/form/checkbox";
+import { useState } from "react";
+import { AcceptRulesForm } from "@/components/cover/accept-rules-form";
 
 export default function Home() {
   const imgSrc = "/covers/clearpool.png";
   const title = "Clearpool";
 
   const router = useRouter();
+  const [accepted, setAccepted] = useState(false);
+
+  const handleAcceptRules = () => {
+    setAccepted(true);
+  };
 
   return (
     <div>
@@ -126,6 +134,16 @@ export default function Home() {
                 whitelisted by the Clearpool community - CPOOL token holders.
               </p>
 
+              {/* Read more */}
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="opacity-40 hover:underline mt-4"
+              >
+                See More
+              </a>
+
               {/* Rules */}
               <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
                 Cover Rules
@@ -152,23 +170,10 @@ export default function Home() {
                 <li>You did not transfer your cxToken to any other wallet.</li>
               </ol>
 
-              {/* Accept Rules Form */}
-              <form className="mt-20">
-                <label className="p-1">
-                  <input type="checkbox" checked /> I have read, understood, and
-                  agree to the terms of cover rules
-                </label>
-                <br />
-                <button
-                  type="submit"
-                  className={classNames(
-                    true && "opacity-30 cursor-not-allowed",
-                    "bg-primary text-white-fg py-3 px-4 mt-8 rounded-xl"
-                  )}
-                >
-                  Next&nbsp;&#x27F6;
-                </button>
-              </form>
+              <br className="mt-20" />
+              {!accepted && <AcceptRulesForm onAccept={handleAcceptRules} />}
+
+              {accepted && <h2>Form to purchase</h2>}
             </div>
             <div className="">
               <OutlinedCard className="bg-ash-brand p-10">
@@ -206,7 +211,7 @@ export default function Home() {
         <div className="pt-20 pb-36 bg-ash-bg border-t border-t-ash-border">
           <Container>
             <h1 className="text-h2 font-sora font-bold mb-12 text-center">
-              Didn’t Find What You Were Looking For?
+              Didn&#x2019;t Find What You Were Looking For?
             </h1>
             <Grid>
               {Object.keys(coverActions)
