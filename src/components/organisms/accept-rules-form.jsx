@@ -1,8 +1,8 @@
-import { Checkbox } from "@/components/form/checkbox";
+import { Checkbox } from "@/components/atoms/checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-export const AcceptRulesForm = ({ onAccept }) => {
+export const AcceptRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = (ev) => {
@@ -27,7 +27,7 @@ export const AcceptRulesForm = ({ onAccept }) => {
           checked={checked}
           onChange={handleChange}
         >
-          I have read, understood, and agree to the terms of cover rules
+          {children}
         </Checkbox>
         <br />
         <button
