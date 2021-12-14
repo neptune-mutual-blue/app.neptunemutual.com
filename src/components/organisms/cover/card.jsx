@@ -1,7 +1,6 @@
 import { Badge } from "@/components/atoms/badge";
 import { ProgressBar } from "@/components/atoms/progress-bar";
 import { OutlinedCard } from "@/components/molecules/outlined-card";
-import { ImageContainer } from "@/components/molecules/image-container";
 import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details, children }) => {
@@ -19,9 +18,9 @@ export const CoverCard = ({ details, children }) => {
     <OutlinedCard className="bg-white-bg p-6" type="link">
       <div className="flex justify-between">
         <div>
-          <ImageContainer className="bg-ash-brand p-3">
+          <div className="w-18 h-18 bg-ash-brand p-3 rounded-full">
             <img src={imgSrc} alt={name} className="inline-block max-w-full" />
-          </ImageContainer>
+          </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
             {name}
           </h4>

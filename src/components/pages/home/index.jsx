@@ -4,7 +4,7 @@ import { Container } from "@/components/atoms/container";
 import { Grid } from "@/components/atoms/grid";
 
 import { CoverCard } from "@/components/organisms/cover/card";
-import { CoverActionCard } from "@/components/organisms/action-card";
+import { CoverActionCard } from "@/components/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 
@@ -26,7 +26,7 @@ export const HomePage = () => {
         }}
       >
         <Container>
-          <h1 className="text-h1 font-sora">Neptune Mutual</h1>
+          <h1 className="text-h1 font-sora font-bold">Neptune Mutual</h1>
           <p className="text-para mt-3 max-w-prose">
             Neptune Mutual provides you with guaranteed stablecoin liquidity to
             reduce your risk exposure by hedging against possible capital risks

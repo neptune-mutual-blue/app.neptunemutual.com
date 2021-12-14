@@ -9,15 +9,15 @@ import { Container } from "@/components/atoms/container";
 import { Grid } from "@/components/atoms/grid";
 
 import { CoverCard } from "@/components/organisms/cover/card";
-import { CoverActionCard } from "@/components/organisms/action-card";
+import { CoverActionCard } from "@/components/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { ImageContainer } from "@/components/molecules/image-container";
 import { OutlinedCard } from "@/components/molecules/outlined-card";
 import { classNames } from "@/utils/classnames";
 import { Checkbox } from "@/components/atoms/checkbox";
 import { useEffect, useState } from "react";
 import { AcceptRulesForm } from "@/components/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { CoverHero } from "@/components/organisms/cover/hero";
 
 export const CoverPage = () => {
   const router = useRouter();
@@ -40,90 +40,11 @@ export const CoverPage = () => {
     <div>
       <main className="bg-gray-bg">
         {/* hero */}
-        <div
-          className="px-8 py-6"
-          style={{
-            backgroundImage: "url(/gradient.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "left",
-          }}
-        >
-          {/* Back button */}
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="text-primary py-3 px-4 border border-primary rounded-xl"
-          >
-            &#x27F5;&nbsp;Back
-          </button>
-
-          <div className="py-14">
-            <Container>
-              <div className="flex">
-                <div>
-                  <ImageContainer
-                    size="md"
-                    className="bg-ash-brand p-3 border border-ash-border mr-6"
-                  >
-                    <img
-                      src={imgSrc}
-                      alt={title}
-                      className="inline-block max-w-full"
-                    />
-                  </ImageContainer>
-                </div>
-                <div>
-                  <div className="flex items-center">
-                    <h1 className="text-h2 font-sora font-bold">{title}</h1>
-                    <div className="ml-4 rounded-full w-4 h-4 bg-teal-neutral"></div>
-                  </div>
-                  <p>
-                    <a
-                      href={coverInfo.links.website}
-                      className="text-primary underline hover:no-underline"
-                    >
-                      {coverInfo.links.website
-                        .replace(/(^\w+:|^)\/\//, "")
-                        .replace(/\/$/, "")}
-                    </a>
-                  </p>
-                  <div className="mt-5">
-                    <a
-                      href={coverInfo.links.facebook}
-                      className="inline-block mr-4 hover:text-primary"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <FacebookIcon />
-                    </a>
-                    <a
-                      href={coverInfo.links.linkedin}
-                      className="inline-block mr-4 hover:text-primary"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <LinkedinIcon />
-                    </a>
-                    <a
-                      href={coverInfo.links.twitter}
-                      className="inline-block mr-4 hover:text-primary"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <TwitterIcon />
-                    </a>
-                  </div>
-                </div>
-                <div className="ml-auto text-right">
-                  <h5 className="font-sora text-h5">Total Liquidity</h5>
-                  <p className="font-semibold text-primary text-h2">
-                    5,234,759.00 DAI
-                  </p>
-                </div>
-              </div>
-            </Container>
-          </div>
-        </div>
+        <CoverHero
+          coverInfo={coverInfo}
+          title={title}
+          imgSrc={imgSrc}
+        ></CoverHero>
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-ash-border">
