@@ -1,4 +1,5 @@
-import { Container } from "@/components/atoms/container";
+import { Container } from "@/components/UI/atoms/container";
+import Image from "next/image"
 
 export const getStaticProps = async (ctx) => {
   return {

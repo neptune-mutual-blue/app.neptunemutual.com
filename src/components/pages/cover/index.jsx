@@ -5,19 +5,19 @@ import FacebookIcon from "@/icons/facebook";
 import LinkedinIcon from "@/icons/linkedin";
 import TwitterIcon from "@/icons/twitter";
 
-import { Container } from "@/components/atoms/container";
-import { Grid } from "@/components/atoms/grid";
+import { Container } from "@/components/UI/atoms/container";
+import { Grid } from "@/components/UI/atoms/grid";
 
-import { CoverCard } from "@/components/organisms/cover/card";
-import { CoverActionCard } from "@/components/organisms/cover/action-card";
+import { CoverCard } from "@/components/UI/organisms/cover/card";
+import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedCard } from "@/components/molecules/outlined-card";
+import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { classNames } from "@/utils/classnames";
-import { Checkbox } from "@/components/atoms/checkbox";
+import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { useEffect, useState } from "react";
-import { AcceptRulesForm } from "@/components/organisms/accept-rules-form";
+import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { CoverHero } from "@/components/organisms/cover/hero";
+import { CoverHero } from "@/components/UI/organisms/cover/hero";
 
 export const CoverPage = () => {
   const router = useRouter();

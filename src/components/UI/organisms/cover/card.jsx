@@ -1,6 +1,7 @@
-import { Badge } from "@/components/atoms/badge";
-import { ProgressBar } from "@/components/atoms/progress-bar";
-import { OutlinedCard } from "@/components/molecules/outlined-card";
+import Image from "next/image"
+import { Badge } from "@/components/UI/atoms/badge";
+import { ProgressBar } from "@/components/UI/atoms/progress-bar";
+import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details, children }) => {
