@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { Container } from "@/components/atoms/container";
-import { Grid } from "@/components/atoms/grid";
+import { Container } from "@/components/UI/atoms/container";
+import { Grid } from "@/components/UI/atoms/grid";
 
-import { CoverCard } from "@/components/organisms/cover/card";
-import { CoverActionCard } from "@/components/organisms/cover/action-card";
+import { CoverCard } from "@/components/UI/organisms/cover/card";
+import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 

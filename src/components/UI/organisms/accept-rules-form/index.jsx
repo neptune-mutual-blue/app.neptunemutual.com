@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/atoms/checkbox";
+import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 

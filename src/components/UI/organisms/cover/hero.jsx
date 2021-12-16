@@ -1,23 +1,23 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { Container } from "@/components/atoms/container";
-import { Grid } from "@/components/atoms/grid";
+import { Container } from "@/components/UI/atoms/container";
+import { Grid } from "@/components/UI/atoms/grid";
 
-import { CoverCard } from "@/components/organisms/cover/card";
-import { CoverActionCard } from "@/components/organisms/cover/action-card";
+import { CoverCard } from "@/components/UI/organisms/cover/card";
+import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedCard } from "@/components/molecules/outlined-card";
+import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { classNames } from "@/utils/classnames";
-import { Checkbox } from "@/components/atoms/checkbox";
+import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { useEffect, useState } from "react";
-import { AcceptRulesForm } from "@/components/organisms/accept-rules-form";
+import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { SocialIconLinks } from "@/components/molecules/social-icon-links";
-import { CoverHeroTotalLiquidity } from "@/components/molecules/cover/hero/total-liquidity";
-import { CoverHeroImage } from "@/components/molecules/cover/hero/image";
-import { CoverHeroTitleAndWebsite } from "@/components/molecules/cover/hero/title-and-website";
-import { OutlinedButton } from "@/components/atoms/button/outlined";
+import { SocialIconLinks } from "@/components/UI/molecules/social-icon-links";
+import { CoverHeroTotalLiquidity } from "@/components/UI/molecules/cover/hero/total-liquidity";
+import { CoverHeroImage } from "@/components/UI/molecules/cover/hero/image";
+import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/title-and-website";
+import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 
 export const CoverHero = ({ children, coverInfo, imgSrc, title }) => {
   const router = useRouter();

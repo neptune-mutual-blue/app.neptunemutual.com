@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/atoms/checkbox";
+import { Checkbox } from "@/components/UI/atoms/checkbox";
 import Head from "next/head";
 
 export default function Components() {
