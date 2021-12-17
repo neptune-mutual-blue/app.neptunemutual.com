@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
+import { CoverForm } from "@/components/UI/organisms/cover-form";
 
 export const CoverPage = () => {
   const router = useRouter();
@@ -90,7 +91,7 @@ export const CoverPage = () => {
                 </AcceptRulesForm>
               )}
 
-              {accepted && <h2>Form to purchase</h2>}
+              {accepted && <CoverForm />}
             </div>
             <div className="">
               <OutlinedCard className="bg-ash-brand p-10">

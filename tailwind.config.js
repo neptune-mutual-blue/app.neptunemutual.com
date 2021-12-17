@@ -98,6 +98,9 @@ module.exports = {
           neutral: "#FA5C2F",
         },
       },
+      width: {
+        lgInput: "488px",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
