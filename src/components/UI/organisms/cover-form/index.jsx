@@ -5,9 +5,9 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { useState } from "react";
 import { CoverDetails } from "@/components/UI/organisms/cover-details/CoverDetails";
 import { Label } from "@/components/UI/atoms/label";
+import { FEES, MAX_VALUE_TO_PURCHASE } from "@/src/_mocks/cover/coverform";
 
 export const CoverForm = () => {
-  const FEES = 6.5;
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
 
@@ -41,6 +41,10 @@ export const CoverForm = () => {
     return month;
   };
 
+  const handleMaxButtonClick = () => {
+    setValue(MAX_VALUE_TO_PURCHASE);
+  };
+
   return (
     <Container>
       <Label className={"px-3 pb-4"} labelText={"Amount you wish to cover"} />
@@ -48,15 +52,19 @@ export const CoverForm = () => {
         <Input
           placeholder={"Enter Amount"}
           value={value}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
         />
         <div
           style={{ right: "-10px", height: "70px" }}
           className="absolute top-0"
         >
+          <span className="text-dimmed-fg px-5">DAI</span>
           <RegularButton
             style={{ height: "inherit" }}
-            className={"w-20 bg-ash-secondary rounded-r-lg border-0 text-black"}
+            onClick={() => handleMaxButtonClick()}
+            className={
+              "w-20 bg-ash-secondary rounded-r-lg border-0 text-black z-10"
+            }
           >
             Max
           </RegularButton>

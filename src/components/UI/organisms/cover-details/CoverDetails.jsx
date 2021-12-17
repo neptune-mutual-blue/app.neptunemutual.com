@@ -12,18 +12,20 @@ export const CoverDetails = ({ fees, daiValue, claimEnd }) => {
         <hr></hr>
       </div>
       <table className="w-lgInput">
-        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-          <th>Fees</th>
-          <td className="text-primary px-4">{fees} %</td>
-        </tr>
-        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-          <th>Cover Fee</th>
-          <td className="text-primary px-4">{(fees / 100) * daiValue} DAI</td>
-        </tr>
-        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-          <th>Claim Expiry</th>
-          <td className="text-primary px-4">{formatDate()}</td>
-        </tr>
+        <tbody>
+          <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+            <th>Fees</th>
+            <td className="text-primary px-4">{fees} %</td>
+          </tr>
+          <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+            <th>Cover Fee</th>
+            <td className="text-primary px-4">{(fees / 100) * daiValue} DAI</td>
+          </tr>
+          <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+            <th>Claim Expiry</th>
+            <td className="text-primary px-4">{formatDate()}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   );

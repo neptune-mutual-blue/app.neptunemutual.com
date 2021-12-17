@@ -8,15 +8,9 @@ export const Input = ({ children, placeholder, value, onChange }) => {
         id="grid-first-name"
         type="text"
         value={value}
-        onChange={onChange}
+        onChange={(e) => onChange(e)}
         placeholder={placeholder}
       ></input>
-      {/* <span
-        style={{ left: "120%" }}
-        className="bg-ash-secondary absolute w-20 h-18 top-10 right-0 flex justify-center items-center rounded-r-lg"
-      >
-        <p>Max</p>
-      </span> */}
     </div>
   );
 };
