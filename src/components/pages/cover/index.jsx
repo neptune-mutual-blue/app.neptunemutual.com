@@ -24,8 +24,11 @@ export const CoverPage = () => {
   const router = useRouter();
   const [accepted, setAccepted] = useState(false);
 
+  const [hideRules, setHideRules] = useState(false);
+
   const handleAcceptRules = () => {
     setAccepted(true);
+    setHideRules(true);
   };
 
   const { coverInfo } = useCoverInfo();
@@ -65,33 +68,37 @@ export const CoverPage = () => {
               </a>
 
               {/* Rules */}
-              <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
-                Cover Rules
-              </h4>
-              <p className="mb-4">
-                Carefully read the following terms and conditions. For a
-                successful claim payout, all of the following points must be
-                true.
-              </p>
-              <ol className="list-decimal pl-5">
-                {coverInfo.rules.split("\n").map((x, i) => (
-                  <li key={i}>
-                    {x
-                      .trim()
-                      .replace(/^\d+\./g, "")
-                      .trim()}
-                  </li>
-                ))}
-              </ol>
+              {!hideRules && (
+                <div>
+                  <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
+                    Cover Rules
+                  </h4>
+                  <p className="mb-4">
+                    Carefully read the following terms and conditions. For a
+                    successful claim payout, all of the following points must be
+                    true.
+                  </p>
+                  <ol className="list-decimal pl-5">
+                    {coverInfo.rules.split("\n").map((x, i) => (
+                      <li key={i}>
+                        {x
+                          .trim()
+                          .replace(/^\d+\./g, "")
+                          .trim()}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
 
               <br className="mt-20" />
-              {!accepted && (
+              {!accepted && !hideRules && (
                 <AcceptRulesForm onAccept={handleAcceptRules}>
                   I have read, understood, and agree to the terms of cover rules
                 </AcceptRulesForm>
               )}
 
-              {accepted && <CoverForm />}
+              <div className="mt-12">{accepted && <CoverForm />}</div>
             </div>
             <div className="">
               <OutlinedCard className="bg-ash-brand p-10">

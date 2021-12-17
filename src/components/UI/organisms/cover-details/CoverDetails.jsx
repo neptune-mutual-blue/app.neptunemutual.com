@@ -2,7 +2,7 @@ export const CoverDetails = ({ fees, daiValue, claimEnd }) => {
   const formatDate = () => {
     let date = new Date();
     let dateToShow = claimEnd.substr(0, 3);
-    dateToShow = dateToShow + `31, ${date.getUTCFullYear()} 12:00 UTC`;
+    dateToShow = dateToShow + ` 31, ${date.getUTCFullYear()} 12:00 UTC`;
     return dateToShow;
   };
 
@@ -11,18 +11,20 @@ export const CoverDetails = ({ fees, daiValue, claimEnd }) => {
       <div className="mb-2" style={{ color: "#D4DFEE" }}>
         <hr></hr>
       </div>
-      <div className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-        <p className="">Fees</p>
-        <p className="text-primary">{fees} %</p>
-      </div>
-      <div className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-        <p>Cover Fee</p>
-        <p className="text-primary">{(fees / 100) * daiValue} DAI</p>
-      </div>
-      <div className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
-        <p>Claim Expiry</p>
-        <p className="text-primary">{formatDate()}</p>
-      </div>
+      <table className="w-lgInput">
+        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+          <th>Fees</th>
+          <td className="text-primary px-4">{fees} %</td>
+        </tr>
+        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+          <th>Cover Fee</th>
+          <td className="text-primary px-4">{(fees / 100) * daiValue} DAI</td>
+        </tr>
+        <tr className="flex justify-between mt-3 font-poppins text-body font-semibold uppercase">
+          <th>Claim Expiry</th>
+          <td className="text-primary px-4">{formatDate()}</td>
+        </tr>
+      </table>
     </div>
   );
 };

@@ -70,6 +70,8 @@ module.exports = {
           /* text */
           fg: "#EEEEEE",
         },
+        /* for cover info text */
+        bluish: "#15AAC8",
         dimmed: {
           /* text */
           fg: "#9B9B9B",

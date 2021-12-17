@@ -4,6 +4,7 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { useState } from "react";
 import { CoverDetails } from "@/components/UI/organisms/cover-details/CoverDetails";
+import { Label } from "@/components/UI/atoms/label";
 
 export const CoverForm = () => {
   const FEES = 6.5;
@@ -42,12 +43,25 @@ export const CoverForm = () => {
 
   return (
     <Container>
-      <Input
-        label={"Amount you wish to cover"}
-        placeholder={"Enter Amount"}
-        value={value}
-        onChange={(e) => handleChange(e)}
-      />
+      <Label className={"px-3 pb-4"} labelText={"Amount you wish to cover"} />
+      <div className="relative w-lgInput">
+        <Input
+          placeholder={"Enter Amount"}
+          value={value}
+          onChange={(e) => handleChange(e)}
+        />
+        <div
+          style={{ right: "-10px", height: "70px" }}
+          className="absolute top-0"
+        >
+          <RegularButton
+            style={{ height: "inherit" }}
+            className={"w-20 bg-ash-secondary rounded-r-lg border-0 text-black"}
+          >
+            Max
+          </RegularButton>
+        </div>
+      </div>
       <div className="flex px-3 items-center text-dimmed-fg mt-2 w-lgInput">
         {value !== undefined && parseInt(value) !== NaN && (
           <p>Balance: {`${value}`} DAI</p>
@@ -57,6 +71,13 @@ export const CoverForm = () => {
           <img src="/icons/add.png"></img>
         </div>
       </div>
+      {value !== undefined && parseInt(value) !== NaN && (
+        <div className="px-3 flex w-fit items-center text-bluish">
+          <p>You will receive: {`${value} cxDAI`}</p>
+
+          <img className="pl-1" src="/icons/info.png"></img>
+        </div>
+      )}
       <div className="mt-12 px-3">
         <p
           className="block uppercase tracking-wide text-black text-h5 text-xs font-bold pb-4"
@@ -70,12 +91,12 @@ export const CoverForm = () => {
           <Radio text={"march"} onChange={handleRadioChange} />
         </div>
       </div>
-      <RegularButton className={"w-lgInput h-18 mt-9"}>
-        Approve Dai
-      </RegularButton>
       {value && coverMonth && (
         <CoverDetails fees={FEES} daiValue={value} claimEnd={coverMonth} />
       )}
+      <RegularButton className={"w-lgInput h-18 mt-16 py-3 px-4"}>
+        Approve Dai
+      </RegularButton>
     </Container>
   );
 };
