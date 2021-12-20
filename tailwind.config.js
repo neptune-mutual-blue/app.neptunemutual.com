@@ -57,6 +57,8 @@ module.exports = {
         18: "4.5rem",
       },
       colors: {
+        "999BAB": "#999BAB",
+        "728FB2": "#728FB2",
         primary: "#4E7DD9",
         gray: {
           /* background */
