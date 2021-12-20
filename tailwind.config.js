@@ -95,6 +95,10 @@ module.exports = {
         orange: {
           neutral: "#FA5C2F",
         },
+        /* pool border color */
+        poolBorder: "#B0C4DB",
+        /* to achieve clipped bg */
+        poolClipBg: "#eefefe",
       },
     },
   },
