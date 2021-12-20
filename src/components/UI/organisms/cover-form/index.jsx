@@ -2,14 +2,19 @@ import { Container } from "@/components/UI/atoms/container";
 import { Input } from "@/components/UI/atoms/input";
 import { Radio } from "@/components/UI/atoms/radio";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CoverDetails } from "@/components/UI/organisms/cover-details/CoverDetails";
 import { Label } from "@/components/UI/atoms/label";
-import { FEES, MAX_VALUE_TO_PURCHASE } from "@/src/_mocks/cover/coverform";
+//import { FEES, MAX_VALUE_TO_PURCHASE } from "@/src/_mocks/cover/coverform";
+import { useConstants } from "@/components/pages/cover/useCoverInfo";
 
 export const CoverForm = () => {
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
+
+  const { fees, maxValue } = useConstants();
+
+  console.log(fees, maxValue);
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -42,8 +47,12 @@ export const CoverForm = () => {
   };
 
   const handleMaxButtonClick = () => {
-    setValue(MAX_VALUE_TO_PURCHASE);
+    setValue(maxValue);
   };
+
+  if (!fees && !maxValue) {
+    return <>loading...</>;
+  }
 
   return (
     <Container>
@@ -100,7 +109,7 @@ export const CoverForm = () => {
         </div>
       </div>
       {value && coverMonth && (
-        <CoverDetails fees={FEES} daiValue={value} claimEnd={coverMonth} />
+        <CoverDetails fees={fees} daiValue={value} claimEnd={coverMonth} />
       )}
       <RegularButton className={"w-lgInput h-18 mt-16 py-3 px-4"}>
         Approve Dai
