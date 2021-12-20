@@ -7,7 +7,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const PoolsPage = () => {
   const router = useRouter();
-  let currentPath = router.query.pools;
+  //let currentPath = router.query.pools;
+  let currentPath = router.pathname;
+  currentPath = currentPath.replace("/pools/", "");
+  console.log("router", currentPath);
 
   const [activeTab, setActiveTab] = useState(1);
 
