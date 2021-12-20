@@ -1,3 +1,4 @@
+import { Header } from "@/components/UI/organisms/header";
 import Link from "next/link";
 import "../styles/globals.css";
 
@@ -8,11 +9,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <header className="bg-black text-white-fg px-8 py-6">
-        <Link href="/">
-          <a className="text-h3 uppercase">Neptune Mutual</a>
-        </Link>
-      </header>
+      <Header></Header>
       <Component {...pageProps} />
     </>
   );
