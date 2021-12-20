@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 
 export const CoverActionCard = ({ children, title, description, imgSrc }) => {

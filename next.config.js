@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-  async redirects() {
+  /* async redirects() {
     return [
       {
         source: "/pools",
@@ -8,5 +8,5 @@ module.exports = {
         permanent: false,
       },
     ];
-  },
+  }, */
 };

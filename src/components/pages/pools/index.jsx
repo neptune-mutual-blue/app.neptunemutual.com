@@ -1,8 +1,9 @@
 import { Staking } from "@/components/pages/pools/staking";
 import { TabHeader } from "@/components/UI/molecules/pools/pools-hero/tabbed-header";
 import { PoolHero } from "@/components/UI/organisms/pools/hero";
+import { getHeaderTabs } from "@/src/_mocks/pools";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const PoolsPage = () => {
   const router = useRouter();
@@ -12,42 +13,28 @@ export const PoolsPage = () => {
 
   /* Add component to render accordingly like <Bond>,<Staking */
   /* Used in object to create a tab component as well as keep track of active tab  */
-  const headers = [
-    {
-      id: 1,
-      name: "bond",
-      displayAs: "Bond",
-    },
-    {
-      id: 2,
-      name: "staking",
-      displayAs: "Staking",
-      componentToRender: <Staking />,
-    },
-    {
-      id: 3,
-      name: "pod_staking",
-      displayAs: "POD Staking",
-    },
-  ];
+  const headers = useMemo(getHeaderTabs, []);
 
-  const findNameMatchingComponent = () =>
-    headers.find((cmp) => {
-      return cmp.name === currentPath;
-    });
-
-  const getActiveUI = () => {
-    let currentPage = headers.find((tab) => {
-      return tab.name === currentPath;
-    });
-    setActiveTab(currentPage?.id);
-  };
+  const findNameMatchingComponent = useCallback(
+    () =>
+      headers.find((cmp) => {
+        return cmp.name === currentPath;
+      }),
+    [currentPath, headers]
+  );
 
   useEffect(() => {
+    const getActiveUI = () => {
+      let currentPage = headers.find((tab) => {
+        return tab.name === currentPath;
+      });
+      setActiveTab(currentPage?.id);
+    };
+
     const foundComponent = findNameMatchingComponent();
     if (currentPath && !foundComponent) router.push("/pools/bond");
     if (currentPath) getActiveUI();
-  }, [router]);
+  }, [currentPath, findNameMatchingComponent, headers, router]);
 
   const cmp = findNameMatchingComponent()?.componentToRender;
 

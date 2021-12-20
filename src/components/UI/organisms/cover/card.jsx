@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { Badge } from "@/components/UI/atoms/badge";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
