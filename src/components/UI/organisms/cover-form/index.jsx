@@ -5,7 +5,6 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { useEffect, useState } from "react";
 import { CoverDetails } from "@/components/UI/organisms/cover-details/CoverDetails";
 import { Label } from "@/components/UI/atoms/label";
-//import { FEES, MAX_VALUE_TO_PURCHASE } from "@/src/_mocks/cover/coverform";
 import { useConstants } from "@/components/pages/cover/useCoverInfo";
 
 export const CoverForm = () => {
