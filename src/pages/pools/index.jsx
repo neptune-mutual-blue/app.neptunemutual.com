@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default () => {
+const Pools = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -10,3 +10,5 @@ export default () => {
 
   return null;
 };
+
+export default Pools;
