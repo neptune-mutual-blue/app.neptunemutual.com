@@ -1,6 +1,6 @@
 export const OptionActionCard = ({ title, description, imgSrc }) => {
   return (
-    <div className="rounded-4xl h-full hover:bg-ash-border">
+    <div className="rounded-4xl h-full hover:bg-B0C4DB">
       <div className="flex flex-col items-center">
         <div className="relative py-12">
           <div className="rounded-full w-[153px] h-[153px]"
@@ -14,7 +14,7 @@ export const OptionActionCard = ({ title, description, imgSrc }) => {
         </div>
         <div className="flex flex-col items-center">
           <h4 className="text-h3 font-sora font-semibold">{title}</h4>
-          <p className="text-para text-dimmed-card text-center mt-1 px-11">{description}</p>
+          <p className="text-para text-7398C0 text-center mt-1 px-11">{description}</p>
         </div>
       </div>
     </div>
