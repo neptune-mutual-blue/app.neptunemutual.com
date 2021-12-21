@@ -24,7 +24,7 @@ const headers = [
 
 export const PoolsPage = ({ active, children }) => {
   return (
-    <main className="bg-gray-bg">
+    <main className="bg-F1F3F6">
       {/* hero */}
       <PoolHero title="Bond and Staking Pools">
         <TabNav headers={headers} activeTab={active} />

@@ -1,5 +1,6 @@
 const colors = require("tailwindcss/colors");
 
+// prettier quoteProps: consistent
 module.exports = {
   content: ["./lib/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -59,44 +60,22 @@ module.exports = {
       colors: {
         "999BAB": "#999BAB",
         "728FB2": "#728FB2",
-        primary: "#4E7DD9",
-        gray: {
-          /* background */
-          bg: "#F1F3F6",
-        },
-        white: {
-          /* background */
-          bg: "#FEFEFF",
-          /* text */
-          fg: "#EEEEEE",
-        },
-        dimmed: {
-          /* text */
-          fg: "#9B9B9B",
-          /* card text*/
-          card: "#7398C0",
-        },
-        ash: {
-          fg: "#89A0C2",
-          /* background (gray) */
-          bg: "#F1F3F6",
-          /* Neutral Brand */
-          neutral: "#364253",
-          /* Background (Brand, Neutral) */
-          brand: "#DEEAF6",
-          /* TextInput (Border Color) */
-          border: "#B0C4DB",
-          /* Background (Secondary Button) */
-          secondary: "#DAE2EB",
-        },
-        teal: {
-          /* light */
-          light: "#CEEBED",
-          neutral: "#21AD8C",
-        },
-        orange: {
-          neutral: "#FA5C2F",
-        },
+        "4E7DD9": "#4E7DD9",
+        F1F3F6: "#F1F3F6",
+        FEFEFF: "#FEFEFF",
+        EEEEEE: "#EEEEEE",
+        "9B9B9B": "#9B9B9B",
+        "7398C0": "#7398C0",
+        "89A0C2": "#89A0C2",
+
+        F1F3F6: "#F1F3F6",
+        364253: "#364253",
+        DEEAF6: "#DEEAF6",
+        B0C4DB: "#B0C4DB",
+        DAE2EB: "#DAE2EB",
+        CEEBED: "#CEEBED",
+        "21AD8C": "#21AD8C",
+        FA5C2F: "#FA5C2F",
         "15aac8": "#15aac8",
         d4dfee: "#d4dfee",
       },

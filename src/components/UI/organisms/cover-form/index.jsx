@@ -77,7 +77,7 @@ export const CoverForm = () => {
         unit={"DAI"}
       />
 
-      <div className="flex justify-between items-start text-dimmed-fg px-3 mt-2">
+      <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
         <p>
           {value !== undefined && parseInt(value) !== NaN && (
             <>Balance: {value} DAI</>

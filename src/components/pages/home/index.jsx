@@ -35,15 +35,15 @@ export const HomePage = () => {
         </Container>
       </div>
 
-      <div className="py-16 bg-ash-bg">
+      <div className="py-16 bg-F1F3F6">
         <Container>
           <div className="flex justify-between">
             <h1 className="text-h2 font-sora font-bold">Available Covers</h1>
             <div>
-              <span className="inline-block border border-ash-border p-4 mr-4 rounded-lg bg-white-bg">
+              <span className="inline-block border border-B0C4DB p-4 mr-4 rounded-lg bg-FEFEFF">
                 search
               </span>
-              <span className="inline-block border border-ash-border p-4 rounded-lg bg-white-bg">
+              <span className="inline-block border border-B0C4DB p-4 rounded-lg bg-FEFEFF">
                 sort
               </span>
             </div>

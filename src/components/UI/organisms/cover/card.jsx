@@ -15,16 +15,16 @@ export const CoverCard = ({ details, children }) => {
   } = details;
 
   return (
-    <OutlinedCard className="bg-white-bg p-6" type="link">
+    <OutlinedCard className="bg-FEFEFF p-6" type="link">
       <div className="flex justify-between">
         <div>
-          <div className="w-18 h-18 bg-ash-brand p-3 rounded-full">
+          <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
             <img src={imgSrc} alt={name} className="inline-block max-w-full" />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
             {name}
           </h4>
-          <div className="text-sm text-dimmed-card uppercase mt-2">
+          <div className="text-sm text-7398C0 uppercase mt-2">
             cover fee: {coverFees.min}-{coverFees.max}%
           </div>
         </div>
@@ -34,7 +34,7 @@ export const CoverCard = ({ details, children }) => {
       </div>
 
       {/* Divider */}
-      <hr className="mt-4 mb-8 border-t border-ash-border" />
+      <hr className="mt-4 mb-8 border-t border-B0C4DB" />
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1">

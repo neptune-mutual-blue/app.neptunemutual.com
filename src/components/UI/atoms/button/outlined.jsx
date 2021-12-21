@@ -3,7 +3,7 @@ export const OutlinedButton = ({ onClick, children }) => {
     <button
       type="button"
       onClick={onClick}
-      className="text-primary py-3 px-4 border border-primary rounded-xl"
+      className="text-4E7DD9 py-3 px-4 border border-4E7DD9 rounded-xl"
     >
       {children}
     </button>

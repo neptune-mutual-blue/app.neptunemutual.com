@@ -6,7 +6,7 @@ export const RegularButton = ({ onClick, children, className }) => {
       type="button"
       onClick={onClick}
       className={classNames(
-        "text-white-fg border border-primary rounded-lg bg-primary",
+        "text-EEEEEE border border-4E7DD9 rounded-lg bg-4E7DD9",
         className
       )}
     >

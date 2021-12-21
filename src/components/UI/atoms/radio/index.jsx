@@ -4,7 +4,7 @@ export const Radio = ({ children, label, id, ...rest }) => {
   return (
     <div className="w-full mr-4 flex items-center">
       <input
-        className="h-5 w-5 bg-white-fg border-ash-border mr-2"
+        className="h-5 w-5 bg-EEEEEE border-B0C4DB mr-2"
         type="radio"
         id={id}
         {...rest}
