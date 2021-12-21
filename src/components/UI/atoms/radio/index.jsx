@@ -1,16 +1,17 @@
 import { classNames } from "@/utils/classnames";
 
-export const Radio = ({ children, text, onChange }) => {
+export const Radio = ({ children, label, id, ...rest }) => {
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex items-center">
+    <div className="w-full mr-4 flex items-center">
       <input
-        className="mr-2"
+        className="h-5 w-5 bg-white-fg border-ash-border mr-2"
         type="radio"
-        name="cover_month"
-        value={text}
-        onChange={(e) => onChange(e)}
+        id={id}
+        {...rest}
       />
-      <label className="uppercase text-sm">{text}</label>
+      <label className="uppercase text-sm" htmlFor={id}>
+        {label}
+      </label>
     </div>
   );
 };

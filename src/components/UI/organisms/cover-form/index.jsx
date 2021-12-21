@@ -1,11 +1,16 @@
 import { Container } from "@/components/UI/atoms/container";
-import { Input } from "@/components/UI/atoms/input";
 import { Radio } from "@/components/UI/atoms/radio";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { useEffect, useState } from "react";
-import { CoverDetails } from "@/components/UI/organisms/cover-details/CoverDetails";
+import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
 import { Label } from "@/components/UI/atoms/label";
-import { useConstants } from "@/components/pages/cover/useCoverInfo";
+import { useConstants } from "@/components/pages/cover/useConstants";
+
+import OpenInNewIcon from "@/icons/open-in-new";
+import AddCircleIcon from "@/icons/add-circle";
+import InfoCircleIcon from "@/icons/info-circle";
+import Link from "next/link";
+import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 
 export const CoverForm = () => {
   const [value, setValue] = useState();
@@ -54,65 +59,88 @@ export const CoverForm = () => {
   }
 
   return (
-    <Container>
-      <Label className={"px-3 pb-4"} labelText={"Amount you wish to cover"} />
-      <div className="relative w-lgInput">
-        <Input
-          placeholder={"Enter Amount"}
-          value={value}
-          onChange={handleChange}
-        />
-        <div
-          style={{ right: "-10px", height: "70px" }}
-          className="absolute top-0"
-        >
-          <span className="text-dimmed-fg px-5">DAI</span>
-          <RegularButton
-            style={{ height: "inherit" }}
-            onClick={() => handleMaxButtonClick()}
-            className={
-              "w-20 bg-ash-secondary rounded-r-lg border-0 text-black z-10"
-            }
-          >
-            Max
-          </RegularButton>
-        </div>
-      </div>
-      <div className="flex px-3 items-center text-dimmed-fg mt-2 w-lgInput">
-        {value !== undefined && parseInt(value) !== NaN && (
-          <p>Balance: {`${value}`} DAI</p>
-        )}
-        <div className="flex w-14 items-center justify-between ml-auto">
-          <img src="/icons/launch_24px.png"></img>
-          <img src="/icons/add.png"></img>
+    <div className="max-w-md">
+      <Label className="mb-4" htmlFor="cover-amount">
+        Amount you wish to cover
+      </Label>
+      <InputWithTrailingButton
+        buttonProps={{
+          children: "Max",
+          onClick: handleMaxButtonClick,
+        }}
+        inputProps={{
+          id: "cover-amount",
+          placeholder: "Enter Amount",
+          value: value,
+          onChange: handleChange,
+        }}
+        unit={"DAI"}
+      />
+
+      <div className="flex justify-between items-start text-dimmed-fg px-3 mt-2">
+        <p>
+          {value !== undefined && parseInt(value) !== NaN && (
+            <>Balance: {value} DAI</>
+          )}
+        </p>
+        <div className="flex">
+          <Link href="#">
+            <a className="ml-3">
+              <OpenInNewIcon fill="currentColor" />
+            </a>
+          </Link>
+          <Link href="#">
+            <a className="ml-3">
+              <AddCircleIcon fill="currentColor" />
+            </a>
+          </Link>
         </div>
       </div>
       {value !== undefined && parseInt(value) !== NaN && (
-        <div className="px-3 flex w-fit items-center text-bluish">
-          <p>You will receive: {`${value} cxDAI`}</p>
+        <div className="px-3 flex items-center text-15aac8">
+          <p>You will receive: {value} cxDAI</p>
 
-          <img className="pl-1" src="/icons/info.png"></img>
+          <InfoCircleIcon fill="currentColor" className="ml-2" />
         </div>
       )}
       <div className="mt-12 px-3">
-        <p
-          className="block uppercase tracking-wide text-black text-h5 text-xs font-bold pb-4"
-          htmlFor="grid-first-name"
+        <h5
+          className="block uppercase text-black text-h6 font-semibold mb-4"
+          htmlFor="cover-period"
         >
           Select your coverage period
-        </p>
-        <div className="flex w-lgInput">
-          <Radio text={"january"} onChange={handleRadioChange} />
-          <Radio text={"february"} onChange={handleRadioChange} />
-          <Radio text={"march"} onChange={handleRadioChange} />
+        </h5>
+        <div className="flex">
+          <Radio
+            label="january"
+            id="january"
+            name="cover-period"
+            onChange={handleRadioChange}
+          />
+          <Radio
+            label="february"
+            id="february"
+            name="cover-period"
+            onChange={handleRadioChange}
+          />
+          <Radio
+            label="march"
+            id="march"
+            name="cover-period"
+            onChange={handleRadioChange}
+          />
         </div>
       </div>
       {value && coverMonth && (
-        <CoverDetails fees={fees} daiValue={value} claimEnd={coverMonth} />
+        <CoverPurchaseDetails
+          fees={fees}
+          daiValue={value}
+          claimEnd={coverMonth}
+        />
       )}
-      <RegularButton className={"w-lgInput h-18 mt-16 py-3 px-4"}>
+      <RegularButton className="w-full mt-14 py-6 px-4 text-h6 uppercase font-bold">
         Approve Dai
       </RegularButton>
-    </Container>
+    </div>
   );
 };

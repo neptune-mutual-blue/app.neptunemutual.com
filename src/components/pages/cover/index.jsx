@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import FacebookIcon from "@/icons/facebook";
-import LinkedinIcon from "@/icons/linkedin";
-import TwitterIcon from "@/icons/twitter";
-
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 

@@ -70,8 +70,6 @@ module.exports = {
           /* text */
           fg: "#EEEEEE",
         },
-        /* for cover info text */
-        bluish: "#15AAC8",
         dimmed: {
           /* text */
           fg: "#9B9B9B",
@@ -99,9 +97,8 @@ module.exports = {
         orange: {
           neutral: "#FA5C2F",
         },
-      },
-      width: {
-        lgInput: "488px",
+        "15aac8": "#15aac8",
+        d4dfee: "#d4dfee",
       },
     },
   },
