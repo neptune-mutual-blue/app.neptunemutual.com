@@ -1,22 +1,13 @@
 export const OptionActionCard = ({ title, description, imgSrc }) => {
   return (
-    <div className="rounded-4xl h-full hover:bg-B0C4DB">
-      <div className="flex flex-col items-center">
-        <div className="relative py-12">
-          <div className="rounded-full w-[153px] h-[153px]"
-            style={{
-              backgroundColor: "#E6F0FE",
-              boxShadow: "0px 4px 64px rgba(78, 125, 217, 0.4)"
-            }}
-          >
-            <img src={imgSrc} className="inline-block max-w-full max-h-full" />
-          </div>
-        </div>
-        <div className="flex flex-col items-center">
-          <h4 className="text-h3 font-sora font-semibold">{title}</h4>
-          <p className="text-para text-7398C0 text-center mt-1 px-11">{description}</p>
-        </div>
+    <>
+      <div className="flex justify-center items-center mx-auto rounded-full shadow-actionCard w-40 h-40 bg-e6f0fe">
+        <img src={imgSrc} className="inline-block max-w-full max-h-full" />
       </div>
-    </div>
+      <h4 className="text-h3 text-center font-sora font-semibold mt-12">
+        {title}
+      </h4>
+      <p className="text-7398C0 text-center mt-1 px-11">{description}</p>
+    </>
   );
 };

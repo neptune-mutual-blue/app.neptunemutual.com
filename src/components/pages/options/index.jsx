@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { actions as optionActions } from "@/src/config/options/actions";
+import { actions as coverActions } from "@/src/config/cover/actions";
 import { useCoverInfo } from "@/components/pages/options/useCoverInfo";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { CoverOptionName } from "@/components/UI/molecules/cover/option/option-name";
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
+import { Container } from "@/components/UI/atoms/container";
 
 export const OptionsPage = () => {
   const router = useRouter();
@@ -29,39 +30,36 @@ export const OptionsPage = () => {
           }}
         >
           <CoverOptionName imgSrc={imgSrc} title={title} />
-          <div>
+          <Container>
             <h2 className="text-h2 font-sora font-bold mb-12 text-center">
               {`I Want to`}
             </h2>
-            <div className={"container mx-auto justify-items-center grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24"}>
-              {Object
-                .keys(optionActions)
-                .map((actionKey, i) => {
-                  const isLast = Object.keys(optionActions).length === i + 1
-
-                  return (
-                    <Link key={i} href={`/${actionKey}`}>
-                      <a
-                        className="w-[280px] h-[394px] rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none"                        
-                      >
-                        <OptionActionCard
-                          title={optionActions[actionKey].title}
-                          description={optionActions[actionKey].description}
-                          imgSrc={`/options/${actionKey}.png`}
-                        />
-                      </a>
-                    </Link>
-                  );
-                })}
+            <div
+              className={
+                "container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24"
+              }
+            >
+              {Object.keys(coverActions).map((actionKey) => {
+                return (
+                  <Link key={actionKey} href={coverActions[actionKey].href}>
+                    <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
+                      <OptionActionCard
+                        title={coverActions[actionKey].title}
+                        description={coverActions[actionKey].description}
+                        imgSrc={`/options/${actionKey}.png`}
+                      />
+                    </a>
+                  </Link>
+                );
+              })}
             </div>
             <div className="text-center mt-10">
               <OutlinedButton onClick={() => router.back()}>
                 &#x27F5;&nbsp;Back
               </OutlinedButton>
             </div>
-          </div>
+          </Container>
         </div>
-       
       </main>
     </div>
   );
