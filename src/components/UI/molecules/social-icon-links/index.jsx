@@ -8,7 +8,7 @@ export const SocialIconLinks = ({ links }) => {
       {links.facebook && (
         <a
           href={links.facebook}
-          className="inline-block mr-4 hover:text-primary"
+          className="inline-block mr-4 hover:text-4E7DD9"
           target="_blank"
           rel="noreferrer"
         >
@@ -19,7 +19,7 @@ export const SocialIconLinks = ({ links }) => {
       {links.linkedin && (
         <a
           href={links.linkedin}
-          className="inline-block mr-4 hover:text-primary"
+          className="inline-block mr-4 hover:text-4E7DD9"
           target="_blank"
           rel="noreferrer"
         >
@@ -30,7 +30,7 @@ export const SocialIconLinks = ({ links }) => {
       {links.twitter && (
         <a
           href={links.twitter}
-          className="inline-block mr-4 hover:text-primary"
+          className="inline-block mr-4 hover:text-4E7DD9"
           target="_blank"
           rel="noreferrer"
         >

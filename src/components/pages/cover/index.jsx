@@ -1,10 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import FacebookIcon from "@/icons/facebook";
-import LinkedinIcon from "@/icons/linkedin";
-import TwitterIcon from "@/icons/twitter";
-
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
@@ -18,13 +14,17 @@ import { useEffect, useState } from "react";
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
+import { CoverForm } from "@/components/UI/organisms/cover-form";
 
 export const CoverPage = () => {
   const router = useRouter();
   const [accepted, setAccepted] = useState(false);
 
+  const [hideRules, setHideRules] = useState(false);
+
   const handleAcceptRules = () => {
     setAccepted(true);
+    setHideRules(true);
   };
 
   const { coverInfo } = useCoverInfo();
@@ -38,7 +38,7 @@ export const CoverPage = () => {
 
   return (
     <div>
-      <main className="bg-gray-bg">
+      <main className="bg-F1F3F6">
         {/* hero */}
         <CoverHero
           coverInfo={coverInfo}
@@ -47,7 +47,7 @@ export const CoverPage = () => {
         ></CoverHero>
 
         {/* Content */}
-        <div className="pt-12 pb-24 border-t border-t-ash-border">
+        <div className="pt-12 pb-24 border-t border-t-B0C4DB">
           <Container className="grid gap-32 grid-cols-3">
             <div className="col-span-2">
               {/* Description */}
@@ -64,36 +64,40 @@ export const CoverPage = () => {
               </a>
 
               {/* Rules */}
-              <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
-                Cover Rules
-              </h4>
-              <p className="mb-4">
-                Carefully read the following terms and conditions. For a
-                successful claim payout, all of the following points must be
-                true.
-              </p>
-              <ol className="list-decimal pl-5">
-                {coverInfo.rules.split("\n").map((x, i) => (
-                  <li key={i}>
-                    {x
-                      .trim()
-                      .replace(/^\d+\./g, "")
-                      .trim()}
-                  </li>
-                ))}
-              </ol>
+              {!hideRules && (
+                <div>
+                  <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
+                    Cover Rules
+                  </h4>
+                  <p className="mb-4">
+                    Carefully read the following terms and conditions. For a
+                    successful claim payout, all of the following points must be
+                    true.
+                  </p>
+                  <ol className="list-decimal pl-5">
+                    {coverInfo.rules.split("\n").map((x, i) => (
+                      <li key={i}>
+                        {x
+                          .trim()
+                          .replace(/^\d+\./g, "")
+                          .trim()}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
 
               <br className="mt-20" />
-              {!accepted && (
+              {!accepted && !hideRules && (
                 <AcceptRulesForm onAccept={handleAcceptRules}>
                   I have read, understood, and agree to the terms of cover rules
                 </AcceptRulesForm>
               )}
 
-              {accepted && <h2>Form to purchase</h2>}
+              <div className="mt-12">{accepted && <CoverForm />}</div>
             </div>
             <div className="">
-              <OutlinedCard className="bg-ash-brand p-10">
+              <OutlinedCard className="bg-DEEAF6 p-10">
                 <h3 className="text-h4 font-sora font-semibold">
                   Resolution Sources
                 </h3>
@@ -102,18 +106,18 @@ export const CoverPage = () => {
                 </p>
 
                 <Link href="#">
-                  <a className="block text-primary hover:underline mt-3">
+                  <a className="block text-4E7DD9 hover:underline mt-3">
                     Uniswap Knowledgebase
                   </a>
                 </Link>
 
                 <Link href="#">
-                  <a className="block text-primary hover:underline mt-3">
+                  <a className="block text-4E7DD9 hover:underline mt-3">
                     Uniswap Twitter
                   </a>
                 </Link>
 
-                <hr className="mt-4 mb-6 border-t border-ash-border/60" />
+                <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
 
                 <div className="flex justify-between">
                   <span className="">Available Liquidity:</span>
@@ -125,7 +129,7 @@ export const CoverPage = () => {
         </div>
 
         {/* Cover Actions */}
-        <div className="pt-20 pb-36 bg-ash-bg border-t border-t-ash-border">
+        <div className="pt-20 pb-36 bg-F1F3F6 border-t border-t-B0C4DB">
           <Container>
             <h1 className="text-h2 font-sora font-bold mb-12 text-center">
               Didn&#x2019;t Find What You Were Looking For?

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 input:checked + div {
-  @apply border-primary;
+  @apply border-4E7DD9;
 }
 input:checked + div svg {
   @apply block;

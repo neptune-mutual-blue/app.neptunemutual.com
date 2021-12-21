@@ -1,5 +1,4 @@
 import { Container } from "@/components/UI/atoms/container";
-import Image from "next/image"
 
 export default function PageNotAvailable() {
   return (

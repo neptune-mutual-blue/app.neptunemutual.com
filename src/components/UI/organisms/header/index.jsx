@@ -14,9 +14,9 @@ export const Header = () => {
   const router = useRouter();
 
   return (
-    <header className="bg-black text-white-fg">
+    <header className="bg-black text-EEEEEE">
       <nav className="max-w-full mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
-        <div className="w-full flex items-center justify-between border-b border-ash-border lg:border-none">
+        <div className="w-full flex items-center justify-between border-b border-B0C4DB lg:border-none">
           <div className="flex items-center">
             <Link href="/">
               <a className="text-h3 uppercase">Neptune Mutual</a>
@@ -29,7 +29,7 @@ export const Header = () => {
                       className={classNames(
                         "text-sm py-7 border-b-4",
                         router.pathname == link.href
-                          ? "border-primary text-primary font-semibold"
+                          ? "border-4E7DD9 text-4E7DD9 font-semibold"
                           : "border-transparent text-999BAB"
                       )}
                     >
@@ -41,7 +41,7 @@ export const Header = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4 py-5 flex border-l border-728FB2 sm:pl-6 lg:pl-8">
-            <div className="inline-flex items-center bg-white-bg text-dimmed-fg text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
+            <div className="inline-flex items-center bg-FEFEFF text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
               <img
                 src="/networks/ethereum.png"
                 alt="Ethereum"
@@ -53,7 +53,7 @@ export const Header = () => {
             </div>
             <a
               href="#"
-              className="inline-block bg-primary text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
+              className="inline-block bg-4E7DD9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
             >
               Connect Wallet
             </a>
@@ -67,7 +67,7 @@ export const Header = () => {
                   className={classNames(
                     "text-sm py-4 border-b-4",
                     router.pathname == link.href
-                      ? "border-primary text-primary font-semibold"
+                      ? "border-4E7DD9 text-4E7DD9 font-semibold"
                       : "border-transparent text-999BAB"
                   )}
                 >

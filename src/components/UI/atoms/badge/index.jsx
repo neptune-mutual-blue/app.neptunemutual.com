@@ -4,8 +4,8 @@ export const Badge = ({ children, className }) => {
   return (
     <div
       className={classNames(
-        "inline-block py-1 px-3 border border-teal-neutral rounded-full",
-        "text-sm font-semibold text-teal-neutral",
+        "inline-block py-1 px-3 border border-21AD8C rounded-full",
+        "text-sm font-semibold text-21AD8C",
         className
       )}
     >
