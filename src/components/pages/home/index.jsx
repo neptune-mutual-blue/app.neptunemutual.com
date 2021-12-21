@@ -27,7 +27,7 @@ export const HomePage = () => {
       >
         <Container>
           <h1 className="text-h1 font-sora font-bold">Neptune Mutual</h1>
-          <p className="text-para mt-3 max-w-prose">
+          <p className="mt-3 max-w-prose">
             Neptune Mutual provides you with guaranteed stablecoin liquidity to
             reduce your risk exposure by hedging against possible capital risks
             and smart contract vulnerabilities.
@@ -51,7 +51,7 @@ export const HomePage = () => {
           <Grid className="mt-14 mb-24">
             {availableCovers.map((c) => {
               return (
-                <Link href="/cover" key={c.name}>
+                <Link href="/options" key={c.name}>
                   <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
                     <CoverCard details={c}></CoverCard>
                   </a>

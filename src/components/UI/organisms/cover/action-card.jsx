@@ -15,7 +15,7 @@ export const CoverActionCard = ({ children, title, description, imgSrc }) => {
         </div>
         <div>
           <h4 className="text-h4 font-sora">{title}</h4>
-          <p className="text-para text-89A0C2 mt-1">{description}</p>
+          <p className="text-89A0C2 mt-1">{description}</p>
         </div>
       </div>
     </OutlinedCard>
