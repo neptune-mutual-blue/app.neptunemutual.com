@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const TabNav = ({ activeTab, headers }) => {
   return (
-    <div className="border-b border-b-ash-border">
+    <div className="border-b border-b-B0C4DB">
       <Container className={"flex"}>
         {headers.map((header) => (
           <Tab key={header.name} active={activeTab == header.name}>

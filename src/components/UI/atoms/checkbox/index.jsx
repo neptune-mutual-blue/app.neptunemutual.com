@@ -9,7 +9,7 @@ export const Checkbox = React.forwardRef(
           id={id}
           name={name}
           type="checkbox"
-          className="focus:ring-primary h-5 w-5 text-primary bg-white-bg border-2 border-dimmed-fg rounded"
+          className="focus:ring-4E7DD9 h-5 w-5 text-4E7DD9 bg-FEFEFF border-2 border-9B9B9B rounded"
           {...inputProps}
         />
 
