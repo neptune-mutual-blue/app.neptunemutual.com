@@ -1,18 +1,22 @@
-import { Container } from "@/components/UI/atoms/container";
-import { Radio } from "@/components/UI/atoms/radio";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
-import { Label } from "@/components/UI/atoms/label";
-import { useConstants } from "@/components/pages/cover/useConstants";
 
 import OpenInNewIcon from "@/icons/open-in-new";
 import AddCircleIcon from "@/icons/add-circle";
 import InfoCircleIcon from "@/icons/info-circle";
-import Link from "next/link";
+import { useConstants } from "@/components/pages/cover/useConstants";
+import { Container } from "@/components/UI/atoms/container";
+import { RegularButton } from "@/components/UI/atoms/button/regular";
+import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
+import { Radio } from "@/components/UI/atoms/radio";
+import { Label } from "@/components/UI/atoms/label";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
+import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
 
 export const CoverForm = () => {
+  const router = useRouter();
+
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
 
@@ -86,11 +90,13 @@ export const CoverForm = () => {
         <div className="flex">
           <Link href="#">
             <a className="ml-3">
+              <span className="sr-only">Open in Explorer</span>
               <OpenInNewIcon fill="currentColor" />
             </a>
           </Link>
           <Link href="#">
             <a className="ml-3">
+              <span className="sr-only">Add to Wallet</span>
               <AddCircleIcon fill="currentColor" />
             </a>
           </Link>
@@ -100,7 +106,12 @@ export const CoverForm = () => {
         <div className="px-3 flex items-center text-15aac8">
           <p>You will receive: {value} cxDAI</p>
 
-          <InfoCircleIcon fill="currentColor" className="ml-2" />
+          <Link href="#">
+            <a className="ml-3">
+              <span className="sr-only">Info</span>
+              <InfoCircleIcon fill="currentColor" />
+            </a>
+          </Link>
         </div>
       )}
       <div className="mt-12 px-3">
@@ -141,6 +152,12 @@ export const CoverForm = () => {
       <RegularButton className="w-full mt-14 py-6 px-4 text-h6 uppercase font-bold">
         Approve Dai
       </RegularButton>
+
+      <div className="mt-16">
+        <OutlinedButton onClick={() => router.back()}>
+          &#x27F5;&nbsp;Back
+        </OutlinedButton>
+      </div>
     </div>
   );
 };
