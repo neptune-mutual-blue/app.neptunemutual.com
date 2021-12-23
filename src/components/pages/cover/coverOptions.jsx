@@ -60,6 +60,7 @@ export const CoverOptions = () => {
                 &#x27F5;&nbsp;Back
               </OutlinedButton>
             </div>
+          </div>
         </div>
       </main>
     </div>

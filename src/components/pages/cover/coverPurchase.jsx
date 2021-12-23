@@ -9,5 +9,5 @@ export const CoverPurchase = () => {
     router.replace(`/cover/${cover_id}/purchase/details`)
   })
 
-  return <div>{cover_id}</div>;
+  return <div />;
 };

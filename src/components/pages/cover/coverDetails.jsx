@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
@@ -13,7 +12,6 @@ import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverForm } from "@/components/UI/organisms/cover-form";
 
 export const CoverDetails = () => {
-  const router = useRouter();
   const [accepted, setAccepted] = useState(false);
 
   const [hideRules, setHideRules] = useState(false);
