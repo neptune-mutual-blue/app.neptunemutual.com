@@ -72,7 +72,7 @@ const BondPage = () => {
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-  const handleClaimClick = (e) => {
+  const handleClaim = (e) => {
     setYourBondDisplay(true);
   };
 
@@ -89,8 +89,8 @@ const BondPage = () => {
   }
 
   return (
-    <Container className={"grid gap-32 grid-cols-3"}>
-      <div className="max-w-lg col-span-2">
+    <Container className={"grid gap-8 lg:gap-16 grid-cols-1 lg:grid-cols-3"}>
+      <div className="max-w-lg lg:mb-16 col-span-2">
         <div className="input-pool mt-16">
           <Label className="mb-4" htmlFor="bond-amount">
             Enter your amount
@@ -145,14 +145,11 @@ const BondPage = () => {
           </p>
         </div>
 
-        <RegularButton
-          className={"w-full max-w-md p-6 mt-10 mb-24"}
-          onClick={handleApprove}
-        >
+        <RegularButton className={"w-full p-6 mt-10"} onClick={handleApprove}>
           Approve NPM-USDC LP
         </RegularButton>
       </div>
-      <div className="mt-16">
+      <div className="my-16">
         <BondsCard
           details={details}
           ROI={bondInfo.roi}
@@ -165,7 +162,7 @@ const BondPage = () => {
           onClose={onClose}
           modalTitle={"Claim Bond"}
           unlockDate={unlockDate}
-          onClick={handleClaimClick}
+          onClaim={handleClaim}
         />
       )}
     </Container>

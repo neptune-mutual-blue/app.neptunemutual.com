@@ -8,7 +8,7 @@ export const InputWithTrailingButton = ({ inputProps, unit, buttonProps }) => {
         />
       </div>
       {unit && (
-        <div className="bg-FEFEFF border border-B0C4DB border-l-0 text-9B9B9B px-4 py-6">
+        <div className="whitespace-nowrap bg-FEFEFF border border-B0C4DB border-l-0 text-9B9B9B px-4 py-6">
           {unit}
         </div>
       )}
