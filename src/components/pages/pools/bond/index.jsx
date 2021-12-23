@@ -23,8 +23,6 @@ const BondPage = () => {
   const { bondInfo } = useBondInfo();
   const { unlockDate } = useUnlockDate();
 
-  const [detailsArray, setDetailsArray] = useState([]);
-
   //card value on the right
   const leftHalf = [
     {
@@ -65,16 +63,13 @@ const BondPage = () => {
     setReceiveAmount(willRecieve);
   };
 
-  const handleReceive = () => {
-    setReceiveAmount();
-  };
-
   const handleApprove = (e) => {
     onOpen();
   };
 
   const handleMaxButtonClick = () => {
     setValue(maxValue);
+    setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
   const handleClaimClick = (e) => {

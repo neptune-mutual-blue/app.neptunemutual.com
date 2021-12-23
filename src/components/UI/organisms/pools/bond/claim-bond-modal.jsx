@@ -2,8 +2,8 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal";
-import { Dialog, Transition } from "@headlessui/react";
-import Close from "@/icons/close_black.jsx";
+import { Dialog } from "@headlessui/react";
+import { Close } from "@/icons/close_black.jsx";
 
 export const ClaimBondModal = ({
   modalTitle,

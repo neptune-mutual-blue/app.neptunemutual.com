@@ -1,9 +1,6 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import Link from "next/link";
 import NeptuneMutualCircleLogo from "@/icons/neptune-mutual-circle-logo";
 import InfoCircle from "@/icons/info-circle";
-import { Label } from "@/components/UI/atoms/label";
-import { mergeAlternatively } from "@/utils/arrays";
 import { SplittedDetailsCards } from "@/components/UI/molecules/pools/bond/splitted-card-details";
 
 export const BondsCard = ({ ROI, vestingPeriod, details }) => {

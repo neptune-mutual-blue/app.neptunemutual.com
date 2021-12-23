@@ -1,7 +1,6 @@
 export const getBondInfo = () => {
   //createBondedValue  function
-
-  const info = {
+  return {
     vestingPeriod: 7,
     bondPrice: 0.9989,
     marketPrice: 1.0,
@@ -9,5 +8,4 @@ export const getBondInfo = () => {
     roi: 36.3,
     bonded: 4000,
   };
-  return info;
 };
