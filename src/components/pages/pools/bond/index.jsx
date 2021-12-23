@@ -91,7 +91,7 @@ const BondPage = () => {
   }
 
   return (
-    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 mt-16 mb-36"}>
+    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 mt-16 pb-36"}>
       <div className="max-w-lg col-span-2">
         <div className="input-pool">
           <Label className="mb-4" htmlFor="bond-amount">
