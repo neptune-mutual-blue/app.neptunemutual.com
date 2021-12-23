@@ -7,7 +7,7 @@ import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 
 export const CoverOptions = () => {
   const router = useRouter();
-  const { cover_id } = router.query
+  const { cover_id } = router.query;
 
   const imgSrc = "/covers/clearpool.png";
   const title = "Clearpool";
@@ -29,27 +29,30 @@ export const CoverOptions = () => {
               {`I Want to`}
             </h2>
             {/* <div className={"container mx-auto justify-items-center grid grid-cols-1 gap-1 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24"}> */}
-            <div className={"container mx-auto flex flex-wrap lg:flex-wrap xl:flex-nowrap justify-center "}>
-              {Object
-                .keys(coverActions)
-                .map((actionKey, i) => {
-                  return (
-                    <Link key={i} href={`/cover/${cover_id}/${actionKey}`}>
-                      <a
-                        className=" lg:w-3/6 xl:w-3/12 xl:mx-4 rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none"                        
-                      >
-                        <OptionActionCard
-                          title={coverActions[actionKey].title}
-                          description={coverActions[actionKey].description}
-                          imgSrc={`/options/${actionKey}.png`}
-                        />
-                      </a>
-                    </Link>
-                  );
-                })}
+            <div
+              className={
+                "container mx-auto flex flex-wrap lg:flex-wrap xl:flex-nowrap justify-center "
+              }
+            >
+              {Object.keys(coverActions).map((actionKey, i) => {
+                return (
+                  <Link key={i} href={`/cover/${cover_id}/${actionKey}`}>
+                    <a className=" lg:w-3/6 xl:w-3/12 xl:mx-4 rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
+                      <OptionActionCard
+                        title={coverActions[actionKey].title}
+                        description={coverActions[actionKey].description}
+                        imgSrc={`/options/${actionKey}.png`}
+                      />
+                    </a>
+                  </Link>
+                );
+              })}
             </div>
             <div className="text-center mt-10">
-              <OutlinedButton onClick={() => router.back()}>
+              <OutlinedButton
+                className={"rounded-xl"}
+                onClick={() => router.back()}
+              >
                 &#x27F5;&nbsp;Back
               </OutlinedButton>
             </div>
