@@ -83,6 +83,7 @@ module.exports = {
         FA5C2F: "#FA5C2F",
         "15aac8": "#15aac8",
         d4dfee: "#d4dfee",
+        E5E5E5: "#e5e5e5",
       },
     },
   },

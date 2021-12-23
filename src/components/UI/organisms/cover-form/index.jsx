@@ -22,8 +22,6 @@ export const CoverForm = () => {
 
   const { fees, maxValue } = useConstants();
 
-  console.log(fees, maxValue);
-
   const handleChange = (e) => {
     setValue(e.target.value);
   };
@@ -76,6 +74,7 @@ export const CoverForm = () => {
           id: "cover-amount",
           placeholder: "Enter Amount",
           value: value,
+          type: "text",
           onChange: handleChange,
         }}
         unit={"DAI"}
@@ -154,7 +153,7 @@ export const CoverForm = () => {
       </RegularButton>
 
       <div className="mt-16">
-        <OutlinedButton onClick={() => router.back()}>
+        <OutlinedButton className={"rounded-xl"} onClick={() => router.back()}>
           &#x27F5;&nbsp;Back
         </OutlinedButton>
       </div>
