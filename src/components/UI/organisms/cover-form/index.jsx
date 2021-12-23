@@ -97,7 +97,7 @@ export const CoverForm = () => {
       {value !== undefined && parseInt(value) !== NaN && (
         <div className="px-3 flex items-center text-15aac8">
           <p>You will receive: {value} cxDAI</p>
-
+          <span className="sr-only">Information for Bond</span>
           <InfoCircleIcon fill="currentColor" className="ml-2" />
         </div>
       )}

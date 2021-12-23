@@ -18,6 +18,7 @@ const BondPage = () => {
   const [receiveAmount, setReceiveAmount] = useState();
   const [yourBondDisplay, setYourBondDisplay] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   const maxValue = 50000;
   const { bondInfo } = useBondInfo();
@@ -64,16 +65,17 @@ const BondPage = () => {
   };
 
   const handleApprove = (e) => {
+    setShowButton(true);
+    setYourBondDisplay(true);
+  };
+
+  const handleClaimModal = () => {
     onOpen();
   };
 
   const handleMaxButtonClick = () => {
     setValue(maxValue);
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
-  };
-
-  const handleClaim = (e) => {
-    setYourBondDisplay(true);
   };
 
   function onClose() {
@@ -117,11 +119,13 @@ const BondPage = () => {
             <div className="flex">
               <Link href="#">
                 <a className="ml-3">
+                  <span className="sr-only">Open In New Tab</span>
                   <OpenInNewIcon fill="currentColor" />
                 </a>
               </Link>
               <Link href="#">
                 <a className="ml-3">
+                  <span className="sr-only">Add to Metamask</span>
                   <AddCircleIcon fill="currentColor" />
                 </a>
               </Link>
@@ -151,6 +155,8 @@ const BondPage = () => {
       </div>
       <div className="my-16">
         <BondsCard
+          handleClaimModal={handleClaimModal}
+          showButton={showButton}
           details={details}
           ROI={bondInfo.roi}
           vestingPeriod={bondInfo.vestingPeriod}
@@ -162,7 +168,7 @@ const BondPage = () => {
           onClose={onClose}
           modalTitle={"Claim Bond"}
           unlockDate={unlockDate}
-          onClaim={handleClaim}
+          claimableBond={bondInfo?.bonded}
         />
       )}
     </Container>

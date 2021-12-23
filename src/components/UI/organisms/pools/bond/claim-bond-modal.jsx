@@ -8,7 +8,7 @@ import CloseIcon from "@/icons/close.jsx";
 export const ClaimBondModal = ({
   modalTitle,
   unlockDate,
-  onClaim,
+  claimableBond,
   isOpen,
   onClose,
 }) => {
@@ -27,7 +27,7 @@ export const ClaimBondModal = ({
           <Label className="font-semibold mb-4">
             Amount Available To Claim
           </Label>
-          <DisabledInput value="33,660.00" unit="NPM" />
+          <DisabledInput value={claimableBond} unit="NPM" />
         </div>
         <div className="modal-unlock mt-8 mb-8">
           <Label className="mb-3" htmlFor="bond-amount">
@@ -37,9 +37,8 @@ export const ClaimBondModal = ({
             {unlockDate}
           </p>
         </div>
-        <RegularButton className="p-6 w-full" onClick={onClaim}>
-          Claim Now
-        </RegularButton>
+        {/* left to add click handler */}
+        <RegularButton className="p-6 w-full">Claim Now</RegularButton>
       </div>
     </Modal>
   );
