@@ -66,7 +66,7 @@ const BondPage = () => {
   };
 
   const handleReceive = () => {
-    setReceiveAmount;
+    setReceiveAmount();
   };
 
   const handleApprove = (e) => {
@@ -115,7 +115,7 @@ const BondPage = () => {
           />
           <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
             <p>
-              {value !== undefined && parseInt(value) !== NaN && (
+              {value !== undefined && !isNaN(parseInt(value)) && (
                 <>Balance: {value} NPM-USDC LP</>
               )}
             </p>
