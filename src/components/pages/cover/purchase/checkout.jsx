@@ -10,6 +10,8 @@ import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverForm } from "@/components/UI/organisms/cover-form";
+import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
+import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 
 export const CoverPurchaseCheckoutPage = () => {
   const { coverInfo } = useCoverInfo();
@@ -51,63 +53,11 @@ export const CoverPurchaseCheckoutPage = () => {
               </div>
             </div>
 
-            <div className="">
-              <OutlinedCard className="bg-DEEAF6 p-10">
-                <h3 className="text-h4 font-sora font-semibold">
-                  Resolution Sources
-                </h3>
-                <p className="text-sm mt-1 mb-6 opacity-50">
-                  7 days reporting period
-                </p>
-
-                <Link href="#">
-                  <a className="block text-4E7DD9 hover:underline mt-3">
-                    Uniswap Knowledgebase
-                  </a>
-                </Link>
-
-                <Link href="#">
-                  <a className="block text-4E7DD9 hover:underline mt-3">
-                    Uniswap Twitter
-                  </a>
-                </Link>
-
-                <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-
-                <div className="flex justify-between">
-                  <span className="">Available Liquidity:</span>
-                  <strong className="text-right font-bold">$ 750k</strong>
-                </div>
-              </OutlinedCard>
-            </div>
+            <CoverPurchaseResolutionSources />
           </Container>
         </div>
 
-        {/* Cover Actions */}
-        <div className="pt-20 pb-36 bg-F1F3F6 border-t border-t-B0C4DB">
-          <Container>
-            <h1 className="text-h2 font-sora font-bold mb-12 text-center">
-              Didn&#x2019;t Find What You Were Looking For?
-            </h1>
-            <Grid>
-              {Object.keys(coverActions)
-                .filter((x) => x !== "purchase")
-                .map((actionKey, i) => {
-                  return (
-                    <Link key={i} href={`/cover/cover_id/${actionKey}`}>
-                      <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
-                        <CoverActionCard
-                          title={coverActions[actionKey].title}
-                          description={coverActions[actionKey].description}
-                          imgSrc={`/cover-actions/${actionKey}.png`}
-                        ></CoverActionCard>
-                      </a>
-                    </Link>
-                  );
-                })}
-            </Grid>
-          </Container>
-        </div>
+        <CoverActionsFooter activeKey="purchase" />
       </main>
     </div>
   );
