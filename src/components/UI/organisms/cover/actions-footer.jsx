@@ -4,7 +4,6 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 
 export const CoverActionsFooter = ({ activeKey }) => {
   return (

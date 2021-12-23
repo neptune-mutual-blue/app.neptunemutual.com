@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase/details";
 
-export default function Cover() {
+export default function CoverPurchaseDetails() {
   return (
     <>
       <Head>

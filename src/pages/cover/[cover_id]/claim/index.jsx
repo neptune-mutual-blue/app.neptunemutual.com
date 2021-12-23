@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { CoverClaim } from "@/components/pages/cover/coverClaim";
 
-export default function Cover() {
+export default function CoverClaimLanding() {
   return (
     <>
       <Head>

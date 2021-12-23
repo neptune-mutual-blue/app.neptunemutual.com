@@ -1,12 +1,4 @@
-import Link from "next/link";
-
 import { Container } from "@/components/UI/atoms/container";
-import { Grid } from "@/components/UI/atoms/grid";
-import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
-import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { useState } from "react";
-import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverForm } from "@/components/UI/organisms/cover-form";
