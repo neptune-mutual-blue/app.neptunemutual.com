@@ -1,20 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { CoverOptionName } from "@/components/UI/molecules/cover/option/option-name";
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
-import { Container } from "@/components/UI/atoms/container";
 
 export const CoverOptions = () => {
   const router = useRouter();
   const { cover_id } = router.query
-  // const { coverInfo } = useCoverInfo();
-
-  // if (!coverInfo) {
-  //   return <>loading...</>;
-  // }
 
   const imgSrc = "/covers/clearpool.png";
   const title = "Clearpool";
