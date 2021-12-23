@@ -9,26 +9,24 @@ export const SplitedDetail = ({
 }) => {
   return (
     <div className="flex flex-col w-1/2">
-      <div
+      <h6
         className={classNames(
           "uppercase font-semibold text-sm",
-          right ? "text-right" : "",
+          right && "text-right",
           titleClasses
         )}
       >
         {title}
-      </div>
-      <div
+      </h6>
+      <p
         className={classNames(
-          "w-full flex gap-1 justify-start items-center",
-          right ? "text-right justify-end" : "",
+          "w-full flex gap-1 items-center text-lg font-normal font-numbers whitespace-nowrap",
+          right ? "text-right justify-end" : "justify-start",
           valueClasses
         )}
       >
-        <div className="text-lg font-normal font-numbers whitespace-nowrap">
-          {value}
-        </div>
-      </div>
+        {value}
+      </p>
     </div>
   );
 };

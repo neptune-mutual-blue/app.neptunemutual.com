@@ -11,10 +11,10 @@ export const OutlinedCard = ({ children, className, type = "normal" }) => {
   return (
     <div
       className={classNames(
+        className,
         "border border-B0C4DB rounded-4xl",
         type === "link" &&
-          "transition duration-150 ease-out hover:ease-in hover:shadow-card",
-        className
+          "transition duration-150 ease-out hover:ease-in hover:shadow-card"
       )}
     >
       {children}

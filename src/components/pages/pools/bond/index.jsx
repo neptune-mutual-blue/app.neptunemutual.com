@@ -73,7 +73,7 @@ const BondPage = () => {
     onOpen();
   };
 
-  const handleMaxButtonClick = () => {
+  const handleChooseMax = () => {
     setValue(maxValue);
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
@@ -91,16 +91,16 @@ const BondPage = () => {
   }
 
   return (
-    <Container className={"grid gap-8 lg:gap-16 grid-cols-1 lg:grid-cols-3"}>
-      <div className="max-w-lg lg:mb-16 col-span-2">
-        <div className="input-pool mt-16">
+    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 mt-16 mb-36"}>
+      <div className="max-w-lg col-span-2">
+        <div className="input-pool">
           <Label className="mb-4" htmlFor="bond-amount">
             Enter your amount
           </Label>
           <InputWithTrailingButton
             buttonProps={{
               children: "Max",
-              onClick: handleMaxButtonClick,
+              onClick: handleChooseMax,
             }}
             inputProps={{
               id: "bond-amount",
@@ -134,7 +134,7 @@ const BondPage = () => {
         </div>
         <div className="receive mt-16">
           <Label className="mb-4" htmlFor="receive-amount">
-            Enter your amount
+            You will receive
           </Label>
 
           <DisabledInput value={receiveAmount} unit={"NPM"} />
@@ -153,7 +153,7 @@ const BondPage = () => {
           Approve NPM-USDC LP
         </RegularButton>
       </div>
-      <div className="my-16">
+      <div>
         <BondsCard
           handleClaimModal={handleClaimModal}
           showButton={showButton}

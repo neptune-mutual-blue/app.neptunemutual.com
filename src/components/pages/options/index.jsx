@@ -54,7 +54,10 @@ export const OptionsPage = () => {
               })}
             </div>
             <div className="text-center mt-10">
-              <OutlinedButton onClick={() => router.back()}>
+              <OutlinedButton
+                className={"rounded-xl"}
+                onClick={() => router.back()}
+              >
                 &#x27F5;&nbsp;Back
               </OutlinedButton>
             </div>
