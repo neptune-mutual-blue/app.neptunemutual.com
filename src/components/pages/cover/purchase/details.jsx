@@ -10,15 +10,14 @@ import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverForm } from "@/components/UI/organisms/cover-form";
+import { useRouter } from "next/router";
 
-export const CoverDetails = () => {
-  const [accepted, setAccepted] = useState(false);
-
-  const [hideRules, setHideRules] = useState(false);
+export const CoverPurchaseDetailsPage = () => {
+  const router = useRouter();
+  const { cover_id } = router.query;
 
   const handleAcceptRules = () => {
-    setAccepted(true);
-    setHideRules(true);
+    router.push(`/cover/${cover_id}/purchase/checkout`);
   };
 
   const { coverInfo } = useCoverInfo();
@@ -34,11 +33,7 @@ export const CoverDetails = () => {
     <div>
       <main className="bg-F1F3F6">
         {/* hero */}
-        <CoverHero
-          coverInfo={coverInfo}
-          title={title}
-          imgSrc={imgSrc}
-        />
+        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -58,38 +53,34 @@ export const CoverDetails = () => {
               </a>
 
               {/* Rules */}
-              {!hideRules && (
-                <div>
-                  <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
-                    Cover Rules
-                  </h4>
-                  <p className="mb-4">
-                    Carefully read the following terms and conditions. For a
-                    successful claim payout, all of the following points must be
-                    true.
-                  </p>
-                  <ol className="list-decimal pl-5">
-                    {coverInfo.rules.split("\n").map((x, i) => (
-                      <li key={i}>
-                        {x
-                          .trim()
-                          .replace(/^\d+\./g, "")
-                          .trim()}
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
+              <div>
+                <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
+                  Cover Rules
+                </h4>
+                <p className="mb-4">
+                  Carefully read the following terms and conditions. For a
+                  successful claim payout, all of the following points must be
+                  true.
+                </p>
+                <ol className="list-decimal pl-5">
+                  {coverInfo.rules.split("\n").map((x, i) => (
+                    <li key={i}>
+                      {x
+                        .trim()
+                        .replace(/^\d+\./g, "")
+                        .trim()}
+                    </li>
+                  ))}
+                </ol>
+              </div>
 
               <br className="mt-20" />
-              {!accepted && !hideRules && (
-                <AcceptRulesForm onAccept={handleAcceptRules}>
-                  I have read, understood, and agree to the terms of cover rules
-                </AcceptRulesForm>
-              )}
 
-              <div className="mt-12">{accepted && <CoverForm />}</div>
+              <AcceptRulesForm onAccept={handleAcceptRules}>
+                I have read, understood, and agree to the terms of cover rules
+              </AcceptRulesForm>
             </div>
+
             <div className="">
               <OutlinedCard className="bg-DEEAF6 p-10">
                 <h3 className="text-h4 font-sora font-semibold">
@@ -130,7 +121,7 @@ export const CoverDetails = () => {
             </h1>
             <Grid>
               {Object.keys(coverActions)
-                // .filter((x) => x !== "purchase")
+                .filter((x) => x !== "purchase")
                 .map((actionKey, i) => {
                   return (
                     <Link key={i} href={`/${actionKey}`}>

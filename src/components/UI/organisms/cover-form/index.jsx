@@ -153,7 +153,7 @@ export const CoverForm = () => {
       </RegularButton>
 
       <div className="mt-16">
-        <OutlinedButton className={"rounded-xl"} onClick={() => router.back()}>
+        <OutlinedButton className="rounded-xl" onClick={() => router.back()}>
           &#x27F5;&nbsp;Back
         </OutlinedButton>
       </div>
