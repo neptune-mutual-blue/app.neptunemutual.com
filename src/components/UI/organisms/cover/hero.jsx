@@ -18,6 +18,7 @@ import { CoverHeroTotalLiquidity } from "@/components/UI/molecules/cover/hero/to
 import { CoverHeroImage } from "@/components/UI/molecules/cover/hero/image";
 import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/title-and-website";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
+import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 
 export const CoverHero = ({ children, coverInfo, imgSrc, title }) => {
   const router = useRouter();
@@ -31,13 +32,14 @@ export const CoverHero = ({ children, coverInfo, imgSrc, title }) => {
         backgroundPosition: "left",
       }}
     >
-      {/* Back button */}
-      <OutlinedButton onClick={() => router.back()}>
-        &#x27F5;&nbsp;Back
-      </OutlinedButton>
-
       <div className="py-14">
         <Container>
+          <BreadCrumbs
+            pages={[
+              { name: "Clearpool", current: false },
+              { name: "Purchase Policy", href: "#", current: true },
+            ]}
+          />
           <div className="flex">
             <div>
               <CoverHeroImage imgSrc={imgSrc} title={title} />

@@ -53,6 +53,9 @@ module.exports = {
       sora: "Sora, sans-serif",
     },
     extend: {
+      boxShadow: {
+        actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
+      },
       spacing: {
         /* 72px */
         18: "4.5rem",
@@ -64,9 +67,11 @@ module.exports = {
         F1F3F6: "#F1F3F6",
         FEFEFF: "#FEFEFF",
         EEEEEE: "#EEEEEE",
+        "5F5F5F": "#5F5F5F",
         "9B9B9B": "#9B9B9B",
         "7398C0": "#7398C0",
         "89A0C2": "#89A0C2",
+        e6f0fe: "#e6f0fe",
 
         F1F3F6: "#F1F3F6",
         364253: "#364253",

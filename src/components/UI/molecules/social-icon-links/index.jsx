@@ -12,6 +12,7 @@ export const SocialIconLinks = ({ links }) => {
           target="_blank"
           rel="noreferrer"
         >
+          <span className="sr-only">Facebook</span>
           <FacebookIcon />
         </a>
       )}
@@ -23,6 +24,7 @@ export const SocialIconLinks = ({ links }) => {
           target="_blank"
           rel="noreferrer"
         >
+          <span className="sr-only">LinkedIn</span>
           <LinkedinIcon />
         </a>
       )}
@@ -34,6 +36,7 @@ export const SocialIconLinks = ({ links }) => {
           target="_blank"
           rel="noreferrer"
         >
+          <span className="sr-only">Twitter</span>
           <TwitterIcon />
         </a>
       )}
