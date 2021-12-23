@@ -18,8 +18,6 @@ export const CoverForm = () => {
 
   const { fees, maxValue } = useConstants();
 
-  console.log(fees, maxValue);
-
   const handleChange = (e) => {
     setValue(e.target.value);
   };
