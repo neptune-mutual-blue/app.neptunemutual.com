@@ -50,8 +50,9 @@ export const HomePage = () => {
           </div>
           <Grid className="mt-14 mb-24">
             {availableCovers.map((c) => {
+              console.log(availableCovers, `availableCovers`)
               return (
-                <Link href="/options" key={c.name}>
+                <Link href={`/cover/${c.key}`} key={c.name}>
                   <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
                     <CoverCard details={c}></CoverCard>
                   </a>

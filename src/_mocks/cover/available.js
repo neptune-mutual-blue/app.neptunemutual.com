@@ -12,6 +12,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 25,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
     },
     {
       id: "2",
@@ -25,6 +26,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 65,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
     },
     {
       id: "3",
@@ -38,6 +40,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 85,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
     },
     {
       id: "4",
@@ -51,6 +54,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 15,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
     },
     {
       id: "5",
@@ -64,6 +68,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 25,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
     },
     {
       id: "6",
@@ -77,6 +82,7 @@ export const getAvailableCovers = () => {
       utilizationRatio: 0,
       protection: 800000,
       liquidity: 11010000,
+      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
     },
   ];
 };
