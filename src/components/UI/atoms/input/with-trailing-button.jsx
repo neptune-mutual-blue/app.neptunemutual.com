@@ -3,12 +3,12 @@ export const InputWithTrailingButton = ({ inputProps, unit, buttonProps }) => {
     <div className="flex rounded-lg shadow-sm text-black text-h4">
       <div className="flex items-stretch flex-grow focus-within:z-10">
         <input
-          className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-FEFEFF block w-full rounded-none rounded-l-lg py-6 pl-6 border border-B0C4DB border-r-0"
+          className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-white block w-full rounded-none rounded-l-lg py-6 pl-6 border border-B0C4DB border-r-0"
           {...inputProps}
         />
       </div>
       {unit && (
-        <div className="whitespace-nowrap bg-FEFEFF border border-B0C4DB border-l-0 text-9B9B9B px-4 py-6">
+        <div className="whitespace-nowrap bg-white border border-B0C4DB border-l-0 text-9B9B9B px-4 py-6">
           {unit}
         </div>
       )}

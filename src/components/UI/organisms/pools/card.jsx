@@ -1,5 +1,5 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import NeptuneMutualCircleLogo from "@/icons/neptune-mutual-circle-logo";
+import NeptuneMutualCircleLogo from "@/components/UI/atoms/logos/neptune-mutual-circle-logo";
 import InfoCircle from "@/icons/info-circle";
 import { SplittedDetailsCards } from "@/components/UI/molecules/pools/bond/splitted-card-details";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";

@@ -1,3 +1,5 @@
+import BSCLogo from "@/components/UI/atoms/logos/blockchain/bsc";
+import EthLogo from "@/components/UI/atoms/logos/blockchain/eth";
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -41,15 +43,10 @@ export const Header = () => {
             </div>
           </div>
           <div className="ml-10 space-x-4 py-5 flex border-l border-728FB2 sm:pl-6 lg:pl-8">
-            <div className="inline-flex items-center bg-FEFEFF text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
-              <img
-                src="/networks/ethereum.png"
-                alt="Ethereum"
-                height="5px"
-                className="inline-block mr-2"
-                style={{ fontSize: "0" }}
-              />
-              <span className="inline-block">Ethereum</span>
+            <div className="inline-flex items-center bg-white text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
+              <EthLogo height={24} />
+              {/* <BSCLogo width={24} height={24} /> */}
+              <span className="inline-block ml-2">Ethereum</span>
             </div>
             <a
               href="#"

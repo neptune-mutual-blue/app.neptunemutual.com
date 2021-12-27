@@ -14,7 +14,7 @@ export const ClaimBondModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-lg w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-4xl relative">
+      <div className="max-w-lg w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-bold text-h2">{modalTitle}</Dialog.Title>
         <button
           onClick={onClose}

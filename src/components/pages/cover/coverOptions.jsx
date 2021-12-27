@@ -36,7 +36,7 @@ export const CoverOptions = () => {
                     key={actionKey}
                     href={`/cover/${cover_id}/${actionKey}`}
                   >
-                    <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
+                    <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
                       <OptionActionCard
                         title={coverActions[actionKey].title}
                         description={coverActions[actionKey].description}
@@ -49,7 +49,7 @@ export const CoverOptions = () => {
             </div>
             <div className="text-center mt-10">
               <OutlinedButton
-                className="rounded-xl"
+                className="rounded-big"
                 onClick={() => router.back()}
               >
                 &#x27F5;&nbsp;Back

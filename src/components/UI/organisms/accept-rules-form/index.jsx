@@ -35,7 +35,7 @@ export const AcceptRulesForm = ({ onAccept, children }) => {
           disabled={!checked}
           className={classNames(
             !checked && "opacity-30 cursor-not-allowed",
-            "bg-4E7DD9 text-EEEEEE py-3 px-4 mt-8 rounded-xl"
+            "bg-4E7DD9 text-EEEEEE py-3 px-4 mt-8 rounded-big"
           )}
         >
           Next&nbsp;&#x27F6;
