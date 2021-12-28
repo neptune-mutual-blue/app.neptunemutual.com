@@ -9,7 +9,7 @@ import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
 
 export const AmountToStakeModal = ({
   id,
-  handleStaked,
+  onStake,
   modalTitle,
   isOpen,
   onClose,
@@ -27,14 +27,14 @@ export const AmountToStakeModal = ({
   };
 
   const handleStake = (_id) => {
-    handleStaked(_id, parseInt(inputValue));
+    onStake(_id, parseInt(inputValue));
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-4xl relative">
-        <Dialog.Title className="font-bold text-h2 flex">
+      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
+        <Dialog.Title className="font-sora font-bold text-h2">
           {modalTitle}
         </Dialog.Title>
         <button
@@ -63,7 +63,7 @@ export const AmountToStakeModal = ({
           />
           <BalanceAndIcons value={inputValue} unit={"NPM"} />
         </div>
-        <div className="modal-unlock mt-8 mb-8">
+        <div className="modal-unlock mt-8">
           <Label className="mb-3" htmlFor="bond-amount">
             Locking Period
           </Label>
@@ -71,8 +71,11 @@ export const AmountToStakeModal = ({
             {lockingPeriod} hours
           </p>
         </div>
-        <RegularButton onClick={() => handleStake(id)} className="p-6 w-full">
-          STAKE
+        <RegularButton
+          onClick={() => handleStake(id)}
+          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+        >
+          Stake
         </RegularButton>
       </div>
     </Modal>

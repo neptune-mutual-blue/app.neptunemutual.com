@@ -148,7 +148,7 @@ export const CoverForm = () => {
           claimEnd={coverMonth}
         />
       )}
-      <RegularButton className="w-full mt-14 py-6 px-4 text-h6 uppercase font-bold">
+      <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
         Approve Dai
       </RegularButton>
 

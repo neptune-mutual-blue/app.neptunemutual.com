@@ -3,7 +3,7 @@ import { useEarningPercentage } from "@/components/pages/pools/staking/useEarnin
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-import { StakingCard } from "@/components/UI/organisms/pools/staking/stakingCard";
+import { StakingCard } from "@/components/UI/organisms/pools/staking/staking-card";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -19,7 +19,7 @@ export const StakingPage = () => {
     return <>loading...</>;
   }
 
-  const handleStaked = (id, stakedAmt) => {
+  const handleStake = (id, stakedAmt) => {
     let currentState = [...staked];
     let updatingElement = { ...currentState[id] };
     if (updatingElement.stakedAmt) {
@@ -33,13 +33,13 @@ export const StakingPage = () => {
   };
 
   return (
-    <Container>
+    <Container className={"py-16"}>
       <div className="flex justify-between">
         <div>
-          <span className="inline-block border border-B0C4DB p-4 mr-4 rounded-lg bg-FEFEFF">
+          <span className="inline-block border border-B0C4DB p-4 mr-4 rounded-lg bg-white">
             search
           </span>
-          <span className="inline-block border border-B0C4DB p-4 rounded-lg bg-FEFEFF">
+          <span className="inline-block border border-B0C4DB p-4 rounded-lg bg-white">
             sort
           </span>
         </div>
@@ -47,22 +47,19 @@ export const StakingPage = () => {
       <Grid className="mt-14 mb-24">
         {availableStakings.map((c) => {
           return (
-            <Link href="#" key={c.name}>
-              <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
-                <StakingCard
-                  id={c.id}
-                  details={c}
-                  staked={staked}
-                  handleStaked={handleStaked}
-                  earnPercent={earningPercent}
-                ></StakingCard>
-              </a>
-            </Link>
+            <StakingCard
+              key={c.name}
+              id={c.id}
+              details={c}
+              staked={staked}
+              onStake={handleStake}
+              earnPercent={earningPercent}
+            ></StakingCard>
           );
         })}
       </Grid>
       <OutlinedButton
-        className={"!border-B0C4DB block text-B0C4DB m-auto mb-10"}
+        className={"block text-B0C4DB !border-B0C4DB mx-auto rounded-lg"}
       >
         Show More
       </OutlinedButton>

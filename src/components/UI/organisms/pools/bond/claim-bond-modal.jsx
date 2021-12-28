@@ -15,7 +15,9 @@ export const ClaimBondModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-lg w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-bold text-h2">{modalTitle}</Dialog.Title>
+        <Dialog.Title className="font-sora font-bold text-h2">
+          {modalTitle}
+        </Dialog.Title>
         <button
           onClick={onClose}
           className="absolute right-12 top-7 flex justify-center items-center text-gray-300 hover:text-black focus:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-364253 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
@@ -29,7 +31,7 @@ export const ClaimBondModal = ({
           </Label>
           <DisabledInput value={claimableBond} unit="NPM" />
         </div>
-        <div className="modal-unlock mt-8 mb-8">
+        <div className="modal-unlock mt-8">
           <Label className="mb-3" htmlFor="bond-amount">
             Unlock Date
           </Label>
@@ -38,7 +40,9 @@ export const ClaimBondModal = ({
           </p>
         </div>
         {/* left to add click handler */}
-        <RegularButton className="p-6 w-full">Claim Now</RegularButton>
+        <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
+          Claim Now
+        </RegularButton>
       </div>
     </Modal>
   );

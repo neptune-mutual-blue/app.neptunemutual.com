@@ -11,7 +11,7 @@ export const StakingCard = ({
   details,
   children,
   staked,
-  handleStaked,
+  onStake,
   earnPercent,
 }) => {
   const { name, imgSrc, apr, lockingPeriod, tvl } = details;
@@ -46,12 +46,12 @@ export const StakingCard = ({
         alt="npm logo"
         className="inline-block mr-3"
       />
-      STAKE NPM
+      Stake NPM
     </>
   );
 
   return (
-    <OutlinedCard className="bg-FEFEFF p-6" type="link">
+    <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
           <div className="p-3 relative inline-block">
@@ -139,7 +139,7 @@ export const StakingCard = ({
         modalTitle={modalTitle}
         onClose={onClose}
         isOpen={isOpen}
-        handleStaked={handleStaked}
+        onStake={onStake}
       />
       <CollectModal
         id={id}

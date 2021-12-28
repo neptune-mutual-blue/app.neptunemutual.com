@@ -149,7 +149,10 @@ const BondPage = () => {
           </p>
         </div>
 
-        <RegularButton className={"w-full p-6 mt-10"} onClick={handleApprove}>
+        <RegularButton
+          className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
+          onClick={handleApprove}
+        >
           Approve NPM-USDC LP
         </RegularButton>
       </div>

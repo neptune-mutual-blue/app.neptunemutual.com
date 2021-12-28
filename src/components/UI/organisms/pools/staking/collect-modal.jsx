@@ -55,8 +55,8 @@ export const CollectModal = ({
 
   return (
     <Modal isOpen={isCollectModalOpen} onClose={onCollectModalClose}>
-      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-4xl relative">
-        <Dialog.Title className="font-bold text-h2 flex">
+      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
+        <Dialog.Title className="font-sora font-bold text-h2">
           {modalTitle}
         </Dialog.Title>
         <button
@@ -111,7 +111,7 @@ export const CollectModal = ({
         </div>
         <RegularButton
           onClick={(e) => handleCollectClickFromModal(id)}
-          className={"uppercase w-full py-2 mt-6 mb-10"}
+          className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
         >
           Collect
         </RegularButton>
