@@ -1,4 +1,5 @@
 import { useAvailableStakings } from "@/components/pages/pools/staking/useAvailableStakings";
+import { useEarningPercentage } from "@/components/pages/pools/staking/useEarningPercentage";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
@@ -8,15 +9,27 @@ import { useState } from "react";
 
 export const StakingPage = () => {
   const { availableStakings } = useAvailableStakings();
+  const { earningPercent } = useEarningPercentage();
   const [staked, setStaked] = useState([]);
 
   if (!availableStakings) {
     return <>loading...</>;
   }
+  if (!earningPercent) {
+    return <>loading...</>;
+  }
 
-  const handleStaked = (id) => {
-    let newStakeArray = [...staked, { id }];
-    setStaked(newStakeArray);
+  const handleStaked = (id, stakedAmt) => {
+    let currentState = [...staked];
+    let updatingElement = { ...currentState[id] };
+    if (updatingElement.stakedAmt) {
+      updatingElement.stakedAmt = updatingElement.stakedAmt + stakedAmt;
+    } else {
+      updatingElement.id = id;
+      updatingElement.stakedAmt = stakedAmt;
+    }
+    currentState[id] = updatingElement;
+    setStaked(currentState);
   };
 
   return (
@@ -41,6 +54,7 @@ export const StakingPage = () => {
                   details={c}
                   staked={staked}
                   handleStaked={handleStaked}
+                  earnPercent={earningPercent}
                 ></StakingCard>
               </a>
             </Link>

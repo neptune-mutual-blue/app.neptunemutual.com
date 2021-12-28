@@ -6,13 +6,12 @@ import CloseIcon from "@/icons/close.jsx";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
+import { parse } from "postcss";
 
 export const AmountToStakeModal = ({
   id,
   handleStaked,
   modalTitle,
-  unlockDate,
-  claimableBond,
   isOpen,
   onClose,
   lockingPeriod,
@@ -28,8 +27,8 @@ export const AmountToStakeModal = ({
     setInputValue(e.target.value);
   };
 
-  const handleStake = (id) => {
-    handleStaked(id);
+  const handleStake = (_id) => {
+    handleStaked(_id, parseInt(inputValue));
     onClose();
   };
 
@@ -51,7 +50,7 @@ export const AmountToStakeModal = ({
             Amount You wish to stake
           </Label>
           <InputWithTrailingButton
-            value={claimableBond}
+            value={inputValue}
             buttonProps={{
               children: "Max",
               onClick: handleChooseMax,

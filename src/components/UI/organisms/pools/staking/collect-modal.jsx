@@ -5,6 +5,7 @@ import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
 import { Modal } from "@/components/UI/molecules/modal";
 import { TabNav } from "@/components/UI/molecules/tabnav";
 import CloseIcon from "@/icons/close";
+import { amountFormatter } from "@/utils/formatter";
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
@@ -13,6 +14,8 @@ export const CollectModal = ({
   isCollectModalOpen,
   onCollectModalClose,
   modalTitle,
+  stakedAmount,
+  earned,
 }) => {
   const headers = [
     {
@@ -27,12 +30,12 @@ export const CollectModal = ({
     },
   ];
 
-  const [activeTab, setActiveTab] = useState("withdraw");
+  const [activeTab, setActiveTab] = useState("harvest");
   const [amtToWithdraw, setAmtToWithdraw] = useState();
 
-  const handleCollectClickFromModal = (id) => {
+  const handleCollectClickFromModal = (_id) => {
     //for further processing
-    console.log("click from collect modal", id);
+    console.log("click from collect modal", _id);
     onCollectModalClose();
   };
 
@@ -76,8 +79,12 @@ export const CollectModal = ({
                 <span className="text-right">You Earned</span>
               </div>
               <div className="flex justify-between text-sm px-1 pt-2">
-                <span className="text-7398C0 uppercase">10,000.00 NPM</span>
-                <span className="text-right text-7398C0">163.00 HT</span>
+                <span className="text-7398C0 uppercase">
+                  {amountFormatter(stakedAmount)} NPM
+                </span>
+                <span className="text-right text-7398C0 uppercase">
+                  {earned}
+                </span>
               </div>
             </>
           ) : (

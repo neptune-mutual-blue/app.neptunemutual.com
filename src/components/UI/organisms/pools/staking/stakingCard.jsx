@@ -1,10 +1,11 @@
 import { Badge } from "@/components/UI/atoms/badge";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Modal } from "@/components/UI/molecules/modal";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { AmountToStakeModal } from "./amount-to-stake-modal";
 import { useState } from "react";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
+import { amountFormatter } from "@/utils/formatter";
+import { useEarningPercentage } from "@/components/pages/pools/staking/useEarningPercentage";
 
 export const StakingCard = ({
   id,
@@ -12,6 +13,7 @@ export const StakingCard = ({
   children,
   staked,
   handleStaked,
+  earnPercent,
 }) => {
   const { name, imgSrc, apr, lockingPeriod, tvl } = details;
   const [isOpen, setIsOpen] = useState(false);
@@ -27,18 +29,16 @@ export const StakingCard = ({
     setIsCollectModalOpen(true);
   }
 
-  function onOpen(id) {
+  function onOpen(_id) {
     setIsOpen(true);
-    console.log(id);
   }
 
-  const collectModal = (id) => {
-    console.log("collect clicked", id);
+  const collectModal = (_id) => {
+    console.log("collect clicked", _id);
     onCollectModalOpen();
   };
 
-  let here = staked.find((s) => s?.id == id);
-  console.log("here", here);
+  let stakedOne = staked.find((s) => s?.id == id);
 
   const modalTitle = () => (
     <>
@@ -87,28 +87,33 @@ export const StakingCard = ({
       {/* Stats */}
       <div className="flex justify-between text-sm font-semibold px-1">
         <span className="capitalize">
-          {!here?.id ? "locking period" : "Your stake"}
+          {!stakedOne?.id ? "locking period" : "Your stake"}
         </span>
         <span className="text-right">TVL</span>
       </div>
       <div className="flex justify-between text-sm px-1 pt-2">
         <span className="text-7398C0">
-          {!here?.id ? `${lockingPeriod} hours` : "10 k NPM"}
+          {!stakedOne?.id
+            ? `${lockingPeriod} hours`
+            : `${amountFormatter(stakedOne?.stakedAmt)} NPM`}
         </span>
         <span className="text-right text-7398C0">$ {tvl}</span>
       </div>
       <div className="flex">
-        {here?.id ? (
+        {stakedOne?.id ? (
           <>
             <div className="w-full mt-6">
               <div className="flex justify-between text-sm font-semibold px-1">
                 <span className="capitalize">You Earned</span>
               </div>
               <div className="flex justify-between text-sm px-1 pt-2">
-                <span className="text-7398C0 uppercase">163.00 {name}</span>
+                <span className="text-7398C0 uppercase">
+                  {earnPercent * stakedOne?.stakedAmt} {name}
+                </span>
               </div>
             </div>
             <RegularButton
+              onClick={() => onOpen(id)}
               className={"text-white font-bold mt-6 mb-10 px-3 mr-1"}
             >
               +
@@ -139,6 +144,8 @@ export const StakingCard = ({
       />
       <CollectModal
         id={id}
+        stakedAmount={stakedOne?.stakedAmt}
+        earned={`${earnPercent * stakedOne?.stakedAmt} ${name}`}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
         modalTitle={modalTitle}
