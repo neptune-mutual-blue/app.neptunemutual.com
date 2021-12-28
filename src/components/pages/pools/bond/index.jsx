@@ -2,8 +2,6 @@ import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-traili
 import { Label } from "@/components/UI/atoms/label";
 import Link from "next/link";
 import { useState } from "react";
-import OpenInNewIcon from "@/icons/open-in-new";
-import AddCircleIcon from "@/icons/add-circle";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
@@ -12,6 +10,7 @@ import { useBondInfo } from "@/components/pages/pools/bond/useBondInfo";
 import { useUnlockDate } from "@/components/pages/pools/bond/useUnlockDate";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
+import { TokenBalance } from "@/components/UI/molecules/token-balance";
 
 const BondPage = () => {
   const [value, setValue] = useState();
@@ -91,7 +90,7 @@ const BondPage = () => {
   }
 
   return (
-    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 mt-16 pb-36"}>
+    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
       <div className="max-w-lg col-span-2">
         <div className="input-pool">
           <Label className="mb-4" htmlFor="bond-amount">
@@ -110,27 +109,7 @@ const BondPage = () => {
             }}
             unit={"NPM-USDC LP"}
           />
-          <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
-            <p>
-              {value !== undefined && !isNaN(parseInt(value)) && (
-                <>Balance: {value} NPM-USDC LP</>
-              )}
-            </p>
-            <div className="flex">
-              <Link href="#">
-                <a className="ml-3">
-                  <span className="sr-only">Open In New Tab</span>
-                  <OpenInNewIcon fill="currentColor" />
-                </a>
-              </Link>
-              <Link href="#">
-                <a className="ml-3">
-                  <span className="sr-only">Add to Metamask</span>
-                  <AddCircleIcon fill="currentColor" />
-                </a>
-              </Link>
-            </div>
-          </div>
+          <TokenBalance value={value} unit={"NPM-USDC LP"} />
         </div>
         <div className="receive mt-16">
           <Label className="mb-4" htmlFor="receive-amount">
@@ -149,7 +128,10 @@ const BondPage = () => {
           </p>
         </div>
 
-        <RegularButton className={"w-full p-6 mt-10"} onClick={handleApprove}>
+        <RegularButton
+          className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
+          onClick={handleApprove}
+        >
           Approve NPM-USDC LP
         </RegularButton>
       </div>

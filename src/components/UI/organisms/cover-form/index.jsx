@@ -2,8 +2,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import OpenInNewIcon from "@/icons/open-in-new";
-import AddCircleIcon from "@/icons/add-circle";
 import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { Container } from "@/components/UI/atoms/container";
@@ -13,6 +11,7 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { Label } from "@/components/UI/atoms/label";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
+import { TokenBalance } from "@/components/UI/molecules/token-balance";
 
 export const CoverForm = () => {
   const router = useRouter();
@@ -80,27 +79,7 @@ export const CoverForm = () => {
         unit={"DAI"}
       />
 
-      <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
-        <p>
-          {value !== undefined && parseInt(value) !== NaN && (
-            <>Balance: {value} DAI</>
-          )}
-        </p>
-        <div className="flex">
-          <Link href="#">
-            <a className="ml-3">
-              <span className="sr-only">Open in Explorer</span>
-              <OpenInNewIcon fill="currentColor" />
-            </a>
-          </Link>
-          <Link href="#">
-            <a className="ml-3">
-              <span className="sr-only">Add to Wallet</span>
-              <AddCircleIcon fill="currentColor" />
-            </a>
-          </Link>
-        </div>
-      </div>
+      <TokenBalance value={value} unit={"DAI"} />
       {value !== undefined && parseInt(value) !== NaN && (
         <div className="px-3 flex items-center text-15aac8">
           <p>You will receive: {value} cxDAI</p>
@@ -108,7 +87,7 @@ export const CoverForm = () => {
           <Link href="#">
             <a className="ml-3">
               <span className="sr-only">Info</span>
-              <InfoCircleIcon fill="currentColor" />
+              <InfoCircleIcon width={24} fill="currentColor" />
             </a>
           </Link>
         </div>
@@ -148,7 +127,7 @@ export const CoverForm = () => {
           claimEnd={coverMonth}
         />
       )}
-      <RegularButton className="w-full mt-14 py-6 px-4 text-h6 uppercase font-bold">
+      <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
         Approve Dai
       </RegularButton>
 
