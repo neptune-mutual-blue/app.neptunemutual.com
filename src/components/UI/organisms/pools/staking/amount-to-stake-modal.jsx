@@ -6,7 +6,6 @@ import CloseIcon from "@/icons/close.jsx";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
-import { parse } from "postcss";
 
 export const AmountToStakeModal = ({
   id,

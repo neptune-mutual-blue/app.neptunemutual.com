@@ -5,7 +5,6 @@ import { AmountToStakeModal } from "./amount-to-stake-modal";
 import { useState } from "react";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
 import { amountFormatter } from "@/utils/formatter";
-import { useEarningPercentage } from "@/components/pages/pools/staking/useEarningPercentage";
 
 export const StakingCard = ({
   id,
