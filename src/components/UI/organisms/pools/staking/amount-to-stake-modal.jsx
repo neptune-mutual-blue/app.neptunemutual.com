@@ -2,10 +2,9 @@ import { Dialog } from "@headlessui/react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import CloseIcon from "@/icons/close.jsx";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
-import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
+import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 export const AmountToStakeModal = ({
@@ -16,7 +15,7 @@ export const AmountToStakeModal = ({
   onClose,
   lockingPeriod,
 }) => {
-  const [inputValue, setInputValue] = useState(0);
+  const [inputValue, setInputValue] = useState();
 
   const handleChooseMax = () => {
     const MAX_VALUE_TO_STAKE = 10000;
@@ -58,7 +57,7 @@ export const AmountToStakeModal = ({
               onChange: handleChange,
             }}
           />
-          <BalanceAndIcons value={inputValue} unit={"NPM"} />
+          <TokenBalance value={inputValue} unit={"NPM"} />
         </div>
         <div className="modal-unlock mt-8">
           <Label className="mb-3" htmlFor="bond-amount">

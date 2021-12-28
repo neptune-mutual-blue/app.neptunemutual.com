@@ -40,35 +40,20 @@ export const StakingCard = ({
 
   let stakedOne = staked.find((s) => s?.id == id);
 
-  const modalTitle = () => (
-    <>
-      <img
-        src="/pools/staking/npm.png"
-        alt="npm logo"
-        className="inline-block mr-3"
-      />
-      Stake NPM
-    </>
-  );
-
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
           <div className="p-3 relative inline-block">
-            <img
-              src="/pools/staking/npm.png"
-              alt="npm logo"
-              className="inline-block "
-            />
-            <div className="absolute -top-1 -right-4">
-              <div className="w-10 h-10 bg-DEEAF6 rounded-full relative">
-                <img
-                  src={imgSrc}
-                  alt={name}
-                  className="m-auto absolute top-0 bottom-0 right-0 left-0 "
-                />
-              </div>
+            <div className="border border-black rounded-full w-10 h-10 flex justify-center items-center">
+              <img
+                src="/pools/staking/npm.png"
+                alt="npm logo"
+                className="inline-block "
+              />
+            </div>
+            <div className="absolute -top-1 -right-4 bg-DEEAF6 border border-white rounded-full w-10 h-10 flex justify-center items-center">
+              <img src={imgSrc} alt={name} />
             </div>
           </div>
           <h4 className="text-h4 font-sora font-semibold  mt-4">
@@ -139,7 +124,16 @@ export const StakingCard = ({
       <AmountToStakeModal
         id={id}
         lockingPeriod={lockingPeriod}
-        modalTitle={modalTitle}
+        modalTitle={
+          <>
+            <img
+              src="/pools/staking/npm.png"
+              alt="npm logo"
+              className="inline-block mr-3 w-10 h-10"
+            />
+            Stake NPM
+          </>
+        }
         onClose={onClose}
         isOpen={isOpen}
         onStake={onStake}
@@ -150,7 +144,16 @@ export const StakingCard = ({
         earned={`${earnPercent * stakedOne?.stakedAmt} ${name}`}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
-        modalTitle={modalTitle}
+        modalTitle={
+          <>
+            <img
+              src="/pools/staking/npm.png"
+              alt="npm logo"
+              className="inline-block mr-3  w-10 h-10"
+            />
+            Collect NPM
+          </>
+        }
       />
     </OutlinedCard>
   );

@@ -2,7 +2,7 @@ import { getAvailableStakingPools as getAvailableStakingsMock } from "@/src/_moc
 import { sleeper } from "@/src/_mocks/utils";
 
 export const getAvailableStakings = async () => {
-  await sleeper(1000)();
+  await sleeper(500)();
   return getAvailableStakingsMock();
 };
 

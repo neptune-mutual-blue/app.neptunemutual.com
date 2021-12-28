@@ -3,7 +3,6 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import CloseIcon from "@/icons/close.jsx";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 export const ClaimBondModal = ({

@@ -33,7 +33,7 @@ export const StakingPage = () => {
   };
 
   return (
-    <Container className={"py-16"}>
+    <Container className={"pt-16 pb-36"}>
       <div className="flex justify-between">
         <div>
           <span className="inline-block border border-B0C4DB p-4 mr-4 rounded-lg bg-white">
