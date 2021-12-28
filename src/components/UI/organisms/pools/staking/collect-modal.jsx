@@ -1,13 +1,13 @@
+import { useState } from "react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { Label } from "@/components/UI/atoms/label";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
 import { Modal } from "@/components/UI/molecules/modal";
 import { TabNav } from "@/components/UI/molecules/tabnav";
-import CloseIcon from "@/icons/close";
 import { amountFormatter } from "@/utils/formatter";
 import { Dialog } from "@headlessui/react";
-import { useState } from "react";
+import CloseIcon from "@/icons/close";
 
 export const CollectModal = ({
   id,
@@ -64,7 +64,7 @@ export const CollectModal = ({
           className="absolute right-12 top-7 flex justify-center items-center text-gray-300 hover:text-black focus:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-364253 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
         >
           <span className="sr-only">Close</span>
-          <CloseIcon />
+          <CloseIcon width={24} />
         </button>
         <div className="mt-6">
           <TabNav

@@ -120,13 +120,13 @@ const BondPage = () => {
               <Link href="#">
                 <a className="ml-3">
                   <span className="sr-only">Open In New Tab</span>
-                  <OpenInNewIcon fill="currentColor" />
+                  <OpenInNewIcon width={24} fill="currentColor" />
                 </a>
               </Link>
               <Link href="#">
                 <a className="ml-3">
                   <span className="sr-only">Add to Metamask</span>
-                  <AddCircleIcon fill="currentColor" />
+                  <AddCircleIcon width={24} fill="currentColor" />
                 </a>
               </Link>
             </div>

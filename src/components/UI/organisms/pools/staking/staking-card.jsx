@@ -5,6 +5,7 @@ import { AmountToStakeModal } from "./amount-to-stake-modal";
 import { useState } from "react";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
 import { amountFormatter } from "@/utils/formatter";
+import AddIcon from "@/icons/add";
 
 export const StakingCard = ({
   id,
@@ -51,7 +52,7 @@ export const StakingCard = ({
   );
 
   return (
-    <OutlinedCard className="bg-white p-6" type="link">
+    <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
           <div className="p-3 relative inline-block">
@@ -111,23 +112,25 @@ export const StakingCard = ({
                 </span>
               </div>
             </div>
-            <RegularButton
-              onClick={() => onOpen(id)}
-              className={"text-white font-bold mt-6 mb-10 px-3 mr-1"}
-            >
-              +
-            </RegularButton>
-            <RegularButton
-              onClick={() => collectModal(id)}
-              className={"uppercase w-1/2 py-2 mt-6 mb-10"}
-            >
-              Collect
-            </RegularButton>
+            <div className="flex self-baseline">
+              <RegularButton
+                onClick={() => onOpen(id)}
+                className={"text-white px-2 mt-6 mr-2"}
+              >
+                <AddIcon width={16} fill="currentColor" />
+              </RegularButton>
+              <RegularButton
+                onClick={() => collectModal(id)}
+                className={"font-semibold uppercase text-sm px-5 py-2 mt-6"}
+              >
+                Collect
+              </RegularButton>
+            </div>
           </>
         ) : (
           <RegularButton
             onClick={(e) => onOpen(id)}
-            className={"uppercase w-full py-2 mt-6 mb-10"}
+            className={"w-full font-semibold uppercase text-sm py-2 mt-6"}
           >
             Stake
           </RegularButton>

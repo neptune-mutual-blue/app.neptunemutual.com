@@ -90,13 +90,13 @@ export const CoverForm = () => {
           <Link href="#">
             <a className="ml-3">
               <span className="sr-only">Open in Explorer</span>
-              <OpenInNewIcon fill="currentColor" />
+              <OpenInNewIcon width={24} fill="currentColor" />
             </a>
           </Link>
           <Link href="#">
             <a className="ml-3">
               <span className="sr-only">Add to Wallet</span>
-              <AddCircleIcon fill="currentColor" />
+              <AddCircleIcon width={24} fill="currentColor" />
             </a>
           </Link>
         </div>
@@ -108,7 +108,7 @@ export const CoverForm = () => {
           <Link href="#">
             <a className="ml-3">
               <span className="sr-only">Info</span>
-              <InfoCircleIcon fill="currentColor" />
+              <InfoCircleIcon width={24} fill="currentColor" />
             </a>
           </Link>
         </div>
