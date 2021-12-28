@@ -3,11 +3,12 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { Label } from "@/components/UI/atoms/label";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
-import { Modal } from "@/components/UI/molecules/modal";
+import { Modal } from "@/components/UI/molecules/modal/regular";
 import { TabNav } from "@/components/UI/molecules/tabnav";
 import { amountFormatter } from "@/utils/formatter";
 import { Dialog } from "@headlessui/react";
 import CloseIcon from "@/icons/close";
+import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 export const CollectModal = ({
   id,
@@ -59,13 +60,9 @@ export const CollectModal = ({
         <Dialog.Title className="font-sora font-bold text-h2">
           {modalTitle}
         </Dialog.Title>
-        <button
-          onClick={onCollectModalClose}
-          className="absolute right-12 top-7 flex justify-center items-center text-gray-300 hover:text-black focus:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-364253 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-        >
-          <span className="sr-only">Close</span>
-          <CloseIcon width={24} />
-        </button>
+
+        <ModalCloseButton onClick={onCollectModalClose}></ModalCloseButton>
+
         <div className="mt-6">
           <TabNav
             onClick={(e) => changeActiveTab(e)}

@@ -1,11 +1,12 @@
 import { Dialog } from "@headlessui/react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
-import { Modal } from "@/components/UI/molecules/modal";
+import { Modal } from "@/components/UI/molecules/modal/regular";
 import CloseIcon from "@/icons/close.jsx";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
+import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 export const AmountToStakeModal = ({
   id,
@@ -37,13 +38,9 @@ export const AmountToStakeModal = ({
         <Dialog.Title className="font-sora font-bold text-h2">
           {modalTitle}
         </Dialog.Title>
-        <button
-          onClick={onClose}
-          className="absolute right-12 top-7 flex justify-center items-center text-gray-300 hover:text-black focus:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-364253 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-        >
-          <span className="sr-only">Close</span>
-          <CloseIcon width={24} />
-        </button>
+
+        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+
         <div className="mt-6">
           <Label className="font-semibold mb-4 uppercase">
             Amount You wish to stake
