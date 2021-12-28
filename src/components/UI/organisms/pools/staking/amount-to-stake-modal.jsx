@@ -6,7 +6,6 @@ import CloseIcon from "@/icons/close.jsx";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
 import { BalanceAndIcons } from "@/components/UI/molecules/balance-and-icons";
-import NeptuneMutualCircleLogo from "@/icons/neptune-mutual-circle-logo";
 
 export const AmountToStakeModal = ({
   id,

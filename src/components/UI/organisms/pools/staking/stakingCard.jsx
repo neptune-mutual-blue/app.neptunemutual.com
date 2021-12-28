@@ -32,8 +32,8 @@ export const StakingCard = ({
     console.log(id);
   }
 
-  const collectModal = () => {
-    console.log("collect clicked");
+  const collectModal = (id) => {
+    console.log("collect clicked", id);
     onCollectModalOpen();
   };
 
