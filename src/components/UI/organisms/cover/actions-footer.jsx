@@ -20,7 +20,7 @@ export const CoverActionsFooter = ({ activeKey }) => {
               .map((actionKey, i) => {
                 return (
                   <Link key={i} href={`/cover/cover_id/${actionKey}`}>
-                    <a className="rounded-4xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
+                    <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
                       <CoverActionCard
                         title={coverActions[actionKey].title}
                         description={coverActions[actionKey].description}

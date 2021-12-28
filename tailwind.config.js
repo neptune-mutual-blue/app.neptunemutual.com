@@ -1,28 +1,15 @@
-const colors = require("tailwindcss/colors");
-
 // prettier quoteProps: consistent
 module.exports = {
   content: ["./lib/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    borderRadius: {
-      none: "0",
-      sm: "0.125rem",
-      DEFAULT: "0.25rem",
-      md: "0.375rem",
-      lg: "0.5rem",
-      xl: "0.625rem",
-      "2xl": "0.75rem",
-      "3xl": "1rem",
-      "4xl": "1.5rem",
-      full: "9999px",
-    },
     boxShadow: {
       card: "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
     },
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      black: "#01052D",
+      black: "#01052d",
+      white: "#fefeff",
     },
     fontSize: {
       h1: ["33px", "48px"],
@@ -53,6 +40,9 @@ module.exports = {
       sora: "Sora, sans-serif",
     },
     extend: {
+      borderRadius: {
+        big: "0.625rem",
+      },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
       },
@@ -65,7 +55,6 @@ module.exports = {
         "728FB2": "#728FB2",
         "4E7DD9": "#4E7DD9",
         F1F3F6: "#F1F3F6",
-        FEFEFF: "#FEFEFF",
         EEEEEE: "#EEEEEE",
         "5F5F5F": "#5F5F5F",
         "9B9B9B": "#9B9B9B",
