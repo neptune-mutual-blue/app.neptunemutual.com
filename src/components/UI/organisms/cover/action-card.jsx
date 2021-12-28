@@ -2,7 +2,7 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 
 export const CoverActionCard = ({ children, title, description, imgSrc }) => {
   return (
-    <OutlinedCard className="bg-FEFEFF p-10" type="link">
+    <OutlinedCard className="bg-white p-10" type="link">
       <div className="flex items-center">
         <div className="mr-6">
           <div className="w-24 h-24 rounded-full bg-DEEAF6 p-4 flex justify-center items-center">

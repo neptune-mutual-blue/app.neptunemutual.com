@@ -15,7 +15,7 @@ export const CoverCard = ({ details, children }) => {
   } = details;
 
   return (
-    <OutlinedCard className="bg-FEFEFF p-6" type="link">
+    <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
           <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
