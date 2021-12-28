@@ -7,7 +7,11 @@ export const getAvailableStakings = async () => {
 };
 
 export const earnPercentage = () => {
-  let randomNum = Math.floor(Math.random() * 50);
-  let youEarned = randomNum / 100;
-  return youEarned.toFixed(2);
+  const randomBuffer = new Uint32Array(1);
+
+  window.crypto.getRandomValues(randomBuffer);
+
+  let randomNumber = randomBuffer[0] / (0xffffffff + 1);
+
+  return Math.floor(randomNumber * 50) / 100;
 };
