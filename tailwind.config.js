@@ -61,7 +61,7 @@ module.exports = {
         "7398C0": "#7398C0",
         "89A0C2": "#89A0C2",
         e6f0fe: "#e6f0fe",
-
+        E2EBF7: "#E2EBF7",
         364253: "#364253",
         DEEAF6: "#DEEAF6",
         B0C4DB: "#B0C4DB",
@@ -72,6 +72,7 @@ module.exports = {
         "15aac8": "#15aac8",
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
+        AABDCB: "#AABDCB"
       },
     },
   },
