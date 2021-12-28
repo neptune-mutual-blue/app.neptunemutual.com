@@ -63,7 +63,7 @@ export const HomePage = () => {
         </Container>
       </div>
 
-      <div className="py-16 bg-F1F3F6">
+      <div className="py-16 bg-F1F3F6 border-t-2 border-t-B0C4DB">
         <Container>
           <div className="flex justify-between">
             <h1 className="text-h2 font-sora font-bold">Available Covers</h1>
