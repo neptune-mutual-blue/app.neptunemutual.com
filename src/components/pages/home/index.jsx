@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
@@ -8,9 +7,9 @@ import { CoverCard } from "@/components/UI/organisms/cover/card";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import React from "react";
 
-import { HomeCard } from "@/components/UI/molecules/home-card"
-import { HomeMainCard } from "@/components/UI/molecules/home-card/main"
-
+import { HomeCard } from "@/components/UI/molecules/home-card";
+import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
+import IncreaseIcon from "@/icons/increase";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -33,10 +32,20 @@ export const HomePage = () => {
           <div className="flex flex-wrap flex-col-reverse md:flex-col-reverse lg:flex-row lg:flex-nowrap">
             <div className="pt-16 lg:pr-16 md:w-full lg:w-auto lg:pt-0">
               <div className="mb-8 flex md:justify-center lg:justify-start">
-                <HomeCard items={[{name: "TVL (Cover)", amount:"$ 120M"}, {name: "TVL (Pool)", amount:"$ 100M"}]} />
+                <HomeCard
+                  items={[
+                    { name: "TVL (Cover)", amount: "$ 120M" },
+                    { name: "TVL (Pool)", amount: "$ 100M" },
+                  ]}
+                />
               </div>
               <div className="mb-8 flex md:justify-center lg:justify-start">
-                <HomeCard items={[{name: "Covered", amount:"$ 12.5M"}, {name: "Cover Fee", amount:"$ 200K"}]} />
+                <HomeCard
+                  items={[
+                    { name: "Covered", amount: "$ 12.5M" },
+                    { name: "Cover Fee", amount: "$ 200K" },
+                  ]}
+                />
               </div>
               <div className="mb-8 flex md:justify-center lg:justify-start">
                 <HomeMainCard />
@@ -47,11 +56,16 @@ export const HomePage = () => {
               <div className="pt-6 pb-10">
                 <h3 className="text-h3 text-4E7DD9 pl-5">Total Liquidity</h3>
                 <div className="flex items-center">
-                  <h2 className="text-h2 text-black font-sora font-bold pr-3">$ 250.32M</h2>
+                  <h2 className="text-h2 text-black font-sora font-bold pr-3">
+                    $ 250.32M
+                  </h2>
                   <h6 className="text-h6 text-21AD8C font-sora font-bold flex items-center">
-                    <span className="pr-1"><img src="/home/home-rise-arrow.png" alt="home-rise-arrow" /></span>
+                    <span className="pr-1">
+                      <span className="sr-only">Growth</span>
+                      <IncreaseIcon width={19} />
+                    </span>
                     <span>15.32%</span>
-                  </h6> 
+                  </h6>
                 </div>
               </div>
               <div>
@@ -59,7 +73,6 @@ export const HomePage = () => {
               </div>
             </div>
           </div>
-          
         </Container>
       </div>
 
