@@ -1,6 +1,5 @@
 import ReportIcon from "@/icons/report";
 import ActiveSheildIcon from "@/icons/shield-active";
-import { classNames } from "@/utils/classnames";
 
 export const HomeMainCard = () => {
   return (
