@@ -1,6 +1,6 @@
 export const HomeCard = ({ items }) => {
   return (
-    <div className="w-full lg:w-96 h-36 bg-E2EBF7 rounded-xl flex justify-center items-center">
+    <div className="w-full lg:w-96 h-36 bg-e2ebf6 rounded-xl flex justify-center items-center">
       {items?.map((item, index) => {
         const firstBorder = index === 0 ? `border-r  border-AABDCB` : ``;
         return (
