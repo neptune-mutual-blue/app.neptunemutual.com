@@ -4,7 +4,6 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { StakingCard } from "@/components/UI/organisms/pools/staking/staking-card";
-import Link from "next/link";
 import { useState } from "react";
 
 export const PodStakingPage = () => {

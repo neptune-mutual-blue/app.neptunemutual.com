@@ -2,9 +2,7 @@ import { Dialog } from "@headlessui/react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { useState } from "react";
-import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenInput } from "@/components/UI/organisms/token-input";
 
