@@ -6,6 +6,7 @@ import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-traili
 import { useState } from "react";
 import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
+import { TokenInput } from "@/components/UI/organisms/token-input";
 
 export const AmountToStakeModal = ({
   id,
@@ -14,6 +15,7 @@ export const AmountToStakeModal = ({
   isOpen,
   onClose,
   lockingPeriod,
+  unitName,
 }) => {
   const [inputValue, setInputValue] = useState();
 
@@ -34,30 +36,20 @@ export const AmountToStakeModal = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h2">
+        <Dialog.Title className="font-sora font-bold text-h2 flex">
           {modalTitle}
         </Dialog.Title>
 
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="mt-6">
-          <Label className="font-semibold mb-4 uppercase">
-            Amount You wish to stake
-          </Label>
-          <InputWithTrailingButton
-            value={inputValue}
-            buttonProps={{
-              children: "Max",
-              onClick: handleChooseMax,
-            }}
-            inputProps={{
-              id: "stake-amount",
-              placeholder: "Enter Amount",
-              value: inputValue,
-              onChange: handleChange,
-            }}
+          <TokenInput
+            labelText={"Amount You Wish To Stake"}
+            tokenSymbol={unitName}
+            handleChooseMax={handleChooseMax}
+            inputValue={inputValue}
+            onInput={handleChange}
           />
-          <TokenBalance value={inputValue} unit={"NPM"} />
         </div>
         <div className="modal-unlock mt-8">
           <Label className="mb-3" htmlFor="bond-amount">

@@ -5,7 +5,7 @@ import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { amountFormatter } from "@/utils/formatter";
 import { useState } from "react";
 
-export const WithdrawForm = ({ onWithdraw }) => {
+export const WithdrawForm = ({ onWithdraw, unitName }) => {
   const [amtToWithdraw, setAmtToWithdraw] = useState();
 
   const handleChooseMax = () => {
@@ -34,8 +34,9 @@ export const WithdrawForm = ({ onWithdraw }) => {
           value: amtToWithdraw,
           onChange: handleChange,
         }}
+        unit={unitName}
       />
-      <TokenBalance value={amtToWithdraw} unit={"NPM"} />
+      <TokenBalance value={amtToWithdraw} unit={unitName} />
 
       <RegularButton
         onClick={onWithdraw}

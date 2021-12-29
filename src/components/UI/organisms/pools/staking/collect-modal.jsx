@@ -28,6 +28,7 @@ export const CollectModal = ({
   modalTitle,
   stakedAmount,
   earned,
+  unitName,
 }) => {
   const [activeTab, setActiveTab] = useState(headers[0].name);
 
@@ -47,7 +48,7 @@ export const CollectModal = ({
     <Modal isOpen={isCollectModalOpen} onClose={onCollectModalClose}>
       <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left py-12 rounded-3xl relative">
         <div className="px-12">
-          <Dialog.Title className="font-sora font-bold text-h2">
+          <Dialog.Title className="font-sora font-bold text-h2 flex">
             {modalTitle}
           </Dialog.Title>
         </div>
@@ -66,9 +67,10 @@ export const CollectModal = ({
               stakedAmount={stakedAmount}
               earned={earned}
               onHarvest={handleHarvest}
+              unitName={unitName}
             />
           ) : (
-            <WithdrawForm onWithdraw={handleWithdraw} />
+            <WithdrawForm onWithdraw={handleWithdraw} unitName={unitName} />
           )}
         </div>
       </div>

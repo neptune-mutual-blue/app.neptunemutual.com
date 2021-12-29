@@ -1,7 +1,7 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { amountFormatter } from "@/utils/formatter";
 
-export const HarvestForm = ({ onHarvest, stakedAmount, earned }) => {
+export const HarvestForm = ({ onHarvest, stakedAmount, earned, unitName }) => {
   return (
     <div className="px-12">
       <div className="flex justify-between text-sm font-semibold px-1 mt-6">
@@ -10,7 +10,7 @@ export const HarvestForm = ({ onHarvest, stakedAmount, earned }) => {
       </div>
       <div className="flex justify-between text-sm px-1 pt-2">
         <span className="text-7398C0 uppercase">
-          {amountFormatter(stakedAmount)} NPM
+          {amountFormatter(stakedAmount)} {unitName}
         </span>
         <span className="text-right text-7398C0 uppercase">{earned}</span>
       </div>

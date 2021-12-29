@@ -1,4 +1,4 @@
-export const getAvailableStakingPools = () => {
+export const getAvailablePodStakingPools = () => {
   return [
     {
       id: "1",
@@ -10,43 +10,35 @@ export const getAvailableStakingPools = () => {
     },
     {
       id: "2",
-      name: "npm",
-      imgSrc: "/pools/staking/npm.png",
-      apr: 9.03,
+      name: "okb",
+      imgSrc: "/pools/staking/okb.svg",
+      apr: 13.04,
       lockingPeriod: 24,
-      tvl: "2.7M",
+      tvl: "1.3M",
     },
     {
       id: "3",
-      name: "okb",
-      imgSrc: "/pools/staking/okb.svg",
-      apr: 13.7,
+      name: "cpool",
+      imgSrc: "/pools/staking/clearpool.svg",
+      apr: 11.0,
       lockingPeriod: 24,
-      tvl: "1.4M",
+      tvl: "5.0M",
     },
     {
       id: "4",
-      name: "okex",
-      imgSrc: "/pools/staking/clearpool.svg",
-      apr: 10.01,
-      lockingPeriod: 24,
-      tvl: "1.0M",
-    },
-    {
-      id: "5",
       name: "axs",
       imgSrc: "/pools/staking/axs.svg",
       apr: 15.0,
       lockingPeriod: 24,
-      tvl: "3.0M",
+      tvl: "900k",
     },
     {
-      id: "6",
+      id: "5",
       name: "eqifi",
       imgSrc: "/pools/staking/eqifi.svg",
-      apr: 9.9,
+      apr: 9.09,
       lockingPeriod: 24,
-      tvl: "1.1M",
+      tvl: "4.0M",
     },
   ];
 };

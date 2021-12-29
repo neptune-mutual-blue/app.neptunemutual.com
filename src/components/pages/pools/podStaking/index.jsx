@@ -1,4 +1,4 @@
-import { useAvailableStakings } from "@/components/pages/pools/staking/useAvailableStakings";
+import { useAvailablePodStakings } from "@/components/pages/pools/podStaking/useAvailablePodStakings";
 import { useEarningPercentage } from "@/components/pages/pools/staking/useEarningPercentage";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
@@ -7,12 +7,12 @@ import { StakingCard } from "@/components/UI/organisms/pools/staking/staking-car
 import Link from "next/link";
 import { useState } from "react";
 
-export const StakingPage = () => {
-  const { availableStakings } = useAvailableStakings();
+export const PodStakingPage = () => {
+  const { availablePodStakings } = useAvailablePodStakings();
   const { earningPercent } = useEarningPercentage();
   const [staked, setStaked] = useState([]);
 
-  if (!availableStakings) {
+  if (!availablePodStakings) {
     return <>loading...</>;
   }
   if (!earningPercent) {
@@ -45,7 +45,7 @@ export const StakingPage = () => {
         </div>
       </div>
       <Grid className="mt-14 mb-24">
-        {availableStakings.map((c) => {
+        {availablePodStakings.map((c) => {
           return (
             <StakingCard
               key={c.name}
@@ -54,6 +54,7 @@ export const StakingPage = () => {
               staked={staked}
               onStake={handleStake}
               earnPercent={earningPercent}
+              fromPage={"podstaking"}
             ></StakingCard>
           );
         })}

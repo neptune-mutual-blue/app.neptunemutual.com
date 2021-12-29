@@ -14,6 +14,7 @@ export const StakingCard = ({
   staked,
   onStake,
   earnPercent,
+  fromPage,
 }) => {
   const { name, imgSrc, apr, lockingPeriod, tvl } = details;
   const [isOpen, setIsOpen] = useState(false);
@@ -40,26 +41,38 @@ export const StakingCard = ({
 
   let stakedOne = staked.find((s) => s?.id == id);
 
+  let getUnitName =
+    fromPage === "podstaking" ? `${name.toUpperCase()}-POD` : " NPM";
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
           <div className="p-3 relative inline-block">
-            <div className="border border-black rounded-full w-10 h-10 flex justify-center items-center">
-              <img
-                src="/pools/staking/npm.png"
-                alt="npm logo"
-                className="inline-block "
-              />
-            </div>
-            <div className="absolute -top-1 -right-4 bg-DEEAF6 border border-white rounded-full w-10 h-10 flex justify-center items-center">
-              <img src={imgSrc} alt={name} />
-            </div>
+            {fromPage === "podstaking" ? (
+              <div className="border bg-DEEAF6 border-white rounded-full w-18 h-18 flex justify-center items-center">
+                <img src={imgSrc} alt={name} className="inline-block w-6/12" />
+              </div>
+            ) : (
+              <>
+                <div className="border border-black rounded-full w-10 h-10 flex justify-center items-center">
+                  <img
+                    src="/pools/staking/npm.png"
+                    alt="npm logo"
+                    className="inline-block "
+                  />
+                </div>
+                <div className="absolute -top-1 -right-4 bg-DEEAF6 border border-white rounded-full w-10 h-10 flex justify-center items-center">
+                  <img src={imgSrc} alt={name} />
+                </div>
+              </>
+            )}
           </div>
           <h4 className="text-h4 font-sora font-semibold  mt-4">
             Earn <span className="uppercase">{name}</span>
           </h4>
-          <div className="text-sm text-7398C0 uppercase mt-2">Stake NPM</div>
+          <div className="text-sm text-7398C0 uppercase mt-2">
+            Stake {getUnitName}
+          </div>
         </div>
         <div>
           <Badge>APR: {apr}%</Badge>
@@ -126,17 +139,20 @@ export const StakingCard = ({
         lockingPeriod={lockingPeriod}
         modalTitle={
           <>
-            <img
-              src="/pools/staking/npm.png"
-              alt="npm logo"
-              className="inline-block mr-3 w-10 h-10"
-            />
-            Stake NPM
+            <div className="border bg-DEEAF6 border-black rounded-full w-10 h-10 flex justify-center items-center mr-3">
+              <img
+                src={fromPage ? imgSrc : "/pools/staking/npm.png"}
+                alt={name}
+                className="inline-block"
+              />
+            </div>
+            Stake {getUnitName}
           </>
         }
         onClose={onClose}
         isOpen={isOpen}
         onStake={onStake}
+        unitName={getUnitName}
       />
       <CollectModal
         id={id}
@@ -146,14 +162,17 @@ export const StakingCard = ({
         onCollectModalClose={onCollectModalClose}
         modalTitle={
           <>
-            <img
-              src="/pools/staking/npm.png"
-              alt="npm logo"
-              className="inline-block mr-3  w-10 h-10"
-            />
-            Collect NPM
+            <div className="border bg-DEEAF6 border-black rounded-full w-10 h-10 flex justify-center items-center mr-3">
+              <img
+                src={fromPage ? imgSrc : "/pools/staking/npm.png"}
+                alt={name}
+                className="inline-block"
+              />
+            </div>
+            Collect {getUnitName}
           </>
         }
+        unitName={getUnitName}
       />
     </OutlinedCard>
   );
