@@ -9,7 +9,7 @@ import React from "react";
 
 import { HomeCard } from "@/components/UI/molecules/home-card";
 import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
-import { SearchAndSortBar } from "@/components/UI/molecules/pools/search-and-sort";
+import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/increase";
 
 export const HomePage = () => {
