@@ -1,4 +1,3 @@
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { Label } from "@/components/UI/atoms/label";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,7 +9,6 @@ import { useBondInfo } from "@/components/pages/pools/bond/useBondInfo";
 import { useUnlockDate } from "@/components/pages/pools/bond/useUnlockDate";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
-import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { TokenInput } from "@/components/UI/organisms/token-input";
 
 const BondPage = () => {
