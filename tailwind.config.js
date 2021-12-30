@@ -4,6 +4,8 @@ module.exports = {
   theme: {
     boxShadow: {
       card: "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
+      mainCard:
+        "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
     },
     colors: {
       transparent: "transparent",
@@ -61,7 +63,7 @@ module.exports = {
         "7398C0": "#7398C0",
         "89A0C2": "#89A0C2",
         e6f0fe: "#e6f0fe",
-        E2EBF7: "#E2EBF7",
+        e2ebf6: "#e2ebf6",
         364253: "#364253",
         DEEAF6: "#DEEAF6",
         B0C4DB: "#B0C4DB",
@@ -72,7 +74,7 @@ module.exports = {
         "15aac8": "#15aac8",
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
-        AABDCB: "#AABDCB"
+        AABDCB: "#AABDCB",
       },
     },
   },
