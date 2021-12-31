@@ -3,7 +3,6 @@ import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-traili
 import { TokenBalance } from "@/components/UI/molecules/token-balance";
 
 export const TokenAmountInput = ({
-  address,
   tokenSymbol,
   labelText,
   handleChooseMax,

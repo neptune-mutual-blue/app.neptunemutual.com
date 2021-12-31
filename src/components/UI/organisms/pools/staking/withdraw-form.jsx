@@ -1,6 +1,5 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { amountFormatter } from "@/utils/formatter";
 import { useState } from "react";
 
 export const WithdrawForm = ({ onWithdraw, unitName }) => {

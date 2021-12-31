@@ -4,7 +4,7 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import { StakingCard } from "@/components/UI/organisms/pools/staking/staking-card";
+import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
 import { useState } from "react";
 
 export const PodStakingPage = () => {
@@ -12,11 +12,7 @@ export const PodStakingPage = () => {
   const { earningPercent } = useEarningPercentage();
   const [staked, setStaked] = useState([]);
 
-  if (!availablePodStakings) {
-    return <>loading...</>;
-  }
-
-  if (!earningPercent) {
+  if (!availablePodStakings || !earningPercent) {
     return <>loading...</>;
   }
 
@@ -40,17 +36,16 @@ export const PodStakingPage = () => {
       </div>
       <Grid className="mt-14 mb-24">
         {availablePodStakings.map((c) => {
-          return (
-            <StakingCard
-              key={c.name}
-              id={c.id}
-              details={c}
-              staked={staked}
-              onStake={handleStake}
-              earnPercent={earningPercent}
-              fromPage={"podstaking"}
-            ></StakingCard>
-          );
+          const onStake = handleStake;
+          const earnPercent = earningPercent;
+          const props = {
+            ...c,
+            onStake,
+            staked,
+            earnPercent,
+          };
+
+          return <PodStakingCard key={c.name} {...props} />;
         })}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>

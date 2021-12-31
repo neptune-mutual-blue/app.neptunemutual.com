@@ -1,5 +1,4 @@
 import { Label } from "@/components/UI/atoms/label";
-import Link from "next/link";
 import { useState } from "react";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -62,7 +61,7 @@ const BondPage = () => {
     setReceiveAmount(willRecieve);
   };
 
-  const handleApprove = (e) => {
+  const handleApprove = () => {
     setShowButton(true);
     setYourBondDisplay(true);
   };

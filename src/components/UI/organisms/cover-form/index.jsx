@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
-import { Container } from "@/components/UI/atoms/container";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
 import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
@@ -25,28 +24,6 @@ export const CoverForm = () => {
 
   const handleRadioChange = (e) => {
     setCoverMonth(e.target.value);
-  };
-
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  const getMonthsToCover = () => {
-    const date = new Date();
-    let month = date.getMonth();
-    console.log(month, month + 1, month + 2);
-    return month;
   };
 
   const handleMaxButtonClick = () => {

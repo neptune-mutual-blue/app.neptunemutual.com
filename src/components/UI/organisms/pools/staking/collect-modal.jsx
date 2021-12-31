@@ -1,9 +1,5 @@
 import { useState } from "react";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
-import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { amountFormatter } from "@/utils/formatter";
 import { Dialog } from "@headlessui/react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";

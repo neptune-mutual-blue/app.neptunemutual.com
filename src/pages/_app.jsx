@@ -1,5 +1,4 @@
 import { Header } from "@/components/UI/organisms/header";
-import Link from "next/link";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {

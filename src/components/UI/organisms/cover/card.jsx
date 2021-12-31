@@ -4,7 +4,7 @@ import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { amountFormatter } from "@/utils/formatter";
 
-export const CoverCard = ({ details, children }) => {
+export const CoverCard = ({ details }) => {
   const {
     name,
     coverFees,

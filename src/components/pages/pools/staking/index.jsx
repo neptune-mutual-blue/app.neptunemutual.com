@@ -4,18 +4,13 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import { StakingCard } from "@/components/UI/organisms/pools/staking/staking-card";
-import Link from "next/link";
+import { StakingCard } from "@/components/UI/organisms/pools/staking/StakingCard";
 import { useState } from "react";
 
 export const StakingPage = () => {
   const { availableStakings } = useAvailableStakings();
   const { earningPercent } = useEarningPercentage();
   const [staked, setStaked] = useState([]);
-
-  if (!availableStakings || !earningPercent) {
-    return <>loading...</>;
-  }
 
   const handleStake = (id, stakedAmt) => {
     let currentState = [...staked];
@@ -30,6 +25,10 @@ export const StakingPage = () => {
     setStaked(currentState);
   };
 
+  if (!availableStakings || !earningPercent) {
+    return <>loading...</>;
+  }
+
   return (
     <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
@@ -37,16 +36,16 @@ export const StakingPage = () => {
       </div>
       <Grid className="mt-14 mb-24">
         {availableStakings.map((c) => {
-          return (
-            <StakingCard
-              key={c.name}
-              id={c.id}
-              details={c}
-              staked={staked}
-              onStake={handleStake}
-              earnPercent={earningPercent}
-            ></StakingCard>
-          );
+          const onStake = handleStake;
+          const earnPercent = earningPercent;
+          const props = {
+            ...c,
+            staked,
+            onStake,
+            earnPercent,
+          };
+
+          return <StakingCard key={c.name} {...props} />;
         })}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>

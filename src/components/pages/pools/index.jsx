@@ -1,8 +1,5 @@
-import { Staking } from "@/components/pages/pools/staking";
 import { TabNav } from "@/components/UI/molecules/tabnav";
 import { PoolHero } from "@/components/UI/organisms/pools/hero";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
 
 const headers = [
   {

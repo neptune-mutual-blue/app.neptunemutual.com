@@ -1,6 +1,3 @@
-import { Badge } from "@/components/UI/atoms/badge";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { AmountToStakeModal } from "./amount-to-stake-modal";
 import { useState } from "react";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
 import AddIcon from "@/icons/add";
@@ -13,16 +10,23 @@ import { StatTitle } from "@/components/UI/molecules/pools/staking/stat-title";
 import { StatDescription } from "@/components/UI/molecules/pools/staking/stat-description";
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/staking-card-cta";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
+import { Badge } from "@/components/UI/atoms/badge";
+import { AmountToStakeModal } from "@/components/UI/organisms/pools/staking/amount-to-stake-modal";
+import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 
-export const StakingCard = ({
-  id,
-  details,
-  staked,
-  onStake,
-  earnPercent,
-  fromPage,
-}) => {
-  const { name, imgSrc, apr, lockingPeriod, tvl } = details;
+export const PodStakingCard = (props) => {
+  const {
+    name,
+    imgSrc,
+    apr,
+    lockingPeriod,
+    tvl,
+    id,
+    onStake,
+    earnPercent,
+    staked,
+  } = props;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
 
@@ -47,25 +51,17 @@ export const StakingCard = ({
 
   let stakedOne = staked.find((s) => s?.id == id);
 
-  let unitName =
-    fromPage === "podstaking" ? `${name.toUpperCase()}-POD` : " NPM";
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
-          <div className="p-3 relative inline-block">
-            {fromPage === "podstaking" ? (
-              <ImageContainer
-                doubleImage={false}
-                imgSrc={imgSrc}
-                name={name}
-              ></ImageContainer>
-            ) : (
-              <ImageContainer imgSrc={imgSrc} name={name} />
-            )}
-          </div>
+          <ImageContainer
+            doubleImage={false}
+            imgSrc={imgSrc}
+            name={name}
+          ></ImageContainer>
           <StakingCardTitle name={name} />
-          <StakingCardSubTitle unitName={unitName} />
+          <StakingCardSubTitle unitName={`${name.toUpperCase()}-POD`} />
         </div>
         <div>
           <Badge>APR: {apr}%</Badge>
@@ -119,14 +115,14 @@ export const StakingCard = ({
         id={id}
         lockingPeriod={lockingPeriod}
         modalTitle={
-          <ModalTitle fromPage={fromPage} imgSrc={imgSrc}>
-            Stake {unitName}
+          <ModalTitle fromPage={"podstaking"} imgSrc={imgSrc}>
+            Stake {`${name.toUpperCase()}-POD`}
           </ModalTitle>
         }
         onClose={onClose}
         isOpen={isOpen}
         onStake={onStake}
-        unitName={unitName}
+        unitName={`${name.toUpperCase()}-POD`}
       />
       <CollectModal
         id={id}
@@ -135,11 +131,11 @@ export const StakingCard = ({
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
         modalTitle={
-          <ModalTitle fromPage={fromPage} imgSrc={imgSrc}>
-            Collect {unitName}
+          <ModalTitle fromPage={"podstaking"} imgSrc={imgSrc}>
+            Collect {`${name.toUpperCase()}-POD`}
           </ModalTitle>
         }
-        unitName={unitName}
+        unitName={`${name.toUpperCase()}-POD`}
       />
     </OutlinedCard>
   );
