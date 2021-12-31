@@ -5,14 +5,11 @@ import { useEffect, useState } from "react";
 import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { Container } from "@/components/UI/atoms/container";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
-import { Label } from "@/components/UI/atoms/label";
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
-import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { RegularButton } from "@/components/UI/atoms/button/regular";
 
 export const CoverForm = () => {
   const router = useRouter();

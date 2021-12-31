@@ -1,5 +1,4 @@
 import { Badge } from "@/components/UI/atoms/badge";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { AmountToStakeModal } from "./amount-to-stake-modal";
 import { useState } from "react";

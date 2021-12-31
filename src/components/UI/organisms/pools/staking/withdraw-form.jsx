@@ -1,7 +1,4 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
-import { Label } from "@/components/UI/atoms/label";
-import { TokenBalance } from "@/components/UI/molecules/token-balance";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { amountFormatter } from "@/utils/formatter";
 import { useState } from "react";
