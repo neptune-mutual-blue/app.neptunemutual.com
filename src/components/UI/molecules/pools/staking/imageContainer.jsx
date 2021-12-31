@@ -16,7 +16,7 @@ export const ImageContainer = ({ doubleImage = false, imgSrc, name }) => {
         />
       </div>
       <div className="absolute -top-1 -right-4 bg-DEEAF6 border border-white rounded-full w-10 h-10 flex justify-center items-center">
-        <img className="w-6" src={imgSrc} alt={name} />
+        <img className="w-3/4" src={imgSrc} alt={name} />
       </div>
     </>
   );

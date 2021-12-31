@@ -9,7 +9,8 @@ import React from "react";
 
 import { HomeCard } from "@/components/UI/molecules/home-card";
 import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
-import { SearchAndSortBar } from "@/components/UI/molecules/pools/search-and-sort";
+import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
+import IncreaseIcon from "@/icons/increase";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -61,10 +62,8 @@ export const HomePage = () => {
                   </h2>
                   <h6 className="text-h6 text-21AD8C font-sora font-bold flex items-center">
                     <span className="pr-1">
-                      <img
-                        src="/home/home-rise-arrow.png"
-                        alt="home-rise-arrow"
-                      />
+                      <span className="sr-only">Growth</span>
+                      <IncreaseIcon width={19} />
                     </span>
                     <span>15.32%</span>
                   </h6>
