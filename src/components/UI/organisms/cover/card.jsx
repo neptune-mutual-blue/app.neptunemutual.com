@@ -1,4 +1,5 @@
 import { Badge } from "@/components/UI/atoms/badge";
+import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { amountFormatter } from "@/utils/formatter";
@@ -34,7 +35,7 @@ export const CoverCard = ({ details, children }) => {
       </div>
 
       {/* Divider */}
-      <hr className="mt-4 mb-8 border-t border-B0C4DB" />
+      <Divider />
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1">

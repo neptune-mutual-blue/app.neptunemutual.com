@@ -12,6 +12,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
 import { TokenBalance } from "@/components/UI/molecules/token-balance";
+import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 
 export const CoverForm = () => {
   const router = useRouter();
@@ -61,25 +62,14 @@ export const CoverForm = () => {
 
   return (
     <div className="max-w-md">
-      <Label className="mb-4" htmlFor="cover-amount">
-        Amount you wish to cover
-      </Label>
-      <InputWithTrailingButton
-        buttonProps={{
-          children: "Max",
-          onClick: handleMaxButtonClick,
-        }}
-        inputProps={{
-          id: "cover-amount",
-          placeholder: "Enter Amount",
-          value: value,
-          type: "text",
-          onChange: handleChange,
-        }}
-        unit={"DAI"}
+      <TokenAmountInput
+        labelText={"Amount you wish to cover"}
+        onInput={handleChange}
+        handleChooseMax={handleMaxButtonClick}
+        tokenSymbol={"DAI"}
+        inputId={"cover-amount"}
+        inputValue={value}
       />
-
-      <TokenBalance value={value} unit={"DAI"} />
       {value !== undefined && parseInt(value) !== NaN && (
         <div className="px-3 flex items-center text-15aac8">
           <p>You will receive: {value} cxDAI</p>

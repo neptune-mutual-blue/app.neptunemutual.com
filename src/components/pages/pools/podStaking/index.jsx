@@ -15,6 +15,7 @@ export const PodStakingPage = () => {
   if (!availablePodStakings) {
     return <>loading...</>;
   }
+
   if (!earningPercent) {
     return <>loading...</>;
   }

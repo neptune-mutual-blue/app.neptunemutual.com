@@ -2,6 +2,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenBalance } from "@/components/UI/molecules/token-balance";
+import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { amountFormatter } from "@/utils/formatter";
 import { useState } from "react";
 
@@ -18,25 +19,15 @@ export const WithdrawForm = ({ onWithdraw, unitName }) => {
   };
 
   return (
-    <div className="px-12">
-      <Label className="font-semibold mb-4 mt-6 uppercase">
-        Amount You wish to withdraw
-      </Label>
-      <InputWithTrailingButton
-        value={amtToWithdraw}
-        buttonProps={{
-          children: "Max",
-          onClick: handleChooseMax,
-        }}
-        inputProps={{
-          id: "withdraw-amount",
-          placeholder: "Enter Amount",
-          value: amtToWithdraw,
-          onChange: handleChange,
-        }}
-        unit={unitName}
+    <div className="px-12 mt-6">
+      <TokenAmountInput
+        inputId={"withdraw-amount"}
+        inputValue={amtToWithdraw}
+        handleChooseMax={handleChooseMax}
+        labelText={"Amount you wish to withdraw"}
+        onInput={handleChange}
+        tokenSymbol={unitName}
       />
-      <TokenBalance value={amtToWithdraw} unit={unitName} />
 
       <RegularButton
         onClick={onWithdraw}

@@ -4,7 +4,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { TokenInput } from "@/components/UI/organisms/token-input";
+import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 
 export const AmountToStakeModal = ({
   id,
@@ -41,11 +41,12 @@ export const AmountToStakeModal = ({
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="mt-6">
-          <TokenInput
+          <TokenAmountInput
             labelText={"Amount You Wish To Stake"}
             tokenSymbol={unitName}
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
+            id={"staked-amount"}
             onInput={handleChange}
           />
         </div>

@@ -2,12 +2,13 @@ import { Label } from "@/components/UI/atoms/label";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { TokenBalance } from "@/components/UI/molecules/token-balance";
 
-export const TokenInput = ({
+export const TokenAmountInput = ({
   address,
   tokenSymbol,
   labelText,
   handleChooseMax,
   inputValue,
+  inputId,
   onInput,
 }) => (
   <>
@@ -20,7 +21,7 @@ export const TokenInput = ({
       }}
       unit={tokenSymbol}
       inputProps={{
-        id: "amount",
+        id: { inputId },
         placeholder: "Enter Amount",
         value: inputValue,
         onChange: onInput,

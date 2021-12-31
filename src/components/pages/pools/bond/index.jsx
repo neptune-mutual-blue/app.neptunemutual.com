@@ -9,7 +9,7 @@ import { useBondInfo } from "@/components/pages/pools/bond/useBondInfo";
 import { useUnlockDate } from "@/components/pages/pools/bond/useUnlockDate";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
-import { TokenInput } from "@/components/UI/organisms/token-input";
+import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 
 const BondPage = () => {
   const [value, setValue] = useState();
@@ -92,11 +92,12 @@ const BondPage = () => {
     <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
       <div className="max-w-lg col-span-2">
         <div className="input-pool">
-          <TokenInput
+          <TokenAmountInput
             tokenSymbol={"NPM-USDC-LP"}
             labelText={"Enter your amount"}
             handleChooseMax={handleChooseMax}
             inputValue={value}
+            id={"bond-amount"}
             onInput={handleChange}
           />
         </div>
