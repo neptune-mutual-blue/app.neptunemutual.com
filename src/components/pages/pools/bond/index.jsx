@@ -1,6 +1,4 @@
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { Label } from "@/components/UI/atoms/label";
-import Link from "next/link";
 import { useState } from "react";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -10,7 +8,7 @@ import { useBondInfo } from "@/components/pages/pools/bond/useBondInfo";
 import { useUnlockDate } from "@/components/pages/pools/bond/useUnlockDate";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
-import { TokenBalance } from "@/components/UI/molecules/token-balance";
+import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 
 const BondPage = () => {
   const [value, setValue] = useState();
@@ -63,7 +61,7 @@ const BondPage = () => {
     setReceiveAmount(willRecieve);
   };
 
-  const handleApprove = (e) => {
+  const handleApprove = () => {
     setShowButton(true);
     setYourBondDisplay(true);
   };
@@ -93,23 +91,14 @@ const BondPage = () => {
     <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
       <div className="max-w-lg col-span-2">
         <div className="input-pool">
-          <Label className="mb-4" htmlFor="bond-amount">
-            Enter your amount
-          </Label>
-          <InputWithTrailingButton
-            buttonProps={{
-              children: "Max",
-              onClick: handleChooseMax,
-            }}
-            inputProps={{
-              id: "bond-amount",
-              placeholder: "Enter Amount",
-              value: value,
-              onChange: handleChange,
-            }}
-            unit={"NPM-USDC LP"}
+          <TokenAmountInput
+            tokenSymbol={"NPM-USDC-LP"}
+            labelText={"Enter your amount"}
+            handleChooseMax={handleChooseMax}
+            inputValue={value}
+            id={"bond-amount"}
+            onInput={handleChange}
           />
-          <TokenBalance value={value} unit={"NPM-USDC LP"} />
         </div>
         <div className="receive mt-16">
           <Label className="mb-4" htmlFor="receive-amount">

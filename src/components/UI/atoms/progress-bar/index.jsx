@@ -1,4 +1,4 @@
-export const ProgressBar = ({ children, value }) => {
+export const ProgressBar = ({ value }) => {
   return (
     <div className="bg-CEEBED w-full rounded-full my-2">
       <div

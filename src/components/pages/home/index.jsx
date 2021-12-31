@@ -9,6 +9,7 @@ import React from "react";
 
 import { HomeCard } from "@/components/UI/molecules/home-card";
 import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
+import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/increase";
 
 export const HomePage = () => {
@@ -80,14 +81,7 @@ export const HomePage = () => {
         <Container>
           <div className="flex justify-between">
             <h1 className="text-h2 font-sora font-bold">Available Covers</h1>
-            <div>
-              <span className="inline-block border border-B0C4DB p-4 mr-4 rounded-lg bg-white">
-                search
-              </span>
-              <span className="inline-block border border-B0C4DB p-4 rounded-lg bg-white">
-                sort
-              </span>
-            </div>
+            <SearchAndSortBar />
           </div>
           <Grid className="mt-14 mb-24">
             {availableCovers.map((c) => {

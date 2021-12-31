@@ -1,6 +1,6 @@
 import { Container } from "@/components/UI/atoms/container";
 
-export const getStaticProps = async (ctx) => {
+export const getStaticProps = async () => {
   return {
     props: {
       noWrappers: true,

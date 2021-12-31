@@ -1,6 +1,4 @@
-import { classNames } from "@/utils/classnames";
-
-export const Radio = ({ children, label, id, ...rest }) => {
+export const Radio = ({ label, id, ...rest }) => {
   return (
     <div className="w-full mr-4 flex items-center">
       <input
