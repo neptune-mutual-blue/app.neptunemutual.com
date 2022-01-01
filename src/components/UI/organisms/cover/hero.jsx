@@ -5,7 +5,7 @@ import { CoverHeroImage } from "@/components/UI/molecules/cover/hero/image";
 import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/title-and-website";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 
-export const CoverHero = ({ coverInfo, imgSrc, title }) => {
+export const CoverHero = ({ coverInfo, imgSrc, title, pageName = "Purchase Policy", hasTotalLiquidity = true }) => {
   return (
     <div
       className="px-8 py-6"
@@ -20,7 +20,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
           <BreadCrumbs
             pages={[
               { name: "Clearpool", current: false },
-              { name: "Purchase Policy", href: "#", current: true },
+              { name: pageName, href: "#", current: true },
             ]}
           />
           <div className="flex">
@@ -33,7 +33,10 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
             </div>
 
             {/* Total Liquidity */}
-            <CoverHeroTotalLiquidity />
+            {hasTotalLiquidity
+              ? (<CoverHeroTotalLiquidity />)
+              : null
+            }
           </div>
         </Container>
       </div>
