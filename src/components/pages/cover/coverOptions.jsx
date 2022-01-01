@@ -14,50 +14,40 @@ export const CoverOptions = () => {
   const title = "Clearpool";
 
   return (
-    <div>
-      <main className="bg-gray-bg">
-        <div
-          className="px-8 py-6 h-screen"
-          style={{
-            backgroundImage: "url(/gradient.png)",
-            backgroundSize: "cover",
-            backgroundPosition: "left",
-          }}
-        >
-          <CoverOptionName imgSrc={imgSrc} title={title} />
-          <Container>
-            <h2 className="text-h2 font-sora font-bold mb-12 text-center">
-              I Want to
-            </h2>
-            <div className="container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24">
-              {Object.keys(coverActions).map((actionKey) => {
-                return (
-                  <Link
-                    key={actionKey}
-                    href={`/cover/${cover_id}/${actionKey}`}
-                  >
-                    <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
-                      <OptionActionCard
-                        title={coverActions[actionKey].title}
-                        description={coverActions[actionKey].description}
-                        imgSrc={`/options/${actionKey}.png`}
-                      />
-                    </a>
-                  </Link>
-                );
-              })}
-            </div>
-            <div className="text-center mt-10">
-              <OutlinedButton
-                className="rounded-big"
-                onClick={() => router.back()}
-              >
-                &#x27F5;&nbsp;Back
-              </OutlinedButton>
-            </div>
-          </Container>
+    <div
+      className="px-8 py-6 h-screen"
+      style={{
+        backgroundImage: "url(/gradient.png)",
+        backgroundSize: "cover",
+        backgroundPosition: "left",
+      }}
+    >
+      <CoverOptionName imgSrc={imgSrc} title={title} />
+      <Container>
+        <h2 className="text-h2 font-sora font-bold mb-12 text-center">
+          I Want to
+        </h2>
+        <div className="container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24">
+          {Object.keys(coverActions).map((actionKey) => {
+            return (
+              <Link key={actionKey} href={`/cover/${cover_id}/${actionKey}`}>
+                <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
+                  <OptionActionCard
+                    title={coverActions[actionKey].title}
+                    description={coverActions[actionKey].description}
+                    imgSrc={`/options/${actionKey}.png`}
+                  />
+                </a>
+              </Link>
+            );
+          })}
         </div>
-      </main>
+        <div className="text-center mt-10">
+          <OutlinedButton className="rounded-big" onClick={() => router.back()}>
+            &#x27F5;&nbsp;Back
+          </OutlinedButton>
+        </div>
+      </Container>
     </div>
   );
 };

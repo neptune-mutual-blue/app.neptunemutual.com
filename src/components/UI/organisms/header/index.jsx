@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Pool", href: "/pools/bond" },
-  { name: "My Policies", href: "/my-policies" },
+  { name: "My Policies", href: "/my-policies/active" },
   { name: "My Liquidity", href: "/my-liquidity" },
   { name: "Reporting", href: "/reporting/active" },
 ];

@@ -1,5 +1,7 @@
+import { Container } from "@/components/UI/atoms/container";
+import { Hero } from "@/components/UI/molecules/Hero";
+import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
-import { ReportingHero } from "@/components/UI/organisms/reporting/hero";
 
 const headers = [
   {
@@ -16,12 +18,16 @@ const headers = [
 
 export const ReportingTabs = ({ active, children }) => {
   return (
-    <main>
-      <ReportingHero>
+    <>
+      <Hero>
+        <Container className="px-2 py-20">
+          <HeroTitle>Reporting</HeroTitle>
+        </Container>
+
         <TabNav headers={headers} activeTab={active} />
-      </ReportingHero>
+      </Hero>
 
       {children}
-    </main>
+    </>
   );
 };
