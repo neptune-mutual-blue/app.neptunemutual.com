@@ -5,11 +5,11 @@ import { useRouter } from "next/router";
 import { CoverAddLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/add-liquidity/details"
 
 export const CoverAddLiquidityDetailsPage = () => {
-  const router = useRouter();
-  const { cover_id } = router.query;
+  const { query, push } = useRouter();
+  const { cover_id } = query;
 
   const handleAcceptRules = () => {
-    router.push(`/cover/${cover_id}/add-liquidity/checkout`);
+    push(`/cover/${cover_id}/add-liquidity/checkout`);
   };
 
   const { coverInfo } = useCoverInfo();
@@ -17,9 +17,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   if (!coverInfo) {
     return <>loading...</>;
   }
-
-  const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
 
   return (
     <div>
