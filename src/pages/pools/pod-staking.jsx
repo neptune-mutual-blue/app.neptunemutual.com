@@ -3,7 +3,7 @@ import Head from "next/head";
 import { PoolsPage } from "@/components/pages/pools";
 import { PodStakingPage } from "@/components/pages/pools/podStaking";
 
-export default function Pools() {
+export default function PodStaking() {
   return (
     <div>
       <Head>

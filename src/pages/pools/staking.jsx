@@ -3,7 +3,7 @@ import Head from "next/head";
 import { PoolsPage } from "@/components/pages/pools";
 import { StakingPage } from "@/components/pages/pools/staking";
 
-export default function Pools() {
+export default function Staking() {
   return (
     <div>
       <Head>

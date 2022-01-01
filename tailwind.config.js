@@ -52,6 +52,9 @@ module.exports = {
         /* 72px */
         18: "4.5rem",
       },
+      maxWidth: {
+        180: "180px",
+      },
       colors: {
         "999BAB": "#999BAB",
         "728FB2": "#728FB2",
