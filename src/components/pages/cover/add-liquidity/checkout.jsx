@@ -9,9 +9,6 @@ export const CoverAddLiquidityCheckoutPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
-
   return (
     <div>
       <DetailsPage>

@@ -1,12 +1,7 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-
-import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import { Radio } from "@/components/UI/atoms/radio";
-import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label"
@@ -15,8 +10,6 @@ export const CoverFormAddLiquidity = () => {
   const router = useRouter();
 
   const [value, setValue] = useState();
-  const [coverMonth, setCoverMonth] = useState();
-
   const { fees, maxValue } = useConstants();
 
   const handleChange = (e) => {

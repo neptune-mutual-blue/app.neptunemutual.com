@@ -1,5 +1,4 @@
 import { Container } from "@/components/UI/atoms/container";
-import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { useRouter } from "next/router";
@@ -8,7 +7,6 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
   const router = useRouter();
-  const { cover_id } = router.query;
 
   const { coverInfo } = useCoverInfo();
 

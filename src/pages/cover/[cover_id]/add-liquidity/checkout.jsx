@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { CoverAddLiquidityCheckoutPage } from "@/components/pages/cover/add-liquidity/checkout";
 
-export default function CoverPurchaseCheckout() {
+export default function CoverAddLiquidityCheckout() {
   return (
     <>
       <Head>
