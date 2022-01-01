@@ -1,9 +1,6 @@
-import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverFormAddLiquidity } from "@/components/UI/organisms/cover-form/add-liquidity";
-import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
-import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
+import { CoverAddLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/add-liquidity/details"
 
 export const CoverAddLiquidityCheckoutPage = () => {
   const { coverInfo } = useCoverInfo();
@@ -17,55 +14,11 @@ export const CoverAddLiquidityCheckoutPage = () => {
 
   return (
     <div>
-      <main className="bg-F1F3F6">
-        {/* hero */}
-        <CoverHero
-          coverInfo={coverInfo}
-          title={title}
-          imgSrc={imgSrc}
-          pageName="Provide Liquidity"
-          hasTotalLiquidity={false}
-        />
-
-        {/* Content */}
-        <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-          <Container className="grid gap-32 grid-cols-3">
-            <div className="col-span-2">
-              {/* Description */}
-              <p>{coverInfo.about}</p>
-
-              {/* Read more */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-40 hover:underline mt-4"
-              >
-                See More
-              </a>
-
-              <br className="mt-20" />
-
-              <div className="mt-12">
-                <CoverFormAddLiquidity />
-              </div>
-            </div>
-
-            <CoverPurchaseResolutionSources>
-              <div className="flex justify-between pb-2">
-                <span className="">Total Liquidity:</span>
-                <strong className="text-right font-bold">$ 2.5M</strong>
-              </div>
-              <div className="flex justify-between">
-                <span className="">Reassurance:</span>
-                <strong className="text-right font-bold">$ 750k</strong>
-              </div>
-            </CoverPurchaseResolutionSources>
-          </Container>
+      <DetailsPage>
+        <div className="mt-12">
+          <CoverFormAddLiquidity />
         </div>
-
-        <CoverActionsFooter activeKey="add-liquidity" />
-      </main>
+      </DetailsPage>
     </div>
   );
 };
