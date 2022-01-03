@@ -6,7 +6,7 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 
-export const CoverHero = ({ coverInfo, imgSrc, title }) => {
+export const CoverHero = ({ coverInfo, imgSrc, title, hasTotalLiquidity, pageName = "Purchase Policy" }) => {
   return (
     <Hero>
       <Container className="px-2 py-20">
@@ -14,7 +14,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
           pages={[
             { name: "Home", href: "/", current: false },
             { name: "Clearpool", current: false },
-            { name: "Purchase Policy", href: "#", current: true },
+            { name: pageName, href: "#", current: true },
           ]}
         />
         <div className="flex">
@@ -27,9 +27,12 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
           </div>
 
           {/* Total Liquidity */}
-          <HeroStat title="Total Liquidity">
-            <>5,234,759.00 DAI</>
-          </HeroStat>
+          {hasTotalLiquidity
+            ? (
+              <HeroStat title="Total Liquidity">
+                <>5,234,759.00 DAI</>
+              </HeroStat>
+            ): null}
         </div>
       </Container>
     </Hero>
