@@ -36,9 +36,14 @@ export default function MyPoliciesTxs() {
         </Container>
 
         <hr className="border-b border-B0C4DB" />
-
-        <TableComponent />
       </Hero>
+
+      <div className="mr-10">
+        <p className="text-9B9B9B text-sm flex justify-end w-full mt-14 mb-8">
+          LAST SYNCED: <span className="pl-1 text-4E7DD9">#265489098</span>
+        </p>
+      </div>
+      <TableComponent />
     </main>
   );
 }
