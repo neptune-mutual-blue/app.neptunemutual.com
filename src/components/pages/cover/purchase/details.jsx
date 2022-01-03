@@ -24,63 +24,61 @@ export const CoverPurchaseDetailsPage = () => {
   const title = coverInfo.coverName;
 
   return (
-    <div>
-      <main className="bg-F1F3F6">
-        {/* hero */}
-        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+    <main>
+      {/* hero */}
+      <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
-        {/* Content */}
-        <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-          <Container className="grid gap-32 grid-cols-3">
-            <div className="col-span-2">
-              {/* Description */}
-              <p>{coverInfo.about}</p>
+      {/* Content */}
+      <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+        <Container className="grid gap-32 grid-cols-3">
+          <div className="col-span-2">
+            {/* Description */}
+            <p>{coverInfo.about}</p>
 
-              {/* Read more */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-40 hover:underline mt-4"
-              >
-                See More
-              </a>
+            {/* Read more */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="opacity-40 hover:underline mt-4"
+            >
+              See More
+            </a>
 
-              {/* Rules */}
-              <div>
-                <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
-                  Cover Rules
-                </h4>
-                <p className="mb-4">
-                  Carefully read the following terms and conditions. For a
-                  successful claim payout, all of the following points must be
-                  true.
-                </p>
-                <ol className="list-decimal pl-5">
-                  {coverInfo.rules.split("\n").map((x, i) => (
-                    <li key={i}>
-                      {x
-                        .trim()
-                        .replace(/^\d+\./g, "")
-                        .trim()}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-
-              <br className="mt-20" />
-
-              <AcceptRulesForm onAccept={handleAcceptRules}>
-                I have read, understood, and agree to the terms of cover rules
-              </AcceptRulesForm>
+            {/* Rules */}
+            <div>
+              <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
+                Cover Rules
+              </h4>
+              <p className="mb-4">
+                Carefully read the following terms and conditions. For a
+                successful claim payout, all of the following points must be
+                true.
+              </p>
+              <ol className="list-decimal pl-5">
+                {coverInfo.rules.split("\n").map((x, i) => (
+                  <li key={i}>
+                    {x
+                      .trim()
+                      .replace(/^\d+\./g, "")
+                      .trim()}
+                  </li>
+                ))}
+              </ol>
             </div>
 
-            <CoverPurchaseResolutionSources />
-          </Container>
-        </div>
+            <br className="mt-20" />
 
-        <CoverActionsFooter activeKey="purchase" />
-      </main>
-    </div>
+            <AcceptRulesForm onAccept={handleAcceptRules}>
+              I have read, understood, and agree to the terms of cover rules
+            </AcceptRulesForm>
+          </div>
+
+          <CoverPurchaseResolutionSources />
+        </Container>
+      </div>
+
+      <CoverActionsFooter activeKey="purchase" />
+    </main>
   );
 };

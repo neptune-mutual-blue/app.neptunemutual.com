@@ -16,7 +16,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className="font-poppins text-black text-para">
+        <body className="font-poppins text-black text-para bg-F1F3F6">
           <Main />
           <NextScript />
         </body>

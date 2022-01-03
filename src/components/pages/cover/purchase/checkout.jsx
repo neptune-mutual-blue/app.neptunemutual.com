@@ -16,41 +16,39 @@ export const CoverPurchaseCheckoutPage = () => {
   const title = coverInfo.coverName;
 
   return (
-    <div>
-      <main className="bg-F1F3F6">
-        {/* hero */}
-        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+    <main>
+      {/* hero */}
+      <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
-        {/* Content */}
-        <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-          <Container className="grid gap-32 grid-cols-3">
-            <div className="col-span-2">
-              {/* Description */}
-              <p>{coverInfo.about}</p>
+      {/* Content */}
+      <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+        <Container className="grid gap-32 grid-cols-3">
+          <div className="col-span-2">
+            {/* Description */}
+            <p>{coverInfo.about}</p>
 
-              {/* Read more */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-40 hover:underline mt-4"
-              >
-                See More
-              </a>
+            {/* Read more */}
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="opacity-40 hover:underline mt-4"
+            >
+              See More
+            </a>
 
-              <br className="mt-20" />
+            <br className="mt-20" />
 
-              <div className="mt-12">
-                <CoverForm />
-              </div>
+            <div className="mt-12">
+              <CoverForm />
             </div>
+          </div>
 
-            <CoverPurchaseResolutionSources />
-          </Container>
-        </div>
+          <CoverPurchaseResolutionSources />
+        </Container>
+      </div>
 
-        <CoverActionsFooter activeKey="purchase" />
-      </main>
-    </div>
+      <CoverActionsFooter activeKey="purchase" />
+    </main>
   );
 };
