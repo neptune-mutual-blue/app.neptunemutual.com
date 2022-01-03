@@ -58,8 +58,8 @@ export const TBody = ({ columns, data }) => {
       {data.map((row, idx) => {
         return (
           <tr key={idx}>
-            {columns.map((col, idx) => {
-              return <Fragment key={idx}>{col.renderData(row)}</Fragment>;
+            {columns.map((col, _idx) => {
+              return <Fragment key={_idx}>{col.renderData(row)}</Fragment>;
             })}
           </tr>
         );

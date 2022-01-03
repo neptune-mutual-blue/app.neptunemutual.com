@@ -10,7 +10,6 @@ import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/open-in-new";
 import { getPolicyTxs } from "@/src/_mocks/policy/transaction";
 import { classNames } from "@/utils/classnames";
-import { Fragment } from "react";
 
 const renderHeader = (col) => (
   <th
