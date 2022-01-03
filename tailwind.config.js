@@ -26,7 +26,14 @@ module.exports = {
           lineHeight: "24px",
         },
       ],
-      sm: ["14px", "16px"],
+      sm: [
+        "14px",
+        {
+          letterSpacing: "0.05em",
+          lineHeight: "24px",
+        },
+      ],
+      xs: ["12px", "14px"],
       para: ["16px", "28px"],
       body: ["16px", "32px"],
       cta: [
@@ -78,7 +85,7 @@ module.exports = {
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
         AABDCB: "#AABDCB",
-        404040: '#404040'
+        404040: "#404040",
       },
     },
   },

@@ -3,7 +3,6 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { TableComponent } from "@/components/UI/test/table";
 
 export default function MyPoliciesTxs() {
@@ -20,30 +19,23 @@ export default function MyPoliciesTxs() {
           <BreadCrumbs
             pages={[
               { name: "My Policies", href: "/my-policies", current: false },
-              { name: "Clearpool", href: "#", current: false },
-              { name: "Claim", href: "#", current: true },
+              { name: "Transaction List", href: "#", current: true },
             ]}
           />
 
-          <div className="flex items-start">
-            <HeroTitle>My Policies</HeroTitle>
-
-            {/* My Active Protection */}
-            <HeroStat title="My Active Protection">
-              <>$ 150,000.00</>
-            </HeroStat>
-          </div>
+          <HeroTitle>Transaction List</HeroTitle>
         </Container>
 
         <hr className="border-b border-B0C4DB" />
       </Hero>
 
-      <div className="mr-10">
-        <p className="text-9B9B9B text-sm flex justify-end w-full mt-14 mb-8">
+      <Container>
+        <p className="text-9B9B9B text-xs text-right font-semibold mt-14 mb-8">
           LAST SYNCED: <span className="pl-1 text-4E7DD9">#265489098</span>
         </p>
-      </div>
-      <TableComponent />
+
+        <TableComponent />
+      </Container>
     </main>
   );
 }
