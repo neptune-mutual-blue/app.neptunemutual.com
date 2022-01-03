@@ -1,4 +1,4 @@
-export const transactionData = [
+export const getPolicyTxs = () => [
   {
     timestamp: "few seconds ago",
     coverImgSrc: "/_mocks/icons/okex.png",
@@ -29,6 +29,7 @@ export const transactionData = [
     info: "Purschased $250.000.45 Coinbase Policy",
     amountRecieved: "26,764.55",
     unit: "cxDAI",
+    failed: false,
   },
   {
     timestamp: "a day ago",
@@ -36,6 +37,7 @@ export const transactionData = [
     info: "Purchased $299,999.8 Huobi Polciy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",
+    failed: false,
   },
   {
     timestamp: "a day ago",
@@ -43,6 +45,7 @@ export const transactionData = [
     info: "Purchased $299,999.8 Axie Infinity Policy",
     amountRecieved: "46,849.77",
     unit: "cxDAI",
+    failed: true,
   },
   {
     timestamp: "3 days ago",
@@ -50,8 +53,7 @@ export const transactionData = [
     info: "Purchased $299,999.8 Hex Trust Policy",
     amountRecieved: "969,756.77",
     unit: "cxDAI",
-    plusIcon: true,
-    red: true,
+    failed: false,
   },
   {
     timestamp: "3 days ago",
@@ -59,6 +61,7 @@ export const transactionData = [
     info: "Claimed $299,999.8 Huobi Policy",
     amountRecieved: "46,849.77",
     unit: "cxDAI",
+    failed: false,
   },
   {
     timestamp: "3 days ago",
@@ -66,6 +69,7 @@ export const transactionData = [
     info: "Purchased $299,999.8 Coinbase Policy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",
+    failed: true,
   },
   {
     timestamp: "3 days ago",
@@ -73,5 +77,6 @@ export const transactionData = [
     info: "Purchased $299,999.8 OKEX Policy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",
+    failed: false,
   },
 ];
