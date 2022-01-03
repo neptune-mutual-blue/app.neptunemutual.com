@@ -50,7 +50,7 @@ const renderAmount = (row) => (
   </td>
 );
 
-const renderActions = (row) => (
+const renderActions = (_row) => (
   <td className="px-6 py-6" style={{ minWidth: "120px" }}>
     <div className="flex items-center justify-end">
       <a href="#" className="p-1 mr-4 text-9B9B9B">
