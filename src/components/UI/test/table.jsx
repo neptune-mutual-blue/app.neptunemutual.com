@@ -13,6 +13,7 @@ const tableData = [
   {
     when: "few seconds ago",
     details: {
+      showIcon: true,
       icon: <CoinbaseIcon />,
       info: "Purschased $250.000.45 Coinbase Policy",
     },
@@ -31,11 +32,12 @@ const tableData = [
   {
     when: "4 Minutes ago",
     details: {
+      showIcon: true,
       icon: <OkexIcon />,
       info: "Purchased $3,256,350 OKEX Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "2,154,355.34",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -49,11 +51,12 @@ const tableData = [
   {
     when: "30 Minutes ago",
     details: {
+      showIcon: true,
       icon: <ClearpoolIcon />,
       info: "Claimed $33,418.33 Clearpool Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "50,754.12",
       unit: "cxDAI",
       plusIcon: true,
       red: true,
@@ -67,11 +70,12 @@ const tableData = [
   {
     when: "13 hours ago",
     details: {
+      showIcon: true,
       icon: <CoinbaseIcon />,
       info: "Purschased $250.000.45 Coinbase Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "26,764.55",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -85,11 +89,12 @@ const tableData = [
   {
     when: "a day ago",
     details: {
+      showIcon: true,
       icon: <HuobiIcon />,
       info: "Purchased $299,999.8 Huobi Polciy",
     },
     amount: {
-      total: "189,595.93",
+      total: "178,756.71",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -103,11 +108,12 @@ const tableData = [
   {
     when: "a day ago",
     details: {
+      showIcon: true,
       icon: <AxieInfinityIcon />,
       info: "Purchased $299,999.8 Axie Infinity Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "46,849.77",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -121,11 +127,12 @@ const tableData = [
   {
     when: "3 days ago",
     details: {
+      showIcon: true,
       icon: <HexTrustIcon />,
       info: "Purchased $299,999.8 Hex Trust Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "969,756.77",
       unit: "cxDAI",
       plusIcon: true,
       red: true,
@@ -139,11 +146,12 @@ const tableData = [
   {
     when: "3 days ago",
     details: {
+      showIcon: true,
       icon: <HuobiIcon />,
       info: "Claimed $299,999.8 Huobi Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "46,849.77",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -157,11 +165,12 @@ const tableData = [
   {
     when: "3 days ago",
     details: {
+      showIcon: true,
       icon: <CoinbaseIcon />,
       info: "Purchased $299,999.8 Coinbase Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "178,756.71",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
@@ -175,11 +184,12 @@ const tableData = [
   {
     when: "3 days ago",
     details: {
+      showIcon: true,
       icon: <OkexIcon />,
       info: "Purchased $299,999.8 OKEX Policy",
     },
     amount: {
-      total: "189,595.93",
+      total: "178,756.71",
       unit: "cxDAI",
       plusIcon: true,
       red: false,
