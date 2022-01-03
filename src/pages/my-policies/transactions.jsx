@@ -4,6 +4,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
+import { TableComponent } from "@/components/UI/test/table";
 
 export default function MyPoliciesTxs() {
   return (
@@ -35,6 +36,8 @@ export default function MyPoliciesTxs() {
         </Container>
 
         <hr className="border-b border-B0C4DB" />
+
+        <TableComponent />
       </Hero>
     </main>
   );
