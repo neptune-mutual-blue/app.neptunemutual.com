@@ -1,6 +1,6 @@
 import { Container } from "@/components/UI/atoms/container";
 
-export default function PageNotAvailable() {
+export default function PageNotFound() {
   return (
     <>
       <Container className="py-28">

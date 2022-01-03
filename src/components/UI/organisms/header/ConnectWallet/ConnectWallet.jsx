@@ -52,7 +52,7 @@ export default function ConnectWallet() {
     <div className="inline-flex items-center bg-white text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
       <ChainLogo width={24} height={24} />{" "}
       <p className="inline-block ml-2">
-        {NetworkNames[networkId] || "Missing"}
+        {NetworkNames[networkId] || "Network"}
       </p>
     </div>
   );
