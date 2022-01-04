@@ -3,7 +3,7 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
 
-export const ResolvedCard = ({ details }) => {
+export const ResolvedReportingCard = ({ details }) => {
   const { name, imgSrc, resolvedOn, status, statusText } = details;
   return (
     <OutlinedCard className="bg-white p-6" type="link">
@@ -20,7 +20,7 @@ export const ResolvedCard = ({ details }) => {
           <Badge
             className={classNames(
               "capitalize",
-              !status ? "border-FA5C2F text-FA5C2F" : ""
+              !status && "border-FA5C2F text-FA5C2F"
             )}
           >
             {statusText}

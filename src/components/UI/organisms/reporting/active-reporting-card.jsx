@@ -3,7 +3,7 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { ProgressBar } from "@/components//UI/atoms/progress-bar";
 import { amountFormatter } from "@/utils/formatter";
 
-export const ReportingCard = ({ details }) => {
+export const ActiveReportingCard = ({ details }) => {
   const { name, imgSrc, coverFees, utilizationRatio, protection, reportedOn } =
     details;
   return (
