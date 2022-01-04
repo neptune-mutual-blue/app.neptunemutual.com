@@ -24,7 +24,7 @@ export const ReportingActivePage = () => {
       <Grid className="mt-14 mb-24">
         {activeReportings.map((activeReporting) => (
           <Link
-            href={`/reporting/${activeReporting.key}`}
+            href={`/reporting/${activeReporting.key}/vote`}
             key={activeReporting.name}
           >
             <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">

@@ -18,7 +18,7 @@ export const ReportingResolvedPage = () => {
       </div>
       <Grid className="mt-14 mb-24">
         {resolvedReportings.map((resolved) => (
-          <Link href={`/reporting/${resolved.key}`} key={resolved.name}>
+          <Link href={`/reporting/${resolved.key}/vote`} key={resolved.name}>
             <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
               <ResolvedReportingCard key={resolved.id} details={resolved} />
             </a>
