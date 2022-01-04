@@ -1,6 +1,5 @@
 import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
-import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { BondsCard } from "@/components/UI/organisms/pools/card";
@@ -9,6 +8,7 @@ import { useUnlockDate } from "@/components/pages/pools/bond/useUnlockDate";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 
 const BondPage = () => {
   const [value, setValue] = useState();
@@ -101,11 +101,13 @@ const BondPage = () => {
           />
         </div>
         <div className="receive mt-16">
-          <Label className="mb-4" htmlFor="receive-amount">
-            You will receive
-          </Label>
+          <ReceiveAmountInput
+            labelText="You Will Receive"
+            tokenSymbol="NPM"
+            inputValue={receiveAmount}
+            inputId="bond-liquidity-receive"
+          />
 
-          <DisabledInput value={receiveAmount} unit={"NPM"} />
         </div>
 
         <div className="unlock mt-16">

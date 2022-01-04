@@ -12,15 +12,20 @@ export const CoverFormMyLiquidity = () => {
   const router = useRouter();
 
   const [value, setValue] = useState();
+  const [receiveAmount, setReceiveAmount] = useState();
   const { fees, maxValue } = useConstants();
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleMaxButtonClick = () => {
+  
+  const handleChooseMax = () => {
     setValue(maxValue);
+    setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
+
+   const handleChange = (e) => {
+    const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
+    setValue(e.target.value);
+    setReceiveAmount(willRecieve);
+  };
+
 
   if (!fees && !maxValue) {
     return <>loading...</>;
@@ -32,7 +37,7 @@ export const CoverFormMyLiquidity = () => {
         <TokenAmountInput
           labelText={"Amount you wish to cover"}
           onInput={handleChange}
-          handleChooseMax={handleMaxButtonClick}
+          handleChooseMax={handleChooseMax}
           tokenSymbol={"DAI"}
           inputId={"cover-amount"}
           inputValue={value}
@@ -42,8 +47,8 @@ export const CoverFormMyLiquidity = () => {
       <div className="pb-16">
         <ReceiveAmountInput
           labelText="You Will Receive"
-          tokenSymbol="POD"
-          inputValue=""
+          tokenSymbol="DAI"
+          inputValue={receiveAmount}
           inputId="my-liquidity-receive"
         />
       </div>

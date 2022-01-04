@@ -34,7 +34,7 @@ export const CoverCard = ({ details }) => {
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1">
-        <span className="uppercase">utilization Ratio</span>
+        <span className="uppercase">Reassurance Ratio</span>
         <span className="font-semibold text-right">{utilizationRatio}%</span>
       </div>
       <div className="mt-2 mb-4">

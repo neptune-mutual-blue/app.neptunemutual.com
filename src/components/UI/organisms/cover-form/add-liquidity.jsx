@@ -4,20 +4,25 @@ import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Label } from "@/components/UI/atoms/label"
+import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
+import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 
 export const CoverFormAddLiquidity = () => {
   const router = useRouter();
 
   const [value, setValue] = useState();
+  const [receiveAmount, setReceiveAmount] = useState();
   const { fees, maxValue } = useConstants();
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChooseMax = () => {
+    setValue(maxValue);
+    setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-  const handleMaxButtonClick = () => {
-    setValue(maxValue);
+   const handleChange = (e) => {
+    const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
+    setValue(e.target.value);
+    setReceiveAmount(willRecieve);
   };
 
   if (!fees && !maxValue) {
@@ -30,7 +35,7 @@ export const CoverFormAddLiquidity = () => {
         <TokenAmountInput
           labelText={"Amount you wish to cover"}
           onInput={handleChange}
-          handleChooseMax={handleMaxButtonClick}
+          handleChooseMax={handleChooseMax}
           tokenSymbol={"DAI"}
           inputId={"cover-amount"}
           inputValue={value}
@@ -38,24 +43,16 @@ export const CoverFormAddLiquidity = () => {
       </div>
 
       <div className="pb-16">
-        <Label className="font-semibold mb-4 uppercase">You Will Receive</Label>
-        <div className="flex rounded-lg shadow-sm text-black text-h4 relative">
-          <div className="flex items-stretch flex-grow focus-within:z-10">
-            <input
-              className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-transparent block w-full rounded-lg py-6 pl-6 border border-B0C4DB"
-            />
-          </div>
-          <div className="absolute right-0 h-full flex items-center pr-6 text-9B9B9B ">
-            POD
-          </div>
-        </div>
+        <ReceiveAmountInput
+          labelText="You Will Receive"
+          tokenSymbol="DAI"
+          inputValue={receiveAmount}
+          inputId="add-liquidity-receive"
+        />
       </div>
 
-      <div >
-        <Label className="font-semibold mb-1 uppercase">Unlock Date</Label>
-        <div>
-          <span className="text-7398C0">September 22, 2021 12:34:00 PM UTC</span>
-        </div>
+      <div>
+        <UnlockDate dateValue="September 22, 2021 12:34:00 PM UTC" />
       </div>
 
       <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">

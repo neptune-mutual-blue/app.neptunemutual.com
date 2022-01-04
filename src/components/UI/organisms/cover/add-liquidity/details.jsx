@@ -1,6 +1,6 @@
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { CoverHero } from "@/components/UI/organisms/cover/hero";
+import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
@@ -25,8 +25,6 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
           coverInfo={coverInfo}
           title={title}
           imgSrc={imgSrc}
-          pageName="Provide Liquidity"
-          hasTotalLiquidity={false}
         />
 
         {/* Content */}
