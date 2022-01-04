@@ -1,3 +1,4 @@
+import ConnectWallet from "@/components/UI/organisms/header/ConnectWallet/ConnectWallet";
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -40,17 +41,8 @@ export const Header = () => {
               })}
             </div>
           </div>
-          <div className="ml-10 space-x-4 py-5 flex border-l border-728FB2 sm:pl-6 lg:pl-8">
-            <div className="inline-flex items-center bg-white text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
-              <span className="inline-block ml-2">Ethereum</span>
-            </div>
-            <a
-              href="#"
-              className="inline-block bg-4E7DD9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
-            >
-              Connect Wallet
-            </a>
-          </div>
+
+          <ConnectWallet />
         </div>
         <div className="flex flex-wrap justify-center space-x-6 lg:hidden">
           {navigation.map((link) => {

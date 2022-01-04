@@ -6,7 +6,7 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { CoverCard } from "@/components/UI/organisms/cover/card";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 
-export const PoliciesExpiredPage = ({}) => {
+export const PoliciesExpiredPage = () => {
   const { availableCovers } = useAvailableCovers();
 
   if (!availableCovers) {
