@@ -1,4 +1,6 @@
+import { Alert } from "@/components/UI/atoms/alert";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
+import { Container } from "@/components/UI/atoms/container";
 import Head from "next/head";
 
 export default function Components() {
@@ -17,6 +19,21 @@ export default function Components() {
           <br />
           <button type="submit">submit</button>
         </form>
+
+        <br />
+        <br />
+        <br />
+
+        <Container>
+          <Alert>
+            <p>
+              If you just came to know about a recent incident of Uniswap
+              Exchange, carefully read the cover rules above. You can earn 20%
+              of the minority fees if you are the first person to report this
+              incident.
+            </p>
+          </Alert>
+        </Container>
       </div>
     </main>
   );
