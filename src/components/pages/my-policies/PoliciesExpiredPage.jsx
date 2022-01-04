@@ -25,11 +25,12 @@ export const PoliciesExpiredPage = () => {
       <Grid className="mt-14 mb-24">
         {expiredPolicy.map((c) => {
           return (
-            <Link href={`/cover/${c.key}`} key={c.name}>
-              <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
-                <PolicyCard details={c}></PolicyCard>
-              </a>
-            </Link>
+            <div
+              key={c.name}
+              className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none"
+            >
+              <PolicyCard details={c}></PolicyCard>
+            </div>
           );
         })}
       </Grid>
