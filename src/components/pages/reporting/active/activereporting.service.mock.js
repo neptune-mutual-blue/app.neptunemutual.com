@@ -15,5 +15,5 @@ export const showOrHideActiveReporting = () => {
   //didnt return bollean false when 0 so returned string false
   if (Math.floor(randomNumber * 10) % 2 === 0) {
     return "false";
-  } else return true;
+  } else return "true";
 };

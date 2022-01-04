@@ -1,7 +1,5 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { ProgressBar } from "@/components//UI/atoms/progress-bar";
-import { amountFormatter } from "@/utils/formatter";
 import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
 

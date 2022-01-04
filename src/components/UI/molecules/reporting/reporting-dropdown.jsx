@@ -39,12 +39,12 @@ export const ReportingDropdown = ({
                 }
                 value={option}
               >
-                {({ selected, active }) => (
+                {({ _selected, active }) => (
                   <>
                     <span
                       className={classNames(
                         `truncate px-4 py-2 flex items-center`,
-                        selected ? "font-medium" : "font-normal",
+                        _selected ? "font-medium" : "font-normal",
                         active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                       )}
                     >

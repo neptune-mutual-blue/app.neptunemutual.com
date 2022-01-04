@@ -1,6 +1,4 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Container } from "@/components/UI/atoms/container";
-import { DropdownButton } from "@/components/UI/molecules/dropdown-button";
 import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
 import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting-dropdown";
