@@ -25,7 +25,7 @@ export const PoliciesActivePage = () => {
       <Grid className="mt-14 mb-24">
         {activePolicy.map((c) => {
           return (
-            <Link href={`/cover/${c.key}`} key={c.name}>
+            <Link href={`/my-policies/claim`} key={c.name}>
               <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
                 <PolicyCard details={c}></PolicyCard>
               </a>
