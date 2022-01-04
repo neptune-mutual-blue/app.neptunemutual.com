@@ -3,13 +3,13 @@ import Link from "next/link";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
-import { CoverCard } from "@/components/UI/organisms/cover/card";
-import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
+import { PolicyCard } from "@/components/UI/organisms/policy/card";
+import { usePolicies } from "@/components/pages/my-policies/usePolicies";
 
 export const PoliciesExpiredPage = () => {
-  const { availableCovers } = useAvailableCovers();
+  const { expiredPolicy } = usePolicies();
 
-  if (!availableCovers) {
+  if (!expiredPolicy) {
     return <>loading...</>;
   }
 
@@ -23,11 +23,11 @@ export const PoliciesExpiredPage = () => {
         </Link>
       </div>
       <Grid className="mt-14 mb-24">
-        {availableCovers.map((c) => {
+        {expiredPolicy.map((c) => {
           return (
             <Link href={`/cover/${c.key}`} key={c.name}>
               <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
-                <CoverCard details={c}></CoverCard>
+                <PolicyCard details={c}></PolicyCard>
               </a>
             </Link>
           );
