@@ -10,7 +10,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 80,
       protection: 800000,
-      reportedOn: "01 / 03 / 2022",
+      reportedOn: "01/03/2022",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
     },
     {
@@ -23,7 +23,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 65,
       protection: 800000,
-      reportedOn: "12 / 12 / 2021",
+      reportedOn: "12/12/2021",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
     },
     {
@@ -36,7 +36,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 40,
       protection: 600000,
-      reportedOn: "12 / 20 / 2021",
+      reportedOn: "12/20/2021",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
     },
     {
@@ -49,7 +49,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 60,
       protection: 1000000,
-      reportedOn: "12 / 28 / 2021",
+      reportedOn: "12/28/2021",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
     },
     {
@@ -62,7 +62,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 10,
       protection: 300000,
-      reportedOn: "11 / 15 / 2021",
+      reportedOn: "11/15/2021",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
     },
     {
@@ -75,7 +75,7 @@ export const getActiveReportedList = () => {
       },
       utilizationRatio: 95,
       protection: 120000,
-      reportedOn: "01 / 02 / 2022",
+      reportedOn: "01/02/2022",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
     },
   ];

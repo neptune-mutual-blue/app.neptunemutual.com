@@ -3,9 +3,10 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { ProgressBar } from "@/components//UI/atoms/progress-bar";
 import { amountFormatter } from "@/utils/formatter";
 import { Badge } from "@/components/UI/atoms/badge";
+import { classNames } from "@/utils/classnames";
 
 export const ResolvedCard = ({ details }) => {
-  const { name, imgSrc, resolvedOn, status } = details;
+  const { name, imgSrc, resolvedOn, status, statusText } = details;
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
@@ -18,8 +19,14 @@ export const ResolvedCard = ({ details }) => {
           </h4>
         </div>
         <div>
-          {/* We are here setting status to true or false may be better option */}
-          <Badge>{status}</Badge>
+          <Badge
+            className={classNames(
+              "capitalize",
+              !status ? "border-FA5C2F text-FA5C2F" : ""
+            )}
+          >
+            {statusText}
+          </Badge>
         </div>
       </div>
 
@@ -27,12 +34,8 @@ export const ResolvedCard = ({ details }) => {
       <Divider />
 
       {/* Stats */}
-      <div className="flex justify-between text-sm px-1">
-        {/*  <span className="">Protection: ${amountFormatter(protection)}</span> */}
-        {/* <span className="text-right">Liquidity: ${liquidity}M</span> */}
-        <span className="text-right">
-          {/* Liquidity: ${amountFormatter(liquidity)} */}
-        </span>
+      <div className="flex justify-between text-sm px-1 mb-4">
+        <span className="">Resolved On: {resolvedOn}</span>
       </div>
     </OutlinedCard>
   );

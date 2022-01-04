@@ -4,7 +4,8 @@ import { ProgressBar } from "@/components//UI/atoms/progress-bar";
 import { amountFormatter } from "@/utils/formatter";
 
 export const ReportingCard = ({ details }) => {
-  const { name, imgSrc, coverFees, utilizationRatio, protection } = details;
+  const { name, imgSrc, coverFees, utilizationRatio, protection, reportedOn } =
+    details;
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
@@ -34,10 +35,7 @@ export const ReportingCard = ({ details }) => {
       </div>
       <div className="flex justify-between text-sm px-1">
         <span className="">Protection: ${amountFormatter(protection)}</span>
-        {/* <span className="text-right">Liquidity: ${liquidity}M</span> */}
-        <span className="text-right">
-          {/* Liquidity: ${amountFormatter(liquidity)} */}
-        </span>
+        <span className="text-right">Reported On: {reportedOn}</span>
       </div>
     </OutlinedCard>
   );
