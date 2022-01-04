@@ -14,7 +14,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title  }) => {
           pages={[
             { name: "Home", href: "/", current: false },
             { name: "Clearpool", current: false },
-            { name: "Purchase Policy", href: "#", current: true },
+            { name: "Provide Liquidity", href: "#", current: true },
           ]}
         />
         <div className="flex">
@@ -27,7 +27,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title  }) => {
           </div>
 
           {/* Total Liquidity */}
-          <HeroStat title="Total Liquidity">
+          <HeroStat title="My Liquidity">
             <>5,234,759.00 DAI</>
           </HeroStat>
         </div>
