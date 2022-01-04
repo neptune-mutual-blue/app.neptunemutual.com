@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { MyLiquidityCheckoutPage } from "@/components/pages/my-liquidity/details"
 
 export default function MyLiquidityCover() {
   return (
@@ -9,7 +10,7 @@ export default function MyLiquidityCover() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>MyLiquidityCover</h1>
+      <MyLiquidityCheckoutPage />
     </main>
   );
 }

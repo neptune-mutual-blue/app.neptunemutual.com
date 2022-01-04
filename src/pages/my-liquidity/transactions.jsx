@@ -21,7 +21,6 @@ export default function MyLiquidityTxs() {
               { name: "Transaction List", href: "#", current: true },
             ]}
           />
-
           <HeroTitle>Transaction List</HeroTitle>
         </Container>
         <hr className="border-b border-B0C4DB" />
