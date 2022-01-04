@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/my-liquidity/hero";
-import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import  { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/modal-form"

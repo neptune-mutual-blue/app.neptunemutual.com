@@ -7,12 +7,10 @@ import { amountFormatter } from "@/utils/formatter";
 export const CoverCard = ({ details }) => {
   const {
     name,
-    coverFees,
     imgSrc,
     apr,
     utilizationRatio,
     protection,
-    liquidity,
   } = details;
 
   return (
