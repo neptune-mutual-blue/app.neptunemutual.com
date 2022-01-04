@@ -6,6 +6,7 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { ActiveReportingCard } from "@/components/UI/organisms/reporting/active-reporting-card";
 import { AddReporting } from "@/components/UI/organisms/reporting/add-reporting";
+import Link from "next/link";
 
 export const ReportingActivePage = () => {
   const { activeReportings } = useActiveReporting();
@@ -22,10 +23,17 @@ export const ReportingActivePage = () => {
       </div>
       <Grid className="mt-14 mb-24">
         {activeReportings.map((activeReporting) => (
-          <ActiveReportingCard
-            key={activeReporting.id}
-            details={activeReporting}
-          />
+          <Link
+            href={`/reporting/${activeReporting.key}`}
+            key={activeReporting.name}
+          >
+            <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
+              <ActiveReportingCard
+                key={activeReporting.id}
+                details={activeReporting}
+              />
+            </a>
+          </Link>
         ))}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>
