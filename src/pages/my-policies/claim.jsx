@@ -4,6 +4,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
+import { MyPoliciesClaimTable } from "@/components/UI/organisms/my-policies/MyPoliciesClaimTable";
 
 export default function MyPoliciesTxs() {
   return (
@@ -36,12 +37,13 @@ export default function MyPoliciesTxs() {
 
         <hr className="border-b border-B0C4DB" />
 
-        <Container className="px-2 pt-12">
+        <Container className="px-2 pt-12 pb-96">
           <HeroTitle>Available cxTokens for Clearpool to Claim</HeroTitle>
-          <p className="text-lg w-full pt-6 lg:w-1/2 ml-0">
+          <p className="text-lg w-full pt-6 pb-16 lg:w-1/2 ml-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
+          <MyPoliciesClaimTable />
         </Container>
       </Hero>
     </main>
