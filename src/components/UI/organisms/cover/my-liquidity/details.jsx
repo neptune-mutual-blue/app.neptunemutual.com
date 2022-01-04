@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
-import { useRouter } from "next/router";
-import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
+import { CoverHero } from "@/components/UI/organisms/cover/my-liquidity/hero";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
+import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
+import  { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/modal-form"
+import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 
-export const CoverAddLiquidityDetailsPage = ({ children }) => {
-  const router = useRouter();
+export const MyLiquidityDetailsPage = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
   const { coverInfo } = useCoverInfo();
 
@@ -16,6 +18,14 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
 
   const imgSrc = "/covers/clearpool.png";
   const title = coverInfo.coverName;
+
+  function onClose() {
+    setIsOpen(false);
+  }
+
+  function onOpen() {
+    setIsOpen(true);
+  }
 
   return (
     <div>
@@ -49,19 +59,36 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
 
             <CoverPurchaseResolutionSources>
               <div className="flex justify-between pb-2">
-                <span className="">Total Liquidity::</span>
+                <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">$ 2.5M</strong>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between pb-2">
+                <span className="">My Earningas:</span>
+                <strong className="text-right font-bold">$ 750k</strong>
+              </div>
+              <div className="flex justify-between pb-8">
                 <span className="">Reassurance:</span>
                 <strong className="text-right font-bold">$ 750k</strong>
+              </div>
+
+              <div className="flex justify-center px-7">
+                <OutlinedButton className="rounded-big w-full" onClick={() => onOpen()}>
+                  Withdraw Liquidity
+                </OutlinedButton>
               </div>
             </CoverPurchaseResolutionSources>
           </Container>
         </div>
 
-        <CoverActionsFooter activeKey="add-liquidity" />
       </main>
+
+      <WithdrawLiquidityModal
+        id={"1234"}
+        modalTitle={<ModalTitle imgSrc={imgSrc}>Withdraw Liquidity</ModalTitle>}
+        onClose={onClose}
+        isOpen={isOpen}
+        unitName={" POD"}
+      />
     </div>
   );
 };

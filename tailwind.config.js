@@ -27,6 +27,13 @@ module.exports = {
         },
       ],
       sm: ["14px", "16px"],
+      xs: [
+        "12px",
+        {
+          letterSpacing: "0.05em",
+          lineHeight: "24px",
+        },
+      ],
       para: ["16px", "28px"],
       body: ["16px", "32px"],
       cta: [
@@ -78,6 +85,8 @@ module.exports = {
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
         AABDCB: "#AABDCB",
+        CDD6E3: "#CDD6E3",
+        404040: "#404040",
       },
     },
   },

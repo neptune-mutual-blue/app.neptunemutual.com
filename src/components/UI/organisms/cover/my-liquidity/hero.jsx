@@ -12,9 +12,8 @@ export const CoverHero = ({ coverInfo, imgSrc, title  }) => {
       <Container className="px-2 py-20">
         <BreadCrumbs
           pages={[
-            { name: "Home", href: "/", current: false },
-            { name: "Clearpool", current: false },
-            { name: "Purchase Policy", href: "#", current: true },
+            { name: "My Liquidity", href: "/my-liquidity", current: false },
+            { name: "Clearpool", href: "#", current: true },
           ]}
         />
         <div className="flex">
@@ -27,7 +26,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title  }) => {
           </div>
 
           {/* Total Liquidity */}
-          <HeroStat title="Total Liquidity">
+          <HeroStat title="My Liquidity">
             <>5,234,759.00 DAI</>
           </HeroStat>
         </div>
