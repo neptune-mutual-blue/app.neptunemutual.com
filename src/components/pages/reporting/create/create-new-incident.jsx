@@ -3,7 +3,6 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
-import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { classNames } from "@/utils/classnames";

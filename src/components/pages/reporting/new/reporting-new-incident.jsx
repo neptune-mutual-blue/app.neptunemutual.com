@@ -27,7 +27,7 @@ export const ReportingNewIncidentPage = () => {
   const title = coverInfo?.coverName;
 
   const handleAcceptRules = () => {
-    router.push(`/reporting/${cover_id}/create`);
+    router.push(`/reporting/${cover_id}/new`);
   };
 
   return (

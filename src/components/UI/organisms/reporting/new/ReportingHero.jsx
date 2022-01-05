@@ -5,14 +5,7 @@ import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/t
 import { Hero } from "@/components/UI/molecules/Hero";
 import { SocialIconLinks } from "@/components/UI/molecules/social-icon-links";
 
-export const ReportingHero = ({
-  coverInfo,
-  imgSrc,
-  title,
-  hasTotalLiquidity,
-  pageName = "Report Incident",
-}) => {
-  console.log("from reporting", coverInfo);
+export const ReportingHero = ({ coverInfo, imgSrc, title }) => {
   return (
     <Hero>
       <Container className="px-2 py-20">

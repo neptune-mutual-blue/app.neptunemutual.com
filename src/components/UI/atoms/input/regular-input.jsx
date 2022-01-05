@@ -1,4 +1,4 @@
-export const RegularInput = ({ inputProps, buttonProps }) => {
+export const RegularInput = ({ inputProps }) => {
   return (
     <div className="flex rounded-lg shadow-sm text-black text-h4">
       <div className="flex items-stretch flex-grow focus-within:z-10">

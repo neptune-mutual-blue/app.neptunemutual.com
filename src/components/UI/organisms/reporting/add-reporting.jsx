@@ -2,6 +2,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
 import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting-dropdown";
+import { useRouter } from "next/router";
 
 const options = [
   {
@@ -16,9 +17,10 @@ const options = [
 
 export const AddReporting = () => {
   const [selected, setSelected] = useState(options[0]);
+  const router = useRouter();
 
   const handleAddReport = () => {
-    console.log(selected);
+    router.push(`/cover/${selected.id}/report`);
   };
 
   return (

@@ -1,13 +1,10 @@
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
-import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
-  const router = useRouter();
-
   const { coverInfo } = useCoverInfo();
 
   if (!coverInfo) {
@@ -21,11 +18,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
     <div>
       <main className="bg-F1F3F6">
         {/* hero */}
-        <CoverHero
-          coverInfo={coverInfo}
-          title={title}
-          imgSrc={imgSrc}
-        />
+        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -44,7 +37,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
                 See More
               </a>
 
-             {children}
+              {children}
             </div>
 
             <CoverPurchaseResolutionSources>
