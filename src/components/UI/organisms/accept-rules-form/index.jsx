@@ -2,7 +2,11 @@ import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-export const AcceptRulesForm = ({ onAccept, children }) => {
+export const AcceptRulesForm = ({
+  onAccept,
+  buttonText = <>Next&nbsp;&#x27F6;</>,
+  children,
+}) => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = (ev) => {
@@ -38,7 +42,7 @@ export const AcceptRulesForm = ({ onAccept, children }) => {
             "bg-4E7DD9 text-EEEEEE py-3 px-4 mt-8 rounded-big"
           )}
         >
-          Next&nbsp;&#x27F6;
+          {buttonText}
         </button>
       </form>
     </>
