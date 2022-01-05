@@ -1,5 +1,6 @@
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
+import { Alert } from "@/components/UI/atoms/alert";
 import { Container } from "@/components/UI/atoms/container";
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
@@ -26,7 +27,7 @@ export const ReportingNewIncidentPage = () => {
   const title = coverInfo?.coverName;
 
   const handleAcceptRules = () => {
-    console.log("accepted from reporting");
+    router.push(`/reporting/${cover_id}/create`);
   };
 
   return (
@@ -81,9 +82,16 @@ export const ReportingNewIncidentPage = () => {
                 <h2 className="font-sora font-bold text-h2 mb-6">
                   Active Reporting
                 </h2>
-                <p className="text-h4 text-8F949C">
+
+                <p className="text-h4 text-8F949C mb-10">
                   There are no known incidents related to Clearpool Cover.
                 </p>
+                <Alert>
+                  If you just came to know about a recent incident of Uniswap
+                  Exchange, carefully read the cover rules above. You can earn
+                  20% of the minority fees if you are the first person to report
+                  this incident.
+                </Alert>
               </div>
             </AcceptRulesForm>
           </div>
