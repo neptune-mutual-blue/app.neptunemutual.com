@@ -1,9 +1,14 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { Container } from "@/components/UI/atoms/container";
+import { HlCalendar } from "@/lib/hl-calendar";
 import Head from "next/head";
 
 export default function Components() {
+  const startDate = new Date();
+  const endDate = new Date(startDate.getTime());
+  endDate.setDate(startDate.getDate() + 6);
+
   return (
     <main>
       <Head>
@@ -21,8 +26,6 @@ export default function Components() {
         </form>
 
         <br />
-        <br />
-        <br />
 
         <Container>
           <Alert>
@@ -34,6 +37,12 @@ export default function Components() {
             </p>
           </Alert>
         </Container>
+
+        <br />
+
+        <div className="bg-white p-10">
+          <HlCalendar startDate={startDate} endDate={endDate} />
+        </div>
       </div>
     </main>
   );
