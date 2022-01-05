@@ -1,12 +1,13 @@
-export const RegularInput = ({ inputProps }) => {
+import { classNames } from "@/utils/classnames";
+
+export const RegularInput = ({ inputProps, className }) => {
   return (
-    <div className="flex rounded-lg shadow-sm text-black text-h4">
-      <div className="flex items-stretch flex-grow focus-within:z-10">
-        <input
-          className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB"
-          {...inputProps}
-        />
-      </div>
-    </div>
+    <input
+      className={classNames(
+        "focus:ring-4E7DD9 focus:border-4E7DD9 bg-white block w-full rounded-lg p-6 border border-B0C4DB placeholder-9B9B9B text-h4",
+        className
+      )}
+      {...inputProps}
+    />
   );
 };
