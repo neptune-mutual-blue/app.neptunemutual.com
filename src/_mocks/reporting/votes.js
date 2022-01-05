@@ -1,0 +1,42 @@
+export const getVotesList = () => [
+  {
+    timestamp: "few seconds ago",
+    txHash: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    account: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    amountStaked: "189,595.93",
+    unit: "NPM",
+    supportIncident: true,
+  },
+  {
+    timestamp: "4 Minutes ago",
+    txHash: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    account: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    amountStaked: "2,154,355.34",
+    unit: "NPM",
+    supportIncident: false,
+  },
+  {
+    timestamp: "30 Minutes ago",
+    txHash: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    account: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    amountStaked: "50,754.12",
+    unit: "NPM",
+    supportIncident: false,
+  },
+  {
+    timestamp: "13 hours ago",
+    txHash: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    account: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    amountStaked: "26,764.55",
+    unit: "NPM",
+    supportIncident: true,
+  },
+  {
+    timestamp: "a day ago",
+    txHash: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    account: "0xce3805a443ebb27b2a4058ec9d94dc4f9c000633",
+    amountStaked: "178,756.71",
+    unit: "NPM",
+    supportIncident: true,
+  },
+];
