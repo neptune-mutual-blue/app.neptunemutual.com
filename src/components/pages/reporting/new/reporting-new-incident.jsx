@@ -2,7 +2,7 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import { Alert } from "@/components/UI/atoms/alert";
 import { Container } from "@/components/UI/atoms/container";
-import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
+import { AcceptReportRulesForm } from "@/components/UI/organisms/accept-cover-rules-form";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import Link from "next/link";
@@ -73,27 +73,9 @@ export const ReportingNewIncidentPage = () => {
             </a>
 
             <br className="mb-16" />
-            <AcceptRulesForm
-              onAccept={handleAcceptRules}
-              buttonText={"REPORT AN INCIDENT"}
-            >
+            <AcceptReportRulesForm onAccept={handleAcceptRules}>
               I have read, understood, and agree to the terms of cover rules
-              <div className="mt-16">
-                <h2 className="font-sora font-bold text-h2 mb-6">
-                  Active Reporting
-                </h2>
-
-                <p className="text-h4 text-8F949C mb-10">
-                  There are no known incidents related to Clearpool Cover.
-                </p>
-                <Alert>
-                  If you just came to know about a recent incident of Uniswap
-                  Exchange, carefully read the cover rules above. You can earn
-                  20% of the minority fees if you are the first person to report
-                  this incident.
-                </Alert>
-              </div>
-            </AcceptRulesForm>
+            </AcceptReportRulesForm>
           </div>
           <CoverPurchaseResolutionSources>
             <Link href="#">

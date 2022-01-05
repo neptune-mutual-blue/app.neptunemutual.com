@@ -3,6 +3,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
 import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
+import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 
 const options = [
   {
@@ -16,12 +17,19 @@ const options = [
 ];
 
 export const AddReporting = () => {
-  const [selected, setSelected] = useState(options[0]);
+  const [selected, setSelected] = useState();
+
+  const { availableCovers } = useAvailableCovers();
+
   const router = useRouter();
 
   const handleAddReport = () => {
-    router.push(`/cover/${selected.id}/report`);
+    router.push(`/cover/${selected.key}/report/details`);
   };
+
+  if (!availableCovers) {
+    return <>loading...</>;
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -33,14 +41,14 @@ export const AddReporting = () => {
         <Label className={"mt-36 justify-start mb-4"}>select a cover</Label>
         <div className="flex">
           <ReportingDropdown
-            options={options}
+            options={availableCovers}
             selected={selected}
             setSelected={setSelected}
             prefix={
               <img
                 className="w-8 h-8 mr-2"
-                src={selected.imgSrc}
-                alt={selected.name}
+                src={selected?.imgSrc}
+                alt={selected?.name}
               />
             }
           />

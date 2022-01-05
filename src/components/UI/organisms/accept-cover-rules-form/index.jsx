@@ -1,8 +1,9 @@
+import { Alert } from "@/components/UI/atoms/alert";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-export const AcceptRulesForm = ({ onAccept, children }) => {
+export const AcceptReportRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = (ev) => {
@@ -30,15 +31,28 @@ export const AcceptRulesForm = ({ onAccept, children }) => {
           {children}
         </Checkbox>
         <br />
+        <div className="mt-16">
+          <h2 className="font-sora font-bold text-h2 mb-6">Active Reporting</h2>
+
+          <p className="text-h4 text-8F949C mb-10">
+            There are no known incidents related to Clearpool Cover.
+          </p>
+          <Alert>
+            If you just came to know about a recent incident of Uniswap
+            Exchange, carefully read the cover rules above. You can earn 20% of
+            the minority fees if you are the first person to report this
+            incident.
+          </Alert>
+        </div>
         <button
           type="submit"
           disabled={!checked}
           className={classNames(
             !checked && "opacity-30 cursor-not-allowed",
-            "bg-4E7DD9 text-EEEEEE py-3 px-4 mt-8 rounded-big"
+            "bg-4E7DD9 text-EEEEEE py-6 px-12 mt-8 rounded-big text-h5"
           )}
         >
-          Next&nbsp;&#x27F6;
+          REPORT AN INCIDENT
         </button>
       </form>
     </>

@@ -67,35 +67,39 @@ export const CreateNewIncidentPage = () => {
         <Container>
           <div className="max-w-3xl">
             <div className="w-full flex justify-between flex-wrap">
-              <div className="flex-auto mr-4">
-                <Label className={"mb-2 mt-6"}>Incident Title</Label>
-                <RegularInput
-                  inputProps={{
-                    id: "incident_title",
-                    placeholder: "Enter Incident Title",
-                    value: incidentTitle,
-                    onChange: (e) => setIncidentTitle(e.target.value),
-                  }}
-                />
-                <p className="text-sm text-9B9B9B mt-2 pl-2">
-                  Type a name of this cover. You cannot change this later.
-                </p>
-              </div>
-              <div className="flex-auto">
-                <Label className={"mb-2 mt-6"}>Observed Date &amp; Time</Label>
-                <RegularInput
-                  className="uppercase text-9B9B9B"
-                  inputProps={{
-                    id: "incident_title",
-                    // placeholder: "DD/MM/YY | HH:MM:SS",
-                    value: incidentDate,
-                    type: "datetime-local",
-                    onChange: (e) => setIncidentDate(e.target.value),
-                  }}
-                />
-                <p className="text-sm text-9B9B9B mt-2 pl-2">
-                  Select date when it was hacked
-                </p>
+              <div className="flex">
+                <div className="flex-auto mr-4">
+                  <Label className={"mb-2 mt-6"}>Incident Title</Label>
+                  <RegularInput
+                    inputProps={{
+                      id: "incident_title",
+                      placeholder: "Enter Incident Title",
+                      value: incidentTitle,
+                      onChange: (e) => setIncidentTitle(e.target.value),
+                    }}
+                  />
+                  <p className="text-sm text-9B9B9B mt-2 pl-2">
+                    Type a name of this cover. You cannot change this later.
+                  </p>
+                </div>
+                <div className="flex-auto">
+                  <Label className={"mb-2 mt-6"}>
+                    Observed Date &amp; Time
+                  </Label>
+                  <RegularInput
+                    className="uppercase text-9B9B9B"
+                    inputProps={{
+                      id: "incident_title",
+                      // placeholder: "DD/MM/YY | HH:MM:SS",
+                      value: incidentDate,
+                      type: "datetime-local",
+                      onChange: (e) => setIncidentDate(e.target.value),
+                    }}
+                  />
+                  <p className="text-sm text-9B9B9B mt-2 pl-2">
+                    Select date when it was hacked
+                  </p>
+                </div>
               </div>
             </div>
             <Label className={"mt-10 mb-2"}>Proof of incident</Label>
@@ -117,9 +121,7 @@ export const CreateNewIncidentPage = () => {
 
             <button
               onClick={handleNewLink}
-              className={
-                "bg-transparent text-black border-none hover:underline mt-4"
-              }
+              className="bg-transparent text-black border-none hover:underline mt-4"
             >
               + Add new link
             </button>
