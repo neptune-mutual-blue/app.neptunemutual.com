@@ -56,7 +56,6 @@ export const HlCalendar = ({ startDate, endDate }) => {
 };
 
 function addWeekDatesBefore(dates) {
-  console.log("before", dates);
   const datesBeforeStart = [...dates];
 
   function shouldContinue(firstDate) {

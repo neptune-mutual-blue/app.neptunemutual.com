@@ -36,7 +36,6 @@ module.exports = {
         },
       ],
       para: ["16px", "28px"],
-      body: ["16px", "32px"],
       cta: [
         "15px",
         {
@@ -87,6 +86,8 @@ module.exports = {
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
         AABDCB: "#AABDCB",
+        "0FB88F": "#0FB88F",
+        D4DFEE: "#D4DFEE",
         CDD6E3: "#CDD6E3",
         404040: "#404040",
       },
