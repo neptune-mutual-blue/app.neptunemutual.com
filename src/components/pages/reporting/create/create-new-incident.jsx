@@ -11,7 +11,6 @@ import { useState } from "react";
 
 export const CreateNewIncidentPage = () => {
   const router = useRouter();
-  const { cover_id } = router.query;
   const { coverInfo } = useCoverInfo();
 
   const [incidentTitle, setIncidentTitle] = useState();
