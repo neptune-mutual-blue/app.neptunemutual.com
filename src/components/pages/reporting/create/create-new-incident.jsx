@@ -1,15 +1,12 @@
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
-import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { classNames } from "@/utils/classnames";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -34,10 +31,6 @@ export const CreateNewIncidentPage = () => {
 
   const imgSrc = "/covers/clearpool.png";
   const title = coverInfo?.coverName;
-
-  const handleAcceptRules = () => {
-    router.push(`/reporting/${cover_id}/create`);
-  };
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);
