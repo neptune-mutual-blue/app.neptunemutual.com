@@ -27,7 +27,7 @@ export const PoliciesExpiredPage = () => {
           return (
             <div
               key={c.name}
-              className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none"
+              className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9"
             >
               <PolicyCard details={c}></PolicyCard>
             </div>

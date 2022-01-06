@@ -80,7 +80,7 @@ export const HomePage = () => {
           {availableCovers.map((c) => {
             return (
               <Link href={`/cover/${c.key}`} key={c.name}>
-                <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
                   <CoverCard details={c}></CoverCard>
                 </a>
               </Link>
