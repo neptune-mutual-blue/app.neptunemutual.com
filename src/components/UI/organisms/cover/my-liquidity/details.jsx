@@ -4,7 +4,7 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/my-liquidity/hero";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import  { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/modal-form"
+import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/modal-form";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
@@ -31,11 +31,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
     <div>
       <main className="bg-F1F3F6">
         {/* hero */}
-        <CoverHero
-          coverInfo={coverInfo}
-          title={title}
-          imgSrc={imgSrc}
-        />
+        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -54,10 +50,11 @@ export const MyLiquidityDetailsPage = ({ children }) => {
                 See More
               </a>
 
-             {children}
+              {children}
             </div>
 
             <CoverPurchaseResolutionSources>
+              <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
               <div className="flex justify-between pb-2">
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">$ 2.5M</strong>
@@ -72,14 +69,16 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               </div>
 
               <div className="flex justify-center px-7">
-                <OutlinedButton className="rounded-big w-full" onClick={() => onOpen()}>
+                <OutlinedButton
+                  className="rounded-big w-full"
+                  onClick={() => onOpen()}
+                >
                   Withdraw Liquidity
                 </OutlinedButton>
               </div>
             </CoverPurchaseResolutionSources>
           </Container>
         </div>
-
       </main>
 
       <WithdrawLiquidityModal

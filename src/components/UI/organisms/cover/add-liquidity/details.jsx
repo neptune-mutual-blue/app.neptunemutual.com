@@ -41,6 +41,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
             </div>
 
             <CoverPurchaseResolutionSources>
+              <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
               <div className="flex justify-between pb-2">
                 <span className="">Total Liquidity::</span>
                 <strong className="text-right font-bold">$ 2.5M</strong>
