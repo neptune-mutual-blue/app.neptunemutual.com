@@ -7,7 +7,7 @@ import { ReportingHero } from "@/components/UI/organisms/reporting/new/Reporting
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export const ReportingNewIncidentPage = () => {
+export const CoverReportingDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 

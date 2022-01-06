@@ -6,11 +6,9 @@ import { Label } from "@/components/UI/atoms/label";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { classNames } from "@/utils/classnames";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
-export const CreateNewIncidentPage = () => {
-  const router = useRouter();
+export const NewIncidentReportForm = () => {
   const { coverInfo } = useCoverInfo();
 
   const [incidentTitle, setIncidentTitle] = useState();

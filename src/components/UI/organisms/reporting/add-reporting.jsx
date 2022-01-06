@@ -5,17 +5,6 @@ import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting
 import { useRouter } from "next/router";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 
-const options = [
-  {
-    name: "Coinbase",
-    imgSrc: "/reporting/coinbase.png",
-  },
-  {
-    name: "Clearpool",
-    imgSrc: "/reporting/clearpool.png",
-  },
-];
-
 export const AddReporting = () => {
   const router = useRouter();
 
