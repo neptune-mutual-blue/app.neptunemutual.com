@@ -1,9 +1,9 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { PercentXStackedChart } from "@/components/UI/molecules/PercentXStackedChart";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
+import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { HlCalendar } from "@/lib/hl-calendar";
 
 export const ReportSummary = () => {
@@ -21,9 +21,7 @@ export const ReportSummary = () => {
           <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
-          <div style={{ minHeight: "150px" }}>
-            <PercentXStackedChart />
-          </div>
+          <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
           <p>Cast your vote</p>

@@ -11,28 +11,9 @@ import { Bar } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title);
 
-const data = {
-  labels: ["votes"],
-
-  datasets: [
-    {
-      data: [75],
-      barThickness: 32,
-      backgroundColor: "#0FB88F",
-      hoverBackgroundColor: "#0FB88F",
-    },
-    {
-      data: [25],
-      barThickness: 32,
-      backgroundColor: "#FA5C2F",
-      hoverBackgroundColor: "#FA5C2F",
-    },
-  ],
-};
-
 defaults.font.family = "Poppins, sans-serif";
 
-export const PercentXStackedChart = () => {
+export const PercentXStackedChart = ({ data }) => {
   return (
     <>
       <div style={{ width: "100%" }}>
@@ -66,25 +47,24 @@ export const PercentXStackedChart = () => {
             ],
             animation: {
               onComplete: function (self) {
-                var chartInstance = self.chart;
-                var ctx = chartInstance.ctx;
-                ctx.textAlign = "left";
+                const chartInstance = self.chart;
+                let ctx = chartInstance.ctx;
+                ctx.textAlign = "center";
                 ctx.font = "14px Poppins";
                 ctx.fillStyle = "#fff";
-                var prevX = 0;
+                let prevX = 0;
 
                 each(
                   self.chart.data.datasets.forEach(function (dataset, i) {
-                    var meta = chartInstance.getDatasetMeta(i);
+                    const meta = chartInstance.getDatasetMeta(i);
 
                     each(
                       meta.data.forEach(function (bar, index) {
-                        data = dataset.data[index];
+                        const _data = dataset.data[index];
                         const start = prevX;
                         const end = bar.x;
 
-                        ctx.fillText(`${data}%`, (start + end) / 2, bar.y + 4);
-
+                        ctx.fillText(`${_data}%`, (start + end) / 2, bar.y + 4);
                         prevX = bar.x;
                       }),
                       self
