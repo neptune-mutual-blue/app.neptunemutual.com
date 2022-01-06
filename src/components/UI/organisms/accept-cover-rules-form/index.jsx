@@ -1,4 +1,5 @@
 import { Alert } from "@/components/UI/atoms/alert";
+import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
@@ -44,16 +45,16 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
             incident.
           </Alert>
         </div>
-        <button
-          type="submit"
+        <RegularButton
           disabled={!checked}
           className={classNames(
             !checked && "opacity-30 cursor-not-allowed",
-            "bg-4E7DD9 text-EEEEEE py-6 px-12 mt-8 rounded-big text-h5"
+            "text-h6 font-bold py-6 px-12 mt-8"
           )}
+          type="submit"
         >
           REPORT AN INCIDENT
-        </button>
+        </RegularButton>
       </form>
     </>
   );

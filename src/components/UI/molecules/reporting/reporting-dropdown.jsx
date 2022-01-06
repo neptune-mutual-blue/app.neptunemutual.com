@@ -48,11 +48,9 @@ export const ReportingDropdown = ({
                         active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                       )}
                     >
-                      <img
-                        className="w-8 h-8 mr-2"
-                        src={option.imgSrc}
-                        alt={option.name}
-                      />{" "}
+                      <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
+                        <img src={option.imgSrc} alt={option.name} />
+                      </div>
                       {option.name}
                     </span>
                   </>
