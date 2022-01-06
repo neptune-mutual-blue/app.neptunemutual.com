@@ -12,6 +12,7 @@ import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/increase";
 import { Hero } from "@/components/UI/molecules/Hero";
+import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -86,6 +87,7 @@ export const HomePage = () => {
             );
           })}
         </Grid>
+        <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>
       </Container>
     </>
   );

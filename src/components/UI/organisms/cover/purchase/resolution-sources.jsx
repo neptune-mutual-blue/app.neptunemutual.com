@@ -20,16 +20,17 @@ export const CoverPurchaseResolutionSources = ({ children = null }) => {
           </a>
         </Link>
 
-        <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-
-        {children
-          ? children 
-          : (
+        {children ? (
+          children
+        ) : (
+          <>
+            <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div className="flex justify-between">
               <span className="">Available Liquidity:</span>
               <strong className="text-right font-bold">$ 750k</strong>
             </div>
-          )}
+          </>
+        )}
       </OutlinedCard>
     </div>
   );

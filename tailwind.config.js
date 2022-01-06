@@ -90,6 +90,7 @@ module.exports = {
         D4DFEE: "#D4DFEE",
         CDD6E3: "#CDD6E3",
         404040: "#404040",
+        "8F949C": "#8F949C",
       },
     },
   },
