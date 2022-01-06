@@ -1,6 +1,7 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { Container } from "@/components/UI/atoms/container";
+import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { ReportSummary } from "@/components/UI/organisms/reporting/ReportSummary";
 import Head from "next/head";
@@ -14,6 +15,22 @@ export default function Components() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container className="px-8 py-6">
+        <div className="max-w-md">
+          <InputWithTrailingButton
+            buttonProps={{
+              children: "Max",
+              onClick: () => {},
+            }}
+            unit="NPM-USDC-LP"
+            inputProps={{
+              id: "test-input-id",
+              placeholder: "Enter Amount",
+            }}
+          />
+        </div>
+
+        <br />
+
         <ReportSummary />
 
         <br />
