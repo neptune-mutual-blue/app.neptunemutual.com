@@ -35,29 +35,6 @@ export default function Components() {
 
         <br />
 
-        <form>
-          <Checkbox id="checkid" name="checkinputname">
-            I have read, understood, and agree to the terms of cover rules
-          </Checkbox>
-          <br />
-          <button type="submit">submit</button>
-        </form>
-
-        <br />
-        <br />
-        <br />
-
-        <Alert>
-          <p>
-            If you just came to know about a recent incident of Uniswap
-            Exchange, carefully read the cover rules above. You can earn 20% of
-            the minority fees if you are the first person to report this
-            incident.
-          </p>
-        </Alert>
-
-        <br />
-
         <RecentVotesTable />
 
         <br />

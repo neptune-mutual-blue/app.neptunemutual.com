@@ -1,14 +1,20 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
+import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { HlCalendar } from "@/lib/hl-calendar";
 
 export const ReportSummary = () => {
   const startDate = new Date();
   const endDate = new Date(startDate.getTime());
   endDate.setDate(startDate.getDate() + 6);
+
+  /* if incident is active its true else false, 
+  while checking change the status to see ech component  */
+  const incidentStatus = true;
 
   return (
     <>
@@ -23,7 +29,8 @@ export const ReportSummary = () => {
           <p style={{ minHeight: "150px" }}>Horizantal Stacked Bar chart</p>
           <Divider />
 
-          <p>Cast your vote</p>
+          {incidentStatus && <CastYourVote />}
+          {!incidentStatus && <UnstakeYourAmount />}
         </div>
 
         {/* Right half */}
