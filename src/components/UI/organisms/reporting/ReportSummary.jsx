@@ -1,5 +1,6 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { PercentXStackedChart } from "@/components/UI/molecules/PercentXStackedChart";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
@@ -20,7 +21,9 @@ export const ReportSummary = () => {
           <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
-          <p style={{ minHeight: "150px" }}>Horizantal Stacked Bar chart</p>
+          <div style={{ minHeight: "150px" }}>
+            <PercentXStackedChart />
+          </div>
           <Divider />
 
           <p>Cast your vote</p>
