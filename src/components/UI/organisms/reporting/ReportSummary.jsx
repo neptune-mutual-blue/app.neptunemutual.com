@@ -2,6 +2,7 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
+import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
 import { HlCalendar } from "@/lib/hl-calendar";
 
 export const ReportSummary = () => {
@@ -16,10 +17,12 @@ export const ReportSummary = () => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <p style={{ minHeight: "250px" }}>Doughnut charts</p>
+          <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
+
           <p style={{ minHeight: "150px" }}>Horizantal Stacked Bar chart</p>
           <Divider />
+
           <p>Cast your vote</p>
         </div>
 
