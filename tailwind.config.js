@@ -92,9 +92,6 @@ module.exports = {
         404040: "#404040",
         "8F949C": "#8F949C",
       },
-      width: {
-        "32rem": "32rem",
-      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
