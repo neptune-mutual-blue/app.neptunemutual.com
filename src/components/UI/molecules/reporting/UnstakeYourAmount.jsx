@@ -23,7 +23,7 @@ const UnstakeYourAmount = () => {
   return (
     <>
       <div className="flex flex-wrap items-center justify-between mb-11">
-        <div className="max-w-lg">
+        <div className="w-32rem">
           <TokenAmountInput
             labelText={"Unstake"}
             tokenSymbol={"NPM"}
@@ -33,8 +33,11 @@ const UnstakeYourAmount = () => {
             onInput={handleUnstakedAmtChange}
           />
         </div>
-        <RegularButton className={"px-18 py-6"} onClick={handleUnstakeClick}>
-          Unstake NPM
+        <RegularButton
+          className={"px-18 py-6 text-h5 font-bold"}
+          onClick={handleUnstakeClick}
+        >
+          UNSTAKE NPM
         </RegularButton>
       </div>
       <Alert>

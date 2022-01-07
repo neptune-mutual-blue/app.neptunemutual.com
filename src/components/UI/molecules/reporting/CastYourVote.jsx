@@ -35,7 +35,7 @@ export const CastYourVote = () => {
   return (
     <>
       <h3 className="text-h3 font-sora font-bold">Cast Your Vote</h3>
-      <div className="flex mt-6 mb-8">
+      <div className="flex mt-6 mb-8 max-w-lg">
         <Radio
           label={"Incident Occurred"}
           id="incident-radio"
@@ -54,7 +54,7 @@ export const CastYourVote = () => {
         />
       </div>
       <div className="flex flex-wrap items-center justify-between mb-11">
-        <div className="max-w-lg">
+        <div className="w-32rem">
           <TokenAmountInput
             labelText={"Stake"}
             tokenSymbol={"NPM"}
@@ -66,14 +66,20 @@ export const CastYourVote = () => {
         </div>
 
         {!approved && (
-          <RegularButton className={"px-18 py-6"} onClick={handleApproveClick}>
-            Approve NPM
+          <RegularButton
+            className={"px-18 py-6 text-h5 font-bold"}
+            onClick={handleApproveClick}
+          >
+            APPROVE NPM
           </RegularButton>
         )}
 
         {approved && (
-          <RegularButton className={"px-18 py-6"} onClick={handleReportClick}>
-            Report
+          <RegularButton
+            className={"px-18 py-6 text-h5 font-bold"}
+            onClick={handleReportClick}
+          >
+            REPORT
           </RegularButton>
         )}
       </div>

@@ -4,14 +4,18 @@ import { TokenBalance } from "@/components/UI/molecules/token-balance";
 
 export const TokenAmountInput = ({
   tokenSymbol,
-  labelText,
+  labelText = null,
   handleChooseMax,
   inputValue,
   inputId,
   onInput,
 }) => (
   <>
-    <Label className="font-semibold mb-4 uppercase">{labelText}</Label>
+    {labelText && (
+      <Label htmlFor={inputId} className="font-semibold mb-4 uppercase">
+        {labelText}
+      </Label>
+    )}
     <InputWithTrailingButton
       buttonProps={{
         children: "Max",
@@ -19,7 +23,7 @@ export const TokenAmountInput = ({
       }}
       unit={tokenSymbol}
       inputProps={{
-        id: { inputId },
+        id: inputId,
         placeholder: "Enter Amount",
         value: inputValue,
         onChange: onInput,

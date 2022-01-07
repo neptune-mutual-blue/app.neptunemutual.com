@@ -20,13 +20,17 @@ export const ClaimBondModal = ({
         </Dialog.Title>
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
         <div className="mt-6">
-          <Label className="font-semibold mb-4">
+          <Label htmlFor={"claimable-bond"} className="font-semibold mb-4">
             Amount Available To Claim
           </Label>
-          <DisabledInput value={claimableBond} unit="NPM" />
+          <DisabledInput
+            id={"claimable-bond"}
+            value={claimableBond}
+            unit="NPM"
+          />
         </div>
         <div className="modal-unlock mt-8">
-          <Label className="mb-3" htmlFor="bond-amount">
+          <Label className="mb-3" htmlFor="modal-unlock-on">
             Unlock Date
           </Label>
           <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
