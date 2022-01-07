@@ -52,14 +52,21 @@ export const THead = ({ columns }) => {
   );
 };
 
-export const TBody = ({ columns, data }) => {
+export const TBody = ({ columns, data, isCoverClaimClickedFunc }) => {
+  const isClaimClicked = (isClicked) => {
+    isCoverClaimClickedFunc(isClicked);
+  };
   return (
     <tbody className="divide-y divide-DAE2EB">
       {data.map((row, idx) => {
         return (
           <tr key={idx}>
             {columns.map((col, _idx) => {
-              return <Fragment key={_idx}>{col.renderData(row)}</Fragment>;
+              return (
+                <Fragment key={_idx}>
+                  {col.renderData(row, isClaimClicked)}
+                </Fragment>
+              );
             })}
           </tr>
         );

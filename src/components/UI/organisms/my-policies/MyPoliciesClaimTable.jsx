@@ -7,6 +7,8 @@ import {
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
 import { getAvailableClaim } from "@/src/_mocks/policy/claim";
+import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
+import { useState } from "react";
 
 const renderHeader = (col) => (
   <th
@@ -40,11 +42,22 @@ const renderAmount = (row) => (
   </td>
 );
 
-const renderActions = (_row) => (
-  <td className="px-6 py-6" style={{ minWidth: "120px" }}>
-    <span className="text-4E7DD9 hover:underline cursor-pointer">Claim</span>
-  </td>
-);
+const renderActions = (_row, isClaimClicked) => {
+  const handleClick = () => {
+    isClaimClicked(true);
+  };
+
+  return (
+    <td className="px-6 py-6" style={{ minWidth: "120px" }}>
+      <span
+        className="text-4E7DD9 hover:underline cursor-pointer"
+        onClick={handleClick}
+      >
+        Claim
+      </span>
+    </td>
+  );
+};
 
 const columns = [
   {
@@ -76,15 +89,34 @@ const columns = [
 export const MyPoliciesClaimTable = () => {
   const claimData = getAvailableClaim();
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const isCoverClaimClicked = (bool) => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          <TBody columns={columns} data={claimData}></TBody>
+          <TBody
+            columns={columns}
+            data={claimData}
+            isCoverClaimClickedFunc={isCoverClaimClicked}
+          ></TBody>
         </Table>
         <TablePagination />
       </TableWrapper>
+      <ClaimCoverModal
+        isOpen={isOpen}
+        onClose={onClose}
+        modalTitle="Claim Cover"
+      />
     </>
   );
 };

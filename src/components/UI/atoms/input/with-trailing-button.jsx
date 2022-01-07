@@ -6,7 +6,7 @@ export const InputWithTrailingButton = ({ inputProps, unit, buttonProps }) => {
   const [width, setWidth] = useState();
 
   const getSize = () => {
-    const newWidth = ref.current.clientWidth;
+    const newWidth = ref?.current?.clientWidth;
     setWidth(newWidth);
   };
 
