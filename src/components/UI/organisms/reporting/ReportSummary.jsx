@@ -1,15 +1,21 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
+import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { HlCalendar } from "@/lib/hl-calendar";
 
 export const ReportSummary = () => {
   const startDate = new Date();
   const endDate = new Date(startDate.getTime());
   endDate.setDate(startDate.getDate() + 6);
+
+  /* if incident is active its true else false, 
+  while checking change the status to see ech component  */
+  const isActive = false;
 
   return (
     <>
@@ -24,7 +30,8 @@ export const ReportSummary = () => {
           <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
-          <p>Cast your vote</p>
+          {isActive && <CastYourVote />}
+          {!isActive && <UnstakeYourAmount />}
         </div>
 
         {/* Right half */}

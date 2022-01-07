@@ -51,7 +51,7 @@ export const AmountToStakeModal = ({
           />
         </div>
         <div className="modal-unlock mt-8">
-          <Label className="mb-3" htmlFor="bond-amount">
+          <Label className="mb-3" htmlFor="modal-unlock-on">
             Locking Period
           </Label>
           <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">

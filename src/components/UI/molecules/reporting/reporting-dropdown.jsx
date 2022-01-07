@@ -31,6 +31,7 @@ export const ReportingDropdown = ({
             {options.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
+                id="reporting-dropdown"
                 className={({ active }) =>
                   classNames(
                     `cursor-default select-none relative px-1`,

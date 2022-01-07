@@ -4,7 +4,7 @@ customHeaders:
       - key: "Strict-Transport-Security"
         value: "max-age=31536000"
       - key: "Content-Security-Policy"
-        value: "script-src 'self'; report-uri https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform; form-action 'none'; object-src 'none'; style-src 'self'"
+        value: "script-src 'self'; frame-ancestors 'none'; default-src 'self'; base-uri 'none'; report-uri https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform; form-action 'none'; object-src 'none'; style-src 'self'"
       - key: "X-Frame-Options"
         value: "SAMEORIGIN"
       - key: "X-Content-Type-Options"

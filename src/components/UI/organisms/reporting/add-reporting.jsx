@@ -32,7 +32,9 @@ export const AddReporting = () => {
         No Active Reporting
       </p>
       <div className="w-full lg:px-60">
-        <Label className={"mt-36 mb-4"}>select a cover</Label>
+        <Label htmlFor={"reporting-dropdown"} className={"mt-36 mb-4"}>
+          select a cover
+        </Label>
         <div className="flex">
           <ReportingDropdown
             options={availableCovers}
