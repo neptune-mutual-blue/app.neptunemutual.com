@@ -25,11 +25,12 @@ export const PoliciesActivePage = () => {
       <Grid className="mt-14 mb-24">
         {activePolicy.map((c) => {
           return (
-            <Link href={`/my-policies/claim`} key={c.name}>
-              <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
-                <PolicyCard details={c}></PolicyCard>
-              </a>
-            </Link>
+            <div
+              key={c.name}
+              className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9"
+            >
+              <PolicyCard details={c}></PolicyCard>
+            </div>
           );
         })}
       </Grid>

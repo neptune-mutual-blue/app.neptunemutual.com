@@ -27,6 +27,7 @@ module.exports = {
         },
       ],
       sm: ["14px", "16px"],
+      xxs: ["10px", "8px"],
       xs: [
         "12px",
         {
@@ -35,7 +36,6 @@ module.exports = {
         },
       ],
       para: ["16px", "28px"],
-      body: ["16px", "32px"],
       cta: [
         "15px",
         {
@@ -68,6 +68,7 @@ module.exports = {
         "4E7DD9": "#4E7DD9",
         F1F3F6: "#F1F3F6",
         EEEEEE: "#EEEEEE",
+        F4F8FC: "#F4F8FC",
         "5F5F5F": "#5F5F5F",
         "9B9B9B": "#9B9B9B",
         "7398C0": "#7398C0",
@@ -85,8 +86,11 @@ module.exports = {
         d4dfee: "#d4dfee",
         E5E5E5: "#e5e5e5",
         AABDCB: "#AABDCB",
+        "0FB88F": "#0FB88F",
+        D4DFEE: "#D4DFEE",
         CDD6E3: "#CDD6E3",
         404040: "#404040",
+        "8F949C": "#8F949C",
       },
     },
   },

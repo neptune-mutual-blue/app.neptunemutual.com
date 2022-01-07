@@ -12,6 +12,7 @@ import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/increase";
 import { Hero } from "@/components/UI/molecules/Hero";
+import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -79,13 +80,14 @@ export const HomePage = () => {
           {availableCovers.map((c) => {
             return (
               <Link href={`/cover/${c.key}`} key={c.name}>
-                <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-black focus:outline-none">
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
                   <CoverCard details={c}></CoverCard>
                 </a>
               </Link>
             );
           })}
         </Grid>
+        <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>
       </Container>
     </>
   );

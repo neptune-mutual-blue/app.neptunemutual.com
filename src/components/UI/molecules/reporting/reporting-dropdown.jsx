@@ -15,7 +15,7 @@ export const ReportingDropdown = ({
         <Listbox.Button className="w-full relative  py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
           <span className="flex items-center truncate text-9B9B9B">
             {prefix}
-            {selected.name}
+            {selected?.name}
           </span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-9B9B9B">
             <ChevronDownIcon className="w-6 h-6" aria-hidden="true" />
@@ -48,11 +48,9 @@ export const ReportingDropdown = ({
                         active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                       )}
                     >
-                      <img
-                        className="w-8 h-8 mr-2"
-                        src={option.imgSrc}
-                        alt={option.name}
-                      />{" "}
+                      <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
+                        <img src={option.imgSrc} alt={option.name} />
+                      </div>
                       {option.name}
                     </span>
                   </>

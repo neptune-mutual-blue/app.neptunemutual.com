@@ -13,7 +13,6 @@ export const TokenAmountInput = ({
   <>
     <Label className="font-semibold mb-4 uppercase">{labelText}</Label>
     <InputWithTrailingButton
-      value={inputValue}
       buttonProps={{
         children: "Max",
         onClick: handleChooseMax,

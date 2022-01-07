@@ -9,6 +9,11 @@ module.exports = {
         permanent: false,
       },
       {
+        source: "/reporting",
+        destination: "/reporting/active",
+        permanent: false,
+      },
+      {
         source: "/cover/:path/purchase",
         destination: "/cover/:path/purchase/details",
         permanent: false,
