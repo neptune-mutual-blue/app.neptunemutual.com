@@ -1,9 +1,9 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
+import { useState } from "react";
 import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { useState } from "react/cjs/react.development";
 
 const maxAmtToStake = 500;
 
@@ -29,8 +29,10 @@ export const CastYourVote = () => {
   };
 
   const handleReportClick = () => {
-    console.log("handle report clicked");
+    setApproved(false);
   };
+
+  const isFirstDispute = vote === "false-reporting";
 
   return (
     <>
@@ -53,10 +55,15 @@ export const CastYourVote = () => {
           onChange={handleRadioChange}
         />
       </div>
-      <div className="flex flex-wrap items-center justify-between mb-11">
-        <div className="w-32rem">
+      <Label
+        htmlFor={"stake-to-cast-vote"}
+        className="font-semibold mb-4 uppercase"
+      >
+        {"Stake"}
+      </Label>
+      <div className="flex flex-wrap items-start gap-6 mb-11">
+        <div>
           <TokenAmountInput
-            labelText={"Stake"}
             tokenSymbol={"NPM"}
             handleChooseMax={handleChooseMax}
             inputValue={stakedAmount}
@@ -67,7 +74,9 @@ export const CastYourVote = () => {
 
         {!approved && (
           <RegularButton
-            className={"px-18 py-6 text-h5 font-bold"}
+            className={
+              "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
+            }
             onClick={handleApproveClick}
           >
             APPROVE NPM
@@ -76,14 +85,16 @@ export const CastYourVote = () => {
 
         {approved && (
           <RegularButton
-            className={"px-18 py-6 text-h5 font-bold"}
+            className={
+              "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
+            }
             onClick={handleReportClick}
           >
             REPORT
           </RegularButton>
         )}
       </div>
-      {stakedAmount && (
+      {isFirstDispute && (
         <Alert>
           Since you are the first person to dispute this incident reporting, you
           will need to stake atleast 250 NPM tokens. If the majority agree with

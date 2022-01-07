@@ -1,5 +1,3 @@
-import { Alert } from "@/components/UI/atoms/alert";
-import { Checkbox } from "@/components/UI/atoms/checkbox";
 import { Container } from "@/components/UI/atoms/container";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";

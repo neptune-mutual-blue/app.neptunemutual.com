@@ -14,7 +14,7 @@ export const ReportSummary = () => {
 
   /* if incident is active its true else false, 
   while checking change the status to see ech component  */
-  const incidentStatus = true;
+  const isActive = false;
 
   return (
     <>
@@ -29,8 +29,8 @@ export const ReportSummary = () => {
           <p style={{ minHeight: "150px" }}>Horizantal Stacked Bar chart</p>
           <Divider />
 
-          {incidentStatus && <CastYourVote />}
-          {!incidentStatus && <UnstakeYourAmount />}
+          {isActive && <CastYourVote />}
+          {!isActive && <UnstakeYourAmount />}
         </div>
 
         {/* Right half */}

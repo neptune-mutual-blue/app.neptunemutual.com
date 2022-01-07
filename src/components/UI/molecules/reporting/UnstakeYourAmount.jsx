@@ -1,5 +1,6 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
+import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useState } from "react";
 
@@ -22,19 +23,24 @@ const UnstakeYourAmount = () => {
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between mb-11">
-        <div className="w-32rem">
+      <Label
+        htmlFor={"reporting-unstake"}
+        className="font-semibold mb-4 uppercase"
+      >
+        {"Unstake"}
+      </Label>
+      <div className="flex flex-wrap items-start gap-6 mb-11">
+        <div>
           <TokenAmountInput
-            labelText={"Unstake"}
             tokenSymbol={"NPM"}
             handleChooseMax={handleChooseMax}
             inputValue={unstakedAmount}
-            inputId={"stake-to-cast-vote"}
+            inputId={"reporting-unstake"}
             onInput={handleUnstakedAmtChange}
           />
         </div>
         <RegularButton
-          className={"px-18 py-6 text-h5 font-bold"}
+          className={"flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"}
           onClick={handleUnstakeClick}
         >
           UNSTAKE NPM
