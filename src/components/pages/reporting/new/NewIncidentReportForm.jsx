@@ -65,7 +65,9 @@ export const NewIncidentReportForm = () => {
           <div className="max-w-3xl">
             <div className="w-full flex justify-between flex-wrap">
               <div className="flex-grow flex flex-col mr-4">
-                <Label className={"mb-2 mt-6"}>Incident Title</Label>
+                <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
+                  Incident Title
+                </Label>
                 <RegularInput
                   className="flex-grow"
                   inputProps={{
@@ -80,11 +82,13 @@ export const NewIncidentReportForm = () => {
                 </p>
               </div>
               <div className="flex flex-col">
-                <Label className={"mb-2 mt-6"}>Observed Date &amp; Time</Label>
+                <Label htmlFor={"incident_date"} className={"mb-2 mt-6"}>
+                  Observed Date &amp; Time
+                </Label>
                 <RegularInput
                   className="flex-grow uppercase text-9B9B9B leading-none"
                   inputProps={{
-                    id: "incident_title",
+                    id: "incident_date",
                     // placeholder: "DD/MM/YY | HH:MM:SS",
                     value: incidentDate,
                     type: "datetime-local",
@@ -96,7 +100,9 @@ export const NewIncidentReportForm = () => {
                 </p>
               </div>
             </div>
-            <Label className={"mt-10 mb-2"}>Proof of incident</Label>
+            <Label htmlFor={"incident_url"} className={"mt-10 mb-2"}>
+              Proof of incident
+            </Label>
             {Array.from(Array(noOfUrl)).map((c, i) => (
               <>
                 <RegularInput
@@ -119,9 +125,12 @@ export const NewIncidentReportForm = () => {
             >
               + Add new link
             </button>
-            <Label className={"mt-10 mb-2"}>Description</Label>
+            <Label htmlFor={"reporting-description"} className={"mt-10 mb-2"}>
+              Description
+            </Label>
             <div className="relative">
               <textarea
+                id="reporting-description"
                 className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB mb-10"
                 placeholder="Explain briefly about the incident if you want to add anything."
                 rows={5}

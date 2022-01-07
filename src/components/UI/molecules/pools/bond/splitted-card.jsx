@@ -20,8 +20,8 @@ export const SplitedDetail = ({
       </h6>
       <p
         className={classNames(
-          "w-full flex gap-1 items-center text-lg font-normal font-numbers whitespace-nowrap",
-          right ? "text-right justify-end" : "justify-start",
+          "text-lg font-normal font-numbers whitespace-nowrap",
+          right && "text-right",
           valueClasses
         )}
       >

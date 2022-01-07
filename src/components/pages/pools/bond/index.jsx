@@ -107,11 +107,10 @@ const BondPage = () => {
             inputValue={receiveAmount}
             inputId="bond-liquidity-receive"
           />
-
         </div>
 
         <div className="unlock mt-16">
-          <Label className="mb-2" htmlFor="bond-amount">
+          <Label className="mb-2" htmlFor="unlock-on">
             Will Unlock On
           </Label>
           <p id="unlock-on" className="text-7398C0 text-h4 font-medium">
