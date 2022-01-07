@@ -4,6 +4,7 @@ import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
+import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { HlCalendar } from "@/lib/hl-calendar";
 
@@ -26,7 +27,7 @@ export const ReportSummary = () => {
           <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
-          <p style={{ minHeight: "150px" }}>Horizantal Stacked Bar chart</p>
+          <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
           {isActive && <CastYourVote />}

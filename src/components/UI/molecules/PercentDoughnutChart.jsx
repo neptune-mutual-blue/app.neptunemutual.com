@@ -11,6 +11,9 @@ export const PercentDoughnutChart = ({ data }) => {
           data={data}
           options={{
             cutout: 90,
+            events: [
+              /* "mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend" */
+            ],
             plugins: {
               legend: false,
               tooltip: false,
