@@ -65,6 +65,9 @@ const options = {
           size: "11",
         },
       },
+      grid: {
+        display: false,
+      },
     },
     x: {
       ticks: {
@@ -72,6 +75,9 @@ const options = {
         font: {
           size: "11",
         },
+      },
+      grid: {
+        display: false,
       },
     },
   },
