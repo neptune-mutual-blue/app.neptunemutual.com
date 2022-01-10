@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,9 +8,11 @@ import {
   Tooltip,
   Legend,
   Filler,
+  defaults,
   // registerables
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import { Container } from "@/src/components/UI/atoms/container";
 
 ChartJS.register(
   Filler,
@@ -23,6 +25,20 @@ ChartJS.register(
   // ...registerables
 );
 
+Tooltip.positioners.myCustomPositioner = function (elements, eventPosition) {
+  // A reference to the tooltip model
+  const tooltip = this;
+
+  /* ... */
+  console.log(eventPosition);
+
+  return {
+    x: eventPosition.x,
+    y: eventPosition.y,
+    // You may also include xAlign and yAlign to override those tooltip options.
+  };
+};
+
 const labels = [
   "Dec 3",
   "Dec 12",
@@ -32,6 +48,23 @@ const labels = [
   "Jan 17",
   "Jan 26",
 ];
+
+const footer = (tooltipItems) => {
+  return (
+    <div className="px-3 py-5 border bg-red flex">
+      {tooltipItems.map((t, idx) => {
+        console.log(t.parsed.x);
+        return (
+          <Fragment key={idx}>
+            {/* <span>{t.parsed.x}</span>
+            <span>{t.parsed.y}</span> */}
+            <p>asdf</p>
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+};
 
 export const data = {
   labels,
@@ -55,17 +88,36 @@ export const data = {
 const options = {
   hover: {
     intersect: false,
+    mode: "index",
   },
   elements: {
     point: {
       // radius: 20,
       // borderWidth: "8",
     },
+    line: {
+      borderWidth: "5",
+    },
   },
   plugins: {
     // ChartsJS DataLabels initialized here
     legend: {
       display: false,
+    },
+    tooltip: {
+      callbacks: {
+        footer: footer,
+      },
+      backgroundColor: "red",
+      borderColor: "#01052D",
+      borderWidth: "1",
+      caretSize: "0",
+      // position: "myCustomPositioner",
+      padding: {
+        x: 20,
+        y: 25,
+      },
+      displayColors: false,
     },
   },
   scales: {
@@ -97,7 +149,13 @@ const options = {
         },
       },
       grid: {
-        display: false,
+        display: false, // should make it true in future
+        drawBorder: false,
+        color: "#4E7DD9",
+        z: "2",
+        lineWidth: "7",
+        drawTicks: false,
+        // offset: true,
       },
     },
   },
@@ -140,6 +198,8 @@ export function TotalLiquidityChart() {
   }, []);
 
   return (
-    <Chart ref={chartRef} type="line" options={options} data={chartData} />
+    <Container>
+      <Chart ref={chartRef} type="line" options={options} data={chartData} />
+    </Container>
   );
 }
