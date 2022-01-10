@@ -81,10 +81,10 @@ const externalTooltipHandler = (context) => {
 
     titleLines.forEach((title) => {
       const tr = document.createElement("tr");
-      tr.style.borderWidth = 0;
+      tr.style.borderWidth = "0";
 
       const td = document.createElement("td");
-      td.style.borderWidth = 0;
+      td.style.borderWidth = "0";
       td.style.color = "#5C738F";
       td.style.fontSize = "12px";
       td.style.paddingLeft = "16px";
@@ -108,10 +108,10 @@ const externalTooltipHandler = (context) => {
 
       const tr = document.createElement("tr");
       tr.style.backgroundColor = "transparent";
-      tr.style.borderWidth = 0;
+      tr.style.borderWidth = "0";
 
       const th = document.createElement("th");
-      th.style.borderWidth = 0;
+      th.style.borderWidth = "0";
       th.style.paddingLeft = "16px";
       th.style.paddingRight = "16px";
 
