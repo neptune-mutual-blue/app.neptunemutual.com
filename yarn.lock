@@ -477,6 +477,16 @@
     "@ethersproject/properties" "^5.5.0"
     "@ethersproject/strings" "^5.5.0"
 
+"@fontsource/poppins@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-4.5.0.tgz#a419697b85864afbf8363f5c247b1e9d1f117564"
+  integrity sha512-RqgMIQqKHWNH3IUj+a0MAhlb4g5fftsXRTJ2bauefBmfM8Ja5q+qQZjKwyB/iCc+paJD320zFnLJ8G+y1ZyemQ==
+
+"@fontsource/sora@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/sora/-/sora-4.5.0.tgz#bfd505c063fbfd77b42b1a8a05025aac52d4ea5f"
+  integrity sha512-bXr7HZPHh/dtfcp9UfEIrYhiMzmcsGvooz9kkmxi5iYwuqs4O1YWfkNbbPSMoRH/cucrMtlGUuC9eRbFx4Yn5Q==
+
 "@hapi/accept@5.0.2":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-5.0.2.tgz#ab7043b037e68b722f93f376afb05e85c0699523"
