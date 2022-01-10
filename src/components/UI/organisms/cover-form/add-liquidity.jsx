@@ -6,9 +6,14 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
+import { useToast } from "@/lib/toast/context";
+import OpenInNewIcon from "@/icons/open-in-new";
+
+const ERROR_TIMEOUT = 30000; // 30 seconds
 
 export const CoverFormAddLiquidity = () => {
   const router = useRouter();
+  const toast = useToast();
 
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
@@ -19,10 +24,23 @@ export const CoverFormAddLiquidity = () => {
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
     setValue(e.target.value);
     setReceiveAmount(willRecieve);
+  };
+
+  const handleProvideLiquidity = () => {
+    toast?.pushSuccess({
+      title: "Liquidity has been added",
+      message: (
+        <p className="flex">
+          View transaction{" "}
+          <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+        </p>
+      ),
+      lifetime: ERROR_TIMEOUT,
+    });
   };
 
   if (!fees && !maxValue) {
@@ -55,7 +73,10 @@ export const CoverFormAddLiquidity = () => {
         <UnlockDate dateValue="September 22, 2021 12:34:00 PM UTC" />
       </div>
 
-      <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
+      <RegularButton
+        onClick={handleProvideLiquidity}
+        className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+      >
         Provide Liquidity
       </RegularButton>
 
