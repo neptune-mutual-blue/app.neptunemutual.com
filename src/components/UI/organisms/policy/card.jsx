@@ -23,7 +23,11 @@ export const PolicyCard = ({ details }) => {
           {status && (
             <Badge
               className={classNames(
-                status === "Reporting" ? "border-FA5C2F text-FA5C2F" : ""
+                status
+                  ? status.toLowerCase() === "reporting"
+                    ? " text-FA5C2F border-FA5C2F"
+                    : ""
+                  : ""
               )}
             >
               {status}
