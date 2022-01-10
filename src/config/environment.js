@@ -7,8 +7,6 @@ function getChainIdFromDNS() {
   const parts = window.location.host.split(".");
 
   switch (parts[0]) {
-    case "ropsten":
-      return "3";
     case "mumbai":
       return "80001";
     case "bsctest":
@@ -21,5 +19,5 @@ function getChainIdFromDNS() {
   }
 }
 
-export const CHAIN_ID = process.env.NEXT_PUBLIC_CHAIN_ID || getChainIdFromDNS();
+export const CHAIN_ID = getChainIdFromDNS();
 export const networkId = parseInt(CHAIN_ID, 10);
