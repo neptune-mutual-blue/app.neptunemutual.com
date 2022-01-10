@@ -41,14 +41,25 @@ export const data = {
       tension: "0.4",
       borderColor: "#4E7DD9",
       fill: true,
+      pointBorderColor: "transparent",
+      pointBackgroundColor: "transparent",
+      pointHoverBackgroundColor: "#EEEEEE",
+      pointHoverBorderColor: "#4E7DD9",
+      pointRadius: "8",
+      pointHoverRadius: "8",
+      pointHoverBorderWidth: "5",
     },
   ],
 };
 
 const options = {
+  hover: {
+    intersect: false,
+  },
   elements: {
     point: {
-      radius: 0,
+      // radius: 20,
+      // borderWidth: "8",
     },
   },
   plugins: {
@@ -59,13 +70,19 @@ const options = {
   },
   scales: {
     y: {
+      beginAtZero: true,
       ticks: {
         color: "#01052D",
         font: {
           size: "11",
         },
         callback: function (value, index) {
-          return this.getLabelForValue(value) + "M";
+          const val = this.getLabelForValue(value);
+          if (val == 0) {
+            return "";
+          } else {
+            return val + "M";
+          }
         },
       },
       grid: {
@@ -74,7 +91,7 @@ const options = {
     },
     x: {
       ticks: {
-        color: "01052D",
+        color: "#01052D",
         font: {
           size: "11",
         },

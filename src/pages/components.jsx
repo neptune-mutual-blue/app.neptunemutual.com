@@ -3,6 +3,7 @@ import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-traili
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { ReportSummary } from "@/components/UI/organisms/reporting/ReportSummary";
 import Head from "next/head";
+import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 
 export default function Components() {
   return (
@@ -37,6 +38,10 @@ export default function Components() {
 
         <br />
       </Container>
+
+      <br />
+
+      <TotalLiquidityChart />
     </main>
   );
 }
