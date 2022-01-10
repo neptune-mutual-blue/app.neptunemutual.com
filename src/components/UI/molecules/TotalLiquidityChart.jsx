@@ -64,6 +64,9 @@ const options = {
         font: {
           size: "11",
         },
+        callback: function (value, index) {
+          return this.getLabelForValue(value) + "M";
+        },
       },
       grid: {
         display: false,
@@ -95,7 +98,7 @@ function createGradient(ctx, area) {
   return gradient;
 }
 
-export function App() {
+export function TotalLiquidityChart() {
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
     datasets: [],
