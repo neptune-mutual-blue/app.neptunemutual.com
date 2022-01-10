@@ -113,7 +113,7 @@ export const NewIncidentReportForm = () => {
                     onChange: handleChange,
                   }}
                 />
-                <p className="text-sm text-9B9B9B mt-2 pl-2">
+                <p className="text-sm text-9B9B9B mt-2 mb-6 pl-2">
                   Provide link with proof of incident.
                 </p>
               </>
