@@ -49,7 +49,7 @@ export const HomePage = () => {
 
           <div>
             <div className="pt-6 pb-10">
-              <h3 className="text-h3 text-4E7DD9 pl-5">Total Liquidity</h3>
+              <h3 className="text-h3 font-sora text-4E7DD9 mb-1">Total Liquidity</h3>
               <div className="flex items-center">
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
                   $ 250.32M
