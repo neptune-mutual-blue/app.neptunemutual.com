@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 import { useWeb3React } from "@web3-react/core";
-import { networkId } from "@/src/config/environment";
 import { useNotifier } from "@/src/hooks/useNotifier";
 import useAuth from "@/lib/connect-wallet/hooks/useAuth";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { Popup } from "./Popup";
+import { getNetworkId } from "@/src/config/environment";
 
 export default function ConnectWallet() {
+  const [networkId,setNetworkId] = useState()
   const [isOpen, setIsOpen] = useState(false);
   const { active } = useWeb3React();
 
   const { notifier } = useNotifier();
   const { logout } = useAuth(networkId, notifier);
+
+ 
+  
+  useEffect(()=>{
+    setNetworkId(getNetworkId())
+  },[])
 
   function onClose() {
     setIsOpen(false);
@@ -62,7 +69,7 @@ export default function ConnectWallet() {
       <div className="ml-10 space-x-4 py-5 flex border-l border-728FB2 sm:pl-6 lg:pl-8">
         {network} {button}
       </div>
-      <Popup isOpen={isOpen} onClose={onClose} />
+      <Popup isOpen={isOpen} onClose={onClose} networkId={networkId}/>
     </>
   );
 }

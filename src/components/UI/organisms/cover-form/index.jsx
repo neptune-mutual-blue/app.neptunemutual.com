@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { policy, registry } from "@neptunemutual/sdk";
+
+import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
+import { useWeb3React } from "@web3-react/core";
 
 import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
@@ -9,14 +14,84 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
+import { monthNames } from "@/lib/dates";
+import { convertToUnits, convertFromUnits, isGreater } from "@/utils/bn";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
 
-export const CoverForm = () => {
+export const CoverForm = ({
+  assuranceTokenAddress,
+  assuranceTokenSymbol,
+  coverKey,
+}) => {
   const router = useRouter();
+  const { library, account, chainId } = useWeb3React();
 
   const [value, setValue] = useState();
+  const [balance, setBalance] = useState();
+  const [allowance, setAllowance] = useState();
+  const [spender, setSpender] = useState();
   const [coverMonth, setCoverMonth] = useState();
+  const [approving, setApproving] = useState();
+  const [purchasing, setPurchasing] = useState();
 
-  const { fees, maxValue } = useConstants();
+  const { fees } = useConstants();
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+
+    let ignore = false;
+
+    getERC20Balance(assuranceTokenAddress, library, account, chainId)
+      .then((bal) => {
+        if (ignore) return;
+        setBalance(bal);
+      })
+      .catch((e) => {
+        console.error(e);
+        if (ignore) return;
+      });
+
+    return () => (ignore = true);
+  }, [account, chainId, library, assuranceTokenAddress]);
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+
+    let ignore = false;
+
+    getERC20Allowance(spender, assuranceTokenAddress, library, account, chainId)
+      .then((bal) => {
+        if (ignore) return;
+        setAllowance(bal);
+      })
+      .catch((e) => {
+        console.error(e);
+        if (ignore) return;
+      });
+
+    return () => (ignore = true);
+  }, [account, chainId, library, assuranceTokenAddress, spender]);
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+
+    let ignore = false;
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    registry.PolicyContract.getAddress(chainId, signerOrProvider)
+      .then((addr) => {
+        if (ignore) return;
+        setSpender(addr);
+      })
+      .catch((e) => {
+        console.error(e);
+        if (ignore) return;
+      });
+
+    return () => (ignore = true);
+  }, [account, chainId, library, assuranceTokenAddress]);
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -26,25 +101,95 @@ export const CoverForm = () => {
     setCoverMonth(e.target.value);
   };
 
-  const handleMaxButtonClick = () => {
-    setValue(maxValue);
+  const handleChooseMax = () => {
+    if (!balance) {
+      return;
+    }
+    setValue(convertFromUnits(balance).toString());
   };
 
-  if (!fees && !maxValue) {
+  const checkApproved = async () => {
+    await getERC20Allowance(
+      spender,
+      assuranceTokenAddress,
+      library,
+      account,
+      chainId
+    )
+      .then((bal) => {
+        setAllowance(bal);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  const handleApprove = async () => {
+    try {
+      setApproving(true);
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+      let tx = await policy.approve(chainId, {}, signerOrProvider);
+
+      await tx.result.wait();
+
+      setApproving(false);
+      checkApproved();
+    } catch (error) {
+      setApproving(false);
+    }
+  };
+
+  const handlePurchase = async () => {
+    try {
+      setPurchasing(true);
+      const args = {
+        duration: parseInt(coverMonth, 10),
+        amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+      };
+
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+      const tx = await policy.purchaseCover(
+        chainId,
+        coverKey,
+        args,
+        signerOrProvider
+      );
+      await tx.result.wait();
+
+      setPurchasing(false);
+    } catch (error) {
+      setPurchasing(false);
+    }
+  };
+
+  if (!fees) {
     return <>loading...</>;
   }
+
+  const now = new Date();
+  const coverPeriodLabels = [
+    monthNames[(now.getMonth() + 0) % 12],
+    monthNames[(now.getMonth() + 1) % 12],
+    monthNames[(now.getMonth() + 2) % 12],
+  ];
+
+  const canPurchase = isGreater(allowance, value);
 
   return (
     <div className="max-w-md">
       <TokenAmountInput
         labelText={"Amount you wish to cover"}
         onInput={handleChange}
-        handleChooseMax={handleMaxButtonClick}
-        tokenSymbol={"DAI"}
+        handleChooseMax={handleChooseMax}
+        tokenAddress={assuranceTokenAddress}
+        tokenSymbol={assuranceTokenSymbol}
+        tokenBalance={balance}
         inputId={"cover-amount"}
         inputValue={value}
       />
-      {value !== undefined && parseInt(value) !== NaN && (
+      {value && (
         <div className="px-3 flex items-center text-15aac8">
           <p>You will receive: {value} cxDAI</p>
 
@@ -65,20 +210,23 @@ export const CoverForm = () => {
         </h5>
         <div className="flex">
           <Radio
-            label="january"
-            id="january"
+            label={coverPeriodLabels[0]}
+            id="period-1"
+            value="1"
             name="cover-period"
             onChange={handleRadioChange}
           />
           <Radio
-            label="february"
-            id="february"
+            label={coverPeriodLabels[1]}
+            id="period-2"
+            value="2"
             name="cover-period"
             onChange={handleRadioChange}
           />
           <Radio
-            label="march"
-            id="march"
+            label={coverPeriodLabels[2]}
+            id="period-3"
+            value="3"
             name="cover-period"
             onChange={handleRadioChange}
           />
@@ -91,9 +239,24 @@ export const CoverForm = () => {
           claimEnd={coverMonth}
         />
       )}
-      <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
-        Approve Dai
-      </RegularButton>
+
+      {!canPurchase ? (
+        <RegularButton
+          disabled={approving}
+          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          onClick={handleApprove}
+        >
+          {approving ? "Approving..." : <>Approve {assuranceTokenSymbol}</>}
+        </RegularButton>
+      ) : (
+        <RegularButton
+          disabled={purchasing}
+          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          onClick={handlePurchase}
+        >
+          {purchasing ? "Purchasing..." : <>Purchase policy</>}
+        </RegularButton>
+      )}
 
       <div className="mt-16">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
