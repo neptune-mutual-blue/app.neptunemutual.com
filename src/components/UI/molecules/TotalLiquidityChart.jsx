@@ -43,6 +43,7 @@ ChartJS.register(
 defaults.font.family = "Sora, sans-serif";
 
 const labels = [
+  // "",
   "Dec 3",
   "Dec 12",
   "Dec 21",
@@ -171,7 +172,7 @@ export const data = {
   labels,
   datasets: [
     {
-      data: [50.35, 104.78, 130.45, 203.98, 220.12, 260.45, 390.98],
+      data: [50.35, 104.78, 130.45, 203.98, 150.12, 260.45, 330.98],
       tension: "0.4",
       borderColor: "#4E7DD9",
       fill: true,
@@ -194,10 +195,6 @@ const options = {
     mode: "index",
   },
   elements: {
-    point: {
-      // radius: 20,
-      // borderWidth: "8",
-    },
     line: {
       borderWidth: "5",
     },
@@ -247,15 +244,20 @@ const options = {
           size: "11",
           family: "Poppins, sans-serif",
         },
+        labelOffset: 30,
+        callback(value, index) {
+          const val = this.getLabelForValue(value);
+          if (index > 5) return "";
+          return val;
+        },
       },
       grid: {
-        display: false, // should make it true in future
+        display: false,
         drawBorder: false,
         color: "#4E7DD9",
         z: "2",
         lineWidth: "7",
         drawTicks: false,
-        // offset: true,
       },
     },
   },
@@ -298,9 +300,9 @@ export function TotalLiquidityChart() {
   }, []);
 
   return (
-    <Container className="flex w-full h-[22rem]">
+    <Container className="flex w-full h-[22rem] mb-28">
       <div className="border-2 w-1/2"></div>
-      <div className="w-1/2 border-2">
+      <div className="w-1/2">
         <Chart ref={chartRef} type="line" options={options} data={chartData} />
       </div>
     </Container>
