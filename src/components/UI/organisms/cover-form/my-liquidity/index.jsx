@@ -58,6 +58,7 @@ export const CoverFormMyLiquidity = () => {
       <RegularButton
         className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         onClick={() => null}
+        disabled={!value}
       >
         Add Liquidity
       </RegularButton>
