@@ -6,7 +6,9 @@ import { useCallback, useState } from "react";
 
 import ToastContainer from "./container";
 import { ToastContext } from "./context";
-import { uuidv4 } from "./utils";
+import { v4 as uuidv4 } from "uuid";
+
+const DEFAULT_INTERVAL = 30000; // 30 seconds
 
 /**
  * Implementation
@@ -14,14 +16,13 @@ import { uuidv4 } from "./utils";
 export const ToastProvider = ({ children, variant }) => {
   const [data, setData] = useState([]);
   const Push = useCallback(
-    (message, type, lifetime, truncate, title) => {
+    (message, type, lifetime, title) => {
       if (message) {
         const newItem = {
           id: uuidv4(),
           message: message,
           type: type,
           lifetime: lifetime || DEFAULT_INTERVAL,
-          truncate,
           title,
         };
         setData((prevState) => [...prevState, newItem]);
@@ -32,13 +33,12 @@ export const ToastProvider = ({ children, variant }) => {
     [setData]
   );
   const PushCustom = useCallback(
-    ({ message, lifetime, truncate }, icon) => {
+    ({ message, lifetime }, icon) => {
       if (message) {
         const newItem = {
           id: uuidv4(),
           message: message,
           lifetime: lifetime || DEFAULT_INTERVAL,
-          truncate: truncate,
           icon: icon,
           type: undefined,
         };
@@ -48,23 +48,23 @@ export const ToastProvider = ({ children, variant }) => {
     [setData]
   );
   const PushError = useCallback(
-    ({ message, title = "Error", lifetime, truncate }) =>
-      Push(message, "Error", lifetime, truncate, title),
+    ({ message, title = "Error", lifetime }) =>
+      Push(message, "Error", lifetime, title),
     [Push]
   );
   const PushWarning = useCallback(
-    ({ message, title = "Warning", lifetime, truncate }) =>
-      Push(message, "Warning", lifetime, truncate, title),
+    ({ message, title = "Warning", lifetime }) =>
+      Push(message, "Warning", lifetime, title),
     [Push]
   );
   const PushSuccess = useCallback(
-    ({ message, title = "Success", lifetime, truncate }) =>
-      Push(message, "Success", lifetime, truncate, title),
+    ({ message, title = "Success", lifetime }) =>
+      Push(message, "Success", lifetime, title),
     [Push]
   );
   const PushInfo = useCallback(
-    ({ message, title = "Info", lifetime, truncate }) =>
-      Push(message, "Info", lifetime, truncate, title),
+    ({ message, title = "Info", lifetime }) =>
+      Push(message, "Info", lifetime, title),
     [Push]
   );
   const ToastContexd = useCallback(() => {

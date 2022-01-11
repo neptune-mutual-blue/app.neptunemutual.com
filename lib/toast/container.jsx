@@ -67,7 +67,6 @@ const ToastContainer = ({ variant = "top_right" }) => {
                 type={toast.type}
                 header={toast.header}
                 icon={toast.icon}
-                truncate={toast.truncate}
                 title={toast.title}
                 onRemove={handleRemove}
                 lifetime={toast.lifetime}
