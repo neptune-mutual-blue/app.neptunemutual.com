@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
@@ -11,13 +10,19 @@ import InfoCircleIcon from "@/icons/info-circle";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
-import { CoverPurchaseDetails } from "@/components/UI/organisms/cover-purchase-details/CoverPurchaseDetails";
+import { PolicyFeesAndExpiry } from "@/components/UI/organisms/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
-import { convertToUnits, convertFromUnits, isGreater } from "@/utils/bn";
+import {
+  convertToUnits,
+  convertFromUnits,
+  isGreater,
+  isValidNumber,
+} from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
+import BigNumber from "bignumber.js";
 
 export const CoverForm = ({
   assuranceTokenAddress,
@@ -175,32 +180,37 @@ export const CoverForm = ({
     monthNames[(now.getMonth() + 2) % 12],
   ];
 
-  const canPurchase = isGreater(allowance, value);
+  const canPurchase =
+    value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
+  const isError =
+    value &&
+    (!isValidNumber(value) ||
+      isGreater(convertToUnits(value || "0"), balance || "0"));
 
   return (
     <div className="max-w-md">
       <TokenAmountInput
         labelText={"Amount you wish to cover"}
         onInput={handleChange}
+        error={isError}
         handleChooseMax={handleChooseMax}
         tokenAddress={assuranceTokenAddress}
         tokenSymbol={assuranceTokenSymbol}
         tokenBalance={balance}
         inputId={"cover-amount"}
         inputValue={value}
-      />
-      {value && (
-        <div className="px-3 flex items-center text-15aac8">
-          <p>You will receive: {value} cxDAI</p>
+      >
+        {value && isValidNumber(value) && (
+          <div className="flex items-center text-15aac8">
+            <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
 
-          <Link href="#">
-            <a className="ml-3">
+            <button className="ml-3">
               <span className="sr-only">Info</span>
               <InfoCircleIcon width={24} fill="currentColor" />
-            </a>
-          </Link>
-        </div>
-      )}
+            </button>
+          </div>
+        )}
+      </TokenAmountInput>
       <div className="mt-12 px-3">
         <h5
           className="block uppercase text-black text-h6 font-semibold mb-4"
@@ -233,7 +243,7 @@ export const CoverForm = ({
         </div>
       </div>
       {value && coverMonth && (
-        <CoverPurchaseDetails
+        <PolicyFeesAndExpiry
           fees={fees}
           daiValue={value}
           claimEnd={coverMonth}
@@ -242,7 +252,7 @@ export const CoverForm = ({
 
       {!canPurchase ? (
         <RegularButton
-          disabled={approving}
+          disabled={isError || approving}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleApprove}
         >
@@ -250,7 +260,7 @@ export const CoverForm = ({
         </RegularButton>
       ) : (
         <RegularButton
-          disabled={purchasing}
+          disabled={isError || purchasing}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handlePurchase}
         >

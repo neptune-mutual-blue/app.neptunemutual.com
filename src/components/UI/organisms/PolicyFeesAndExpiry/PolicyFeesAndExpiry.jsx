@@ -1,4 +1,4 @@
-export const CoverPurchaseDetails = ({ fees, daiValue, claimEnd }) => {
+export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
   const formatDate = () => {
     let date = new Date();
     let dateToShow = claimEnd.substr(0, 3);

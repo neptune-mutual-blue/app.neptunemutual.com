@@ -9,6 +9,19 @@ export const hasValue = (x) => {
   return !(!x || !parseFloat(x.toString()));
 };
 
+export const isValidNumber = (x) => {
+  if (BigNumber.isBigNumber(x)) {
+    return true;
+  }
+
+  if (isNaN(x)) {
+    return false;
+  }
+
+  const y = new BigNumber(x);
+  return BigNumber.isBigNumber(y);
+};
+
 export const convertFromUnits = (value, decimals = 18) => {
   return BigNumber(value.toString()).dividedBy(Math.pow(10, decimals));
 };
