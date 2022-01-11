@@ -28,6 +28,7 @@ export const WithdrawForm = ({ onWithdraw, unitName }) => {
       <RegularButton
         onClick={onWithdraw}
         className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
+        disabled={!amtToWithdraw && true}
       >
         Collect
       </RegularButton>

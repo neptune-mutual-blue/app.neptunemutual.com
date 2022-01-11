@@ -163,6 +163,7 @@ export const NewIncidentReportForm = () => {
             <RegularButton
               className="text-h6 font-bold py-6 px-24 mt-16"
               onClick={handleReportClick}
+              disabled={!staked && true}
             >
               REPORT
             </RegularButton>
