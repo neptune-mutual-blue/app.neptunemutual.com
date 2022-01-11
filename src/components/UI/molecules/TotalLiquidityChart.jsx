@@ -44,13 +44,13 @@ defaults.font.family = "Sora, sans-serif";
 
 const labels = [
   // "",
-  "Dec 3",
-  "Dec 12",
-  "Dec 21",
-  "Dec 30",
-  "Jan 8",
-  "Jan 17",
-  "Jan 26",
+  "DEC 3",
+  "DEC 12",
+  "DEC 21",
+  "DEC 30",
+  "JAN 8",
+  "JAN 17",
+  "JAN 26",
 ];
 
 const getOrCreateTooltip = (chart) => {
@@ -106,8 +106,13 @@ const externalTooltipHandler = (context) => {
       td.style.color = "#5C738F";
       td.style.fontSize = "12px";
       td.style.paddingLeft = "16px";
-      td.style.paddingRight = "16px";
+      td.style.paddingRight = "24px";
       td.style.fontFamily = "Sora, sans-serif";
+      td.style.lineHeight = "0px";
+      td.style.whiteSpace = "nowrap";
+      td.style.fontWeight = "400";
+      td.style.paddingTop = "8px";
+      td.style.paddingBottom = "12px";
 
       const customText = title?.toUpperCase() + " 13:00 UTC";
 
@@ -134,6 +139,8 @@ const externalTooltipHandler = (context) => {
       th.style.paddingLeft = "16px";
       th.style.paddingRight = "16px";
       th.style.fontFamily = "Sora, sans-serif";
+      th.style.whiteSpace = "nowrap";
+      th.style.fontWeight = "400";
 
       const customBody = "$ " + body + "M";
 
