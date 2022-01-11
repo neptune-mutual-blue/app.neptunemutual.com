@@ -6,7 +6,7 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { useToast } from "@/lib/toast/context";
 import OpenInNewIcon from "@/icons/open-in-new";
-import { TOAST_ERROR_TIMEOUT } from "@/src/_mocks/utils";
+import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -26,7 +26,7 @@ export const ClaimBondModal = ({
           <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
         </p>
       ),
-      lifetime: TOAST_ERROR_TIMEOUT,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
     });
   };
 

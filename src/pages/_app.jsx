@@ -9,14 +9,14 @@ import { Header } from "@/components/UI/organisms/header";
 import { AppWrapper } from "@/components/UI/organisms/AppWrapper";
 import { ToastProvider } from "@/lib/toast/provider";
 
+const position = {
+  variant: "top_right",
+};
+
 function MyApp({ Component, pageProps }) {
   if (pageProps.noWrappers) {
     return <Component {...pageProps} />;
   }
-
-  const position = {
-    variant: "top_right",
-  };
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>

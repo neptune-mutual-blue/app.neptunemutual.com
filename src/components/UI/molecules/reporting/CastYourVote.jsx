@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useToast } from "@/lib/toast/context";
-import { TOAST_ERROR_TIMEOUT } from "@/src/_mocks/utils";
+import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 
 const maxAmtToStake = 500;
 
@@ -38,7 +38,7 @@ export const CastYourVote = () => {
     toast?.pushSuccess({
       title: "Bond Claimed Successfully",
       message: <p></p>,
-      lifetime: TOAST_ERROR_TIMEOUT,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
     });
   };
 

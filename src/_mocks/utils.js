@@ -4,4 +4,3 @@ export function sleeper(ms) {
   };
 }
 
-export const TOAST_ERROR_TIMEOUT = 30000; //30 seconds

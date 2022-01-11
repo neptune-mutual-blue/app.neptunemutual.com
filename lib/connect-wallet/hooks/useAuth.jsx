@@ -8,8 +8,6 @@ import { NetworkNames } from "../config/chains";
 import { setupNetwork } from "../utils/wallet";
 import { ConnectorNames } from "../config/connectors";
 
-const noOp = () => {};
-
 const activateConnector = async (
   connectorName,
   activate,
@@ -45,7 +43,12 @@ const activateConnector = async (
       notify({
         type: "error",
         title: "Wrong network",
-        message: `Please switch to <strong>${NetworkNames[networkId]}</strong> in your <strong>${wallet.name}</strong> wallet`,
+        message: (
+          <p>
+            Please switch to <strong>{NetworkNames[networkId]}</strong> in your{" "}
+            <strong>{wallet.name}</strong> wallet
+          </p>
+        ),
         error: error,
       });
       return;
@@ -137,7 +140,7 @@ const deactivateConnector = async (deactivate, networkId) => {
   }
 };
 
-const useAuth = (networkId, notify = noOp) => {
+const useAuth = (networkId, notify = console.log) => {
   const { activate, deactivate, library, connector } = useWeb3React();
 
   useEffect(() => {
