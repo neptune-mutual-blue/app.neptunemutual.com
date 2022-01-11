@@ -12,11 +12,11 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const title = coverInfo.name;
 
   return (
     <div>
-      <main className="bg-F1F3F6">
+      <main className="bg-f1f3f6">
         {/* hero */}
         <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 

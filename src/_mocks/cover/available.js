@@ -1,3 +1,30 @@
+import { convertToUnits } from "@/utils/bn";
+
+const DAYS = 86400;
+
+const defaultInfo = {
+  about:
+    "Compound is an algorithmic, autonomous interest rate protocol built for developers, to unlock a universe of open financial applications.",
+  tags: ["Smart Contract", "DeFi", "Lending"],
+
+  rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
+  2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
+  3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
+  4. The protocol promised but later were unable to cover, write off, or bear at least 75% of the sufferred loss on behalf of their users within 30 days of the incident`,
+  links: {
+    website: "https://compound.finance/",
+    documentation: "https://docs.compound.finance/",
+    telegram: null,
+    twitter: "https://twitter.com/compoundfinance",
+    github: "https://github.com/compound",
+    facebook: "https://facebook.com/compoundfinance",
+    blog: "https://blog.medium.com/compoundfinance",
+    discord: "https://discord.com/invite/cU7vmVW",
+    linkedin: "https://linkedin.com/in/compoundfinance",
+    slack: null,
+  },
+};
+
 export const getAvailableCovers = () => {
   return [
     {
@@ -13,6 +40,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
     {
       id: "2",
@@ -27,6 +70,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
     {
       id: "3",
@@ -41,6 +100,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
     {
       id: "4",
@@ -55,6 +130,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
     {
       id: "5",
@@ -69,6 +160,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
     {
       id: "6",
@@ -83,6 +190,22 @@ export const getAvailableCovers = () => {
       protection: 800000,
       liquidity: 11010000,
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
+      reportingPeriod: 7 * DAYS,
+      resolutionSources: [
+        "https://twitter.com/compoundfinance",
+        "https://medium.com/compound-finance",
+        "https://twitter.com/neptunemutual",
+      ],
+      reassuranceToken: {
+        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        name: "DAI Stablecoin",
+        symbol: "DAI",
+        initialAmount: convertToUnits(50_000).toString(),
+      },
+      stakeWithFees: convertToUnits(50_000).toString(),
+      initialLiquidity: convertToUnits(50_000).toString(),
+      minReportingStake: convertToUnits(500).toString(),
+      ...defaultInfo,
     },
   ];
 };

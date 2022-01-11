@@ -11,12 +11,16 @@
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
     "@ethersproject/providers": "5.5.1",
+    "@fontsource/poppins": "4.5.0",
+    "@fontsource/sora": "4.5.0",
     "@headlessui/react": "^1.4.2",
+    "@neptunemutual/sdk": "^0.1.7-beta",
     "@radix-ui/react-tooltip": "^0.1.6",
     "@tailwindcss/forms": "^0.4.0",
     "@web3-react/core": "6.1.9",
     "@web3-react/injected-connector": "6.0.7",
     "@web3-react/walletconnect-connector": "6.2.4",
+    "bignumber.js": "^9.0.2",
     "chart.js": "3.7.0",
     "next": "12.0.7",
     "numeral": "^2.0.6",
@@ -30,7 +34,11 @@
     "autoprefixer": "^10.4.0",
     "eslint": "8.4.1",
     "eslint-config-next": "12.0.7",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-unused-imports": "2.0.0",
     "postcss": "^8.4.4",
+    "prettier": "2.5.1",
     "tailwindcss": "^3.0.0"
   }
 }

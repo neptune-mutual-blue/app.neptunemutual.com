@@ -6,9 +6,9 @@ import { classNames } from "@/utils/classnames";
 export const Select = ({ prefix = "", options, selected, setSelected }) => {
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <div className="relative">
-        <Listbox.Button className="relative max-w-180 py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
-          <span className="block truncate text-9B9B9B">
+      <div className="relative w-80">
+        <Listbox.Button className="relative w-full py-3 pl-4 pr-14 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9">
+          <span className="block text-left truncate text-9B9B9B">
             {prefix}
             {selected.name}
           </span>
@@ -29,7 +29,7 @@ export const Select = ({ prefix = "", options, selected, setSelected }) => {
                 className={({ active }) =>
                   classNames(
                     `cursor-default select-none relative px-1`,
-                    active ? "text-4E7DD9" : "text-black"
+                    active ? "text-4e7dd9" : "text-black"
                   )
                 }
                 value={option}

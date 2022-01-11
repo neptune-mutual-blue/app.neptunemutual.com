@@ -1,4 +1,4 @@
-export const CoverPurchaseDetails = ({ fees, daiValue, claimEnd }) => {
+export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
   const formatDate = () => {
     let date = new Date();
     let dateToShow = claimEnd.substr(0, 3);
@@ -13,15 +13,15 @@ export const CoverPurchaseDetails = ({ fees, daiValue, claimEnd }) => {
         <tbody>
           <tr className="flex justify-between mt-3">
             <th>Fees</th>
-            <td className="text-4E7DD9 px-4">{fees} %</td>
+            <td className="text-4e7dd9 px-4">{fees} %</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Cover Fee</th>
-            <td className="text-4E7DD9 px-4">{(fees / 100) * daiValue} DAI</td>
+            <td className="text-4e7dd9 px-4">{(fees / 100) * daiValue} DAI</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4E7DD9 px-4">{formatDate()}</td>
+            <td className="text-4e7dd9 px-4">{formatDate()}</td>
           </tr>
         </tbody>
       </table>

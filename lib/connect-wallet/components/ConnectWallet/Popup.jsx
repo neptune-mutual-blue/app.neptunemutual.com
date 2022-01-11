@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { useWeb3React } from "@web3-react/core";
 
-import useAuth from "@/lib/connect-wallet/hooks/useAuth";
-import { wallets } from "@/lib/connect-wallet/config/wallets";
-import { Disclaimer } from "./Disclaimer";
-import { WalletList } from "./WalletList";
-import { networkId } from "@/src/config/environment";
-import { useNotifier } from "@/src/hooks/useNotifier";
-import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { Modal } from "@/components/UI/molecules/modal/regular";
-import { Loader } from "@/components/UI/atoms/Loader/Loader";
+import useAuth from "../../hooks/useAuth";
+import { wallets } from "../../config/wallets";
+import { Modal } from "../Modal/Modal";
+import { Disclaimer } from "../ConnectWallet/Disclaimer";
+import { WalletList } from "../ConnectWallet/WalletList";
+import { Loader } from "../Loader/Loader";
+import CloseIcon from "../icons/CloseIcon";
 
-export const Popup = ({ isOpen, onClose }) => {
+export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const { active } = useWeb3React();
 
-  const { notifier } = useNotifier();
   const { login } = useAuth(networkId, notifier);
 
   useEffect(() => {
@@ -37,7 +34,7 @@ export const Popup = ({ isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative inline-block max-w-md p-12 my-8 text-left align-middle transition-all rounded-3xl bg-F1F3F6">
+      <div className="relative inline-block min-w-sm max-w-md p-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
         <Dialog.Title
           as="h3"
           className="font-sora text-h2 font-bold text-black leading-9"
@@ -45,7 +42,13 @@ export const Popup = ({ isOpen, onClose }) => {
           Connect Wallet
         </Dialog.Title>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <button
+          onClick={onClose}
+          className="absolute top-7 right-12 flex justify-center items-center text-black hover:text-4e7dd9 focus:text-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-md focus-visible:ring-offset-transparent"
+        >
+          <span className="sr-only">Close</span>
+          <CloseIcon width={24} height={24} />
+        </button>
 
         {!isConnecting && (
           <>

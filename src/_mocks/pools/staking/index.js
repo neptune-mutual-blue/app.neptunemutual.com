@@ -3,7 +3,7 @@ export const getAvailableStakingPools = () => {
     {
       id: "1",
       name: "HT",
-      imgSrc: "/pools/staking/ht.svg",
+      imgSrc: "/pools/staking/ht.png",
       apr: 16.03,
       lockingPeriod: 24,
       tvl: "2.7M",
@@ -19,7 +19,7 @@ export const getAvailableStakingPools = () => {
     {
       id: "3",
       name: "okb",
-      imgSrc: "/pools/staking/okb.svg",
+      imgSrc: "/pools/staking/okb.png",
       apr: 13.7,
       lockingPeriod: 24,
       tvl: "1.4M",
@@ -27,7 +27,7 @@ export const getAvailableStakingPools = () => {
     {
       id: "4",
       name: "okex",
-      imgSrc: "/pools/staking/clearpool.svg",
+      imgSrc: "/pools/staking/clearpool.png",
       apr: 10.01,
       lockingPeriod: 24,
       tvl: "1.0M",
@@ -35,7 +35,7 @@ export const getAvailableStakingPools = () => {
     {
       id: "5",
       name: "axs",
-      imgSrc: "/pools/staking/axs.svg",
+      imgSrc: "/pools/staking/axs.png",
       apr: 15.0,
       lockingPeriod: 24,
       tvl: "3.0M",
@@ -43,7 +43,7 @@ export const getAvailableStakingPools = () => {
     {
       id: "6",
       name: "eqifi",
-      imgSrc: "/pools/staking/eqifi.svg",
+      imgSrc: "/pools/staking/eqifi.png",
       apr: 9.9,
       lockingPeriod: 24,
       tvl: "1.1M",

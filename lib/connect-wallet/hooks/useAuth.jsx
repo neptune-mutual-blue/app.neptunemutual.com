@@ -45,7 +45,7 @@ const activateConnector = async (
       notify({
         type: "error",
         title: "Wrong network",
-        message: `Please switch to <strong>${NetworkNames[networkId]}</strong> in your <strong>${wallet}</strong> wallet`,
+        message: `Please switch to <strong>${NetworkNames[networkId]}</strong> in your <strong>${wallet.name}</strong> wallet`,
         error: error,
       });
       return;

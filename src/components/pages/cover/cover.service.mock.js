@@ -1,9 +1,9 @@
 import { getCoverInfo } from "@/src/_mocks/cover";
 import { sleeper } from "@/src/_mocks/utils";
 
-export const getCoverByAddress = async (address) => {
+export const getCoverByKey = async (key) => {
   await sleeper(500)();
-  return getCoverInfo();
+  return getCoverInfo(key);
 };
 
 export const getFees = async () => {

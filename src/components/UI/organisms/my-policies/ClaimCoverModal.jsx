@@ -26,7 +26,7 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-lg w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-lg w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 w-full flex items-center">
           <img
             src="/_mocks/icons/okex.png"
@@ -52,7 +52,10 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
           <DisabledInput value={receiveAmount} unit="DAI" />
           <p className="text-9B9B9B pt-2 px-3">Fee: 6.50%</p>
         </div>
-        <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold">
+        <RegularButton
+          disabled={!value}
+          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+        >
           Claim
         </RegularButton>
       </div>

@@ -5,13 +5,20 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { CoverOptionName } from "@/components/UI/molecules/cover/option/option-name";
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
+import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 
 export const CoverOptions = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 
-  const imgSrc = "/covers/clearpool.png";
-  const title = "Clearpool";
+  const { coverInfo } = useCoverInfo(cover_id);
+
+  if (!coverInfo) {
+    return <>loading...</>;
+  }
+
+  const imgSrc = coverInfo.imgSrc;
+  const title = coverInfo.name;
 
   return (
     <div
@@ -31,7 +38,7 @@ export const CoverOptions = () => {
           {Object.keys(coverActions).map((actionKey) => {
             return (
               <Link key={actionKey} href={`/cover/${cover_id}/${actionKey}`}>
-                <a className="rounded-3xl focus:ring-2 focus:ring-offset-2 focus:ring-black focus:outline-none py-12 h-full hover:bg-B0C4DB focus:bg-B0C4DB">
+                <a className="rounded-3xl py-12 h-full transition-all hover:bg-B0C4DB focus:bg-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <OptionActionCard
                     title={coverActions[actionKey].title}
                     description={coverActions[actionKey].description}

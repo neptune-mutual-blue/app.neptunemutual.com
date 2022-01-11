@@ -26,11 +26,11 @@ const BondPage = () => {
     {
       title: "Bond Price",
       value: `$${parseFloat(bondInfo?.bondPrice).toFixed(4)}`,
-      valueClasses: "text-h3 text-4E7DD9 mt-1",
+      valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
     {
       title: "Maximum Bond",
-      value: `${bondInfo?.max_bond} NPM`,
+      value: `${bondInfo?.max_bond} NPM-USDC LP`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -44,7 +44,7 @@ const BondPage = () => {
     },
     {
       title: "Your Bond",
-      value: `${bondInfo?.bonded} NPM`,
+      value: `${bondInfo?.bonded} NPM-USDC LP`,
       titleClasses: `mt-7 ${!yourBondDisplay && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!yourBondDisplay && "hidden"}`,
     },
@@ -121,6 +121,7 @@ const BondPage = () => {
         <RegularButton
           className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
           onClick={handleApprove}
+          disabled={!value}
         >
           Approve NPM-USDC LP
         </RegularButton>

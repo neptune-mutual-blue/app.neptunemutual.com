@@ -45,7 +45,7 @@ export const ReportSummary = () => {
             ]}
           />
 
-          <hr className="mt-4 mb-6 border-t border-D4DFEE" />
+          <hr className="mt-4 mb-6 border-t border-d4dfee" />
           <InsightsTable
             insights={[
               { title: "False Reporting", value: "25%", variant: "error" },
@@ -54,7 +54,7 @@ export const ReportSummary = () => {
             ]}
           />
 
-          <hr className="mt-6 mb-6 border-t border-D4DFEE" />
+          <hr className="mt-6 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">
             Incident Reporters
           </h3>
@@ -69,7 +69,7 @@ export const ReportSummary = () => {
             txHash={"0xasdasd"}
           />
 
-          <hr className="mt-8 mb-6 border-t border-D4DFEE" />
+          <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">1 September - 7 September</p>
           <HlCalendar startDate={startDate} endDate={endDate} />

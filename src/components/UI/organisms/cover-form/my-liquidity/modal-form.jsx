@@ -14,7 +14,6 @@ export const WithdrawLiquidityModal = ({
   onClose,
   unitName,
 }) => {
-
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
   const { maxValue } = useConstants();
@@ -24,7 +23,7 @@ export const WithdrawLiquidityModal = ({
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
     setValue(e.target.value);
     setReceiveAmount(willRecieve);
@@ -36,7 +35,7 @@ export const WithdrawLiquidityModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 flex">
           {modalTitle}
         </Dialog.Title>
@@ -64,6 +63,7 @@ export const WithdrawLiquidityModal = ({
         <RegularButton
           onClick={() => handleWithdraw(id)}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          disabled={!value}
         >
           Withdraw
         </RegularButton>

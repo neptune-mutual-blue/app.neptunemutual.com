@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 
-import { getCoverByAddress } from "./cover.service.mock";
+import { getCoverByKey } from "./cover.service.mock";
 
-export const useCoverInfo = () => {
+export const useCoverInfo = (key) => {
   const [coverInfo, setCoverInfo] = useState(null);
 
   useEffect(() => {
     let ignore = false;
     async function fetchCoverInfo() {
-      const response = await getCoverByAddress();
+      const response = await getCoverByKey(key);
 
       if (!ignore) setCoverInfo(response);
     }
@@ -17,7 +17,7 @@ export const useCoverInfo = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [key]);
 
   return {
     coverInfo,

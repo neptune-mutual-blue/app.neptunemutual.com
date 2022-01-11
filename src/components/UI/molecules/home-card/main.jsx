@@ -17,7 +17,7 @@ export const HomeMainCard = () => {
           <ActiveSheildIcon width={24} />
         </div>
         <h4 className="text-h4">Available</h4>
-        <h4 className="text-h4 text-4E7DD9 font-bold ml-auto">30</h4>
+        <h4 className="text-h4 text-4e7dd9 font-bold ml-auto">30</h4>
       </div>
 
       <div className="w-full flex items-center justify-between font-sora mt-5">
@@ -26,7 +26,7 @@ export const HomeMainCard = () => {
           <ReportIcon width={24} height={24} />
         </div>
         <h4 className="text-h4">Reporting</h4>
-        <h4 className="text-h4 text-4E7DD9 font-bold ml-auto">2</h4>
+        <h4 className="text-h4 text-4e7dd9 font-bold ml-auto">2</h4>
       </div>
     </div>
   );

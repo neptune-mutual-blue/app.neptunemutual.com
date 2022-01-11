@@ -7,25 +7,23 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 
-
 export const CoverFormMyLiquidity = () => {
   const router = useRouter();
 
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
   const { fees, maxValue } = useConstants();
-  
+
   const handleChooseMax = () => {
     setValue(maxValue);
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-   const handleChange = (e) => {
+  const handleChange = (e) => {
     const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
     setValue(e.target.value);
     setReceiveAmount(willRecieve);
   };
-
 
   if (!fees && !maxValue) {
     return <>loading...</>;
@@ -47,7 +45,7 @@ export const CoverFormMyLiquidity = () => {
       <div className="pb-16">
         <ReceiveAmountInput
           labelText="You Will Receive"
-          tokenSymbol="DAI"
+          tokenSymbol="POD"
           inputValue={receiveAmount}
           inputId="my-liquidity-receive"
         />
@@ -57,7 +55,11 @@ export const CoverFormMyLiquidity = () => {
         <UnlockDate dateValue="September 22, 2021 12:34:00 PM UTC" />
       </div>
 
-      <RegularButton className="w-full mt-8 p-6 text-h6 uppercase font-semibold" onClick={() => null}>
+      <RegularButton
+        className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+        onClick={() => null}
+        disabled={!value}
+      >
         Add Liquidity
       </RegularButton>
 

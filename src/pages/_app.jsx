@@ -1,6 +1,8 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import "tailwindcss/tailwind.css";
 
+import "@fontsource/poppins/latin.css";
+import "@fontsource/sora/latin.css";
 import "../styles/globals.css";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
 import { Header } from "@/components/UI/organisms/header";
