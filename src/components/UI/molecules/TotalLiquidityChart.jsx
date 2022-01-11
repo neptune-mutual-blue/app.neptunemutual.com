@@ -13,6 +13,22 @@ import {
 import { Chart } from "react-chartjs-2";
 import { Container } from "@/src/components/UI/atoms/container";
 
+const chartAreaBorder = {
+  id: "chartAreaBorder",
+  beforeDraw(chart, args, options) {
+    const {
+      ctx,
+      chartArea: { left, top, bottom, width, height },
+    } = chart;
+    ctx.save();
+    ctx.strokeStyle = options.borderColor;
+    ctx.lineWidth = options.borderWidth;
+    ctx.strokeRect(left, top, options.borderWidth, height + 30);
+    ctx.strokeRect(left - 30, bottom, width + 60, options.borderWidth);
+    ctx.restore();
+  },
+};
+
 ChartJS.register(
   Filler,
   CategoryScale,
@@ -20,7 +36,8 @@ ChartJS.register(
   PointElement,
   LineElement,
   Tooltip,
-  Legend
+  Legend,
+  chartAreaBorder
 );
 
 defaults.font.family = "Sora, sans-serif";
@@ -89,6 +106,7 @@ const externalTooltipHandler = (context) => {
       td.style.fontSize = "12px";
       td.style.paddingLeft = "16px";
       td.style.paddingRight = "16px";
+      td.style.fontFamily = "Sora, sans-serif";
 
       const customText = title?.toUpperCase() + " 13:00 UTC";
 
@@ -114,6 +132,7 @@ const externalTooltipHandler = (context) => {
       th.style.borderWidth = "0";
       th.style.paddingLeft = "16px";
       th.style.paddingRight = "16px";
+      th.style.fontFamily = "Sora, sans-serif";
 
       const customBody = "$ " + body + "M";
 
@@ -168,6 +187,8 @@ export const data = {
 };
 
 const options = {
+  responsive: true,
+  maintainAspectRatio: false,
   hover: {
     intersect: false,
     mode: "index",
@@ -182,7 +203,10 @@ const options = {
     },
   },
   plugins: {
-    // ChartsJS DataLabels initialized here
+    chartAreaBorder: {
+      borderColor: "#01052D",
+      borderWidth: 0.5,
+    },
     legend: {
       display: false,
     },
@@ -197,8 +221,10 @@ const options = {
       beginAtZero: true,
       ticks: {
         color: "#01052D",
+        padding: 20,
         font: {
           size: "11",
+          family: "Poppins, sans-serif",
         },
         callback: function (value, index) {
           const val = this.getLabelForValue(value);
@@ -216,8 +242,10 @@ const options = {
     x: {
       ticks: {
         color: "#01052D",
+        padding: 20,
         font: {
           size: "11",
+          family: "Poppins, sans-serif",
         },
       },
       grid: {
@@ -270,8 +298,11 @@ export function TotalLiquidityChart() {
   }, []);
 
   return (
-    <Container>
-      <Chart ref={chartRef} type="line" options={options} data={chartData} />
+    <Container className="flex w-full h-[22rem]">
+      <div className="border-2 w-1/2"></div>
+      <div className="w-1/2 border-2">
+        <Chart ref={chartRef} type="line" options={options} data={chartData} />
+      </div>
     </Container>
   );
 }
