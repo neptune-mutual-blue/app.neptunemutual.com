@@ -5,19 +5,20 @@ import { useWeb3React } from "@web3-react/core";
 import { getAddressExplorerUrl } from "@/utils/blockchain/getAddressExplorerUrl";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 
-export const TokenBalance = ({ tokenAddress, balance, unit }) => {
+export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { chainId } = useWeb3React();
   const { register } = useRegisterToken();
 
   return (
     <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
-      {balance ? (
-        <p>
-          Balance: {convertFromUnits(balance).toString()} {unit}
-        </p>
-      ) : (
-        <p></p>
-      )}
+      <div>
+        {balance && (
+          <p>
+            Balance: {convertFromUnits(balance).toString()} {unit}
+          </p>
+        )}
+        {children}
+      </div>
       <div className="flex">
         <a
           href={getAddressExplorerUrl(tokenAddress, chainId)}
