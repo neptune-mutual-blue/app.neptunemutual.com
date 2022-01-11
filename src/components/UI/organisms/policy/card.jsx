@@ -55,7 +55,7 @@ export const PolicyCard = ({ details }) => {
           <span className="font-semibold text-black text-sm pb-2">
             Purchased Policy
           </span>
-          <span className="text-7398C0">{purchasedPolicy}</span>
+          <span className="text-7398C0 text-right">{purchasedPolicy}</span>
         </div>
       </div>
 
