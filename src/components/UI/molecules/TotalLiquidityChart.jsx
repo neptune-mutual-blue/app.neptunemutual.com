@@ -11,23 +11,10 @@ import {
   defaults,
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import { Container } from "@/src/components/UI/atoms/container";
 import { getLiquidityChartData } from "@/src/_mocks/my-liquidity/chartData";
+import { monthNames } from "@/lib/dates";
 
-const month = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+const month = monthNames.map((x) => x.substring(0, 3));
 
 let labels = [];
 
@@ -35,8 +22,8 @@ const liquidityChartData = getLiquidityChartData();
 
 liquidityChartData.map((d) => {
   const newDate = new Date(d.date);
-  const mon = month[newDate.getUTCMonth()];
-  const date = newDate.getUTCDate();
+  const mon = month[newDate.getMonth()];
+  const date = newDate.getDate();
   labels.push(mon.toUpperCase() + " " + date);
 });
 
@@ -327,11 +314,6 @@ export function TotalLiquidityChart() {
   }
 
   return (
-    <Container className="flex w-full h-[22rem] mb-28">
-      <div className="w-1/2"></div>
-      <div className="w-1/2">
-        <Chart ref={chartRef} type="line" options={options} data={chartData} />
-      </div>
-    </Container>
+    <Chart ref={chartRef} type="line" options={options} data={chartData} />
   );
 }

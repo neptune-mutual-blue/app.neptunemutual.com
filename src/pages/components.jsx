@@ -37,11 +37,12 @@ export default function Components() {
         <RecentVotesTable />
 
         <br />
+        <br />
+
+        <div style={{ width: "800px", height: "500px" }}>
+          <TotalLiquidityChart />
+        </div>
       </Container>
-
-      <br />
-
-      <TotalLiquidityChart />
     </main>
   );
 }
