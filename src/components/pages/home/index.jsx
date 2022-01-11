@@ -75,7 +75,7 @@ export const HomePage = () => {
       </Hero>
 
       <Container className="py-16">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap gap-6">
           <h1 className="text-h2 font-sora font-bold">Available Covers</h1>
           <SearchAndSortBar />
         </div>
