@@ -15,7 +15,7 @@ export const ReportSummary = () => {
 
   /* if incident is active its true else false, 
   while checking change the status to see ech component  */
-  const isActive = false;
+  const isActive = true;
 
   return (
     <>

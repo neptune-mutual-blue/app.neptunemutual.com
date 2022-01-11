@@ -49,7 +49,7 @@ export const CoverOptions = () => {
             );
           })}
         </div>
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 pb-20">
           <OutlinedButton className="rounded-big" onClick={() => router.back()}>
             &#x27F5;&nbsp;Back
           </OutlinedButton>
