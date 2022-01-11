@@ -16,7 +16,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
 
   return (
     <div>
-      <main className="bg-F1F3F6">
+      <main className="bg-f1f3f6">
         {/* hero */}
         <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 

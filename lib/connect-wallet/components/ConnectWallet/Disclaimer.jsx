@@ -3,7 +3,7 @@ export const Disclaimer = () => {
     <p className="text-sm text-black leading-5 mt-6">
       By connecting a wallet, you agree to Neptune Mutual
       <a
-        className="text-4E7DD9 font-medium hover:text-black hover:underline"
+        className="text-4e7dd9 font-medium hover:text-black hover:underline"
         href="#"
       >
         {" "}
@@ -11,7 +11,7 @@ export const Disclaimer = () => {
       </a>
       and acknowledge that you have read and understand the Neptune Mutual
       <a
-        className="text-4E7DD9 font-medium hover:text-black hover:underline"
+        className="text-4e7dd9 font-medium hover:text-black hover:underline"
         href="#"
       >
         {" "}
