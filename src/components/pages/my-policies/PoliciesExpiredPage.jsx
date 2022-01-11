@@ -17,7 +17,7 @@ export const PoliciesExpiredPage = () => {
     <Container className="py-16">
       <div className="flex justify-end">
         <Link href="/my-policies/transactions">
-          <a className="text-h4 font-medium text-4E7DD9 hover:underline">
+          <a className="text-h4 font-medium text-4e7dd9 hover:underline">
             Transaction List
           </a>
         </Link>
@@ -27,7 +27,7 @@ export const PoliciesExpiredPage = () => {
           return (
             <div
               key={c.name}
-              className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9"
+              className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9"
             >
               <PolicyCard details={c}></PolicyCard>
             </div>

@@ -38,7 +38,7 @@ const Crumb = ({ page, idx }) => {
       <a
         className={classNames(
           "ml-1 hover:underline",
-          idx === 0 ? "text-4E7DD9" : ""
+          idx === 0 ? "text-4e7dd9" : ""
         )}
         aria-current={page.current ? "page" : undefined}
       >

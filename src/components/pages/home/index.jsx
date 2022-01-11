@@ -49,7 +49,9 @@ export const HomePage = () => {
 
           <div>
             <div className="pt-6 pb-10">
-              <h3 className="text-h3 font-sora text-4E7DD9 mb-1">Total Liquidity</h3>
+              <h3 className="text-h3 font-sora text-4e7dd9 mb-1">
+                Total Liquidity
+              </h3>
               <div className="flex items-center">
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
                   $ 250.32M
@@ -80,7 +82,7 @@ export const HomePage = () => {
           {availableCovers.map((c) => {
             return (
               <Link href={`/cover/${c.key}`} key={c.name}>
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9">
                   <CoverCard details={c}></CoverCard>
                 </a>
               </Link>

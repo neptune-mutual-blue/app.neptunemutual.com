@@ -61,7 +61,7 @@ export const PolicyCard = ({ details }) => {
 
       {claimable && (
         <Link href={`/my-policies/${key}/claim`}>
-          <a className="flex justify-center py-2.5 w-full bg-4E7DD9 text-white text-sm font-semibold rounded-lg mt-2 mb-4">
+          <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold rounded-lg mt-2 mb-4">
             CLAIM
           </a>
         </Link>

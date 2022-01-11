@@ -50,7 +50,7 @@ const renderActions = (_row, isClaimClicked) => {
   return (
     <td className="px-6 py-6" style={{ minWidth: "120px" }}>
       <span
-        className="text-4E7DD9 hover:underline cursor-pointer"
+        className="text-4e7dd9 hover:underline cursor-pointer"
         onClick={handleClick}
       >
         Claim

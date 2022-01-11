@@ -6,7 +6,7 @@ export const Tab = ({ children, active, className }) => {
       className={classNames(
         `font-sora cursor-pointer mr-3 -mb-px overflow-auto `,
         active
-          ? "text-4E7DD9 border border-b-0 font-semibold rounded-t-lg border-solid border-B0C4DB bg-F1F3F6"
+          ? "text-4e7dd9 border border-b-0 font-semibold rounded-t-lg border-solid border-B0C4DB bg-f1f3f6"
           : "text-black",
         className
       )}

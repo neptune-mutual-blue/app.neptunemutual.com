@@ -12,7 +12,7 @@ export const IncidentReporter = ({ variant, account, txHash }) => {
           )}
         ></div>
 
-        <div className="text-4E7DD9">{account}</div>
+        <div className="text-4e7dd9">{account}</div>
 
         {/* Link to reported tx */}
         <div className="ml-auto flex justify-center items-center">
