@@ -152,7 +152,7 @@ export const data = {
   labels,
   datasets: [
     {
-      data: [50, 100, 130, 200, 230, 260, 400],
+      data: [50.35, 104.78, 130.45, 203.98, 220.12, 260.45, 390.98],
       tension: "0.4",
       borderColor: "#4E7DD9",
       fill: true,
