@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { CoverOptions } from "@/components/pages/cover/CoverOptions";
+import { CoverOptions } from "@/components/pages/cover/coverOptions";
 
 export default function Options() {
   return (
