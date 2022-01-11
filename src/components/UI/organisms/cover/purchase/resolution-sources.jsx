@@ -9,13 +9,13 @@ export const CoverPurchaseResolutionSources = ({ children = null }) => {
         <p className="text-sm mt-1 mb-6 opacity-50">7 days reporting period</p>
 
         <Link href="#">
-          <a className="block text-4E7DD9 hover:underline mt-3">
+          <a className="block text-4e7dd9 hover:underline mt-3">
             Uniswap Knowledgebase
           </a>
         </Link>
 
         <Link href="#">
-          <a className="block text-4E7DD9 hover:underline mt-3">
+          <a className="block text-4e7dd9 hover:underline mt-3">
             Uniswap Twitter
           </a>
         </Link>

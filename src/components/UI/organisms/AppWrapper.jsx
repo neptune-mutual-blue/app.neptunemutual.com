@@ -3,20 +3,24 @@ import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListe
 import { getNetworkId } from "@/src/config/environment";
 
 import { useNotifier } from "@/src/hooks/useNotifier";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+
+const AppContext = React.createContext({});
+
+export const useAppContext = () => useContext(AppContext);
 
 export const AppWrapper = ({ children }) => {
-  const [networkId,setNetworkId] = useState()
+  const [networkId, setNetworkId] = useState();
   const { notifier } = useNotifier();
 
   useEagerConnect(networkId, notifier);
   useInactiveListener(networkId, notifier);
 
-  
+  useEffect(() => {
+    setNetworkId(getNetworkId());
+  }, []);
 
-  useEffect(()=>{
-    setNetworkId(getNetworkId())
-  },[])
-
-  return <>{children}</>;
+  return (
+    <AppContext.Provider value={{ networkId }}>{children}</AppContext.Provider>
+  );
 };

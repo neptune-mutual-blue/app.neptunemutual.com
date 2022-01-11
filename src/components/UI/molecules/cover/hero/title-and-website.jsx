@@ -8,7 +8,7 @@ export const CoverHeroTitleAndWebsite = ({ title, links }) => {
       <p>
         <a
           href={links.website}
-          className="text-4E7DD9 underline hover:no-underline"
+          className="text-4e7dd9 underline hover:no-underline"
         >
           {links.website.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "")}
         </a>

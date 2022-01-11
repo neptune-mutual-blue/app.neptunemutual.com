@@ -79,7 +79,7 @@ export const CoverReportingDetailsPage = () => {
           </div>
           <CoverPurchaseResolutionSources>
             <Link href="#">
-              <a className="block text-4E7DD9 hover:underline mt-3">
+              <a className="block text-4e7dd9 hover:underline mt-3">
                 Neptune Mutual Reporters
               </a>
             </Link>
