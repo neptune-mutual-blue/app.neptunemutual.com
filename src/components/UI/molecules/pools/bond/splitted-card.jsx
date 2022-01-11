@@ -20,7 +20,7 @@ export const SplitedDetail = ({
       </h6>
       <p
         className={classNames(
-          "text-lg font-normal font-numbers whitespace-nowrap",
+          "text-lg font-normal font-numbers",
           right && "text-right",
           valueClasses
         )}

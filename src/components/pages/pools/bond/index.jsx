@@ -30,7 +30,7 @@ const BondPage = () => {
     },
     {
       title: "Maximum Bond",
-      value: `${bondInfo?.max_bond} NPM`,
+      value: `${bondInfo?.max_bond} NPM-USDC LP`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -44,7 +44,7 @@ const BondPage = () => {
     },
     {
       title: "Your Bond",
-      value: `${bondInfo?.bonded} NPM`,
+      value: `${bondInfo?.bonded} NPM-USDC LP`,
       titleClasses: `mt-7 ${!yourBondDisplay && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!yourBondDisplay && "hidden"}`,
     },

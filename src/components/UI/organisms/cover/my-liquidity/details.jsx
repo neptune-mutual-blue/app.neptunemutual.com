@@ -17,7 +17,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const title = coverInfo.name;
 
   function onClose() {
     setIsOpen(false);

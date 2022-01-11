@@ -12,7 +12,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const title = coverInfo.name;
 
   return (
     <div>

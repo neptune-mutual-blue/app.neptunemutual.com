@@ -4,16 +4,20 @@ import { CoverHero } from "@/components/UI/organisms/cover/hero";
 import { CoverForm } from "@/components/UI/organisms/cover-form";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
+import { useRouter } from "next/router";
 
 export const CoverPurchaseCheckoutPage = () => {
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const title = coverInfo.name;
+  const reassuranceToken = coverInfo.reassuranceToken;
 
   return (
     <main>
@@ -40,7 +44,11 @@ export const CoverPurchaseCheckoutPage = () => {
             <br className="mt-20" />
 
             <div className="mt-12">
-              <CoverForm />
+              <CoverForm
+                coverKey={cover_id}
+                assuranceTokenAddress={reassuranceToken.at}
+                assuranceTokenSymbol={reassuranceToken.symbol}
+              />
             </div>
           </div>
 

@@ -10,18 +10,18 @@ export const CoverPurchaseDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 
-  const handleAcceptRules = () => {
-    router.push(`/cover/${cover_id}/purchase/checkout`);
-  };
-
-  const { coverInfo } = useCoverInfo();
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const title = coverInfo.name;
+
+  const handleAcceptRules = () => {
+    router.push(`/cover/${cover_id}/purchase/checkout`);
+  };
 
   return (
     <main>

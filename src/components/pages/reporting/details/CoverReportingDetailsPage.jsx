@@ -71,10 +71,11 @@ export const CoverReportingDetailsPage = () => {
               See More
             </a>
 
-            <br className="mb-16" />
-            <AcceptReportRulesForm onAccept={handleAcceptRules}>
-              I have read, understood, and agree to the terms of cover rules
-            </AcceptReportRulesForm>
+            <div className="mt-16">
+              <AcceptReportRulesForm onAccept={handleAcceptRules}>
+                I have read, understood, and agree to the terms of cover rules
+              </AcceptReportRulesForm>
+            </div>
           </div>
           <CoverPurchaseResolutionSources>
             <Link href="#">

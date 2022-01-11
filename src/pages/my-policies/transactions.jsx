@@ -18,7 +18,11 @@ export default function MyPoliciesTxs() {
         <Container className="px-2 py-20">
           <BreadCrumbs
             pages={[
-              { name: "My Policies", href: "/my-policies", current: false },
+              {
+                name: "My Policies",
+                href: "/my-policies/active",
+                current: false,
+              },
               { name: "Transaction List", href: "#", current: true },
             ]}
           />

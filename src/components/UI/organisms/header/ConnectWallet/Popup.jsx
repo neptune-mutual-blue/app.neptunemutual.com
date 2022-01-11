@@ -6,13 +6,12 @@ import useAuth from "@/lib/connect-wallet/hooks/useAuth";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { Disclaimer } from "./Disclaimer";
 import { WalletList } from "./WalletList";
-import { networkId } from "@/src/config/environment";
 import { useNotifier } from "@/src/hooks/useNotifier";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { Loader } from "@/components/UI/atoms/Loader/Loader";
 
-export const Popup = ({ isOpen, onClose }) => {
+export const Popup = ({ isOpen, onClose,networkId }) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const { active } = useWeb3React();
 

@@ -6,14 +6,14 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 
-export const CoverHero = ({ coverInfo, imgSrc, title  }) => {
+export const CoverHero = ({ coverInfo, imgSrc, title }) => {
   return (
     <Hero>
       <Container className="px-2 py-20">
         <BreadCrumbs
           pages={[
             { name: "Home", href: "/", current: false },
-            { name: "Clearpool", current: false },
+            { name: title, current: false },
             { name: "Purchase Policy", href: "#", current: true },
           ]}
         />
