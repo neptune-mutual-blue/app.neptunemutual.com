@@ -62,6 +62,9 @@ module.exports = {
       maxWidth: {
         180: "180px",
       },
+      minWidth: {
+        sm: "384px",
+      },
       colors: {
         "999BAB": "#999BAB",
         "728FB2": "#728FB2",
