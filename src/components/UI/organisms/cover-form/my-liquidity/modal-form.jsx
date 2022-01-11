@@ -63,7 +63,7 @@ export const WithdrawLiquidityModal = ({
         <RegularButton
           onClick={() => handleWithdraw(id)}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          disabled={!value && true}
+          disabled={!value}
         >
           Withdraw
         </RegularButton>

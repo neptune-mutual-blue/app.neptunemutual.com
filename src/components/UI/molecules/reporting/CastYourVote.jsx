@@ -78,7 +78,7 @@ export const CastYourVote = () => {
               "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
             }
             onClick={handleApproveClick}
-            disabled={!stakedAmount && true}
+            disabled={!stakedAmount}
           >
             APPROVE NPM
           </RegularButton>
@@ -90,7 +90,7 @@ export const CastYourVote = () => {
               "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
             }
             onClick={handleReportClick}
-            disabled={!stakedAmount && true}
+            disabled={!stakedAmount}
           >
             REPORT
           </RegularButton>

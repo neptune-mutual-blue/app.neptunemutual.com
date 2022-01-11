@@ -121,7 +121,7 @@ const BondPage = () => {
         <RegularButton
           className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
           onClick={handleApprove}
-          disabled={!value && true}
+          disabled={!value}
         >
           Approve NPM-USDC LP
         </RegularButton>

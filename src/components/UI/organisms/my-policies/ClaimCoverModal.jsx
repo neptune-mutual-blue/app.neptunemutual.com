@@ -53,7 +53,7 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
           <p className="text-9B9B9B pt-2 px-3">Fee: 6.50%</p>
         </div>
         <RegularButton
-          disabled={!value && true}
+          disabled={!value}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         >
           Claim

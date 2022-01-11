@@ -42,7 +42,7 @@ const UnstakeYourAmount = () => {
         <RegularButton
           className={"flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"}
           onClick={handleUnstakeClick}
-          disabled={!unstakedAmount && true}
+          disabled={!unstakedAmount}
         >
           UNSTAKE NPM
         </RegularButton>

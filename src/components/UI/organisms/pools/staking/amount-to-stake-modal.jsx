@@ -61,7 +61,7 @@ export const AmountToStakeModal = ({
         <RegularButton
           onClick={() => handleStake(id)}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          disabled={!inputValue && true}
+          disabled={!inputValue}
         >
           Stake
         </RegularButton>
