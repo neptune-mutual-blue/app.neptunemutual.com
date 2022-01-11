@@ -12,6 +12,33 @@ import {
 } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { Container } from "@/src/components/UI/atoms/container";
+import { getLiquidityChartData } from "@/src/_mocks/my-liquidity/chartData";
+
+const month = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+let labels = [];
+
+const liquidityChartData = getLiquidityChartData();
+
+liquidityChartData.map((d) => {
+  const newDate = new Date(d.date);
+  const mon = month[newDate.getUTCMonth()];
+  const date = newDate.getUTCDate();
+  labels.push(mon.toUpperCase() + " " + date);
+});
 
 const chartAreaBorder = {
   id: "chartAreaBorder",
@@ -41,17 +68,6 @@ ChartJS.register(
 );
 
 defaults.font.family = "Sora, sans-serif";
-
-const labels = [
-  // "",
-  "DEC 3",
-  "DEC 12",
-  "DEC 21",
-  "DEC 30",
-  "JAN 8",
-  "JAN 17",
-  "JAN 26",
-];
 
 const getOrCreateTooltip = (chart) => {
   let tooltipEl = chart.canvas.parentNode.querySelector("div");
@@ -179,7 +195,7 @@ export const data = {
   labels,
   datasets: [
     {
-      data: [50.35, 104.78, 130.45, 203.98, 150.12, 260.45, 330.98],
+      data: liquidityChartData?.map((d) => d.amount),
       tension: "0.4",
       borderColor: "#4E7DD9",
       fill: true,
@@ -306,9 +322,13 @@ export function TotalLiquidityChart() {
     setChartData(chartData);
   }, []);
 
+  if (!liquidityChartData) {
+    return <>Loading...</>;
+  }
+
   return (
     <Container className="flex w-full h-[22rem] mb-28">
-      <div className="border-2 w-1/2"></div>
+      <div className="w-1/2"></div>
       <div className="w-1/2">
         <Chart ref={chartRef} type="line" options={options} data={chartData} />
       </div>
