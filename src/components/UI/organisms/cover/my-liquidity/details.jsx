@@ -29,7 +29,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
 
   return (
     <div>
-      <main className="bg-F1F3F6">
+      <main className="bg-f1f3f6">
         {/* hero */}
         <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
@@ -54,8 +54,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
             </div>
 
             <CoverPurchaseResolutionSources>
-              <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-              <div className="flex justify-between pb-2">
+              <div className="flex justify-between pt-4 pb-2">
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">$ 2.5M</strong>
               </div>

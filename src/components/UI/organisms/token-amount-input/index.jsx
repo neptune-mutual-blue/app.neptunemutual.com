@@ -11,6 +11,8 @@ export const TokenAmountInput = ({
   inputId,
   onInput,
   tokenBalance,
+  error,
+  children,
 }) => {
   return (
     <>
@@ -20,6 +22,7 @@ export const TokenAmountInput = ({
         </Label>
       )}
       <InputWithTrailingButton
+        error={error}
         buttonProps={{
           children: "Max",
           onClick: handleChooseMax,
@@ -36,7 +39,9 @@ export const TokenAmountInput = ({
         tokenAddress={tokenAddress}
         balance={tokenBalance}
         unit={tokenSymbol}
-      />
+      >
+        {children}
+      </TokenBalance>
     </>
   );
 };

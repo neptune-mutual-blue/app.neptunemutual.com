@@ -35,7 +35,7 @@ export default function MyPoliciesTxs() {
 
       <Container className="pt-14 pb-28">
         <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
-          LAST SYNCED: <span className="pl-1 text-4E7DD9">#265489098</span>
+          LAST SYNCED: <span className="pl-1 text-4e7dd9">#265489098</span>
         </p>
 
         <MyPoliciesTxsTable />

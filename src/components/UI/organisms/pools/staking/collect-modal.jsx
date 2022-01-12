@@ -42,7 +42,7 @@ export const CollectModal = ({
 
   return (
     <Modal isOpen={isCollectModalOpen} onClose={onCollectModalClose}>
-      <div className="max-w-xl w-full inline-block bg-F1F3F6 align-middle text-left py-12 rounded-3xl relative">
+      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left py-12 rounded-3xl relative">
         <div className="px-12">
           <Dialog.Title className="font-sora font-bold text-h2 flex">
             {modalTitle}

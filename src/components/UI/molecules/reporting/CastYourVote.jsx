@@ -4,6 +4,8 @@ import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
 import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { useToast } from "@/lib/toast/context";
+import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 
 const maxAmtToStake = 500;
 
@@ -11,6 +13,8 @@ export const CastYourVote = () => {
   const [approved, setApproved] = useState(false);
   const [vote, setVote] = useState("incident-occurred");
   const [stakedAmount, setStakedAmount] = useState();
+
+  const toast = useToast();
 
   const handleRadioChange = (e) => {
     setVote(e.target.value);
@@ -29,7 +33,13 @@ export const CastYourVote = () => {
   };
 
   const handleReportClick = () => {
+    console.log("report");
     setApproved(false);
+    toast?.pushSuccess({
+      title: "Bond Claimed Successfully",
+      message: <p></p>,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
   };
 
   const isFirstDispute = vote === "false-reporting";
@@ -78,6 +88,7 @@ export const CastYourVote = () => {
               "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
             }
             onClick={handleApproveClick}
+            disabled={!stakedAmount}
           >
             APPROVE NPM
           </RegularButton>
@@ -89,6 +100,7 @@ export const CastYourVote = () => {
               "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
             }
             onClick={handleReportClick}
+            disabled={!stakedAmount}
           >
             REPORT
           </RegularButton>

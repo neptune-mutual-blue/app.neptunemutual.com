@@ -1,22 +1,25 @@
+import React, { useContext, useEffect, useState } from "react";
+
 import { useEagerConnect } from "@/lib/connect-wallet/hooks/useEagerConnect";
 import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListener";
 import { getNetworkId } from "@/src/config/environment";
 
-import { useNotifier } from "@/src/hooks/useNotifier";
-import { useEffect, useState } from "react";
+
+const AppContext = React.createContext({});
+
+export const useAppContext = () => useContext(AppContext);
 
 export const AppWrapper = ({ children }) => {
-  const [networkId,setNetworkId] = useState()
-  const { notifier } = useNotifier();
+  const [networkId, setNetworkId] = useState();
 
-  useEagerConnect(networkId, notifier);
-  useInactiveListener(networkId, notifier);
+  useEagerConnect(networkId);
+  useInactiveListener(networkId);
 
-  
+  useEffect(() => {
+    setNetworkId(getNetworkId());
+  }, []);
 
-  useEffect(()=>{
-    setNetworkId(getNetworkId())
-  },[])
-
-  return <>{children}</>;
+  return (
+    <AppContext.Provider value={{ networkId }}>{children}</AppContext.Provider>
+  );
 };

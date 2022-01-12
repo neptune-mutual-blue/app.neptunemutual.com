@@ -131,7 +131,7 @@ export const NewIncidentReportForm = () => {
             <div className="relative">
               <textarea
                 id="reporting-description"
-                className="focus:ring-4E7DD9 focus:border-4E7DD9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB mb-10"
+                className="focus:ring-4e7dd9 focus:border-4e7dd9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB mb-10"
                 placeholder="Explain briefly about the incident if you want to add anything."
                 rows={5}
                 value={description}
@@ -163,6 +163,7 @@ export const NewIncidentReportForm = () => {
             <RegularButton
               className="text-h6 font-bold py-6 px-24 mt-16"
               onClick={handleReportClick}
+              disabled={!staked}
             >
               REPORT
             </RegularButton>

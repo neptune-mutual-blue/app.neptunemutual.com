@@ -12,7 +12,7 @@ export const ReportingDropdown = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative w-full">
-        <Listbox.Button className="w-full relative  py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4E7DD9">
+        <Listbox.Button className="w-full relative  py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9">
           <span className="flex items-center truncate text-9B9B9B">
             {prefix}
             {selected?.name}
@@ -35,7 +35,7 @@ export const ReportingDropdown = ({
                 className={({ active }) =>
                   classNames(
                     `cursor-default select-none relative px-1`,
-                    active ? "text-4E7DD9" : "text-black"
+                    active ? "text-4e7dd9" : "text-black"
                   )
                 }
                 value={option}

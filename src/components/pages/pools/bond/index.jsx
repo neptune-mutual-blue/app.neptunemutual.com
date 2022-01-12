@@ -26,7 +26,7 @@ const BondPage = () => {
     {
       title: "Bond Price",
       value: `$${parseFloat(bondInfo?.bondPrice).toFixed(4)}`,
-      valueClasses: "text-h3 text-4E7DD9 mt-1",
+      valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
     {
       title: "Maximum Bond",
@@ -121,6 +121,7 @@ const BondPage = () => {
         <RegularButton
           className={"w-full mt-8 p-6 text-h6 uppercase font-semibold"}
           onClick={handleApprove}
+          disabled={!value}
         >
           Approve NPM-USDC LP
         </RegularButton>
