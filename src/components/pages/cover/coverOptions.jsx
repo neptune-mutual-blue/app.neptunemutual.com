@@ -22,7 +22,7 @@ export const CoverOptions = () => {
 
   return (
     <div
-      className="px-8 py-6 h-screen"
+      className="px-8 py-6 min-h-screen"
       style={{
         backgroundImage: "url(/gradient.png)",
         backgroundSize: "cover",
@@ -30,14 +30,17 @@ export const CoverOptions = () => {
       }}
     >
       <CoverOptionName imgSrc={imgSrc} title={title} />
-      <Container>
+      <Container className="pb-16">
         <h2 className="text-h2 font-sora font-bold mb-12 text-center">
           I Want to
         </h2>
         <div className="container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24">
           {Object.keys(coverActions).map((actionKey) => {
             return (
-              <Link key={actionKey} href={`/cover/${cover_id}/${actionKey}`}>
+              <Link
+                key={actionKey}
+                href={`/cover/${cover_id}/${actionKey}/details`}
+              >
                 <a className="rounded-3xl py-12 h-full transition-all hover:bg-B0C4DB focus:bg-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <OptionActionCard
                     title={coverActions[actionKey].title}
@@ -49,7 +52,7 @@ export const CoverOptions = () => {
             );
           })}
         </div>
-        <div className="text-center mt-10 pb-20">
+        <div className="text-center mt-10">
           <OutlinedButton className="rounded-big" onClick={() => router.back()}>
             &#x27F5;&nbsp;Back
           </OutlinedButton>

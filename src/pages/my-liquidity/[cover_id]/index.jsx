@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { MyLiquidityCheckoutPage } from "@/components/pages/my-liquidity/details"
+import { MyLiquidityCheckoutPage } from "@/components/pages/my-liquidity/details";
 
 export default function MyLiquidityCover() {
   return (

@@ -6,11 +6,10 @@ import {
   PointElement,
   LineElement,
   Tooltip,
-  Legend,
   Filler,
   defaults,
 } from "chart.js";
-import { Chart } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import { getLiquidityChartData } from "@/src/_mocks/my-liquidity/chartData";
 import { monthNames } from "@/lib/dates";
 
@@ -50,7 +49,6 @@ ChartJS.register(
   PointElement,
   LineElement,
   Tooltip,
-  Legend,
   chartAreaBorder
 );
 
@@ -313,7 +311,5 @@ export function TotalLiquidityChart() {
     return <>Loading...</>;
   }
 
-  return (
-    <Chart ref={chartRef} type="line" options={options} data={chartData} />
-  );
+  return <Line ref={chartRef} options={options} data={chartData} />;
 }

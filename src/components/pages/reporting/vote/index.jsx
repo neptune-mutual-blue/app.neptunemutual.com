@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";

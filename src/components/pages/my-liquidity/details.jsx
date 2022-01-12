@@ -1,6 +1,6 @@
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverFormMyLiquidity } from "@/components/UI/organisms/cover-form/my-liquidity";
-import { MyLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/my-liquidity/details"
+import { MyLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/my-liquidity/details";
 
 export const MyLiquidityCheckoutPage = () => {
   const { coverInfo } = useCoverInfo();
