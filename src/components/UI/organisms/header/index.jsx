@@ -1,25 +1,53 @@
+import { useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
 import ConnectWallet from "@/lib/connect-wallet/components/ConnectWallet/ConnectWallet";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  { name: "Pool", href: "/pools/bond" },
-  { name: "My Policies", href: "/my-policies/active" },
-  { name: "My Liquidity", href: "/my-liquidity" },
-  { name: "Reporting", href: "/reporting/active" },
-];
+const getNavigationLinks = (pathname = "") => {
+  let links = [
+    { name: "Pool", href: "/pools/bond", activeWhenStartsWith: "/pools" },
+    {
+      name: "My Policies",
+      href: "/my-policies/active",
+      activeWhenStartsWith: "/my-policies",
+    },
+    {
+      name: "My Liquidity",
+      href: "/my-liquidity",
+      activeWhenStartsWith: "/my-liquidity",
+    },
+    {
+      name: "Reporting",
+      href: "/reporting/active",
+      activeWhenStartsWith: "/reporting",
+    },
+  ];
+
+  links = links.map((link) => ({
+    ...link,
+    active: pathname.startsWith(link.activeWhenStartsWith),
+  }));
+
+  links.unshift({ name: "Home", href: "/", active: pathname === "/" });
+
+  return links;
+};
 
 export const Header = () => {
   const router = useRouter();
   const { notifier } = useNotifier();
   const { networkId } = useAppContext();
   const { active } = useWeb3React();
+
+  const navigation = useMemo(
+    () => getNavigationLinks(router.pathname),
+    [router.pathname]
+  );
 
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
@@ -47,7 +75,7 @@ export const Header = () => {
                     <a
                       className={classNames(
                         "text-sm py-7 border-b-4",
-                        router.pathname == link.href
+                        link.active
                           ? "border-4e7dd9 text-4e7dd9 font-semibold"
                           : "border-transparent text-999BAB"
                       )}

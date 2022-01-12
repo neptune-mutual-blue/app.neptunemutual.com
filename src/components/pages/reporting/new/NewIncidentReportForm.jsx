@@ -26,7 +26,7 @@ export const NewIncidentReportForm = () => {
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo?.coverName;
+  const title = coverInfo?.name;
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);
@@ -63,13 +63,13 @@ export const NewIncidentReportForm = () => {
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         <Container>
           <div className="max-w-3xl">
-            <div className="w-full flex justify-between flex-wrap">
-              <div className="flex-grow flex flex-col mr-4">
+            <div className="w-full flex justify-between flex-wrap md:flex-nowrap">
+              <div className="flex-grow mr-4">
                 <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
                   Incident Title
                 </Label>
                 <RegularInput
-                  className="flex-grow"
+                  className="leading-none"
                   inputProps={{
                     id: "incident_title",
                     placeholder: "Enter Incident Title",
@@ -81,12 +81,12 @@ export const NewIncidentReportForm = () => {
                   Type a name of this cover. You cannot change this later.
                 </p>
               </div>
-              <div className="flex flex-col">
+              <div className="">
                 <Label htmlFor={"incident_date"} className={"mb-2 mt-6"}>
                   Observed Date &amp; Time
                 </Label>
                 <RegularInput
-                  className="flex-grow uppercase text-9B9B9B leading-none"
+                  className="uppercase text-9B9B9B pr-3"
                   inputProps={{
                     id: "incident_date",
                     // placeholder: "DD/MM/YY | HH:MM:SS",
