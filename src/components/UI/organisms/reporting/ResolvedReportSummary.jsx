@@ -6,7 +6,6 @@ import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAm
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
 
-
 export const ResolvedReportSummary = () => {
   const startDate = new Date();
   const endDate = new Date(startDate.getTime());
