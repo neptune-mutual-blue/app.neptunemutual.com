@@ -37,7 +37,10 @@ export const CoverOptions = () => {
         <div className="container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24">
           {Object.keys(coverActions).map((actionKey) => {
             return (
-              <Link key={actionKey} href={`/cover/${cover_id}/${actionKey}`}>
+              <Link
+                key={actionKey}
+                href={`/cover/${cover_id}/${actionKey}/details`}
+              >
                 <a className="rounded-3xl py-12 h-full transition-all hover:bg-B0C4DB focus:bg-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <OptionActionCard
                     title={coverActions[actionKey].title}

@@ -181,7 +181,7 @@ export const CoverForm = ({
   ];
 
   const canPurchase =
-    value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
+    value && isValidNumber(value) && isGreater(allowance || "0", value || "0");
   const isError =
     value &&
     (!isValidNumber(value) ||
