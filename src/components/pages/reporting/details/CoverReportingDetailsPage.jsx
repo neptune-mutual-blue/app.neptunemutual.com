@@ -23,7 +23,7 @@ export const CoverReportingDetailsPage = () => {
   }
 
   const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo?.coverName;
+  const title = coverInfo?.name;
 
   const handleAcceptRules = () => {
     router.push(`/reporting/${cover_id}/new`);

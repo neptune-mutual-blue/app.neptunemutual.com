@@ -22,7 +22,7 @@ export const CoverOptions = () => {
 
   return (
     <div
-      className="px-8 py-6 h-screen"
+      className="px-8 py-6 min-h-screen"
       style={{
         backgroundImage: "url(/gradient.png)",
         backgroundSize: "cover",
@@ -30,7 +30,7 @@ export const CoverOptions = () => {
       }}
     >
       <CoverOptionName imgSrc={imgSrc} title={title} />
-      <Container>
+      <Container className="pb-16">
         <h2 className="text-h2 font-sora font-bold mb-12 text-center">
           I Want to
         </h2>
@@ -49,7 +49,7 @@ export const CoverOptions = () => {
             );
           })}
         </div>
-        <div className="text-center mt-10 pb-20">
+        <div className="text-center mt-10">
           <OutlinedButton className="rounded-big" onClick={() => router.back()}>
             &#x27F5;&nbsp;Back
           </OutlinedButton>

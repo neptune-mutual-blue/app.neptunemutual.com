@@ -1,26 +1,53 @@
+import { useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
 import ConnectWallet from "@/lib/connect-wallet/components/ConnectWallet/ConnectWallet";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
-const navigation = [
-  { name: "Home", href: "/" },
-  /* { name: "Pool", href: "/pools/bond" }, */
-  { name: "Pool", href: "/pools/" },
-  { name: "My Policies", href: "/my-policies/" },
-  { name: "My Liquidity", href: "/my-liquidity" },
-  { name: "Reporting", href: "/reporting/" },
-];
+const getNavigationLinks = (pathname = "") => {
+  let links = [
+    { name: "Pool", href: "/pools/bond", activeWhenStartsWith: "/pools" },
+    {
+      name: "My Policies",
+      href: "/my-policies/active",
+      activeWhenStartsWith: "/my-policies",
+    },
+    {
+      name: "My Liquidity",
+      href: "/my-liquidity",
+      activeWhenStartsWith: "/my-liquidity",
+    },
+    {
+      name: "Reporting",
+      href: "/reporting/active",
+      activeWhenStartsWith: "/reporting",
+    },
+  ];
+
+  links = links.map((link) => ({
+    ...link,
+    active: pathname.startsWith(link.activeWhenStartsWith),
+  }));
+
+  links.unshift({ name: "Home", href: "/", active: pathname === "/" });
+
+  return links;
+};
 
 export const Header = () => {
   const router = useRouter();
   const { notifier } = useNotifier();
   const { networkId } = useAppContext();
   const { active } = useWeb3React();
+
+  const navigation = useMemo(
+    () => getNavigationLinks(router.pathname),
+    [router.pathname]
+  );
 
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
@@ -33,7 +60,6 @@ export const Header = () => {
     </div>
   );
 
-  console.log(router.pathname);
   return (
     <header className="bg-black text-EEEEEE">
       <nav className="max-w-full mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
@@ -49,14 +75,9 @@ export const Header = () => {
                     <a
                       className={classNames(
                         "text-sm py-7 border-b-4",
-                        link.name !== "Home" &&
-                          router.pathname.slice(1).includes(link.href.slice(1))
+                        link.active
                           ? "border-4e7dd9 text-4e7dd9 font-semibold"
-                          : "border-transparent text-999BAB",
-                        link.name == "Home" &&
-                          (router.pathname == link.href ||
-                            router.pathname.includes("cover")) &&
-                          "!border-4e7dd9 !text-4e7dd9 font-semibold"
+                          : "border-transparent text-999BAB"
                       )}
                     >
                       {link.name}
