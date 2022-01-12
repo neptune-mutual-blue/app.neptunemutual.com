@@ -16,7 +16,7 @@ export const CoverPurchaseDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo.imgSrc;
   const title = coverInfo.name;
 
   const handleAcceptRules = () => {
@@ -26,7 +26,7 @@ export const CoverPurchaseDetailsPage = () => {
   return (
     <main>
       {/* hero */}
-      <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+      <CoverHero coverInfo={coverInfo} title={title} imgSrc={coverInfo.imgSrc} />
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
