@@ -26,7 +26,7 @@ export const MyLiquidityPage = () => {
         {availableCovers.map((c) => {
           return (
             <Link href={`/my-liquidity/${c.key}`} key={c.name}>
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9">
+              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                 <CoverCard details={c}></CoverCard>
               </a>
             </Link>
