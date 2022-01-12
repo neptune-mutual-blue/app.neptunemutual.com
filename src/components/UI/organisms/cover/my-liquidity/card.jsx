@@ -5,13 +5,7 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
-  const {
-    name,
-    imgSrc,
-    apr,
-    utilizationRatio,
-    protection,
-  } = details;
+  const { name, imgSrc, apr, utilizationRatio, protection } = details;
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
@@ -41,7 +35,9 @@ export const CoverCard = ({ details }) => {
         <ProgressBar value={utilizationRatio / 100} />
       </div>
       <div className="flex justify-between text-sm px-1">
-        <span className="">My Liquidity: {amountFormatter(protection)} POD</span>
+        <span className="">
+          My Liquidity: {amountFormatter(protection)} POD
+        </span>
       </div>
     </OutlinedCard>
   );

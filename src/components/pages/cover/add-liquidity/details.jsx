@@ -2,7 +2,7 @@ import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useRouter } from "next/router";
 
-import { CoverAddLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/add-liquidity/details"
+import { CoverAddLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/add-liquidity/details";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const { query, push } = useRouter();
@@ -29,8 +29,7 @@ export const CoverAddLiquidityDetailsPage = () => {
             </h4>
             <p className="mb-4">
               Carefully read the following terms and conditions. For a
-              successful claim payout, all of the following points must be
-              true.
+              successful claim payout, all of the following points must be true.
             </p>
             <ol className="list-decimal pl-5">
               {coverInfo.rules.split("\n").map((x, i) => (
@@ -51,8 +50,6 @@ export const CoverAddLiquidityDetailsPage = () => {
           </AcceptRulesForm>
         </>
       </DetailsPage>
-
-    
     </div>
   );
 };

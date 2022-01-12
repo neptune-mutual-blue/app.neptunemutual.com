@@ -1,21 +1,15 @@
-import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
-import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
-import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
-import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { HlCalendar } from "@/lib/hl-calendar";
+import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
+import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
+import { Divider } from "@/components/UI/atoms/divider";
 
-export const ReportSummary = () => {
+export const ResolvedReportSummary = () => {
   const startDate = new Date();
   const endDate = new Date(startDate.getTime());
   endDate.setDate(startDate.getDate() + 6);
-
-  /* if incident is active its true else false, 
-  while checking change the status to see ech component  */
-  const isActive = false;
 
   return (
     <>
@@ -24,14 +18,10 @@ export const ReportSummary = () => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
-          <Divider />
-
           <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
           <Divider />
 
-          {isActive && <CastYourVote />}
-          {!isActive && <UnstakeYourAmount />}
+          <UnstakeYourAmount />
         </div>
 
         {/* Right half */}

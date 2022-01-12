@@ -33,7 +33,7 @@ export const CoverFormMyLiquidity = () => {
     <div className="max-w-md">
       <div className="pb-16">
         <TokenAmountInput
-          labelText={"Amount you wish to cover"}
+          labelText={"Enter Amount you wish to provide"}
           onInput={handleChange}
           handleChooseMax={handleChooseMax}
           tokenSymbol={"DAI"}

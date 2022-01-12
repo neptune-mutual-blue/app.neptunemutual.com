@@ -13,6 +13,7 @@ import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/increase";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
+import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -25,7 +26,7 @@ export const HomePage = () => {
     <>
       <Hero>
         <Container className="py-10 md:py-16 md:px-10 lg:py-28 justify-between flex flex-wrap flex-col-reverse md:flex-col-reverse lg:flex-row lg:flex-nowrap">
-          <div className="pt-16 lg:pr-16 md:w-full lg:w-auto lg:pt-0">
+          <div className="pt-16 lg:mr-18 md:w-full lg:w-auto lg:pt-0">
             <div className="mb-8 flex md:justify-center lg:justify-start">
               <HomeCard
                 items={[
@@ -42,13 +43,13 @@ export const HomePage = () => {
                 ]}
               />
             </div>
-            <div className="mb-8 flex md:justify-center lg:justify-start">
+            <div className="flex md:justify-center lg:justify-start">
               <HomeMainCard />
             </div>
           </div>
 
-          <div>
-            <div className="pt-6 pb-10">
+          <div className="flex-1 flex flex-col">
+            <div className="pt-6 mb-8">
               <h3 className="text-h3 font-sora text-4e7dd9 mb-1">
                 Total Liquidity
               </h3>
@@ -65,8 +66,8 @@ export const HomePage = () => {
                 </h6>
               </div>
             </div>
-            <div>
-              <img src="/home/home-chart.png" alt="home chart" />
+            <div className="flex-1">
+              <TotalLiquidityChart />
             </div>
           </div>
         </Container>
@@ -74,7 +75,7 @@ export const HomePage = () => {
       </Hero>
 
       <Container className="py-16">
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-wrap gap-6">
           <h1 className="text-h2 font-sora font-bold">Available Covers</h1>
           <SearchAndSortBar />
         </div>
