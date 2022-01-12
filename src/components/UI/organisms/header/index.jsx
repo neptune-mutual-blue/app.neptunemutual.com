@@ -51,12 +51,12 @@ export const Header = () => {
                         "text-sm py-7 border-b-4",
                         link.name !== "Home" &&
                           router.pathname.slice(1).includes(link.href.slice(1))
-                          ? "border-4E7DD9 text-4E7DD9 font-semibold"
+                          ? "border-4e7dd9 text-4e7dd9 font-semibold"
                           : "border-transparent text-999BAB",
                         link.name == "Home" &&
                           (router.pathname == link.href ||
                             router.pathname.includes("cover")) &&
-                          "!border-4E7DD9 !text-4E7DD9 font-semibold"
+                          "!border-4e7dd9 !text-4e7dd9 font-semibold"
                       )}
                     >
                       {link.name}
