@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { registry } from "@neptunemutual/sdk";
+import { liquidity, registry } from "@neptunemutual/sdk";
 
 import { useWeb3React } from "@web3-react/core";
 import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
@@ -34,7 +34,7 @@ export const CoverFormAddLiquidity = ({
 }) => {
   const router = useRouter();
   const toast = useToast();
-  const { fees, maxValue } = useConstants();
+  const { fees } = useConstants();
 
   const { library, account, chainId } = useWeb3React();
 
@@ -100,7 +100,7 @@ export const CoverFormAddLiquidity = ({
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress]);
+  }, [account, chainId, library, assuranceTokenAddress, coverKey]);
 
   const handleChooseMax = () => {
     if (!balance) {
@@ -186,7 +186,7 @@ export const CoverFormAddLiquidity = ({
     }
   };
 
-  if (!fees && !maxValue) {
+  if (!fees) {
     return <>loading...</>;
   }
 
@@ -240,7 +240,7 @@ export const CoverFormAddLiquidity = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleProvide}
         >
-          {providing ? "Adding Liquidity..." : <>Provide Liquidity</>}
+          {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
         </RegularButton>
       )}
 
