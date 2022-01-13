@@ -22,7 +22,6 @@ export const CoverReportingDetailsPage = () => {
     return <>loading...</>;
   }
 
-
   const imgSrc = coverInfo?.imgSrc;
 
   const title = coverInfo?.name;

@@ -6,7 +6,6 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { useRouter } from "next/router";
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
-
   const router = useRouter();
   const { cover_id } = router.query;
 
