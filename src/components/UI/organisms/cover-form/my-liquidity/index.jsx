@@ -79,10 +79,12 @@ export const CoverFormMyLiquidity = ({
     setValue(convertFromUnits(balance).toString());
   };
 
-  const handleChange = (e) => {
-    const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
-    setValue(e.target.value);
-    setReceiveAmount(willRecieve);
+  const handleChange = (val) => {
+    if (typeof val === "string") {
+      const willRecieve = parseFloat(0.99 * val).toFixed(2);
+      setValue(val);
+      setReceiveAmount(willRecieve);
+    }
   };
 
   const checkAllowance = async () => {

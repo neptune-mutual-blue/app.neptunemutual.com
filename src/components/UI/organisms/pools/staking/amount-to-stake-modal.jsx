@@ -22,8 +22,10 @@ export const AmountToStakeModal = ({
     setInputValue(MAX_VALUE_TO_STAKE);
   };
 
-  const handleChange = (e) => {
-    setInputValue(e.target.value);
+  const handleChange = (val) => {
+    if (typeof val === "string") {
+      setInputValue(val);
+    }
   };
 
   const handleStake = (_id) => {

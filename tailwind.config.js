@@ -51,6 +51,7 @@ module.exports = {
     extend: {
       borderRadius: {
         big: "0.625rem",
+        mdlg: "7px",
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
