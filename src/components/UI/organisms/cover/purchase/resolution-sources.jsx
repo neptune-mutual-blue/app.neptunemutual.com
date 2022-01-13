@@ -8,13 +8,13 @@ export const CoverPurchaseResolutionSources = ({ children = null }) => {
         <h3 className="text-h4 font-sora font-semibold">Resolution Sources</h3>
         <p className="text-sm mt-1 mb-6 opacity-50">7 days reporting period</p>
 
-        <Link href="#">
+        <Link href="https://uniswap.org/developers">
           <a className="block text-4e7dd9 hover:underline mt-3">
             Uniswap Knowledgebase
           </a>
         </Link>
 
-        <Link href="#">
+        <Link href="https://twitter.com/UniSwap">
           <a className="block text-4e7dd9 hover:underline mt-3">
             Uniswap Twitter
           </a>

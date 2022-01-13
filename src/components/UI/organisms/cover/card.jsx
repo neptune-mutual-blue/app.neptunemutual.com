@@ -19,7 +19,7 @@ export const CoverCard = ({ details }) => {
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
-          <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
+          <div className="">
             <img src={imgSrc} alt={name} className="inline-block max-w-full" />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">

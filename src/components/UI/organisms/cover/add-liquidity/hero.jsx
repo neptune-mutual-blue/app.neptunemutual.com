@@ -13,8 +13,8 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
         <BreadCrumbs
           pages={[
             { name: "Home", href: "/", current: false },
-            { name: "Clearpool", current: false },
-            { name: "Provide Liquidity", href: "#", current: true },
+            { name: title, current: false },
+            { name: "Add Liquidity", href: "#", current: true },
           ]}
         />
         <div className="flex">

@@ -35,6 +35,7 @@ export const InputWithTrailingButton = ({
             : "border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
         )}
         style={{ paddingRight: `${width || 64}px` }}
+        autoComplete="off"
         {...inputProps}
       />
       <div className="flex absolute right-0 inset-y-0" ref={ref}>
