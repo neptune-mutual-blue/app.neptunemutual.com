@@ -4,8 +4,12 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { CoverActionCard } from "@/components/UI/organisms/cover/action-card";
 import { actions as coverActions } from "@/src/config/cover/actions";
+import { useRouter } from "next/router";
 
 export const CoverActionsFooter = ({ activeKey }) => {
+  const router = useRouter();
+  const { cover_id } = router.query;
+
   return (
     <>
       {/* Cover Actions */}
@@ -19,7 +23,10 @@ export const CoverActionsFooter = ({ activeKey }) => {
               .filter((x) => x !== activeKey)
               .map((actionKey, i) => {
                 return (
-                  <Link key={i} href={`/cover/cover_id/${actionKey}`}>
+                  <Link
+                    key={i}
+                    href={coverActions[actionKey].getHref(cover_id)}
+                  >
                     <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                       <CoverActionCard
                         title={coverActions[actionKey].title}

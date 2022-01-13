@@ -53,7 +53,11 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               {children}
             </div>
 
-            <CoverPurchaseResolutionSources>
+            <CoverPurchaseResolutionSources
+              covername={title}
+              knowledgebase={coverInfo?.resolutionSources[1]}
+              twitter={coverInfo?.resolutionSources[0]}
+            >
               <div className="flex justify-between pt-4 pb-2">
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">$ 2.5M</strong>

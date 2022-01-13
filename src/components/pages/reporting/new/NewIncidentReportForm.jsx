@@ -6,10 +6,14 @@ import { Label } from "@/components/UI/atoms/label";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { classNames } from "@/utils/classnames";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export const NewIncidentReportForm = () => {
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+
+  const { coverInfo } = useCoverInfo(cover_id);
 
   const [incidentTitle, setIncidentTitle] = useState();
   const [incidentDate, setIncidentDate] = useState();
@@ -25,8 +29,8 @@ export const NewIncidentReportForm = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo?.name;
+  const imgSrc = coverInfo.imgSrc;
+  const title = coverInfo.name;
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);

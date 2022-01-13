@@ -2,7 +2,7 @@ export const CoverHeroTitleAndWebsite = ({ title, links }) => {
   return (
     <>
       <div className="flex items-center">
-        <h1 className="text-h2 font-sora font-bold">{title}</h1>
+        <h1 className="text-h2 font-sora font-bold capitalize">{title}</h1>
         <div className="ml-4 rounded-full w-4 h-4 bg-21AD8C"></div>
       </div>
       <p>

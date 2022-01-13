@@ -3,15 +3,19 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
+import { useRouter } from "next/router";
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo.imgSrc;
   const title = coverInfo.name;
 
   return (
@@ -40,7 +44,11 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
               {children}
             </div>
 
-            <CoverPurchaseResolutionSources>
+            <CoverPurchaseResolutionSources
+              covername={title}
+              knowledgebase={coverInfo?.resolutionSources[1]}
+              twitter={coverInfo?.resolutionSources[0]}
+            >
               <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
               <div className="flex justify-between pb-2">
                 <span className="">Total Liquidity::</span>

@@ -30,14 +30,14 @@ export const BreadCrumbs = ({ pages }) => {
 
 const Crumb = ({ page, idx }) => {
   if (!page.href) {
-    return <div className="ml-1">{page.name}</div>;
+    return <div className="ml-1 capitalize">{page.name}</div>;
   }
 
   return (
     <Link href={page.href}>
       <a
         className={classNames(
-          "ml-1 hover:underline",
+          "ml-1 hover:underline capitalize",
           idx === 0 ? "text-4e7dd9" : ""
         )}
         aria-current={page.current ? "page" : undefined}

@@ -16,7 +16,7 @@ export const CoverPurchaseDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo.imgSrc;
   const title = coverInfo.name;
 
   const handleAcceptRules = () => {
@@ -74,7 +74,11 @@ export const CoverPurchaseDetailsPage = () => {
             </AcceptRulesForm>
           </div>
 
-          <CoverPurchaseResolutionSources />
+          <CoverPurchaseResolutionSources
+            covername={title}
+            knowledgebase={coverInfo?.resolutionSources[1]}
+            twitter={coverInfo?.resolutionSources[0]}
+          />
         </Container>
       </div>
 
