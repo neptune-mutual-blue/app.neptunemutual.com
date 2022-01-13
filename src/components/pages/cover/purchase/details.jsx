@@ -26,7 +26,7 @@ export const CoverPurchaseDetailsPage = () => {
   return (
     <main>
       {/* hero */}
-      <CoverHero coverInfo={coverInfo} title={title} imgSrc={coverInfo.imgSrc} />
+      <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
