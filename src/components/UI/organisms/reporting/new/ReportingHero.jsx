@@ -12,7 +12,8 @@ export const ReportingHero = ({ coverInfo, imgSrc, title }) => {
         <BreadCrumbs
           pages={[
             { name: "Reporting", href: "/reporting", current: false },
-            { name: "Compound", current: true },
+            { name: title, current: false },
+            { name: "Report", href: "#", current: true },
           ]}
         />
         <div className="flex">

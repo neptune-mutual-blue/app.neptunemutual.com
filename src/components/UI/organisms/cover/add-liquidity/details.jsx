@@ -3,15 +3,19 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
+import { useRouter } from "next/router";
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo.imgSrc;
   const title = coverInfo.name;
 
   return (

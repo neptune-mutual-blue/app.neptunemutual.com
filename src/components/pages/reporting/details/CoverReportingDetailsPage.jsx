@@ -11,7 +11,7 @@ export const CoverReportingDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 
-  const { coverInfo } = useCoverInfo();
+  const { coverInfo } = useCoverInfo(cover_id);
   const { availableCovers } = useAvailableCovers();
 
   if (!coverInfo) {
@@ -22,7 +22,8 @@ export const CoverReportingDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo?.imgSrc;
+
   const title = coverInfo?.name;
 
   const handleAcceptRules = () => {

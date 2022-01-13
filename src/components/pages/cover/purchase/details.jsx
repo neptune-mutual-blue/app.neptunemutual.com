@@ -16,7 +16,7 @@ export const CoverPurchaseDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
+  const imgSrc = coverInfo.imgSrc;
   const title = coverInfo.name;
 
   const handleAcceptRules = () => {
