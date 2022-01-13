@@ -14,10 +14,10 @@ const ERROR_TIMEOUT = 30000; // 30 seconds
 export const CoverFormAddLiquidity = () => {
   const router = useRouter();
   const toast = useToast();
+  const { fees, maxValue } = useConstants();
 
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
-  const { fees, maxValue } = useConstants();
 
   const handleChooseMax = () => {
     setValue(maxValue);

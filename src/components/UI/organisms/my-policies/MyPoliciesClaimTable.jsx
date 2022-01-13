@@ -95,7 +95,7 @@ export const MyPoliciesClaimTable = () => {
     setIsOpen(false);
   };
 
-  const isCoverClaimClicked = (bool) => {
+  const isCoverClaimClicked = () => {
     setIsOpen(!isOpen);
   };
 

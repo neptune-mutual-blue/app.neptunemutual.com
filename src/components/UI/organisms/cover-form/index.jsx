@@ -264,7 +264,7 @@ export const CoverForm = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handlePurchase}
         >
-          {purchasing ? "Purchasing..." : <>Purchase policy</>}
+          {purchasing ? "Purchasing..." : "Purchase policy"}
         </RegularButton>
       )}
 
