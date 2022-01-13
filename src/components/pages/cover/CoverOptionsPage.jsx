@@ -7,7 +7,7 @@ import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 
-export const CoverOptions = () => {
+export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 
@@ -36,22 +36,11 @@ export const CoverOptions = () => {
         </h2>
         <div className="container mx-auto justify-items-center grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 mt-14 mb-24">
           {Object.keys(coverActions).map((actionKey) => {
-            console.log(actionKey);
-            return actionKey !== "claim" ? (
+            return (
               <Link
                 key={actionKey}
-                href={`/cover/${cover_id}/${actionKey}/details`}
+                href={coverActions[actionKey].getHref(cover_id)}
               >
-                <a className="rounded-3xl py-12 h-full transition-all hover:bg-B0C4DB focus:bg-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <OptionActionCard
-                    title={coverActions[actionKey].title}
-                    description={coverActions[actionKey].description}
-                    imgSrc={`/options/${actionKey}.png`}
-                  />
-                </a>
-              </Link>
-            ) : (
-              <Link key={actionKey} href="/my-policies/active">
                 <a className="rounded-3xl py-12 h-full transition-all hover:bg-B0C4DB focus:bg-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <OptionActionCard
                     title={coverActions[actionKey].title}
