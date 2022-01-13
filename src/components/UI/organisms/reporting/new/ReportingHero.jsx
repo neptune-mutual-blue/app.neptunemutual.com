@@ -11,7 +11,7 @@ export const ReportingHero = ({ coverInfo, imgSrc, title }) => {
       <Container className="px-2 py-20">
         <BreadCrumbs
           pages={[
-            { name: "Reporting", href: "/reporting", current: false },
+            { name: "Home", href: "/", current: false },
             { name: title, current: false },
             { name: "Report", href: "#", current: true },
           ]}

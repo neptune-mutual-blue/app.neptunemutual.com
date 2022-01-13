@@ -52,7 +52,11 @@ export const CoverPurchaseCheckoutPage = () => {
             </div>
           </div>
 
-          <CoverPurchaseResolutionSources />
+          <CoverPurchaseResolutionSources
+            covername={title}
+            knowledgebase={coverInfo?.resolutionSources[1]}
+            twitter={coverInfo?.resolutionSources[0]}
+          />
         </Container>
       </div>
 
