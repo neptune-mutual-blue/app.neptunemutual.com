@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { registry, liquidity } from "@neptunemutual/sdk";
+import { liquidity } from "@neptunemutual/sdk";
 
 import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -31,7 +31,6 @@ export const CoverFormMyLiquidity = ({
   const [receiveAmount, setReceiveAmount] = useState();
   const [balance, setBalance] = useState();
   const [allowance, setAllowance] = useState();
-  const [spender, setSpender] = useState();
   const [approving, setApproving] = useState();
   const [addLiquidity, setAddLiquidity] = useState();
 
@@ -63,27 +62,7 @@ export const CoverFormMyLiquidity = ({
       .getAllowance(chainId, coverKey, account, signerOrProvider)
       .then(({ result }) => {
         if (ignore) return;
-        setAllowance({ result });
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress, coverKey]);
-
-  useEffect(() => {
-    if (!chainId || !account) return;
-
-    let ignore = false;
-
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
-      .then((addr) => {
-        if (ignore) return;
-        setSpender(addr);
+        setAllowance(result);
       })
       .catch((e) => {
         console.error(e);
@@ -167,8 +146,10 @@ export const CoverFormMyLiquidity = ({
     return <>loading...</>;
   }
 
-  const canAddLiquidity = true;
-  // value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
+  const canAddLiquidity =
+    value &&
+    isValidNumber(value) &&
+    isGreater(allowance || "0", convertToUnits(value || "0"));
   const isError =
     value &&
     (!isValidNumber(value) ||
