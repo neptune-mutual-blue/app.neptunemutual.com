@@ -4,7 +4,6 @@ import { useWeb3React } from "@web3-react/core";
 import { registry, liquidity } from "@neptunemutual/sdk";
 
 import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
-import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
@@ -58,10 +57,13 @@ export const CoverFormMyLiquidity = ({
 
     let ignore = false;
 
-    getERC20Allowance(spender, assuranceTokenAddress, library, account, chainId)
-      .then((bal) => {
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    liquidity
+      .getAllowance(chainId, coverKey, account, signerOrProvider)
+      .then(({ result }) => {
         if (ignore) return;
-        setAllowance(bal);
+        setAllowance({ result });
       })
       .catch((e) => {
         console.error(e);
@@ -69,7 +71,7 @@ export const CoverFormMyLiquidity = ({
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress, spender]);
+  }, [account, chainId, library, assuranceTokenAddress, coverKey]);
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -89,7 +91,7 @@ export const CoverFormMyLiquidity = ({
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress]);
+  }, [account, chainId, library, assuranceTokenAddress, coverKey]);
 
   const handleChooseMax = () => {
     if (!balance) {
@@ -105,19 +107,18 @@ export const CoverFormMyLiquidity = ({
   };
 
   const checkAllowance = async () => {
-    await getERC20Allowance(
-      spender,
-      assuranceTokenAddress,
-      library,
-      account,
-      chainId
-    )
-      .then((bal) => {
-        setAllowance(bal);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    try {
+      const { result: _allowance } = await liquidity.getAllowance(
+        chainId,
+        coverKey,
+        account,
+        signerOrProvider
+      );
+
+      setAllowance(_allowance);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleApprove = async () => {
@@ -166,8 +167,8 @@ export const CoverFormMyLiquidity = ({
     return <>loading...</>;
   }
 
-  const canAddLiquidity =
-    value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
+  const canAddLiquidity = true;
+  // value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
   const isError =
     value &&
     (!isValidNumber(value) ||
@@ -208,7 +209,7 @@ export const CoverFormMyLiquidity = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleApprove}
         >
-          {approving ? "Approving..." : <>Add Liquidity</>}
+          {approving ? "Approving..." : "Approve DAI"}
         </RegularButton>
       ) : (
         <RegularButton
@@ -216,7 +217,7 @@ export const CoverFormMyLiquidity = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleAdd}
         >
-          {addLiquidity ? "Adding Liquidity..." : <>Add Liquidity</>}
+          {addLiquidity ? "Adding Liquidity..." : "Add Liquidity"}
         </RegularButton>
       )}
 
