@@ -127,7 +127,7 @@ const externalTooltipHandler = (context) => {
     const tableHead = document.createElement("thead");
     tableHead.style.textAlign = "left";
 
-    bodyLines.forEach((body, i) => {
+    bodyLines.forEach((body) => {
       const span = document.createElement("span");
       span.style.display = "inline-block";
 
@@ -231,7 +231,7 @@ const options = {
           size: "11",
           family: "Poppins, sans-serif",
         },
-        callback: function (value, index) {
+        callback: function (value) {
           const val = this.getLabelForValue(value);
           if (val == 0) {
             return "";
