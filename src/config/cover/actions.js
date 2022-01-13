@@ -1,22 +1,22 @@
 export const actions = {
-  purchase: {
+  "purchase": {
     title: "Purchase Policy",
     description: "to get protection from hacks & exploits",
-    href: "/cover",
+    getHref: (coverKey) => `/cover/${coverKey}/purchase/details`,
   },
   "add-liquidity": {
     title: "Provide Liquidity",
     description: "to pool risks and receive rewards",
-    href: "",
+    getHref: (coverKey) => `/cover/${coverKey}/add-liquidity/details`,
   },
-  report: {
+  "report": {
     title: "Report Incident",
     description: "to notify other users about the cover event",
-    href: "",
+    getHref: (coverKey) => `/cover/${coverKey}/report/details`,
   },
-  claim: {
+  "claim": {
     title: "Claim Cover",
     description: "to receive payout by claiming cxTokens",
-    href: "",
+    getHref: (_coverKey) => `/my-policies/active`,
   },
 };
