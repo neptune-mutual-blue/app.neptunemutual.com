@@ -78,7 +78,11 @@ export const CoverReportingDetailsPage = () => {
               </AcceptReportRulesForm>
             </div>
           </div>
-          <CoverPurchaseResolutionSources>
+          <CoverPurchaseResolutionSources
+            covername={title}
+            knowledgebase={coverInfo?.resolutionSources[1]}
+            twitter={coverInfo?.resolutionSources[0]}
+          >
             <Link href="#">
               <a className="block text-4e7dd9 hover:underline mt-3">
                 Neptune Mutual Reporters
