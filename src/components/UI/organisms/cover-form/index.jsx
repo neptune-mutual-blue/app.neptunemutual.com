@@ -98,8 +98,10 @@ export const CoverForm = ({
     return () => (ignore = true);
   }, [account, chainId, library, assuranceTokenAddress]);
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
+  const handleChange = (val) => {
+    if (typeof val === "string") {
+      setValue(val);
+    }
   };
 
   const handleRadioChange = (e) => {

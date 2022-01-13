@@ -10,8 +10,10 @@ export const WithdrawForm = ({ onWithdraw, unitName }) => {
     setAmtToWithdraw(MAX_VALUE_TO_WITHDRAW);
   };
 
-  const handleChange = (e) => {
-    setAmtToWithdraw(e.target.value);
+  const handleChange = (val) => {
+    if (typeof val === "string") {
+      setAmtToWithdraw(val);
+    }
   };
 
   return (
