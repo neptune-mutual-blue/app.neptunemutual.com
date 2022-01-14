@@ -79,31 +79,13 @@ export const CoverFormAddLiquidity = ({
     if (!chainId || !account) return;
 
     let ignore = false;
-
-    getERC20Allowance(spender, assuranceTokenAddress, library, account, chainId)
-      .then((bal) => {
-        if (ignore) return;
-        setAllowance(bal);
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress, spender]);
-
-  useEffect(() => {
-    if (!chainId || !account) return;
-
-    let ignore = false;
-
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
-      .then((addr) => {
+    liquidity
+      .getAllowance(chainId, coverKey, account, signerOrProvider)
+      .then(({ result }) => {
         if (ignore) return;
-        setSpender(addr);
+        setAllowance(result);
       })
       .catch((e) => {
         console.error(e);
