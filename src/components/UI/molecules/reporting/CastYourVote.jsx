@@ -24,8 +24,10 @@ export const CastYourVote = () => {
     setStakedAmount(maxAmtToStake);
   };
 
-  const handleStakedAmtChange = (e) => {
-    setStakedAmount(e.target.value);
+  const handleStakedAmtChange = (val) => {
+    if (typeof val === "string") {
+      setStakedAmount(val);
+    }
   };
 
   const handleApproveClick = () => {

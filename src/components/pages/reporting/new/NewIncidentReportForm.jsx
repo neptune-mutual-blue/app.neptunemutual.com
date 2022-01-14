@@ -58,6 +58,12 @@ export const NewIncidentReportForm = () => {
     console.log("report clicked");
   };
 
+  const handleStakeChange = (val) => {
+    if (typeof val === "string") {
+      setStaked(val);
+    }
+  };
+
   return (
     <main>
       {/* hero */}
@@ -157,7 +163,7 @@ export const NewIncidentReportForm = () => {
                 handleChooseMax={handleChooseMax}
                 inputValue={staked}
                 id={"stake-amount"}
-                onInput={(e) => setStaked(e.target.value)}
+                onInput={handleStakeChange}
               />
 
               <p className="text-9B9B9B px-3 mt-2">

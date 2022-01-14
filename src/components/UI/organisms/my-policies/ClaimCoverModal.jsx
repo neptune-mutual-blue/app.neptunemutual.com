@@ -18,10 +18,12 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
     setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
-  const handleChange = (e) => {
-    const willRecieve = parseFloat(0.99 * e.target.value).toFixed(2);
-    setValue(e.target.value);
-    setReceiveAmount(willRecieve);
+  const handleChange = (val) => {
+    if (typeof val === "string") {
+      const willRecieve = parseFloat(0.99 * val).toFixed(2);
+      setValue(val);
+      setReceiveAmount(willRecieve);
+    }
   };
 
   return (

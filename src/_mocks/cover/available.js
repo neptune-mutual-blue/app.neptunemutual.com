@@ -43,7 +43,7 @@ export const getAvailableCovers = () => {
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/ClearpoolFin",
-        "https://medium.com/compound-finance",
+        "https://clearpool.medium.com/",
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
@@ -251,8 +251,7 @@ export const getAvailableCovers = () => {
       stakeWithFees: convertToUnits(50_000).toString(),
       initialLiquidity: convertToUnits(50_000).toString(),
       minReportingStake: convertToUnits(500).toString(),
-      about:
-        "Huobi is a Seychelles-based cryptocurrency exchange.",
+      about: "Huobi is a Seychelles-based cryptocurrency exchange.",
       tags: ["Exchange", "DeFi", "Lending"],
 
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
@@ -261,7 +260,8 @@ export const getAvailableCovers = () => {
       4. The protocol promised but later were unable to cover, write off, or bear at least 75% of the sufferred loss on behalf of their users within 30 days of the incident`,
       links: {
         website: "https://www.huobi.com/en-us/",
-        documentation: "https://docs.huobigroup.com/docs/option/v1/en/#introduction",
+        documentation:
+          "https://docs.huobigroup.com/docs/option/v1/en/#introduction",
         telegram: "https://t.me/huobiglobalofficial",
         twitter: "https://twitter.com/HuobiGlobal",
         github: "https://github.com/huobiapi",
