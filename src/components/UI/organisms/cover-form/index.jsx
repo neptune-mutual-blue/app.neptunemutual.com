@@ -194,17 +194,14 @@ export const CoverForm = ({
         inputValue={value}
       >
         {value && isValidNumber(value) && (
-          <>
-            <div className="flex items-center text-15aac8">
-              <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
+          <div className="flex items-center text-15aac8">
+            <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
 
-              <button className="ml-3">
-                <span className="sr-only">Info</span>
-                <InfoCircleIcon width={24} fill="currentColor" />
-              </button>
-            </div>
-            Allowance: {allowance?.toString()}
-          </>
+            <button className="ml-3">
+              <span className="sr-only">Info</span>
+              <InfoCircleIcon width={24} fill="currentColor" />
+            </button>
+          </div>
         )}
       </TokenAmountInput>
       <div className="mt-12 px-3">
