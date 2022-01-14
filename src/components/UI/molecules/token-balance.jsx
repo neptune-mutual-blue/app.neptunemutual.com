@@ -1,12 +1,12 @@
 import OpenInNewIcon from "@/icons/open-in-new";
 import AddCircleIcon from "@/icons/add-circle";
 import { convertFromUnits } from "@/utils/bn";
-import { useWeb3React } from "@web3-react/core";
 import { getAddressExplorerUrl } from "@/utils/blockchain/getAddressExplorerUrl";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
+import { useAppContext } from "@/components/UI/organisms/AppWrapper";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
-  const { chainId } = useWeb3React();
+  const { networkId } = useAppContext();
   const { register } = useRegisterToken();
 
   return (
@@ -21,7 +21,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       </div>
       <div className="flex">
         <a
-          href={getAddressExplorerUrl(tokenAddress, chainId)}
+          href={getAddressExplorerUrl(tokenAddress, networkId)}
           target="_blank"
           className="ml-3"
           rel="noreferrer"

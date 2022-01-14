@@ -1,5 +1,6 @@
 import { classNames } from "@/utils/classnames";
 import { useState, useEffect, useRef } from "react";
+import NumberFormat from "react-number-format";
 
 export const InputWithTrailingButton = ({
   inputProps,
@@ -27,16 +28,19 @@ export const InputWithTrailingButton = ({
 
   return (
     <div className="relative text-black text-h4 w-full">
-      <input
+      <NumberFormat
+        {...inputProps}
+        thousandSeparator=","
+        isNumericString={true}
+        onValueChange={(_value, e) => inputProps.onChange(_value.value)}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
           error
-            ? "border-FA5C2F focus:outline-none focus-visible:ring-2 focus-visible:ring-FA5C2F"
-            : "border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+            ? "border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F"
+            : "border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9"
         )}
         style={{ paddingRight: `${width || 64}px` }}
         autoComplete="off"
-        {...inputProps}
       />
       <div className="flex absolute right-0 inset-y-0" ref={ref}>
         {unit && (
@@ -45,7 +49,7 @@ export const InputWithTrailingButton = ({
           </div>
         )}
         <button
-          className="font-sora px-6 font-medium border-y border-r border-B0C4DB rounded-r-lg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+          className="font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9"
           {...buttonProps}
         ></button>
       </div>

@@ -13,8 +13,10 @@ const UnstakeYourAmount = () => {
     setUnstakedAmount(maxAmtToStake);
   };
 
-  const handleUnstakedAmtChange = (e) => {
-    setUnstakedAmount(e.target.value);
+  const handleUnstakedAmtChange = (val) => {
+    if (typeof val === "string") {
+      setUnstakedAmount(val);
+    }
   };
 
   const handleUnstakeClick = () => {
