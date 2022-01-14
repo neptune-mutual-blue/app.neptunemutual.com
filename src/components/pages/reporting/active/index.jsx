@@ -27,7 +27,7 @@ export const ReportingActivePage = () => {
             href={`/reporting/${activeReporting.key}/vote`}
             key={activeReporting.name}
           >
-            <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-4e7dd9">
+            <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
               <ActiveReportingCard
                 key={activeReporting.id}
                 details={activeReporting}

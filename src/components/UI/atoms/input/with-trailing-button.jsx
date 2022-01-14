@@ -49,7 +49,7 @@ export const InputWithTrailingButton = ({
           </div>
         )}
         <button
-          className="font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1   focus-visible:ring-offset-0 focus-visible:ring-4e7dd9"
+          className="font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9"
           {...buttonProps}
         ></button>
       </div>
