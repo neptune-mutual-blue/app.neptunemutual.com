@@ -6,7 +6,6 @@ import { policy, registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import InfoCircleIcon from "@/icons/info-circle";
-import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
 import { PolicyFeesAndExpiry } from "@/components/UI/organisms/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
@@ -38,7 +37,9 @@ export const CoverForm = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
 
-  const { fees } = useConstants();
+  //const { fees } = useConstants();
+  const [fees, setFees] = useState();
+  const [feeAmount, setFeeAmount] = useState();
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -89,6 +90,40 @@ export const CoverForm = ({
 
     return () => (ignore = true);
   }, [account, chainId, library, assuranceTokenAddress, coverKey]);
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+    if (!(value && isValidNumber(value) && coverMonth)) {
+      return;
+    }
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const args = {
+      duration: parseInt(coverMonth, 10),
+      amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+    };
+    async function getCoverFee() {
+      const response = await policy.getCoverFee(
+        chainId,
+        coverKey,
+        args,
+        signerOrProvider
+      );
+      const { fee, rate } = response.result;
+      setFees(
+        parseFloat(convertFromUnits(rate).multipliedBy(100).toString()).toFixed(
+          2
+        )
+      );
+      setFeeAmount(parseFloat(convertFromUnits(fee).toString()).toFixed(3));
+      console.info("--------------------------------------");
+      console.info(
+        "Rate: %s",
+        convertFromUnits(rate).multipliedBy(100).toString() + " percent"
+      );
+      console.info("Fee: %s", convertFromUnits(fee).toString() + " xYZ");
+    }
+    getCoverFee();
+  }, [value, coverMonth, coverKey, chainId, account, library]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -162,9 +197,9 @@ export const CoverForm = ({
     }
   };
 
-  if (!fees) {
+  /* if (!fees) {
     return <>loading...</>;
-  }
+  } */
 
   const now = new Date();
   const coverPeriodLabels = [
@@ -238,7 +273,7 @@ export const CoverForm = ({
       {value && coverMonth && (
         <PolicyFeesAndExpiry
           fees={fees}
-          daiValue={value}
+          feeAmount={feeAmount}
           claimEnd={coverMonth}
         />
       )}
