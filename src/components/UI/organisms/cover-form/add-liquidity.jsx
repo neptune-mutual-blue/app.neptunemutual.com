@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { liquidity, registry } from "@neptunemutual/sdk";
 
 import { useWeb3React } from "@web3-react/core";
-import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
 import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
 import {
   convertToUnits,
@@ -34,7 +33,7 @@ export const CoverFormAddLiquidity = ({
 }) => {
   const router = useRouter();
   const toast = useToast();
-  const { fees } = useConstants();
+  const { fees, maxValue } = useConstants();
 
   const { library, account, chainId } = useWeb3React();
 
@@ -50,8 +49,20 @@ export const CoverFormAddLiquidity = ({
     if (!chainId || !account) return;
 
     let ignore = false;
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    getERC20Balance(assuranceTokenAddress, library, account, chainId)
+    const instance = registry.IERC20.getInstance(
+      chainId,
+      assuranceTokenAddress,
+      signerOrProvider
+    );
+
+    if (!instance) {
+      console.log("No instance found");
+    }
+
+    instance
+      .balanceOf(account)
       .then((bal) => {
         if (ignore) return;
         setBalance(bal);
