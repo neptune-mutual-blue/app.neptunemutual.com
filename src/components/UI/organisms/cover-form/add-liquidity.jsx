@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { liquidity, registry } from "@neptunemutual/sdk";
 
 import { useWeb3React } from "@web3-react/core";
-import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
 import {
   convertToUnits,
   convertFromUnits,
@@ -124,19 +123,18 @@ export const CoverFormAddLiquidity = ({
   };
 
   const checkAllowance = async () => {
-    await getERC20Allowance(
-      spender,
-      assuranceTokenAddress,
-      library,
-      account,
-      chainId
-    )
-      .then((bal) => {
-        setAllowance(bal);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    try {
+      const { result: _allowance } = await liquidity.getAllowance(
+        chainId,
+        coverKey,
+        account,
+        signerOrProvider
+      );
+
+      setAllowance(_allowance);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleApprove = async () => {
