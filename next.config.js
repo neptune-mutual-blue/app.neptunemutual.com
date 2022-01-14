@@ -42,7 +42,7 @@ module.exports = {
         source: "/my-policies",
         destination: "/my-policies/active",
         permanent: false,
-      }
+      },
     ];
   },
 };
