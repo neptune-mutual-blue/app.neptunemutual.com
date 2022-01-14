@@ -40,7 +40,6 @@ export const CoverFormAddLiquidity = ({
   const [receiveAmount, setReceiveAmount] = useState();
   const [balance, setBalance] = useState();
   const [allowance, setAllowance] = useState();
-  const [spender, setSpender] = useState();
   const [approving, setApproving] = useState();
   const [providing, setProviding] = useState();
 
@@ -179,12 +178,14 @@ export const CoverFormAddLiquidity = ({
     }
   };
 
-  if (!fees) {
+  if (!fees && !maxValue) {
     return <>loading...</>;
   }
 
   const canProvideLiquidity =
-    value && !isValidNumber(value) && isGreater(allowance || "0", value || "0");
+    value &&
+    !isValidNumber(value) &&
+    isGreater(allowance || "0", convertToUnits(value || "0"));
   const isError =
     value &&
     (!isValidNumber(value) ||
