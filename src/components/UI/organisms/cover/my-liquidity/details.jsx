@@ -4,7 +4,7 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/my-liquidity/hero";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/modal-form";
+import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
@@ -72,10 +72,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               </div>
 
               <div className="flex justify-center px-7">
-                <OutlinedButton
-                  className="rounded-big w-full"
-                  onClick={() => onOpen()}
-                >
+                <OutlinedButton className="rounded-big w-full" onClick={onOpen}>
                   Withdraw Liquidity
                 </OutlinedButton>
               </div>
