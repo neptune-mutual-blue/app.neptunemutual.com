@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 
 import { policy, registry } from "@neptunemutual/sdk";
 
-import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
 import { useWeb3React } from "@web3-react/core";
 
 import InfoCircleIcon from "@/icons/info-circle";
@@ -21,7 +20,6 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { getERC20Allowance } from "@/utils/blockchain/getERC20Allowance";
 import BigNumber from "bignumber.js";
 
 export const CoverForm = ({
@@ -35,7 +33,7 @@ export const CoverForm = ({
   const [value, setValue] = useState();
   const [balance, setBalance] = useState();
   const [allowance, setAllowance] = useState();
-  const [spender, setSpender] = useState();
+
   const [coverMonth, setCoverMonth] = useState();
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
@@ -46,8 +44,20 @@ export const CoverForm = ({
     if (!chainId || !account) return;
 
     let ignore = false;
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    getERC20Balance(assuranceTokenAddress, library, account, chainId)
+    const instance = registry.IERC20.getInstance(
+      chainId,
+      assuranceTokenAddress,
+      signerOrProvider
+    );
+
+    if (!instance) {
+      console.log("No instance found");
+    }
+
+    instance
+      .balanceOf(account)
       .then((bal) => {
         if (ignore) return;
         setBalance(bal);
@@ -64,31 +74,13 @@ export const CoverForm = ({
     if (!chainId || !account) return;
 
     let ignore = false;
-
-    getERC20Allowance(spender, assuranceTokenAddress, library, account, chainId)
-      .then((bal) => {
-        if (ignore) return;
-        setAllowance(bal);
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress, spender]);
-
-  useEffect(() => {
-    if (!chainId || !account) return;
-
-    let ignore = false;
-
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    registry.PolicyContract.getAddress(chainId, signerOrProvider)
-      .then((addr) => {
+    policy
+      .getAllowance(chainId, account, signerOrProvider)
+      .then(({ result }) => {
         if (ignore) return;
-        setSpender(addr);
+        setAllowance(result);
       })
       .catch((e) => {
         console.error(e);
@@ -96,7 +88,7 @@ export const CoverForm = ({
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, assuranceTokenAddress]);
+  }, [account, chainId, library, assuranceTokenAddress, coverKey]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -115,20 +107,19 @@ export const CoverForm = ({
     setValue(convertFromUnits(balance).toString());
   };
 
-  const checkApproved = async () => {
-    await getERC20Allowance(
-      spender,
-      assuranceTokenAddress,
-      library,
-      account,
-      chainId
-    )
-      .then((bal) => {
-        setAllowance(bal);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+  const checkAllowance = async () => {
+    try {
+      const { result: _allowance } = await policy.getAllowance(
+        chainId,
+        coverKey,
+        account,
+        signerOrProvider
+      );
+
+      setAllowance(_allowance);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleApprove = async () => {
@@ -141,7 +132,7 @@ export const CoverForm = ({
       await tx.result.wait();
 
       setApproving(false);
-      checkApproved();
+      checkAllowance();
     } catch (error) {
       setApproving(false);
     }
@@ -203,14 +194,17 @@ export const CoverForm = ({
         inputValue={value}
       >
         {value && isValidNumber(value) && (
-          <div className="flex items-center text-15aac8">
-            <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
+          <>
+            <div className="flex items-center text-15aac8">
+              <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
 
-            <button className="ml-3">
-              <span className="sr-only">Info</span>
-              <InfoCircleIcon width={24} fill="currentColor" />
-            </button>
-          </div>
+              <button className="ml-3">
+                <span className="sr-only">Info</span>
+                <InfoCircleIcon width={24} fill="currentColor" />
+              </button>
+            </div>
+            Allowance: {allowance?.toString()}
+          </>
         )}
       </TokenAmountInput>
       <div className="mt-12 px-3">

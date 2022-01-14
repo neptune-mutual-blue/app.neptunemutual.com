@@ -1,9 +1,8 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { liquidity } from "@neptunemutual/sdk";
+import { liquidity, registry } from "@neptunemutual/sdk";
 
-import { getERC20Balance } from "@/utils/blockchain/getERC20Balance";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
@@ -38,7 +37,20 @@ export const CoverFormMyLiquidity = ({
     if (!chainId || !account) return;
 
     let ignore = false;
-    getERC20Balance(assuranceTokenAddress, library, account, chainId)
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    const instance = registry.IERC20.getInstance(
+      chainId,
+      assuranceTokenAddress,
+      signerOrProvider
+    );
+
+    if (!instance) {
+      console.log("No instance found");
+    }
+
+    instance
+      .balanceOf(account)
       .then((bal) => {
         if (ignore) return;
         setBalance(bal);
@@ -55,7 +67,6 @@ export const CoverFormMyLiquidity = ({
     if (!chainId || !account) return;
 
     let ignore = false;
-
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
     liquidity
