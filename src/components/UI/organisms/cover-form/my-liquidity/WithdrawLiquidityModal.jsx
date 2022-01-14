@@ -8,7 +8,7 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
+import { registry, liquidity } from "@neptunemutual/sdk";
 import { useRouter } from "next/router";
 import {
   calculateGasMargin,
@@ -35,26 +35,15 @@ export const WithdrawLiquidityModal = ({
   useEffect(() => {
     if (!chainId || !account) return;
 
-    if (!vaultTokenAddress) return;
-
     let ignore = false;
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    const instance = registry.IERC20.getInstance(
-      chainId,
-      vaultTokenAddress,
-      signerOrProvider
-    );
-
-    if (!instance) {
-      console.log("No instance found");
-    }
-
-    instance
-      .balanceOf(account)
-      .then((bal) => {
+    // POD Balance
+    liquidity
+      .getBalance(chainId, coverKey, signerOrProvider)
+      .then(({ result }) => {
         if (ignore) return;
-        setBalance(bal);
+        setBalance(result);
       })
       .catch((e) => {
         console.error(e);
@@ -62,7 +51,7 @@ export const WithdrawLiquidityModal = ({
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, vaultTokenAddress]);
+  }, [account, chainId, coverKey, library]);
 
   useEffect(() => {
     if (!chainId || !account) return;
