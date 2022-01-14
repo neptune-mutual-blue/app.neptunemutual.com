@@ -66,7 +66,18 @@ export const Header = () => {
         <div className="w-full flex items-center justify-between border-b border-B0C4DB lg:border-none">
           <div className="flex items-center">
             <Link href="/">
-              <a className="text-h3 uppercase">Neptune Mutual</a>
+              <a>
+                <img
+                  src="/logos/neptune-mutual-inverse-full.png"
+                  alt="neptune mutual"
+                  className="h-9 hidden sm:block"
+                />
+                <img
+                  src="/logos/neptune-mutual-inverse.png"
+                  alt="neptune mutual"
+                  className="h-9 sm:hidden"
+                />
+              </a>
             </Link>
             <div className="hidden ml-16 space-x-8 lg:block">
               {navigation.map((link) => {
