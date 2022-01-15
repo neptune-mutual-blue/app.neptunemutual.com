@@ -30,28 +30,14 @@ export function useInactiveListener(networkId, notifier) {
           login(ConnectorNames.Injected);
         }
       };
-      // const handleConnect = async () => {
-      //   console.log("Handling 'connect' event");
-      //   await logout();
-      //   login(ConnectorNames.Injected);
-      // };
-      // const handleNetworkChanged = async (_networkId) => {
-      //   console.log("Handling 'networkChanged' event with payload", _networkId);
-      //   await logout();
-      //   login(ConnectorNames.Injected);
-      // };
 
       ethereum.on("chainChanged", handleChainChanged);
       ethereum.on("accountsChanged", handleAccountsChanged);
-      // ethereum.on("connect", handleConnect);
-      // ethereum.on("networkChanged", handleNetworkChanged);
 
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener("chainChanged", handleChainChanged);
           ethereum.removeListener("accountsChanged", handleAccountsChanged);
-          // ethereum.removeListener("connect", handleConnect);
-          // ethereum.removeListener("networkChanged", handleNetworkChanged);
         }
       };
     }
@@ -79,28 +65,15 @@ export function useInactiveListener(networkId, notifier) {
           login(ConnectorNames.BSC);
         }
       };
-      // const handleConnect = async () => {
-      //   console.log("Handling 'connect' event");
-      //   await logout();
-      //   login(ConnectorNames.BSC);
-      // };
-      // const handleNetworkChanged = async (_networkId) => {
-      //   console.log("Handling 'networkChanged' event with payload", _networkId);
-      //   await logout();
-      //   login(ConnectorNames.BSC);
-      // };
 
       BinanceChain.on("chainChanged", handleChainChanged);
       BinanceChain.on("accountsChanged", handleAccountsChanged);
-      // BinanceChain.on("connect", handleConnect);
-      // BinanceChain.on("networkChanged", handleNetworkChanged);
+     
 
       return () => {
         if (BinanceChain.removeListener) {
           BinanceChain.removeListener("chainChanged", handleChainChanged);
           BinanceChain.removeListener("accountsChanged", handleAccountsChanged);
-          // BinanceChain.removeListener("connect", handleConnect);
-          // BinanceChain.removeListener("networkChanged", handleNetworkChanged);
         }
       };
     }

@@ -6,7 +6,54 @@ import { getConnectorByName } from "../utils/connectors";
 import { wallets } from "../config/wallets";
 import { NetworkNames } from "../config/chains";
 import { setupNetwork } from "../utils/wallet";
+import * as walletConnectUtils from "../utils/walletConnect";
+import * as notifications from "../utils/notifications";
 import { ConnectorNames } from "../config/connectors";
+
+const handleInjectedError = async (notify, error) => {
+  const { NoEthereumProviderError, UserRejectedRequestErrorInjected } =
+    await import("../injected/errors");
+
+  if (error instanceof NoEthereumProviderError) {
+    return notifications.providerError(notify, error);
+  }
+
+  if (error instanceof UserRejectedRequestErrorInjected) {
+    return notifications.authError(notify, error);
+  }
+
+  notifications.unidentifiedError(notify, error);
+};
+
+const handleWalletConnectError = async (notify, connector, error) => {
+  const { UserRejectedRequestErrorWalletConnect, WalletConnectConnector } =
+    await import("../walletconnect/errors");
+
+  if (error instanceof UserRejectedRequestErrorWalletConnect) {
+    if (connector instanceof WalletConnectConnector) {
+      const walletConnector = connector;
+      walletConnector.walletConnectProvider = null;
+    }
+
+    return notifications.authError(notify, error);
+  }
+
+  notifications.unidentifiedError(notify, error);
+};
+
+const handleBSCError = async (notify, error) => {
+  const { NoBscProviderError } = await import("../binance-wallet/errors");
+
+  if (error instanceof NoBscProviderError) {
+    return notifications.providerError(notify, error);
+  }
+
+  notifications.unidentifiedError(notify, error);
+};
+
+const clearConnectionData = () => {
+  window.localStorage.removeItem(ACTIVE_CONNECTOR_KEY);
+};
 
 const activateConnector = async (
   connectorName,
@@ -28,146 +75,53 @@ const activateConnector = async (
       const hasSetup = await setupNetwork(connectorName, networkId);
 
       if (hasSetup) {
-        activate(connector, () => {
-          window.localStorage.removeItem(ACTIVE_CONNECTOR_KEY);
-        });
-        return;
+        return activate(connector, clearConnectionData);
       }
 
-      window.localStorage.removeItem(ACTIVE_CONNECTOR_KEY);
+      clearConnectionData();
 
       const wallet = wallets.find(
-        (wallet) => wallet.connectorName === connectorName
+        (_wallet) => _wallet.connectorName === connectorName
       );
 
-      notify({
-        type: "error",
-        title: "Wrong network",
-        message: (
-          <p>
-            Please switch to <strong>{NetworkNames[networkId]}</strong> in your{" "}
-            <strong>{wallet.name}</strong> wallet
-          </p>
-        ),
-        error: error,
-      });
-      return;
-    } else {
-      window.localStorage.removeItem(ACTIVE_CONNECTOR_KEY);
-
-      if (connectorName === ConnectorNames.Injected) {
-        const { NoEthereumProviderError, UserRejectedRequestErrorInjected } =
-          await import("../injected/errors");
-
-        if (error instanceof NoEthereumProviderError) {
-          notify({
-            type: "error",
-            title: "Provider Error",
-            message: "Could not connect. No provider found",
-            error: error,
-          });
-          return;
-        }
-
-        if (error instanceof UserRejectedRequestErrorInjected) {
-          notify({
-            type: "error",
-            title: "Authorization Error",
-            message: "Please authorize to access your account",
-            error: error,
-          });
-          return;
-        }
-      }
-
-      if (connectorName === ConnectorNames.WalletConnect) {
-        const {
-          UserRejectedRequestErrorWalletConnect,
-          WalletConnectConnector,
-        } = await import("../walletconnect/errors");
-
-        if (error instanceof UserRejectedRequestErrorWalletConnect) {
-          if (connector instanceof WalletConnectConnector) {
-            const walletConnector = connector;
-            walletConnector.walletConnectProvider = null;
-          }
-          notify({
-            type: "error",
-            title: "Authorization Error",
-            message: "Please authorize to access your account",
-            error: error,
-          });
-          return;
-        }
-      }
-
-      if (connectorName === ConnectorNames.BSC) {
-        const { NoBscProviderError } = await import("../binance-wallet/errors");
-
-        if (error instanceof NoBscProviderError) {
-          notify({
-            type: "error",
-            title: "Provider Error",
-            message: "Could not connect. No provider found",
-            error: error,
-          });
-          return;
-        }
-      }
+      return notifications.wrongNetwork(
+        notify,
+        NetworkNames[networkId],
+        wallet.name,
+        error
+      );
     }
 
-    notify({
-      type: "error",
-      title: "Error",
-      message: "Something went wrong",
-      error: error,
-    });
+    clearConnectionData();
+
+    switch (connectorName) {
+      case ConnectorNames.Injected:
+        return handleInjectedError(notify, error);
+
+      case ConnectorNames.WalletConnect:
+        return handleWalletConnectError(notify, connector, error);
+
+      case ConnectorNames.BSC:
+        return handleBSCError(notify, error);
+    }
+
+    notifications.unidentifiedError(notify, error);
   });
 };
 
-const deactivateConnector = async (deactivate, networkId) => {
-  deactivate();
-  window.localStorage.removeItem(ACTIVE_CONNECTOR_KEY);
-
-  // This localStorage key is set by @web3-react/walletconnect-connector
-  if (window.localStorage.getItem("walletconnect")) {
-    const connector = await getConnectorByName(
-      ConnectorNames.WalletConnect,
-      networkId
-    );
-    connector.close();
-    connector.walletConnectProvider = null;
-  }
-};
-
 const useAuth = (networkId, notify = console.log) => {
-  const { activate, deactivate, library, connector } = useWeb3React();
-
-  useEffect(() => {
-    if (!library || !library.provider) {
-      return;
-    }
-
-    const handleDisconnect = () => deactivateConnector(deactivate, networkId);
-
-    library.provider.on("disconnect", handleDisconnect);
-    return () => {
-      library.provider.removeListener("disconnect", handleDisconnect);
-    };
-  }, [library, deactivate, networkId]);
+  const { activate, deactivate, connector } = useWeb3React();
 
   useEffect(() => {
     if (!connector) {
       return;
     }
 
-    const handleDisconnect = () => deactivateConnector(deactivate, networkId);
-
-    connector.addListener("Web3ReactDeactivate", handleDisconnect);
+    connector?.addListener("Web3ReactDeactivate", clearConnectionData);
     return () => {
-      connector.removeListener("Web3ReactDeactivate", handleDisconnect);
+      connector?.removeListener("Web3ReactDeactivate", clearConnectionData);
     };
-  }, [connector, deactivate, networkId]);
+  }, [connector]);
 
   const login = useCallback(
     (connectorName) =>
@@ -175,10 +129,12 @@ const useAuth = (networkId, notify = console.log) => {
     [activate, networkId, notify]
   );
 
-  const logout = useCallback(
-    () => deactivateConnector(deactivate),
-    [deactivate]
-  );
+  const logout = useCallback(() => {
+    clearConnectionData();
+
+    deactivate();
+    walletConnectUtils.disconnect();
+  }, [deactivate]);
 
   return { logout, login };
 };
