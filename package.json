@@ -14,6 +14,7 @@
     "@fontsource/poppins": "4.5.0",
     "@fontsource/sora": "4.5.0",
     "@headlessui/react": "^1.4.2",
+    "@metamask/jazzicon": "^2.0.0",
     "@neptunemutual/sdk": "^0.1.9-beta",
     "@radix-ui/react-tooltip": "^0.1.6",
     "@tailwindcss/forms": "^0.4.0",

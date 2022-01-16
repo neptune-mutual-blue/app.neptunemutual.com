@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
@@ -7,6 +7,9 @@ import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
+import AccountBalanceWalletIcon from "@/icons/AccountBalanceWalletIcon";
+import { AccountDetailsModal } from "@/components/UI/organisms/header/AccountDetailsModal";
+import useAuth from "@/lib/connect-wallet/hooks/useAuth";
 
 const getNavigationLinks = (pathname = "") => {
   let links = [
@@ -42,12 +45,25 @@ export const Header = () => {
   const router = useRouter();
   const { notifier } = useNotifier();
   const { networkId } = useAppContext();
-  const { active } = useWeb3React();
+  const { active, account } = useWeb3React();
+  const { logout } = useAuth(networkId, notifier);
+  const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
 
   const navigation = useMemo(
     () => getNavigationLinks(router.pathname),
     [router.pathname]
   );
+
+  const handleToggleAccountPopup = () => {
+    setIsAccountDetailsOpen((prev) => !prev);
+  };
+
+  const handleDisconnect = () => {
+    if (active) {
+      logout();
+    }
+    setIsAccountDetailsOpen(false);
+  };
 
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
@@ -100,7 +116,7 @@ export const Header = () => {
           </div>
 
           <ConnectWallet networkId={networkId} notifier={notifier}>
-            {({ onOpen, logout }) => {
+            {({ onOpen }) => {
               let button = (
                 <button
                   className="inline-block bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
@@ -113,10 +129,13 @@ export const Header = () => {
               if (active) {
                 button = (
                   <button
-                    className="inline-block bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
-                    onClick={logout}
+                    className="relative flex items-center bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
+                    onClick={handleToggleAccountPopup}
                   >
-                    Disconnect
+                    <AccountBalanceWalletIcon width="24" height="24" />
+                    <span className="pl-2">
+                      {account.substring(0, 4) + "...." + account.slice(-4)}
+                    </span>
                   </button>
                 );
               }
@@ -124,6 +143,18 @@ export const Header = () => {
               return (
                 <div className="ml-10 space-x-4 py-5 flex border-l border-728FB2 sm:pl-6 lg:pl-8">
                   {network} {button}
+                  {isAccountDetailsOpen && (
+                    <AccountDetailsModal
+                      {...{
+                        networkId,
+                        account,
+                        isOpen: isAccountDetailsOpen,
+                        onClose: handleToggleAccountPopup,
+                        active,
+                        handleDisconnect,
+                      }}
+                    />
+                  )}
                 </div>
               );
             }}
