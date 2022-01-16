@@ -1,9 +1,9 @@
 import OpenInNewIcon from "@/icons/open-in-new";
 import AddCircleIcon from "@/icons/add-circle";
 import { convertFromUnits } from "@/utils/bn";
-import { getAddressExplorerUrl } from "@/utils/blockchain/getAddressExplorerUrl";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { getAddressLink } from "@/utils/blockchain/explorer";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();
@@ -21,7 +21,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       </div>
       <div className="flex">
         <a
-          href={getAddressExplorerUrl(tokenAddress, networkId)}
+          href={getAddressLink(networkId, tokenAddress)}
           target="_blank"
           className="ml-3"
           rel="noreferrer"

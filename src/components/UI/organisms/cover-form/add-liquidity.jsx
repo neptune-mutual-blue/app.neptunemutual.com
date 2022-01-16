@@ -22,6 +22,7 @@ import { useToast } from "@/lib/toast/context";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 import OpenInNewIcon from "@/icons/open-in-new";
+import { getTxLink } from "@/utils/blockchain/explorer";
 
 const ERROR_TIMEOUT = 30000; // 30 seconds
 
@@ -108,20 +109,11 @@ export const CoverFormAddLiquidity = ({
     }
   };
 
-  const handleProvideLiquidity = () => {
-    toast?.pushSuccess({
-      title: "Liquidity has been added",
-      message: (
-        <p className="flex">
-          View transaction{" "}
-          <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-        </p>
-      ),
-      lifetime: ERROR_TIMEOUT,
-    });
-  };
-
   const checkAllowance = async () => {
+    if (!chainId || !account) return;
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
     try {
       const { result: _allowance } = await liquidity.getAllowance(
         chainId,
@@ -141,14 +133,67 @@ export const CoverFormAddLiquidity = ({
       setApproving(true);
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      let tx = await liquidity.approve(
+      let { result: tx } = await liquidity.approve(
         chainId,
         coverKey,
         { amount: convertToUnits(value).toString() },
         signerOrProvider
       );
 
-      await tx.result.wait();
+      const txLink = getTxLink(chainId, tx);
+
+      toast?.pushSuccess({
+        title: "Approving DAI",
+        message: (
+          <a
+            className="flex"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={txLink}
+          >
+            <span className="inline-block">View transaction</span>
+            <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+          </a>
+        ),
+        lifetime: ERROR_TIMEOUT,
+      });
+
+      const receipt = await tx.wait(1);
+      const type = receipt.status === 1 ? "Success" : "Error";
+
+      if (type === "Success") {
+        toast?.pushSuccess({
+          title: "Approved DAI Successfully",
+          message: (
+            <a
+              className="flex"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={txLink}
+            >
+              <span className="inline-block">View transaction</span>
+              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+            </a>
+          ),
+          lifetime: ERROR_TIMEOUT,
+        });
+      } else {
+        toast?.pushError({
+          title: "Could not approve DAI",
+          message: (
+            <a
+              className="flex"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={txLink}
+            >
+              <span className="inline-block">View transaction</span>
+              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+            </a>
+          ),
+          lifetime: ERROR_TIMEOUT,
+        });
+      }
 
       setApproving(false);
       checkAllowance();
@@ -164,13 +209,67 @@ export const CoverFormAddLiquidity = ({
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
       const amount = convertToUnits(value).toString();
 
-      const tx = await liquidity.add(
+      const { result: tx } = await liquidity.add(
         chainId,
         coverKey,
         amount,
         signerOrProvider
       );
-      await tx.result.wait();
+
+      const txLink = getTxLink(chainId, tx);
+
+      toast?.pushSuccess({
+        title: "Adding Liquidity",
+        message: (
+          <a
+            className="flex"
+            target="_blank"
+            rel="noopener noreferrer"
+            href={txLink}
+          >
+            <span className="inline-block">View transaction</span>
+            <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+          </a>
+        ),
+        lifetime: ERROR_TIMEOUT,
+      });
+
+      const receipt = await tx.wait(1);
+      const type = receipt.status === 1 ? "Success" : "Error";
+
+      if (type === "Success") {
+        toast?.pushSuccess({
+          title: "Added Liquidity Successfully",
+          message: (
+            <a
+              className="flex"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={txLink}
+            >
+              <span className="inline-block">View transaction</span>
+              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+            </a>
+          ),
+          lifetime: ERROR_TIMEOUT,
+        });
+      } else {
+        toast?.pushError({
+          title: "Could not add liquidity",
+          message: (
+            <a
+              className="flex"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={txLink}
+            >
+              <span className="inline-block">View transaction</span>
+              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
+            </a>
+          ),
+          lifetime: ERROR_TIMEOUT,
+        });
+      }
 
       setProviding(false);
     } catch (error) {
@@ -184,7 +283,7 @@ export const CoverFormAddLiquidity = ({
 
   const canProvideLiquidity =
     value &&
-    !isValidNumber(value) &&
+    isValidNumber(value) &&
     isGreater(allowance || "0", convertToUnits(value || "0"));
   const isError =
     value &&
@@ -210,7 +309,7 @@ export const CoverFormAddLiquidity = ({
       <div className="pb-16">
         <ReceiveAmountInput
           labelText="You Will Receive"
-          tokenSymbol="DAI"
+          tokenSymbol="POD"
           inputValue={receiveAmount}
           inputId="add-liquidity-receive"
         />
@@ -226,7 +325,7 @@ export const CoverFormAddLiquidity = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleApprove}
         >
-          {approving ? "Approving..." : <>Provide Liquidity</>}
+          {approving ? "Approving..." : <>Approve DAI</>}
         </RegularButton>
       ) : (
         <RegularButton

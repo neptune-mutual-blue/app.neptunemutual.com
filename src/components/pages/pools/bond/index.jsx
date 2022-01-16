@@ -30,7 +30,7 @@ const BondPage = () => {
     },
     {
       title: "Maximum Bond",
-      value: `${bondInfo?.max_bond} NPM-USDC LP`,
+      value: `${bondInfo?.max_bond} NPM`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -44,7 +44,7 @@ const BondPage = () => {
     },
     {
       title: "Your Bond",
-      value: `${bondInfo?.bonded} NPM-USDC LP`,
+      value: `${bondInfo?.bonded} NPM`,
       titleClasses: `mt-7 ${!yourBondDisplay && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!yourBondDisplay && "hidden"}`,
     },
@@ -95,7 +95,7 @@ const BondPage = () => {
       <div className="max-w-lg col-span-2">
         <div className="input-pool">
           <TokenAmountInput
-            tokenSymbol={"NPM-USDC-LP"}
+            tokenSymbol={"NPM-USDC LP"}
             labelText={"Enter your amount"}
             handleChooseMax={handleChooseMax}
             inputValue={value}

@@ -19,7 +19,7 @@ export default function Components() {
               children: "Max",
               onClick: () => {},
             }}
-            unit="NPM-USDC-LP"
+            unit="NPM-USDC LP"
             inputProps={{
               id: "test-input-id",
               placeholder: "Enter Amount",

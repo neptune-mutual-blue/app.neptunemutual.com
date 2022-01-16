@@ -68,7 +68,6 @@ export function useInactiveListener(networkId, notifier) {
 
       BinanceChain.on("chainChanged", handleChainChanged);
       BinanceChain.on("accountsChanged", handleAccountsChanged);
-     
 
       return () => {
         if (BinanceChain.removeListener) {
