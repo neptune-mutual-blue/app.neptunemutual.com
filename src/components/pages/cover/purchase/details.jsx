@@ -16,8 +16,8 @@ export const CoverPurchaseDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = coverInfo.imgSrc;
-  const title = coverInfo.name;
+  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const title = coverInfo.coverName;
 
   const handleAcceptRules = () => {
     router.push(`/cover/${cover_id}/purchase/checkout`);

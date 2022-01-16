@@ -1,5 +1,4 @@
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import { Container } from "@/components/UI/atoms/container";
 import { AcceptReportRulesForm } from "@/components/UI/organisms/accept-cover-rules-form";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
@@ -10,21 +9,14 @@ import { useRouter } from "next/router";
 export const CoverReportingDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-
   const { coverInfo } = useCoverInfo(cover_id);
-  const { availableCovers } = useAvailableCovers();
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  if (!availableCovers) {
-    return <>loading...</>;
-  }
-
-  const imgSrc = coverInfo?.imgSrc;
-
-  const title = coverInfo?.name;
+  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const title = coverInfo?.coverName;
 
   const handleAcceptRules = () => {
     router.push(`/reporting/${cover_id}/new`);

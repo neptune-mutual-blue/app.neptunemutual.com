@@ -11,29 +11,21 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 
-import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
-
-import { useToast } from "@/lib/toast/context";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { useTxToast } from "@/src/hooks/useTxToast";
 
-import OpenInNewIcon from "@/icons/open-in-new";
-import { getTxLink } from "@/utils/blockchain/explorer";
-
-const ERROR_TIMEOUT = 30000; // 30 seconds
-
-export const CoverFormAddLiquidity = ({
+export const ProvideLiquidityForm = ({
   assuranceTokenAddress,
   assuranceTokenSymbol,
   coverKey,
 }) => {
   const router = useRouter();
-  const toast = useToast();
-  const { fees, maxValue } = useConstants();
+  const txToast = useTxToast();
 
   const { library, account, chainId } = useWeb3React();
 
@@ -140,60 +132,11 @@ export const CoverFormAddLiquidity = ({
         signerOrProvider
       );
 
-      const txLink = getTxLink(chainId, tx);
-
-      toast?.pushSuccess({
-        title: "Approving DAI",
-        message: (
-          <a
-            className="flex"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={txLink}
-          >
-            <span className="inline-block">View transaction</span>
-            <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-          </a>
-        ),
-        lifetime: ERROR_TIMEOUT,
+      await txToast.push(tx, {
+        pending: "Approving DAI",
+        success: "Approved DAI Successfully",
+        failure: "Could not approve DAI",
       });
-
-      const receipt = await tx.wait(1);
-      const type = receipt.status === 1 ? "Success" : "Error";
-
-      if (type === "Success") {
-        toast?.pushSuccess({
-          title: "Approved DAI Successfully",
-          message: (
-            <a
-              className="flex"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={txLink}
-            >
-              <span className="inline-block">View transaction</span>
-              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-            </a>
-          ),
-          lifetime: ERROR_TIMEOUT,
-        });
-      } else {
-        toast?.pushError({
-          title: "Could not approve DAI",
-          message: (
-            <a
-              className="flex"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={txLink}
-            >
-              <span className="inline-block">View transaction</span>
-              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-            </a>
-          ),
-          lifetime: ERROR_TIMEOUT,
-        });
-      }
 
       setApproving(false);
       checkAllowance();
@@ -216,70 +159,17 @@ export const CoverFormAddLiquidity = ({
         signerOrProvider
       );
 
-      const txLink = getTxLink(chainId, tx);
-
-      toast?.pushSuccess({
-        title: "Adding Liquidity",
-        message: (
-          <a
-            className="flex"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={txLink}
-          >
-            <span className="inline-block">View transaction</span>
-            <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-          </a>
-        ),
-        lifetime: ERROR_TIMEOUT,
+      await txToast.push(tx, {
+        pending: "Adding Liquidity",
+        success: "Added Liquidity Successfully",
+        failure: "Could not add liquidity",
       });
-
-      const receipt = await tx.wait(1);
-      const type = receipt.status === 1 ? "Success" : "Error";
-
-      if (type === "Success") {
-        toast?.pushSuccess({
-          title: "Added Liquidity Successfully",
-          message: (
-            <a
-              className="flex"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={txLink}
-            >
-              <span className="inline-block">View transaction</span>
-              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-            </a>
-          ),
-          lifetime: ERROR_TIMEOUT,
-        });
-      } else {
-        toast?.pushError({
-          title: "Could not add liquidity",
-          message: (
-            <a
-              className="flex"
-              target="_blank"
-              rel="noopener noreferrer"
-              href={txLink}
-            >
-              <span className="inline-block">View transaction</span>
-              <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-            </a>
-          ),
-          lifetime: ERROR_TIMEOUT,
-        });
-      }
 
       setProviding(false);
     } catch (error) {
       setProviding(false);
     }
   };
-
-  if (!fees && !maxValue) {
-    return <>loading...</>;
-  }
 
   const canProvideLiquidity =
     value &&

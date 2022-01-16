@@ -3,7 +3,7 @@ export const getActiveReportedList = () => {
     {
       id: "1",
       name: "Clearpool",
-      imgSrc: "/reporting/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -16,7 +16,7 @@ export const getActiveReportedList = () => {
     {
       id: "2",
       name: "Coinbase",
-      imgSrc: "/reporting/coinbase.png",
+      imgSrc: "/images/covers/coinbase.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -29,7 +29,7 @@ export const getActiveReportedList = () => {
     {
       id: "3",
       name: "Okex",
-      imgSrc: "/reporting/okex.png",
+      imgSrc: "/images/covers/okex.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -42,7 +42,7 @@ export const getActiveReportedList = () => {
     {
       id: "4",
       name: "Huobi",
-      imgSrc: "/reporting/huobi.png",
+      imgSrc: "/images/covers/huobi.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -55,7 +55,7 @@ export const getActiveReportedList = () => {
     {
       id: "5",
       name: "hex trust",
-      imgSrc: "/reporting/hextrust.png",
+      imgSrc: "/images/covers/hextrust.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -68,7 +68,7 @@ export const getActiveReportedList = () => {
     {
       id: "6",
       name: "Axie",
-      imgSrc: "/reporting/axie.png",
+      imgSrc: "/images/covers/axie.png",
       coverFees: {
         min: 5,
         max: 7,

@@ -82,7 +82,7 @@ export const HomePage = () => {
         <Grid className="mt-14 mb-24">
           {availableCovers.map((c) => {
             return (
-              <Link href={`/cover/${c.key}/options`} key={c.name}>
+              <Link href={`/cover/${c.key}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <CoverCard details={c}></CoverCard>
                 </a>

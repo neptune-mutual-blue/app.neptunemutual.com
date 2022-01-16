@@ -3,7 +3,7 @@ export const getCoverInfo = () => {
   const info = {
       id: "1",
       name: "Clearpool",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       coverFees: {
         min: 5,
         max: 7,

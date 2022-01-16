@@ -2,20 +2,24 @@ import { convertToUnits } from "@/utils/bn";
 
 const DAYS = 86400;
 
+const ether = (x) => convertToUnits(x).toString();
+
+const defaultInfo = {
+  coverFees: {
+    min: 5,
+    max: 7,
+  },
+  apr: 12.03,
+  utilizationRatio: 25,
+  protection: 800000,
+  liquidity: 11010000,
+};
+
 export const getAvailableCovers = () => {
   return [
     {
-      id: "1",
-      name: "Clearpool",
-      imgSrc: "/reporting/clearpool.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 25,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "Clearpool Cover",
+      projectName: "Clearpool",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -27,15 +31,14 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about:
         "Clearpool introduces single borrower liquidity pools, allowing whitelisted borrowers to compete for uncollateralized liquidity directly from the DeFi ecosystem.",
       tags: ["Smart Contract", "DeFi", "Lending"],
-
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -54,17 +57,8 @@ export const getAvailableCovers = () => {
       },
     },
     {
-      id: "2",
-      name: "coinbase",
-      imgSrc: "/reporting/coinbase.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 65,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "Coinbase Cover",
+      projectName: "Coinbase",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -76,15 +70,14 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about:
         "Coinbase is a secure online platform for buying, selling, transferring, and storing cryptocurrency.",
-      tags: ["Smart Contract", "DeFi", "Lending"],
-
+      tags: ["Smart Contract", "DeFi", "Exchange"],
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -103,17 +96,8 @@ export const getAvailableCovers = () => {
       },
     },
     {
-      id: "3",
-      name: "hex trust",
-      imgSrc: "/reporting/hextrust.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 85,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "Hex Trust Cover",
+      projectName: "Hex Trust",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -125,15 +109,14 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about:
         "Hex Trust is fully licenced, insured, and the leading provider of bank-grade custody for digital assets. ",
-      tags: ["Smart Contract", "DeFi", "Lending"],
-
+      tags: ["Smart Contract", "DeFi", "Custody"],
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -152,17 +135,8 @@ export const getAvailableCovers = () => {
       },
     },
     {
-      id: "4",
-      name: "okex",
-      imgSrc: "/reporting/okex.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 15,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "OKEx Cover",
+      projectName: "OKEx",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -174,15 +148,14 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about:
         "OKEx is a Seychelles-based cryptocurrency exchange that provides a platform for trading various cryptocurrencies.",
-      tags: ["Smart Contract", "DeFi", "Lending"],
-
+      tags: ["Smart Contract", "DeFi", "Exchange"],
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -201,17 +174,8 @@ export const getAvailableCovers = () => {
       },
     },
     {
-      id: "5",
-      name: "huobi",
-      imgSrc: "/reporting/huobi.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 25,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "Huobi Cover",
+      projectName: "Huobi",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -223,14 +187,13 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about: "Huobi is a Seychelles-based cryptocurrency exchange.",
-      tags: ["Exchange", "DeFi", "Lending"],
-
+      tags: ["Exchange", "DeFi", "Exchange"],
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -250,17 +213,8 @@ export const getAvailableCovers = () => {
       },
     },
     {
-      id: "6",
-      name: "axie",
-      imgSrc: "/reporting/axie.png",
-      coverFees: {
-        min: 5,
-        max: 7,
-      },
-      apr: 12.03,
-      utilizationRatio: 0,
-      protection: 800000,
-      liquidity: 11010000,
+      coverName: "Axie",
+      projectName: "Axie",
       key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
@@ -272,15 +226,14 @@ export const getAvailableCovers = () => {
         at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: convertToUnits(50_000).toString(),
+        initialAmount: ether(50_000),
       },
-      stakeWithFees: convertToUnits(50_000).toString(),
-      initialLiquidity: convertToUnits(50_000).toString(),
-      minReportingStake: convertToUnits(500).toString(),
+      stakeWithFees: ether(50_000),
+      initialLiquidity: ether(50_000),
+      minReportingStake: ether(500),
       about:
         "Axie Infinity is an NFT-based online video game developed by Vietnamese studio Sky Mavis, which uses Ethereum-based cryptocurrencies, Axie Infinity Shards and Smooth Love Potion.",
       tags: ["Smart Contract", "NFT", "Gaming"],
-
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
       3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
@@ -298,5 +251,5 @@ export const getAvailableCovers = () => {
         slack: null,
       },
     },
-  ];
+  ].map((x) => ({ ...x, ...defaultInfo,imgSrc:`/images/covers/${x.key}.png` }));
 };

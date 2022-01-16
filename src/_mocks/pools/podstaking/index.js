@@ -3,7 +3,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "1",
       name: "HT",
-      imgSrc: "/reporting/huobi.png",
+      imgSrc: "/images/covers/huobi.png",
       apr: 16.03,
       lockingPeriod: 24,
       tvl: "2.7M",
@@ -11,7 +11,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "2",
       name: "okb",
-      imgSrc: "/reporting/okex.png",
+      imgSrc: "/images/covers/okex.png",
       apr: 13.04,
       lockingPeriod: 24,
       tvl: "1.3M",
@@ -19,7 +19,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "3",
       name: "cpool",
-      imgSrc: "/reporting/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       apr: 11.0,
       lockingPeriod: 24,
       tvl: "5.0M",
@@ -27,7 +27,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "4",
       name: "axs",
-      imgSrc: "/reporting/axie.png",
+      imgSrc: "/images/covers/axie.png",
       apr: 15.0,
       lockingPeriod: 24,
       tvl: "900k",
@@ -35,7 +35,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "5",
       name: "eqifi",
-      imgSrc: "/reporting/eqifi.png",
+      imgSrc: "/images/covers/eqifi.png",
       apr: 9.09,
       lockingPeriod: 24,
       tvl: "4.0M",

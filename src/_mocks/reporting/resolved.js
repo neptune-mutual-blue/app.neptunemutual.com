@@ -3,7 +3,7 @@ export const getResolvedReportingList = () => {
     {
       id: "4",
       name: "Huobi",
-      imgSrc: "/reporting/huobi.png",
+      imgSrc: "/images/covers/huobi.png",
       statusText: "incident occured",
       status: true,
       resolvedOn: "12/28/2021 | 10:00:00 UTC",
@@ -12,7 +12,7 @@ export const getResolvedReportingList = () => {
     {
       id: "3",
       name: "Okex",
-      imgSrc: "/reporting/okex.png",
+      imgSrc: "/images/covers/okex.png",
       statusText: "incident occured",
       status: true,
       resolvedOn: "12/20/2021 | 12:00:00 UTC",
@@ -21,7 +21,7 @@ export const getResolvedReportingList = () => {
     {
       id: "1",
       name: "Clearpool",
-      imgSrc: "/reporting/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       statusText: "false reporting",
       status: false,
       resolvedOn: "01/03/2022 | 08:00:00 UTC",
@@ -30,7 +30,7 @@ export const getResolvedReportingList = () => {
     {
       id: "5",
       name: "hex trust",
-      imgSrc: "/reporting/hextrust.png",
+      imgSrc: "/images/covers/hextrust.png",
       statusText: "false reporting",
       status: false,
       resolvedOn: "11/15/2021 | 16:00:00 UTC",
@@ -39,7 +39,7 @@ export const getResolvedReportingList = () => {
     {
       id: "6",
       name: "Eqifi",
-      imgSrc: "/reporting/eqifi.png",
+      imgSrc: "/images/covers/eqifi.png",
       statusText: "incident occured",
       status: true,
       resolvedOn: "01/02/2022 | 19:00:00 UTC",

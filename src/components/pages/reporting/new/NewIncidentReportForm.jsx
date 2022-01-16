@@ -29,8 +29,8 @@ export const NewIncidentReportForm = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = coverInfo.imgSrc;
-  const title = coverInfo.name;
+  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const title = coverInfo.coverName;
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);

@@ -3,7 +3,7 @@ export const getActivePolicy = () => {
     {
       id: "1",
       name: "Clearpool",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "Claimable",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: true,
@@ -13,7 +13,7 @@ export const getActivePolicy = () => {
     {
       id: "2",
       name: "coinbase",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "Reporting",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: false,
@@ -23,7 +23,7 @@ export const getActivePolicy = () => {
     {
       id: "3",
       name: "hex trust",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: false,
@@ -33,7 +33,7 @@ export const getActivePolicy = () => {
     {
       id: "4",
       name: "okex",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "Reporting",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: false,
@@ -43,7 +43,7 @@ export const getActivePolicy = () => {
     {
       id: "5",
       name: "huobi",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: false,
@@ -53,7 +53,7 @@ export const getActivePolicy = () => {
     {
       id: "6",
       name: "axie",
-      imgSrc: "/covers/clearpool.png",
+      imgSrc: "/images/covers/clearpool.png",
       status: "",
       claimBefore: "12/12/2021 12:00:00 UTC",
       claimable: false,

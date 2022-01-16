@@ -15,8 +15,8 @@ export const CoverPurchaseCheckoutPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = "/covers/clearpool.png";
-  const title = coverInfo.name;
+  const imgSrc = "/images/covers/clearpool.png";
+  const title = coverInfo.coverName;
   const reassuranceToken = coverInfo.reassuranceToken;
 
   return (

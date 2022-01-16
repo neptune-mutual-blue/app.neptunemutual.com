@@ -6,9 +6,9 @@ import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
   const {
-    name,
+    projectName,
     coverFees,
-    imgSrc,
+    key,
     apr,
     utilizationRatio,
     protection,
@@ -20,10 +20,14 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between">
         <div>
           <div className="">
-            <img src={imgSrc} alt={name} className="inline-block max-w-full" />
+            <img
+              src={`/images/covers/${key}.png`}
+              alt={projectName}
+              className="inline-block max-w-full"
+            />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {name}
+            {projectName}
           </h4>
           <div className="text-sm text-7398C0 uppercase mt-2">
             cover fee: {coverFees.min}-{coverFees.max}%
