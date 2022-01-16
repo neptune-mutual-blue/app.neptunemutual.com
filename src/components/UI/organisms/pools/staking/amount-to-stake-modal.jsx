@@ -49,7 +49,7 @@ export const AmountToStakeModal = ({
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
             id={"staked-amount"}
-            onInput={handleChange}
+            onChange={handleChange}
           />
         </div>
         <div className="modal-unlock mt-8">

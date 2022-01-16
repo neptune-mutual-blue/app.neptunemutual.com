@@ -135,7 +135,7 @@ export const WithdrawLiquidityModal = ({
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"my-liquidity-amount"}
-            onInput={handleChange}
+            onChange={handleChange}
             tokenBalance={balance}
             tokenAddress={vaultTokenAddress}
           />

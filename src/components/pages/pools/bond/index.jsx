@@ -100,7 +100,7 @@ const BondPage = () => {
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"bond-amount"}
-            onInput={handleChange}
+            onChange={handleChange}
           />
         </div>
         <div className="receive mt-16">

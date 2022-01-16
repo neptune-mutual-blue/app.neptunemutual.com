@@ -2,6 +2,7 @@ import { ViewTxLink } from "@/components/common/ViewTxLink";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import { getTxLink } from "@/utils/blockchain/explorer";
+import { useWeb3React } from "@web3-react/core";
 
 export const useTxToast = () => {
   const { chainId } = useWeb3React();

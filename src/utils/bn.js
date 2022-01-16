@@ -136,6 +136,19 @@ export const isGreater = (a, b) => {
   return false;
 };
 
+export const isGreaterOrEqual = (a, b) => {
+  try {
+    const bigA = new BigNumber(a.toString());
+    const bigB = new BigNumber(b.toString());
+
+    return bigA.isGreaterThanOrEqualTo(bigB);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return false;
+};
+
 export const maxIn = (arr) => {
   return arr
     .filter((x) => x && hasValue(x))

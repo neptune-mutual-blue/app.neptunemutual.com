@@ -16,8 +16,9 @@ import { monthNames } from "@/lib/dates";
 import {
   convertToUnits,
   convertFromUnits,
-  isGreater,
   isValidNumber,
+  isGreaterOrEqual,
+  isGreater,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import BigNumber from "bignumber.js";
@@ -174,7 +175,9 @@ export const CoverForm = ({
   ];
 
   const canPurchase =
-    value && isValidNumber(value) && isGreater(allowance || "0", value || "0");
+    value &&
+    isValidNumber(value) &&
+    isGreaterOrEqual(allowance || "0", value || "0");
   const isError =
     value &&
     (!isValidNumber(value) ||
@@ -184,7 +187,7 @@ export const CoverForm = ({
     <div className="max-w-md">
       <TokenAmountInput
         labelText={"Amount you wish to cover"}
-        onInput={handleChange}
+        onChange={handleChange}
         error={isError}
         handleChooseMax={handleChooseMax}
         tokenAddress={assuranceTokenAddress}

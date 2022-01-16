@@ -2,15 +2,18 @@ import { ReportingHero } from "@/components/UI/organisms/reporting/new/Reporting
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
+import { useRouter } from "next/router";
 
 export const VotePage = () => {
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = "/images/covers/clearpool.png";
+  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
   const title = coverInfo.coverName;
 
   return (

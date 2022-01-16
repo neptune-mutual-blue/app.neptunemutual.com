@@ -1,18 +1,18 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { convertFromUnits } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
+import { convertFromUnits } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 
-export const ProvideLiquidityForm = ({
+export const MyLiquidityForm = ({
+  coverKey,
   assuranceTokenAddress,
   assuranceTokenSymbol,
-  coverKey,
 }) => {
   const [value, setValue] = useState();
   const router = useRouter();
@@ -55,7 +55,7 @@ export const ProvideLiquidityForm = ({
           error={isError}
           tokenAddress={assuranceTokenAddress}
           tokenSymbol={assuranceTokenSymbol}
-          tokenBalance={balance || "0"}
+          tokenBalance={balance}
           inputId={"cover-amount"}
           inputValue={value}
         />
@@ -66,7 +66,7 @@ export const ProvideLiquidityForm = ({
           labelText="You Will Receive"
           tokenSymbol="POD"
           inputValue={receiveAmount}
-          inputId="add-liquidity-receive"
+          inputId="my-liquidity-receive"
         />
       </div>
 
@@ -80,7 +80,7 @@ export const ProvideLiquidityForm = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleApprove}
         >
-          {approving ? "Approving..." : <>Approve DAI</>}
+          {approving ? "Approving..." : "Approve DAI"}
         </RegularButton>
       ) : (
         <RegularButton
@@ -88,7 +88,7 @@ export const ProvideLiquidityForm = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleProvide}
         >
-          {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
+          {providing ? "Adding Liquidity..." : "Add Liquidity"}
         </RegularButton>
       )}
 

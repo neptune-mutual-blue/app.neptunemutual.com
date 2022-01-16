@@ -6,18 +6,20 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
+import { useRouter } from "next/router";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { coverInfo } = useCoverInfo();
+  const router = useRouter();
+  const { cover_id } = router.query;
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = "/images/covers/clearpool.png";
-  const title = coverInfo.coverName;
+  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
 
   function onClose() {
     setIsOpen(false);
@@ -31,7 +33,11 @@ export const MyLiquidityDetailsPage = ({ children }) => {
     <div>
       <main className="bg-f1f3f6">
         {/* hero */}
-        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+        <CoverHero
+          coverInfo={coverInfo}
+          title={coverInfo.coverName}
+          imgSrc={imgSrc}
+        />
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -54,7 +60,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
             </div>
 
             <CoverPurchaseResolutionSources
-              covername={title}
+              projectName={coverInfo.projectName}
               knowledgebase={coverInfo?.resolutionSources[1]}
               twitter={coverInfo?.resolutionSources[0]}
             >
@@ -63,7 +69,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
                 <strong className="text-right font-bold">$ 2.5M</strong>
               </div>
               <div className="flex justify-between pb-2">
-                <span className="">My Earningas:</span>
+                <span className="">My Earnings:</span>
                 <strong className="text-right font-bold">$ 750k</strong>
               </div>
               <div className="flex justify-between pb-8">

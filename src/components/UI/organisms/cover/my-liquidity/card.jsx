@@ -5,17 +5,21 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
-  const { name, imgSrc, apr, utilizationRatio, protection } = details;
+  const { projectName, imgSrc, apr, utilizationRatio, protection } = details;
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
           <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
-            <img src={imgSrc} alt={name} className="inline-block max-w-full" />
+            <img
+              src={imgSrc}
+              alt={projectName}
+              className="inline-block max-w-full"
+            />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {name}
+            {projectName}
           </h4>
         </div>
         <div>

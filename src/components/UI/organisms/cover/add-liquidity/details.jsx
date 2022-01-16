@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
   const router = useRouter();
   const { cover_id } = router.query;
-
   const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
@@ -16,13 +15,16 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
   }
 
   const imgSrc = `/images/covers/${coverInfo?.key}.png`;
-  const title = coverInfo.coverName;
 
   return (
     <div>
       <main className="bg-f1f3f6">
         {/* hero */}
-        <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+        <CoverHero
+          coverInfo={coverInfo}
+          title={coverInfo.coverName}
+          imgSrc={imgSrc}
+        />
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -45,7 +47,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
             </div>
 
             <CoverPurchaseResolutionSources
-              covername={title}
+              projectName={coverInfo.projectName}
               knowledgebase={coverInfo?.resolutionSources[1]}
               twitter={coverInfo?.resolutionSources[0]}
             >

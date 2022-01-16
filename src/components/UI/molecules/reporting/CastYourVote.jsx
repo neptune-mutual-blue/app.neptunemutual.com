@@ -80,7 +80,7 @@ export const CastYourVote = () => {
             handleChooseMax={handleChooseMax}
             inputValue={stakedAmount}
             inputId={"stake-to-cast-vote"}
-            onInput={handleStakedAmtChange}
+            onChange={handleStakedAmtChange}
           />
         </div>
 

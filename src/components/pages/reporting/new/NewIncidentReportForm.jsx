@@ -30,7 +30,6 @@ export const NewIncidentReportForm = () => {
   }
 
   const imgSrc = `/images/covers/${coverInfo?.key}.png`;
-  const title = coverInfo.coverName;
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);
@@ -67,7 +66,11 @@ export const NewIncidentReportForm = () => {
   return (
     <main>
       {/* hero */}
-      <ReportingHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+      <ReportingHero
+        coverInfo={coverInfo}
+        title={coverInfo.coverName}
+        imgSrc={imgSrc}
+      />
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -163,7 +166,7 @@ export const NewIncidentReportForm = () => {
                 handleChooseMax={handleChooseMax}
                 inputValue={staked}
                 id={"stake-amount"}
-                onInput={handleStakeChange}
+                onChange={handleStakeChange}
               />
 
               <p className="text-9B9B9B px-3 mt-2">

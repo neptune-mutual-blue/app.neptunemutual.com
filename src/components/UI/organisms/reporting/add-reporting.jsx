@@ -27,7 +27,7 @@ export const AddReporting = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <img src="/reporting/empty-eclipse.png" alt="empty circle" />
+      <img src="/images/covers/empty-eclipse.png" alt="empty circle" />
       <p className="font-sora font-bold text-h2 text-CDD6E3 mt-5">
         No Active Reporting
       </p>
@@ -42,7 +42,7 @@ export const AddReporting = () => {
             setSelected={setSelected}
             prefix={
               <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
-                <img src={selected?.imgSrc} alt={selected?.name} />
+                <img src={selected?.imgSrc} alt={selected?.coverName} />
               </div>
             }
           />

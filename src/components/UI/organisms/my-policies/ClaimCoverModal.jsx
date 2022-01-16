@@ -46,7 +46,7 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"bond-amount"}
-            onInput={handleChange}
+            onChange={handleChange}
           />
         </div>
         <div className="modal-unlock mt-8">

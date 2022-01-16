@@ -5,11 +5,11 @@ import { TokenBalance } from "@/components/UI/molecules/token-balance";
 export const TokenAmountInput = ({
   tokenAddress,
   tokenSymbol,
-  labelText = null,
+  labelText,
   handleChooseMax,
   inputValue,
   inputId,
-  onInput,
+  onChange,
   tokenBalance,
   error,
   children,
@@ -32,7 +32,7 @@ export const TokenAmountInput = ({
           id: inputId,
           placeholder: "Enter Amount",
           value: inputValue,
-          onChange: onInput,
+          onChange: onChange,
         }}
       />
       <TokenBalance

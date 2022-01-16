@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 export const CoverAddLiquidityCheckoutPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo();
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;

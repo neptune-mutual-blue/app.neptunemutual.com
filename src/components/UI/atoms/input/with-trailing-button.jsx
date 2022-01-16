@@ -9,7 +9,6 @@ export const InputWithTrailingButton = ({
   error,
 }) => {
   const ref = useRef(null);
-
   const [width, setWidth] = useState();
 
   const getSize = () => {
@@ -24,15 +23,24 @@ export const InputWithTrailingButton = ({
   // Update 'width' when the window resizes
   useEffect(() => {
     window.addEventListener("resize", getSize);
+
+    return () => window.removeEventListener("resize", getSize);
   }, []);
+
+  const numberFormatProps = {
+    id: inputProps.id,
+    value: inputProps.value,
+    placeholder: inputProps.placeholder,
+    thousandSeparator: ",",
+    isNumericString: true,
+    onValueChange: (values) => inputProps.onChange(values.value),
+    autoComplete: "off",
+  };
 
   return (
     <div className="relative text-black text-h4 w-full">
       <NumberFormat
-        {...inputProps}
-        thousandSeparator=","
-        isNumericString={true}
-        onValueChange={(_value, e) => inputProps.onChange(_value.value)}
+        {...numberFormatProps}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
           error
@@ -40,7 +48,6 @@ export const InputWithTrailingButton = ({
             : "border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9"
         )}
         style={{ paddingRight: `${width || 64}px` }}
-        autoComplete="off"
       />
       <div className="flex absolute right-0 inset-y-0" ref={ref}>
         {unit && (

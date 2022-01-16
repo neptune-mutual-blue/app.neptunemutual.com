@@ -38,7 +38,7 @@ const UnstakeYourAmount = () => {
             handleChooseMax={handleChooseMax}
             inputValue={unstakedAmount}
             inputId={"reporting-unstake"}
-            onInput={handleUnstakedAmtChange}
+            onChange={handleUnstakedAmtChange}
           />
         </div>
         <RegularButton

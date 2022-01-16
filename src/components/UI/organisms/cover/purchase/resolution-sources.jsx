@@ -5,7 +5,7 @@ export const CoverPurchaseResolutionSources = ({
   children = null,
   knowledgebase,
   twitter,
-  covername,
+  projectName,
 }) => {
   return (
     <div>
@@ -18,7 +18,7 @@ export const CoverPurchaseResolutionSources = ({
             target="_blank"
             className="block text-4e7dd9 hover:underline mt-3 capitalize"
           >
-            {covername} Knowledgebase
+            {projectName} Knowledgebase
           </a>
         </Link>
 
@@ -27,7 +27,7 @@ export const CoverPurchaseResolutionSources = ({
             target="_blank"
             className="block text-4e7dd9 hover:underline mt-3 capitalize"
           >
-            {covername} Twitter
+            {projectName} Twitter
           </a>
         </Link>
 

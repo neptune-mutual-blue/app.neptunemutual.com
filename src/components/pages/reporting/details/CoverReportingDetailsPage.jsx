@@ -71,7 +71,7 @@ export const CoverReportingDetailsPage = () => {
             </div>
           </div>
           <CoverPurchaseResolutionSources
-            covername={title}
+            projectName={title}
             knowledgebase={coverInfo?.resolutionSources[1]}
             twitter={coverInfo?.resolutionSources[0]}
           >

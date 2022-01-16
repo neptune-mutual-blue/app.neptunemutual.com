@@ -23,7 +23,7 @@ export const WithdrawForm = ({ onWithdraw, unitName }) => {
         inputValue={amtToWithdraw}
         handleChooseMax={handleChooseMax}
         labelText={"Amount you wish to withdraw"}
-        onInput={handleChange}
+        onChange={handleChange}
         tokenSymbol={unitName}
       />
 

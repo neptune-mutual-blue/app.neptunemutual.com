@@ -12,7 +12,7 @@ export const CoverAddLiquidityDetailsPage = () => {
     push(`/cover/${cover_id}/add-liquidity/checkout`);
   };
 
-  const { coverInfo } = useCoverInfo();
+  const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;

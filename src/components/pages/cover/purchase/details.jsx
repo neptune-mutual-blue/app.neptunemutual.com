@@ -17,7 +17,6 @@ export const CoverPurchaseDetailsPage = () => {
   }
 
   const imgSrc = `/images/covers/${coverInfo?.key}.png`;
-  const title = coverInfo.coverName;
 
   const handleAcceptRules = () => {
     router.push(`/cover/${cover_id}/purchase/checkout`);
@@ -26,7 +25,11 @@ export const CoverPurchaseDetailsPage = () => {
   return (
     <main>
       {/* hero */}
-      <CoverHero coverInfo={coverInfo} title={title} imgSrc={imgSrc} />
+      <CoverHero
+        coverInfo={coverInfo}
+        title={coverInfo.coverName}
+        imgSrc={imgSrc}
+      />
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -75,7 +78,7 @@ export const CoverPurchaseDetailsPage = () => {
           </div>
 
           <CoverPurchaseResolutionSources
-            covername={title}
+            projectName={coverInfo.projectName}
             knowledgebase={coverInfo?.resolutionSources[1]}
             twitter={coverInfo?.resolutionSources[0]}
           />
