@@ -4,7 +4,12 @@ customHeaders:
       - key: "Strict-Transport-Security"
         value: "max-age=31536000; includeSubDomains"
       - key: "Content-Security-Policy"
-        value: "script-src 'self'; frame-ancestors 'none'; default-src 'self'; base-uri 'none'; report-uri https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform; form-action 'none'; object-src 'none'; style-src 'self'; img-src 'self' data:"
+        value:
+          "script-src 'self'; frame-ancestors 'none'; default-src 'self';
+          connect-src https://api.thegraph.com/; base-uri 'none'; report-uri
+          https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform;
+          form-action 'none'; object-src 'none'; style-src 'self'; img-src
+          'self' data:"
       - key: "X-Frame-Options"
         value: "SAMEORIGIN"
       - key: "X-Content-Type-Options"
@@ -16,8 +21,12 @@ customHeaders:
       - key: "X-Permitted-Cross-Domain-Policies"
         value: "none"
       - key: "Feature-Policy"
-        value: "microphone 'none'; camera 'none'; fullscreen 'none'; geolocation 'none'"
+        value:
+          "microphone 'none'; camera 'none'; fullscreen 'none'; geolocation
+          'none'"
       - key: "Expect-CT"
-        value: "enforce, max-age=31536000, report-uri='https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform'"
+        value:
+          "enforce, max-age=31536000,
+          report-uri='https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform'"
       - key: "X-XSS-Protection"
         value: "1; mode=block"
