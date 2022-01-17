@@ -3,7 +3,7 @@ import AddCircleIcon from "@/icons/add-circle";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
-import { getAddressLink } from "@/utils/blockchain/explorer";
+import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();

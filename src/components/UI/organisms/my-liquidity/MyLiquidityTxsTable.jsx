@@ -11,11 +11,11 @@ import AddCircleIcon from "@/icons/add-circle";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/open-in-new";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { getTxLink } from "@/utils/blockchain/explorer";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { formatTime, unixToDate } from "@/utils/date";
 import { useWeb3React } from "@web3-react/core";
+import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 
 const renderHeader = (col) => (
   <th
@@ -54,39 +54,7 @@ const renderDetails = (row) => (
 
 const renderAmount = (row) => <PodAmountRenderer row={row} />;
 
-const renderActions = (row) => (
-  <td className="px-6 py-6" style={{ minWidth: "120px" }}>
-    <div className="flex items-center justify-end">
-      {/* Tooltip */}
-      <Tooltip.Root>
-        <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
-          <span className="sr-only">Timestamp</span>
-          <ClockIcon className="h-4 w-4" />
-        </Tooltip.Trigger>
-
-        <Tooltip.Content side="top">
-          <div className="text-sm leading-6 bg-black text-white p-3 rounded-xl max-w-sm">
-            <p>
-              {unixToDate(row.transaction.timestamp, "YYYY/MM/DD HH:mm") +
-                " UTC"}
-            </p>
-          </div>
-          <Tooltip.Arrow offset={16} className="fill-black" />
-        </Tooltip.Content>
-      </Tooltip.Root>
-
-      <a
-        href={getTxLink(3, { hash: row.transaction.id })}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="p-1 text-black"
-      >
-        <span className="sr-only">Open in explorer</span>
-        <OpenInNewIcon className="h-4 w-4" />
-      </a>
-    </div>
-  </td>
-);
+const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
@@ -120,14 +88,22 @@ export const MyLiquidityTxsTable = () => {
   const { data, loading, page, maxPage, setPage } = useLiquidityTxs({
     maxItems,
   });
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
 
   const { blockNumber, transactions, totalCount } = data;
   return (
     <>
       {blockNumber && (
         <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
-          LAST SYNCED: <span className="pl-1 text-4e7dd9">#{blockNumber}</span>
+          LAST SYNCED:{" "}
+          <a
+            href={getBlockLink(chainId, blockNumber)}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="pl-1 text-4e7dd9"
+          >
+            #{blockNumber}
+          </a>
         </p>
       )}
       <TableWrapper>
@@ -181,6 +157,44 @@ const PodAmountRenderer = ({ row }) => {
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="h-4 w-4" />
         </button>
+      </div>
+    </td>
+  );
+};
+
+const ActionsRenderer = ({ row }) => {
+  const { chainId } = useWeb3React();
+
+  return (
+    <td className="px-6 py-6" style={{ minWidth: "120px" }}>
+      <div className="flex items-center justify-end">
+        {/* Tooltip */}
+        <Tooltip.Root>
+          <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
+            <span className="sr-only">Timestamp</span>
+            <ClockIcon className="h-4 w-4" />
+          </Tooltip.Trigger>
+
+          <Tooltip.Content side="top">
+            <div className="text-sm leading-6 bg-black text-white p-3 rounded-xl max-w-sm">
+              <p>
+                {unixToDate(row.transaction.timestamp, "YYYY/MM/DD HH:mm") +
+                  " UTC"}
+              </p>
+            </div>
+            <Tooltip.Arrow offset={16} className="fill-black" />
+          </Tooltip.Content>
+        </Tooltip.Root>
+
+        <a
+          href={getTxLink(chainId, { hash: row.transaction.id })}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="p-1 text-black"
+        >
+          <span className="sr-only">Open in explorer</span>
+          <OpenInNewIcon className="h-4 w-4" />
+        </a>
       </div>
     </td>
   );

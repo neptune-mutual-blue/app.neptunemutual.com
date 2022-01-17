@@ -5,7 +5,7 @@ import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/open-in-new";
 import DisconnectIcon from "@/icons/disconnect-icon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
-import { getAddressLink } from "@/utils/blockchain/explorer";
+import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 import Identicon from "@/components/UI/organisms/header/Identicon";
 
 export const AccountDetailsModal = ({
