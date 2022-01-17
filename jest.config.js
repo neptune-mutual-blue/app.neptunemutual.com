@@ -1,21 +1,24 @@
 const nextJest = require("next/jest");
 
-const createJestConfig = nextJest({
-  dir: "./",
-});
+const createJestConfig = nextJest();
 
 const customJestConfig = {
-  setupFilesAfterEnv: ["./jest.setup.js"],
-  moduleDirectories: ["node_modules", "./"],
+  testMatch: ["**/*.test.js", "**/*.jsx", "**/*.test.ts", "**/*.test.tsx"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  verbose: true,
+  rootDir: ".",
+  modulePaths: ["<rootDir>/lib"],
+  transformIgnorePatterns: ["/next[/\\\\]dist/", "/\\.next/"],
   testEnvironment: "jest-environment-jsdom",
   moduleNameMapper: {
-    "^@/components/(.*)$": "src/components/$1",
-    "^@/lib/(.*)$": "lib/$1",
-    "^@/translations/(.*)$": "src/translations/$1",
-    "^@/utils/(.*)$": "src/utils/$1",
-    "^@/icons/(.*)$": "src/icons/$1",
-    "^@/src/(.*)$": "src/$1",
+    "^@/components/(.*)$": "<rootDir>/src/components/$1",
+    "^@/lib/(.*)$": "<rootDir>/lib/$1",
+    "^@/translations/(.*)$": "<rootDir>/src/translations/$1",
+    "^@/utils/(.*)$": "<rootDir>/src/utils/$1",
+    "^@/icons/(.*)$": "<rootDir>/src/icons/$1",
+    "^@/src/(.*)$": "<rootDir>/src/$1",
   },
 };
 
+// createJestConfig is exported in this way to ensure that next/jest can load the Next.js config which is async
 module.exports = createJestConfig(customJestConfig);
