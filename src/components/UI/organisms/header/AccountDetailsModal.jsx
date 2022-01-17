@@ -17,6 +17,10 @@ export const AccountDetailsModal = ({
 }) => {
   const network = wallets.find((x) => x.id == "1");
 
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(account);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="relative inline-block min-w-sm max-w-xl px-16 py-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
@@ -56,7 +60,10 @@ export const AccountDetailsModal = ({
           </div>
 
           <div className="py-2 flex">
-            <div className="flex items-center cursor-pointer">
+            <div
+              className="flex items-center cursor-pointer"
+              onClick={handleCopy}
+            >
               <CopyIcon className="text-999BAB w-4 h-4" />
               <span className="text-21AD8C text-xs tracking-normal ml-2.5">
                 Copy Address
