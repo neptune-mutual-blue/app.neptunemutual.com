@@ -135,7 +135,7 @@ export const NewIncidentReportForm = () => {
                       onClick={handleDeleteLink}
                       className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
                     >
-                      <DeleteIcon />
+                      <DeleteIcon width={14} height={16} />
                     </span>
                   )}
                 </div>
