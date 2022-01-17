@@ -55,14 +55,14 @@ export const CoverReportingDetailsPage = () => {
 
             <br className="mt-20" />
             {/* Read more */}
-            <a
+            {/* <a
               href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="opacity-40 hover:underline mt-4"
             >
               See More
-            </a>
+            </a> */}
 
             <div className="mt-16">
               <AcceptReportRulesForm onAccept={handleAcceptRules}>

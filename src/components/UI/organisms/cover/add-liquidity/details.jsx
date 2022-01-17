@@ -4,6 +4,7 @@ import { CoverHero } from "@/components/UI/organisms/cover/add-liquidity/hero";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { useRouter } from "next/router";
+import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 
 export const CoverAddLiquidityDetailsPage = ({ children }) => {
   const router = useRouter();
@@ -31,17 +32,7 @@ export const CoverAddLiquidityDetailsPage = ({ children }) => {
           <Container className="grid gap-32 grid-cols-3">
             <div className="col-span-2">
               {/* Description */}
-              <p>{coverInfo.about}</p>
-
-              {/* Read more */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-40 hover:underline mt-4"
-              >
-                See More
-              </a>
+              <SeeMoreParagraph>{coverInfo.about}</SeeMoreParagraph>
 
               {children}
             </div>

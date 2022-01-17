@@ -7,6 +7,7 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 import { useRouter } from "next/router";
+import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,17 +45,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
           <Container className="grid gap-32 grid-cols-3">
             <div className="col-span-2">
               {/* Description */}
-              <p>{coverInfo.about}</p>
-
-              {/* Read more */}
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="opacity-40 hover:underline mt-4"
-              >
-                See More
-              </a>
+              <SeeMoreParagraph>{coverInfo.about}</SeeMoreParagraph>
 
               {children}
             </div>
