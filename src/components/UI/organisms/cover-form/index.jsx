@@ -114,12 +114,6 @@ export const CoverForm = ({
         )
       );
       setFeeAmount(parseFloat(convertFromUnits(fee).toString()).toFixed(3));
-      console.info("--------------------------------------");
-      console.info(
-        "Rate: %s",
-        convertFromUnits(rate).multipliedBy(100).toString() + " percent"
-      );
-      console.info("Fee: %s", convertFromUnits(fee).toString() + " xYZ");
     }
     getCoverFee();
   }, [value, coverMonth, coverKey, chainId, account, library]);
