@@ -6,7 +6,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build && next export"
+    "export": "next build && next export",
+    "test": "jest --verbose coverage",
+    "test:watch": "jest --verbose --watch"
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
@@ -34,12 +36,15 @@
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.0.0-rc.2",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "autoprefixer": "^10.4.0",
     "eslint": "8.4.1",
     "eslint-config-next": "12.0.7",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-unused-imports": "2.0.0",
+    "jest": "^27.4.7",
     "postcss": "^8.4.4",
     "prettier": "2.5.1",
     "tailwindcss": "^3.0.0"
