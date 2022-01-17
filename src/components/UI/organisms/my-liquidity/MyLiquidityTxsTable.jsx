@@ -1,3 +1,5 @@
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { useLiquidityTxs } from "@/components/UI/organisms/my-liquidity/useLiquidityTxs";
 import {
   Table,
   TablePagination,
@@ -8,8 +10,11 @@ import {
 import AddCircleIcon from "@/icons/add-circle";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/open-in-new";
-import { getLiquidityTxs } from "@/src/_mocks/my-liquidity/transaction";
+import { useRegisterToken } from "@/src/hooks/useRegisterToken";
+import { getTxLink } from "@/utils/blockchain/explorer";
+import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
+import { formatTime, unixToDate } from "@/utils/date";
 
 const renderHeader = (col) => (
   <th
@@ -23,40 +28,58 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => <td className="px-6 py-6">{row.timestamp}</td>;
+const renderWhen = (row) => (
+  <td className="px-6 py-6">{formatTime(row.transaction.timestamp)}</td>
+);
 
 const renderDetails = (row) => (
   <td className="px-6 py-6">
     <div className="flex items-center">
-      <img src={row.coverImgSrc} alt="policy" height={32} width={32} />
+      <img
+        src={`/images/covers/${row.cover.id}.png`}
+        alt="policy"
+        height={32}
+        width={32}
+      />
 
-      <span className="pl-4 text-left whitespace-nowrap">{row.info}</span>
-    </div>
-  </td>
-);
-
-const renderAmount = (row) => (
-  <td className="px-6 py-6 text-right">
-    <div className="flex items-center justify-end whitespace-nowrap">
-      <span className={row.failed ? "text-FA5C2F" : "text-404040"}>
-        {row.amountRecieved} {row.unit}
+      <span className="pl-4 text-left whitespace-nowrap">
+        {row.type == "PodsIssued" ? "Added" : "Removed"} $
+        {convertFromUnits(row.liquidityAmount).decimalPlaces(2).toString()}{" "}
+        {row.type == "PodsIssued" ? "to" : "from"} {row.cover.name}
       </span>
-      <button className="ml-3 p-1">
-        <span className="sr-only">Add to metamask</span>
-        <AddCircleIcon className="h-4 w-4" />
-      </button>
     </div>
   </td>
 );
 
-const renderActions = (_row) => (
+const renderAmount = (row) => <PodAmountRenderer row={row} />;
+
+const renderActions = (row) => (
   <td className="px-6 py-6" style={{ minWidth: "120px" }}>
     <div className="flex items-center justify-end">
-      <a href="#" className="p-1 mr-4 text-9B9B9B">
-        <span className="sr-only">History</span>
-        <ClockIcon className="h-4 w-4" />
-      </a>
-      <a href="#" className="p-1 text-black">
+      {/* Tooltip */}
+      <Tooltip.Root>
+        <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
+          <span className="sr-only">Timestamp</span>
+          <ClockIcon className="h-4 w-4" />
+        </Tooltip.Trigger>
+
+        <Tooltip.Content side="top">
+          <div className="text-sm leading-6 bg-black text-white p-3 rounded-xl max-w-sm">
+            <p>
+              {unixToDate(row.transaction.timestamp, "YYYY/MM/DD HH:mm") +
+                " UTC"}
+            </p>
+          </div>
+          <Tooltip.Arrow offset={16} className="fill-black" />
+        </Tooltip.Content>
+      </Tooltip.Root>
+
+      <a
+        href={getTxLink(3, { hash: row.transaction.id })}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="p-1 text-black"
+      >
         <span className="sr-only">Open in explorer</span>
         <OpenInNewIcon className="h-4 w-4" />
       </a>
@@ -92,17 +115,46 @@ const columns = [
 ];
 
 export const MyLiquidityTxsTable = () => {
-  const txsData = getLiquidityTxs();
+  const { data } = useLiquidityTxs();
+
+  const blockNumber = data?._meta?.block?.number || "00000";
 
   return (
     <>
+      <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
+        LAST SYNCED: <span className="pl-1 text-4e7dd9">#{blockNumber}</span>
+      </p>
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          <TBody columns={columns} data={txsData}></TBody>
+          <TBody
+            columns={columns}
+            data={data.liquidityTransactions || []}
+          ></TBody>
         </Table>
         <TablePagination />
       </TableWrapper>
     </>
+  );
+};
+
+const PodAmountRenderer = ({ row }) => {
+  const { register } = useRegisterToken();
+
+  return (
+    <td className="px-6 py-6 text-right">
+      <div className="flex items-center justify-end whitespace-nowrap">
+        <span className={row.failed ? "text-FA5C2F" : "text-404040"}>
+          {convertFromUnits(row.podAmount).decimalPlaces(2).toString()} POD
+        </span>
+        <button
+          className="ml-3 p-1"
+          onClick={() => register(row.vault.id, "POD")}
+        >
+          <span className="sr-only">Add to metamask</span>
+          <AddCircleIcon className="h-4 w-4" />
+        </button>
+      </div>
+    </td>
   );
 };

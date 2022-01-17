@@ -23,6 +23,7 @@
     "@web3-react/walletconnect-connector": "6.2.4",
     "bignumber.js": "^9.0.2",
     "chart.js": "3.7.0",
+    "dayjs": "1.10.7",
     "next": "12.0.7",
     "numeral": "^2.0.6",
     "react": "17.0.2",
