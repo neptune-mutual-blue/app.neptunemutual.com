@@ -15,6 +15,7 @@ import { getTxLink } from "@/utils/blockchain/explorer";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { formatTime, unixToDate } from "@/utils/date";
+import { useWeb3React } from "@web3-react/core";
 
 const renderHeader = (col) => (
   <th
@@ -115,24 +116,50 @@ const columns = [
 ];
 
 export const MyLiquidityTxsTable = () => {
-  const { data } = useLiquidityTxs();
+  const maxItems = 5;
+  const { data, loading, page, maxPage, setPage } = useLiquidityTxs({
+    maxItems,
+  });
+  const { account } = useWeb3React();
 
-  const blockNumber = data?._meta?.block?.number || "00000";
-
+  const { blockNumber, transactions, totalCount } = data;
   return (
     <>
-      <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
-        LAST SYNCED: <span className="pl-1 text-4e7dd9">#{blockNumber}</span>
-      </p>
+      {blockNumber && (
+        <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
+          LAST SYNCED: <span className="pl-1 text-4e7dd9">#{blockNumber}</span>
+        </p>
+      )}
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          <TBody
-            columns={columns}
-            data={data.liquidityTransactions || []}
-          ></TBody>
+          {account ? (
+            <TBody
+              isLoading={loading}
+              columns={columns}
+              data={transactions}
+            ></TBody>
+          ) : (
+            <tr className="w-full text-center">
+              <td className="p-6" colSpan={columns.length}>
+                Please connect your wallet...
+              </td>
+            </tr>
+          )}
         </Table>
-        <TablePagination />
+        <TablePagination
+          skip={maxItems * (page - 1)}
+          limit={maxItems}
+          totalCount={totalCount}
+          hasPrev={page !== 1}
+          hasNext={page !== maxPage}
+          onPrev={() => {
+            setPage(page === 1 ? page : page - 1);
+          }}
+          onNext={() => {
+            setPage(page === maxPage ? page : page + 1);
+          }}
+        />
       </TableWrapper>
     </>
   );

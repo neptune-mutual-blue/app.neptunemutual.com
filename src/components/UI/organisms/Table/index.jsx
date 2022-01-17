@@ -16,7 +16,19 @@ export const TableWrapper = ({ children }) => {
   );
 };
 
-export const TablePagination = ({ skip = 5, limit = 10, totalCount = 124 }) => {
+export const TablePagination = ({
+  skip = 5,
+  limit = 10,
+  totalCount = 124,
+  onNext,
+  onPrev,
+  hasPrev,
+  hasNext,
+}) => {
+  if (totalCount <= 0) {
+    return null;
+  }
+
   return (
     <>
       <div className="w-full flex justify-end items-center p-4 border-t border-t-DAE2EB">
@@ -27,12 +39,20 @@ export const TablePagination = ({ skip = 5, limit = 10, totalCount = 124 }) => {
           <option value="50">50</option>
         </select>
         <p className="p-2 opacity-40">
-          {skip + 1}-{skip + limit} of {totalCount}
+          {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
         </p>
-        <button className="p-2 mx-2">
+        <button
+          className="p-2 mx-2 disabled:opacity-25 disabled:cursor-not-allowed"
+          onClick={onPrev}
+          disabled={!hasPrev}
+        >
           <ChevronLeftLgIcon width={16} height={16} />
         </button>
-        <button className="p-2">
+        <button
+          className="p-2 disabled:opacity-25 disabled:cursor-not-allowed"
+          onClick={onNext}
+          disabled={!hasNext}
+        >
           <ChevronRightLgIcon width={16} height={16} />
         </button>
       </div>
@@ -52,12 +72,24 @@ export const THead = ({ columns }) => {
   );
 };
 
-export const TBody = ({ columns, data, isCoverClaimClickedFunc }) => {
+export const TBody = ({
+  columns,
+  data,
+  isCoverClaimClickedFunc,
+  isLoading,
+}) => {
   const isClaimClicked = (isClicked) => {
     isCoverClaimClickedFunc(isClicked);
   };
   return (
     <tbody className="divide-y divide-DAE2EB">
+      {data.length === 0 && (
+        <tr className="w-full text-center">
+          <td className="p-6" colSpan={columns.length}>
+            {isLoading ? "Loading..." : "No data found"}
+          </td>
+        </tr>
+      )}
       {data.map((row, idx) => {
         return (
           <tr key={idx}>
