@@ -1,8 +1,11 @@
+import { monthNames } from "@/lib/dates";
+
 export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
   const formatDate = () => {
     let date = new Date();
-    let dateToShow = claimEnd.substr(0, 3);
-    dateToShow = dateToShow + `, 31, ${date.getUTCFullYear()} 12:00 UTC`;
+    console.log(monthNames[(date.getMonth() + claimEnd - 1) % 12]);
+    let dateToShow = monthNames[(date.getMonth() + claimEnd - 1) % 12];
+    dateToShow = `End of ${dateToShow}, ${date.getUTCFullYear()} 12:00 UTC`;
     return dateToShow;
   };
 
