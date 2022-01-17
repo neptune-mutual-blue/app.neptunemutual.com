@@ -7,8 +7,9 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build && next export",
-    "test": "jest --verbose coverage",
-    "test:watch": "jest --verbose --watch"
+    "test": "jest coverage",
+    "test:watch": "jest __test__/ --watch",
+    "test:unit": "jest __test__/unit/ --watch"
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
