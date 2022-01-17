@@ -37,7 +37,6 @@ export const CoverForm = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
 
-  //const { fees } = useConstants();
   const [fees, setFees] = useState();
   const [feeAmount, setFeeAmount] = useState();
 
@@ -196,10 +195,6 @@ export const CoverForm = ({
       setPurchasing(false);
     }
   };
-
-  /* if (!fees) {
-    return <>loading...</>;
-  } */
 
   const now = new Date();
   const coverPeriodLabels = [
