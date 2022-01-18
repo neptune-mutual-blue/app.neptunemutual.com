@@ -40,7 +40,7 @@ export default function MyPoliciesTxs() {
 
         <hr className="border-b border-B0C4DB" />
 
-        <Container className="px-2 pt-12 pb-96">
+        <Container className="px-2 pt-12 pb-36">
           <HeroTitle>Available cxTokens for Clearpool to Claim</HeroTitle>
           <p className="text-lg w-full pt-6 pb-16 lg:w-1/2 ml-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

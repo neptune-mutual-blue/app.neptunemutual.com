@@ -10,14 +10,13 @@ import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-
   const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const imgSrc = `/images/covers/${coverInfo.key}.png`;
 
   const handleAcceptRules = () => {
     router.push(`/cover/${cover_id}/purchase/checkout`);

@@ -1,14 +1,13 @@
 import {
   Table,
-  TablePagination,
-  TableWrapper,
   TBody,
+  TableWrapper,
   THead,
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
 import { getAvailableClaim } from "@/src/_mocks/policy/claim";
 import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 
 const renderHeader = (col) => (
   <th
@@ -42,38 +41,25 @@ const renderAmount = (row) => (
   </td>
 );
 
-const renderActions = (_row, isClaimClicked) => {
-  const handleClick = () => {
-    isClaimClicked(true);
-  };
-
-  return (
-    <td className="text-right px-6 py-6" style={{ minWidth: "120px" }}>
-      <span
-        className="text-4e7dd9 hover:underline cursor-pointer"
-        onClick={handleClick}
-      >
-        Claim
-      </span>
-    </td>
-  );
+const renderActions = (row) => {
+  return <ClaimActionsColumnRenderer row={row} />;
 };
 
 const columns = [
   {
-    name: "address",
+    name: "cxToken Address",
     align: "left",
     renderHeader,
     renderData: renderAddress,
   },
   {
-    name: "claim before",
+    name: "Claim before",
     align: "left",
     renderHeader,
     renderData: renderClaimBefore,
   },
   {
-    name: "amount",
+    name: "Amount",
     align: "right",
     renderHeader,
     renderData: renderAmount,
@@ -89,34 +75,43 @@ const columns = [
 export const MyPoliciesClaimTable = () => {
   const claimData = getAvailableClaim();
 
+  return (
+    <>
+      <TableWrapper>
+        <Table>
+          <THead columns={columns}></THead>
+          <TBody columns={columns} data={claimData}></TBody>
+        </Table>
+      </TableWrapper>
+    </>
+  );
+};
+
+const ClaimActionsColumnRenderer = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
     setIsOpen(false);
   };
 
-  const isCoverClaimClicked = () => {
-    setIsOpen(!isOpen);
+  const handleClaim = () => {
+    setIsOpen(true);
   };
 
   return (
-    <>
-      <TableWrapper>
-        <Table>
-          <THead columns={columns}></THead>
-          <TBody
-            columns={columns}
-            data={claimData}
-            isCoverClaimClickedFunc={isCoverClaimClicked}
-          ></TBody>
-        </Table>
-        <TablePagination />
-      </TableWrapper>
+    <td className="text-right px-6 py-6" style={{ minWidth: "120px" }}>
+      <button
+        className="text-4e7dd9 hover:underline cursor-pointer"
+        onClick={handleClaim}
+      >
+        Claim
+      </button>
+
       <ClaimCoverModal
         isOpen={isOpen}
         onClose={onClose}
         modalTitle="Claim Cover"
       />
-    </>
+    </td>
   );
 };

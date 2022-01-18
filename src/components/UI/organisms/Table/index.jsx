@@ -77,15 +77,7 @@ export const THead = ({ columns }) => {
   );
 };
 
-export const TBody = ({
-  columns,
-  data,
-  isCoverClaimClickedFunc,
-  isLoading,
-}) => {
-  const isClaimClicked = (isClicked) => {
-    isCoverClaimClickedFunc(isClicked);
-  };
+export const TBody = ({ columns, data, isLoading }) => {
   return (
     <tbody className="divide-y divide-DAE2EB">
       {data.length === 0 && (
@@ -99,11 +91,7 @@ export const TBody = ({
         return (
           <tr key={idx}>
             {columns.map((col, _idx) => {
-              return (
-                <Fragment key={_idx}>
-                  {col.renderData(row, isClaimClicked)}
-                </Fragment>
-              );
+              return <Fragment key={_idx}>{col.renderData(row)}</Fragment>;
             })}
           </tr>
         );
