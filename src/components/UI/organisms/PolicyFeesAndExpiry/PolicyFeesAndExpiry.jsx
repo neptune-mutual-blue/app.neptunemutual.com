@@ -2,10 +2,10 @@ import { monthNames } from "@/lib/dates";
 
 export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
   const formatDate = () => {
-    let date = new Date();
-    let dateToShow = monthNames[(date.getMonth() + claimEnd - 1) % 12];
-    dateToShow = `End of ${dateToShow}, ${date.getUTCFullYear()} 12:00 UTC`;
-    return dateToShow;
+    const now = new Date();
+    const monthName = monthNames[(now.getMonth() + claimEnd - 1) % 12];
+
+    return `End of ${monthName}, ${now.getFullYear()} 12:00 UTC`;
   };
 
   return (

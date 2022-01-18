@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
-import { policy, registry } from "@neptunemutual/sdk";
-
 import { useWeb3React } from "@web3-react/core";
+import { policy, registry } from "@neptunemutual/sdk";
 
 import InfoCircleIcon from "@/icons/info-circle";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
@@ -92,28 +90,28 @@ export const CoverForm = ({
 
   useEffect(() => {
     if (!chainId || !account) return;
-    if (!(value && isValidNumber(value) && coverMonth)) {
+
+    if (!value || !isValidNumber(value) || !coverMonth) {
       return;
     }
+
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
     const args = {
       duration: parseInt(coverMonth, 10),
       amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
     };
     async function getCoverFee() {
-      const response = await policy.getCoverFee(
+      const { fee, rate } = await policy.getCoverFee(
         chainId,
         coverKey,
         args,
         signerOrProvider
       );
-      const { fee, rate } = response.result;
+
       setFees(
-        parseFloat(convertFromUnits(rate).multipliedBy(100).toString()).toFixed(
-          2
-        )
+        convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).tostring()
       );
-      setFeeAmount(parseFloat(convertFromUnits(fee).toString()).toFixed(3));
+      setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
     }
     getCoverFee();
   }, [value, coverMonth, coverKey, chainId, account, library]);
