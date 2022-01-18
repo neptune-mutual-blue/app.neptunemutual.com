@@ -7,6 +7,49 @@ import DisconnectIcon from "@/icons/disconnect-icon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 import Identicon from "@/components/UI/organisms/header/Identicon";
+import { useEffect, useState } from "react";
+import CheckCircleIcon from "@/icons/CheckCircleIcon";
+
+const CopyAddressComponent = ({ account }) => {
+  const [copyAddress, setCopyAddress] = useState(false);
+
+  const timeOut = () =>
+    setTimeout(() => {
+      setCopyAddress(false);
+    }, [1000]);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(account);
+    setCopyAddress(true);
+    timeOut();
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeOut());
+    };
+  }, []);
+
+  return (
+    <div className="flex items-center cursor-pointer" onClick={handleCopy}>
+      {!copyAddress ? (
+        <>
+          <CopyIcon className="text-999BAB w-4 h-4" />
+          <span className="text-21AD8C text-xs tracking-normal ml-2.5">
+            Copy Address
+          </span>
+        </>
+      ) : (
+        <>
+          <CheckCircleIcon className="text-999BAB w-4 h-4" />
+          <span className="text-21AD8C text-xs tracking-normal ml-2.5">
+            Copied
+          </span>
+        </>
+      )}
+    </div>
+  );
+};
 
 export const AccountDetailsModal = ({
   isOpen,
@@ -16,10 +59,6 @@ export const AccountDetailsModal = ({
   account,
 }) => {
   const network = wallets.find((x) => x.id == "1");
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(account);
-  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -60,15 +99,7 @@ export const AccountDetailsModal = ({
           </div>
 
           <div className="py-2 flex">
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={handleCopy}
-            >
-              <CopyIcon className="text-999BAB w-4 h-4" />
-              <span className="text-21AD8C text-xs tracking-normal ml-2.5">
-                Copy Address
-              </span>
-            </div>
+            <CopyAddressComponent account={account} />
             <a
               href={getAddressLink(networkId, account)}
               target="_blank"
