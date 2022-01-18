@@ -89,7 +89,7 @@ export const RecentVotesTable = () => {
 
   return (
     <>
-      <h3 className="text-h4 font-sora font-bold mb-6">Recent Votes</h3>
+      <h3 className="text-h4 font-sora font-bold mt-14 mb-6">Recent Votes</h3>
 
       <TableWrapper>
         <Table>

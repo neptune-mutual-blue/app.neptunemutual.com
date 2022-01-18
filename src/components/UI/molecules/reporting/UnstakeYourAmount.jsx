@@ -31,8 +31,8 @@ const UnstakeYourAmount = () => {
       >
         {"Unstake"}
       </Label>
-      <div className="flex flex-wrap items-start gap-6 mb-11">
-        <div>
+      <div className="flex flex-wrap items-start gap-8 mb-11">
+        <div className="flex-auto">
           <TokenAmountInput
             tokenSymbol={"NPM"}
             handleChooseMax={handleChooseMax}
@@ -42,7 +42,9 @@ const UnstakeYourAmount = () => {
           />
         </div>
         <RegularButton
-          className={"flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"}
+          className={
+            "w-64 py-6 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
+          }
           onClick={handleUnstakeClick}
           disabled={!unstakedAmount}
         >

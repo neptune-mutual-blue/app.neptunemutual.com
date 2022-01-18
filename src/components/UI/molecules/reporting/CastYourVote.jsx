@@ -73,8 +73,8 @@ export const CastYourVote = () => {
       >
         {"Stake"}
       </Label>
-      <div className="flex flex-wrap items-start gap-6 mb-11">
-        <div>
+      <div className="flex flex-wrap items-start gap-8 mb-11">
+        <div className="flex-auto">
           <TokenAmountInput
             tokenSymbol={"NPM"}
             handleChooseMax={handleChooseMax}
@@ -87,7 +87,7 @@ export const CastYourVote = () => {
         {!approved && (
           <RegularButton
             className={
-              "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
+              "py-6 w-64 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
             }
             onClick={handleApproveClick}
             disabled={!stakedAmount}
@@ -99,7 +99,7 @@ export const CastYourVote = () => {
         {approved && (
           <RegularButton
             className={
-              "flex-auto px-8 py-6 text-h5 font-bold whitespace-nowrap"
+              "flex-auto w-64 py-6 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
             }
             onClick={handleReportClick}
             disabled={!stakedAmount}

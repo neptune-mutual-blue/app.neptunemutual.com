@@ -1,11 +1,10 @@
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
-import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 import { useRouter } from "next/router";
-import { Container } from "@/components/UI/atoms/container";
+import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
 
-export const VotePage = () => {
+export const IncidentResolved = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const { coverInfo } = useCoverInfo(cover_id);
@@ -21,11 +20,12 @@ export const VotePage = () => {
     <>
       <ReportingHero {...{ coverInfo, imgSrc, title }} />
       <hr className="border-b border-B0C4DB" />
-      <Container className="py-16">
-        <ActiveReportSummary />
-
+      <div className="px-28 pb-48">
+        <div className="py-14">
+          <ResolvedReportSummary />
+        </div>
         <RecentVotesTable />
-      </Container>
+      </div>
     </>
   );
 };

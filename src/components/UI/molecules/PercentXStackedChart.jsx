@@ -20,6 +20,7 @@ export const PercentXStackedChart = ({ data }) => {
         <Bar
           data={data}
           height={100}
+          id="incident-resolved-chart"
           options={{
             indexAxis: "y",
             responsive: true,
@@ -46,6 +47,7 @@ export const PercentXStackedChart = ({ data }) => {
               /* "mousemove", "mouseout", "click", "touchstart", "touchmove", "touchend" */
             ],
             animation: {
+              duration: 0,
               onComplete: function (self) {
                 const chartInstance = self.chart;
                 let ctx = chartInstance.ctx;

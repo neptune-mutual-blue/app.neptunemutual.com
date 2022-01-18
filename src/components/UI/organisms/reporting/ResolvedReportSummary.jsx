@@ -1,7 +1,6 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
-import { HlCalendar } from "@/lib/hl-calendar";
 import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
@@ -62,7 +61,6 @@ export const ResolvedReportSummary = () => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">1 September - 7 September</p>
-          <HlCalendar startDate={startDate} endDate={endDate} />
         </div>
 
         <></>
