@@ -1,9 +1,11 @@
-export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
+import { monthNames } from "@/lib/dates";
+
+export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
   const formatDate = () => {
-    let date = new Date();
-    let dateToShow = claimEnd.substr(0, 3);
-    dateToShow = dateToShow + ` 31, ${date.getUTCFullYear()} 12:00 UTC`;
-    return dateToShow;
+    const now = new Date();
+    const monthName = monthNames[(now.getMonth() + claimEnd - 1) % 12];
+
+    return `End of ${monthName}, ${now.getFullYear()} 12:00 UTC`;
   };
 
   return (
@@ -17,7 +19,7 @@ export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Cover Fee</th>
-            <td className="text-4e7dd9 px-4">{(fees / 100) * daiValue} DAI</td>
+            <td className="text-4e7dd9 px-4">{feeAmount} DAI</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
