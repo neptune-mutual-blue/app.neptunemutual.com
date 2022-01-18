@@ -26,6 +26,8 @@ export const NewIncidentReportForm = () => {
   const maxValueToStake = 1000;
   const minValueToStake = 250;
 
+  const maxDate = new Date().toISOString().slice(0, 16);
+
   if (!coverInfo) {
     return <>loading...</>;
   }
@@ -59,7 +61,13 @@ export const NewIncidentReportForm = () => {
   };
 
   const handleReportClick = () => {
-    console.log("report clicked");
+    console.log({
+      incidentTitle,
+      incidentDate,
+      urls,
+      description,
+      staked,
+    });
   };
 
   const handleStakeChange = (val) => {
@@ -106,6 +114,7 @@ export const NewIncidentReportForm = () => {
                 <RegularInput
                   className="uppercase text-9B9B9B pr-3"
                   inputProps={{
+                    max: maxDate,
                     id: "incident_date",
                     // placeholder: "DD/MM/YY | HH:MM:SS",
                     value: incidentDate,

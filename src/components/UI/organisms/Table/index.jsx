@@ -24,6 +24,7 @@ export const TablePagination = ({
   onPrev,
   hasPrev,
   hasNext,
+  updateRowCount,
 }) => {
   if (totalCount <= 0) {
     return null;
@@ -33,7 +34,11 @@ export const TablePagination = ({
     <>
       <div className="w-full flex justify-end items-center p-4 border-t border-t-DAE2EB">
         <p className="p-2 opacity-40">Rows per page</p>
-        <select className="rounded-lg mx-4">
+        <select
+          className="rounded-lg mx-4"
+          value={limit.toString()}
+          onChange={(ev) => updateRowCount(ev.target.value)}
+        >
           <option value="10">10</option>
           <option value="25">25</option>
           <option value="50">50</option>

@@ -16,6 +16,7 @@ import { classNames } from "@/utils/classnames";
 import { formatTime, unixToDate } from "@/utils/date";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
+import { useEffect, useState } from "react";
 
 const renderHeader = (col) => (
   <th
@@ -84,11 +85,16 @@ const columns = [
 ];
 
 export const MyLiquidityTxsTable = () => {
-  const maxItems = 5;
+  const [maxItems, setMaxItems] = useState(10);
   const { data, loading, page, maxPage, setPage } = useLiquidityTxs({
     maxItems,
   });
   const { account, chainId } = useWeb3React();
+
+  // Go to page 1 if maxItems changes
+  useEffect(() => {
+    setPage(1);
+  }, [maxItems, setPage]);
 
   const { blockNumber, transactions, totalCount } = data;
   return (
@@ -116,11 +122,13 @@ export const MyLiquidityTxsTable = () => {
               data={transactions}
             ></TBody>
           ) : (
-            <tr className="w-full text-center">
-              <td className="p-6" colSpan={columns.length}>
-                Please connect your wallet...
-              </td>
-            </tr>
+            <tbody>
+              <tr className="w-full text-center">
+                <td className="p-6" colSpan={columns.length}>
+                  Please connect your wallet...
+                </td>
+              </tr>
+            </tbody>
           )}
         </Table>
         <TablePagination
@@ -134,6 +142,9 @@ export const MyLiquidityTxsTable = () => {
           }}
           onNext={() => {
             setPage(page === maxPage ? page : page + 1);
+          }}
+          updateRowCount={(newCount) => {
+            setMaxItems(parseInt(newCount, 10));
           }}
         />
       </TableWrapper>
