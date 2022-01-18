@@ -1339,10 +1339,10 @@
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"
   integrity sha512-jDJTpta+P4p1NZTFVLHJ/TLFVYVcOqv6l8xwOeBKNPMgY/zDYH/YH7SJbvrr/h1RcS9GzbPcLKGzpuK9cV56UA==
 
-"@neptunemutual/sdk@^0.1.9-beta":
-  version "0.1.9-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.1.9-beta.tgz#fbfc1b3f8c049835110a5cfe98d71e0184abcdf2"
-  integrity sha512-aCEiFICnoWI/Yi+YWnYHeUdaJhQF0yBw6t3NjH3Ylk3jyMB8doWUFsHxo+5uxSbVZ5Tj9EbRDsJMjIMYe9BR8Q==
+"@neptunemutual/sdk@^0.2.3-beta":
+  version "0.2.3-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.2.3-beta.tgz#460f2e597e7cb99930311b05633763affc9def6e"
+  integrity sha512-ceqy+jDz0G7yaJz7/tcpnCpem64cguzN+8WAbI1R8/kwU8VvnYaiF/UDWpSbcH4DbuHfyqXzCv+rT1RDUtTg7A==
   dependencies:
     bs58 "4.0.1"
     ethers "5.4.1"
