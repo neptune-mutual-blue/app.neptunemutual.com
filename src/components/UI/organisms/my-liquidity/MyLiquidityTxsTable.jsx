@@ -158,7 +158,9 @@ const PodAmountRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6 text-right">
       <div className="flex items-center justify-end whitespace-nowrap">
-        <span className={row.failed ? "text-FA5C2F" : "text-404040"}>
+        <span
+          className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
+        >
           {convertFromUnits(row.podAmount).decimalPlaces(2).toString()} POD
         </span>
         <button
