@@ -1,12 +1,10 @@
-import { monthNames } from "@/lib/dates";
+import dayjs from "dayjs";
 
 export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
-  const formatDate = () => {
-    const now = new Date();
-    const monthName = monthNames[(now.getMonth() + claimEnd - 1) % 12];
-
-    return `End of ${monthName}, ${now.getFullYear()} 12:00 UTC`;
-  };
+  const claimEpiry = `${dayjs()
+    .add(parseInt(claimEnd, 10) - 1, "month")
+    .endOf("month")
+    .format("MMM DD, YYYY HH:mm")} UTC`;
 
   return (
     <>
@@ -23,7 +21,7 @@ export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4e7dd9 px-4">{formatDate()}</td>
+            <td className="text-4e7dd9 px-4">{claimEpiry}</td>
           </tr>
         </tbody>
       </table>
