@@ -8,6 +8,7 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { classNames } from "@/utils/classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import DeleteIcon from "@/icons/delete-icon";
 
 export const NewIncidentReportForm = () => {
   const router = useRouter();
@@ -45,6 +46,10 @@ export const NewIncidentReportForm = () => {
 
   const handleNewLink = () => {
     setNoOfUrl(noOfUrl + 1);
+  };
+
+  const handleDeleteLink = () => {
+    setNoOfUrl(noOfUrl - 1);
   };
 
   const handleChange = (e) => {
@@ -118,14 +123,25 @@ export const NewIncidentReportForm = () => {
             </Label>
             {Array.from(Array(noOfUrl)).map((c, i) => (
               <>
-                <RegularInput
-                  key={i}
-                  inputProps={{
-                    id: `incident_url_${i}`,
-                    placeholder: "https://",
-                    onChange: handleChange,
-                  }}
-                />
+                <div className="flex items-center">
+                  <RegularInput
+                    key={i}
+                    className={i === 0 && "mr-12"}
+                    inputProps={{
+                      id: `incident_url_${i}`,
+                      placeholder: "https://",
+                      onChange: handleChange,
+                    }}
+                  />
+                  {i !== 0 && (
+                    <span
+                      onClick={handleDeleteLink}
+                      className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
+                    >
+                      <DeleteIcon width={14} height={16} />
+                    </span>
+                  )}
+                </div>
                 <p className="text-sm text-9B9B9B mt-2 mb-6 pl-2">
                   Provide link with proof of incident.
                 </p>

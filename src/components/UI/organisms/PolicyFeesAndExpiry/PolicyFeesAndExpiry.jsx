@@ -1,10 +1,10 @@
-export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
-  const formatDate = () => {
-    let date = new Date();
-    let dateToShow = claimEnd.substr(0, 3);
-    dateToShow = dateToShow + ` 31, ${date.getUTCFullYear()} 12:00 UTC`;
-    return dateToShow;
-  };
+import dayjs from "dayjs";
+
+export const PolicyFeesAndExpiry = ({ fees, feeAmount, claimEnd }) => {
+  const claimEpiry = `${dayjs()
+    .add(parseInt(claimEnd, 10) - 1, "month")
+    .endOf("month")
+    .format("MMM DD, YYYY HH:mm")} UTC`;
 
   return (
     <>
@@ -17,11 +17,11 @@ export const PolicyFeesAndExpiry = ({ fees, daiValue, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Cover Fee</th>
-            <td className="text-4e7dd9 px-4">{(fees / 100) * daiValue} DAI</td>
+            <td className="text-4e7dd9 px-4">{feeAmount} DAI</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4e7dd9 px-4">{formatDate()}</td>
+            <td className="text-4e7dd9 px-4">{claimEpiry}</td>
           </tr>
         </tbody>
       </table>

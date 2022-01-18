@@ -1,12 +1,9 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-
+import { useWeb3React } from "@web3-react/core";
 import { policy, registry } from "@neptunemutual/sdk";
 
-import { useWeb3React } from "@web3-react/core";
-
 import InfoCircleIcon from "@/icons/info-circle";
-import { useConstants } from "@/components/pages/cover/useConstants";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
 import { PolicyFeesAndExpiry } from "@/components/UI/organisms/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
@@ -39,7 +36,8 @@ export const CoverForm = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
 
-  const { fees } = useConstants();
+  const [fees, setFees] = useState();
+  const [feeAmount, setFeeAmount] = useState();
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -90,6 +88,36 @@ export const CoverForm = ({
 
     return () => (ignore = true);
   }, [account, chainId, library, assuranceTokenAddress, coverKey]);
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+
+    if (!value || !isValidNumber(value) || !coverMonth) {
+      return;
+    }
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const args = {
+      duration: parseInt(coverMonth, 10),
+      amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+    };
+    async function getCoverFee() {
+      const { result } = await policy.getCoverFee(
+        chainId,
+        coverKey,
+        args,
+        signerOrProvider
+      );
+
+      const { fee, rate } = result;
+
+      setFees(
+        convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).toString()
+      );
+      setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
+    }
+    getCoverFee();
+  }, [value, coverMonth, coverKey, chainId, account, library]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -162,10 +190,6 @@ export const CoverForm = ({
       setPurchasing(false);
     }
   };
-
-  if (!fees) {
-    return <>loading...</>;
-  }
 
   const now = new Date();
   const coverPeriodLabels = [
@@ -241,7 +265,7 @@ export const CoverForm = ({
       {value && coverMonth && (
         <PolicyFeesAndExpiry
           fees={fees}
-          daiValue={value}
+          feeAmount={feeAmount}
           claimEnd={coverMonth}
         />
       )}
