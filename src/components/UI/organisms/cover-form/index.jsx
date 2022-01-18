@@ -101,15 +101,17 @@ export const CoverForm = ({
       amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
     };
     async function getCoverFee() {
-      const { fee, rate } = await policy.getCoverFee(
+      const { result } = await policy.getCoverFee(
         chainId,
         coverKey,
         args,
         signerOrProvider
       );
 
+      const { fee, rate } = result;
+
       setFees(
-        convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).tostring()
+        convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).toString()
       );
       setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
     }
