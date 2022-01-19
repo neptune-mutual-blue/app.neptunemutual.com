@@ -1,55 +1,54 @@
 import { useState, useEffect } from "react";
-import { liquidity } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
+import { policy } from "@neptunemutual/sdk";
 
 import {
   convertToUnits,
-  isGreater,
-  isGreaterOrEqual,
   isValidNumber,
+  isGreaterOrEqual,
+  isGreater,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
+import { useTxToast } from "@/src/hooks/useTxToast";
 
-export const useProvideLiquidity = ({ coverKey, value }) => {
-  const [receiveAmount, setReceiveAmount] = useState();
+export const usePurchasePolicy = ({ coverKey, value, coverMonth }) => {
+  const { library, account, chainId } = useWeb3React();
+
   const [allowance, setAllowance] = useState();
   const [approving, setApproving] = useState();
-  const [providing, setProviding] = useState();
+  const [purchasing, setPurchasing] = useState();
 
   const txToast = useTxToast();
-
-  const { library, account, chainId } = useWeb3React();
   const { balance } = useLiquidityBalance();
 
   useEffect(() => {
+    let ignore = false;
     if (!chainId || !account) return;
 
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    liquidity
-      .getAllowance(chainId, coverKey, account, signerOrProvider)
-      .then(({ result }) => {
+    async function fetchAllowance() {
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      try {
+        const { result } = await policy.getAllowance(
+          chainId,
+          account,
+          signerOrProvider
+        );
         if (ignore) return;
         setAllowance(result);
-      })
-      .catch((e) => {
+      } catch (e) {
         console.error(e);
-        if (ignore) return;
-      });
+      }
+    }
+
+    fetchAllowance();
 
     return () => (ignore = true);
   }, [account, chainId, library, coverKey]);
 
   const checkAllowance = async () => {
-    if (!chainId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
     try {
-      const { result: _allowance } = await liquidity.getAllowance(
+      const { result: _allowance } = await policy.getAllowance(
         chainId,
         coverKey,
         account,
@@ -67,9 +66,8 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
       setApproving(true);
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      const { result: tx } = await liquidity.approve(
+      const { result: tx } = await policy.approve(
         chainId,
-        coverKey,
         {},
         signerOrProvider
       );
@@ -87,43 +85,39 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
     }
   };
 
-  const handleProvide = async () => {
+  const handlePurchase = async () => {
     try {
-      setProviding(true);
+      setPurchasing(true);
+      const args = {
+        duration: parseInt(coverMonth, 10),
+        amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+      };
 
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      const amount = convertToUnits(value).toString();
 
-      const { result: tx } = await liquidity.add(
+      const { result: tx } = await policy.purchaseCover(
         chainId,
         coverKey,
-        amount,
+        args,
         signerOrProvider
       );
 
       await txToast.push(tx, {
-        pending: "Adding Liquidity",
-        success: "Added Liquidity Successfully",
-        failure: "Could not add liquidity",
+        pending: "Purchasing Policy",
+        success: "Purchased Policy Successfully",
+        failure: "Could not purchase policy",
       });
 
-      setProviding(false);
+      setPurchasing(false);
     } catch (error) {
-      setProviding(false);
+      setPurchasing(false);
     }
   };
 
-  const calculatePods = (val) => {
-    if (typeof val === "string") {
-      const willRecieve = parseFloat(0.99 * val).toFixed(2);
-      setReceiveAmount(willRecieve);
-    }
-  };
-
-  const canProvideLiquidity =
+  const canPurchase =
     value &&
     isValidNumber(value) &&
-    isGreaterOrEqual(allowance || "0", convertToUnits(value || "0"));
+    isGreaterOrEqual(allowance || "0", value || "0");
   const isError =
     value &&
     (!isValidNumber(value) ||
@@ -131,13 +125,12 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
 
   return {
     balance,
-    canProvideLiquidity,
-    isError,
-    receiveAmount,
+    allowance,
     approving,
-    providing,
+    purchasing,
+    canPurchase,
+    isError,
     handleApprove,
-    handleProvide,
-    calculatePods,
+    handlePurchase,
   };
 };

@@ -1,7 +1,7 @@
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { CoverHero } from "@/components/UI/organisms/cover/hero";
-import { CoverForm } from "@/components/UI/organisms/cover-form";
+import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { useRouter } from "next/router";
@@ -38,11 +38,7 @@ export const CoverPurchaseCheckoutPage = () => {
             <br className="mt-20" />
 
             <div className="mt-12">
-              <CoverForm
-                coverKey={cover_id}
-                assuranceTokenAddress={reassuranceToken.at}
-                assuranceTokenSymbol={reassuranceToken.symbol}
-              />
+              <PurchasePolicyForm coverKey={cover_id} />
             </div>
           </div>
 

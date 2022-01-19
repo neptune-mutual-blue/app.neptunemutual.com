@@ -8,15 +8,13 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
+import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 
-export const ProvideLiquidityForm = ({
-  assuranceTokenAddress,
-  assuranceTokenSymbol,
-  coverKey,
-}) => {
+export const ProvideLiquidityForm = ({ coverKey }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
+  const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
   const {
     balance,
     approving,
@@ -29,7 +27,6 @@ export const ProvideLiquidityForm = ({
     receiveAmount,
   } = useProvideLiquidity({
     coverKey,
-    liquidityTokenAddress: assuranceTokenAddress, // DAI
     value,
   });
 
@@ -53,8 +50,8 @@ export const ProvideLiquidityForm = ({
           onChange={handleChange}
           handleChooseMax={handleChooseMax}
           error={isError}
-          tokenAddress={assuranceTokenAddress}
-          tokenSymbol={assuranceTokenSymbol}
+          tokenAddress={liquidityTokenAddress}
+          tokenSymbol={liquidityTokenSymbol}
           tokenBalance={balance || "0"}
           inputId={"cover-amount"}
           inputValue={value}

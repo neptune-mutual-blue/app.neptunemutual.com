@@ -8,15 +8,13 @@ import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-inp
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { convertFromUnits } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
+import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 
-export const MyLiquidityForm = ({
-  coverKey,
-  assuranceTokenAddress,
-  assuranceTokenSymbol,
-}) => {
+export const MyLiquidityForm = ({ coverKey }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
+  const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
   const {
     balance,
     approving,
@@ -29,7 +27,6 @@ export const MyLiquidityForm = ({
     receiveAmount,
   } = useProvideLiquidity({
     coverKey,
-    liquidityTokenAddress: assuranceTokenAddress, // DAI
     value,
   });
 
@@ -53,8 +50,8 @@ export const MyLiquidityForm = ({
           onChange={handleChange}
           handleChooseMax={handleChooseMax}
           error={isError}
-          tokenAddress={assuranceTokenAddress}
-          tokenSymbol={assuranceTokenSymbol}
+          tokenAddress={liquidityTokenAddress}
+          tokenSymbol={liquidityTokenSymbol}
           tokenBalance={balance}
           inputId={"cover-amount"}
           inputValue={value}
