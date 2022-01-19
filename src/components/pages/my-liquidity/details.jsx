@@ -12,17 +12,11 @@ export const MyLiquidityCheckoutPage = () => {
     return <>loading...</>;
   }
 
-  const reassuranceToken = coverInfo.reassuranceToken;
-
   return (
     <div>
       <MyLiquidityDetailsPage>
         <div className="mt-12">
-          <MyLiquidityForm
-            coverKey={cover_id}
-            assuranceTokenAddress={reassuranceToken.at}
-            assuranceTokenSymbol={reassuranceToken.symbol}
-          />
+          <MyLiquidityForm coverKey={cover_id} />
         </div>
       </MyLiquidityDetailsPage>
     </div>

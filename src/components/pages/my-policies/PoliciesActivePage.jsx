@@ -2,14 +2,13 @@ import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-
-import { PolicyCard } from "@/components/UI/organisms/policy/card";
-import { usePolicies } from "@/components/pages/my-policies/usePolicies";
+import { ActivePolicyCard } from "@/components/UI/organisms/policy/ActivePolicyCard";
+import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
 
 export const PoliciesActivePage = () => {
-  const { activePolicy } = usePolicies();
+  const { activePolicies } = useActivePolicies();
 
-  if (!activePolicy) {
+  if (!activePolicies) {
     return <>loading...</>;
   }
 
@@ -23,13 +22,13 @@ export const PoliciesActivePage = () => {
         </Link>
       </div>
       <Grid className="mt-14 mb-24">
-        {activePolicy.map((c) => {
+        {activePolicies.map((c) => {
           return (
             <div
               key={c.name}
               className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
             >
-              <PolicyCard details={c}></PolicyCard>
+              <ActivePolicyCard details={c}></ActivePolicyCard>
             </div>
           );
         })}

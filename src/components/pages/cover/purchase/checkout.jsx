@@ -17,7 +17,6 @@ export const CoverPurchaseCheckoutPage = () => {
   }
 
   const imgSrc = `/images/covers/${coverInfo.key}.png`;
-  const reassuranceToken = coverInfo.reassuranceToken;
 
   return (
     <main>
