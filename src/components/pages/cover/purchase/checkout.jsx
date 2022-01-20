@@ -7,11 +7,21 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { useRouter } from "next/router";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { sumOf } from "@/utils/bn";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 
 export const CoverPurchaseCheckoutPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const { coverInfo } = useCoverInfo(cover_id);
+
+  const { availableLiquidity } = useAvailableLiquidity({
+    coverKey: cover_id,
+  });
+  const { info } = useMyLiquidityInfo({
+    coverKey: cover_id,
+  });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -26,6 +36,10 @@ export const CoverPurchaseCheckoutPage = () => {
         coverInfo={coverInfo}
         title={coverInfo.coverName}
         imgSrc={imgSrc}
+        statTitle="Total Liquidity"
+        statValue={`${sumOf(info.balance, info.extendedBalance)
+          .decimalPlaces(2)
+          .toString()} DAI`}
       />
 
       {/* Content */}
@@ -46,6 +60,7 @@ export const CoverPurchaseCheckoutPage = () => {
             projectName={coverInfo.projectName}
             knowledgebase={coverInfo?.resolutionSources[1]}
             twitter={coverInfo?.resolutionSources[0]}
+            availableLiquidity={availableLiquidity}
           />
         </Container>
       </div>

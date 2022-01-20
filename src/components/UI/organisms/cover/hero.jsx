@@ -6,7 +6,13 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 
-export const CoverHero = ({ coverInfo, imgSrc, title }) => {
+export const CoverHero = ({
+  coverInfo,
+  imgSrc,
+  title,
+  statTitle = "Total Liquidity",
+  statValue = "5,234,759.00 DAI",
+}) => {
   return (
     <Hero>
       <Container className="px-2 py-20">
@@ -27,9 +33,7 @@ export const CoverHero = ({ coverInfo, imgSrc, title }) => {
           </div>
 
           {/* Total Liquidity */}
-          <HeroStat title="Total Liquidity">
-            <>5,234,759.00 DAI</>
-          </HeroStat>
+          <HeroStat title={statTitle}>{statValue}</HeroStat>
         </div>
       </Container>
     </Hero>

@@ -16,6 +16,7 @@ import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { sumOf } from "@/utils/bn";
+import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -81,7 +82,9 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               {/* Description */}
               <SeeMoreParagraph>{coverInfo.about}</SeeMoreParagraph>
 
-              {children}
+              <div className="mt-12">
+                <MyLiquidityForm coverKey={cover_id} info={info} />
+              </div>
             </div>
 
             <CoverPurchaseResolutionSources

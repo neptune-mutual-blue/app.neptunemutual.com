@@ -1,23 +1,68 @@
+import { getGraphURL } from "@/src/config/environment";
+import { useWeb3React } from "@web3-react/core";
+import dayjs from "dayjs";
 import { useState, useEffect } from "react";
-import { getActivePolicies } from "@/src/_mocks/policy/policies";
 
 export const useActivePolicies = () => {
-  const [activePolicies, setActivePolicies] = useState(null);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const { chainId, account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-    async function fetchActivePolicies() {
-      const response = await getActivePolicies();
-
-      if (ignore) return;
-      setActivePolicies(response);
+    if (!chainId || !account) {
+      return;
     }
 
-    fetchActivePolicies();
-    return () => (ignore = true);
-  }, []);
+    const graphURL = getGraphURL(chainId);
+
+    if (!graphURL) {
+      return;
+    }
+
+    const now = dayjs().unix();
+
+    setLoading(true);
+    fetch(graphURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+        {
+          userPolicies(
+            where: {
+              expiresOn_gt: "${now}"
+              account: "${account}"
+            }
+          ) {
+            id
+            totalAmountToCover
+            expiresOn
+            cover {
+              id
+              projectName
+            }
+          }
+        }
+        `,
+      }),
+    })
+      .then((r) => r.json())
+      .then(({ data }) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [account, chainId]);
 
   return {
-    activePolicies,
+    data: {
+      activePolicies: data?.userPolicies || [],
+    },
+    loading,
   };
 };

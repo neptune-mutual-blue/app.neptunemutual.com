@@ -6,12 +6,14 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
+import dayjs from "dayjs";
+import { unixToDate } from "@/utils/date";
 
-export const MyLiquidityForm = ({ coverKey }) => {
+export const MyLiquidityForm = ({ coverKey, info }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
@@ -42,6 +44,8 @@ export const MyLiquidityForm = ({ coverKey }) => {
     setValue(val);
   };
 
+  const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
+
   return (
     <div className="max-w-md">
       <div className="pb-16">
@@ -68,7 +72,12 @@ export const MyLiquidityForm = ({ coverKey }) => {
       </div>
 
       <div>
-        <UnlockDate dateValue="September 22, 2021 12:34:00 PM UTC" />
+        <UnlockDate
+          dateValue={`${unixToDate(
+            unlockTimestamp,
+            "MMMM DD, YYYY hh:mm:ss A"
+          )} UTC`}
+        />
       </div>
 
       {!canProvideLiquidity ? (

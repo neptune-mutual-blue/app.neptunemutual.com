@@ -1,23 +1,68 @@
+import { getGraphURL } from "@/src/config/environment";
+import { useWeb3React } from "@web3-react/core";
+import dayjs from "dayjs";
 import { useState, useEffect } from "react";
-import { getExpiredPolicies } from "@/src/_mocks/policy/policies";
 
 export const useExpiredPolicies = () => {
-  const [expiredPolicies, setExpiredPolicies] = useState(null);
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const { chainId, account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-    async function fetchExpiredPolicies() {
-      const response = await getExpiredPolicies();
-
-      if (ignore) return;
-      setExpiredPolicies(response);
+    if (!chainId || !account) {
+      return;
     }
 
-    fetchExpiredPolicies();
-    return () => (ignore = true);
-  }, []);
+    const graphURL = getGraphURL(chainId);
+
+    if (!graphURL) {
+      return;
+    }
+
+    const now = dayjs().unix();
+
+    setLoading(true);
+    fetch(graphURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+        {
+          userPolicies(
+            where: {
+              expiresOn_lt: "${now}"
+              account: "${account}"
+            }
+          ) {
+            id
+            totalAmountToCover
+            expiresOn
+            cover {
+              id
+              projectName
+            }
+          }
+        }
+        `,
+      }),
+    })
+      .then((r) => r.json())
+      .then(({ data }) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [account, chainId]);
 
   return {
-    expiredPolicies,
+    data: {
+      expiredPolicies: data?.userPolicies || [],
+    },
+    loading,
   };
 };

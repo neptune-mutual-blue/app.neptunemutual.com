@@ -6,6 +6,7 @@ export const CoverPurchaseResolutionSources = ({
   knowledgebase,
   twitter,
   projectName,
+  availableLiquidity,
 }) => {
   return (
     <div>
@@ -38,7 +39,9 @@ export const CoverPurchaseResolutionSources = ({
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div className="flex justify-between">
               <span className="">Available Liquidity:</span>
-              <strong className="text-right font-bold">$ 750k</strong>
+              <strong className="text-right font-bold">
+                $ {availableLiquidity}
+              </strong>
             </div>
           </>
         )}

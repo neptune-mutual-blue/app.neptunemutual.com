@@ -6,11 +6,8 @@ import { ExpiredPolicyCard } from "@/components/UI/organisms/policy/ExpiredPolic
 import { useExpiredPolicies } from "@/components/pages/my-policies/useExpiredPolicies";
 
 export const PoliciesExpiredPage = () => {
-  const { expiredPolicies } = useExpiredPolicies();
-
-  if (!expiredPolicies) {
-    return <>loading...</>;
-  }
+  const { data, loading } = useExpiredPolicies();
+  const { expiredPolicies } = data;
 
   return (
     <Container className="py-16">
@@ -21,14 +18,18 @@ export const PoliciesExpiredPage = () => {
           </a>
         </Link>
       </div>
+      {loading && <div className="text-center py-10">Loading...</div>}
+      {!loading && expiredPolicies.length === 0 && (
+        <div className="text-center py-10">No data found</div>
+      )}
       <Grid className="mt-14 mb-24">
-        {expiredPolicies.map((c) => {
+        {expiredPolicies.map((policyInfo) => {
           return (
             <div
-              key={c.name}
+              key={policyInfo.id}
               className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
             >
-              <ExpiredPolicyCard details={c}></ExpiredPolicyCard>
+              <ExpiredPolicyCard details={policyInfo}></ExpiredPolicyCard>
             </div>
           );
         })}
