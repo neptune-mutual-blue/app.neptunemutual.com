@@ -1,12 +1,11 @@
+import { useState, useEffect } from "react";
+import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/components/UI/organisms/AppWrapper";
-import { registry } from "@neptunemutual/sdk";
-import { useEffect } from "react/cjs/react.development";
 import { convertFromUnits } from "@/utils/bn";
-import { useState } from "react";
 
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const { library, account } = useWeb3React();
