@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const CoverPurchaseDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo.key}.png`;
+  const imgSrc = getCoverImgSrc(coverInfo);
 
   const handleAcceptRules = () => {
     router.push(`/cover/${cover_id}/purchase/checkout`);

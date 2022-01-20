@@ -12,7 +12,7 @@ export const getResolvedReportingList = () => {
     {
       id: "3",
       name: "Okex",
-      imgSrc: "/images/covers/okex.png",
+      imgSrc: "/images/covers/ok.png",
       statusText: "incident occured",
       status: true,
       resolvedOn: "12/20/2021 | 12:00:00 UTC",
@@ -30,7 +30,7 @@ export const getResolvedReportingList = () => {
     {
       id: "5",
       name: "hex trust",
-      imgSrc: "/images/covers/hextrust.png",
+      imgSrc: "/images/covers/hex-trust.png",
       statusText: "false reporting",
       status: false,
       resolvedOn: "11/15/2021 | 16:00:00 UTC",

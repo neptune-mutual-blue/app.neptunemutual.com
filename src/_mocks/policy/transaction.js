@@ -1,7 +1,7 @@
 export const getPolicyTxs = () => [
   {
     timestamp: "few seconds ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $250.000.45 Coinbase Policy",
     amountRecieved: "189,595.93",
     unit: "cxDAI",
@@ -9,7 +9,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "4 Minutes ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $3,256,350 OKEX Policy",
     amountRecieved: "2,154,355.34",
     unit: "cxDAI",
@@ -17,7 +17,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "30 Minutes ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Claimed $33,418.33 Clearpool Policy",
     amountRecieved: "50,754.12",
     unit: "cxDAI",
@@ -25,7 +25,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "13 hours ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purschased $250.000.45 Coinbase Policy",
     amountRecieved: "26,764.55",
     unit: "cxDAI",
@@ -33,7 +33,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "a day ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $299,999.8 Huobi Polciy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",
@@ -41,7 +41,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "a day ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $299,999.8 Axie Infinity Policy",
     amountRecieved: "46,849.77",
     unit: "cxDAI",
@@ -49,7 +49,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "3 days ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $299,999.8 Hex Trust Policy",
     amountRecieved: "969,756.77",
     unit: "cxDAI",
@@ -57,7 +57,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "3 days ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Claimed $299,999.8 Huobi Policy",
     amountRecieved: "46,849.77",
     unit: "cxDAI",
@@ -65,7 +65,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "3 days ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $299,999.8 Coinbase Policy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",
@@ -73,7 +73,7 @@ export const getPolicyTxs = () => [
   },
   {
     timestamp: "3 days ago",
-    coverImgSrc: "/_mocks/icons/okex.png",
+    coverImgSrc: "/_mocks/icons/ok.png",
     info: "Purchased $299,999.8 OKEX Policy",
     amountRecieved: "178,756.71",
     unit: "cxDAI",

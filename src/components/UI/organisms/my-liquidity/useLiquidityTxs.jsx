@@ -1,3 +1,4 @@
+import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect, useMemo } from "react";
 
@@ -25,17 +26,21 @@ export const useLiquidityTxs = ({ maxItems }) => {
       return;
     }
 
+    const graphURL = getGraphURL(chainId);
+
+    if (!graphURL) {
+      return;
+    }
+
     setLoading(true);
-    fetch(
-      "https://api.thegraph.com/subgraphs/name/flashburst/policy-subgraph",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          query: `
+    fetch(graphURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
       {
         _meta {
           block {
@@ -57,7 +62,7 @@ export const useLiquidityTxs = ({ maxItems }) => {
           }
           cover {
             id
-            name
+            name: projectName
           }
           transaction {
             id
@@ -66,9 +71,8 @@ export const useLiquidityTxs = ({ maxItems }) => {
         }
       }
       `,
-        }),
-      }
-    )
+      }),
+    })
       .then((r) => r.json())
       .then(({ data }) => {
         setData(data);

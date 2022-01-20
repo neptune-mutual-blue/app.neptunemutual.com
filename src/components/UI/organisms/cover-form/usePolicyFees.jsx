@@ -12,6 +12,8 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
   const [feePercent, setFeePercent] = useState();
   const [feeAmount, setFeeAmount] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useDebouncedEffect(
     () => {
@@ -33,6 +35,8 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
       async function fetchCoverFee() {
         try {
+          setLoading(true);
+          setError(false);
           const { result } = await policy.getCoverFee(
             chainId,
             coverKey,
@@ -49,6 +53,9 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
         } catch (error) {
           console.error(error);
+          setError(true);
+        } finally {
+          setLoading(false);
         }
       }
 
@@ -60,6 +67,8 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   );
 
   return {
+    loading,
+    error,
     feePercent,
     feeAmount,
   };

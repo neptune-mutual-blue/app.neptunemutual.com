@@ -12,12 +12,19 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 
-export const usePurchasePolicy = ({ coverKey, value, coverMonth }) => {
+export const usePurchasePolicy = ({
+  coverKey,
+  value,
+  feeAmount,
+  feeError,
+  coverMonth,
+}) => {
   const { library, account, chainId } = useWeb3React();
 
   const [allowance, setAllowance] = useState();
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
+  const [error, setError] = useState("");
 
   const txToast = useTxToast();
   const { balance } = useLiquidityBalance();
@@ -45,6 +52,38 @@ export const usePurchasePolicy = ({ coverKey, value, coverMonth }) => {
 
     return () => (ignore = true);
   }, [account, chainId, library, coverKey]);
+
+  useEffect(() => {
+    if (!value && error) {
+      setError("");
+      return;
+    }
+
+    if (value && !account) {
+      setError("Please connect your wallet");
+      return;
+    }
+
+    if (value && !isValidNumber(value)) {
+      setError("Invalid amount to cover");
+      return;
+    }
+
+    if (value && feeError) {
+      setError("Could not get fees");
+      return;
+    }
+
+    if (isGreater(convertToUnits(feeAmount || "0"), balance || "0")) {
+      setError("Insufficient Balance");
+      return;
+    }
+
+    if (error) {
+      setError("");
+      return;
+    }
+  }, [account, balance, error, feeAmount, feeError, value]);
 
   const checkAllowance = async () => {
     try {
@@ -118,10 +157,6 @@ export const usePurchasePolicy = ({ coverKey, value, coverMonth }) => {
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance || "0", value || "0");
-  const isError =
-    value &&
-    (!isValidNumber(value) ||
-      isGreater(convertToUnits(value || "0"), balance || "0"));
 
   return {
     balance,
@@ -129,7 +164,7 @@ export const usePurchasePolicy = ({ coverKey, value, coverMonth }) => {
     approving,
     purchasing,
     canPurchase,
-    isError,
+    error,
     handleApprove,
     handlePurchase,
   };

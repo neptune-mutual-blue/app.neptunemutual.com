@@ -29,7 +29,7 @@ export const getActiveReportedList = () => {
     {
       id: "3",
       name: "Okex",
-      imgSrc: "/images/covers/okex.png",
+      imgSrc: "/images/covers/ok.png",
       coverFees: {
         min: 5,
         max: 7,
@@ -55,7 +55,7 @@ export const getActiveReportedList = () => {
     {
       id: "5",
       name: "hex trust",
-      imgSrc: "/images/covers/hextrust.png",
+      imgSrc: "/images/covers/hex-trust.png",
       coverFees: {
         min: 5,
         max: 7,

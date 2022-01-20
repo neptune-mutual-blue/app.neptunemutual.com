@@ -3,6 +3,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { AcceptReportRulesForm } from "@/components/UI/organisms/accept-cover-rules-form";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -15,8 +16,8 @@ export const CoverReportingDetailsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
-  const title = coverInfo?.coverName;
+  const imgSrc = getCoverImgSrc(coverInfo);
+  const title = coverInfo.coverName;
 
   const handleAcceptRules = () => {
     router.push(`/reporting/${cover_id}/new`);

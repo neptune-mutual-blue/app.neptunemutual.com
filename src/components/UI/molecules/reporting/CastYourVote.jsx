@@ -35,7 +35,6 @@ export const CastYourVote = () => {
   };
 
   const handleReportClick = () => {
-    console.log("report");
     setApproved(false);
     toast?.pushSuccess({
       title: "Bond Claimed Successfully",

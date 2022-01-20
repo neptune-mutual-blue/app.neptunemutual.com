@@ -4,6 +4,7 @@ import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVote
 import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 import { useRouter } from "next/router";
 import { Container } from "@/components/UI/atoms/container";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const VotePage = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ export const VotePage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const imgSrc = getCoverImgSrc(coverInfo);
   const title = coverInfo.coverName;
 
   return (

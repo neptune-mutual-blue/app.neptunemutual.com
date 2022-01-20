@@ -1,4 +1,5 @@
 import { convertToUnits } from "@/utils/bn";
+import { parseBytes32String } from "@ethersproject/strings";
 
 const DAYS = 86400;
 
@@ -18,48 +19,9 @@ const defaultInfo = {
 export const getAvailableCovers = () => {
   return [
     {
-      coverName: "Clearpool Cover",
-      projectName: "Clearpool",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
-      reportingPeriod: 7 * DAYS,
-      resolutionSources: [
-        "https://twitter.com/ClearpoolFin",
-        "https://clearpool.medium.com/",
-        "https://twitter.com/neptunemutual",
-      ],
-      reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
-        name: "DAI Stablecoin",
-        symbol: "DAI",
-        initialAmount: ether(50_000),
-      },
-      stakeWithFees: ether(50_000),
-      initialLiquidity: ether(50_000),
-      minReportingStake: ether(500),
-      about:
-        "Clearpool introduces single borrower liquidity pools, allowing whitelisted borrowers to compete for uncollateralized liquidity directly from the DeFi ecosystem.",
-      tags: ["Smart Contract", "DeFi", "Lending"],
-      rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
-      2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
-      3. The protocol never communicated anything about their plans to cover the lost fund and de-risk their users within 7 days of the incident.
-      4. The protocol promised but later were unable to cover, write off, or bear at least 75% of the sufferred loss on behalf of their users within 30 days of the incident`,
-      links: {
-        website: "https://clearpool.finance/",
-        documentation: "https://docs.clearpool.finance/resources/documents",
-        telegram: "https://t.me/clearpoolofficial",
-        twitter: "https://twitter.com/ClearpoolFin",
-        github: "https://github.com/clearpool-finance",
-        facebook: "https://www.facebook.com/clearpoolfinance/",
-        blog: "https://clearpool.medium.com/",
-        discord: null,
-        linkedin: "https://www.linkedin.com/company/clearpool/",
-        slack: null,
-      },
-    },
-    {
       coverName: "Coinbase Cover",
       projectName: "Coinbase",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
+      key: "0x636f696e62617365000000000000000000000000000000000000000000000000", // toBytes32('coinbase')
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/coinbase",
@@ -67,7 +29,7 @@ export const getAvailableCovers = () => {
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        at: "0x963bd459c5bdf9396aacD59FE9621B64c921574E",
         name: "DAI Stablecoin",
         symbol: "DAI",
         initialAmount: ether(50_000),
@@ -98,7 +60,7 @@ export const getAvailableCovers = () => {
     {
       coverName: "Hex Trust Cover",
       projectName: "Hex Trust",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
+      key: "0x6865782d74727573740000000000000000000000000000000000000000000000", // toBytes32('hex-trust')
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/Hex_Trust",
@@ -106,16 +68,16 @@ export const getAvailableCovers = () => {
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        at: "0x963bd459c5bdf9396aacD59FE9621B64c921574E",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: ether(50_000),
+        initialAmount: ether(0),
       },
       stakeWithFees: ether(50_000),
       initialLiquidity: ether(50_000),
       minReportingStake: ether(500),
       about:
-        "Hex Trust is fully licenced, insured, and the leading provider of bank-grade custody for digital assets. ",
+        "Hex Trust is fully licensed, insured, and the leading provider of bank-grade custody for digital assets. ",
       tags: ["Smart Contract", "DeFi", "Custody"],
       rules: `1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.
       2. During your coverage period, the protocol faced an attack, hack, exploitation, or vulnerability which resulted in the user assets being stolen or lost and the protocol was also unable to cover the loss themselves. This does not have to be your own loss.
@@ -137,7 +99,7 @@ export const getAvailableCovers = () => {
     {
       coverName: "OKEx Cover",
       projectName: "OKEx",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
+      key: "0x6f6b000000000000000000000000000000000000000000000000000000000000", // toBytes32('ok')
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/OKEx",
@@ -145,10 +107,10 @@ export const getAvailableCovers = () => {
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        at: "0x963bd459c5bdf9396aacD59FE9621B64c921574E",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: ether(50_000),
+        initialAmount: ether(0),
       },
       stakeWithFees: ether(50_000),
       initialLiquidity: ether(50_000),
@@ -176,7 +138,7 @@ export const getAvailableCovers = () => {
     {
       coverName: "Huobi Cover",
       projectName: "Huobi",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
+      key: "0x68756f6269000000000000000000000000000000000000000000000000000000", // toBytes32('huobi')
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/HuobiGlobal",
@@ -184,10 +146,10 @@ export const getAvailableCovers = () => {
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        at: "0x963bd459c5bdf9396aacD59FE9621B64c921574E",
         name: "DAI Stablecoin",
         symbol: "DAI",
-        initialAmount: ether(50_000),
+        initialAmount: ether(0),
       },
       stakeWithFees: ether(50_000),
       initialLiquidity: ether(50_000),
@@ -215,7 +177,7 @@ export const getAvailableCovers = () => {
     {
       coverName: "Axie",
       projectName: "Axie",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
+      key: "0x6178696500000000000000000000000000000000000000000000000000000000", // toBytes32('axie')
       reportingPeriod: 7 * DAYS,
       resolutionSources: [
         "https://twitter.com/axieinfinity",
@@ -223,7 +185,7 @@ export const getAvailableCovers = () => {
         "https://twitter.com/neptunemutual",
       ],
       reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+        at: "0x963bd459c5bdf9396aacD59FE9621B64c921574E",
         name: "DAI Stablecoin",
         symbol: "DAI",
         initialAmount: ether(50_000),
@@ -251,5 +213,9 @@ export const getAvailableCovers = () => {
         slack: null,
       },
     },
-  ].map((x) => ({ ...x, ...defaultInfo,imgSrc:`/images/covers/${x.key}.png` }));
+  ].map((x) => ({
+    ...x,
+    ...defaultInfo,
+    imgSrc: `/images/covers/${parseBytes32String(x.key)}.png`,
+  }));
 };

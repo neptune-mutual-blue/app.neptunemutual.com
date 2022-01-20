@@ -8,6 +8,7 @@ import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 import { useRouter } from "next/router";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ export const MyLiquidityDetailsPage = ({ children }) => {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const imgSrc = getCoverImgSrc(coverInfo);
 
   function onClose() {
     setIsOpen(false);

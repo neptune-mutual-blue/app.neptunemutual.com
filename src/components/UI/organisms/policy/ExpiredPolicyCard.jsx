@@ -1,13 +1,14 @@
 import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { unixToDate } from "@/utils/date";
 
 export const ExpiredPolicyCard = ({ details }) => {
   const { name, status, expiresOn, purchasedPolicy, key } = details;
 
-  const imgSrc = `/images/covers/${key}.png`;
+  const imgSrc = getCoverImgSrc(details);
 
   return (
     <OutlinedCard className="bg-white p-6" type="normal">

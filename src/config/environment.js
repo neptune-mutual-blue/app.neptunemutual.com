@@ -20,3 +20,10 @@ function getChainIdFromDNS() {
 }
 
 export const getNetworkId = () => parseInt(getChainIdFromDNS(), 10);
+export const getGraphURL = (networkId) => {
+  if (networkId === 3) {
+    return "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten";
+  }
+
+  return null;
+};

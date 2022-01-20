@@ -1,3 +1,4 @@
+import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -11,17 +12,21 @@ export const usePolicyTxs = () => {
       return;
     }
 
+    const graphURL = getGraphURL(chainId);
+
+    if (!graphURL) {
+      return;
+    }
+
     setLoading(true);
-    fetch(
-      "https://api.thegraph.com/subgraphs/name/flashburst/policy-subgraph",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify({
-          query: `
+    fetch(graphURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
       {
         _meta {
           block {
@@ -41,7 +46,7 @@ export const usePolicyTxs = () => {
           cxToken
           cover {
             id
-            name
+            name: projectName
           }
           transaction {
             id
@@ -50,9 +55,8 @@ export const usePolicyTxs = () => {
         }
       }
       `,
-        }),
-      }
-    )
+      }),
+    })
       .then((r) => r.json())
       .then(({ data }) => {
         setData(data);

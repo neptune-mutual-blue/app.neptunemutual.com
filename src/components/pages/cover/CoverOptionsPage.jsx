@@ -6,6 +6,7 @@ import { CoverOptionName } from "@/components/UI/molecules/cover/option/option-n
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ export const CoverOptionsPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = `/images/covers/${coverInfo?.key}.png`;
+  const imgSrc = getCoverImgSrc(coverInfo);
   const title = coverInfo.coverName;
 
   return (

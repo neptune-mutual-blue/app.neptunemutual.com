@@ -11,7 +11,7 @@ export const getAvailablePodStakingPools = () => {
     {
       id: "2",
       name: "okb",
-      imgSrc: "/images/covers/okex.png",
+      imgSrc: "/images/covers/ok.png",
       apr: 13.04,
       lockingPeriod: 24,
       tvl: "1.3M",

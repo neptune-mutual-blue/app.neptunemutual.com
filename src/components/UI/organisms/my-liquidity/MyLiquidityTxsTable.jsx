@@ -17,6 +17,7 @@ import { formatTime, unixToDate } from "@/utils/date";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useEffect, useState } from "react";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 const renderHeader = (col) => (
   <th
@@ -38,7 +39,7 @@ const renderDetails = (row) => (
   <td className="px-6 py-6">
     <div className="flex items-center">
       <img
-        src={`/images/covers/${row.cover.id}.png`}
+        src={getCoverImgSrc({ key: row.cover.id })}
         alt="policy"
         height={32}
         width={32}

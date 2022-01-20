@@ -19,7 +19,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
-  const { feePercent, feeAmount } = usePolicyFees({
+  const {
+    loading: updatingFee,
+    feePercent,
+    feeAmount,
+    error: feeError,
+  } = usePolicyFees({
     value,
     coverMonth,
     coverKey,
@@ -29,13 +34,15 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     approving,
     purchasing,
     canPurchase,
-    isError,
+    error,
     handleApprove,
     handlePurchase,
   } = usePurchasePolicy({
     value,
     coverMonth,
     coverKey,
+    feeAmount,
+    feeError,
   });
 
   const handleChange = (val) => {
@@ -67,7 +74,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       <TokenAmountInput
         labelText={"Amount you wish to cover"}
         onChange={handleChange}
-        error={isError}
+        error={!!error}
         handleChooseMax={handleChooseMax}
         tokenAddress={liquidityTokenAddress}
         tokenSymbol={liquidityTokenSymbol}
@@ -85,6 +92,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             </button>
           </div>
         )}
+        {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
       <div className="mt-12 px-3">
         <h5
@@ -119,6 +127,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </div>
       {value && coverMonth && (
         <PolicyFeesAndExpiry
+          fetching={updatingFee}
           fees={feePercent}
           feeAmount={feeAmount}
           claimEnd={coverMonth}
@@ -127,7 +136,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
 
       {!canPurchase ? (
         <RegularButton
-          disabled={isError || approving}
+          disabled={!!error || approving}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleApprove}
         >
@@ -135,7 +144,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </RegularButton>
       ) : (
         <RegularButton
-          disabled={isError || purchasing}
+          disabled={!!error || purchasing}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handlePurchase}
         >
@@ -143,7 +152,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </RegularButton>
       )}
 
-      <div className="mt-16">
+      <div className="mt-20">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
           &#x27F5;&nbsp;Back
         </OutlinedButton>

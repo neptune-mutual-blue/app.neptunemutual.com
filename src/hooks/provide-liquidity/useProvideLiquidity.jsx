@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { liquidity } from "@neptunemutual/sdk";
+import { liquidity, registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import {
+  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
@@ -113,10 +114,25 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
     }
   };
 
-  const calculatePods = (val) => {
-    if (typeof val === "string") {
-      const willRecieve = parseFloat(0.99 * val).toFixed(2);
-      setReceiveAmount(willRecieve);
+  const calculatePods = async (val) => {
+    if (!chainId || !account) return;
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    try {
+      const instance = await registry.Vault.getInstance(
+        chainId,
+        coverKey,
+        signerOrProvider
+      );
+
+      const podAmount = await instance.calculatePods(
+        convertToUnits(val || "0").toString()
+      );
+
+      setReceiveAmount(convertFromUnits(podAmount).decimalPlaces(2).toString());
+    } catch (error) {
+      console.log(error);
     }
   };
 

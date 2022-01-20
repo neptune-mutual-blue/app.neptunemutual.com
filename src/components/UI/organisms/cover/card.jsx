@@ -2,6 +2,7 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { amountFormatter } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
@@ -15,13 +16,15 @@ export const CoverCard = ({ details }) => {
     liquidity,
   } = details;
 
+  const imgSrc = getCoverImgSrc(details);
+
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
           <div className="">
             <img
-              src={`/images/covers/${key}.png`}
+              src={imgSrc}
               alt={projectName}
               className="inline-block max-w-full"
             />

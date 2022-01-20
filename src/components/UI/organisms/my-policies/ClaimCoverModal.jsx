@@ -30,12 +30,7 @@ export const ClaimCoverModal = ({ modalTitle, isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-lg w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 w-full flex items-center">
-          <img
-            src="/_mocks/icons/okex.png"
-            alt="policy"
-            height={32}
-            width={32}
-          />
+          <img src="/_mocks/icons/ok.png" alt="policy" height={32} width={32} />
           <span className="pl-3">{modalTitle}</span>
         </Dialog.Title>
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
