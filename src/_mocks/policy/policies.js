@@ -6,7 +6,7 @@ export const getActivePolicies = () => {
       status: "Claimable",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
+      key: "0x636c656172706f6f6c0000000000000000000000000000000000000000000000",
     },
     {
       id: "2",
@@ -14,7 +14,7 @@ export const getActivePolicies = () => {
       status: "Reporting",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
+      key: "0x636f696e62617365000000000000000000000000000000000000000000000000",
     },
     {
       id: "3",
@@ -22,7 +22,7 @@ export const getActivePolicies = () => {
       status: "",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
+      key: "0x6865782d74727573740000000000000000000000000000000000000000000000",
     },
     {
       id: "4",
@@ -30,7 +30,7 @@ export const getActivePolicies = () => {
       status: "Reporting",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
+      key: "0x6f6b000000000000000000000000000000000000000000000000000000000000",
     },
     {
       id: "5",
@@ -38,7 +38,7 @@ export const getActivePolicies = () => {
       status: "",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
+      key: "0x68756f6269000000000000000000000000000000000000000000000000000000",
     },
     {
       id: "6",
@@ -46,7 +46,7 @@ export const getActivePolicies = () => {
       status: "",
       claimBefore: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
+      key: "0x6178696500000000000000000000000000000000000000000000000000000000",
     },
   ];
 };
@@ -59,7 +59,7 @@ export const getExpiredPolicies = () => {
       status: "Claimable",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
+      key: "",
     },
     {
       id: "2",
@@ -67,7 +67,7 @@ export const getExpiredPolicies = () => {
       status: "False Reporting",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000002",
+      key: "0x636f696e62617365000000000000000000000000000000000000000000000000",
     },
     {
       id: "3",
@@ -75,7 +75,7 @@ export const getExpiredPolicies = () => {
       status: "",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000003",
+      key: "0x6865782d74727573740000000000000000000000000000000000000000000000",
     },
     {
       id: "4",
@@ -83,7 +83,7 @@ export const getExpiredPolicies = () => {
       status: "Reporting",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000004",
+      key: "0x6f6b000000000000000000000000000000000000000000000000000000000000",
     },
     {
       id: "5",
@@ -91,7 +91,7 @@ export const getExpiredPolicies = () => {
       status: "",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000005",
+      key: "0x68756f6269000000000000000000000000000000000000000000000000000000",
     },
     {
       id: "6",
@@ -99,7 +99,7 @@ export const getExpiredPolicies = () => {
       status: "",
       expiresOn: '1643673599',      
       purchasedPolicy: "$ 50K",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000006",
+      key: "0x6178696500000000000000000000000000000000000000000000000000000000",
     },
   ];
 };

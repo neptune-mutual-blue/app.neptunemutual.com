@@ -59,17 +59,21 @@ export const usePurchasePolicy = ({
       return;
     }
 
-    if (value && !account) {
+    if (!value) {
+      return;
+    }
+
+    if (!account) {
       setError("Please connect your wallet");
       return;
     }
 
-    if (value && !isValidNumber(value)) {
+    if (!isValidNumber(value)) {
       setError("Invalid amount to cover");
       return;
     }
 
-    if (value && feeError) {
+    if (feeError) {
       setError("Could not get fees");
       return;
     }

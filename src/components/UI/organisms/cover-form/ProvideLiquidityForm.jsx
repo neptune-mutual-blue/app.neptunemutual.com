@@ -9,6 +9,7 @@ import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-inp
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
+import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 
 export const ProvideLiquidityForm = ({ coverKey }) => {
   const [value, setValue] = useState();
@@ -19,16 +20,16 @@ export const ProvideLiquidityForm = ({ coverKey }) => {
     balance,
     approving,
     canProvideLiquidity,
-    calculatePods,
     handleApprove,
     handleProvide,
     isError,
     providing,
-    receiveAmount,
   } = useProvideLiquidity({
     coverKey,
     value,
   });
+
+  const { receiveAmount } = useCalculatePods({ coverKey, value });
 
   const handleChooseMax = () => {
     if (!balance) {
@@ -39,7 +40,6 @@ export const ProvideLiquidityForm = ({ coverKey }) => {
 
   const handleChange = (val) => {
     setValue(val);
-    calculatePods(val);
   };
 
   return (

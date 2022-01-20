@@ -5,10 +5,12 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useDebouncedEffect } from "@/src/hooks/useDebounce";
+import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
+import { useAppContext } from "@/components/UI/organisms/AppWrapper";
 
 export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
-  const { library, account, chainId } = useWeb3React();
+  const { library, account } = useWeb3React();
+  const { networkId } = useAppContext();
 
   const [feePercent, setFeePercent] = useState();
   const [feeAmount, setFeeAmount] = useState();
@@ -19,14 +21,14 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
     () => {
       let ignore = false;
 
-      if (!value || !isValidNumber(value) || !coverMonth) {
+      if (!networkId || !value || !isValidNumber(value) || !coverMonth) {
         return;
       }
 
       const signerOrProvider = getProviderOrSigner(
         library,
         account || AddressZero,
-        chainId
+        networkId
       );
       const args = {
         duration: parseInt(coverMonth, 10),
@@ -38,7 +40,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           setLoading(true);
           setError(false);
           const { result } = await policy.getCoverFee(
-            chainId,
+            networkId,
             coverKey,
             args,
             signerOrProvider
@@ -62,8 +64,8 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
       fetchCoverFee();
       return () => (ignore = true);
     },
-    500,
-    [value, coverMonth, coverKey, chainId, account, library]
+    [value, coverMonth, coverKey, networkId, account, library],
+    500
   );
 
   return {

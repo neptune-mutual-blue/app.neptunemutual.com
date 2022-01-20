@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { CoverHero } from "@/components/UI/organisms/cover/my-liquidity/hero";
+import { SocialIconLinks } from "@/components/UI/molecules/social-icon-links";
+import { CoverHeroImage } from "@/components/UI/molecules/cover/hero/image";
+import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/title-and-website";
+import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
+import { Hero } from "@/components/UI/molecules/Hero";
+import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
@@ -9,6 +14,8 @@ import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title"
 import { useRouter } from "next/router";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { sumOf } from "@/utils/bn";
 
 export const MyLiquidityDetailsPage = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +23,10 @@ export const MyLiquidityDetailsPage = ({ children }) => {
   const router = useRouter();
   const { cover_id } = router.query;
   const { coverInfo } = useCoverInfo(cover_id);
+
+  const { info } = useMyLiquidityInfo({ coverKey: cover_id });
+
+  console.log(info);
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -35,11 +46,33 @@ export const MyLiquidityDetailsPage = ({ children }) => {
     <div>
       <main className="bg-f1f3f6">
         {/* hero */}
-        <CoverHero
-          coverInfo={coverInfo}
-          title={coverInfo.coverName}
-          imgSrc={imgSrc}
-        />
+        <Hero>
+          <Container className="px-2 py-20">
+            <BreadCrumbs
+              pages={[
+                { name: "My Liquidity", href: "/my-liquidity", current: false },
+                { name: coverInfo.projectName, href: "#", current: true },
+              ]}
+            />
+            <div className="flex">
+              <div>
+                <CoverHeroImage imgSrc={imgSrc} title={coverInfo.projectName} />
+              </div>
+              <div>
+                <CoverHeroTitleAndWebsite
+                  links={coverInfo.links}
+                  title={coverInfo.coverName}
+                />
+                <SocialIconLinks links={coverInfo.links} />
+              </div>
+
+              {/* Total Liquidity */}
+              <HeroStat title="My Liquidity">
+                <>{info.myDeposits} DAI</>
+              </HeroStat>
+            </div>
+          </Container>
+        </Hero>
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
@@ -58,7 +91,9 @@ export const MyLiquidityDetailsPage = ({ children }) => {
             >
               <div className="flex justify-between pt-4 pb-2">
                 <span className="">Total Liquidity:</span>
-                <strong className="text-right font-bold">$ 2.5M</strong>
+                <strong className="text-right font-bold">
+                  $ {sumOf(info.balance, info.extendedBalance).toString()}
+                </strong>
               </div>
               <div className="flex justify-between pb-2">
                 <span className="">My Earnings:</span>
@@ -66,7 +101,9 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               </div>
               <div className="flex justify-between pb-8">
                 <span className="">Reassurance:</span>
-                <strong className="text-right font-bold">$ 750k</strong>
+                <strong className="text-right font-bold">
+                  $ {info.totalReassurance}
+                </strong>
               </div>
 
               <div className="flex justify-center px-7">

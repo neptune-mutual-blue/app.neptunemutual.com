@@ -8,7 +8,7 @@ import { unixToDate } from "@/utils/date";
 export const ExpiredPolicyCard = ({ details }) => {
   const { name, status, expiresOn, purchasedPolicy, key } = details;
 
-  const imgSrc = getCoverImgSrc(details);
+  const imgSrc = getCoverImgSrc({ key });
 
   return (
     <OutlinedCard className="bg-white p-6" type="normal">

@@ -11,7 +11,7 @@ export const getActiveReportedList = () => {
       utilizationRatio: 80,
       protection: 800000,
       reportedOn: "01/03/2022",
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000001",
+      key: "0x636c656172706f6f6c0000000000000000000000000000000000000000000000",
     },
     {
       id: "2",

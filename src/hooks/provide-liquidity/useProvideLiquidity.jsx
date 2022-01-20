@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { liquidity, registry } from "@neptunemutual/sdk";
+import { liquidity } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import {
-  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
@@ -14,7 +13,6 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 
 export const useProvideLiquidity = ({ coverKey, value }) => {
-  const [receiveAmount, setReceiveAmount] = useState();
   const [allowance, setAllowance] = useState();
   const [approving, setApproving] = useState();
   const [providing, setProviding] = useState();
@@ -114,28 +112,6 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
     }
   };
 
-  const calculatePods = async (val) => {
-    if (!chainId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    try {
-      const instance = await registry.Vault.getInstance(
-        chainId,
-        coverKey,
-        signerOrProvider
-      );
-
-      const podAmount = await instance.calculatePods(
-        convertToUnits(val || "0").toString()
-      );
-
-      setReceiveAmount(convertFromUnits(podAmount).decimalPlaces(2).toString());
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const canProvideLiquidity =
     value &&
     isValidNumber(value) &&
@@ -149,11 +125,9 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
     balance,
     canProvideLiquidity,
     isError,
-    receiveAmount,
     approving,
     providing,
     handleApprove,
     handleProvide,
-    calculatePods,
   };
 };

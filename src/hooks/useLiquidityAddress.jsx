@@ -16,17 +16,17 @@ export const useLiquidityAddress = () => {
   useEffect(() => {
     let ignore = false;
 
+    const signerOrProvider = getProviderOrSigner(
+      library,
+      account || AddressZero,
+      networkId
+    );
+
+    if (!networkId) {
+      return;
+    }
+
     async function fetchLiquidityTokenAddress() {
-      const signerOrProvider = getProviderOrSigner(
-        library,
-        account || AddressZero,
-        networkId
-      );
-
-      if (!signerOrProvider) {
-        console.log("No provider found");
-      }
-
       try {
         const liquidityTokenAddress = await registry.LiquidityToken.getAddress(
           networkId,
@@ -43,7 +43,7 @@ export const useLiquidityAddress = () => {
     fetchLiquidityTokenAddress();
 
     return () => (ignore = true);
-  }, [networkId]);
+  }, [account, library, networkId]);
 
   return {
     liquidityTokenAddress,

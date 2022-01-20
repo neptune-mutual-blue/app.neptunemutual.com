@@ -88,7 +88,7 @@ export const sumOf = (...amounts) => {
   let sum = new BigNumber("0");
 
   amounts.forEach((amount) => {
-    if (amount.toString() === "NaN" || !hasValue(amount)) return;
+    if (!amount || amount.toString() === "NaN" || !hasValue(amount)) return;
 
     try {
       sum = sum.plus(amount.toString());

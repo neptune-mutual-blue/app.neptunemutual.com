@@ -16,7 +16,7 @@ export const CoverCard = ({ details }) => {
     liquidity,
   } = details;
 
-  const imgSrc = getCoverImgSrc(details);
+  const imgSrc = getCoverImgSrc({ key });
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
