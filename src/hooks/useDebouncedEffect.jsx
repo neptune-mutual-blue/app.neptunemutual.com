@@ -5,11 +5,13 @@ export const useDebouncedEffect = (effect, deps, delay = 500) => {
   const callback = useCallback(effect, deps);
 
   useEffect(() => {
+    let ignore = false;
     const handler = setTimeout(() => {
-      callback();
+      callback(ignore);
     }, delay);
 
     return () => {
+      ignore = true;
       clearTimeout(handler);
     };
   }, [callback, delay]);

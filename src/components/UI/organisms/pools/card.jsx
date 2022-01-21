@@ -12,7 +12,6 @@ export const BondsCard = ({
   ROI,
   vestingPeriod,
   details,
-  showButton,
   handleClaimModal,
 }) => {
   return (
@@ -45,10 +44,7 @@ export const BondsCard = ({
       <OutlinedButton
         type="button"
         onClick={handleClaimModal}
-        className={classNames(
-          `block px-4 py-2 rounded-lg mt-10 mx-auto`,
-          !showButton && "hidden"
-        )}
+        className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
       >
         Claim My Bond
       </OutlinedButton>

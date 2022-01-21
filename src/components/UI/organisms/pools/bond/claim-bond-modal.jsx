@@ -7,6 +7,7 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { useToast } from "@/lib/toast/context";
 import OpenInNewIcon from "@/icons/open-in-new";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import { unixToDate } from "@/utils/date";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -52,7 +53,7 @@ export const ClaimBondModal = ({
             Unlock Date
           </Label>
           <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
-            {unlockDate}
+            {unixToDate(unlockDate, "MMMM DD, YYYY hh:mm:ss A")} UTC
           </p>
         </div>
         {/* left to add click handler */}
