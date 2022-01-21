@@ -1,13 +1,12 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
-import Icon404 from "@/icons/Icon404";
 import Link from "next/link";
 
 export default function PageNotFound() {
   return (
     <>
       <Container className="py-28 flex flex-col items-center">
-        <Icon404 width={209} height={209} />
+        <img src="/404.png" alt="404 page not found" />
         <p className="font-sora text-header-large leading-10 font-bold text-center my-12 py-3">
           404
         </p>
