@@ -15,36 +15,36 @@ module.exports = {
       white: "#fefeff",
     },
     fontSize: {
-      "h1": ["33px", "48px"],
-      "h2": ["28px", "40px"],
-      "h3": ["23px", "32px"],
-      "h4": ["19px", "24px"],
-      "h5": ["16px", "24px"],
-      "h6": [
+      h1: ["33px", "48px"],
+      h2: ["28px", "40px"],
+      h3: ["23px", "32px"],
+      h4: ["19px", "24px"],
+      h5: ["16px", "24px"],
+      h6: [
         "16px",
         {
           letterSpacing: "0.05em",
           lineHeight: "24px",
         },
       ],
-      "sm": ["14px", "16px"],
-      "xxs": ["10px", "8px"],
-      "xs": [
+      sm: ["14px", "16px"],
+      xxs: ["10px", "8px"],
+      xs: [
         "12px",
         {
           letterSpacing: "0.05em",
           lineHeight: "24px",
         },
       ],
-      "para": ["16px", "28px"],
-      "cta": [
+      para: ["16px", "28px"],
+      cta: [
         "15px",
         {
           letterSpacing: "0.05em",
           lineHeight: "16px",
         },
       ],
-      "header-large": "136px",
+      xxxl: "136px",
     },
     fontFamily: {
       poppins: "Poppins, sans-serif",
