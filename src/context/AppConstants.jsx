@@ -35,16 +35,16 @@ export const AppConstantsProvider = ({ children }) => {
     if (!networkId) return;
 
     registry.LiquidityToken.getAddress(networkId).then((_addr) =>
-      setAddress(_addr, "LiquidityToken")
+      setAddress(_addr, "liquidityTokenAddress")
     );
 
     registry.NPMToken.getAddress(networkId).then((_addr) =>
-      setAddress(_addr, "NPMToken")
+      setAddress(_addr, "NPMTokenAddress")
     );
   }, [networkId]);
 
   return (
-    <AppConstantsContext.Provider value={data}>
+    <AppConstantsContext.Provider value={{ ...data }}>
       {children}
     </AppConstantsContext.Provider>
   );

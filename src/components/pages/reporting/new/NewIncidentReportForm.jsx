@@ -5,28 +5,31 @@ import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import DeleteIcon from "@/icons/delete-icon";
+import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import DeleteIcon from "@/icons/delete-icon";
+import { Fragment, useState } from "react";
 
 export const NewIncidentReportForm = () => {
   const router = useRouter();
   const { cover_id } = router.query;
 
   const { coverInfo } = useCoverInfo(cover_id);
+  const { NPMTokenAddress } = useAppConstants();
 
   const [incidentTitle, setIncidentTitle] = useState();
   const [incidentDate, setIncidentDate] = useState();
-  const [urls, setUrls] = useState({});
+  const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState();
   const [staked, setStaked] = useState();
   const [textCounter, setTextCounter] = useState(0);
-  const [noOfUrl, setNoOfUrl] = useState(1);
   const maxValueToStake = 1000;
   const minValueToStake = 250;
 
   const maxDate = new Date().toISOString().slice(0, 16);
+
+  console.log(NPMTokenAddress);
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -45,17 +48,14 @@ export const NewIncidentReportForm = () => {
   };
 
   const handleNewLink = () => {
-    setNoOfUrl(noOfUrl + 1);
+    setUrls([...urls, { url: "" }]);
   };
 
-  const handleDeleteLink = () => {
-    setNoOfUrl(noOfUrl - 1);
-  };
-
-  const handleChange = (e) => {
-    const listOfUrls = {};
-    listOfUrls[e.target.id] = e.target.value;
-    setUrls({ ...urls, ...listOfUrls });
+  const handleChange = (e, i) => {
+    const { value } = e.target;
+    const list = [...urls];
+    list[i]["url"] = value;
+    setUrls(list);
   };
 
   const handleReportClick = () => {
@@ -72,6 +72,13 @@ export const NewIncidentReportForm = () => {
     if (typeof val === "string") {
       setStaked(val);
     }
+  };
+
+  const handleDeleteLink = (i) => {
+    console.log(i);
+    let newArr = [...urls];
+    newArr.splice(i, 1);
+    setUrls(newArr);
   };
 
   return (
@@ -124,31 +131,34 @@ export const NewIncidentReportForm = () => {
             <Label htmlFor={"incident_url"} className={"mt-10 mb-2"}>
               Proof of incident
             </Label>
-            {Array.from(Array(noOfUrl)).map((c, i) => (
-              <>
-                <div className="flex items-center">
-                  <RegularInput
-                    key={i}
-                    className={i === 0 && "mr-12"}
-                    inputProps={{
-                      id: `incident_url_${i}`,
-                      placeholder: "https://",
-                      onChange: handleChange,
-                    }}
-                  />
-                  {i !== 0 && (
-                    <span
-                      onClick={handleDeleteLink}
-                      className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
-                    >
-                      <DeleteIcon width={14} height={16} />
-                    </span>
-                  )}
+
+            {urls.map((x, i) => (
+              <Fragment key={i}>
+                <div>
+                  <div className="flex items-center mt-2">
+                    <RegularInput
+                      className={i === 0 && "mr-12"}
+                      inputProps={{
+                        id: `incident_url_${i}`,
+                        placeholder: "https://",
+                        value: x["url"],
+                        onChange: (e) => handleChange(e, i),
+                      }}
+                    />
+                    {i !== 0 && (
+                      <span
+                        onClick={() => handleDeleteLink(i)}
+                        className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
+                      >
+                        <DeleteIcon width={14} height={16} />
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-9B9B9B mt-2 mb-x pl-2">
+                    Provide link with proof of incident.
+                  </p>
                 </div>
-                <p className="text-sm text-9B9B9B mt-2 mb-6 pl-2">
-                  Provide link with proof of incident.
-                </p>
-              </>
+              </Fragment>
             ))}
 
             <button
@@ -172,7 +182,7 @@ export const NewIncidentReportForm = () => {
               <span
                 className={classNames(
                   "absolute bottom-0 right-0 mr-2 mb-2",
-                  textCounter === 100 && "text-FA5C2F"
+                  textCounter >= 100 && "text-FA5C2F"
                 )}
               >
                 {textCounter}/100
@@ -181,16 +191,17 @@ export const NewIncidentReportForm = () => {
             <div className="max-w-lg">
               <TokenAmountInput
                 tokenSymbol={"NPM"}
+                tokenAddress={NPMTokenAddress}
                 labelText={"Enter your amount"}
                 handleChooseMax={handleChooseMax}
                 inputValue={staked}
-                id={"stake-amount"}
+                inputId={"stake-amount"}
                 onChange={handleStakeChange}
-              />
-
-              <p className="text-9B9B9B px-3 mt-2">
-                Minimum Stake: {minValueToStake} NPM
-              </p>
+              >
+                <p className="text-9B9B9B mt-2">
+                  Minimum Stake: {minValueToStake} NPM
+                </p>
+              </TokenAmountInput>
             </div>
             <RegularButton
               className="text-h6 font-bold py-6 px-24 mt-16"

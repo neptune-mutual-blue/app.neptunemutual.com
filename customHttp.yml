@@ -6,7 +6,9 @@ customHeaders:
       - key: "Content-Security-Policy"
         value:
           "script-src 'self'; frame-ancestors 'none'; default-src 'self';
-          connect-src https://api.thegraph.com/; base-uri 'none'; report-uri
+          connect-src https://rpc-mumbai.maticvigil.com/
+          https://ropsten.infura.io/ https://*.binance.org:8545/
+          https://api.thegraph.com/; base-uri 'none'; report-uri
           https://docs.google.com/forms/d/e/1FAIpQLSfPmChemZbG2TaGUsN1i5IPNnsFl1wBykGAZAF6Je3uWZJrRg/viewform;
           form-action 'none'; object-src 'none'; style-src 'self'; img-src
           'self' data:"
