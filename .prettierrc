@@ -3,6 +3,7 @@
   "useTabs": false,
   "tabWidth": 2,
   "printWidth": 80,
+  "endOfLine": "auto",
   "proseWrap": "always",
   "trailingComma": "es5",
   "quoteProps": "consistent"

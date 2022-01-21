@@ -1,17 +1,26 @@
+import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
+import Icon404 from "@/icons/Icon404";
+import Link from "next/link";
 
 export default function PageNotFound() {
   return (
     <>
-      <Container className="py-28">
-        <img
-          src="/unavailable.png"
-          alt="Access Denied"
-          className="block w-52 h-52 mx-auto"
-        />
-        <h2 className="text-h3 leading-10 font-sora font-bold text-center my-6">
-          Oops, Page Not Found
-        </h2>
+      <Container className="py-28 flex flex-col items-center">
+        <Icon404 width={209} height={209} />
+        <p className="font-sora text-header-large leading-10 font-bold text-center my-12 py-3">
+          404
+        </p>
+        <p className="mb-11 text-h6">
+          Oops! Looks like you’re heading to a wrong planet.
+        </p>
+        <Link href={"/"} passHref>
+          <RegularButton
+            className={"uppercase py-5 px-16 font-bold leading-8 tracking-wide"}
+          >
+            Take me back to homepage
+          </RegularButton>
+        </Link>
       </Container>
     </>
   );
