@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AppWrapper } from "@/components/UI/organisms/AppWrapper";
+import { AppWrapper } from "@/src/context/AppWrapper";
 import { ToastProvider } from "@/lib/toast/provider";
 import { Web3ReactProvider } from "@web3-react/core";
 import { render } from "@testing-library/react";

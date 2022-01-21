@@ -30,6 +30,7 @@ export const WithdrawLiquidityModal = ({
   const { maxValue } = useConstants();
   const { library, account, chainId } = useWeb3React();
   const [balance, setBalance] = useState();
+  const txToast = useTxToast();
   const coverKey = router.query.cover_id;
 
   useEffect(() => {
@@ -113,7 +114,11 @@ export const WithdrawLiquidityModal = ({
         }
       );
 
-      console.log(tx);
+      await txToast.push(tx, {
+        pending: "Removing Liquidity",
+        success: "Removed Liquidity Successfully",
+        failure: "Could not remove liquidity",
+      });
     } catch (error) {
       console.log(error);
     }

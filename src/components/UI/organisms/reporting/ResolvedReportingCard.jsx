@@ -2,9 +2,11 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const ResolvedReportingCard = ({ details }) => {
-  const { name, imgSrc, resolvedOn, status, statusText } = details;
+  const { name, resolvedOn, status, statusText, key } = details;
+  const imgSrc = getCoverImgSrc({ key: key });
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">

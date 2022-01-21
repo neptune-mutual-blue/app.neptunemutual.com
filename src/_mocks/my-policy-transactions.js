@@ -1,0 +1,34 @@
+export const getPolicyTxs = () => [
+  {
+    "account": "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+    "cover": {
+      "id": "0x636f696e62617365000000000000000000000000000000000000000000000000",
+      "name": "Coinbase"
+    },
+    "cxToken": "0xc60dbff93749676e4678074c8a167953fe363134",
+    "cxTokenAmount": "12312000000000000000000",
+    "daiAmount": "12312000000000000000000",
+    "key": "0x636f696e62617365000000000000000000000000000000000000000000000000",
+    "transaction": {
+      "id": "0x16393080791526002127cc4a80c11d20f64707f263a273ec6fed7dd4837bbfa9",
+      "timestamp": "1642664790"
+    },
+    "type": "CoverPurchase"
+  },
+  {
+    "account": "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+    "cover": {
+      "id": "0x6178696500000000000000000000000000000000000000000000000000000000",
+      "name": "Axie"
+    },
+    "cxToken": "0x1bea2867385f175209058be9c72ac26ed42c4dc1",
+    "cxTokenAmount": "1234000000000000000000",
+    "daiAmount": "1234000000000000000000",
+    "key": "0x6178696500000000000000000000000000000000000000000000000000000000",
+    "transaction": {
+      "id": "0xa05544b31ba7e51ba10d18e6e20ce6abe54b8edcd253ec1addedbdcaf09e1684",
+      "timestamp": "1642643148"
+    },
+    "type": "CoverPurchase"
+  }
+];

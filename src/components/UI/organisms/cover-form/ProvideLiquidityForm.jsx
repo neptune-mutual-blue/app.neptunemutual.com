@@ -8,14 +8,15 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
-import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { liquidityTokenSymbol } from "@/src/config/constants";
 
 export const ProvideLiquidityForm = ({ coverKey }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
-  const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
+  const { liquidityTokenAddress } = useAppConstants();
   const {
     balance,
     approving,

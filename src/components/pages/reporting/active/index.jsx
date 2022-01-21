@@ -4,7 +4,7 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import { ActiveReportingCard } from "@/components/UI/organisms/reporting/active-reporting-card";
+import { ActiveReportingCard } from "@/components/UI/organisms/reporting/ActiveReportingCard";
 import { AddReporting } from "@/components/UI/organisms/reporting/add-reporting";
 import Link from "next/link";
 

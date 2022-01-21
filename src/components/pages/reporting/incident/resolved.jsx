@@ -3,7 +3,6 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { useRouter } from "next/router";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const IncidentResolved = () => {
   const router = useRouter();
@@ -14,12 +13,9 @@ export const IncidentResolved = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
-  const title = coverInfo.coverName;
-
   return (
     <>
-      <ReportingHero {...{ coverInfo, imgSrc, title }} />
+      <ReportingHero coverInfo={coverInfo} />
       <hr className="border-b border-B0C4DB" />
       <div className="px-28 pb-48">
         <div className="py-14">

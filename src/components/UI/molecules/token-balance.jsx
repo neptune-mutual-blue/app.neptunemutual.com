@@ -2,7 +2,7 @@ import OpenInNewIcon from "@/icons/open-in-new";
 import AddCircleIcon from "@/icons/add-circle";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { useAppContext } from "@/src/context/AppWrapper";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {

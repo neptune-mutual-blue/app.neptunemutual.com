@@ -27,34 +27,36 @@ export const AddReporting = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <img src="/images/covers/empty-eclipse.png" alt="empty circle" />
-      <p className="font-sora font-bold text-h2 text-CDD6E3 mt-5">
-        No Active Reporting
+      <img
+        src="/images/covers/empty-reporting.png"
+        alt="empty circle"
+        className="w-48 h-48"
+      />
+      <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
+        There is no any active reporting yet. All the covers under resolution
+        period will be{" "}
+        <span className="whitespace-nowrap">displayed here.</span>
       </p>
-      <div className="w-full lg:px-60">
-        <Label htmlFor={"reporting-dropdown"} className={"mt-36 mb-4"}>
+      <div className="flex flex-col w-full max-w-lg mt-16 mb-4">
+        <Label htmlFor={"reporting-dropdown"} className="hidden">
           select a cover
         </Label>
-        <div className="flex">
-          <ReportingDropdown
-            options={availableCovers}
-            selected={selected}
-            setSelected={setSelected}
-            prefix={
-              <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
-                <img src={selected?.imgSrc} alt={selected?.coverName} />
-              </div>
-            }
-          />
-          <RegularButton
-            className={
-              "text-sm font-medium whitespace-nowrap px-4 md:px-10 lg:px-14 ml-5"
-            }
-            onClick={handleAddReport}
-          >
-            ADD REPORT
-          </RegularButton>
-        </div>
+        <ReportingDropdown
+          options={availableCovers}
+          selected={selected}
+          setSelected={setSelected}
+          prefix={
+            <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
+              <img src={selected?.imgSrc} alt={selected?.coverName} />
+            </div>
+          }
+        />
+        <RegularButton
+          className={"text-sm font-medium uppercase mt-6 py-4 w-full"}
+          onClick={handleAddReport}
+        >
+          REPORT AN INCIDENT
+        </RegularButton>
       </div>
     </div>
   );

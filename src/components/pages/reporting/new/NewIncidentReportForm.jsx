@@ -9,7 +9,6 @@ import { classNames } from "@/utils/classnames";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import DeleteIcon from "@/icons/delete-icon";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const NewIncidentReportForm = () => {
   const router = useRouter();
@@ -32,8 +31,6 @@ export const NewIncidentReportForm = () => {
   if (!coverInfo) {
     return <>loading...</>;
   }
-
-  const imgSrc = getCoverImgSrc(coverInfo);
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);
@@ -80,11 +77,7 @@ export const NewIncidentReportForm = () => {
   return (
     <main>
       {/* hero */}
-      <ReportingHero
-        coverInfo={coverInfo}
-        title={coverInfo.coverName}
-        imgSrc={imgSrc}
-      />
+      <ReportingHero coverInfo={coverInfo} />
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">

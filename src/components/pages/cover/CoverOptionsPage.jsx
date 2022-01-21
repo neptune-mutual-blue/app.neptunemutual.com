@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import { CoverOptionName } from "@/components/UI/molecules/cover/option/option-name";
+import { CoverProfileInfoShort } from "@/components/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
@@ -30,7 +30,7 @@ export const CoverOptionsPage = () => {
         backgroundPosition: "left",
       }}
     >
-      <CoverOptionName imgSrc={imgSrc} title={title} />
+      <CoverProfileInfoShort imgSrc={imgSrc} title={title} />
       <Container className="pb-16">
         <h2 className="text-h2 font-sora font-bold mb-12 text-center">
           I Want to

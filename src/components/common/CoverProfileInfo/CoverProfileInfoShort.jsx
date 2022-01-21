@@ -1,4 +1,4 @@
-export const CoverOptionName = ({ imgSrc, title }) => {
+export const CoverProfileInfoShort = ({ imgSrc, title }) => {
   return (
     <div className="container mx-auto flex items-center mb-12">
       <div className="w-11 border border-B0C4DB mr-4 rounded-full">

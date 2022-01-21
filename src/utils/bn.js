@@ -5,6 +5,8 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 });
 
+export const ZERO_BI = BigNumber("0");
+
 export const hasValue = (x) => {
   return !(!x || !parseFloat(x.toString()));
 };

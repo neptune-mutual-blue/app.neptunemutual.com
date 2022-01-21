@@ -78,7 +78,7 @@ export const usePurchasePolicy = ({
       return;
     }
 
-    if (isGreater(convertToUnits(feeAmount || "0"), balance || "0")) {
+    if (isGreater(feeAmount || "0", balance || "0")) {
       setError("Insufficient Balance");
       return;
     }

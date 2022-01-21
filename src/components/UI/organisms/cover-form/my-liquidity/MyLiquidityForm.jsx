@@ -8,16 +8,17 @@ import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-inp
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
-import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import dayjs from "dayjs";
 import { unixToDate } from "@/utils/date";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { liquidityTokenSymbol } from "@/src/config/constants";
 
 export const MyLiquidityForm = ({ coverKey, info }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
-  const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
+  const { liquidityTokenAddress } = useAppConstants();
   const {
     balance,
     approving,

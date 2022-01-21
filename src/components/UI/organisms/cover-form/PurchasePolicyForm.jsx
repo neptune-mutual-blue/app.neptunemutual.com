@@ -10,19 +10,20 @@ import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { usePurchasePolicy } from "@/components/UI/organisms/cover-form/usePurchasePolicy";
-import { useLiquidityAddress } from "@/src/hooks/useLiquidityAddress";
 import { useState } from "react";
 import { usePolicyFees } from "@/components/UI/organisms/cover-form/usePolicyFees";
+import { liquidityTokenSymbol } from "@/src/config/constants";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { data } from "autoprefixer";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
-  const { liquidityTokenAddress, liquidityTokenSymbol } = useLiquidityAddress();
+  const { liquidityTokenAddress } = useAppConstants();
   const {
     loading: updatingFee,
-    feePercent,
-    feeAmount,
+    data: feeData,
     error: feeError,
   } = usePolicyFees({
     value,
@@ -41,9 +42,16 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
-    feeAmount,
+    feeAmount: data.fee,
     feeError,
   });
+
+  const { totalAvailableLiquidity } = data;
+
+  console.log(
+    "totalAvailableLiquidity",
+    convertFromUnits(totalAvailableLiquidity || "0").toString()
+  );
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -128,8 +136,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       {value && coverMonth && (
         <PolicyFeesAndExpiry
           fetching={updatingFee}
-          fees={feePercent}
-          feeAmount={feeAmount}
+          data={feeData}
           claimEnd={coverMonth}
         />
       )}

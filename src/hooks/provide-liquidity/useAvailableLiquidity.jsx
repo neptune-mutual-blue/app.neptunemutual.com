@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { useAppContext } from "@/src/context/AppWrapper";
 import { convertFromUnits } from "@/utils/bn";
 
 export const useAvailableLiquidity = ({ coverKey }) => {

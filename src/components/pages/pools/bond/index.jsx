@@ -58,7 +58,6 @@ const BondPage = () => {
   const handleChange = (val) => {
     if (typeof val === "string") {
       const willRecieve = parseFloat(0.99 * val).toFixed(2);
-      console.log(typeof val, val * 0.99);
       setValue(val);
       setReceiveAmount(willRecieve);
     }

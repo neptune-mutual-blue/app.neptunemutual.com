@@ -4,7 +4,6 @@ import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVote
 import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 import { useRouter } from "next/router";
 import { Container } from "@/components/UI/atoms/container";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const VotePage = () => {
   const router = useRouter();
@@ -15,12 +14,9 @@ export const VotePage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
-  const title = coverInfo.coverName;
-
   return (
     <>
-      <ReportingHero {...{ coverInfo, imgSrc, title }} />
+      <ReportingHero coverInfo={coverInfo} />
       <hr className="border-b border-B0C4DB" />
       <Container className="py-16">
         <ActiveReportSummary />

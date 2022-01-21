@@ -3,17 +3,16 @@ import { useWeb3React } from "@web3-react/core";
 import { policy } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
 
-import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
+import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
-import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { useAppContext } from "@/src/context/AppWrapper";
 
 export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
-  const [feePercent, setFeePercent] = useState();
-  const [feeAmount, setFeeAmount] = useState();
+  const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -46,13 +45,14 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
             signerOrProvider
           );
 
-          const { fee, rate } = result;
+          // const { fee, rate, totalAvailableLiquidity } = result;
 
           if (ignore) return;
-          setFeePercent(
-            convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).toString()
-          );
-          setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
+          setData(result);
+          // setFeePercent(
+          //   convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).toString()
+          // );
+          // setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
         } catch (error) {
           console.error(error);
           setError(true);
@@ -71,7 +71,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   return {
     loading,
     error,
-    feePercent,
-    feeAmount,
+    data,
   };
 };

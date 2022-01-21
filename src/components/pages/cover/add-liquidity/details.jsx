@@ -3,6 +3,7 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useRouter } from "next/router";
 
 import { CoverAddLiquidityDetailsPage as DetailsPage } from "@/components/UI/organisms/cover/add-liquidity/details";
+import { CoverRules } from "@/components/common/CoverRules";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const { query, push } = useRouter();
@@ -22,26 +23,7 @@ export const CoverAddLiquidityDetailsPage = () => {
     <div>
       <DetailsPage>
         <>
-          {/* Rules */}
-          <div>
-            <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">
-              Cover Rules
-            </h4>
-            <p className="mb-4">
-              Carefully read the following terms and conditions. For a
-              successful claim payout, all of the following points must be true.
-            </p>
-            <ol className="list-decimal pl-5">
-              {coverInfo.rules.split("\n").map((x, i) => (
-                <li key={i}>
-                  {x
-                    .trim()
-                    .replace(/^\d+\./g, "")
-                    .trim()}
-                </li>
-              ))}
-            </ol>
-          </div>
+          <CoverRules rules={coverInfo?.rules} />
 
           <br className="mt-20" />
 

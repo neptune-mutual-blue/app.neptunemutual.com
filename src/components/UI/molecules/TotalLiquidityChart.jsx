@@ -10,7 +10,7 @@ import {
   defaults,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { getLiquidityChartData } from "@/src/_mocks/my-liquidity/chartData";
+import { getLiquidityChartData } from "@/src/_mocks/total-liquidity-aggregated";
 import { monthNames } from "@/lib/dates";
 
 const month = monthNames.map((x) => x.substring(0, 3));

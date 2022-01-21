@@ -1,12 +1,16 @@
 import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
+import { convertFromUnits } from "@/utils/bn";
 import dayjs from "dayjs";
 
-export const PolicyFeesAndExpiry = ({
-  fetching,
-  fees,
-  feeAmount,
-  claimEnd,
-}) => {
+export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
+  const { fee = "0", rate = "0" } = data;
+
+  const feePercent = convertFromUnits(rate)
+    .multipliedBy(100)
+    .decimalPlaces(2)
+    .toString();
+  const coverFee = convertFromUnits(fee).decimalPlaces(3).toString();
+
   const claimEpiry = `${dayjs()
     .add(parseInt(claimEnd, 10) - 1, "month")
     .endOf("month")
@@ -27,11 +31,11 @@ export const PolicyFeesAndExpiry = ({
         <tbody>
           <tr className="flex justify-between mt-3">
             <th>Fees</th>
-            <td className="text-4e7dd9">{fees} %</td>
+            <td className="text-4e7dd9">{feePercent} %</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Cover Fee</th>
-            <td className="text-4e7dd9">{feeAmount} DAI</td>
+            <td className="text-4e7dd9">{coverFee} DAI</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>

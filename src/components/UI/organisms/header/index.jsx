@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { useAppContext } from "@/src/context/AppWrapper";
 import ConnectWallet from "@/lib/connect-wallet/components/ConnectWallet/ConnectWallet";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";

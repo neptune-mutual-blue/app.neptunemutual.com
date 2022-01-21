@@ -6,8 +6,9 @@ import "@fontsource/sora/latin.css";
 import "../styles/globals.css";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
 import { Header } from "@/components/UI/organisms/header";
-import { AppWrapper } from "@/components/UI/organisms/AppWrapper";
+import { AppWrapper } from "@/src/context/AppWrapper";
 import { ToastProvider } from "@/lib/toast/provider";
+import { AppConstantsProvider } from "@/src/context/AppConstants";
 
 const position = {
   variant: "top_right",
@@ -21,10 +22,12 @@ function MyApp({ Component, pageProps }) {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <AppWrapper>
-        <ToastProvider variant={position.variant}>
-          <Header></Header>
-          <Component {...pageProps} />
-        </ToastProvider>
+        <AppConstantsProvider>
+          <ToastProvider variant={position.variant}>
+            <Header></Header>
+            <Component {...pageProps} />
+          </ToastProvider>
+        </AppConstantsProvider>
       </AppWrapper>
     </Web3ReactProvider>
   );

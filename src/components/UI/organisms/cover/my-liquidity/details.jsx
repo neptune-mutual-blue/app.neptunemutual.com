@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { SocialIconLinks } from "@/components/UI/molecules/social-icon-links";
-import { CoverHeroImage } from "@/components/UI/molecules/cover/hero/image";
-import { CoverHeroTitleAndWebsite } from "@/components/UI/molecules/cover/hero/title-and-website";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
@@ -17,8 +14,9 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { sumOf } from "@/utils/bn";
 import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
+import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 
-export const MyLiquidityDetailsPage = ({ children }) => {
+export const MyLiquidityDetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -26,8 +24,6 @@ export const MyLiquidityDetailsPage = ({ children }) => {
   const { coverInfo } = useCoverInfo(cover_id);
 
   const { info } = useMyLiquidityInfo({ coverKey: cover_id });
-
-  console.log(info);
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -56,16 +52,11 @@ export const MyLiquidityDetailsPage = ({ children }) => {
               ]}
             />
             <div className="flex">
-              <div>
-                <CoverHeroImage imgSrc={imgSrc} title={coverInfo.projectName} />
-              </div>
-              <div>
-                <CoverHeroTitleAndWebsite
-                  links={coverInfo.links}
-                  title={coverInfo.coverName}
-                />
-                <SocialIconLinks links={coverInfo.links} />
-              </div>
+              <CoverProfileInfo
+                projectName={coverInfo?.coverName}
+                links={coverInfo?.links}
+                imgSrc={imgSrc}
+              />
 
               {/* Total Liquidity */}
               <HeroStat title="My Liquidity">

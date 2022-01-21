@@ -5,7 +5,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
-import { useAppContext } from "@/components/UI/organisms/AppWrapper";
+import { useAppContext } from "@/src/context/AppWrapper";
 import { registry } from "@neptunemutual/sdk";
 
 export const useCalculatePods = ({ coverKey, value }) => {
