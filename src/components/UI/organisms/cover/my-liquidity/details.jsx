@@ -12,9 +12,11 @@ import { useRouter } from "next/router";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { sumOf } from "@/utils/bn";
+import { sumOf, weiAsAmount } from "@/utils/bn";
 import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
+import BigNumber from "bignumber.js";
+import { liquidityTokenSymbol } from "@/src/config/constants";
 
 export const MyLiquidityDetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +41,13 @@ export const MyLiquidityDetailsPage = () => {
     setIsOpen(true);
   }
 
+  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
+  const myLiquidity = BigNumber(info.myShare);
+  const myEarnings = myLiquidity.minus(
+    BigNumber(info.myDeposits).minus(BigNumber(info.myWithdrawals))
+  );
+  const reassuranceAmount = info.totalReassurance;
+
   return (
     <div>
       <main className="bg-f1f3f6">
@@ -60,7 +69,9 @@ export const MyLiquidityDetailsPage = () => {
 
               {/* Total Liquidity */}
               <HeroStat title="My Liquidity">
-                <>{info.myDeposits} DAI</>
+                <>
+                  {weiAsAmount(myLiquidity)} {liquidityTokenSymbol}
+                </>
               </HeroStat>
             </div>
           </Container>
@@ -86,17 +97,19 @@ export const MyLiquidityDetailsPage = () => {
               <div className="flex justify-between pt-4 pb-2">
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">
-                  $ {sumOf(info.balance, info.extendedBalance).toString()}
+                  $ {weiAsAmount(totalLiquidity)}
                 </strong>
               </div>
               <div className="flex justify-between pb-2">
                 <span className="">My Earnings:</span>
-                <strong className="text-right font-bold">$ 750k</strong>
+                <strong className="text-right font-bold">
+                  $ {weiAsAmount(myEarnings)}
+                </strong>
               </div>
               <div className="flex justify-between pb-8">
                 <span className="">Reassurance:</span>
                 <strong className="text-right font-bold">
-                  $ {info.totalReassurance}
+                  $ {weiAsAmount(reassuranceAmount)}
                 </strong>
               </div>
 

@@ -6,7 +6,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { useRouter } from "next/router";
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { sumOf } from "@/utils/bn";
+import { sumOf, weiAsAmount } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
@@ -17,21 +17,19 @@ import { liquidityTokenSymbol } from "@/src/config/constants";
 
 export const CoverPurchaseCheckoutPage = () => {
   const router = useRouter();
-  const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const { cover_id: coverKey } = router.query;
+  const { coverInfo } = useCoverInfo(coverKey);
 
-  const { availableLiquidity } = useAvailableLiquidity({
-    coverKey: cover_id,
-  });
-  const { info } = useMyLiquidityInfo({
-    coverKey: cover_id,
-  });
+  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
   const imgSrc = getCoverImgSrc(coverInfo);
+
+  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
 
   return (
     <main>
@@ -54,10 +52,7 @@ export const CoverPurchaseCheckoutPage = () => {
 
             {/* Total Liquidity */}
             <HeroStat title="Total Liquidity">
-              {sumOf(info.balance, info.extendedBalance)
-                .decimalPlaces(2)
-                .toString()}{" "}
-              {liquidityTokenSymbol}
+              {weiAsAmount(totalLiquidity)} {liquidityTokenSymbol}
             </HeroStat>
           </div>
         </Container>
@@ -73,7 +68,7 @@ export const CoverPurchaseCheckoutPage = () => {
             <br className="mt-20" />
 
             <div className="mt-12">
-              <PurchasePolicyForm coverKey={cover_id} />
+              <PurchasePolicyForm coverKey={coverKey} />
             </div>
           </div>
 

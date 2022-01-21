@@ -5,13 +5,23 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { convertFromUnits } from "@/utils/bn";
 
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState({
+    totalPods: "0",
+    balance: "0",
+    extendedBalance: "0",
+    totalReassurance: "0",
+    lockup: "0",
+    myPodBalance: "0",
+    myDeposits: "0",
+    myWithdrawals: "0",
+    myShare: "0",
+    releaseDate: "0",
+  });
 
   useEffect(() => {
     let ignore = false;
@@ -50,15 +60,15 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         if (ignore) return;
 
         setInfo({
-          totalPods: convertFromUnits(totalPods).toString(),
-          balance: convertFromUnits(balance).toString(),
-          extendedBalance: convertFromUnits(extendedBalance).toString(),
-          totalReassurance: convertFromUnits(totalReassurance).toString(),
+          totalPods: totalPods.toString() || "0",
+          balance: balance.toString() || "0",
+          extendedBalance: extendedBalance.toString() || "0",
+          totalReassurance: totalReassurance,
           lockup: lockup.toString(),
-          myPodBalance: convertFromUnits(myPodBalance).toString(),
-          myDeposits: convertFromUnits(myDeposits).toString(),
-          myWithdrawals: convertFromUnits(myWithdrawals).toString(),
-          myShare: convertFromUnits(myShare).toString(),
+          myPodBalance: myPodBalance.toString() || "0",
+          myDeposits: myDeposits.toString() || "0",
+          myWithdrawals: myWithdrawals.toString() || "0",
+          myShare: myShare.toString() || "0",
           releaseDate: releaseDate.toString(),
         });
       } catch (error) {

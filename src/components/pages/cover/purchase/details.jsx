@@ -7,7 +7,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { sumOf } from "@/utils/bn";
+import { sumOf, weiAsAmount } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
@@ -18,15 +18,11 @@ import { CoverRules } from "@/components/common/CoverRules";
 
 export const CoverPurchaseDetailsPage = () => {
   const router = useRouter();
-  const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const { cover_id: coverKey } = router.query;
+  const { coverInfo } = useCoverInfo(coverKey);
 
-  const { availableLiquidity } = useAvailableLiquidity({
-    coverKey: cover_id,
-  });
-  const { info } = useMyLiquidityInfo({
-    coverKey: cover_id,
-  });
+  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -35,8 +31,10 @@ export const CoverPurchaseDetailsPage = () => {
   const imgSrc = getCoverImgSrc(coverInfo);
 
   const handleAcceptRules = () => {
-    router.push(`/cover/${cover_id}/purchase/checkout`);
+    router.push(`/cover/${coverKey}/purchase/checkout`);
   };
+
+  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
 
   return (
     <main>
@@ -59,10 +57,7 @@ export const CoverPurchaseDetailsPage = () => {
 
             {/* Total Liquidity */}
             <HeroStat title="Total Liquidity">
-              {sumOf(info.balance, info.extendedBalance)
-                .decimalPlaces(2)
-                .toString()}{" "}
-              {liquidityTokenSymbol}
+              {weiAsAmount(totalLiquidity)} {liquidityTokenSymbol}
             </HeroStat>
           </div>
         </Container>
