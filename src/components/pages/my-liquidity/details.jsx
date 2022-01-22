@@ -8,7 +8,7 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
+import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";

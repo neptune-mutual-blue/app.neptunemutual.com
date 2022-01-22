@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 
-export const SplitedDetail = ({
+export const BondStat = ({
   title,
   value,
   right,

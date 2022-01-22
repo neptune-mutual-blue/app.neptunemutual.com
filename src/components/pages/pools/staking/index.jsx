@@ -1,5 +1,4 @@
 import { useAvailableStakings } from "@/components/pages/pools/staking/useAvailableStakings";
-import { useEarningPercentage } from "@/components/pages/pools/staking/useEarningPercentage";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
@@ -9,7 +8,7 @@ import { useState } from "react";
 
 export const StakingPage = () => {
   const { availableStakings } = useAvailableStakings();
-  const { earningPercent } = useEarningPercentage();
+  const earningPercent = 25;
   const [staked, setStaked] = useState([]);
 
   const handleStake = (id, stakedAmt) => {

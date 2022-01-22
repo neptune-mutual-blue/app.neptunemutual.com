@@ -1,11 +1,4 @@
-export const ImageContainer = ({ doubleImage = false, imgSrc, name }) => {
-  if (!doubleImage) {
-    return (
-      <div className="border bg-DEEAF6 border-white rounded-full w-18 h-18 flex justify-center items-center">
-        <img src={imgSrc} alt={name} className="inline-block" />
-      </div>
-    );
-  }
+export const SingleImage = ({ src, alt }) => {
   return (
     <>
       <div className="border border-black rounded-full w-10 h-10 flex justify-center items-center">
@@ -16,7 +9,7 @@ export const ImageContainer = ({ doubleImage = false, imgSrc, name }) => {
         />
       </div>
       <div className="absolute -top-1 -right-4 border border-white rounded-full w-10 h-10 flex justify-center items-center">
-        <img className="" src={imgSrc} alt={name} />
+        <img className="" src={src} alt={alt} />
       </div>
     </>
   );

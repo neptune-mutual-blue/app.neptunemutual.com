@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
-import { BondsCard } from "@/components/UI/organisms/pools/card";
+import { BondInfoCard } from "@/components/UI/organisms/pools/bond/BondInfoCard";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
@@ -157,7 +157,7 @@ const BondPage = () => {
         )}
       </div>
       <div>
-        <BondsCard
+        <BondInfoCard
           handleClaimModal={onOpen}
           details={details}
           ROI={roi}

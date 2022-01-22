@@ -3,12 +3,12 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import NeptuneMutualCircleLogo from "@/components/UI/atoms/logos/neptune-mutual-circle-logo";
 import InfoCircleIcon from "@/icons/info-circle";
-import { SplittedDetailsCards } from "@/components/UI/molecules/pools/bond/splitted-card-details";
+import { BondStatsContainer } from "@/components/UI/molecules/pools/bond/BondStatsContainer";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
 
-export const BondsCard = ({
+export const BondInfoCard = ({
   ROI,
   vestingPeriod,
   details,
@@ -39,7 +39,7 @@ export const BondsCard = ({
         <Badge>ROI: {ROI}%</Badge>
       </div>
 
-      <SplittedDetailsCards details={details} />
+      <BondStatsContainer details={details} />
 
       <OutlinedButton
         type="button"

@@ -6,7 +6,6 @@ import { registry, liquidity } from "@neptunemutual/sdk";
 
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { useConstants } from "@/components/pages/cover/useConstants";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
@@ -32,7 +31,6 @@ export const WithdrawLiquidityModal = ({
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
   const [vaultTokenAddress, setVaultTokenAddress] = useState();
-  const { maxValue } = useConstants();
   const { library, account, chainId } = useWeb3React();
   const [balance, setBalance] = useState();
   const txToast = useTxToast();
@@ -79,14 +77,11 @@ export const WithdrawLiquidityModal = ({
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
-    setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
   const handleChange = (val) => {
     if (typeof val === "string") {
-      const willReceive = parseFloat(0.99 * val).toFixed(2);
       setValue(val);
-      setReceiveAmount(willReceive);
     }
   };
 

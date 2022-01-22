@@ -1,11 +1,11 @@
-import { SplitedDetail } from "./splitted-card";
+import { BondStat } from "./BondStat";
 
-export const SplittedDetailsCards = ({ details }) => {
+export const BondStatsContainer = ({ details }) => {
   return (
     <div className="flex flex-wrap justify-between gap-y-3">
       {details.map((x, idx) => {
         return (
-          <SplitedDetail
+          <BondStat
             key={x.title}
             title={x.title}
             value={x.value}

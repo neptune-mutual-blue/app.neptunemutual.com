@@ -23,14 +23,11 @@ export const ClaimCoverModal = ({
 
   const handleChooseMax = () => {
     setValue(maxValue);
-    setReceiveAmount(parseFloat(0.99 * maxValue).toFixed(2));
   };
 
   const handleChange = (val) => {
     if (typeof val === "string") {
-      const willReceive = parseFloat(0.99 * val).toFixed(2);
       setValue(val);
-      setReceiveAmount(willReceive);
     }
   };
 
