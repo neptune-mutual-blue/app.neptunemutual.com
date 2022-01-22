@@ -1,13 +1,11 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { formatWithAabbreviation } from "@/utils/formatter";
 import Link from "next/link";
 
 export const CoverPurchaseResolutionSources = ({
-  children = null,
+  children,
   knowledgebase,
   twitter,
   projectName,
-  availableLiquidity,
 }) => {
   return (
     <div>
@@ -33,19 +31,7 @@ export const CoverPurchaseResolutionSources = ({
           </a>
         </Link>
 
-        {children ? (
-          children
-        ) : (
-          <>
-            <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-            <div className="flex justify-between">
-              <span className="">Available Liquidity:</span>
-              <strong className="text-right font-bold">
-                $ {formatWithAabbreviation(availableLiquidity)}
-              </strong>
-            </div>
-          </>
-        )}
+        {children}
       </OutlinedCard>
     </div>
   );

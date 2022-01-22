@@ -17,7 +17,7 @@ import { liquidityTokenSymbol } from "@/src/config/constants";
 import { CoverRules } from "@/components/common/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
-import { formatAmount } from "@/utils/formatter";
+import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -93,8 +93,15 @@ export const CoverPurchaseDetailsPage = () => {
             projectName={coverInfo.projectName}
             knowledgebase={coverInfo?.resolutionSources[1]}
             twitter={coverInfo?.resolutionSources[0]}
-            availableLiquidity={availableLiquidity}
-          />
+          >
+            <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
+            <div className="flex justify-between">
+              <span className="">Available Liquidity:</span>
+              <strong className="text-right font-bold">
+                $ {formatWithAabbreviation(availableLiquidity)}
+              </strong>
+            </div>
+          </CoverPurchaseResolutionSources>
         </Container>
       </div>
 

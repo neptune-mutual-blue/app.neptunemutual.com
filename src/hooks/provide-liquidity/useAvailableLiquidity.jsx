@@ -6,6 +6,7 @@ import { AddressZero } from "@ethersproject/constants";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { convertFromUnits } from "@/utils/bn";
+import BigNumber from "bignumber.js";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
   const { library, account } = useWeb3React();
@@ -33,11 +34,15 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           signerOrProvider
         );
 
-        const result = await instance.getCoverable(coverKey);
+        const [totalPoolAmount, totalCommitment] =
+          await instance.getCoverPoolSummary(coverKey);
 
+        const availableLiquidity = BigNumber(totalPoolAmount.toString())
+          .minus(totalCommitment.toString())
+          .toString();
         if (ignore) return;
 
-        setData(convertFromUnits(result).toString());
+        setData(convertFromUnits(availableLiquidity).toString());
       } catch (error) {
         console.log(error);
       }
