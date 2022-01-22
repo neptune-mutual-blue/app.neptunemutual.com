@@ -7,7 +7,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { sumOf, weiAsAmount } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
@@ -17,6 +17,7 @@ import { liquidityTokenSymbol } from "@/src/config/constants";
 import { CoverRules } from "@/components/common/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
+import { formatAmount } from "@/utils/formatter";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -59,7 +60,8 @@ export const CoverPurchaseDetailsPage = () => {
 
             {/* Total Liquidity */}
             <HeroStat title="Total Liquidity">
-              {weiAsAmount(totalLiquidity)} {liquidityTokenSymbol}
+              {formatAmount(convertFromUnits(totalLiquidity).toString())}{" "}
+              {liquidityTokenSymbol}
             </HeroStat>
           </div>
         </Container>

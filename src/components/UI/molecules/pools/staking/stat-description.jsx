@@ -1,4 +1,4 @@
-import { amountFormatter } from "@/utils/formatter";
+import { formatWithAabbreviation } from "@/utils/formatter";
 
 export const StatDescription = ({ stakedOne, lockingPeriod, children }) => {
   if (children) {
@@ -8,7 +8,7 @@ export const StatDescription = ({ stakedOne, lockingPeriod, children }) => {
     <span className="text-7398C0 uppercase pt-2">
       {!stakedOne?.id
         ? `${lockingPeriod} hours`
-        : `${amountFormatter(stakedOne?.stakedAmt)} NPM`}
+        : `${formatWithAabbreviation(stakedOne?.stakedAmt)} NPM`}
     </span>
   );
 };

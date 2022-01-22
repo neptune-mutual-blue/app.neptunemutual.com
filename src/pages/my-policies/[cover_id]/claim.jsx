@@ -8,7 +8,8 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { ClaimCxTokensTable } from "@/components/UI/organisms/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
-import { weiAsAmount } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
+import { formatAmount } from "@/utils/formatter";
 
 export default function ClaimPolicy() {
   const router = useRouter();
@@ -44,7 +45,12 @@ export default function ClaimPolicy() {
 
             {/* My Active Protection */}
             <HeroStat title="My Active Protection">
-              <>$ {weiAsAmount(data.totalActiveProtection)}</>
+              <>
+                ${" "}
+                {formatAmount(
+                  convertFromUnits(data.totalActiveProtection).toString()
+                )}
+              </>
             </HeroStat>
           </div>
         </Container>

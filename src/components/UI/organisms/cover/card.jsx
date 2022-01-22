@@ -3,7 +3,7 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { amountFormatter } from "@/utils/formatter";
+import { formatWithAabbreviation } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
   const {
@@ -53,10 +53,12 @@ export const CoverCard = ({ details }) => {
         <ProgressBar value={utilizationRatio / 100} />
       </div>
       <div className="flex justify-between text-sm px-1">
-        <span className="">Protection: ${amountFormatter(protection)}</span>
+        <span className="">
+          Protection: ${formatWithAabbreviation(protection)}
+        </span>
         {/* <span className="text-right">Liquidity: ${liquidity}M</span> */}
         <span className="text-right">
-          Liquidity: ${amountFormatter(liquidity)}
+          Liquidity: ${formatWithAabbreviation(liquidity)}
         </span>
       </div>
     </OutlinedCard>

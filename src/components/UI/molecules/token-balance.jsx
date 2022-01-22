@@ -4,6 +4,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
+import { formatAmount } from "@/utils/formatter";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();
@@ -14,7 +15,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       <div>
         {balance && (
           <p>
-            Balance: {convertFromUnits(balance).toString()} {unit}
+            Balance: {formatAmount(convertFromUnits(balance).toString())} {unit}
           </p>
         )}
         {children}

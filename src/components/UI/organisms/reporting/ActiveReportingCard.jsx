@@ -1,7 +1,7 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { ProgressBar } from "@/components//UI/atoms/progress-bar";
-import { amountFormatter } from "@/utils/formatter";
+import { formatWithAabbreviation } from "@/utils/formatter";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const ActiveReportingCard = ({ details }) => {
@@ -37,7 +37,9 @@ export const ActiveReportingCard = ({ details }) => {
         <ProgressBar value={utilizationRatio / 100} />
       </div>
       <div className="flex justify-between text-sm px-1">
-        <span className="">Protection: ${amountFormatter(protection)}</span>
+        <span className="">
+          Protection: ${formatWithAabbreviation(protection)}
+        </span>
         <span className="text-right">Reported On: {reportedOn}</span>
       </div>
     </OutlinedCard>

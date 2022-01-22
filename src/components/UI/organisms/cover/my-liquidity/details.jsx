@@ -16,7 +16,8 @@ import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidi
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { liquidityTokenSymbol } from "@/src/config/constants";
 import BigNumber from "bignumber.js";
-import { sumOf, weiAsAmount } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
+import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
 
 export const MyLiquidityDetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +70,8 @@ export const MyLiquidityDetailsPage = () => {
               {/* Total Liquidity */}
               <HeroStat title="My Liquidity">
                 <>
-                  {weiAsAmount(myLiquidity)} {liquidityTokenSymbol}
+                  {formatAmount(convertFromUnits(myLiquidity).toString())}{" "}
+                  {liquidityTokenSymbol}
                 </>
               </HeroStat>
             </div>
@@ -96,19 +98,28 @@ export const MyLiquidityDetailsPage = () => {
               <div className="flex justify-between pt-4 pb-2">
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">
-                  $ {weiAsAmount(totalLiquidity)}
+                  ${" "}
+                  {formatWithAabbreviation(
+                    convertFromUnits(totalLiquidity).toString()
+                  )}
                 </strong>
               </div>
               <div className="flex justify-between pb-2">
                 <span className="">My Earnings:</span>
                 <strong className="text-right font-bold">
-                  $ {weiAsAmount(myEarnings)}
+                  ${" "}
+                  {formatWithAabbreviation(
+                    convertFromUnits(myEarnings).toString()
+                  )}
                 </strong>
               </div>
               <div className="flex justify-between pb-8">
                 <span className="">Reassurance:</span>
                 <strong className="text-right font-bold">
-                  $ {weiAsAmount(reassuranceAmount)}
+                  ${" "}
+                  {formatWithAabbreviation(
+                    convertFromUnits(reassuranceAmount).toString()
+                  )}
                 </strong>
               </div>
 

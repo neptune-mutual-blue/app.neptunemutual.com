@@ -1,8 +1,11 @@
+import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
+import { convertFromUnits } from "@/utils/bn";
+import { formatAmount } from "@/utils/formatter";
 
 const headers = [
   {
@@ -18,6 +21,9 @@ const headers = [
 ];
 
 export const PoliciesTabs = ({ active, children }) => {
+  const { data } = useActivePolicies();
+  const { totalActiveProtection } = data;
+
   return (
     <>
       <Hero>
@@ -26,7 +32,7 @@ export const PoliciesTabs = ({ active, children }) => {
 
           {/* My Active Protection */}
           <HeroStat title="My Active Protection">
-            <>$ 150,000.00</>
+            {formatAmount(convertFromUnits(totalActiveProtection).toString())}
           </HeroStat>
         </Container>
 

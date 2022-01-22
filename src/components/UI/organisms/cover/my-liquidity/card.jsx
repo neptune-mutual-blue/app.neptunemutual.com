@@ -2,7 +2,7 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { amountFormatter } from "@/utils/formatter";
+import { formatWithAabbreviation } from "@/utils/formatter";
 
 export const CoverCard = ({ details }) => {
   const { projectName, imgSrc, apr, utilizationRatio, protection } = details;
@@ -40,7 +40,7 @@ export const CoverCard = ({ details }) => {
       </div>
       <div className="flex justify-between text-sm px-1">
         <span className="">
-          My Liquidity: {amountFormatter(protection)} POD
+          My Liquidity: {formatWithAabbreviation(protection)} POD
         </span>
       </div>
     </OutlinedCard>
