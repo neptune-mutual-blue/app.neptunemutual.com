@@ -7,17 +7,21 @@ import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { ClaimCxTokensTable } from "@/components/UI/organisms/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";
+import { useActiveCoverPolicies } from "@/components/pages/my-policies/useActiveCoverPolicies";
+import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
 
 export default function ClaimPolicy() {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { data } = useActivePolicies();
+  const { data } = useActiveCoverPolicies({ coverKey });
+  const {
+    data: { totalActiveProtection },
+  } = useActivePolicies();
 
   const title = coverInfo?.projectName;
 
@@ -50,7 +54,7 @@ export default function ClaimPolicy() {
               <>
                 ${" "}
                 {formatAmount(
-                  convertFromUnits(data.totalActiveProtection).toString()
+                  convertFromUnits(totalActiveProtection).toString()
                 )}
               </>
             </HeroStat>

@@ -4,13 +4,14 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
 import { CoverCard } from "@/components/UI/organisms/cover/my-liquidity/card";
-import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import { getParsedKey } from "@/src/helpers/cover";
+import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 
 export const MyLiquidityPage = () => {
-  const { availableCovers } = useAvailableCovers();
+  const { data } = useMyLiquidities();
+  const { myLiquidities } = data;
 
-  if (!availableCovers) {
+  if (!myLiquidities) {
     return <>loading...</>;
   }
 
@@ -24,11 +25,14 @@ export const MyLiquidityPage = () => {
         </Link>
       </div>
       <Grid className="mt-14 mb-24">
-        {availableCovers.map((c) => {
+        {myLiquidities.map((x) => {
           return (
-            <Link href={`/my-liquidity/${getParsedKey(c.key)}`} key={c.key}>
+            <Link href={`/my-liquidity/${getParsedKey(x.cover.id)}`} key={x.id}>
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                <CoverCard details={c}></CoverCard>
+                <CoverCard
+                  coverKey={x.cover.id}
+                  totalPODs={x.totalPODs}
+                ></CoverCard>
               </a>
             </Link>
           );
