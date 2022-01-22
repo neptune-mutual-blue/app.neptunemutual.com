@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
-import AddIcon from "@/icons/add";
+import AddIcon from "@/icons/AddIcon";
 import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";

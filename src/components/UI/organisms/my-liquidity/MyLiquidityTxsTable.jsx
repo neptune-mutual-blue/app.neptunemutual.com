@@ -7,9 +7,9 @@ import {
   TBody,
   THead,
 } from "@/components/UI/organisms/Table";
-import AddCircleIcon from "@/icons/add-circle";
+import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";

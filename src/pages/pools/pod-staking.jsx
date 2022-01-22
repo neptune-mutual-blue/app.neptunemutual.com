@@ -1,7 +1,7 @@
 import Head from "next/head";
 
 import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
-import { PodStakingPage } from "@/components/pages/pools/podStaking";
+import { PodStakingPage } from "@/components/pages/pools/pod-staking";
 
 export default function PodStaking() {
   return (

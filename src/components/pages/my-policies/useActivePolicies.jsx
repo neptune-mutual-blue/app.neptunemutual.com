@@ -52,8 +52,8 @@ export const useActivePolicies = () => {
       }),
     })
       .then((r) => r.json())
-      .then(({ data }) => {
-        setData(data);
+      .then((res) => {
+        setData(res.data);
         setLoading(false);
       })
       .catch(() => {

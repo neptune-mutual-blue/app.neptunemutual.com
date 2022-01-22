@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import InfoCircleIcon from "@/icons/info-circle";
+import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
 import { PolicyFeesAndExpiry } from "@/components/UI/organisms/PolicyFeesAndExpiry/PolicyFeesAndExpiry";

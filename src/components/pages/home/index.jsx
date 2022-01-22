@@ -10,7 +10,7 @@ import React from "react";
 import { HomeCard } from "@/components/UI/molecules/home-card";
 import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import IncreaseIcon from "@/icons/increase";
+import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";

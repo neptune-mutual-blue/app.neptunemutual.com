@@ -5,7 +5,7 @@ import {
   TBody,
   THead,
 } from "@/components/UI/organisms/Table";
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getVotesList } from "@/src/_mocks/reporting/votes";
 
 import { classNames } from "@/utils/classnames";

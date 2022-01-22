@@ -1,5 +1,5 @@
-import OpenInNewIcon from "@/icons/open-in-new";
-import AddCircleIcon from "@/icons/add-circle";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
+import AddCircleIcon from "@/icons/AddCircleIcon";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/src/context/AppWrapper";

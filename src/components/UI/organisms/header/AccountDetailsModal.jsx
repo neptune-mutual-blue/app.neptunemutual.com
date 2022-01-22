@@ -2,7 +2,7 @@ import { Dialog } from "@headlessui/react";
 import CloseIcon from "@/icons/CloseIcon";
 import { Modal } from "@/lib/connect-wallet/components/Modal/Modal";
 import CopyIcon from "@/icons/CopyIcon";
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import DisconnectIcon from "@/icons/disconnect-icon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";

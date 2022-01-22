@@ -31,7 +31,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
       );
       const args = {
         duration: parseInt(coverMonth, 10),
-        amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+        amount: convertToUnits(value).toString(),
       };
 
       async function fetchCoverFee() {
@@ -45,16 +45,10 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
             signerOrProvider
           );
 
-          // const { fee, rate, totalAvailableLiquidity } = result;
-
           if (ignore) return;
           setData(result);
-          // setFeePercent(
-          //   convertFromUnits(rate).multipliedBy(100).decimalPlaces(2).toString()
-          // );
-          // setFeeAmount(convertFromUnits(fee).decimalPlaces(3).toString());
-        } catch (error) {
-          console.error(error);
+        } catch (err) {
+          console.error(err);
           setError(true);
         } finally {
           setLoading(false);

@@ -1,6 +1,6 @@
-import FacebookIcon from "@/icons/facebook";
-import LinkedinIcon from "@/icons/linkedin";
-import TwitterIcon from "@/icons/twitter";
+import FacebookIcon from "@/icons/FacebookIcon";
+import LinkedinIcon from "@/icons/LinkedinIcon";
+import TwitterIcon from "@/icons/TwitterIcon";
 
 const IconLink = ({ href, iconText, icon }) => {
   return (

@@ -1,4 +1,4 @@
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { classNames } from "@/utils/classnames";
 
 export const IncidentReporter = ({ variant, account, txHash }) => {

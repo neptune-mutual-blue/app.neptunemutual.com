@@ -1,5 +1,5 @@
-import ReportIcon from "@/icons/report";
-import ActiveSheildIcon from "@/icons/shield-active";
+import ReportIcon from "@/icons/ReportIcon";
+import ActiveSheildIcon from "@/icons/ActiveSheildIcon";
 
 export const HomeMainCard = () => {
   return (

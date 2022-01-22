@@ -43,8 +43,8 @@ export const usePurchasePolicy = ({
         );
         if (ignore) return;
         setAllowance(result);
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
       }
     }
 
@@ -99,8 +99,8 @@ export const usePurchasePolicy = ({
       );
 
       setAllowance(_allowance);
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -123,7 +123,7 @@ export const usePurchasePolicy = ({
 
       setApproving(false);
       checkAllowance();
-    } catch (error) {
+    } catch (err) {
       setApproving(false);
     }
   };
@@ -152,7 +152,7 @@ export const usePurchasePolicy = ({
       });
 
       setPurchasing(false);
-    } catch (error) {
+    } catch (err) {
       setPurchasing(false);
     }
   };

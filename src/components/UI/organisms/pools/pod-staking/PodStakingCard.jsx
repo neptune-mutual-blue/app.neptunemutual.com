@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
-import AddIcon from "@/icons/add";
+import AddIcon from "@/icons/AddIcon";
 import { SingleImage } from "@/components/UI/molecules/pools/staking/SingleImage";
 import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/StakingCardSubTitle";

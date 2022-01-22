@@ -5,7 +5,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { useToast } from "@/lib/toast/context";
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import { unixToDate } from "@/utils/date";
 

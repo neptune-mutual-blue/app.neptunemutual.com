@@ -25,7 +25,7 @@ export const PodStakingPage = () => {
             <PodStakingCard
               key={poolInfo.id}
               info={poolInfo}
-              onStake={() => handleStake(poolInfo.id)}
+              onStake={handleStake}
               hasStaked={staked}
             />
           );

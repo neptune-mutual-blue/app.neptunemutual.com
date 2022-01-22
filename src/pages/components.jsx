@@ -17,7 +17,7 @@ export default function Components() {
           <InputWithTrailingButton
             buttonProps={{
               children: "Max",
-              onClick: () => {},
+              onClick: () => console.log('onMaxClick');,
             }}
             unit="NPM-USDC LP"
             inputProps={{

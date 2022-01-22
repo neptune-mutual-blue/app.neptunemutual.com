@@ -34,21 +34,11 @@ export const convertToUnits = (value, decimals = 18) => {
     .decimalPlaces(0);
 };
 
-export const ether = (value) => {
-  const wei = BigNumber(value.toString())
+export const toWei = (value) => {
+  return BigNumber(value.toString())
     .multipliedBy(Math.pow(10, 18))
     .decimalPlaces(0);
-  return wei;
 };
-
-export const toWei = (x) => ether(x);
-
-// export const toEther = (value) => {
-//   const wei = BigNumber(value.toString()).dividedBy(Math.pow(10, 18))
-//   return wei.toNumber()
-// }
-
-// export const fromWei = (x) => toEther(x)
 
 // --- Utils ---
 

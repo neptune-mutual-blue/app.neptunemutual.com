@@ -7,7 +7,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { BondInfoCard } from "@/components/UI/organisms/pools/bond/BondInfoCard";
-import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/claim-bond-modal";
+import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";

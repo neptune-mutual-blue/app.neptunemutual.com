@@ -1,4 +1,4 @@
-import OpenInNewIcon from "@/icons/open-in-new";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 
 export const ViewTxLink = ({ txLink }) => {
   return (

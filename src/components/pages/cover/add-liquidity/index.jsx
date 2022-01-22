@@ -14,9 +14,9 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
-import BigNumber from "bignumber.js";
-import { sumOf, weiAsAmount } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { formatWithAabbreviation } from "@/utils/formatter";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -38,10 +38,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   const imgSrc = getCoverImgSrc(coverInfo);
 
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
-  const myLiquidity = BigNumber(info.myShare);
-  const myEarnings = myLiquidity.minus(
-    BigNumber(info.myDeposits).minus(BigNumber(info.myWithdrawals))
-  );
   const reassuranceAmount = info.totalReassurance;
 
   return (
@@ -96,13 +92,19 @@ export const CoverAddLiquidityDetailsPage = () => {
             <div className="flex justify-between pb-2">
               <span className="">Total Liquidity:</span>
               <strong className="text-right font-bold">
-                $ {weiAsAmount(totalLiquidity)}
+                ${" "}
+                {formatWithAabbreviation(
+                  convertFromUnits(totalLiquidity).toString()
+                )}
               </strong>
             </div>
             <div className="flex justify-between">
               <span className="">Reassurance:</span>
               <strong className="text-right font-bold">
-                $ {weiAsAmount(reassuranceAmount)}
+                ${" "}
+                {formatWithAabbreviation(
+                  convertFromUnits(reassuranceAmount).toString()
+                )}
               </strong>
             </div>
           </CoverPurchaseResolutionSources>
