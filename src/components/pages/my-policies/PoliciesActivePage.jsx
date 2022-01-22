@@ -21,7 +21,19 @@ export const PoliciesActivePage = () => {
 
       {loading && <div className="text-center py-10">Loading...</div>}
       {!loading && activePolicies.length === 0 && (
-        <div className="text-center py-10">No data found</div>
+        <div className="w-full flex flex-col items-center pt-20">
+          <img
+            src="/images/covers/empty-list-illustration.png"
+            alt="no data found"
+            className="w-48 h-48"
+          />
+          <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
+            You haven&#x2019;t purchased any policy(cover) yet. All your active
+            policies will be{" "}
+            <span className="whitespace-nowrap">displayed here.</span>
+          </p>
+          <p className="mt-6">Let&#x2019;s purchase your first policy.</p>
+        </div>
       )}
       <Grid className="mt-14 mb-24">
         {activePolicies.map((policyInfo) => {

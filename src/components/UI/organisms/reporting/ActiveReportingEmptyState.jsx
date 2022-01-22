@@ -5,7 +5,7 @@ import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting
 import { useRouter } from "next/router";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 
-export const AddReporting = () => {
+export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
   const { availableCovers } = useAvailableCovers();
@@ -26,10 +26,10 @@ export const AddReporting = () => {
   }
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center pt-20">
       <img
-        src="/images/covers/empty-reporting.png"
-        alt="empty circle"
+        src="/images/covers/empty-list-illustration.png"
+        alt="no data found"
         className="w-48 h-48"
       />
       <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">

@@ -11,7 +11,6 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-
   const { coverInfo } = useCoverInfo(cover_id);
 
   if (!coverInfo) {

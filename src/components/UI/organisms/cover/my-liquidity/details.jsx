@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
@@ -8,15 +9,14 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
-import { useRouter } from "next/router";
-import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
+import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { sumOf, weiAsAmount } from "@/utils/bn";
 import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import BigNumber from "bignumber.js";
 import { liquidityTokenSymbol } from "@/src/config/constants";
+import BigNumber from "bignumber.js";
+import { sumOf, weiAsAmount } from "@/utils/bn";
 
 export const MyLiquidityDetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +24,11 @@ export const MyLiquidityDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const { coverInfo } = useCoverInfo(cover_id);
-
   const { info } = useMyLiquidityInfo({ coverKey: cover_id });
 
   if (!coverInfo) {
     return <>loading...</>;
   }
-
-  const imgSrc = getCoverImgSrc(coverInfo);
 
   function onClose() {
     setIsOpen(false);
@@ -40,6 +37,8 @@ export const MyLiquidityDetailsPage = () => {
   function onOpen() {
     setIsOpen(true);
   }
+
+  const imgSrc = getCoverImgSrc(coverInfo);
 
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
   const myLiquidity = BigNumber(info.myShare);
@@ -82,7 +81,7 @@ export const MyLiquidityDetailsPage = () => {
           <Container className="grid gap-32 grid-cols-3">
             <div className="col-span-2">
               {/* Description */}
-              <SeeMoreParagraph>{coverInfo.about}</SeeMoreParagraph>
+              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
               <div className="mt-12">
                 <MyLiquidityForm coverKey={cover_id} info={info} />

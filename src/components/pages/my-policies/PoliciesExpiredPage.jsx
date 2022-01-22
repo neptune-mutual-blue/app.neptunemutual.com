@@ -20,7 +20,17 @@ export const PoliciesExpiredPage = () => {
       </div>
       {loading && <div className="text-center py-10">Loading...</div>}
       {!loading && expiredPolicies.length === 0 && (
-        <div className="text-center py-10">No data found</div>
+        <div className="w-full flex flex-col items-center pt-20">
+          <img
+            src="/images/covers/empty-list-illustration.png"
+            alt="no data found"
+            className="w-48 h-48"
+          />
+          <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
+            All your purchased policies that has been expired will be{" "}
+            <span className="whitespace-nowrap">displayed here.</span>
+          </p>
+        </div>
       )}
       <Grid className="mt-14 mb-24">
         {expiredPolicies.map((policyInfo) => {

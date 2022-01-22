@@ -2,12 +2,12 @@ export const actions = {
   "purchase": {
     title: "Purchase Policy",
     description: "to get protection from hacks & exploits",
-    getHref: (coverKey) => `/cover/${coverKey}/purchase/details`,
+    getHref: (coverKey) => `/cover/${coverKey}/purchase`,
   },
   "add-liquidity": {
     title: "Provide Liquidity",
     description: "to pool risks and receive rewards",
-    getHref: (coverKey) => `/cover/${coverKey}/add-liquidity/details`,
+    getHref: (coverKey) => `/cover/${coverKey}/add-liquidity`,
   },
   "report": {
     title: "Report Incident",

@@ -1,21 +1,25 @@
 import { Container } from "@/components/UI/atoms/container";
+import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
+import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
-import { useRouter } from "next/router";
-import SeeMoreParagraph from "@/components/UI/molecules/see-more-paragraph";
+import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { sumOf, weiAsAmount } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { sumOf, weiAsAmount } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { liquidityTokenSymbol } from "@/src/config/constants";
+import { CoverRules } from "@/components/common/CoverRules";
+import { useState } from "react";
+import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
 
-export const CoverPurchaseCheckoutPage = () => {
+export const CoverPurchaseDetailsPage = () => {
+  const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
   const { cover_id: coverKey } = router.query;
   const { coverInfo } = useCoverInfo(coverKey);
@@ -27,8 +31,11 @@ export const CoverPurchaseCheckoutPage = () => {
     return <>loading...</>;
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const handleAcceptRules = () => {
+    setAcceptedRules(true);
+  };
 
+  const imgSrc = getCoverImgSrc(coverInfo);
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
 
   return (
@@ -62,14 +69,21 @@ export const CoverPurchaseCheckoutPage = () => {
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         <Container className="grid gap-32 grid-cols-3">
           <div className="col-span-2">
-            {/* Description */}
-            <SeeMoreParagraph>{coverInfo.about}</SeeMoreParagraph>
+            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
-            <br className="mt-20" />
-
-            <div className="mt-12">
-              <PurchasePolicyForm coverKey={coverKey} />
-            </div>
+            {acceptedRules ? (
+              <div className="mt-12">
+                <PurchasePolicyForm coverKey={coverKey} />
+              </div>
+            ) : (
+              <>
+                <CoverRules rules={coverInfo?.rules} />
+                <br className="mt-20" />
+                <AcceptRulesForm onAccept={handleAcceptRules}>
+                  I have read, understood, and agree to the terms of cover rules
+                </AcceptRulesForm>
+              </>
+            )}
           </div>
 
           <CoverPurchaseResolutionSources

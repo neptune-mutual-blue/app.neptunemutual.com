@@ -10,6 +10,7 @@ import { useWeb3React } from "@web3-react/core";
 import AccountBalanceWalletIcon from "@/icons/AccountBalanceWalletIcon";
 import { AccountDetailsModal } from "@/components/UI/organisms/header/AccountDetailsModal";
 import useAuth from "@/lib/connect-wallet/hooks/useAuth";
+import { Banner } from "@/components/common/Banner";
 
 const getNavigationLinks = (pathname = "") => {
   let links = [
@@ -78,6 +79,7 @@ export const Header = () => {
 
   return (
     <header className="bg-black text-EEEEEE">
+      <Banner />
       <nav className="max-w-full mx-auto px-4 sm:px-6 lg:px-8" aria-label="Top">
         <div className="w-full flex items-center justify-between border-b border-B0C4DB lg:border-none">
           <div className="flex items-center">

@@ -1,8 +1,8 @@
 import Head from "next/head";
 
-import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase/details";
+import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase";
 
-export default function Cover() {
+export default function CoverPurchaseDetails() {
   return (
     <>
       <Head>
