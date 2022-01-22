@@ -10,7 +10,7 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/pools/staking/modal-title";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
@@ -24,8 +24,9 @@ export const MyLiquidityDetailsPage = () => {
 
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
-  const { info } = useMyLiquidityInfo({ coverKey: cover_id });
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -86,7 +87,7 @@ export const MyLiquidityDetailsPage = () => {
               <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
               <div className="mt-12">
-                <MyLiquidityForm coverKey={cover_id} info={info} />
+                <MyLiquidityForm coverKey={coverKey} info={info} />
               </div>
             </div>
 

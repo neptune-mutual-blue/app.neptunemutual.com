@@ -1,7 +1,7 @@
 import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, getParsedKey } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { unixToDate } from "@/utils/date";
@@ -70,7 +70,7 @@ export const ActivePolicyCard = ({ details }) => {
       </div>
 
       {isClaimable && (
-        <Link href={`/my-policies/${key}/claim`}>
+        <Link href={`/my-policies/${getParsedKey(key)}/claim`}>
           <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold rounded-lg mt-2 mb-4">
             CLAIM
           </a>

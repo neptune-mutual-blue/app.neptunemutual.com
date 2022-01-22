@@ -6,12 +6,13 @@ import { CoverProfileInfoShort } from "@/components/common/CoverProfileInfo/Cove
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
 import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
 
   if (!coverInfo) {
     return <>loading...</>;

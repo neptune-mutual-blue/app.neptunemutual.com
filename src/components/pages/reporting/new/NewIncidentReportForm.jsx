@@ -7,6 +7,7 @@ import { ReportingHero } from "@/components/UI/organisms/reporting/new/Reporting
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { toBytes32 } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
@@ -14,8 +15,9 @@ import { Fragment, useState } from "react";
 export const NewIncidentReportForm = () => {
   const router = useRouter();
   const { cover_id } = router.query;
+  const coverKey = toBytes32(cover_id);
 
-  const { coverInfo } = useCoverInfo(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
   const { NPMTokenAddress } = useAppConstants();
 
   const [incidentTitle, setIncidentTitle] = useState();

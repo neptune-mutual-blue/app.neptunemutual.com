@@ -12,7 +12,7 @@ import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import BigNumber from "bignumber.js";
 import { sumOf, weiAsAmount } from "@/utils/bn";
@@ -23,8 +23,9 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
-  const { info } = useMyLiquidityInfo({ coverKey: cover_id });
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
@@ -73,7 +74,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
             {acceptedRules ? (
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={cover_id} />
+                <ProvideLiquidityForm coverKey={coverKey} />
               </div>
             ) : (
               <>

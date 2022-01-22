@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
@@ -22,7 +22,8 @@ import { formatAmount } from "@/utils/formatter";
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
-  const { cover_id: coverKey } = router.query;
+  const { cover_id } = router.query;
+  const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });

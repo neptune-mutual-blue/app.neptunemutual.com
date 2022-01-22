@@ -5,6 +5,7 @@ import { Grid } from "@/components/UI/atoms/grid";
 
 import { CoverCard } from "@/components/UI/organisms/cover/my-liquidity/card";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
+import { getParsedKey } from "@/src/helpers/cover";
 
 export const MyLiquidityPage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -25,7 +26,7 @@ export const MyLiquidityPage = () => {
       <Grid className="mt-14 mb-24">
         {availableCovers.map((c) => {
           return (
-            <Link href={`/my-liquidity/${c.key}`} key={c.key}>
+            <Link href={`/my-liquidity/${getParsedKey(c.key)}`} key={c.key}>
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                 <CoverCard details={c}></CoverCard>
               </a>

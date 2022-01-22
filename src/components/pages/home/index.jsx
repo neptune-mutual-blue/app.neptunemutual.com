@@ -14,6 +14,7 @@ import IncreaseIcon from "@/icons/increase";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
+import { getParsedKey } from "@/src/helpers/cover";
 
 export const HomePage = () => {
   const { availableCovers } = useAvailableCovers();
@@ -82,7 +83,7 @@ export const HomePage = () => {
         <Grid className="mt-14 mb-24">
           {availableCovers.map((c) => {
             return (
-              <Link href={`/cover/${c.key}/options`} key={c.key}>
+              <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <CoverCard details={c}></CoverCard>
                 </a>

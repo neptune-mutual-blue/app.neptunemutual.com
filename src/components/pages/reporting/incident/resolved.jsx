@@ -3,11 +3,13 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { useRouter } from "next/router";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
+import { toBytes32 } from "@/src/helpers/cover";
 
 export const IncidentResolved = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
 
   if (!coverInfo) {
     return <>loading...</>;

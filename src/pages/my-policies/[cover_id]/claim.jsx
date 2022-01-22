@@ -10,11 +10,13 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
+import { toBytes32 } from "@/src/helpers/cover";
 
 export default function ClaimPolicy() {
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
   const { data } = useActivePolicies();
 
   const title = coverInfo?.projectName;

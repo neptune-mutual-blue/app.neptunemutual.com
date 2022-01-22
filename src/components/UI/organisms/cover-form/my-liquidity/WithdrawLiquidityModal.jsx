@@ -17,6 +17,7 @@ import {
   convertToUnits,
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { toBytes32 } from "@/src/helpers/cover";
 
 export const WithdrawLiquidityModal = ({
   id,
@@ -26,6 +27,8 @@ export const WithdrawLiquidityModal = ({
   unitName,
 }) => {
   const router = useRouter();
+  const { cover_id } = router.query;
+  const coverKey = toBytes32(cover_id);
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
   const [vaultTokenAddress, setVaultTokenAddress] = useState();
@@ -33,7 +36,6 @@ export const WithdrawLiquidityModal = ({
   const { library, account, chainId } = useWeb3React();
   const [balance, setBalance] = useState();
   const txToast = useTxToast();
-  const coverKey = router.query.cover_id;
 
   useEffect(() => {
     if (!chainId || !account) return;

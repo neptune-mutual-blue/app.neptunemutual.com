@@ -4,13 +4,15 @@ import { Container } from "@/components/UI/atoms/container";
 import { AcceptReportRulesForm } from "@/components/UI/organisms/accept-cover-rules-form";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
+import { toBytes32 } from "@/src/helpers/cover";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 export const CoverReportingDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const { coverInfo } = useCoverInfo(cover_id);
+  const coverKey = toBytes32(cover_id);
+  const { coverInfo } = useCoverInfo(coverKey);
 
   if (!coverInfo) {
     return <>loading...</>;
