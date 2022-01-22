@@ -17,7 +17,7 @@ export const Banner = () => {
           You are using {NetworkNames[networkId]}. Please{" "}
           <a
             className="underline"
-            href="http://faucet.hicif.com"
+            href="https://faucet.hicif.com"
             target="_blank"
             rel="noopener noreferrer"
           >

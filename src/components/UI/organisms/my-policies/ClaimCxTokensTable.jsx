@@ -1,3 +1,5 @@
+import { useState, Fragment } from "react";
+
 import {
   Table,
   TBody,
@@ -5,9 +7,10 @@ import {
   THead,
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
-import { getAvailableClaim } from "@/src/_mocks/policy/claim";
 import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
-import { useState, Fragment } from "react";
+import { cxTokenSymbol } from "@/src/config/constants";
+import { weiAsAmount } from "@/utils/bn";
+import { unixToDate } from "@/utils/date";
 
 const renderHeader = (col) => (
   <th
@@ -22,21 +25,21 @@ const renderHeader = (col) => (
 );
 
 const renderAddress = (row) => (
-  <td className="px-6 py-6 text-404040">{row.address}</td>
+  <td className="px-6 py-6 text-404040">{row.cxToken}</td>
 );
 
 const renderClaimBefore = (row) => (
   <td className="px-6 py-6">
-    <span className="text-left whitespace-nowrap text-black">
-      {row.claimBefore}
+    <span className="text-left whitespace-nowrap ">
+      {`${unixToDate(row.expiresOn, "MM/DD/YYYY HH:mm:ss")} UTC`}
     </span>
   </td>
 );
 
 const renderAmount = (row) => (
   <td className="px-6 py-6 text-right">
-    <span className="text-black">
-      {row.amount} {row.unit}
+    <span className="">
+      {weiAsAmount(row.totalAmountToCover)} {cxTokenSymbol}
     </span>
   </td>
 );
@@ -72,22 +75,20 @@ const columns = [
   },
 ];
 
-export const MyPoliciesClaimTable = () => {
-  const claimData = getAvailableClaim();
-
+export const ClaimCxTokensTable = ({ activePolicies }) => {
   return (
     <>
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          <TBody columns={columns} data={claimData}></TBody>
+          <TBody columns={columns} data={activePolicies}></TBody>
         </Table>
       </TableWrapper>
     </>
   );
 };
 
-const ClaimActionsColumnRenderer = () => {
+const ClaimActionsColumnRenderer = ({ row }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
@@ -108,6 +109,9 @@ const ClaimActionsColumnRenderer = () => {
       </button>
 
       <ClaimCoverModal
+        data={row}
+        coverKey={row.cover.id}
+        cxTokenAddress={row.cxToken}
         isOpen={isOpen}
         onClose={onClose}
         modalTitle="Claim Cover"

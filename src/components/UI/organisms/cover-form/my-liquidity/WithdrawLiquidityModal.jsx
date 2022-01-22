@@ -1,15 +1,16 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
+import { useWeb3React } from "@web3-react/core";
+import { registry, liquidity } from "@neptunemutual/sdk";
+
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { useEffect, useState } from "react";
 import { useConstants } from "@/components/pages/cover/useConstants";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, liquidity } from "@neptunemutual/sdk";
-import { useRouter } from "next/router";
 import {
   calculateGasMargin,
   convertFromUnits,
@@ -81,9 +82,9 @@ export const WithdrawLiquidityModal = ({
 
   const handleChange = (val) => {
     if (typeof val === "string") {
-      const willRecieve = parseFloat(0.99 * val).toFixed(2);
+      const willReceive = parseFloat(0.99 * val).toFixed(2);
       setValue(val);
-      setReceiveAmount(willRecieve);
+      setReceiveAmount(willReceive);
     }
   };
 

@@ -1,4 +1,5 @@
 import { getGraphURL } from "@/src/config/environment";
+import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
@@ -38,6 +39,7 @@ export const useActivePolicies = () => {
             }
           ) {
             id
+            cxToken
             totalAmountToCover
             expiresOn
             cover {
@@ -59,9 +61,16 @@ export const useActivePolicies = () => {
       });
   }, [account, chainId]);
 
+  const activePolicies = data?.userPolicies || [];
+  const totalActiveProtection = sumOf(
+    "0",
+    ...activePolicies.map((x) => x.totalAmountToCover || "0")
+  );
+
   return {
     data: {
-      activePolicies: data?.userPolicies || [],
+      activePolicies,
+      totalActiveProtection,
     },
     loading,
   };

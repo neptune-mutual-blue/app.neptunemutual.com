@@ -24,11 +24,6 @@ module.exports = {
         permanent: false,
       },
       {
-        source: "/cover/:path/claim",
-        destination: "/cover/:path/claim/details",
-        permanent: false,
-      },
-      {
         source: "/my-policies",
         destination: "/my-policies/active",
         permanent: false,
