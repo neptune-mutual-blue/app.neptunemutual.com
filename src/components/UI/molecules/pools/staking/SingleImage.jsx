@@ -1,15 +1,8 @@
 export const SingleImage = ({ src, alt }) => {
   return (
     <>
-      <div className="border border-black rounded-full w-10 h-10 flex justify-center items-center">
-        <img
-          src="/pools/staking/npm.png"
-          alt="npm logo"
-          className="inline-block "
-        />
-      </div>
-      <div className="absolute -top-1 -right-4 border border-white rounded-full w-10 h-10 flex justify-center items-center">
-        <img className="" src={src} alt={alt} />
+      <div className="border bg-DEEAF6 border-B0C4DB rounded-full w-18 h-18 flex justify-center items-center">
+        <img src={src} alt={alt} className="inline-block" />
       </div>
     </>
   );

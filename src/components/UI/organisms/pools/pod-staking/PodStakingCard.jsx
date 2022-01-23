@@ -47,16 +47,19 @@ export const PodStakingCard = (props) => {
 
   console.log("info", info);
 
-  const leftHalf = [
-    {
-      title: "Locking Period",
-      value: `${lockupPeriod} hours`,
-    },
-    {
+  const leftHalf = [];
+
+  if (hasStaked) {
+    leftHalf.push({
       title: "Your Stake",
       value: `25 ${tokenSymbol}-POD`,
-    },
-  ];
+    });
+  } else {
+    leftHalf.push({
+      title: "Locking Period",
+      value: `${lockupPeriod} hours`,
+    });
+  }
 
   const rightHalf = [
     {
@@ -100,7 +103,10 @@ export const PodStakingCard = (props) => {
         {hasStaked ? (
           <>
             <div className="flex-1 text-sm">
-              <PoolCardStat title={x.title} value={x.value} />
+              <PoolCardStat
+                title="You Earned"
+                value={`163.00 ${tokenSymbol}`}
+              />
             </div>
             <div className="flex items-center">
               <StakingCardCTA

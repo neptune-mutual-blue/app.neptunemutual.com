@@ -45,16 +45,19 @@ export const StakingCard = (props) => {
   const imgSrc = getTokenImgSrc("test");
   const npmImgSrc = "/pools/staking/npm.png";
 
-  const leftHalf = [
-    {
+  const leftHalf = [];
+
+  if (hasStaked) {
+    leftHalf.push({
+      title: "Your Stake",
+      value: `25 NPM`,
+    });
+  } else {
+    leftHalf.push({
       title: "Locking Period",
       value: `${lockupPeriod} hours`,
-    },
-    {
-      title: "Your Stake",
-      value: `25 ${tokenSymbol}-POD`,
-    },
-  ];
+    });
+  }
 
   const rightHalf = [
     {
@@ -103,7 +106,10 @@ export const StakingCard = (props) => {
         {hasStaked ? (
           <>
             <div className="flex-1 text-sm">
-              <PoolCardStat title={x.title} value={x.value} />
+              <PoolCardStat
+                title="You Earned"
+                value={`163.00 ${tokenSymbol}`}
+              />
             </div>
             <div className="flex items-center">
               <StakingCardCTA

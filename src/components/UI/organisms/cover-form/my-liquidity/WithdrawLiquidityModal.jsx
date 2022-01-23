@@ -17,9 +17,10 @@ import {
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { toBytes32 } from "@/src/helpers/cover";
+import { useCalculateLiquidity } from "@/src/hooks/provide-liquidity/useCalculateLiquidity";
+import { formatAmount } from "@/utils/formatter";
 
 export const WithdrawLiquidityModal = ({
-  id,
   modalTitle,
   isOpen,
   onClose,
@@ -29,7 +30,10 @@ export const WithdrawLiquidityModal = ({
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const [value, setValue] = useState();
-  const [receiveAmount, setReceiveAmount] = useState();
+  const { receiveAmount } = useCalculateLiquidity({
+    coverKey,
+    podAmount: value,
+  });
   const [vaultTokenAddress, setVaultTokenAddress] = useState();
   const { library, account, chainId } = useWeb3React();
   const [balance, setBalance] = useState();
@@ -63,9 +67,9 @@ export const WithdrawLiquidityModal = ({
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
     registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
-      .then((_vaultTokenAddress) => {
+      .then((addr) => {
         if (ignore) return;
-        setVaultTokenAddress(_vaultTokenAddress);
+        setVaultTokenAddress(addr);
       })
       .catch((e) => {
         console.error(e);
@@ -85,7 +89,7 @@ export const WithdrawLiquidityModal = ({
     }
   };
 
-  const handleWithdraw = async (_id) => {
+  const handleWithdraw = async () => {
     if (!chainId || !account) return;
 
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
@@ -148,12 +152,14 @@ export const WithdrawLiquidityModal = ({
           <ReceiveAmountInput
             labelText="You Will Receive"
             tokenSymbol="DAI"
-            inputValue={receiveAmount}
+            inputValue={formatAmount(
+              convertFromUnits(receiveAmount).toString()
+            )}
             inputId="my-liquidity-receive"
           />
         </div>
         <RegularButton
-          onClick={() => handleWithdraw(id)}
+          onClick={handleWithdraw}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           disabled={!value}
         >
