@@ -63,7 +63,7 @@ const BondPage = () => {
     },
     {
       title: "Maximum Bond",
-      value: `${weiAsAmount(info.maxBond)} NPM-USDC LP`,
+      value: `${weiAsAmount(info.maxBond)} NPM`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -77,7 +77,7 @@ const BondPage = () => {
     },
     {
       title: "Your Bond",
-      value: `${weiAsAmount(info.bondContribution)} NPM`,
+      value: `${weiAsAmount(info.bondContribution)} NPM-USDC LP`,
       titleClasses: `mt-7 ${!account && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!account && "hidden"}`,
     },
@@ -113,7 +113,7 @@ const BondPage = () => {
       <div className="max-w-lg col-span-2">
         <TokenAmountInput
           tokenAddress={info.lpTokenAddress}
-          tokenSymbol={"NPM-USDC-LP"}
+          tokenSymbol={"NPM-USDC LP"}
           labelText={"Enter your amount"}
           handleChooseMax={handleChooseMax}
           inputValue={value}
@@ -170,7 +170,7 @@ const BondPage = () => {
           onClose={onClose}
           modalTitle={"Claim Bond"}
           unlockDate={info.unlockDate}
-          claimableBond={info.claimable}
+          claimable={info.claimable}
         />
       )}
     </Container>

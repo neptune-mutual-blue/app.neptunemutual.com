@@ -4,32 +4,19 @@ import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { useToast } from "@/lib/toast/context";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import { unixToDate } from "@/utils/date";
+import { formatAmount } from "@/utils/formatter";
+import { convertFromUnits } from "@/utils/bn";
+import { useClaimBond } from "@/src/hooks/useClaimBond";
 
 export const ClaimBondModal = ({
   modalTitle,
   unlockDate,
-  claimableBond,
+  claimable,
   isOpen,
   onClose,
 }) => {
-  const toast = useToast();
-
-  const handleClaimNowClicked = () => {
-    toast?.pushSuccess({
-      title: "Bond Claimed Successfully",
-      message: (
-        <p className="flex">
-          View transaction{" "}
-          <OpenInNewIcon className="h-4 w-4 ml-2" fill="currentColor" />
-        </p>
-      ),
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
-  };
+  const { handleClaim } = useClaimBond(unlockDate);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -43,8 +30,7 @@ export const ClaimBondModal = ({
             Amount Available To Claim
           </Label>
           <DisabledInput
-            id={"claimable-bond"}
-            value={claimableBond}
+            value={formatAmount(convertFromUnits(claimable).toString())}
             unit="NPM"
           />
         </div>
@@ -58,7 +44,7 @@ export const ClaimBondModal = ({
         </div>
         {/* left to add click handler */}
         <RegularButton
-          onClick={handleClaimNowClicked}
+          onClick={handleClaim}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         >
           Claim Now

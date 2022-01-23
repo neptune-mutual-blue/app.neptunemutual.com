@@ -26,6 +26,32 @@ export const useCreateBond = ({ info, value }) => {
 
   const txToast = useTxToast();
 
+  const checkAllowance = async () => {
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const instance = registry.IERC20.getInstance(
+        chainId,
+        info.lpTokenAddress,
+        signerOrProvider
+      );
+
+      const bondContractAddress = await registry.BondPool.getAddress(
+        chainId,
+        signerOrProvider
+      );
+
+      if (!instance) {
+        console.log("No instance found");
+      }
+
+      let result = await instance.allowance(account, bondContractAddress);
+
+      setAllowance(result.toString());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (!chainId || !account || !info.lpTokenAddress) return;
 
@@ -76,32 +102,6 @@ export const useCreateBond = ({ info, value }) => {
     [networkId, value],
     100
   );
-
-  const checkAllowance = async () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      const instance = registry.IERC20.getInstance(
-        chainId,
-        info.lpTokenAddress,
-        signerOrProvider
-      );
-
-      const bondContractAddress = await registry.BondPool.getAddress(
-        chainId,
-        signerOrProvider
-      );
-
-      if (!instance) {
-        console.log("No instance found");
-      }
-
-      let result = await instance.allowance(account, bondContractAddress);
-
-      setAllowance(result.toString());
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleApprove = async () => {
     try {

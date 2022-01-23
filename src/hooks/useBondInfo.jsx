@@ -28,6 +28,7 @@ export const useBondInfo = () => {
   const { networkId } = useAppContext();
 
   useEffect(() => {
+    let ignore = false;
     if (!networkId) {
       return;
     }
@@ -47,6 +48,8 @@ export const useBondInfo = () => {
       const [addresses, values] = await instance.getInfo(
         account || AddressZero
       );
+
+      if (ignore) return;
 
       const [lpToken] = addresses;
       const [
@@ -78,6 +81,8 @@ export const useBondInfo = () => {
     }
 
     fetchBondInfo();
+
+    return () => (ignore = true);
   }, [account, library, networkId]);
 
   return { info };
