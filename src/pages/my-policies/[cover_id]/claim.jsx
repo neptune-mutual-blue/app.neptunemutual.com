@@ -10,18 +10,14 @@ import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";
-import { useActiveCoverPolicies } from "@/components/pages/my-policies/useActiveCoverPolicies";
-import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
+import { useActivePoliciesByCover } from "@/components/pages/my-policies/useActiveCoverPolicies";
 
 export default function ClaimPolicy() {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { data } = useActiveCoverPolicies({ coverKey });
-  const {
-    data: { totalActiveProtection },
-  } = useActivePolicies();
+  const { data } = useActivePoliciesByCover({ coverKey });
 
   const title = coverInfo?.projectName;
 
@@ -54,7 +50,7 @@ export default function ClaimPolicy() {
               <>
                 ${" "}
                 {formatAmount(
-                  convertFromUnits(totalActiveProtection).toString()
+                  convertFromUnits(data.totalActiveProtection).toString()
                 )}
               </>
             </HeroStat>

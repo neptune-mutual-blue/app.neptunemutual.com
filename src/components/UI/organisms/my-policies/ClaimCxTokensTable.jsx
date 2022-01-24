@@ -8,9 +8,9 @@ import {
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
-import { cxTokenSymbol } from "@/src/config/constants";
 import { weiAsAmount } from "@/utils/bn";
 import { unixToDate } from "@/utils/date";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 const renderHeader = (col) => (
   <th
@@ -36,13 +36,7 @@ const renderClaimBefore = (row) => (
   </td>
 );
 
-const renderAmount = (row) => (
-  <td className="px-6 py-6 text-right">
-    <span className="">
-      {weiAsAmount(row.totalAmountToCover)} {cxTokenSymbol}
-    </span>
-  </td>
-);
+const renderAmount = (row) => <CxTokenAmountRenderer row={row} />;
 
 const renderActions = (row) => {
   return <ClaimActionsColumnRenderer row={row} />;
@@ -84,6 +78,20 @@ export const ClaimCxTokensTable = ({ activePolicies }) => {
           <TBody columns={columns} data={activePolicies}></TBody>
         </Table>
       </TableWrapper>
+    </>
+  );
+};
+
+const CxTokenAmountRenderer = ({ row }) => {
+  const tokenSymbol = useTokenSymbol(row.cxToken);
+
+  return (
+    <>
+      <td className="px-6 py-6 text-right">
+        <span className="">
+          {weiAsAmount(row.totalAmountToCover)} {tokenSymbol}
+        </span>
+      </td>
     </>
   );
 };

@@ -16,13 +16,17 @@ import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardSt
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
+import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data }) => {
   const { info } = usePoolInfo({ key: data.key });
+
+  const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
+  const rewardTokenSymbol = useTokenSymbol(info.rewardToken);
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
@@ -43,13 +47,15 @@ export const PodStakingCard = ({ data }) => {
 
   const poolKey = data.key;
   const stakedAmount = info.accountStakeBalance;
+  const rewardAmount = info.rewards;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
-  const earnedTokenSymbol = data.name.replace(" Staking", "").toUpperCase();
-  const stakingTokenSymbol = `${earnedTokenSymbol}-POD`;
   const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
     .toString(); // hours
   const imgSrc = getTokenImgSrc(data.key);
+  const totalValueLocked = formatWithAabbreviation(
+    convertFromUnits(info.totalStaked).toString()
+  );
 
   const leftHalf = [];
 
@@ -70,7 +76,7 @@ export const PodStakingCard = ({ data }) => {
   const rightHalf = [
     {
       title: "TVL",
-      value: `$ 25.0M`,
+      value: `$ ${totalValueLocked}`,
     },
   ];
 
@@ -87,8 +93,8 @@ export const PodStakingCard = ({ data }) => {
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
-          <SingleImage src={imgSrc} alt={earnedTokenSymbol}></SingleImage>
-          <StakingCardTitle name={earnedTokenSymbol} />
+          <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
+          <StakingCardTitle name={rewardTokenSymbol} />
           <StakingCardSubTitle unitName={stakingTokenSymbol} />
         </div>
         <div>
@@ -115,7 +121,9 @@ export const PodStakingCard = ({ data }) => {
             <div className="flex-1 text-sm">
               <PoolCardStat
                 title="You Earned"
-                value={`25 ${earnedTokenSymbol}`}
+                value={`${formatAmount(
+                  convertFromUnits(rewardAmount).toString()
+                )} ${rewardTokenSymbol}`}
               />
             </div>
             <div className="flex items-center">
@@ -151,8 +159,8 @@ export const PodStakingCard = ({ data }) => {
         poolKey={poolKey}
         info={info}
         stakedAmount={stakedAmount}
-        earnedAmount={`25000000000000000000`}
-        earnedTokenSymbol={earnedTokenSymbol}
+        rewardAmount={rewardAmount}
+        rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}

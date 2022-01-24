@@ -32,7 +32,7 @@ export const useMyLiquidities = () => {
           coverUsers(
             where: {
               user: "${account}"
-              totalLiquity_gt: "0"
+              totalPODs_gt: "0"
             }
           ) {
             id

@@ -1,5 +1,6 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { useBlockHeight } from "@/src/hooks/useBlockHeight";
 import { useStakingPoolWithdraw } from "@/src/hooks/useStakingPoolWithdraw";
 import {
   convertFromUnits,
@@ -7,9 +8,7 @@ import {
   isGreater,
   isValidNumber,
 } from "@/utils/bn";
-import { unixToDate } from "@/utils/date";
 import { formatAmount } from "@/utils/formatter";
-import dayjs from "dayjs";
 import { useState } from "react";
 
 export const WithdrawForm = ({
@@ -19,6 +18,7 @@ export const WithdrawForm = ({
   stakedAmount,
 }) => {
   const [inputValue, setInputValue] = useState();
+  const blockHeight = useBlockHeight();
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
@@ -27,11 +27,7 @@ export const WithdrawForm = ({
     poolKey,
   });
 
-  console.log(
-    unixToDate(info.canWithdrawFrom, "MMMM DD, YYYY hh:mm:ss A") + " UTC"
-  );
-  const now = dayjs().unix();
-  const canWithdraw = isGreater(now, info.canWithdrawFrom);
+  const canWithdraw = isGreater(blockHeight, info.canWithdrawFrom);
   const stakingTokenAddress = info.stakingToken;
   const isError =
     inputValue &&
@@ -59,8 +55,15 @@ export const WithdrawForm = ({
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
       >
-        Staked: {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
-        {stakingTokenSymbol}
+        <p>
+          Staked: {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
+          {stakingTokenSymbol}
+        </p>
+        {!canWithdraw && (
+          <p className="flex items-center text-FA5C2F">
+            Could not withdraw during lockup period
+          </p>
+        )}
       </TokenAmountInput>
 
       <RegularButton

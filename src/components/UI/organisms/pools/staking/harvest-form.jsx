@@ -7,8 +7,8 @@ export const HarvestForm = ({
   poolKey,
   stakingTokenSymbol,
   stakedAmount,
-  earnedAmount,
-  earnedTokenSymbol,
+  rewardAmount,
+  rewardTokenSymbol,
 }) => {
   const { handleWithdraw, withdrawing } = useStakingPoolWithdrawRewards({
     poolKey,
@@ -26,8 +26,8 @@ export const HarvestForm = ({
           {stakingTokenSymbol}
         </span>
         <span className="text-right text-7398C0 uppercase">
-          {formatAmount(convertFromUnits(earnedAmount).toString())}{" "}
-          {earnedTokenSymbol}
+          {formatAmount(convertFromUnits(rewardAmount).toString())}{" "}
+          {rewardTokenSymbol}
         </span>
       </div>
 

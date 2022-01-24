@@ -1,9 +1,10 @@
 import { getGraphURL } from "@/src/config/environment";
+import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 
-export const useActiveCoverPolicies = ({ coverKey }) => {
+export const useActivePoliciesByCover = ({ coverKey }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useWeb3React();
@@ -62,15 +63,15 @@ export const useActiveCoverPolicies = ({ coverKey }) => {
   }, [account, chainId, coverKey]);
 
   const activePolicies = data?.userPolicies || [];
-  // const totalActiveProtection = sumOf(
-  //   "0",
-  //   ...activePolicies.map((x) => x.totalAmountToCover || "0")
-  // );
+  const totalActiveProtection = sumOf(
+    "0",
+    ...activePolicies.map((x) => x.totalAmountToCover || "0")
+  );
 
   return {
     data: {
       activePolicies,
-      // totalActiveProtection,
+      totalActiveProtection,
     },
     loading,
   };

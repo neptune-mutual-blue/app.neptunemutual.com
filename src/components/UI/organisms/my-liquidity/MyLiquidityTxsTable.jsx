@@ -18,6 +18,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useEffect, useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 const renderHeader = (col) => (
   <th
@@ -155,6 +156,7 @@ export const MyLiquidityTxsTable = () => {
 
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
+  const tokenSymbol = useTokenSymbol(row.vault.id);
 
   return (
     <td className="px-6 py-6 text-right">
@@ -162,11 +164,12 @@ const PodAmountRenderer = ({ row }) => {
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
         >
-          {convertFromUnits(row.podAmount).decimalPlaces(2).toString()} POD
+          {convertFromUnits(row.podAmount).decimalPlaces(2).toString()}{" "}
+          {tokenSymbol}
         </span>
         <button
           className="ml-3 p-1"
-          onClick={() => register(row.vault.id, "POD")}
+          onClick={() => register(row.vault.id, tokenSymbol)}
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="h-4 w-4" />

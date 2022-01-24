@@ -44,7 +44,7 @@ export const StakingCard = ({ data }) => {
   const poolKey = data.key;
   const stakedAmount = info.accountStakeBalance;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
-  const earnedTokenSymbol = data.name.replace(" Staking", "").toUpperCase();
+  const rewardTokenSymbol = data.name.replace(" Staking", "").toUpperCase();
   const stakingTokenSymbol = `NPM`;
   const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
@@ -94,7 +94,7 @@ export const StakingCard = ({ data }) => {
               { src: imgSrc, alt: name },
             ]}
           />
-          <StakingCardTitle name={earnedTokenSymbol} />
+          <StakingCardTitle name={rewardTokenSymbol} />
           <StakingCardSubTitle unitName={stakingTokenSymbol} />
         </div>
         <div>
@@ -121,7 +121,7 @@ export const StakingCard = ({ data }) => {
             <div className="flex-1 text-sm">
               <PoolCardStat
                 title="You Earned"
-                value={`25 ${earnedTokenSymbol}`}
+                value={`25 ${rewardTokenSymbol}`}
               />
             </div>
             <div className="flex items-center">
@@ -157,8 +157,8 @@ export const StakingCard = ({ data }) => {
         poolKey={poolKey}
         info={info}
         stakedAmount={stakedAmount}
-        earnedAmount={`25000000000000000000`}
-        earnedTokenSymbol={earnedTokenSymbol}
+        rewardAmount={`25000000000000000000`}
+        rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}

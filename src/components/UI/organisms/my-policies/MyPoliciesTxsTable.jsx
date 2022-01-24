@@ -16,6 +16,7 @@ import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
 import { formatTime, unixToDate } from "@/utils/date";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 const renderHeader = (col) => (
   <th
@@ -130,6 +131,7 @@ export const MyPoliciesTxsTable = () => {
 
 const CxDaiAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
+  const tokenSymbol = useTokenSymbol(row.cxToken);
 
   return (
     <td className="px-6 py-6 text-right">
@@ -139,11 +141,12 @@ const CxDaiAmountRenderer = ({ row }) => {
             row.type == "CoverPurchase" ? "text-404040" : "text-FA5C2F"
           }
         >
-          {convertFromUnits(row.daiAmount).decimalPlaces(2).toString()} cxDAI
+          {convertFromUnits(row.daiAmount).decimalPlaces(2).toString()}{" "}
+          {tokenSymbol}
         </span>
         <button
           className="ml-3 p-1"
-          onClick={() => register(row.cxToken, "cxDAI")}
+          onClick={() => register(row.cxToken, tokenSymbol)}
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="h-4 w-4" />

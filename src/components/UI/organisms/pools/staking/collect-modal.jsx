@@ -22,8 +22,8 @@ export const CollectModal = ({
   poolKey,
   stakedAmount,
   stakingTokenSymbol,
-  earnedAmount,
-  earnedTokenSymbol,
+  rewardAmount,
+  rewardTokenSymbol,
   isCollectModalOpen,
   onCollectModalClose,
   modalTitle,
@@ -52,9 +52,9 @@ export const CollectModal = ({
             <HarvestForm
               poolKey={poolKey}
               stakedAmount={stakedAmount}
-              earnedAmount={earnedAmount}
+              rewardAmount={rewardAmount}
               stakingTokenSymbol={stakingTokenSymbol}
-              earnedTokenSymbol={earnedTokenSymbol}
+              rewardTokenSymbol={rewardTokenSymbol}
             />
           ) : (
             <WithdrawForm

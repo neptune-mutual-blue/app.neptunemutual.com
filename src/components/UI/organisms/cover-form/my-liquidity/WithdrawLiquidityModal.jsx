@@ -12,13 +12,9 @@ import { toBytes32 } from "@/src/helpers/cover";
 import { useCalculateLiquidity } from "@/src/hooks/provide-liquidity/useCalculateLiquidity";
 import { formatAmount } from "@/utils/formatter";
 import { useRemoveLiquidity } from "@/src/hooks/provide-liquidity/useRemoveLiquidity";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
-export const WithdrawLiquidityModal = ({
-  modalTitle,
-  isOpen,
-  onClose,
-  unitName,
-}) => {
+export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
@@ -32,6 +28,7 @@ export const WithdrawLiquidityModal = ({
     coverKey,
     value,
   });
+  const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
@@ -55,7 +52,7 @@ export const WithdrawLiquidityModal = ({
         <div className="mt-6">
           <TokenAmountInput
             labelText={"Enter your POD"}
-            tokenSymbol={unitName}
+            tokenSymbol={vaultTokenSymbol}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"my-liquidity-amount"}

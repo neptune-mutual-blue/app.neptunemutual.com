@@ -30,8 +30,8 @@ export const PoliciesTabs = ({ active, children }) => {
         <Container className="px-2 flex py-20">
           <HeroTitle>My Policies</HeroTitle>
 
-          {/* My Active Protection */}
-          <HeroStat title="My Active Protection">
+          {/* Total Active Protection */}
+          <HeroStat title="Total Active Protection">
             {formatAmount(convertFromUnits(totalActiveProtection).toString())}
           </HeroStat>
         </Container>
