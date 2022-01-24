@@ -8,12 +8,8 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 
 export const MyLiquidityPage = () => {
-  const { data } = useMyLiquidities();
+  const { data, loading } = useMyLiquidities();
   const { myLiquidities } = data;
-
-  if (!myLiquidities) {
-    return <>loading...</>;
-  }
 
   return (
     <Container className="py-16">
@@ -24,6 +20,23 @@ export const MyLiquidityPage = () => {
           </a>
         </Link>
       </div>
+      {loading && myLiquidities.length === 0 && (
+        <div className="text-center py-10">Loading...</div>
+      )}
+      {!loading && myLiquidities.length === 0 && (
+        <div className="w-full flex flex-col items-center pt-20">
+          <img
+            src="/images/covers/empty-list-illustration.png"
+            alt="no data found"
+            className="w-48 h-48"
+          />
+          <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
+            You haven&#x2019;t provided liquidity for any policy(cover) yet. All
+            policies to which you have provided liquidity will be{" "}
+            <span className="whitespace-nowrap">displayed here.</span>
+          </p>
+        </div>
+      )}
       <Grid className="mt-14 mb-24">
         {myLiquidities.map((x) => {
           return (

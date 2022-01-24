@@ -14,6 +14,7 @@ import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-inp
 import {
   convertFromUnits,
   convertToUnits,
+  isGreater,
   sumOf,
   weiAsAmount,
 } from "@/utils/bn";
@@ -161,10 +162,12 @@ const BondPage = () => {
           handleClaimModal={onOpen}
           details={details}
           ROI={roi}
+          claimable={info.claimable}
           vestingPeriod={vestingTermDays}
         />
       </div>
-      {info.unlockDate && (
+
+      {isGreater(info.claimable, "0") && (
         <ClaimBondModal
           isOpen={isOpen}
           onClose={onClose}

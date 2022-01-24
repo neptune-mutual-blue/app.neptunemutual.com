@@ -7,10 +7,12 @@ import { BondStatsContainer } from "@/components/UI/molecules/pools/bond/BondSta
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
+import { isGreater } from "@/utils/bn";
 
 export const BondInfoCard = ({
   ROI,
   vestingPeriod,
+  claimable,
   details,
   handleClaimModal,
 }) => {
@@ -41,13 +43,15 @@ export const BondInfoCard = ({
 
       <BondStatsContainer details={details} />
 
-      <OutlinedButton
-        type="button"
-        onClick={handleClaimModal}
-        className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
-      >
-        Claim My Bond
-      </OutlinedButton>
+      {isGreater(claimable, "0") && (
+        <OutlinedButton
+          type="button"
+          onClick={handleClaimModal}
+          className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
+        >
+          Claim My Bond
+        </OutlinedButton>
+      )}
     </OutlinedCard>
   );
 };

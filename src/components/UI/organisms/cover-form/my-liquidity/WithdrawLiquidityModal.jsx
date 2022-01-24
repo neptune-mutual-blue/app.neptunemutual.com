@@ -1,24 +1,17 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { useWeb3React } from "@web3-react/core";
-import { registry, liquidity } from "@neptunemutual/sdk";
 
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import {
-  calculateGasMargin,
-  convertFromUnits,
-  convertToUnits,
-} from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useCalculateLiquidity } from "@/src/hooks/provide-liquidity/useCalculateLiquidity";
 import { formatAmount } from "@/utils/formatter";
+import { useRemoveLiquidity } from "@/src/hooks/provide-liquidity/useRemoveLiquidity";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
@@ -29,55 +22,16 @@ export const WithdrawLiquidityModal = ({
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
+
   const [value, setValue] = useState();
   const { receiveAmount } = useCalculateLiquidity({
     coverKey,
     podAmount: value,
   });
-  const [vaultTokenAddress, setVaultTokenAddress] = useState();
-  const { library, account, chainId } = useWeb3React();
-  const [balance, setBalance] = useState();
-  const txToast = useTxToast();
-
-  useEffect(() => {
-    if (!chainId || !account) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    // POD Balance
-    liquidity
-      .getBalance(chainId, coverKey, signerOrProvider)
-      .then(({ result }) => {
-        if (ignore) return;
-        setBalance(result);
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, coverKey, library]);
-
-  useEffect(() => {
-    if (!chainId || !account) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
-      .then((addr) => {
-        if (ignore) return;
-        setVaultTokenAddress(addr);
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, coverKey, library]);
+  const { balance, vaultTokenAddress, handleWithdraw } = useRemoveLiquidity({
+    coverKey,
+    value,
+  });
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
@@ -86,44 +40,6 @@ export const WithdrawLiquidityModal = ({
   const handleChange = (val) => {
     if (typeof val === "string") {
       setValue(val);
-    }
-  };
-
-  const handleWithdraw = async () => {
-    if (!chainId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    try {
-      const instance = await registry.Vault.getInstance(
-        chainId,
-        coverKey,
-        signerOrProvider
-      );
-      const estimatedGas = await instance.estimateGas
-        .removeLiquidity(coverKey, convertToUnits(value).toString())
-        .catch(() =>
-          instance.estimateGas.removeLiquidity(
-            coverKey,
-            convertToUnits(value).toString()
-          )
-        );
-
-      const tx = await instance.removeLiquidity(
-        coverKey,
-        convertToUnits(value).toString(),
-        {
-          gasLimit: calculateGasMargin(estimatedGas),
-        }
-      );
-
-      await txToast.push(tx, {
-        pending: "Removing Liquidity",
-        success: "Removed Liquidity Successfully",
-        failure: "Could not remove liquidity",
-      });
-    } catch (error) {
-      console.log(error);
     }
   };
 
