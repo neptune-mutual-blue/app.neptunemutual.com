@@ -7,23 +7,36 @@ import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/Sta
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { Badge } from "@/components/UI/atoms/badge";
-import { AmountToStakeModal } from "@/components/UI/organisms/pools/staking/AmountToStakeModal";
+import { StakeModal } from "@/components/UI/organisms/pools/staking/StakeModal";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
+import { usePoolInfo } from "@/src/hooks/usePoolInfo";
+import { convertFromUnits, isGreater } from "@/utils/bn";
+import { formatAmount } from "@/utils/formatter";
 
-export const PodStakingCard = (props) => {
-  const { info, onStake, hasStaked } = props;
+// data from subgraph
+// info from `getInfo` on smart contract
+// Both data and info may contain common data
+export const PodStakingCard = ({ data }) => {
+  const { info } = usePoolInfo({ key: data.key });
 
-  const [isOpen, setIsOpen] = useState(false);
+  // console.log("info", data);
+  console.log(info.name, info);
+
+  const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
 
-  function onClose() {
-    setIsOpen(false);
+  function onStakeModalOpen() {
+    setIsStakeModalOpen(true);
   }
+  function onStakeModalClose() {
+    setIsStakeModalOpen(false);
+  }
+
   function onCollectModalClose() {
     setIsCollectModalOpen(false);
   }
@@ -31,28 +44,24 @@ export const PodStakingCard = (props) => {
     setIsCollectModalOpen(true);
   }
 
-  function onOpen(_id) {
-    setIsOpen(true);
-  }
-
-  const collectModal = (_id) => {
-    onCollectModalOpen();
-  };
-
-  const tokenSymbol = info.name.replace(" Staking", "").toUpperCase();
-  const lockupPeriod = BigNumber(info.lockupPeriod)
+  const poolKey = data.key;
+  const stakedAmount = info.accountStakeBalance;
+  const hasStaked = isGreater(info.accountStakeBalance, "0");
+  const tokenSymbol = data.name.replace(" Staking", "").toUpperCase();
+  const stakingTokenSymbol = `${tokenSymbol}-POD`;
+  const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
     .toString(); // hours
-  const imgSrc = getTokenImgSrc(info.key);
-
-  console.log("info", info);
+  const imgSrc = getTokenImgSrc(data.key);
 
   const leftHalf = [];
 
   if (hasStaked) {
     leftHalf.push({
       title: "Your Stake",
-      value: `25 ${tokenSymbol}-POD`,
+      value: `${formatAmount(
+        convertFromUnits(stakedAmount).toString()
+      )} ${stakingTokenSymbol}`,
     });
   } else {
     leftHalf.push({
@@ -79,7 +88,7 @@ export const PodStakingCard = (props) => {
         <div>
           <SingleImage src={imgSrc} alt={tokenSymbol}></SingleImage>
           <StakingCardTitle name={tokenSymbol} />
-          <StakingCardSubTitle unitName={`${tokenSymbol}-POD`} />
+          <StakingCardSubTitle unitName={stakingTokenSymbol} />
         </div>
         <div>
           <Badge>APR: {25}%</Badge>
@@ -103,38 +112,36 @@ export const PodStakingCard = (props) => {
         {hasStaked ? (
           <>
             <div className="flex-1 text-sm">
-              <PoolCardStat
-                title="You Earned"
-                value={`163.00 ${tokenSymbol}`}
-              />
+              <PoolCardStat title="You Earned" value={`25 ${tokenSymbol}`} />
             </div>
             <div className="flex items-center">
               <StakingCardCTA
                 className={"text-white px-2 mr-2"}
-                onClick={onOpen}
+                onClick={onStakeModalOpen}
               >
                 <AddIcon width={16} fill="currentColor" />
               </StakingCardCTA>
               <StakingCardCTA
                 className={"font-semibold uppercase text-sm px-5 py-2"}
-                onClick={collectModal}
+                onClick={onCollectModalOpen}
               >
                 Collect
               </StakingCardCTA>
             </div>
           </>
         ) : (
-          <StakingCardCTA onClick={onOpen}>Stake</StakingCardCTA>
+          <StakingCardCTA onClick={onStakeModalOpen}>Stake</StakingCardCTA>
         )}
       </div>
-      <AmountToStakeModal
+      <StakeModal
+        poolKey={poolKey}
+        info={info}
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Stake {`${tokenSymbol}-POD`}</ModalTitle>
+          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
         }
-        onClose={onClose}
-        isOpen={isOpen}
-        onStake={onStake}
-        unitName={`${tokenSymbol}-POD`}
+        onClose={onStakeModalClose}
+        isOpen={isStakeModalOpen}
+        unitName={stakingTokenSymbol}
       />
       <CollectModal
         stakedAmount={"150000"}
@@ -142,11 +149,9 @@ export const PodStakingCard = (props) => {
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>
-            Collect {`${tokenSymbol}-POD`}
-          </ModalTitle>
+          <ModalTitle imgSrc={imgSrc}>Collect {stakingTokenSymbol}</ModalTitle>
         }
-        unitName={`${tokenSymbol}-POD`}
+        unitName={stakingTokenSymbol}
       />
     </OutlinedCard>
   );

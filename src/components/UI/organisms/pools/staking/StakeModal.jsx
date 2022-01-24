@@ -5,32 +5,49 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { convertFromUnits } from "@/utils/bn";
+import BigNumber from "bignumber.js";
+import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 
-export const AmountToStakeModal = ({
-  id,
-  onStake,
+export const StakeModal = ({
+  info,
+  poolKey,
   modalTitle,
   isOpen,
   onClose,
-  lockingPeriod,
   unitName,
 }) => {
   const [inputValue, setInputValue] = useState();
 
+  const {
+    balance,
+    isError,
+    canDeposit,
+    approving,
+    depositing,
+    handleDeposit,
+    handleApprove,
+  } = useStakingPoolDeposit({
+    value: inputValue,
+    tokenAddress: info.stakingToken,
+    tokenSymbol: unitName,
+    poolKey,
+  });
+
+  const lockupPeriod = BigNumber(info.lockupPeriod)
+    .dividedBy("3600")
+    .toString(); // hours
+  const tokenAddress = info.stakingToken;
+
   const handleChooseMax = () => {
-    const MAX_VALUE_TO_STAKE = 10000;
-    setInputValue(MAX_VALUE_TO_STAKE);
+    // Use `info.maximumStake` instead of balance
+    setInputValue(convertFromUnits(info.maximumStake).toString());
   };
 
   const handleChange = (val) => {
     if (typeof val === "string") {
       setInputValue(val);
     }
-  };
-
-  const handleStake = (_id) => {
-    onStake(_id, parseInt(inputValue));
-    onClose();
   };
 
   return (
@@ -45,7 +62,9 @@ export const AmountToStakeModal = ({
         <div className="mt-6">
           <TokenAmountInput
             labelText={"Amount You Wish To Stake"}
+            tokenBalance={balance}
             tokenSymbol={unitName}
+            tokenAddress={tokenAddress}
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
             id={"staked-amount"}
@@ -57,16 +76,27 @@ export const AmountToStakeModal = ({
             Locking Period
           </Label>
           <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
-            {lockingPeriod} hours
+            {lockupPeriod} hours
           </p>
         </div>
-        <RegularButton
-          onClick={() => handleStake(id)}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          disabled={!inputValue}
-        >
-          Stake
-        </RegularButton>
+
+        {!canDeposit ? (
+          <RegularButton
+            disabled={isError || approving || !inputValue}
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            onClick={handleApprove}
+          >
+            {approving ? "Approving..." : <>Approve {unitName}</>}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            disabled={isError || depositing}
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            onClick={handleDeposit}
+          >
+            {depositing ? "Staking..." : "Stake"}
+          </RegularButton>
+        )}
       </div>
     </Modal>
   );

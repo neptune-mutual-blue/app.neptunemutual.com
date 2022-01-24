@@ -4,15 +4,9 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
-import { useState } from "react";
 
 export const PodStakingPage = () => {
   const { data } = usePodStakingPools();
-  const [staked, setStaked] = useState("");
-
-  const handleStake = () => {
-    setStaked("150000");
-  };
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -20,15 +14,8 @@ export const PodStakingPage = () => {
         <SearchAndSortBar />
       </div>
       <Grid className="mt-14 mb-24">
-        {data.pools.map((poolInfo) => {
-          return (
-            <PodStakingCard
-              key={poolInfo.id}
-              info={poolInfo}
-              onStake={handleStake}
-              hasStaked={staked}
-            />
-          );
+        {data.pools.map((poolData) => {
+          return <PodStakingCard key={poolData.id} data={poolData} />;
         })}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>

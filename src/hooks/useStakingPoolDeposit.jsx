@@ -8,21 +8,21 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
-  weiAsAmount,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
-import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useTxToast } from "@/src/hooks/useTxToast";
 
-export const useCreateBond = ({ info, value }) => {
+export const useStakingPoolDeposit = ({
+  value,
+  poolKey,
+  tokenAddress,
+  tokenSymbol,
+}) => {
   const [balance, setBalance] = useState("0");
-  const [receiveAmount, setReceiveAmount] = useState("0");
   const [allowance, setAllowance] = useState("0");
   const [approving, setApproving] = useState(false);
-  const [bonding, setBonding] = useState(false);
+  const [depositing, setDepositing] = useState(false);
 
   const { chainId, account, library } = useWeb3React();
-  const { networkId } = useAppContext();
 
   const txToast = useTxToast();
 
@@ -31,11 +31,11 @@ export const useCreateBond = ({ info, value }) => {
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
       const instance = registry.IERC20.getInstance(
         chainId,
-        info.lpTokenAddress,
+        tokenAddress,
         signerOrProvider
       );
 
-      const bondContractAddress = await registry.BondPool.getAddress(
+      const poolContractAddress = await registry.StakingPools.getAddress(
         chainId,
         signerOrProvider
       );
@@ -44,7 +44,7 @@ export const useCreateBond = ({ info, value }) => {
         console.log("No instance found");
       }
 
-      let result = await instance.allowance(account, bondContractAddress);
+      let result = await instance.allowance(account, poolContractAddress);
 
       setAllowance(result.toString());
     } catch (error) {
@@ -53,7 +53,7 @@ export const useCreateBond = ({ info, value }) => {
   };
 
   useEffect(() => {
-    if (!chainId || !account || !info.lpTokenAddress) return;
+    if (!chainId || !account || !tokenAddress) return;
 
     let ignore = false;
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
@@ -62,7 +62,7 @@ export const useCreateBond = ({ info, value }) => {
 
     const instance = registry.IERC20.getInstance(
       chainId,
-      info.lpTokenAddress,
+      tokenAddress,
       signerOrProvider
     );
 
@@ -78,52 +78,33 @@ export const useCreateBond = ({ info, value }) => {
       });
 
     return () => (ignore = true);
-  }, [account, chainId, library, info.lpTokenAddress]);
-
-  useDebouncedEffect(
-    () => {
-      if (!networkId || !value) return;
-
-      async function updateReceiveAmount() {
-        const instance = await registry.BondPool.getInstance(networkId);
-        const result = await instance.calculateTokensForLp(
-          convertToUnits(value).toString()
-        );
-
-        setReceiveAmount(weiAsAmount(result.toString()));
-      }
-
-      updateReceiveAmount();
-    },
-    [networkId, value],
-    100
-  );
+  }, [account, chainId, library, tokenAddress]);
 
   const handleApprove = async () => {
     try {
       setApproving(true);
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      const bondContractAddress = await registry.BondPool.getAddress(
+      const poolContractAddress = await registry.StakingPools.getAddress(
         chainId,
         signerOrProvider
       );
 
       const instance = registry.IERC20.getInstance(
         chainId,
-        info.lpTokenAddress,
+        tokenAddress,
         signerOrProvider
       );
 
       const tx = await instance.approve(
-        bondContractAddress,
+        poolContractAddress,
         convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {
-        pending: "Approving LP tokens",
-        success: "Approved LP tokens Successfully",
-        failure: "Could not approve LP tokens",
+        pending: `Approving ${tokenSymbol}`,
+        success: `Approved ${tokenSymbol} Successfully`,
+        failure: `Could not approve ${tokenSymbol}`,
       });
 
       setApproving(false);
@@ -133,32 +114,38 @@ export const useCreateBond = ({ info, value }) => {
     }
   };
 
-  const handleBond = async () => {
-    setBonding(true);
+  const handleDeposit = async () => {
+    if (!account || !chainId) {
+      return;
+    }
 
+    setDepositing(true);
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    const instance = await registry.BondPool.getInstance(
-      chainId,
-      signerOrProvider
-    );
+    try {
+      const instance = await registry.StakingPools.getInstance(
+        chainId,
+        signerOrProvider
+      );
 
-    //TODO: passing minNpm desired (smart contract)
-    let tx = await instance.createBond(
-      convertToUnits(value).toString(),
-      convertToUnits(value).toString()
-    );
+      let tx = await instance.deposit(
+        poolKey,
+        convertToUnits(value).toString()
+      );
 
-    await txToast.push(tx, {
-      pending: "Creating bond",
-      success: "Created bond successfully",
-      failure: "Could not create bond",
-    });
-
-    setBonding(false);
+      await txToast.push(tx, {
+        pending: `Staking ${tokenSymbol}`,
+        success: `Staked ${tokenSymbol} successfully`,
+        failure: `Could not stake ${tokenSymbol}`,
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setDepositing(false);
+    }
   };
 
-  const canBond =
+  const canDeposit =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
@@ -168,14 +155,13 @@ export const useCreateBond = ({ info, value }) => {
 
   return {
     balance,
-    receiveAmount,
     approving,
-    bonding,
+    depositing,
 
-    canBond,
+    canDeposit,
     isError,
 
     handleApprove,
-    handleBond,
+    handleDeposit,
   };
 };

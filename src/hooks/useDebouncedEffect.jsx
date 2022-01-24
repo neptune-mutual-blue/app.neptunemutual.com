@@ -7,7 +7,9 @@ export const useDebouncedEffect = (effect, deps, delay = 500) => {
   useEffect(() => {
     let ignore = false;
     const handler = setTimeout(() => {
-      callback(ignore);
+      if (ignore) return;
+
+      callback();
     }, delay);
 
     return () => {

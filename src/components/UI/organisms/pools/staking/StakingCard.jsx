@@ -7,7 +7,7 @@ import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/Sta
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { Badge } from "@/components/UI/atoms/badge";
-import { AmountToStakeModal } from "@/components/UI/organisms/pools/staking/AmountToStakeModal";
+import { StakeModal } from "@/components/UI/organisms/pools/staking/StakeModal";
 import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardStat";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import BigNumber from "bignumber.js";
@@ -18,12 +18,16 @@ import { DoubleImage } from "@/components/UI/molecules/pools/staking/DoubleImage
 export const StakingCard = (props) => {
   const { name, apr, onStake, hasStaked } = props;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
 
-  function onClose() {
-    setIsOpen(false);
+  function onStakeModalOpen() {
+    setIsStakeModalOpen(true);
   }
+  function onStakeModalClose() {
+    setIsStakeModalOpen(false);
+  }
+
   function onCollectModalClose() {
     setIsCollectModalOpen(false);
   }
@@ -31,16 +35,8 @@ export const StakingCard = (props) => {
     setIsCollectModalOpen(true);
   }
 
-  function onOpen(_id) {
-    setIsOpen(true);
-  }
-
-  const collectModal = (_id) => {
-    console.log("collect clicked", _id);
-    onCollectModalOpen();
-  };
-
   const tokenSymbol = "CPOOL";
+  const stakingTokenSymbol = "NPM";
   const lockupPeriod = BigNumber("43200").dividedBy("3600").toString(); // hours
   const imgSrc = getTokenImgSrc("test");
   const npmImgSrc = "/pools/staking/npm.png";
@@ -106,36 +102,40 @@ export const StakingCard = (props) => {
         {hasStaked ? (
           <>
             <div className="flex-1 text-sm">
-              <PoolCardStat
-                title="You Earned"
-                value={`163.00 ${tokenSymbol}`}
-              />
+              <PoolCardStat title="You Earned" value={`25 ${tokenSymbol}`} />
             </div>
             <div className="flex items-center">
               <StakingCardCTA
                 className={"text-white px-2 mr-2"}
-                onClick={onOpen}
+                onClick={onStakeModalOpen}
               >
                 <AddIcon width={16} fill="currentColor" />
               </StakingCardCTA>
               <StakingCardCTA
                 className={"font-semibold uppercase text-sm px-5 py-2"}
-                onClick={collectModal}
+                onClick={onCollectModalOpen}
               >
                 Collect
               </StakingCardCTA>
             </div>
           </>
         ) : (
-          <StakingCardCTA onClick={onOpen}>Stake</StakingCardCTA>
+          <StakingCardCTA onClick={onStakeModalOpen}>Stake</StakingCardCTA>
         )}
       </div>
-      <AmountToStakeModal
-        modalTitle={<ModalTitle imgSrc={npmImgSrc}>Stake {" NPM"}</ModalTitle>}
-        onClose={onClose}
-        isOpen={isOpen}
-        onStake={onStake}
-        unitName={" NPM"}
+      <StakeModal
+        poolKey={"poolKey"}
+        info={{
+          stakingToken: "0x",
+          lockupPeriod: "86400",
+          maximumStake: "10000000000000",
+        }}
+        modalTitle={
+          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
+        }
+        onClose={onStakeModalClose}
+        isOpen={isStakeModalOpen}
+        unitName={stakingTokenSymbol}
       />
       <CollectModal
         stakedAmount={"150000"}
