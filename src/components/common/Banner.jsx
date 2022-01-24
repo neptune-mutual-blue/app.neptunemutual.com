@@ -4,7 +4,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 export const Banner = () => {
   const { networkId } = useAppContext();
 
-  const isTestnet = [3, 97, 80001].indexOf(networkId) > -1;
+  const isTestnet = [3, 97, 42, 80001].indexOf(networkId) > -1;
 
   if (!networkId || !isTestnet) {
     return null;

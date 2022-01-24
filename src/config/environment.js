@@ -5,6 +5,8 @@ function getChainIdFromDNS() {
   switch (parts[0]) {
     case "mumbai":
       return "80001";
+    case "kovan":
+      return "42";
     case "bsctest":
       return "97";
     case "app":
