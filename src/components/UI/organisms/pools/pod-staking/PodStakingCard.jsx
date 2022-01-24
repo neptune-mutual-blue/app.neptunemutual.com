@@ -24,9 +24,6 @@ import { formatAmount } from "@/utils/formatter";
 export const PodStakingCard = ({ data }) => {
   const { info } = usePoolInfo({ key: data.key });
 
-  // console.log("info", data);
-  console.log(info.name, info);
-
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
 
@@ -47,8 +44,8 @@ export const PodStakingCard = ({ data }) => {
   const poolKey = data.key;
   const stakedAmount = info.accountStakeBalance;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
-  const tokenSymbol = data.name.replace(" Staking", "").toUpperCase();
-  const stakingTokenSymbol = `${tokenSymbol}-POD`;
+  const earnedTokenSymbol = data.name.replace(" Staking", "").toUpperCase();
+  const stakingTokenSymbol = `${earnedTokenSymbol}-POD`;
   const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
     .toString(); // hours
@@ -82,12 +79,16 @@ export const PodStakingCard = ({ data }) => {
     value: "",
   });
 
+  if (info.name === "") {
+    return null;
+  }
+
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
         <div>
-          <SingleImage src={imgSrc} alt={tokenSymbol}></SingleImage>
-          <StakingCardTitle name={tokenSymbol} />
+          <SingleImage src={imgSrc} alt={earnedTokenSymbol}></SingleImage>
+          <StakingCardTitle name={earnedTokenSymbol} />
           <StakingCardSubTitle unitName={stakingTokenSymbol} />
         </div>
         <div>
@@ -112,7 +113,10 @@ export const PodStakingCard = ({ data }) => {
         {hasStaked ? (
           <>
             <div className="flex-1 text-sm">
-              <PoolCardStat title="You Earned" value={`25 ${tokenSymbol}`} />
+              <PoolCardStat
+                title="You Earned"
+                value={`25 ${earnedTokenSymbol}`}
+              />
             </div>
             <div className="flex items-center">
               <StakingCardCTA
@@ -144,8 +148,12 @@ export const PodStakingCard = ({ data }) => {
         unitName={stakingTokenSymbol}
       />
       <CollectModal
-        stakedAmount={"150000"}
-        earned={`150000 ${tokenSymbol}`}
+        poolKey={poolKey}
+        info={info}
+        stakedAmount={stakedAmount}
+        earnedAmount={`25000000000000000000`}
+        earnedTokenSymbol={earnedTokenSymbol}
+        stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
         modalTitle={

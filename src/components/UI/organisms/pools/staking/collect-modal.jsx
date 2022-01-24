@@ -18,27 +18,17 @@ const headers = [
 ];
 
 export const CollectModal = ({
-  id,
+  info,
+  poolKey,
+  stakedAmount,
+  stakingTokenSymbol,
+  earnedAmount,
+  earnedTokenSymbol,
   isCollectModalOpen,
   onCollectModalClose,
   modalTitle,
-  stakedAmount,
-  earned,
-  unitName,
 }) => {
   const [activeTab, setActiveTab] = useState(headers[0].name);
-
-  const handleHarvest = () => {
-    //for further processing
-    console.log("handleHarvest", id);
-    onCollectModalClose();
-  };
-
-  const handleWithdraw = () => {
-    //for further processing
-    console.log("handleWithdraw", id);
-    onCollectModalClose();
-  };
 
   return (
     <Modal isOpen={isCollectModalOpen} onClose={onCollectModalClose}>
@@ -60,13 +50,19 @@ export const CollectModal = ({
 
           {activeTab == "harvest" ? (
             <HarvestForm
+              poolKey={poolKey}
               stakedAmount={stakedAmount}
-              earned={earned}
-              onHarvest={handleHarvest}
-              unitName={unitName}
+              earnedAmount={earnedAmount}
+              stakingTokenSymbol={stakingTokenSymbol}
+              earnedTokenSymbol={earnedTokenSymbol}
             />
           ) : (
-            <WithdrawForm onWithdraw={handleWithdraw} unitName={unitName} />
+            <WithdrawForm
+              info={info}
+              poolKey={poolKey}
+              stakedAmount={stakedAmount}
+              stakingTokenSymbol={stakingTokenSymbol}
+            />
           )}
         </div>
       </div>
