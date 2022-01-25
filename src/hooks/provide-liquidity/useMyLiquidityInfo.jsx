@@ -60,15 +60,15 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         if (ignore) return;
 
         setInfo({
-          totalPods: totalPods.toString() || "0",
-          balance: balance.toString() || "0",
-          extendedBalance: extendedBalance.toString() || "0",
-          totalReassurance: totalReassurance,
+          totalPods: totalPods.toString(),
+          balance: balance.toString(),
+          extendedBalance: extendedBalance.toString(),
+          totalReassurance: totalReassurance.toString(),
           lockup: lockup.toString(),
-          myPodBalance: myPodBalance.toString() || "0",
-          myDeposits: myDeposits.toString() || "0",
-          myWithdrawals: myWithdrawals.toString() || "0",
-          myShare: myShare.toString() || "0",
+          myPodBalance: myPodBalance.toString(),
+          myDeposits: myDeposits.toString(),
+          myWithdrawals: myWithdrawals.toString(),
+          myShare: myShare.toString(),
           releaseDate: releaseDate.toString(),
         });
       } catch (error) {

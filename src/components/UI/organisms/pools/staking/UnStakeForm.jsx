@@ -11,7 +11,7 @@ import {
 import { formatAmount } from "@/utils/formatter";
 import { useState } from "react";
 
-export const WithdrawForm = ({
+export const UnStakeForm = ({
   info,
   poolKey,
   stakingTokenSymbol,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CollectModal } from "@/components/UI/organisms/pools/staking/collect-modal";
+import { CollectRewardModal } from "@/components/UI/organisms/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
 import { DoubleImage } from "@/components/UI/molecules/pools/staking/DoubleImage";
 import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/StakingCardTitle";
@@ -153,7 +153,7 @@ export const StakingCard = ({ data }) => {
         isOpen={isStakeModalOpen}
         unitName={stakingTokenSymbol}
       />
-      <CollectModal
+      <CollectRewardModal
         poolKey={poolKey}
         info={info}
         stakedAmount={stakedAmount}

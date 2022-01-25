@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
-import { CoverCard } from "@/components/UI/organisms/cover/my-liquidity/card";
+import { MyLiquidityCoverCard } from "@/components/UI/organisms/cover/my-liquidity/MyLiquidityCoverCard";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 
@@ -42,10 +42,10 @@ export const MyLiquidityPage = () => {
           return (
             <Link href={`/my-liquidity/${getParsedKey(x.cover.id)}`} key={x.id}>
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                <CoverCard
+                <MyLiquidityCoverCard
                   coverKey={x.cover.id}
                   totalPODs={x.totalPODs}
-                ></CoverCard>
+                ></MyLiquidityCoverCard>
               </a>
             </Link>
           );

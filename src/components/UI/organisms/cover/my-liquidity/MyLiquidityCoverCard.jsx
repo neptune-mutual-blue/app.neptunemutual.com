@@ -4,17 +4,28 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { formatWithAabbreviation } from "@/utils/formatter";
+import BigNumber from "bignumber.js";
 
-export const CoverCard = ({ coverKey, totalPODs }) => {
+export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { coverInfo } = useCoverInfo(coverKey);
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return null;
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
+
+  console.log(info.totalReassurance, info.balance, info.extendedBalance);
+
+  const reassurancePercent = BigNumber(info.totalReassurance)
+    .multipliedBy(100)
+    .dividedBy(
+      sumOf(info.balance, info.extendedBalance, info.totalReassurance)
+    );
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
@@ -42,10 +53,12 @@ export const CoverCard = ({ coverKey, totalPODs }) => {
       {/* Stats */}
       <div className="flex justify-between text-sm px-1">
         <span className="uppercase">Reassurance Ratio</span>
-        <span className="font-semibold text-right">{25}%</span>
+        <span className="font-semibold text-right">
+          {reassurancePercent.toString()}%
+        </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={25 / 100} />
+        <ProgressBar value={reassurancePercent.toNumber() / 100} />
       </div>
       <div className="flex justify-between text-sm px-1">
         <span className="">

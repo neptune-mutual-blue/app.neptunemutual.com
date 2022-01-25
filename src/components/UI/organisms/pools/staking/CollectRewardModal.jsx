@@ -3,8 +3,8 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { Dialog } from "@headlessui/react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";
-import { HarvestForm } from "@/components/UI/organisms/pools/staking/harvest-form";
-import { WithdrawForm } from "@/components/UI/organisms/pools/staking/withdraw-form";
+import { HarvestForm } from "@/components/UI/organisms/pools/staking/HarvestForm";
+import { UnStakeForm } from "@/components/UI/organisms/pools/staking/UnStakeForm";
 
 const headers = [
   {
@@ -17,7 +17,7 @@ const headers = [
   },
 ];
 
-export const CollectModal = ({
+export const CollectRewardModal = ({
   info,
   poolKey,
   stakedAmount,
@@ -57,7 +57,7 @@ export const CollectModal = ({
               rewardTokenSymbol={rewardTokenSymbol}
             />
           ) : (
-            <WithdrawForm
+            <UnStakeForm
               info={info}
               poolKey={poolKey}
               stakedAmount={stakedAmount}
