@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 
-import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
 import { PolicyFeesAndExpiry } from "@/components/UI/organisms/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
@@ -8,19 +7,20 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
-import BigNumber from "bignumber.js";
 import { usePurchasePolicy } from "@/components/UI/organisms/cover-form/usePurchasePolicy";
 import { useState } from "react";
 import { usePolicyFees } from "@/components/UI/organisms/cover-form/usePolicyFees";
-import { liquidityTokenSymbol } from "@/src/config/constants";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { data } from "autoprefixer";
+import { formatAmount } from "@/utils/formatter";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
   const [value, setValue] = useState();
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
+  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const {
     loading: updatingFee,
     data: feeData,
@@ -92,12 +92,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       >
         {value && isValidNumber(value) && (
           <div className="flex items-center text-15aac8">
-            <p>You will receive: {new BigNumber(value).toString()} cxDAI</p>
-
-            <button className="ml-3">
-              <span className="sr-only">Info</span>
-              <InfoCircleIcon width={24} fill="currentColor" />
-            </button>
+            <p>You will receive: {formatAmount(value)} cxDAI</p>
           </div>
         )}
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}

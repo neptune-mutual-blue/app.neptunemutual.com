@@ -32,6 +32,7 @@ export const StakeModal = ({
     tokenAddress: info.stakingToken,
     tokenSymbol: unitName,
     poolKey,
+    maximumStake: info.maximumStake,
   });
 
   const lockupPeriod = BigNumber(info.lockupPeriod)

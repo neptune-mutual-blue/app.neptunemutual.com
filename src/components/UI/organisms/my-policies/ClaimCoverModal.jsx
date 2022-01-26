@@ -7,7 +7,7 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { cxTokenSymbol } from "@/src/config/constants";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -18,6 +18,7 @@ export const ClaimCoverModal = ({
 }) => {
   const [value, setValue] = useState();
   const [receiveAmount, setReceiveAmount] = useState();
+  const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
 
   const maxValue = 50000;
 

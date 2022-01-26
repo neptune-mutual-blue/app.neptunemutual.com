@@ -16,6 +16,7 @@ export const useStakingPoolDeposit = ({
   poolKey,
   tokenAddress,
   tokenSymbol,
+  maximumStake,
 }) => {
   const [balance, setBalance] = useState("0");
   const [allowance, setAllowance] = useState("0");
@@ -151,7 +152,9 @@ export const useStakingPoolDeposit = ({
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
   const isError =
     value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
+    (!isValidNumber(value) ||
+      isGreater(convertToUnits(value || "0"), balance) ||
+      isGreater(convertToUnits(value || "0"), maximumStake));
 
   return {
     balance,

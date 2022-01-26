@@ -1,8 +1,6 @@
-import { parseBytes32String } from "@ethersproject/strings";
-
-export const getTokenImgSrc = (key) => {
+export const getTokenImgSrc = (tokenSymbol = "") => {
   try {
-    return `/images/tokens/${parseBytes32String(key)}.png`;
+    return `/images/tokens/${tokenSymbol.toUpperCase()}.png`;
   } catch (error) {
     return `/images/tokens/OKB.png`;
   }

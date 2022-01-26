@@ -52,7 +52,7 @@ export const PodStakingCard = ({ data }) => {
   const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
     .toString(); // hours
-  const imgSrc = getTokenImgSrc(data.key);
+  const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const totalValueLocked = formatWithAabbreviation(
     convertFromUnits(info.totalStaked).toString()
   );

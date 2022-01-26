@@ -16,13 +16,17 @@ import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardSt
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
+import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data }) => {
   const { info } = usePoolInfo({ key: data.key });
+
+  const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
+  const rewardTokenSymbol = useTokenSymbol(info.rewardToken);
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
@@ -43,14 +47,16 @@ export const StakingCard = ({ data }) => {
 
   const poolKey = data.key;
   const stakedAmount = info.accountStakeBalance;
+  const rewardAmount = info.rewards;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
-  const rewardTokenSymbol = data.name.replace(" Staking", "").toUpperCase();
-  const stakingTokenSymbol = `NPM`;
   const lockupPeriod = BigNumber(data.lockupPeriod)
     .dividedBy("3600")
     .toString(); // hours
-  const imgSrc = getTokenImgSrc(data.key);
-  const npmImgSrc = "/pools/staking/npm.png";
+  const imgSrc = getTokenImgSrc(rewardTokenSymbol);
+  const npmImgSrc = getTokenImgSrc(stakingTokenSymbol);
+  const totalValueLocked = formatWithAabbreviation(
+    convertFromUnits(info.totalStaked).toString()
+  );
 
   const leftHalf = [];
 
@@ -71,7 +77,7 @@ export const StakingCard = ({ data }) => {
   const rightHalf = [
     {
       title: "TVL",
-      value: `$ 25.0M`,
+      value: `$ ${totalValueLocked}`,
     },
   ];
 
@@ -121,7 +127,9 @@ export const StakingCard = ({ data }) => {
             <div className="flex-1 text-sm">
               <PoolCardStat
                 title="You Earned"
-                value={`25 ${rewardTokenSymbol}`}
+                value={`${formatAmount(
+                  convertFromUnits(rewardAmount).toString()
+                )} ${rewardTokenSymbol}`}
               />
             </div>
             <div className="flex items-center">
@@ -157,7 +165,7 @@ export const StakingCard = ({ data }) => {
         poolKey={poolKey}
         info={info}
         stakedAmount={stakedAmount}
-        rewardAmount={`25000000000000000000`}
+        rewardAmount={rewardAmount}
         rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
