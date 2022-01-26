@@ -9,7 +9,7 @@ import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAm
 import { HlCalendar } from "@/lib/hl-calendar";
 
 export const ReportSummary = () => {
-  const startDate = new Date();
+  const startDate = new Date("December 17, 1995 03:24:00");
   const endDate = new Date(startDate.getTime());
   endDate.setDate(startDate.getDate() + 6);
 

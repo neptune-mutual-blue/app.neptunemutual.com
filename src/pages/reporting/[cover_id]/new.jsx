@@ -5,7 +5,7 @@ import { ReportingHero } from "@/components/UI/organisms/reporting/new/Reporting
 import { toBytes32 } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ReportingNewCoverPage() {
   const router = useRouter();
@@ -13,6 +13,10 @@ export default function ReportingNewCoverPage() {
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const [accepted, setAccepted] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [accepted]);
 
   if (!coverInfo) {
     return <>loading...</>;
