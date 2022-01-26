@@ -1,23 +1,14 @@
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
-import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { toBytes32 } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
-import { useRouter } from "next/router";
 import { Fragment, useState } from "react";
 
 export const NewIncidentReportForm = () => {
-  const router = useRouter();
-  const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
-
-  const { coverInfo } = useCoverInfo(coverKey);
   const { NPMTokenAddress } = useAppConstants();
 
   const [incidentTitle, setIncidentTitle] = useState();
@@ -32,10 +23,6 @@ export const NewIncidentReportForm = () => {
   const maxDate = new Date().toISOString().slice(0, 16);
 
   console.log(NPMTokenAddress);
-
-  if (!coverInfo) {
-    return <>loading...</>;
-  }
 
   const handleChooseMax = () => {
     setStaked(maxValueToStake);
@@ -84,10 +71,7 @@ export const NewIncidentReportForm = () => {
   };
 
   return (
-    <main>
-      {/* hero */}
-      <ReportingHero coverInfo={coverInfo} />
-
+    <>
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         <Container>
@@ -215,6 +199,6 @@ export const NewIncidentReportForm = () => {
           </div>
         </Container>
       </div>
-    </main>
+    </>
   );
 };

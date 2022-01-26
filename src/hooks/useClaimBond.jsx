@@ -30,23 +30,27 @@ export const useClaimBond = (unlockDate = Infinity) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    setClaiming(true);
-    const instance = await registry.BondPool.getInstance(
-      chainId,
-      signerOrProvider
-    );
+      setClaiming(true);
+      const instance = await registry.BondPool.getInstance(
+        chainId,
+        signerOrProvider
+      );
 
-    let tx = await instance.claimBond();
+      let tx = await instance.claimBond();
 
-    await txToast.push(tx, {
-      pending: "Claiming NPM",
-      success: "Claimed NPM Successfully",
-      failure: "Could not claim bond",
-    });
-
-    setClaiming(false);
+      await txToast.push(tx, {
+        pending: "Claiming NPM",
+        success: "Claimed NPM Successfully",
+        failure: "Could not claim bond",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setClaiming(false);
+    }
   };
 
   return {

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
+import { actions } from "@/src/config/cover/actions";
+import { getParsedKey } from "@/src/helpers/cover";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
@@ -18,7 +20,8 @@ export const ActiveReportingEmptyState = () => {
   }, [availableCovers]);
 
   const handleAddReport = () => {
-    router.push(`/cover/${selected.key}/report/details`);
+    const cover_id = getParsedKey(selected.key);
+    router.push(actions.report.getHref(cover_id));
   };
 
   if (!availableCovers) {
