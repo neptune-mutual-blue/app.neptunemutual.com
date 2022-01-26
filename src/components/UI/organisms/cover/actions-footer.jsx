@@ -31,7 +31,7 @@ export const CoverActionsFooter = ({ activeKey }) => {
                       <CoverActionCard
                         title={coverActions[actionKey].title}
                         description={coverActions[actionKey].description}
-                        imgSrc={`/cover-actions/${actionKey}.png`}
+                        imgSrc={coverActions[actionKey].footerImgSrc}
                       ></CoverActionCard>
                     </a>
                   </Link>

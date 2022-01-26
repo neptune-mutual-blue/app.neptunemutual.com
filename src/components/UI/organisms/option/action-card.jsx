@@ -1,11 +1,11 @@
 export const OptionActionCard = ({ title, description, imgSrc }) => {
   return (
     <>
-      <div className="flex justify-center items-center mx-auto rounded-full shadow-actionCard w-40 h-40 bg-e6f0fe">
+      <div className="flex justify-center items-center">
         <img
           src={imgSrc}
           alt={title}
-          className="inline-block max-w-full max-h-full"
+          className="w-40 h-40 bg-e6f0fe inline-block rounded-full mx-auto shadow-actionCard"
         />
       </div>
       <h4 className="text-h3 text-center font-sora font-semibold mt-12">

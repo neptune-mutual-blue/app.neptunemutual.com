@@ -46,7 +46,7 @@ export const CoverOptionsPage = () => {
                   <OptionActionCard
                     title={coverActions[actionKey].title}
                     description={coverActions[actionKey].description}
-                    imgSrc={`/options/${actionKey}.png`}
+                    imgSrc={coverActions[actionKey].imgSrc}
                   />
                 </a>
               </Link>
