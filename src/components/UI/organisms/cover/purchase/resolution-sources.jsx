@@ -1,12 +1,16 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import Link from "next/link";
 
-export const CoverPurchaseResolutionSources = ({
-  children,
-  knowledgebase,
-  twitter,
-  projectName,
-}) => {
+export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
+  const projectName = coverInfo.projectName;
+
+  if (!coverInfo.resolutionSources) {
+    return null;
+  }
+
+  const knowledgebase = coverInfo?.resolutionSources[1];
+  const twitter = coverInfo?.resolutionSources[0];
+
   return (
     <div>
       <OutlinedCard className="bg-DEEAF6 p-10">

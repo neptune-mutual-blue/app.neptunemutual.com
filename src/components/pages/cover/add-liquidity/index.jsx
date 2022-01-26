@@ -83,11 +83,7 @@ export const CoverAddLiquidityDetailsPage = () => {
             )}
           </div>
 
-          <CoverPurchaseResolutionSources
-            projectName={coverInfo.projectName}
-            knowledgebase={coverInfo?.resolutionSources[1]}
-            twitter={coverInfo?.resolutionSources[0]}
-          >
+          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div className="flex justify-between pb-2">
               <span className="">Total Liquidity:</span>

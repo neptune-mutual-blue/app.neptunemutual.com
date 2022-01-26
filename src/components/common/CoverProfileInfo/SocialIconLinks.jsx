@@ -16,7 +16,7 @@ const IconLink = ({ href, iconText, icon }) => {
   );
 };
 
-export const SocialIconLinks = ({ links }) => {
+export const SocialIconLinks = ({ links = {} }) => {
   const { facebook, linkedin, twitter } = links;
 
   return (

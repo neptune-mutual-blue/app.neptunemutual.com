@@ -45,7 +45,6 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
             expiresOn
             cover {
               id
-              projectName
             }
           }
         }

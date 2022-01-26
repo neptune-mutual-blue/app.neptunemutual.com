@@ -1,4 +1,4 @@
-export const ProjectWebsiteLink = ({ website }) => {
+export const ProjectWebsiteLink = ({ website = "" }) => {
   const text = website.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "");
 
   return (

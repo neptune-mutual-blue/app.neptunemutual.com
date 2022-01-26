@@ -42,7 +42,6 @@ export const useExpiredPolicies = () => {
             expiresOn
             cover {
               id
-              projectName
             }
           }
         }

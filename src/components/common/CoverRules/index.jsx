@@ -1,4 +1,4 @@
-export const CoverRules = ({ rules }) => {
+export const CoverRules = ({ rules = "" }) => {
   return (
     <div>
       <h4 className="text-h4 font-sora font-semibold mt-10 mb-6">

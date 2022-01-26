@@ -17,6 +17,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatTime, unixToDate } from "@/utils/date";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 
 const renderHeader = (col) => (
   <th
@@ -34,24 +35,7 @@ const renderWhen = (row) => (
   <td className="px-6 py-6">{formatTime(row.transaction.timestamp)}</td>
 );
 
-const renderDetails = (row) => (
-  <td className="px-6 py-6">
-    <div className="flex items-center">
-      <img
-        src={getCoverImgSrc({ key: row.cover.id })}
-        alt="policy"
-        height={32}
-        width={32}
-      />
-
-      <span className="pl-4 text-left whitespace-nowrap">
-        {row.type == "CoverPurchase" ? "Purchased" : "Claimed"} $
-        {convertFromUnits(row.daiAmount).decimalPlaces(2).toString()}{" "}
-        {row.cover.name} policy
-      </span>
-    </div>
-  </td>
-);
+const renderDetails = (row) => <DetailsRenderer row={row} />;
 
 const renderAmount = (row) => <CxDaiAmountRenderer row={row} />;
 
@@ -126,6 +110,29 @@ export const MyPoliciesTxsTable = () => {
         </Table>
       </TableWrapper>
     </>
+  );
+};
+
+const DetailsRenderer = ({ row }) => {
+  const { coverInfo } = useCoverInfo(row.cover.id);
+
+  return (
+    <td className="px-6 py-6">
+      <div className="flex items-center">
+        <img
+          src={getCoverImgSrc({ key: row.cover.id })}
+          alt="policy"
+          height={32}
+          width={32}
+        />
+
+        <span className="pl-4 text-left whitespace-nowrap">
+          {row.type == "CoverPurchase" ? "Purchased" : "Claimed"} $
+          {convertFromUnits(row.daiAmount).decimalPlaces(2).toString()}{" "}
+          {coverInfo.projectName} policy
+        </span>
+      </div>
+    </td>
   );
 };
 

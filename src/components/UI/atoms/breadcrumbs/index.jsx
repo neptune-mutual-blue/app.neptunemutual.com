@@ -6,7 +6,7 @@ export const BreadCrumbs = ({ pages }) => {
     <nav className="flex mb-11" aria-label="Breadcrumb">
       <ol className="flex items-center space-x-1 text-sm text-5F5F5F">
         {pages.map((page, idx) => (
-          <li key={page.name}>
+          <li key={page.name + idx}>
             <div className="flex items-center">
               {idx !== 0 && (
                 <svg

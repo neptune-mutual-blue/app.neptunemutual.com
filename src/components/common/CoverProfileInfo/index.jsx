@@ -16,7 +16,7 @@ export const CoverProfileInfo = ({ imgSrc, projectName, links }) => {
           <ProjectName name={projectName} />
           <ProjectStatusIndicator variant="success" />
         </div>
-        <ProjectWebsiteLink website={links.website} />
+        <ProjectWebsiteLink website={links?.website} />
         <SocialIconLinks links={links} />
       </div>
     </div>

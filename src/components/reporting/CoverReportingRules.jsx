@@ -5,8 +5,6 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import Link from "next/link";
 
 export const CoverReportingRules = ({ coverInfo, handleAcceptRules }) => {
-  const title = coverInfo.coverName;
-
   return (
     <>
       {/* Content */}
@@ -24,11 +22,7 @@ export const CoverReportingRules = ({ coverInfo, handleAcceptRules }) => {
               </AcceptReportRulesForm>
             </div>
           </div>
-          <CoverPurchaseResolutionSources
-            projectName={title}
-            knowledgebase={coverInfo?.resolutionSources[1]}
-            twitter={coverInfo?.resolutionSources[0]}
-          >
+          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <Link href="#">
               <a className="block text-4e7dd9 hover:underline mt-3">
                 Neptune Mutual Reporters

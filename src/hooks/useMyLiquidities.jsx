@@ -41,7 +41,6 @@ export const useMyLiquidities = () => {
             totalPODs
             cover {
               id
-              projectName
             }
           }
         }        

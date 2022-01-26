@@ -62,7 +62,6 @@ export const useLiquidityTxs = ({ maxItems }) => {
           }
           cover {
             id
-            name: projectName
           }
           transaction {
             id

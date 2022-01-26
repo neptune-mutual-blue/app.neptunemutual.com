@@ -37,7 +37,7 @@ export default function ReportingNewCoverPage() {
       <ReportingHero coverInfo={coverInfo} />
 
       {accepted ? (
-        <NewIncidentReportForm />
+        <NewIncidentReportForm coverKey={coverKey} />
       ) : (
         <CoverReportingRules
           coverInfo={coverInfo}

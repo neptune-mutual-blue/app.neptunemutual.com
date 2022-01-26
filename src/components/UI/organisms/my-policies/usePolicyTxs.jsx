@@ -46,7 +46,6 @@ export const usePolicyTxs = () => {
           cxToken
           cover {
             id
-            name: projectName
           }
           transaction {
             id

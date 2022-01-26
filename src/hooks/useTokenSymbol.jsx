@@ -29,7 +29,6 @@ export const useTokenSymbol = (tokenAddress) => {
       console.log("instance not found");
       return;
     }
-    console.log("instance found");
 
     instance
       .symbol()
@@ -40,7 +39,7 @@ export const useTokenSymbol = (tokenAddress) => {
       .catch(console.error);
 
     return () => (ignore = true);
-  }, [networkId, tokenAddress]);
+  }, [account, library, networkId, tokenAddress]);
 
   return tokenSymbol;
 };

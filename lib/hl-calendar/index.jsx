@@ -40,11 +40,14 @@ export const HlCalendar = ({ startDate, endDate }) => {
                     "p-3 text-center align-middle",
                     isStart && "rounded-l-lg",
                     isEnd && "rounded-r-lg",
-                    isInsideRange && "bg-DEEAF6",
-                    isDifferentMonth && "opacity-40"
+                    isInsideRange && "bg-DEEAF6"
                   )}
                 >
-                  {y.getDate()}
+                  <span
+                    className={classNames(isDifferentMonth && "opacity-40")}
+                  >
+                    {y.getDate()}
+                  </span>
                 </td>
               );
             })}
@@ -56,6 +59,10 @@ export const HlCalendar = ({ startDate, endDate }) => {
 };
 
 function addWeekDatesBefore(dates) {
+  if (dates.length === 0) {
+    return [];
+  }
+
   const datesBeforeStart = [...dates];
 
   function shouldContinue(firstDate) {
@@ -78,6 +85,10 @@ function addWeekDatesBefore(dates) {
 }
 
 function addWeekDatesAfter(dates) {
+  if (dates.length === 0) {
+    return [];
+  }
+
   const datesAfterEnd = [...dates];
 
   function shouldContinue(lastDate) {
@@ -103,8 +114,11 @@ function getPrimaryMonthYear(startDate, endDate) {
   const startMonth = startDate.getMonth(); // January - December : 0 - 11
   const endMonth = endDate.getMonth(); // January - December : 0 - 11
 
-  if (startMonth !== endMonth) {
-    return startMonth;
+  if (startMonth === endMonth) {
+    return {
+      month: startMonth,
+      year: startDate.getFullYear(),
+    };
   }
 
   const daysOfMonth = {

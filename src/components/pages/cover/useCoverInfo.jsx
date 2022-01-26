@@ -6,6 +6,6 @@ export const useCoverInfo = (key) => {
   const info = covers.find((x) => x.key === key);
 
   return {
-    coverInfo: info,
+    coverInfo: info || {},
   };
 };

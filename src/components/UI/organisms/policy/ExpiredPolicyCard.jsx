@@ -1,3 +1,4 @@
+import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
 import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
@@ -8,7 +9,7 @@ import { unixToDate } from "@/utils/date";
 
 export const ExpiredPolicyCard = ({ details }) => {
   const { totalAmountToCover, expiresOn, cover } = details;
-
+  const { coverInfo } = useCoverInfo(cover.id);
   const imgSrc = getCoverImgSrc({ key: cover.id });
 
   const status = "";
@@ -21,12 +22,12 @@ export const ExpiredPolicyCard = ({ details }) => {
           <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
             <img
               src={imgSrc}
-              alt={cover.projectName}
+              alt={coverInfo.projectName}
               className="inline-block max-w-full"
             />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {cover.projectName}
+            {coverInfo.projectName}
           </h4>
         </div>
         <div>

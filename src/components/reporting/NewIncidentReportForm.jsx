@@ -4,28 +4,36 @@ import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
-import { useAppConstants } from "@/src/context/AppConstants";
+import { useReportIncident } from "@/src/hooks/useReportIncident";
+import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState } from "react";
 
-export const NewIncidentReportForm = () => {
-  const { NPMTokenAddress } = useAppConstants();
+export const NewIncidentReportForm = ({ coverKey }) => {
+  const [value, setValue] = useState();
+  const {
+    balance,
+    tokenAddress,
+    tokenSymbol,
+    handleApprove,
+    handleReport,
+    approving,
+    reporting,
+    canReport,
+    isError,
+  } = useReportIncident({ value: value });
 
-  const [incidentTitle, setIncidentTitle] = useState();
+  const [incidentTitle, setIncidentTitle] = useState("");
   const [incidentDate, setIncidentDate] = useState();
   const [urls, setUrls] = useState([{ url: "" }]);
-  const [description, setDescription] = useState();
-  const [staked, setStaked] = useState();
+  const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
-  const maxValueToStake = 1000;
   const minValueToStake = 250;
 
   const maxDate = new Date().toISOString().slice(0, 16);
 
-  console.log(NPMTokenAddress);
-
   const handleChooseMax = () => {
-    setStaked(maxValueToStake);
+    setValue(convertFromUnits(balance).toString());
   };
 
   const handleTextArea = (e) => {
@@ -47,24 +55,25 @@ export const NewIncidentReportForm = () => {
     setUrls(list);
   };
 
-  const handleReportClick = () => {
-    console.log({
-      incidentTitle,
-      incidentDate,
-      urls,
-      description,
-      staked,
-    });
+  const handleSubmit = () => {
+    const payload = {
+      title: incidentTitle,
+      observed: new Date(incidentDate),
+      proofOfIncident: JSON.stringify(urls.map((x) => x.url)),
+      description: description,
+      stake: convertToUnits(value).toString(),
+    };
+
+    handleReport(coverKey, payload);
   };
 
-  const handleStakeChange = (val) => {
+  const handleValueChange = (val) => {
     if (typeof val === "string") {
-      setStaked(val);
+      setValue(val);
     }
   };
 
   const handleDeleteLink = (i) => {
-    console.log(i);
     let newArr = [...urls];
     newArr.splice(i, 1);
     setUrls(newArr);
@@ -176,26 +185,38 @@ export const NewIncidentReportForm = () => {
             </div>
             <div className="max-w-lg">
               <TokenAmountInput
-                tokenSymbol={"NPM"}
-                tokenAddress={NPMTokenAddress}
-                labelText={"Enter your amount"}
-                handleChooseMax={handleChooseMax}
-                inputValue={staked}
                 inputId={"stake-amount"}
-                onChange={handleStakeChange}
+                inputValue={value}
+                labelText={"Enter your amount"}
+                tokenBalance={balance}
+                tokenSymbol={tokenSymbol}
+                tokenAddress={tokenAddress}
+                handleChooseMax={handleChooseMax}
+                onChange={handleValueChange}
               >
-                <p className="text-9B9B9B mt-2">
+                <p className="text-9B9B9B">
                   Minimum Stake: {minValueToStake} NPM
                 </p>
               </TokenAmountInput>
             </div>
-            <RegularButton
-              className="text-h6 font-bold py-6 px-24 mt-16"
-              onClick={handleReportClick}
-              disabled={!staked}
-            >
-              REPORT
-            </RegularButton>
+
+            {!canReport ? (
+              <RegularButton
+                disabled={isError || approving || !value}
+                className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
+                onClick={handleApprove}
+              >
+                {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+              </RegularButton>
+            ) : (
+              <RegularButton
+                disabled={isError || reporting}
+                className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
+                onClick={handleSubmit}
+              >
+                {reporting ? "Reporting..." : "Report"}
+              </RegularButton>
+            )}
           </div>
         </Container>
       </div>
