@@ -1,25 +1,11 @@
-import { useState, useEffect } from "react";
-
-import { getCoverByKey } from "./cover.service.mock";
+import { useCovers } from "@/src/context/Covers";
 
 export const useCoverInfo = (key) => {
-  const [coverInfo, setCoverInfo] = useState(null);
+  const { covers } = useCovers();
 
-  useEffect(() => {
-    let ignore = false;
-    async function fetchCoverInfo() {
-      const response = await getCoverByKey(key);
-
-      if (!ignore) setCoverInfo(response);
-    }
-
-    fetchCoverInfo();
-    return () => {
-      ignore = true;
-    };
-  }, [key]);
+  const info = covers.find((x) => x.key === key);
 
   return {
-    coverInfo,
+    coverInfo: info,
   };
 };

@@ -9,6 +9,7 @@ import { Header } from "@/components/UI/organisms/header";
 import { AppWrapper } from "@/src/context/AppWrapper";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
+import { CoversProvider } from "@/src/context/Covers";
 
 const position = {
   variant: "top_right",
@@ -23,10 +24,12 @@ function MyApp({ Component, pageProps }) {
     <Web3ReactProvider getLibrary={getLibrary}>
       <AppWrapper>
         <AppConstantsProvider>
-          <ToastProvider variant={position.variant}>
-            <Header></Header>
-            <Component {...pageProps} />
-          </ToastProvider>
+          <CoversProvider>
+            <ToastProvider variant={position.variant}>
+              <Header></Header>
+              <Component {...pageProps} />
+            </ToastProvider>
+          </CoversProvider>
         </AppConstantsProvider>
       </AppWrapper>
     </Web3ReactProvider>

@@ -4,7 +4,6 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 
 import { CoverCard } from "@/components/UI/organisms/cover/card";
-import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import React from "react";
 
 import { HomeCard } from "@/components/UI/molecules/home-card";
@@ -15,13 +14,10 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
+import { useCovers } from "@/src/context/Covers";
 
 export const HomePage = () => {
-  const { availableCovers } = useAvailableCovers();
-
-  if (!availableCovers) {
-    return <>loading...</>;
-  }
+  const { covers: availableCovers, loading } = useCovers();
 
   return (
     <>
@@ -81,6 +77,8 @@ export const HomePage = () => {
           <SearchAndSortBar />
         </div>
         <Grid className="mt-14 mb-24">
+          {loading && <>loading...</>}
+          {!loading && availableCovers.length === 0 && <>No data found</>}
           {availableCovers.map((c) => {
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
