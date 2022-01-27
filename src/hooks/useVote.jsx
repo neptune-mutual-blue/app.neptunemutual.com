@@ -156,6 +156,27 @@ export const useVote = ({ coverKey, value }) => {
     setVoting(false);
   };
 
+  const handleDispute = async () => {
+    setVoting(true);
+
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+    const { result: tx } = await governance.dispute(
+      networkId,
+      coverKey,
+      convertToUnits(value).toString(),
+      signerOrProvider
+    );
+
+    await txToast.push(tx, {
+      pending: "Disputing",
+      success: "Disputed successfully",
+      failure: "Could not dispute",
+    });
+
+    setVoting(false);
+  };
+
   const canVote =
     value &&
     isValidNumber(value) &&
@@ -176,6 +197,7 @@ export const useVote = ({ coverKey, value }) => {
     isError,
 
     handleApprove,
+    handleDispute,
     handleAttest,
     handleRefute,
   };

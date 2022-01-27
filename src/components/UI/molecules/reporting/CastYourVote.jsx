@@ -15,6 +15,7 @@ export const CastYourVote = ({ incidentReport }) => {
     tokenAddress,
     tokenSymbol,
     handleApprove,
+    handleDispute,
     handleAttest,
     handleRefute,
     approving,
@@ -38,6 +39,13 @@ export const CastYourVote = ({ incidentReport }) => {
   };
 
   const handleReport = () => {
+    if (
+      votingType === "false-reporting" &&
+      incidentReport.totalRefutedCount === "0"
+    ) {
+      handleDispute();
+      return;
+    }
     if (votingType === "false-reporting") {
       handleRefute();
       return;
