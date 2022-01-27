@@ -1,5 +1,5 @@
-export const StakingCardTitle = ({ name }) => (
+export const StakingCardTitle = ({ text }) => (
   <h4 className="text-h4 font-sora font-semibold  mt-4">
-    Earn <span className="uppercase">{name}</span>
+    <span className="uppercase">{text}</span>
   </h4>
 );

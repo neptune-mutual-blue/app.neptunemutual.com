@@ -8,10 +8,10 @@ const defaultInfo = {
     min: 5,
     max: 7,
   },
-  apr: 12.03,
+  apr: 25,
   utilizationRatio: 25,
-  protection: 800000,
-  liquidity: 11010000,
+  protection: 150000,
+  liquidity: 25000000,
 };
 
 export const useFetchCovers = () => {
@@ -88,8 +88,6 @@ export const useFetchCovers = () => {
       ...defaultInfo,
     };
   });
-
-  console.log(covers);
 
   return {
     data: {

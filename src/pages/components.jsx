@@ -1,7 +1,5 @@
 import { Container } from "@/components/UI/atoms/container";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
-import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
-import { ReportSummary } from "@/src/_mocks/reporting/ReportSummary";
 import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 
@@ -26,14 +24,6 @@ export default function Components() {
             }}
           />
         </div>
-
-        <br />
-
-        <ReportSummary />
-
-        <br />
-
-        <RecentVotesTable />
 
         <br />
         <br />

@@ -51,8 +51,10 @@ export const PodStakingCard = ({ data }) => {
   const hasStaked = isGreater(info.accountStakeBalance, "0");
   const lockupPeriod = BigNumber(data.lockupPeriodInBlocks)
     .dividedBy("3600")
+    .decimalPlaces(2)
     .toString(); // hours
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
+  const poolName = info.name;
   const totalValueLocked = formatWithAabbreviation(
     convertFromUnits(info.totalStaked).toString()
   );
@@ -94,8 +96,8 @@ export const PodStakingCard = ({ data }) => {
       <div className="flex justify-between">
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
-          <StakingCardTitle name={rewardTokenSymbol} />
-          <StakingCardSubTitle unitName={stakingTokenSymbol} />
+          <StakingCardTitle text={poolName} />
+          <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
         </div>
         <div>
           <Badge className="text-21AD8C">APR: {25}%</Badge>
