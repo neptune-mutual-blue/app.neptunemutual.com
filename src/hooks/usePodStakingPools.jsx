@@ -40,7 +40,7 @@ export const usePodStakingPools = () => {
             rewardTokenDeposit
             maxStake
             rewardPerBlock
-            lockupPeriod
+            lockupPeriodInBlocks
             platformFee
           }
         }        

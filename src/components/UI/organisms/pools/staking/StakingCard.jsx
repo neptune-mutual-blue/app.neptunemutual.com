@@ -49,7 +49,7 @@ export const StakingCard = ({ data }) => {
   const stakedAmount = info.accountStakeBalance;
   const rewardAmount = info.rewards;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
-  const lockupPeriod = BigNumber(data.lockupPeriod)
+  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks)
     .dividedBy("3600")
     .toString(); // hours
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);

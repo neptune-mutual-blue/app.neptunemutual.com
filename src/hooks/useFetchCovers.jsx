@@ -89,6 +89,8 @@ export const useFetchCovers = () => {
     };
   });
 
+  console.log(covers);
+
   return {
     data: {
       covers,

@@ -1,11 +1,10 @@
-import { Contract } from "@ethersproject/contracts";
 import { useEffect, useState } from "react";
 import { AddressZero } from "@ethersproject/constants";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import IERC20 from "../config/contracts/abis/IERC20.json";
+import { registry } from "@neptunemutual/sdk";
 
 export const useTokenSymbol = (tokenAddress) => {
   const [tokenSymbol, setTokenSymbol] = useState("");
@@ -23,7 +22,11 @@ export const useTokenSymbol = (tokenAddress) => {
       networkId
     );
 
-    const instance = new Contract(tokenAddress, IERC20, signerOrProvider);
+    const instance = registry.IERC20.getInstance(
+      networkId,
+      tokenAddress,
+      signerOrProvider
+    );
 
     if (!instance) {
       console.log("instance not found");
