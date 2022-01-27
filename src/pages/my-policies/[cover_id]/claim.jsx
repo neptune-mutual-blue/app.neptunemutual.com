@@ -6,7 +6,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { ClaimCxTokensTable } from "@/components/UI/organisms/my-policies/ClaimCxTokensTable";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";

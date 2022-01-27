@@ -1,4 +1,4 @@
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";

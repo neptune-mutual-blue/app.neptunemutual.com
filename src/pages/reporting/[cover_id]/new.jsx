@@ -1,4 +1,4 @@
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CoverReportingRules } from "@/components/reporting/CoverReportingRules";
 import { NewIncidentReportForm } from "@/components/reporting/NewIncidentReportForm";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";

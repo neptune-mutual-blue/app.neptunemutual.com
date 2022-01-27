@@ -1,6 +1,6 @@
 import { Container } from "@/components/UI/atoms/container";
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";

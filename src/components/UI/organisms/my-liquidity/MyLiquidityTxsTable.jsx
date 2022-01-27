@@ -19,7 +19,7 @@ import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useEffect, useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 
 const renderHeader = (col) => (
   <th

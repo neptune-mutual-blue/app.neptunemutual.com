@@ -5,7 +5,7 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { CoverProfileInfoShort } from "@/components/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/components/UI/organisms/option/action-card";
 import { Container } from "@/components/UI/atoms/container";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 
 export const CoverOptionsPage = () => {

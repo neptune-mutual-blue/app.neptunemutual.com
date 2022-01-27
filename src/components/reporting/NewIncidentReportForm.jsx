@@ -24,7 +24,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   } = useReportIncident({ value: value });
 
   const [incidentTitle, setIncidentTitle] = useState("");
-  const [incidentDate, setIncidentDate] = useState();
+  const [incidentDate, setIncidentDate] = useState("");
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);

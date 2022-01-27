@@ -1,5 +1,5 @@
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
 import { useRouter } from "next/router";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";

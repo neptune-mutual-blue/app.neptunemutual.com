@@ -17,7 +17,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatTime, unixToDate } from "@/utils/date";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 
 const renderHeader = (col) => (
   <th

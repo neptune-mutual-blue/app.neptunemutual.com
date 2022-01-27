@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import { useCoverInfo } from "@/components/pages/cover/useCoverInfo";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { CoverRules } from "@/components/common/CoverRules";
