@@ -10,6 +10,7 @@ import { truncateAddress } from "@/utils/address";
 import { convertFromUnits } from "@/utils/bn";
 import { unixToDate } from "@/utils/date";
 import { formatWithAabbreviation } from "@/utils/formatter";
+import BigNumber from "bignumber.js";
 
 export const ActiveReportSummary = ({ incidentReport }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
@@ -24,8 +25,12 @@ export const ActiveReportSummary = ({ incidentReport }) => {
       .toNumber(),
   };
 
-  const yesPercent = (votes.yes * 100) / (votes.yes + votes.no);
-  const noPercent = 100 - yesPercent;
+  const yesPercent = BigNumber((votes.yes * 100) / (votes.yes + votes.no))
+    .decimalPlaces(2)
+    .toNumber();
+  const noPercent = BigNumber(100 - yesPercent)
+    .decimalPlaces(2)
+    .toNumber();
 
   return (
     <>
@@ -49,7 +54,7 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           />
           <Divider />
 
-          <CastYourVote />
+          <CastYourVote incidentReport={incidentReport} />
         </div>
 
         {/* Right half */}

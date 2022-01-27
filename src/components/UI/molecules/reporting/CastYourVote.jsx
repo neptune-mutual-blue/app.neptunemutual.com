@@ -4,46 +4,50 @@ import { Label } from "@/components/UI/atoms/label";
 import { useState } from "react";
 import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import { useVote } from "@/src/hooks/useVote";
+import { convertFromUnits } from "@/utils/bn";
 
-const maxAmtToStake = 500;
-
-export const CastYourVote = () => {
-  const [approved, setApproved] = useState(false);
-  const [vote, setVote] = useState("incident-occurred");
-  const [stakedAmount, setStakedAmount] = useState();
-
-  const toast = useToast();
+export const CastYourVote = ({ incidentReport }) => {
+  const [votingType, setVotingType] = useState("incident-occurred");
+  const [value, setValue] = useState();
+  const {
+    balance,
+    tokenAddress,
+    tokenSymbol,
+    handleApprove,
+    handleAttest,
+    handleRefute,
+    approving,
+    voting,
+    canVote,
+    isError,
+  } = useVote({ value, coverKey: incidentReport.key });
 
   const handleRadioChange = (e) => {
-    setVote(e.target.value);
+    setVotingType(e.target.value);
   };
 
   const handleChooseMax = () => {
-    setStakedAmount(maxAmtToStake);
+    setValue(convertFromUnits(balance).toString());
   };
 
-  const handleStakedAmtChange = (val) => {
+  const handleValueChange = (val) => {
     if (typeof val === "string") {
-      setStakedAmount(val);
+      setValue(val);
     }
   };
 
-  const handleApproveClick = () => {
-    setApproved(true);
+  const handleReport = () => {
+    if (votingType === "false-reporting") {
+      handleRefute();
+      return;
+    }
+    handleAttest();
   };
 
-  const handleReportClick = () => {
-    setApproved(false);
-    toast?.pushSuccess({
-      title: "Bond Claimed Successfully",
-      message: <p></p>,
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
-  };
-
-  const isFirstDispute = vote === "false-reporting";
+  const isFirstDispute =
+    votingType === "false-reporting" &&
+    incidentReport.totalRefutedCount === "0";
 
   return (
     <>
@@ -54,7 +58,7 @@ export const CastYourVote = () => {
           id="incident-radio"
           value="incident-occurred"
           name="vote-radio"
-          checked={vote === "incident-occurred"}
+          checked={votingType === "incident-occurred"}
           onChange={handleRadioChange}
         />
         <Radio
@@ -62,48 +66,48 @@ export const CastYourVote = () => {
           id="false-radio"
           name="vote-radio"
           value="false-reporting"
-          checked={vote === "false-reporting"}
+          checked={votingType === "false-reporting"}
           onChange={handleRadioChange}
         />
       </div>
       <Label
         htmlFor={"stake-to-cast-vote"}
-        className="font-semibold mb-4 uppercase"
+        className="font-semibold ml-2 mb-2 uppercase"
       >
-        {"Stake"}
+        Stake
       </Label>
       <div className="flex flex-wrap items-start gap-8 mb-11">
         <div className="flex-auto">
           <TokenAmountInput
-            tokenSymbol={"NPM"}
+            tokenSymbol={tokenSymbol}
+            tokenAddress={tokenAddress}
+            tokenBalance={balance}
             handleChooseMax={handleChooseMax}
-            inputValue={stakedAmount}
+            inputValue={value}
             inputId={"stake-to-cast-vote"}
-            onChange={handleStakedAmtChange}
+            onChange={handleValueChange}
           />
         </div>
 
-        {!approved && (
+        {!canVote ? (
           <RegularButton
             className={
-              "py-6 w-64 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
+              "py-6 w-64 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
             }
-            onClick={handleApproveClick}
-            disabled={!stakedAmount}
+            onClick={handleApprove}
+            disabled={isError || approving || !value}
           >
-            APPROVE NPM
+            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
           </RegularButton>
-        )}
-
-        {approved && (
+        ) : (
           <RegularButton
             className={
-              "flex-auto w-64 py-6 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
+              "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
             }
-            onClick={handleReportClick}
-            disabled={!stakedAmount}
+            onClick={handleReport}
+            disabled={isError || voting}
           >
-            REPORT
+            {voting ? "Reporting..." : "Report"}
           </RegularButton>
         )}
       </div>
