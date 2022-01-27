@@ -1,14 +1,16 @@
 import {
   Table,
-  TablePagination,
   TableWrapper,
   TBody,
   THead,
 } from "@/components/UI/organisms/Table";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import { getVotesList } from "@/src/_mocks/reporting/votes";
-
+import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";
+import { convertFromUnits } from "@/utils/bn";
+import { formatTime } from "@/utils/date";
+import { useAppContext } from "@/src/context/AppWrapper";
+import { useRecentVotes } from "@/src/hooks/useRecentVotes";
 
 const renderHeader = (col) => (
   <th
@@ -22,40 +24,19 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => <td className="px-6 py-6">{row.timestamp}</td>;
+const renderWhen = (row) => (
+  <td className="px-6 py-6">{formatTime(row.transaction.timestamp)}</td>
+);
 
 const renderAccount = (row) => (
   <td className="px-6 py-6">
-    <span className="whitespace-nowrap">{row.account}</span>
+    <span className="whitespace-nowrap">{row.witness}</span>
   </td>
 );
 
-const renderAmount = (row) => (
-  <td className="px-6 py-6">
-    <div className="flex items-center whitespace-nowrap">
-      <div
-        className={classNames(
-          "w-4 h-4 mr-4 rounded",
-          row.supportIncident ? "bg-21AD8C" : "bg-FA5C2F"
-        )}
-      ></div>
-      <div>
-        {row.amountStaked} {row.unit}
-      </div>
-    </div>
-  </td>
-);
+const renderAmount = (row) => <AmountRenderer row={row} />;
 
-const renderActions = (row) => (
-  <td className="px-6 py-6" style={{ minWidth: "60px" }}>
-    <div className="flex items-center justify-end">
-      <a href={`https://example.com/${row.txHash}`} className="p-1 text-black">
-        <span className="sr-only">Open in explorer</span>
-        <OpenInNewIcon className="h-4 w-4" />
-      </a>
-    </div>
-  </td>
-);
+const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
@@ -84,8 +65,10 @@ const columns = [
   },
 ];
 
-export const RecentVotesTable = () => {
-  const txsData = getVotesList();
+export const RecentVotesTable = ({ coverKey, incidentDate }) => {
+  const { data, loading } = useRecentVotes({ coverKey, incidentDate });
+
+  const { transactions } = data;
 
   return (
     <>
@@ -94,10 +77,49 @@ export const RecentVotesTable = () => {
       <TableWrapper>
         <Table>
           <THead columns={columns}></THead>
-          <TBody columns={columns} data={txsData}></TBody>
+          <TBody
+            isLoading={loading}
+            columns={columns}
+            data={transactions}
+          ></TBody>
         </Table>
-        <TablePagination />
       </TableWrapper>
     </>
+  );
+};
+
+const AmountRenderer = ({ row }) => {
+  return (
+    <td className="px-6 py-6">
+      <div className="flex items-center whitespace-nowrap">
+        <div
+          className={classNames(
+            "w-4 h-4 mr-4 rounded",
+            row.voteType === "Attested" ? "bg-21AD8C" : "bg-FA5C2F"
+          )}
+        ></div>
+        <div>{convertFromUnits(row.stake).decimalPlaces(2).toString()} NPM</div>
+      </div>
+    </td>
+  );
+};
+
+const ActionsRenderer = ({ row }) => {
+  const { networkId } = useAppContext();
+
+  return (
+    <td className="px-6 py-6" style={{ minWidth: "60px" }}>
+      <div className="flex items-center justify-end">
+        <a
+          href={getTxLink(networkId, { hash: row.transaction.id })}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="p-1 text-black"
+        >
+          <span className="sr-only">Open in explorer</span>
+          <OpenInNewIcon className="h-4 w-4" />
+        </a>
+      </div>
+    </td>
   );
 };

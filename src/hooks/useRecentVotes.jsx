@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { useState, useEffect } from "react";
 
-export const useFetchReport = (reportId) => {
+export const useRecentVotes = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { networkId } = useAppContext();
 
+  const { networkId } = useAppContext();
   useEffect(() => {
-    if (!networkId || !reportId) {
+    if (!networkId || !coverKey || !incidentDate) {
       return;
     }
 
@@ -28,35 +28,30 @@ export const useFetchReport = (reportId) => {
       body: JSON.stringify({
         query: `
         {
-          incidentReport(
-            id: "${reportId}"
-          ) {
-            id
-            key
-            incidentDate
-            resolved
-            finalized
-            status
-            resolutionTimestamp
-            reporter
-            reporterInfo
-            reporterStake
-            disputer
-            disputerInfo
-            disputerStake
-            totalAttestedStake
-            totalAttestedCount
-            totalRefutedStake
-            totalRefutedCount
-            reportTransaction {
-              id
+          _meta {
+            block {
+              number
             }
-            disputeTransaction {
+          }
+          votes(
+            orderBy: createdAtTimestamp
+            orderDirection: desc
+            where: {
+              key:"${coverKey}"
+              incidentDate: "${incidentDate}"
+          }) {
+            id
+            createdAtTimestamp
+            voteType
+            witness
+            stake
+            transaction {
               id
+              timestamp
             }
           }
         }        
-        `,
+      `,
       }),
     })
       .then((r) => r.json())
@@ -67,11 +62,13 @@ export const useFetchReport = (reportId) => {
       .catch(() => {
         setLoading(false);
       });
-  }, [networkId, reportId]);
+  }, [coverKey, incidentDate, networkId]);
 
   return {
     data: {
-      incidentReport: data?.incidentReport,
+      blockNumber: data?._meta?.block?.number,
+      transactions: data?.votes || [],
+      totalCount: (data?.votes || []).length,
     },
     loading,
   };

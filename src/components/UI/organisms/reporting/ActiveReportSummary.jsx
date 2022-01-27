@@ -6,11 +6,26 @@ import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { HlCalendar } from "@/lib/hl-calendar";
+import { truncateAddress } from "@/utils/address";
+import { convertFromUnits } from "@/utils/bn";
+import { unixToDate } from "@/utils/date";
+import { formatWithAabbreviation } from "@/utils/formatter";
 
-export const ActiveReportSummary = () => {
-  const startDate = new Date();
-  const endDate = new Date(startDate.getTime());
-  endDate.setDate(startDate.getDate() + 6);
+export const ActiveReportSummary = ({ incidentReport }) => {
+  const startDate = new Date(incidentReport.incidentDate * 1000);
+  const endDate = new Date(incidentReport.resolutionTimestamp * 1000);
+
+  const votes = {
+    yes: convertFromUnits(incidentReport.totalAttestedStake)
+      .decimalPlaces(0)
+      .toNumber(),
+    no: convertFromUnits(incidentReport.totalRefutedStake)
+      .decimalPlaces(0)
+      .toNumber(),
+  };
+
+  const yesPercent = (votes.yes * 100) / (votes.yes + votes.no);
+  const noPercent = 100 - yesPercent;
 
   return (
     <>
@@ -19,10 +34,19 @@ export const ActiveReportSummary = () => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <VotesSummaryDoughnutChart votes={{ yes: 3000, no: 1000 }} />
+          <VotesSummaryDoughnutChart
+            votes={votes}
+            yesPercent={yesPercent}
+            noPercent={noPercent}
+          />
           <Divider />
 
-          <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
+          <VotesSummaryHorizantalChart
+            votes={votes}
+            yesPercent={yesPercent}
+            noPercent={noPercent}
+            resolved={false}
+          />
           <Divider />
 
           <CastYourVote />
@@ -33,18 +57,39 @@ export const ActiveReportSummary = () => {
           <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
           <InsightsTable
             insights={[
-              { title: "Incident Occured", value: "75%", variant: "success" },
-              { title: "User Votes:", value: "123456" },
-              { title: "Stake:", value: "500 NPM" },
+              {
+                title: "Incident Occured",
+                value: `${yesPercent}%`,
+                variant: "success",
+              },
+              {
+                title: "User Votes:",
+                value: incidentReport.totalAttestedCount,
+              },
+              {
+                title: "Stake:",
+                value: `${formatWithAabbreviation(
+                  convertFromUnits(incidentReport.totalAttestedStake).toString()
+                )} NPM`,
+              },
             ]}
           />
 
           <hr className="mt-4 mb-6 border-t border-d4dfee" />
           <InsightsTable
             insights={[
-              { title: "False Reporting", value: "25%", variant: "error" },
-              { title: "User Votes:", value: "12345" },
-              { title: "Stake:", value: "300K NPM" },
+              {
+                title: "False Reporting",
+                value: `${noPercent}%`,
+                variant: "error",
+              },
+              { title: "User Votes:", value: incidentReport.totalRefutedCount },
+              {
+                title: "Stake:",
+                value: `${formatWithAabbreviation(
+                  convertFromUnits(incidentReport.totalRefutedStake).toString()
+                )} NPM`,
+              },
             ]}
           />
 
@@ -54,18 +99,23 @@ export const ActiveReportSummary = () => {
           </h3>
           <IncidentReporter
             variant={"success"}
-            account={"0xce3805...000633"}
-            txHash={"0xasdasd"}
+            account={truncateAddress(incidentReport.reporter)}
+            txHash={incidentReport.reportTransaction.id}
           />
-          <IncidentReporter
-            variant={"error"}
-            account={"0xce3805...000633"}
-            txHash={"0xasdasd"}
-          />
+          {incidentReport.disputer && (
+            <IncidentReporter
+              variant={"error"}
+              account={truncateAddress(incidentReport.disputer)}
+              txHash={incidentReport.disputeTransaction.id}
+            />
+          )}
 
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
-          <p className="text-sm opacity-50 mb-4">1 September - 7 September</p>
+          <p className="text-sm opacity-50 mb-4">
+            {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
+            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+          </p>
           <HlCalendar startDate={startDate} endDate={endDate} />
         </div>
 

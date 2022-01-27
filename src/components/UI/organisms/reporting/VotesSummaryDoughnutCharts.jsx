@@ -1,10 +1,7 @@
 import { PercentDoughnutChart } from "@/components/UI/molecules/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
 
-export const VotesSummaryDoughnutChart = ({ votes }) => {
-  const yesPercent = (votes.yes * 100) / (votes.yes + votes.no);
-  const noPercent = 100 - yesPercent;
-
+export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [

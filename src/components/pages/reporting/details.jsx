@@ -14,12 +14,15 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
       <hr className="border-b border-B0C4DB" />
       <Container className="py-16">
         {incidentReport.resolved ? (
-          <ResolvedReportSummary />
+          <ResolvedReportSummary incidentReport={incidentReport} />
         ) : (
-          <ActiveReportSummary />
+          <ActiveReportSummary incidentReport={incidentReport} />
         )}
 
-        <RecentVotesTable />
+        <RecentVotesTable
+          coverKey={incidentReport.key}
+          incidentDate={incidentReport.incidentDate}
+        />
       </Container>
     </>
   );

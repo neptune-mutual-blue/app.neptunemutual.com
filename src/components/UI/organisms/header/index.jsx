@@ -11,6 +11,7 @@ import AccountBalanceWalletIcon from "@/icons/AccountBalanceWalletIcon";
 import { AccountDetailsModal } from "@/components/UI/organisms/header/AccountDetailsModal";
 import useAuth from "@/lib/connect-wallet/hooks/useAuth";
 import { Banner } from "@/components/common/Banner";
+import { truncateAddress } from "@/utils/address";
 
 const getNavigationLinks = (pathname = "") => {
   let links = [
@@ -135,9 +136,7 @@ export const Header = () => {
                     onClick={handleToggleAccountPopup}
                   >
                     <AccountBalanceWalletIcon width="24" height="24" />
-                    <span className="pl-2">
-                      {account.substring(0, 4) + "...." + account.slice(-4)}
-                    </span>
+                    <span className="pl-2">{truncateAddress(account)}</span>
                   </button>
                 );
               }

@@ -5,7 +5,7 @@ import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAm
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
 
-export const ResolvedReportSummary = () => {
+export const ResolvedReportSummary = ({ incidentReport }) => {
   const startDate = new Date();
   const endDate = new Date(startDate.getTime());
   endDate.setDate(startDate.getDate() + 6);
@@ -17,7 +17,10 @@ export const ResolvedReportSummary = () => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <VotesSummaryHorizantalChart votes={{ yes: 3000, no: 1000 }} />
+          <VotesSummaryHorizantalChart
+            votes={{ yes: 3000, no: 1000 }}
+            resolved={true}
+          />
           <Divider />
 
           <UnstakeYourAmount />
