@@ -38,7 +38,7 @@ export const BondInfoCard = ({
             {vestingPeriod} days vesting term
           </p>
         </div>
-        <Badge>ROI: {ROI}%</Badge>
+        <Badge className="text-21AD8C">ROI: {ROI}%</Badge>
       </div>
 
       <BondStatsContainer details={details} />

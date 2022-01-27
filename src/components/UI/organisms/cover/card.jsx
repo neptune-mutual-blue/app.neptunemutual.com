@@ -37,7 +37,7 @@ export const CoverCard = ({ details }) => {
           </div>
         </div>
         <div>
-          <Badge>APR: {apr}%</Badge>
+          <Badge className="text-21AD8C">APR: {apr}%</Badge>
         </div>
       </div>
 

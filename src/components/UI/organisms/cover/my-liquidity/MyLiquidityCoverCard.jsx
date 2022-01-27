@@ -43,7 +43,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
           </h4>
         </div>
         <div>
-          <Badge>APR: {"25"}%</Badge>
+          <Badge className="text-21AD8C">APR: {"25"}%</Badge>
         </div>
       </div>
 

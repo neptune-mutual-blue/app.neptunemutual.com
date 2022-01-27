@@ -7,15 +7,26 @@ import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { unixToDate } from "@/utils/date";
 import Link from "next/link";
+import { useActivePolicyStatus } from "@/src/hooks/useActivePolicyStatus";
+import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 
 export const ActivePolicyCard = ({ details }) => {
   const { totalAmountToCover, expiresOn, cover } = details;
   const { coverInfo } = useCoverInfo(cover.id);
+  const {
+    data: { statuses, reports },
+  } = useActivePolicyStatus({
+    coverKey: cover.id,
+    expiresOn,
+  });
 
   const imgSrc = getCoverImgSrc({ key: cover.id });
 
-  const status = "";
-  const statusType = "failure";
+  const status = statuses[0];
+  const report = reports[0];
+  const statusType = ["Reporting", "FalseReporting"].includes(status)
+    ? "failure"
+    : "";
   const isClaimable = false;
 
   return (
@@ -37,10 +48,10 @@ export const ActivePolicyCard = ({ details }) => {
           {status && (
             <Badge
               className={classNames(
-                statusType == "failure" && " text-FA5C2F border-FA5C2F"
+                statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
               )}
             >
-              {status}
+              <IncidentReportStatus status={status} />
             </Badge>
           )}
         </div>
@@ -51,24 +62,26 @@ export const ActivePolicyCard = ({ details }) => {
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 pb-4">
-        <div className="flex flex-col">
-          <span className="font-semibold text-black text-sm pb-2">
-            Expires In
-          </span>
-          <span
-            className={classNames(isClaimable ? "text-FA5C2F" : "text-7398C0")}
-          >
-            {unixToDate(expiresOn, "YYYY/MM/DD HH:mm") + " UTC"}
-          </span>
-        </div>
-        <div className="flex flex-col">
-          <span className="font-semibold text-black text-sm pb-2">
-            Purchased Policy
-          </span>
-          <span className="text-7398C0 text-right">
-            $ {convertFromUnits(totalAmountToCover).toString()}
-          </span>
-        </div>
+        {report ? (
+          <Stat
+            title="Resolution By"
+            value={
+              unixToDate(report.resolutionTimestamp, "YYYY/MM/DD HH:mm") +
+              " UTC"
+            }
+          />
+        ) : (
+          <Stat
+            title="Expires In"
+            value={unixToDate(expiresOn, "YYYY/MM/DD HH:mm") + " UTC"}
+          />
+        )}
+
+        <Stat
+          title="Purchased Policy"
+          value={`$ ${convertFromUnits(totalAmountToCover).toString()}`}
+          right
+        />
       </div>
 
       {isClaimable && (
@@ -79,5 +92,21 @@ export const ActivePolicyCard = ({ details }) => {
         </Link>
       )}
     </OutlinedCard>
+  );
+};
+
+const Stat = ({ title, value, right, variant }) => {
+  return (
+    <div className="flex flex-col">
+      <span className="font-semibold text-black text-sm pb-2">{title}</span>
+      <span
+        className={classNames(
+          variant === "error" ? "text-FA5C2F" : "text-7398C0",
+          right && "text-right"
+        )}
+      >
+        {value}
+      </span>
+    </div>
   );
 };

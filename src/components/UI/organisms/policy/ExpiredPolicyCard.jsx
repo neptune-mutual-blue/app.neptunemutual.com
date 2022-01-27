@@ -34,7 +34,7 @@ export const ExpiredPolicyCard = ({ details }) => {
           {status && (
             <Badge
               className={classNames(
-                statusType == "failure" && " text-FA5C2F border-FA5C2F"
+                statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
               )}
             >
               {status}

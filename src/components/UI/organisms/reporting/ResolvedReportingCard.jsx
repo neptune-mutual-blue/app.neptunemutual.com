@@ -22,7 +22,7 @@ export const ResolvedReportingCard = ({ details }) => {
           <Badge
             className={classNames(
               "capitalize",
-              !status && "border-FA5C2F text-FA5C2F"
+              status ? "text-21AD8C" : "text-FA5C2F"
             )}
           >
             {statusText}

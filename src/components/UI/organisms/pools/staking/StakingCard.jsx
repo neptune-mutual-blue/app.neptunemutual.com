@@ -104,7 +104,7 @@ export const StakingCard = ({ data }) => {
           <StakingCardSubTitle unitName={stakingTokenSymbol} />
         </div>
         <div>
-          <Badge>APR: {25}%</Badge>
+          <Badge className="text-21AD8C">APR: {25}%</Badge>
         </div>
       </div>
 
