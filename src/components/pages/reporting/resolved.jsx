@@ -1,30 +1,35 @@
-import { useResolvedReporting } from "@/components/pages/reporting/resolved/useResolvedReporting";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { ResolvedReportingCard } from "@/components/UI/organisms/reporting/ResolvedReportingCard";
+import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import Link from "next/link";
 
 export const ReportingResolvedPage = () => {
-  const { resolvedReportings } = useResolvedReporting();
+  const { data, loading } = useResolvedReportings();
 
-  if (!resolvedReportings) {
-    return <>loading..!</>;
-  }
+  const isEmpty = data.incidentReports.length === 0;
+
   return (
     <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
         <SearchAndSortBar />
       </div>
+
+      {loading && <p className="text-center">Loading...</p>}
+
+      {!loading && isEmpty && <p className="text-center">No data found</p>}
+
       <Grid className="mt-14 mb-24">
-        {resolvedReportings.map((resolved) => {
+        {data.incidentReports.map((report) => {
           return (
-            <Link
-              href={`/reporting/${resolved.key}/resolved`}
-              key={resolved.name}
-            >
+            <Link href={`/reporting/${report.id}/details`} key={report.id}>
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                <ResolvedReportingCard key={resolved.id} details={resolved} />
+                <ResolvedReportingCard
+                  coverKey={report.key}
+                  resolutionTimestamp={report.resolutionTimestamp}
+                  status={report.status}
+                />
               </a>
             </Link>
           );

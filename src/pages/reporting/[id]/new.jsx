@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function ReportingNewCoverPage() {
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { id: cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const [accepted, setAccepted] = useState(false);

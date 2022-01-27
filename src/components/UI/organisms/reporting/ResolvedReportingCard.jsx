@@ -3,29 +3,43 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
+import { unixToDate } from "@/utils/date";
+import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 
-export const ResolvedReportingCard = ({ details }) => {
-  const { name, resolvedOn, status, statusText, key } = details;
-  const imgSrc = getCoverImgSrc({ key: key });
+export const ResolvedReportingCard = ({
+  coverKey,
+  status,
+  resolutionTimestamp,
+}) => {
+  const { coverInfo } = useCoverInfo(coverKey);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const statusType = ["Reporting", "FalseReporting"].includes(status)
+    ? "failure"
+    : "";
+
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">
         <div>
           <div className="w-18 h-18 bg-DEEAF6 rounded-full">
-            <img src={imgSrc} alt={name} className="inline-block max-w-full" />
+            <img
+              src={imgSrc}
+              alt={coverInfo.projectName}
+              className="inline-block max-w-full"
+            />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {name}
+            {coverInfo.projectName}
           </h4>
         </div>
         <div>
           <Badge
             className={classNames(
-              "capitalize",
-              status ? "text-21AD8C" : "text-FA5C2F"
+              statusType == "failure" ? "text-FA5C2F" : "text-21AD8C"
             )}
           >
-            {statusText}
+            <IncidentReportStatus status={status} />
           </Badge>
         </div>
       </div>
@@ -35,7 +49,10 @@ export const ResolvedReportingCard = ({ details }) => {
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 mb-4">
-        <span className="">Resolved On: {resolvedOn}</span>
+        <span className="">
+          Resolved On: {unixToDate(resolutionTimestamp, "MM/DD/YYYY HH:mm:ss")}{" "}
+          UTC
+        </span>
       </div>
     </OutlinedCard>
   );
