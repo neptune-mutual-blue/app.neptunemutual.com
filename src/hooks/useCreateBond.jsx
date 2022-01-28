@@ -135,27 +135,30 @@ export const useCreateBond = ({ info, value }) => {
 
   const handleBond = async () => {
     setBonding(true);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const instance = await registry.BondPool.getInstance(
+        chainId,
+        signerOrProvider
+      );
 
-    const instance = await registry.BondPool.getInstance(
-      chainId,
-      signerOrProvider
-    );
+      //TODO: passing minNpm desired (smart contract)
+      let tx = await instance.createBond(
+        convertToUnits(value).toString(),
+        convertToUnits(value).toString()
+      );
 
-    //TODO: passing minNpm desired (smart contract)
-    let tx = await instance.createBond(
-      convertToUnits(value).toString(),
-      convertToUnits(value).toString()
-    );
-
-    await txToast.push(tx, {
-      pending: "Creating bond",
-      success: "Created bond successfully",
-      failure: "Could not create bond",
-    });
-
-    setBonding(false);
+      await txToast.push(tx, {
+        pending: "Creating bond",
+        success: "Created bond successfully",
+        failure: "Could not create bond",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setBonding(false);
+    }
   };
 
   const canBond =

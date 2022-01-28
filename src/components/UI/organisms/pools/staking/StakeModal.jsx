@@ -37,6 +37,7 @@ export const StakeModal = ({
 
   const lockupPeriod = BigNumber(info.lockupPeriodInBlocks)
     .dividedBy("3600")
+    .decimalPlaces(2)
     .toString(); // hours
   const tokenAddress = info.stakingToken;
 
