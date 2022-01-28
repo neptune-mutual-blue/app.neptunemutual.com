@@ -27,6 +27,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
     handleProvide,
     isError,
     providing,
+    podSymbol,
   } = useProvideLiquidity({
     coverKey,
     value,
@@ -66,9 +67,8 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
       <div className="pb-16">
         <ReceiveAmountInput
           labelText="You Will Receive"
-          tokenSymbol="POD"
+          tokenSymbol={podSymbol}
           inputValue={receiveAmount}
-          inputId="my-liquidity-receive"
         />
       </div>
 

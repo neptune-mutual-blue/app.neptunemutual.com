@@ -45,9 +45,10 @@ export const MyLiquidityCoverPage = () => {
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
   const myLiquidity = BigNumber(info.myShare);
   const myEarnings = myLiquidity.minus(
-    BigNumber(info.myDeposits).minus(BigNumber(info.myWithdrawals))
+    BigNumber(info.myDeposits).minus(info.myWithdrawals)
   );
   const reassuranceAmount = info.totalReassurance;
+  console.log(myEarnings.toString());
 
   return (
     <div>
@@ -106,7 +107,7 @@ export const MyLiquidityCoverPage = () => {
                 <strong className="text-right font-bold">
                   ${" "}
                   {formatWithAabbreviation(
-                    convertFromUnits(myEarnings).toString()
+                    convertFromUnits(myEarnings.toString()).toString()
                   )}
                 </strong>
               </div>

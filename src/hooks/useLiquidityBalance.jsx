@@ -3,14 +3,13 @@ import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { ZERO_BI } from "@/utils/bn";
 
 export const useLiquidityBalance = () => {
-  const [balance, setBalance] = useState();
+  const [balance, setBalance] = useState("0");
   const { library, account, chainId } = useWeb3React();
 
   const fetchBalance = useCallback(async () => {
-    if (!chainId || !account) return ZERO_BI;
+    if (!chainId || !account) return "0";
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
@@ -29,7 +28,7 @@ export const useLiquidityBalance = () => {
       console.error(e);
     }
 
-    return ZERO_BI;
+    return "0";
   }, [account, chainId, library]);
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export const useLiquidityBalance = () => {
 
     fetchBalance().then((_balance) => {
       if (ignore) return;
-      setBalance(_balance);
+      setBalance(_balance.toString());
     });
 
     return () => (ignore = true);

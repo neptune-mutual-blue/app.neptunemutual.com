@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { liquidity } from "@neptunemutual/sdk";
+import { liquidity, registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import {
@@ -9,18 +9,37 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
+import { useTxToast } from "@/src/hooks/useTxToast";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 export const useProvideLiquidity = ({ coverKey, value }) => {
   const [allowance, setAllowance] = useState();
   const [approving, setApproving] = useState();
   const [providing, setProviding] = useState();
+  const [vaultAddress, setVaultAddress] = useState("");
+  const podSymbol = useTokenSymbol(vaultAddress);
 
   const txToast = useTxToast();
 
   const { library, account, chainId } = useWeb3React();
   const { balance } = useLiquidityBalance();
+
+  useEffect(() => {
+    if (!chainId || !account) return;
+
+    let ignore = false;
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
+      .then((addr) => {
+        if (ignore) return;
+        return setVaultAddress(addr);
+      })
+      .catch(console.error);
+
+    return () => (ignore = true);
+  }, [chainId, account, library, coverKey]);
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -129,5 +148,6 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
     providing,
     handleApprove,
     handleProvide,
+    podSymbol,
   };
 };

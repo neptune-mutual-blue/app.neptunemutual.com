@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -10,13 +10,16 @@ import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { liquidityTokenSymbol } from "@/src/config/constants";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import dayjs from "dayjs";
+import { unixToDate } from "@/utils/date";
 
-export const ProvideLiquidityForm = ({ coverKey }) => {
+export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [value, setValue] = useState();
   const router = useRouter();
 
   const { liquidityTokenAddress } = useAppConstants();
+  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const {
     balance,
     approving,
@@ -25,6 +28,7 @@ export const ProvideLiquidityForm = ({ coverKey }) => {
     handleProvide,
     isError,
     providing,
+    podSymbol,
   } = useProvideLiquidity({
     coverKey,
     value,
@@ -42,6 +46,8 @@ export const ProvideLiquidityForm = ({ coverKey }) => {
   const handleChange = (val) => {
     setValue(val);
   };
+
+  const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
 
   return (
     <div className="max-w-md">
@@ -62,14 +68,18 @@ export const ProvideLiquidityForm = ({ coverKey }) => {
       <div className="pb-16">
         <ReceiveAmountInput
           labelText="You Will Receive"
-          tokenSymbol="POD"
+          tokenSymbol={podSymbol}
           inputValue={receiveAmount}
-          inputId="add-liquidity-receive"
         />
       </div>
 
       <div>
-        <UnlockDate dateValue="September 22, 2021 12:34:00 PM UTC" />
+        <UnlockDate
+          dateValue={`${unixToDate(
+            unlockTimestamp,
+            "MMMM DD, YYYY hh:mm:ss A"
+          )} UTC`}
+        />
       </div>
 
       {!canProvideLiquidity ? (

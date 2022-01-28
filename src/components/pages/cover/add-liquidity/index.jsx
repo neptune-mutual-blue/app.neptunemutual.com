@@ -70,7 +70,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
             {acceptedRules ? (
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={coverKey} />
+                <ProvideLiquidityForm coverKey={coverKey} info={info} />
               </div>
             ) : (
               <>

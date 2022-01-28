@@ -23,9 +23,8 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
 
   const reassurancePercent = BigNumber(info.totalReassurance)
     .multipliedBy(100)
-    .dividedBy(
-      sumOf(info.balance, info.extendedBalance, info.totalReassurance)
-    );
+    .dividedBy(sumOf(info.balance, info.extendedBalance, info.totalReassurance))
+    .decimalPlaces(2);
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
