@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-
+import { AddressZero } from "@ethersproject/constants";
 import { useWeb3React } from "@web3-react/core";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry, governance } from "@neptunemutual/sdk";
+
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import {
   convertToUnits,
   isGreater,
@@ -14,9 +15,10 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
-export const useReportIncident = ({ value }) => {
+export const useReportIncident = ({ coverKey, value }) => {
   const [balance, setBalance] = useState("0");
   const [allowance, setAllowance] = useState("0");
+  const [minStake, setMinStake] = useState("0");
   const [approving, setApproving] = useState(false);
   const [reporting, setReporting] = useState(false);
 
@@ -80,6 +82,30 @@ export const useReportIncident = ({ value }) => {
     return () => (ignore = true);
   }, [account, networkId, library, NPMTokenAddress]);
 
+  useEffect(() => {
+    if (!networkId) return;
+
+    let ignore = false;
+    const signerOrProvider = getProviderOrSigner(
+      library,
+      account || AddressZero,
+      networkId
+    );
+
+    governance
+      .getMinStake(networkId, coverKey, signerOrProvider)
+      .then(({ result }) => {
+        if (ignore) return;
+        setMinStake(result.toString());
+      })
+      .catch((e) => {
+        console.error(e);
+        if (ignore) return;
+      });
+
+    return () => (ignore = true);
+  }, [account, library, networkId]);
+
   const handleApprove = async () => {
     try {
       setApproving(true);
@@ -114,22 +140,31 @@ export const useReportIncident = ({ value }) => {
     }
   };
 
-  const handleReport = async (key, payload) => {
+  const handleReport = async (payload) => {
     setReporting(true);
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    const {
-      result: { tx },
-    } = await governance.report(networkId, key, payload, signerOrProvider);
+      const {
+        result: { tx },
+      } = await governance.report(
+        networkId,
+        coverKey,
+        payload,
+        signerOrProvider
+      );
 
-    await txToast.push(tx, {
-      pending: "Reporting incident",
-      success: "Reported incident successfully",
-      failure: "Could not report incident",
-    });
-
-    setReporting(false);
+      await txToast.push(tx, {
+        pending: "Reporting incident",
+        success: "Reported incident successfully",
+        failure: "Could not report incident",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setReporting(false);
+    }
   };
 
   const canReport =
@@ -143,6 +178,7 @@ export const useReportIncident = ({ value }) => {
   return {
     tokenAddress: NPMTokenAddress,
     tokenSymbol,
+    minStake,
 
     balance,
     approving,

@@ -13,6 +13,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
   const {
     balance,
+    minStake,
     tokenAddress,
     tokenSymbol,
     handleApprove,
@@ -21,14 +22,13 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     reporting,
     canReport,
     isError,
-  } = useReportIncident({ value: value });
+  } = useReportIncident({ coverKey, value });
 
   const [incidentTitle, setIncidentTitle] = useState("");
   const [incidentDate, setIncidentDate] = useState("");
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
-  const minValueToStake = 250;
 
   const maxDate = new Date().toISOString().slice(0, 16);
 
@@ -64,7 +64,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
       stake: convertToUnits(value).toString(),
     };
 
-    handleReport(coverKey, payload);
+    handleReport(payload);
   };
 
   const handleValueChange = (val) => {
@@ -195,7 +195,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 onChange={handleValueChange}
               >
                 <p className="text-9B9B9B">
-                  Minimum Stake: {minValueToStake} NPM
+                  Minimum Stake: {convertFromUnits(minStake).toString()} NPM
                 </p>
               </TokenAmountInput>
             </div>
