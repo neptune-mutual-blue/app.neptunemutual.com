@@ -6,7 +6,6 @@ import { useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { convertFromUnits } from "@/utils/bn";
-import BigNumber from "bignumber.js";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 
 export const StakeModal = ({
@@ -16,6 +15,7 @@ export const StakeModal = ({
   isOpen,
   onClose,
   unitName,
+  lockupPeriod,
 }) => {
   const [inputValue, setInputValue] = useState();
 
@@ -35,10 +35,6 @@ export const StakeModal = ({
     maximumStake: info.maximumStake,
   });
 
-  const lockupPeriod = BigNumber(info.lockupPeriodInBlocks)
-    .dividedBy("3600")
-    .decimalPlaces(2)
-    .toString(); // hours
   const tokenAddress = info.stakingToken;
 
   const handleChooseMax = () => {

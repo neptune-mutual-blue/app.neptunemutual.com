@@ -18,11 +18,14 @@ import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { config } from "@neptunemutual/sdk";
+import { useAppContext } from "@/src/context/AppWrapper";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data }) => {
+  const { networkId } = useAppContext();
   const { info } = usePoolInfo({ key: data.key });
 
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -49,7 +52,10 @@ export const StakingCard = ({ data }) => {
   const stakedAmount = info.accountStakeBalance;
   const rewardAmount = info.rewards;
   const hasStaked = isGreater(info.accountStakeBalance, "0");
+  const approxBlockTime =
+    config.networks.getChainConfig(networkId).approximateBlockTime;
   const lockupPeriod = BigNumber(data.lockupPeriodInBlocks)
+    .multipliedBy(approxBlockTime)
     .dividedBy("3600")
     .decimalPlaces(2)
     .toString(); // hours
@@ -154,6 +160,7 @@ export const StakingCard = ({ data }) => {
         )}
       </div>
       <StakeModal
+        lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
         modalTitle={

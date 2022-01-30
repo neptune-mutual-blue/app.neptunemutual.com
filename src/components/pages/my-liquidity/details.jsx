@@ -48,7 +48,6 @@ export const MyLiquidityCoverPage = () => {
     BigNumber(info.myDeposits).minus(info.myWithdrawals)
   );
   const reassuranceAmount = info.totalReassurance;
-  console.log(myEarnings.toString());
 
   return (
     <div>

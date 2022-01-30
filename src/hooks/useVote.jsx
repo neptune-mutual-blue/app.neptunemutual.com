@@ -81,8 +81,8 @@ export const useVote = ({ coverKey, value }) => {
   }, [account, networkId, library, NPMTokenAddress]);
 
   const handleApprove = async () => {
+    setApproving(true);
     try {
-      setApproving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const governanceContractAddress = await registry.Governance.getAddress(
@@ -107,9 +107,10 @@ export const useVote = ({ coverKey, value }) => {
         failure: `Could not approve ${tokenSymbol} tokens`,
       });
 
-      setApproving(false);
       checkAllowance();
     } catch (error) {
+      console.error(err);
+    } finally {
       setApproving(false);
     }
   };
@@ -117,64 +118,76 @@ export const useVote = ({ coverKey, value }) => {
   const handleAttest = async () => {
     setVoting(true);
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    const { result: tx } = await governance.attest(
-      networkId,
-      coverKey,
-      convertToUnits(value).toString(),
-      signerOrProvider
-    );
+      const { result: tx } = await governance.attest(
+        networkId,
+        coverKey,
+        convertToUnits(value).toString(),
+        signerOrProvider
+      );
 
-    await txToast.push(tx, {
-      pending: "Attesting",
-      success: "Attested successfully",
-      failure: "Could not attest",
-    });
-
-    setVoting(false);
+      await txToast.push(tx, {
+        pending: "Attesting",
+        success: "Attested successfully",
+        failure: "Could not attest",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setVoting(false);
+    }
   };
 
   const handleRefute = async () => {
     setVoting(true);
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    const { result: tx } = await governance.refute(
-      networkId,
-      coverKey,
-      convertToUnits(value).toString(),
-      signerOrProvider
-    );
+      const { result: tx } = await governance.refute(
+        networkId,
+        coverKey,
+        convertToUnits(value).toString(),
+        signerOrProvider
+      );
 
-    await txToast.push(tx, {
-      pending: "Refuting",
-      success: "Refuted successfully",
-      failure: "Could not refute",
-    });
-
-    setVoting(false);
+      await txToast.push(tx, {
+        pending: "Refuting",
+        success: "Refuted successfully",
+        failure: "Could not refute",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setVoting(false);
+    }
   };
 
   const handleDispute = async () => {
     setVoting(true);
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    const { result: tx } = await governance.dispute(
-      networkId,
-      coverKey,
-      convertToUnits(value).toString(),
-      signerOrProvider
-    );
+      const { result: tx } = await governance.dispute(
+        networkId,
+        coverKey,
+        convertToUnits(value).toString(),
+        signerOrProvider
+      );
 
-    await txToast.push(tx, {
-      pending: "Disputing",
-      success: "Disputed successfully",
-      failure: "Could not dispute",
-    });
-
-    setVoting(false);
+      await txToast.push(tx, {
+        pending: "Disputing",
+        success: "Disputed successfully",
+        failure: "Could not dispute",
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setVoting(false);
+    }
   };
 
   const canVote =

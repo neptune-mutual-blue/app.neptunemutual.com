@@ -86,25 +86,28 @@ export const useReportIncident = ({ coverKey, value }) => {
     if (!networkId) return;
 
     let ignore = false;
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    async function fetchMinStake() {
+      const signerOrProvider = getProviderOrSigner(
+        library,
+        account || AddressZero,
+        networkId
+      );
 
-    governance
-      .getMinStake(networkId, coverKey, signerOrProvider)
-      .then(({ result }) => {
-        if (ignore) return;
-        setMinStake(result.toString());
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
+      const governance = await registry.Governance.getInstance(
+        networkId,
+        signerOrProvider
+      );
+
+      const minStake = await governance.getFirstReportingStake(coverKey);
+
+      if (ignore) return;
+      setMinStake(minStake.toString());
+    }
+
+    fetchMinStake().catch(console.log);
 
     return () => (ignore = true);
-  }, [account, library, networkId]);
+  }, [account, coverKey, library, networkId]);
 
   const handleApprove = async () => {
     try {
