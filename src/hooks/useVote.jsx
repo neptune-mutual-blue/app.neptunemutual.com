@@ -17,6 +17,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 export const useVote = ({ coverKey, value }) => {
   const [balance, setBalance] = useState("0");
   const [allowance, setAllowance] = useState("0");
+  const [minStake, setMinStake] = useState("0");
   const [approving, setApproving] = useState(false);
   const [voting, setVoting] = useState(false);
 
@@ -79,6 +80,35 @@ export const useVote = ({ coverKey, value }) => {
 
     return () => (ignore = true);
   }, [account, networkId, library, NPMTokenAddress]);
+
+  useEffect(() => {
+    if (!networkId) return;
+
+    let ignore = false;
+    async function fetchMinStake() {
+      const signerOrProvider = getProviderOrSigner(
+        library,
+        account || AddressZero,
+        networkId
+      );
+
+      const governance = await registry.Governance.getInstance(
+        networkId,
+        signerOrProvider
+      );
+
+      const minStake = await governance["getFirstReportingStake(bytes32)"](
+        coverKey
+      );
+
+      if (ignore) return;
+      setMinStake(minStake.toString());
+    }
+
+    fetchMinStake().catch(console.log);
+
+    return () => (ignore = true);
+  }, [account, coverKey, library, networkId]);
 
   const handleApprove = async () => {
     setApproving(true);
@@ -203,6 +233,7 @@ export const useVote = ({ coverKey, value }) => {
     tokenSymbol,
 
     balance,
+    minStake,
     approving,
     voting,
 

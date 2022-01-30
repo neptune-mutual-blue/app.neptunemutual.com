@@ -12,6 +12,7 @@ export const CastYourVote = ({ incidentReport }) => {
   const [value, setValue] = useState();
   const {
     balance,
+    minStake,
     tokenAddress,
     tokenSymbol,
     handleApprove,
@@ -94,7 +95,13 @@ export const CastYourVote = ({ incidentReport }) => {
             inputValue={value}
             inputId={"stake-to-cast-vote"}
             onChange={handleValueChange}
-          />
+          >
+            {isFirstDispute && (
+              <p className="text-9B9B9B">
+                Minimum Stake: {convertFromUnits(minStake).toString()} NPM
+              </p>
+            )}
+          </TokenAmountInput>
         </div>
 
         {!canVote ? (
@@ -122,9 +129,9 @@ export const CastYourVote = ({ incidentReport }) => {
       {isFirstDispute && (
         <Alert>
           Since you are the first person to dispute this incident reporting, you
-          will need to stake atleast 250 NPM tokens. If the majority agree with
-          you, you will earn 20% of the platform fee instead of the incident
-          reporter.
+          will need to stake atleast {convertFromUnits(minStake).toString()} NPM
+          tokens. If the majority agree with you, you will earn 20% of the
+          platform fee instead of the incident reporter.
         </Alert>
       )}
     </>

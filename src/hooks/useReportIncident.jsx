@@ -98,7 +98,9 @@ export const useReportIncident = ({ coverKey, value }) => {
         signerOrProvider
       );
 
-      const minStake = await governance.getFirstReportingStake(coverKey);
+      const minStake = await governance["getFirstReportingStake(bytes32)"](
+        coverKey
+      );
 
       if (ignore) return;
       setMinStake(minStake.toString());
