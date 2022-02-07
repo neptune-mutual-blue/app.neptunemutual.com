@@ -1,11 +1,13 @@
 import { PercentXStackedChart } from "@/components/UI/molecules/PercentXStackedChart";
 import { HorizantalChartLegend } from "@/components/UI/molecules/reporting/HorizantalChartLegend";
+import { classNames } from "@/utils/classnames";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 export const VotesSummaryHorizantalChart = ({
   yesPercent,
   noPercent,
   resolved,
+  majority,
 }) => {
   const data = {
     labels: ["votes"],
@@ -32,29 +34,40 @@ export const VotesSummaryHorizantalChart = ({
           <PercentXStackedChart data={data} />
         </Tooltip.Trigger>
 
-        <ToolTipContent yesPercent={yesPercent} />
+        <ToolTipContent majority={majority} />
       </Tooltip.Root>
       <HorizantalChartLegend />
     </>
   );
 };
 
-const ToolTipContent = ({ yesPercent }) => {
+const ToolTipContent = ({ majority }) => {
+  if (!majority) {
+    return null;
+  }
+
   return (
     <>
       <Tooltip.Content side="top" sideOffset={-32}>
         <div className="bg-white flex flex-col shadow-toolTip px-6 py-2 justify-center items-center rounded">
           <>
-            <span className="text-0FB88F text-sm font-semibold leading-5">
-              Incident Occured
+            <span
+              className={classNames(
+                "text-sm font-semibold leading-5",
+                majority.variant == "success" ? "text-0FB88F" : "text-FA5C2F"
+              )}
+            >
+              {majority.variant == "success"
+                ? "Incident Occurred"
+                : "False Reporting"}
             </span>
             <span className="text-black text-sm py-1 leading-5">
-              123456({yesPercent}%)
+              {majority.voteCount} ({majority.percent}%)
             </span>
           </>
 
           <span className="text-black text-sm opacity-40 leading-5">
-            Stake: 3M NPM
+            Stake: {majority.stake} NPM
           </span>
         </div>
         <Tooltip.Arrow

@@ -2,25 +2,34 @@ import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { useReportingUnstake } from "@/src/hooks/useReportingUnstake";
+import { convertFromUnits } from "@/utils/bn";
 import { useState } from "react";
 
 const maxAmtToStake = 500;
 
-const UnstakeYourAmount = () => {
-  const [unstakedAmount, setUnstakedAmount] = useState();
+const UnstakeYourAmount = ({ coverKey, incidentDate }) => {
+  const [value, setValue] = useState();
+  const {
+    tokenAddress,
+    tokenSymbol,
+    canUnstake,
+    myStakeInWinningCamp,
+    handleUnstake,
+  } = useReportingUnstake({
+    coverKey,
+    incidentDate,
+    value,
+  });
 
   const handleChooseMax = () => {
-    setUnstakedAmount(maxAmtToStake);
+    setValue(maxAmtToStake);
   };
 
-  const handleUnstakedAmtChange = (val) => {
+  const handleValueChange = (val) => {
     if (typeof val === "string") {
-      setUnstakedAmount(val);
+      setValue(val);
     }
-  };
-
-  const handleUnstakeClick = () => {
-    console.log("unstake NPM clicked");
   };
 
   return (
@@ -34,19 +43,28 @@ const UnstakeYourAmount = () => {
       <div className="flex flex-wrap items-start gap-8 mb-11">
         <div className="flex-auto">
           <TokenAmountInput
-            tokenSymbol={"NPM"}
-            handleChooseMax={handleChooseMax}
-            inputValue={unstakedAmount}
             inputId={"reporting-unstake"}
-            onChange={handleUnstakedAmtChange}
-          />
+            inputValue={value}
+            handleChooseMax={handleChooseMax}
+            onChange={handleValueChange}
+            tokenSymbol={tokenSymbol}
+            tokenAddress={tokenAddress}
+          >
+            <p>
+              Staked:{" "}
+              {convertFromUnits(myStakeInWinningCamp)
+                .decimalPlaces(2)
+                .toString()}{" "}
+              {tokenSymbol}
+            </p>
+          </TokenAmountInput>
         </div>
         <RegularButton
           className={
             "w-64 py-6 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
           }
-          onClick={handleUnstakeClick}
-          disabled={!unstakedAmount}
+          onClick={handleUnstake}
+          disabled={!canUnstake}
         >
           UNSTAKE NPM
         </RegularButton>

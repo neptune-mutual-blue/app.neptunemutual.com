@@ -39,7 +39,7 @@ export const ReportSummary = () => {
           <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
           <InsightsTable
             insights={[
-              { title: "Incident Occured", value: "75%", variant: "success" },
+              { title: "Incident Occurred", value: "75%", variant: "success" },
               { title: "User Votes:", value: "123456" },
               { title: "Stake:", value: "500 NPM" },
             ]}

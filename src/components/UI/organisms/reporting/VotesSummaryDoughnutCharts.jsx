@@ -32,7 +32,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
       <div className="my-10 flex justify-center items-center flex-wrap gap-8">
         <div className="relative max-w-fit">
           <DoughnutChartInsight
-            title="Incident Occured"
+            title="Incident Occurred"
             percent={yesPercent}
             amountStaked={votes.yes}
             variant="success"

@@ -50,75 +50,75 @@ export const usePoolInfo = ({ key }) => {
       networkId
     );
 
-    async function fetchBondInfo() {
-      let instance = await registry.StakingPools.getInstance(
-        networkId,
-        signerOrProvider
-      );
+    async function fetchPoolInfo() {
+      try {
+        let instance = await registry.StakingPools.getInstance(
+          networkId,
+          signerOrProvider
+        );
 
-      // prettier-ignore
-      const [
-        name,
-        addresses,
-        values
-      ] = await instance.getInfo(
-        key,
-        account || AddressZero
-      );
+        // eslint-disable-next-line array-element-newline
+        const [name, addresses, values] = await instance.getInfo(
+          key,
+          account || AddressZero
+        );
 
-      if (ignore) return;
+        if (ignore) return;
 
-      const [
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
-      ] = addresses;
-      const [
-        totalStaked,
-        target,
-        maximumStake,
-        stakeBalance,
-        cumulativeDeposits,
-        rewardPerBlock,
-        platformFee,
-        lockupPeriodInBlocks,
-        rewardTokenBalance,
-        accountStakeBalance,
-        totalBlockSinceLastReward,
-        rewards,
-        canWithdrawFrom,
-        lastDepositHeight,
-        lastRewardHeight,
-      ] = values;
+        const [
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
+        ] = addresses;
+        const [
+          totalStaked,
+          target,
+          maximumStake,
+          stakeBalance,
+          cumulativeDeposits,
+          rewardPerBlock,
+          platformFee,
+          lockupPeriodInBlocks,
+          rewardTokenBalance,
+          accountStakeBalance,
+          totalBlockSinceLastReward,
+          rewards,
+          canWithdrawFrom,
+          lastDepositHeight,
+          lastRewardHeight,
+        ] = values;
 
-      setInfo({
-        name,
+        setInfo({
+          name,
 
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
 
-        totalStaked: totalStaked.toString(),
-        target: target.toString(),
-        maximumStake: maximumStake.toString(),
-        stakeBalance: stakeBalance.toString(),
-        cumulativeDeposits: cumulativeDeposits.toString(),
-        rewardPerBlock: rewardPerBlock.toString(),
-        platformFee: platformFee.toString(),
-        lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
-        rewardTokenBalance: rewardTokenBalance.toString(),
-        accountStakeBalance: accountStakeBalance.toString(),
-        totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
-        rewards: rewards.toString(),
-        canWithdrawFrom: canWithdrawFrom.toString(),
-        lastDepositHeight: lastDepositHeight.toString(),
-        lastRewardHeight: lastRewardHeight.toString(),
-      });
+          totalStaked: totalStaked.toString(),
+          target: target.toString(),
+          maximumStake: maximumStake.toString(),
+          stakeBalance: stakeBalance.toString(),
+          cumulativeDeposits: cumulativeDeposits.toString(),
+          rewardPerBlock: rewardPerBlock.toString(),
+          platformFee: platformFee.toString(),
+          lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
+          rewardTokenBalance: rewardTokenBalance.toString(),
+          accountStakeBalance: accountStakeBalance.toString(),
+          totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
+          rewards: rewards.toString(),
+          canWithdrawFrom: canWithdrawFrom.toString(),
+          lastDepositHeight: lastDepositHeight.toString(),
+          lastRewardHeight: lastRewardHeight.toString(),
+        });
+      } catch (err) {
+        console.error(err);
+      }
     }
 
-    fetchBondInfo();
+    fetchPoolInfo();
 
     return () => (ignore = true);
   }, [account, key, library, networkId]);

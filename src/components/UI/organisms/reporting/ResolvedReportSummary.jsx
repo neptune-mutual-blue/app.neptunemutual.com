@@ -4,11 +4,39 @@ import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable
 import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
+import { convertFromUnits } from "@/utils/bn";
+import BigNumber from "bignumber.js";
+import { formatWithAabbreviation } from "@/utils/formatter";
+import { truncateAddress } from "@/utils/address";
+import { unixToDate } from "@/utils/date";
 
 export const ResolvedReportSummary = ({ incidentReport }) => {
-  const startDate = new Date();
-  const endDate = new Date(startDate.getTime());
-  endDate.setDate(startDate.getDate() + 6);
+  const votes = {
+    yes: convertFromUnits(incidentReport.totalAttestedStake)
+      .decimalPlaces(0)
+      .toNumber(),
+    no: convertFromUnits(incidentReport.totalRefutedStake)
+      .decimalPlaces(0)
+      .toNumber(),
+  };
+
+  const yesPercent = BigNumber((votes.yes * 100) / (votes.yes + votes.no))
+    .decimalPlaces(2)
+    .toNumber();
+  const noPercent = BigNumber(100 - yesPercent)
+    .decimalPlaces(2)
+    .toNumber();
+
+  const isAttestedWon =
+    incidentReport.totalAttestedCount > incidentReport.totalRefutedCount;
+  const majority = {
+    voteCount: isAttestedWon
+      ? incidentReport.totalAttestedCount
+      : incidentReport.totalRefutedCount,
+    stake: isAttestedWon ? votes.yes : votes.no,
+    percent: isAttestedWon ? yesPercent : noPercent,
+    variant: isAttestedWon ? "success" : "failure",
+  };
 
   return (
     <>
@@ -18,12 +46,17 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
           <VotesSummaryHorizantalChart
-            votes={{ yes: 3000, no: 1000 }}
-            resolved={true}
+            yesPercent={yesPercent}
+            noPercent={noPercent}
+            resolved={incidentReport.resolved}
+            majority={majority}
           />
           <Divider />
 
-          <UnstakeYourAmount />
+          <UnstakeYourAmount
+            coverKey={incidentReport.key}
+            incidentDate={incidentReport.incidentDate}
+          />
         </div>
 
         {/* Right half */}
@@ -31,18 +64,39 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
           <InsightsTable
             insights={[
-              { title: "Incident Occured", value: "75%", variant: "success" },
-              { title: "User Votes:", value: "123456" },
-              { title: "Stake:", value: "500 NPM" },
+              {
+                title: "Incident Occurred",
+                value: `${yesPercent}%`,
+                variant: "success",
+              },
+              {
+                title: "User Votes:",
+                value: incidentReport.totalAttestedCount,
+              },
+              {
+                title: "Stake:",
+                value: `${formatWithAabbreviation(
+                  convertFromUnits(incidentReport.totalAttestedStake).toString()
+                )} NPM`,
+              },
             ]}
           />
 
           <hr className="mt-4 mb-6 border-t border-d4dfee" />
           <InsightsTable
             insights={[
-              { title: "False Reporting", value: "25%", variant: "error" },
-              { title: "User Votes:", value: "12345" },
-              { title: "Stake:", value: "300K NPM" },
+              {
+                title: "False Reporting",
+                value: `${noPercent}%`,
+                variant: "error",
+              },
+              { title: "User Votes:", value: incidentReport.totalRefutedCount },
+              {
+                title: "Stake:",
+                value: `${formatWithAabbreviation(
+                  convertFromUnits(incidentReport.totalRefutedStake).toString()
+                )} NPM`,
+              },
             ]}
           />
 
@@ -52,18 +106,23 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           </h3>
           <IncidentReporter
             variant={"success"}
-            account={"0xce3805...000633"}
-            txHash={"0xasdasd"}
+            account={truncateAddress(incidentReport.reporter)}
+            txHash={incidentReport.reportTransaction.id}
           />
-          <IncidentReporter
-            variant={"error"}
-            account={"0xce3805...000633"}
-            txHash={"0xasdasd"}
-          />
+          {incidentReport.disputer && (
+            <IncidentReporter
+              variant={"error"}
+              account={truncateAddress(incidentReport.disputer)}
+              txHash={incidentReport.disputeTransaction.id}
+            />
+          )}
 
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
-          <p className="text-sm opacity-50 mb-4">1 September - 7 September</p>
+          <p className="text-sm opacity-50 mb-4">
+            {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
+            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+          </p>
         </div>
 
         <></>

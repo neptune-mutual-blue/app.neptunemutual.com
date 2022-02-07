@@ -23,6 +23,7 @@ export const CollectRewardModal = ({
   stakedAmount,
   stakingTokenSymbol,
   rewardAmount,
+  rewardTokenAddress,
   rewardTokenSymbol,
   isCollectModalOpen,
   onCollectModalClose,
@@ -53,6 +54,7 @@ export const CollectRewardModal = ({
               poolKey={poolKey}
               stakedAmount={stakedAmount}
               rewardAmount={rewardAmount}
+              rewardTokenAddress={rewardTokenAddress}
               stakingTokenSymbol={stakingTokenSymbol}
               rewardTokenSymbol={rewardTokenSymbol}
             />

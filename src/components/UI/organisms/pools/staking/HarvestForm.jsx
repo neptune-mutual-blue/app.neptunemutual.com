@@ -1,4 +1,6 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
+import AddCircleIcon from "@/icons/AddCircleIcon";
+import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
@@ -8,11 +10,13 @@ export const HarvestForm = ({
   stakingTokenSymbol,
   stakedAmount,
   rewardAmount,
+  rewardTokenAddress,
   rewardTokenSymbol,
 }) => {
   const { handleWithdraw, withdrawing } = useStakingPoolWithdrawRewards({
     poolKey,
   });
+  const { register } = useRegisterToken();
 
   return (
     <div className="px-12">
@@ -25,9 +29,16 @@ export const HarvestForm = ({
           {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
           {stakingTokenSymbol}
         </span>
-        <span className="text-right text-7398C0 uppercase">
+        <span className="text-right text-7398C0 uppercase inline-flex items-center">
           {formatAmount(convertFromUnits(rewardAmount).toString())}{" "}
           {rewardTokenSymbol}
+          <button
+            className="ml-1"
+            onClick={() => register(rewardTokenAddress, rewardTokenSymbol)}
+          >
+            <span className="sr-only">Add to Metamask</span>
+            <AddCircleIcon width={16} fill="currentColor" />
+          </button>
         </span>
       </div>
 

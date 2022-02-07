@@ -3,7 +3,7 @@ import { classNames } from "@/utils/classnames";
 export const HorizantalChartLegend = () => {
   return (
     <div className="flex justify-center space-x-6 flex-wrap mt-6 mb-12">
-      <LegendItem variant={"success"}>Incident Occured</LegendItem>
+      <LegendItem variant={"success"}>Incident Occurred</LegendItem>
       <LegendItem variant={"error"}>False Reporting</LegendItem>
     </div>
   );

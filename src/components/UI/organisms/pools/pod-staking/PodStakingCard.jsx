@@ -28,6 +28,7 @@ export const PodStakingCard = ({ data }) => {
   const { networkId } = useAppContext();
   const { info } = usePoolInfo({ key: data.key });
 
+  const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
   const rewardTokenSymbol = useTokenSymbol(info.rewardToken);
 
@@ -169,6 +170,7 @@ export const PodStakingCard = ({ data }) => {
         info={info}
         stakedAmount={stakedAmount}
         rewardAmount={rewardAmount}
+        rewardTokenAddress={rewardTokenAddress}
         rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}

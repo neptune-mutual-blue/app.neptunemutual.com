@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, governance } from "@neptunemutual/sdk";
+import { registry, governance, config } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -14,7 +15,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
-export const useVote = ({ coverKey, value }) => {
+export const useVote = ({ coverKey, value, incidentDate }) => {
   const [balance, setBalance] = useState("0");
   const [allowance, setAllowance] = useState("0");
   const [minStake, setMinStake] = useState("0");
@@ -198,14 +199,23 @@ export const useVote = ({ coverKey, value }) => {
   const handleDispute = async () => {
     setVoting(true);
 
+    if (!networkId || !account) {
+      return;
+    }
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await governance.dispute(
+      const instance = await registry.Governance.getInstance(
         networkId,
-        coverKey,
-        convertToUnits(value).toString(),
         signerOrProvider
+      );
+
+      const tx = await instance.dispute(
+        coverKey,
+        incidentDate,
+        config.constants.ZERO_BYTES32,
+        convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {

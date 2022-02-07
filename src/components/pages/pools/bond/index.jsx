@@ -21,12 +21,15 @@ import {
 import { unixToDate } from "@/utils/date";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 const BondPage = () => {
   const { info } = useBondInfo();
   const [value, setValue] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const { account } = useWeb3React();
+  const tokenAddress = info.lpTokenAddress;
+  const tokenSymbol = useTokenSymbol(tokenAddress);
 
   const {
     balance,
@@ -113,14 +116,14 @@ const BondPage = () => {
     <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
       <div className="max-w-lg col-span-2">
         <TokenAmountInput
-          tokenAddress={info.lpTokenAddress}
-          tokenSymbol={"NPM-USDC LP"}
           labelText={"Enter your amount"}
-          handleChooseMax={handleChooseMax}
           inputValue={value}
+          tokenBalance={balance}
+          tokenSymbol={tokenSymbol}
+          tokenAddress={tokenAddress}
           inputId={"bond-amount"}
           onChange={handleChange}
-          tokenBalance={balance}
+          handleChooseMax={handleChooseMax}
         />
         <div className="receive mt-16">
           <ReceiveAmountInput

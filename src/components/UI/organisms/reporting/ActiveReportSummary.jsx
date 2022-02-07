@@ -47,10 +47,9 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <Divider />
 
           <VotesSummaryHorizantalChart
-            votes={votes}
             yesPercent={yesPercent}
             noPercent={noPercent}
-            resolved={false}
+            resolved={incidentReport.resolved}
           />
           <Divider />
 
@@ -63,7 +62,7 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <InsightsTable
             insights={[
               {
-                title: "Incident Occured",
+                title: "Incident Occurred",
                 value: `${yesPercent}%`,
                 variant: "success",
               },

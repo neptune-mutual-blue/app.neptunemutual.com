@@ -23,7 +23,11 @@ export const CastYourVote = ({ incidentReport }) => {
     voting,
     canVote,
     isError,
-  } = useVote({ value, coverKey: incidentReport.key });
+  } = useVote({
+    value,
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);

@@ -3,7 +3,7 @@ export const getResolvedReportingList = () => {
     {
       id: "4",
       name: "Huobi",
-      statusText: "incident occured",
+      statusText: "incident occurred",
       status: true,
       resolvedOn: "12/28/2021 | 10:00:00 UTC",
       key: "0x68756f6269000000000000000000000000000000000000000000000000000000",
@@ -11,7 +11,7 @@ export const getResolvedReportingList = () => {
     {
       id: "3",
       name: "Okex",
-      statusText: "incident occured",
+      statusText: "incident occurred",
       status: true,
       resolvedOn: "12/20/2021 | 12:00:00 UTC",
       key: "0x6f6b000000000000000000000000000000000000000000000000000000000000",
@@ -35,7 +35,7 @@ export const getResolvedReportingList = () => {
     {
       id: "6",
       name: "Eqifi",
-      statusText: "incident occured",
+      statusText: "incident occurred",
       status: true,
       resolvedOn: "01/02/2022 | 19:00:00 UTC",
       key: "0x6178696500000000000000000000000000000000000000000000000000000000",
