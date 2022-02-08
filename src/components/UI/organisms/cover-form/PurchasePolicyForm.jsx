@@ -89,6 +89,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         tokenBalance={balance}
         inputId={"cover-amount"}
         inputValue={value}
+        disabled={approving || purchasing}
       >
         {value && isValidNumber(value) && (
           <div className="flex items-center text-15aac8">

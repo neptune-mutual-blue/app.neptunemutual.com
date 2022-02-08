@@ -66,6 +66,7 @@ export const StakeModal = ({
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
             id={"staked-amount"}
+            disabled={approving || depositing}
             onChange={handleChange}
           />
         </div>

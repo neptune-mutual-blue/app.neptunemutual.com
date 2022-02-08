@@ -62,7 +62,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           tokenBalance={balance || "0"}
           inputId={"cover-amount"}
           inputValue={value}
-          disabled={approving}
+          disabled={approving || providing}
         />
       </div>
 

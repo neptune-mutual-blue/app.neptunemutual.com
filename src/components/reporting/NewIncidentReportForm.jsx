@@ -192,6 +192,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 tokenSymbol={tokenSymbol}
                 tokenAddress={tokenAddress}
                 handleChooseMax={handleChooseMax}
+                disabled={approving || reporting}
                 onChange={handleValueChange}
               >
                 <p className="text-9B9B9B">

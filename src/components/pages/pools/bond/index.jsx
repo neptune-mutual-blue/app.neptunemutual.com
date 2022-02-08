@@ -123,6 +123,7 @@ const BondPage = () => {
           tokenAddress={tokenAddress}
           inputId={"bond-amount"}
           onChange={handleChange}
+          disabled={approving || bonding}
           handleChooseMax={handleChooseMax}
         />
         <div className="receive mt-16">
