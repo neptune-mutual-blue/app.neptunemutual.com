@@ -27,6 +27,7 @@ export const TokenAmountInput = ({
         buttonProps={{
           children: "Max",
           onClick: handleChooseMax,
+          disabled: disabled,
         }}
         unit={tokenSymbol}
         inputProps={{
