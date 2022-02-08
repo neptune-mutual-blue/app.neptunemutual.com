@@ -12,6 +12,7 @@ export const TokenAmountInput = ({
   onChange,
   tokenBalance,
   error,
+  disabled,
   children,
 }) => {
   return (
@@ -30,6 +31,7 @@ export const TokenAmountInput = ({
         unit={tokenSymbol}
         inputProps={{
           id: inputId,
+          disabled: disabled,
           placeholder: "Enter Amount",
           value: inputValue,
           onChange: onChange,

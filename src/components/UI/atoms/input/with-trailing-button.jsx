@@ -31,6 +31,7 @@ export const InputWithTrailingButton = ({
     id: inputProps.id,
     value: inputProps.value,
     placeholder: inputProps.placeholder,
+    disabled: inputProps.disabled,
     thousandSeparator: ",",
     isNumericString: true,
     onValueChange: (values) => inputProps.onChange(values.value),
