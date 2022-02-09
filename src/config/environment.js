@@ -27,5 +27,9 @@ export const getGraphURL = (networkId) => {
     return "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten";
   }
 
+  if (networkId === 42) {
+    return "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan";
+  }
+
   return null;
 };
