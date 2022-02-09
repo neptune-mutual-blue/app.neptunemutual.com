@@ -4,7 +4,7 @@ customHeaders:
       - key: "Strict-Transport-Security"
         value: "max-age=31536000; includeSubDomains"
       - key: "Content-Security-Policy"
-        value: "default-src 'none'; prefetch-src 'self'; manifest-src 'self'; script-src 'self'; frame-ancestors 'none'; font-src 'self'; connect-src https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/; base-uri 'none'; form-action 'none'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+        value: "default-src 'none'; prefetch-src 'self'; manifest-src 'self'; script-src 'self'; frame-ancestors 'none'; font-src 'self'; connect-src https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/; base-uri 'none'; form-action 'none'; object-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
       - key: "X-Frame-Options"
         value: "SAMEORIGIN"
       - key: "X-Content-Type-Options"
