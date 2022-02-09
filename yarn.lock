@@ -1199,10 +1199,10 @@
   resolved "https://registry.yarnpkg.com/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz#af577b477c683fad17c619a78208cede06f9605c"
   integrity sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==
 
-"@neptunemutual/sdk@^0.2.4-beta":
-  version "0.2.4-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.2.4-beta.tgz#b3ff0800da92efdc50976b1cdb72434a219a4389"
-  integrity sha512-E5qTLQGMy9hYtm9Vp6PogwsjVp07HZKJJFmdALbiriqAJBsBej4wWVEdfTn5BjG1ZfZV0Y+y90JXJ6hPFL7gIg==
+"@neptunemutual/sdk@^0.2.5-beta":
+  version "0.2.5-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.2.5-beta.tgz#f5beb0c7ecbac44afded0b751542d062f15cc389"
+  integrity sha512-2qoX7M5z6ElLJdrFHE483YHnNuylKDq++InlbBRzGEQ1UXfylswUZcwizqyBQ/NZhjZyY7qcrHUXswYvOD8o9g==
   dependencies:
     bs58 "4.0.1"
     ethers "5.4.1"
