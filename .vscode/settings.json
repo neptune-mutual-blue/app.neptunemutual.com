@@ -12,6 +12,9 @@
             "source.fixAll.eslint": true
         }
     },
+    "[yaml]": {
+        "editor.formatOnSave": false
+    },
     "files.associations": {
         "*.css": "postcss"
     },
