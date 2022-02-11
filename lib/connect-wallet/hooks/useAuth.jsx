@@ -6,7 +6,6 @@ import { getConnectorByName } from "../utils/connectors";
 import { wallets } from "../config/wallets";
 import { NetworkNames } from "../config/chains";
 import { setupNetwork } from "../utils/wallet";
-import * as walletConnectUtils from "../utils/walletConnect";
 import * as notifications from "../utils/notifications";
 import { ConnectorNames } from "../config/connectors";
 
@@ -19,22 +18,6 @@ const handleInjectedError = async (notify, error) => {
   }
 
   if (error instanceof UserRejectedRequestErrorInjected) {
-    return notifications.authError(notify, error);
-  }
-
-  notifications.unidentifiedError(notify, error);
-};
-
-const handleWalletConnectError = async (notify, connector, error) => {
-  const { UserRejectedRequestErrorWalletConnect, WalletConnectConnector } =
-    await import("../walletconnect/errors");
-
-  if (error instanceof UserRejectedRequestErrorWalletConnect) {
-    if (connector instanceof WalletConnectConnector) {
-      const walletConnector = connector;
-      walletConnector.walletConnectProvider = null;
-    }
-
     return notifications.authError(notify, error);
   }
 
@@ -98,9 +81,6 @@ const activateConnector = async (
       case ConnectorNames.Injected:
         return handleInjectedError(notify, error);
 
-      case ConnectorNames.WalletConnect:
-        return handleWalletConnectError(notify, connector, error);
-
       case ConnectorNames.BSC:
         return handleBSCError(notify, error);
     }
@@ -133,7 +113,6 @@ const useAuth = (networkId, notify = console.log) => {
     clearConnectionData();
 
     deactivate();
-    walletConnectUtils.disconnect();
   }, [deactivate]);
 
   return { logout, login };
