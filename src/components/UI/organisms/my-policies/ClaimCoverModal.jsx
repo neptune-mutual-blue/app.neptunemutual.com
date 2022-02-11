@@ -17,7 +17,7 @@ export const ClaimCoverModal = ({
   cxTokenAddress,
 }) => {
   const [value, setValue] = useState();
-  const [receiveAmount, setReceiveAmount] = useState();
+  const [receiveAmount /*, setReceiveAmount*/] = useState();
   const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
 
   const maxValue = 50000;
