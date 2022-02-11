@@ -76,7 +76,7 @@ module.exports = [
   },
   {
     key: "Access-Control-Allow-Origin",
-    values: ["neptunemutual.com"],
+    values: ["null"],
   },
   {
     key: "Access-Control-Max-Age",
