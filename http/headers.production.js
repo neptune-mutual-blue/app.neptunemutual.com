@@ -3,8 +3,8 @@ module.exports = [
     key: "Content-Security-Policy",
     values: [
       "script-src 'self'",
-      "style-src 'self'",
-      "connect-src https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/",
+      "connect-src 'self' https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/",
+      "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
       "default-src 'none'",
