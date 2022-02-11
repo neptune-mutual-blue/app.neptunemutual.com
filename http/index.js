@@ -9,7 +9,7 @@ const get = (config) => {
       headers: config.map((x) => {
         return {
           key: x.key,
-          value: x.values.join(";"),
+          value: x.values.join("; "),
         };
       }),
     },
