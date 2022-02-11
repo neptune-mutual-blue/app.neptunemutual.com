@@ -61,6 +61,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
           tokenBalance={balance}
           inputId={"cover-amount"}
           inputValue={value}
+          disabled={approving || providing}
         />
       </div>
 

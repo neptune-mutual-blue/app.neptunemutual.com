@@ -31,6 +31,7 @@ export const InputWithTrailingButton = ({
     id: inputProps.id,
     value: inputProps.value,
     placeholder: inputProps.placeholder,
+    disabled: inputProps.disabled,
     thousandSeparator: ",",
     isNumericString: true,
     onValueChange: (values) => inputProps.onChange(values.value),
@@ -45,7 +46,8 @@ export const InputWithTrailingButton = ({
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
           error
             ? "border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F"
-            : "border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9"
+            : "border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+          numberFormatProps.disabled && "cursor-not-allowed"
         )}
         style={{ paddingRight: `${width || 64}px` }}
       />
@@ -56,7 +58,10 @@ export const InputWithTrailingButton = ({
           </div>
         )}
         <button
-          className="font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9"
+          className={classNames(
+            "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
+            buttonProps.disabled && "cursor-not-allowed"
+          )}
           {...buttonProps}
         ></button>
       </div>

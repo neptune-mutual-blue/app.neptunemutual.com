@@ -49,13 +49,16 @@ export const StakeModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 flex">
           {modalTitle}
         </Dialog.Title>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={approving || depositing}
+          onClick={onClose}
+        ></ModalCloseButton>
 
         <div className="mt-6">
           <TokenAmountInput
@@ -66,6 +69,7 @@ export const StakeModal = ({
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
             id={"staked-amount"}
+            disabled={approving || depositing}
             onChange={handleChange}
           />
         </div>

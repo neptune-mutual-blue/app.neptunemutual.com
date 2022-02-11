@@ -12,6 +12,7 @@ export const TokenAmountInput = ({
   onChange,
   tokenBalance,
   error,
+  disabled,
   children,
 }) => {
   return (
@@ -26,10 +27,12 @@ export const TokenAmountInput = ({
         buttonProps={{
           children: "Max",
           onClick: handleChooseMax,
+          disabled: disabled,
         }}
         unit={tokenSymbol}
         inputProps={{
           id: inputId,
+          disabled: disabled,
           placeholder: "Enter Amount",
           value: inputValue,
           onChange: onChange,

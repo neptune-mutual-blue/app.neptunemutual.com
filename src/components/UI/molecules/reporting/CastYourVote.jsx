@@ -98,6 +98,7 @@ export const CastYourVote = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             inputValue={value}
             inputId={"stake-to-cast-vote"}
+            disabled={approving || voting}
             onChange={handleValueChange}
           >
             {isFirstDispute && (
