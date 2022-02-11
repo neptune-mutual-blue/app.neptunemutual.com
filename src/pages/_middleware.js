@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 
 const unavailableTo = ["US"];
-const redirectTo = "https://docs.neptunemutual.com/usage/unsupported-region";
 
 export default function geoBlocking(req) {
   const country = req.geo?.country;
   const unavailable = unavailableTo.indexOf(country) > -1;
+  const landingPage = req.nextUrl.clone().pathName === "/unavailable";
 
-  if (unavailable) {
-    return NextResponse.redirect(redirectTo);
+  if (unavailable && !landingPage) {
+    return new NextResponse("Region Not Supported Yet", { status: 451 });
   }
 
   return NextResponse.next();
