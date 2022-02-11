@@ -1,33 +1,18 @@
-module.exports = {
-  reactStrictMode: true,
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+const http = require("./http");
 
-  async redirects() {
-    return [
-      {
-        source: "/pools",
-        destination: "/pools/bond",
-        permanent: false,
-      },
-      {
-        source: "/reporting",
-        destination: "/reporting/active",
-        permanent: false,
-      },
-      {
-        source: "/cover/:path",
-        destination: "/cover/:path/options",
-        permanent: false,
-      },
-      {
-        source: "/cover/:path/report",
-        destination: "/cover/:path/report/details",
-        permanent: false,
-      },
-      {
-        source: "/my-policies",
-        destination: "/my-policies/active",
-        permanent: false,
-      },
-    ];
-  },
+module.exports = (phase, { _c }) => {
+  return {
+    reactStrictMode: true,
+    headers: async () => {
+      if (phase === PHASE_DEVELOPMENT_SERVER) {
+        return http.headers.development;
+      }
+
+      return http.headers.production;
+    },
+    redirects: async () => {
+      return http.redirects;
+    },
+  };
 };
