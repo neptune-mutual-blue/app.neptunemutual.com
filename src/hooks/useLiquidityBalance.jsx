@@ -20,7 +20,9 @@ export const useLiquidityBalance = () => {
       );
 
       if (!liquidityTokenInstance) {
-        console.log("No instance found");
+        console.log(
+          "Could not get an instance of the protocol stablecoin from the SDK"
+        );
       }
 
       return liquidityTokenInstance.balanceOf(account);

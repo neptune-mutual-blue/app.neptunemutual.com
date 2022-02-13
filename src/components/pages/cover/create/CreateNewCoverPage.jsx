@@ -28,11 +28,9 @@ const CreateNewCoverPage = () => {
   const [networkTags, setNetworkTags] = useState();
 
   const selectedTags = (_tags) => {
-    console.log(_tags);
     setTags(_tags);
   };
   const blockchainTags = (_tags) => {
-    console.log(_tags);
     setNetworkTags(_tags);
   };
 
@@ -124,7 +122,6 @@ const CreateNewCoverPage = () => {
         max: pricing.ceilingRate,
       },
     };
-    console.log(data);
   };
 
   return (

@@ -29,6 +29,7 @@ export const useCreateBond = ({ info, value }) => {
   const checkAllowance = async () => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
       const instance = registry.IERC20.getInstance(
         chainId,
         info.lpTokenAddress,
@@ -41,14 +42,16 @@ export const useCreateBond = ({ info, value }) => {
       );
 
       if (!instance) {
-        console.log("No instance found");
+        console.log(
+          "Could not get an instance of LP token from the address %s",
+          info.lpTokenAddress
+        );
       }
-
       let result = await instance.allowance(account, bondContractAddress);
 
       setAllowance(result.toString());
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

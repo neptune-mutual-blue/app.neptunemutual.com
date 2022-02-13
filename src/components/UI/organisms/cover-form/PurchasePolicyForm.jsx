@@ -49,7 +49,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { totalAvailableLiquidity } = data;
 
   console.log(
-    "totalAvailableLiquidity",
+    "Total Available Liquidity: %s",
     convertFromUnits(totalAvailableLiquidity || "0").toString()
   );
 

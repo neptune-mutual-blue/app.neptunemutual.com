@@ -41,15 +41,16 @@ export const useStakingPoolDeposit = ({
         signerOrProvider
       );
 
-      if (!instance) {
-        console.log("No instance found");
-      }
+      console.log(
+        "Could not get an instance of staking token from the address %s",
+        tokenAddress
+      );
 
       let result = await instance.allowance(account, poolContractAddress);
 
       setAllowance(result.toString());
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

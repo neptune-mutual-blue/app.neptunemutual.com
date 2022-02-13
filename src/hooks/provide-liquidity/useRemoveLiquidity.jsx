@@ -86,7 +86,7 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
         failure: "Could not remove liquidity",
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

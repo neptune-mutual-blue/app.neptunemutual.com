@@ -29,7 +29,11 @@ export const useTokenSymbol = (tokenAddress) => {
     );
 
     if (!instance) {
-      console.log("instance not found");
+      console.log(
+        "Could not get an instance of token from the address %s",
+        tokenAddress
+      );
+
       return;
     }
 
