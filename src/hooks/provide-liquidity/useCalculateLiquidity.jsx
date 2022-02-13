@@ -45,7 +45,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
           if (ignore) return;
           setReceiveAmount(liquidityAmount);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
 

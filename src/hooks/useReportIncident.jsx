@@ -43,14 +43,17 @@ export const useReportIncident = ({ coverKey, value }) => {
       );
 
       if (!instance) {
-        console.log("No instance found");
+        console.log(
+          "Could not get an instance of NPM token from the address %s",
+          NPMTokenAddress
+        );
       }
 
       let result = await instance.allowance(account, governanceContractAddress);
 
       setAllowance(result.toString());
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

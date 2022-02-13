@@ -44,7 +44,7 @@ export const useAvailableLiquidity = ({ coverKey }) => {
 
         setData(convertFromUnits(availableLiquidity).toString());
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 

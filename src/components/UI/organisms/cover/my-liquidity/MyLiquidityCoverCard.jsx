@@ -19,7 +19,12 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
-  console.log(info.totalReassurance, info.balance, info.extendedBalance);
+  console.log(
+    "Total Reassurance %s. Balance: %s. Extended Balance: %s",
+    info.totalReassurance,
+    info.balance,
+    info.extendedBalance
+  );
 
   const reassurancePercent = BigNumber(info.totalReassurance)
     .multipliedBy(100)

@@ -72,7 +72,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           releaseDate: releaseDate.toString(),
         });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 

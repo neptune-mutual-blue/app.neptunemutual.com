@@ -45,7 +45,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
           if (ignore) return;
           setReceiveAmount(convertFromUnits(podAmount).toString());
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
 

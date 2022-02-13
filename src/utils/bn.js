@@ -85,7 +85,7 @@ export const sumOf = (...amounts) => {
     try {
       sum = sum.plus(amount.toString());
     } catch (error) {
-      console.log("could not add", amount);
+      console.log("Could not add", amount);
     }
   });
 
