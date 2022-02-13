@@ -1,6 +1,17 @@
 import { NextResponse } from "next/server";
 
-const unavailableTo = ["US"];
+/**
+ * Unavailable to:
+ *
+ * United States (US)
+ * Guam (GU)
+ * American Samoa (AS)
+ * Northern Mariana Islands (MP)
+ * Puerto Rico (PR)
+ * U.S. Virgin Islands (VI)
+ * @type Array<string>
+ */
+const unavailableTo = ["US", "GU", "AS", "MP", "PR", "VI"];
 
 export default function geoBlocking(req) {
   const country = req.geo?.country;
