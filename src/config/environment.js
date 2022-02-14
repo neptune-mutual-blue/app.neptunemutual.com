@@ -17,7 +17,7 @@ function getChainIdFromDNS() {
       return "137";
 
     default:
-      return "3";
+      return "42";
   }
 }
 

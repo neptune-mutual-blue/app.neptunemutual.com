@@ -12,10 +12,13 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useNPMBalance } from "@/src/hooks/useNPMBalance";
 
-export const useProvideLiquidity = ({ coverKey, value }) => {
-  const [allowance, setAllowance] = useState();
-  const [approving, setApproving] = useState();
+export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
+  const [lqTokenAllowance, setLqTokenAllowance] = useState();
+  const [npmTokenAllowance, setNPMTokenAllowance] = useState();
+  const [lqApproving, setLqApproving] = useState();
+  const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
   const [vaultAddress, setVaultAddress] = useState("");
   const podSymbol = useTokenSymbol(vaultAddress);
@@ -23,7 +26,8 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
   const txToast = useTxToast();
 
   const { library, account, chainId } = useWeb3React();
-  const { balance } = useLiquidityBalance();
+  const { balance: lqTokenBalance } = useLiquidityBalance();
+  const { balance: npmBalance } = useNPMBalance();
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -51,17 +55,19 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
       .getAllowance(chainId, coverKey, account, signerOrProvider)
       .then(({ result }) => {
         if (ignore) return;
-        setAllowance(result);
+        setLqTokenAllowance(result);
       })
       .catch((e) => {
         console.error(e);
         if (ignore) return;
       });
 
+    checkNPMTokenAllowance();
+
     return () => (ignore = true);
   }, [account, chainId, library, coverKey]);
 
-  const checkAllowance = async () => {
+  const checkLqTokenAllowance = async () => {
     if (!chainId || !account) return;
 
     const signerOrProvider = getProviderOrSigner(library, account, chainId);
@@ -74,15 +80,39 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
         signerOrProvider
       );
 
-      setAllowance(_allowance);
+      setLqTokenAllowance(_allowance);
     } catch (e) {
       console.error(e);
     }
   };
 
-  const handleApprove = async () => {
+  const checkNPMTokenAllowance = async () => {
+    if (!chainId || !account) return;
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
     try {
-      setApproving(true);
+      const vault = await registry.Vault.getAddress(
+        chainId,
+        coverKey,
+        signerOrProvider
+      );
+
+      const npmInstance = await registry.NPMToken.getInstance(
+        chainId,
+        signerOrProvider
+      );
+      const _allowance = await npmInstance.allowance(account, vault);
+
+      setNPMTokenAllowance(_allowance);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleLqTokenApprove = async () => {
+    try {
+      setLqApproving(true);
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
       const { result: tx } = await liquidity.approve(
@@ -98,10 +128,35 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
         failure: "Could not approve DAI",
       });
 
-      setApproving(false);
-      checkAllowance();
+      setLqApproving(false);
+      checkLqTokenAllowance();
     } catch (error) {
-      setApproving(false);
+      setLqApproving(false);
+    }
+  };
+
+  const handleNPMTokenApprove = async () => {
+    try {
+      setNPMApproving(true);
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+      const { result: tx } = await liquidity.approveStake(
+        chainId,
+        coverKey,
+        {},
+        signerOrProvider
+      );
+
+      await txToast.push(tx, {
+        pending: "Approving NPM",
+        success: "Approved NPM Successfully",
+        failure: "Could not approve NPM",
+      });
+
+      setNPMApproving(false);
+      checkNPMTokenAllowance();
+    } catch (error) {
+      setNPMApproving(false);
     }
   };
 
@@ -110,12 +165,14 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
       setProviding(true);
 
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      const amount = convertToUnits(value).toString();
+      const lqAmount = convertToUnits(lqValue).toString();
+      const npmAmount = convertToUnits(npmValue).toString();
 
       const { result: tx } = await liquidity.add(
         chainId,
         coverKey,
-        amount,
+        lqAmount,
+        npmAmount,
         signerOrProvider
       );
 
@@ -124,29 +181,43 @@ export const useProvideLiquidity = ({ coverKey, value }) => {
         success: "Added Liquidity Successfully",
         failure: "Could not add liquidity",
       });
-
-      setProviding(false);
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
+    } finally {
       setProviding(false);
     }
   };
 
+  const hasLqTokenAllowance = isGreaterOrEqual(
+    lqTokenAllowance || "0",
+    convertToUnits(lqValue || "0")
+  );
+  const hasNPMTokenAllowance = isGreaterOrEqual(
+    npmTokenAllowance || "0",
+    convertToUnits(npmValue || "0")
+  );
+
   const canProvideLiquidity =
-    value &&
-    isValidNumber(value) &&
-    isGreaterOrEqual(allowance || "0", convertToUnits(value || "0"));
+    lqValue &&
+    isValidNumber(lqValue) &&
+    isGreaterOrEqual(lqTokenAllowance || "0", convertToUnits(lqValue || "0"));
   const isError =
-    value &&
-    (!isValidNumber(value) ||
-      isGreater(convertToUnits(value || "0"), balance || "0"));
+    lqValue &&
+    (!isValidNumber(lqValue) ||
+      isGreater(convertToUnits(lqValue || "0"), lqTokenBalance || "0"));
 
   return {
-    balance,
+    lqTokenBalance,
+    npmBalance,
+    hasLqTokenAllowance,
+    hasNPMTokenAllowance,
     canProvideLiquidity,
     isError,
-    approving,
+    lqApproving,
+    npmApproving,
     providing,
-    handleApprove,
+    handleLqTokenApprove,
+    handleNPMTokenApprove,
     handleProvide,
     podSymbol,
   };
