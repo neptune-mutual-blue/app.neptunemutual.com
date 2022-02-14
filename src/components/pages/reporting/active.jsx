@@ -5,6 +5,7 @@ import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { ActiveReportingCard } from "@/components/UI/organisms/reporting/ActiveReportingCard";
 import { ActiveReportingEmptyState } from "@/components/UI/organisms/reporting/ActiveReportingEmptyState";
 import { useActiveReportings } from "@/src/hooks/useActiveReportings";
+import { getParsedKey } from "@/src/helpers/cover";
 import Link from "next/link";
 
 export const ReportingActivePage = () => {
@@ -31,7 +32,12 @@ const ActiveReportingCards = ({ reportings }) => (
     </div>
     <Grid className="mt-14 mb-24">
       {reportings.map((reporting) => (
-        <Link href={`/reporting/${reporting.id}/details`} key={reporting.id}>
+        <Link
+          href={`/reporting/${getParsedKey(reporting.id.split("-")[0])}-${
+            reporting.id.split("-")[1]
+          }/details`}
+          key={reporting.id}
+        >
           <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
             <ActiveReportingCard
               coverKey={reporting.key}

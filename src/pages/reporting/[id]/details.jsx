@@ -2,10 +2,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/components/pages/reporting/details";
+import { toBytes32 } from "@/src/helpers/cover";
 
 export default function IncidentResolvedCoverPage() {
   const router = useRouter();
-  const { id: report_id } = router.query;
+  const { id: report_id_parsed } = router.query;
+  //sometimes key like hex-trust contains two hyphens
+  const splitByLastHyphen = function (queryParam) {
+    var index = queryParam?.lastIndexOf("-");
+    return [queryParam?.slice(0, index), queryParam?.slice(index)];
+  };
+  let paramsArray = splitByLastHyphen(report_id_parsed);
+  let report_id = toBytes32(paramsArray[0]) + paramsArray[1];
+
   const { data, loading } = useFetchReport(report_id);
 
   return (
