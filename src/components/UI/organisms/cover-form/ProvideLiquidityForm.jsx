@@ -15,36 +15,55 @@ import dayjs from "dayjs";
 import { unixToDate } from "@/utils/date";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
-  const [value, setValue] = useState();
+  const [lqValue, setLqValue] = useState();
+  const [npmValue, setNPMValue] = useState();
   const router = useRouter();
 
-  const { liquidityTokenAddress } = useAppConstants();
+  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const {
-    balance,
-    approving,
+    lqTokenBalance,
+    npmBalance,
+    lqApproving,
+    npmApproving,
+    hasLqTokenAllowance,
+    hasNPMTokenAllowance,
     canProvideLiquidity,
-    handleApprove,
+    handleLqTokenApprove,
+    handleNPMTokenApprove,
     handleProvide,
     isError,
     providing,
     podSymbol,
   } = useProvideLiquidity({
     coverKey,
-    value,
+    lqValue,
+    npmValue,
   });
 
-  const { receiveAmount } = useCalculatePods({ coverKey, value });
+  const { receiveAmount } = useCalculatePods({ coverKey, value: lqValue });
 
-  const handleChooseMax = () => {
-    if (!balance) {
+  const handleMaxNPM = () => {
+    if (!npmBalance) {
       return;
     }
-    setValue(convertFromUnits(balance).toString());
+    setNPMValue(convertFromUnits(npmBalance).toString());
   };
 
-  const handleChange = (val) => {
-    setValue(val);
+  const handleNPMChange = (val) => {
+    setNPMValue(val);
+  };
+
+  const handleMaxLq = () => {
+    if (!lqTokenBalance) {
+      return;
+    }
+    setLqValue(convertFromUnits(lqTokenBalance).toString());
+  };
+
+  const handleLqChange = (val) => {
+    setLqValue(val);
   };
 
   const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
@@ -53,16 +72,31 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     <div className="max-w-md">
       <div className="pb-16">
         <TokenAmountInput
+          labelText={"Enter your NPM stake"}
+          onChange={handleNPMChange}
+          handleChooseMax={handleMaxNPM}
+          error={isError}
+          tokenAddress={NPMTokenAddress}
+          tokenSymbol={npmTokenSymbol}
+          tokenBalance={npmBalance || "0"}
+          inputId={"npm-stake"}
+          inputValue={npmValue}
+          disabled={lqApproving || providing}
+        />
+      </div>
+
+      <div className="pb-16">
+        <TokenAmountInput
           labelText={"Enter Amount you wish to provide"}
-          onChange={handleChange}
-          handleChooseMax={handleChooseMax}
+          onChange={handleLqChange}
+          handleChooseMax={handleMaxLq}
           error={isError}
           tokenAddress={liquidityTokenAddress}
           tokenSymbol={liquidityTokenSymbol}
-          tokenBalance={balance || "0"}
-          inputId={"cover-amount"}
-          inputValue={value}
-          disabled={approving || providing}
+          tokenBalance={lqTokenBalance || "0"}
+          inputId={"dai-amount"}
+          inputValue={lqValue}
+          disabled={lqApproving || providing}
         />
       </div>
 
@@ -83,15 +117,27 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      {!canProvideLiquidity ? (
+      {!hasLqTokenAllowance && (
         <RegularButton
-          disabled={isError || approving}
+          disabled={lqApproving}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          onClick={handleApprove}
+          onClick={handleLqTokenApprove}
         >
-          {approving ? "Approving..." : <>Approve DAI</>}
+          {lqApproving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
         </RegularButton>
-      ) : (
+      )}
+
+      {!hasNPMTokenAllowance && (
+        <RegularButton
+          disabled={npmApproving}
+          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          onClick={handleNPMTokenApprove}
+        >
+          {npmApproving ? "Approving..." : <>Approve {npmTokenSymbol}</>}
+        </RegularButton>
+      )}
+
+      {hasLqTokenAllowance && hasNPMTokenAllowance && (
         <RegularButton
           disabled={isError || providing}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
