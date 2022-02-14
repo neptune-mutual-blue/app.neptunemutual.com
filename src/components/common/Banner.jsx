@@ -1,10 +1,11 @@
 import { NetworkNames } from "@/lib/connect-wallet/config/chains";
+import { testnetChainIds } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 
 export const Banner = () => {
   const { networkId } = useAppContext();
 
-  const isTestnet = [3, 97, 42, 80001].indexOf(networkId) > -1;
+  const isTestnet = testnetChainIds.indexOf(networkId) > -1;
 
   if (!networkId || !isTestnet) {
     return null;
