@@ -14,6 +14,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useToast } from "@/lib/toast/context";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [balance, setBalance] = useState("0");
@@ -27,6 +28,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
+  const toast = useToast();
 
   const checkAllowance = async () => {
     try {
@@ -112,6 +114,20 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     return () => (ignore = true);
   }, [account, coverKey, library, networkId]);
 
+  const dispatchError = (error, action = "perform action") => {
+    const title =
+      typeof error.data === "string" ? error.data : `Could not ${action}`;
+    let message = error.message;
+    if (message.includes("MetaMask Tx Signature")) {
+      message = message.split("MetaMask Tx Signature: ")[1];
+    }
+    toast.pushError({
+      title: title,
+      message: message,
+      lifetime: 3000,
+    });
+  };
+
   const handleApprove = async () => {
     setApproving(true);
     try {
@@ -141,7 +157,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
       checkAllowance();
     } catch (error) {
-      console.error(err);
+      // console.error(error);
+      dispatchError(error, "approve token");
     } finally {
       setApproving(false);
     }
@@ -166,7 +183,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not attest",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      dispatchError(err, "attest");
     } finally {
       setVoting(false);
     }
@@ -191,7 +209,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not refute",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      dispatchError(err, "refute");
     } finally {
       setVoting(false);
     }
@@ -225,7 +244,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not dispute",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      dispatchError(err, "dispute");
     } finally {
       setVoting(false);
     }
