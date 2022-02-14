@@ -5,6 +5,8 @@ function getChainIdFromDNS() {
   switch (parts[0]) {
     case "mumbai":
       return "80001";
+    case "ropsten":
+      return "3";
     case "kovan":
       return "42";
     case "bsctest":
@@ -33,3 +35,5 @@ export const getGraphURL = (networkId) => {
 
   return null;
 };
+
+export const testnetChainIds = [3, 97, 42, 80001];
