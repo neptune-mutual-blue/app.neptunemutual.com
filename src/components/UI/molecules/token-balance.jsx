@@ -6,11 +6,33 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { getTokenLink } from "@/lib/connect-wallet/utils/explorer";
 import { formatAmount } from "@/utils/formatter";
 import { useWeb3React } from "@web3-react/core";
+import CopyIcon from "@/icons/CopyIcon";
+import { useToast } from "@/lib/toast/context";
+import { SHORT_TOAST_TIME } from "@/src/config/toast";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
+  const toast = useToast();
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(tokenAddress);
+      toast?.pushSuccess({
+        title: "Success",
+        message: "Token address copied Successfully",
+        lifetime: SHORT_TOAST_TIME,
+      });
+    } catch (error) {
+      console.error(error);
+      toast?.pushError({
+        title: "Error",
+        message: "Unable to copy token address",
+        lifetime: SHORT_TOAST_TIME,
+      });
+    }
+  };
 
   return (
     <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
@@ -23,6 +45,10 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
         {children}
       </div>
       <div className="flex">
+        <button onClick={handleCopy} className="ml-3">
+          <span className="sr-only">Copy token address</span>
+          <CopyIcon width={24} fill="currentColor" />
+        </button>
         <a
           href={getTokenLink(networkId, tokenAddress, account)}
           target="_blank"
