@@ -8,6 +8,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 const defaultInfo = {
   totalStakeInWinningCamp: "0",
@@ -30,6 +31,7 @@ export const useReportingUnstake = ({ coverKey, incidentDate, value }) => {
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     if (!networkId || !account) return;
@@ -94,7 +96,8 @@ export const useReportingUnstake = ({ coverKey, incidentDate, value }) => {
         failure: "Could not unstake",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "unstake");
     } finally {
       setVoting(false);
     }

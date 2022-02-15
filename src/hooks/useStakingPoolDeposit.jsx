@@ -10,6 +10,7 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -26,6 +27,7 @@ export const useStakingPoolDeposit = ({
   const { chainId, account, library } = useWeb3React();
 
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   const checkAllowance = async () => {
     try {
@@ -112,6 +114,7 @@ export const useStakingPoolDeposit = ({
       setApproving(false);
       checkAllowance();
     } catch (error) {
+      notifyError(error, `approve ${tokenSymbol}`);
       setApproving(false);
     }
   };
@@ -141,7 +144,8 @@ export const useStakingPoolDeposit = ({
         failure: `Could not stake ${tokenSymbol}`,
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, `stake ${tokenSymbol}`);
     } finally {
       setDepositing(false);
     }
