@@ -3,6 +3,7 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
+import { unixToDate } from "@/utils/date";
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
@@ -18,18 +19,37 @@ export const ResolveIncident = ({ incidentReport }) => {
   }
 
   return (
-    <div className="flex gap-4">
-      <RegularButton className="px-10 py-4" onClick={resolve}>
-        Resolve
-      </RegularButton>
-      <RegularButton className="px-10 py-4" onClick={() => setIsOpen(true)}>
-        Emergency Resolve
-      </RegularButton>
-      <EmergencyResolveModal
-        isOpen={isOpen}
-        onClose={onClose}
-        emergencyResolve={emergencyResolve}
-      />
+    <div className="flex flex-col items-center">
+      {incidentReport.resolved && (
+        <div className="my-8">
+          Resolving at:{" "}
+          {unixToDate(
+            incidentReport.claimBeginsFrom,
+            "MMMM DD, YYYY hh:mm:ss A"
+          )}{" "}
+          UTC
+        </div>
+      )}
+
+      <div className="flex gap-4">
+        {!incidentReport.resolved && (
+          <RegularButton className="px-10 py-4" onClick={resolve}>
+            Resolve
+          </RegularButton>
+        )}
+
+        {!incidentReport.emergencyResolved && (
+          <RegularButton className="px-10 py-4" onClick={() => setIsOpen(true)}>
+            Emergency Resolve
+          </RegularButton>
+        )}
+
+        <EmergencyResolveModal
+          isOpen={isOpen}
+          onClose={onClose}
+          emergencyResolve={emergencyResolve}
+        />
+      </div>
     </div>
   );
 };

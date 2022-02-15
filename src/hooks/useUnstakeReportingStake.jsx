@@ -59,7 +59,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       });
     }
 
-    fetchInfo();
+    fetchInfo().catch(console.error);
 
     return () => {
       ignore = true;
