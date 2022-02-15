@@ -3,12 +3,14 @@ import AddCircleIcon from "@/icons/AddCircleIcon";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
+import { getTokenLink } from "@/lib/connect-wallet/utils/explorer";
 import { formatAmount } from "@/utils/formatter";
+import { useWeb3React } from "@web3-react/core";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();
   const { register } = useRegisterToken();
+  const { account } = useWeb3React();
 
   return (
     <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
@@ -22,7 +24,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       </div>
       <div className="flex">
         <a
-          href={getAddressLink(networkId, tokenAddress)}
+          href={getTokenLink(networkId, tokenAddress, account)}
           target="_blank"
           className="ml-3"
           rel="noreferrer"
