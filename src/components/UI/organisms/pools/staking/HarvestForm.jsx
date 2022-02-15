@@ -1,21 +1,18 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
 
 export const HarvestForm = ({
-  poolKey,
   stakingTokenSymbol,
   stakedAmount,
   rewardAmount,
   rewardTokenAddress,
   rewardTokenSymbol,
+  handleWithdraw,
+  withdrawing,
 }) => {
-  const { handleWithdraw, withdrawing } = useStakingPoolWithdrawRewards({
-    poolKey,
-  });
   const { register } = useRegisterToken();
 
   return (
