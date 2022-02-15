@@ -33,7 +33,7 @@ const ActiveReportingCards = ({ reportings }) => (
     <Grid className="mt-14 mb-24">
       {reportings.map((reporting) => (
         <Link
-          href={`/reporting/${getParsedKey(reporting.id.split("-")[0])}-${
+          href={`/reporting/${getParsedKey(reporting.id.split("-")[0])}/${
             reporting.id.split("-")[1]
           }/details`}
           key={reporting.id}
