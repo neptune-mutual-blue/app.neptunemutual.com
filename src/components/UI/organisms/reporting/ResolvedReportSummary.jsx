@@ -1,7 +1,7 @@
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
-import UnstakeYourAmount from "@/components/UI/molecules/reporting/UnstakeYourAmount";
+import { UnstakeYourAmount } from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
 import { convertFromUnits } from "@/utils/bn";
@@ -9,8 +9,14 @@ import BigNumber from "bignumber.js";
 import { formatWithAabbreviation } from "@/utils/formatter";
 import { truncateAddress } from "@/utils/address";
 import { unixToDate } from "@/utils/date";
+import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 
 export const ResolvedReportSummary = ({ incidentReport }) => {
+  const { finalize } = useFinalizeIncident({
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
+  });
+
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
       .decimalPlaces(0)
@@ -48,15 +54,12 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           <VotesSummaryHorizantalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
-            resolved={incidentReport.resolved}
+            showTooltip={incidentReport.resolved}
             majority={majority}
           />
           <Divider />
 
-          <UnstakeYourAmount
-            coverKey={incidentReport.key}
-            incidentDate={incidentReport.incidentDate}
-          />
+          <UnstakeYourAmount incidentReport={incidentReport} />
         </div>
 
         {/* Right half */}
@@ -123,6 +126,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
             {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
             {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
           </p>
+          <button onClick={finalize}>Finalize</button>
         </div>
 
         <></>

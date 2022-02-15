@@ -2,6 +2,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { ResolvedReportingCard } from "@/components/UI/organisms/reporting/ResolvedReportingCard";
+import { getParsedKey } from "@/src/helpers/cover";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import Link from "next/link";
 

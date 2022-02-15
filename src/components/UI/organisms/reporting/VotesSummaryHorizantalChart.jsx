@@ -6,7 +6,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 export const VotesSummaryHorizantalChart = ({
   yesPercent,
   noPercent,
-  resolved,
+  showTooltip,
   majority,
 }) => {
   const data = {
@@ -29,7 +29,7 @@ export const VotesSummaryHorizantalChart = ({
 
   return (
     <>
-      <Tooltip.Root delayDuration={100} open={resolved}>
+      <Tooltip.Root delayDuration={100} open={showTooltip}>
         <Tooltip.Trigger className="w-full">
           <PercentXStackedChart data={data} />
         </Tooltip.Trigger>
@@ -48,7 +48,12 @@ const ToolTipContent = ({ majority }) => {
 
   return (
     <>
-      <Tooltip.Content side="top" sideOffset={-32}>
+      <Tooltip.Content
+        side="top"
+        sideOffset={-32}
+        className="test"
+        portalled={false}
+      >
         <div className="bg-white flex flex-col shadow-toolTip px-6 py-2 justify-center items-center rounded">
           <>
             <span

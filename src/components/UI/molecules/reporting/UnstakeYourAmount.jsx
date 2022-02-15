@@ -1,80 +1,54 @@
-import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Label } from "@/components/UI/atoms/label";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { useReportingUnstake } from "@/src/hooks/useReportingUnstake";
-import { convertFromUnits } from "@/utils/bn";
+import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
+import { Modal } from "@/components/UI/molecules/modal/regular";
+import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
+import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 
-const maxAmtToStake = 500;
-
-const UnstakeYourAmount = ({ coverKey, incidentDate }) => {
-  const [value, setValue] = useState();
-  const {
-    tokenAddress,
-    tokenSymbol,
-    canUnstake,
-    myStakeInWinningCamp,
-    handleUnstake,
-  } = useReportingUnstake({
-    coverKey,
-    incidentDate,
-    value,
+export const UnstakeYourAmount = ({ incidentReport }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { unstake, info } = useUnstakeReportingStake({
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
   });
 
-  const handleChooseMax = () => {
-    setValue(maxAmtToStake);
-  };
-
-  const handleValueChange = (val) => {
-    if (typeof val === "string") {
-      setValue(val);
-    }
-  };
+  function onClose() {
+    setIsOpen(false);
+  }
 
   return (
     <>
-      <Label
-        htmlFor={"reporting-unstake"}
-        className="font-semibold mb-4 uppercase"
-      >
-        {"Unstake"}
-      </Label>
-      <div className="flex flex-wrap items-start gap-8 mb-11">
-        <div className="flex-auto">
-          <TokenAmountInput
-            inputId={"reporting-unstake"}
-            inputValue={value}
-            handleChooseMax={handleChooseMax}
-            onChange={handleValueChange}
-            tokenSymbol={tokenSymbol}
-            tokenAddress={tokenAddress}
-          >
-            <p>
-              Staked:{" "}
-              {convertFromUnits(myStakeInWinningCamp)
-                .decimalPlaces(2)
-                .toString()}{" "}
-              {tokenSymbol}
-            </p>
-          </TokenAmountInput>
-        </div>
-        <RegularButton
-          className={
-            "w-64 py-6 text-h5 font-bold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
-          }
-          onClick={handleUnstake}
-          disabled={!canUnstake}
-        >
-          UNSTAKE NPM
-        </RegularButton>
-      </div>
-      <Alert>
-        The incident has been resolved. Majority reporters can now unstake their
-        token and claim the reward.
-      </Alert>
+      <RegularButton className="px-10 py-4" onClick={() => setIsOpen(true)}>
+        Unstake
+      </RegularButton>
+      <UnstakeModal
+        isOpen={isOpen}
+        onClose={onClose}
+        unstake={unstake}
+        info={info}
+      />
     </>
   );
 };
 
-export default UnstakeYourAmount;
+const UnstakeModal = ({ isOpen, onClose, unstake, info }) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+        <Dialog.Title className="font-sora font-bold text-h2 flex">
+          Unstake
+        </Dialog.Title>
+
+        <div className="my-4">
+          <pre>{JSON.stringify(info, null, 2)}</pre>
+        </div>
+
+        <RegularButton className="px-10 py-4" onClick={unstake}>
+          Unstake
+        </RegularButton>
+
+        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+      </div>
+    </Modal>
+  );
+};

@@ -4,7 +4,7 @@ import { useEagerConnect } from "@/lib/connect-wallet/hooks/useEagerConnect";
 import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListener";
 import { getNetworkId } from "@/src/config/environment";
 
-const AppContext = React.createContext({});
+const AppContext = React.createContext({ networkId: null });
 
 export function useAppContext() {
   const context = React.useContext(AppContext);

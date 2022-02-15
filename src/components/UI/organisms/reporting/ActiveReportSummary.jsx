@@ -3,14 +3,16 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
+import { ResolveIncident } from "@/components/UI/molecules/reporting/ResolveIncident";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { HlCalendar } from "@/lib/hl-calendar";
 import { truncateAddress } from "@/utils/address";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, isGreater } from "@/utils/bn";
 import { unixToDate } from "@/utils/date";
 import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
+import dayjs from "dayjs";
 
 export const ActiveReportSummary = ({ incidentReport }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
@@ -32,6 +34,20 @@ export const ActiveReportSummary = ({ incidentReport }) => {
     .decimalPlaces(2)
     .toNumber();
 
+  const isAttestedWon =
+    incidentReport.totalAttestedCount > incidentReport.totalRefutedCount;
+  const majority = {
+    voteCount: isAttestedWon
+      ? incidentReport.totalAttestedCount
+      : incidentReport.totalRefutedCount,
+    stake: isAttestedWon ? votes.yes : votes.no,
+    percent: isAttestedWon ? yesPercent : noPercent,
+    variant: isAttestedWon ? "success" : "failure",
+  };
+
+  const now = dayjs().unix();
+  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
+
   return (
     <>
       <OutlinedCard className="md:flex bg-white">
@@ -39,21 +55,30 @@ export const ActiveReportSummary = ({ incidentReport }) => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <VotesSummaryDoughnutChart
-            votes={votes}
-            yesPercent={yesPercent}
-            noPercent={noPercent}
-          />
-          <Divider />
+          {!reportingEnded && (
+            <>
+              <VotesSummaryDoughnutChart
+                votes={votes}
+                yesPercent={yesPercent}
+                noPercent={noPercent}
+              />
+              <Divider />
+            </>
+          )}
 
           <VotesSummaryHorizantalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
-            resolved={incidentReport.resolved}
+            showTooltip={reportingEnded}
+            majority={majority}
           />
           <Divider />
 
-          <CastYourVote incidentReport={incidentReport} />
+          {reportingEnded ? (
+            <ResolveIncident incidentReport={incidentReport} />
+          ) : (
+            <CastYourVote incidentReport={incidentReport} />
+          )}
         </div>
 
         {/* Right half */}
@@ -120,7 +145,9 @@ export const ActiveReportSummary = ({ incidentReport }) => {
             {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
             {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
           </p>
-          <HlCalendar startDate={startDate} endDate={endDate} />
+          {!reportingEnded && (
+            <HlCalendar startDate={startDate} endDate={endDate} />
+          )}
         </div>
 
         <></>
