@@ -1,7 +1,6 @@
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useBlockHeight } from "@/src/hooks/useBlockHeight";
-import { useStakingPoolWithdraw } from "@/src/hooks/useStakingPoolWithdraw";
 import {
   convertFromUnits,
   convertToUnits,
@@ -9,23 +8,25 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
-import { useState } from "react";
 
 export const UnStakeForm = ({
   info,
-  poolKey,
   stakingTokenSymbol,
   stakedAmount,
+  withdrawingUnstake,
+  handleWithdrawUnstake,
+  inputValue,
+  setInputValue,
 }) => {
-  const [inputValue, setInputValue] = useState();
+  /* const [inputValue, setInputValue] = useState(); */
   const blockHeight = useBlockHeight();
 
-  const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
+  /* const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
     tokenAddress: info.stakingToken,
     tokenSymbol: stakingTokenSymbol,
     poolKey,
-  });
+  }); */
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFrom);
   const stakingTokenAddress = info.stakingToken;
@@ -54,6 +55,7 @@ export const UnStakeForm = ({
         onChange={handleChange}
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
+        disabled={withdrawingUnstake}
       >
         <p>
           Staked: {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
@@ -67,11 +69,11 @@ export const UnStakeForm = ({
       </TokenAmountInput>
 
       <RegularButton
-        disabled={isError || withdrawing || !canWithdraw}
+        disabled={isError || withdrawingUnstake || !canWithdraw}
         className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-        onClick={handleWithdraw}
+        onClick={handleWithdrawUnstake}
       >
-        {withdrawing ? "Unstaking..." : "Unstake"}
+        {withdrawingUnstake ? "Unstaking..." : "Unstake"}
       </RegularButton>
     </div>
   );
