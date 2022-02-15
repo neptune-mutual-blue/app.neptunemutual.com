@@ -1,6 +1,5 @@
 import { Dialog } from "@headlessui/react";
 import CloseIcon from "@/icons/CloseIcon";
-import { Modal } from "@/lib/connect-wallet/components/Modal/Modal";
 import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import DisconnectIcon from "@/icons/disconnect-icon";
@@ -9,6 +8,7 @@ import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 import Identicon from "@/components/UI/organisms/header/Identicon";
 import { useEffect, useState } from "react";
 import CheckCircleIcon from "@/icons/CheckCircleIcon";
+import { Modal } from "@/components/UI/molecules/modal/regular";
 
 const CopyAddressComponent = ({ account }) => {
   const [copyAddress, setCopyAddress] = useState(false);

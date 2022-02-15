@@ -4,16 +4,22 @@ import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVote
 import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 import { Container } from "@/components/UI/atoms/container";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
+import dayjs from "dayjs";
+import { isGreater } from "@/utils/bn";
 
 export const ReportingDetailsPage = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
+
+  const now = dayjs().unix();
+  const showResolvedSummary =
+    incidentReport.resolved && isGreater(now, incidentReport.claimBeginsFrom);
 
   return (
     <>
       <ReportingHero coverInfo={coverInfo} />
       <hr className="border-b border-B0C4DB" />
       <Container className="py-16">
-        {incidentReport.resolved ? (
+        {showResolvedSummary ? (
           <ResolvedReportSummary incidentReport={incidentReport} />
         ) : (
           <ActiveReportSummary incidentReport={incidentReport} />

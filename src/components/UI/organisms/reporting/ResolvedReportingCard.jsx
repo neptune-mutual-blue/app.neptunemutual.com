@@ -18,6 +18,10 @@ export const ResolvedReportingCard = ({
     ? "failure"
     : "";
 
+  // TODO: Use resolvedAtTimestamp instead of resolutionTimestamp
+  // resolutionTimestamp -> first report + reporting period
+  // resolvedAtTimestamp -> block.timestamp of `Resolved` event
+
   return (
     <OutlinedCard className="bg-white p-6" type="link">
       <div className="flex justify-between">

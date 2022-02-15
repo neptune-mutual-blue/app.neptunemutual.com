@@ -35,9 +35,19 @@ export const useFetchReport = (reportId) => {
             key
             incidentDate
             resolved
+            resolveTransaction{
+              timestamp
+            }
+            emergencyResolved
+            emergencyResolveTransaction{
+              timestamp
+            }
             finalized
             status
+            decision
             resolutionTimestamp
+            claimBeginsFrom
+            claimExpiresAt
             reporter
             reporterInfo
             reporterStake
