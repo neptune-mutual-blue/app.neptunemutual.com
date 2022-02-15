@@ -11,6 +11,7 @@ import {
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -28,6 +29,7 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const { balance } = useLiquidityBalance();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -91,6 +93,7 @@ export const usePurchasePolicy = ({
 
   const checkAllowance = async () => {
     try {
+      const signerOrProvider = getProviderOrSigner(library, account, chainId);
       const { result: _allowance } = await policy.getAllowance(
         chainId,
         coverKey,
@@ -124,6 +127,7 @@ export const usePurchasePolicy = ({
       setApproving(false);
       checkAllowance();
     } catch (err) {
+      notifyError(err, "approve DAI");
       setApproving(false);
     }
   };
@@ -153,6 +157,7 @@ export const usePurchasePolicy = ({
 
       setPurchasing(false);
     } catch (err) {
+      notifyError(err, "purchase policy");
       setPurchasing(false);
     }
   };

@@ -5,6 +5,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
   const [withdrawing, setWithdrawing] = useState(false);
@@ -12,6 +13,7 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
   const { chainId, account, library } = useWeb3React();
 
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async () => {
     if (!account || !chainId) {
@@ -38,7 +40,8 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
         failure: `Could not unstake ${tokenSymbol}`,
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, `unstake ${tokenSymbol}`);
     } finally {
       setWithdrawing(false);
     }

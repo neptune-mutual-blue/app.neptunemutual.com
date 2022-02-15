@@ -5,12 +5,14 @@ import { registry, liquidity } from "@neptunemutual/sdk";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { calculateGasMargin, convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useRemoveLiquidity = ({ coverKey, value }) => {
   const [vaultTokenAddress, setVaultTokenAddress] = useState();
   const { library, account, chainId } = useWeb3React();
   const [balance, setBalance] = useState();
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -86,7 +88,8 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
         failure: "Could not remove liquidity",
       });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
+      notifyError(error, "remove liquidity");
     }
   };
 

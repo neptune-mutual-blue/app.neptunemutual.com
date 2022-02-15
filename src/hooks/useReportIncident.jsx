@@ -14,6 +14,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useReportIncident = ({ coverKey, value }) => {
   const [balance, setBalance] = useState("0");
@@ -27,6 +28,7 @@ export const useReportIncident = ({ coverKey, value }) => {
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   const checkAllowance = async () => {
     try {
@@ -144,6 +146,7 @@ export const useReportIncident = ({ coverKey, value }) => {
       setApproving(false);
       checkAllowance();
     } catch (error) {
+      notifyError(error, `approve ${tokenSymbol} tokens`);
       setApproving(false);
     }
   };
@@ -169,7 +172,8 @@ export const useReportIncident = ({ coverKey, value }) => {
         failure: "Could not report incident",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "report incident");
     } finally {
       setReporting(false);
     }

@@ -14,6 +14,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [balance, setBalance] = useState("0");
@@ -27,6 +28,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   const checkAllowance = async () => {
     try {
@@ -141,7 +143,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
       checkAllowance();
     } catch (error) {
-      console.error(err);
+      // console.error(error);
+      notifyError(error, `approve ${tokenSymbol} tokens`);
     } finally {
       setApproving(false);
     }
@@ -166,7 +169,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not attest",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "attest");
     } finally {
       setVoting(false);
     }
@@ -191,7 +195,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not refute",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "refute");
     } finally {
       setVoting(false);
     }
@@ -225,7 +230,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not dispute",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "dispute");
     } finally {
       setVoting(false);
     }

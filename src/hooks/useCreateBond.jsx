@@ -13,6 +13,7 @@ import {
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useTxToast } from "@/src/hooks/useTxToast";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useCreateBond = ({ info, value }) => {
   const [balance, setBalance] = useState("0");
@@ -25,6 +26,7 @@ export const useCreateBond = ({ info, value }) => {
   const { networkId } = useAppContext();
 
   const txToast = useTxToast();
+  const { notifyError } = useErrorNotifier();
 
   const checkAllowance = async () => {
     try {
@@ -132,6 +134,7 @@ export const useCreateBond = ({ info, value }) => {
       setApproving(false);
       checkAllowance();
     } catch (error) {
+      notifyError(error, "approve LP tokens");
       setApproving(false);
     }
   };
@@ -158,7 +161,8 @@ export const useCreateBond = ({ info, value }) => {
         failure: "Could not create bond",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "create bond");
     } finally {
       setBonding(false);
     }

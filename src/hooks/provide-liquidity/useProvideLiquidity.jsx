@@ -13,6 +13,7 @@ import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNPMBalance } from "@/src/hooks/useNPMBalance";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqTokenAllowance, setLqTokenAllowance] = useState();
@@ -28,6 +29,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const { library, account, chainId } = useWeb3React();
   const { balance: lqTokenBalance } = useLiquidityBalance();
   const { balance: npmBalance } = useNPMBalance();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     if (!chainId || !account) return;
@@ -131,6 +133,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       setLqApproving(false);
       checkLqTokenAllowance();
     } catch (error) {
+      notifyError(error, "approve DAI");
       setLqApproving(false);
     }
   };
@@ -156,6 +159,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       setNPMApproving(false);
       checkNPMTokenAllowance();
     } catch (error) {
+      notifyError(error, "approve NPM");
       setNPMApproving(false);
     }
   };
@@ -182,7 +186,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         failure: "Could not add liquidity",
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      notifyError(err, "add liquidity");
     } finally {
       setProviding(false);
     }
