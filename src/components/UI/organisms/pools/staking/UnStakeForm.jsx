@@ -13,8 +13,8 @@ export const UnStakeForm = ({
   info,
   stakingTokenSymbol,
   stakedAmount,
-  withdrawingUnstake,
-  handleWithdrawUnstake,
+  unstaking,
+  handleUnstaking,
   inputValue,
   setInputValue,
 }) => {
@@ -55,7 +55,7 @@ export const UnStakeForm = ({
         onChange={handleChange}
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
-        disabled={withdrawingUnstake}
+        disabled={unstaking}
       >
         <p>
           Staked: {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
@@ -69,11 +69,11 @@ export const UnStakeForm = ({
       </TokenAmountInput>
 
       <RegularButton
-        disabled={isError || withdrawingUnstake || !canWithdraw}
+        disabled={isError || unstaking || !canWithdraw}
         className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-        onClick={handleWithdrawUnstake}
+        onClick={handleUnstaking}
       >
-        {withdrawingUnstake ? "Unstaking..." : "Unstake"}
+        {unstaking ? "Unstaking..." : "Unstake"}
       </RegularButton>
     </div>
   );

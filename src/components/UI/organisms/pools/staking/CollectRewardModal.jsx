@@ -5,7 +5,10 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";
 import { HarvestForm } from "@/components/UI/organisms/pools/staking/HarvestForm";
 import { UnStakeForm } from "@/components/UI/organisms/pools/staking/UnStakeForm";
-import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
+import {
+  useStakingPoolWithdraw,
+  useStakingPoolWithdrawRewards,
+} from "@/src/hooks/useStakingPoolWithdraw";
 
 const headers = [
   {
@@ -39,18 +42,19 @@ export const CollectRewardModal = ({
   //unstake form
   const [inputValue, setInputValue] = useState();
 
-  const { withdrawingUnstake, handleWithdrawUnstake } = useStakingPoolWithdraw({
-    value: inputValue,
-    tokenAddress: info.stakingToken,
-    tokenSymbol: stakingTokenSymbol,
-    poolKey,
-  });
+  const { withdrawing: unstaking, handleWithdraw: handleUnstaking } =
+    useStakingPoolWithdraw({
+      value: inputValue,
+      tokenAddress: info.stakingToken,
+      tokenSymbol: stakingTokenSymbol,
+      poolKey,
+    });
 
   return (
     <Modal
       isOpen={isCollectModalOpen}
       onClose={onCollectModalClose}
-      disabled={withdrawing || withdrawingUnstake}
+      disabled={withdrawing || unstaking}
     >
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left py-12 rounded-3xl relative">
         <div className="px-12">
@@ -60,7 +64,7 @@ export const CollectRewardModal = ({
         </div>
 
         <ModalCloseButton
-          disabled={withdrawing || withdrawingUnstake}
+          disabled={withdrawing || unstaking}
           onClick={onCollectModalClose}
         ></ModalCloseButton>
 
@@ -89,8 +93,8 @@ export const CollectRewardModal = ({
               stakingTokenSymbol={stakingTokenSymbol}
               inputValue={inputValue}
               setInputValue={setInputValue}
-              handleWithdrawUnstake={handleWithdrawUnstake}
-              withdrawingUnstake={withdrawingUnstake}
+              handleUnstaking={handleUnstaking}
+              unstaking={unstaking}
             />
           )}
         </div>
