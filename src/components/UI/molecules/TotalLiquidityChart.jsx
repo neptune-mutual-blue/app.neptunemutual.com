@@ -68,6 +68,7 @@ const getOrCreateTooltip = (chart) => {
     tooltipEl.style.position = "absolute";
     tooltipEl.style.transform = "translate(-100%, -120%)";
     tooltipEl.style.transition = "all .1s ease";
+    tooltipEl.style.boxShadow = "0px 5px 13px rgba(0, 0, 0, 0.1)";
 
     const table = document.createElement("table");
     table.style.margin = "0px";
