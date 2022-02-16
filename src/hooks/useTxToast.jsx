@@ -33,12 +33,14 @@ export const useTxToast = () => {
         message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_DEFAULT_TIMEOUT,
       });
+      return true;
     } else {
       toast?.pushError({
         title: titles.failure,
         message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_DEFAULT_TIMEOUT,
       });
+      return false;
     }
   };
 

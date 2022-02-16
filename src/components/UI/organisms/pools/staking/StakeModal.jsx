@@ -5,7 +5,7 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, isGreaterOrEqual } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 
 export const StakeModal = ({
@@ -18,6 +18,7 @@ export const StakeModal = ({
   lockupPeriod,
 }) => {
   const [inputValue, setInputValue] = useState();
+  const [inputErrorMsg, setInputErrorMsg] = useState("");
 
   const {
     balance,
@@ -42,8 +43,24 @@ export const StakeModal = ({
     setInputValue(convertFromUnits(info.maximumStake).toString());
   };
 
+  const checkMinimumBalanceOrStake = (val) => {
+    let minimum = balance;
+    let defaultErrorMessage = "Insufficient Balance";
+    if (isGreaterOrEqual(balance, info.maximumStake)) {
+      minimum = info.maximumStake;
+      defaultErrorMessage = "Maximum Limit Reached";
+    }
+
+    if (val > +convertFromUnits(minimum).toString()) {
+      setInputErrorMsg(defaultErrorMessage);
+    } else {
+      setInputErrorMsg("");
+    }
+  };
+
   const handleChange = (val) => {
     if (typeof val === "string") {
+      checkMinimumBalanceOrStake(val);
       setInputValue(val);
     }
   };
@@ -71,7 +88,11 @@ export const StakeModal = ({
             id={"staked-amount"}
             disabled={approving || depositing}
             onChange={handleChange}
-          />
+          >
+            {inputErrorMsg && (
+              <p className="flex items-center text-FA5C2F">{inputErrorMsg}</p>
+            )}
+          </TokenAmountInput>
         </div>
         <div className="modal-unlock mt-8">
           <Label className="mb-3" htmlFor="modal-unlock-on">
@@ -94,7 +115,10 @@ export const StakeModal = ({
           <RegularButton
             disabled={isError || depositing}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={handleDeposit}
+            onClick={async () => {
+              let shouldModalClose = await handleDeposit();
+              shouldModalClose && onClose();
+            }}
           >
             {depositing ? "Staking..." : "Stake"}
           </RegularButton>

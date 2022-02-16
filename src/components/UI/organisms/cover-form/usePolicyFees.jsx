@@ -44,7 +44,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
             args,
             signerOrProvider
           );
-
           if (ignore) return;
           setData(result);
         } catch (err) {

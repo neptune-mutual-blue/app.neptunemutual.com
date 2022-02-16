@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
@@ -18,6 +18,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
   const [npmValue, setNPMValue] = useState();
   const router = useRouter();
+  const [npmErrorMsg, setNpmErrorMsg] = useState("");
+  const [lqErrorMsg, setLqErrorMsg] = useState("");
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
@@ -68,6 +70,22 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
 
+  useEffect(() => {
+    if (npmBalance && npmValue > +convertFromUnits(npmBalance).toString()) {
+      setNpmErrorMsg("Insufficient Balance");
+    } else {
+      setNpmErrorMsg("");
+    }
+    if (
+      lqTokenBalance &&
+      lqValue > +convertFromUnits(lqTokenBalance).toString()
+    ) {
+      setLqErrorMsg("Insufficient Balance");
+    } else {
+      setLqErrorMsg("");
+    }
+  }, [npmValue, npmBalance, lqValue, lqTokenBalance]);
+
   return (
     <div className="max-w-md">
       <div className="pb-16">
@@ -82,7 +100,11 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           inputId={"npm-stake"}
           inputValue={npmValue}
           disabled={lqApproving || providing}
-        />
+        >
+          {npmErrorMsg && (
+            <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
+          )}
+        </TokenAmountInput>
       </div>
 
       <div className="pb-16">
@@ -97,7 +119,11 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           inputId={"dai-amount"}
           inputValue={lqValue}
           disabled={lqApproving || providing}
-        />
+        >
+          {lqErrorMsg && (
+            <p className="flex items-center text-FA5C2F">{lqErrorMsg}</p>
+          )}
+        </TokenAmountInput>
       </div>
 
       <div className="pb-16">

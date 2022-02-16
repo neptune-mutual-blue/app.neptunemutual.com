@@ -138,11 +138,12 @@ export const useStakingPoolDeposit = ({
         convertToUnits(value).toString()
       );
 
-      await txToast.push(tx, {
+      let txnStatus = await txToast.push(tx, {
         pending: `Staking ${tokenSymbol}`,
         success: `Staked ${tokenSymbol} successfully`,
         failure: `Could not stake ${tokenSymbol}`,
       });
+      return txnStatus;
     } catch (err) {
       // console.error(err);
       notifyError(err, `stake ${tokenSymbol}`);

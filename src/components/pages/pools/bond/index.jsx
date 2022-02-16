@@ -44,6 +44,7 @@ const BondPage = () => {
 
   const vestingTermDays = BigNumber(info.vestingTerm)
     .dividedBy(86400)
+    .decimalPlaces(3)
     .toString();
 
   const roi = weiAsAmount(
