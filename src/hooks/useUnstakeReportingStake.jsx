@@ -1,5 +1,6 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
@@ -19,6 +20,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
   const txToast = useTxToast();
+  const { requiresAuth } = useAuthValidation();
 
   useEffect(() => {
     let ignore = false;
@@ -68,6 +70,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
   const unstake = async () => {
     if (!networkId || !account) {
+      requiresAuth();
       return;
     }
 
