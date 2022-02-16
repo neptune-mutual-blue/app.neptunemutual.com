@@ -31,6 +31,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     npmApproving,
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
+    minNpmStake,
     canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
@@ -101,6 +102,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           inputValue={npmValue}
           disabled={lqApproving || providing}
         >
+          Minimum Stake: {convertFromUnits(minNpmStake).toString()}{" "}
+          {npmTokenSymbol}
           {npmErrorMsg && (
             <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
           )}
