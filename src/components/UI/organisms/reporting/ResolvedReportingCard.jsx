@@ -7,20 +7,12 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { unixToDate } from "@/utils/date";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 
-export const ResolvedReportingCard = ({
-  coverKey,
-  status,
-  resolutionTimestamp,
-}) => {
+export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const statusType = ["Reporting", "FalseReporting"].includes(status)
     ? "failure"
     : "";
-
-  // TODO: Use resolvedAtTimestamp instead of resolutionTimestamp
-  // resolutionTimestamp -> first report + reporting period
-  // resolvedAtTimestamp -> block.timestamp of `Resolved` event
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">
@@ -54,8 +46,7 @@ export const ResolvedReportingCard = ({
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 mb-4">
         <span className="">
-          Resolved On: {unixToDate(resolutionTimestamp, "MM/DD/YYYY HH:mm:ss")}{" "}
-          UTC
+          Resolved On: {unixToDate(resolvedOn, "MM/DD/YYYY HH:mm:ss")} UTC
         </span>
       </div>
     </OutlinedCard>

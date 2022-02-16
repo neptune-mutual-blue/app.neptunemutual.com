@@ -88,8 +88,32 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     });
   };
 
+  const unstakeWithClaim = async () => {
+    if (!networkId || !account) {
+      requiresAuth();
+      return;
+    }
+
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const resolutionContract = await registry.Resolution.getInstance(
+      networkId,
+      signerOrProvider
+    );
+    const tx = await resolutionContract.unstakeWithClaim(
+      coverKey,
+      incidentDate
+    );
+
+    await txToast.push(tx, {
+      pending: "Unstaking & claiming NPM",
+      success: "Unstaked & Claimed NPM Successfully",
+      failure: "Could not unstake & claim NPM",
+    });
+  };
+
   return {
     info,
     unstake,
+    unstakeWithClaim,
   };
 };
