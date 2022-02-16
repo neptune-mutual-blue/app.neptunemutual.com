@@ -39,6 +39,13 @@ export const useResolvedReportings = () => {
             key
             incidentDate
             resolved
+            emergencyResolved
+            emergencyResolveTransaction{
+              timestamp
+            }
+            resolveTransaction{
+              timestamp
+            }
             finalized
             status
             resolutionTimestamp
