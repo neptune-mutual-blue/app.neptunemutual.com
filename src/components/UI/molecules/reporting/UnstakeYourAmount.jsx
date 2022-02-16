@@ -2,12 +2,15 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
+import { isGreater } from "@/utils/bn";
+import { unixToDate } from "@/utils/date";
 import { Dialog } from "@headlessui/react";
+import dayjs from "dayjs";
 import { useState } from "react";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { unstake, info } = useUnstakeReportingStake({
+  const { unstake, unstakeWithClaim, info } = useUnstakeReportingStake({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
@@ -16,15 +19,36 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     setIsOpen(false);
   }
 
+  const now = dayjs().unix();
+
+  const isClaimableNow =
+    incidentReport.decision &&
+    isGreater(incidentReport.claimExpiresAt, now) &&
+    isGreater(now, incidentReport.claimBeginsFrom);
+
+  const handleUnstake = isClaimableNow ? unstakeWithClaim : unstake;
+
   return (
     <>
+      {isClaimableNow && (
+        <div className="my-8">
+          Claim Expires at:{" "}
+          {unixToDate(
+            incidentReport.claimExpiresAt,
+            "MMMM DD, YYYY hh:mm:ss A"
+          )}{" "}
+          UTC
+        </div>
+      )}
+
       <RegularButton className="px-10 py-4" onClick={() => setIsOpen(true)}>
         Unstake
       </RegularButton>
+
       <UnstakeModal
         isOpen={isOpen}
         onClose={onClose}
-        unstake={unstake}
+        unstake={handleUnstake}
         info={info}
       />
     </>

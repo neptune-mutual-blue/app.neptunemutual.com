@@ -23,9 +23,10 @@ export const ReportingResolvedPage = () => {
 
       <Grid className="mt-14 mb-24">
         {data.incidentReports.map((report) => {
-          const ts = report.emergencyResolved
+          const resolvedOn = report.emergencyResolved
             ? report.emergencyResolveTransaction?.timestamp
             : report.resolveTransaction?.timestamp;
+
           return (
             <Link
               href={`/reporting/${getParsedKey(report.id.split("-")[0])}/${
@@ -36,7 +37,7 @@ export const ReportingResolvedPage = () => {
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                 <ResolvedReportingCard
                   coverKey={report.key}
-                  resolutionTimestamp={ts}
+                  resolvedOn={resolvedOn}
                   status={report.status}
                 />
               </a>

@@ -2,8 +2,21 @@ import { Container } from "@/components/UI/atoms/container";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
+import { useCountdown } from "@/lib/countdown/useCountdown";
+import dayjs from "dayjs";
+
+const getTime = () => {
+  return dayjs().unix().toString();
+};
+const target = dayjs().unix() + 60 * 60 * 44;
+const formatCount = (n) => String(n).padStart(2, "0");
 
 export default function Components() {
+  const { hours, minutes, seconds } = useCountdown({
+    target,
+    getTime,
+  });
+
   return (
     <main>
       <Head>
@@ -23,6 +36,15 @@ export default function Components() {
               placeholder: "Enter Amount",
             }}
           />
+        </div>
+
+        <br />
+        <br />
+
+        <div className="flex text-h2 justify-center">
+          <div>{formatCount(hours)}:</div>
+          <div>{formatCount(minutes)}:</div>
+          <div>{formatCount(seconds)}</div>
         </div>
 
         <br />

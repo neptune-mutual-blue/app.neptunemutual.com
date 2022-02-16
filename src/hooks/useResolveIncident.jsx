@@ -25,11 +25,6 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    // TODO: remove this once the modal is implemented
-    if (typeof decision !== "boolean") {
-      throw Error("decision should be a boolean");
-    }
-
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
     resolution.emergencyResolve(
       networkId,

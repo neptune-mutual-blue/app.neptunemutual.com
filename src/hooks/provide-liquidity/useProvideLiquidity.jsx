@@ -205,7 +205,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const canProvideLiquidity =
     lqValue &&
     isValidNumber(lqValue) &&
-    isGreaterOrEqual(lqTokenAllowance || "0", convertToUnits(lqValue || "0"));
+    hasLqTokenAllowance &&
+    hasNPMTokenAllowance;
   const isError =
     lqValue &&
     (!isValidNumber(lqValue) ||
