@@ -38,7 +38,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
 
   const handleTextArea = (e) => {
     let text = e.target.value;
-    if (text.length <= 100) {
+    if (text.length <= 300) {
       setDescription(text);
       setTextCounter(text.length);
     }
@@ -177,10 +177,10 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               <span
                 className={classNames(
                   "absolute bottom-0 right-0 mr-2 mb-2",
-                  textCounter >= 100 && "text-FA5C2F"
+                  textCounter >= 300 && "text-FA5C2F"
                 )}
               >
-                {textCounter}/100
+                {textCounter}/300
               </span>
             </div>
             <div className="max-w-lg">
