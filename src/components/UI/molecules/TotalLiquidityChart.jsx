@@ -59,10 +59,9 @@ const getOrCreateTooltip = (chart) => {
 
   if (!tooltipEl) {
     tooltipEl = document.createElement("div");
-    tooltipEl.style.background = "transparent";
-    tooltipEl.style.border = "1px solid #01052D";
-    tooltipEl.style.borderRadius = "6px";
-    tooltipEl.style.color = "#01052D";
+    tooltipEl.style.background = "#FEFEFF";
+    tooltipEl.style.border = "1px solid #B0C4DB";
+    tooltipEl.style.borderRadius = "10px";
     tooltipEl.style.opacity = 1;
     tooltipEl.style.pointerEvents = "none";
     tooltipEl.style.position = "absolute";
@@ -141,7 +140,7 @@ const externalTooltipHandler = (context) => {
       th.style.paddingRight = "16px";
       th.style.fontFamily = "Sora, sans-serif";
       th.style.whiteSpace = "nowrap";
-      th.style.fontWeight = "400";
+      th.style.fontWeight = "bold";
 
       const customBody = "$ " + body + "M";
 
