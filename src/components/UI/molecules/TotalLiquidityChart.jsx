@@ -62,6 +62,7 @@ const getOrCreateTooltip = (chart) => {
     tooltipEl.style.background = "#FEFEFF";
     tooltipEl.style.border = "1px solid #B0C4DB";
     tooltipEl.style.borderRadius = "10px";
+    tooltipEl.style.color = "#01052D";
     tooltipEl.style.opacity = 1;
     tooltipEl.style.pointerEvents = "none";
     tooltipEl.style.position = "absolute";
