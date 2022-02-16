@@ -6,11 +6,10 @@ export const DisabledInput = ({ value, unit }) => {
           {value}
         </span>
       </div>
-      {unit && (
-        <div className="cursor-not-allowed border border-B0C4DB border-l-0 rounded-r-lg px-4 py-6">
-          {unit}
-        </div>
-      )}
+
+      <div className="cursor-not-allowed border border-B0C4DB border-l-0 rounded-r-lg px-4 py-6">
+        {unit}
+      </div>
     </div>
   );
 };
