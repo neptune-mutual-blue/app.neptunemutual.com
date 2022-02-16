@@ -39,8 +39,11 @@ export const StakeModal = ({
 
   const handleChooseMax = () => {
     // Use `info.maximumStake` instead of balance
-    setInputValue(convertFromUnits(info.maximumStake).toString());
+    console.log(info);
+    setInputValue(convertFromUnits(balance).toString());
   };
+
+  console.log("isError", isError);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -94,7 +97,10 @@ export const StakeModal = ({
           <RegularButton
             disabled={isError || depositing}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={handleDeposit}
+            onClick={async () => {
+              let shouldModalClose = await handleDeposit();
+              shouldModalClose && onClose();
+            }}
           >
             {depositing ? "Staking..." : "Stake"}
           </RegularButton>

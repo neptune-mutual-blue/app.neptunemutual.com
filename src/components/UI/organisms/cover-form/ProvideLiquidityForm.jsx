@@ -71,16 +71,16 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
 
   useEffect(() => {
-    if (npmBalance && npmValue > convertFromUnits(npmBalance).toString()) {
-      setNpmErrorMsg("Entered balance is greater than available balance.");
+    if (npmBalance && npmValue > +convertFromUnits(npmBalance).toString()) {
+      setNpmErrorMsg("Insufficient Balance");
     } else {
       setNpmErrorMsg("");
     }
     if (
       lqTokenBalance &&
-      lqValue > convertFromUnits(lqTokenBalance).toString()
+      lqValue > +convertFromUnits(lqTokenBalance).toString()
     ) {
-      setLqErrorMsg("Entered balance is greater than available balance.");
+      setLqErrorMsg("Insufficient Balance");
     } else {
       setLqErrorMsg("");
     }
