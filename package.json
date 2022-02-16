@@ -12,7 +12,7 @@
     "test:unit": "jest __test__/unit/ --watch"
   },
   "dependencies": {
-    "@binance-chain/bsc-connector": "1.0.0",
+    "@binance-chain/bsc-connector": "1.0.3",
     "@ethersproject/providers": "5.5.1",
     "@fontsource/poppins": "4.5.0",
     "@fontsource/sora": "4.5.0",
