@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { liquidity, registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
+import { AddressZero } from "@ethersproject/constants";
 
 import {
   convertToUnits,
@@ -14,6 +15,8 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNPMBalance } from "@/src/hooks/useNPMBalance";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useAppContext } from "@/src/context/AppWrapper";
+import { getMinStakeToAddLiquidity } from "@/src/helpers/store/getMinStakeToAddLiquidity";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqTokenAllowance, setLqTokenAllowance] = useState();
@@ -22,22 +25,52 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
   const [vaultAddress, setVaultAddress] = useState("");
+  const [minNpmStake, setMinNpmStake] = useState("0");
   const podSymbol = useTokenSymbol(vaultAddress);
 
   const txToast = useTxToast();
 
-  const { library, account, chainId } = useWeb3React();
+  const { networkId } = useAppContext();
+  const { library, account } = useWeb3React();
   const { balance: lqTokenBalance } = useLiquidityBalance();
   const { balance: npmBalance } = useNPMBalance();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
-    if (!chainId || !account) return;
-
     let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    if (!networkId) return;
 
-    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
+    async function fetchMinStake() {
+      const signerOrProvider = getProviderOrSigner(
+        library,
+        AddressZero,
+        networkId
+      );
+
+      const _minNpmStake = await getMinStakeToAddLiquidity(
+        networkId,
+        signerOrProvider.provider
+      );
+
+      if (ignore) return;
+      console.log(_minNpmStake);
+      setMinNpmStake(_minNpmStake);
+    }
+
+    fetchMinStake();
+
+    return () => {
+      ignore = true;
+    };
+  }, [library, networkId]);
+
+  useEffect(() => {
+    let ignore = false;
+    if (!networkId || !account) return;
+
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+    registry.Vault.getAddress(networkId, coverKey, signerOrProvider)
       .then((addr) => {
         if (ignore) return;
         return setVaultAddress(addr);
@@ -45,16 +78,16 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       .catch(console.error);
 
     return () => (ignore = true);
-  }, [chainId, account, library, coverKey]);
+  }, [networkId, account, library, coverKey]);
 
   useEffect(() => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
     let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     liquidity
-      .getAllowance(chainId, coverKey, account, signerOrProvider)
+      .getAllowance(networkId, coverKey, account, signerOrProvider)
       .then(({ result }) => {
         if (ignore) return;
         setLqTokenAllowance(result);
@@ -67,16 +100,16 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     checkNPMTokenAllowance();
 
     return () => (ignore = true);
-  }, [account, chainId, library, coverKey]);
+  }, [account, networkId, library, coverKey]);
 
   const checkLqTokenAllowance = async () => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
       const { result: _allowance } = await liquidity.getAllowance(
-        chainId,
+        networkId,
         coverKey,
         account,
         signerOrProvider
@@ -89,19 +122,19 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   };
 
   const checkNPMTokenAllowance = async () => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
       const vault = await registry.Vault.getAddress(
-        chainId,
+        networkId,
         coverKey,
         signerOrProvider
       );
 
       const npmInstance = await registry.NPMToken.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
       const _allowance = await npmInstance.allowance(account, vault);
@@ -115,10 +148,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const handleLqTokenApprove = async () => {
     try {
       setLqApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const { result: tx } = await liquidity.approve(
-        chainId,
+        networkId,
         coverKey,
         {},
         signerOrProvider
@@ -141,10 +174,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const handleNPMTokenApprove = async () => {
     try {
       setNPMApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const { result: tx } = await liquidity.approveStake(
-        chainId,
+        networkId,
         coverKey,
         {},
         signerOrProvider
@@ -168,12 +201,12 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     try {
       setProviding(true);
 
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
 
       const { result: tx } = await liquidity.add(
-        chainId,
+        networkId,
         coverKey,
         lqAmount,
         npmAmount,
@@ -226,5 +259,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     handleNPMTokenApprove,
     handleProvide,
     podSymbol,
+    minNpmStake,
   };
 };

@@ -83,7 +83,6 @@ export const HomePage = () => {
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  {console.log(c)}
                   <CoverCard details={c}></CoverCard>
                 </a>
               </Link>
