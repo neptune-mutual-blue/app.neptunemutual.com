@@ -59,15 +59,16 @@ const getOrCreateTooltip = (chart) => {
 
   if (!tooltipEl) {
     tooltipEl = document.createElement("div");
-    tooltipEl.style.background = "transparent";
-    tooltipEl.style.border = "1px solid #01052D";
-    tooltipEl.style.borderRadius = "6px";
+    tooltipEl.style.background = "#FEFEFF";
+    tooltipEl.style.border = "1px solid #B0C4DB";
+    tooltipEl.style.borderRadius = "10px";
     tooltipEl.style.color = "#01052D";
     tooltipEl.style.opacity = 1;
     tooltipEl.style.pointerEvents = "none";
     tooltipEl.style.position = "absolute";
     tooltipEl.style.transform = "translate(-100%, -120%)";
     tooltipEl.style.transition = "all .1s ease";
+    tooltipEl.style.boxShadow = "0px 5px 13px rgba(0, 0, 0, 0.1)";
 
     const table = document.createElement("table");
     table.style.margin = "0px";
@@ -107,8 +108,8 @@ const externalTooltipHandler = (context) => {
       td.style.color = "#5C738F";
       td.style.fontSize = "12px";
       td.style.paddingLeft = "16px";
-      td.style.paddingRight = "24px";
-      td.style.fontFamily = "Sora, sans-serif";
+      td.style.paddingRight = "32px";
+      td.style.fontFamily = "Poppins,Sora, sans-serif";
       td.style.lineHeight = "0px";
       td.style.whiteSpace = "nowrap";
       td.style.fontWeight = "400";
@@ -138,10 +139,10 @@ const externalTooltipHandler = (context) => {
       const th = document.createElement("th");
       th.style.borderWidth = "0";
       th.style.paddingLeft = "16px";
-      th.style.paddingRight = "16px";
+      th.style.paddingRight = "32px";
       th.style.fontFamily = "Sora, sans-serif";
       th.style.whiteSpace = "nowrap";
-      th.style.fontWeight = "400";
+      th.style.fontWeight = "bold";
 
       const customBody = "$ " + body + "M";
 
