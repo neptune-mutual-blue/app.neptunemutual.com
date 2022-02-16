@@ -106,8 +106,8 @@ const externalTooltipHandler = (context) => {
       td.style.color = "#5C738F";
       td.style.fontSize = "12px";
       td.style.paddingLeft = "16px";
-      td.style.paddingRight = "24px";
-      td.style.fontFamily = "Sora, sans-serif";
+      td.style.paddingRight = "32px";
+      td.style.fontFamily = "Poppins,Sora, sans-serif";
       td.style.lineHeight = "0px";
       td.style.whiteSpace = "nowrap";
       td.style.fontWeight = "400";
@@ -137,7 +137,7 @@ const externalTooltipHandler = (context) => {
       const th = document.createElement("th");
       th.style.borderWidth = "0";
       th.style.paddingLeft = "16px";
-      th.style.paddingRight = "16px";
+      th.style.paddingRight = "32px";
       th.style.fontFamily = "Sora, sans-serif";
       th.style.whiteSpace = "nowrap";
       th.style.fontWeight = "bold";
