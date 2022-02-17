@@ -7,7 +7,7 @@ import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
-import { isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
 import { Dialog } from "@headlessui/react";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -38,7 +38,8 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
         Result:{" "}
-        {incidentReport.decision ? "Incident Occured" : "False Reporting"}
+        {incidentReport.decision ? "Incident Occured" : "False Reporting"}{" "}
+        {incidentReport.emergencyResolved && "(Emergency Resolved)"}
       </span>
 
       {isClaimableNow && (
@@ -59,7 +60,11 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         isOpen={isOpen}
         onClose={onClose}
         unstake={handleUnstake}
-        reward={+info.myStakeInWinningCamp + +info.myReward}
+        reward={convertFromUnits(
+          sumOf(info.myStakeInWinningCamp, info.myReward).toString()
+        )
+          .decimalPlaces(2)
+          .toString()}
         logoSrc={logoSrc}
         altName={coverInfo?.coverName}
       />
