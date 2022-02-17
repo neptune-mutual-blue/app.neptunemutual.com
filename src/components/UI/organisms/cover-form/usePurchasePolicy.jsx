@@ -12,6 +12,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -26,6 +27,7 @@ export const usePurchasePolicy = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
   const [error, setError] = useState("");
+  const { getApprovalAmount } = useApprovalAmount();
 
   const txToast = useTxToast();
   const { balance } = useLiquidityBalance();
@@ -114,7 +116,9 @@ export const usePurchasePolicy = ({
 
       const { result: tx } = await policy.approve(
         chainId,
-        {},
+        {
+          amount: getApprovalAmount(feeAmount || "0"),
+        },
         signerOrProvider
       );
 

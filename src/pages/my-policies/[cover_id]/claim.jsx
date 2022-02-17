@@ -10,7 +10,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";
-import { useActivePoliciesByCover } from "@/components/pages/my-policies/useActiveCoverPolicies";
+import { useActivePoliciesByCover } from "@/src/hooks/useActiveCoverPolicies";
 
 export default function ClaimPolicy() {
   const router = useRouter();

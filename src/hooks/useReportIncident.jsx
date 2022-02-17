@@ -15,6 +15,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const useReportIncident = ({ coverKey, value }) => {
   const [balance, setBalance] = useState("0");
@@ -22,6 +23,7 @@ export const useReportIncident = ({ coverKey, value }) => {
   const [minStake, setMinStake] = useState("0");
   const [approving, setApproving] = useState(false);
   const [reporting, setReporting] = useState(false);
+  const { getApprovalAmount } = useApprovalAmount();
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
@@ -134,7 +136,7 @@ export const useReportIncident = ({ coverKey, value }) => {
 
       const tx = await instance.approve(
         governanceContractAddress,
-        convertToUnits(value).toString()
+        getApprovalAmount(convertToUnits(value).toString())
       );
 
       await txToast.push(tx, {

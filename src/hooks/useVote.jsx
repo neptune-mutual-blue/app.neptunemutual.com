@@ -15,6 +15,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [balance, setBalance] = useState("0");
@@ -25,6 +26,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
+  const { getApprovalAmount } = useApprovalAmount();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
@@ -132,7 +134,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
       const tx = await instance.approve(
         governanceContractAddress,
-        convertToUnits(value).toString()
+        getApprovalAmount(convertToUnits(value).toString())
       );
 
       await txToast.push(tx, {
