@@ -4,7 +4,7 @@ import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable
 import { UnstakeYourAmount } from "@/components/UI/molecules/reporting/UnstakeYourAmount";
 import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, isGreater } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { formatWithAabbreviation } from "@/utils/formatter";
 import { truncateAddress } from "@/utils/address";
@@ -33,8 +33,15 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
     .decimalPlaces(2)
     .toNumber();
 
-  const isAttestedWon =
-    incidentReport.totalAttestedCount > incidentReport.totalRefutedCount;
+  let isAttestedWon = incidentReport.decision;
+
+  if (incidentReport.decision === null) {
+    isAttestedWon = isGreater(
+      incidentReport.totalAttestedStake,
+      incidentReport.totalRefutedStake
+    );
+  }
+
   const majority = {
     voteCount: isAttestedWon
       ? incidentReport.totalAttestedCount
@@ -126,6 +133,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
             {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
             {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
           </p>
+
           <button className="text-4e7dd9 text-sm" onClick={finalize}>
             Finalize
           </button>

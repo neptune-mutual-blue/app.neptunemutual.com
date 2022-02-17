@@ -14,7 +14,7 @@ import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
 import DateLib from "@/lib/date/DateLib";
 
-export const ActiveReportSummary = ({ incidentReport }) => {
+export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
   const endDate = new Date(incidentReport.resolutionTimestamp * 1000);
 
@@ -34,8 +34,15 @@ export const ActiveReportSummary = ({ incidentReport }) => {
     .decimalPlaces(2)
     .toNumber();
 
-  const isAttestedWon =
-    incidentReport.totalAttestedCount > incidentReport.totalRefutedCount;
+  let isAttestedWon = incidentReport.decision;
+
+  if (incidentReport.decision === null) {
+    isAttestedWon = isGreater(
+      incidentReport.totalAttestedStake,
+      incidentReport.totalRefutedStake
+    );
+  }
+
   const majority = {
     voteCount: isAttestedWon
       ? incidentReport.totalAttestedCount
@@ -75,7 +82,10 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <Divider />
 
           {reportingEnded ? (
-            <ResolveIncident incidentReport={incidentReport} />
+            <ResolveIncident
+              incidentReport={incidentReport}
+              resolvableTill={resolvableTill}
+            />
           ) : (
             <CastYourVote incidentReport={incidentReport} />
           )}
@@ -142,8 +152,13 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
-            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            <span title={new Date(+incidentReport.incidentDate * 1000)}>
+              {unixToDate(incidentReport.incidentDate, "D MMMM")}
+            </span>{" "}
+            -{" "}
+            <span title={new Date(+incidentReport.resolutionTimestamp * 1000)}>
+              {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            </span>
           </p>
           {!reportingEnded && (
             <HlCalendar startDate={startDate} endDate={endDate} />

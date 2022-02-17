@@ -10,7 +10,7 @@ import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import DateLib from "@/lib/date/DateLib";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
@@ -108,7 +108,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      <div>
+      <div title={getToolTipDate(unlockTimestamp)}>
         <UnlockDate
           dateValue={`${unixToDate(
             unlockTimestamp,

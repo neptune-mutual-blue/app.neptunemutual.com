@@ -5,14 +5,25 @@ import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveR
 import { Container } from "@/components/UI/atoms/container";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
 import DateLib from "@/lib/date/DateLib";
-import { isGreater } from "@/utils/bn";
+import { isGreater, sumOf } from "@/utils/bn";
 
 export const ReportingDetailsPage = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
 
   const now = DateLib.unix();
+
+  let resolvableTill = incidentReport.claimBeginsFrom;
+
+  if (incidentReport.claimBeginsFrom === "0") {
+    const lastResolvedOn = incidentReport.emergencyResolved
+      ? incidentReport.emergencyResolveTransaction?.timestamp
+      : incidentReport.resolveTransaction?.timestamp;
+
+    resolvableTill = sumOf(lastResolvedOn, 24 * 60 * 60).toString();
+  }
+
   const showResolvedSummary =
-    incidentReport.resolved && isGreater(now, incidentReport.claimBeginsFrom);
+    incidentReport.resolved && isGreater(now, resolvableTill);
 
   return (
     <>
@@ -22,7 +33,10 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
         {showResolvedSummary ? (
           <ResolvedReportSummary incidentReport={incidentReport} />
         ) : (
-          <ActiveReportSummary incidentReport={incidentReport} />
+          <ActiveReportSummary
+            incidentReport={incidentReport}
+            resolvableTill={resolvableTill}
+          />
         )}
 
         <RecentVotesTable

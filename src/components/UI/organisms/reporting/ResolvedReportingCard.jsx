@@ -4,7 +4,7 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
@@ -45,7 +45,7 @@ export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 mb-4">
-        <span className="">
+        <span className="" title={getToolTipDate(resolvedOn)}>
           Resolved On: {unixToDate(resolvedOn, "MM/DD/YYYY HH:mm:ss")} UTC
         </span>
       </div>

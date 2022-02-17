@@ -6,7 +6,7 @@ import { unixToDate } from "@/utils/date";
 export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
   const { fee = "0", rate = "0" } = data;
 
-  const feePercent = convertFromUnits(rate)
+  const feePercent = convertFromUnits(rate, 4)
     .multipliedBy(100)
     .decimalPlaces(2)
     .toString();
@@ -40,7 +40,9 @@ export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4e7dd9">{claimExpiry}</td>
+            <td className="text-4e7dd9" title={`${new Date(ce)}`}>
+              {claimExpiry}
+            </td>
           </tr>
         </tbody>
       </table>

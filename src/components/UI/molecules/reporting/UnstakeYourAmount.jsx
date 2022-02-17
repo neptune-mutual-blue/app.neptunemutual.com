@@ -7,7 +7,7 @@ import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
-import { isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
 import { Dialog } from "@headlessui/react";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
@@ -37,13 +37,20 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   return (
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
-        Result: Incident Occured
+        Result:{" "}
+        {incidentReport.decision ? "Incident Occured" : "False Reporting"}{" "}
+        {incidentReport.emergencyResolved && "(Emergency Resolved)"}
       </span>
+
       {isClaimableNow && (
-        <CountDownTimer startingTime="00:00:00" title="CLAIM ENDS IN" />
+        <CountDownTimer
+          title="CLAIM ENDS IN"
+          target={incidentReport.claimExpiresAt}
+        />
       )}
+
       <RegularButton
-        className="px-10 py-4 mb-16 font-bold w-80"
+        className="px-10 py-4 mb-16 font-semibold w-80"
         onClick={() => setIsOpen(true)}
       >
         UNSTAKE
@@ -53,7 +60,11 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         isOpen={isOpen}
         onClose={onClose}
         unstake={handleUnstake}
-        reward={+info.myStakeInWinningCamp + +info.myReward}
+        reward={convertFromUnits(
+          sumOf(info.myStakeInWinningCamp, info.myReward).toString()
+        )
+          .decimalPlaces(2)
+          .toString()}
         logoSrc={logoSrc}
         altName={coverInfo?.coverName}
       />

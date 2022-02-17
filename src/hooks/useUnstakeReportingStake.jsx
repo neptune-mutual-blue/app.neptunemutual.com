@@ -1,6 +1,7 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
@@ -19,8 +20,10 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
+
   const txToast = useTxToast();
   const { requiresAuth } = useAuthValidation();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -74,18 +77,22 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-    const resolutionContract = await registry.Resolution.getInstance(
-      networkId,
-      signerOrProvider
-    );
-    const tx = await resolutionContract.unstake(coverKey, incidentDate);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const resolutionContract = await registry.Resolution.getInstance(
+        networkId,
+        signerOrProvider
+      );
+      const tx = await resolutionContract.unstake(coverKey, incidentDate);
 
-    await txToast.push(tx, {
-      pending: "Unstaking NPM",
-      success: "Unstaked NPM Successfully",
-      failure: "Could not unstake NPM",
-    });
+      await txToast.push(tx, {
+        pending: "Unstaking NPM",
+        success: "Unstaked NPM Successfully",
+        failure: "Could not unstake NPM",
+      });
+    } catch (err) {
+      notifyError(err, "Unstake NPM");
+    }
   };
 
   const unstakeWithClaim = async () => {
@@ -94,21 +101,25 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-    const resolutionContract = await registry.Resolution.getInstance(
-      networkId,
-      signerOrProvider
-    );
-    const tx = await resolutionContract.unstakeWithClaim(
-      coverKey,
-      incidentDate
-    );
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const resolutionContract = await registry.Resolution.getInstance(
+        networkId,
+        signerOrProvider
+      );
+      const tx = await resolutionContract.unstakeWithClaim(
+        coverKey,
+        incidentDate
+      );
 
-    await txToast.push(tx, {
-      pending: "Unstaking & claiming NPM",
-      success: "Unstaked & Claimed NPM Successfully",
-      failure: "Could not unstake & claim NPM",
-    });
+      await txToast.push(tx, {
+        pending: "Unstaking & claiming NPM",
+        success: "Unstaked & claimed NPM Successfully",
+        failure: "Could not unstake & claim NPM",
+      });
+    } catch (err) {
+      notifyError(err, "Unstake & claim NPM");
+    }
   };
 
   return {

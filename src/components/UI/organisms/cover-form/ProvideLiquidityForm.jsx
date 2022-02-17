@@ -12,7 +12,7 @@ import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -72,7 +72,12 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
 
   useEffect(() => {
-    if (npmBalance && npmValue > +convertFromUnits(npmBalance).toString()) {
+    if (npmBalance && npmValue < 250) {
+      setNpmErrorMsg("Insufficient Stake");
+    } else if (
+      npmBalance &&
+      npmValue > +convertFromUnits(npmBalance).toString()
+    ) {
       setNpmErrorMsg("Insufficient Balance");
     } else {
       setNpmErrorMsg("");
@@ -94,7 +99,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           labelText={"Enter your NPM stake"}
           onChange={handleNPMChange}
           handleChooseMax={handleMaxNPM}
-          error={isError}
+          error={npmErrorMsg}
           tokenAddress={NPMTokenAddress}
           tokenSymbol={npmTokenSymbol}
           tokenBalance={npmBalance || "0"}
@@ -137,7 +142,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      <div>
+      <div title={getToolTipDate(unlockTimestamp)}>
         <UnlockDate
           dateValue={`${unixToDate(
             unlockTimestamp,
