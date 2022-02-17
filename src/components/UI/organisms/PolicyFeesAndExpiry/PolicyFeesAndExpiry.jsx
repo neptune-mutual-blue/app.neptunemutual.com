@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
   const { fee = "0", rate = "0" } = data;
 
-  const feePercent = convertFromUnits(rate)
+  const feePercent = convertFromUnits(rate, 4)
     .multipliedBy(100)
     .decimalPlaces(2)
     .toString();
@@ -39,7 +39,15 @@ export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4e7dd9">{claimEpiry}</td>
+            <td
+              className="text-4e7dd9"
+              title={`${dayjs()
+                .add(parseInt(claimEnd, 10) - 1, "month")
+                .endOf("month")
+                .$d.toString()}`}
+            >
+              {claimEpiry}
+            </td>
           </tr>
         </tbody>
       </table>
