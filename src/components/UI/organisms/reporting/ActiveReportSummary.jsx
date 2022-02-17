@@ -1,4 +1,5 @@
 import { Divider } from "@/components/UI/atoms/divider";
+import { DateToolTip } from "@/components/UI/atoms/tooltip";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
@@ -142,8 +143,13 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
-            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            <DateToolTip date={incidentReport.incidentDate}>
+              {unixToDate(incidentReport.incidentDate, "D MMMM")}
+            </DateToolTip>{" "}
+            -{" "}
+            <DateToolTip date={incidentReport.resolutionTimestamp}>
+              {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            </DateToolTip>
           </p>
           {!reportingEnded && (
             <HlCalendar startDate={startDate} endDate={endDate} />
