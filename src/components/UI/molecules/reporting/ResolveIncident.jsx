@@ -3,9 +3,11 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
-import { unixToDate } from "@/utils/date";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
+import { getCoverImgSrc } from "@/src/helpers/cover";
+import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
 
 export const ResolveIncident = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,33 +16,35 @@ export const ResolveIncident = ({ incidentReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
 
+  const { coverInfo } = useCoverInfo(incidentReport.key);
+  const logoSource = getCoverImgSrc(coverInfo);
+
   function onClose() {
     setIsOpen(false);
   }
 
   return (
     <div className="flex flex-col items-center">
-      {incidentReport.resolved && (
-        <div className="my-8">
-          Resolving at:{" "}
-          {unixToDate(
-            incidentReport.claimBeginsFrom,
-            "MMMM DD, YYYY hh:mm:ss A"
-          )}{" "}
-          UTC
-        </div>
+      {!incidentReport.resolved && (
+        <CountDownTimer title="Resolving in" startingTime=" 00:00:00" />
       )}
 
-      <div className="flex gap-4">
+      <div className="flex gap-10 mb-16">
         {!incidentReport.resolved && (
-          <RegularButton className="px-10 py-4" onClick={resolve}>
-            Resolve
+          <RegularButton
+            className="px-10 py-4 w-80  font-bold"
+            onClick={resolve}
+          >
+            RESOLVE
           </RegularButton>
         )}
 
         {!incidentReport.emergencyResolved && (
-          <RegularButton className="px-10 py-4" onClick={() => setIsOpen(true)}>
-            Emergency Resolve
+          <RegularButton
+            className="px-10 py-4 w-80 font-bold"
+            onClick={() => setIsOpen(true)}
+          >
+            EMERGENCY RESOLVE
           </RegularButton>
         )}
 
@@ -48,13 +52,21 @@ export const ResolveIncident = ({ incidentReport }) => {
           isOpen={isOpen}
           onClose={onClose}
           emergencyResolve={emergencyResolve}
+          logoSource={logoSource}
+          logoAlt={coverInfo?.coverName}
         />
       </div>
     </div>
   );
 };
 
-const EmergencyResolveModal = ({ isOpen, onClose, emergencyResolve }) => {
+const EmergencyResolveModal = ({
+  isOpen,
+  onClose,
+  emergencyResolve,
+  logoSource,
+  logoAlt,
+}) => {
   const [decision, setDecision] = useState(null);
 
   const handleRadioChange = (e) => {
@@ -65,20 +77,27 @@ const EmergencyResolveModal = ({ isOpen, onClose, emergencyResolve }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h2 flex">
-          Emergency Resolve
+        <Dialog.Title className="flex items-center">
+          <img
+            className="w-10 h-10 mr-3 border rounded-full"
+            alt={logoAlt}
+            src={logoSource}
+          />
+          <span className="font-sora font-bold text-h2">
+            Emergency Resolution
+          </span>
         </Dialog.Title>
-
+        <div className="mt-8 mb-6 font-semibold">SELECT YOUR DECISION</div>
         <div className="flex gap-4 my-4">
           <Radio
-            label={"Incident Occurred"}
+            label={"INCIDENT OCCURED"}
             id="decision-1"
             value="true"
             name="decision"
             onChange={handleRadioChange}
           />
           <Radio
-            label={"False Reporting"}
+            label={"FALSE REPORTING"}
             id="decision-2"
             value="false"
             name="decision"
@@ -87,12 +106,12 @@ const EmergencyResolveModal = ({ isOpen, onClose, emergencyResolve }) => {
         </div>
 
         <RegularButton
-          className="px-10 py-4"
+          className="px-10 py-4 mt-12 w-full  font-semibold"
           onClick={() => {
             emergencyResolve(decision === "true");
           }}
         >
-          Emergency Resolve
+          EMERGENCY RESOLVE
         </RegularButton>
 
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
