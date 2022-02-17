@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 
 import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -113,7 +113,7 @@ const BondPage = () => {
     setValue(convertFromUnits(balance).toString());
   };
 
-  const unlockTimestamp = sumOf(dayjs().unix(), info?.vestingTerm || "0");
+  const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || "0");
 
   return (
     <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>

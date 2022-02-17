@@ -12,7 +12,7 @@ import { convertFromUnits, isGreater } from "@/utils/bn";
 import { unixToDate } from "@/utils/date";
 import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 
 export const ActiveReportSummary = ({ incidentReport }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
@@ -45,7 +45,7 @@ export const ActiveReportSummary = ({ incidentReport }) => {
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  const now = dayjs().unix();
+  const now = DateLib.unix();
   const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
 
   return (

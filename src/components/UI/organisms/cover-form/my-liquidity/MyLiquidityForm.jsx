@@ -9,7 +9,7 @@ import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { unixToDate } from "@/utils/date";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -66,7 +66,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
     setLqValue(val);
   };
 
-  const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
+  const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
 
   return (
     <div className="max-w-md">
