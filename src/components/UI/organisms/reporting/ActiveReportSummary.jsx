@@ -34,8 +34,15 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
     .decimalPlaces(2)
     .toNumber();
 
-  const isAttestedWon =
-    incidentReport.totalAttestedCount > incidentReport.totalRefutedCount;
+  let isAttestedWon = incidentReport.decision;
+
+  if (incidentReport.decision === null) {
+    isAttestedWon = isGreater(
+      incidentReport.totalAttestedStake,
+      incidentReport.totalRefutedStake
+    );
+  }
+
   const majority = {
     voteCount: isAttestedWon
       ? incidentReport.totalAttestedCount
