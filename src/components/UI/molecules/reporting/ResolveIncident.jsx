@@ -25,7 +25,7 @@ export const ResolveIncident = ({ incidentReport }) => {
 
   return (
     <div className="flex flex-col items-center">
-      {!incidentReport.resolved && (
+      {incidentReport.resolved && (
         <CountDownTimer title="Resolving in" startingTime=" 00:00:00" />
       )}
 

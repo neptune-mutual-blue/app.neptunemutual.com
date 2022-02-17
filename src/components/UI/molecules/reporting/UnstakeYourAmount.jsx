@@ -3,6 +3,7 @@ import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
+import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
@@ -35,7 +36,9 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
 
   return (
     <div className="flex flex-col items-center pt-4">
-      <span className="font-semibold">Result: Incident Occured</span>
+      <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
+        Result: Incident Occured
+      </span>
       {isClaimableNow && (
         <CountDownTimer startingTime="00:00:00" title="CLAIM ENDS IN" />
       )}
