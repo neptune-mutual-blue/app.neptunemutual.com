@@ -1,4 +1,4 @@
-import { useActivePolicies } from "@/components/pages/my-policies/useActivePolicies";
+import { useActivePolicies } from "@/src/hooks/useActivePolicies";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";

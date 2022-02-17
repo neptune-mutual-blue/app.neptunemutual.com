@@ -17,6 +17,7 @@ import { useNPMBalance } from "@/src/hooks/useNPMBalance";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { getMinStakeToAddLiquidity } from "@/src/helpers/store/getMinStakeToAddLiquidity";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqTokenAllowance, setLqTokenAllowance] = useState();
@@ -32,6 +33,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
+  const { getApprovalAmount } = useApprovalAmount();
   const { balance: lqTokenBalance } = useLiquidityBalance();
   const { balance: npmBalance } = useNPMBalance();
   const { notifyError } = useErrorNotifier();
@@ -153,7 +155,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       const { result: tx } = await liquidity.approve(
         networkId,
         coverKey,
-        {},
+        {
+          amount: getApprovalAmount(convertToUnits(lqValue).toString()),
+        },
         signerOrProvider
       );
 
@@ -179,7 +183,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       const { result: tx } = await liquidity.approveStake(
         networkId,
         coverKey,
-        {},
+        {
+          amount: getApprovalAmount(convertToUnits(npmValue).toString()),
+        },
         signerOrProvider
       );
 

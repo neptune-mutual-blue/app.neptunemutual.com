@@ -11,6 +11,7 @@ import {
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -25,6 +26,7 @@ export const useStakingPoolDeposit = ({
   const [depositing, setDepositing] = useState(false);
 
   const { chainId, account, library } = useWeb3React();
+  const { getApprovalAmount } = useApprovalAmount();
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
@@ -102,7 +104,7 @@ export const useStakingPoolDeposit = ({
 
       const tx = await instance.approve(
         poolContractAddress,
-        convertToUnits(value).toString()
+        getApprovalAmount(convertToUnits(value).toString())
       );
 
       await txToast.push(tx, {

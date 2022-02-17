@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { ExpiredPolicyCard } from "@/components/UI/organisms/policy/ExpiredPolicyCard";
-import { useExpiredPolicies } from "@/components/pages/my-policies/useExpiredPolicies";
+import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
 
 export const PoliciesExpiredPage = () => {
   const { data, loading } = useExpiredPolicies();

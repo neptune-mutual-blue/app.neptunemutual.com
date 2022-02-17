@@ -14,6 +14,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 
 export const useCreateBond = ({ info, value }) => {
   const [balance, setBalance] = useState("0");
@@ -24,6 +25,7 @@ export const useCreateBond = ({ info, value }) => {
 
   const { chainId, account, library } = useWeb3React();
   const { networkId } = useAppContext();
+  const { getApprovalAmount } = useApprovalAmount();
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
@@ -122,7 +124,7 @@ export const useCreateBond = ({ info, value }) => {
 
       const tx = await instance.approve(
         bondContractAddress,
-        convertToUnits(value).toString()
+        getApprovalAmount(convertToUnits(value).toString())
       );
 
       await txToast.push(tx, {
