@@ -165,7 +165,9 @@ export const StakingCard = ({ data }) => {
         poolKey={poolKey}
         info={info}
         modalTitle={
-          <ModalTitle imgSrc={npmImgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
+          <ModalTitle staking imgSrc={npmImgSrc} imgSecondSrc={imgSrc}>
+            Earn {rewardTokenSymbol}
+          </ModalTitle>
         }
         onClose={onStakeModalClose}
         isOpen={isStakeModalOpen}
