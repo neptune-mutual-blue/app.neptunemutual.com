@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
@@ -22,15 +22,16 @@ import { unixToDate } from "@/utils/date";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
 
 const BondPage = () => {
   const { info } = useBondInfo();
   const [value, setValue] = useState();
-  const [receiveValue, setReceiveValue] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
+  const delayedValue = useDelayedValueUpdate({ value });
 
   const {
     balance,
@@ -41,7 +42,7 @@ const BondPage = () => {
     isError,
     handleApprove,
     handleBond,
-  } = useCreateBond({ info, value: receiveValue });
+  } = useCreateBond({ info, value: delayedValue });
 
   const vestingTermDays = BigNumber(info.vestingTerm)
     .dividedBy(86400)
@@ -107,13 +108,6 @@ const BondPage = () => {
       setValue(val);
     }
   };
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setReceiveValue(value);
-    }, 500);
-    return () => clearTimeout(timeout);
-  }, [value]);
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
