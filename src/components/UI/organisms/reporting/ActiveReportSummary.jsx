@@ -14,7 +14,7 @@ import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
 import dayjs from "dayjs";
 
-export const ActiveReportSummary = ({ incidentReport }) => {
+export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
   const endDate = new Date(incidentReport.resolutionTimestamp * 1000);
 
@@ -75,7 +75,10 @@ export const ActiveReportSummary = ({ incidentReport }) => {
           <Divider />
 
           {reportingEnded ? (
-            <ResolveIncident incidentReport={incidentReport} />
+            <ResolveIncident
+              incidentReport={incidentReport}
+              resolvableTill={resolvableTill}
+            />
           ) : (
             <CastYourVote incidentReport={incidentReport} />
           )}
