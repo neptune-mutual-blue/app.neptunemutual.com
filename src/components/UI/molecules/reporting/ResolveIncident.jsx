@@ -9,7 +9,7 @@ import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
 
-export const ResolveIncident = ({ incidentReport }) => {
+export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { resolve, emergencyResolve } = useResolveIncident({
     coverKey: incidentReport.key,
@@ -26,27 +26,25 @@ export const ResolveIncident = ({ incidentReport }) => {
   return (
     <div className="flex flex-col items-center">
       {incidentReport.resolved && (
-        <CountDownTimer title="Resolving in" startingTime=" 00:00:00" />
+        <CountDownTimer title="Resolving in" target={resolvableTill} />
       )}
 
       <div className="flex gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
-            className="px-10 py-4 w-80  font-bold"
+            className="px-10 py-4 w-80  font-semibold"
             onClick={resolve}
           >
             RESOLVE
           </RegularButton>
         )}
 
-        {!incidentReport.emergencyResolved && (
-          <RegularButton
-            className="px-10 py-4 w-80 font-bold"
-            onClick={() => setIsOpen(true)}
-          >
-            EMERGENCY RESOLVE
-          </RegularButton>
-        )}
+        <RegularButton
+          className="px-10 py-4 w-80 font-semibold"
+          onClick={() => setIsOpen(true)}
+        >
+          EMERGENCY RESOLVE
+        </RegularButton>
 
         <EmergencyResolveModal
           isOpen={isOpen}
@@ -106,7 +104,7 @@ const EmergencyResolveModal = ({
         </div>
 
         <RegularButton
-          className="px-10 py-4 mt-12 w-full  font-semibold"
+          className="px-10 py-4 mt-12 w-full font-semibold"
           onClick={() => {
             emergencyResolve(decision === "true");
           }}

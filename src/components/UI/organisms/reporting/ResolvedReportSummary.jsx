@@ -126,6 +126,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
             {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
             {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
           </p>
+
           <button className="text-4e7dd9 text-sm" onClick={finalize}>
             Finalize
           </button>

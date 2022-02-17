@@ -37,13 +37,19 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   return (
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
-        Result: Incident Occured
+        Result:{" "}
+        {incidentReport.decision ? "Incident Occured" : "False Reporting"}
       </span>
+
       {isClaimableNow && (
-        <CountDownTimer startingTime="00:00:00" title="CLAIM ENDS IN" />
+        <CountDownTimer
+          title="CLAIM ENDS IN"
+          target={incidentReport.claimExpiresAt}
+        />
       )}
+
       <RegularButton
-        className="px-10 py-4 mb-16 font-bold w-80"
+        className="px-10 py-4 mb-16 font-semibold w-80"
         onClick={() => setIsOpen(true)}
       >
         UNSTAKE
