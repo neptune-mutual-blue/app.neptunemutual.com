@@ -29,3 +29,7 @@ export const formatTime = (unix, buffer) => {
     return `${inSeconds} ${inSeconds === 1 ? "second" : "seconds"} ago`;
   }
 };
+
+export const getToolTipDate = (date) => {
+  return new Date(+date * 1000).toString();
+};

@@ -4,7 +4,7 @@ import { ProgressBar } from "@/components//UI/atoms/progress-bar";
 import { formatWithAabbreviation } from "@/utils/formatter";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -45,7 +45,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
         <span className="">
           Protection: ${formatWithAabbreviation(25000000)}
         </span>
-        <span className="text-right">
+        <span className="text-right" title={getToolTipDate(incidentDate)}>
           Reported On: {unixToDate(incidentDate, "MM/DD/YYYY")}
         </span>
       </div>

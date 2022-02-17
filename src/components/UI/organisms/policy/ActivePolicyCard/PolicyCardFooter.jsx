@@ -1,7 +1,7 @@
 import { getParsedKey } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 import Link from "next/link";
 
 export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
@@ -22,6 +22,7 @@ export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
         {report ? (
           <Stat
             title="Resolution By"
+            toolTipTitle={getToolTipDate(report.resolutionTimestamp)}
             value={
               unixToDate(report.resolutionTimestamp, "YYYY/MM/DD HH:mm") +
               " UTC"
@@ -30,6 +31,7 @@ export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
         ) : (
           <Stat
             title="Expires In"
+            toolTipTitle={getToolTipDate(expiresOn)}
             value={unixToDate(expiresOn, "YYYY/MM/DD HH:mm") + " UTC"}
           />
         )}
@@ -53,11 +55,12 @@ export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
   );
 };
 
-const Stat = ({ title, value, right, variant }) => {
+const Stat = ({ title, toolTipTitle, value, right, variant }) => {
   return (
     <div className="flex flex-col">
       <span className="font-semibold text-black text-sm pb-2">{title}</span>
       <span
+        title={toolTipTitle}
         className={classNames(
           variant === "error" ? "text-FA5C2F" : "text-7398C0",
           right && "text-right"

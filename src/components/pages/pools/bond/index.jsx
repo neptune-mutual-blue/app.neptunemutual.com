@@ -18,7 +18,7 @@ import {
   sumOf,
   weiAsAmount,
 } from "@/utils/bn";
-import { unixToDate } from "@/utils/date";
+import { getToolTipDate, unixToDate } from "@/utils/date";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -141,7 +141,11 @@ const BondPage = () => {
           <Label className="mb-2" htmlFor="unlock-on">
             Will Unlock On
           </Label>
-          <p id="unlock-on" className="text-7398C0 text-h4 font-medium">
+          <p
+            id="unlock-on"
+            className="text-7398C0 text-h4 font-medium"
+            title={getToolTipDate(unlockTimestamp)}
+          >
             {unixToDate(unlockTimestamp, "MMMM DD, YYYY hh:mm:ss A")} UTC
           </p>
         </div>
