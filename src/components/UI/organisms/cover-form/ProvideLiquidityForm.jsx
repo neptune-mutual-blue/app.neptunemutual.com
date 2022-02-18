@@ -11,7 +11,7 @@ import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiq
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { getToolTipDate, unixToDate } from "@/utils/date";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
@@ -32,7 +32,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
     minNpmStake,
-    canProvideLiquidity,
+    // canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,
@@ -69,7 +69,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     setLqValue(val);
   };
 
-  const unlockTimestamp = sumOf(dayjs().unix(), info?.lockup || "0");
+  const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
 
   useEffect(() => {
     if (npmBalance && npmValue < 250) {

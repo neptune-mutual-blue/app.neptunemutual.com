@@ -3,12 +3,12 @@ import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-traili
 import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 
 const getTime = () => {
-  return dayjs().unix().toString();
+  return DateLib.unix().toString();
 };
-const target = dayjs().unix() + 60 * 60 * 44;
+const target = DateLib.unix() + 60 * 60 * 44;
 const formatCount = (n) => String(n).padStart(2, "0");
 
 export default function Components() {

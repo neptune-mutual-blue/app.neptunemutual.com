@@ -1,6 +1,7 @@
 import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
+import DateLib from "@/lib/date/DateLib";
 import { convertFromUnits } from "@/utils/bn";
-import dayjs from "dayjs";
+import { unixToDate } from "@/utils/date";
 
 export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
   const { fee = "0", rate = "0" } = data;
@@ -11,10 +12,10 @@ export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
     .toString();
   const coverFee = convertFromUnits(fee).decimalPlaces(3).toString();
 
-  const claimEpiry = `${dayjs()
-    .add(parseInt(claimEnd, 10) - 1, "month")
-    .endOf("month")
-    .format("MMM DD, YYYY HH:mm")} UTC`;
+  let ce = DateLib.addMonths(DateLib.unix() * 1000, parseInt(claimEnd, 10) - 1);
+  ce = DateLib.endOfMonth(ce);
+  ce = DateLib.endOfDay(ce);
+  const claimExpiry = `${unixToDate(ce / 1000, "MMM DD, YYYY HH:mm")} UTC`;
 
   return (
     <>
@@ -39,14 +40,8 @@ export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td
-              className="text-4e7dd9"
-              title={`${dayjs()
-                .add(parseInt(claimEnd, 10) - 1, "month")
-                .endOf("month")
-                .$d.toString()}`}
-            >
-              {claimEpiry}
+            <td className="text-4e7dd9" title={`${new Date(ce)}`}>
+              {claimExpiry}
             </td>
           </tr>
         </tbody>

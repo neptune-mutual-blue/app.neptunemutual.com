@@ -9,7 +9,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
 import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
 import { Dialog } from "@headlessui/react";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
@@ -25,7 +25,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     setIsOpen(false);
   }
 
-  const now = dayjs().unix();
+  const now = DateLib.unix();
 
   const isClaimableNow =
     incidentReport.decision &&

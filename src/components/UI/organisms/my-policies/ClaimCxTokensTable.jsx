@@ -25,7 +25,7 @@ const renderHeader = (col) => (
 );
 
 const renderAddress = (row) => (
-  <td className="px-6 py-6 text-404040">{row.cxToken}</td>
+  <td className="px-6 py-6 text-404040">{row.cxToken.id}</td>
 );
 
 const renderClaimBefore = (row) => (
@@ -83,7 +83,7 @@ export const ClaimCxTokensTable = ({ activePolicies }) => {
 };
 
 const CxTokenAmountRenderer = ({ row }) => {
-  const tokenSymbol = useTokenSymbol(row.cxToken);
+  const tokenSymbol = useTokenSymbol(row.cxToken.id);
 
   return (
     <>
@@ -119,7 +119,7 @@ const ClaimActionsColumnRenderer = ({ row }) => {
       <ClaimCoverModal
         data={row}
         coverKey={row.cover.id}
-        cxTokenAddress={row.cxToken}
+        cxTokenAddress={row.cxToken.id}
         isOpen={isOpen}
         onClose={onClose}
         modalTitle="Claim Cover"

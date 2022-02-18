@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-import { ExpiredPolicyCard } from "@/components/UI/organisms/policy/ExpiredPolicyCard";
 import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
+import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
 
 export const PoliciesExpiredPage = () => {
   const { data, loading } = useExpiredPolicies();
@@ -39,7 +39,7 @@ export const PoliciesExpiredPage = () => {
               key={policyInfo.id}
               className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
             >
-              <ExpiredPolicyCard details={policyInfo}></ExpiredPolicyCard>
+              <PolicyCard policyInfo={policyInfo}></PolicyCard>
             </div>
           );
         })}

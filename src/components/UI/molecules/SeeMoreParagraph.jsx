@@ -1,5 +1,5 @@
 import { classNames } from "@/utils/classnames";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const SeeMoreParagraph = ({ text = "" }) => {
   const [showFullText, setShowFullText] = useState(false);
@@ -11,13 +11,13 @@ export const SeeMoreParagraph = ({ text = "" }) => {
     setShowFullText((prev) => !prev);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setHasOverflow(
       wrapperRef.current &&
         elementRef.current &&
         elementRef.current.scrollHeight > wrapperRef.current.offsetHeight
     );
-  }, []);
+  }, [text]);
 
   return (
     <>

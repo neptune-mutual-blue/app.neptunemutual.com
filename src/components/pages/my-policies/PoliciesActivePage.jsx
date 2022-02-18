@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-import { ActivePolicyCard } from "@/components/UI/organisms/policy/ActivePolicyCard";
+import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
 import { useActivePolicies } from "@/src/hooks/useActivePolicies";
 
 export const PoliciesActivePage = () => {
@@ -42,7 +42,7 @@ export const PoliciesActivePage = () => {
               key={policyInfo.id}
               className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
             >
-              <ActivePolicyCard policyInfo={policyInfo}></ActivePolicyCard>
+              <PolicyCard policyInfo={policyInfo}></PolicyCard>
             </div>
           );
         })}

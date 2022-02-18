@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 
-export const useActivePolicyStatus = ({ coverKey, expiresOn }) => {
-  const [data, setData] = useState({});
+const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
+
+export const useValidReport = ({ start, end, coverKey }) => {
+  const [data, setData] = useState({
+    incidentReports: [],
+  });
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
 
   useEffect(() => {
-    if (!networkId) {
+    if (!networkId || !isValidTimestamp(start) || !isValidTimestamp(end)) {
       return;
     }
 
@@ -29,39 +33,37 @@ export const useActivePolicyStatus = ({ coverKey, expiresOn }) => {
         query: `
         {
           incidentReports(
-            orderBy: incidentDate
-            orderDirection: desc
-            where:{
+            where: {
+              incidentDate_gt: "${start}",
+              incidentDate_lt: "${end}",
               key: "${coverKey}"
-              incidentDate_lte: "${expiresOn}"
-            }
+            },
+            orderBy: incidentDate,
+            orderDirection: desc
           ) {
-            id
-            key
-            incidentDate
-            resolutionTimestamp
-            resolved
-            finalized
             status
+            claimBeginsFrom
+            claimExpiresAt
           }
-        }        
+        }
         `,
       }),
     })
       .then((r) => r.json())
       .then((res) => {
         setData(res.data);
-        setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, expiresOn, networkId]);
+  }, [coverKey, end, networkId, start]);
 
   return {
     data: {
-      statuses: (data?.incidentReports || []).map((x) => x.status),
-      reports: data?.incidentReports || [],
+      report: data?.incidentReports[0],
     },
     loading,
   };

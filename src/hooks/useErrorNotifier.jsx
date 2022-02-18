@@ -1,4 +1,5 @@
 import { useToast } from "@/lib/toast/context";
+import { useCallback } from "react";
 
 const getErrorMessage = (_error) => {
   let error = _error.error || _error;
@@ -18,18 +19,21 @@ const getErrorMessage = (_error) => {
 export const useErrorNotifier = ({ duration } = {}) => {
   const toast = useToast();
 
-  const notifyError = (error, action = "perform action") => {
-    const title =
-      typeof error.data === "string" ? error.data : `Could not ${action}`;
+  const notifyError = useCallback(
+    (error, action = "perform action") => {
+      const title =
+        typeof error.data === "string" ? error.data : `Could not ${action}`;
 
-    console.error(error);
+      console.error(error);
 
-    toast?.pushError({
-      title: title,
-      message: getErrorMessage(error),
-      lifetime: duration || 5000,
-    });
-  };
+      toast?.pushError({
+        title: title,
+        message: getErrorMessage(error),
+        lifetime: duration || 5000,
+      });
+    },
+    [duration, toast?.pushError]
+  );
 
   return { notifyError };
 };

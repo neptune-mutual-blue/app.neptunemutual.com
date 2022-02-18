@@ -1,7 +1,7 @@
 import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 
 export const useActivePolicies = () => {
@@ -20,7 +20,7 @@ export const useActivePolicies = () => {
       return;
     }
 
-    const now = dayjs().unix();
+    const now = DateLib.unix();
 
     setLoading(true);
     fetch(graphURL, {
@@ -39,7 +39,11 @@ export const useActivePolicies = () => {
             }
           ) {
             id
-            cxToken
+            cxToken {
+              id
+              creationDate
+              expiryDate
+            }
             totalAmountToCover
             expiresOn
             cover {

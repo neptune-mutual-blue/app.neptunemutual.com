@@ -24,8 +24,8 @@ const CreateNewCoverPage = () => {
   const [reassuranceAmt, setReassuranceAmt] = useState();
   const [coverLiquidity, setCoverLiquidity] = useState();
   const [checked, setChecked] = useState(false);
-  const [tags, setTags] = useState();
-  const [networkTags, setNetworkTags] = useState();
+  const [, setTags] = useState();
+  const [, setNetworkTags] = useState();
 
   const selectedTags = (_tags) => {
     setTags(_tags);
@@ -82,46 +82,46 @@ const CreateNewCoverPage = () => {
     for (let item in resolutionUrls) {
       resolutionArray.push(resolutionUrls[item].url);
     }
-    let data = {
-      key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000010",
-      coverName: coverName,
-      projectName: coverName,
-      about: coverDescription,
-      tags: tags,
-      blockchain: {
-        chainId: "",
-        name: "",
-      },
-      smartContracts: networkTags,
-      rules: coverRules,
-      links: {
-        website: socialUrls.website,
-        documentation: socialUrls.documentation || "",
-        telegram: socialUrls?.telegram || "",
-        twitter: socialUrls?.twitter || "",
-        github: socialUrls?.github || "",
-        facebook: socialUrls?.facebook || "",
-        blog: socialUrls?.blog || "",
-        discord: socialUrls?.discord || "",
-        linkedin: socialUrls?.linkedin || "",
-        slack: socialUrls?.slack || "",
-      },
-      reportingPeriod: governanceParameter.reporting_period,
-      resolutionSources: resolutionArray,
-      reassuranceToken: {
-        at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
-        name: "DAI Stablecoin",
-        symbol: "DAI",
-        initialAmount: reassuranceAmt,
-      },
-      stakeWithFees: npmStake,
-      initialLiquidity: coverLiquidity,
-      minReportingStake: 1000,
-      coverFees: {
-        min: pricing.floorRate,
-        max: pricing.ceilingRate,
-      },
-    };
+    // let data = {
+    //   key: "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000010",
+    //   coverName: coverName,
+    //   projectName: coverName,
+    //   about: coverDescription,
+    //   tags: tags,
+    //   blockchain: {
+    //     chainId: "",
+    //     name: "",
+    //   },
+    //   smartContracts: networkTags,
+    //   rules: coverRules,
+    //   links: {
+    //     website: socialUrls.website,
+    //     documentation: socialUrls.documentation || "",
+    //     telegram: socialUrls?.telegram || "",
+    //     twitter: socialUrls?.twitter || "",
+    //     github: socialUrls?.github || "",
+    //     facebook: socialUrls?.facebook || "",
+    //     blog: socialUrls?.blog || "",
+    //     discord: socialUrls?.discord || "",
+    //     linkedin: socialUrls?.linkedin || "",
+    //     slack: socialUrls?.slack || "",
+    //   },
+    //   reportingPeriod: governanceParameter.reporting_period,
+    //   resolutionSources: resolutionArray,
+    //   reassuranceToken: {
+    //     at: "0xe8BAb5ca5eA0Fc93b2a4E1aD22376726ED209ed5",
+    //     name: "DAI Stablecoin",
+    //     symbol: "DAI",
+    //     initialAmount: reassuranceAmt,
+    //   },
+    //   stakeWithFees: npmStake,
+    //   initialLiquidity: coverLiquidity,
+    //   minReportingStake: 1000,
+    //   coverFees: {
+    //     min: pricing.floorRate,
+    //     max: pricing.ceilingRate,
+    //   },
+    // };
   };
 
   return (
