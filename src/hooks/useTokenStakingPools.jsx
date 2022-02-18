@@ -43,7 +43,7 @@ export const useTokenStakingPools = () => {
             lockupPeriodInBlocks
             platformFee
           }
-        }        
+        }
         `,
       }),
     })

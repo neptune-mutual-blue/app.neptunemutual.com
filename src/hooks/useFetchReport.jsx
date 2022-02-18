@@ -65,7 +65,7 @@ export const useFetchReport = (reportId) => {
               id
             }
           }
-        }        
+        }
         `,
       }),
     })
