@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 
@@ -20,7 +20,7 @@ export const useClaimBond = (unlockDate = Infinity) => {
       return;
     }
 
-    const now = dayjs().unix();
+    const now = DateLib.unix();
     if (now < unlockDate) {
       toast?.pushError({
         title: "Claim Error",

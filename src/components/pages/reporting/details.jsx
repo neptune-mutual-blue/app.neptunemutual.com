@@ -4,13 +4,13 @@ import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVote
 import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 import { Container } from "@/components/UI/atoms/container";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { isGreater, sumOf } from "@/utils/bn";
 
 export const ReportingDetailsPage = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
 
-  const now = dayjs().unix();
+  const now = DateLib.unix();
 
   let resolvableTill = incidentReport.claimBeginsFrom;
 

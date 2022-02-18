@@ -1,8 +1,8 @@
 import { useCountdown } from "@/lib/countdown/useCountdown";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 
 const getTime = () => {
-  return dayjs().unix().toString();
+  return DateLib.unix().toString();
 };
 
 const formatCount = (n) => String(n).padStart(2, "0");

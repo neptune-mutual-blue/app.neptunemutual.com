@@ -1,6 +1,6 @@
 import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 
 export const useExpiredPolicies = () => {
@@ -19,7 +19,7 @@ export const useExpiredPolicies = () => {
       return;
     }
 
-    const now = dayjs().unix();
+    const now = DateLib.unix();
 
     setLoading(true);
     fetch(graphURL, {

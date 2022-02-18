@@ -24,7 +24,6 @@
     "@web3-react/injected-connector": "6.0.7",
     "bignumber.js": "^9.0.2",
     "chart.js": "3.7.0",
-    "dayjs": "1.10.7",
     "next": "12.1.0",
     "numeral": "^2.0.6",
     "react": "17.0.2",
