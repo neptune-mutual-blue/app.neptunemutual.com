@@ -8,22 +8,32 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useClaimPolicyInfo } from "@/src/hooks/useClaimPolicyInfo";
+import { convertFromUnits } from "@/utils/bn";
+import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
 
 export const ClaimCoverModal = ({
   modalTitle,
   isOpen,
   onClose,
   coverKey,
+  incidentDate,
   cxTokenAddress,
 }) => {
   const [value, setValue] = useState();
-  const [receiveAmount /*, setReceiveAmount*/] = useState();
-  const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
+  const delayedValue = useDelayedValueUpdate({ value });
 
-  const maxValue = 50000;
+  const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
+  const { balance, canClaim, handleClaim, handleApprove, receiveAmount } =
+    useClaimPolicyInfo({
+      value: delayedValue,
+      cxTokenAddress,
+      coverKey,
+      incidentDate,
+    });
 
   const handleChooseMax = () => {
-    setValue(maxValue);
+    setValue(convertFromUnits(balance).toString());
   };
 
   const handleChange = (val) => {
@@ -46,6 +56,7 @@ export const ClaimCoverModal = ({
           <TokenAmountInput
             tokenAddress={cxTokenAddress}
             tokenSymbol={cxTokenSymbol}
+            tokenBalance={balance}
             labelText={`Enter your ${cxTokenSymbol}`}
             handleChooseMax={handleChooseMax}
             inputValue={value}
@@ -55,15 +66,30 @@ export const ClaimCoverModal = ({
         </div>
         <div className="modal-unlock mt-8">
           <Label className="font-semibold mb-4">You will receive</Label>
-          <DisabledInput value={receiveAmount} unit="DAI" />
+          <DisabledInput
+            value={convertFromUnits(receiveAmount).toString()}
+            unit="DAI"
+          />
           <p className="text-9B9B9B pt-2 px-3">Fee: 6.50%</p>
         </div>
-        <RegularButton
-          disabled={!value}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-        >
-          Claim
-        </RegularButton>
+
+        {!canClaim ? (
+          <RegularButton
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            disabled={!value}
+            onClick={handleApprove}
+          >
+            Approve
+          </RegularButton>
+        ) : (
+          <RegularButton
+            disabled={!canClaim}
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            onClick={handleClaim}
+          >
+            Claim
+          </RegularButton>
+        )}
       </div>
     </Modal>
   );

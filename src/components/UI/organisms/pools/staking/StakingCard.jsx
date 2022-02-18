@@ -99,6 +99,25 @@ export const StakingCard = ({ data }) => {
     return null;
   }
 
+  const stakeModalTitle = (
+    <div className="flex items-center">
+      <div className="mr-8">
+        <DoubleImage
+          images={[
+            { src: npmImgSrc, alt: "NPM" },
+            { src: imgSrc, alt: rewardTokenSymbol },
+          ]}
+        />
+      </div>
+
+      <h3>Earn {rewardTokenSymbol}</h3>
+    </div>
+  );
+
+  const collectModalTitle = (
+    <ModalTitle imgSrc={npmImgSrc}>Collect {stakingTokenSymbol}</ModalTitle>
+  );
+
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
       <div className="flex justify-between">
@@ -164,11 +183,7 @@ export const StakingCard = ({ data }) => {
         lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
-        modalTitle={
-          <ModalTitle staking imgSrc={npmImgSrc} imgSecondSrc={imgSrc}>
-            Earn {rewardTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={stakeModalTitle}
         onClose={onStakeModalClose}
         isOpen={isStakeModalOpen}
         unitName={stakingTokenSymbol}
@@ -183,11 +198,7 @@ export const StakingCard = ({ data }) => {
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
-        modalTitle={
-          <ModalTitle imgSrc={npmImgSrc}>
-            Collect {stakingTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={collectModalTitle}
         unitName={stakingTokenSymbol}
       />
     </OutlinedCard>
