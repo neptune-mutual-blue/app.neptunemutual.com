@@ -10,7 +10,7 @@ export const PolicyCardFooter = ({
   coverKey,
   report,
   totalAmountToCover,
-  validityStartsAt,
+  // validityStartsAt,
   validityEndsAt,
 }) => {
   const now = DateLib.unix();
@@ -26,7 +26,7 @@ export const PolicyCardFooter = ({
 
   if (isClaimable) {
     const isClaimStarted = isGreater(now, report.claimBeginsFrom);
-    const isClaimExpired = isGreater(now, report.claimExpiresAt);
+    // const isClaimExpired = isGreater(now, report.claimExpiresAt);
 
     if (isClaimStarted) {
       stats.push({
