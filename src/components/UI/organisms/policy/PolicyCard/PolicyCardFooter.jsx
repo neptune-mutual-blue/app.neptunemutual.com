@@ -86,7 +86,11 @@ export const PolicyCardFooter = ({
 
       {/* Link */}
       {isClaimable && (
-        <Link href={`/my-policies/${getParsedKey(coverKey)}/claim`}>
+        <Link
+          href={`/my-policies/${getParsedKey(coverKey)}/${
+            report.incidentDate
+          }/claim`}
+        >
           <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4">
             CLAIM
           </a>

@@ -41,6 +41,7 @@ export const useValidReport = ({ start, end, coverKey }) => {
             orderBy: incidentDate,
             orderDirection: desc
           ) {
+            incidentDate
             status
             claimBeginsFrom
             claimExpiresAt
