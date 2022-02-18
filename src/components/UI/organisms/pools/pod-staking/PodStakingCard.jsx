@@ -158,9 +158,7 @@ export const PodStakingCard = ({ data }) => {
         lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
-        modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
-        }
+        modalTitle={<ModalTitle imgSrc={imgSrc}>{poolName}</ModalTitle>}
         onClose={onStakeModalClose}
         isOpen={isStakeModalOpen}
         unitName={stakingTokenSymbol}

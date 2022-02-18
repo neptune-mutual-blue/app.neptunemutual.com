@@ -2,10 +2,10 @@ import { Dialog } from "@headlessui/react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { convertFromUnits, isGreaterOrEqual } from "@/utils/bn";
+import { convertFromUnits, isGreaterOrEqual, sort } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 
 export const StakeModal = ({
@@ -35,12 +35,26 @@ export const StakeModal = ({
     poolKey,
     maximumStake: info.maximumStake,
   });
-
   const tokenAddress = info.stakingToken;
+
+  // Clear on modal close
+  useEffect(() => {
+    if (isOpen) return;
+
+    setInputValue();
+  }, [isOpen]);
 
   const handleChooseMax = () => {
     // Use `info.maximumStake` instead of balance
-    setInputValue(convertFromUnits(info.maximumStake).toString());
+
+    console.log(convertFromUnits(balance).toString());
+    console.log(convertFromUnits(info.maximumStake).toString());
+
+    const maxStakableAmount = convertFromUnits(
+      sort([info.maximumStake, balance])[0]
+    ).toString();
+
+    setInputValue(maxStakableAmount);
   };
 
   const checkMinimumBalanceOrStake = (val) => {
