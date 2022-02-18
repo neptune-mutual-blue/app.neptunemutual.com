@@ -1,42 +1,34 @@
 import { getParsedKey } from "@/src/helpers/cover";
 
-import { useValidReport } from "@/src/hooks/useValidReport";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { getToolTipDate, unixToDate } from "@/utils/date";
 import dayjs from "dayjs";
 import Link from "next/link";
 
-export const PolicyCardFooter = ({ policyInfo }) => {
-  const { totalAmountToCover, cover, cxToken } = policyInfo;
-
-  const validityStartsAt = cxToken.creationDate || "0";
-  const validityEndsAt = cxToken.expiryDate || "0";
-
-  const coverKey = cover.id;
-  const {
-    data: { report },
-  } = useValidReport({
-    start: validityStartsAt,
-    end: validityEndsAt,
-    coverKey,
-  });
-
+export const PolicyCardFooter = ({
+  coverKey,
+  report,
+  totalAmountToCover,
+  validityStartsAt,
+  validityEndsAt,
+}) => {
   const now = dayjs().unix();
 
   const hasValidReport = !!report;
   let isClaimable = false;
 
   if (hasValidReport) {
-    isClaimable = report.status;
+    isClaimable = report.status == "Claimable";
   }
 
   const stats = [];
 
   if (isClaimable) {
-    const claimBegun = isGreater(now, report.claimBeginsFrom);
+    const isClaimStarted = isGreater(now, report.claimBeginsFrom);
+    const isClaimExpired = isGreater(now, report.claimExpiresAt);
 
-    if (claimBegun) {
+    if (isClaimStarted) {
       stats.push({
         title: "Claim Before",
         tooltipText: getToolTipDate(report.claimExpiresAt),
@@ -51,9 +43,9 @@ export const PolicyCardFooter = ({ policyInfo }) => {
       });
     }
   } else {
-    const isExpired = isGreater(now, validityEndsAt);
+    const isPolicyExpired = isGreater(now, validityEndsAt);
 
-    if (isExpired) {
+    if (isPolicyExpired) {
       stats.push({
         title: "Expired On",
         tooltipText: getToolTipDate(validityEndsAt),

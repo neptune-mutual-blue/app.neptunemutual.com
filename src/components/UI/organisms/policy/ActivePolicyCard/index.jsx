@@ -4,24 +4,29 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
-import { useActivePolicyStatus } from "@/src/hooks/useActivePolicyStatus";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 import { PolicyCardFooter } from "@/components/UI/organisms/policy/ActivePolicyCard/PolicyCardFooter";
+import { useValidReport } from "@/src/hooks/useValidReport";
 
 export const ActivePolicyCard = ({ policyInfo }) => {
-  const { expiresOn, cover } = policyInfo;
-  const { coverInfo } = useCoverInfo(cover.id);
+  const { totalAmountToCover, cover, cxToken } = policyInfo;
+
+  const coverKey = cover.id;
+  const { coverInfo } = useCoverInfo(coverKey);
+
+  const validityStartsAt = cxToken.creationDate || "0";
+  const validityEndsAt = cxToken.expiryDate || "0";
   const {
-    data: { statuses, reports },
-  } = useActivePolicyStatus({
-    coverKey: cover.id,
-    expiresOn,
+    data: { report },
+  } = useValidReport({
+    start: validityStartsAt,
+    end: validityEndsAt,
+    coverKey,
   });
 
-  const imgSrc = getCoverImgSrc({ key: cover.id });
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
-  const status = statuses[0];
-  const report = reports[0];
+  const status = report?.status || null;
   const statusType = ["Reporting", "FalseReporting"].includes(status)
     ? "failure"
     : "";
@@ -57,7 +62,13 @@ export const ActivePolicyCard = ({ policyInfo }) => {
       {/* Divider */}
       <Divider />
 
-      <PolicyCardFooter policyInfo={policyInfo} />
+      <PolicyCardFooter
+        coverKey={coverKey}
+        report={report}
+        totalAmountToCover={totalAmountToCover}
+        validityStartsAt={validityStartsAt}
+        validityEndsAt={validityEndsAt}
+      />
     </OutlinedCard>
   );
 };
