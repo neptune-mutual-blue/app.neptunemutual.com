@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/components/UI/organisms/cover/actions-footer";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, getParsedKey, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
@@ -40,6 +40,8 @@ export const CoverPurchaseDetailsPage = () => {
   const imgSrc = getCoverImgSrc(coverInfo);
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
 
+  const parsedCoverKey = getParsedKey(coverInfo.key);
+
   return (
     <main>
       {/* hero */}
@@ -48,7 +50,11 @@ export const CoverPurchaseDetailsPage = () => {
           <BreadCrumbs
             pages={[
               { name: "Home", href: "/", current: false },
-              { name: coverInfo?.coverName, current: false },
+              {
+                name: coverInfo?.coverName,
+                href: `/cover/${parsedCoverKey}/options`,
+                current: false,
+              },
               { name: "Purchase Policy", href: "#", current: true },
             ]}
           />

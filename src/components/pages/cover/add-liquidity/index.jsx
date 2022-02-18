@@ -12,7 +12,7 @@ import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, getParsedKey, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
@@ -40,6 +40,8 @@ export const CoverAddLiquidityDetailsPage = () => {
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
   const reassuranceAmount = info.totalReassurance;
 
+  const parsedCoverKey = getParsedKey(coverInfo.key);
+
   return (
     <>
       <Hero>
@@ -47,7 +49,11 @@ export const CoverAddLiquidityDetailsPage = () => {
           <BreadCrumbs
             pages={[
               { name: "Home", href: "/", current: false },
-              { name: coverInfo?.coverName, current: false },
+              {
+                name: coverInfo?.coverName,
+                href: `/cover/${parsedCoverKey}/options`,
+                current: false,
+              },
               { name: "Provide Liquidity", href: "#", current: true },
             ]}
           />
