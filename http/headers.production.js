@@ -7,7 +7,7 @@ module.exports = [
       "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
-      "default-src 'none'",
+      "default-src 'self'",
       "prefetch-src 'self'",
       "manifest-src 'self'",
       "base-uri 'none'",
