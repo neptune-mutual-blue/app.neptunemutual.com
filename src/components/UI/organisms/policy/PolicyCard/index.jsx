@@ -5,10 +5,10 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
-import { PolicyCardFooter } from "@/components/UI/organisms/policy/ActivePolicyCard/PolicyCardFooter";
+import { PolicyCardFooter } from "@/components/UI/organisms/policy/PolicyCard/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 
-export const ActivePolicyCard = ({ policyInfo }) => {
+export const PolicyCard = ({ policyInfo }) => {
   const { totalAmountToCover, cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
