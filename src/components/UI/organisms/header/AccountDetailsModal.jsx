@@ -2,13 +2,13 @@ import { Dialog } from "@headlessui/react";
 import CloseIcon from "@/icons/CloseIcon";
 import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import DisconnectIcon from "@/icons/disconnect-icon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 import Identicon from "@/components/UI/organisms/header/Identicon";
 import { useEffect, useState } from "react";
 import CheckCircleIcon from "@/icons/CheckCircleIcon";
 import { Modal } from "@/components/UI/molecules/modal/regular";
+import ToggleButton from "@/components/UI/atoms/toggle";
 
 const CopyAddressComponent = ({ account }) => {
   const [copyAddress, setCopyAddress] = useState(false);
@@ -60,6 +60,12 @@ export const AccountDetailsModal = ({
 }) => {
   const network = wallets.find((x) => x.id == "1");
 
+  const [toggleOpen, setToggleOpen] = useState(false);
+
+  const handleToggleClick = () => {
+    setToggleOpen((prev) => !prev);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="relative inline-block min-w-sm max-w-xl px-16 py-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
@@ -79,15 +85,18 @@ export const AccountDetailsModal = ({
         </button>
 
         <div className="mt-7 border border-B0C4DB bg-white rounded-big p-4">
-          <div className="flex items-center">
+          <div className="flex items-center justify-between">
             <span className="text-364253 text-xs tracking-normal whitespace-nowrap flex items-center">
               <span>Connected With {network.name}</span>
               <span className="ml-2">
                 {<network.Icon width={12} height={12} />}
               </span>
             </span>
-            <button className="border border-4e7dd9 ml-28 rounded-lg py-1 px-2 text-xxs text-4e7dd9">
-              Change
+            <button
+              onClick={handleDisconnect}
+              className="border border-4e7dd9 ml-28 rounded-lg py-1 px-2 text-xxs text-4e7dd9"
+            >
+              Disconnect
             </button>
           </div>
 
@@ -114,13 +123,16 @@ export const AccountDetailsModal = ({
           </div>
         </div>
 
-        <button
-          onClick={handleDisconnect}
-          className="w-full mt-8 border bg-white border-B0C4DB rounded-big p-4 flex items-center"
-        >
-          <DisconnectIcon className="fill-364253" />
-          <span className="text-364253 ml-4">Disconnect</span>
-        </button>
+        <div className="w-full mt-8 border bg-white border-B0C4DB rounded-big p-5 flex flex-col">
+          <div className="flex w-full justify-between">
+            <p className="text-h5 text-364253">Unlimited Approvals</p>
+            <ToggleButton handleClick={handleToggleClick} isOpen={toggleOpen} />
+          </div>
+          <p className="text-999BAB mt-3 text-xs tracking-normal">
+            If you do not want to keep approving for each transaction, enable
+            this box.
+          </p>
+        </div>
       </div>
     </Modal>
   );
