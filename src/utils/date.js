@@ -1,5 +1,26 @@
 import DateLib from "@/lib/date/DateLib";
 
+export const getLocale = () => {
+  const fallback = "en-US";
+
+  try {
+    return (
+      navigator.userLanguage ||
+      (navigator.languages &&
+        navigator.languages.length &&
+        navigator.languages[0]) ||
+      navigator.language ||
+      navigator.browserLanguage ||
+      navigator.systemLanguage ||
+      fallback
+    );
+  } catch {
+    // `navigator` is not available
+  }
+
+  return fallback;
+};
+
 const options = {
   weekday: "long", // "narrow", "short", "long"
   year: "numeric", // "numeric", "2-digit"
@@ -9,7 +30,7 @@ const options = {
   minute: "numeric", // "numeric", "2-digit"
   second: "2-digit", // "numeric", "2-digit"
   // era: "short", // short, narrow
-  hour12: true,
+  hourCycle: "h12",
 };
 
 export const formatDate = (unixTimestamp, formatString) => {
@@ -65,20 +86,22 @@ export const formatDate = (unixTimestamp, formatString) => {
         tokenObject[token] = "weekday";
         break;
       case "h":
+        opts.hourCycle = "h12";
         opts.hour = "numeric";
         tokenObject[token] = "hour";
         break;
       case "hh":
+        opts.hourCycle = "h12";
         opts.hour = "2-digit";
         tokenObject[token] = "hour";
         break;
       case "H":
-        opts.hour12 = false;
+        opts.hourCycle = "h24";
         opts.hour = "numeric";
         tokenObject[token] = "hour";
         break;
       case "HH":
-        opts.hour12 = false;
+        opts.hourCycle = "h24";
         opts.hour = "2-digit";
         tokenObject[token] = "hour";
         break;
@@ -110,7 +133,7 @@ export const formatDate = (unixTimestamp, formatString) => {
   });
 
   const dateString = new Date(unixTimestamp * 1000).toLocaleDateString(
-    "en-EN",
+    getLocale(),
     opts
   );
   const dateObject = {};
@@ -118,7 +141,8 @@ export const formatDate = (unixTimestamp, formatString) => {
   const dsArray = dateString.split(", ");
   dateObject["weekday"] = dsArray[0];
   let timeString = dsArray[dsArray.length - 1];
-  if (opts.hour12) {
+  dateObject["ampm"] = "";
+  if (opts.hourCycle === "h12") {
     dateObject["ampm"] = tokenArray.includes("a")
       ? timeString.split(" ")[1].toLowerCase()
       : timeString.split(" ")[1];
