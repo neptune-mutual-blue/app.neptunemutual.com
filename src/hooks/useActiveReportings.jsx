@@ -43,7 +43,7 @@ export const useActiveReportings = () => {
             status
             resolutionTimestamp
           }
-        }        
+        }
         `,
       }),
     })

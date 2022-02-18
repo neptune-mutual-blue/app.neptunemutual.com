@@ -40,7 +40,11 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
             }
           ) {
             id
-            cxToken
+            cxToken {
+              id
+              creationDate
+              expiryDate
+            }
             totalAmountToCover
             expiresOn
             cover {
