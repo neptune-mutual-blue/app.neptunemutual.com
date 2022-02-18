@@ -46,7 +46,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
           Protection: ${formatWithAabbreviation(25000000)}
         </span>
         <span className="text-right" title={getToolTipDate(incidentDate)}>
-          Reported On: {unixToDate(incidentDate, "MM/DD/YYYY")}
+          Reported On: {unixToDate(incidentDate, "MM/DD/YYYY", false)}
         </span>
       </div>
     </OutlinedCard>

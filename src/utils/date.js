@@ -33,7 +33,7 @@ const options = {
   hourCycle: "h12",
 };
 
-export const formatDate = (unixTimestamp, formatString) => {
+export const formatDate = (unixTimestamp, formatString, utc) => {
   let fmt = formatString;
   let tokenArray = [...fmt.matchAll(/[A-Z|a-z]+/g)];
   tokenArray = tokenArray.reduce((prev, curr) => {
@@ -41,6 +41,7 @@ export const formatDate = (unixTimestamp, formatString) => {
     return prev;
   }, []);
   let opts = options;
+  if (utc) opts["timeZone"] = "UTC";
   const tokenObject = {};
 
   tokenArray.map((token) => {
@@ -172,8 +173,8 @@ export const formatDate = (unixTimestamp, formatString) => {
   return fmt;
 };
 
-export function unixToDate(unix, format = "YYYY-MM-DD") {
-  return formatDate(parseInt(unix), format);
+export function unixToDate(unix, format = "YYYY-MM-DD", utc = true) {
+  return formatDate(parseInt(unix), format, utc);
 }
 
 export const formatTime = (unix) => {

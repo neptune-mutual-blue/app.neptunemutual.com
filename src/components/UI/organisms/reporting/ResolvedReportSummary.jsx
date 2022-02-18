@@ -130,8 +130,8 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            {unixToDate(incidentReport.incidentDate, "D MMMM")} -{" "}
-            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            {unixToDate(incidentReport.incidentDate, "D MMMM", false)} -{" "}
+            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM", false)}
           </p>
 
           <button className="text-4e7dd9 text-sm" onClick={finalize}>
