@@ -47,9 +47,6 @@ export const StakeModal = ({
   const handleChooseMax = () => {
     // Use `info.maximumStake` instead of balance
 
-    console.log(convertFromUnits(balance).toString());
-    console.log(convertFromUnits(info.maximumStake).toString());
-
     const maxStakableAmount = convertFromUnits(
       sort([info.maximumStake, balance])[0]
     ).toString();

@@ -152,9 +152,13 @@ export const useClaimPolicyInfo = ({
         signerOrProvider
       );
 
-      console.log(tx);
+      await txToast.push(tx, {
+        pending: `Claiming policy`,
+        success: `Claimed policy Successfully`,
+        failure: `Could not Claim policy`,
+      });
     } catch (err) {
-      notifyError(err);
+      notifyError(err, "claim policy");
     }
   };
 

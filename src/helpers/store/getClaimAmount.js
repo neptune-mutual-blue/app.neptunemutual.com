@@ -28,7 +28,6 @@ export const getClaimAmount = async (networkId, cxTokenAmount, provider) => {
   ];
 
   const result = await getStoredData(candidates, networkId, provider);
-  console.log("fee", result.claimPlatformFee.toString());
 
   return result.claimAmount;
 };
