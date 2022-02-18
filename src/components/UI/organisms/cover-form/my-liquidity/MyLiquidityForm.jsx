@@ -29,7 +29,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
     npmApproving,
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
-    canProvideLiquidity,
+    // canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,

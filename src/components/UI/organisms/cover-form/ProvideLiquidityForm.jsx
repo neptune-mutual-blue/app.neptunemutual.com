@@ -32,7 +32,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
     minNpmStake,
-    canProvideLiquidity,
+    // canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,

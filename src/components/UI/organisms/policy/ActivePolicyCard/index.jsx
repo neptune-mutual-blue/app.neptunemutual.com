@@ -9,7 +9,8 @@ import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 import { PolicyCardFooter } from "@/components/UI/organisms/policy/ActivePolicyCard/PolicyCardFooter";
 
 export const ActivePolicyCard = ({ policyInfo }) => {
-  const { totalAmountToCover, expiresOn, cover, cxToken } = policyInfo;
+  const { expiresOn, cover } = policyInfo;
+  // const { totalAmountToCover, expiresOn, cover, cxToken } = policyInfo;
   const { coverInfo } = useCoverInfo(cover.id);
   const {
     data: { statuses, reports },

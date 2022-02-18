@@ -5,7 +5,8 @@ import { getToolTipDate, unixToDate } from "@/utils/date";
 import Link from "next/link";
 
 export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
-  const { totalAmountToCover, expiresOn, cover, cxToken } = policyInfo;
+  // const { totalAmountToCover, expiresOn, cover, cxToken } = policyInfo;
+  const { totalAmountToCover, expiresOn, cover } = policyInfo;
   const coverKey = cover.id;
 
   const { status, report } = rest;
@@ -13,6 +14,7 @@ export const PolicyCardFooter = ({ policyInfo, ...rest }) => {
   const statusType = ["Reporting", "FalseReporting"].includes(status)
     ? "failure"
     : "";
+  console.log({ statusType });
   const isClaimable = false;
 
   return (
