@@ -3,7 +3,7 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { getToolTipDate, unixToDate } from "@/utils/date";
-import dayjs from "dayjs";
+import DateLib from "@/lib/date/DateLib";
 import Link from "next/link";
 
 export const PolicyCardFooter = ({
@@ -13,7 +13,7 @@ export const PolicyCardFooter = ({
   validityStartsAt,
   validityEndsAt,
 }) => {
-  const now = dayjs().unix();
+  const now = DateLib.unix();
 
   const hasValidReport = !!report;
   let isClaimable = false;
