@@ -50,7 +50,7 @@ export const useResolvedReportings = () => {
             status
             resolutionTimestamp
           }
-        }        
+        }
         `,
       }),
     })

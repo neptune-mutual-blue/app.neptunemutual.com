@@ -43,7 +43,7 @@ export const usePodStakingPools = () => {
             lockupPeriodInBlocks
             platformFee
           }
-        }        
+        }
         `,
       }),
     })

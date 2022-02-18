@@ -38,6 +38,11 @@ export const useExpiredPolicies = () => {
             }
           ) {
             id
+            cxToken {
+              id
+              creationDate
+              expiryDate
+            }
             totalAmountToCover
             expiresOn
             cover {

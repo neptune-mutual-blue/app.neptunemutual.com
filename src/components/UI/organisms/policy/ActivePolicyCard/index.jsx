@@ -9,7 +9,7 @@ import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 import { PolicyCardFooter } from "@/components/UI/organisms/policy/ActivePolicyCard/PolicyCardFooter";
 
 export const ActivePolicyCard = ({ policyInfo }) => {
-  const { totalAmountToCover, expiresOn, cover, cxToken } = policyInfo;
+  const { expiresOn, cover } = policyInfo;
   const { coverInfo } = useCoverInfo(cover.id);
   const {
     data: { statuses, reports },
@@ -57,7 +57,7 @@ export const ActivePolicyCard = ({ policyInfo }) => {
       {/* Divider */}
       <Divider />
 
-      <PolicyCardFooter policyInfo={policyInfo} {...{ status, report }} />
+      <PolicyCardFooter policyInfo={policyInfo} />
     </OutlinedCard>
   );
 };
