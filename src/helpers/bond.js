@@ -9,9 +9,9 @@ const getDiscount = (discountRate, vestingTerm, npmPrice) => {
   return dailyReward * vestingTerm;
 };
 
-export const getDiscountedPrice = (discountRate, vestingTerm, npmPrice) => {
-  const rewardOrDiscount = getDiscount(discountRate, vestingTerm, npmPrice);
-  return (npmPrice - rewardOrDiscount).toFixed(6);
+export const getDiscountedPrice = (discountRate, npmPrice) => {
+  const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER;
+  return discountedPrice.toFixed(6);
 };
 
 export const getAnnualDiscountRate = (protoDiscountRate, vestingTerm) => {

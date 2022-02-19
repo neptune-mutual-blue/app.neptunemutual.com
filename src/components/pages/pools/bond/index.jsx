@@ -52,7 +52,6 @@ const BondPage = () => {
       title: "Bond Price",
       value: `$${getDiscountedPrice(
         info.discountRate,
-        info.vestingTerm,
         convertFromUnits(info.marketPrice).toString()
       )}`,
       valueClasses: "text-h3 text-4e7dd9 mt-1",
@@ -161,7 +160,7 @@ const BondPage = () => {
         <BondInfoCard
           handleClaimModal={onOpen}
           details={details}
-          ROI={roi}
+          roi={roi}
           claimable={info.claimable}
           vestingPeriod={vestingTermDays}
         />
