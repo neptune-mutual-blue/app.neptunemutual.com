@@ -14,7 +14,7 @@
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
     "@ethersproject/providers": "5.5.1",
-    "@fontsource/poppins": "4.5.0",
+    "@fontsource/poppins": "4.5.1",
     "@fontsource/sora": "4.5.0",
     "@headlessui/react": "^1.4.2",
     "@neptunemutual/sdk": "^0.3.2-beta",
