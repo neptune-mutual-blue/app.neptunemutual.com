@@ -13,3 +13,10 @@ export const formatAmount = (x) => {
     maximumFractionDigits: x < 1 ? 6 : 2,
   }).format(x);
 };
+
+export const formatPercent = (x) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "percent",
+    maximumFractionDigits: x < 1 ? 6 : 2,
+  }).format(x);
+};

@@ -8,9 +8,10 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
 import { isGreater } from "@/utils/bn";
+import { formatPercent } from "@/utils/formatter";
 
 export const BondInfoCard = ({
-  ROI,
+  roi,
   vestingPeriod,
   claimable,
   details,
@@ -34,12 +35,16 @@ export const BondInfoCard = ({
               <BondInfoTooltipContent />
             </Tooltip.Root>
           </h3>
-          <p className="text-sm mt-2 mb-6 opacity-50">
-            {vestingPeriod} days vesting term
-          </p>
         </div>
-        <Badge className="text-21AD8C">ROI: {ROI}%</Badge>
+
+        <Badge className="text-21AD8C uppercase">
+          ROI: {isNaN(roi) ? 0 : formatPercent(roi)}
+        </Badge>
       </div>
+
+      <p className="text-sm mt-2 mb-6 opacity-50">
+        {vestingPeriod} days vesting term
+      </p>
 
       <BondStatsContainer details={details} />
 
