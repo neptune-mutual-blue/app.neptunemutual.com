@@ -6,6 +6,7 @@ import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
 import { convertFromUnits } from "@/utils/bn";
+import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
@@ -28,6 +29,7 @@ export const CastYourVote = ({ incidentReport }) => {
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
+  const { commission } = useReporterCommission();
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);
@@ -135,8 +137,8 @@ export const CastYourVote = ({ incidentReport }) => {
         <Alert>
           Since you are the first person to dispute this incident reporting, you
           will need to stake atleast {convertFromUnits(minStake).toString()} NPM
-          tokens. If the majority agree with you, you will earn 20% of the
-          platform fee instead of the incident reporter.
+          tokens. If the majority agree with you, you will earn {commission}% of
+          the platform fee instead of the incident reporter.
         </Alert>
       )}
     </>

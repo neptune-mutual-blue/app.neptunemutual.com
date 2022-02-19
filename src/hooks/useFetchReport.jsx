@@ -34,6 +34,7 @@ export const useFetchReport = (reportId) => {
             id
             key
             incidentDate
+            resolutionDeadline
             resolved
             resolveTransaction{
               timestamp
