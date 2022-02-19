@@ -11,18 +11,14 @@ import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondMo
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import {
-  convertFromUnits,
-  convertToUnits,
-  isGreater,
-  sumOf,
-  weiAsAmount,
-} from "@/utils/bn";
+import { convertFromUnits, isGreater, sumOf, weiAsAmount } from "@/utils/bn";
 import { getToolTipDate, unixToDate } from "@/utils/date";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
+import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
+import { DAYS } from "@/src/config/constants";
 
 const BondPage = () => {
   const { info } = useBondInfo();
@@ -45,27 +41,20 @@ const BondPage = () => {
   } = useCreateBond({ info, value: delayedValue });
 
   const vestingTermDays = BigNumber(info.vestingTerm)
-    .dividedBy(86400)
+    .dividedBy(DAYS)
     .decimalPlaces(3)
     .toString();
 
-  const roi = weiAsAmount(
-    BigNumber(info.discountRate)
-      .multipliedBy(365)
-      .dividedBy(vestingTermDays)
-      .multipliedBy(100)
-  );
+  const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
 
   const leftHalf = [
     {
       title: "Bond Price",
-      value: `$${convertToUnits("1")
-        .minus(info.discountRate)
-        .multipliedBy(info.marketPrice)
-        .dividedBy(Math.pow(10, 18))
-        .dividedBy(Math.pow(10, 18))
-        .decimalPlaces(6)
-        .toString()}`,
+      value: `$${getDiscountedPrice(
+        info.discountRate,
+        info.vestingTerm,
+        convertFromUnits(info.marketPrice).toString()
+      )}`,
       valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
     {

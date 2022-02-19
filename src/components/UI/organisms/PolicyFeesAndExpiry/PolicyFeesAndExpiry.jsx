@@ -4,7 +4,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { unixToDate } from "@/utils/date";
 
 export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
-  const { fee = "0", rate = "0" } = data;
+  const { fee, rate } = data;
 
   const feePercent = convertFromUnits(rate, 4)
     .multipliedBy(100)

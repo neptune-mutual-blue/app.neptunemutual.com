@@ -1,11 +1,13 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
+import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
 export const AcceptReportRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false);
+  const { commission } = useReporterCommission();
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked);
@@ -40,9 +42,9 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           </p>
           <Alert>
             If you just came to know about a recent incident of Uniswap
-            Exchange, carefully read the cover rules above. You can earn 20% of
-            the minority fees if you are the first person to report this
-            incident.
+            Exchange, carefully read the cover rules above. You can earn{" "}
+            {commission}% of the minority fees if you are the first person to
+            report this incident.
           </Alert>
         </div>
         <RegularButton

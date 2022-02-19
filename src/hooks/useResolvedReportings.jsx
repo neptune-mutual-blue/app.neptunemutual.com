@@ -38,6 +38,7 @@ export const useResolvedReportings = () => {
             id
             key
             incidentDate
+            resolutionDeadline
             resolved
             emergencyResolved
             emergencyResolveTransaction{

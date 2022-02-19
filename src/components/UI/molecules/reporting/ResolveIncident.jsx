@@ -32,18 +32,18 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
       <div className="flex gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
-            className="px-10 py-4 w-80  font-semibold"
+            className="px-10 py-4 w-80  font-semibold uppercase"
             onClick={resolve}
           >
-            RESOLVE
+            Resolve
           </RegularButton>
         )}
 
         <RegularButton
-          className="px-10 py-4 w-80 font-semibold"
+          className="px-10 py-4 w-80 font-semibold uppercase"
           onClick={() => setIsOpen(true)}
         >
-          EMERGENCY RESOLVE
+          Emergency Resolve
         </RegularButton>
 
         <EmergencyResolveModal
@@ -81,11 +81,11 @@ const EmergencyResolveModal = ({
             alt={logoAlt}
             src={logoSource}
           />
-          <span className="font-sora font-bold text-h2">
-            Emergency Resolution
-          </span>
+          <h3 className="font-sora font-bold text-h2">Emergency Resolution</h3>
         </Dialog.Title>
-        <div className="mt-8 mb-6 font-semibold">SELECT YOUR DECISION</div>
+        <div className="mt-8 mb-6 font-semibold uppercase">
+          Select Your Decision
+        </div>
         <div className="flex gap-4 my-4">
           <Radio
             label={"INCIDENT OCCURED"}

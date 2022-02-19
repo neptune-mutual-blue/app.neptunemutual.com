@@ -38,6 +38,7 @@ export const useActiveReportings = () => {
             id
             key
             incidentDate
+            resolutionDeadline
             resolved
             finalized
             status

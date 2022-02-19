@@ -42,6 +42,7 @@ export const useValidReport = ({ start, end, coverKey }) => {
             orderDirection: desc
           ) {
             incidentDate
+            resolutionDeadline
             status
             claimBeginsFrom
             claimExpiresAt

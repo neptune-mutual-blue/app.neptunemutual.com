@@ -16,12 +16,16 @@ export const getClaimAmount = async (networkId, cxTokenAmount, provider) => {
       compute: async ({ result }) => {
         const { claimPlatformFee } = result;
 
+        // cxTokenAmount * claimPlatformFee / MULTIPLIER
         const platformFeeAmount = BigNumber(cxTokenAmount.toString())
           .multipliedBy(claimPlatformFee.toString())
           .dividedBy(MULTIPLIER);
+
+        // cxTokenAmount - platformFeeAmount
         const claimAmount = BigNumber(cxTokenAmount.toString()).minus(
           platformFeeAmount
         );
+
         return claimAmount.toString();
       },
     },

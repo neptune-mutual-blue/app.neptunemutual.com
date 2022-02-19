@@ -16,8 +16,11 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useRouter } from "next/router";
 
 export const useReportIncident = ({ coverKey, value }) => {
+  const router = useRouter();
+
   const [balance, setBalance] = useState("0");
   const [allowance, setAllowance] = useState("0");
   const [minStake, setMinStake] = useState("0");
@@ -173,6 +176,8 @@ export const useReportIncident = ({ coverKey, value }) => {
         success: "Reported incident successfully",
         failure: "Could not report incident",
       });
+
+      router.replace(`/reporting/active`);
     } catch (err) {
       // console.error(err);
       notifyError(err, "report incident");
