@@ -1,5 +1,6 @@
 import { PercentDoughnutChart } from "@/components/UI/molecules/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
+import { formatPercent } from "@/utils/formatter/percent";
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const yesData = {
@@ -33,7 +34,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title="Incident Occurred"
-            percent={yesPercent}
+            percent={formatPercent(yesPercent)}
             amountStaked={votes.yes}
             variant="success"
           />
@@ -43,7 +44,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title="False Reporting"
-            percent={noPercent}
+            percent={formatPercent(noPercent)}
             amountStaked={votes.no}
             variant="error"
           />

@@ -16,10 +16,11 @@ import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardSt
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
-import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { explainInterval } from "@/utils/formatter/interval";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -52,41 +53,43 @@ export const StakingCard = ({ data }) => {
   const poolKey = data.key;
   const stakedAmount = info.accountStakeBalance;
   const rewardAmount = info.rewards;
+
   const hasStaked = isGreater(info.accountStakeBalance, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
-  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks)
-    .multipliedBy(approxBlockTime)
-    .dividedBy("3600")
-    .decimalPlaces(2)
-    .toString(); // hours
+  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks).multipliedBy(
+    approxBlockTime
+  );
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const npmImgSrc = getTokenImgSrc(stakingTokenSymbol);
   const poolName = info.name;
-  const totalValueLocked = formatWithAabbreviation(
-    convertFromUnits(info.totalStaked).toString()
-  );
+  const totalValueLocked = formatCurrency(
+    convertFromUnits(info.totalStaked),
+    "USD"
+  ).short;
 
   const leftHalf = [];
 
   if (hasStaked) {
     leftHalf.push({
       title: "Your Stake",
-      value: `${formatAmount(
-        convertFromUnits(stakedAmount).toString()
-      )} ${stakingTokenSymbol}`,
+      v: formatCurrency(
+        convertFromUnits(stakedAmount),
+        stakingTokenSymbol,
+        true
+      ).long,
     });
   } else {
     leftHalf.push({
       title: "Locking Period",
-      value: `${lockupPeriod} hours`,
+      value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
 
   const rightHalf = [
     {
       title: "TVL",
-      value: `$ ${totalValueLocked}`,
+      value: totalValueLocked,
     },
   ];
 
@@ -98,6 +101,25 @@ export const StakingCard = ({ data }) => {
   if (info.name === "") {
     return null;
   }
+
+  const stakeModalTitle = (
+    <div className="flex items-center">
+      <div className="mr-8">
+        <DoubleImage
+          images={[
+            { src: npmImgSrc, alt: "NPM" },
+            { src: imgSrc, alt: rewardTokenSymbol },
+          ]}
+        />
+      </div>
+
+      <h3>Earn {rewardTokenSymbol}</h3>
+    </div>
+  );
+
+  const collectModalTitle = (
+    <ModalTitle imgSrc={npmImgSrc}>Collect {stakingTokenSymbol}</ModalTitle>
+  );
 
   return (
     <OutlinedCard className="bg-white px-6 pt-6 pb-10">
@@ -136,9 +158,13 @@ export const StakingCard = ({ data }) => {
             <div className="flex-1 text-sm">
               <PoolCardStat
                 title="You Earned"
-                value={`${formatAmount(
-                  convertFromUnits(rewardAmount).toString()
-                )} ${rewardTokenSymbol}`}
+                value={
+                  formatCurrency(
+                    convertFromUnits(rewardAmount),
+                    rewardTokenSymbol,
+                    true
+                  ).long
+                }
               />
             </div>
             <div className="flex items-center">
@@ -164,11 +190,7 @@ export const StakingCard = ({ data }) => {
         lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
-        modalTitle={
-          <ModalTitle staking imgSrc={npmImgSrc} imgSecondSrc={imgSrc}>
-            Earn {rewardTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={stakeModalTitle}
         onClose={onStakeModalClose}
         isOpen={isStakeModalOpen}
         unitName={stakingTokenSymbol}
@@ -183,11 +205,7 @@ export const StakingCard = ({ data }) => {
         stakingTokenSymbol={stakingTokenSymbol}
         isCollectModalOpen={isCollectModalOpen}
         onCollectModalClose={onCollectModalClose}
-        modalTitle={
-          <ModalTitle imgSrc={npmImgSrc}>
-            Collect {stakingTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={collectModalTitle}
         unitName={stakingTokenSymbol}
       />
     </OutlinedCard>

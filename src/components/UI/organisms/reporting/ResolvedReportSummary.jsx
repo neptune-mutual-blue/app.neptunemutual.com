@@ -2,14 +2,14 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { UnstakeYourAmount } from "@/components/UI/molecules/reporting/UnstakeYourAmount";
-import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { Divider } from "@/components/UI/atoms/divider";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import BigNumber from "bignumber.js";
-import { formatWithAabbreviation } from "@/utils/formatter";
 import { truncateAddress } from "@/utils/address";
-import { unixToDate } from "@/utils/date";
 import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
+import { formatCurrency } from "@/utils/formatter/currency";
+import DateLib from "@/lib/date/DateLib";
+import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
 
 export const ResolvedReportSummary = ({ incidentReport }) => {
   const { finalize } = useFinalizeIncident({
@@ -26,10 +26,10 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
       .toNumber(),
   };
 
-  const yesPercent = BigNumber((votes.yes * 100) / (votes.yes + votes.no))
+  const yesPercent = BigNumber(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
-  const noPercent = BigNumber(100 - yesPercent)
+  const noPercent = BigNumber(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();
 
@@ -58,7 +58,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
         <div className="p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
-          <VotesSummaryHorizantalChart
+          <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
             showTooltip={incidentReport.resolved}
@@ -85,9 +85,13 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
               },
               {
                 title: "Stake:",
-                value: `${formatWithAabbreviation(
-                  convertFromUnits(incidentReport.totalAttestedStake).toString()
-                )} NPM`,
+                value: formatCurrency(
+                  convertFromUnits(
+                    incidentReport.totalAttestedStake,
+                    "NPM",
+                    true
+                  )
+                ).short,
               },
             ]}
           />
@@ -103,9 +107,11 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
               { title: "User Votes:", value: incidentReport.totalRefutedCount },
               {
                 title: "Stake:",
-                value: `${formatWithAabbreviation(
-                  convertFromUnits(incidentReport.totalRefutedStake).toString()
-                )} NPM`,
+                value: formatCurrency(
+                  convertFromUnits(incidentReport.totalRefutedStake),
+                  "NPM",
+                  true
+                ),
               },
             ]}
           />
@@ -130,8 +136,31 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            {unixToDate(incidentReport.incidentDate, "D MMMM", false)} -{" "}
-            {unixToDate(incidentReport.resolutionTimestamp, "D MMMM", false)}
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.incidentDate,
+                "UTC"
+              )}
+            >
+              {DateLib.toDateFormat(
+                incidentReport.incidentDate,
+                { month: "short", day: "numeric" },
+                "UTC"
+              )}
+            </span>
+            {" - "}
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.resolutionTimestamp,
+                "UTC"
+              )}
+            >
+              {DateLib.toDateFormat(
+                incidentReport.resolutionTimestamp,
+                { month: "short", day: "numeric" },
+                "UTC"
+              )}
+            </span>
           </p>
 
           <button className="text-4e7dd9 text-sm" onClick={finalize}>

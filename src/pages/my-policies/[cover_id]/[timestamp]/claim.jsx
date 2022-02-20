@@ -8,13 +8,13 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { ClaimCxTokensTable } from "@/components/UI/organisms/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export default function ClaimPolicy() {
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, timestamp } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { data } = useActivePoliciesByCover({ coverKey });
@@ -49,9 +49,12 @@ export default function ClaimPolicy() {
             <HeroStat title="My Active Protection">
               <>
                 ${" "}
-                {formatAmount(
-                  convertFromUnits(data.totalActiveProtection).toString()
-                )}
+                {
+                  formatCurrency(
+                    convertFromUnits(data.totalActiveProtection),
+                    "USD"
+                  ).long
+                }
               </>
             </HeroStat>
           </div>
@@ -68,7 +71,11 @@ export default function ClaimPolicy() {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
-        <ClaimCxTokensTable activePolicies={data.activePolicies} />
+        <ClaimCxTokensTable
+          activePolicies={data.activePolicies}
+          coverKey={coverKey}
+          incidentDate={timestamp}
+        />
       </Container>
     </main>
   );

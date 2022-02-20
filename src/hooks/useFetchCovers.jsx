@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { toUtf8String } from "@ethersproject/strings";
+import { utils } from "@neptunemutual/sdk";
 
 const defaultInfo = {
   coverFees: {
@@ -14,10 +15,50 @@ const defaultInfo = {
   liquidity: 25000000,
 };
 
+const setIpfsData = (setter, id, ipfsData) => {
+  setter((prevData) => {
+    const prevCovers = prevData?.covers || [];
+
+    const nextCovers = prevCovers.map((x) => {
+      if (x.id === id) {
+        return {
+          ...x,
+          ipfsData,
+        };
+      }
+
+      return x;
+    });
+
+    return {
+      covers: nextCovers,
+    };
+  });
+};
+
 export const useFetchCovers = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
+
+  useEffect(() => {
+    if (!data || !data.covers || !Array.isArray(data.covers)) {
+      return;
+    }
+
+    const _covers = data.covers;
+    for (let i = 0; i < _covers.length; i++) {
+      const _cover = _covers[i];
+      const _id = _cover.id;
+
+      if (_cover.ipfsHash && !_cover.ipfsBytes && !_cover.ipfsData) {
+        utils.ipfs
+          .read(_cover.ipfsHash)
+          .then((ipfsData) => setIpfsData(setData, _id, ipfsData))
+          .catch(setIpfsData(setData, _id, {}));
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!networkId) {
@@ -67,7 +108,7 @@ export const useFetchCovers = () => {
   }, [networkId]);
 
   const covers = (data?.covers || []).map((x) => {
-    let ipfsData = {};
+    let ipfsData = x.ipfsData || {};
 
     try {
       ipfsData = JSON.parse(toUtf8String(x.ipfsBytes));

@@ -3,7 +3,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
-import { formatAmount } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 const headers = [
   {
@@ -32,7 +32,7 @@ export const PoolsTabs = ({ active, children }) => {
 
           {/* Total Value Locked */}
           <HeroStat title="Total Value Locked">
-            {formatAmount("150000".toString())}
+            {formatCurrency(150000).long}
           </HeroStat>
         </Container>
 

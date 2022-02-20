@@ -5,7 +5,7 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
 import { convertFromUnits } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 const headers = [
   {
@@ -32,7 +32,7 @@ export const PoliciesTabs = ({ active, children }) => {
 
           {/* Total Active Protection */}
           <HeroStat title="Total Active Protection">
-            {formatAmount(convertFromUnits(totalActiveProtection).toString())}
+            {formatCurrency(convertFromUnits(totalActiveProtection)).long}
           </HeroStat>
         </Container>
 

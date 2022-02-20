@@ -128,10 +128,10 @@ export const usePurchasePolicy = ({
         failure: "Could not approve DAI",
       });
 
-      setApproving(false);
       checkAllowance();
     } catch (err) {
       notifyError(err, "approve DAI");
+    } finally {
       setApproving(false);
     }
   };

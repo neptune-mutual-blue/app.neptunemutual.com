@@ -8,11 +8,21 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useAppContext } from "@/src/context/AppWrapper";
 
+const defaultInfo = {
+  fee: "0",
+  utilizationRatio: "0",
+  totalAvailableLiquidity: "0",
+  coverRatio: "0",
+  floor: "0",
+  ceiling: "0",
+  rate: "0",
+};
+
 export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState(defaultInfo);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -44,8 +54,26 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
             args,
             signerOrProvider
           );
+          const [
+            fee,
+            utilizationRatio,
+            totalAvailableLiquidity,
+            coverRatio,
+            floor,
+            ceiling,
+            rate,
+          ] = result;
+
           if (ignore) return;
-          setData(result);
+          setData({
+            fee: fee.toString(),
+            utilizationRatio: utilizationRatio.toString(),
+            totalAvailableLiquidity: totalAvailableLiquidity.toString(),
+            coverRatio: coverRatio.toString(),
+            floor: floor.toString(),
+            ceiling: ceiling.toString(),
+            rate: rate.toString(),
+          });
         } catch (err) {
           console.error(err);
           setError(true);

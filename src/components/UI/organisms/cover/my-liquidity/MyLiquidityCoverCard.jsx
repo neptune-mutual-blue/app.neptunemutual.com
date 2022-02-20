@@ -6,8 +6,9 @@ import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits, sumOf } from "@/utils/bn";
-import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { formatPercent } from "@/utils/formatter/percent";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -27,7 +28,6 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   );
 
   const reassurancePercent = BigNumber(info.totalReassurance)
-    .multipliedBy(100)
     .dividedBy(sumOf(info.balance, info.extendedBalance, info.totalReassurance))
     .decimalPlaces(2);
 
@@ -58,16 +58,24 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
       <div className="flex justify-between text-sm px-1">
         <span className="uppercase">Reassurance Ratio</span>
         <span className="font-semibold text-right">
-          {reassurancePercent.toString()}%
+          {formatPercent(reassurancePercent)}
         </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={reassurancePercent.toNumber() / 100} />
+        <ProgressBar value={reassurancePercent.toNumber()} />
       </div>
-      <div className="flex justify-between text-sm px-1">
+      <div
+        className="flex justify-between text-sm px-1"
+        title={
+          formatCurrency(convertFromUnits(totalPODs || "0"), "POD", true).long
+        }
+      >
         <span className="">
           My Liquidity:{" "}
-          {formatWithAabbreviation(convertFromUnits(totalPODs || "0"))} POD
+          {
+            formatCurrency(convertFromUnits(totalPODs || "0"), "POD", true)
+              .short
+          }
         </span>
       </div>
     </OutlinedCard>

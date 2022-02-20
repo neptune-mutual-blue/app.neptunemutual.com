@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { Dialog } from "@headlessui/react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
@@ -49,6 +49,13 @@ export const CollectRewardModal = ({
       tokenSymbol: stakingTokenSymbol,
       poolKey,
     });
+
+  // Clear on modal close
+  useEffect(() => {
+    if (isCollectModalOpen) return;
+
+    setInputValue();
+  }, [isCollectModalOpen]);
 
   return (
     <Modal

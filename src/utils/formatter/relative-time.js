@@ -6,7 +6,13 @@
  * @see https://stackoverflow.com/a/67338038/938822
  */
 
-function fromNow(date) {
+import DateLib from "@/lib/date/DateLib";
+
+export const fromNow = (date) => {
+  if (!(date instanceof Date)) {
+    date = DateLib.fromUnix(date);
+  }
+
   const SECOND = 1000;
   const MINUTE = 60 * SECOND;
   const HOUR = 60 * MINUTE;
@@ -107,6 +113,4 @@ function fromNow(date) {
       return (isFuture ? unit.futureN : unit.pastN).replace("#", x);
     }
   }
-}
-
-export { fromNow };
+};

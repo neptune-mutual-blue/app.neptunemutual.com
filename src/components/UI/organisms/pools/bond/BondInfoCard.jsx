@@ -8,9 +8,11 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
 import { isGreater } from "@/utils/bn";
+import { explainInterval } from "@/utils/formatter/interval";
+import { formatPercent } from "@/utils/formatter/percent";
 
 export const BondInfoCard = ({
-  ROI,
+  roi,
   vestingPeriod,
   claimable,
   details,
@@ -31,15 +33,19 @@ export const BondInfoCard = ({
                 <InfoCircleIcon width={24} className="fill-9B9B9B" />
               </Tooltip.Trigger>
 
-              <BondInfoTooltipContent />
+              <BondInfoTooltipContent vestingPeriod={vestingPeriod} />
             </Tooltip.Root>
           </h3>
-          <p className="text-sm mt-2 mb-6 opacity-50">
-            {vestingPeriod} days vesting term
-          </p>
         </div>
-        <Badge className="text-21AD8C">ROI: {ROI}%</Badge>
+
+        <Badge className="text-21AD8C uppercase">
+          ROI: {isNaN(roi) ? 0 : formatPercent(roi)}
+        </Badge>
       </div>
+
+      <p className="text-sm mt-2 mb-6 opacity-50">
+        {explainInterval(vestingPeriod)} vesting term
+      </p>
 
       <BondStatsContainer details={details} />
 
@@ -56,7 +62,7 @@ export const BondInfoCard = ({
   );
 };
 
-const BondInfoTooltipContent = () => {
+const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side="top">
@@ -64,7 +70,7 @@ const BondInfoTooltipContent = () => {
           <h3 className="font-sora font-bold text-EEEEEE">What is Bond?</h3>
           <p className="text-AABDCB mt-2">
             The bond feature provides you NPM tokens at a discounted value for a
-            vesting period of 7 days.
+            vesting period of {explainInterval(vestingPeriod)}.
           </p>
         </div>
         <Tooltip.Arrow offset={16} className="fill-black" />

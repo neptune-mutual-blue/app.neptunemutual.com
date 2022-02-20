@@ -8,9 +8,11 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";
 import { convertFromUnits } from "@/utils/bn";
-import { formatTime } from "@/utils/date";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useRecentVotes } from "@/src/hooks/useRecentVotes";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 const renderHeader = (col) => (
   <th
@@ -25,7 +27,12 @@ const renderHeader = (col) => (
 );
 
 const renderWhen = (row) => (
-  <td className="px-6 py-6">{formatTime(row.transaction.timestamp)}</td>
+  <td
+    className="px-6 py-6"
+    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
+  >
+    {fromNow(row.transaction.timestamp)}
+  </td>
 );
 
 const renderAccount = (row) => (
@@ -98,7 +105,11 @@ const AmountRenderer = ({ row }) => {
             row.voteType === "Attested" ? "bg-21AD8C" : "bg-FA5C2F"
           )}
         ></div>
-        <div>{convertFromUnits(row.stake).decimalPlaces(2).toString()} NPM</div>
+        <div
+          title={formatCurrency(convertFromUnits(row.stake), "NPM", true).long}
+        >
+          {formatCurrency(convertFromUnits(row.stake), "NPM", true).short}
+        </div>
       </div>
     </td>
   );

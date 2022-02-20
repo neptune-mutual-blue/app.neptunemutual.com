@@ -16,7 +16,7 @@ import { getCoverImgSrc, getParsedKey, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { formatWithAabbreviation } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -91,22 +91,22 @@ export const CoverAddLiquidityDetailsPage = () => {
 
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-            <div className="flex justify-between pb-2">
+            <div
+              className="flex justify-between pb-2"
+              title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+            >
               <span className="">Total Liquidity:</span>
               <strong className="text-right font-bold">
-                ${" "}
-                {formatWithAabbreviation(
-                  convertFromUnits(totalLiquidity).toString()
-                )}
+                {formatCurrency(convertFromUnits(totalLiquidity)).short}
               </strong>
             </div>
-            <div className="flex justify-between">
+            <div
+              className="flex justify-between"
+              title={formatCurrency(convertFromUnits(reassuranceAmount)).long}
+            >
               <span className="">Reassurance:</span>
               <strong className="text-right font-bold">
-                ${" "}
-                {formatWithAabbreviation(
-                  convertFromUnits(reassuranceAmount).toString()
-                )}
+                {formatCurrency(convertFromUnits(reassuranceAmount)).short}
               </strong>
             </div>
           </CoverPurchaseResolutionSources>

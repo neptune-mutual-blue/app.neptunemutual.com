@@ -14,10 +14,9 @@ import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import { liquidityTokenSymbol } from "@/src/config/constants";
 import BigNumber from "bignumber.js";
 import { convertFromUnits, sumOf } from "@/utils/bn";
-import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,10 +69,7 @@ export const MyLiquidityCoverPage = () => {
 
               {/* Total Liquidity */}
               <HeroStat title="My Liquidity">
-                <>
-                  {formatAmount(convertFromUnits(myLiquidity).toString())}{" "}
-                  {liquidityTokenSymbol}
-                </>
+                {formatCurrency(convertFromUnits(myLiquidity)).long}
               </HeroStat>
             </div>
           </Container>
@@ -92,31 +88,48 @@ export const MyLiquidityCoverPage = () => {
             </div>
 
             <CoverPurchaseResolutionSources coverInfo={coverInfo}>
-              <div className="flex justify-between pt-4 pb-2">
+              <div
+                className="flex justify-between pt-4 pb-2"
+                title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+              >
                 <span className="">Total Liquidity:</span>
                 <strong className="text-right font-bold">
-                  ${" "}
-                  {formatWithAabbreviation(
-                    convertFromUnits(totalLiquidity).toString()
-                  )}
+                  {formatCurrency(convertFromUnits(totalLiquidity)).short}
                 </strong>
               </div>
-              <div className="flex justify-between pb-2">
+              <div
+                className="flex justify-between pb-2"
+                title={
+                  formatCurrency(convertFromUnits(myEarnings.toString())).long
+                }
+              >
                 <span className="">My Earnings:</span>
                 <strong className="text-right font-bold">
-                  ${" "}
-                  {formatWithAabbreviation(
-                    convertFromUnits(myEarnings.toString()).toString()
-                  )}
+                  {
+                    formatCurrency(
+                      convertFromUnits(myEarnings.toString()),
+                      "USD"
+                    ).short
+                  }
                 </strong>
               </div>
-              <div className="flex justify-between pb-8">
+              <div
+                className="flex justify-between pb-8"
+                title={
+                  formatCurrency(
+                    convertFromUnits(reassuranceAmount).toString(),
+                    "USD"
+                  ).long
+                }
+              >
                 <span className="">Reassurance:</span>
                 <strong className="text-right font-bold">
-                  ${" "}
-                  {formatWithAabbreviation(
-                    convertFromUnits(reassuranceAmount).toString()
-                  )}
+                  {
+                    formatCurrency(
+                      convertFromUnits(reassuranceAmount).toString(),
+                      "USD"
+                    ).short
+                  }
                 </strong>
               </div>
 

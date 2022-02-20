@@ -1,15 +1,9 @@
-import numeral from "numeral";
-
-export const formatWithAabbreviation = (x, locale = "en") => {
-  const format = x < 10000 ? "0.00" : "0.00a";
-  numeral.locale(locale);
-  return numeral(x).format(format).toUpperCase();
-};
+import { getLocale } from "@/utils/locale";
 
 export const formatAmount = (x) => {
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat(getLocale(), {
     style: "decimal",
     minimumFractionDigits: 2,
-    maximumFractionDigits: x < 1 ? 6 : 2,
+    maximumFractionDigits: parseFloat(x) < 1 ? 6 : 2,
   }).format(x);
 };

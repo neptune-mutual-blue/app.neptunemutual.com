@@ -16,10 +16,11 @@ import { PoolCardStat } from "@/components/UI/molecules/pools/staking/PoolCardSt
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
-import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { explainInterval } from "@/utils/formatter/interval";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -55,37 +56,40 @@ export const PodStakingCard = ({ data }) => {
   const hasStaked = isGreater(info.accountStakeBalance, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
-  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks)
-    .multipliedBy(approxBlockTime)
-    .dividedBy("3600")
-    .decimalPlaces(2)
-    .toString(); // hours
+
+  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks).multipliedBy(
+    approxBlockTime
+  );
+
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const poolName = info.name;
-  const totalValueLocked = formatWithAabbreviation(
-    convertFromUnits(info.totalStaked).toString()
-  );
+  const totalValueLocked = formatCurrency(
+    convertFromUnits(info.totalStaked),
+    "USD"
+  ).short;
 
   const leftHalf = [];
 
   if (hasStaked) {
     leftHalf.push({
       title: "Your Stake",
-      value: `${formatAmount(
-        convertFromUnits(stakedAmount).toString()
-      )} ${stakingTokenSymbol}`,
+      value: formatCurrency(
+        convertFromUnits(stakedAmount),
+        stakingTokenSymbol,
+        true
+      ).long,
     });
   } else {
     leftHalf.push({
       title: "Locking Period",
-      value: `${lockupPeriod} hours`,
+      value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
 
   const rightHalf = [
     {
       title: "TVL",
-      value: `$ ${totalValueLocked}`,
+      value: totalValueLocked,
     },
   ];
 
@@ -130,9 +134,13 @@ export const PodStakingCard = ({ data }) => {
             <div className="flex-1 text-sm">
               <PoolCardStat
                 title="You Earned"
-                value={`${formatAmount(
-                  convertFromUnits(rewardAmount).toString()
-                )} ${rewardTokenSymbol}`}
+                value={
+                  formatCurrency(
+                    convertFromUnits(rewardAmount),
+                    rewardTokenSymbol,
+                    true
+                  ).long
+                }
               />
             </div>
             <div className="flex items-center">
@@ -158,9 +166,7 @@ export const PodStakingCard = ({ data }) => {
         lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
-        modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
-        }
+        modalTitle={<ModalTitle imgSrc={imgSrc}>{poolName}</ModalTitle>}
         onClose={onStakeModalClose}
         isOpen={isStakeModalOpen}
         unitName={stakingTokenSymbol}

@@ -27,16 +27,16 @@ export const HomePage = () => {
             <div className="mb-8 flex md:justify-center lg:justify-start">
               <HomeCard
                 items={[
-                  { name: "TVL (Cover)", amount: "$ 120M" },
-                  { name: "TVL (Pool)", amount: "$ 100M" },
+                  { name: "TVL (Cover)", amount: "$120M" },
+                  { name: "TVL (Pool)", amount: "$100M" },
                 ]}
               />
             </div>
             <div className="mb-8 flex md:justify-center lg:justify-start">
               <HomeCard
                 items={[
-                  { name: "Covered", amount: "$ 12.5M" },
-                  { name: "Cover Fee", amount: "$ 200K" },
+                  { name: "Covered", amount: "$12.5M" },
+                  { name: "Cover Fee", amount: "$200K" },
                 ]}
               />
             </div>
@@ -52,7 +52,7 @@ export const HomePage = () => {
               </h3>
               <div className="flex items-center">
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
-                  $ 250.32M
+                  $250.32M
                 </h2>
                 <h6 className="text-h6 text-21AD8C font-sora font-bold flex items-center">
                   <span className="pr-1">

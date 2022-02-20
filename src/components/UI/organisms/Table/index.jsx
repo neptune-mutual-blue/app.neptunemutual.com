@@ -77,7 +77,7 @@ export const THead = ({ columns }) => {
   );
 };
 
-export const TBody = ({ columns, data, isLoading }) => {
+export const TBody = ({ columns, data, isLoading, extraData }) => {
   return (
     <tbody className="divide-y divide-DAE2EB">
       {data.length === 0 && (
@@ -91,7 +91,9 @@ export const TBody = ({ columns, data, isLoading }) => {
         return (
           <tr key={idx}>
             {columns.map((col, _idx) => {
-              return <Fragment key={_idx}>{col.renderData(row)}</Fragment>;
+              return (
+                <Fragment key={_idx}>{col.renderData(row, extraData)}</Fragment>
+              );
             })}
           </tr>
         );
