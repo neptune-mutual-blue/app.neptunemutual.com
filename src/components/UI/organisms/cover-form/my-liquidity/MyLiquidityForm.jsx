@@ -12,6 +12,7 @@ import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods
 import DateLib from "@/lib/date/DateLib";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { fromNow } from "@/utils/formatter/relative-time";
 
 export const MyLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
