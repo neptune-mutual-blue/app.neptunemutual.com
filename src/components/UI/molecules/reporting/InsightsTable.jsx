@@ -43,7 +43,12 @@ const InsightsTh = ({ children, className }) => {
 
 const InsightsTd = ({ children, className }) => {
   return (
-    <td className={classNames("text-right py-1 text-404040", className)}>
+    <td
+      className={classNames(
+        "text-right py-1 text-404040 whitespace-nowrap",
+        className
+      )}
+    >
       {children}
     </td>
   );

@@ -13,11 +13,10 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
-import { liquidityTokenSymbol } from "@/src/config/constants";
 import { CoverRules } from "@/components/common/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
-import { formatAmount, formatWithAabbreviation } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -39,7 +38,6 @@ export const CoverPurchaseDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
-
   return (
     <main>
       {/* hero */}
@@ -61,8 +59,10 @@ export const CoverPurchaseDetailsPage = () => {
 
             {/* Total Liquidity */}
             <HeroStat title="Total Liquidity">
-              {formatAmount(convertFromUnits(totalLiquidity).toString())}{" "}
-              {liquidityTokenSymbol}
+              {
+                formatCurrency(convertFromUnits(totalLiquidity), "DAI", true)
+                  .long
+              }
             </HeroStat>
           </div>
         </Container>
@@ -91,10 +91,13 @@ export const CoverPurchaseDetailsPage = () => {
 
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-            <div className="flex justify-between">
+            <div
+              className="flex justify-between"
+              title={formatCurrency(availableLiquidity).long}
+            >
               <span className="">Available Liquidity:</span>
               <strong className="text-right font-bold">
-                $ {formatWithAabbreviation(availableLiquidity)}
+                {formatCurrency(availableLiquidity).short}
               </strong>
             </div>
           </CoverPurchaseResolutionSources>

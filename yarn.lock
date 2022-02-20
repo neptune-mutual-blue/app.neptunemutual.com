@@ -1268,10 +1268,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@neptunemutual/sdk@^0.3.2-beta":
-  version "0.3.2-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.3.2-beta.tgz#be7a77feec1c1dfa203783b0d4fcba228a4b81d8"
-  integrity sha512-jiP+zHy6Hlnu1W4JlrMrr+DKa+e49S+dRa0RMYAXXHxnmNHgO8ov1T17tJXR5vDQgS07wnuKhjt6hybisjdBPw==
+"@neptunemutual/sdk@^0.3.3-beta":
+  version "0.3.3-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.3.3-beta.tgz#41704b645740ce8b66563a8b9630a3d8862feaf5"
+  integrity sha512-RJvGFvFZf2nZt5uFkXRlj19Rt47wMMFctDcJvbl+XtPZYnLaeI+wBZkYUV2SYYnBQXTJx+War1sOSPv/DoxeUg==
   dependencies:
     axios "0.26.0"
     bs58 "4.0.1"
@@ -2171,9 +2171,9 @@ browser-process-hrtime@^1.0.0:
   integrity sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==
 
 browserslist@^4.17.5, browserslist@^4.19.1:
-  version "4.19.2"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.19.2.tgz#9ba98791192a39e1242f0670bb265ceee1baf0a4"
-  integrity sha512-97XU1CTZ5TwU9Qy/Taj+RtiI6SQM1WIhZ9osT7EY0oO2aWXGABZT2OZeRL+6PfaQsiiMIjjwIoYFPq4APgspgQ==
+  version "4.19.3"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.19.3.tgz#29b7caad327ecf2859485f696f9604214bedd383"
+  integrity sha512-XK3X4xtKJ+Txj8G5c30B4gsm71s69lqXlkYui4s6EkKxuv49qjYlY6oVd+IFJ73d4YymtM3+djvvt/R/iJwwDg==
   dependencies:
     caniuse-lite "^1.0.30001312"
     electron-to-chromium "^1.4.71"
@@ -4336,11 +4336,6 @@ npm-run-path@^4.0.1:
   integrity sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==
   dependencies:
     path-key "^3.0.0"
-
-numeral@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
-  integrity sha1-StCAk21EPCVhrtnyGX7//iX05QY=
 
 nwsapi@^2.2.0:
   version "2.2.0"

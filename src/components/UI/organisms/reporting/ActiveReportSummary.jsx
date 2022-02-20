@@ -5,14 +5,14 @@ import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentRe
 import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
 import { ResolveIncident } from "@/components/UI/molecules/reporting/ResolveIncident";
 import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
-import { VotesSummaryHorizantalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizantalChart";
 import { HlCalendar } from "@/lib/hl-calendar";
 import { truncateAddress } from "@/utils/address";
 import { convertFromUnits, isGreater } from "@/utils/bn";
-import { unixToDate } from "@/utils/date";
-import { formatWithAabbreviation } from "@/utils/formatter";
 import BigNumber from "bignumber.js";
 import DateLib from "@/lib/date/DateLib";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { formatPercent } from "@/utils/formatter/percent";
+import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
 
 export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
   const startDate = new Date(incidentReport.incidentDate * 1000);
@@ -27,10 +27,10 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
       .toNumber(),
   };
 
-  const yesPercent = BigNumber((votes.yes * 100) / (votes.yes + votes.no))
+  const yesPercent = BigNumber(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
-  const noPercent = BigNumber(100 - yesPercent)
+  const noPercent = BigNumber(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();
 
@@ -73,7 +73,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
             </>
           )}
 
-          <VotesSummaryHorizantalChart
+          <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
             showTooltip={reportingEnded}
@@ -98,7 +98,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
             insights={[
               {
                 title: "Incident Occurred",
-                value: `${yesPercent}%`,
+                value: formatPercent(yesPercent),
                 variant: "success",
               },
               {
@@ -107,9 +107,11 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
               },
               {
                 title: "Stake:",
-                value: `${formatWithAabbreviation(
-                  convertFromUnits(incidentReport.totalAttestedStake).toString()
-                )} NPM`,
+                value: formatCurrency(
+                  convertFromUnits(incidentReport.totalAttestedStake),
+                  "NPM",
+                  truncateAddress
+                ).short,
               },
             ]}
           />
@@ -119,15 +121,19 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
             insights={[
               {
                 title: "False Reporting",
-                value: `${noPercent}%`,
+                value: formatPercent(noPercent),
                 variant: "error",
               },
               { title: "User Votes:", value: incidentReport.totalRefutedCount },
               {
                 title: "Stake:",
-                value: `${formatWithAabbreviation(
-                  convertFromUnits(incidentReport.totalRefutedStake).toString()
-                )} NPM`,
+                value: `${
+                  formatCurrency(
+                    convertFromUnits(incidentReport.totalRefutedStake),
+                    "NPM",
+                    true
+                  ).short
+                }`,
               },
             ]}
           />
@@ -152,12 +158,30 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            <span title={new Date(+incidentReport.incidentDate * 1000)}>
-              {unixToDate(incidentReport.incidentDate, "D MMMM")}
-            </span>{" "}
-            -{" "}
-            <span title={new Date(+incidentReport.resolutionTimestamp * 1000)}>
-              {unixToDate(incidentReport.resolutionTimestamp, "D MMMM")}
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.incidentDate,
+                "UTC"
+              )}
+            >
+              {DateLib.toDateFormat(
+                incidentReport.incidentDate,
+                { month: "short", day: "numeric" },
+                "UTC"
+              )}
+            </span>
+            {" - "}
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.resolutionTimestamp,
+                "UTC"
+              )}
+            >
+              {DateLib.toDateFormat(
+                incidentReport.resolutionTimestamp,
+                { month: "short", day: "numeric" },
+                "UTC"
+              )}
             </span>
           </p>
           {!reportingEnded && (

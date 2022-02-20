@@ -2,6 +2,7 @@ import { classNames } from "@/utils/classnames";
 
 export const BondStat = ({
   title,
+  tooltip,
   value,
   right,
   valueClasses,
@@ -19,6 +20,7 @@ export const BondStat = ({
         {title}
       </h6>
       <p
+        title={tooltip}
         className={classNames(
           "text-lg font-normal font-numbers",
           right && "text-right",

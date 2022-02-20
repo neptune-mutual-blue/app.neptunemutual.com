@@ -2,7 +2,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const HarvestForm = ({
   stakingTokenSymbol,
@@ -23,12 +23,22 @@ export const HarvestForm = ({
       </div>
       <div className="flex justify-between text-sm px-1 pt-2">
         <span className="text-7398C0 uppercase">
-          {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
-          {stakingTokenSymbol}
+          {
+            formatCurrency(
+              convertFromUnits(stakedAmount),
+              stakingTokenSymbol,
+              true
+            ).long
+          }
         </span>
         <span className="text-right text-7398C0 uppercase inline-flex items-center">
-          {formatAmount(convertFromUnits(rewardAmount).toString())}{" "}
-          {rewardTokenSymbol}
+          {
+            formatCurrency(
+              convertFromUnits(rewardAmount),
+              rewardTokenSymbol,
+              true
+            ).long
+          }
           <button
             className="ml-1"
             onClick={() => register(rewardTokenAddress, rewardTokenSymbol)}

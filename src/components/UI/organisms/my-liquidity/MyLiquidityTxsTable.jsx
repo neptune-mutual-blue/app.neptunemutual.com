@@ -13,13 +13,15 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { formatTime, unixToDate } from "@/utils/date";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useEffect, useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 const renderHeader = (col) => (
   <th
@@ -34,7 +36,12 @@ const renderHeader = (col) => (
 );
 
 const renderWhen = (row) => (
-  <td className="px-6 py-6">{formatTime(row.transaction.timestamp)}</td>
+  <td
+    className="px-6 py-6"
+    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
+  >
+    {fromNow(row.transaction.timestamp)}
+  </td>
 );
 
 const renderDetails = (row) => <DetailsRenderer row={row} />;
@@ -152,8 +159,12 @@ const DetailsRenderer = ({ row }) => {
         />
 
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "PodsIssued" ? "Added" : "Removed"} $
-          {convertFromUnits(row.liquidityAmount).decimalPlaces(2).toString()}{" "}
+          {row.type == "PodsIssued" ? "Added" : "Removed"}{" "}
+          <span
+            title={formatCurrency(convertFromUnits(row.liquidityAmount)).long}
+          >
+            {formatCurrency(convertFromUnits(row.liquidityAmount)).short}
+          </span>{" "}
           {row.type == "PodsIssued" ? "to" : "from"} {coverInfo.projectName}
         </span>
       </div>
@@ -170,9 +181,15 @@ const PodAmountRenderer = ({ row }) => {
       <div className="flex items-center justify-end whitespace-nowrap">
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
+          title={
+            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+              .long
+          }
         >
-          {convertFromUnits(row.podAmount).decimalPlaces(2).toString()}{" "}
-          {tokenSymbol}
+          {
+            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+              .short
+          }
         </span>
         <button
           className="ml-3 p-1"
@@ -202,8 +219,7 @@ const ActionsRenderer = ({ row }) => {
           <Tooltip.Content side="top">
             <div className="text-sm leading-6 bg-black text-white p-3 rounded-xl max-w-sm">
               <p>
-                {unixToDate(row.transaction.timestamp, "YYYY/MM/DD HH:mm") +
-                  " UTC"}
+                {DateLib.toLongDateFormat(row.transaction.timestamp, "UTC")}
               </p>
             </div>
             <Tooltip.Arrow offset={16} className="fill-black" />

@@ -25,8 +25,6 @@ export const useReporterCommission = () => {
 
     getReporterCommission(networkId, signerOrProvider.provider).then(
       (_commission) => {
-        // _commission (uint256)
-        // _commission * 100 / MULTIPLIER
         setCommission(
           BigNumber(_commission.toString())
             .multipliedBy(100)

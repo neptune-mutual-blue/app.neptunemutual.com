@@ -2,9 +2,10 @@ import { getParsedKey } from "@/src/helpers/cover";
 
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { getToolTipDate, unixToDate } from "@/utils/date";
 import DateLib from "@/lib/date/DateLib";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { fromNow } from "@/utils/formatter/relative-time";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -31,15 +32,15 @@ export const PolicyCardFooter = ({
     if (isClaimStarted) {
       stats.push({
         title: "Claim Before",
-        tooltipText: getToolTipDate(report.claimExpiresAt),
-        value: unixToDate(report.claimExpiresAt, "YYYY/MM/DD HH:mm") + " UTC",
+        tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
+        value: fromNow(report.claimExpiresAt),
         variant: "error",
       });
     } else {
       stats.push({
         title: "Resolution By",
-        tooltipText: getToolTipDate(report.claimBeginsFrom),
-        value: unixToDate(report.claimBeginsFrom, "YYYY/MM/DD HH:mm") + " UTC",
+        tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
+        value: fromNow(report.claimBeginsFrom),
       });
     }
   } else {
@@ -48,14 +49,14 @@ export const PolicyCardFooter = ({
     if (isPolicyExpired) {
       stats.push({
         title: "Expired On",
-        tooltipText: getToolTipDate(validityEndsAt),
-        value: unixToDate(validityEndsAt, "YYYY/MM/DD HH:mm") + " UTC",
+        tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+        value: fromNow(validityEndsAt),
       });
     } else {
       stats.push({
         title: "Expires In",
-        tooltipText: getToolTipDate(validityEndsAt),
-        value: unixToDate(validityEndsAt, "YYYY/MM/DD HH:mm") + " UTC",
+        tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+        value: fromNow(validityEndsAt),
       });
     }
   }
@@ -69,7 +70,7 @@ export const PolicyCardFooter = ({
             <Stat
               key={stat.title}
               title={stat.title}
-              toolTipTitle={stat.tooltipText}
+              tooltip={stat.tooltipText}
               value={stat.value}
               variant={stat.variant}
               right={idx % 2 == 1}
@@ -79,7 +80,8 @@ export const PolicyCardFooter = ({
 
         <Stat
           title="Purchased Policy"
-          value={`$ ${convertFromUnits(totalAmountToCover).toString()}`}
+          tooltip={formatCurrency(convertFromUnits(totalAmountToCover)).long}
+          value={formatCurrency(convertFromUnits(totalAmountToCover)).short}
           right
         />
       </div>
@@ -100,14 +102,14 @@ export const PolicyCardFooter = ({
   );
 };
 
-const Stat = ({ title, toolTipTitle, value, right, variant }) => {
+const Stat = ({ title, tooltip, value, right, variant }) => {
   return (
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}
     >
       <h5 className="font-semibold text-black text-sm mb-2">{title}</h5>
       <p
-        title={toolTipTitle}
+        title={tooltip}
         className={classNames(
           "mb-4",
           variant === "error" ? "text-FA5C2F" : "text-7398C0"

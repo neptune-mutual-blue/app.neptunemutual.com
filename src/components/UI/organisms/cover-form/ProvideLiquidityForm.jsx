@@ -12,7 +12,7 @@ import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
-import { getToolTipDate, unixToDate } from "@/utils/date";
+import { fromNow } from "@/utils/formatter/relative-time";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -142,12 +142,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      <div title={getToolTipDate(unlockTimestamp)}>
+      <div>
         <UnlockDate
-          dateValue={`${unixToDate(
-            unlockTimestamp,
-            "MMMM DD, YYYY hh:mm:ss A"
-          )} UTC`}
+          title={DateLib.toLongDateFormat(unlockTimestamp, "UTC")}
+          value={fromNow(unlockTimestamp)}
         />
       </div>
 

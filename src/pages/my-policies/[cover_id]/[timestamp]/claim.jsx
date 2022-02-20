@@ -8,9 +8,9 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { ClaimCxTokensTable } from "@/components/UI/organisms/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export default function ClaimPolicy() {
   const router = useRouter();
@@ -49,9 +49,12 @@ export default function ClaimPolicy() {
             <HeroStat title="My Active Protection">
               <>
                 ${" "}
-                {formatAmount(
-                  convertFromUnits(data.totalActiveProtection).toString()
-                )}
+                {
+                  formatCurrency(
+                    convertFromUnits(data.totalActiveProtection),
+                    "USD"
+                  ).long
+                }
               </>
             </HeroStat>
           </div>

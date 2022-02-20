@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import BigNumber from "bignumber.js";
 import DateLib from "@/lib/date/DateLib";
 
 import { Label } from "@/components/UI/atoms/label";
@@ -12,13 +11,13 @@ import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { convertFromUnits, isGreater, sumOf, weiAsAmount } from "@/utils/bn";
-import { getToolTipDate, unixToDate } from "@/utils/date";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
 import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
-import { DAYS } from "@/src/config/constants";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { fromNow } from "@/utils/formatter/relative-time";
 
 const BondPage = () => {
   const { info } = useBondInfo();
@@ -39,12 +38,6 @@ const BondPage = () => {
     handleApprove,
     handleBond,
   } = useCreateBond({ info, value: delayedValue });
-
-  const vestingTermDays = BigNumber(info.vestingTerm)
-    .dividedBy(DAYS)
-    .decimalPlaces(3)
-    .toString();
-
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
 
   const leftHalf = [
@@ -58,7 +51,8 @@ const BondPage = () => {
     },
     {
       title: "Maximum Bond",
-      value: `${weiAsAmount(info.maxBond)} NPM`,
+      value: `${formatCurrency(weiAsAmount(info.maxBond), "NPM", true).short}`,
+      tooltip: `${formatCurrency(weiAsAmount(info.maxBond), "NPM", true).long}`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -72,7 +66,12 @@ const BondPage = () => {
     },
     {
       title: "Your Bond",
-      value: `${weiAsAmount(info.bondContribution)} NPM-USDC LP`,
+      value: `${
+        formatCurrency(weiAsAmount(info.bondContribution), "LP", true).short
+      }`,
+      tooltip: `${
+        formatCurrency(weiAsAmount(info.bondContribution), "LP", true).long
+      }`,
       titleClasses: `mt-7 ${!account && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!account && "hidden"}`,
     },
@@ -132,9 +131,9 @@ const BondPage = () => {
           <p
             id="unlock-on"
             className="text-7398C0 text-h4 font-medium"
-            title={getToolTipDate(unlockTimestamp)}
+            title={DateLib.toLongDateFormat(unlockTimestamp)}
           >
-            {unixToDate(unlockTimestamp, "MMMM DD, YYYY hh:mm:ss A")} UTC
+            {fromNow(unlockTimestamp)}
           </p>
         </div>
 
@@ -162,7 +161,7 @@ const BondPage = () => {
           details={details}
           roi={roi}
           claimable={info.claimable}
-          vestingPeriod={vestingTermDays}
+          vestingPeriod={info.vestingTerm}
         />
       </div>
 
