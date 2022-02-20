@@ -32,7 +32,7 @@ export const BondInfoCard = ({
                 <InfoCircleIcon width={24} className="fill-9B9B9B" />
               </Tooltip.Trigger>
 
-              <BondInfoTooltipContent />
+              <BondInfoTooltipContent vestingPeriod={vestingPeriod} />
             </Tooltip.Root>
           </h3>
         </div>
@@ -61,7 +61,7 @@ export const BondInfoCard = ({
   );
 };
 
-const BondInfoTooltipContent = () => {
+const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side="top">
@@ -69,7 +69,7 @@ const BondInfoTooltipContent = () => {
           <h3 className="font-sora font-bold text-EEEEEE">What is Bond?</h3>
           <p className="text-AABDCB mt-2">
             The bond feature provides you NPM tokens at a discounted value for a
-            vesting period of 7 days.
+            vesting period of {vestingPeriod} days.
           </p>
         </div>
         <Tooltip.Arrow offset={16} className="fill-black" />
