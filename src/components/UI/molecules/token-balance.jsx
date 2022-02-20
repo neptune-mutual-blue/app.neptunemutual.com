@@ -4,11 +4,11 @@ import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { getTokenLink } from "@/lib/connect-wallet/utils/explorer";
-import { formatAmount } from "@/utils/formatter";
 import { useWeb3React } from "@web3-react/core";
 import CopyIcon from "@/icons/CopyIcon";
 import { useToast } from "@/lib/toast/context";
 import { SHORT_TOAST_TIME } from "@/src/config/toast";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useAppContext();
@@ -39,7 +39,8 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       <div>
         {balance && (
           <p>
-            Balance: {formatAmount(convertFromUnits(balance).toString())} {unit}
+            Balance:{" "}
+            {formatCurrency(convertFromUnits(balance), unit, true).long}
           </p>
         )}
         {children}

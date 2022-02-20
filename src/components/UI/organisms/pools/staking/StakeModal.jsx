@@ -7,6 +7,7 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { convertFromUnits, isGreaterOrEqual, sort } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
+import { explainInterval } from "@/utils/formatter/interval";
 
 export const StakeModal = ({
   info,
@@ -110,7 +111,7 @@ export const StakeModal = ({
             Locking Period
           </Label>
           <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
-            {lockupPeriod} hours
+            {explainInterval(lockupPeriod)}
           </p>
         </div>
 

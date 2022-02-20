@@ -4,8 +4,9 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { classNames } from "@/utils/classnames";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { getToolTipDate, unixToDate } from "@/utils/date";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -45,8 +46,11 @@ export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
 
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 mb-4">
-        <span className="" title={getToolTipDate(resolvedOn)}>
-          Resolved On: {unixToDate(resolvedOn, "MM/DD/YYYY HH:mm:ss")} UTC
+        <span className="" title={DateLib.toLongDateFormat(resolvedOn)}>
+          Resolved On:
+          <span title={DateLib.toLongDateFormat(resolvedOn)}>
+            {fromNow(resolvedOn)}
+          </span>
         </span>
       </div>
     </OutlinedCard>

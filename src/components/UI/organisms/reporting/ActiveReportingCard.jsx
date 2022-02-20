@@ -1,10 +1,11 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { ProgressBar } from "@/components//UI/atoms/progress-bar";
-import { formatWithAabbreviation } from "@/utils/formatter";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { getToolTipDate, unixToDate } from "@/utils/date";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -42,11 +43,17 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
         <ProgressBar value={25 / 100} />
       </div>
       <div className="flex justify-between text-sm px-1">
-        <span className="">
-          Protection: ${formatWithAabbreviation(25000000)}
+        <span className="" title={formatCurrency(25000000).long}>
+          Protection: {formatCurrency(25000000).short}
         </span>
-        <span className="text-right" title={getToolTipDate(incidentDate)}>
-          Reported On: {unixToDate(incidentDate, "MM/DD/YYYY")}
+        <span
+          className="text-right"
+          title={DateLib.toLongDateFormat(incidentDate)}
+        >
+          Reported On:{" "}
+          <span title={DateLib.toLongDateFormat(incidentDate)}>
+            {fromNow(incidentDate)}
+          </span>
         </span>
       </div>
     </OutlinedCard>

@@ -4,10 +4,11 @@ import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { Label } from "@/components/UI/atoms/label";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { unixToDate } from "@/utils/date";
 import { formatAmount } from "@/utils/formatter";
 import { convertFromUnits } from "@/utils/bn";
 import { useClaimBond } from "@/src/hooks/useClaimBond";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -38,8 +39,12 @@ export const ClaimBondModal = ({
           <Label className="mb-3" htmlFor="modal-unlock-on">
             Unlock Date
           </Label>
-          <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
-            {unixToDate(unlockDate, "MMMM DD, YYYY hh:mm:ss A")} UTC
+          <p
+            id="modal-unlock-on"
+            className="text-7398C0 text-h4 font-medium"
+            title={DateLib.toLongDateFormat(unlockDate)}
+          >
+            {fromNow(unlockDate)}
           </p>
         </div>
         {/* left to add click handler */}

@@ -7,7 +7,7 @@ import {
   isGreater,
   isValidNumber,
 } from "@/utils/bn";
-import { formatAmount } from "@/utils/formatter";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const UnStakeForm = ({
   info,
@@ -58,8 +58,14 @@ export const UnStakeForm = ({
         disabled={unstaking}
       >
         <p>
-          Staked: {formatAmount(convertFromUnits(stakedAmount).toString())}{" "}
-          {stakingTokenSymbol}
+          Staked:{" "}
+          {
+            formatCurrency(
+              convertFromUnits(stakedAmount),
+              stakingTokenSymbol,
+              true
+            ).long
+          }
         </p>
         {!canWithdraw && (
           <p className="flex items-center text-FA5C2F">

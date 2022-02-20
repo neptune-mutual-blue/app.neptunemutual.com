@@ -1,21 +1,17 @@
 import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
 import DateLib from "@/lib/date/DateLib";
-import { convertFromUnits } from "@/utils/bn";
-import { unixToDate } from "@/utils/date";
+import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { formatPercent } from "@/utils/formatter/percent";
 
-export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
+export const PolicyFeesAndExpiry = ({ fetching, data, coverPeriod }) => {
   const { fee, rate } = data;
 
-  const feePercent = convertFromUnits(rate, 4)
-    .multipliedBy(100)
-    .decimalPlaces(2)
-    .toString();
+  const rateConverted = convertUintToPercentage(rate);
   const coverFee = convertFromUnits(fee).decimalPlaces(3).toString();
 
-  let ce = DateLib.addMonths(DateLib.unix() * 1000, parseInt(claimEnd, 10) - 1);
-  ce = DateLib.endOfMonth(ce);
-  ce = DateLib.endOfDay(ce);
-  const claimExpiry = `${unixToDate(ce / 1000, "MMM DD, YYYY HH:mm")} UTC`;
+  const next = DateLib.addMonths(new Date(), coverPeriod - 1);
+  const expires = DateLib.getEomInUTC(next);
 
   return (
     <>
@@ -32,16 +28,21 @@ export const PolicyFeesAndExpiry = ({ fetching, data, claimEnd }) => {
         <tbody>
           <tr className="flex justify-between mt-3">
             <th>Fees</th>
-            <td className="text-4e7dd9">{feePercent} %</td>
+            <td className="text-4e7dd9">{formatPercent(rateConverted)}</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Cover Fee</th>
-            <td className="text-4e7dd9">{coverFee} DAI</td>
+            <td
+              className="text-4e7dd9"
+              title={formatCurrency(coverFee, "DAI", true).long}
+            >
+              {formatCurrency(coverFee, "DAI", true).short}
+            </td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>Claim Expiry</th>
-            <td className="text-4e7dd9" title={`${new Date(ce)}`}>
-              {claimExpiry}
+            <td className="text-4e7dd9" title={expires.toString()}>
+              {DateLib.toLongDateFormat(expires, "UTC")}
             </td>
           </tr>
         </tbody>

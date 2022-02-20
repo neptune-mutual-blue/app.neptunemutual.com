@@ -9,8 +9,9 @@ import {
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
 import { weiAsAmount } from "@/utils/bn";
-import { unixToDate } from "@/utils/date";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
 
 const renderHeader = (col) => (
   <th
@@ -30,8 +31,11 @@ const renderAddress = (row) => (
 
 const renderClaimBefore = (row) => (
   <td className="px-6 py-6">
-    <span className="text-left whitespace-nowrap ">
-      {`${unixToDate(row.expiresOn, "MM/DD/YYYY HH:mm:ss")} UTC`}
+    <span
+      className="text-left whitespace-nowrap"
+      title={DateLib.toLongDateFormat(row.expiresOn)}
+    >
+      {fromNow(row.expiresOn)}
     </span>
   </td>
 );

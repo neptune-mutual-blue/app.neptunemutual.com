@@ -12,8 +12,8 @@ import { useState } from "react";
 import { usePolicyFees } from "@/components/UI/organisms/cover-form/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { data } from "autoprefixer";
-import { formatAmount } from "@/utils/formatter";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -45,13 +45,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: data.fee,
     feeError,
   });
-
-  const { totalAvailableLiquidity } = data;
-
-  console.log(
-    "Total Available Liquidity: %s",
-    convertFromUnits(totalAvailableLiquidity || "0").toString()
-  );
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -92,8 +85,13 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         disabled={approving || purchasing}
       >
         {value && isValidNumber(value) && (
-          <div className="flex items-center text-15aac8">
-            <p>You will receive: {formatAmount(value)} cxDAI</p>
+          <div
+            className="flex items-center text-15aac8"
+            title={formatCurrency(value, "cxDAI", true).long}
+          >
+            <p>
+              You will receive: {formatCurrency(value, "cxDAI", true).short}
+            </p>
           </div>
         )}
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
@@ -133,7 +131,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         <PolicyFeesAndExpiry
           fetching={updatingFee}
           data={feeData}
-          claimEnd={coverMonth}
+          coverPeriod={coverMonth}
         />
       )}
 

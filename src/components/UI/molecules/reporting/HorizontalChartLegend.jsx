@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 
-export const HorizantalChartLegend = () => {
+export const HorizontalChartLegend = () => {
   return (
     <div className="flex justify-center space-x-6 flex-wrap mt-6 mb-12">
       <LegendItem variant={"success"}>Incident Occurred</LegendItem>

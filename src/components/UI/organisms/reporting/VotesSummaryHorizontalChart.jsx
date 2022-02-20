@@ -1,9 +1,10 @@
 import { PercentXStackedChart } from "@/components/UI/molecules/PercentXStackedChart";
-import { HorizantalChartLegend } from "@/components/UI/molecules/reporting/HorizantalChartLegend";
+import { HorizontalChartLegend } from "@/components/UI/molecules/reporting/HorizontalChartLegend";
 import { classNames } from "@/utils/classnames";
+import { formatPercent } from "@/utils/formatter/percent";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-export const VotesSummaryHorizantalChart = ({
+export const VotesSummaryHorizontalChart = ({
   yesPercent,
   noPercent,
   showTooltip,
@@ -36,7 +37,7 @@ export const VotesSummaryHorizantalChart = ({
 
         <ToolTipContent majority={majority} />
       </Tooltip.Root>
-      <HorizantalChartLegend />
+      <HorizontalChartLegend />
     </>
   );
 };
@@ -67,7 +68,7 @@ const ToolTipContent = ({ majority }) => {
                 : "False Reporting"}
             </span>
             <span className="text-black text-sm py-1 leading-5">
-              {majority.voteCount} ({majority.percent}%)
+              {majority.voteCount} ({formatPercent(majority.percent)})
             </span>
           </>
 

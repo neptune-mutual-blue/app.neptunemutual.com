@@ -9,6 +9,7 @@ export const BondStatsContainer = ({ details }) => {
             key={x.title}
             title={x.title}
             value={x.value}
+            tooltip={x.tooltip}
             valueClasses={x.valueClasses}
             titleClasses={x.titleClasses}
             right={idx % 2 !== 0}

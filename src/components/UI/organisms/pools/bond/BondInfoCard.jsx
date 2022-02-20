@@ -8,7 +8,8 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
 import { isGreater } from "@/utils/bn";
-import { formatPercent } from "@/utils/formatter";
+import { explainInterval } from "@/utils/formatter/interval";
+import { formatPercent } from "@/utils/formatter/percent";
 
 export const BondInfoCard = ({
   roi,
@@ -43,7 +44,7 @@ export const BondInfoCard = ({
       </div>
 
       <p className="text-sm mt-2 mb-6 opacity-50">
-        {vestingPeriod} days vesting term
+        {explainInterval(vestingPeriod)} vesting term
       </p>
 
       <BondStatsContainer details={details} />
@@ -69,7 +70,7 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
           <h3 className="font-sora font-bold text-EEEEEE">What is Bond?</h3>
           <p className="text-AABDCB mt-2">
             The bond feature provides you NPM tokens at a discounted value for a
-            vesting period of {vestingPeriod} days.
+            vesting period of {explainInterval(vestingPeriod)}.
           </p>
         </div>
         <Tooltip.Arrow offset={16} className="fill-black" />
