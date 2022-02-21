@@ -1,17 +1,8 @@
 import { DAYS, MULTIPLIER } from "@/src/config/constants";
 
-const getDiscount = (discountRate, vestingTerm, npmPrice) => {
-  const annualDiscountOrReward =
-    getAnnualDiscountRate(discountRate, vestingTerm) * npmPrice;
-  const dailyReward = annualDiscountOrReward / (365 * DAYS);
-
-  // Term reward
-  return dailyReward * vestingTerm;
-};
-
 export const getDiscountedPrice = (discountRate, npmPrice) => {
   const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER;
-  return discountedPrice.toFixed(6);
+  return discountedPrice.toFixed(12);
 };
 
 export const getAnnualDiscountRate = (protoDiscountRate, vestingTerm) => {

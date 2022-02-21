@@ -43,10 +43,17 @@ const BondPage = () => {
   const leftHalf = [
     {
       title: "Bond Price",
-      value: `$${getDiscountedPrice(
+      value: formatCurrency(
+        getDiscountedPrice(
+          info.discountRate,
+          convertFromUnits(info.marketPrice).toString()
+        ),
+        "USD"
+      ).short,
+      tooltip: getDiscountedPrice(
         info.discountRate,
         convertFromUnits(info.marketPrice).toString()
-      )}`,
+      ),
       valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
     {
@@ -61,7 +68,8 @@ const BondPage = () => {
   const rightHalf = [
     {
       title: "Market Price",
-      value: `$${weiAsAmount(info.marketPrice)}`,
+      value: formatCurrency(weiAsAmount(info.marketPrice), "USD").short,
+      tooltip: weiAsAmount(info.marketPrice),
       valueClasses: "text-h3 text-9B9B9B mt-1",
     },
     {
@@ -80,6 +88,7 @@ const BondPage = () => {
   const details = mergeAlternatively(leftHalf, rightHalf, {
     title: "",
     value: "",
+    tooltip: "",
   });
 
   const onOpen = () => {
