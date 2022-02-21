@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { liquidity, registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { AddressZero } from "@ethersproject/constants";
 
 import {
   convertToUnits,
@@ -16,8 +15,8 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNPMBalance } from "@/src/hooks/useNPMBalance";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { getMinStakeToAddLiquidity } from "@/src/helpers/store/getMinStakeToAddLiquidity";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqTokenAllowance, setLqTokenAllowance] = useState();
@@ -40,22 +39,19 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   useEffect(() => {
     let ignore = false;
-    if (!networkId) return;
+    if (!networkId || !account || !coverKey) return;
 
     async function fetchMinStake() {
-      const signerOrProvider = getProviderOrSigner(
-        library,
-        AddressZero,
-        networkId
-      );
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const _minNpmStake = await getMinStakeToAddLiquidity(
+      const _minNpmStake = await getRemainingMinStakeToAddLiquidity(
         networkId,
+        coverKey,
+        account,
         signerOrProvider.provider
       );
 
       if (ignore) return;
-      console.log(_minNpmStake);
       setMinNpmStake(_minNpmStake);
     }
 
@@ -64,7 +60,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     return () => {
       ignore = true;
     };
-  }, [library, networkId]);
+  }, [account, coverKey, library, networkId]);
 
   useEffect(() => {
     let ignore = false;
