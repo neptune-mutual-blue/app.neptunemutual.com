@@ -63,10 +63,6 @@ export const PodStakingCard = ({ data }) => {
 
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const poolName = info.name;
-  const totalValueLocked = formatCurrency(
-    convertFromUnits(info.totalStaked),
-    "USD"
-  ).short;
 
   const leftHalf = [];
 
@@ -81,7 +77,7 @@ export const PodStakingCard = ({ data }) => {
     });
   } else {
     leftHalf.push({
-      title: "Locking Period",
+      title: "Lockup Period",
       value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
@@ -89,7 +85,8 @@ export const PodStakingCard = ({ data }) => {
   const rightHalf = [
     {
       title: "TVL",
-      value: totalValueLocked,
+      value: formatCurrency(convertFromUnits(info.totalStaked), "USD").short,
+      tooltip: formatCurrency(convertFromUnits(info.totalStaked), "USD").long,
     },
   ];
 
@@ -121,7 +118,10 @@ export const PodStakingCard = ({ data }) => {
         {stats.map((x, idx) => {
           return (
             <div key={x.title} className="flex flex-col w-1/2 mt-5">
-              <div className={classNames(idx % 2 && "text-right")}>
+              <div
+                className={classNames(idx % 2 && "text-right")}
+                title={x.tooltip}
+              >
                 <PoolCardStat title={x.title} value={x.value} />
               </div>
             </div>

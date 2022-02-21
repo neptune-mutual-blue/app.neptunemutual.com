@@ -38,9 +38,9 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
     <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
       <div>
         {balance && (
-          <p>
+          <p title={formatCurrency(convertFromUnits(balance), unit, true).long}>
             Balance:{" "}
-            {formatCurrency(convertFromUnits(balance), unit, true).long}
+            {formatCurrency(convertFromUnits(balance), unit, true).short}
           </p>
         )}
         {children}
