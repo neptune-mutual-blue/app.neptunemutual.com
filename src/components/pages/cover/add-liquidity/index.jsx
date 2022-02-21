@@ -54,7 +54,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                 href: `/cover/${parsedCoverKey}/options`,
                 current: false,
               },
-              { name: "Provide Liquidity", href: "#", current: true },
+              { name: "Provide Liquidity", current: true },
             ]}
           />
           <div className="flex">

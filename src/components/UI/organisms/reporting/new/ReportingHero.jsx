@@ -35,7 +35,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
                     href: `/cover/${parsedCoverKey}/options`,
                     current: false,
                   },
-                  { name: "Reporting", href: "#", current: true },
+                  { name: "Reporting", current: true },
                 ]
           }
         />
