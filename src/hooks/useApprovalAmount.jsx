@@ -1,7 +1,8 @@
+import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
 import { MaxUint256 } from "@ethersproject/constants";
 
 export const useApprovalAmount = () => {
-  const unlimitedApproval = true;
+  const { unlimitedApproval } = useUnlimitedApproval();
 
   /**
    * @param {string} amount
