@@ -3,7 +3,7 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, governance, config } from "@neptunemutual/sdk";
+import { registry, governance } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -204,7 +204,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     }
   };
 
-  const handleDispute = async () => {
+  const handleDispute = async (payload) => {
     setVoting(true);
 
     if (!networkId || !account) {
@@ -222,7 +222,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       const tx = await instance.dispute(
         coverKey,
         incidentDate,
-        config.constants.ZERO_BYTES32,
+        payload,
         convertToUnits(value).toString()
       );
 
@@ -232,7 +232,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not dispute",
       });
     } catch (err) {
-      // console.error(err);
+      console.error({ err });
       notifyError(err, "dispute");
     } finally {
       setVoting(false);

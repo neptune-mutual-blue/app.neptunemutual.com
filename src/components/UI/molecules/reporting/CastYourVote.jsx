@@ -7,6 +7,7 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
 import { convertFromUnits } from "@/utils/bn";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
+import { useRouter } from "next/router";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
@@ -31,6 +32,9 @@ export const CastYourVote = ({ incidentReport }) => {
   });
   const { commission } = useReporterCommission();
 
+  const router = useRouter();
+  console.log({ router });
+
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);
   };
@@ -50,7 +54,8 @@ export const CastYourVote = ({ incidentReport }) => {
       votingType === "false-reporting" &&
       incidentReport.totalRefutedCount === "0"
     ) {
-      handleDispute();
+      // handleDispute();
+      router.push(router.push(router.asPath.replace("/details", "/dispute")));
       return;
     }
     if (votingType === "false-reporting") {

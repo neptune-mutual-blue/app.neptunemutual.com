@@ -3,20 +3,17 @@ import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
-import { useReportIncident } from "@/src/hooks/useReportIncident";
-import { convertFromUnits } from "@/utils/bn";
+import { useVote } from "@/src/hooks/useVote";
+import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState } from "react";
 
-export const NewDisputeReportForm = () => {
+export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [value, setValue] = useState();
-
-  const coverKey =
-    "0x6178696500000000000000000000000000000000000000000000000000000000";
 
   const {
     balance,
@@ -24,12 +21,16 @@ export const NewDisputeReportForm = () => {
     tokenAddress,
     tokenSymbol,
     handleApprove,
-    handleReport,
+    handleDispute,
     approving,
-    reporting,
-    canReport,
+    voting,
+    canVote,
     isError,
-  } = useReportIncident({ coverKey, value });
+  } = useVote({
+    value,
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -66,8 +67,18 @@ export const NewDisputeReportForm = () => {
     setValue(convertFromUnits(balance).toString());
   };
 
+  const handleSubmit = () => {
+    const payload = {
+      title: disputeTitle,
+      proofOfIncident: JSON.stringify(urls.map((x) => x.url)),
+      description: description,
+      stake: convertToUnits(value).toString(),
+    };
+    handleDispute(payload);
+  };
+
   return (
-    <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+    <div className="pt-12 pb-24">
       <h2 className="text-h3 font-sora font-bold mb-8">Submit Your Dispute</h2>
       <div className="max-w-3xl flex flex-col gap-y-10">
         <div>
@@ -163,7 +174,7 @@ export const NewDisputeReportForm = () => {
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
             handleChooseMax={handleChooseMax}
-            disabled={approving || reporting}
+            disabled={approving || voting}
             onChange={handleValueChange}
           >
             <p className="text-9B9B9B">
@@ -172,21 +183,21 @@ export const NewDisputeReportForm = () => {
           </TokenAmountInput>
         </div>
 
-        {!canReport ? (
+        {!canVote ? (
           <RegularButton
             disabled={isError || approving || !value}
-            className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
+            className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
             onClick={handleApprove}
           >
             {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
           </RegularButton>
         ) : (
           <RegularButton
-            disabled={isError || reporting}
-            className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
-            // onClick={handleSubmit}
+            disabled={isError || voting}
+            className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
+            onClick={handleSubmit}
           >
-            {reporting ? "Reporting..." : "Dispute"}
+            {voting ? "Disputing..." : "Dispute"}
           </RegularButton>
         )}
       </div>
