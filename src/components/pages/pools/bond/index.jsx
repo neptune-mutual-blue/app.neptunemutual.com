@@ -18,6 +18,7 @@ import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
 import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
+import Link from "next/link";
 
 const BondPage = () => {
   const { info } = useBondInfo();
@@ -165,6 +166,13 @@ const BondPage = () => {
         )}
       </div>
       <div>
+        <div className="flex justify-end mb-4">
+          <Link href="/pools/bond/transactions">
+            <a className="text-h4 font-medium text-4e7dd9 hover:underline">
+              Transaction List
+            </a>
+          </Link>
+        </div>
         <BondInfoCard
           handleClaimModal={onOpen}
           details={details}
