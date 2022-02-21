@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits, sumOf, isGreater, convertToUnits } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -72,7 +72,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
 
   useEffect(() => {
-    if (npmBalance && npmValue < 250) {
+    if (isGreater(minNpmStake, convertToUnits(npmValue || "0"))) {
       setNpmErrorMsg("Insufficient Stake");
     } else if (
       npmBalance &&
@@ -107,8 +107,12 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           inputValue={npmValue}
           disabled={lqApproving || providing}
         >
-          Minimum Stake: {convertFromUnits(minNpmStake).toString()}{" "}
-          {npmTokenSymbol}
+          {isGreater(minNpmStake, "0") && (
+            <>
+              Minimum Stake: {convertFromUnits(minNpmStake).toString()}{" "}
+              {npmTokenSymbol}
+            </>
+          )}
           {npmErrorMsg && (
             <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
           )}
