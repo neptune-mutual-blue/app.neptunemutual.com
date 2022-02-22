@@ -38,7 +38,10 @@ export default function DisputeFormPage() {
           {/* hero */}
           <ReportingHero
             coverInfo={coverInfo}
-            reportStatus={{ resolved: data.incidentReport.resolved }}
+            reportStatus={{
+              resolved: data.incidentReport.resolved,
+              dispute: true,
+            }}
           />
 
           {/* <hr className="border-b border-B0C4DB" /> */}

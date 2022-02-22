@@ -18,7 +18,7 @@ export const CastYourVote = ({ incidentReport }) => {
     tokenAddress,
     tokenSymbol,
     handleApprove,
-    handleDispute,
+    // handleDispute,
     handleAttest,
     handleRefute,
     approving,
@@ -33,7 +33,6 @@ export const CastYourVote = ({ incidentReport }) => {
   const { commission } = useReporterCommission();
 
   const router = useRouter();
-  console.log({ router });
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);
@@ -55,7 +54,7 @@ export const CastYourVote = ({ incidentReport }) => {
       incidentReport.totalRefutedCount === "0"
     ) {
       // handleDispute();
-      router.push(router.push(router.asPath.replace("/details", "/dispute")));
+      router.push(router.asPath.replace("/details", "/dispute"));
       return;
     }
     if (votingType === "false-reporting") {
