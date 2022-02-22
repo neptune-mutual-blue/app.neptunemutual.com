@@ -12,9 +12,9 @@ import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
-import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
+import LiquidityChart from "@/components/UI/molecules/LiquidityChart";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -64,7 +64,8 @@ export const HomePage = () => {
               </div>
             </div>
             <div className="flex-1" style={{ minHeight: "360px" }}>
-              <TotalLiquidityChart />
+              {/* <TotalLiquidityChart /> */}
+              <LiquidityChart />
             </div>
           </div>
         </Container>
