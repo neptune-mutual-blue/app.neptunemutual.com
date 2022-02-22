@@ -76,10 +76,12 @@ const BondPage = () => {
     {
       title: "Your Bond",
       value: `${
-        formatCurrency(weiAsAmount(info.bondContribution), "LP", true).short
+        formatCurrency(weiAsAmount(info.bondContribution), tokenSymbol, true)
+          .short
       }`,
       tooltip: `${
-        formatCurrency(weiAsAmount(info.bondContribution), "LP", true).long
+        formatCurrency(weiAsAmount(info.bondContribution), tokenSymbol, true)
+          .long
       }`,
       titleClasses: `mt-7 ${!account && "hidden"}`,
       valueClasses: `text-sm text-9B9B9B mt-1 ${!account && "hidden"}`,
@@ -166,7 +168,7 @@ const BondPage = () => {
         )}
       </div>
       <div>
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-10">
           <Link href="/pools/bond/transactions">
             <a className="text-h4 font-medium text-4e7dd9 hover:underline">
               Transaction List

@@ -43,7 +43,9 @@ const renderWhen = (row) => (
   </td>
 );
 
-const renderDetails = (row) => <DetailsRenderer row={row} />;
+const renderDetails = (row, extraData) => (
+  <DetailsRenderer row={row} extraData={extraData} />
+);
 
 const renderAmount = (row) => <BondAmountRenderer row={row} />;
 
@@ -89,7 +91,7 @@ export const MyBondTxsTable = () => {
     setPage(1);
   }, [maxItems, setPage]);
 
-  const { blockNumber, transactions, totalCount } = data;
+  const { blockNumber, transactions, totalCount, bondAddress } = data;
   return (
     <>
       {blockNumber && (
@@ -113,6 +115,7 @@ export const MyBondTxsTable = () => {
               isLoading={loading}
               columns={columns}
               data={transactions}
+              extraData={bondAddress}
             ></TBody>
           ) : (
             <tbody>
@@ -145,7 +148,8 @@ export const MyBondTxsTable = () => {
   );
 };
 
-const DetailsRenderer = ({ row }) => {
+const DetailsRenderer = ({ row, extraData }) => {
+  const liquidityTokenSymbol = useTokenSymbol(extraData[0].address0);
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
@@ -160,7 +164,7 @@ const DetailsRenderer = ({ row }) => {
                     ? row.lpTokenAmount
                     : row.claimAmount
                 ),
-                row.type === "BondCreated" ? "NPM-USDC-LP" : "NPM",
+                row.type === "BondCreated" ? liquidityTokenSymbol : "NPM",
                 true
               ).long
             }
@@ -172,7 +176,7 @@ const DetailsRenderer = ({ row }) => {
                     ? row.lpTokenAmount
                     : row.claimAmount
                 ),
-                row.type === "BondCreated" ? "NPM-USDC-LP" : "NPM",
+                row.type === "BondCreated" ? liquidityTokenSymbol : "NPM",
                 true
               ).short
             }

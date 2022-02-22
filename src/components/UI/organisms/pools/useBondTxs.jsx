@@ -64,6 +64,9 @@ export const useBondTxs = ({ maxItems }) => {
               timestamp
             }
           }
+          bondPools {
+            address0
+          }
         }
       `,
       }),
@@ -86,6 +89,7 @@ export const useBondTxs = ({ maxItems }) => {
       : [];
   }, [data.bondTransactions, maxItems, page]);
 
+  const bondPoolAddress = data.bondPools || [];
   return {
     page,
     maxPage,
@@ -94,6 +98,7 @@ export const useBondTxs = ({ maxItems }) => {
       blockNumber: data?._meta?.block?.number,
       transactions: filteredTransactions,
       totalCount: (data?.bondTransactions || []).length,
+      bondAddress: bondPoolAddress,
     },
     loading,
   };
