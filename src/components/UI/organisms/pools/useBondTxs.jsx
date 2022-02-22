@@ -89,7 +89,8 @@ export const useBondTxs = ({ maxItems }) => {
       : [];
   }, [data.bondTransactions, maxItems, page]);
 
-  const bondPoolAddress = data.bondPools || [];
+  const bondPoolAddress = data.bondPools ? data.bondPools[0].address0 : "";
+
   return {
     page,
     maxPage,
@@ -98,7 +99,7 @@ export const useBondTxs = ({ maxItems }) => {
       blockNumber: data?._meta?.block?.number,
       transactions: filteredTransactions,
       totalCount: (data?.bondTransactions || []).length,
-      bondAddress: bondPoolAddress,
+      lpTokenAddress: bondPoolAddress,
     },
     loading,
   };

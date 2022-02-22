@@ -44,7 +44,7 @@ const renderWhen = (row) => (
 );
 
 const renderDetails = (row, extraData) => (
-  <DetailsRenderer row={row} extraData={extraData} />
+  <DetailsRenderer row={row} lpTokenAddress={extraData} />
 );
 
 const renderAmount = (row) => <BondAmountRenderer row={row} />;
@@ -91,7 +91,7 @@ export const MyBondTxsTable = () => {
     setPage(1);
   }, [maxItems, setPage]);
 
-  const { blockNumber, transactions, totalCount, bondAddress } = data;
+  const { blockNumber, transactions, totalCount, lpTokenAddress } = data;
   return (
     <>
       {blockNumber && (
@@ -115,7 +115,7 @@ export const MyBondTxsTable = () => {
               isLoading={loading}
               columns={columns}
               data={transactions}
-              extraData={bondAddress}
+              extraData={lpTokenAddress}
             ></TBody>
           ) : (
             <tbody>
@@ -148,8 +148,8 @@ export const MyBondTxsTable = () => {
   );
 };
 
-const DetailsRenderer = ({ row, extraData }) => {
-  const liquidityTokenSymbol = useTokenSymbol(extraData[0].address0);
+const DetailsRenderer = ({ row, lpTokenAddress }) => {
+  const liquidityTokenSymbol = useTokenSymbol(lpTokenAddress);
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
