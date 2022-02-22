@@ -2,14 +2,13 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import { getCoverImgSrc, getParsedKey } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
-
-  const parsedCoverKey = getParsedKey(coverInfo.key);
+  const cover_id = router.query?.id;
 
   const breadcrumbData = reportStatus
     ? [
@@ -31,7 +30,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
         { name: "Home", href: "/", current: false },
         {
           name: coverInfo?.coverName,
-          href: `/cover/${parsedCoverKey}/options`,
+          href: `/cover/${cover_id}/options`,
           current: false,
         },
         { name: "Reporting", current: true },
