@@ -19,6 +19,8 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useBondTxs } from "@/components/UI/organisms/pools/useBondTxs";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 const renderHeader = (col) => (
   <th
@@ -79,6 +81,7 @@ export const MyBondTxsTable = () => {
   const { data, loading, page, maxPage, setPage } = useBondTxs({
     maxItems,
   });
+
   const { account, chainId } = useWeb3React();
 
   // Go to page 1 if maxItems changes
@@ -146,6 +149,7 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
+        <img src="/images/tokens/npm.png" alt="npm" height={32} width={32} />
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type === "BondCreated" ? "Bonded " : "Claimed "}
           <span
@@ -181,8 +185,9 @@ const DetailsRenderer = ({ row }) => {
 
 const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
+  const { NPMTokenAddress } = useAppConstants();
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   //add NPM token address
-
   return (
     <td className="px-6 py-6 text-right">
       <div className="flex items-center justify-end whitespace-nowrap">
@@ -212,7 +217,10 @@ const BondAmountRenderer = ({ row }) => {
             ).short
           }
         </span>
-        <button className="ml-3 p-1" onClick={() => {}}>
+        <button
+          className="ml-3 p-1"
+          onClick={() => register(NPMTokenAddress, npmTokenSymbol)}
+        >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="h-4 w-4" />
         </button>
