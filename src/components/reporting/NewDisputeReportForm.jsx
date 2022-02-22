@@ -78,7 +78,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   };
 
   return (
-    <div className="pt-12 pb-24">
+    <div className="pt-8 pb-24">
       <h2 className="text-h3 font-sora font-bold mb-8">Submit Your Dispute</h2>
       <div className="max-w-3xl flex flex-col gap-y-10">
         <div>
