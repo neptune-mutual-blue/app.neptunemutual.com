@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { Radio } from "@/components/UI/atoms/radio";
@@ -14,6 +15,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { data } from "autoprefixer";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
+import QuestionCircleIcon from "@/icons/QuestionCircleIcon";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -97,12 +99,26 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
       <div className="mt-12 px-3">
-        <h5
-          className="block uppercase text-black text-h6 font-semibold mb-4"
-          htmlFor="cover-period"
-        >
-          Select your coverage period
-        </h5>
+        <div className="flex gap-2 items-start">
+          <h5
+            className="block uppercase text-black text-h6 font-semibold mb-4"
+            htmlFor="cover-period"
+          >
+            Select your coverage period
+          </h5>
+          {/* Tooltip */}
+          <Tooltip.Root>
+            <Tooltip.Trigger className="block">
+              <span className="sr-only">Info</span>
+              <QuestionCircleIcon
+                width={24}
+                height={24}
+                className="fill-9B9B9B pr-1"
+              />
+            </Tooltip.Trigger>
+            <CovergaeInfoTooltipContent />
+          </Tooltip.Root>
+        </div>
         <div className="flex">
           <Radio
             label={coverPeriodLabels[0]}
@@ -159,5 +175,26 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </OutlinedButton>
       </div>
     </div>
+  );
+};
+
+const CovergaeInfoTooltipContent = () => {
+  return (
+    <>
+      <Tooltip.Content side="right">
+        <div className="text-xs bg-black p-4 rounded-xl max-w-xs">
+          <p className="text-white">
+            Coverage period will cover from date of purchase up to the month you
+            have selected.
+          </p>
+        </div>
+        <Tooltip.Arrow
+          offset={32}
+          width={16}
+          height={12}
+          className="fill-black"
+        />
+      </Tooltip.Content>
+    </>
   );
 };
