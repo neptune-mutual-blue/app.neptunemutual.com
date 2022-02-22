@@ -10,6 +10,7 @@ import { AppWrapper } from "@/src/context/AppWrapper";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
+import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 
 const position = {
   variant: "top_right",
@@ -25,10 +26,12 @@ function MyApp({ Component, pageProps }) {
       <AppWrapper>
         <AppConstantsProvider>
           <CoversProvider>
-            <ToastProvider variant={position.variant}>
-              <Header></Header>
-              <Component {...pageProps} />
-            </ToastProvider>
+            <UnlimitedApprovalProvider>
+              <ToastProvider variant={position.variant}>
+                <Header></Header>
+                <Component {...pageProps} />
+              </ToastProvider>
+            </UnlimitedApprovalProvider>
           </CoversProvider>
         </AppConstantsProvider>
       </AppWrapper>

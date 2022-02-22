@@ -1,23 +1,25 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { convertFromUnits, sumOf, isGreater, convertToUnits } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
 import { UnlockDate } from "@/components/UI/organisms/unlock-date";
-import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
-import DateLib from "@/lib/date/DateLib";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 
 export const MyLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
   const [npmValue, setNPMValue] = useState();
   const router = useRouter();
+  const [npmErrorMsg, setNpmErrorMsg] = useState("");
+  const [lqErrorMsg, setLqErrorMsg] = useState("");
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
@@ -29,6 +31,7 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
     npmApproving,
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
+    minNpmStake,
     // canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
@@ -68,6 +71,27 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
 
   const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
 
+  useEffect(() => {
+    if (isGreater(minNpmStake, convertToUnits(npmValue || "0"))) {
+      setNpmErrorMsg("Insufficient Stake");
+    } else if (
+      npmBalance &&
+      npmValue > +convertFromUnits(npmBalance).toString()
+    ) {
+      setNpmErrorMsg("Insufficient Balance");
+    } else {
+      setNpmErrorMsg("");
+    }
+    if (
+      lqTokenBalance &&
+      lqValue > +convertFromUnits(lqTokenBalance).toString()
+    ) {
+      setLqErrorMsg("Insufficient Balance");
+    } else {
+      setLqErrorMsg("");
+    }
+  }, [npmValue, npmBalance, lqValue, lqTokenBalance]);
+
   return (
     <div className="max-w-md">
       <div className="pb-16">
@@ -75,14 +99,24 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
           labelText={"Enter your NPM stake"}
           onChange={handleNPMChange}
           handleChooseMax={handleMaxNPM}
-          error={isError}
+          error={npmErrorMsg}
           tokenAddress={NPMTokenAddress}
           tokenSymbol={npmTokenSymbol}
           tokenBalance={npmBalance || "0"}
           inputId={"npm-stake"}
           inputValue={npmValue}
           disabled={lqApproving || providing}
-        />
+        >
+          {isGreater(minNpmStake, "0") && (
+            <>
+              Minimum Stake: {convertFromUnits(minNpmStake).toString()}{" "}
+              {npmTokenSymbol}
+            </>
+          )}
+          {npmErrorMsg && (
+            <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
+          )}
+        </TokenAmountInput>
       </div>
 
       <div className="pb-16">
@@ -97,7 +131,11 @@ export const MyLiquidityForm = ({ coverKey, info }) => {
           inputId={"dai-amount"}
           inputValue={lqValue}
           disabled={lqApproving || providing}
-        />
+        >
+          {lqErrorMsg && (
+            <p className="flex items-center text-FA5C2F">{lqErrorMsg}</p>
+          )}
+        </TokenAmountInput>
       </div>
 
       <div className="pb-16">

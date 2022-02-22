@@ -63,10 +63,6 @@ export const StakingCard = ({ data }) => {
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const npmImgSrc = getTokenImgSrc(stakingTokenSymbol);
   const poolName = info.name;
-  const totalValueLocked = formatCurrency(
-    convertFromUnits(info.totalStaked),
-    "USD"
-  ).short;
 
   const leftHalf = [];
 
@@ -81,7 +77,7 @@ export const StakingCard = ({ data }) => {
     });
   } else {
     leftHalf.push({
-      title: "Locking Period",
+      title: "Lockup Period",
       value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
@@ -89,13 +85,15 @@ export const StakingCard = ({ data }) => {
   const rightHalf = [
     {
       title: "TVL",
-      value: totalValueLocked,
+      value: formatCurrency(convertFromUnits(info.totalStaked), "USD").short,
+      tooltip: formatCurrency(convertFromUnits(info.totalStaked), "USD").long,
     },
   ];
 
   const stats = mergeAlternatively(leftHalf, rightHalf, {
     title: "",
     value: "",
+    tooltip: "",
   });
 
   if (info.name === "") {
@@ -145,7 +143,10 @@ export const StakingCard = ({ data }) => {
         {stats.map((x, idx) => {
           return (
             <div key={x.title} className="flex flex-col w-1/2 mt-5">
-              <div className={classNames(idx % 2 && "text-right")}>
+              <div
+                className={classNames(idx % 2 && "text-right")}
+                title={x.tooltip}
+              >
                 <PoolCardStat title={x.title} value={x.value} />
               </div>
             </div>

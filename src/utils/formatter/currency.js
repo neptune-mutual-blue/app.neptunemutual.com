@@ -17,7 +17,7 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   const number = parseFloat(Math.abs(input));
 
   if (!number) {
-    return "";
+    return { short: "N/A", long: "Not available" };
   }
 
   const sign = input < 0 ? "-" : "";

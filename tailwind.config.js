@@ -62,6 +62,9 @@ module.exports = {
         /* 72px */
         18: "4.5rem",
       },
+      lineHeight: {
+        4.5: "18px",
+      },
       maxWidth: {
         180: "180px",
       },
