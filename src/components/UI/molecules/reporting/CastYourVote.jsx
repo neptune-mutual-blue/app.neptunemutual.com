@@ -54,7 +54,7 @@ export const CastYourVote = ({ incidentReport }) => {
     incidentReport.totalRefutedCount === "0";
 
   const handleReport = () => {
-    if (votingType === "false-reporting" && !isFirstDispute) {
+    if (votingType === "false-reporting") {
       handleRefute();
       return;
     }
