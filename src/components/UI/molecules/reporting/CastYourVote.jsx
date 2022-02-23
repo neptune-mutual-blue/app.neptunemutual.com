@@ -7,6 +7,8 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
 import { convertFromUnits } from "@/utils/bn";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
@@ -17,7 +19,7 @@ export const CastYourVote = ({ incidentReport }) => {
     tokenAddress,
     tokenSymbol,
     handleApprove,
-    handleDispute,
+    // handleDispute,
     handleAttest,
     handleRefute,
     approving,
@@ -30,6 +32,8 @@ export const CastYourVote = ({ incidentReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
   const { commission } = useReporterCommission();
+
+  const router = useRouter();
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);
@@ -45,14 +49,11 @@ export const CastYourVote = ({ incidentReport }) => {
     }
   };
 
+  const isFirstDispute =
+    votingType === "false-reporting" &&
+    incidentReport.totalRefutedCount === "0";
+
   const handleReport = () => {
-    if (
-      votingType === "false-reporting" &&
-      incidentReport.totalRefutedCount === "0"
-    ) {
-      handleDispute();
-      return;
-    }
     if (votingType === "false-reporting") {
       handleRefute();
       return;
@@ -60,9 +61,7 @@ export const CastYourVote = ({ incidentReport }) => {
     handleAttest();
   };
 
-  const isFirstDispute =
-    votingType === "false-reporting" &&
-    incidentReport.totalRefutedCount === "0";
+  const disputeUrl = router.asPath.replace("/details", "/dispute");
 
   return (
     <>
@@ -85,61 +84,78 @@ export const CastYourVote = ({ incidentReport }) => {
           onChange={handleRadioChange}
         />
       </div>
-      <Label
-        htmlFor={"stake-to-cast-vote"}
-        className="font-semibold ml-2 mb-2 uppercase"
-      >
-        Stake
-      </Label>
-      <div className="flex flex-wrap items-start gap-8 mb-11">
-        <div className="flex-auto">
-          <TokenAmountInput
-            tokenSymbol={tokenSymbol}
-            tokenAddress={tokenAddress}
-            tokenBalance={balance}
-            handleChooseMax={handleChooseMax}
-            inputValue={value}
-            inputId={"stake-to-cast-vote"}
-            disabled={approving || voting}
-            onChange={handleValueChange}
+      {!isFirstDispute && (
+        <>
+          <Label
+            htmlFor={"stake-to-cast-vote"}
+            className="font-semibold ml-2 mb-2 uppercase"
           >
-            {isFirstDispute && (
-              <p className="text-9B9B9B">
-                Minimum Stake: {convertFromUnits(minStake).toString()} NPM
-              </p>
-            )}
-          </TokenAmountInput>
-        </div>
+            Stake
+          </Label>
 
-        {!canVote ? (
-          <RegularButton
-            className={
-              "py-6 w-64 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
-            }
-            onClick={handleApprove}
-            disabled={isError || approving || !value}
-          >
-            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            className={
-              "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
-            }
-            onClick={handleReport}
-            disabled={isError || voting}
-          >
-            {voting ? "Reporting..." : "Report"}
-          </RegularButton>
-        )}
-      </div>
+          <div className="flex flex-wrap items-start gap-8 mb-11">
+            <div className="flex-auto">
+              <TokenAmountInput
+                tokenSymbol={tokenSymbol}
+                tokenAddress={tokenAddress}
+                tokenBalance={balance}
+                handleChooseMax={handleChooseMax}
+                inputValue={value}
+                inputId={"stake-to-cast-vote"}
+                disabled={approving || voting}
+                onChange={handleValueChange}
+              >
+                {isFirstDispute && (
+                  <p className="text-9B9B9B">
+                    Minimum Stake: {convertFromUnits(minStake).toString()} NPM
+                  </p>
+                )}
+              </TokenAmountInput>
+            </div>
+
+            {!canVote ? (
+              <RegularButton
+                className={
+                  "py-6 w-64 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
+                }
+                onClick={handleApprove}
+                disabled={isError || approving || !value}
+              >
+                {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+              </RegularButton>
+            ) : (
+              <RegularButton
+                className={
+                  "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE"
+                }
+                onClick={handleReport}
+                disabled={isError || voting}
+              >
+                {voting ? "Reporting..." : "Report"}
+              </RegularButton>
+            )}
+          </div>
+        </>
+      )}
       {isFirstDispute && (
-        <Alert>
-          Since you are the first person to dispute this incident reporting, you
-          will need to stake atleast {convertFromUnits(minStake).toString()} NPM
-          tokens. If the majority agree with you, you will earn {commission}% of
-          the platform fee instead of the incident reporter.
-        </Alert>
+        <>
+          <Link href={disputeUrl} passHref>
+            <RegularButton
+              className={
+                "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mb-4"
+              }
+            >
+              Submit your Dispute
+            </RegularButton>
+          </Link>
+          <Alert>
+            Since you are the first person to dispute this incident reporting,
+            you will need to stake atleast{" "}
+            {convertFromUnits(minStake).toString()} NPM tokens. If the majority
+            agree with you, you will earn {commission}% of the platform fee
+            instead of the incident reporter.
+          </Alert>
+        </>
       )}
     </>
   );

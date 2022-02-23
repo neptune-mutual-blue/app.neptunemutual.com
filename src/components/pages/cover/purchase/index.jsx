@@ -38,6 +38,7 @@ export const CoverPurchaseDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
+
   return (
     <main>
       {/* hero */}
@@ -46,7 +47,11 @@ export const CoverPurchaseDetailsPage = () => {
           <BreadCrumbs
             pages={[
               { name: "Home", href: "/", current: false },
-              { name: coverInfo?.coverName, current: false },
+              {
+                name: coverInfo?.coverName,
+                href: `/cover/${cover_id}/options`,
+                current: false,
+              },
               { name: "Purchase Policy", href: "#", current: true },
             ]}
           />

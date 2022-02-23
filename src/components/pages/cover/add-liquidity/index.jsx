@@ -47,8 +47,12 @@ export const CoverAddLiquidityDetailsPage = () => {
           <BreadCrumbs
             pages={[
               { name: "Home", href: "/", current: false },
-              { name: coverInfo?.coverName, current: false },
-              { name: "Provide Liquidity", href: "#", current: true },
+              {
+                name: coverInfo?.coverName,
+                href: `/cover/${cover_id}/options`,
+                current: false,
+              },
+              { name: "Provide Liquidity", current: true },
             ]}
           />
           <div className="flex">
