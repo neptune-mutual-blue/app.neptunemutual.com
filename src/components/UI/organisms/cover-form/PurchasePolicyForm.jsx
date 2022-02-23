@@ -12,7 +12,6 @@ import { usePurchasePolicy } from "@/components/UI/organisms/cover-form/usePurch
 import { useState } from "react";
 import { usePolicyFees } from "@/components/UI/organisms/cover-form/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { data } from "autoprefixer";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
@@ -44,7 +43,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
-    feeAmount: data.fee,
+    feeAmount: feeData.fee,
     feeError,
   });
 
