@@ -6,23 +6,25 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { calculateGasMargin, convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useAppContext } from "@/src/context/AppWrapper";
 
 export const useRemoveLiquidity = ({ coverKey, value }) => {
   const [vaultTokenAddress, setVaultTokenAddress] = useState();
-  const { library, account, chainId } = useWeb3React();
-  const [balance, setBalance] = useState();
+  const { library, account } = useWeb3React();
+  const { networkId } = useAppContext();
+  const [balance, setBalance] = useState("0");
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
     let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     // POD Balance
     liquidity
-      .getBalance(chainId, coverKey, signerOrProvider)
+      .getBalanceOf(networkId, coverKey, signerOrProvider)
       .then(({ result }) => {
         if (ignore) return;
         setBalance(result);
@@ -33,15 +35,15 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
       });
 
     return () => (ignore = true);
-  }, [account, chainId, coverKey, library]);
+  }, [account, networkId, coverKey, library]);
 
   useEffect(() => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
     let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    registry.Vault.getAddress(chainId, coverKey, signerOrProvider)
+    registry.Vault.getAddress(networkId, coverKey, signerOrProvider)
       .then((addr) => {
         if (ignore) return;
         setVaultTokenAddress(addr);
@@ -52,16 +54,16 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
       });
 
     return () => (ignore = true);
-  }, [account, chainId, coverKey, library]);
+  }, [account, networkId, coverKey, library]);
 
   const handleWithdraw = async () => {
-    if (!chainId || !account) return;
+    if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
       const instance = await registry.Vault.getInstance(
-        chainId,
+        networkId,
         coverKey,
         signerOrProvider
       );
@@ -70,7 +72,8 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
         .catch(() =>
           instance.estimateGas.removeLiquidity(
             coverKey,
-            convertToUnits(value).toString()
+            convertToUnits(value).toString(),
+            "0"
           )
         );
 
