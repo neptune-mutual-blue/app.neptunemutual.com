@@ -102,6 +102,22 @@ const LiquidityChart = () => {
       hideDelay: 100,
       outside: false,
     },
+    navigator: {
+      handles: {
+        symbols: [
+          "url(/icons/chart-navigator-handle.svg)",
+          "url(/icons/chart-navigator-handle.svg)",
+        ],
+        lineWidth: 1,
+        width: 20,
+        height: 30,
+      },
+      maskFill: "rgba(78, 125, 217, 0.2)",
+      outlineWidth: 0,
+    },
+    scrollbar: {
+      enabled: false,
+    },
   };
   const { data } = useProtocolDayData();
 
