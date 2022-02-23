@@ -19,8 +19,8 @@ export const CoverReportingRules = ({
     <>
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid gap-32 grid-cols-3">
-          <div className="col-span-2">
+        <Container className="grid md:gap-32 grid-cols-3">
+          <div className="col-span-3 md:col-span-2 row-start-3 md:row-start-auto">
             {/* Rules */}
             <CoverRules rules={coverInfo?.rules} />
 

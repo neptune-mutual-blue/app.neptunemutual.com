@@ -67,10 +67,12 @@ export const CoverAddLiquidityDetailsPage = () => {
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid gap-32 grid-cols-3">
-          <div className="col-span-2">
+        <Container className="grid md:gap-32 grid-cols-3">
+          <div className="col-span-3 md:col-span-2">
             {/* Description */}
-            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+            <span className="hidden md:block">
+              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+            </span>
 
             {acceptedRules ? (
               <div className="mt-12">
@@ -87,6 +89,9 @@ export const CoverAddLiquidityDetailsPage = () => {
             )}
           </div>
 
+          <span className="block md:hidden row-start-1 col-span-3 mb-11">
+            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+          </span>
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div

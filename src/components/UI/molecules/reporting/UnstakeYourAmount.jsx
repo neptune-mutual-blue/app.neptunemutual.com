@@ -50,7 +50,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
       )}
 
       <RegularButton
-        className="px-10 py-4 mb-16 font-semibold w-80"
+        className="px-10 py-4 mb-16 font-semibold w-full md:w-80"
         onClick={() => setIsOpen(true)}
       >
         UNSTAKE

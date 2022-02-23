@@ -12,6 +12,7 @@ import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/DisclaimerModal";
+import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
 
 const position = {
   variant: "top_right",
@@ -31,7 +32,10 @@ function MyApp({ Component, pageProps }) {
               <ToastProvider variant={position.variant}>
                 <Header></Header>
                 <DisclaimerModal />
-                <Component {...pageProps} />
+                <div className="relative sm:static">
+                  <Component {...pageProps} />
+                  <ScrollToTopButton />
+                </div>
               </ToastProvider>
             </UnlimitedApprovalProvider>
           </CoversProvider>

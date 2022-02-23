@@ -55,7 +55,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
     <>
       <OutlinedCard className="md:flex bg-white">
         {/* Left half */}
-        <div className="p-10 border-r border-B0C4DB flex-1">
+        <div className="p-10 md:border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
           <VotesSummaryHorizontalChart
@@ -66,7 +66,9 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           />
           <Divider />
 
-          <UnstakeYourAmount incidentReport={incidentReport} />
+          <div className="hidden md:block">
+            <UnstakeYourAmount incidentReport={incidentReport} />
+          </div>
         </div>
 
         {/* Right half */}
@@ -160,6 +162,9 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
               Finalize
             </button>
           )}
+          <div className="block md:hidden">
+            <UnstakeYourAmount incidentReport={incidentReport} />
+          </div>
         </div>
 
         <></>

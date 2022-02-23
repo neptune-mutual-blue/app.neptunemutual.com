@@ -20,7 +20,7 @@ export const SocialIconLinks = ({ links = {} }) => {
   const { facebook, linkedin, twitter } = links;
 
   return (
-    <div className="mt-5">
+    <div className="mt-4 sm:mt-5">
       {facebook && (
         <IconLink
           href={facebook}

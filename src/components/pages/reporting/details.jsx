@@ -33,10 +33,12 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
           />
         )}
 
-        <RecentVotesTable
-          coverKey={incidentReport.key}
-          incidentDate={incidentReport.incidentDate}
-        />
+        <div className="hidden sm:block">
+          <RecentVotesTable
+            coverKey={incidentReport.key}
+            incidentDate={incidentReport.incidentDate}
+          />
+        </div>
       </Container>
     </>
   );

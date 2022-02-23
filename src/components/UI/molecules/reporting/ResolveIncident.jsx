@@ -29,10 +29,10 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
         <CountDownTimer title="Resolving in" target={resolvableTill} />
       )}
 
-      <div className="flex gap-10 mb-16">
+      <div className="flex flex-wrap gap-10 mb-16 w-auto">
         {!incidentReport.resolved && (
           <RegularButton
-            className="px-10 py-4 w-80  font-semibold uppercase"
+            className="px-10 py-4 w-full md:w-80  font-semibold uppercase"
             onClick={resolve}
           >
             Resolve
@@ -40,7 +40,7 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
         )}
 
         <RegularButton
-          className="px-10 py-4 w-80 font-semibold uppercase"
+          className="px-10 py-4 w-full md:w-80 font-semibold uppercase"
           onClick={() => setIsOpen(true)}
         >
           Emergency Resolve

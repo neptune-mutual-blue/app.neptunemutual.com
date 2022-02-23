@@ -59,7 +59,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
     <>
       <OutlinedCard className="md:flex bg-white">
         {/* Left half */}
-        <div className="p-10 border-r border-B0C4DB flex-1">
+        <div className="pb-0 md:pb-6 p-6 md:p-10 border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
           {!reportingEnded && (
@@ -81,18 +81,20 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
           />
           <Divider />
 
-          {reportingEnded ? (
-            <ResolveIncident
-              incidentReport={incidentReport}
-              resolvableTill={resolvableTill}
-            />
-          ) : (
-            <CastYourVote incidentReport={incidentReport} />
-          )}
+          <div className="hidden md:block">
+            {reportingEnded ? (
+              <ResolveIncident
+                incidentReport={incidentReport}
+                resolvableTill={resolvableTill}
+              />
+            ) : (
+              <CastYourVote incidentReport={incidentReport} />
+            )}
+          </div>
         </div>
 
         {/* Right half */}
-        <div className="p-10">
+        <div className="pt-0 p-6 md:p-10">
           <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
           <InsightsTable
             insights={[
@@ -180,6 +182,16 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
           </p>
           {!reportingEnded && (
             <HlCalendar startDate={startDate} endDate={endDate} />
+          )}
+        </div>
+        <div className="block md:hidden p-6">
+          {reportingEnded ? (
+            <ResolveIncident
+              incidentReport={incidentReport}
+              resolvableTill={resolvableTill}
+            />
+          ) : (
+            <CastYourVote incidentReport={incidentReport} />
           )}
         </div>
 

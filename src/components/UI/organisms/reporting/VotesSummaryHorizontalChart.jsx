@@ -52,7 +52,7 @@ const ToolTipContent = ({ majority }) => {
       <Tooltip.Content
         side="top"
         sideOffset={-32}
-        className="test"
+        className="test hidden md:block"
         portalled={false}
       >
         <div className="bg-white flex flex-col shadow-toolTip px-6 py-2 justify-center items-center rounded">

@@ -187,7 +187,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       )}
 
       <div className="mt-16">
-        <OutlinedButton className="rounded-big" onClick={() => router.back()}>
+        <OutlinedButton
+          className="rounded-big block m-auto sm:m-0"
+          onClick={() => router.back()}
+        >
           &#x27F5;&nbsp;Back
         </OutlinedButton>
       </div>
