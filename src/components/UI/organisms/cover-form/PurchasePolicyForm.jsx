@@ -12,10 +12,9 @@ import { usePurchasePolicy } from "@/components/UI/organisms/cover-form/usePurch
 import { useState } from "react";
 import { usePolicyFees } from "@/components/UI/organisms/cover-form/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { data } from "autoprefixer";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
-import QuestionCircleIcon from "@/icons/QuestionCircleIcon";
+import InfoCircleIcon from "@/icons/InfoCircleIcon";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -44,7 +43,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
-    feeAmount: data.fee,
+    feeAmount: feeData.fee,
     feeError,
   });
 
@@ -110,11 +109,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
               <span className="sr-only">Info</span>
-              <QuestionCircleIcon
-                width={24}
-                height={24}
-                className="fill-9B9B9B pr-1"
-              />
+              <InfoCircleIcon width={24} className="fill-9B9B9B pr-1" />
             </Tooltip.Trigger>
             <CovergaeInfoTooltipContent />
           </Tooltip.Root>
@@ -182,8 +177,8 @@ const CovergaeInfoTooltipContent = () => {
   return (
     <>
       <Tooltip.Content side="right">
-        <div className="text-xs bg-black p-4 rounded-xl max-w-xs">
-          <p className="text-white">
+        <div className="text-xs bg-black p-4 rounded-xl max-w-[15rem]">
+          <p className="text-white tracking-normal">
             Coverage period will cover from date of purchase up to the month you
             have selected.
           </p>

@@ -3,7 +3,7 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, governance, config } from "@neptunemutual/sdk";
+import { registry, governance } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -16,6 +16,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { utils } from "@neptunemutual/sdk";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [balance, setBalance] = useState("0");
@@ -204,7 +205,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     }
   };
 
-  const handleDispute = async () => {
+  const handleDispute = async (info) => {
     setVoting(true);
 
     if (!networkId || !account) {
@@ -214,6 +215,14 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
+      const payload = await utils.ipfs.write({ ...info, createdBy: account });
+
+      if (payload === undefined) {
+        throw new Error("Could not save cover to an IPFS network");
+      }
+
+      const hashBytes32 = payload[1];
+
       const instance = await registry.Governance.getInstance(
         networkId,
         signerOrProvider
@@ -222,7 +231,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       const tx = await instance.dispute(
         coverKey,
         incidentDate,
-        config.constants.ZERO_BYTES32,
+        hashBytes32,
         convertToUnits(value).toString()
       );
 
@@ -232,7 +241,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: "Could not dispute",
       });
     } catch (err) {
-      // console.error(err);
+      // console.error({ err });
       notifyError(err, "dispute");
     } finally {
       setVoting(false);

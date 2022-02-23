@@ -18,7 +18,10 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
 
   return (
     <>
-      <ReportingHero coverInfo={coverInfo} />
+      <ReportingHero
+        coverInfo={coverInfo}
+        reportStatus={{ resolved: incidentReport.resolved }}
+      />
       <hr className="border-b border-B0C4DB" />
       <Container className="py-16">
         {showResolvedSummary ? (
