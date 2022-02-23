@@ -9,7 +9,7 @@ export const Table = ({ children }) => {
 export const TableWrapper = ({ children }) => {
   return (
     <>
-      <div className="bg-white text-404040 rounded-3xl overflow-x-scroll lg:overflow-hidden">
+      <div className="relative bg-white text-404040 rounded-3xl overflow-x-scroll lg:overflow-hidden">
         {children}
       </div>
     </>
