@@ -1,9 +1,9 @@
 import { Container } from "@/components/UI/atoms/container";
 import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
 import Head from "next/head";
+import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
-import TotalLiquidityChart from "@/components/UI/molecules/TotalLiquidityChart";
 
 const getTime = () => {
   return DateLib.unix().toString();

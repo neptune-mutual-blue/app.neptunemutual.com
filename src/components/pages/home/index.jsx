@@ -12,9 +12,9 @@ import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
+import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
-import TotalLiquidityChart from "@/components/UI/molecules/TotalLiquidityChart";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();

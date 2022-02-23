@@ -145,4 +145,4 @@ const TotalLiquidityChart = () => {
   );
 };
 
-export default TotalLiquidityChart;
+export { TotalLiquidityChart };
