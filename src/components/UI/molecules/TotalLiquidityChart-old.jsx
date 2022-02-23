@@ -284,7 +284,7 @@ function createGradient(ctx, area) {
   return gradient;
 }
 
-export function TotalLiquidityChart() {
+export function TotalLiquidityChartOld() {
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState({
     datasets: [],
