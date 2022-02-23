@@ -14,7 +14,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
-import LiquidityChart from "@/components/UI/molecules/LiquidityChart";
+import TotalLiquidityChart from "@/components/UI/molecules/TotalLiquidityChart";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -64,8 +64,7 @@ export const HomePage = () => {
               </div>
             </div>
             <div className="flex-1" style={{ minHeight: "360px" }}>
-              {/* <TotalLiquidityChart /> */}
-              <LiquidityChart />
+              <TotalLiquidityChart />
             </div>
           </div>
         </Container>
