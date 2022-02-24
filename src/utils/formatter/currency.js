@@ -48,9 +48,10 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
     symbol = "T";
     result = +(number / 1e12).toFixed(2);
   }
-  if (!currency) return { result, symbol };
+
   return {
     short: asCurrency(sign, result, symbol, currency, token),
     long: asCurrency(sign, number, "", currency, token),
+    values: { result, symbol },
   };
 };
