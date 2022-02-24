@@ -29,14 +29,14 @@ export const ScrollToTopButton = () => {
   }, []);
 
   return (
-    <div
+    <button
       onClick={scrollViewportToTop}
       className={classNames(
-        "flex md:hidden w-8 h-7 bg-[#01052D80] fixed bottom-8 right-4 justify-center items-center rounded-md",
+        "flex md:hidden w-8 h-7 bg-black opacity-50 fixed bottom-8 right-4 justify-center items-center rounded-md",
         !isVisible && "hidden"
       )}
     >
       <ScrollToTopArrow />
-    </div>
+    </button>
   );
 };
