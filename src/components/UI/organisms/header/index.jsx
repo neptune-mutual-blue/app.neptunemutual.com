@@ -247,7 +247,7 @@ export const MenuModal = ({
                       <Link key={link.name} href={link.href}>
                         <a
                           className={classNames(
-                            "text-h2 leading-6 sm:text-xxl  pt-16 pb-3 mb-12 border-b-4 w-fit",
+                            "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
                             router.pathname == link.href
                               ? "border-4e7dd9 text-4e7dd9 font-semibold"
                               : "border-transparent text-white"
