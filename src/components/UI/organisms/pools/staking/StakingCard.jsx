@@ -69,7 +69,7 @@ export const StakingCard = ({ data }) => {
   if (hasStaked) {
     leftHalf.push({
       title: "Your Stake",
-      v: formatCurrency(
+      value: formatCurrency(
         convertFromUnits(stakedAmount),
         stakingTokenSymbol,
         true

@@ -2,16 +2,17 @@ import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 
-export const useFetchReport = (reportId) => {
+export const useFetchReport = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
 
   useEffect(() => {
-    if (!networkId || !reportId) {
+    if (!networkId || !coverKey || !incidentDate) {
       return;
     }
 
+    const reportId = `${coverKey}-${incidentDate}`;
     const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
@@ -78,7 +79,7 @@ export const useFetchReport = (reportId) => {
       .catch(() => {
         setLoading(false);
       });
-  }, [networkId, reportId]);
+  }, [coverKey, incidentDate, networkId]);
 
   return {
     data: {

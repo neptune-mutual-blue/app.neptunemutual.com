@@ -177,8 +177,8 @@ const CovergaeInfoTooltipContent = () => {
   return (
     <>
       <Tooltip.Content side="right">
-        <div className="text-xs bg-black p-4 rounded-xl max-w-[15rem]">
-          <p className="text-white tracking-normal">
+        <div className="text-xs font-light leading-5 tracking-normal text-white bg-black p-4 rounded-xl max-w-[15rem]">
+          <p className="">
             Coverage period will cover from date of purchase up to the month you
             have selected.
           </p>

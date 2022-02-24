@@ -141,17 +141,16 @@ export const usePurchasePolicy = ({
   const handlePurchase = async () => {
     try {
       setPurchasing(true);
-      const args = {
-        duration: parseInt(coverMonth, 10),
-        amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
-      };
 
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
       const { result: tx } = await policy.purchaseCover(
         chainId,
         coverKey,
-        args,
+        {
+          duration: parseInt(coverMonth, 10),
+          amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+        },
         signerOrProvider
       );
 

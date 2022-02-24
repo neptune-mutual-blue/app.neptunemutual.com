@@ -6,6 +6,6 @@ export const getTokenImgSrc = (tokenSymbol = "") => {
 
     return `/images/tokens/${tokenSymbol.toLowerCase()}.png`;
   } catch (error) {
-    return `/images/tokens/empty.png`;
+    return `/images/covers/empty.png`;
   }
 };

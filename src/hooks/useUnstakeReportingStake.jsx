@@ -6,6 +6,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 
 const defaultInfo = {
   totalStakeInWinningCamp: "0",
@@ -103,10 +104,17 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const resolutionContract = await registry.Resolution.getInstance(
+      const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
         signerOrProvider
       );
+
+      let resolutionContract = new ethers.Contract(
+        resolutionContractAddress,
+        ["function unstakeWithClaim(bytes32, uint256)"],
+        signerOrProvider
+      );
+
       const tx = await resolutionContract.unstakeWithClaim(
         coverKey,
         incidentDate

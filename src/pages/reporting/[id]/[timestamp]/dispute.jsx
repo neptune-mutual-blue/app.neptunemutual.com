@@ -10,13 +10,14 @@ import { Alert } from "@/components/UI/atoms/alert";
 
 export default function DisputeFormPage() {
   const router = useRouter();
-  const { id: report_id_parsed, timestamp } = router.query;
+  const { id: cover_id, timestamp } = router.query;
 
-  let report_id = toBytes32(report_id_parsed) + "-" + timestamp;
-  const { data, loading } = useFetchReport(report_id);
-
-  const coverKey = toBytes32(report_id_parsed);
+  const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
+  const { data, loading } = useFetchReport({
+    coverKey: coverKey,
+    incidentDate: timestamp,
+  });
 
   return (
     <main>
