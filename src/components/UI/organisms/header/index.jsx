@@ -82,9 +82,9 @@ export const Header = () => {
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
   const network = (
-    <div className="inline-flex items-center bg-white text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium">
+    <div className="inline-flex items-center bg-white text-9B9B9B text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium overflow-hidden">
       <ChainLogo width={24} height={24} />{" "}
-      <p className="inline-block ml-2">
+      <p className="inline-block ml-2 whitespace-nowrap overflow-hidden text-ellipsis">
         {NetworkNames[networkId] || "Network"}
       </p>
     </div>
@@ -182,6 +182,7 @@ export const Header = () => {
         account={account}
         handleToggleAccountPopup={handleToggleAccountPopup}
         isAccountDetailsOpen={isAccountDetailsOpen}
+        handleDisconnect={handleDisconnect}
       />
     </header>
   );
@@ -198,6 +199,7 @@ export const MenuModal = ({
   account,
   handleToggleAccountPopup,
   isAccountDetailsOpen,
+  handleDisconnect,
 }) => {
   const router = useRouter();
 
