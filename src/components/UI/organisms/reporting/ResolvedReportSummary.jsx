@@ -86,11 +86,9 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
               {
                 title: "Stake:",
                 value: formatCurrency(
-                  convertFromUnits(
-                    incidentReport.totalAttestedStake,
-                    "NPM",
-                    true
-                  )
+                  convertFromUnits(incidentReport.totalAttestedStake),
+                  "NPM",
+                  true
                 ).short,
               },
             ]}

@@ -37,7 +37,11 @@ export default function ClaimPolicy() {
                 href: "/my-policies/active",
                 current: false,
               },
-              { name: title, href: "#", current: false },
+              {
+                name: title,
+                href: `/cover/${cover_id}/options`,
+                current: false,
+              },
               { name: "Claim", href: "#", current: true },
             ]}
           />
@@ -48,7 +52,6 @@ export default function ClaimPolicy() {
             {/* My Active Protection */}
             <HeroStat title="My Active Protection">
               <>
-                ${" "}
                 {
                   formatCurrency(
                     convertFromUnits(data.totalActiveProtection),
@@ -67,9 +70,10 @@ export default function ClaimPolicy() {
         <h2 className="text-h2 font-sora font-bold">
           Available cxTokens for {title} to Claim
         </h2>
-        <p className="text-lg w-full pt-6 pb-16 lg:w-1/2 ml-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <p className="text-lg w-full pt-6 pb-16 max-w-xl ml-0">
+          Claim your {title} cover cxTokens from the following addresses before
+          the given claim date. Also indicated is the amount of cxTokens you
+          will receive per claim.
         </p>
         <ClaimCxTokensTable
           activePolicies={data.activePolicies}

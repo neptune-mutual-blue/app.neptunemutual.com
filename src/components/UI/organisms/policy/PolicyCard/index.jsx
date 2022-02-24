@@ -9,7 +9,7 @@ import { PolicyCardFooter } from "@/components/UI/organisms/policy/PolicyCard/Po
 import { useValidReport } from "@/src/hooks/useValidReport";
 
 export const PolicyCard = ({ policyInfo }) => {
-  const { totalAmountToCover, cover, cxToken } = policyInfo;
+  const { cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
   const { coverInfo } = useCoverInfo(coverKey);
@@ -65,7 +65,7 @@ export const PolicyCard = ({ policyInfo }) => {
       <PolicyCardFooter
         coverKey={coverKey}
         report={report}
-        totalAmountToCover={totalAmountToCover}
+        cxTokenAddress={cxToken.id}
         validityStartsAt={validityStartsAt}
         validityEndsAt={validityEndsAt}
       />
