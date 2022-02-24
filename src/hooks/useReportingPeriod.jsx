@@ -13,7 +13,7 @@ export const useReportingPeriod = ({ coverKey }) => {
   const { networkId } = useAppContext();
 
   useEffect(() => {
-    if (!networkId) return;
+    if (!networkId || !coverKey) return;
 
     const signerOrProvider = getProviderOrSigner(
       library,
@@ -23,7 +23,7 @@ export const useReportingPeriod = ({ coverKey }) => {
 
     getReportingPeriod(networkId, coverKey, signerOrProvider.provider)
       .then((x) => setReportingPeriod(x))
-      .catch(console.error);
+      .catch((err) => console.error(err));
   }, [coverKey, library, networkId]);
 
   return {

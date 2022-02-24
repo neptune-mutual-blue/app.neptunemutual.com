@@ -81,13 +81,7 @@ export const useFetchCovers = () => {
       body: JSON.stringify({
         query: `
         {
-          covers (
-            where: {
-              id_not_in: [
-                "0x70726f746f3a636f6e7472616374733a636f7665723a6366633a303100000000"
-              ]
-            }
-          ) {
+          covers {
             id
             key
             ipfsHash

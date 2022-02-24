@@ -5,7 +5,7 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
@@ -35,7 +35,9 @@ export const useAvailableLiquidity = ({ coverKey }) => {
         );
 
         const [totalPoolAmount, totalCommitment] =
-          await instance.getCoverPoolSummary(coverKey);
+          await instance.getCoverPoolSummary(coverKey, {
+            gasLimit: convertToUnits("10").toString(),
+          });
 
         const availableLiquidity = BigNumber(totalPoolAmount.toString())
           .minus(totalCommitment.toString())
@@ -49,7 +51,9 @@ export const useAvailableLiquidity = ({ coverKey }) => {
     }
 
     fetchAvailableLiquidity();
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, coverKey, library, networkId]);
 
   return {

@@ -111,7 +111,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
                   convertFromUnits(incidentReport.totalRefutedStake),
                   "NPM",
                   true
-                ),
+                ).short,
               },
             ]}
           />

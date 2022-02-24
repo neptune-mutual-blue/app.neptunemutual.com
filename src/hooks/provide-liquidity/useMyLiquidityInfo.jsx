@@ -26,7 +26,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !coverKey) {
+    if (!networkId || !coverKey || !account) {
       return;
     }
 

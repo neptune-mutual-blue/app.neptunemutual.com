@@ -6,10 +6,13 @@ import { toBytes32 } from "@/src/helpers/cover";
 
 export default function IncidentResolvedCoverPage() {
   const router = useRouter();
-  const { id: report_id_parsed, timestamp } = router.query;
-  let report_id = toBytes32(report_id_parsed) + "-" + timestamp;
+  const { id: cover_id, timestamp } = router.query;
 
-  const { data, loading } = useFetchReport(report_id);
+  const coverKey = toBytes32(cover_id);
+  const { data, loading } = useFetchReport({
+    coverKey: coverKey,
+    incidentDate: timestamp,
+  });
 
   return (
     <main>
