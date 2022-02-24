@@ -207,7 +207,7 @@ const ActionsRenderer = ({ row }) => {
   const { chainId } = useWeb3React();
 
   return (
-    <td className="px-6 py-6" style={{ minWidth: "120px" }}>
+    <td className="px-6 py-6 min-w-120">
       <div className="flex items-center justify-end">
         {/* Tooltip */}
         <Tooltip.Root>

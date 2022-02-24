@@ -63,7 +63,7 @@ export const HomePage = () => {
                 </h6>
               </div>
             </div>
-            <div className="flex-1" style={{ minHeight: "360px" }}>
+            <div className="flex-1 min-h-360">
               <TotalLiquidityChart />
             </div>
           </div>

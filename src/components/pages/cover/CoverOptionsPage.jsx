@@ -22,14 +22,7 @@ export const CoverOptionsPage = () => {
   const title = coverInfo.coverName;
 
   return (
-    <div
-      className="px-8 py-6 min-h-screen"
-      style={{
-        backgroundImage: "url(/gradient.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "left",
-      }}
-    >
+    <div className="px-8 py-6 min-h-screen bg-gradient-bg bg-cover bg-left">
       <CoverProfileInfoShort imgSrc={imgSrc} title={title} />
       <Container className="pb-16">
         <h2 className="text-h2 font-sora font-bold mb-12 text-center">

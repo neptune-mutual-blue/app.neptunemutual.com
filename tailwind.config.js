@@ -67,9 +67,13 @@ module.exports = {
       },
       maxWidth: {
         180: "180px",
+        15: "15rem",
       },
       minWidth: {
         sm: "384px",
+        5: "5px",
+        120: "120px",
+        60: "60px",
       },
       colors: {
         "999BAB": "#999BAB",
@@ -100,12 +104,21 @@ module.exports = {
         "404040": "#404040",
         "8F949C": "#8F949C",
         "3A4557": "#3A4557",
+        "016D8E": "#016D8E",
       },
-      maxWidth: {
-        15: "15rem",
+      minHeight: {
+        360: "360px",
+      },
+      height: {
+        500: "500px",
+      },
+      width: {
+        800: "800px",
       },
       backgroundImage: {
         "404-bg": "url(/404_bg.png)",
+        "gradient-bg": "url(/gradient.png)",
+        "home-pattern": "url(/home/bg-pattern.png)",
       },
     },
   },

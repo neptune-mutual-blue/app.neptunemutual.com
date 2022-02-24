@@ -6,7 +6,7 @@ ChartJS.register(ArcElement);
 export const PercentDoughnutChart = ({ data }) => {
   return (
     <>
-      <div style={{ width: "240px", height: "240px" }}>
+      <div className="w-60 h-60">
         <Doughnut
           data={data}
           options={{
