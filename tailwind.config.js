@@ -101,6 +101,12 @@ module.exports = {
         "8F949C": "#8F949C",
         "3A4557": "#3A4557",
       },
+      maxWidth: {
+        15: "15rem",
+      },
+      backgroundImage: {
+        "404-bg": "url(/404_bg.png)",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
