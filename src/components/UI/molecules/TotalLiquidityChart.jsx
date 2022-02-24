@@ -10,8 +10,28 @@ if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
+const now = new Date().getTime();
+const initialData = [
+  {
+    x: now,
+    y: 165480000,
+  },
+  {
+    x: now + 1 * 24 * 60 * 60 * 1000,
+    y: 165480000,
+  },
+  {
+    x: now + 2 * 24 * 60 * 60 * 1000,
+    y: 165480000,
+  },
+  {
+    x: now + 3 * 24 * 60 * 60 * 1000,
+    y: 165480000,
+  },
+];
+
 const TotalLiquidityChart = () => {
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState(initialData);
   const chartOptions = {
     xAxis: {
       labels: {
@@ -22,6 +42,7 @@ const TotalLiquidityChart = () => {
         color: "#4E7DD9",
         dashStyle: "Dash",
       },
+      ordinal: false,
     },
     yAxis: {
       opposite: false,
