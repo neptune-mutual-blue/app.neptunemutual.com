@@ -128,6 +128,9 @@ module.exports = {
         "gradient-bg": "url(/gradient.png)",
         "home-pattern": "url(/home/bg-pattern.png)",
       },
+      transitionTimingFunction: {
+        menu: "cubic-bezier(0.4, 0, 0.2, 1)",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
