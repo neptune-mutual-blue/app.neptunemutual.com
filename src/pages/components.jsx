@@ -4,6 +4,9 @@ import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
+import { Radio } from "@/components/UI/atoms/radio";
+import { useState } from "react";
+import { classNames } from "@/utils/classnames";
 
 const getTime = () => {
   return DateLib.unix().toString();
@@ -16,6 +19,12 @@ export default function Components() {
     target,
     getTime,
   });
+
+  const [votingType, setVotingType] = useState("incident-occurred");
+
+  const handleRadioChange = (e) => {
+    setVotingType(e.target.value);
+  };
 
   return (
     <main>
@@ -36,6 +45,46 @@ export default function Components() {
               placeholder: "Enter Amount",
             }}
           />
+        </div>
+
+        <div className="max-w-md mt-3">
+          <h3 className="text-h3 font-sora font-bold">Cast Your Vote</h3>
+          <div className="flex flex-col mt-6 mb-8 max-w-lg">
+            <div
+              className={classNames(
+                "p-5 rounded-lg my-2",
+                votingType === "incident-occurred"
+                  ? "border-2 border-4e7dd9"
+                  : "border border-B0C4DB"
+              )}
+            >
+              <Radio
+                label={"Incident Occurred"}
+                id="incident-radio"
+                value="incident-occurred"
+                name="vote-radio"
+                checked={votingType === "incident-occurred"}
+                onChange={handleRadioChange}
+              />
+            </div>
+            <div
+              className={classNames(
+                "p-5 rounded-lg my-2",
+                votingType === "false-reporting"
+                  ? "border-2 border-4e7dd9"
+                  : "border border-B0C4DB"
+              )}
+            >
+              <Radio
+                label={"False Reporting"}
+                id="false-radio"
+                name="vote-radio"
+                value="false-reporting"
+                checked={votingType === "false-reporting"}
+                onChange={handleRadioChange}
+              />
+            </div>
+          </div>
         </div>
 
         <br />
