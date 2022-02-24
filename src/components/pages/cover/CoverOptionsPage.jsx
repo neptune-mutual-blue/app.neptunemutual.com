@@ -44,8 +44,9 @@ export const CoverOptionsPage = () => {
               >
                 <a
                   className={classNames(
-                    "rounded-2xl md:rounded-3xl group py-6 md:py-12 h-full transition duration-300 ease-out focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9",
+                    "rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out",
                     "hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white",
+                    "focus:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9",
                     "border-B0C4DB border-0.5 box-border bg-white lg:bg-transparent lg:border-none"
                   )}
                 >
