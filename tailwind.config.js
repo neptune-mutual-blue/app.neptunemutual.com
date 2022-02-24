@@ -47,6 +47,7 @@ module.exports = {
         },
       ],
       xxxl: "136px",
+      xxl: "40px",
     },
     fontFamily: {
       poppins: "Poppins, sans-serif",

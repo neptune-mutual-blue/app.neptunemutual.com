@@ -220,7 +220,7 @@ export const MenuModal = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 overflow-y-auto bg-[#01052D] bg-opacity-80 backdrop-blur-xl" />
+              <Dialog.Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
             </Transition.Child>
 
             <span
@@ -245,7 +245,7 @@ export const MenuModal = ({
                       <Link key={link.name} href={link.href}>
                         <a
                           className={classNames(
-                            "text-[40px] pt-16 pb-3 mb-12 border-b-4 w-fit",
+                            "text-xxl pt-16 pb-3 mb-12 border-b-4 w-fit",
                             router.pathname == link.href
                               ? "border-4e7dd9 text-4e7dd9 font-semibold"
                               : "border-transparent text-white"
