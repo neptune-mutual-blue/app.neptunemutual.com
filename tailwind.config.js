@@ -126,6 +126,9 @@ module.exports = {
         "gradient-bg": "url(/gradient.png)",
         "home-pattern": "url(/home/bg-pattern.png)",
       },
+      backgroundImage: {
+        "404-background": "url('/404_bg.png')",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
