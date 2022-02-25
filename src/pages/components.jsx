@@ -4,6 +4,7 @@ import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
+import { useRouter } from "next/router";
 
 const getTime = () => {
   return DateLib.unix().toString();
@@ -12,10 +13,17 @@ const target = DateLib.unix() + 60 * 60 * 44;
 const formatCount = (n) => String(n).padStart(2, "0");
 
 export default function Components() {
-  const { hours, minutes, seconds } = useCountdown({
+  const { hours, minutes, seconds, completed } = useCountdown({
     target,
     getTime,
   });
+  const router = useRouter();
+
+  const refreshPage = () => {
+    if (typeof window !== "undefined") {
+      router.reload(location.reload());
+    }
+  };
 
   return (
     <main>
@@ -50,6 +58,7 @@ export default function Components() {
           <div>{formatCount(seconds)}</div>
         </div>
 
+        {completed && refreshPage()}
         <br />
         <br />
 
