@@ -1,5 +1,6 @@
 import { Select } from "@/components/UI/molecules/select";
 import SearchIcon from "@/icons/SearchIcon";
+import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
 const options = [
@@ -9,14 +10,20 @@ const options = [
   { name: "APR" },
 ];
 
-export const SearchAndSortBar = () => {
+export const SearchAndSortBar = ({
+  containerClass = "min-w-sm",
+  searchClass = "w-64",
+  sortClass = "",
+}) => {
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <div className="flex justify-between min-w-sm">
-      <div className="flex items-center w-64">
+    <div className={classNames("flex justify-between ", containerClass)}>
+      <div className={classNames("flex items-center ", searchClass)}>
         <input
-          className="w-full -mr-11 pl-4 pr-12 py-3 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+          className={
+            "w-full -mr-11 pl-4 pr-12 py-3 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+          }
           placeholder="Search"
         />
 
@@ -32,6 +39,7 @@ export const SearchAndSortBar = () => {
         options={options}
         selected={selected}
         setSelected={setSelected}
+        className={sortClass}
       ></Select>
     </div>
   );

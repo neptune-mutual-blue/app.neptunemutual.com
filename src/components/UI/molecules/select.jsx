@@ -3,10 +3,16 @@ import { Listbox, Transition } from "@headlessui/react";
 import ChevronDownIcon from "@/icons/ChevronDownIcon";
 import { classNames } from "@/utils/classnames";
 
-export const Select = ({ prefix = "", options, selected, setSelected }) => {
+export const Select = ({
+  prefix = "",
+  options,
+  selected,
+  setSelected,
+  className = "w-64",
+}) => {
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <div className="relative w-64">
+      <div className={classNames("relative", className)}>
         <Listbox.Button className="relative w-full py-3 pl-4 pr-14 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
           <span className="block text-left truncate text-9B9B9B">
             {prefix}

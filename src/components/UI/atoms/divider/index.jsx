@@ -1,3 +1,5 @@
-export const Divider = () => (
-  <hr className="mt-4 mb-8 border-t border-B0C4DB" />
+import { classNames } from "@/utils/classnames";
+
+export const Divider = ({ className = "mb-8" }) => (
+  <hr className={classNames("mt-4  border-t border-B0C4DB", className)} />
 );
