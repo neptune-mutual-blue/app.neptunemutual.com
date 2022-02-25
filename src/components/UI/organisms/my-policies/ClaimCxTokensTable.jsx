@@ -8,10 +8,12 @@ import {
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
-import { weiAsAmount } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { convertFromUnits } from "@/utils/bn";
 
 const renderHeader = (col) => (
   <th
@@ -95,13 +97,19 @@ export const ClaimCxTokensTable = ({
 };
 
 const CxTokenAmountRenderer = ({ row }) => {
-  const tokenSymbol = useTokenSymbol(row.cxToken.id);
+  const tokenAddress = row.cxToken.id;
+  const tokenSymbol = useTokenSymbol(tokenAddress);
+  const { balance } = useERC20Balance({ tokenAddress });
 
   return (
     <>
       <td className="px-6 py-6 text-right">
-        <span className="">
-          {weiAsAmount(row.totalAmountToCover)} {tokenSymbol}
+        <span
+          title={
+            formatCurrency(convertFromUnits(balance), tokenSymbol, true).long
+          }
+        >
+          {formatCurrency(convertFromUnits(balance), tokenSymbol, true).short}
         </span>
       </td>
     </>

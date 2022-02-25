@@ -38,12 +38,10 @@ export const PoliciesActivePage = () => {
       <Grid className="mt-14 mb-24">
         {activePolicies.map((policyInfo) => {
           return (
-            <div
+            <PolicyCard
               key={policyInfo.id}
-              className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-            >
-              <PolicyCard policyInfo={policyInfo}></PolicyCard>
-            </div>
+              policyInfo={policyInfo}
+            ></PolicyCard>
           );
         })}
       </Grid>

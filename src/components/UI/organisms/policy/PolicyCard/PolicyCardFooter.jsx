@@ -10,55 +10,47 @@ import { fromNow } from "@/utils/formatter/relative-time";
 export const PolicyCardFooter = ({
   coverKey,
   report,
-  totalAmountToCover,
-  // validityStartsAt,
   validityEndsAt,
+  tokenBalance,
 }) => {
   const now = DateLib.unix();
 
-  const hasValidReport = !!report;
-  let isClaimable = false;
+  const isClaimable = report ? report.status == "Claimable" : false;
+  const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
+  const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
+  const isPolicyExpired = isGreater(now, validityEndsAt);
 
-  if (hasValidReport) {
-    isClaimable = report.status == "Claimable";
-  }
+  const hasBalance = isGreater(tokenBalance, "0");
+  const withinClaimPeriod =
+    hasBalance && isClaimable && isClaimStarted && !isClaimExpired;
+  const beforeResolutionDeadline = isClaimable && !isClaimStarted;
 
   const stats = [];
-
-  if (isClaimable) {
-    const isClaimStarted = isGreater(now, report.claimBeginsFrom);
-    // const isClaimExpired = isGreater(now, report.claimExpiresAt);
-
-    if (isClaimStarted) {
-      stats.push({
-        title: "Claim Before",
-        tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
-        value: fromNow(report.claimExpiresAt),
-        variant: "error",
-      });
-    } else {
-      stats.push({
-        title: "Resolution By",
-        tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
-        value: fromNow(report.claimBeginsFrom),
-      });
-    }
+  if (withinClaimPeriod) {
+    stats.push({
+      title: "Claim Before",
+      tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
+      value: fromNow(report.claimExpiresAt),
+      variant: "error",
+    });
+  } else if (beforeResolutionDeadline) {
+    stats.push({
+      title: "Resolution By",
+      tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
+      value: fromNow(report.claimBeginsFrom),
+    });
+  } else if (isPolicyExpired) {
+    stats.push({
+      title: "Expired On",
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+      value: fromNow(validityEndsAt),
+    });
   } else {
-    const isPolicyExpired = isGreater(now, validityEndsAt);
-
-    if (isPolicyExpired) {
-      stats.push({
-        title: "Expired On",
-        tooltipText: DateLib.toLongDateFormat(validityEndsAt),
-        value: fromNow(validityEndsAt),
-      });
-    } else {
-      stats.push({
-        title: "Expires In",
-        tooltipText: DateLib.toLongDateFormat(validityEndsAt),
-        value: fromNow(validityEndsAt),
-      });
-    }
+    stats.push({
+      title: "Expires In",
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+      value: fromNow(validityEndsAt),
+    });
   }
 
   return (
@@ -80,14 +72,14 @@ export const PolicyCardFooter = ({
 
         <Stat
           title="Purchased Policy"
-          tooltip={formatCurrency(convertFromUnits(totalAmountToCover)).long}
-          value={formatCurrency(convertFromUnits(totalAmountToCover)).short}
+          tooltip={formatCurrency(convertFromUnits(tokenBalance)).long}
+          value={formatCurrency(convertFromUnits(tokenBalance)).short}
           right
         />
       </div>
 
       {/* Link */}
-      {isClaimable && (
+      {withinClaimPeriod && (
         <Link
           href={`/my-policies/${getParsedKey(coverKey)}/${
             report.incidentDate

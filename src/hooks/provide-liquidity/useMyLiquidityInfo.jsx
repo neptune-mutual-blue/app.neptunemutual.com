@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { ADDRESS_ONE } from "@/src/config/constants";
 
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const { library, account } = useWeb3React();
@@ -32,7 +32,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
     const signerOrProvider = getProviderOrSigner(
       library,
-      account || AddressZero,
+      account || ADDRESS_ONE,
       networkId
     );
 
@@ -55,7 +55,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           myWithdrawals,
           myShare,
           releaseDate,
-        ] = await instance.getInfo(account || AddressZero);
+        ] = await instance.getInfo(account || ADDRESS_ONE);
 
         if (ignore) return;
 
