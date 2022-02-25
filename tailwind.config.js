@@ -16,10 +16,6 @@ module.exports = {
       black: "#01052d",
       white: "#fefeff",
     },
-    borderWidth: {
-      0.5: "0.5px",
-      1: "1px",
-    },
     fontSize: {
       h1: ["33px", "48px"],
       h2: ["28px", "40px"],
@@ -61,6 +57,10 @@ module.exports = {
       borderRadius: {
         big: "0.625rem",
         mdlg: "7px",
+      },
+      borderWidth: {
+        0.5: "0.5px",
+        1: "1px",
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
