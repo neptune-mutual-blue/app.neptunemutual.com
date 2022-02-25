@@ -38,7 +38,7 @@ export const Banner = () => {
       </div>
       <button
         onClick={handleClose}
-        className="absolute right-[5%] top-1/2 transform -translate-y-1/2"
+        className="absolute right-7 sm:right-10 xl:right-14 top-1/2 transform -translate-y-1/2"
       >
         <CloseIcon className="w-5 h-5" />
       </button>

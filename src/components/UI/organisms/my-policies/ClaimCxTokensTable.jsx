@@ -120,7 +120,7 @@ const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   };
 
   return (
-    <td className="text-right px-6 py-6" style={{ minWidth: "120px" }}>
+    <td className="text-right px-6 py-6 min-w-120">
       <button
         className="text-4e7dd9 hover:underline cursor-pointer"
         onClick={handleClaim}

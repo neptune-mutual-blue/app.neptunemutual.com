@@ -50,7 +50,7 @@ export default function Components() {
         <br />
         <br />
 
-        <div style={{ width: "800px", height: "500px" }}>
+        <div className="h-500 w-800">
           <TotalLiquidityChart />
         </div>
       </Container>

@@ -16,7 +16,7 @@ defaults.font.family = "Poppins, sans-serif";
 export const PercentXStackedChart = ({ data }) => {
   return (
     <>
-      <div style={{ width: "100%" }}>
+      <div className="w-full">
         <Bar
           data={data}
           height={100}

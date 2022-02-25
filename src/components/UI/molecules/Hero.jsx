@@ -1,13 +1,3 @@
 export const Hero = ({ children }) => {
-  return (
-    <div
-      style={{
-        backgroundImage: "url(/gradient.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "left",
-      }}
-    >
-      {children}
-    </div>
-  );
+  return <div className="bg-gradient-bg bg-cover bg-left">{children}</div>;
 };

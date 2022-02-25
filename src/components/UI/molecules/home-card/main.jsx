@@ -5,11 +5,8 @@ export const HomeMainCard = () => {
   return (
     <div
       className={
-        "w-full max-w-96 h-36 bg-e2ebf6 rounded-xl flex flex-col justify-center items-center px-12 shadow-mainCard"
+        "w-full max-w-96 h-36 bg-e2ebf6 rounded-xl flex flex-col justify-center items-center px-12 shadow-mainCard bg-home-pattern"
       }
-      style={{
-        backgroundImage: "url(/home/bg-pattern.png)",
-      }}
     >
       <div className="w-full flex items-center justify-between font-sora">
         <div className="mr-2">

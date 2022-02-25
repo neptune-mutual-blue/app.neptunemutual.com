@@ -119,7 +119,7 @@ const ActionsRenderer = ({ row }) => {
   const { networkId } = useAppContext();
 
   return (
-    <td className="px-6 py-6" style={{ minWidth: "60px" }}>
+    <td className="px-6 py-6 min-w-60">
       <div className="flex items-center justify-end">
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
