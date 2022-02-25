@@ -4,8 +4,8 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 
-import { AddressZero } from "@ethersproject/constants";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { ADDRESS_ONE } from "@/src/config/constants";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -35,7 +35,7 @@ export const useBondInfo = () => {
 
     const signerOrProvider = getProviderOrSigner(
       library,
-      account || AddressZero,
+      account || ADDRESS_ONE,
       networkId
     );
 
@@ -46,7 +46,7 @@ export const useBondInfo = () => {
       );
 
       const [addresses, values] = await instance.getInfo(
-        account || AddressZero
+        account || ADDRESS_ONE
       );
 
       if (ignore) return;

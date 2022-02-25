@@ -161,9 +161,11 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
             </span>
           </p>
 
-          <button className="text-4e7dd9 text-sm" onClick={finalize}>
-            Finalize
-          </button>
+          {!incidentReport.finalized && (
+            <button className="text-4e7dd9 text-sm" onClick={finalize}>
+              Finalize
+            </button>
+          )}
         </div>
 
         <></>

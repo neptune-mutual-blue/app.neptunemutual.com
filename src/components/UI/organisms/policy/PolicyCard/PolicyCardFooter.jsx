@@ -6,19 +6,13 @@ import DateLib from "@/lib/date/DateLib";
 import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 
 export const PolicyCardFooter = ({
   coverKey,
   report,
-  cxTokenAddress,
-  validityStartsAt,
   validityEndsAt,
+  tokenBalance,
 }) => {
-  const { balance: cxTokenBalance } = useERC20Balance({
-    tokenAddress: cxTokenAddress,
-  });
-
   const now = DateLib.unix();
 
   const isClaimable = report ? report.status == "Claimable" : false;
@@ -26,15 +20,20 @@ export const PolicyCardFooter = ({
   const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
   const isPolicyExpired = isGreater(now, validityEndsAt);
 
+  const hasBalance = isGreater(tokenBalance, "0");
+  const withinClaimPeriod =
+    hasBalance && isClaimable && isClaimStarted && !isClaimExpired;
+  const beforeResolutionDeadline = isClaimable && !isClaimStarted;
+
   const stats = [];
-  if (isClaimable && isClaimStarted && !isClaimExpired) {
+  if (withinClaimPeriod) {
     stats.push({
       title: "Claim Before",
       tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
       value: fromNow(report.claimExpiresAt),
       variant: "error",
     });
-  } else if (isClaimable && !isClaimStarted) {
+  } else if (beforeResolutionDeadline) {
     stats.push({
       title: "Resolution By",
       tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
@@ -73,14 +72,14 @@ export const PolicyCardFooter = ({
 
         <Stat
           title="Purchased Policy"
-          tooltip={formatCurrency(convertFromUnits(cxTokenBalance)).long}
-          value={formatCurrency(convertFromUnits(cxTokenBalance)).short}
+          tooltip={formatCurrency(convertFromUnits(tokenBalance)).long}
+          value={formatCurrency(convertFromUnits(tokenBalance)).short}
           right
         />
       </div>
 
       {/* Link */}
-      {isClaimable && isClaimStarted && !isClaimExpired && (
+      {withinClaimPeriod && (
         <Link
           href={`/my-policies/${getParsedKey(coverKey)}/${
             report.incidentDate

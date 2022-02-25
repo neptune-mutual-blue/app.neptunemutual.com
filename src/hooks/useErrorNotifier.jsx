@@ -24,6 +24,7 @@ export const useErrorNotifier = ({ duration } = {}) => {
       const title =
         typeof error.data === "string" ? error.data : `Could not ${action}`;
 
+      console.warn(`Could not ${action}`);
       console.error(error);
 
       toast?.pushError({

@@ -7,6 +7,7 @@ import { classNames } from "@/utils/classnames";
 import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 import { PolicyCardFooter } from "@/components/UI/organisms/policy/PolicyCard/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
@@ -23,6 +24,9 @@ export const PolicyCard = ({ policyInfo }) => {
     end: validityEndsAt,
     coverKey,
   });
+  const { balance } = useERC20Balance({
+    tokenAddress: cxToken.id,
+  });
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
@@ -32,43 +36,44 @@ export const PolicyCard = ({ policyInfo }) => {
     : "";
 
   return (
-    <OutlinedCard className="bg-white p-6" type="normal">
-      <div className="flex justify-between">
-        <div>
-          <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
-            <img
-              src={imgSrc}
-              alt={coverInfo.projectName}
-              className="inline-block max-w-full"
-            />
+    <div className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+      <OutlinedCard className="bg-white p-6" type="normal">
+        <div className="flex justify-between">
+          <div>
+            <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
+              <img
+                src={imgSrc}
+                alt={coverInfo.projectName}
+                className="inline-block max-w-full"
+              />
+            </div>
+            <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
+              {coverInfo.projectName}
+            </h4>
           </div>
-          <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {coverInfo.projectName}
-          </h4>
+          <div>
+            {status && (
+              <Badge
+                className={classNames(
+                  statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
+                )}
+              >
+                <IncidentReportStatus status={status} />
+              </Badge>
+            )}
+          </div>
         </div>
-        <div>
-          {status && (
-            <Badge
-              className={classNames(
-                statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
-              )}
-            >
-              <IncidentReportStatus status={status} />
-            </Badge>
-          )}
-        </div>
-      </div>
 
-      {/* Divider */}
-      <Divider />
+        {/* Divider */}
+        <Divider />
 
-      <PolicyCardFooter
-        coverKey={coverKey}
-        report={report}
-        cxTokenAddress={cxToken.id}
-        validityStartsAt={validityStartsAt}
-        validityEndsAt={validityEndsAt}
-      />
-    </OutlinedCard>
+        <PolicyCardFooter
+          coverKey={coverKey}
+          report={report}
+          tokenBalance={balance}
+          validityEndsAt={validityEndsAt}
+        />
+      </OutlinedCard>
+    </div>
   );
 };
