@@ -52,6 +52,5 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   return {
     short: asCurrency(sign, result, symbol, currency, token),
     long: asCurrency(sign, number, "", currency, token),
-    values: { result, symbol },
   };
 };

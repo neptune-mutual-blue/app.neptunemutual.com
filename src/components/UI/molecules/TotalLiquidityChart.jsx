@@ -48,8 +48,8 @@ const TotalLiquidityChart = () => {
       opposite: false,
       labels: {
         formatter: function () {
-          const fo = formatCurrency(this.value).values;
-          return `<span class='font-poppins text-black'>${fo.result} ${fo.symbol}</span>`;
+          const fo = formatCurrency(this.value, "", true);
+          return `<span class='font-poppins text-black'>${fo.short}</span>`;
         },
         useHTML: true,
       },
