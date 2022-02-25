@@ -123,12 +123,9 @@ module.exports = {
         800: "800px",
       },
       backgroundImage: {
-        "404-bg": "url(/404_bg.png)",
+        "404-background": "url('/404_bg.png')",
         "gradient-bg": "url(/gradient.png)",
         "home-pattern": "url(/home/bg-pattern.png)",
-      },
-      backgroundImage: {
-        "404-background": "url('/404_bg.png')",
       },
     },
   },
