@@ -45,7 +45,9 @@ export const useTokenSymbol = (tokenAddress) => {
       })
       .catch(console.error);
 
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, library, networkId, tokenAddress]);
 
   return tokenSymbol;

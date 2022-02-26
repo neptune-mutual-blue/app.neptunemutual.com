@@ -82,7 +82,9 @@ export const useBondInfo = () => {
 
     fetchBondInfo();
 
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, library, networkId]);
 
   return { info };

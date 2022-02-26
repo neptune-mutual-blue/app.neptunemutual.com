@@ -2,8 +2,9 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { resolution } from "@neptunemutual/sdk";
+import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
@@ -13,6 +14,7 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
+  const { invoke } = useInvokeMethod();
 
   const finalize = async () => {
     if (!networkId || !account) {
@@ -22,12 +24,13 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const { result: tx } = await resolution.finalize(
+      const instance = await registry.Resolution.getInstance(
         networkId,
-        coverKey,
-        incidentDate,
         signerOrProvider
       );
+
+      const args = [coverKey, incidentDate];
+      const tx = await invoke(instance, "finalize", {}, notifyError, args);
 
       txToast.push(tx, {
         pending: "Finalizing Incident",

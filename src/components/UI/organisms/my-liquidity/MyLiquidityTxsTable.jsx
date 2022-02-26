@@ -1,5 +1,5 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { useLiquidityTxs } from "@/components/UI/organisms/my-liquidity/useLiquidityTxs";
+import { useLiquidityTxs } from "@/src/hooks/useLiquidityTxs";
 import {
   Table,
   TablePagination,

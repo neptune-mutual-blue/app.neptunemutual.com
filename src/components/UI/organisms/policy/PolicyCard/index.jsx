@@ -24,9 +24,7 @@ export const PolicyCard = ({ policyInfo }) => {
     end: validityEndsAt,
     coverKey,
   });
-  const { balance } = useERC20Balance({
-    tokenAddress: cxToken.id,
-  });
+  const { balance } = useERC20Balance(cxToken.id);
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 

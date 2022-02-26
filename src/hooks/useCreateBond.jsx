@@ -14,78 +14,36 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useCreateBond = ({ info, value }) => {
-  const [balance, setBalance] = useState("0");
   const [receiveAmount, setReceiveAmount] = useState("0");
-  const [allowance, setAllowance] = useState("0");
+
   const [approving, setApproving] = useState(false);
   const [bonding, setBonding] = useState(false);
 
-  const { chainId, account, library } = useWeb3React();
   const { networkId } = useAppContext();
-  const { getApprovalAmount } = useApprovalAmount();
+  const { account, library } = useWeb3React();
+  const bondContractAddress = useBondPoolAddress();
+  const {
+    allowance,
+    refetch: updateAllowance,
+    approve,
+  } = useERC20Allowance(info.lpTokenAddress);
+  const { balance, refetch: updateBalance } = useERC20Balance(
+    info.lpTokenAddress
+  );
 
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const checkAllowance = async () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-      const instance = registry.IERC20.getInstance(
-        chainId,
-        info.lpTokenAddress,
-        signerOrProvider
-      );
-
-      const bondContractAddress = await registry.BondPool.getAddress(
-        chainId,
-        signerOrProvider
-      );
-
-      if (!instance) {
-        console.log(
-          "Could not get an instance of LP token from the address %s",
-          info.lpTokenAddress
-        );
-      }
-      let result = await instance.allowance(account, bondContractAddress);
-
-      setAllowance(result.toString());
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    if (!chainId || !account || !info.lpTokenAddress) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    checkAllowance();
-
-    const instance = registry.IERC20.getInstance(
-      chainId,
-      info.lpTokenAddress,
-      signerOrProvider
-    );
-
-    instance
-      .balanceOf(account)
-      .then((bal) => {
-        if (ignore) return;
-        setBalance(bal.toString());
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, library, info.lpTokenAddress]);
+    updateAllowance(bondContractAddress);
+  }, [bondContractAddress, updateAllowance]);
 
   useDebouncedEffect(
     () => {
@@ -109,22 +67,9 @@ export const useCreateBond = ({ info, value }) => {
   const handleApprove = async () => {
     try {
       setApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-      const bondContractAddress = await registry.BondPool.getAddress(
-        chainId,
-        signerOrProvider
-      );
-
-      const instance = registry.IERC20.getInstance(
-        chainId,
-        info.lpTokenAddress,
-        signerOrProvider
-      );
-
-      const tx = await instance.approve(
+      const tx = await approve(
         bondContractAddress,
-        getApprovalAmount(convertToUnits(value).toString())
+        convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {
@@ -133,10 +78,10 @@ export const useCreateBond = ({ info, value }) => {
         failure: "Could not approve LP tokens",
       });
 
-      setApproving(false);
-      checkAllowance();
+      updateAllowance(bondContractAddress);
     } catch (error) {
       notifyError(error, "approve LP tokens");
+    } finally {
       setApproving(false);
     }
   };
@@ -144,26 +89,29 @@ export const useCreateBond = ({ info, value }) => {
   const handleBond = async () => {
     setBonding(true);
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.BondPool.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 
       //TODO: passing minNpm desired (smart contract)
-      let tx = await instance.createBond(
+      const args = [
         convertToUnits(value).toString(),
-        convertToUnits(value).toString()
-      );
+        convertToUnits(value).toString(),
+      ];
+      const tx = await invoke(instance, "createBond", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: "Creating bond",
         success: "Created bond successfully",
         failure: "Could not create bond",
       });
+
+      updateBalance();
+      updateAllowance(bondContractAddress);
     } catch (err) {
-      // console.error(err);
       notifyError(err, "create bond");
     } finally {
       setBonding(false);

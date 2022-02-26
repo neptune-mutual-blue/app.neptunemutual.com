@@ -5,7 +5,7 @@ import { registry } from "@neptunemutual/sdk";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 
-export const useERC20Balance = ({ tokenAddress }) => {
+export const useERC20Balance = (tokenAddress) => {
   const [balance, setBalance] = useState("0");
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
@@ -17,7 +17,7 @@ export const useERC20Balance = ({ tokenAddress }) => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const tokenInstance = await registry.IERC20.getInstance(
+      const tokenInstance = registry.IERC20.getInstance(
         networkId,
         tokenAddress,
         signerOrProvider
@@ -48,10 +48,10 @@ export const useERC20Balance = ({ tokenAddress }) => {
     };
   }, [fetchBalance]);
 
-  const refetch = async () => {
+  const refetch = useCallback(async () => {
     const _balance = await fetchBalance();
     setBalance(_balance.toString());
-  };
+  }, [fetchBalance]);
 
   return { balance, refetch };
 };

@@ -50,7 +50,9 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       }
 
       calculateLiquidity();
-      return () => (ignore = true);
+      return () => {
+        ignore = true;
+      };
     },
     [account, coverKey, library, networkId, receiveAmount, podAmount],
     500

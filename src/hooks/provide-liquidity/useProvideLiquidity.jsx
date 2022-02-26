@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { liquidity, registry } from "@neptunemutual/sdk";
+import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import {
@@ -9,22 +9,21 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useNPMBalance } from "@/src/hooks/useNPMBalance";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
-  const [lqTokenAllowance, setLqTokenAllowance] = useState();
-  const [npmTokenAllowance, setNPMTokenAllowance] = useState();
   const [lqApproving, setLqApproving] = useState();
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
-  const [vaultAddress, setVaultAddress] = useState("");
   const [minNpmStake, setMinNpmStake] = useState("0");
   const podSymbol = useTokenSymbol(vaultAddress);
 
@@ -32,10 +31,22 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
-  const { getApprovalAmount } = useApprovalAmount();
-  const { balance: lqTokenBalance } = useLiquidityBalance();
-  const { balance: npmBalance } = useNPMBalance();
+  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
+  const { balance: lqTokenBalance } = useERC20Balance(liquidityTokenAddress);
+  const { balance: npmBalance } = useERC20Balance(NPMTokenAddress);
+  const vaultAddress = useVaultAddress({ coverKey });
+  const {
+    allowance: lqTokenAllowance,
+    approve: lqTokenApprove,
+    refetch: updateLqAllowance,
+  } = useERC20Allowance(liquidityTokenAddress);
+  const {
+    allowance: npmTokenAllowance,
+    approve: npmTokenApprove,
+    refetch: updateStakeAllowance,
+  } = useERC20Allowance(NPMTokenAddress);
   const { notifyError } = useErrorNotifier();
+  const { invoke } = useInvokeMethod();
 
   useEffect(() => {
     let ignore = false;
@@ -63,98 +74,20 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   }, [account, coverKey, library, networkId]);
 
   useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    registry.Vault.getAddress(networkId, coverKey, signerOrProvider)
-      .then((addr) => {
-        if (ignore) return;
-        return setVaultAddress(addr);
-      })
-      .catch(console.error);
-
-    return () => (ignore = true);
-  }, [networkId, account, library, coverKey]);
+    updateLqAllowance(vaultAddress);
+  }, [updateLqAllowance, vaultAddress]);
 
   useEffect(() => {
-    if (!networkId || !account) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    liquidity
-      .getAllowance(networkId, coverKey, account, signerOrProvider)
-      .then(({ result }) => {
-        if (ignore) return;
-        setLqTokenAllowance(result);
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    checkNPMTokenAllowance();
-
-    return () => (ignore = true);
-  }, [account, networkId, library, coverKey]);
-
-  const checkLqTokenAllowance = async () => {
-    if (!networkId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    try {
-      const { result: _allowance } = await liquidity.getAllowance(
-        networkId,
-        coverKey,
-        account,
-        signerOrProvider
-      );
-
-      setLqTokenAllowance(_allowance);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const checkNPMTokenAllowance = async () => {
-    if (!networkId || !account) return;
-
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    try {
-      const vault = await registry.Vault.getAddress(
-        networkId,
-        coverKey,
-        signerOrProvider
-      );
-
-      const npmInstance = await registry.NPMToken.getInstance(
-        networkId,
-        signerOrProvider
-      );
-      const _allowance = await npmInstance.allowance(account, vault);
-
-      setNPMTokenAllowance(_allowance);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+    updateStakeAllowance(vaultAddress);
+  }, [updateStakeAllowance, vaultAddress]);
 
   const handleLqTokenApprove = async () => {
     try {
       setLqApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await liquidity.approve(
-        networkId,
-        coverKey,
-        {
-          amount: getApprovalAmount(convertToUnits(lqValue).toString()),
-        },
-        signerOrProvider
+      const tx = await lqTokenApprove(
+        vaultAddress,
+        convertToUnits(lqValue).toString()
       );
 
       await txToast.push(tx, {
@@ -163,10 +96,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         failure: "Could not approve DAI",
       });
 
-      setLqApproving(false);
-      checkLqTokenAllowance();
+      updateLqAllowance(vaultAddress);
     } catch (error) {
       notifyError(error, "approve DAI");
+    } finally {
       setLqApproving(false);
     }
   };
@@ -174,15 +107,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const handleNPMTokenApprove = async () => {
     try {
       setNPMApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await liquidity.approveStake(
-        networkId,
-        coverKey,
-        {
-          amount: getApprovalAmount(convertToUnits(npmValue).toString()),
-        },
-        signerOrProvider
+      const tx = await npmTokenApprove(
+        vaultAddress,
+        convertToUnits(npmValue).toString()
       );
 
       await txToast.push(tx, {
@@ -191,10 +119,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         failure: "Could not approve NPM",
       });
 
-      setNPMApproving(false);
-      checkNPMTokenAllowance();
+      updateStakeAllowance(vaultAddress);
     } catch (error) {
       notifyError(error, "approve NPM");
+    } finally {
       setNPMApproving(false);
     }
   };
@@ -207,13 +135,14 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
 
-      const { result: tx } = await liquidity.add(
+      const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,
-        lqAmount,
-        npmAmount,
         signerOrProvider
       );
+
+      const args = [coverKey, lqAmount, npmAmount];
+      const tx = await invoke(vault, "addLiquidity", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: "Adding Liquidity",

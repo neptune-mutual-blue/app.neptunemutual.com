@@ -77,7 +77,9 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     fetchInfo();
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, coverKey, library, networkId]);
 
   return {

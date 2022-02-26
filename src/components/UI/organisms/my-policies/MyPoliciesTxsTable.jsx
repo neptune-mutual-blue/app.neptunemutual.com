@@ -1,5 +1,5 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { usePolicyTxs } from "@/components/UI/organisms/my-policies/usePolicyTxs";
+import { usePolicyTxs } from "@/src/hooks/usePolicyTxs";
 import {
   Table,
   TableWrapper,

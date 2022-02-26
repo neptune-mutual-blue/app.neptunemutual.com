@@ -31,7 +31,9 @@ export const useBlockHeight = () => {
       })
       .catch(console.error);
 
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, library, networkId]);
 
   return blockHeight;
