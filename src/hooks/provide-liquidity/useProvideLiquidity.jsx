@@ -25,9 +25,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
   const [minNpmStake, setMinNpmStake] = useState("0");
-  const podSymbol = useTokenSymbol(vaultAddress);
-
-  const txToast = useTxToast();
 
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
@@ -45,8 +42,11 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     approve: npmTokenApprove,
     refetch: updateStakeAllowance,
   } = useERC20Allowance(NPMTokenAddress);
-  const { notifyError } = useErrorNotifier();
+  const podSymbol = useTokenSymbol(vaultAddress);
+
+  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
