@@ -1,7 +1,6 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { getClaimAmount } from "@/src/helpers/store/getClaimAmount";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -11,11 +10,15 @@ import {
   isGreaterOrEqual,
   isValidNumber,
 } from "@/utils/bn";
-import { claimsProcessor, registry } from "@neptunemutual/sdk";
+import { registry } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -23,35 +26,27 @@ export const useClaimPolicyInfo = ({
   coverKey,
   incidentDate,
 }) => {
-  const [balance, setBalance] = useState("0");
-  const [allowance, setAllowance] = useState("0");
   const [approving, setApproving] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
-  const { getApprovalAmount } = useApprovalAmount();
+  const claimsProcessorAddress = useClaimsProcessorAddress();
+  const {
+    allowance,
+    refetch: updateAllowance,
+    approve,
+  } = useERC20Allowance(cxTokenAddress);
+  const { balance, refetch: updateBalance } = useERC20Balance(cxTokenAddress);
 
-  const { requiresAuth } = useAuthValidation();
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
+  const { requiresAuth } = useAuthValidation();
   const { notifyError } = useErrorNotifier();
 
-  const checkAllowance = async () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const { result } = await claimsProcessor.getAllowance(
-        networkId,
-        cxTokenAddress,
-        account,
-        signerOrProvider
-      );
-
-      setAllowance(result.toString());
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useEffect(() => {
+    updateAllowance(claimsProcessorAddress);
+  }, [claimsProcessorAddress, updateAllowance]);
 
   useEffect(() => {
     if (!networkId || !value) return;
@@ -71,35 +66,6 @@ export const useClaimPolicyInfo = ({
     });
   }, [library, networkId, value]);
 
-  useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account || !cxTokenAddress) return;
-
-    checkAllowance();
-
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    const instance = registry.IERC20.getInstance(
-      networkId,
-      cxTokenAddress,
-      signerOrProvider
-    );
-
-    instance
-      .balanceOf(account)
-      .then((bal) => {
-        if (ignore) return;
-        setBalance(bal.toString());
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, networkId, library, cxTokenAddress]);
-
   const handleApprove = async () => {
     if (!networkId || !account || !cxTokenAddress) {
       requiresAuth();
@@ -108,15 +74,9 @@ export const useClaimPolicyInfo = ({
 
     try {
       setApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const { result: tx } = await claimsProcessor.approve(
-        networkId,
-        cxTokenAddress,
-        {
-          amount: getApprovalAmount(convertToUnits(value).toString()),
-        },
-        signerOrProvider
+      const tx = await approve(
+        claimsProcessorAddress,
+        convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {
@@ -125,10 +85,10 @@ export const useClaimPolicyInfo = ({
         failure: `Could not approve cxDAI tokens`,
       });
 
-      checkAllowance();
-    } catch (error) {
-      // console.error(error);
-      notifyError(error, `approve cxDAI tokens`);
+      updateBalance();
+      updateAllowance(claimsProcessorAddress);
+    } catch (err) {
+      notifyError(err, `approve cxDAI tokens`);
     } finally {
       setApproving(false);
     }
@@ -143,20 +103,27 @@ export const useClaimPolicyInfo = ({
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await claimsProcessor.claim(
+      const instance = await registry.ClaimsProcessor.getInstance(
         networkId,
+        signerOrProvider
+      );
+
+      const args = [
         cxTokenAddress,
         coverKey,
         incidentDate,
         convertToUnits(value).toString(),
-        signerOrProvider
-      );
+      ];
+      const tx = invoke(instance, "claim", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: `Claiming policy`,
         success: `Claimed policy Successfully`,
         failure: `Could not Claim policy`,
       });
+
+      updateBalance();
+      updateAllowance(claimsProcessorAddress);
     } catch (err) {
       notifyError(err, "claim policy");
     }

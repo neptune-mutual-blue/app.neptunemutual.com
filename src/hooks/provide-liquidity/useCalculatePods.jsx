@@ -50,7 +50,9 @@ export const useCalculatePods = ({ coverKey, value }) => {
       }
 
       calculatePods();
-      return () => (ignore = true);
+      return () => {
+        ignore = true;
+      };
     },
     [account, coverKey, library, networkId, receiveAmount, value],
     500

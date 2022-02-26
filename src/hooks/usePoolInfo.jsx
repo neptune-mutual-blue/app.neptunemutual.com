@@ -120,7 +120,9 @@ export const usePoolInfo = ({ key }) => {
 
     fetchPoolInfo();
 
-    return () => (ignore = true);
+    return () => {
+      ignore = true;
+    };
   }, [account, key, library, networkId]);
 
   return { info };

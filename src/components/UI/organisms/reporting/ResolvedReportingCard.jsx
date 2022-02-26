@@ -47,7 +47,7 @@ export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
       {/* Stats */}
       <div className="flex justify-between text-sm px-1 mb-4">
         <span className="" title={DateLib.toLongDateFormat(resolvedOn)}>
-          Resolved On:
+          Resolved On:{" "}
           <span title={DateLib.toLongDateFormat(resolvedOn)}>
             {fromNow(resolvedOn)}
           </span>

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, governance } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -15,127 +14,41 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
-import { utils } from "@neptunemutual/sdk";
+import { getParsedKey } from "@/src/helpers/cover";
+import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
-  const [balance, setBalance] = useState("0");
-  const [allowance, setAllowance] = useState("0");
-  const [minStake, setMinStake] = useState("0");
   const [approving, setApproving] = useState(false);
   const [voting, setVoting] = useState(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
-  const { getApprovalAmount } = useApprovalAmount();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();
+  const governanceAddress = useGovernanceAddress();
+  const { invoke } = useInvokeMethod();
+  const {
+    allowance,
+    approve,
+    refetch: updateAllowance,
+  } = useERC20Allowance(NPMTokenAddress);
+  const { balance, refetch: updateBalance } = useERC20Balance(NPMTokenAddress);
   const { notifyError } = useErrorNotifier();
 
-  const checkAllowance = async () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const instance = registry.IERC20.getInstance(
-        networkId,
-        NPMTokenAddress,
-        signerOrProvider
-      );
-
-      const governanceContractAddress = await registry.Governance.getAddress(
-        networkId,
-        signerOrProvider
-      );
-
-      console.log(
-        "Could not get an instance of NPM token from the address %s",
-        NPMTokenAddress
-      );
-
-      let result = await instance.allowance(account, governanceContractAddress);
-
-      setAllowance(result.toString());
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    if (!networkId || !account || !NPMTokenAddress) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    checkAllowance();
-
-    const instance = registry.IERC20.getInstance(
-      networkId,
-      NPMTokenAddress,
-      signerOrProvider
-    );
-
-    instance
-      .balanceOf(account)
-      .then((bal) => {
-        if (ignore) return;
-        setBalance(bal.toString());
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, networkId, library, NPMTokenAddress]);
-
-  useEffect(() => {
-    if (!networkId) return;
-
-    let ignore = false;
-    async function fetchMinStake() {
-      const signerOrProvider = getProviderOrSigner(
-        library,
-        account || AddressZero,
-        networkId
-      );
-
-      const governance = await registry.Governance.getInstance(
-        networkId,
-        signerOrProvider
-      );
-
-      const minStake = await governance["getFirstReportingStake(bytes32)"](
-        coverKey
-      );
-
-      if (ignore) return;
-      setMinStake(minStake.toString());
-    }
-
-    fetchMinStake().catch(console.log);
-
-    return () => (ignore = true);
-  }, [account, coverKey, library, networkId]);
+    updateAllowance(governanceAddress);
+  }, [governanceAddress, updateAllowance]);
 
   const handleApprove = async () => {
     setApproving(true);
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const governanceContractAddress = await registry.Governance.getAddress(
-        networkId,
-        signerOrProvider
-      );
-
-      const instance = registry.IERC20.getInstance(
-        networkId,
-        NPMTokenAddress,
-        signerOrProvider
-      );
-
-      const tx = await instance.approve(
-        governanceContractAddress,
-        getApprovalAmount(convertToUnits(value).toString())
+      const tx = await approve(
+        governanceAddress,
+        convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {
@@ -144,10 +57,9 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: `Could not approve ${tokenSymbol} tokens`,
       });
 
-      checkAllowance();
-    } catch (error) {
-      // console.error(error);
-      notifyError(error, `approve ${tokenSymbol} tokens`);
+      updateAllowance(governanceAddress);
+    } catch (err) {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
     } finally {
       setApproving(false);
     }
@@ -159,20 +71,22 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await governance.attest(
+      const instance = await registry.Governance.getInstance(
         networkId,
-        coverKey,
-        convertToUnits(value).toString(),
         signerOrProvider
       );
+
+      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      const tx = await invoke(instance, "attest", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: "Attesting",
         success: "Attested successfully",
         failure: "Could not attest",
       });
+      updateBalance();
+      updateAllowance();
     } catch (err) {
-      // console.error(err);
       notifyError(err, "attest");
     } finally {
       setVoting(false);
@@ -185,12 +99,13 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await governance.refute(
+      const instance = await registry.Governance.getInstance(
         networkId,
-        coverKey,
-        convertToUnits(value).toString(),
         signerOrProvider
       );
+
+      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      const tx = await invoke(instance, "refute", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: "Refuting",
@@ -240,8 +155,9 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         success: "Disputed successfully",
         failure: "Could not dispute",
       });
+
+      router.replace(`/reporting/${getParsedKey(coverKey)}/${incidentDate}`);
     } catch (err) {
-      // console.error({ err });
       notifyError(err, "dispute");
     } finally {
       setVoting(false);
@@ -261,7 +177,6 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     tokenSymbol,
 
     balance,
-    minStake,
     approving,
     voting,
 

@@ -158,12 +158,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
           <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
           <p className="text-sm opacity-50 mb-4">
-            <span
-              title={DateLib.toLongDateFormat(
-                incidentReport.incidentDate,
-                "UTC"
-              )}
-            >
+            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
                 { month: "short", day: "numeric" },
@@ -173,8 +168,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
             {" - "}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp,
-                "UTC"
+                incidentReport.resolutionTimestamp
               )}
             >
               {DateLib.toDateFormat(

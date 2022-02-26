@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { policy } from "@neptunemutual/sdk";
+import { registry } from "@neptunemutual/sdk";
 
 import {
   convertToUnits,
@@ -9,10 +9,14 @@ import {
   isGreater,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useLiquidityBalance } from "@/src/hooks/useLiquidityBalance";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useAppContext } from "@/src/context/AppWrapper";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -21,41 +25,30 @@ export const usePurchasePolicy = ({
   feeError,
   coverMonth,
 }) => {
-  const { library, account, chainId } = useWeb3React();
+  const { library, account } = useWeb3React();
+  const { networkId } = useAppContext();
 
-  const [allowance, setAllowance] = useState("0");
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
   const [error, setError] = useState("");
-  const { getApprovalAmount } = useApprovalAmount();
 
   const txToast = useTxToast();
-  const { balance } = useLiquidityBalance();
+  const policyContractAddress = usePolicyAddress();
+  const { liquidityTokenAddress } = useAppConstants();
+  const { balance, refetch: updateBalance } = useERC20Balance(
+    liquidityTokenAddress
+  );
+  const {
+    allowance,
+    approve,
+    refetch: updateAllowance,
+  } = useERC20Allowance(liquidityTokenAddress);
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
-    let ignore = false;
-    if (!chainId || !account) return;
-
-    async function fetchAllowance() {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      try {
-        const { result } = await policy.getAllowance(
-          chainId,
-          account,
-          signerOrProvider
-        );
-        if (ignore) return;
-        setAllowance(result);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    fetchAllowance();
-
-    return () => (ignore = true);
-  }, [account, chainId, library, coverKey]);
+    updateAllowance(policyContractAddress);
+  }, [policyContractAddress, updateAllowance]);
 
   useEffect(() => {
     if (!value && error) {
@@ -93,36 +86,11 @@ export const usePurchasePolicy = ({
     }
   }, [account, balance, error, feeAmount, feeError, value]);
 
-  const checkAllowance = async () => {
-    if (!account || !chainId) {
-      return;
-    }
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      const { result: _allowance } = await policy.getAllowance(
-        chainId,
-        account,
-        signerOrProvider
-      );
-
-      setAllowance(_allowance);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleApprove = async () => {
     try {
       setApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      const { result: tx } = await policy.approve(
-        chainId,
-        {
-          amount: getApprovalAmount(feeAmount || "0"),
-        },
-        signerOrProvider
-      );
+      const tx = await approve(policyContractAddress, feeAmount);
 
       await txToast.push(tx, {
         pending: "Approving DAI",
@@ -130,7 +98,7 @@ export const usePurchasePolicy = ({
         failure: "Could not approve DAI",
       });
 
-      checkAllowance();
+      updateAllowance(policyContractAddress);
     } catch (err) {
       notifyError(err, "approve DAI");
     } finally {
@@ -142,16 +110,25 @@ export const usePurchasePolicy = ({
     try {
       setPurchasing(true);
 
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { result: tx } = await policy.purchaseCover(
-        chainId,
-        coverKey,
-        {
-          duration: parseInt(coverMonth, 10),
-          amount: convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
-        },
+      const policyContract = await registry.PolicyContract.getInstance(
+        networkId,
         signerOrProvider
+      );
+      const catcher = notifyError;
+
+      const args = [
+        coverKey,
+        parseInt(coverMonth, 10),
+        convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+      ];
+      const tx = await invoke(
+        policyContract,
+        "purchaseCover",
+        {},
+        catcher,
+        args
       );
 
       await txToast.push(tx, {
@@ -160,6 +137,8 @@ export const usePurchasePolicy = ({
         failure: "Could not purchase policy",
       });
 
+      updateBalance();
+      updateAllowance(policyContractAddress);
       setPurchasing(false);
     } catch (err) {
       notifyError(err, "purchase policy");

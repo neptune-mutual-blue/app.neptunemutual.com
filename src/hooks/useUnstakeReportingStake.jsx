@@ -7,7 +7,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { calculateGasMargin } from "@/utils/bn";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 const defaultInfo = {
   totalStakeInWinningCamp: "0",
@@ -25,6 +25,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
   const txToast = useTxToast();
   const { requiresAuth } = useAuthValidation();
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -86,16 +87,14 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
-      const estimatedGas = await resolutionContract.estimateGas
-        .unstake(coverKey, incidentDate)
-        .catch((err) => {
-          notifyError(err, "estimate gas");
-          return "0";
-        });
-
-      const tx = await resolutionContract.unstake(coverKey, incidentDate, {
-        gasLimit: calculateGasMargin(estimatedGas),
-      });
+      const args = [coverKey, incidentDate];
+      const tx = await invoke(
+        resolutionContract,
+        "unstake",
+        {},
+        notifyError,
+        args
+      );
 
       await txToast.push(tx, {
         pending: "Unstaking NPM",

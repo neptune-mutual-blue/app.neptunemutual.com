@@ -13,9 +13,9 @@ import Link from "next/link";
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState();
+  const { minStake } = useFirstReportingStake({ coverKey });
   const {
     balance,
-    minStake,
     tokenAddress,
     tokenSymbol,
     handleApprove,

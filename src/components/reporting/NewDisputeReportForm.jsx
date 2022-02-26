@@ -3,6 +3,7 @@ import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
+import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useVote } from "@/src/hooks/useVote";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
@@ -14,10 +15,9 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [value, setValue] = useState();
-
+  const { minStake } = useFirstReportingStake({ coverKey });
   const {
     balance,
-    minStake,
     tokenAddress,
     tokenSymbol,
     handleApprove,

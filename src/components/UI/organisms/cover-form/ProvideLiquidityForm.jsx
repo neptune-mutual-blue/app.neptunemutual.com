@@ -90,7 +90,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     } else {
       setLqErrorMsg("");
     }
-  }, [npmValue, npmBalance, lqValue, lqTokenBalance]);
+  }, [lqTokenBalance, lqValue, minNpmStake, npmBalance, npmValue]);
 
   return (
     <div className="max-w-md">

@@ -4,6 +4,7 @@ import { RegularInput } from "@/components/UI/atoms/input/regular-input";
 import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
+import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useReportIncident } from "@/src/hooks/useReportIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
@@ -11,9 +12,9 @@ import { Fragment, useState } from "react";
 
 export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
+  const { minStake } = useFirstReportingStake({ coverKey });
   const {
     balance,
-    minStake,
     tokenAddress,
     tokenSymbol,
     handleApprove,

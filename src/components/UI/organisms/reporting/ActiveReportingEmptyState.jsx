@@ -3,14 +3,14 @@ import { Label } from "@/components/UI/atoms/label";
 import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/components/UI/molecules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
-import { useAvailableCovers } from "@/components/pages/home/useAvailableCovers";
 import { actions } from "@/src/config/cover/actions";
-import { getParsedKey } from "@/src/helpers/cover";
+import { getCoverImgSrc, getParsedKey } from "@/src/helpers/cover";
+import { useCovers } from "@/src/context/Covers";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
-  const { availableCovers } = useAvailableCovers();
+  const { covers: availableCovers, loading } = useCovers();
   const [selected, setSelected] = useState();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const ActiveReportingEmptyState = () => {
     router.push(actions.report.getHref(cover_id));
   };
 
-  if (!availableCovers) {
+  if (loading) {
     return <>loading...</>;
   }
 
@@ -50,7 +50,7 @@ export const ActiveReportingEmptyState = () => {
           setSelected={setSelected}
           prefix={
             <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
-              <img src={selected?.imgSrc} alt={selected?.coverName} />
+              <img src={getCoverImgSrc(selected)} alt={selected?.coverName} />
             </div>
           }
         />

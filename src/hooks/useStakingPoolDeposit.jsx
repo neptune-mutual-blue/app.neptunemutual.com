@@ -11,7 +11,9 @@ import {
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
+import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -20,93 +22,32 @@ export const useStakingPoolDeposit = ({
   tokenSymbol,
   maximumStake,
 }) => {
-  const [balance, setBalance] = useState("0");
-  const [allowance, setAllowance] = useState("0");
   const [approving, setApproving] = useState(false);
   const [depositing, setDepositing] = useState(false);
 
   const { chainId, account, library } = useWeb3React();
-  const { getApprovalAmount } = useApprovalAmount();
+  const poolContractAddress = useStakingPoolsAddress();
+  const {
+    allowance,
+    approve,
+    refetch: updateAllowance,
+  } = useERC20Allowance(tokenAddress);
+  const { balance, refetch: updateBalance } = useERC20Balance(tokenAddress);
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
 
-  const checkAllowance = async () => {
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
-      const instance = registry.IERC20.getInstance(
-        chainId,
-        tokenAddress,
-        signerOrProvider
-      );
-
-      const poolContractAddress = await registry.StakingPools.getAddress(
-        chainId,
-        signerOrProvider
-      );
-
-      if (!instance) {
-        console.log(
-          "Could not get an instance of staking token from the address %s",
-          tokenAddress
-        );
-      }
-
-      let result = await instance.allowance(account, poolContractAddress);
-
-      setAllowance(result.toString());
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    if (!chainId || !account || !tokenAddress) return;
-
-    let ignore = false;
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
-
-    checkAllowance();
-
-    const instance = registry.IERC20.getInstance(
-      chainId,
-      tokenAddress,
-      signerOrProvider
-    );
-
-    instance
-      .balanceOf(account)
-      .then((bal) => {
-        if (ignore) return;
-        setBalance(bal.toString());
-      })
-      .catch((e) => {
-        console.error(e);
-        if (ignore) return;
-      });
-
-    return () => (ignore = true);
-  }, [account, chainId, library, tokenAddress]);
+    updateAllowance(poolContractAddress);
+  }, [poolContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
     try {
       setApproving(true);
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      const poolContractAddress = await registry.StakingPools.getAddress(
-        chainId,
-        signerOrProvider
-      );
-
-      const instance = registry.IERC20.getInstance(
-        chainId,
-        tokenAddress,
-        signerOrProvider
-      );
-
-      const tx = await instance.approve(
+      const tx = await approve(
         poolContractAddress,
-        getApprovalAmount(convertToUnits(value).toString())
+        convertToUnits(value).toString()
       );
 
       await txToast.push(tx, {
@@ -116,7 +57,7 @@ export const useStakingPoolDeposit = ({
       });
 
       setApproving(false);
-      checkAllowance();
+      updateAllowance(poolContractAddress);
     } catch (error) {
       notifyError(error, `approve ${tokenSymbol}`);
       setApproving(false);
@@ -147,9 +88,11 @@ export const useStakingPoolDeposit = ({
         success: `Staked ${tokenSymbol} successfully`,
         failure: `Could not stake ${tokenSymbol}`,
       });
+
+      updateBalance();
+      updateAllowance(poolContractAddress);
       return txnStatus;
     } catch (err) {
-      // console.error(err);
       notifyError(err, `stake ${tokenSymbol}`);
     } finally {
       setDepositing(false);

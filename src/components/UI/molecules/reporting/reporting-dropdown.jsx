@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import ChevronDownIcon from "@/icons/ChevronDownIcon";
 import { classNames } from "@/utils/classnames";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const ReportingDropdown = ({
   prefix = "",
@@ -50,7 +51,10 @@ export const ReportingDropdown = ({
                       )}
                     >
                       <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
-                        <img src={option.imgSrc} alt={option.projectName} />
+                        <img
+                          src={getCoverImgSrc(option)}
+                          alt={option.projectName}
+                        />
                       </div>
                       {option.projectName}
                     </span>

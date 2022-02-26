@@ -99,7 +99,7 @@ export const ClaimCxTokensTable = ({
 const CxTokenAmountRenderer = ({ row }) => {
   const tokenAddress = row.cxToken.id;
   const tokenSymbol = useTokenSymbol(tokenAddress);
-  const { balance } = useERC20Balance({ tokenAddress });
+  const { balance } = useERC20Balance(tokenAddress);
 
   return (
     <>

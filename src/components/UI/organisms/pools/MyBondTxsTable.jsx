@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { useBondTxs } from "@/components/UI/organisms/pools/useBondTxs";
+import { useBondTxs } from "@/src/hooks/useBondTxs";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 

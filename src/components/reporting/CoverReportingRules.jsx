@@ -17,7 +17,10 @@ export const CoverReportingRules = ({ coverInfo, handleAcceptRules }) => {
             <br className="mt-20" />
 
             <div className="mt-16">
-              <AcceptReportRulesForm onAccept={handleAcceptRules}>
+              <AcceptReportRulesForm
+                coverInfo={coverInfo}
+                onAccept={handleAcceptRules}
+              >
                 I have read, understood, and agree to the terms of cover rules
               </AcceptReportRulesForm>
             </div>

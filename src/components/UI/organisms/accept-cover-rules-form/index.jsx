@@ -5,7 +5,7 @@ import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-export const AcceptReportRulesForm = ({ onAccept, children }) => {
+export const AcceptReportRulesForm = ({ coverInfo, onAccept, children }) => {
   const [checked, setChecked] = useState(false);
   const { commission } = useReporterCommission();
 
@@ -38,13 +38,14 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           <h2 className="font-sora font-bold text-h2 mb-6">Active Reporting</h2>
 
           <p className="text-h4 text-8F949C mb-10">
-            There are no known incidents related to Clearpool Cover.
+            There are no known incidents related to {coverInfo.projectName}{" "}
+            Cover.
           </p>
           <Alert>
-            If you just came to know about a recent incident of Uniswap
-            Exchange, carefully read the cover rules above. You can earn{" "}
-            {commission}% of the minority fees if you are the first person to
-            report this incident.
+            If you just came to know about a recent incident of{" "}
+            {coverInfo.projectName}, carefully read the cover rules above. You
+            can earn {commission}% of the minority fees if you are the first
+            person to report this incident.
           </Alert>
         </div>
         <RegularButton
