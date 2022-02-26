@@ -26,33 +26,37 @@ export const CoverCard = ({ details }) => {
             <img
               src={imgSrc}
               alt={projectName}
-              className="inline-block max-w-full"
+              className="inline-block max-w-full w-14 lg:w-18"
             />
           </div>
           <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
             {projectName}
           </h4>
-          <div className="text-sm text-7398C0 uppercase mt-2">
+          <div className="text-h7 lg:text-sm text-7398C0 uppercase  mt-1 lg:mt-2">
             cover fee: {coverFees.min}-{coverFees.max}%
           </div>
         </div>
         <div>
-          <Badge className="text-21AD8C">APR: {apr}%</Badge>
+          <Badge className="text-h7 lg:text-sm text-21AD8C border-1 rounded-3xl">
+            APR: {apr}%
+          </Badge>
         </div>
       </div>
 
       {/* Divider */}
-      <Divider />
+      <Divider className="mb-4 lg:mb-8" />
 
       {/* Stats */}
-      <div className="flex justify-between text-sm px-1">
-        <span className="uppercase">utilization Ratio</span>
-        <span className="font-semibold text-right">{utilizationRatio}%</span>
+      <div className="flex justify-between text-h7 lg:text-sm px-1">
+        <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
+        <span className="font-semibold text-right text-h7 lg:text-sm ">
+          {utilizationRatio}%
+        </span>
       </div>
       <div className="mt-2 mb-4">
         <ProgressBar value={utilizationRatio / 100} />
       </div>
-      <div className="flex justify-between text-sm px-1">
+      <div className="flex justify-between text-h7 lg:text-sm px-1">
         <span className="" title={formatCurrency(protection).long}>
           Protection: {formatCurrency(protection).short}
         </span>

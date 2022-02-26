@@ -7,6 +7,8 @@ module.exports = {
       mainCard:
         "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
       toolTip: "0px 2px 6px rgba(0, 0, 0, 0.25)",
+      option: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+      homeCard: "0px 4px 5px rgba(0, 0, 0, 0.05)",
     },
     colors: {
       transparent: "transparent",
@@ -27,6 +29,7 @@ module.exports = {
           lineHeight: "24px",
         },
       ],
+      h7: ["13px", "16px"],
       sm: ["14px", "16px"],
       xxs: ["10px", "8px"],
       xs: [
@@ -54,6 +57,10 @@ module.exports = {
       borderRadius: {
         big: "0.625rem",
         mdlg: "7px",
+      },
+      borderWidth: {
+        0.5: "0.5px",
+        1: "1px",
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
@@ -116,7 +123,7 @@ module.exports = {
         800: "800px",
       },
       backgroundImage: {
-        "404-bg": "url(/404_bg.png)",
+        "404-background": "url('/404_bg.png')",
         "gradient-bg": "url(/gradient.png)",
         "home-pattern": "url(/home/bg-pattern.png)",
       },
