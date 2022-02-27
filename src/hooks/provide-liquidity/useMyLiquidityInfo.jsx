@@ -15,18 +15,18 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     balance: "0",
     extendedBalance: "0",
     totalReassurance: "0",
-    lockup: "0",
     myPodBalance: "0",
     myDeposits: "0",
     myWithdrawals: "0",
     myShare: "0",
-    releaseDate: "0",
+    withdrawalOpen: "0",
+    withdrawalClose: "0",
   });
 
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !coverKey || !account) {
+    if (!networkId || !coverKey) {
       return;
     }
 
@@ -49,12 +49,12 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           balance,
           extendedBalance,
           totalReassurance,
-          lockup,
           myPodBalance,
           myDeposits,
           myWithdrawals,
           myShare,
-          releaseDate,
+          withdrawalOpen,
+          withdrawalClose,
         ] = await instance.getInfo(account || ADDRESS_ONE);
 
         if (ignore) return;
@@ -64,12 +64,12 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           balance: balance.toString(),
           extendedBalance: extendedBalance.toString(),
           totalReassurance: totalReassurance.toString(),
-          lockup: lockup.toString(),
           myPodBalance: myPodBalance.toString(),
           myDeposits: myDeposits.toString(),
           myWithdrawals: myWithdrawals.toString(),
           myShare: myShare.toString(),
-          releaseDate: releaseDate.toString(),
+          withdrawalOpen: withdrawalOpen.toString(),
+          withdrawalClose: withdrawalClose.toString(),
         });
       } catch (error) {
         console.error(error);
