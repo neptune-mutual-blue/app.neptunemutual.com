@@ -12,7 +12,7 @@ export const OutlinedCard = ({ children, className, type = "normal" }) => {
     <div
       className={classNames(
         className,
-        "border-1 border-B0C4DB rounded-3xl",
+        "border border-B0C4DB rounded-3xl",
         type === "link" &&
           "transition duration-150 ease-out hover:ease-in hover:shadow-card"
       )}

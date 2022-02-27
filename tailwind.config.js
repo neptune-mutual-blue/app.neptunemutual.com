@@ -1,4 +1,3 @@
-// prettier quoteProps: consistent
 module.exports = {
   content: ["./lib/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -60,7 +59,6 @@ module.exports = {
       },
       borderWidth: {
         0.5: "0.5px",
-        1: "1px",
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",

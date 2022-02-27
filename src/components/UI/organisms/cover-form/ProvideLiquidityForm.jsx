@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { convertFromUnits, sumOf, isGreater, convertToUnits } from "@/utils/bn";
+import { convertFromUnits, isGreater, convertToUnits } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -47,6 +47,22 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const { receiveAmount } = useCalculatePods({ coverKey, value: lqValue });
 
+  useEffect(() => {
+    if (npmValue && isGreater(minNpmStake, convertToUnits(npmValue))) {
+      setNpmErrorMsg("Insufficient Stake");
+    } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
+      setNpmErrorMsg("Insufficient Balance");
+    } else {
+      setNpmErrorMsg("");
+    }
+
+    if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
+      setLqErrorMsg("Insufficient Balance");
+    } else {
+      setLqErrorMsg("");
+    }
+  }, [lqTokenBalance, lqValue, minNpmStake, npmBalance, npmValue]);
+
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return;
@@ -69,28 +85,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     setLqValue(val);
   };
 
-  const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0");
-
-  useEffect(() => {
-    if (isGreater(minNpmStake, convertToUnits(npmValue || "0"))) {
-      setNpmErrorMsg("Insufficient Stake");
-    } else if (
-      npmBalance &&
-      npmValue > +convertFromUnits(npmBalance).toString()
-    ) {
-      setNpmErrorMsg("Insufficient Balance");
-    } else {
-      setNpmErrorMsg("");
-    }
-    if (
-      lqTokenBalance &&
-      lqValue > +convertFromUnits(lqTokenBalance).toString()
-    ) {
-      setLqErrorMsg("Insufficient Balance");
-    } else {
-      setLqErrorMsg("");
-    }
-  }, [lqTokenBalance, lqValue, minNpmStake, npmBalance, npmValue]);
+  // TODO: Fix unlock timestamp
+  // const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0").toString();
+  const unlockTimestamp = "0";
+  const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
 
   return (
     <div className="max-w-md">
@@ -153,9 +151,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      {!hasLqTokenAllowance && (
+      {!hasBothAllowances && (
         <RegularButton
-          disabled={lqApproving}
+          disabled={hasLqTokenAllowance || lqApproving}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleLqTokenApprove}
         >
@@ -163,9 +161,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </RegularButton>
       )}
 
-      {!hasNPMTokenAllowance && (
+      {!hasBothAllowances && (
         <RegularButton
-          disabled={npmApproving}
+          disabled={hasNPMTokenAllowance || npmApproving}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleNPMTokenApprove}
         >
@@ -173,7 +171,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </RegularButton>
       )}
 
-      {hasLqTokenAllowance && hasNPMTokenAllowance && (
+      {hasBothAllowances && (
         <RegularButton
           disabled={isError || providing}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"

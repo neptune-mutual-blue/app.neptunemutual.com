@@ -64,7 +64,7 @@ export const CoverOptionsPage = () => {
         </div>
         <div className="text-center">
           <OutlinedButton
-            className="rounded-big border-solid border-4E7DD9 border-1 pt-1 pb-1 pl-5 pr-4 md:py-3 md:pl-6 md:pr-5 "
+            className="rounded-big border-solid border-4E7DD9 border pt-1 pb-1 pl-5 pr-4 md:py-3 md:pl-6 md:pr-5 "
             onClick={() => router.back()}
           >
             &#x27F5;&nbsp;Back

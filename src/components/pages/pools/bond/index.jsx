@@ -10,11 +10,11 @@ import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondMo
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { convertFromUnits, isGreater, sumOf, weiAsAmount } from "@/utils/bn";
+import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
+import { useDebounce } from "@/src/hooks/useDebounce";
 import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -27,7 +27,7 @@ const BondPage = () => {
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
-  const delayedValue = useDelayedValueUpdate({ value });
+  const delayedValue = useDebounce(value, 200);
 
   const {
     balance,
@@ -59,8 +59,14 @@ const BondPage = () => {
     },
     {
       title: "Maximum Bond",
-      value: `${formatCurrency(weiAsAmount(info.maxBond), "NPM", true).short}`,
-      tooltip: `${formatCurrency(weiAsAmount(info.maxBond), "NPM", true).long}`,
+      value: `${
+        formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+          .short
+      }`,
+      tooltip: `${
+        formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+          .long
+      }`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
     },
@@ -69,24 +75,36 @@ const BondPage = () => {
   const rightHalf = [
     {
       title: "Market Price",
-      value: formatCurrency(weiAsAmount(info.marketPrice), "USD").short,
-      tooltip: weiAsAmount(info.marketPrice),
+      value: formatCurrency(
+        convertFromUnits(info.marketPrice).toString(),
+        "USD"
+      ).short,
+      tooltip: convertFromUnits(info.marketPrice).toString(),
       valueClasses: "text-h3 text-9B9B9B mt-1",
     },
-    {
+  ];
+
+  if (account) {
+    rightHalf.push({
       title: "Your Bond",
       value: `${
-        formatCurrency(weiAsAmount(info.bondContribution), tokenSymbol, true)
-          .short
+        formatCurrency(
+          convertFromUnits(info.bondContribution).toString(),
+          tokenSymbol,
+          true
+        ).short
       }`,
       tooltip: `${
-        formatCurrency(weiAsAmount(info.bondContribution), tokenSymbol, true)
-          .long
+        formatCurrency(
+          convertFromUnits(info.bondContribution).toString(),
+          tokenSymbol,
+          true
+        ).long
       }`,
-      titleClasses: `mt-7 ${!account && "hidden"}`,
-      valueClasses: `text-sm text-9B9B9B mt-1 ${!account && "hidden"}`,
-    },
-  ];
+      titleClasses: `mt-7`,
+      valueClasses: `text-sm text-9B9B9B mt-1`,
+    });
+  }
 
   const details = mergeAlternatively(leftHalf, rightHalf, {
     title: "",
