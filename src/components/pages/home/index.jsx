@@ -13,9 +13,13 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
+import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
+  const { data: heroData } = useFetchHeroStats();
 
   return (
     <>
@@ -26,8 +30,18 @@ export const HomePage = () => {
               <div className="md:mb-0 mb-2 lg:mb-8 flex md:justify-center lg:justify-start">
                 <HomeCard
                   items={[
-                    { name: "TVL (Cover)", amount: "$120M" },
-                    { name: "TVL (Pool)", amount: "$100M" },
+                    {
+                      name: "TVL (Cover)",
+                      amount: formatCurrency(
+                        convertFromUnits(heroData.tvlCover).toString()
+                      ).short,
+                    },
+                    {
+                      name: "TVL (Pool)",
+                      amount: formatCurrency(
+                        convertFromUnits(heroData.tvlPool).toString()
+                      ).short,
+                    },
                   ]}
                   className="md:border-0.5 md:border-B0C4DB md:rounded-tl-xl md:rounded-tr-xl"
                 />
@@ -35,15 +49,25 @@ export const HomePage = () => {
               <div className="md:mb-0 mb-2 lg:mb-8  flex md:justify-center lg:justify-start">
                 <HomeCard
                   items={[
-                    { name: "Covered", amount: "$12.5M" },
-                    { name: "Cover Fee", amount: "$200K" },
+                    {
+                      name: "Covered",
+                      amount: formatCurrency(
+                        convertFromUnits(heroData.covered).toString()
+                      ).short,
+                    },
+                    {
+                      name: "Cover Fee",
+                      amount: formatCurrency(
+                        convertFromUnits(heroData.coverFee).toString()
+                      ).short,
+                    },
                   ]}
                   className="md:border-0.5 md:border-t-0 md:border-B0C4DB md:border-t-transparent md:rounded-bl-xl md:rounded-br-xl"
                 />
               </div>
             </div>
             <div className="flex flex-1 md:justify-center lg:justify-start">
-              <HomeMainCard />
+              <HomeMainCard heroData={heroData} />
             </div>
           </div>
 
@@ -54,7 +78,11 @@ export const HomePage = () => {
               </h3>
               <div className="flex items-center">
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
-                  $250.32M
+                  {
+                    formatCurrency(
+                      sumOf(heroData.tvlCover, heroData.tvlPool).toString()
+                    ).short
+                  }
                 </h2>
                 <h6 className="text-h6 text-21AD8C font-sora font-bold flex items-center">
                   <span className="pr-1">
