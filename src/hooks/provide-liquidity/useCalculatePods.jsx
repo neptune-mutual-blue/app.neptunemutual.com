@@ -4,59 +4,56 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { registry } from "@neptunemutual/sdk";
+import { useDebounce } from "@/src/hooks/useDebounce";
 
 export const useCalculatePods = ({ coverKey, value }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
+  const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
 
-  useDebouncedEffect(
-    () => {
-      let ignore = false;
+  useEffect(() => {
+    let ignore = false;
 
-      if (!networkId || !value || !isValidNumber(value)) {
-        if (receiveAmount !== "0") setReceiveAmount("0");
+    if (!networkId || !debouncedValue || !isValidNumber(debouncedValue)) {
+      if (receiveAmount !== "0") setReceiveAmount("0");
 
-        return;
+      return;
+    }
+
+    const signerOrProvider = getProviderOrSigner(
+      library,
+      account || AddressZero,
+      networkId
+    );
+
+    async function exec() {
+      try {
+        const instance = await registry.Vault.getInstance(
+          networkId,
+          coverKey,
+          signerOrProvider
+        );
+
+        const podAmount = await instance.calculatePods(
+          convertToUnits(debouncedValue).toString()
+        );
+
+        if (ignore) return;
+        setReceiveAmount(convertFromUnits(podAmount).toString());
+      } catch (error) {
+        console.error(error);
       }
+    }
 
-      const signerOrProvider = getProviderOrSigner(
-        library,
-        account || AddressZero,
-        networkId
-      );
-
-      async function calculatePods() {
-        try {
-          const instance = await registry.Vault.getInstance(
-            networkId,
-            coverKey,
-            signerOrProvider
-          );
-
-          const podAmount = await instance.calculatePods(
-            convertToUnits(value).toString()
-          );
-
-          if (ignore) return;
-          setReceiveAmount(convertFromUnits(podAmount).toString());
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      calculatePods();
-      return () => {
-        ignore = true;
-      };
-    },
-    [account, coverKey, library, networkId, receiveAmount, value],
-    500
-  );
+    exec();
+    return () => {
+      ignore = true;
+    };
+  }, [account, coverKey, debouncedValue, library, networkId, receiveAmount]);
 
   return {
     receiveAmount,

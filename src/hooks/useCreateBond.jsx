@@ -4,22 +4,23 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import {
+  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
-  weiAsAmount,
 } from "@/utils/bn";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { useDebouncedEffect } from "@/src/hooks/useDebouncedEffect";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useDebounce } from "@/src/hooks/useDebounce";
 
 export const useCreateBond = ({ info, value }) => {
+  const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
 
   const [approving, setApproving] = useState(false);
@@ -45,24 +46,26 @@ export const useCreateBond = ({ info, value }) => {
     updateAllowance(bondContractAddress);
   }, [bondContractAddress, updateAllowance]);
 
-  useDebouncedEffect(
-    () => {
-      if (!networkId || !value) return;
+  useEffect(() => {
+    let ignore = false;
+    if (!networkId || !debouncedValue) return;
 
-      async function updateReceiveAmount() {
-        const instance = await registry.BondPool.getInstance(networkId);
-        const result = await instance.calculateTokensForLp(
-          convertToUnits(value).toString()
-        );
+    async function updateReceiveAmount() {
+      const instance = await registry.BondPool.getInstance(networkId);
+      const result = await instance.calculateTokensForLp(
+        convertToUnits(debouncedValue).toString()
+      );
 
-        setReceiveAmount(weiAsAmount(result.toString()));
-      }
+      if (ignore) return;
+      setReceiveAmount(convertFromUnits(result.toString()).toString());
+    }
 
-      updateReceiveAmount();
-    },
-    [networkId, value],
-    100
-  );
+    updateReceiveAmount();
+
+    return () => {
+      ignore = true;
+    };
+  }, [networkId, debouncedValue]);
 
   const handleApprove = async () => {
     try {

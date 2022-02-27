@@ -12,11 +12,11 @@ import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { MyLiquidityForm } from "@/components/UI/organisms/cover-form/my-liquidity/MyLiquidityForm";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import BigNumber from "bignumber.js";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { ProvideLiquidityForm } from "@/components/UI/organisms/cover-form/ProvideLiquidityForm";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +83,7 @@ export const MyLiquidityCoverPage = () => {
               <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
               <div className="mt-12">
-                <MyLiquidityForm coverKey={coverKey} info={info} />
+                <ProvideLiquidityForm coverKey={coverKey} info={info} />
               </div>
             </div>
 

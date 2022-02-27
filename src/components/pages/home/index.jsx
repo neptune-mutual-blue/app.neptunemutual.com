@@ -1,11 +1,9 @@
+import React from "react";
 import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-
 import { CoverCard } from "@/components/UI/organisms/cover/card";
-import React from "react";
-
 import { HomeCard } from "@/components/UI/molecules/home-card";
 import { HomeMainCard } from "@/components/UI/molecules/home-card/main";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
@@ -15,18 +13,9 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
-import ScrollTopArrowIcon from "@/icons/ScrollTopArrowIcon";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
-
-  const scrollToTop = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <>
@@ -111,12 +100,6 @@ export const HomePage = () => {
         <NeutralButton className={"rounded-lg border-0.5"}>
           Show More
         </NeutralButton>
-        <button
-          onClick={scrollToTop}
-          className="outline-none border-0 mt-14 mb-4 p-3 lg:hidden float-right rounded bg-black opacity-50"
-        >
-          <ScrollTopArrowIcon />
-        </button>
       </Container>
     </>
   );

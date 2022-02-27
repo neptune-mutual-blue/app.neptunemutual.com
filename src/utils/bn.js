@@ -163,9 +163,3 @@ export const getRelativePercent = (min, max, now) => {
 
   return a.dividedBy(b).decimalPlaces(2, BigNumber.ROUND_DOWN).toNumber();
 };
-
-export const weiAsAmount = (x) => {
-  return convertFromUnits(x || "0")
-    .decimalPlaces(2)
-    .toString();
-};

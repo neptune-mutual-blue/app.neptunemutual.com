@@ -10,7 +10,7 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useClaimPolicyInfo } from "@/src/hooks/useClaimPolicyInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { useDelayedValueUpdate } from "@/src/hooks/useDelayedValueUpdate";
+import { useDebounce } from "@/src/hooks/useDebounce";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -21,8 +21,7 @@ export const ClaimCoverModal = ({
   cxTokenAddress,
 }) => {
   const [value, setValue] = useState();
-  const delayedValue = useDelayedValueUpdate({ value });
-
+  const delayedValue = useDebounce(value, 200);
   const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
   const { balance, canClaim, handleClaim, handleApprove, receiveAmount } =
     useClaimPolicyInfo({

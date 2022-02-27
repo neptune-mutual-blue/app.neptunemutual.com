@@ -41,7 +41,7 @@ export const ActiveReportingEmptyState = () => {
         <span className="whitespace-nowrap">displayed here.</span>
       </p>
       <div className="flex flex-col w-full max-w-lg mt-16 mb-4">
-        <Label htmlFor={"reporting-dropdown"} className="hidden">
+        <Label htmlFor={"reporting-dropdown"} className="sr-only">
           select a cover
         </Label>
         <ReportingDropdown

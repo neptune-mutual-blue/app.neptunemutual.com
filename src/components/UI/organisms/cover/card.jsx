@@ -37,7 +37,7 @@ export const CoverCard = ({ details }) => {
           </div>
         </div>
         <div>
-          <Badge className="text-h7 lg:text-sm text-21AD8C border-1 rounded-3xl">
+          <Badge className="text-h7 lg:text-sm text-21AD8C border rounded-3xl">
             APR: {apr}%
           </Badge>
         </div>

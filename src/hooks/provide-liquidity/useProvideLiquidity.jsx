@@ -150,7 +150,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         failure: "Could not add liquidity",
       });
     } catch (err) {
-      // console.error(err);
       notifyError(err, "add liquidity");
     } finally {
       setProviding(false);
