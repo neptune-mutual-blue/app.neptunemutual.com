@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { registry } from "@neptunemutual/sdk";
 import { useDebounce } from "@/src/hooks/useDebounce";
 
 export const useCalculatePods = ({ coverKey, value }) => {
