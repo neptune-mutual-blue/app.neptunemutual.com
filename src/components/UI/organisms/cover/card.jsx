@@ -1,20 +1,15 @@
-import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { useFetchCoverProtection } from "@/src/hooks/useFetchCoverProtection";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { convertFromUnits } from "@/utils/bn";
 
 export const CoverCard = ({ details }) => {
-  const {
-    projectName,
-    coverFees,
-    key,
-    apr,
-    utilizationRatio,
-    protection,
-    liquidity,
-  } = details;
+  const { projectName, key, utilizationRatio, liquidity, ipfsData } = details;
+
+  const { data: protection } = useFetchCoverProtection({ coverKey: key });
 
   const imgSrc = getCoverImgSrc({ key });
 
@@ -33,13 +28,13 @@ export const CoverCard = ({ details }) => {
             {projectName}
           </h4>
           <div className="text-h7 lg:text-sm text-7398C0 uppercase  mt-1 lg:mt-2">
-            cover fee: {coverFees.min}-{coverFees.max}%
+            Cover fee: {ipfsData.pricingFloor}-{ipfsData.pricingCeiling}%
           </div>
         </div>
         <div>
-          <Badge className="text-h7 lg:text-sm text-21AD8C border rounded-3xl">
+          {/* <Badge className="text-h7 lg:text-sm text-21AD8C border rounded-3xl">
             APR: {apr}%
-          </Badge>
+          </Badge> */}
         </div>
       </div>
 
@@ -57,10 +52,14 @@ export const CoverCard = ({ details }) => {
         <ProgressBar value={utilizationRatio / 100} />
       </div>
       <div className="flex justify-between text-h7 lg:text-sm px-1">
-        <span className="" title={formatCurrency(protection).long}>
-          Protection: {formatCurrency(protection).short}
+        <span
+          className=""
+          title={formatCurrency(convertFromUnits(protection).toString()).long}
+        >
+          Protection:{" "}
+          {formatCurrency(convertFromUnits(protection).toString()).short}
         </span>
-        {/* <span className="text-right">Liquidity: ${liquidity}M</span> */}
+
         <span className="text-right" title={formatCurrency(liquidity).long}>
           Liquidity: {formatCurrency(liquidity).short}
         </span>

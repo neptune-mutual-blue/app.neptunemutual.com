@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 
-export const useResolvedReportings = () => {
-  const [data, setData] = useState({});
+const defaultData = [];
+
+export const useFetchCoverActiveReportings = ({ coverKey }) => {
+  const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
 
@@ -14,7 +16,7 @@ export const useResolvedReportings = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL) {
+    if (!graphURL || !coverKey) {
       return;
     }
 
@@ -28,28 +30,12 @@ export const useResolvedReportings = () => {
       body: JSON.stringify({
         query: `
         {
-          incidentReports(
-            orderBy: incidentDate
-            orderDirection: desc
-            where:{
-              resolved: true
-            }
-          ) {
+          incidentReports (where: {
+            key: "${coverKey}"
+            finalized: false
+          }) {
             id
-            key
-            incidentDate
-            resolutionDeadline
-            resolved
-            emergencyResolved
-            emergencyResolveTransaction{
-              timestamp
-            }
-            resolveTransaction{
-              timestamp
-            }
-            finalized
-            status
-            resolutionTimestamp
+            reporterInfo
           }
         }
         `,
@@ -57,7 +43,9 @@ export const useResolvedReportings = () => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (!res.errors) {
+          setData(res.data.incidentReports);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -65,12 +53,10 @@ export const useResolvedReportings = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [networkId]);
+  }, [coverKey, networkId]);
 
   return {
-    data: {
-      incidentReports: data?.incidentReports || [],
-    },
+    data,
     loading,
   };
 };

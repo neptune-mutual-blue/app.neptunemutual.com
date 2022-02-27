@@ -80,10 +80,11 @@ export const useFetchHeroStats = () => {
             tvlPool: "0",
           });
         }
-
-        setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [networkId]);

@@ -6,12 +6,17 @@ import { toBytes32 } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 
 export default function ReportingNewCoverPage() {
   const router = useRouter();
   const { id: cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
+  const { data: activeReportings } = useFetchCoverActiveReportings({
+    coverKey,
+  });
+
   const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
@@ -45,6 +50,7 @@ export default function ReportingNewCoverPage() {
         <CoverReportingRules
           coverInfo={coverInfo}
           handleAcceptRules={handleAcceptRules}
+          activeReportings={activeReportings}
         />
       )}
     </main>
