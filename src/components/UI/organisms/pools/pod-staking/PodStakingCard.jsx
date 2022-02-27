@@ -139,6 +139,13 @@ export const PodStakingCard = ({ data }) => {
                     convertFromUnits(rewardAmount),
                     rewardTokenSymbol,
                     true
+                  ).short
+                }
+                tooltip={
+                  formatCurrency(
+                    convertFromUnits(rewardAmount),
+                    rewardTokenSymbol,
+                    true
                   ).long
                 }
               />

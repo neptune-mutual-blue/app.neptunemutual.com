@@ -2,6 +2,10 @@ import { getLocale } from "@/utils/locale";
 
 const asCurrency = (sign, number, symbol, currency, token = false) => {
   if (token) {
+    if (parseFloat(number) < 0.01) {
+      number = number.toFixed(10);
+    }
+
     return `${sign}${number.toLocaleString(getLocale())}${symbol} ${currency}`;
   }
 
