@@ -148,6 +148,7 @@ export const MyLiquidityCoverPage = () => {
         modalTitle={<ModalTitle imgSrc={imgSrc}>Withdraw Liquidity</ModalTitle>}
         onClose={onClose}
         isOpen={isOpen}
+        info={info}
       />
     </div>
   );

@@ -6,7 +6,6 @@ import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { UnlockDate } from "@/components/UI/organisms/unlock-date";
 import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -85,9 +84,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     setLqValue(val);
   };
 
-  // TODO: Fix unlock timestamp
-  // const unlockTimestamp = sumOf(DateLib.unix(), info?.lockup || "0").toString();
-  const unlockTimestamp = "0";
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
 
   return (
@@ -144,11 +140,20 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
+      <h5 className="block  text-black text-h6 font-semibold mb-1 uppercase">
+        NEXT UNLOCK CYCLE
+      </h5>
       <div>
-        <UnlockDate
-          title={DateLib.toLongDateFormat(unlockTimestamp, "UTC")}
-          value={fromNow(unlockTimestamp)}
-        />
+        <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
+          <strong>Open: </strong>
+          {DateLib.toLongDateFormat(info.withdrawalOpen, "UTC")}
+        </span>
+      </div>
+      <div>
+        <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
+          <strong>Close: </strong>
+          {DateLib.toLongDateFormat(info.withdrawalClose, "UTC")}
+        </span>
       </div>
 
       {!hasBothAllowances && (
