@@ -11,6 +11,7 @@ import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
+import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/DisclaimerModal";
 
 const position = {
   variant: "top_right",
@@ -29,6 +30,7 @@ function MyApp({ Component, pageProps }) {
             <UnlimitedApprovalProvider>
               <ToastProvider variant={position.variant}>
                 <Header></Header>
+                <DisclaimerModal />
                 <Component {...pageProps} />
               </ToastProvider>
             </UnlimitedApprovalProvider>
