@@ -41,18 +41,19 @@ export default function DisputeFormPage() {
       {loading && <p className="text-center">Loading...</p>}
 
       {!data.incidentReport && <p className="text-center">No data found</p>}
+      <div className="border-t border-t-B0C4DB">
+        <Container className="py-16">
+          {data.incidentReport &&
+            data?.incidentReport?.totalRefutedCount !== "0" && (
+              <Alert>Not applicable for disputing</Alert>
+            )}
 
-      <Container className="py-16">
-        {data.incidentReport &&
-          data?.incidentReport?.totalRefutedCount !== "0" && (
-            <Alert>Not applicable for disputing</Alert>
-          )}
-
-        {data.incidentReport &&
-          data?.incidentReport?.totalRefutedCount === "0" && (
-            <NewDisputeReportForm incidentReport={data.incidentReport} />
-          )}
-      </Container>
+          {data.incidentReport &&
+            data?.incidentReport?.totalRefutedCount === "0" && (
+              <NewDisputeReportForm incidentReport={data.incidentReport} />
+            )}
+        </Container>
+      </div>
     </main>
   );
 }
