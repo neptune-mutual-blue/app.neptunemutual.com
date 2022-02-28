@@ -6,6 +6,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const ReportingDetailsPage = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
@@ -15,6 +16,8 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
   const showResolvedSummary =
     incidentReport.resolved &&
     isGreater(now, incidentReport.resolutionDeadline);
+
+  useRetryUntilPassed(() => showResolvedSummary, true);
 
   return (
     <>

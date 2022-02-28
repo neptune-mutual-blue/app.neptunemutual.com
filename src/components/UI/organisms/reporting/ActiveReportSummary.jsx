@@ -15,8 +15,8 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
 
 export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
-  const startDate = new Date(incidentReport.incidentDate * 1000);
-  const endDate = new Date(incidentReport.resolutionTimestamp * 1000);
+  const startDate = DateLib.fromUnix(incidentReport.incidentDate);
+  const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
