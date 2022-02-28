@@ -142,7 +142,6 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     isError,
 
     handleApprove,
-    handleDispute,
     handleAttest,
     handleRefute,
   };

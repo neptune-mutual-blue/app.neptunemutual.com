@@ -20,7 +20,6 @@ export const CastYourVote = ({ incidentReport }) => {
     tokenAddress,
     tokenSymbol,
     handleApprove,
-    // handleDispute,
     handleAttest,
     handleRefute,
     approving,
