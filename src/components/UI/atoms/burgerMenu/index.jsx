@@ -4,7 +4,7 @@ export const BurgerComponent = ({ isOpen, onToggle }) => {
   return (
     <button
       onClick={onToggle}
-      className={classNames("relative md:hidden", isOpen && "z-20")}
+      className={classNames("relative lg:hidden", isOpen && "z-20")}
       aria-label="Open or Close the Sidebar"
     >
       <div

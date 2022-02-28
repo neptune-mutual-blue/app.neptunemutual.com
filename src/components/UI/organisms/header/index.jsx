@@ -94,17 +94,17 @@ export const Header = () => {
     <header className="bg-black text-EEEEEE">
       <Banner />
       <nav
-        className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-0"
+        className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-0"
         aria-label="Top"
       >
-        <div className="w-full flex items-center justify-between md:border-b border-B0C4DB lg:border-none">
+        <div className="w-full flex items-center justify-between lg:border-b border-B0C4DB lg:border-none">
           <div className="flex items-center">
             <Link href="/">
               <a>
                 <HeaderLogo />
               </a>
             </Link>
-            <div className="ml-16 space-x-8 hidden md:block">
+            <div className="ml-16 space-x-8 hidden lg:block">
               {navigation.map((link) => {
                 return (
                   <Link key={link.name} href={link.href}>
@@ -124,10 +124,10 @@ export const Header = () => {
             </div>
           </div>
 
-          <div className="flex md:hidden">
+          <div className="flex lg:hidden">
             <BurgerComponent isOpen={isOpen} onToggle={toggleMenu} />
           </div>
-          <div className="hidden md:flex">
+          <div className="hidden lg:flex">
             <ConnectWallet networkId={networkId} notifier={notifier}>
               {({ onOpen }) => {
                 let button = (
