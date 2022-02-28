@@ -4,7 +4,7 @@ import Link from "next/link";
 export const BreadCrumbs = ({ pages }) => {
   return (
     <nav className="flex mb-11" aria-label="Breadcrumb">
-      <ol className="flex items-center space-x-1 text-xs sm:text-sm text-5F5F5F">
+      <ol className="flex items-center space-x-1 text-xs leading-5 sm:text-sm text-5F5F5F">
         {pages.map((page, idx) => (
           <li key={page.name + idx}>
             <div className="flex items-center">
