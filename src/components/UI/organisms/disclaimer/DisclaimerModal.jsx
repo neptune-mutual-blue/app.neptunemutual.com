@@ -30,7 +30,7 @@ export const DisclaimerModal = () => {
         </Dialog.Title>
         <Dialog.Description
           className={classNames(
-            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-80 md:max-h-96 overflow-y-auto pr-1",
+            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-144 md:max-h-96 overflow-y-auto pr-1",
             styles.scroll_container
           )}
         >
@@ -94,7 +94,7 @@ export const DisclaimerModal = () => {
           </label>
         </div>
 
-        <div className="w-full flex justify-end gap-6 mt-2">
+        <div className="w-full flex justify-end gap-6 mt-6">
           <button
             className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9"
             onClick={handleDecline}
