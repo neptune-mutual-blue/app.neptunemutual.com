@@ -5,6 +5,8 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useFetchCoverProtection } from "@/src/hooks/useFetchCoverProtection";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
+import { formatPercent } from "@/utils/formatter/percent";
+import { MULTIPLIER } from "@/src/config/constants";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, utilizationRatio, liquidity, ipfsData } = details;
@@ -28,7 +30,8 @@ export const CoverCard = ({ details }) => {
             {projectName}
           </h4>
           <div className="text-h7 lg:text-sm text-7398C0 uppercase  mt-1 lg:mt-2">
-            Cover fee: {ipfsData.pricingFloor}-{ipfsData.pricingCeiling}%
+            Cover fee: {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
+            {formatPercent(ipfsData.pricingCeiling / MULTIPLIER)}
           </div>
         </div>
         <div>
