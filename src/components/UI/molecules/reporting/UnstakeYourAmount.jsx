@@ -32,6 +32,8 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     isGreater(incidentReport.claimExpiresAt, now) &&
     isGreater(now, incidentReport.claimBeginsFrom);
 
+  useRetryUntilPassed(() => !isClaimableNow, true);
+
   const handleUnstake = isClaimableNow ? unstakeWithClaim : unstake;
 
   return (

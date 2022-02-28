@@ -4,7 +4,6 @@ const defaultState = {
   hours: 0,
   minutes: 0,
   seconds: 0,
-  completed: false,
 };
 
 export const useCountdown = ({ target, getTime }) => {
@@ -18,7 +17,6 @@ export const useCountdown = ({ target, getTime }) => {
 
       if (diff < 0) {
         clearInterval(_intervalId);
-        setState({ ...state, completed: true });
         return;
       }
 
@@ -34,7 +32,6 @@ export const useCountdown = ({ target, getTime }) => {
         seconds: Math.floor(seconds),
         minutes: Math.floor(minutes),
         hours: Math.floor(hours),
-        completed: false,
       });
     };
 

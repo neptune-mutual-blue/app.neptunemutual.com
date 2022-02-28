@@ -8,7 +8,6 @@ import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
-import { useCountdown } from "@/lib/countdown/useCountdown";
 
 export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,14 +19,6 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
   const logoSource = getCoverImgSrc(coverInfo);
 
-  const { completed: countDownCompleted } = useCountdown(resolvableTill);
-
-  const refreshPage = () => {
-    if (typeof window !== "undefined") {
-      router.reload(location.reload());
-    }
-  };
-
   function onClose() {
     setIsOpen(false);
   }
@@ -37,7 +28,6 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
       {incidentReport.resolved && (
         <CountDownTimer title="Resolving in" target={resolvableTill} />
       )}
-      {countDownCompleted && refreshPage()}
 
       <div className="flex gap-10 mb-16">
         {!incidentReport.resolved && (
