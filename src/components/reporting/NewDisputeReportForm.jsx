@@ -15,7 +15,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey });
+  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.key });
   const {
     balance,
     tokenAddress,
