@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry, utils } from "@neptunemutual/sdk";
+import { registry } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -14,7 +14,6 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { getParsedKey } from "@/src/helpers/cover";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -118,50 +117,6 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     } catch (err) {
       // console.error(err);
       notifyError(err, "refute");
-    } finally {
-      setVoting(false);
-    }
-  };
-
-  const handleDispute = async (info) => {
-    setVoting(true);
-
-    if (!networkId || !account) {
-      return;
-    }
-
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const payload = await utils.ipfs.write({ ...info, createdBy: account });
-
-      if (payload === undefined) {
-        throw new Error("Could not save cover to an IPFS network");
-      }
-
-      const hashBytes32 = payload[1];
-
-      const instance = await registry.Governance.getInstance(
-        networkId,
-        signerOrProvider
-      );
-
-      const tx = await instance.dispute(
-        coverKey,
-        incidentDate,
-        hashBytes32,
-        convertToUnits(value).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: "Disputing",
-        success: "Disputed successfully",
-        failure: "Could not dispute",
-      });
-
-      router.replace(`/reporting/${getParsedKey(coverKey)}/${incidentDate}`);
-    } catch (err) {
-      notifyError(err, "dispute");
     } finally {
       setVoting(false);
     }

@@ -4,7 +4,7 @@ import { Label } from "@/components/UI/atoms/label";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
-import { useVote } from "@/src/hooks/useVote";
+import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState } from "react";
@@ -23,10 +23,10 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     handleApprove,
     handleDispute,
     approving,
-    voting,
-    canVote,
+    disputing,
+    canDispute,
     isError,
-  } = useVote({
+  } = useDisputeIncident({
     value,
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
@@ -174,7 +174,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
             handleChooseMax={handleChooseMax}
-            disabled={approving || voting}
+            disabled={approving || disputing}
             onChange={handleValueChange}
           >
             <p className="text-9B9B9B">
@@ -183,7 +183,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           </TokenAmountInput>
         </div>
 
-        {!canVote ? (
+        {!canDispute ? (
           <RegularButton
             disabled={isError || approving || !value}
             className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
@@ -193,11 +193,11 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           </RegularButton>
         ) : (
           <RegularButton
-            disabled={isError || voting}
+            disabled={isError || disputing}
             className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
             onClick={handleSubmit}
           >
-            {voting ? "Disputing..." : "Dispute"}
+            {disputing ? "Disputing..." : "Dispute"}
           </RegularButton>
         )}
       </div>
