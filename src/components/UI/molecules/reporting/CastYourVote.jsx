@@ -9,17 +9,17 @@ import { convertFromUnits } from "@/utils/bn";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey });
+  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.key });
   const {
     balance,
     tokenAddress,
     tokenSymbol,
     handleApprove,
-    // handleDispute,
     handleAttest,
     handleRefute,
     approving,
@@ -139,22 +139,22 @@ export const CastYourVote = ({ incidentReport }) => {
       )}
       {isFirstDispute && (
         <>
-          <Link href={disputeUrl} passHref>
-            <RegularButton
-              className={
-                "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mb-4"
-              }
-            >
-              Submit your Dispute
-            </RegularButton>
-          </Link>
-          <Alert>
+          <Alert info>
             Since you are the first person to dispute this incident reporting,
             you will need to stake atleast{" "}
             {convertFromUnits(minStake).toString()} NPM tokens. If the majority
             agree with you, you will earn {commission}% of the platform fee
             instead of the incident reporter.
           </Alert>
+          <Link href={disputeUrl} passHref>
+            <RegularButton
+              className={
+                "flex-auto w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mt-4"
+              }
+            >
+              Add Dispute
+            </RegularButton>
+          </Link>
         </>
       )}
     </>

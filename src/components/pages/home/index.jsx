@@ -80,7 +80,9 @@ export const HomePage = () => {
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
                   {
                     formatCurrency(
-                      sumOf(heroData.tvlCover, heroData.tvlPool).toString()
+                      convertFromUnits(
+                        sumOf(heroData.tvlCover, heroData.tvlPool)
+                      ).toString()
                     ).short
                   }
                 </h2>

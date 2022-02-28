@@ -37,7 +37,7 @@ export const useMyLiquidities = () => {
           ) {
             id
             user
-            totalLiquity
+            totalLiquidity
             totalPODs
             cover {
               id
@@ -61,7 +61,7 @@ export const useMyLiquidities = () => {
 
   const myLiquidities = data?.coverUsers || [];
   const totalLiquidityProvided = sumOf(
-    ...myLiquidities.map((x) => x.totalLiquity || "0"),
+    ...myLiquidities.map((x) => x.totalLiquidity || "0"),
     "0"
   );
 

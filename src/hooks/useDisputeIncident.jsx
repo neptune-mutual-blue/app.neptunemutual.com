@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { useWeb3React } from "@web3-react/core";
+
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -14,42 +13,45 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useRouter } from "next/router";
+// import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useRouter } from "next/router";
+import { registry, utils } from "@neptunemutual/sdk";
+import { getParsedKey } from "@/src/helpers/cover";
 
-export const useVote = ({ coverKey, value, incidentDate }) => {
+export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
+  const router = useRouter();
+
   const [approving, setApproving] = useState(false);
-  const [voting, setVoting] = useState(false);
+  const [disputing, setDisputing] = useState(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
+  const governanceContractAddress = useGovernanceAddress();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
-  const txToast = useTxToast();
-  const governanceAddress = useGovernanceAddress();
-  const { invoke } = useInvokeMethod();
   const {
     allowance,
-    approve,
     refetch: updateAllowance,
+    approve,
   } = useERC20Allowance(NPMTokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(NPMTokenAddress);
+  const { balance } = useERC20Balance(NPMTokenAddress);
+
+  const txToast = useTxToast();
+  // const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const router = useRouter();
-
   useEffect(() => {
-    updateAllowance(governanceAddress);
-  }, [governanceAddress, updateAllowance]);
+    updateAllowance(governanceContractAddress);
+  }, [governanceContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    setApproving(true);
     try {
+      setApproving(true);
       const tx = await approve(
-        governanceAddress,
+        governanceContractAddress,
         convertToUnits(value).toString()
       );
 
@@ -59,70 +61,59 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         failure: `Could not approve ${tokenSymbol} tokens`,
       });
 
-      updateAllowance(governanceAddress);
-    } catch (err) {
-      notifyError(err, `approve ${tokenSymbol} tokens`);
-    } finally {
+      setApproving(false);
+      updateAllowance(governanceContractAddress);
+    } catch (error) {
+      notifyError(error, `approve ${tokenSymbol} tokens`);
       setApproving(false);
     }
   };
 
-  const handleAttest = async () => {
-    setVoting(true);
+  const handleDispute = async (info) => {
+    setDisputing(true);
+
+    if (!networkId || !account) {
+      return;
+    }
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+      const payload = await utils.ipfs.write({ ...info, createdBy: account });
+
+      if (payload === undefined) {
+        throw new Error("Could not save cover to an IPFS network");
+      }
+
+      const hashBytes32 = payload[1];
 
       const instance = await registry.Governance.getInstance(
         networkId,
         signerOrProvider
       );
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "attest", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: "Attesting",
-        success: "Attested successfully",
-        failure: "Could not attest",
-      });
-      updateBalance();
-      updateAllowance();
-    } catch (err) {
-      notifyError(err, "attest");
-    } finally {
-      setVoting(false);
-    }
-  };
-
-  const handleRefute = async () => {
-    setVoting(true);
-
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const instance = await registry.Governance.getInstance(
-        networkId,
-        signerOrProvider
+      const tx = await instance.dispute(
+        coverKey,
+        incidentDate,
+        hashBytes32,
+        convertToUnits(value).toString()
       );
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "refute", {}, notifyError, args);
-
       await txToast.push(tx, {
-        pending: "Refuting",
-        success: "Refuted successfully",
-        failure: "Could not refute",
+        pending: "Disputing",
+        success: "Disputed successfully",
+        failure: "Could not dispute",
       });
+
+      router.replace(`/reporting/${getParsedKey(coverKey)}/${incidentDate}`);
     } catch (err) {
-      // console.error(err);
-      notifyError(err, "refute");
+      notifyError(err, "dispute");
     } finally {
-      setVoting(false);
+      setDisputing(false);
     }
   };
 
-  const canVote =
+  const canDispute =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
@@ -136,13 +127,12 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
     balance,
     approving,
-    voting,
+    disputing,
 
-    canVote,
+    canDispute,
     isError,
 
     handleApprove,
-    handleAttest,
-    handleRefute,
+    handleDispute,
   };
 };
