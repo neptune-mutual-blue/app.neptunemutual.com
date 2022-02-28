@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
@@ -16,10 +16,31 @@ import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, sumOf } from "@/utils/bn";
+import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
+import { classNames } from "@/utils/classnames";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
+
+  const [changeData, setChangeData] = useState(null);
+  const { data } = useProtocolDayData();
+  useEffect(() => {
+    if (data) {
+      let diff =
+        data[data.length - 1].totalLiquidity -
+        data[data.length - 2].totalLiquidity;
+      const rise = Boolean(diff > 0);
+      diff = (
+        (Math.abs(diff) / data[data.length - 2].totalLiquidity) *
+        100
+      ).toFixed(2);
+      setChangeData({
+        diff,
+        rise,
+      });
+    }
+  }, [data]);
 
   return (
     <>
@@ -86,13 +107,23 @@ export const HomePage = () => {
                     ).short
                   }
                 </h2>
-                <h6 className="text-h6 text-21AD8C font-sora font-bold flex items-center">
-                  <span className="pr-1">
-                    <span className="sr-only">Growth</span>
-                    <IncreaseIcon width={19} />
-                  </span>
-                  <span>15.25%</span>
-                </h6>
+                {changeData && (
+                  <h6
+                    className={classNames(
+                      "text-h6 font-sora font-bold flex items-center",
+                      changeData.rise ? "text-21AD8C" : "text-DC2121"
+                    )}
+                  >
+                    <span className="pr-1">
+                      <span className="sr-only">Growth</span>
+                      <IncreaseIcon
+                        width={19}
+                        className={changeData.rise ? "" : "transform-flip"}
+                      />
+                    </span>
+                    <span>{changeData.diff}%</span>
+                  </h6>
+                )}
               </div>
             </div>
             <div className="flex-1 min-h-360">

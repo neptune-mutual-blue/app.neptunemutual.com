@@ -8,3 +8,7 @@ input:checked + div {
 input:checked + div svg {
   @apply block;
 }
+
+.transform-flip {
+  transform: scale(1, -1);
+}
