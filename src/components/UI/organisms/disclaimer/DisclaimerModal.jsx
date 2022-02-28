@@ -19,7 +19,7 @@ export const DisclaimerModal = () => {
   };
 
   const handleDecline = () => {
-    setIsOpen(false);
+    window.location.href = "https://neptunemutual.com";
   };
 
   return (
