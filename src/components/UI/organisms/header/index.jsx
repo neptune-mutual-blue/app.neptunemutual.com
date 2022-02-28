@@ -241,7 +241,7 @@ export const MenuModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle sm:align-baseline transition-all transform shadow-xl rounded-2xl">
-                <div className="flex flex-col flex-wrap justify-center">
+                <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
                   {navigation.map((link) => {
                     return (
                       <Link key={link.name} href={link.href}>
@@ -259,7 +259,7 @@ export const MenuModal = ({
                     );
                   })}
                 </div>
-                <div className="">
+                <div className="mt-12">
                   <ConnectWallet networkId={networkId} notifier={notifier}>
                     {({ onOpen }) => {
                       let button = (
