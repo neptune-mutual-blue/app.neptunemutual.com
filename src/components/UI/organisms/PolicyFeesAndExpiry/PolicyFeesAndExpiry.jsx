@@ -8,7 +8,7 @@ export const PolicyFeesAndExpiry = ({ fetching, data, coverPeriod }) => {
   const { fee, rate } = data;
 
   const rateConverted = convertUintToPercentage(rate);
-  const coverFee = convertFromUnits(fee).decimalPlaces(3).toString();
+  const coverFee = convertFromUnits(fee).toString();
 
   const next = DateLib.addMonths(new Date(), coverPeriod - 1);
   const expires = DateLib.getEomInUTC(next);

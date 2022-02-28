@@ -12,6 +12,7 @@ const asCurrency = (sign, number, symbol, currency, token = false) => {
   const formatter = new Intl.NumberFormat(getLocale(), {
     style: "currency",
     currency,
+    maximumFractionDigits: parseFloat(number) < 1 ? 8 : 2,
   });
 
   return `${sign}${formatter.format(number)}${symbol}`;
