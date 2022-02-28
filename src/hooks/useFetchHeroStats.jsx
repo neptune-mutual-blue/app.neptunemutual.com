@@ -68,31 +68,33 @@ export const useFetchHeroStats = () => {
     })
       .then((r) => r.json())
       .then((res) => {
-        if (!res.errors) {
-          const tvlCover = sumOf(
-            ...res.data.protocols.map((x) => x.totalCoverLiquidityAdded)
-          )
-            .minus(
-              sumOf(
-                ...res.data.protocols.map((x) => x.totalCoverLiquidityRemoved)
-              )
-            )
-            .plus(sumOf(...res.data.protocols.map((x) => x.totalFlashLoanFees)))
-            .toString();
-
-          setData({
-            availableCovers: res.data.covers.length,
-            reportingCovers: res.data.reporting.length,
-            coverFee: sumOf(
-              ...res.data.protocols.map((x) => x.totalCoverFee)
-            ).toString(),
-            covered: sumOf(
-              ...res.data.coverAmounts.map((x) => x.totalCoveredAmount)
-            ).toString(),
-            tvlCover: tvlCover,
-            tvlPool: "0",
-          });
+        if (res.errors) {
+          return;
         }
+
+        const tvlCover = sumOf(
+          ...res.data.protocols.map((x) => x.totalCoverLiquidityAdded)
+        )
+          .minus(
+            sumOf(
+              ...res.data.protocols.map((x) => x.totalCoverLiquidityRemoved)
+            )
+          )
+          .plus(sumOf(...res.data.protocols.map((x) => x.totalFlashLoanFees)))
+          .toString();
+
+        setData({
+          availableCovers: res.data.covers.length,
+          reportingCovers: res.data.reporting.length,
+          coverFee: sumOf(
+            ...res.data.protocols.map((x) => x.totalCoverFee)
+          ).toString(),
+          covered: sumOf(
+            ...res.data.coverAmounts.map((x) => x.totalCoveredAmount)
+          ).toString(),
+          tvlCover: tvlCover,
+          tvlPool: "0",
+        });
       })
       .catch((err) => {
         console.error(err);

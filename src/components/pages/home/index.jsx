@@ -91,7 +91,7 @@ export const HomePage = () => {
                     <span className="sr-only">Growth</span>
                     <IncreaseIcon width={19} />
                   </span>
-                  <span>15.32%</span>
+                  <span>15.25%</span>
                 </h6>
               </div>
             </div>

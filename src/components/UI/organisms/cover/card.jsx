@@ -2,16 +2,16 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useFetchCoverProtection } from "@/src/hooks/useFetchCoverProtection";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 
 export const CoverCard = ({ details }) => {
-  const { projectName, key, utilizationRatio, liquidity, ipfsData } = details;
+  const { projectName, key, utilizationRatio, ipfsData } = details;
 
-  const { data: protection } = useFetchCoverProtection({ coverKey: key });
+  const { data } = useFetchCoverStats({ coverKey: key });
 
   const imgSrc = getCoverImgSrc({ key });
 
@@ -48,23 +48,31 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between text-h7 lg:text-sm px-1">
         <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
         <span className="font-semibold text-right text-h7 lg:text-sm ">
-          {utilizationRatio}%
+          {formatPercent(data.utilization)}
         </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={utilizationRatio / 100} />
+        <ProgressBar value={data.utilization} />
       </div>
       <div className="flex justify-between text-h7 lg:text-sm px-1">
         <span
           className=""
-          title={formatCurrency(convertFromUnits(protection).toString()).long}
+          title={
+            formatCurrency(convertFromUnits(data.protection).toString()).long
+          }
         >
           Protection:{" "}
-          {formatCurrency(convertFromUnits(protection).toString()).short}
+          {formatCurrency(convertFromUnits(data.protection).toString()).short}
         </span>
 
-        <span className="text-right" title={formatCurrency(liquidity).long}>
-          Liquidity: {formatCurrency(liquidity).short}
+        <span
+          className="text-right"
+          title={
+            formatCurrency(convertFromUnits(data.liquidity).toString()).long
+          }
+        >
+          Liquidity:{" "}
+          {formatCurrency(convertFromUnits(data.liquidity).toString()).short}
         </span>
       </div>
     </OutlinedCard>
