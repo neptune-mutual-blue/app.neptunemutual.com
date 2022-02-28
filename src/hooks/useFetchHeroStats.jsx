@@ -50,7 +50,9 @@ export const useFetchHeroStats = () => {
             id
           }
           protocols {
-            totalCoverLiquity
+            totalFlashLoanFees
+            totalCoverLiquidityAdded
+            totalCoverLiquidityRemoved
             totalCoverFee
           }
           coverAmounts: coverAmountExpiryDatas (
@@ -67,6 +69,17 @@ export const useFetchHeroStats = () => {
       .then((r) => r.json())
       .then((res) => {
         if (!res.errors) {
+          const tvlCover = sumOf(
+            ...res.data.protocols.map((x) => x.totalCoverLiquidityAdded)
+          )
+            .minus(
+              sumOf(
+                ...res.data.protocols.map((x) => x.totalCoverLiquidityRemoved)
+              )
+            )
+            .plus(sumOf(...res.data.protocols.map((x) => x.totalFlashLoanFees)))
+            .toString();
+
           setData({
             availableCovers: res.data.covers.length,
             reportingCovers: res.data.reporting.length,
@@ -76,7 +89,7 @@ export const useFetchHeroStats = () => {
             covered: sumOf(
               ...res.data.coverAmounts.map((x) => x.totalCoveredAmount)
             ).toString(),
-            tvlCover: "0",
+            tvlCover: tvlCover,
             tvlPool: "0",
           });
         }
