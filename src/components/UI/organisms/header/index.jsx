@@ -104,7 +104,7 @@ export const Header = () => {
                 <HeaderLogo />
               </a>
             </Link>
-            <div className="ml-16 space-x-8">
+            <div className="ml-16 space-x-8 hidden md:block">
               {navigation.map((link) => {
                 return (
                   <Link key={link.name} href={link.href}>
@@ -259,7 +259,7 @@ export const MenuModal = ({
                     );
                   })}
                 </div>
-                <div className="mt-32">
+                <div className="">
                   <ConnectWallet networkId={networkId} notifier={notifier}>
                     {({ onOpen }) => {
                       let button = (
