@@ -1,5 +1,4 @@
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { Badge } from "@/components/UI/atoms/badge";
 import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
@@ -46,9 +45,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
             {coverInfo.projectName}
           </h4>
         </div>
-        <div>
-          <Badge className="text-21AD8C">APR: {"25"}%</Badge>
-        </div>
+        <div>{/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}</div>
       </div>
 
       {/* Divider */}

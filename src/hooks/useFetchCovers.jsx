@@ -101,8 +101,6 @@ export const useFetchCovers = () => {
       console.error(err);
     }
 
-    console.log(ipfsData);
-
     return {
       key: x.key,
       projectName: ipfsData.projectName,

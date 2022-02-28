@@ -6,7 +6,6 @@ import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/Stakin
 import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
-import { Badge } from "@/components/UI/atoms/badge";
 import { StakeModal } from "@/components/UI/organisms/pools/staking/StakeModal";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import BigNumber from "bignumber.js";
@@ -107,9 +106,7 @@ export const PodStakingCard = ({ data }) => {
           <StakingCardTitle text={poolName} />
           <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
         </div>
-        <div>
-          <Badge className="text-21AD8C">APR: {25}%</Badge>
-        </div>
+        <div>{/* <Badge className="text-21AD8C">APR: {25}%</Badge> */}</div>
       </div>
 
       <hr className="mt-4 border-t border-B0C4DB" />

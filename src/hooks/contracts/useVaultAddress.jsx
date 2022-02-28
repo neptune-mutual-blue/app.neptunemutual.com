@@ -12,7 +12,7 @@ export const useVaultAddress = ({ coverKey }) => {
 
   useEffect(() => {
     let ignore = false;
-    if (!networkId || !account) return;
+    if (!networkId || !account || !coverKey) return;
 
     async function exec() {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);

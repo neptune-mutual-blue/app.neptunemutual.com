@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
@@ -36,9 +36,10 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
     if (
       !networkId ||
+      !coverKey ||
+      !coverMonth ||
       !debouncedValue ||
-      !isValidNumber(debouncedValue) ||
-      !coverMonth
+      !isValidNumber(debouncedValue)
     ) {
       return;
     }
@@ -95,8 +96,11 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
         });
       } catch (err) {
         console.error(err);
+
+        if (ignore) return;
         setError(true);
       } finally {
+        if (ignore) return;
         setLoading(false);
       }
     }
