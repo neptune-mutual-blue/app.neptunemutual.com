@@ -1,13 +1,10 @@
-import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Checkbox } from "@/components/UI/atoms/checkbox";
-import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-export const AcceptReportRulesForm = ({ coverInfo, onAccept, children }) => {
+export const AcceptReportRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false);
-  const { commission } = useReporterCommission();
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked);
@@ -31,23 +28,10 @@ export const AcceptReportRulesForm = ({ coverInfo, onAccept, children }) => {
           checked={checked}
           onChange={handleChange}
         >
-          {children}
+          I have read, understood, and agree to the terms of cover rules
         </Checkbox>
         <br />
-        <div className="mt-16">
-          <h2 className="font-sora font-bold text-h2 mb-6">Active Reporting</h2>
-
-          <p className="text-h4 text-8F949C mb-10">
-            There are no known incidents related to {coverInfo.projectName}{" "}
-            Cover.
-          </p>
-          <Alert>
-            If you just came to know about a recent incident of{" "}
-            {coverInfo.projectName}, carefully read the cover rules above. You
-            can earn {commission}% of the minority fees if you are the first
-            person to report this incident.
-          </Alert>
-        </div>
+        {children}
         <RegularButton
           disabled={!checked}
           className={classNames(

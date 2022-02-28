@@ -1,7 +1,7 @@
 import ReportIcon from "@/icons/ReportIcon";
 import ActiveSheildIcon from "@/icons/ActiveSheildIcon";
 
-export const HomeMainCard = () => {
+export const HomeMainCard = ({ heroData }) => {
   return (
     <div
       className={
@@ -15,7 +15,7 @@ export const HomeMainCard = () => {
         </div>
         <h4 className="text-h5 leading-5 md:leading-6 md:text-h4">Available</h4>
         <h4 className="text-h5 leading-5 md:leading-6 md:text-h4 text-4e7dd9 font-bold ml-auto">
-          30
+          {heroData.availableCovers}
         </h4>
       </div>
 
@@ -26,7 +26,7 @@ export const HomeMainCard = () => {
         </div>
         <h4 className="text-h5 leading-5 md:leading-6 md:text-h4">Reporting</h4>
         <h4 className="text-h5 leading-5 md:leading-6 md:text-h4 text-4e7dd9 font-bold ml-auto">
-          2
+          {heroData.reportingCovers}
         </h4>
       </div>
     </div>

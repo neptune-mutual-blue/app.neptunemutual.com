@@ -4,17 +4,6 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { toUtf8String } from "@ethersproject/strings";
 import { utils } from "@neptunemutual/sdk";
 
-const defaultInfo = {
-  coverFees: {
-    min: 5,
-    max: 7,
-  },
-  apr: 25,
-  utilizationRatio: 25,
-  protection: 150000,
-  liquidity: 25000000,
-};
-
 const setIpfsData = (setter, id, ipfsData) => {
   setter((prevData) => {
     const prevCovers = prevData?.covers || [];
@@ -94,9 +83,11 @@ export const useFetchCovers = () => {
       .then((r) => r.json())
       .then((res) => {
         setData(res.data);
-        setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [networkId]);
@@ -110,6 +101,8 @@ export const useFetchCovers = () => {
       console.error(err);
     }
 
+    console.log(ipfsData);
+
     return {
       key: x.key,
       projectName: ipfsData.projectName,
@@ -120,7 +113,7 @@ export const useFetchCovers = () => {
       rules: ipfsData.rules,
       links: ipfsData.links,
 
-      ...defaultInfo,
+      ipfsData: ipfsData,
     };
   });
 

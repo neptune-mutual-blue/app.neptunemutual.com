@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
+import { sumOf } from "@/utils/bn";
+import DateLib from "@/lib/date/DateLib";
 
-export const useResolvedReportings = () => {
-  const [data, setData] = useState({});
+const defaultData = "0";
+
+export const useFetchCoverProtection = ({ coverKey }) => {
+  const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
 
   useEffect(() => {
-    if (!networkId) {
+    if (!networkId || !coverKey) {
       return;
     }
 
@@ -17,6 +21,8 @@ export const useResolvedReportings = () => {
     if (!graphURL) {
       return;
     }
+
+    const now = DateLib.unix();
 
     setLoading(true);
     fetch(graphURL, {
@@ -28,28 +34,12 @@ export const useResolvedReportings = () => {
       body: JSON.stringify({
         query: `
         {
-          incidentReports(
-            orderBy: incidentDate
-            orderDirection: desc
-            where:{
-              resolved: true
-            }
-          ) {
-            id
+          cxTokens(where: {
+            expiryDate_gt: "${now}"
+            key: "${coverKey}"
+          }){
             key
-            incidentDate
-            resolutionDeadline
-            resolved
-            emergencyResolved
-            emergencyResolveTransaction{
-              timestamp
-            }
-            resolveTransaction{
-              timestamp
-            }
-            finalized
-            status
-            resolutionTimestamp
+            totalCoveredAmount
           }
         }
         `,
@@ -57,7 +47,13 @@ export const useResolvedReportings = () => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (!res.errors) {
+          setData(
+            sumOf(
+              ...res.data.cxTokens.map((x) => x.totalCoveredAmount)
+            ).toString()
+          );
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -65,12 +61,10 @@ export const useResolvedReportings = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [networkId]);
+  }, [coverKey, networkId]);
 
   return {
-    data: {
-      incidentReports: data?.incidentReports || [],
-    },
+    data,
     loading,
   };
 };

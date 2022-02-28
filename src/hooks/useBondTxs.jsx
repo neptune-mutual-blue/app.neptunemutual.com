@@ -74,9 +74,11 @@ export const useBondTxs = ({ maxItems }) => {
       .then((r) => r.json())
       .then((res) => {
         setData(res.data);
-        setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
         setLoading(false);
       });
   }, [account, chainId]);
