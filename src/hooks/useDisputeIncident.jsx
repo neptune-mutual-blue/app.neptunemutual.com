@@ -105,7 +105,9 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         failure: "Could not dispute",
       });
 
-      router.replace(`/reporting/${getParsedKey(coverKey)}/${incidentDate}`);
+      router.replace(
+        `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+      );
     } catch (err) {
       notifyError(err, "dispute");
     } finally {
