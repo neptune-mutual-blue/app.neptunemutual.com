@@ -59,7 +59,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
     <>
       <OutlinedCard className="md:flex bg-white">
         {/* Left half */}
-        <div className="pb-0 md:pb-6 p-6 md:p-10 border-r border-B0C4DB flex-1">
+        <div className="pb-0 md:pb-6 p-6 md:p-10 md:border-r border-B0C4DB flex-1">
           <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
 
           {!reportingEnded && (
@@ -81,7 +81,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
           />
           <Divider />
 
-          <div className="hidden md:block">
+          <div className="p-6 md:p-0">
             {reportingEnded ? (
               <ResolveIncident
                 incidentReport={incidentReport}
@@ -184,18 +184,6 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
             <HlCalendar startDate={startDate} endDate={endDate} />
           )}
         </div>
-        <div className="block md:hidden p-6">
-          {reportingEnded ? (
-            <ResolveIncident
-              incidentReport={incidentReport}
-              resolvableTill={resolvableTill}
-            />
-          ) : (
-            <CastYourVote incidentReport={incidentReport} />
-          )}
-        </div>
-
-        <></>
       </OutlinedCard>
     </>
   );

@@ -66,9 +66,7 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           />
           <Divider />
 
-          <div className="hidden md:block">
-            <UnstakeYourAmount incidentReport={incidentReport} />
-          </div>
+          <UnstakeYourAmount incidentReport={incidentReport} />
         </div>
 
         {/* Right half */}
@@ -162,9 +160,6 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
               Finalize
             </button>
           )}
-          <div className="block md:hidden">
-            <UnstakeYourAmount incidentReport={incidentReport} />
-          </div>
         </div>
 
         <></>

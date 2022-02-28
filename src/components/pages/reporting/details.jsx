@@ -5,7 +5,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import { ActiveReportSummary1 } from "@/components/UI/organisms/reporting/ActiveReportSummary1";
+import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
 
 export const ReportingDetailsPage = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
@@ -27,7 +27,7 @@ export const ReportingDetailsPage = ({ incidentReport }) => {
         {showResolvedSummary ? (
           <ResolvedReportSummary incidentReport={incidentReport} />
         ) : (
-          <ActiveReportSummary1
+          <ActiveReportSummary
             incidentReport={incidentReport}
             resolvableTill={incidentReport.resolutionDeadline}
           />
