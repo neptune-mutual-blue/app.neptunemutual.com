@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock.src";
 
@@ -10,28 +10,9 @@ if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
-const now = new Date().getTime();
-const initialData = [
-  {
-    x: now,
-    y: 165480000,
-  },
-  {
-    x: now + 1 * 24 * 60 * 60 * 1000,
-    y: 165480000,
-  },
-  {
-    x: now + 2 * 24 * 60 * 60 * 1000,
-    y: 165480000,
-  },
-  {
-    x: now + 3 * 24 * 60 * 60 * 1000,
-    y: 165480000,
-  },
-];
-
 const TotalLiquidityChart = () => {
-  const [chartData, setChartData] = useState(initialData);
+  const [chartData, setChartData] = useState([]);
+  const chartRef = useRef();
   const chartOptions = {
     xAxis: {
       labels: {
@@ -146,6 +127,12 @@ const TotalLiquidityChart = () => {
   const { data } = useProtocolDayData();
 
   useEffect(() => {
+    if (chartRef.current?.chart) {
+      chartRef.current.chart.showLoading();
+    }
+  }, []);
+
+  useEffect(() => {
     if (data) {
       const _chartData = [];
       data.map(({ date, totalLiquidity }) => {
@@ -155,6 +142,9 @@ const TotalLiquidityChart = () => {
         });
       });
       setChartData(_chartData);
+      if (chartRef.current?.chart) {
+        chartRef.current.chart.hideLoading();
+      }
     }
   }, [data]);
 
@@ -164,6 +154,7 @@ const TotalLiquidityChart = () => {
         highcharts={Highcharts}
         options={chartOptions}
         constructorType="stockChart"
+        ref={chartRef}
       />
     </div>
   );
