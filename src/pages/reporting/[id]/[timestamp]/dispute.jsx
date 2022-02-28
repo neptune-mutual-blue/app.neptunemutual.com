@@ -7,6 +7,8 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
 import { Container } from "@/components/UI/atoms/container";
 import { Alert } from "@/components/UI/atoms/alert";
+import DateLib from "@/lib/date/DateLib";
+import { isGreater } from "@/utils/bn";
 
 export default function DisputeFormPage() {
   const router = useRouter();
@@ -18,6 +20,14 @@ export default function DisputeFormPage() {
     coverKey: coverKey,
     incidentDate: timestamp,
   });
+
+  const now = DateLib.unix();
+  const reportingEnded = data?.incidentReport
+    ? isGreater(now, data.incidentReport.resolutionTimestamp)
+    : false;
+
+  const canDispute =
+    !reportingEnded && data?.incidentReport?.totalRefutedCount === "0";
 
   return (
     <main>
@@ -40,19 +50,21 @@ export default function DisputeFormPage() {
 
       {loading && <p className="text-center">Loading...</p>}
 
-      {!data.incidentReport && <p className="text-center">No data found</p>}
+      {!loading && !data.incidentReport && (
+        <p className="text-center">No data found</p>
+      )}
 
-      <Container className="py-16">
-        {data.incidentReport &&
-          data?.incidentReport?.totalRefutedCount !== "0" && (
-            <Alert>Not applicable for disputing</Alert>
-          )}
-
-        {data.incidentReport &&
-          data?.incidentReport?.totalRefutedCount === "0" && (
-            <NewDisputeReportForm incidentReport={data.incidentReport} />
-          )}
-      </Container>
+      {data.incidentReport && (
+        <div className="border-t border-t-B0C4DB">
+          <Container className="py-16">
+            {canDispute ? (
+              <NewDisputeReportForm incidentReport={data.incidentReport} />
+            ) : (
+              <Alert>Not applicable for disputing</Alert>
+            )}
+          </Container>
+        </div>
+      )}
     </main>
   );
 }

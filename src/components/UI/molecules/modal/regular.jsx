@@ -8,7 +8,7 @@ export const Modal = ({ isOpen = false, children, onClose, disabled }) => (
       className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50"
       onClose={disabled ? () => {} : onClose}
     >
-      <div className="min-h-screen px-4 text-center">
+      <div className="min-h-screen px-4 text-center flex justify-center items-center h-full">
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
