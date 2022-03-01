@@ -13,9 +13,9 @@ export const CoverActionsFooter = ({ activeKey }) => {
   return (
     <>
       {/* Cover Actions */}
-      <div className="pt-20 pb-36 bg-f1f3f6 border-t border-t-B0C4DB">
+      <div className="pt-12 sm:pt-20 pb-36 bg-f1f3f6 border-t border-t-B0C4DB">
         <Container>
-          <h1 className="text-h2 font-sora font-bold mb-12 text-center">
+          <h1 className="text-h4 md:text-h2 font-sora font-bold mb-10 sm:mb-12 text-center">
             Didn&#x2019;t Find What You Were Looking For?
           </h1>
           <Grid>
