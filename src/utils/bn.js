@@ -8,6 +8,8 @@ BigNumber.config({
 
 export const ZERO_BI = BigNumber("0");
 
+export const toBN = (x) => new BigNumber(x.toString());
+
 export const hasValue = (x) => {
   return !(!x || !parseFloat(x.toString()));
 };

@@ -11,6 +11,7 @@ import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
 import { Dialog } from "@headlessui/react";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +22,23 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   const { coverInfo } = useCoverInfo(incidentReport.key);
   const logoSrc = getCoverImgSrc(coverInfo);
 
+  // Refreshes once claim begins
+  useRetryUntilPassed(() => {
+    return isGreater(incidentReport.claimBeginsFrom, DateLib.unix());
+  }, false);
+
+  // Refreshes once claim ends
+  useRetryUntilPassed(() => {
+    return isGreater(DateLib.unix(), incidentReport.claimExpiresAt);
+  }, true);
+
   function onClose() {
     setIsOpen(false);
   }
 
   const now = DateLib.unix();
 
+  const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
     incidentReport.decision &&
     isGreater(incidentReport.claimExpiresAt, now) &&
@@ -46,6 +58,13 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         <CountDownTimer
           title="CLAIM ENDS IN"
           target={incidentReport.claimExpiresAt}
+        />
+      )}
+
+      {notClaimableYet && (
+        <CountDownTimer
+          title="CLAIM BEGINS IN"
+          target={incidentReport.claimBeginsFrom}
         />
       )}
 
