@@ -47,6 +47,7 @@ module.exports = {
         },
       ],
       xxxl: "136px",
+      xxl: "40px",
     },
     fontFamily: {
       poppins: "Poppins, sans-serif",
@@ -128,6 +129,9 @@ module.exports = {
         "404-background": "url('/404_bg.png')",
         "gradient-bg": "url(/gradient.png)",
         "home-pattern": "url(/home/bg-pattern.png)",
+      },
+      transitionTimingFunction: {
+        menu: "cubic-bezier(0.4, 0, 0.2, 1)",
       },
     },
   },
