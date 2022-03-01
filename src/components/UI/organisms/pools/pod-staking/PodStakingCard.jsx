@@ -20,6 +20,7 @@ import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useFetchPoolStats } from "@/src/hooks/useFetchPoolStats";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -27,6 +28,9 @@ import { formatCurrency } from "@/utils/formatter/currency";
 export const PodStakingCard = ({ data }) => {
   const { networkId } = useAppContext();
   const { info } = usePoolInfo({ key: data.key });
+  const {
+    data: { tvl },
+  } = useFetchPoolStats({ key: data.key });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -84,8 +88,8 @@ export const PodStakingCard = ({ data }) => {
   const rightHalf = [
     {
       title: "TVL",
-      value: formatCurrency(convertFromUnits(info.totalStaked), "USD").short,
-      tooltip: formatCurrency(convertFromUnits(info.totalStaked), "USD").long,
+      value: formatCurrency(convertFromUnits(tvl), "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), "USD").long,
     },
   ];
 

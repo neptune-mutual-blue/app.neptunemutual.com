@@ -62,6 +62,15 @@ export const useFetchHeroStats = () => {
           ) {
             totalCoveredAmount
           }
+          pools {
+            poolType
+            rewardToken
+            stakingToken
+            rewardTokenDeposit
+            totalRewardsWithdrawn
+            totalStakingTokenDeposited
+            totalStakingTokenWithdrawn
+          }
         }
         `,
       }),
@@ -71,6 +80,20 @@ export const useFetchHeroStats = () => {
         if (res.errors) {
           return;
         }
+
+        const tvlPool = res.data.pools.reduce((acc, currentPool) => {
+          const rewardAmount = sumOf(currentPool.rewardTokenDeposit)
+            .minus(currentPool.totalRewardsWithdrawn)
+            .toString();
+
+          const stakingTokenAmount = sumOf(
+            currentPool.totalStakingTokenDeposited
+          )
+            .minus(currentPool.totalStakingTokenWithdrawn)
+            .toString();
+
+          return sumOf(rewardAmount, stakingTokenAmount).toString();
+        }, "0");
 
         const tvlCover = sumOf(
           ...res.data.protocols.map((x) => x.totalCoverLiquidityAdded)
@@ -93,7 +116,7 @@ export const useFetchHeroStats = () => {
             ...res.data.coverAmounts.map((x) => x.totalCoveredAmount)
           ).toString(),
           tvlCover: tvlCover,
-          tvlPool: "0",
+          tvlPool: tvlPool,
         });
       })
       .catch((err) => {

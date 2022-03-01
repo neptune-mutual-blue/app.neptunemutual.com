@@ -15,7 +15,7 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
 
@@ -36,6 +36,7 @@ export const HomePage = () => {
         100
       ).toFixed(2);
       setChangeData({
+        last: data[data.length - 1].totalLiquidity,
         diff,
         rise,
       });
@@ -101,9 +102,7 @@ export const HomePage = () => {
                 <h2 className="text-h2 text-black font-sora font-bold pr-3">
                   {
                     formatCurrency(
-                      convertFromUnits(
-                        sumOf(heroData.tvlCover, heroData.tvlPool)
-                      ).toString()
+                      convertFromUnits(changeData?.last || "0").toString()
                     ).short
                   }
                 </h2>

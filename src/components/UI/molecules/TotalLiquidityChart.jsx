@@ -12,7 +12,9 @@ if (typeof Highcharts === "object") {
 
 const TotalLiquidityChart = () => {
   const [chartData, setChartData] = useState([]);
+  const { data } = useProtocolDayData();
   const chartRef = useRef();
+
   const chartOptions = {
     xAxis: {
       labels: {
@@ -124,7 +126,6 @@ const TotalLiquidityChart = () => {
       enabled: false,
     },
   };
-  const { data } = useProtocolDayData();
 
   useEffect(() => {
     if (chartRef.current?.chart) {
