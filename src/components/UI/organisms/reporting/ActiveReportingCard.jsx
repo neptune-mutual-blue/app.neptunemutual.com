@@ -6,9 +6,14 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { formatPercent } from "@/utils/formatter/percent";
+import { MULTIPLIER } from "@/src/config/constants";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
+import { convertFromUnits } from "@/utils/bn";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
+  const { data } = useFetchCoverStats({ coverKey });
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
   return (
@@ -26,7 +31,9 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
             {coverInfo.projectName}
           </h4>
           <div className="text-sm text-7398C0 uppercase mt-2">
-            cover fee: {5}-{7}%
+            Cover fee:{" "}
+            {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER)}-
+            {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER)}
           </div>
         </div>
       </div>
@@ -37,14 +44,22 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       {/* Stats */}
       <div className="flex justify-between text-sm px-1">
         <span className="uppercase">utilization Ratio</span>
-        <span className="font-semibold text-right">{25}%</span>
+        <span className="font-semibold text-right">
+          {formatPercent(data.utilization)}
+        </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={25 / 100} />
+        <ProgressBar value={data.utilization} />
       </div>
       <div className="flex justify-between text-sm px-1">
-        <span className="" title={formatCurrency(25000000).long}>
-          Protection: {formatCurrency(25000000).short}
+        <span
+          className=""
+          title={
+            formatCurrency(convertFromUnits(data.protection).toString()).long
+          }
+        >
+          Protection:{" "}
+          {formatCurrency(convertFromUnits(data.protection).toString()).short}
         </span>
         <span
           className="text-right"

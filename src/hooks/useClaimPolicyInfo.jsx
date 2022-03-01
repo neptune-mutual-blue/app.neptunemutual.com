@@ -114,7 +114,7 @@ export const useClaimPolicyInfo = ({
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      const tx = invoke(instance, "claim", {}, notifyError, args);
+      const tx = await invoke(instance, "claim", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: `Claiming policy`,

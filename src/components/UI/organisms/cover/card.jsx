@@ -9,10 +9,8 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 
 export const CoverCard = ({ details }) => {
-  const { projectName, key, utilizationRatio, ipfsData } = details;
-
+  const { projectName, key, ipfsData } = details;
   const { data } = useFetchCoverStats({ coverKey: key });
-
   const imgSrc = getCoverImgSrc({ key });
 
   return (
@@ -36,7 +34,7 @@ export const CoverCard = ({ details }) => {
         </div>
         <div>
           {/* <Badge className="text-h7 lg:text-sm text-21AD8C border rounded-3xl">
-            APR: {apr}%
+            APR: {''}%
           </Badge> */}
         </div>
       </div>

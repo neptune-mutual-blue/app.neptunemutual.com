@@ -17,7 +17,7 @@ export const ClaimBondModal = ({
   isOpen,
   onClose,
 }) => {
-  const { handleClaim } = useClaimBond(unlockDate);
+  const { handleClaim, claiming } = useClaimBond(unlockDate);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -49,10 +49,11 @@ export const ClaimBondModal = ({
         </div>
         {/* left to add click handler */}
         <RegularButton
+          disabled={claiming}
           onClick={handleClaim}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         >
-          Claim Now
+          {claiming ? "Claiming..." : "Claim Now"}
         </RegularButton>
       </div>
     </Modal>

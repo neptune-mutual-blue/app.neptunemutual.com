@@ -21,7 +21,7 @@ export const useInvokeMethod = () => {
             args
           )}`
         );
-        return "0";
+        return "6000000";
       });
 
       const tx = await instance[methodName](...args, {

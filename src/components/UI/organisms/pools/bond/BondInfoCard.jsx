@@ -10,14 +10,25 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { isGreater } from "@/utils/bn";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatPercent } from "@/utils/formatter/percent";
+import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
+import { useState } from "react";
 
 export const BondInfoCard = ({
   roi,
-  vestingPeriod,
-  claimable,
+
+  info,
   details,
-  handleClaimModal,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <OutlinedCard className="bg-DEEAF6 p-10">
       <div className="flex justify-between items-start">
@@ -33,7 +44,7 @@ export const BondInfoCard = ({
                 <InfoCircleIcon width={24} className="fill-9B9B9B" />
               </Tooltip.Trigger>
 
-              <BondInfoTooltipContent vestingPeriod={vestingPeriod} />
+              <BondInfoTooltipContent vestingPeriod={info.vestingTerm} />
             </Tooltip.Root>
           </h3>
         </div>
@@ -44,19 +55,29 @@ export const BondInfoCard = ({
       </div>
 
       <p className="text-sm mt-2 mb-6 opacity-50">
-        {explainInterval(vestingPeriod)} vesting term
+        {explainInterval(info.vestingTerm)} vesting term
       </p>
 
       <BondStatsContainer details={details} />
 
-      {isGreater(claimable, "0") && (
-        <OutlinedButton
-          type="button"
-          onClick={handleClaimModal}
-          className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
-        >
-          Claim My Bond
-        </OutlinedButton>
+      {isGreater(info.claimable, "0") && (
+        <>
+          <OutlinedButton
+            type="button"
+            onClick={onOpen}
+            className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
+          >
+            Claim My Bond
+          </OutlinedButton>
+
+          <ClaimBondModal
+            isOpen={isOpen}
+            onClose={onClose}
+            modalTitle={"Claim Bond"}
+            unlockDate={info.unlockDate}
+            claimable={info.claimable}
+          />
+        </>
       )}
     </OutlinedCard>
   );
