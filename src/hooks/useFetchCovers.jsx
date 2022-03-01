@@ -98,7 +98,7 @@ export const useFetchCovers = () => {
     try {
       ipfsData = JSON.parse(toUtf8String(x.ipfsBytes));
     } catch (err) {
-      console.error(err);
+      console.log("Could not parse ipfs bytes", x.key);
     }
 
     return {

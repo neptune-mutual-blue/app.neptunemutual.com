@@ -6,11 +6,10 @@ import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { BondInfoCard } from "@/components/UI/organisms/pools/bond/BondInfoCard";
-import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
+import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -23,7 +22,6 @@ import Link from "next/link";
 const BondPage = () => {
   const { info } = useBondInfo();
   const [value, setValue] = useState();
-  const [isOpen, setIsOpen] = useState(false);
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
@@ -112,14 +110,6 @@ const BondPage = () => {
     tooltip: "",
   });
 
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-
-  const onClose = () => {
-    setIsOpen(false);
-  };
-
   const handleChange = (val) => {
     if (typeof val === "string") {
       setValue(val);
@@ -193,24 +183,8 @@ const BondPage = () => {
             </a>
           </Link>
         </div>
-        <BondInfoCard
-          handleClaimModal={onOpen}
-          details={details}
-          roi={roi}
-          claimable={info.claimable}
-          vestingPeriod={info.vestingTerm}
-        />
+        <BondInfoCard info={info} details={details} roi={roi} />
       </div>
-
-      {isGreater(info.claimable, "0") && (
-        <ClaimBondModal
-          isOpen={isOpen}
-          onClose={onClose}
-          modalTitle={"Claim Bond"}
-          unlockDate={info.unlockDate}
-          claimable={info.claimable}
-        />
-      )}
     </Container>
   );
 };

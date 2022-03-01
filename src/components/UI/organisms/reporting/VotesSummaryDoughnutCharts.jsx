@@ -66,7 +66,7 @@ const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
       >
         {title}
       </h5>
-      <p className="mt-1">({percent}%)</p>
+      <p className="mt-1">({percent})</p>
       <p className="opacity-40 whitespace-nowrap overflow-ellipsis">
         {amountStaked} NPM
       </p>

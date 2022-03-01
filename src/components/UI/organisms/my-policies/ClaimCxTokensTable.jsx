@@ -123,7 +123,7 @@ const ClaimActionsColumnRenderer = ({ row, extraData }) => {
     setIsOpen(false);
   };
 
-  const handleClaim = () => {
+  const onOpen = () => {
     setIsOpen(true);
   };
 
@@ -131,7 +131,7 @@ const ClaimActionsColumnRenderer = ({ row, extraData }) => {
     <td className="text-right px-6 py-6 min-w-120">
       <button
         className="text-4e7dd9 hover:underline cursor-pointer"
-        onClick={handleClaim}
+        onClick={onOpen}
       >
         Claim
       </button>

@@ -8,7 +8,7 @@ import DateLib from "@/lib/date/DateLib";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 
-export const useClaimBond = (unlockDate = Infinity) => {
+export const useClaimBond = (unlockDate) => {
   const [claiming, setClaiming] = useState();
   const { chainId, account, library } = useWeb3React();
 

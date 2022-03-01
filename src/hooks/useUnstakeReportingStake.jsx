@@ -125,9 +125,13 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
-      const tx = await resolutionContract.unstakeWithClaim(
-        coverKey,
-        incidentDate
+      const args = [coverKey, incidentDate];
+      const tx = await invoke(
+        resolutionContract,
+        "unstakeWithClaim",
+        {},
+        notifyError,
+        args
       );
 
       await txToast.push(tx, {
