@@ -32,7 +32,7 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
       const args = [coverKey, incidentDate];
       const tx = await invoke(instance, "finalize", {}, notifyError, args);
 
-      txToast.push(tx, {
+      await txToast.push(tx, {
         pending: "Finalizing Incident",
         success: "Finalized Incident Successfully",
         failure: "Could not Finalize Incident",

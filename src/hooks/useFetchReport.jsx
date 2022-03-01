@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 
@@ -7,7 +7,7 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
   const [loading, setLoading] = useState(false);
   const { networkId } = useAppContext();
 
-  useEffect(() => {
+  const fetchApi = useCallback(async () => {
     if (!networkId || !coverKey || !incidentDate) {
       return;
     }
@@ -18,6 +18,8 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
     if (!graphURL) {
       return;
     }
+
+    console.log("fetching");
 
     setLoading(true);
     fetch(graphURL, {
@@ -83,10 +85,15 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
       });
   }, [coverKey, incidentDate, networkId]);
 
+  useEffect(() => {
+    fetchApi();
+  }, [fetchApi]);
+
   return {
     data: {
       incidentReport: data?.incidentReport,
     },
     loading,
+    refetch: fetchApi,
   };
 };

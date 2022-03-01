@@ -11,7 +11,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
 
-export const ResolvedReportSummary = ({ incidentReport }) => {
+export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize } = useFinalizeIncident({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
@@ -156,7 +156,13 @@ export const ResolvedReportSummary = ({ incidentReport }) => {
           </p>
 
           {!incidentReport.finalized && (
-            <button className="text-4e7dd9 text-sm" onClick={finalize}>
+            <button
+              className="text-4e7dd9 text-sm"
+              onClick={async () => {
+                await finalize();
+                setTimeout(refetchReport, 15000);
+              }}
+            >
               Finalize
             </button>
           )}

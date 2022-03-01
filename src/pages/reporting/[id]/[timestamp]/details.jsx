@@ -9,7 +9,7 @@ export default function IncidentResolvedCoverPage() {
   const { id: cover_id, timestamp } = router.query;
 
   const coverKey = toBytes32(cover_id);
-  const { data, loading } = useFetchReport({
+  const { data, loading, refetch } = useFetchReport({
     coverKey: coverKey,
     incidentDate: timestamp,
   });
@@ -29,7 +29,10 @@ export default function IncidentResolvedCoverPage() {
       {!data.incidentReport && <p className="text-center">No data found</p>}
 
       {data.incidentReport && (
-        <ReportingDetailsPage incidentReport={data.incidentReport} />
+        <ReportingDetailsPage
+          incidentReport={data.incidentReport}
+          refetchReport={refetch}
+        />
       )}
     </main>
   );

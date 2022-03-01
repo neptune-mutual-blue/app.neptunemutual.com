@@ -9,7 +9,11 @@ import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
 
-export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
+export const ResolveIncident = ({
+  refetchReport,
+  incidentReport,
+  resolvableTill,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const { resolve, emergencyResolve } = useResolveIncident({
     coverKey: incidentReport.key,
@@ -33,7 +37,10 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
         {!incidentReport.resolved && (
           <RegularButton
             className="px-10 py-4 w-full md:w-80  font-semibold uppercase"
-            onClick={resolve}
+            onClick={async () => {
+              await resolve();
+              setTimeout(refetchReport, 15000);
+            }}
           >
             Resolve
           </RegularButton>
@@ -49,6 +56,7 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
         <EmergencyResolveModal
           isOpen={isOpen}
           onClose={onClose}
+          refetchReport={refetchReport}
           emergencyResolve={emergencyResolve}
           logoSource={logoSource}
           logoAlt={coverInfo?.coverName}
@@ -61,6 +69,7 @@ export const ResolveIncident = ({ incidentReport, resolvableTill }) => {
 const EmergencyResolveModal = ({
   isOpen,
   onClose,
+  refetchReport,
   emergencyResolve,
   logoSource,
   logoAlt,
@@ -81,7 +90,9 @@ const EmergencyResolveModal = ({
             alt={logoAlt}
             src={logoSource}
           />
-          <h3 className="font-sora font-bold text-h2">Emergency Resolution</h3>
+          <div className="font-sora font-bold text-h2">
+            Emergency Resolution
+          </div>
         </Dialog.Title>
         <div className="mt-8 mb-6 font-semibold uppercase">
           Select Your Decision
@@ -105,8 +116,9 @@ const EmergencyResolveModal = ({
 
         <RegularButton
           className="px-10 py-4 mt-12 w-full font-semibold"
-          onClick={() => {
-            emergencyResolve(decision === "true");
+          onClick={async () => {
+            await emergencyResolve(decision === "true");
+            setTimeout(refetchReport, 15000);
           }}
         >
           EMERGENCY RESOLVE

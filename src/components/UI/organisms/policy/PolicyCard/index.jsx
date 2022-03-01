@@ -36,8 +36,8 @@ export const PolicyCard = ({ policyInfo }) => {
   return (
     <div className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
       <OutlinedCard className="bg-white p-6" type="normal">
-        <div className="flex justify-between">
-          <div>
+        <div>
+          <div className="flex justify-between">
             <div className="w-18 h-18 bg-DEEAF6 p-3 rounded-full">
               <img
                 src={imgSrc}
@@ -45,21 +45,22 @@ export const PolicyCard = ({ policyInfo }) => {
                 className="inline-block max-w-full"
               />
             </div>
-            <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-              {coverInfo.projectName}
-            </h4>
+
+            <div>
+              {status && (
+                <Badge
+                  className={classNames(
+                    statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
+                  )}
+                >
+                  <IncidentReportStatus status={status} />
+                </Badge>
+              )}
+            </div>
           </div>
-          <div>
-            {status && (
-              <Badge
-                className={classNames(
-                  statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
-                )}
-              >
-                <IncidentReportStatus status={status} />
-              </Badge>
-            )}
-          </div>
+          <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
+            {coverInfo.projectName}
+          </h4>
         </div>
 
         {/* Divider */}

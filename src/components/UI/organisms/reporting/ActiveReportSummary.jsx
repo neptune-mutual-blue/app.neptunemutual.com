@@ -13,10 +13,15 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
-export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
-  const startDate = new Date(incidentReport.incidentDate * 1000);
-  const endDate = new Date(incidentReport.resolutionTimestamp * 1000);
+export const ActiveReportSummary = ({
+  refetchReport,
+  incidentReport,
+  resolvableTill,
+}) => {
+  const startDate = DateLib.fromUnix(incidentReport.incidentDate);
+  const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -55,6 +60,12 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
   const now = DateLib.unix();
   const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
 
+  // Refreshes when reporting period ends
+  useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.resolutionTimestamp);
+  }, true);
+
   return (
     <>
       <OutlinedCard className="md:flex bg-white">
@@ -86,6 +97,7 @@ export const ActiveReportSummary = ({ incidentReport, resolvableTill }) => {
               <ResolveIncident
                 incidentReport={incidentReport}
                 resolvableTill={resolvableTill}
+                refetchReport={refetchReport}
               />
             ) : (
               <CastYourVote incidentReport={incidentReport} />

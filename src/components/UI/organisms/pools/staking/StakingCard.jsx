@@ -5,7 +5,6 @@ import { DoubleImage } from "@/components/common/DoubleImage";
 import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";
-import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { StakeModal } from "@/components/UI/organisms/pools/staking/StakeModal";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import BigNumber from "bignumber.js";
@@ -119,7 +118,18 @@ export const StakingCard = ({ data }) => {
   );
 
   const collectModalTitle = (
-    <ModalTitle imgSrc={npmImgSrc}>Collect {stakingTokenSymbol}</ModalTitle>
+    <div className="flex items-center">
+      <div className="mr-8">
+        <DoubleImage
+          images={[
+            { src: npmImgSrc, alt: "NPM" },
+            { src: imgSrc, alt: rewardTokenSymbol },
+          ]}
+        />
+      </div>
+
+      <h3>Earn {rewardTokenSymbol}</h3>
+    </div>
   );
 
   return (
