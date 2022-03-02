@@ -4,29 +4,19 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import DateLib from "@/lib/date/DateLib";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
-export const useClaimBond = (unlockDate) => {
+export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
   const { chainId, account, library } = useWeb3React();
 
-  const toast = useToast();
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   const handleClaim = async () => {
     if (!account || !chainId) {
-      return;
-    }
-
-    const now = DateLib.unix();
-    if (now < unlockDate) {
-      toast?.pushError({
-        title: "Claim Error",
-        message: "Could not claim before unlock date",
-        lifetime: TOAST_DEFAULT_TIMEOUT,
-      });
       return;
     }
 
@@ -39,7 +29,7 @@ export const useClaimBond = (unlockDate) => {
         signerOrProvider
       );
 
-      let tx = await instance.claimBond();
+      let tx = await invoke(instance, "claimBond", {}, notifyError, []);
 
       await txToast.push(tx, {
         pending: "Claiming NPM",
@@ -47,7 +37,7 @@ export const useClaimBond = (unlockDate) => {
         failure: "Could not claim bond",
       });
     } catch (err) {
-      console.error(err);
+      notifyError(err);
     } finally {
       setClaiming(false);
     }

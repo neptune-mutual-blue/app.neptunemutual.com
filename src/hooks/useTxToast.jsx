@@ -9,13 +9,16 @@ export const useTxToast = () => {
   const toast = useToast();
 
   /**
-   * push(tx, {
-   *   pending: "Approving DAI",
-   *   success: "Approved DAI Successfully",
-   *   failure: "Could not approve DAI"
-   * })
+   *
+   * @param {*} tx
+   * @param {{pending: string, success: string, failure: string}} titles
+   * @returns {boolean} transaction status - helps decide auto close modals or clearing forms
    */
   const push = async (tx, titles) => {
+    if (!tx) {
+      return false;
+    }
+
     const txLink = getTxLink(chainId, tx);
 
     toast?.pushSuccess({

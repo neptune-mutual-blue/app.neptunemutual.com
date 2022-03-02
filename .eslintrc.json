@@ -25,15 +25,6 @@
         "args": "after-used",
         "argsIgnorePattern": "^_"
       }
-    ],
-    "array-element-newline": [
-      "error",
-      {
-        "ArrayExpression": "consistent",
-        "ArrayPattern": {
-          "minItems": 3
-        }
-      }
     ]
   }
 }

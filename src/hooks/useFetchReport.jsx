@@ -19,8 +19,6 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    console.log("fetching");
-
     setLoading(true);
     fetch(graphURL, {
       method: "POST",

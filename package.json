@@ -17,7 +17,7 @@
     "@fontsource/poppins": "4.5.0",
     "@fontsource/sora": "4.5.0",
     "@headlessui/react": "^1.4.2",
-    "@neptunemutual/sdk": "^0.3.4-beta",
+    "@neptunemutual/sdk": "^0.3.6-beta",
     "@radix-ui/react-tooltip": "^0.1.6",
     "@tailwindcss/forms": "^0.4.0",
     "@web3-react/core": "6.1.9",

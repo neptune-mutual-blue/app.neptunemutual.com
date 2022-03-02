@@ -66,13 +66,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           parseInt(coverMonth, 10),
           convertToUnits(debouncedValue).toString(),
         ];
-        const result = await invoke(
-          policyContract,
-          "getCoverFeeInfo",
-          {},
-          catcher,
-          args
-        );
 
         const [
           fee,
@@ -82,7 +75,14 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           floor,
           ceiling,
           rate,
-        ] = result;
+        ] = await invoke(
+          policyContract,
+          "getCoverFeeInfo",
+          {},
+          catcher,
+          args,
+          false
+        );
 
         if (ignore) return;
         setData({

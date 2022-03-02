@@ -52,8 +52,15 @@ export const useCreateBond = ({ info, value }) => {
 
     async function updateReceiveAmount() {
       const instance = await registry.BondPool.getInstance(networkId);
-      const result = await instance.calculateTokensForLp(
-        convertToUnits(debouncedValue).toString()
+
+      const args = [convertToUnits(debouncedValue).toString()];
+      const result = await invoke(
+        instance,
+        "calculateTokensForLp",
+        {},
+        notifyError,
+        args,
+        false
       );
 
       if (ignore) return;

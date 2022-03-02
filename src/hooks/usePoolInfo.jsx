@@ -6,6 +6,8 @@ import { registry } from "@neptunemutual/sdk";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { ADDRESS_ONE } from "@/src/config/constants";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 const defaultInfo = {
   name: "",
@@ -37,6 +39,8 @@ export const usePoolInfo = ({ key }) => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -57,10 +61,14 @@ export const usePoolInfo = ({ key }) => {
           signerOrProvider
         );
 
-        // eslint-disable-next-line array-element-newline
-        const [name, addresses, values] = await instance.getInfo(
-          key,
-          account || ADDRESS_ONE
+        const args = [key, account || ADDRESS_ONE];
+        const [name, addresses, values] = await invoke(
+          instance,
+          "getInfo",
+          {},
+          notifyError,
+          args,
+          false
         );
 
         if (ignore) return;
@@ -123,7 +131,7 @@ export const usePoolInfo = ({ key }) => {
     return () => {
       ignore = true;
     };
-  }, [account, key, library, networkId]);
+  }, [account, invoke, key, library, networkId, notifyError]);
 
   return { info };
 };

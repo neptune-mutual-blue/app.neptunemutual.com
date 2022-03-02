@@ -6,6 +6,8 @@ import { registry } from "@neptunemutual/sdk";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { ADDRESS_ONE } from "@/src/config/constants";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -26,6 +28,8 @@ export const useBondInfo = () => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -45,8 +49,13 @@ export const useBondInfo = () => {
         signerOrProvider
       );
 
-      const [addresses, values] = await instance.getInfo(
-        account || ADDRESS_ONE
+      const [addresses, values] = await invoke(
+        instance,
+        "getInfo",
+        {},
+        notifyError,
+        [account || ADDRESS_ONE],
+        false
       );
 
       if (ignore) return;

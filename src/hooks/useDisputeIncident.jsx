@@ -20,6 +20,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
 import { getParsedKey } from "@/src/helpers/cover";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   const router = useRouter();
@@ -40,7 +41,7 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   const { balance } = useERC20Balance(NPMTokenAddress);
 
   const txToast = useTxToast();
-  // const { invoke } = useInvokeMethod();
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -92,12 +93,13 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
-      const tx = await instance.dispute(
+      const args = [
         coverKey,
         incidentDate,
         hashBytes32,
-        convertToUnits(value).toString()
-      );
+        convertToUnits(value).toString(),
+      ];
+      const tx = await invoke(instance, "dispute", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: "Disputing",
