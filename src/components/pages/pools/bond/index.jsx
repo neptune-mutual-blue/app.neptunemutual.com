@@ -167,7 +167,7 @@ const BondPage = () => {
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={handleApprove}
           >
-            {approving ? "Approving..." : <>Approve NPM-USDC LP</>}
+            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
           </RegularButton>
         ) : (
           <RegularButton
@@ -175,7 +175,7 @@ const BondPage = () => {
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={handleBond}
           >
-            {bonding ? "Bonding..." : "Bond NPM-USDC LP"}
+            {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
           </RegularButton>
         )}
       </div>

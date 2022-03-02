@@ -38,13 +38,34 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
 
   const now = DateLib.unix();
 
+  const isIncidentOccured = incidentReport.decision;
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
-    incidentReport.decision &&
+    isIncidentOccured &&
     isGreater(incidentReport.claimExpiresAt, now) &&
     isGreater(now, incidentReport.claimBeginsFrom);
 
-  const handleUnstake = isClaimableNow ? unstakeWithClaim : unstake;
+  const handleUnstake = async () => {
+    if (isIncidentOccured) {
+      if (isClaimableNow) {
+        await unstakeWithClaim();
+        return;
+      }
+
+      // After claim expiry
+      await unstake();
+      return;
+    }
+
+    // For false reporting
+    if (incidentReport.finalized) {
+      await unstake();
+      return;
+    }
+
+    // Before finalization
+    await unstakeWithClaim();
+  };
 
   return (
     <div className="flex flex-col items-center pt-4">
@@ -80,7 +101,9 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         onClose={onClose}
         unstake={handleUnstake}
         reward={convertFromUnits(
-          sumOf(info.myStakeInWinningCamp, info.myReward).toString()
+          sumOf(info.myStakeInWinningCamp, info.myReward)
+            .minus(info.unstaken)
+            .toString()
         )
           .decimalPlaces(2)
           .toString()}
