@@ -9,6 +9,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useState } from "react";
 
 export const useRemoveLiquidity = ({ coverKey, value }) => {
   const { library, account } = useWeb3React();
@@ -20,12 +21,15 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
+  const [withDrawing, setWithDrawing] = useState(false);
+
   const handleWithdraw = async () => {
     if (!networkId || !account) return;
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
+      setWithDrawing(true);
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -48,6 +52,8 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
       });
     } catch (err) {
       notifyError(err, "remove liquidity");
+    } finally {
+      setWithDrawing(false);
     }
   };
 
@@ -55,5 +61,6 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
     balance,
     vaultTokenAddress,
     handleWithdraw,
+    withDrawing,
   };
 };
