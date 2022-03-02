@@ -33,7 +33,7 @@ export const BondInfoCard = ({
     <OutlinedCard className="bg-DEEAF6 p-10">
       <div className="flex justify-between items-start">
         <div>
-          <NeptuneMutualCircleLogo />
+          <NeptuneMutualCircleLogo width={40} height={40} />
           <h3 className="flex items-center text-h4 mt-1 font-sora font-semibold">
             <div>Bond Info</div>
 
@@ -50,7 +50,7 @@ export const BondInfoCard = ({
         </div>
 
         <Badge className="text-21AD8C uppercase">
-          ROI: {isNaN(roi) ? 0 : formatPercent(roi)}
+          ROI: {formatPercent(roi)}
         </Badge>
       </div>
 
