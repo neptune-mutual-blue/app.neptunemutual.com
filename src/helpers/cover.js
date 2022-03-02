@@ -5,9 +5,9 @@ import {
 
 export const getCoverImgSrc = (coverInfo) => {
   try {
-    return `/images/covers/${parseBytes32String(coverInfo?.key)}.png`;
+    return `/images/covers/${parseBytes32String(coverInfo?.key)}.svg`;
   } catch (error) {
-    return `/images/covers/empty.png`;
+    return `/images/covers/empty.svg`;
   }
 };
 

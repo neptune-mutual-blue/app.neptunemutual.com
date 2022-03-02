@@ -153,7 +153,7 @@ const DetailsRenderer = ({ row, lpTokenAddress }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
-        <img src="/images/tokens/npm.png" alt="npm" height={32} width={32} />
+        <img src="/images/tokens/npm.svg" alt="npm" height={32} width={32} />
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type === "BondCreated" ? "Bonded " : "Claimed "}
           <span
