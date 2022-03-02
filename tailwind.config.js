@@ -128,7 +128,6 @@ module.exports = {
       backgroundImage: {
         "404-background": "url('/404_bg.svg')",
         "gradient-bg": "url(/gradient.svg)",
-        "home-pattern": "url(/home/bg-pattern.png)",
       },
       transitionTimingFunction: {
         menu: "cubic-bezier(0.4, 0, 0.2, 1)",
