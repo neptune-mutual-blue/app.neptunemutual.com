@@ -28,6 +28,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const { requiresAuth } = useAuthValidation();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const [unstaking, setUnstaking] = useState(false);
+  const [unstakingWithClaim, setUnstakingWithClaim] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -90,6 +92,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     }
 
     try {
+      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContract = await registry.Resolution.getInstance(
         networkId,
@@ -112,6 +115,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       });
     } catch (err) {
       notifyError(err, "Unstake NPM");
+    } finally {
+      setUnstaking(false);
     }
   };
 
@@ -122,6 +127,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     }
 
     try {
+      setUnstakingWithClaim(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
@@ -150,6 +156,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       });
     } catch (err) {
       notifyError(err, "Unstake & claim NPM");
+    } finally {
+      setUnstakingWithClaim(false);
     }
   };
 
@@ -157,5 +165,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     info,
     unstake,
     unstakeWithClaim,
+    unstaking,
+    unstakingWithClaim,
   };
 };

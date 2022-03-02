@@ -15,7 +15,7 @@ export const ResolveIncident = ({
   resolvableTill,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { resolve, emergencyResolve } = useResolveIncident({
+  const { resolve, emergencyResolve, emergencyResolving } = useResolveIncident({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
@@ -60,6 +60,7 @@ export const ResolveIncident = ({
           emergencyResolve={emergencyResolve}
           logoSource={logoSource}
           logoAlt={coverInfo?.coverName}
+          emergencyResolving={emergencyResolving}
         />
       </div>
     </div>
@@ -73,6 +74,7 @@ const EmergencyResolveModal = ({
   emergencyResolve,
   logoSource,
   logoAlt,
+  emergencyResolving,
 }) => {
   const [decision, setDecision] = useState(null);
 
@@ -82,7 +84,7 @@ const EmergencyResolveModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={emergencyResolving}>
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="flex items-center">
           <img
@@ -124,7 +126,10 @@ const EmergencyResolveModal = ({
           EMERGENCY RESOLVE
         </RegularButton>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={emergencyResolving}
+          onClick={onClose}
+        ></ModalCloseButton>
       </div>
     </Modal>
   );

@@ -6,6 +6,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
+import { useState } from "react";
 
 export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const { account, library } = useWeb3React();
@@ -16,6 +17,9 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
 
+  const [resolving, setResolving] = useState(false);
+  const [emergencyResolving, setEmergencyResolving] = useState(false);
+
   const resolve = async () => {
     if (!networkId || !account) {
       requiresAuth();
@@ -23,6 +27,7 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
     }
 
     try {
+      setResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
@@ -41,6 +46,8 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       });
     } catch (err) {
       notifyError(err, "Resolve Incident");
+    } finally {
+      setResolving(false);
     }
   };
 
@@ -51,6 +58,7 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
     }
 
     try {
+      setEmergencyResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
@@ -69,11 +77,15 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       });
     } catch (err) {
       notifyError(err, "Emergency Resolve Incident");
+    } finally {
+      setEmergencyResolving(false);
     }
   };
 
   return {
     resolve,
     emergencyResolve,
+    resolving,
+    emergencyResolving,
   };
 };
