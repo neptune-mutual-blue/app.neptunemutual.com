@@ -5,7 +5,7 @@ export default function PageNotFound() {
   return (
     <div className="bg-white max-w-full">
       <Container className="py-28 flex flex-col bg-contain sm:bg-auto items-center  bg-404-background bg-no-repeat bg-top bg-origin-content">
-        <img src="/404.png" alt="404 page not found" />
+        <img src="/404.svg" alt="404 page not found" />
         <p className="font-sora text-xxxl leading-10 font-bold text-center my-12 py-3">
           404
         </p>

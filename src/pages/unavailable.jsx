@@ -25,7 +25,7 @@ export default function PageNotAvailable() {
       </header>
       <Container className="py-28">
         <img
-          src="/unavailable.png"
+          src="/unavailable.svg"
           alt="Access Denied"
           className="block w-52 h-52 mx-auto"
         />
