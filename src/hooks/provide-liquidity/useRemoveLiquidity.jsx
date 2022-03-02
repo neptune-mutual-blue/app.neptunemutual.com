@@ -21,7 +21,7 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
-  const [withDrawing, setWithDrawing] = useState(false);
+  const [withdrawing, setWithdrawing] = useState(false);
 
   const handleWithdraw = async () => {
     if (!networkId || !account) return;
@@ -29,7 +29,7 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
-      setWithDrawing(true);
+      setWithdrawing(true);
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -53,7 +53,7 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
     } catch (err) {
       notifyError(err, "remove liquidity");
     } finally {
-      setWithDrawing(false);
+      setWithdrawing(false);
     }
   };
 
@@ -61,6 +61,6 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
     balance,
     vaultTokenAddress,
     handleWithdraw,
-    withDrawing,
+    withdrawing,
   };
 };
