@@ -34,7 +34,7 @@ export const AppConstantsProvider = ({ children }) => {
   useEffect(() => {
     if (!networkId) return;
 
-    registry.LiquidityToken.getAddress(networkId).then((_addr) =>
+    registry.Stablecoin.getAddress(networkId).then((_addr) =>
       setAddress(_addr, "liquidityTokenAddress")
     );
 

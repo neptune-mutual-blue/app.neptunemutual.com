@@ -31,7 +31,7 @@ export const ActiveReportingEmptyState = () => {
   return (
     <div className="w-full flex flex-col items-center pt-20">
       <img
-        src="/images/covers/empty-list-illustration.png"
+        src="/images/covers/empty-list-illustration.svg"
         alt="no data found"
         className="w-48 h-48"
       />
