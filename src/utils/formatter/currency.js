@@ -2,8 +2,12 @@ import { getLocale } from "@/utils/locale";
 
 const asCurrency = (sign, number, symbol, currency, token = false) => {
   if (token) {
+    if (number < 0.00000001) {
+      return "A fraction of " + currency;
+    }
+
     if (parseFloat(number) < 0.01) {
-      number = number.toFixed(10);
+      number = number.toFixed(8);
     }
 
     return `${sign}${number.toLocaleString(getLocale())}${symbol} ${currency}`;
@@ -31,7 +35,7 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   let symbol = "";
 
   if (number > 1e4 && number < 1e5) {
-    result = number.toFixed(2);
+    result = parseFloat(number.toFixed(2));
   }
 
   if (number >= 1e5 && number < 1e6) {

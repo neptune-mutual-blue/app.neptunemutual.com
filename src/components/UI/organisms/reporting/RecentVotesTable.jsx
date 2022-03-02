@@ -59,7 +59,7 @@ const columns = [
     renderData: renderAccount,
   },
   {
-    name: "vote/stake",
+    name: "Weight",
     align: "left",
     renderHeader,
     renderData: renderAmount,
