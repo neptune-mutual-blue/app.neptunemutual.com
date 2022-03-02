@@ -44,7 +44,8 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           "getCoverPoolSummary",
           {},
           notifyError,
-          args
+          args,
+          false
         );
 
         const availableLiquidity = BigNumber(totalPoolAmount.toString())

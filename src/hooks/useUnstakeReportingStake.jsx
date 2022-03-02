@@ -54,7 +54,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         "getUnstakeInfoFor",
         {},
         notifyError,
-        args
+        args,
+        false
       );
 
       if (ignore) {

@@ -9,7 +9,7 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 const initValue = {
   // eslint-disable-next-line unused-imports/no-unused-vars
-  invoke: async (instance, methodName, overrides, catcher, args) => {},
+  invoke: async (instance, methodName, overrides, catcher, args, retry) => {},
   onSuccess: async () => {},
 };
 
@@ -32,7 +32,7 @@ export const TxPosterProvider = ({ children }) => {
   });
 
   const invoke = useCallback(
-    async (instance, methodName, overrides, catcher, args) => {
+    async (instance, methodName, overrides, catcher, args, retry = true) => {
       if (!instance) {
         catcher(new Error("Instance not found"));
         return;
@@ -45,24 +45,29 @@ export const TxPosterProvider = ({ children }) => {
         notifyError(err, "estimate gas");
         console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
-        setData({
-          message: getErrorMessage(err),
-          isError: true,
-          pendingInvokeArgs: {
-            instance,
-            methodName,
-            overrides,
-            args,
-          },
-        });
+        if (retry) {
+          setData({
+            description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
+              args
+            )}`,
+            message: getErrorMessage(err),
+            isError: true,
+            pendingInvokeArgs: {
+              instance,
+              methodName,
+              overrides,
+              args,
+            },
+          });
+        }
       }
 
-      if (!estimatedGas) {
+      if (!estimatedGas && retry) {
         return;
       }
 
       const tx = await instance[methodName](...args, {
-        gasLimit: calculateGasMargin(estimatedGas),
+        gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
         ...overrides,
       });
 
@@ -108,13 +113,20 @@ export const TxPosterProvider = ({ children }) => {
         isOpen={data.isError}
         onClose={handleClose}
         message={data.message}
+        description={data.description}
         handleContinue={handleContinue}
       />
     </TxPosterContext.Provider>
   );
 };
 
-const ForceTxModal = ({ isOpen, onClose, message, handleContinue }) => {
+const ForceTxModal = ({
+  isOpen,
+  onClose,
+  message,
+  description,
+  handleContinue,
+}) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="max-w-2xl w-full inline-block bg-f1f3f6 align-middle text-left px-8 py-12 rounded-3xl relative">
@@ -126,7 +138,10 @@ const ForceTxModal = ({ isOpen, onClose, message, handleContinue }) => {
 
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
-        <div className="my-12">{message}</div>
+        <div className="my-12">
+          <p className="break-words">{description}</p>
+          <p className="text-DC2121 mt-8">{message}</p>
+        </div>
 
         <div className="flex justify-end">
           <button
