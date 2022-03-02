@@ -40,6 +40,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         networkId,
         signerOrProvider
       );
+
+      const args = [account, coverKey, incidentDate];
       const [
         totalStakeInWinningCamp,
         totalStakeInLosingCamp,
@@ -47,10 +49,12 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         toBurn,
         toReporter,
         myReward,
-      ] = await resolutionContract.getUnstakeInfoFor(
-        account,
-        coverKey,
-        incidentDate
+      ] = await invoke(
+        resolutionContract,
+        "getUnstakeInfoFor",
+        {},
+        notifyError,
+        args
       );
 
       if (ignore) {

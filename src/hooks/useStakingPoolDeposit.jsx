@@ -91,6 +91,7 @@ export const useStakingPoolDeposit = ({
 
       updateBalance();
       updateAllowance(poolContractAddress);
+
       return txnStatus;
     } catch (err) {
       notifyError(err, `stake ${tokenSymbol}`);

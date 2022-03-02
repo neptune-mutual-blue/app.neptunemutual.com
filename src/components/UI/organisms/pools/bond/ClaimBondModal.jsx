@@ -17,7 +17,7 @@ export const ClaimBondModal = ({
   isOpen,
   onClose,
 }) => {
-  const { handleClaim, claiming } = useClaimBond(unlockDate);
+  const { handleClaim, claiming } = useClaimBond();
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>

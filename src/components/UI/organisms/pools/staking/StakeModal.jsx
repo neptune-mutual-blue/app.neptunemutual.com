@@ -128,8 +128,8 @@ export const StakeModal = ({
             disabled={isError || depositing}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={async () => {
-              let shouldModalClose = await handleDeposit();
-              shouldModalClose && onClose();
+              const isSuccess = await handleDeposit();
+              isSuccess && onClose();
             }}
           >
             {depositing ? "Staking..." : "Stake"}

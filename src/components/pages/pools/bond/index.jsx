@@ -18,6 +18,7 @@ import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import Link from "next/link";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const BondPage = () => {
   const { info } = useBondInfo();
@@ -26,6 +27,7 @@ const BondPage = () => {
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
   const delayedValue = useDebounce(value, 200);
+  const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
 
   const {
     balance,
@@ -177,8 +179,17 @@ const BondPage = () => {
       </div>
       <div>
         <div className="flex justify-end mb-10">
+          <a
+            href={`https://app.sushi.com/add/${liquidityTokenAddress}/${NPMTokenAddress}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mr-8 text-h4 font-medium text-4e7dd9 hover:underline"
+          >
+            Get LP tokens
+          </a>
+
           <Link href="/pools/bond/transactions">
-            <a className="text-h4 font-medium text-4e7dd9 hover:underline">
+            <a className="inline-block text-h4 font-medium text-4e7dd9 hover:underline">
               Transaction List
             </a>
           </Link>
