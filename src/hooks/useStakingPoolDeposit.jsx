@@ -14,6 +14,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -35,6 +36,7 @@ export const useStakingPoolDeposit = ({
   const { balance, refetch: updateBalance } = useERC20Balance(tokenAddress);
 
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -78,12 +80,10 @@ export const useStakingPoolDeposit = ({
         signerOrProvider
       );
 
-      let tx = await instance.deposit(
-        poolKey,
-        convertToUnits(value).toString()
-      );
+      const args = [poolKey, convertToUnits(value).toString()];
+      const tx = await invoke(instance, "deposit", {}, notifyError, args);
 
-      let txnStatus = await txToast.push(tx, {
+      const txnStatus = await txToast.push(tx, {
         pending: `Staking ${tokenSymbol}`,
         success: `Staked ${tokenSymbol} successfully`,
         failure: `Could not stake ${tokenSymbol}`,
@@ -91,6 +91,7 @@ export const useStakingPoolDeposit = ({
 
       updateBalance();
       updateAllowance(poolContractAddress);
+
       return txnStatus;
     } catch (err) {
       notifyError(err, `stake ${tokenSymbol}`);

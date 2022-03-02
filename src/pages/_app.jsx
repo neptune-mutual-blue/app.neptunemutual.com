@@ -13,6 +13,7 @@ import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/DisclaimerModal";
 import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
+import { TxPosterProvider } from "@/src/context/TxPoster";
 
 const position = {
   variant: "top_right",
@@ -30,12 +31,14 @@ function MyApp({ Component, pageProps }) {
           <CoversProvider>
             <UnlimitedApprovalProvider>
               <ToastProvider variant={position.variant}>
-                <Header></Header>
-                <DisclaimerModal />
-                <div className="relative sm:static">
-                  <Component {...pageProps} />
-                  <ScrollToTopButton />
-                </div>
+                <TxPosterProvider>
+                  <Header></Header>
+                  <DisclaimerModal />
+                  <div className="relative sm:static">
+                    <Component {...pageProps} />
+                    <ScrollToTopButton />
+                  </div>
+                </TxPosterProvider>
               </ToastProvider>
             </UnlimitedApprovalProvider>
           </CoversProvider>

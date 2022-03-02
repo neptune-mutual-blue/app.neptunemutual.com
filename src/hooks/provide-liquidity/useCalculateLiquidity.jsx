@@ -7,6 +7,8 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { registry } from "@neptunemutual/sdk";
 import { useDebounce } from "@/src/hooks/useDebounce";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const { library, account } = useWeb3React();
@@ -14,6 +16,8 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
 
   const debouncedValue = useDebounce(podAmount, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -38,8 +42,14 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
           signerOrProvider
         );
 
-        const liquidityAmount = await instance.calculateLiquidity(
-          convertToUnits(debouncedValue).toString()
+        const args = [convertToUnits(debouncedValue).toString()];
+        const liquidityAmount = await invoke(
+          instance,
+          "calculateLiquidity",
+          {},
+          notifyError,
+          args,
+          false
         );
 
         if (ignore) return;

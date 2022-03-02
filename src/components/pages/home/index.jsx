@@ -26,7 +26,7 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
   useEffect(() => {
-    if (data) {
+    if (data && data.length >= 2) {
       let diff =
         data[data.length - 1].totalLiquidity -
         data[data.length - 2].totalLiquidity;

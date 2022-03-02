@@ -6,6 +6,7 @@ import { registry } from "@neptunemutual/sdk";
 import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
   const [withdrawing, setWithdrawing] = useState(false);
@@ -13,6 +14,7 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
   const { chainId, account, library } = useWeb3React();
 
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async () => {
@@ -29,10 +31,8 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
         signerOrProvider
       );
 
-      let tx = await instance.withdraw(
-        poolKey,
-        convertToUnits(value).toString()
-      );
+      const args = [poolKey, convertToUnits(value).toString()];
+      const tx = await invoke(instance, "withdraw", {}, notifyError, args);
 
       await txToast.push(tx, {
         pending: `Unstaking ${tokenSymbol}`,
@@ -55,10 +55,11 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
 
 export const useStakingPoolWithdrawRewards = ({ poolKey }) => {
   const [withdrawing, setWithdrawing] = useState(false);
-
   const { chainId, account, library } = useWeb3React();
 
   const txToast = useTxToast();
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async () => {
     if (!account || !chainId) {
@@ -74,7 +75,14 @@ export const useStakingPoolWithdrawRewards = ({ poolKey }) => {
         signerOrProvider
       );
 
-      let tx = await instance.withdrawRewards(poolKey);
+      const args = [poolKey];
+      const tx = await invoke(
+        instance,
+        "withdrawRewards",
+        {},
+        notifyError,
+        args
+      );
 
       await txToast.push(tx, {
         pending: `Withdrawing rewards`,

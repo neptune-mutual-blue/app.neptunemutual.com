@@ -7,6 +7,8 @@ import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useDebounce } from "@/src/hooks/useDebounce";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useCalculatePods = ({ coverKey, value }) => {
   const { library, account } = useWeb3React();
@@ -14,6 +16,8 @@ export const useCalculatePods = ({ coverKey, value }) => {
 
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const { invoke } = useInvokeMethod();
+  const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
     let ignore = false;
@@ -38,8 +42,14 @@ export const useCalculatePods = ({ coverKey, value }) => {
           signerOrProvider
         );
 
-        const podAmount = await instance.calculatePods(
-          convertToUnits(debouncedValue).toString()
+        const args = [convertToUnits(debouncedValue).toString()];
+        const podAmount = await invoke(
+          instance,
+          "calculatePods",
+          {},
+          notifyError,
+          args,
+          false
         );
 
         if (ignore) return;

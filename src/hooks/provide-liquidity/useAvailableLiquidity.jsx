@@ -5,14 +5,18 @@ import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { convertFromUnits, convertToUnits } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import BigNumber from "bignumber.js";
+import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
   const [data, setData] = useState("0");
+  const { notifyError } = useErrorNotifier();
+  const { invoke } = useInvokeMethod();
 
   useEffect(() => {
     let ignore = false;
@@ -34,10 +38,15 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           signerOrProvider
         );
 
-        const [totalPoolAmount, totalCommitment] =
-          await instance.getCoverPoolSummary(coverKey, {
-            gasLimit: convertToUnits("10").toString(),
-          });
+        const args = [coverKey];
+        const [totalPoolAmount, totalCommitment] = await invoke(
+          instance,
+          "getCoverPoolSummary",
+          {},
+          notifyError,
+          args,
+          false
+        );
 
         const availableLiquidity = BigNumber(totalPoolAmount.toString())
           .minus(totalCommitment.toString())

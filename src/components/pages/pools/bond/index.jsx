@@ -18,6 +18,9 @@ import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import Link from "next/link";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { getReplacedString } from "@/utils/string";
+import { POOL_URL } from "@/src/config/constants";
 
 const BondPage = () => {
   const { info } = useBondInfo();
@@ -26,6 +29,7 @@ const BondPage = () => {
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
   const delayedValue = useDebounce(value, 200);
+  const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
 
   const {
     balance,
@@ -177,8 +181,20 @@ const BondPage = () => {
       </div>
       <div>
         <div className="flex justify-end mb-10">
+          <a
+            href={getReplacedString(POOL_URL, {
+              liquidityTokenAddress,
+              NPMTokenAddress,
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mr-8 text-h4 font-medium text-4e7dd9 hover:underline"
+          >
+            Get LP tokens
+          </a>
+
           <Link href="/pools/bond/transactions">
-            <a className="text-h4 font-medium text-4e7dd9 hover:underline">
+            <a className="inline-block text-h4 font-medium text-4e7dd9 hover:underline">
               Transaction List
             </a>
           </Link>
