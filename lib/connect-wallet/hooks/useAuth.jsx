@@ -53,40 +53,45 @@ const activateConnector = async (
 
   window.localStorage.setItem(ACTIVE_CONNECTOR_KEY, connectorName);
 
-  activate(connector, async (error) => {
-    if (error instanceof UnsupportedChainIdError) {
-      const hasSetup = await setupNetwork(connectorName, networkId);
+  setTimeout(
+    // added a slight delay in executing activate fx in connecting the wallet to prevent stale error issue
+    () =>
+      activate(connector, async (error) => {
+        if (error instanceof UnsupportedChainIdError) {
+          const hasSetup = await setupNetwork(connectorName, networkId);
 
-      if (hasSetup) {
-        return activate(connector, clearConnectionData);
-      }
+          if (hasSetup) {
+            return activate(connector, clearConnectionData);
+          }
 
-      clearConnectionData();
+          clearConnectionData();
 
-      const wallet = wallets.find(
-        (_wallet) => _wallet.connectorName === connectorName
-      );
+          const wallet = wallets.find(
+            (_wallet) => _wallet.connectorName === connectorName
+          );
 
-      return notifications.wrongNetwork(
-        notify,
-        NetworkNames[networkId],
-        wallet.name,
-        error
-      );
-    }
+          return notifications.wrongNetwork(
+            notify,
+            NetworkNames[networkId],
+            wallet.name,
+            error
+          );
+        }
 
-    clearConnectionData();
+        clearConnectionData();
 
-    switch (connectorName) {
-      case ConnectorNames.Injected:
-        return handleInjectedError(notify, error);
+        switch (connectorName) {
+          case ConnectorNames.Injected:
+            return handleInjectedError(notify, error);
 
-      case ConnectorNames.BSC:
-        return handleBSCError(notify, error);
-    }
+          case ConnectorNames.BSC:
+            return handleBSCError(notify, error);
+        }
 
-    notifications.unidentifiedError(notify, error);
-  });
+        notifications.unidentifiedError(notify, error);
+      }),
+    100
+  );
 };
 
 const useAuth = (networkId, notify = console.log) => {
