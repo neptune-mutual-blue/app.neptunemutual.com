@@ -52,7 +52,7 @@ export const CoverPurchaseDetailsPage = () => {
                 href: `/cover/${cover_id}/options`,
                 current: false,
               },
-              { name: "Purchase Policy", href: "#", current: true },
+              { name: "Purchase Policy", current: true },
             ]}
           />
           <div className="flex">
