@@ -43,6 +43,13 @@ export const HomePage = () => {
     }
   }, [data]);
 
+  const [searchValue, setSearchValue] = useState("");
+  const [items, setItems] = useState([]);
+
+  const searchHandler = (e) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <>
       <Hero>
@@ -139,6 +146,8 @@ export const HomePage = () => {
             Available Covers
           </h1>
           <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={searchHandler}
             sortClass="w-full md:w-48 lg:w-64 rounded-lg"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
             searchClass="w-full md:w-64 rounded-lg"
