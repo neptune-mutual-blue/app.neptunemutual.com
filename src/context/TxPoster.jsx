@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Modal } from "@/lib/connect-wallet/components/Modal/Modal";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Modal } from "@/components/UI/molecules/modal/regular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -125,7 +125,7 @@ const ForceTxModal = ({
   isOpen,
   onClose,
   message,
-  description,
+  // description,
   handleContinue,
 }) => {
   return (

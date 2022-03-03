@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Modal } from "@/components/UI/molecules/modal/regular";

@@ -1,7 +1,7 @@
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { classNames } from "@/utils/classnames";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 // import styles from "./styles.module.css";
 
@@ -96,17 +96,17 @@ export const DisclaimerModal = () => {
 
         <div className="w-full flex justify-end gap-6 mt-6">
           <button
-            className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9"
+            className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9 box-border"
             onClick={handleDecline}
           >
             Decline
           </button>
           <button
             className={classNames(
-              "border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9",
+              "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9",
               isAgreed
-                ? "bg-opacity-100 cursor-pointer pointer-events-auto"
-                : "bg-opacity-75 cursor-not-allowed pointer-events-none"
+                ? "bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9"
+                : "bg-opacity-75 cursor-not-allowed pointer-events-none border-0 border-transparent"
             )}
             onClick={handleAccept}
           >

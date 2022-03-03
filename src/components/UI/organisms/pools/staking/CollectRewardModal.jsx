@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";
 import { HarvestForm } from "@/components/UI/organisms/pools/staking/HarvestForm";

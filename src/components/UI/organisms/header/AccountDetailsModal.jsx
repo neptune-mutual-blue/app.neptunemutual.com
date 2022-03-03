@@ -1,4 +1,4 @@
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import CloseIcon from "@/icons/CloseIcon";
 import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
