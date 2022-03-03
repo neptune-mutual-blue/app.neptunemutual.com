@@ -44,12 +44,22 @@ export const HomePage = () => {
   }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
-  const [items, setItems] = useState([]);
+  const [coversToShow, setCoversToShow] = useState([]);
 
   const searchHandler = (e) => {
-    setSearchValue(e.target.value);
+    let inputValue = e.target.value;
+    setSearchValue(inputValue);
+    setCoversToShow(
+      availableCovers.filter(
+        (cover) =>
+          cover.projectName.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+      )
+    );
   };
 
+  useEffect(() => {
+    setCoversToShow(availableCovers);
+  }, [availableCovers]);
   return (
     <>
       <Hero>
@@ -156,7 +166,7 @@ export const HomePage = () => {
         <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {availableCovers.map((c) => {
+          {coversToShow.map((c) => {
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">

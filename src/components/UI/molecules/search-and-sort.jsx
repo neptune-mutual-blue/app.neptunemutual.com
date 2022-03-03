@@ -1,7 +1,6 @@
 import { Select } from "@/components/UI/molecules/select";
 import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
-import { useState } from "react";
 
 const options = [
   { name: "A-Z" },
