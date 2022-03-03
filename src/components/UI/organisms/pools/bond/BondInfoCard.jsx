@@ -12,12 +12,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
 import { useState } from "react";
 
-export const BondInfoCard = ({
-  roi,
-
-  info,
-  details,
-}) => {
+export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
@@ -79,6 +74,7 @@ export const BondInfoCard = ({
             modalTitle={"Claim Bond"}
             unlockDate={info.unlockDate}
             claimable={info.claimable}
+            refetchBondInfo={refetchBondInfo}
           />
         </>
       )}
