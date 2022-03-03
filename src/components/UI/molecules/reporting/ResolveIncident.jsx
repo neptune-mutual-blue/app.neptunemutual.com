@@ -15,10 +15,11 @@ export const ResolveIncident = ({
   resolvableTill,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { resolve, emergencyResolve, emergencyResolving } = useResolveIncident({
-    coverKey: incidentReport.key,
-    incidentDate: incidentReport.incidentDate,
-  });
+  const { resolve, emergencyResolve, resolving, emergencyResolving } =
+    useResolveIncident({
+      coverKey: incidentReport.key,
+      incidentDate: incidentReport.incidentDate,
+    });
 
   const { coverInfo } = useCoverInfo(incidentReport.key);
   const logoSource = getCoverImgSrc(coverInfo);
@@ -42,7 +43,7 @@ export const ResolveIncident = ({
               setTimeout(refetchReport, 15000);
             }}
           >
-            Resolve
+            {resolving ? "Resolving..." : "Resolve"}
           </RegularButton>
         )}
 
@@ -105,6 +106,7 @@ const EmergencyResolveModal = ({
             id="decision-1"
             value="true"
             name="decision"
+            disabled={emergencyResolving}
             onChange={handleRadioChange}
           />
           <Radio
@@ -112,6 +114,7 @@ const EmergencyResolveModal = ({
             id="decision-2"
             value="false"
             name="decision"
+            disabled={emergencyResolving}
             onChange={handleRadioChange}
           />
         </div>
@@ -123,7 +126,7 @@ const EmergencyResolveModal = ({
             setTimeout(refetchReport, 15000);
           }}
         >
-          EMERGENCY RESOLVE
+          {emergencyResolving ? "Resolving..." : "EMERGENCY RESOLVE"}
         </RegularButton>
 
         <ModalCloseButton
