@@ -30,7 +30,7 @@ export const DisclaimerModal = () => {
         </Dialog.Title>
         <Dialog.Description
           className={classNames(
-            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-144 md:max-h-96 overflow-y-auto pr-1"
+            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-96 overflow-y-auto pr-1"
             // styles.scroll_container
           )}
         >
