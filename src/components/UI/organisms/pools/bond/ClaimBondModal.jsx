@@ -50,7 +50,10 @@ export const ClaimBondModal = ({
         {/* left to add click handler */}
         <RegularButton
           disabled={claiming}
-          onClick={handleClaim}
+          onClick={async () => {
+            await handleClaim();
+            refetchBondInfo();
+          }}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         >
           {claiming ? "Claiming..." : "Claim Now"}
