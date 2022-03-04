@@ -23,45 +23,48 @@ const headers = [
 
 export const CollectRewardModal = ({
   info,
+  refetchInfo,
   poolKey,
   stakedAmount,
   stakingTokenSymbol,
   rewardAmount,
   rewardTokenAddress,
   rewardTokenSymbol,
-  isCollectModalOpen,
-  onCollectModalClose,
+  isOpen,
+  onClose,
   modalTitle,
 }) => {
   const [activeTab, setActiveTab] = useState(headers[0].name);
 
-  const { handleWithdraw, withdrawing } = useStakingPoolWithdrawRewards({
-    poolKey,
-  });
+  const { handleWithdrawRewards, withdrawingRewards } =
+    useStakingPoolWithdrawRewards({
+      poolKey,
+      refetchInfo,
+    });
 
   //unstake form
   const [inputValue, setInputValue] = useState();
 
-  const { withdrawing: unstaking, handleWithdraw: handleUnstaking } =
-    useStakingPoolWithdraw({
-      value: inputValue,
-      tokenAddress: info.stakingToken,
-      tokenSymbol: stakingTokenSymbol,
-      poolKey,
-    });
+  const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
+    value: inputValue,
+    tokenAddress: info.stakingToken,
+    tokenSymbol: stakingTokenSymbol,
+    poolKey,
+    refetchInfo,
+  });
 
   // Clear on modal close
   useEffect(() => {
-    if (isCollectModalOpen) return;
+    if (isOpen) return;
 
     setInputValue();
-  }, [isCollectModalOpen]);
+  }, [isOpen]);
 
   return (
     <Modal
-      isOpen={isCollectModalOpen}
-      onClose={onCollectModalClose}
-      disabled={withdrawing || unstaking}
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={withdrawingRewards || withdrawing}
     >
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left py-12 rounded-3xl relative">
         <div className="px-12">
@@ -71,8 +74,8 @@ export const CollectRewardModal = ({
         </div>
 
         <ModalCloseButton
-          disabled={withdrawing || unstaking}
-          onClick={onCollectModalClose}
+          disabled={withdrawingRewards || withdrawing}
+          onClick={onClose}
         ></ModalCloseButton>
 
         <div className="mt-6">
@@ -89,8 +92,8 @@ export const CollectRewardModal = ({
               rewardTokenAddress={rewardTokenAddress}
               stakingTokenSymbol={stakingTokenSymbol}
               rewardTokenSymbol={rewardTokenSymbol}
-              handleWithdraw={handleWithdraw}
-              withdrawing={withdrawing}
+              handleWithdrawRewards={handleWithdrawRewards}
+              withdrawingRewards={withdrawingRewards}
             />
           ) : (
             <UnStakeForm
@@ -100,8 +103,8 @@ export const CollectRewardModal = ({
               stakingTokenSymbol={stakingTokenSymbol}
               inputValue={inputValue}
               setInputValue={setInputValue}
-              handleUnstaking={handleUnstaking}
-              unstaking={unstaking}
+              handleWithdraw={handleWithdraw}
+              withdrawing={withdrawing}
             />
           )}
         </div>

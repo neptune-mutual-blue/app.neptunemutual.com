@@ -19,17 +19,13 @@ import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { useFetchPoolStats } from "@/src/hooks/useFetchPoolStats";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
-export const StakingCard = ({ data }) => {
+export const StakingCard = ({ data, tvl }) => {
   const { networkId } = useAppContext();
-  const { info } = usePoolInfo({ key: data.key });
-  const {
-    data: { tvl },
-  } = useFetchPoolStats({ key: data.key });
+  const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -206,26 +202,27 @@ export const StakingCard = ({ data }) => {
         )}
       </div>
       <StakeModal
-        lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
-        modalTitle={stakeModalTitle}
-        onClose={onStakeModalClose}
+        refetchInfo={refetchInfo}
+        lockupPeriod={lockupPeriod}
         isOpen={isStakeModalOpen}
-        unitName={stakingTokenSymbol}
+        onClose={onStakeModalClose}
+        stakingTokenSymbol={stakingTokenSymbol}
+        modalTitle={stakeModalTitle}
       />
       <CollectRewardModal
         poolKey={poolKey}
         info={info}
+        refetchInfo={refetchInfo}
         stakedAmount={stakedAmount}
         rewardAmount={rewardAmount}
         rewardTokenAddress={rewardTokenAddress}
         rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
-        isCollectModalOpen={isCollectModalOpen}
-        onCollectModalClose={onCollectModalClose}
+        isOpen={isCollectModalOpen}
+        onClose={onCollectModalClose}
         modalTitle={collectModalTitle}
-        unitName={stakingTokenSymbol}
       />
     </OutlinedCard>
   );

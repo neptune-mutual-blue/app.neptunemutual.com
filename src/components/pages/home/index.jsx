@@ -18,12 +18,12 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
-import { usePoolTVL } from "@/src/hooks/usePoolTVL";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
-  const { tvl: tvlPool } = usePoolTVL();
+  const { tvl: tvlPool } = usePoolsTVL();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();

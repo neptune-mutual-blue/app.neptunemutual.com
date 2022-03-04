@@ -4,8 +4,10 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 
 export const PodStakingPage = () => {
+  const { getTVLById } = usePoolsTVL();
   const { data, loading } = usePodStakingPools();
 
   return (
@@ -29,7 +31,13 @@ export const PodStakingPage = () => {
       )}
       <Grid className="mt-14 mb-24">
         {data.pools.map((poolData) => {
-          return <PodStakingCard key={poolData.id} data={poolData} />;
+          return (
+            <PodStakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={getTVLById(poolData.id)}
+            />
+          );
         })}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>

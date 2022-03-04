@@ -27,6 +27,7 @@ export const useClaimPolicyInfo = ({
   incidentDate,
 }) => {
   const [approving, setApproving] = useState(false);
+  const [claiming, setClaiming] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
 
   const { account, library } = useWeb3React();
@@ -101,6 +102,7 @@ export const useClaimPolicyInfo = ({
     }
 
     try {
+      setClaiming(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.ClaimsProcessor.getInstance(
@@ -126,6 +128,8 @@ export const useClaimPolicyInfo = ({
       updateAllowance(claimsProcessorAddress);
     } catch (err) {
       notifyError(err, "claim policy");
+    } finally {
+      setClaiming(false);
     }
   };
 
@@ -140,6 +144,7 @@ export const useClaimPolicyInfo = ({
 
   return {
     balance,
+    claiming,
     handleClaim,
     canClaim,
     approving,

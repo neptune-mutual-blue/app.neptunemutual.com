@@ -15,10 +15,11 @@ import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { unstake, unstakeWithClaim, info } = useUnstakeReportingStake({
-    coverKey: incidentReport.key,
-    incidentDate: incidentReport.incidentDate,
-  });
+  const { unstake, unstakeWithClaim, info, unstaking, unstakingWithClaim } =
+    useUnstakeReportingStake({
+      coverKey: incidentReport.key,
+      incidentDate: incidentReport.incidentDate,
+    });
   const { coverInfo } = useCoverInfo(incidentReport.key);
   const logoSrc = getCoverImgSrc(coverInfo);
 
@@ -109,6 +110,8 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
           .toString()}
         logoSrc={logoSrc}
         altName={coverInfo?.coverName}
+        unstaking={unstaking}
+        unstakingWithClaim={unstakingWithClaim}
       />
     </div>
   );
@@ -121,9 +124,15 @@ const UnstakeModal = ({
   reward,
   logoSrc,
   logoAlt,
+  unstaking,
+  unstakingWithClaim,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={unstaking || unstakingWithClaim}
+    >
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="flex items-center">
           <img
@@ -143,10 +152,13 @@ const UnstakeModal = ({
           className="px-10 py-4 w-full font-semibold"
           onClick={unstake}
         >
-          UNSTAKE
+          {unstaking || unstakingWithClaim ? "UNSTAKING" : "UNSTAKE"}
         </RegularButton>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={unstaking || unstakingWithClaim}
+          onClick={onClose}
+        ></ModalCloseButton>
       </div>
     </Modal>
   );

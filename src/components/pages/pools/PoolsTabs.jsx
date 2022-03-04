@@ -3,7 +3,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
-import { usePoolTVL } from "@/src/hooks/usePoolTVL";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 
@@ -26,7 +26,7 @@ const headers = [
 ];
 
 export const PoolsTabs = ({ active, children }) => {
-  const { tvl } = usePoolTVL();
+  const { tvl } = usePoolsTVL();
 
   return (
     <>
