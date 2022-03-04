@@ -19,6 +19,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useSearchResults } from "@/src/hooks/useSearchResults";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -44,22 +45,18 @@ export const HomePage = () => {
   }, [data]);
 
   const [searchValue, setSearchValue] = useState("");
-  const [coversToShow, setCoversToShow] = useState([]);
 
   const searchHandler = (e) => {
     let inputValue = e.target.value;
     setSearchValue(inputValue);
-    setCoversToShow(
-      availableCovers.filter(
-        (cover) =>
-          cover.projectName.toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-      )
-    );
   };
 
-  useEffect(() => {
-    setCoversToShow(availableCovers);
-  }, [availableCovers]);
+  const { coversToShow } = useSearchResults({
+    inputValue: searchValue,
+    coversToFilter: availableCovers,
+    filterCoversBy: "projectName",
+  });
+
   return (
     <>
       <Hero>
