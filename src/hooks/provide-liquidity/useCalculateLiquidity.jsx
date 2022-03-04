@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { AddressZero } from "@ethersproject/constants";
 
@@ -11,6 +11,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
+  const mountedRef = useRef(false);
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
@@ -19,12 +20,8 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  useEffect(() => {
-    let ignore = false;
-
+  const calculateLiquidity = useCallback(async () => {
     if (!networkId || !debouncedValue || !isValidNumber(debouncedValue)) {
-      if (receiveAmount !== "0" && !ignore) setReceiveAmount("0");
-
       return;
     }
 
@@ -34,36 +31,47 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       networkId
     );
 
-    async function calculateLiquidity() {
-      try {
-        const instance = await registry.Vault.getInstance(
-          networkId,
-          coverKey,
-          signerOrProvider
-        );
+    try {
+      const instance = await registry.Vault.getInstance(
+        networkId,
+        coverKey,
+        signerOrProvider
+      );
 
-        const args = [convertToUnits(debouncedValue).toString()];
-        const liquidityAmount = await invoke(
-          instance,
-          "calculateLiquidity",
-          {},
-          notifyError,
-          args,
-          false
-        );
+      const args = [convertToUnits(debouncedValue).toString()];
+      const liquidityAmount = await invoke(
+        instance,
+        "calculateLiquidity",
+        {},
+        notifyError,
+        args,
+        false
+      );
 
-        if (ignore) return;
-        setReceiveAmount(liquidityAmount);
-      } catch (error) {
-        console.error(error);
-      }
+      if (!mountedRef.current) return;
+      setReceiveAmount(liquidityAmount);
+    } catch (error) {
+      notifyError(error, "calculate liquidity");
     }
+  }, [
+    account,
+    coverKey,
+    debouncedValue,
+    invoke,
+    library,
+    networkId,
+    notifyError,
+  ]);
+
+  useEffect(() => {
+    mountedRef.current = true;
 
     calculateLiquidity();
+
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
-  }, []);
+  }, [calculateLiquidity]);
 
   return {
     receiveAmount,

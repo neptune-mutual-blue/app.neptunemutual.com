@@ -17,6 +17,7 @@ import { CoverRules } from "@/components/common/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -24,6 +25,9 @@ export const CoverPurchaseDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
+  const {
+    data: { status },
+  } = useFetchCoverStats({ coverKey });
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { info } = useMyLiquidityInfo({ coverKey });
@@ -52,11 +56,12 @@ export const CoverPurchaseDetailsPage = () => {
                 href: `/cover/${cover_id}/options`,
                 current: false,
               },
-              { name: "Purchase Policy", href: "#", current: true },
+              { name: "Purchase Policy", current: true },
             ]}
           />
           <div className="flex">
             <CoverProfileInfo
+              status={status}
               imgSrc={imgSrc}
               projectName={coverInfo?.coverName}
               links={coverInfo?.links}

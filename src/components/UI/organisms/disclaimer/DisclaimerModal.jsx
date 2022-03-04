@@ -1,7 +1,7 @@
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { classNames } from "@/utils/classnames";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 // import styles from "./styles.module.css";
 
@@ -24,13 +24,13 @@ export const DisclaimerModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="max-w-5xl w-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-full lg:max-w-4xl w-max max-h-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h4 flex items-center">
           Disclaimer and Warranty
         </Dialog.Title>
         <Dialog.Description
           className={classNames(
-            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-144 md:max-h-96 overflow-y-auto pr-1"
+            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-96 overflow-y-auto pr-1"
             // styles.scroll_container
           )}
         >
@@ -96,17 +96,17 @@ export const DisclaimerModal = () => {
 
         <div className="w-full flex justify-end gap-6 mt-6">
           <button
-            className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9"
+            className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9 box-border"
             onClick={handleDecline}
           >
             Decline
           </button>
           <button
             className={classNames(
-              "border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9",
+              "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9",
               isAgreed
-                ? "bg-opacity-100 cursor-pointer pointer-events-auto"
-                : "bg-opacity-75 cursor-not-allowed pointer-events-none"
+                ? "bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9"
+                : "bg-opacity-75 cursor-not-allowed pointer-events-none border-0 border-transparent"
             )}
             onClick={handleAccept}
           >

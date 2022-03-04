@@ -55,6 +55,7 @@ module.exports = {
     },
     extend: {
       borderRadius: {
+        1: "4px",
         big: "0.625rem",
         mdlg: "7px",
       },
@@ -80,6 +81,7 @@ module.exports = {
         5: "5px",
         120: "120px",
         60: "60px",
+        500: "500px",
       },
       colors: {
         "999BAB": "#999BAB",
@@ -112,6 +114,7 @@ module.exports = {
         "3A4557": "#3A4557",
         "016D8E": "#016D8E",
         "DC2121": "#DC2121",
+        "4289F2": "#4289F2",
       },
       minHeight: {
         360: "360px",

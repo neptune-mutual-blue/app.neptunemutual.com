@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-
 import { AcceptRulesForm } from "@/components/UI/organisms/accept-rules-form";
 import { CoverRules } from "@/components/common/CoverRules";
 import { ProvideLiquidityForm } from "@/components/UI/organisms/cover-form/ProvideLiquidityForm";
@@ -17,6 +15,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -25,7 +24,10 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { info } = useMyLiquidityInfo({ coverKey });
+  const { info, minNpmStake } = useMyLiquidityInfo({ coverKey });
+  const {
+    data: { status },
+  } = useFetchCoverStats({ coverKey });
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
@@ -57,6 +59,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           />
           <div className="flex">
             <CoverProfileInfo
+              status={status}
               imgSrc={imgSrc}
               projectName={coverInfo?.coverName}
               links={coverInfo?.links}
@@ -76,7 +79,11 @@ export const CoverAddLiquidityDetailsPage = () => {
 
             {acceptedRules ? (
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={coverKey} info={info} />
+                <ProvideLiquidityForm
+                  coverKey={coverKey}
+                  info={info}
+                  minNpmStake={minNpmStake}
+                />
               </div>
             ) : (
               <>

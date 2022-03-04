@@ -4,7 +4,7 @@ import { ProjectName } from "./ProjectName";
 import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
 import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
 
-export const CoverProfileInfo = ({ imgSrc, projectName, links }) => {
+export const CoverProfileInfo = ({ imgSrc, projectName, links, status }) => {
   return (
     <div className="flex">
       <div>
@@ -14,7 +14,7 @@ export const CoverProfileInfo = ({ imgSrc, projectName, links }) => {
       <div>
         <div className="flex items-center">
           <ProjectName name={projectName} />
-          <ProjectStatusIndicator variant="success" />
+          <ProjectStatusIndicator status={status} />
         </div>
         <ProjectWebsiteLink website={links?.website} />
         <SocialIconLinks links={links} />

@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/src/context/AppWrapper";
@@ -14,7 +14,7 @@ import { Banner } from "@/components/common/Banner";
 import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
-import { Dialog, Transition } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 const getNavigationLinks = (pathname = "") => {
   let links = [
@@ -124,9 +124,11 @@ export const Header = () => {
             </div>
           </div>
 
-          <div className="flex lg:hidden">
-            <BurgerComponent isOpen={isOpen} onToggle={toggleMenu} />
-          </div>
+          {!isOpen && (
+            <div className="flex lg:hidden">
+              <BurgerComponent isOpen={isOpen} onToggle={toggleMenu} />
+            </div>
+          )}
           <div className="hidden lg:flex">
             <ConnectWallet networkId={networkId} notifier={notifier}>
               {({ onOpen }) => {
@@ -205,25 +207,10 @@ export const MenuModal = ({
 
   return (
     <div>
-      <Transition appear as={Fragment} show={isOpen}>
-        <Dialog
-          as="div"
-          open={isOpen}
-          onClose={onClose}
-          className="fixed inset-0 z-10 overflow-y-auto"
-        >
+      <Dialog.Root open={isOpen} onOpenChange={onClose}>
+        <Dialog.Portal>
           <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
-            </Transition.Child>
+            <Dialog.Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
 
             <span
               className="inline-block h-screen align-middle"
@@ -231,15 +218,11 @@ export const MenuModal = ({
             >
               &#8203;
             </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
+
+            <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto max-h-screen">
+              <div className="max-w-full mx-auto lg:px-8 py-4 lg:py-0 flex justify-end">
+                <BurgerComponent isOpen={isOpen} onToggle={onClose} />
+              </div>
               <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle sm:align-baseline transition-all transform shadow-xl rounded-2xl">
                 <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
                   {navigation.map((link) => {
@@ -304,10 +287,10 @@ export const MenuModal = ({
                   </ConnectWallet>
                 </div>
               </div>
-            </Transition.Child>
+            </Dialog.Content>
           </div>
-        </Dialog>
-      </Transition>
+        </Dialog.Portal>
+      </Dialog.Root>
     </div>
   );
 };

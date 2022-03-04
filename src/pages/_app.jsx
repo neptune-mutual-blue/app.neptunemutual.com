@@ -33,9 +33,9 @@ function MyApp({ Component, pageProps }) {
               <ToastProvider variant={position.variant}>
                 <TxPosterProvider>
                   <Header></Header>
-                  <DisclaimerModal />
                   <div className="relative sm:static">
                     <Component {...pageProps} />
+                    <DisclaimerModal />
                     <ScrollToTopButton />
                   </div>
                 </TxPosterProvider>

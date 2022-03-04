@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from "react";
-import { Dialog } from "@headlessui/react";
-import { Modal } from "@/lib/connect-wallet/components/Modal/Modal";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Modal } from "@/components/UI/molecules/modal/regular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { calculateGasMargin } from "@/utils/bn";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
+import { Divider } from "@/components/UI/atoms/divider";
 
 const initValue = {
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -42,10 +43,10 @@ export const TxPosterProvider = ({ children }) => {
       try {
         estimatedGas = await instance.estimateGas[methodName](...args);
       } catch (err) {
-        notifyError(err, "estimate gas");
         console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
         if (retry) {
+          notifyError(err, "estimate gas");
           setData({
             description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
               args
@@ -124,7 +125,7 @@ const ForceTxModal = ({
   isOpen,
   onClose,
   message,
-  description,
+  // description,
   handleContinue,
 }) => {
   return (
@@ -138,20 +139,27 @@ const ForceTxModal = ({
 
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
-        <div className="my-12">
-          <p className="break-words">{description}</p>
+        <div className="my-12 mb-8">
+          {/* <p className="break-words">{description}</p> */}
           <p className="text-DC2121 mt-8">{message}</p>
         </div>
 
+        <Divider />
+
+        <p className="mb-8">
+          We don&apos;t recommend doing this but you can forcibly send this
+          transaction anyway.
+        </p>
+
         <div className="flex justify-end">
           <button
-            className="border border-4e7dd9 text-4e7dd9 rounded px-6 py-2 mr-8"
+            className="border border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10 rounded px-6 py-2 mr-8"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="bg-DC2121 text-white rounded px-6 py-2 mr-8"
+            className="border border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white rounded px-6 py-2 mr-8"
             onClick={handleContinue}
           >
             Send transaction ignoring this error

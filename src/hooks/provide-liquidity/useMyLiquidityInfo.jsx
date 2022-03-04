@@ -7,6 +7,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
 
 const defaultInfo = {
   totalPods: "0",
@@ -22,6 +23,8 @@ const defaultInfo = {
 };
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const [info, setInfo] = useState(defaultInfo);
+  const [minNpmStake, setMinNpmStake] = useState("0");
+  const [myStake, setMyStake] = useState("0");
 
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
@@ -86,9 +89,38 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     return () => {
       ignore = true;
     };
+  }, [account, coverKey, invoke, library, networkId, notifyError]);
+
+  useEffect(() => {
+    let ignore = false;
+    if (!networkId || !account || !coverKey) return;
+
+    async function fetchMinStake() {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+      const { remaining: _minNpmStake, myStake: _myStake } =
+        await getRemainingMinStakeToAddLiquidity(
+          networkId,
+          coverKey,
+          account,
+          signerOrProvider.provider
+        );
+
+      if (ignore) return;
+      setMinNpmStake(_minNpmStake);
+      setMyStake(_myStake);
+    }
+
+    fetchMinStake();
+
+    return () => {
+      ignore = true;
+    };
   }, [account, coverKey, library, networkId]);
 
   return {
     info,
+    minNpmStake,
+    myStake,
   };
 };
