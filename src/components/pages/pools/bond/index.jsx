@@ -23,7 +23,7 @@ import { getReplacedString } from "@/utils/string";
 import { POOL_URL } from "@/src/config/constants";
 
 const BondPage = () => {
-  const { info } = useBondInfo();
+  const { info, refetch: refetchBondInfo } = useBondInfo();
   const [value, setValue] = useState();
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
@@ -173,7 +173,10 @@ const BondPage = () => {
           <RegularButton
             disabled={isError || bonding}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={handleBond}
+            onClick={async () => {
+              await handleBond();
+              refetchBondInfo();
+            }}
           >
             {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
           </RegularButton>
@@ -199,7 +202,12 @@ const BondPage = () => {
             </a>
           </Link>
         </div>
-        <BondInfoCard info={info} details={details} roi={roi} />
+        <BondInfoCard
+          info={info}
+          details={details}
+          roi={roi}
+          refetchBondInfo={refetchBondInfo}
+        />
       </div>
     </Container>
   );
