@@ -13,10 +13,10 @@ import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import BigNumber from "bignumber.js";
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/components/UI/organisms/cover-form/ProvideLiquidityForm";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,10 +26,9 @@ export const MyLiquidityCoverPage = () => {
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { info, minNpmStake, myStake } = useMyLiquidityInfo({ coverKey });
-
-  if (!coverInfo) {
-    return <>loading...</>;
-  }
+  const {
+    data: { status },
+  } = useFetchCoverStats({ coverKey });
 
   function onClose() {
     setIsOpen(false);
@@ -42,11 +41,15 @@ export const MyLiquidityCoverPage = () => {
   const imgSrc = getCoverImgSrc(coverInfo);
 
   const totalLiquidity = sumOf(info.balance, info.extendedBalance);
-  const myLiquidity = BigNumber(info.myShare);
+  const myLiquidity = toBN(info.myShare);
   const myEarnings = myLiquidity.minus(
-    BigNumber(info.myDeposits).minus(info.myWithdrawals)
+    toBN(info.myDeposits).minus(info.myWithdrawals)
   );
   const reassuranceAmount = info.totalReassurance;
+
+  if (!coverInfo) {
+    return <>loading...</>;
+  }
 
   return (
     <div>
@@ -62,6 +65,7 @@ export const MyLiquidityCoverPage = () => {
             />
             <div className="flex">
               <CoverProfileInfo
+                status={status}
                 projectName={coverInfo?.coverName}
                 links={coverInfo?.links}
                 imgSrc={imgSrc}

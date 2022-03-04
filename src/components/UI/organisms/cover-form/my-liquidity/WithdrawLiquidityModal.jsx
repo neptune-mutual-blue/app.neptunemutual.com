@@ -7,7 +7,13 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import {
+  convertFromUnits,
+  convertToUnits,
+  isGreater,
+  isGreaterOrEqual,
+  isValidNumber,
+} from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useCalculateLiquidity } from "@/src/hooks/provide-liquidity/useCalculateLiquidity";
 import { formatAmount } from "@/utils/formatter";
@@ -31,19 +37,26 @@ export const WithdrawLiquidityModal = ({
   const [npmValue, setNpmValue] = useState();
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const { receiveAmount } = useCalculateLiquidity({
     coverKey,
     podAmount: podValue,
   });
-  const { balance, vaultTokenAddress, handleWithdraw, withdrawing } =
-    useRemoveLiquidity({
-      coverKey,
-      value: podValue || "0",
-      npmValue: npmValue || "0",
-    });
-  const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
+  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const {
+    balance,
+    allowance,
+    approving,
+    withdrawing,
+    handleApprove,
+    handleWithdraw,
+    vaultTokenSymbol,
+    vaultTokenAddress,
+  } = useRemoveLiquidity({
+    coverKey,
+    value: podValue || "0",
+    npmValue: npmValue || "0",
+  });
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(myStake).toString());
@@ -68,8 +81,9 @@ export const WithdrawLiquidityModal = ({
   const now = DateLib.unix();
   const canWithdraw =
     podValue &&
-    isGreater(now, info.withdrawalOpen) &&
-    isGreater(info.withdrawalClose, now);
+    isValidNumber(podValue) &&
+    isGreaterOrEqual(allowance, convertToUnits(podValue || "0"));
+  isGreater(now, info.withdrawalOpen) && isGreater(info.withdrawalClose, now);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
@@ -139,13 +153,23 @@ export const WithdrawLiquidityModal = ({
           </span>
         </div>
 
-        <RegularButton
-          onClick={handleWithdraw}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          disabled={!canWithdraw}
-        >
-          {withdrawing ? "Withdrawing" : "Withdraw"}
-        </RegularButton>
+        {!canWithdraw ? (
+          <RegularButton
+            onClick={handleApprove}
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            disabled={approving}
+          >
+            {approving ? "Approving.." : "Approve"}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            onClick={handleWithdraw}
+            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            disabled={withdrawing}
+          >
+            {withdrawing ? "Withdrawing.." : "Withdraw"}
+          </RegularButton>
+        )}
       </div>
     </Modal>
   );

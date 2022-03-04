@@ -9,19 +9,54 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
+import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
+  const [approving, setApproving] = useState(false);
+  const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
   const vaultTokenAddress = useVaultAddress({ coverKey });
-  const { balance } = useERC20Balance(vaultTokenAddress);
+  const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
+  const { balance, refetch: updateBalance } =
+    useERC20Balance(vaultTokenAddress);
+  const {
+    allowance,
+    approve,
+    refetch: updateAllowance,
+  } = useERC20Allowance(vaultTokenAddress);
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
-  const [withdrawing, setWithdrawing] = useState(false);
+  useEffect(() => {
+    updateAllowance(vaultTokenAddress);
+  }, [vaultTokenAddress, updateAllowance]);
+
+  const handleApprove = async () => {
+    setApproving(true);
+    try {
+      const tx = await approve(
+        vaultTokenAddress,
+        convertToUnits(value).toString()
+      );
+
+      await txToast.push(tx, {
+        pending: `Approving ${vaultTokenSymbol} tokens`,
+        success: `Approved ${vaultTokenSymbol} tokens Successfully`,
+        failure: `Could not approve ${vaultTokenSymbol} tokens`,
+      });
+
+      updateAllowance(vaultTokenAddress);
+    } catch (err) {
+      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+    } finally {
+      setApproving(false);
+    }
+  };
 
   const handleWithdraw = async () => {
     if (!networkId || !account) return;
@@ -54,6 +89,9 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         success: "Removed Liquidity Successfully",
         failure: "Could not remove liquidity",
       });
+
+      updateBalance();
+      updateAllowance(vaultTokenAddress);
     } catch (err) {
       notifyError(err, "remove liquidity");
     } finally {
@@ -63,8 +101,14 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
 
   return {
     balance,
+    allowance,
     vaultTokenAddress,
-    handleWithdraw,
+    vaultTokenSymbol,
+
+    approving,
     withdrawing,
+
+    handleApprove,
+    handleWithdraw,
   };
 };
