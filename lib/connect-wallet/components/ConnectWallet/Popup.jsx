@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useWeb3React } from "@web3-react/core";
 
 import useAuth from "../../hooks/useAuth";

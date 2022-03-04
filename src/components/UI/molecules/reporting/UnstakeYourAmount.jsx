@@ -101,7 +101,7 @@ const UnstakeModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-5xl inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="sm:min-w-500 w-96 sm:w-auto inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"

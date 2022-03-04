@@ -24,7 +24,7 @@ export const DisclaimerModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="max-w-5xl w-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-full lg:max-w-4xl w-max max-h-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h4 flex items-center">
           Disclaimer and Warranty
         </Dialog.Title>

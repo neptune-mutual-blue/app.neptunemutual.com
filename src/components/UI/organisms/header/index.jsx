@@ -14,7 +14,6 @@ import { Banner } from "@/components/common/Banner";
 import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
-// import { Dialog, Transition } from "@headlessui/react";
 import * as Dialog from "@radix-ui/react-dialog";
 
 const getNavigationLinks = (pathname = "") => {
