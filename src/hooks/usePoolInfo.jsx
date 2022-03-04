@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -36,15 +36,15 @@ const defaultInfo = {
 
 export const usePoolInfo = ({ key }) => {
   const [info, setInfo] = useState(defaultInfo);
+  const mountedRef = useRef(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  useEffect(() => {
-    let ignore = false;
-    if (!networkId) {
+  const fetchPoolInfo = useCallback(async () => {
+    if (!networkId || !key) {
       return;
     }
 
@@ -53,85 +53,85 @@ export const usePoolInfo = ({ key }) => {
       account || ADDRESS_ONE,
       networkId
     );
+    try {
+      let instance = await registry.StakingPools.getInstance(
+        networkId,
+        signerOrProvider
+      );
 
-    async function fetchPoolInfo() {
-      try {
-        let instance = await registry.StakingPools.getInstance(
-          networkId,
-          signerOrProvider
-        );
+      const args = [key, account || ADDRESS_ONE];
+      const [name, addresses, values] = await invoke(
+        instance,
+        "getInfo",
+        {},
+        notifyError,
+        args,
+        false
+      );
 
-        const args = [key, account || ADDRESS_ONE];
-        const [name, addresses, values] = await invoke(
-          instance,
-          "getInfo",
-          {},
-          notifyError,
-          args,
-          false
-        );
+      if (!mountedRef.current) return;
 
-        if (ignore) return;
+      const [
+        stakingToken,
+        stakingTokenStablecoinPair,
+        rewardToken,
+        rewardTokenStablecoinPair,
+      ] = addresses;
+      const [
+        totalStaked,
+        target,
+        maximumStake,
+        stakeBalance,
+        cumulativeDeposits,
+        rewardPerBlock,
+        platformFee,
+        lockupPeriodInBlocks,
+        rewardTokenBalance,
+        accountStakeBalance,
+        totalBlockSinceLastReward,
+        rewards,
+        canWithdrawFrom,
+        lastDepositHeight,
+        lastRewardHeight,
+      ] = values;
 
-        const [
-          stakingToken,
-          stakingTokenStablecoinPair,
-          rewardToken,
-          rewardTokenStablecoinPair,
-        ] = addresses;
-        const [
-          totalStaked,
-          target,
-          maximumStake,
-          stakeBalance,
-          cumulativeDeposits,
-          rewardPerBlock,
-          platformFee,
-          lockupPeriodInBlocks,
-          rewardTokenBalance,
-          accountStakeBalance,
-          totalBlockSinceLastReward,
-          rewards,
-          canWithdrawFrom,
-          lastDepositHeight,
-          lastRewardHeight,
-        ] = values;
+      setInfo({
+        name,
 
-        setInfo({
-          name,
+        stakingToken,
+        stakingTokenStablecoinPair,
+        rewardToken,
+        rewardTokenStablecoinPair,
 
-          stakingToken,
-          stakingTokenStablecoinPair,
-          rewardToken,
-          rewardTokenStablecoinPair,
-
-          totalStaked: totalStaked.toString(),
-          target: target.toString(),
-          maximumStake: maximumStake.toString(),
-          stakeBalance: stakeBalance.toString(),
-          cumulativeDeposits: cumulativeDeposits.toString(),
-          rewardPerBlock: rewardPerBlock.toString(),
-          platformFee: platformFee.toString(),
-          lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
-          rewardTokenBalance: rewardTokenBalance.toString(),
-          accountStakeBalance: accountStakeBalance.toString(),
-          totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
-          rewards: rewards.toString(),
-          canWithdrawFrom: canWithdrawFrom.toString(),
-          lastDepositHeight: lastDepositHeight.toString(),
-          lastRewardHeight: lastRewardHeight.toString(),
-        });
-      } catch (err) {
-        console.error(err);
-      }
+        totalStaked: totalStaked.toString(),
+        target: target.toString(),
+        maximumStake: maximumStake.toString(),
+        stakeBalance: stakeBalance.toString(),
+        cumulativeDeposits: cumulativeDeposits.toString(),
+        rewardPerBlock: rewardPerBlock.toString(),
+        platformFee: platformFee.toString(),
+        lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
+        rewardTokenBalance: rewardTokenBalance.toString(),
+        accountStakeBalance: accountStakeBalance.toString(),
+        totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
+        rewards: rewards.toString(),
+        canWithdrawFrom: canWithdrawFrom.toString(),
+        lastDepositHeight: lastDepositHeight.toString(),
+        lastRewardHeight: lastRewardHeight.toString(),
+      });
+    } catch (err) {
+      console.error(err);
     }
+  }, [account, invoke, key, library, networkId, notifyError]);
 
+  useEffect(() => {
+    mountedRef.current = true;
     fetchPoolInfo();
 
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
-  }, [account, invoke, key, library, networkId, notifyError]);
+  }, [fetchPoolInfo]);
 
-  return { info };
+  return { info, refetch: fetchPoolInfo };
 };

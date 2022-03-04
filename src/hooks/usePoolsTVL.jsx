@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from "react";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useQuery } from "@/src/hooks/useQuery";
-import { sumOf } from "@/utils/bn";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
+import { getPricingData } from "@/src/helpers/pricing";
+import { sumOf } from "@/utils/bn";
 
 const getQuery = () => {
   return `
   {
     pools {
+      id
       poolType
       rewardToken
       stakingToken
@@ -20,6 +22,7 @@ const getQuery = () => {
       totalStakingTokenWithdrawn
     }
     bondPools {
+      id
       address0
       values
       totalBondClaimed
@@ -28,9 +31,11 @@ const getQuery = () => {
   }`;
 };
 
-export const usePoolTVL = () => {
-  const [bondTVL, setBondTVL] = useState("0");
-  const [stakingPoolTVL, setStakingPoolTVL] = useState("0");
+export const usePoolsTVL = () => {
+  const [poolsTVL, setPoolsTVL] = useState({
+    items: [],
+    tvl: "0",
+  });
   const mountedRef = useRef(false);
 
   const { networkId } = useAppContext();
@@ -38,46 +43,31 @@ export const usePoolTVL = () => {
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
-    // Bond Pools TVL
     async function updateTVL() {
       if (!graphData || !NPMTokenAddress) return;
 
-      const _tvl = await graphData.bondPools.reduce(async (acc, bondPool) => {
-        const resolvedAcc = await acc;
+      const bondsPayload = graphData.bondPools.map((bondPool) => {
+        return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress);
+      });
 
-        return sumOf(
-          resolvedAcc,
-          await calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
-        ).toString();
-      }, "0");
+      const poolsPayload = graphData.pools.map((currentPool) => {
+        return calcStakingPoolTVL(currentPool, networkId);
+      });
+
+      const result = await getPricingData(networkId, [
+        ...bondsPayload,
+        ...poolsPayload,
+      ]);
 
       if (!mountedRef.current) return;
-      setBondTVL(_tvl);
+      setPoolsTVL({
+        items: result.items,
+        tvl: result.total,
+      });
     }
 
     updateTVL();
   }, [NPMTokenAddress, graphData, networkId]);
-
-  useEffect(() => {
-    // Staking and Pod Staking Pools TVL
-    async function updateTVL() {
-      if (!graphData) return;
-
-      const _tvl = await graphData.pools.reduce(async (acc, currentPool) => {
-        const resolvedAcc = await acc;
-
-        return sumOf(
-          resolvedAcc,
-          await calcStakingPoolTVL(currentPool, networkId)
-        ).toString();
-      }, "0");
-
-      if (!mountedRef.current) return;
-      setStakingPoolTVL(_tvl);
-    }
-
-    updateTVL();
-  }, [graphData, networkId]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -88,5 +78,13 @@ export const usePoolTVL = () => {
     };
   }, [refetch]);
 
-  return { tvl: sumOf(bondTVL, stakingPoolTVL).toString() };
+  const getTVLById = (id) => {
+    const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {};
+    const tokensInfo = poolTVLInfo.data || [];
+
+    const tvl = sumOf(...tokensInfo.map((x) => x.price || "0")).toString();
+    return tvl;
+  };
+
+  return { tvl: poolsTVL.tvl, getTVLById };
 };

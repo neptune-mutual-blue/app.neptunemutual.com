@@ -8,7 +8,12 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
-export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
+export const useStakingPoolWithdraw = ({
+  value,
+  poolKey,
+  tokenSymbol,
+  refetchInfo,
+}) => {
   const [withdrawing, setWithdrawing] = useState(false);
 
   const { chainId, account, library } = useWeb3React();
@@ -39,8 +44,9 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
         success: `Unstaked ${tokenSymbol} successfully`,
         failure: `Could not unstake ${tokenSymbol}`,
       });
+
+      refetchInfo();
     } catch (err) {
-      // console.error(err);
       notifyError(err, `unstake ${tokenSymbol}`);
     } finally {
       setWithdrawing(false);
@@ -53,15 +59,15 @@ export const useStakingPoolWithdraw = ({ value, poolKey, tokenSymbol }) => {
   };
 };
 
-export const useStakingPoolWithdrawRewards = ({ poolKey }) => {
-  const [withdrawing, setWithdrawing] = useState(false);
+export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
+  const [withdrawingRewards, setWithdrawingRewards] = useState(false);
   const { chainId, account, library } = useWeb3React();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const handleWithdraw = async () => {
+  const handleWithdrawRewards = async () => {
     if (!account || !chainId) {
       return;
     }
@@ -69,7 +75,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey }) => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-      setWithdrawing(true);
+      setWithdrawingRewards(true);
       const instance = await registry.StakingPools.getInstance(
         chainId,
         signerOrProvider
@@ -89,15 +95,17 @@ export const useStakingPoolWithdrawRewards = ({ poolKey }) => {
         success: `Withdrawn rewards successfully`,
         failure: `Could not withdraw rewards`,
       });
+
+      refetchInfo();
     } catch (err) {
       console.error(err);
     } finally {
-      setWithdrawing(false);
+      setWithdrawingRewards(false);
     }
   };
 
   return {
-    withdrawing,
-    handleWithdraw,
+    withdrawingRewards,
+    handleWithdrawRewards,
   };
 };

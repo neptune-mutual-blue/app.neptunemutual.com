@@ -1,6 +1,5 @@
 import { DAYS, MULTIPLIER } from "@/src/config/constants";
-import { sumOf, toBN } from "@/utils/bn";
-import { utils } from "@neptunemutual/sdk";
+import { toBN } from "@/utils/bn";
 
 export const getDiscountedPrice = (discountRate, npmPrice) => {
   const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER;
@@ -16,26 +15,26 @@ export const getAnnualDiscountRate = (protoDiscountRate, vestingTerm) => {
   return discountRatePerDay * 365 * DAYS;
 };
 
-export const calcBondPoolTVL = async (bondPool, networkId, NPMTokenAddress) => {
+export const calcBondPoolTVL = (bondPool, networkId, NPMTokenAddress) => {
   const bondInitialNpm = bondPool.values[3];
   const bondClaimed = bondPool.totalBondClaimed;
   const bondLpTokensAdded = bondPool.totalLpAddedToBond;
 
   const bondNpmBalance = toBN(bondInitialNpm).minus(bondClaimed).toString();
 
-  const bondNpmValue = await utils.pricing.token.getPrice(
-    networkId,
-    NPMTokenAddress,
-    bondNpmBalance
-  );
-
-  const lpTokenPrice = await utils.pricing.lp.getPrice(
-    networkId,
-    bondPool.address0,
-    "1"
-  );
-
-  const bondLpTokenValue = toBN(bondLpTokensAdded).multipliedBy(lpTokenPrice);
-
-  return sumOf(bondNpmValue.toString(), bondLpTokenValue.toString()).toString();
+  return {
+    id: bondPool.id,
+    data: [
+      {
+        type: "token",
+        address: NPMTokenAddress,
+        amount: bondNpmBalance,
+      },
+      {
+        type: "lp",
+        address: bondPool.address0,
+        amount: bondLpTokensAdded,
+      },
+    ],
+  };
 };

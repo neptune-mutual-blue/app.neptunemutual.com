@@ -10,8 +10,8 @@ export const HarvestForm = ({
   rewardAmount,
   rewardTokenAddress,
   rewardTokenSymbol,
-  handleWithdraw,
-  withdrawing,
+  handleWithdrawRewards,
+  withdrawingRewards,
 }) => {
   const { register } = useRegisterToken();
 
@@ -50,11 +50,11 @@ export const HarvestForm = ({
       </div>
 
       <RegularButton
-        disabled={withdrawing}
+        disabled={withdrawingRewards}
         className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-        onClick={handleWithdraw}
+        onClick={handleWithdrawRewards}
       >
-        {withdrawing ? "Collecting..." : "Collect"}
+        {withdrawingRewards ? "Collecting..." : "Collect"}
       </RegularButton>
     </div>
   );
