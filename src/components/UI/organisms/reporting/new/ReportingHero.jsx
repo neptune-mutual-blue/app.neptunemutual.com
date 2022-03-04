@@ -4,8 +4,12 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
+  const {
+    data: { status },
+  } = useFetchCoverStats({ coverKey: coverInfo.key });
   const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
   const cover_id = router.query?.id;
@@ -49,6 +53,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
         <BreadCrumbs pages={breadcrumbData} />
         <div className="flex">
           <CoverProfileInfo
+            status={status}
             imgSrc={imgSrc}
             links={coverInfo?.links}
             projectName={coverInfo?.coverName}

@@ -17,6 +17,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -26,6 +27,9 @@ export const CoverAddLiquidityDetailsPage = () => {
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { info, minNpmStake } = useMyLiquidityInfo({ coverKey });
+  const {
+    data: { status },
+  } = useFetchCoverStats({ coverKey });
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
@@ -57,6 +61,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           />
           <div className="flex">
             <CoverProfileInfo
+              status={status}
               imgSrc={imgSrc}
               projectName={coverInfo?.coverName}
               links={coverInfo?.links}

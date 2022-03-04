@@ -43,10 +43,10 @@ export const TxPosterProvider = ({ children }) => {
       try {
         estimatedGas = await instance.estimateGas[methodName](...args);
       } catch (err) {
-        notifyError(err, "estimate gas");
         console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
         if (retry) {
+          notifyError(err, "estimate gas");
           setData({
             description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
               args

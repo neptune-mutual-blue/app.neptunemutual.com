@@ -1,3 +1,5 @@
+import DateLib from "@/lib/date/DateLib";
+import { isGreater } from "@/utils/bn";
 import {
   parseBytes32String,
   formatBytes32String,
@@ -25,4 +27,35 @@ export const toBytes32 = (str) => {
   } catch (error) {
     return str;
   }
+};
+
+export const getCoverStatus = (incidentReports, stopped) => {
+  if (stopped) {
+    return "Stopped";
+  }
+
+  if (incidentReports.length === 0) {
+    return "Normal";
+  }
+
+  if (incidentReports[0].resolved === false) {
+    const isAttestedWon = isGreater(
+      incidentReports[0].totalAttestedStake,
+      incidentReports[0].totalRefutedStake
+    );
+
+    return isAttestedWon ? "Incident Happened" : "False Reporting";
+  }
+
+  const now = DateLib.unix();
+  const isClaimableNow =
+    incidentReports[0].decision &&
+    isGreater(incidentReports[0].claimExpiresAt, now) &&
+    isGreater(now, incidentReports[0].claimBeginsFrom);
+
+  if (isClaimableNow) {
+    return "Claimable";
+  }
+
+  return incidentReports[0].decision ? "Incident Happened" : "False Reporting";
 };

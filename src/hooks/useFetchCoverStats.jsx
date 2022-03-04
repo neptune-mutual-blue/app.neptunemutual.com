@@ -1,99 +1,117 @@
 import { useState, useEffect } from "react";
-import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import BigNumber from "bignumber.js";
+import { getCoverStatus } from "@/src/helpers/cover";
+import { useQuery } from "@/src/hooks/useQuery";
 
 const defaultData = {
   liquidity: "0",
   protection: "0",
   utilization: "0",
+  status: "",
+};
+
+const getQuery = (coverKey, now) => {
+  return `
+  {
+    cover(
+    id: "${coverKey}"
+  ) {
+    id
+    key
+    stopped
+    incidentReports (
+      first: 1
+      where:{
+      finalized: false
+    }) {
+      status
+      resolved
+      incidentDate
+      decision
+      claimExpiresAt
+      claimBeginsFrom
+      totalAttestedStake
+      totalRefutedStake
+    }
+  }
+  cxTokens(where: {
+    expiryDate_gt: "${now}"
+    key: "${coverKey}"
+  }){
+    key
+    totalCoveredAmount
+  }
+  vaults (
+    where: {
+      key: "${coverKey}"
+    }
+  ) {
+    totalCoverLiquidityAdded
+    totalCoverLiquidityRemoved
+    totalFlashLoanFees
+  }
+}
+`;
 };
 
 export const useFetchCoverStats = ({ coverKey }) => {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
+
   const { networkId } = useAppContext();
+  const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
-    if (!networkId || !coverKey) {
-      return;
+    async function exec() {
+      if (!graphData || !networkId) return;
+
+      const status = getCoverStatus(
+        graphData.cover.incidentReports,
+        graphData.cover.stopped
+      );
+
+      const liquidity = sumOf(
+        ...graphData.vaults.map((x) => x.totalCoverLiquidityAdded)
+      )
+        .minus(
+          sumOf(...graphData.vaults.map((x) => x.totalCoverLiquidityRemoved))
+        )
+        .plus(sumOf(...graphData.vaults.map((x) => x.totalFlashLoanFees)))
+        .toString();
+
+      const protection = sumOf(
+        ...graphData.cxTokens.map((x) => x.totalCoveredAmount)
+      ).toString();
+
+      setData({
+        status,
+        liquidity,
+        protection,
+        utilization: new BigNumber(protection)
+          .dividedBy(liquidity)
+          .decimalPlaces(2)
+          .toString(),
+      });
     }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
-    }
-
-    const now = DateLib.unix();
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          cxTokens(where: {
-            expiryDate_gt: "${now}"
-            key: "${coverKey}"
-          }){
-            key
-            totalCoveredAmount
-          }
-          vaults (
-            where: {
-              key: "${coverKey}"
-            }
-          ) {
-            totalCoverLiquidityAdded
-            totalCoverLiquidityRemoved
-            totalFlashLoanFees
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.errors) {
-          return;
-        }
+    exec()
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [graphData, networkId]);
 
-        const liquidity = sumOf(
-          ...res.data.vaults.map((x) => x.totalCoverLiquidityAdded)
-        )
-          .minus(
-            sumOf(...res.data.vaults.map((x) => x.totalCoverLiquidityRemoved))
-          )
-          .plus(sumOf(...res.data.vaults.map((x) => x.totalFlashLoanFees)))
-          .toString();
+  useEffect(() => {
+    const now = DateLib.unix();
 
-        const protection = sumOf(
-          ...res.data.cxTokens.map((x) => x.totalCoveredAmount)
-        ).toString();
+    if (!coverKey) {
+      return;
+    }
 
-        setData({
-          liquidity,
-          protection,
-          utilization: new BigNumber(protection)
-            .dividedBy(liquidity)
-            .decimalPlaces(2)
-            .toString(),
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [coverKey, networkId]);
+    refetch(getQuery(coverKey, now));
+  }, [coverKey, refetch]);
 
   return {
     data,
