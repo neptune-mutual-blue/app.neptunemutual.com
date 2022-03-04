@@ -42,5 +42,8 @@ export const getRemainingMinStakeToAddLiquidity = async (
   ];
 
   const result = await getStoredData(candidates, networkId, provider);
-  return result.remaining;
+  return {
+    remaining: result.remaining,
+    myStake: result.myStake,
+  };
 };

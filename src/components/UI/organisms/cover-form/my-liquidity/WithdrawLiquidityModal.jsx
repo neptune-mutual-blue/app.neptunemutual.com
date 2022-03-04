@@ -15,42 +15,59 @@ import { useRemoveLiquidity } from "@/src/hooks/provide-liquidity/useRemoveLiqui
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
   isOpen,
   onClose,
   info,
+  myStake,
 }) => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
+  const [podValue, setPodValue] = useState();
+  const [npmValue, setNpmValue] = useState();
 
-  const [value, setValue] = useState();
+  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
+  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const { receiveAmount } = useCalculateLiquidity({
     coverKey,
-    podAmount: value,
+    podAmount: podValue,
   });
   const { balance, vaultTokenAddress, handleWithdraw, withdrawing } =
     useRemoveLiquidity({
       coverKey,
-      value,
+      value: podValue || "0",
+      npmValue: npmValue || "0",
     });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
 
-  const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+  const handleChooseNpmMax = () => {
+    setNpmValue(convertFromUnits(myStake).toString());
   };
 
-  const handleChange = (val) => {
+  const handleChoosePodMax = () => {
+    setPodValue(convertFromUnits(balance).toString());
+  };
+
+  const handleNpmChange = (val) => {
     if (typeof val === "string") {
-      setValue(val);
+      setNpmValue(val);
+    }
+  };
+
+  const handlePodChange = (val) => {
+    if (typeof val === "string") {
+      setPodValue(val);
     }
   };
 
   const now = DateLib.unix();
   const canWithdraw =
-    value &&
+    podValue &&
     isGreater(now, info.withdrawalOpen) &&
     isGreater(info.withdrawalClose, now);
 
@@ -68,12 +85,29 @@ export const WithdrawLiquidityModal = ({
 
         <div className="mt-6">
           <TokenAmountInput
+            labelText={"Enter Npm Amount"}
+            tokenSymbol={npmTokenSymbol}
+            handleChooseMax={handleChooseNpmMax}
+            inputValue={npmValue}
+            id={"my-staked-amount"}
+            onChange={handleNpmChange}
+            tokenAddress={NPMTokenAddress}
+          >
+            {isGreater(myStake, "0") && (
+              <>
+                Staked: {convertFromUnits(myStake).toString()} {npmTokenSymbol}
+              </>
+            )}
+          </TokenAmountInput>
+        </div>
+        <div className="mt-6">
+          <TokenAmountInput
             labelText={"Enter your POD"}
             tokenSymbol={vaultTokenSymbol}
-            handleChooseMax={handleChooseMax}
-            inputValue={value}
+            handleChooseMax={handleChoosePodMax}
+            inputValue={podValue}
             id={"my-liquidity-amount"}
-            onChange={handleChange}
+            onChange={handlePodChange}
             tokenBalance={balance}
             tokenAddress={vaultTokenAddress}
           />
@@ -81,7 +115,7 @@ export const WithdrawLiquidityModal = ({
         <div className="modal-unlock mt-6">
           <ReceiveAmountInput
             labelText="You Will Receive"
-            tokenSymbol="DAI"
+            tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
               convertFromUnits(receiveAmount).toString()
             )}
@@ -108,7 +142,7 @@ export const WithdrawLiquidityModal = ({
         <RegularButton
           onClick={handleWithdraw}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          disabled={canWithdraw}
+          disabled={!canWithdraw}
         >
           {withdrawing ? "Withdrawing" : "Withdraw"}
         </RegularButton>

@@ -25,7 +25,7 @@ export const MyLiquidityCoverPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { info } = useMyLiquidityInfo({ coverKey });
+  const { info, minNpmStake, myStake } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -83,7 +83,11 @@ export const MyLiquidityCoverPage = () => {
               <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={coverKey} info={info} />
+                <ProvideLiquidityForm
+                  coverKey={coverKey}
+                  info={info}
+                  minNpmStake={minNpmStake}
+                />
               </div>
             </div>
 
@@ -149,6 +153,7 @@ export const MyLiquidityCoverPage = () => {
         onClose={onClose}
         isOpen={isOpen}
         info={info}
+        myStake={myStake}
       />
     </div>
   );

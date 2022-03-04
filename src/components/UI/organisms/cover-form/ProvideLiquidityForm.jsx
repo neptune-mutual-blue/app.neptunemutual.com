@@ -13,7 +13,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 
-export const ProvideLiquidityForm = ({ coverKey, info }) => {
+export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   const [lqValue, setLqValue] = useState();
   const [npmValue, setNPMValue] = useState();
   const router = useRouter();
@@ -23,6 +23,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+
   const {
     lqTokenBalance,
     npmBalance,
@@ -30,7 +31,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     npmApproving,
     hasLqTokenAllowance,
     hasNPMTokenAllowance,
-    minNpmStake,
     // canProvideLiquidity,
     handleLqTokenApprove,
     handleNPMTokenApprove,
@@ -107,6 +107,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               {npmTokenSymbol}
             </>
           )}
+
           {npmErrorMsg && (
             <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
           )}

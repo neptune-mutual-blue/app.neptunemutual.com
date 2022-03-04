@@ -11,7 +11,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useState } from "react";
 
-export const useRemoveLiquidity = ({ coverKey, value }) => {
+export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
   const vaultTokenAddress = useVaultAddress({ coverKey });
@@ -36,7 +36,11 @@ export const useRemoveLiquidity = ({ coverKey, value }) => {
         signerOrProvider
       );
 
-      const args = [coverKey, convertToUnits(value).toString(), "0"];
+      const args = [
+        coverKey,
+        convertToUnits(value).toString(),
+        convertToUnits(npmValue).toString(),
+      ];
       const tx = await invoke(
         instance,
         "removeLiquidity",

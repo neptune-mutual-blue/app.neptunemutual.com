@@ -25,7 +25,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { info } = useMyLiquidityInfo({ coverKey });
+  const { info, minNpmStake } = useMyLiquidityInfo({ coverKey });
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
@@ -76,7 +76,11 @@ export const CoverAddLiquidityDetailsPage = () => {
 
             {acceptedRules ? (
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={coverKey} info={info} />
+                <ProvideLiquidityForm
+                  coverKey={coverKey}
+                  info={info}
+                  minNpmStake={minNpmStake}
+                />
               </div>
             ) : (
               <>

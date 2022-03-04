@@ -13,7 +13,6 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
@@ -24,7 +23,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqApproving, setLqApproving] = useState();
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
-  const [minNpmStake, setMinNpmStake] = useState("0");
 
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
@@ -47,31 +45,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
-
-  useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account || !coverKey) return;
-
-    async function fetchMinStake() {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const _minNpmStake = await getRemainingMinStakeToAddLiquidity(
-        networkId,
-        coverKey,
-        account,
-        signerOrProvider.provider
-      );
-
-      if (ignore) return;
-      setMinNpmStake(_minNpmStake);
-    }
-
-    fetchMinStake();
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, coverKey, library, networkId]);
 
   useEffect(() => {
     updateLqAllowance(vaultAddress);
@@ -189,6 +162,5 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     handleNPMTokenApprove,
     handleProvide,
     podSymbol,
-    minNpmStake,
   };
 };
