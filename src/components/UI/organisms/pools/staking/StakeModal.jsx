@@ -5,74 +5,55 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useEffect, useState } from "react";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { convertFromUnits, isGreaterOrEqual, sort } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 
 export const StakeModal = ({
   info,
+  refetchInfo,
   poolKey,
   modalTitle,
   isOpen,
   onClose,
-  unitName,
+  stakingTokenSymbol,
   lockupPeriod,
 }) => {
+  const tokenAddress = info.stakingToken;
   const [inputValue, setInputValue] = useState();
-  const [inputErrorMsg, setInputErrorMsg] = useState("");
 
   const {
     balance,
+    maxStakableAmount,
     isError,
+    errorMsg,
     canDeposit,
     approving,
     depositing,
     handleDeposit,
     handleApprove,
   } = useStakingPoolDeposit({
+    refetchInfo,
     value: inputValue,
-    tokenAddress: info.stakingToken,
-    tokenSymbol: unitName,
+    tokenAddress,
+    tokenSymbol: stakingTokenSymbol,
     poolKey,
     maximumStake: info.maximumStake,
   });
-  const tokenAddress = info.stakingToken;
 
-  // Clear on modal close
   useEffect(() => {
     if (isOpen) return;
 
+    // Clear on modal close
     setInputValue();
   }, [isOpen]);
 
   const handleChooseMax = () => {
-    // Use `info.maximumStake` instead of balance
-
-    const maxStakableAmount = convertFromUnits(
-      sort([info.maximumStake, balance])[0]
-    ).toString();
-
-    setInputValue(maxStakableAmount);
-  };
-
-  const checkMinimumBalanceOrStake = (val) => {
-    let minimum = balance;
-    let defaultErrorMessage = "Insufficient Balance";
-    if (isGreaterOrEqual(balance, info.maximumStake)) {
-      minimum = info.maximumStake;
-      defaultErrorMessage = "Maximum Limit Reached";
-    }
-
-    if (val > +convertFromUnits(minimum).toString()) {
-      setInputErrorMsg(defaultErrorMessage);
-    } else {
-      setInputErrorMsg("");
-    }
+    setInputValue(convertFromUnits(maxStakableAmount).toString());
   };
 
   const handleChange = (val) => {
     if (typeof val === "string") {
-      checkMinimumBalanceOrStake(val);
       setInputValue(val);
     }
   };
@@ -93,7 +74,7 @@ export const StakeModal = ({
           <TokenAmountInput
             labelText={"Amount You Wish To Stake"}
             tokenBalance={balance}
-            tokenSymbol={unitName}
+            tokenSymbol={stakingTokenSymbol}
             tokenAddress={tokenAddress}
             handleChooseMax={handleChooseMax}
             inputValue={inputValue}
@@ -101,8 +82,8 @@ export const StakeModal = ({
             disabled={approving || depositing}
             onChange={handleChange}
           >
-            {inputErrorMsg && (
-              <p className="flex items-center text-FA5C2F">{inputErrorMsg}</p>
+            {errorMsg && (
+              <p className="flex items-center text-FA5C2F">{errorMsg}</p>
             )}
           </TokenAmountInput>
         </div>
@@ -121,7 +102,7 @@ export const StakeModal = ({
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={handleApprove}
           >
-            {approving ? "Approving..." : <>Approve {unitName}</>}
+            {approving ? "Approving..." : <>Approve {stakingTokenSymbol}</>}
           </RegularButton>
         ) : (
           <RegularButton

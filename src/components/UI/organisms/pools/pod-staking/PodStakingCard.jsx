@@ -20,17 +20,13 @@ import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { useFetchPoolStats } from "@/src/hooks/useFetchPoolStats";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
-export const PodStakingCard = ({ data }) => {
+export const PodStakingCard = ({ data, tvl }) => {
   const { networkId } = useAppContext();
-  const { info } = usePoolInfo({ key: data.key });
-  const {
-    data: { tvl },
-  } = useFetchPoolStats({ key: data.key });
+  const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -171,30 +167,31 @@ export const PodStakingCard = ({ data }) => {
         )}
       </div>
       <StakeModal
-        lockupPeriod={lockupPeriod}
         poolKey={poolKey}
         info={info}
+        refetchInfo={refetchInfo}
+        lockupPeriod={lockupPeriod}
+        isOpen={isStakeModalOpen}
+        onClose={onStakeModalClose}
+        stakingTokenSymbol={stakingTokenSymbol}
         modalTitle={
           <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
         }
-        onClose={onStakeModalClose}
-        isOpen={isStakeModalOpen}
-        unitName={stakingTokenSymbol}
       />
       <CollectRewardModal
         poolKey={poolKey}
         info={info}
+        refetchInfo={refetchInfo}
         stakedAmount={stakedAmount}
         rewardAmount={rewardAmount}
         rewardTokenAddress={rewardTokenAddress}
         rewardTokenSymbol={rewardTokenSymbol}
         stakingTokenSymbol={stakingTokenSymbol}
-        isCollectModalOpen={isCollectModalOpen}
-        onCollectModalClose={onCollectModalClose}
+        isOpen={isCollectModalOpen}
+        onClose={onCollectModalClose}
         modalTitle={
           <ModalTitle imgSrc={imgSrc}>Earn {rewardTokenSymbol}</ModalTitle>
         }
-        unitName={stakingTokenSymbol}
       />
     </OutlinedCard>
   );

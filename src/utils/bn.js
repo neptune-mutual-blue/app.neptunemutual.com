@@ -78,7 +78,7 @@ export const amountsToPercentages = (...amounts) => {
 
 export const calculateGasMargin = (value) => {
   return new BigNumber(value.toString())
-    .multipliedBy(1.3)
+    .multipliedBy(1.5)
     .decimalPlaces(0)
     .toString();
 };
