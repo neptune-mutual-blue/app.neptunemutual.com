@@ -8,7 +8,7 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
 import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
@@ -133,7 +133,7 @@ const UnstakeModal = ({
       onClose={onClose}
       disabled={unstaking || unstakingWithClaim}
     >
-      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="sm:min-w-500 w-96 sm:w-auto max-w-xl inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"

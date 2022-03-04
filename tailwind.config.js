@@ -80,6 +80,7 @@ module.exports = {
         5: "5px",
         120: "120px",
         60: "60px",
+        500: "500px",
       },
       colors: {
         "999BAB": "#999BAB",

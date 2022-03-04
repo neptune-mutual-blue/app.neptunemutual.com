@@ -4,7 +4,7 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { Dialog } from "@headlessui/react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
