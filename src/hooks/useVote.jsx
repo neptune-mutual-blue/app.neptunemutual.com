@@ -18,7 +18,6 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useRouter } from "next/router";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [approving, setApproving] = useState(false);
@@ -38,8 +37,6 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
   } = useERC20Allowance(NPMTokenAddress);
   const { balance, refetch: updateBalance } = useERC20Balance(NPMTokenAddress);
   const { notifyError } = useErrorNotifier();
-
-  const router = useRouter();
 
   useEffect(() => {
     updateAllowance(governanceAddress);
