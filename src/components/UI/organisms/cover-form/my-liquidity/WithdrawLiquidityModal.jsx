@@ -31,10 +31,11 @@ export const WithdrawLiquidityModal = ({
     coverKey,
     podAmount: value,
   });
-  const { balance, vaultTokenAddress, handleWithdraw } = useRemoveLiquidity({
-    coverKey,
-    value,
-  });
+  const { balance, vaultTokenAddress, handleWithdraw, withdrawing } =
+    useRemoveLiquidity({
+      coverKey,
+      value,
+    });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
 
   const handleChooseMax = () => {
@@ -54,13 +55,16 @@ export const WithdrawLiquidityModal = ({
     isGreater(info.withdrawalClose, now);
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
       <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 flex">
           {modalTitle}
         </Dialog.Title>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={withdrawing}
+          onClick={onClose}
+        ></ModalCloseButton>
 
         <div className="mt-6">
           <TokenAmountInput
@@ -106,7 +110,7 @@ export const WithdrawLiquidityModal = ({
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           disabled={canWithdraw}
         >
-          Withdraw
+          {withdrawing ? "Withdrawing" : "Withdraw"}
         </RegularButton>
       </div>
     </Modal>

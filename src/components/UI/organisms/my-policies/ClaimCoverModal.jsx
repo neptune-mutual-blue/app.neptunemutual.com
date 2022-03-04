@@ -23,13 +23,20 @@ export const ClaimCoverModal = ({
   const [value, setValue] = useState();
   const delayedValue = useDebounce(value, 200);
   const cxTokenSymbol = useTokenSymbol(cxTokenAddress);
-  const { balance, canClaim, handleClaim, handleApprove, receiveAmount } =
-    useClaimPolicyInfo({
-      value: delayedValue,
-      cxTokenAddress,
-      coverKey,
-      incidentDate,
-    });
+  const {
+    balance,
+    canClaim,
+    claiming,
+    handleClaim,
+    approving,
+    handleApprove,
+    receiveAmount,
+  } = useClaimPolicyInfo({
+    value: delayedValue,
+    cxTokenAddress,
+    coverKey,
+    incidentDate,
+  });
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
@@ -44,13 +51,16 @@ export const ClaimCoverModal = ({
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={approving || claiming}>
       <div className="max-w-lg w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 w-full flex items-center">
           <img src={imgSrc} alt="policy" height={48} width={48} />
           <span className="pl-3">{modalTitle}</span>
         </Dialog.Title>
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={approving || claiming}
+          onClick={onClose}
+        ></ModalCloseButton>
         <div className="mt-6">
           <TokenAmountInput
             tokenAddress={cxTokenAddress}
@@ -60,6 +70,7 @@ export const ClaimCoverModal = ({
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"bond-amount"}
+            disabled={approving || claiming}
             onChange={handleChange}
           />
         </div>

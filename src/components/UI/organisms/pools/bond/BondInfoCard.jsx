@@ -1,7 +1,6 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import NeptuneMutualCircleLogo from "@/components/UI/atoms/logos/neptune-mutual-circle-logo";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { BondStatsContainer } from "@/components/UI/molecules/pools/bond/BondStatsContainer";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
@@ -13,12 +12,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
 import { useState } from "react";
 
-export const BondInfoCard = ({
-  roi,
-
-  info,
-  details,
-}) => {
+export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpen = () => {
@@ -33,7 +27,11 @@ export const BondInfoCard = ({
     <OutlinedCard className="bg-DEEAF6 p-10">
       <div className="flex justify-between items-start">
         <div>
-          <NeptuneMutualCircleLogo />
+          <img
+            src="/images/tokens/npm.svg"
+            alt="NPM Logo"
+            className="w-10 h-10"
+          />
           <h3 className="flex items-center text-h4 mt-1 font-sora font-semibold">
             <div>Bond Info</div>
 
@@ -50,7 +48,7 @@ export const BondInfoCard = ({
         </div>
 
         <Badge className="text-21AD8C uppercase">
-          ROI: {isNaN(roi) ? 0 : formatPercent(roi)}
+          ROI: {formatPercent(roi)}
         </Badge>
       </div>
 
@@ -76,6 +74,7 @@ export const BondInfoCard = ({
             modalTitle={"Claim Bond"}
             unlockDate={info.unlockDate}
             claimable={info.claimable}
+            refetchBondInfo={refetchBondInfo}
           />
         </>
       )}

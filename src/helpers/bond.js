@@ -1,4 +1,5 @@
 import { DAYS, MULTIPLIER } from "@/src/config/constants";
+import { toBN } from "@/utils/bn";
 
 export const getDiscountedPrice = (discountRate, npmPrice) => {
   const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER;
@@ -12,4 +13,28 @@ export const getAnnualDiscountRate = (protoDiscountRate, vestingTerm) => {
 
   // Annualized discount rate
   return discountRatePerDay * 365 * DAYS;
+};
+
+export const calcBondPoolTVL = (bondPool, networkId, NPMTokenAddress) => {
+  const bondInitialNpm = bondPool.values[3];
+  const bondClaimed = bondPool.totalBondClaimed;
+  const bondLpTokensAdded = bondPool.totalLpAddedToBond;
+
+  const bondNpmBalance = toBN(bondInitialNpm).minus(bondClaimed).toString();
+
+  return {
+    id: bondPool.id,
+    data: [
+      {
+        type: "token",
+        address: NPMTokenAddress,
+        amount: bondNpmBalance,
+      },
+      {
+        type: "lp",
+        address: bondPool.address0,
+        amount: bondLpTokensAdded,
+      },
+    ],
+  };
 };

@@ -18,27 +18,27 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
+  const { tvl: tvlPool } = usePoolsTVL();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
+
   useEffect(() => {
     if (data && data.length >= 2) {
-      let diff =
-        data[data.length - 1].totalLiquidity -
-        data[data.length - 2].totalLiquidity;
-      const rise = Boolean(diff > 0);
-      diff = (
-        (Math.abs(diff) / data[data.length - 2].totalLiquidity) *
-        100
-      ).toFixed(2);
+      const previous = data[data.length - 2].totalLiquidity;
+      const current = data[data.length - 1].totalLiquidity;
+
+      let diff = current - previous;
+      diff = (diff / previous) * 100;
       setChangeData({
-        last: data[data.length - 1].totalLiquidity,
-        diff,
-        rise,
+        last: current,
+        diff: Math.abs(diff).toFixed(2),
+        rise: diff >= 0,
       });
     }
   }, [data]);
@@ -61,7 +61,7 @@ export const HomePage = () => {
                     {
                       name: "TVL (Pool)",
                       amount: formatCurrency(
-                        convertFromUnits(heroData.tvlPool).toString()
+                        convertFromUnits(tvlPool).toString()
                       ).short,
                     },
                   ]}

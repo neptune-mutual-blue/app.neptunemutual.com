@@ -20,12 +20,15 @@ export const ClaimBondModal = ({
   const { handleClaim, claiming } = useClaimBond();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={claiming}>
       <div className="max-w-lg w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2">
           {modalTitle}
         </Dialog.Title>
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={claiming}
+          onClick={onClose}
+        ></ModalCloseButton>
         <div className="mt-6">
           <Label htmlFor={"claimable-bond"} className="font-semibold mb-4">
             Amount Available To Claim
@@ -50,7 +53,10 @@ export const ClaimBondModal = ({
         {/* left to add click handler */}
         <RegularButton
           disabled={claiming}
-          onClick={handleClaim}
+          onClick={async () => {
+            await handleClaim();
+            refetchBondInfo();
+          }}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
         >
           {claiming ? "Claiming..." : "Claim Now"}

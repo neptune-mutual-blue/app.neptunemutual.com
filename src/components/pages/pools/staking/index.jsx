@@ -3,9 +3,11 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { StakingCard } from "@/components/UI/organisms/pools/staking/StakingCard";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 
 export const StakingPage = () => {
+  const { getTVLById } = usePoolsTVL();
   const { data, loading } = useTokenStakingPools();
 
   return (
@@ -28,7 +30,13 @@ export const StakingPage = () => {
       )}
       <Grid className="mt-14 mb-24">
         {data.pools.map((poolData) => {
-          return <StakingCard key={poolData.id} data={poolData} />;
+          return (
+            <StakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={getTVLById(poolData.id)}
+            />
+          );
         })}
       </Grid>
       <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>

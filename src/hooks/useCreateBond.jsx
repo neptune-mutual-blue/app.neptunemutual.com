@@ -72,7 +72,7 @@ export const useCreateBond = ({ info, value }) => {
     return () => {
       ignore = true;
     };
-  }, [networkId, debouncedValue]);
+  }, [networkId, debouncedValue, invoke, notifyError]);
 
   const handleApprove = async () => {
     try {

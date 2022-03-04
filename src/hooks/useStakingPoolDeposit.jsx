@@ -8,6 +8,7 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
+  sort,
 } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -22,7 +23,9 @@ export const useStakingPoolDeposit = ({
   tokenAddress,
   tokenSymbol,
   maximumStake,
+  refetchInfo,
 }) => {
+  const [errorMsg, setErrorMsg] = useState("");
   const [approving, setApproving] = useState(false);
   const [depositing, setDepositing] = useState(false);
 
@@ -38,6 +41,9 @@ export const useStakingPoolDeposit = ({
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+
+  // Minimum of info.maximumStake, balance
+  const maxStakableAmount = sort([maximumStake, balance])[0];
 
   useEffect(() => {
     updateAllowance(poolContractAddress);
@@ -91,6 +97,7 @@ export const useStakingPoolDeposit = ({
 
       updateBalance();
       updateAllowance(poolContractAddress);
+      refetchInfo();
 
       return txnStatus;
     } catch (err) {
@@ -100,23 +107,40 @@ export const useStakingPoolDeposit = ({
     }
   };
 
+  useEffect(() => {
+    let msg = "";
+
+    if (isGreater(convertToUnits(value || "0").toString(), maxStakableAmount)) {
+      msg = "Maximum Limit Reached";
+    }
+
+    if (isGreater(convertToUnits(value || "0").toString(), balance)) {
+      msg = "Insufficient Balance";
+    }
+
+    if (msg !== errorMsg) {
+      setErrorMsg(msg);
+    }
+  }, [balance, errorMsg, value, maxStakableAmount]);
+
   const canDeposit =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
-  const isError =
-    value &&
-    (!isValidNumber(value) ||
-      isGreater(convertToUnits(value || "0"), balance) ||
-      isGreater(convertToUnits(value || "0"), maximumStake));
+
+  const isError = value && (!isValidNumber(value) || errorMsg);
 
   return {
     balance,
+    maxStakableAmount,
+
+    isError,
+    errorMsg,
+
     approving,
     depositing,
 
     canDeposit,
-    isError,
 
     handleApprove,
     handleDeposit,

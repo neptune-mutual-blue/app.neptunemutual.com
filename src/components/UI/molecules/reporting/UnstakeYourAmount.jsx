@@ -15,10 +15,11 @@ import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { unstake, unstakeWithClaim, info } = useUnstakeReportingStake({
-    coverKey: incidentReport.key,
-    incidentDate: incidentReport.incidentDate,
-  });
+  const { unstake, unstakeWithClaim, info, unstaking, unstakingWithClaim } =
+    useUnstakeReportingStake({
+      coverKey: incidentReport.key,
+      incidentDate: incidentReport.incidentDate,
+    });
   const { coverInfo } = useCoverInfo(incidentReport.key);
   const logoSrc = getCoverImgSrc(coverInfo);
 
@@ -38,13 +39,34 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
 
   const now = DateLib.unix();
 
+  const isIncidentOccured = incidentReport.decision;
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
-    incidentReport.decision &&
+    isIncidentOccured &&
     isGreater(incidentReport.claimExpiresAt, now) &&
     isGreater(now, incidentReport.claimBeginsFrom);
 
-  const handleUnstake = isClaimableNow ? unstakeWithClaim : unstake;
+  const handleUnstake = async () => {
+    if (isIncidentOccured) {
+      if (isClaimableNow) {
+        await unstakeWithClaim();
+        return;
+      }
+
+      // After claim expiry
+      await unstake();
+      return;
+    }
+
+    // For false reporting
+    if (incidentReport.finalized) {
+      await unstake();
+      return;
+    }
+
+    // Before finalization
+    await unstakeWithClaim();
+  };
 
   return (
     <div className="flex flex-col items-center pt-4">
@@ -80,12 +102,16 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         onClose={onClose}
         unstake={handleUnstake}
         reward={convertFromUnits(
-          sumOf(info.myStakeInWinningCamp, info.myReward).toString()
+          sumOf(info.myStakeInWinningCamp, info.myReward)
+            .minus(info.unstaken)
+            .toString()
         )
           .decimalPlaces(2)
           .toString()}
         logoSrc={logoSrc}
         altName={coverInfo?.coverName}
+        unstaking={unstaking}
+        unstakingWithClaim={unstakingWithClaim}
       />
     </div>
   );
@@ -98,10 +124,16 @@ const UnstakeModal = ({
   reward,
   logoSrc,
   logoAlt,
+  unstaking,
+  unstakingWithClaim,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="sm:min-w-500 w-96 sm:w-auto inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={unstaking || unstakingWithClaim}
+    >
+      <div className="sm:min-w-500 w-96 sm:w-auto max-w-xl inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
@@ -120,10 +152,13 @@ const UnstakeModal = ({
           className="px-10 py-4 w-full font-semibold"
           onClick={unstake}
         >
-          UNSTAKE
+          {unstaking || unstakingWithClaim ? "UNSTAKING" : "UNSTAKE"}
         </RegularButton>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <ModalCloseButton
+          disabled={unstaking || unstakingWithClaim}
+          onClick={onClose}
+        ></ModalCloseButton>
       </div>
     </Modal>
   );
