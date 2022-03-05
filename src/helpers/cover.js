@@ -5,6 +5,13 @@ import {
   formatBytes32String,
 } from "@ethersproject/strings";
 
+export const defaultStats = {
+  liquidity: "0",
+  protection: "0",
+  utilization: "0",
+  status: "",
+};
+
 export const getCoverImgSrc = (coverInfo) => {
   try {
     return `/images/covers/${parseBytes32String(coverInfo?.key)}.svg`;
@@ -91,10 +98,5 @@ export const calculateCoverStats = (cover) => {
     console.error(err);
   }
 
-  return {
-    liquidity: "0",
-    protection: "0",
-    utilization: "0",
-    status: "",
-  };
+  return defaultStats;
 };
