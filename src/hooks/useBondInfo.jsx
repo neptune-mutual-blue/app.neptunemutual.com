@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -25,7 +24,6 @@ const defaultInfo = {
 
 export const useBondInfo = () => {
   const [info, setInfo] = useState(defaultInfo);
-  const mountedRef = useRef(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
@@ -33,6 +31,8 @@ export const useBondInfo = () => {
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(async () => {
+    let ignore = false;
+
     if (!networkId) {
       return;
     }
@@ -57,7 +57,7 @@ export const useBondInfo = () => {
       false
     );
 
-    if (!mountedRef.current) return;
+    if (ignore) return;
 
     const [lpToken] = addresses;
     const [
@@ -86,15 +86,14 @@ export const useBondInfo = () => {
       claimable: claimable.toString(),
       unlockDate: unlockDate.toString(),
     });
+
+    return () => {
+      ignore = true;
+    };
   }, [account, invoke, library, networkId, notifyError]);
 
   useEffect(() => {
-    mountedRef.current = true;
     fetchBondInfo();
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [fetchBondInfo]);
 
   return { info, refetch: fetchBondInfo };
