@@ -1,124 +1,120 @@
 import { useState, useEffect } from "react";
-import { getGraphURL } from "@/src/config/environment";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { toUtf8String } from "@ethersproject/strings";
-import { utils } from "@neptunemutual/sdk";
+import { useQuery } from "@/src/hooks/useQuery";
+import { useIpfs } from "@/src/context/Ipfs";
+import { calculateCoverStats } from "@/src/helpers/cover";
+import DateLib from "@/lib/date/DateLib";
 
-const setIpfsData = (setter, id, ipfsData) => {
-  setter((prevData) => {
-    const prevCovers = prevData?.covers || [];
-
-    const nextCovers = prevCovers.map((x) => {
-      if (x.id === id) {
-        return {
-          ...x,
-          ipfsData,
-        };
+const getQuery = (now) => {
+  return `
+  {
+    covers {
+      id
+      key
+      ipfsHash
+      ipfsBytes
+      stopped
+      vaults {
+        totalCoverLiquidityAdded
+        totalCoverLiquidityRemoved
+        totalFlashLoanFees
       }
-
-      return x;
-    });
-
-    return {
-      covers: nextCovers,
-    };
-  });
+      cxTokens(where: { expiryDate_gt: "${now}" }) {
+        key
+        totalCoveredAmount
+      }
+      incidentReports(first: 1, where: { finalized: false }) {
+        status
+        resolved
+        incidentDate
+        decision
+        claimExpiresAt
+        claimBeginsFrom
+        totalAttestedStake
+        totalRefutedStake
+      }
+    }
+  }
+`;
 };
 
 export const useFetchCovers = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
+  const [coverStatsData, setCoverStatsData] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const { networkId } = useAppContext();
+  const { data: ipfs, getIpfsByHash } = useIpfs();
+  const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
-    if (!data || !data.covers || !Array.isArray(data.covers)) {
-      return;
+    let ignore = false;
+
+    function exec() {
+      if (!graphData || !networkId) return;
+
+      const _covers = graphData.covers || [];
+      const _data = _covers.map((_cover) => {
+        let ipfsData = _cover.ipfsData || ipfs[_cover.ipfsHash];
+
+        try {
+          ipfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
+        } catch (err) {
+          console.log("Could not parse ipfs bytes", _cover.key);
+        }
+
+        // Fetch IPFS data if does not exist
+        if (!ipfsData) {
+          getIpfsByHash(_cover.ipfsHash);
+          return null;
+        }
+
+        return {
+          key: _cover.key,
+          projectName: ipfsData.projectName,
+          coverName: ipfsData.coverName,
+          resolutionSources: ipfsData.resolutionSources,
+          about: ipfsData.about,
+          tags: ipfsData.tags,
+          rules: ipfsData.rules,
+          links: ipfsData.links,
+
+          ipfsData: ipfsData,
+          stats: calculateCoverStats(_cover),
+        };
+      });
+
+      if (ignore) return;
+      setData(_data.filter((x) => !!x));
     }
 
-    const _covers = data.covers;
-    for (let i = 0; i < _covers.length; i++) {
-      const _cover = _covers[i];
-      const _id = _cover.id;
+    exec();
 
-      if (_cover.ipfsHash && !_cover.ipfsBytes && !_cover.ipfsData) {
-        utils.ipfs
-          .read(_cover.ipfsHash)
-          .then((ipfsData) => setIpfsData(setData, _id, ipfsData))
-          .catch(setIpfsData(setData, _id, {}));
-      }
-    }
-  }, [data]);
+    return () => {
+      ignore = true;
+    };
+  }, [getIpfsByHash, graphData, ipfs, networkId]);
 
   useEffect(() => {
-    if (!networkId) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
-    }
+    let ignore = false;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          covers {
-            id
-            key
-            ipfsHash
-            ipfsBytes
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    const now = DateLib.unix();
+    refetch(getQuery(now))
+      .catch(console.error)
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
-  }, [networkId]);
 
-  const covers = (data?.covers || []).map((x) => {
-    let ipfsData = x.ipfsData || {};
-
-    try {
-      ipfsData = JSON.parse(toUtf8String(x.ipfsBytes));
-    } catch (err) {
-      console.log("Could not parse ipfs bytes", x.key);
-    }
-
-    return {
-      key: x.key,
-      projectName: ipfsData.projectName,
-      coverName: ipfsData.coverName,
-      resolutionSources: ipfsData.resolutionSources,
-      about: ipfsData.about,
-      tags: ipfsData.tags,
-      rules: ipfsData.rules,
-      links: ipfsData.links,
-
-      ipfsData: ipfsData,
+    return () => {
+      ignore = true;
     };
-  });
+  }, [refetch]);
 
   return {
-    data: {
-      covers,
-    },
+    data,
     loading,
   };
 };

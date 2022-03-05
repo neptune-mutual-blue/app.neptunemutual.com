@@ -2,16 +2,17 @@ import { Divider } from "@/components/UI/atoms/divider";
 import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
+import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
-  const { data } = useFetchCoverStats({ coverKey: key });
-  const imgSrc = getCoverImgSrc({ key });
+  const { coverInfo } = useCoverInfo(key);
+  const data = coverInfo.stats;
+  const imgSrc = getCoverImgSrc(coverInfo);
 
   return (
     <OutlinedCard className="bg-white p-6" type="link">

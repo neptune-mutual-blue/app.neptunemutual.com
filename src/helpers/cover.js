@@ -1,5 +1,5 @@
 import DateLib from "@/lib/date/DateLib";
-import { isGreater } from "@/utils/bn";
+import { isGreater, sumOf, toBN } from "@/utils/bn";
 import {
   parseBytes32String,
   formatBytes32String,
@@ -58,4 +58,43 @@ export const getCoverStatus = (incidentReports, stopped) => {
   }
 
   return incidentReports[0].decision ? "Incident Happened" : "False Reporting";
+};
+
+export const calculateCoverStats = (cover) => {
+  try {
+    const status = getCoverStatus(cover.incidentReports, cover.stopped);
+
+    const liquidity = sumOf(
+      ...cover.vaults.map((x) => {
+        return toBN(x.totalCoverLiquidityAdded)
+          .minus(x.totalCoverLiquidityRemoved)
+          .plus(x.totalFlashLoanFees);
+      })
+    ).toString();
+
+    const protection = sumOf(
+      ...cover.cxTokens.map((x) => x.totalCoveredAmount)
+    ).toString();
+
+    const utilization = toBN(protection)
+      .dividedBy(liquidity)
+      .decimalPlaces(2)
+      .toString();
+
+    return {
+      status,
+      liquidity,
+      protection,
+      utilization: utilization == "NaN" ? "0" : utilization,
+    };
+  } catch (err) {
+    console.error(err);
+  }
+
+  return {
+    liquidity: "0",
+    protection: "0",
+    utilization: "0",
+    status: "",
+  };
 };
