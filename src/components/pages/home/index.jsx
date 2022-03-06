@@ -18,12 +18,12 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
-import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
-  const { tvl: tvlPool } = usePoolsTVL();
+  const { poolsTvl } = useAppConstants();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
@@ -61,7 +61,7 @@ export const HomePage = () => {
                     {
                       name: "TVL (Pool)",
                       amount: formatCurrency(
-                        convertFromUnits(tvlPool).toString()
+                        convertFromUnits(poolsTvl).toString()
                       ).short,
                     },
                   ]}

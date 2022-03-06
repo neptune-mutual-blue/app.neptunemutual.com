@@ -3,8 +3,8 @@ import React from "react";
 import { useFetchCovers } from "@/src/hooks/useFetchCovers";
 
 const initValue = {
-  covers: [],
   loading: false,
+  covers: [],
 };
 
 const CoversContext = React.createContext(initValue);
@@ -18,8 +18,7 @@ export function useCovers() {
 }
 
 export const CoversProvider = ({ children }) => {
-  const { data, loading } = useFetchCovers();
-  const covers = data.covers;
+  const { data: covers, loading } = useFetchCovers();
 
   return (
     <CoversContext.Provider value={{ covers, loading }}>

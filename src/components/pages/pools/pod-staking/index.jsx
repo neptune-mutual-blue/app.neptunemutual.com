@@ -3,11 +3,11 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
+import { useAppConstants } from "@/src/context/AppConstants";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
-import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 
 export const PodStakingPage = () => {
-  const { getTVLById } = usePoolsTVL();
+  const { getTVLById } = useAppConstants();
   const { data, loading } = usePodStakingPools();
 
   return (

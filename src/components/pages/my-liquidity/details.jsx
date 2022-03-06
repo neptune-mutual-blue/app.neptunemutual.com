@@ -16,7 +16,6 @@ import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/components/UI/organisms/cover-form/ProvideLiquidityForm";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +24,8 @@ export const MyLiquidityCoverPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
+  const status = coverInfo.stats.status;
   const { info, minNpmStake, myStake } = useMyLiquidityInfo({ coverKey });
-  const {
-    data: { status },
-  } = useFetchCoverStats({ coverKey });
 
   function onClose() {
     setIsOpen(false);

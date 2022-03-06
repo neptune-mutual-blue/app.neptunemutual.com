@@ -17,7 +17,6 @@ import { CoverRules } from "@/components/common/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/components/UI/organisms/cover-form/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -25,9 +24,7 @@ export const CoverPurchaseDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const {
-    data: { status },
-  } = useFetchCoverStats({ coverKey });
+  const status = coverInfo.stats.status;
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { info } = useMyLiquidityInfo({ coverKey });
