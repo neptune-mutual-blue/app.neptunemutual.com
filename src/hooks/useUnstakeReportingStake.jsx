@@ -5,7 +5,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
@@ -20,6 +20,7 @@ const defaultInfo = {
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
+  const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
@@ -29,61 +30,70 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const [unstaking, setUnstaking] = useState(false);
-  const [unstakingWithClaim, setUnstakingWithClaim] = useState(false);
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function fetchInfo() {
-      if (!networkId || !account) {
-        return;
-      }
-
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const resolutionContract = await registry.Resolution.getInstance(
-        networkId,
-        signerOrProvider
-      );
-
-      const args = [account, coverKey, incidentDate];
-      const [
-        totalStakeInWinningCamp,
-        totalStakeInLosingCamp,
-        myStakeInWinningCamp,
-        toBurn,
-        toReporter,
-        myReward,
-        unstaken,
-      ] = await invoke(
-        resolutionContract,
-        "getUnstakeInfoFor",
-        {},
-        notifyError,
-        args,
-        false
-      );
-
-      if (ignore) {
-        return;
-      }
-
-      setInfo({
-        totalStakeInWinningCamp: totalStakeInWinningCamp.toString(),
-        totalStakeInLosingCamp: totalStakeInLosingCamp.toString(),
-        myStakeInWinningCamp: myStakeInWinningCamp.toString(),
-        toBurn: toBurn.toString(),
-        toReporter: toReporter.toString(),
-        myReward: myReward.toString(),
-        unstaken: unstaken.toString(),
-      });
+  const fetchInfo = useCallback(async () => {
+    if (!networkId || !account) {
+      return;
     }
 
-    fetchInfo().catch(console.error);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const resolutionContract = await registry.Resolution.getInstance(
+      networkId,
+      signerOrProvider
+    );
+
+    const args = [account, coverKey, incidentDate];
+    const [
+      totalStakeInWinningCamp,
+      totalStakeInLosingCamp,
+      myStakeInWinningCamp,
+      toBurn,
+      toReporter,
+      myReward,
+      unstaken,
+    ] = await invoke(
+      resolutionContract,
+      "getUnstakeInfoFor",
+      {},
+      notifyError,
+      args,
+      false
+    );
+
+    if (!mountedRef.current) {
+      return;
+    }
+
+    setInfo({
+      totalStakeInWinningCamp: totalStakeInWinningCamp.toString(),
+      totalStakeInLosingCamp: totalStakeInLosingCamp.toString(),
+      myStakeInWinningCamp: myStakeInWinningCamp.toString(),
+      toBurn: toBurn.toString(),
+      toReporter: toReporter.toString(),
+      myReward: myReward.toString(),
+      unstaken: unstaken.toString(),
+    });
+  }, [
+    account,
+    coverKey,
+    incidentDate,
+    invoke,
+    library,
+    networkId,
+    notifyError,
+  ]);
+
+  useEffect(() => {
+    mountedRef.current = true;
 
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
-  }, [account, coverKey, incidentDate, library, networkId]);
+  }, []);
+
+  useEffect(() => {
+    fetchInfo().catch(console.error);
+  }, [fetchInfo]);
 
   const unstake = async () => {
     if (!networkId || !account) {
@@ -127,7 +137,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     }
 
     try {
-      setUnstakingWithClaim(true);
+      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
@@ -157,7 +167,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     } catch (err) {
       notifyError(err, "Unstake & claim NPM");
     } finally {
-      setUnstakingWithClaim(false);
+      setUnstaking(false);
     }
   };
 
@@ -166,6 +176,6 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     unstake,
     unstakeWithClaim,
     unstaking,
-    unstakingWithClaim,
+    refetch: fetchInfo,
   };
 };

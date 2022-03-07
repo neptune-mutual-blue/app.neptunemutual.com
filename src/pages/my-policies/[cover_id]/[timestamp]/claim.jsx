@@ -12,7 +12,17 @@ import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 
-export default function ClaimPolicy() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.DISABLE_CLAIM,
+    },
+  };
+}
+
+export default function ClaimPolicy({ disabled }) {
   const router = useRouter();
   const { cover_id, timestamp } = router.query;
   const coverKey = toBytes32(cover_id);
@@ -20,6 +30,11 @@ export default function ClaimPolicy() {
   const { data } = useActivePoliciesByCover({ coverKey });
 
   const title = coverInfo?.projectName;
+
+  if (disabled) {
+    console.log(disabled);
+    return <>This feature is not available yet</>;
+  }
 
   return (
     <main>

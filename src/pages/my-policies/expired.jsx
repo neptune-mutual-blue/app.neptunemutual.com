@@ -2,7 +2,22 @@ import Head from "next/head";
 import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
 import { PoliciesExpiredPage } from "@/components/pages/my-policies/PoliciesExpiredPage";
 
-export default function MyPoliciesExpired() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.DISABLE_PURCHASE,
+    },
+  };
+}
+
+export default function MyPoliciesExpired({ disabled }) {
+  if (disabled) {
+    console.log(disabled);
+    return <>This feature is not available yet</>;
+  }
+
   return (
     <main>
       <Head>
