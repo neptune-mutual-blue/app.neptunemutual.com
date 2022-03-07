@@ -3,7 +3,7 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { toUtf8String } from "@ethersproject/strings";
 import { useQuery } from "@/src/hooks/useQuery";
 import { useIpfs } from "@/src/context/Ipfs";
-import { calculateCoverStats } from "@/src/helpers/cover";
+import { calculateCoverStats, defaultStats } from "@/src/helpers/cover";
 import DateLib from "@/lib/date/DateLib";
 
 const getQuery = (now) => {
@@ -41,7 +41,6 @@ const getQuery = (now) => {
 
 export const useFetchCovers = () => {
   const [data, setData] = useState([]);
-  const [coverStatsData, setCoverStatsData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const { networkId } = useAppContext();
@@ -113,8 +112,13 @@ export const useFetchCovers = () => {
     };
   }, [refetch]);
 
+  const getInfoByKey = (coverKey) => {
+    return data.find((x) => x.key === coverKey) || { stats: defaultStats };
+  };
+
   return {
     data,
+    getInfoByKey,
     loading,
   };
 };

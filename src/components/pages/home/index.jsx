@@ -44,18 +44,16 @@ export const HomePage = () => {
     }
   }, [data]);
 
-  const [searchValue, setSearchValue] = useState("");
-
-  const searchHandler = (e) => {
-    let inputValue = e.target.value;
-    setSearchValue(inputValue);
-  };
-
-  const { coversToShow } = useSearchResults({
-    inputValue: searchValue,
-    coversToFilter: availableCovers,
-    filterCoversBy: "projectName",
+  const { searchValue, setSearchValue, filtered } = useSearchResults({
+    list: availableCovers,
+    filter: (item, term) => {
+      return item.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    },
   });
+
+  const searchHandler = (ev) => {
+    setSearchValue(ev.target.value);
+  };
 
   return (
     <>
@@ -163,7 +161,7 @@ export const HomePage = () => {
         <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {coversToShow.map((c) => {
+          {filtered.map((c) => {
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">

@@ -1,12 +1,21 @@
-export const useSearchResults = ({
-  inputValue,
-  coversToFilter,
-  filterCoversBy,
-}) => {
-  let coversToShow = coversToFilter.filter(
-    (cover) =>
-      cover[filterCoversBy].toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-  );
+import { useState } from "react";
 
-  return { coversToShow };
+export const useSearchResults = ({ list, filter }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const filtered = list.filter((item) => {
+    try {
+      return filter(item, searchValue);
+    } catch (err) {
+      /* swallow */
+    }
+
+    return true;
+  });
+
+  return {
+    searchValue,
+    setSearchValue,
+    filtered,
+  };
 };
