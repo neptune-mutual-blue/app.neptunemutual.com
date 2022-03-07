@@ -5,7 +5,22 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyPoliciesTxsTable } from "@/components/UI/organisms/my-policies/MyPoliciesTxsTable";
 
-export default function MyPoliciesTxs() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.DISABLE_PURCHASE,
+    },
+  };
+}
+
+export default function MyPoliciesTxs({ disabled }) {
+  if (disabled) {
+    console.log(disabled);
+    return <>This feature is not available yet</>;
+  }
+
   return (
     <main>
       <Head>

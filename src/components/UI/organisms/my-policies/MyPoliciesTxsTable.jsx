@@ -134,7 +134,7 @@ const DetailsRenderer = ({ row }) => {
         />
 
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "CoverPurchase" ? "Purchased" : "Claimed"}{" "}
+          {row.type == "CoverPurchased" ? "Purchased" : "Claimed"}{" "}
           <span title={formatCurrency(convertFromUnits(row.daiAmount)).long}>
             {formatCurrency(convertFromUnits(row.daiAmount)).short}
           </span>{" "}
@@ -154,16 +154,22 @@ const CxDaiAmountRenderer = ({ row }) => {
       <div className="flex items-center justify-end whitespace-nowrap">
         <span
           className={
-            row.type == "CoverPurchase" ? "text-404040" : "text-FA5C2F"
+            row.type == "CoverPurchased" ? "text-404040" : "text-FA5C2F"
           }
           title={
-            formatCurrency(convertFromUnits(row.daiAmount), tokenSymbol, true)
-              .long
+            formatCurrency(
+              convertFromUnits(row.cxTokenAmount),
+              tokenSymbol,
+              true
+            ).long
           }
         >
           {
-            formatCurrency(convertFromUnits(row.daiAmount), tokenSymbol, true)
-              .short
+            formatCurrency(
+              convertFromUnits(row.cxTokenAmount),
+              tokenSymbol,
+              true
+            ).short
           }
         </span>
         <button
