@@ -10,13 +10,17 @@ import { Alert } from "@/components/UI/atoms/alert";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("reporting") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
+      disabled: !enabled,
     },
   };
 }

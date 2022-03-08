@@ -7,13 +7,17 @@ import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { MyLiquidityPage } from "@/components/pages/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("liquidity") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_ADD_LIQUIDITY,
+      disabled: !enabled,
     },
   };
 }

@@ -2,13 +2,17 @@ import Head from "next/head";
 import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
 import { PoliciesActivePage } from "@/components/pages/my-policies/PoliciesActivePage";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("policy") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_PURCHASE,
+      disabled: !enabled,
     },
   };
 }

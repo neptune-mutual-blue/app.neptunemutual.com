@@ -20,9 +20,11 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import Link from "next/link";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { getReplacedString } from "@/utils/string";
-import { POOL_URL } from "@/src/config/constants";
+import { POOL_URLS } from "@/src/config/constants";
+import { useAppContext } from "@/src/context/AppWrapper";
 
 const BondPage = () => {
+  const { networkId } = useAppContext();
   const { info, refetch: refetchBondInfo } = useBondInfo();
   const [value, setValue] = useState();
   const { account } = useWeb3React();
@@ -185,7 +187,7 @@ const BondPage = () => {
       <div>
         <div className="flex justify-end mb-10">
           <a
-            href={getReplacedString(POOL_URL, {
+            href={getReplacedString(POOL_URLS[networkId], {
               liquidityTokenAddress,
               NPMTokenAddress,
             })}

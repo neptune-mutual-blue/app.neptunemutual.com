@@ -5,13 +5,17 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyPoliciesTxsTable } from "@/components/UI/organisms/my-policies/MyPoliciesTxsTable";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("policy") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_PURCHASE,
+      disabled: !enabled,
     },
   };
 }

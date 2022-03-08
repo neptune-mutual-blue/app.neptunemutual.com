@@ -1,3 +1,5 @@
+import { SUBGRAPH_API_URLS } from "@/src/config/constants";
+
 function getChainIdFromDNS() {
   // window.location.host - subdomain.domain.com
   const parts = window.location.host.split(".");
@@ -19,21 +21,19 @@ function getChainIdFromDNS() {
       return "137";
 
     default:
-      return "3";
+      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || "3";
   }
 }
 
 export const getNetworkId = () => parseInt(getChainIdFromDNS(), 10);
-export const getGraphURL = (networkId) => {
-  if (networkId === 3) {
-    return "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten";
-  }
+export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null;
 
-  if (networkId === 42) {
-    return "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan";
-  }
-
-  return null;
+export const getFeatures = () => {
+  const str =
+    process.env.NEXT_PUBLIC_FEATURES ||
+    "policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool";
+  const features = str.split(",").map((x) => x.trim());
+  return features;
 };
 
 export const testnetChainIds = [3, 97, 42, 80001];

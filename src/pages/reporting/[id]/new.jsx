@@ -8,13 +8,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("reporting") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
+      disabled: !enabled,
     },
   };
 }
