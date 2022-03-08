@@ -29,6 +29,8 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
+  const [showMore, setShowMore] = useState(false);
+
   useEffect(() => {
     if (data && data.length >= 2) {
       const previous = data[data.length - 2].totalLiquidity;
@@ -53,6 +55,10 @@ export const HomePage = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
+  };
+
+  const handleShowMore = () => {
+    setShowMore(true);
   };
 
   return (
@@ -161,7 +167,8 @@ export const HomePage = () => {
         <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {filtered.map((c) => {
+          {filtered.map((c, idx) => {
+            if (!showMore && idx > 5) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
@@ -171,9 +178,14 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        <NeutralButton className={"rounded-lg border-0.5"}>
-          Show More
-        </NeutralButton>
+        {!showMore && (
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+          >
+            Show More
+          </NeutralButton>
+        )}
       </Container>
     </>
   );
