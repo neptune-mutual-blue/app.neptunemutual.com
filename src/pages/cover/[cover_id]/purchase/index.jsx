@@ -2,14 +2,17 @@ import Head from "next/head";
 
 import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase";
 import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("policy") > -1;
+
   return {
     props: {
-      disabled: !!process.env.NEXT_PUBLIC_DISABLE_PURCHASE,
-      liquidityDisabled: !!process.env.NEXT_PUBLIC_DISABLE_ADD_LIQUIDITY,
+      disabled: !enabled,
     },
   };
 }

@@ -1,8 +1,27 @@
 import Head from "next/head";
 import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
 import BondPage from "@/components/pages/pools/bond";
+import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
-export default function Bond() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("bond") > -1;
+
+  return {
+    props: {
+      disabled: !enabled,
+    },
+  };
+}
+
+export default function Bond({ disabled }) {
+  if (disabled) {
+    return <PageNotFound />;
+  }
+
   return (
     <main>
       <Head>
