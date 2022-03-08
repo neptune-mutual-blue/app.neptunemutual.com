@@ -10,3 +10,5 @@ export const POOL_URL =
 
 // Should be added to CSP
 export const PRICING_URL = "https://api.neptunemutual.com/pricing/{networkId}";
+export const UNSTAKE_INFO_URL =
+  "https://api.neptunemutual.com/protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}";

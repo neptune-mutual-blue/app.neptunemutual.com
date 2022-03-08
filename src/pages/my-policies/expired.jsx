@@ -1,21 +1,21 @@
 import Head from "next/head";
 import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
 import { PoliciesExpiredPage } from "@/components/pages/my-policies/PoliciesExpiredPage";
+import PageNotFound from "@/src/pages/404";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
   return {
     props: {
-      disabled: !!process.env.DISABLE_PURCHASE,
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_PURCHASE,
     },
   };
 }
 
 export default function MyPoliciesExpired({ disabled }) {
   if (disabled) {
-    console.log(disabled);
-    return <>This feature is not available yet</>;
+    return <PageNotFound />;
   }
 
   return (

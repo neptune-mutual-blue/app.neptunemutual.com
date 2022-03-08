@@ -4,7 +4,6 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import {
-  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
@@ -64,7 +63,7 @@ export const useCreateBond = ({ info, value }) => {
       );
 
       if (ignore) return;
-      setReceiveAmount(convertFromUnits(result.toString()).toString());
+      setReceiveAmount(result.toString());
     }
 
     updateReceiveAmount();
@@ -107,10 +106,7 @@ export const useCreateBond = ({ info, value }) => {
       );
 
       //TODO: passing minNpm desired (smart contract)
-      const args = [
-        convertToUnits(value).toString(),
-        convertToUnits(value).toString(),
-      ];
+      const args = [convertToUnits(value).toString(), receiveAmount];
       const tx = await invoke(instance, "createBond", {}, notifyError, args);
 
       await txToast.push(tx, {

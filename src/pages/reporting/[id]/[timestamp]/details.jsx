@@ -3,8 +3,19 @@ import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/components/pages/reporting/details";
 import { toBytes32 } from "@/src/helpers/cover";
+import PageNotFound from "@/src/pages/404";
 
-export default function IncidentResolvedCoverPage() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
+    },
+  };
+}
+
+export default function IncidentResolvedCoverPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id, timestamp } = router.query;
 
@@ -13,6 +24,10 @@ export default function IncidentResolvedCoverPage() {
     coverKey: coverKey,
     incidentDate: timestamp,
   });
+
+  if (disabled) {
+    return <PageNotFound />;
+  }
 
   return (
     <main>

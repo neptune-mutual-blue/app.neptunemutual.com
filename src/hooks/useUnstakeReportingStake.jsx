@@ -8,15 +8,26 @@ import { useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { UNSTAKE_INFO_URL } from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
 
 const defaultInfo = {
+  yes: "0",
+  no: "0",
+  myYes: "0",
+  myNo: "0",
   totalStakeInWinningCamp: "0",
   totalStakeInLosingCamp: "0",
   myStakeInWinningCamp: "0",
+  unstaken: "0",
+  latestIncidentDate: "0",
+  burnRate: "0",
+  reporterCommission: "0",
+  allocatedReward: "0",
   toBurn: "0",
   toReporter: "0",
   myReward: "0",
-  unstaken: "0",
+  willReceive: "0",
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
@@ -36,52 +47,32 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-    const resolutionContract = await registry.Resolution.getInstance(
-      networkId,
-      signerOrProvider
+    const response = await fetch(
+      getReplacedString(UNSTAKE_INFO_URL, {
+        networkId,
+        coverKey,
+        account,
+        incidentDate,
+      }),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      }
     );
 
-    const args = [account, coverKey, incidentDate];
-    const [
-      totalStakeInWinningCamp,
-      totalStakeInLosingCamp,
-      myStakeInWinningCamp,
-      toBurn,
-      toReporter,
-      myReward,
-      unstaken,
-    ] = await invoke(
-      resolutionContract,
-      "getUnstakeInfoFor",
-      {},
-      notifyError,
-      args,
-      false
-    );
+    const { data } = await response.json();
 
-    if (!mountedRef.current) {
+    if (!mountedRef.current || !data) {
       return;
     }
 
     setInfo({
-      totalStakeInWinningCamp: totalStakeInWinningCamp.toString(),
-      totalStakeInLosingCamp: totalStakeInLosingCamp.toString(),
-      myStakeInWinningCamp: myStakeInWinningCamp.toString(),
-      toBurn: toBurn.toString(),
-      toReporter: toReporter.toString(),
-      myReward: myReward.toString(),
-      unstaken: unstaken.toString(),
+      ...data,
     });
-  }, [
-    account,
-    coverKey,
-    incidentDate,
-    invoke,
-    library,
-    networkId,
-    notifyError,
-  ]);
+  }, [account, coverKey, incidentDate, networkId]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -123,6 +114,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         success: "Unstaked NPM Successfully",
         failure: "Could not unstake NPM",
       });
+
+      fetchInfo().catch(console.error);
     } catch (err) {
       notifyError(err, "Unstake NPM");
     } finally {
@@ -164,6 +157,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         success: "Unstaked & claimed NPM Successfully",
         failure: "Could not unstake & claim NPM",
       });
+
+      fetchInfo().catch(console.error);
     } catch (err) {
       notifyError(err, "Unstake & claim NPM");
     } finally {
@@ -176,6 +171,5 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     unstake,
     unstakeWithClaim,
     unstaking,
-    refetch: fetchInfo,
   };
 };
