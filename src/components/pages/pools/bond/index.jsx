@@ -144,7 +144,7 @@ const BondPage = () => {
           <ReceiveAmountInput
             labelText="You Will Receive"
             tokenSymbol="NPM"
-            inputValue={receiveAmount}
+            inputValue={convertFromUnits(receiveAmount).toString()}
           />
         </div>
 

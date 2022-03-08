@@ -6,8 +6,23 @@ import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { MyLiquidityPage } from "@/components/pages/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
+import PageNotFound from "@/src/pages/404";
 
-export default function MyLiquidity() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_ADD_LIQUIDITY,
+    },
+  };
+}
+
+export default function MyLiquidity({ disabled }) {
+  if (disabled) {
+    return <PageNotFound />;
+  }
+
   return (
     <main>
       <Head>

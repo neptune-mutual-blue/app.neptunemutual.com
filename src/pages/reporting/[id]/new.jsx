@@ -7,8 +7,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
+import PageNotFound from "@/src/pages/404";
 
-export default function ReportingNewCoverPage() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
+    },
+  };
+}
+
+export default function ReportingNewCoverPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
@@ -30,6 +41,10 @@ export default function ReportingNewCoverPage() {
   const handleAcceptRules = () => {
     setAccepted(true);
   };
+
+  if (disabled) {
+    return <PageNotFound />;
+  }
 
   return (
     <main>

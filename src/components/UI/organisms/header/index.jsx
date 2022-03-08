@@ -19,22 +19,24 @@ import * as Dialog from "@radix-ui/react-dialog";
 const getNavigationLinks = (pathname = "") => {
   let links = [
     { name: "Pool", href: "/pools/bond", activeWhenStartsWith: "/pools" },
-    {
+    !process.env.NEXT_PUBLIC_DISABLE_PURCHASE && {
       name: "My Policies",
       href: "/my-policies/active",
       activeWhenStartsWith: "/my-policies",
     },
-    {
+    !process.env.NEXT_PUBLIC_DISABLE_ADD_LIQUIDITY && {
       name: "My Liquidity",
       href: "/my-liquidity",
       activeWhenStartsWith: "/my-liquidity",
     },
-    {
+    !process.env.NEXT_PUBLIC_DISABLE_REPORTING && {
       name: "Reporting",
       href: "/reporting/active",
       activeWhenStartsWith: "/reporting",
     },
   ];
+
+  links = links.filter(Boolean);
 
   links = links.map((link) => ({
     ...link,

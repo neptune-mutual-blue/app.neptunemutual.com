@@ -1,8 +1,23 @@
 import Head from "next/head";
 import { ReportingTabs } from "@/components/pages/reporting/ReportingTabs";
 import { ReportingResolvedPage } from "@/components/pages/reporting/resolved";
+import PageNotFound from "@/src/pages/404";
 
-export default function ReportingResolved() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  return {
+    props: {
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
+    },
+  };
+}
+
+export default function ReportingResolved({ disabled }) {
+  if (disabled) {
+    return <PageNotFound />;
+  }
+
   return (
     <main>
       <Head>

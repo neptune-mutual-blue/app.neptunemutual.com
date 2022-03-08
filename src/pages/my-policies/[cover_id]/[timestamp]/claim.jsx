@@ -11,13 +11,14 @@ import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
+import PageNotFound from "@/src/pages/404";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
   return {
     props: {
-      disabled: !!process.env.DISABLE_CLAIM,
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_REPORTING,
     },
   };
 }
@@ -32,8 +33,7 @@ export default function ClaimPolicy({ disabled }) {
   const title = coverInfo?.projectName;
 
   if (disabled) {
-    console.log(disabled);
-    return <>This feature is not available yet</>;
+    return <PageNotFound />;
   }
 
   return (

@@ -1,21 +1,22 @@
 import Head from "next/head";
 
 import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase";
+import PageNotFound from "@/src/pages/404";
 
 // This gets called on every request
 export async function getServerSideProps() {
   // Pass data to the page via props
   return {
     props: {
-      disabled: !!process.env.DISABLE_PURCHASE,
+      disabled: !!process.env.NEXT_PUBLIC_DISABLE_PURCHASE,
+      liquidityDisabled: !!process.env.NEXT_PUBLIC_DISABLE_ADD_LIQUIDITY,
     },
   };
 }
 
 export default function CoverPurchaseDetails({ disabled }) {
   if (disabled) {
-    console.log(disabled);
-    return <>This feature is not available yet</>;
+    return <PageNotFound />;
   }
 
   return (
