@@ -11,8 +11,23 @@ import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
+import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
-export default function ClaimPolicy() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("claim") > -1;
+
+  return {
+    props: {
+      disabled: !enabled,
+    },
+  };
+}
+
+export default function ClaimPolicy({ disabled }) {
   const router = useRouter();
   const { cover_id, timestamp } = router.query;
   const coverKey = toBytes32(cover_id);
@@ -20,6 +35,10 @@ export default function ClaimPolicy() {
   const { data } = useActivePoliciesByCover({ coverKey });
 
   const title = coverInfo?.projectName;
+
+  if (disabled) {
+    return <PageNotFound />;
+  }
 
   return (
     <main>

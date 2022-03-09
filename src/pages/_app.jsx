@@ -14,6 +14,7 @@ import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/DisclaimerModal";
 import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
 import { TxPosterProvider } from "@/src/context/TxPoster";
+import { IpfsProvider } from "@/src/context/Ipfs";
 
 const position = {
   variant: "top_right",
@@ -28,20 +29,22 @@ function MyApp({ Component, pageProps }) {
     <Web3ReactProvider getLibrary={getLibrary}>
       <AppWrapper>
         <AppConstantsProvider>
-          <CoversProvider>
-            <UnlimitedApprovalProvider>
-              <ToastProvider variant={position.variant}>
-                <TxPosterProvider>
-                  <Header></Header>
-                  <div className="relative sm:static">
-                    <Component {...pageProps} />
-                    <DisclaimerModal />
-                    <ScrollToTopButton />
-                  </div>
-                </TxPosterProvider>
-              </ToastProvider>
-            </UnlimitedApprovalProvider>
-          </CoversProvider>
+          <IpfsProvider>
+            <CoversProvider>
+              <UnlimitedApprovalProvider>
+                <ToastProvider variant={position.variant}>
+                  <TxPosterProvider>
+                    <Header></Header>
+                    <div className="relative sm:static">
+                      <Component {...pageProps} />
+                      <DisclaimerModal />
+                      <ScrollToTopButton />
+                    </div>
+                  </TxPosterProvider>
+                </ToastProvider>
+              </UnlimitedApprovalProvider>
+            </CoversProvider>
+          </IpfsProvider>
         </AppConstantsProvider>
       </AppWrapper>
     </Web3ReactProvider>

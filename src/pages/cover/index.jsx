@@ -1,16 +1,5 @@
-import Head from "next/head";
+import PageNotFound from "@/src/pages/404";
 
 export default function Cover() {
-  return (
-    <>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
-        />
-      </Head>
-      <h1>Available Covers</h1>
-    </>
-  );
+  return <PageNotFound />;
 }

@@ -7,8 +7,23 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
+import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
-export default function ReportingNewCoverPage() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("reporting") > -1;
+
+  return {
+    props: {
+      disabled: !enabled,
+    },
+  };
+}
+
+export default function ReportingNewCoverPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
@@ -23,6 +38,16 @@ export default function ReportingNewCoverPage() {
     window.scrollTo(0, 0);
   }, [accepted]);
 
+  // Redirect to active reporting if exists
+  useEffect(() => {
+    const hasActiveReportings = activeReportings && activeReportings.length > 0;
+    if (hasActiveReportings) {
+      router.replace(
+        `/reporting/${cover_id}/${activeReportings[0].incidentDate}/details`
+      );
+    }
+  }, [activeReportings, cover_id, router]);
+
   if (!coverInfo) {
     return <>loading...</>;
   }
@@ -30,6 +55,10 @@ export default function ReportingNewCoverPage() {
   const handleAcceptRules = () => {
     setAccepted(true);
   };
+
+  if (disabled) {
+    return <PageNotFound />;
+  }
 
   return (
     <main>

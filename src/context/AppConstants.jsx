@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { registry } from "@neptunemutual/sdk";
 
 import { useAppContext } from "@/src/context/AppWrapper";
+import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 
 const initValue = {
   liquidityTokenAddress: "",
   NPMTokenAddress: "",
+  poolsTvl: "0",
+  getTVLById: (_id) => "0",
 };
 
 const AppConstantsContext = React.createContext(initValue);
@@ -23,6 +26,7 @@ export function useAppConstants() {
 export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
   const { networkId } = useAppContext();
+  const { tvl, getTVLById } = usePoolsTVL(data.NPMTokenAddress);
 
   const setAddress = (_address, key) => {
     setData((prev) => ({
@@ -44,7 +48,9 @@ export const AppConstantsProvider = ({ children }) => {
   }, [networkId]);
 
   return (
-    <AppConstantsContext.Provider value={{ ...data }}>
+    <AppConstantsContext.Provider
+      value={{ ...data, poolsTvl: tvl, getTVLById }}
+    >
       {children}
     </AppConstantsContext.Provider>
   );

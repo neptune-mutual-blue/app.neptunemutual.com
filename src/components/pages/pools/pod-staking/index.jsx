@@ -3,17 +3,32 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
+import { useAppConstants } from "@/src/context/AppConstants";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
-import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
+import { useSearchResults } from "@/src/hooks/useSearchResults";
 
 export const PodStakingPage = () => {
-  const { getTVLById } = usePoolsTVL();
+  const { getTVLById } = useAppConstants();
   const { data, loading } = usePodStakingPools();
+
+  const { searchValue, setSearchValue, filtered } = useSearchResults({
+    list: data.pools,
+    filter: (item, term) => {
+      return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    },
+  });
+
+  const searchHandler = (ev) => {
+    setSearchValue(ev.target.value);
+  };
 
   return (
     <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
-        <SearchAndSortBar />
+        <SearchAndSortBar
+          searchValue={searchValue}
+          onSearchChange={searchHandler}
+        />
       </div>
       {loading && <div className="text-center py-10">Loading...</div>}
       {!loading && data.pools.length === 0 && (
@@ -30,7 +45,7 @@ export const PodStakingPage = () => {
         </div>
       )}
       <Grid className="mt-14 mb-24">
-        {data.pools.map((poolData) => {
+        {filtered.map((poolData) => {
           return (
             <PodStakingCard
               key={poolData.id}

@@ -1,11 +1,9 @@
 import { useCovers } from "@/src/context/Covers";
 
 export const useCoverInfo = (key) => {
-  const { covers } = useCovers();
-
-  const info = covers.find((x) => x.key === key);
+  const { getInfoByKey } = useCovers();
 
   return {
-    coverInfo: info || {},
+    coverInfo: getInfoByKey(key),
   };
 };

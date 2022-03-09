@@ -18,12 +18,13 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
-import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useSearchResults } from "@/src/hooks/useSearchResults";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
-  const { tvl: tvlPool } = usePoolsTVL();
+  const { poolsTvl } = useAppConstants();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
@@ -43,6 +44,17 @@ export const HomePage = () => {
     }
   }, [data]);
 
+  const { searchValue, setSearchValue, filtered } = useSearchResults({
+    list: availableCovers,
+    filter: (item, term) => {
+      return item.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
+    },
+  });
+
+  const searchHandler = (ev) => {
+    setSearchValue(ev.target.value);
+  };
+
   return (
     <>
       <Hero>
@@ -61,7 +73,7 @@ export const HomePage = () => {
                     {
                       name: "TVL (Pool)",
                       amount: formatCurrency(
-                        convertFromUnits(tvlPool).toString()
+                        convertFromUnits(poolsTvl).toString()
                       ).short,
                     },
                   ]}
@@ -139,6 +151,8 @@ export const HomePage = () => {
             Available Covers
           </h1>
           <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={searchHandler}
             sortClass="w-full md:w-48 lg:w-64 rounded-lg"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
             searchClass="w-full md:w-64 rounded-lg"
@@ -147,7 +161,7 @@ export const HomePage = () => {
         <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {availableCovers.map((c) => {
+          {filtered.map((c) => {
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">

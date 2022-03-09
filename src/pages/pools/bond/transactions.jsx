@@ -3,9 +3,28 @@ import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyBondTxsTable } from "@/components/UI/organisms/pools/MyBondTxsTable";
+import { getFeatures } from "@/src/config/environment";
+import PageNotFound from "@/src/pages/404";
 import Head from "next/head";
 
-export default function MyBondTxs() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("bond") > -1;
+
+  return {
+    props: {
+      disabled: !enabled,
+    },
+  };
+}
+
+export default function MyBondTxs({ disabled }) {
+  if (disabled) {
+    return <PageNotFound />;
+  }
+
   return (
     <main>
       <Head>

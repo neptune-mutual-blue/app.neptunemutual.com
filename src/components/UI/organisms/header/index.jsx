@@ -15,26 +15,53 @@ import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
 import * as Dialog from "@radix-ui/react-dialog";
+import { getFeatures } from "@/src/config/environment";
 
 const getNavigationLinks = (pathname = "") => {
+  const features = getFeatures();
+  const policyEnabled = features.indexOf("policy") > -1;
+  const poolEnabled =
+    features.indexOf("bond") > -1 ||
+    features.indexOf("staking-pool") > -1 ||
+    features.indexOf("pod-staking-pool") > -1;
+  const liquidityEnabled = features.indexOf("liquidity") > -1;
+  const reportingEnabled = features.indexOf("reporting") > -1;
+
+  let poolLink = "/pools/bond";
+
+  if (features.indexOf("bond") == -1 && features.indexOf("staking-pool") > -1) {
+    poolLink = "/pools/staking";
+  } else if (
+    features.indexOf("bond") == -1 &&
+    features.indexOf("pod-staking-pool") > -1
+  ) {
+    poolLink = "/pools/pod-staking";
+  }
+
   let links = [
-    { name: "Pool", href: "/pools/bond", activeWhenStartsWith: "/pools" },
-    {
+    poolEnabled && {
+      name: "Pool",
+      href: poolLink,
+      activeWhenStartsWith: "/pools",
+    },
+    policyEnabled && {
       name: "My Policies",
       href: "/my-policies/active",
       activeWhenStartsWith: "/my-policies",
     },
-    {
+    liquidityEnabled && {
       name: "My Liquidity",
       href: "/my-liquidity",
       activeWhenStartsWith: "/my-liquidity",
     },
-    {
+    reportingEnabled && {
       name: "Reporting",
       href: "/reporting/active",
       activeWhenStartsWith: "/reporting",
     },
   ];
+
+  links = links.filter(Boolean);
 
   links = links.map((link) => ({
     ...link,

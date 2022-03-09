@@ -8,12 +8,11 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { convertFromUnits } from "@/utils/bn";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
-  const { data } = useFetchCoverStats({ coverKey });
+  const data = coverInfo.stats;
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
   return (

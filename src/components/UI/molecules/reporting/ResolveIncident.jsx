@@ -37,6 +37,7 @@ export const ResolveIncident = ({
       <div className="flex flex-wrap gap-10 mb-16 w-auto">
         {!incidentReport.resolved && (
           <RegularButton
+            disabled={resolving}
             className="px-10 py-4 w-full md:w-80  font-semibold uppercase"
             onClick={async () => {
               await resolve();
@@ -120,13 +121,14 @@ const EmergencyResolveModal = ({
         </div>
 
         <RegularButton
-          className="px-10 py-4 mt-12 w-full font-semibold"
+          disabled={emergencyResolving}
+          className="px-10 py-4 mt-12 w-full font-semibold uppercase"
           onClick={async () => {
             await emergencyResolve(decision === "true");
             setTimeout(refetchReport, 15000);
           }}
         >
-          {emergencyResolving ? "Resolving..." : "EMERGENCY RESOLVE"}
+          {emergencyResolving ? "Emergency Resolving..." : "EMERGENCY RESOLVE"}
         </RegularButton>
 
         <ModalCloseButton

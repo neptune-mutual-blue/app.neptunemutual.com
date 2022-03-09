@@ -1,59 +1,50 @@
 import { useState, useEffect } from "react";
-import { getGraphURL } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useQuery } from "@/src/hooks/useQuery";
 
-const defaultData = [];
+const getQuery = (coverKey) => {
+  return `
+  {
+    incidentReports (where: {
+      key: "${coverKey}"
+      finalized: false
+    }) {
+      id
+      reporterInfo
+      key
+      incidentDate
+    }
+  }
+  `;
+};
 
 export const useFetchCoverActiveReportings = ({ coverKey }) => {
-  const [data, setData] = useState(defaultData);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { networkId } = useAppContext();
+
+  const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
-    if (!networkId) {
-      return;
-    }
+    let ignore = false;
 
-    const graphURL = getGraphURL(networkId);
+    if (!graphData || ignore) return;
+    setData(graphData.incidentReports);
 
-    if (!graphURL || !coverKey) {
-      return;
-    }
+    return () => {
+      ignore = true;
+    };
+  }, [graphData]);
 
+  useEffect(() => {
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          incidentReports (where: {
-            key: "${coverKey}"
-            finalized: false
-          }) {
-            id
-            reporterInfo
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (!res.errors) {
-          setData(res.data.incidentReports);
-        }
-      })
+
+    refetch(getQuery(coverKey))
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, networkId]);
+  }, [coverKey, refetch]);
 
   return {
     data,

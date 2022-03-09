@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { useQuery } from "@/src/hooks/useQuery";
-import { useAppConstants } from "@/src/context/AppConstants";
 import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
 import { getPricingData } from "@/src/helpers/pricing";
@@ -31,18 +30,18 @@ const getQuery = () => {
   }`;
 };
 
-export const usePoolsTVL = () => {
+export const usePoolsTVL = (NPMTokenAddress) => {
   const [poolsTVL, setPoolsTVL] = useState({
     items: [],
     tvl: "0",
   });
-  const mountedRef = useRef(false);
 
   const { networkId } = useAppContext();
-  const { NPMTokenAddress } = useAppConstants();
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
+    let ignore = false;
+
     async function updateTVL() {
       if (!graphData || !NPMTokenAddress) return;
 
@@ -59,7 +58,7 @@ export const usePoolsTVL = () => {
         ...poolsPayload,
       ]);
 
-      if (!mountedRef.current) return;
+      if (ignore) return;
       setPoolsTVL({
         items: result.items,
         tvl: result.total,
@@ -67,15 +66,14 @@ export const usePoolsTVL = () => {
     }
 
     updateTVL();
+
+    return () => {
+      ignore = true;
+    };
   }, [NPMTokenAddress, graphData, networkId]);
 
   useEffect(() => {
-    mountedRef.current = true;
     refetch(getQuery());
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [refetch]);
 
   const getTVLById = (id) => {

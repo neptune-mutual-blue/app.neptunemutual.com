@@ -9,8 +9,23 @@ import { Container } from "@/components/UI/atoms/container";
 import { Alert } from "@/components/UI/atoms/alert";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
+import PageNotFound from "@/src/pages/404";
+import { getFeatures } from "@/src/config/environment";
 
-export default function DisputeFormPage() {
+// This gets called on every request
+export async function getServerSideProps() {
+  // Pass data to the page via props
+  const features = getFeatures();
+  const enabled = features.indexOf("reporting") > -1;
+
+  return {
+    props: {
+      disabled: !enabled,
+    },
+  };
+}
+
+export default function DisputeFormPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id, timestamp } = router.query;
 
@@ -28,6 +43,10 @@ export default function DisputeFormPage() {
 
   const canDispute =
     !reportingEnded && data?.incidentReport?.totalRefutedCount === "0";
+
+  if (disabled) {
+    return <PageNotFound />;
+  }
 
   return (
     <main>

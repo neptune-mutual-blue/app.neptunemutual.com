@@ -10,8 +10,8 @@ const variants = {
   "Stopped": "gray",
   "Normal": "green",
   "Claimable": "blue",
-  "Incident Happened": "green",
-  "False Reporting": "red",
+  "Incident Happened": "red",
+  "False Reporting": "green",
 };
 
 // Status => Icon

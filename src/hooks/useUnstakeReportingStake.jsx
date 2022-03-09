@@ -5,21 +5,33 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { UNSTAKE_INFO_URL } from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
 
 const defaultInfo = {
+  yes: "0",
+  no: "0",
+  myYes: "0",
+  myNo: "0",
   totalStakeInWinningCamp: "0",
   totalStakeInLosingCamp: "0",
   myStakeInWinningCamp: "0",
+  unstaken: "0",
+  latestIncidentDate: "0",
+  burnRate: "0",
+  reporterCommission: "0",
+  allocatedReward: "0",
   toBurn: "0",
   toReporter: "0",
   myReward: "0",
-  unstaken: "0",
+  willReceive: "0",
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
+  const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
@@ -29,61 +41,50 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const [unstaking, setUnstaking] = useState(false);
-  const [unstakingWithClaim, setUnstakingWithClaim] = useState(false);
 
-  useEffect(() => {
-    let ignore = false;
-
-    async function fetchInfo() {
-      if (!networkId || !account) {
-        return;
-      }
-
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const resolutionContract = await registry.Resolution.getInstance(
-        networkId,
-        signerOrProvider
-      );
-
-      const args = [account, coverKey, incidentDate];
-      const [
-        totalStakeInWinningCamp,
-        totalStakeInLosingCamp,
-        myStakeInWinningCamp,
-        toBurn,
-        toReporter,
-        myReward,
-        unstaken,
-      ] = await invoke(
-        resolutionContract,
-        "getUnstakeInfoFor",
-        {},
-        notifyError,
-        args,
-        false
-      );
-
-      if (ignore) {
-        return;
-      }
-
-      setInfo({
-        totalStakeInWinningCamp: totalStakeInWinningCamp.toString(),
-        totalStakeInLosingCamp: totalStakeInLosingCamp.toString(),
-        myStakeInWinningCamp: myStakeInWinningCamp.toString(),
-        toBurn: toBurn.toString(),
-        toReporter: toReporter.toString(),
-        myReward: myReward.toString(),
-        unstaken: unstaken.toString(),
-      });
+  const fetchInfo = useCallback(async () => {
+    if (!networkId || !account) {
+      return;
     }
 
-    fetchInfo().catch(console.error);
+    const response = await fetch(
+      getReplacedString(UNSTAKE_INFO_URL, {
+        networkId,
+        coverKey,
+        account,
+        incidentDate,
+      }),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      }
+    );
+
+    const { data } = await response.json();
+
+    if (!mountedRef.current || !data) {
+      return;
+    }
+
+    setInfo({
+      ...data,
+    });
+  }, [account, coverKey, incidentDate, networkId]);
+
+  useEffect(() => {
+    mountedRef.current = true;
 
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
-  }, [account, coverKey, incidentDate, library, networkId]);
+  }, []);
+
+  useEffect(() => {
+    fetchInfo().catch(console.error);
+  }, [fetchInfo]);
 
   const unstake = async () => {
     if (!networkId || !account) {
@@ -113,6 +114,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         success: "Unstaked NPM Successfully",
         failure: "Could not unstake NPM",
       });
+
+      fetchInfo().catch(console.error);
     } catch (err) {
       notifyError(err, "Unstake NPM");
     } finally {
@@ -127,7 +130,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     }
 
     try {
-      setUnstakingWithClaim(true);
+      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
@@ -154,10 +157,12 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         success: "Unstaked & claimed NPM Successfully",
         failure: "Could not unstake & claim NPM",
       });
+
+      fetchInfo().catch(console.error);
     } catch (err) {
       notifyError(err, "Unstake & claim NPM");
     } finally {
-      setUnstakingWithClaim(false);
+      setUnstaking(false);
     }
   };
 
@@ -166,6 +171,5 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     unstake,
     unstakeWithClaim,
     unstaking,
-    unstakingWithClaim,
   };
 };
