@@ -28,11 +28,10 @@ export const PoliciesActivePage = () => {
             className="w-48 h-48"
           />
           <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
-            You haven&#x2019;t purchased any policy(cover) yet. All your active
-            policies will be{" "}
-            <span className="whitespace-nowrap">displayed here.</span>
+            A cover policy enables you to claim and receive payout when an
+            incident occurs. To purchase a policy, select a cover from the home
+            screen.
           </p>
-          <p className="mt-6">Let&#x2019;s purchase your first policy.</p>
         </div>
       )}
       <Grid className="mt-14 mb-24">

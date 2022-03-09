@@ -35,8 +35,7 @@ export const CoverReportingRules = ({
 
                   {!hasActiveReportings && (
                     <p className="text-h4 text-8F949C mb-10">
-                      There are no known incidents related to{" "}
-                      {coverInfo.projectName} Cover.
+                      There are no known incidents of {coverInfo.coverName}.
                     </p>
                   )}
 
@@ -56,8 +55,18 @@ export const CoverReportingRules = ({
                   <Alert>
                     If you just came to know about a recent incident of{" "}
                     {coverInfo.projectName}, carefully read the cover rules
-                    above. You can earn {commission}% of the minority fees if
-                    you are the first person to report this incident.
+                    above. You can earn flat {commission}% of total dishonest
+                    stakes if you are the first person to report this incident.
+                    In addition to NPM rewards, you may also earn a percentage
+                    commission on individual claims payout.
+                    <br />
+                    <br />
+                    <span>
+                      Note: dishonest reporters get 100% of their stakes
+                      forfeited which is distributed to honest reporters. You
+                      may lose all of your stakes if resolution is not in your
+                      favor.
+                    </span>
                   </Alert>
                 </div>
               </AcceptReportRulesForm>
