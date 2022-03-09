@@ -32,7 +32,7 @@ export const useActiveReportings = () => {
             orderBy: incidentDate
             orderDirection: desc
             where:{
-              resolved: false
+              finalized: false
             }
           ) {
             id
