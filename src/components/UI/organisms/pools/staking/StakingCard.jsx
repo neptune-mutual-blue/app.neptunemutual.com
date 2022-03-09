@@ -19,6 +19,7 @@ import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -114,18 +115,7 @@ export const StakingCard = ({ data, tvl }) => {
   );
 
   const collectModalTitle = (
-    <div className="flex items-center">
-      <div className="mr-8">
-        <DoubleImage
-          images={[
-            { src: npmImgSrc, alt: "NPM" },
-            { src: imgSrc, alt: rewardTokenSymbol },
-          ]}
-        />
-      </div>
-
-      <h3>Earn {rewardTokenSymbol}</h3>
-    </div>
+    <ModalTitle imgSrc={npmImgSrc}>Earn NPM</ModalTitle>
   );
 
   return (

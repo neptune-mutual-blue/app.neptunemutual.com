@@ -61,7 +61,7 @@ export const PodStakingCard = ({ data, tvl }) => {
   );
 
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
-  const poolName = info.name;
+  const poolName = info.name.replace("Earn ", "");
 
   const leftHalf = [];
 
@@ -70,7 +70,7 @@ export const PodStakingCard = ({ data, tvl }) => {
       title: "Your Stake",
       value: formatCurrency(
         convertFromUnits(stakedAmount),
-        stakingTokenSymbol,
+        `${poolName}-${stakingTokenSymbol}`,
         true
       ).long,
     });
@@ -103,8 +103,10 @@ export const PodStakingCard = ({ data, tvl }) => {
       <div className="flex justify-between">
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
-          <StakingCardTitle text={poolName} />
-          <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
+          <StakingCardTitle text={`Earn ${poolName}`} />
+          <StakingCardSubTitle
+            text={`Stake ${poolName}-${stakingTokenSymbol}`}
+          />
         </div>
         <div>{/* <Badge className="text-21AD8C">APR: {25}%</Badge> */}</div>
       </div>
@@ -173,9 +175,11 @@ export const PodStakingCard = ({ data, tvl }) => {
         lockupPeriod={lockupPeriod}
         isOpen={isStakeModalOpen}
         onClose={onStakeModalClose}
-        stakingTokenSymbol={stakingTokenSymbol}
+        stakingTokenSymbol={`${poolName}-${stakingTokenSymbol}`}
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
+          <ModalTitle imgSrc={imgSrc}>
+            Stake {poolName}-{stakingTokenSymbol}
+          </ModalTitle>
         }
       />
       <CollectRewardModal
@@ -186,7 +190,7 @@ export const PodStakingCard = ({ data, tvl }) => {
         rewardAmount={rewardAmount}
         rewardTokenAddress={rewardTokenAddress}
         rewardTokenSymbol={rewardTokenSymbol}
-        stakingTokenSymbol={stakingTokenSymbol}
+        stakingTokenSymbol={`${poolName}-${stakingTokenSymbol}`}
         isOpen={isCollectModalOpen}
         onClose={onCollectModalClose}
         modalTitle={
