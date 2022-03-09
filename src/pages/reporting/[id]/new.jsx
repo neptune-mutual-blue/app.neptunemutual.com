@@ -38,6 +38,16 @@ export default function ReportingNewCoverPage({ disabled }) {
     window.scrollTo(0, 0);
   }, [accepted]);
 
+  // Redirect to active reporting if exists
+  useEffect(() => {
+    const hasActiveReportings = activeReportings && activeReportings.length > 0;
+    if (hasActiveReportings) {
+      router.replace(
+        `/reporting/${cover_id}/${activeReportings[0].incidentDate}/details`
+      );
+    }
+  }, [activeReportings, cover_id, router]);
+
   if (!coverInfo) {
     return <>loading...</>;
   }
