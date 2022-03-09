@@ -75,6 +75,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         coverKey,
         convertToUnits(value).toString(),
         convertToUnits(npmValue).toString(),
+        false,
       ];
       const tx = await invoke(
         instance,
