@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const RopstenLogo = (props) => (
+const RopstenLogo = () => (
   <svg
     height={24}
     viewBox="0 0 99 162"
