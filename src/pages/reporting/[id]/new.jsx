@@ -7,8 +7,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -57,7 +57,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   };
 
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (

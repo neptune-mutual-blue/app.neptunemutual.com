@@ -1,10 +1,10 @@
+import { ComingSoon } from "@/components/pages/ComingSoon";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyBondTxsTable } from "@/components/UI/organisms/pools/MyBondTxsTable";
 import { getFeatures } from "@/src/config/environment";
-import PageNotFound from "@/src/pages/404";
 import Head from "next/head";
 
 // This gets called on every request
@@ -22,7 +22,7 @@ export async function getServerSideProps() {
 
 export default function MyBondTxs({ disabled }) {
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (

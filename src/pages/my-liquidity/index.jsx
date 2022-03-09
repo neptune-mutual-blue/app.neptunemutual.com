@@ -6,8 +6,8 @@ import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { MyLiquidityPage } from "@/components/pages/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -24,7 +24,7 @@ export async function getServerSideProps() {
 
 export default function MyLiquidity({ disabled }) {
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (
