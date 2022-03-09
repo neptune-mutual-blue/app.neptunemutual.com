@@ -83,17 +83,18 @@ const columns = [
 export const MyBondTxsTable = () => {
   const [maxItems, setMaxItems] = useState(10);
   const [itemsToQuery, setItemsToQuery] = useState(ROWS_PER_PAGE);
-  const { data, loading, page, maxPage, setPage } = useBondTxs({
-    maxItems,
-    itemsToQuery,
-  });
-  const [showMoreVisible, setShowMoreVisible] = useState(true);
+  const [itemsToSkip, setItemsToSkip] = useState(0);
+  const { data, loading, page, maxPage, setPage, isShowMoreVisible } =
+    useBondTxs({
+      maxItems,
+      itemsToQuery,
+      itemsToSkip,
+    });
 
   const { account, chainId } = useWeb3React();
 
   const setPagination = () => {
-    setItemsToQuery((prev) => prev + ROWS_PER_PAGE);
-    totalCount < itemsToQuery && setShowMoreVisible(false);
+    setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
   };
   // Go to page 1 if maxItems changes
   useEffect(() => {
@@ -101,7 +102,6 @@ export const MyBondTxsTable = () => {
   }, [maxItems, setPage]);
 
   const { blockNumber, transactions, totalCount, lpTokenAddress } = data;
-  console.log(totalCount);
 
   return (
     <>
@@ -138,7 +138,7 @@ export const MyBondTxsTable = () => {
             </tbody>
           )}
         </Table>
-        {showMoreVisible && (
+        {isShowMoreVisible && (
           <div className="flex justify-center">
             <OutlinedButton className={"m-auto"} onClick={setPagination}>
               Show More

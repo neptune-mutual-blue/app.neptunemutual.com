@@ -1,17 +1,18 @@
+import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect, useMemo } from "react";
 
-export const useBondTxs = ({ maxItems, itemsToQuery }) => {
+export const useBondTxs = ({ maxItems, itemsToQuery, itemsToSkip }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const { chainId, account } = useWeb3React();
-  const [bondTxs, setBondTxs] = useState([]);
+  const [bondTransactions, setBondTransactions] = useState([]);
+  const [isShowMoreVisible, setIsShowMoreVisible] = useState(true);
 
   // pagination
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-
   useEffect(() => {
     const transactions = data.bondTransactions || [];
 
@@ -20,7 +21,7 @@ export const useBondTxs = ({ maxItems, itemsToQuery }) => {
       extraPages = 0;
     }
     setMaxPage(Math.floor(transactions.length / maxItems) + extraPages);
-  }, [data.bondTransactions, maxItems, itemsToQuery]);
+  }, [data.bondTransactions, maxItems]);
 
   useEffect(() => {
     if (!chainId || !account) {
@@ -49,6 +50,7 @@ export const useBondTxs = ({ maxItems, itemsToQuery }) => {
             }
           }
           bondTransactions(
+            skip: ${itemsToSkip}
             first: ${itemsToQuery}, 
             orderBy: 
             createdAtTimestamp, 
@@ -76,10 +78,13 @@ export const useBondTxs = ({ maxItems, itemsToQuery }) => {
     })
       .then((r) => r.json())
       .then((res) => {
-        console.log("res", res);
+        (!res.data.bondTransactions.length ||
+          res.data.bondTransactions.length < ROWS_PER_PAGE) &&
+          setIsShowMoreVisible(false);
         setData(res.data);
-        console.log(res.data.bondTransactions);
-        setBondTxs((prev) => console.log(prev));
+        setBondTransactions((prev) => {
+          return [...prev, ...res.data.bondTransactions];
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -87,11 +92,9 @@ export const useBondTxs = ({ maxItems, itemsToQuery }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId, itemsToQuery]);
+  }, [account, chainId, itemsToSkip]);
 
   const filteredTransactions = useMemo(() => {
-    //const all = [];
-    console.log("bondTxs", bondTxs);
     const transactions = data.bondTransactions || [];
 
     return transactions
@@ -105,9 +108,10 @@ export const useBondTxs = ({ maxItems, itemsToQuery }) => {
     page,
     maxPage,
     setPage,
+    isShowMoreVisible,
     data: {
       blockNumber: data?._meta?.block?.number,
-      transactions: filteredTransactions,
+      transactions: bondTransactions,
       totalCount: (data?.bondTransactions || []).length,
       lpTokenAddress: bondPoolAddress,
     },
