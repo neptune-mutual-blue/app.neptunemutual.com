@@ -101,7 +101,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   }}
                 />
                 <p className="text-sm text-9B9B9B mt-2 pl-2">
-                  Type a name of this cover. You cannot change this later.
+                  Enter the incident title.
                 </p>
               </div>
               <div className="">
@@ -120,7 +120,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   }}
                 />
                 <p className="text-sm text-9B9B9B mt-2 pl-2">
-                  Select date when it was hacked
+                  Select the incident observance date.
                 </p>
               </div>
             </div>
@@ -151,7 +151,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                     )}
                   </div>
                   <p className="text-sm text-9B9B9B mt-2 mb-x pl-2">
-                    Provide link with proof of incident.
+                    Provide URL with a proximate proof of the incident.
                   </p>
                 </div>
               </Fragment>

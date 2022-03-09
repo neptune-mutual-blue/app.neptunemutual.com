@@ -94,9 +94,6 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
               onChange: (e) => setDisputeTitle(e.target.value),
             }}
           />
-          {/* <p className="text-sm text-9B9B9B mt-2 pl-2">
-            Type a name of this cover. You cannot change this later.
-          </p> */}
         </div>
 
         <div>
@@ -126,9 +123,6 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
                     </span>
                   )}
                 </div>
-                {/* <p className="text-sm text-9B9B9B mt-2 mb-x pl-2">
-                  Provide link with proof of incident.
-                </p> */}
               </div>
             </Fragment>
           ))}
