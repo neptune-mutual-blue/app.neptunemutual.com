@@ -17,6 +17,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
+import { useRouter } from "next/router";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -25,6 +26,7 @@ export const usePurchasePolicy = ({
   feeError,
   coverMonth,
 }) => {
+  const router = useRouter();
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
 
@@ -35,9 +37,7 @@ export const usePurchasePolicy = ({
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
   const { liquidityTokenAddress } = useAppConstants();
-  const { balance, refetch: updateBalance } = useERC20Balance(
-    liquidityTokenAddress
-  );
+  const { balance } = useERC20Balance(liquidityTokenAddress);
   const {
     allowance,
     approve,
@@ -137,11 +137,10 @@ export const usePurchasePolicy = ({
         failure: "Could not purchase policy",
       });
 
-      updateBalance();
-      updateAllowance(policyContractAddress);
-      setPurchasing(false);
+      router.push(`/my-policies/active`);
     } catch (err) {
       notifyError(err, "purchase policy");
+    } finally {
       setPurchasing(false);
     }
   };
