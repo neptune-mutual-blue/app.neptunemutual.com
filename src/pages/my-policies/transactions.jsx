@@ -4,8 +4,8 @@ import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyPoliciesTxsTable } from "@/components/UI/organisms/my-policies/MyPoliciesTxsTable";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -22,7 +22,7 @@ export async function getServerSideProps() {
 
 export default function MyPoliciesTxs({ disabled }) {
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (
