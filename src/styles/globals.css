@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+*[tabindex="-1"] {
+  outline: none;
+}
+
 input:checked + div {
   @apply border-4e7dd9;
 }

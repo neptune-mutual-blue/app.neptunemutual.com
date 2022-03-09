@@ -6,6 +6,8 @@ export const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
 
 // Should be added to CSP
 export const PRICING_URL = "https://api.neptunemutual.com/pricing/{networkId}";
+export const FAUCET_URL = "https://faucet.neptunemutual.com/";
+export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";
 export const UNSTAKE_INFO_URL =
   "https://api.neptunemutual.com/protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}";
 
