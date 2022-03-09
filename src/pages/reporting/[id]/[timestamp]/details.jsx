@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/components/pages/reporting/details";
 import { toBytes32 } from "@/src/helpers/cover";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -30,7 +30,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
   });
 
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (

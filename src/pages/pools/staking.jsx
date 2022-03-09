@@ -3,7 +3,7 @@ import Head from "next/head";
 import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
 import { StakingPage } from "@/components/pages/pools/staking";
 import { getFeatures } from "@/src/config/environment";
-import PageNotFound from "@/src/pages/404";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -20,7 +20,7 @@ export async function getServerSideProps() {
 
 export default function Staking({ disabled }) {
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (

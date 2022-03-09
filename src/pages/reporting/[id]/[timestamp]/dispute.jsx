@@ -9,8 +9,8 @@ import { Container } from "@/components/UI/atoms/container";
 import { Alert } from "@/components/UI/atoms/alert";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -45,7 +45,7 @@ export default function DisputeFormPage({ disabled }) {
     !reportingEnded && data?.incidentReport?.totalRefutedCount === "0";
 
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (
