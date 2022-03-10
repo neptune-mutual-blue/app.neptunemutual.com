@@ -36,9 +36,8 @@ export const ActiveReportingEmptyState = () => {
         className="w-48 h-48"
       />
       <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
-        There is no any active reporting yet. All the covers under resolution
-        period will be{" "}
-        <span className="whitespace-nowrap">displayed here.</span>
+        No known incident found for any cover product. If you believe a cover
+        incident has occurred, earn rewards by reporting the incident.
       </p>
       <div className="flex flex-col w-full max-w-lg mt-16 mb-4">
         <Label htmlFor={"reporting-dropdown"} className="sr-only">

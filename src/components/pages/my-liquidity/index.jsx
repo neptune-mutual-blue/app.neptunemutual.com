@@ -31,9 +31,8 @@ export const MyLiquidityPage = () => {
             className="w-48 h-48"
           />
           <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
-            You haven&#x2019;t provided liquidity for any policy(cover) yet. All
-            policies to which you have provided liquidity will be{" "}
-            <span className="whitespace-nowrap">displayed here.</span>
+            Liquidity providers collectively own a liquidity pool. To become a
+            liquidity provider, select a cover from the home screen.
           </p>
         </div>
       )}

@@ -27,8 +27,9 @@ export const PoliciesExpiredPage = () => {
             className="w-48 h-48"
           />
           <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
-            All your purchased policies that has been expired will be{" "}
-            <span className="whitespace-nowrap">displayed here.</span>
+            When a policy&apos;s duration ends, it automatically moves to this
+            section. Explore products on the home screen to view available
+            protections.
           </p>
         </div>
       )}

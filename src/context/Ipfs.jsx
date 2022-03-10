@@ -29,6 +29,7 @@ export const IpfsProvider = ({ children }) => {
   };
 
   const getIpfsByHash = (hash) => {
+    updateState(hash, {}); // to avoid recursive calls
     utils.ipfs
       .read(hash)
       .then((ipfsData) => updateState(hash, ipfsData))

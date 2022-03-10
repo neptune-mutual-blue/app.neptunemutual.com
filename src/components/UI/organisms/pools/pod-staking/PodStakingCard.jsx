@@ -20,6 +20,7 @@ import { config } from "@neptunemutual/sdk";
 import { useAppContext } from "@/src/context/AppWrapper";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useTokenName } from "@/src/hooks/useTokenName";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -31,6 +32,7 @@ export const PodStakingCard = ({ data, tvl }) => {
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
   const rewardTokenSymbol = useTokenSymbol(info.rewardToken);
+  const stakingTokenName = useTokenName(info.stakingToken);
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
@@ -104,7 +106,7 @@ export const PodStakingCard = ({ data, tvl }) => {
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
           <StakingCardTitle text={poolName} />
-          <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
+          <StakingCardSubTitle text={"Stake " + stakingTokenName} />
         </div>
         <div>{/* <Badge className="text-21AD8C">APR: {25}%</Badge> */}</div>
       </div>

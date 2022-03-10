@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
 import { PoliciesActivePage } from "@/components/pages/my-policies/PoliciesActivePage";
-import PageNotFound from "@/src/pages/404";
 import { getFeatures } from "@/src/config/environment";
+import { ComingSoon } from "@/components/pages/ComingSoon";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -19,7 +19,7 @@ export async function getServerSideProps() {
 
 export default function MyPoliciesActive({ disabled }) {
   if (disabled) {
-    return <PageNotFound />;
+    return <ComingSoon />;
   }
 
   return (
