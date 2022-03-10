@@ -30,8 +30,8 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
-  const [showMore, setShowMore] = useState(false);
   const [sortType, setSortType] = useState("");
+  const [showCount, setShowCount] = useState(MAX_COVERS);
 
   useEffect(() => {
     if (data && data.length >= 2) {
@@ -60,7 +60,7 @@ export const HomePage = () => {
   };
 
   const handleShowMore = () => {
-    setShowMore(true);
+    setShowCount((val) => val + MAX_COVERS);
   };
 
   const sortData = (dataList) => {
@@ -205,7 +205,7 @@ export const HomePage = () => {
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
           {sortData(filtered).map((c, idx) => {
-            if (!showMore && idx > MAX_COVERS - 1) return;
+            if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
@@ -215,7 +215,7 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        {!showMore && sortData(filtered).length > MAX_COVERS && (
+        {sortData(filtered).length > showCount && (
           <NeutralButton
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}
