@@ -1,7 +1,6 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import {
   Table,
-  TablePagination,
   TableWrapper,
   TBody,
   THead,
@@ -14,13 +13,13 @@ import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { useEffect, useState } from "react";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useBondTxs } from "@/src/hooks/useBondTxs";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { ROWS_PER_PAGE } from "@/src/config/constants";
 
 const renderHeader = (col) => (
   <th
@@ -79,19 +78,14 @@ const columns = [
 ];
 
 export const MyBondTxsTable = () => {
-  const [maxItems, setMaxItems] = useState(10);
-  const { data, loading, page, maxPage, setPage } = useBondTxs({
-    maxItems,
+  const { data, loading, isShowMoreVisible, handleShowMore } = useBondTxs({
+    itemsToQuery: ROWS_PER_PAGE,
   });
 
   const { account, chainId } = useWeb3React();
 
-  // Go to page 1 if maxItems changes
-  useEffect(() => {
-    setPage(1);
-  }, [maxItems, setPage]);
+  const { blockNumber, transactions, lpTokenAddress } = data;
 
-  const { blockNumber, transactions, totalCount, lpTokenAddress } = data;
   return (
     <>
       {blockNumber && (
@@ -127,22 +121,13 @@ export const MyBondTxsTable = () => {
             </tbody>
           )}
         </Table>
-        <TablePagination
-          skip={maxItems * (page - 1)}
-          limit={maxItems}
-          totalCount={totalCount}
-          hasPrev={page !== 1}
-          hasNext={page !== maxPage}
-          onPrev={() => {
-            setPage(page === 1 ? page : page - 1);
-          }}
-          onNext={() => {
-            setPage(page === maxPage ? page : page + 1);
-          }}
-          updateRowCount={(newCount) => {
-            setMaxItems(parseInt(newCount, 10));
-          }}
-        />
+        {isShowMoreVisible && (
+          <div className="flex justify-center hover:bg-F4F8FC p-5 border-t border-DAE2EB">
+            <button className={"block w-full"} onClick={handleShowMore}>
+              Show More
+            </button>
+          </div>
+        )}
       </TableWrapper>
     </>
   );
