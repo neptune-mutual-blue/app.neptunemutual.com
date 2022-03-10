@@ -120,7 +120,8 @@ module.exports = {
         360: "360px",
       },
       maxHeight: {
-        144: "36rem",
+        "144": "36rem",
+        "90vh": "90vh",
       },
       height: {
         500: "500px",
