@@ -1,6 +1,7 @@
 import { Select } from "@/components/UI/molecules/select";
 import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
+import { useState } from "react";
 
 const options = [
   { name: "A-Z" },
@@ -18,6 +19,8 @@ export const SearchAndSortBar = ({
   sortType,
   setSortType,
 }) => {
+  const [selected, setSelected] = useState(options[0]);
+
   return (
     <div className={classNames("flex justify-between ", containerClass)}>
       <div className={classNames("flex items-center ", searchClass)}>
@@ -40,8 +43,8 @@ export const SearchAndSortBar = ({
       <Select
         prefix="Sort by: "
         options={options}
-        selected={sortType}
-        setSelected={setSortType}
+        selected={sortType ?? selected}
+        setSelected={setSortType ?? setSelected}
         className={sortClass}
       ></Select>
     </div>
