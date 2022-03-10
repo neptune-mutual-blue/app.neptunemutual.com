@@ -5,7 +5,6 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 
 import { useAppContext } from "@/src/context/AppWrapper";
-import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
@@ -44,22 +43,18 @@ export const usePoolInfo = ({ key }) => {
   const { notifyError } = useErrorNotifier();
 
   const fetchPoolInfo = useCallback(async () => {
-    if (!networkId || !key) {
+    if (!networkId || !account || !key) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || ADDRESS_ONE,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
     try {
       let instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
       );
 
-      const args = [key, account || ADDRESS_ONE];
+      const args = [key, account];
       const [name, addresses, values] = await invoke(
         instance,
         "getInfo",

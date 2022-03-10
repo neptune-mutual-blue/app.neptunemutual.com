@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AddressZero } from "@ethersproject/constants";
 import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 
@@ -18,15 +17,11 @@ export const useFirstReportingStake = ({ coverKey }) => {
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
-    if (!networkId) return;
+    if (!networkId || !account) return;
 
     let ignore = false;
     async function fetchMinStake() {
-      const signerOrProvider = getProviderOrSigner(
-        library,
-        account || AddressZero,
-        networkId
-      );
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Governance.getInstance(
         networkId,

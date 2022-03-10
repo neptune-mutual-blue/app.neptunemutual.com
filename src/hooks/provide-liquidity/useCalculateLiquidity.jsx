@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -21,15 +20,16 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const { notifyError } = useErrorNotifier();
 
   const calculateLiquidity = useCallback(async () => {
-    if (!networkId || !debouncedValue || !isValidNumber(debouncedValue)) {
+    if (
+      !networkId ||
+      !account ||
+      !debouncedValue ||
+      !isValidNumber(debouncedValue)
+    ) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
       const instance = await registry.Vault.getInstance(

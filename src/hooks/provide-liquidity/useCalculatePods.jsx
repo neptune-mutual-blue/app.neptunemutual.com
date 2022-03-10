@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -22,17 +21,18 @@ export const useCalculatePods = ({ coverKey, value }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !debouncedValue || !isValidNumber(debouncedValue)) {
+    if (
+      !networkId ||
+      !account ||
+      !debouncedValue ||
+      !isValidNumber(debouncedValue)
+    ) {
       if (receiveAmount !== "0") setReceiveAmount("0");
 
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
       try {

@@ -54,25 +54,25 @@ export const CoverCard = ({ details }) => {
         <ProgressBar value={data.utilization} />
       </div>
       <div className="flex justify-between text-h7 lg:text-sm px-1">
-        <span
-          className=""
+        <div
+          className="flex-1"
           title={
             formatCurrency(convertFromUnits(data.protection).toString()).long
           }
         >
           Protection:{" "}
           {formatCurrency(convertFromUnits(data.protection).toString()).short}
-        </span>
+        </div>
 
-        <span
-          className="text-right"
+        <div
+          className="flex-1 text-right"
           title={
             formatCurrency(convertFromUnits(data.liquidity).toString()).long
           }
         >
           Liquidity:{" "}
           {formatCurrency(convertFromUnits(data.liquidity).toString()).short}
-        </span>
+        </div>
       </div>
     </OutlinedCard>
   );

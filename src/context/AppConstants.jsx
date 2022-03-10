@@ -3,6 +3,8 @@ import { registry } from "@neptunemutual/sdk";
 
 import { useAppContext } from "@/src/context/AppWrapper";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { useWeb3React } from "@web3-react/core";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -27,6 +29,7 @@ export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
   const { networkId } = useAppContext();
   const { tvl, getTVLById } = usePoolsTVL(data.NPMTokenAddress);
+  const { library, account } = useWeb3React();
 
   const setAddress = (_address, key) => {
     setData((prev) => ({
@@ -36,16 +39,17 @@ export const AppConstantsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!networkId) return;
+    if (!networkId || !account) return;
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    registry.Stablecoin.getAddress(networkId).then((_addr) =>
+    registry.Stablecoin.getAddress(networkId, signerOrProvider).then((_addr) =>
       setAddress(_addr, "liquidityTokenAddress")
     );
 
-    registry.NPMToken.getAddress(networkId).then((_addr) =>
+    registry.NPMToken.getAddress(networkId, signerOrProvider).then((_addr) =>
       setAddress(_addr, "NPMTokenAddress")
     );
-  }, [networkId]);
+  }, [account, library, networkId]);
 
   return (
     <AppConstantsContext.Provider

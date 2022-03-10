@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { AddressZero } from "@ethersproject/constants";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
@@ -21,15 +20,11 @@ export const useAvailableLiquidity = ({ coverKey }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !coverKey) {
+    if (!networkId || !account || !coverKey) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function fetchAvailableLiquidity() {
       try {

@@ -47,10 +47,15 @@ export const useCreateBond = ({ info, value }) => {
 
   useEffect(() => {
     let ignore = false;
-    if (!networkId || !debouncedValue) return;
+    if (!networkId || !account || !debouncedValue) return;
 
     async function updateReceiveAmount() {
-      const instance = await registry.BondPool.getInstance(networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+      const instance = await registry.BondPool.getInstance(
+        networkId,
+        signerOrProvider
+      );
 
       const args = [convertToUnits(debouncedValue).toString()];
       const result = await invoke(

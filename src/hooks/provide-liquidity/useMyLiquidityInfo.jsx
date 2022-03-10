@@ -4,7 +4,6 @@ import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppContext } from "@/src/context/AppWrapper";
-import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
@@ -34,15 +33,11 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !coverKey) {
+    if (!networkId || !account || !coverKey) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || ADDRESS_ONE,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function fetchInfo() {
       try {
@@ -52,7 +47,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           signerOrProvider
         );
 
-        const args = [account || ADDRESS_ONE];
+        const args = [account];
         const [
           totalPods,
           balance,

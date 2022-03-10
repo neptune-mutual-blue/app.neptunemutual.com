@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
-import { AddressZero } from "@ethersproject/constants";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -36,6 +35,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
     if (
       !networkId ||
+      !account ||
       !coverKey ||
       !coverMonth ||
       !debouncedValue ||
@@ -44,11 +44,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
       try {

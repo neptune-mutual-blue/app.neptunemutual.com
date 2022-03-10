@@ -3,7 +3,6 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { useAppContext } from "@/src/context/AppWrapper";
-import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -33,15 +32,11 @@ export const useBondInfo = () => {
   const fetchBondInfo = useCallback(async () => {
     let ignore = false;
 
-    if (!networkId) {
+    if (!networkId || !account) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || ADDRESS_ONE,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     let instance = await registry.BondPool.getInstance(
       networkId,
@@ -53,7 +48,7 @@ export const useBondInfo = () => {
       "getInfo",
       {},
       notifyError,
-      [account || ADDRESS_ONE],
+      [account],
       false
     );
 
