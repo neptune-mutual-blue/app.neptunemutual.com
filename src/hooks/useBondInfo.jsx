@@ -30,9 +30,7 @@ export const useBondInfo = () => {
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(async () => {
-    let ignore = false;
-
-    if (!networkId || !account) {
+    if (!networkId) {
       return;
     }
 
@@ -52,8 +50,6 @@ export const useBondInfo = () => {
       false
     );
 
-    if (ignore) return;
-
     const [lpToken] = addresses;
     const [
       marketPrice,
@@ -68,7 +64,7 @@ export const useBondInfo = () => {
       unlockDate,
     ] = values;
 
-    setInfo({
+    return {
       lpTokenAddress: lpToken,
       marketPrice: marketPrice.toString(),
       discountRate: discountRate.toString(),
@@ -80,16 +76,28 @@ export const useBondInfo = () => {
       bondContribution: bondContribution.toString(),
       claimable: claimable.toString(),
       unlockDate: unlockDate.toString(),
-    });
-
-    return () => {
-      ignore = true;
     };
   }, [account, invoke, library, networkId, notifyError]);
 
   useEffect(() => {
-    fetchBondInfo();
+    let ignore = false;
+    fetchBondInfo()
+      .then((_info) => {
+        if (ignore) return;
+        setInfo(_info || defaultInfo);
+      })
+      .catch(console.error);
+
+    return () => {
+      ignore = true;
+    };
   }, [fetchBondInfo]);
 
-  return { info, refetch: fetchBondInfo };
+  const updateBondInfo = useCallback(() => {
+    fetchBondInfo()
+      .then((_info) => setInfo(_info || defaultInfo))
+      .catch(console.error);
+  }, [fetchBondInfo]);
+
+  return { info, refetch: updateBondInfo };
 };

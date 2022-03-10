@@ -3,7 +3,7 @@ export const DAYS = 86400;
 
 export const DEFAULT_GAS_LIMIT = "6000000";
 export const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
-export const ROWS_PER_PAGE = 5;
+export const ROWS_PER_PAGE = 3;
 
 export const POOL_URL =
   "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}";

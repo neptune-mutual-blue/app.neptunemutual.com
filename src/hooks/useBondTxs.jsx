@@ -1,27 +1,20 @@
 import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
-export const useBondTxs = ({ maxItems, itemsToQuery, itemsToSkip }) => {
+export const useBondTxs = ({ itemsToQuery }) => {
+  const [itemsToSkip, setItemsToSkip] = useState(0);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+
   const { chainId, account } = useWeb3React();
   const [bondTransactions, setBondTransactions] = useState([]);
   const [isShowMoreVisible, setIsShowMoreVisible] = useState(true);
 
-  // pagination
-  const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
   useEffect(() => {
-    const transactions = data.bondTransactions || [];
-
-    let extraPages = 1;
-    if (transactions.length % maxItems === 0) {
-      extraPages = 0;
-    }
-    setMaxPage(Math.floor(transactions.length / maxItems) + extraPages);
-  }, [data.bondTransactions, maxItems]);
+    setItemsToSkip(0);
+  }, [account]);
 
   useEffect(() => {
     if (!chainId || !account) {
@@ -92,22 +85,16 @@ export const useBondTxs = ({ maxItems, itemsToQuery, itemsToSkip }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId, itemsToSkip]);
+  }, [account, chainId, itemsToQuery, itemsToSkip]);
 
-  const filteredTransactions = useMemo(() => {
-    const transactions = data.bondTransactions || [];
-
-    return transactions
-      ? transactions.slice().slice(maxItems * (page - 1), page * maxItems)
-      : [];
-  }, [data.bondTransactions, maxItems, page]);
+  const handleShowMore = () => {
+    setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
+  };
 
   const bondPoolAddress = data.bondPools ? data.bondPools[0].address0 : "";
 
   return {
-    page,
-    maxPage,
-    setPage,
+    handleShowMore,
     isShowMoreVisible,
     data: {
       blockNumber: data?._meta?.block?.number,
