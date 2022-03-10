@@ -16,6 +16,7 @@ export const ClaimBondModal = ({
   claimable,
   isOpen,
   onClose,
+  refetchBondInfo,
 }) => {
   const { handleClaim, claiming } = useClaimBond();
 
