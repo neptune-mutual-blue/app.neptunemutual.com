@@ -30,7 +30,7 @@ export const useBondInfo = () => {
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(async () => {
-    if (!networkId) {
+    if (!networkId || !account) {
       return;
     }
 

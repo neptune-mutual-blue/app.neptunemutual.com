@@ -5,9 +5,6 @@ export const DEFAULT_GAS_LIMIT = "6000000";
 export const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
 export const ROWS_PER_PAGE = 3;
 
-export const POOL_URL =
-  "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}";
-
 // Should be added to CSP
 export const PRICING_URL = "https://api.neptunemutual.com/pricing/{networkId}";
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
