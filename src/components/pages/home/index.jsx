@@ -73,20 +73,20 @@ export const HomePage = () => {
         });
       case "Utilization Ratio":
         return dataList.sort((a, b) => {
-          if (parseFloat(a.stats.utilization) < parseFloat(b.stats.utilization))
+          if (parseFloat(a.stats.utilization) > parseFloat(b.stats.utilization))
             return -1;
           else if (
-            parseFloat(a.stats.utilization) > parseFloat(b.stats.utilization)
+            parseFloat(a.stats.utilization) < parseFloat(b.stats.utilization)
           )
             return 1;
           return 0;
         });
       case "Liquidity":
         return dataList.sort((a, b) => {
-          if (parseFloat(a.stats.liquidity) < parseFloat(b.stats.liquidity))
+          if (parseFloat(a.stats.liquidity) > parseFloat(b.stats.liquidity))
             return -1;
           else if (
-            parseFloat(a.stats.liquidity) > parseFloat(b.stats.liquidity)
+            parseFloat(a.stats.liquidity) < parseFloat(b.stats.liquidity)
           )
             return 1;
           return 0;
