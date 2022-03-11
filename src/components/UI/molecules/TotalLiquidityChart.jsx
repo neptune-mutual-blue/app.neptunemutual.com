@@ -43,7 +43,9 @@ const TotalLiquidityChart = () => {
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
       min: chartData?.length
-        ? chartData.reduce((p, c) => (c.y < p ? c.y : p)).y - 5000
+        ? chartData.reduce((p, c) => (c.y < p ? c.y : p), Infinity).y > 5000
+          ? chartData.reduce((p, c) => (c.y < p ? c.y : p), Infinity).y - 5000
+          : 0
         : 0,
     },
     series: [
