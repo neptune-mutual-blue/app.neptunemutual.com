@@ -1,18 +1,9 @@
-import ClaimCoverIcon from "@/icons/ClaimCoverIcon";
-import ProvideLiquidityIcon from "@/icons/ProvideLiquidityIcon";
-import PurchasePolicyIcon from "@/icons/PurchasePolicyIcon";
-import ReportIncidentIcon from "@/icons/ReportIncidentIcon";
-import ProvideLiquiditySmall from "@/icons/ProvideLiquiditySmall";
-import PurchasePolicySmall from "@/icons/PurchasePolicySmall";
-import ReportIncidentSmall from "@/icons/ReportIncidentSmall";
-import ClaimCoverSmall from "@/icons/ClaimCoverSmall";
-
 export const actions = {
   "purchase": {
     title: "Purchase Policy",
     description: "to get protection from hacks & exploits",
-    imgSrc: <PurchasePolicyIcon />,
-    smImgSrc: <PurchasePolicySmall />,
+    imgSrc: `/options/purchase.svg`,
+    // smImgSrc: `/options/purchase-sm.png`,
     // mdImgSrc: `/options/purchase-md.png`,
     footerImgSrc: `/cover-actions/purchase.svg`,
     getHref: (id) => `/cover/${id}/purchase`,
@@ -20,8 +11,8 @@ export const actions = {
   "add-liquidity": {
     title: "Provide Liquidity",
     description: "to pool risks and receive rewards",
-    imgSrc: <ProvideLiquidityIcon />,
-    smImgSrc: <ProvideLiquiditySmall />,
+    imgSrc: `/options/add-liquidity.svg`,
+    // smImgSrc: `/options/add-liquidity-sm.png`,
     // mdImgSrc: `/options/add-liquidity-md.png`,
     footerImgSrc: `/cover-actions/add-liquidity.svg`,
     getHref: (id) => `/cover/${id}/add-liquidity`,
@@ -29,8 +20,8 @@ export const actions = {
   "report": {
     title: "Report Incident",
     description: "to notify other users about the cover event",
-    imgSrc: <ReportIncidentIcon />,
-    smImgSrc: <ReportIncidentSmall />,
+    imgSrc: `/options/report.svg`,
+    // smImgSrc: `/options/report-sm.png`,
     // mdImgSrc: `/options/report-md.png`,
     footerImgSrc: `/cover-actions/report.svg`,
     getHref: (id) => `/reporting/${id}/new`,
@@ -38,8 +29,8 @@ export const actions = {
   "claim": {
     title: "Claim Cover",
     description: "to receive payout by claiming cxTokens",
-    imgSrc: <ClaimCoverIcon />,
-    smImgSrc: <ClaimCoverSmall />,
+    imgSrc: `/options/claim.svg`,
+    // smImgSrc: `/options/claim-sm.png`,
     // mdImgSrc: `/options/claim-md.png`,
     footerImgSrc: `/cover-actions/claim.svg`,
     getHref: (_id) => `/my-policies/active`,
