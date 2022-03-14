@@ -13,6 +13,7 @@ const getQuery = (now) => {
       id
       key
       ipfsHash
+      ipfsBytes
       stopped
       vaults {
         totalCoverLiquidityAdded
@@ -59,7 +60,7 @@ export const useFetchCovers = () => {
         try {
           ipfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
         } catch (err) {
-          // console.log("Could not parse ipfs bytes", _cover.key);
+          console.log("Could not parse ipfs bytes", _cover.key);
         }
 
         // Fetch IPFS data if does not exist
@@ -100,8 +101,7 @@ export const useFetchCovers = () => {
     setLoading(true);
     const now = DateLib.unix();
     refetch(getQuery(now))
-      // .catch(console.error)
-      .catch((e) => console.log("cover error", e))
+      .catch(console.error)
       .finally(() => {
         if (ignore) return;
         setLoading(false);

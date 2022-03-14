@@ -141,7 +141,7 @@ const TotalLiquidityChart = () => {
       data.map(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
-          y: convertFromUnits(totalLiquidity).c[0],
+          y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
       });
       setChartData(_chartData);
