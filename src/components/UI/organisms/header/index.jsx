@@ -14,7 +14,7 @@ import { Banner } from "@/components/common/Banner";
 import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Root, Overlay, Content } from "@radix-ui/react-dialog";
 import { getFeatures } from "@/src/config/environment";
 
 const getNavigationLinks = (pathname = "") => {
@@ -234,90 +234,81 @@ export const MenuModal = ({
 
   return (
     <div>
-      <Dialog.Root open={isOpen} onOpenChange={onClose}>
-        <Dialog.Portal>
+      <Root open={isOpen} onOpenChange={onClose}>
+        <Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
+
+        <Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto max-h-screen">
           <div className="min-h-screen px-4 text-center">
-            <Dialog.Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
-
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-
-            <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto max-h-screen">
-              <div className="max-w-full mx-auto lg:px-8 py-4 lg:py-0 flex justify-end">
-                <BurgerComponent isOpen={isOpen} onToggle={onClose} />
+            <div className="max-w-full mx-auto lg:px-8 py-4 lg:py-0 flex justify-end">
+              <BurgerComponent isOpen={isOpen} onToggle={onClose} />
+            </div>
+            <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle sm:align-baseline transition-all transform shadow-xl rounded-2xl">
+              <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
+                {navigation.map((link) => {
+                  return (
+                    <Link key={link.name} href={link.href}>
+                      <a
+                        className={classNames(
+                          "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
+                          router.pathname == link.href
+                            ? "border-4e7dd9 text-4e7dd9 font-semibold"
+                            : "border-transparent text-white"
+                        )}
+                      >
+                        {link.name}
+                      </a>
+                    </Link>
+                  );
+                })}
               </div>
-              <div className="inline-block w-full max-w-md p-6 my-8 text-left align-middle sm:align-baseline transition-all transform shadow-xl rounded-2xl">
-                <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
-                  {navigation.map((link) => {
-                    return (
-                      <Link key={link.name} href={link.href}>
-                        <a
-                          className={classNames(
-                            "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
-                            router.pathname == link.href
-                              ? "border-4e7dd9 text-4e7dd9 font-semibold"
-                              : "border-transparent text-white"
-                          )}
-                        >
-                          {link.name}
-                        </a>
-                      </Link>
+              <div className="mt-12">
+                <ConnectWallet networkId={networkId} notifier={notifier}>
+                  {({ onOpen }) => {
+                    let button = (
+                      <button
+                        className="inline-block bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
+                        onClick={onOpen}
+                      >
+                        Connect Wallet
+                      </button>
                     );
-                  })}
-                </div>
-                <div className="mt-12">
-                  <ConnectWallet networkId={networkId} notifier={notifier}>
-                    {({ onOpen }) => {
-                      let button = (
+                    if (active) {
+                      button = (
                         <button
-                          className="inline-block bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
-                          onClick={onOpen}
+                          className="relative flex items-center bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
+                          onClick={handleToggleAccountPopup}
                         >
-                          Connect Wallet
+                          <AccountBalanceWalletIcon width="24" height="24" />
+                          <span className="pl-2">
+                            {truncateAddress(account)}
+                          </span>
                         </button>
                       );
-                      if (active) {
-                        button = (
-                          <button
-                            className="relative flex items-center bg-4e7dd9 text-sm leading-loose py-2 px-4 border border-transparent rounded-md font-medium text-white hover:bg-opacity-75"
-                            onClick={handleToggleAccountPopup}
-                          >
-                            <AccountBalanceWalletIcon width="24" height="24" />
-                            <span className="pl-2">
-                              {truncateAddress(account)}
-                            </span>
-                          </button>
-                        );
-                      }
-                      return (
-                        <div className="py-5 flex justify-between sm:pl-6 lg:pl-8">
-                          {network} {button}
-                          {isAccountDetailsOpen && (
-                            <AccountDetailsModal
-                              {...{
-                                networkId,
-                                account,
-                                isOpen: isAccountDetailsOpen,
-                                onClose: handleToggleAccountPopup,
-                                active,
-                                handleDisconnect,
-                              }}
-                            />
-                          )}
-                        </div>
-                      );
-                    }}
-                  </ConnectWallet>
-                </div>
+                    }
+                    return (
+                      <div className="py-5 flex justify-between sm:pl-6 lg:pl-8">
+                        {network} {button}
+                        {isAccountDetailsOpen && (
+                          <AccountDetailsModal
+                            {...{
+                              networkId,
+                              account,
+                              isOpen: isAccountDetailsOpen,
+                              onClose: handleToggleAccountPopup,
+                              active,
+                              handleDisconnect,
+                            }}
+                          />
+                        )}
+                      </div>
+                    );
+                  }}
+                </ConnectWallet>
               </div>
-            </Dialog.Content>
+            </div>
           </div>
-        </Dialog.Portal>
-      </Dialog.Root>
+        </Content>
+      </Root>
     </div>
   );
 };
