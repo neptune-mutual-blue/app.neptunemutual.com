@@ -58,6 +58,13 @@ export const WithdrawLiquidityModal = ({
     npmValue: npmValue || "0",
   });
 
+  useEffect(() => {
+    if (isOpen) return;
+
+    setPodValue();
+    setNpmValue();
+  }, [isOpen]);
+
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(myStake).toString());
   };
