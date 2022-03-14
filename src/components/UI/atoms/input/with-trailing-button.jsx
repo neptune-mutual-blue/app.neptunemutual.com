@@ -1,6 +1,5 @@
 import { classNames } from "@/utils/classnames";
 import { useState, useEffect, useRef } from "react";
-import NumberFormat from "react-number-format";
 
 export const InputWithTrailingButton = ({
   inputProps,
@@ -10,6 +9,7 @@ export const InputWithTrailingButton = ({
 }) => {
   const ref = useRef(null);
   const [width, setWidth] = useState();
+  const [val, setVal] = useState(inputProps.value ?? "");
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -27,20 +27,33 @@ export const InputWithTrailingButton = ({
     return () => window.removeEventListener("resize", getSize);
   }, []);
 
+  useEffect(() => {
+    if (!isNaN(parseInt(inputProps.value))) {
+      const formattedNumber = new Intl.NumberFormat().format(inputProps.value);
+      setVal(formattedNumber);
+    }
+    if (inputProps.value === "") setVal("");
+  }, [inputProps.value]);
+
   const numberFormatProps = {
     id: inputProps.id,
-    value: inputProps.value,
+    value: val,
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
     thousandSeparator: ",",
     isNumericString: true,
-    onValueChange: (values) => inputProps.onChange(values.value),
+    onChange: (ev) => {
+      const val = ev.target.value;
+      if (val !== "" && !val.match(/^\d*(,\d+)*$/)) return;
+      const returnVal = val.replaceAll(",", "");
+      if (inputProps.onChange) inputProps.onChange(returnVal);
+    },
     autoComplete: "off",
   };
 
   return (
     <div className="relative text-black text-h4 w-full">
-      <NumberFormat
+      <input
         {...numberFormatProps}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
