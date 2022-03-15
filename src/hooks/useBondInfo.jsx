@@ -3,7 +3,6 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { useAppContext } from "@/src/context/AppWrapper";
-import { ADDRESS_ONE } from "@/src/config/constants";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -31,17 +30,11 @@ export const useBondInfo = () => {
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(async () => {
-    let ignore = false;
-
-    if (!networkId) {
+    if (!networkId || !account) {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || ADDRESS_ONE,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     let instance = await registry.BondPool.getInstance(
       networkId,
@@ -53,11 +46,9 @@ export const useBondInfo = () => {
       "getInfo",
       {},
       notifyError,
-      [account || ADDRESS_ONE],
+      [account],
       false
     );
-
-    if (ignore) return;
 
     const [lpToken] = addresses;
     const [
@@ -73,7 +64,7 @@ export const useBondInfo = () => {
       unlockDate,
     ] = values;
 
-    setInfo({
+    return {
       lpTokenAddress: lpToken,
       marketPrice: marketPrice.toString(),
       discountRate: discountRate.toString(),
@@ -85,16 +76,28 @@ export const useBondInfo = () => {
       bondContribution: bondContribution.toString(),
       claimable: claimable.toString(),
       unlockDate: unlockDate.toString(),
-    });
-
-    return () => {
-      ignore = true;
     };
   }, [account, invoke, library, networkId, notifyError]);
 
   useEffect(() => {
-    fetchBondInfo();
+    let ignore = false;
+    fetchBondInfo()
+      .then((_info) => {
+        if (ignore) return;
+        setInfo(_info || defaultInfo);
+      })
+      .catch(console.error);
+
+    return () => {
+      ignore = true;
+    };
   }, [fetchBondInfo]);
 
-  return { info, refetch: fetchBondInfo };
+  const updateBondInfo = useCallback(() => {
+    fetchBondInfo()
+      .then((_info) => setInfo(_info || defaultInfo))
+      .catch(console.error);
+  }, [fetchBondInfo]);
+
+  return { info, refetch: updateBondInfo };
 };

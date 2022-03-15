@@ -64,7 +64,7 @@ export const AccountDetailsModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative inline-block min-w-sm max-w-xl px-16 py-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
+      <div className="relative inline-block min-w-sm max-w-xl max-h-90vh overflow-y-auto px-16 py-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
         <Dialog.Title
           as="h3"
           className="font-sora text-h2 font-bold text-black leading-9"

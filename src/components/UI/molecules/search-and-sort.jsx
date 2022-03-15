@@ -7,7 +7,7 @@ const options = [
   { name: "A-Z" },
   { name: "Utilization Ratio" },
   { name: "Liquidity" },
-  { name: "APR" },
+  // { name: "APR" },
 ];
 
 export const SearchAndSortBar = ({
@@ -16,6 +16,8 @@ export const SearchAndSortBar = ({
   sortClass = "",
   searchValue,
   onSearchChange,
+  sortType,
+  setSortType,
 }) => {
   const [selected, setSelected] = useState(options[0]);
 
@@ -41,8 +43,8 @@ export const SearchAndSortBar = ({
       <Select
         prefix="Sort by: "
         options={options}
-        selected={selected}
-        setSelected={setSelected}
+        selected={sortType ?? selected}
+        setSelected={setSortType ?? setSelected}
         className={sortClass}
       ></Select>
     </div>

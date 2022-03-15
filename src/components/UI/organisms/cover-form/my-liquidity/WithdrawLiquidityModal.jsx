@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -58,6 +58,13 @@ export const WithdrawLiquidityModal = ({
     npmValue: npmValue || "0",
   });
 
+  useEffect(() => {
+    if (isOpen) return;
+
+    setPodValue();
+    setNpmValue();
+  }, [isOpen]);
+
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(myStake).toString());
   };
@@ -87,7 +94,7 @@ export const WithdrawLiquidityModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
-      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-xl max-h-90vh overflow-y-auto w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
         <Dialog.Title className="font-sora font-bold text-h2 flex">
           {modalTitle}
         </Dialog.Title>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AddressZero } from "@ethersproject/constants";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -13,13 +12,9 @@ export const useBlockHeight = () => {
 
   useEffect(() => {
     let ignore = false;
-    if (!networkId) return;
+    if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     if (!signerOrProvider) return;
 

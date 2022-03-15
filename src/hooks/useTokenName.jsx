@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AddressZero } from "@ethersproject/constants";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -14,13 +13,9 @@ export const useTokenName = (tokenAddress) => {
 
   useEffect(() => {
     let ignore = false;
-    if (!networkId || !tokenAddress) return;
+    if (!networkId || !account || !tokenAddress) return;
 
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      account || AddressZero,
-      networkId
-    );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     const instance = registry.IERC20.getInstance(
       networkId,

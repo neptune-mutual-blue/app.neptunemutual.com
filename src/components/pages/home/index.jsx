@@ -21,6 +21,7 @@ import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 
+const MAX_COVERS = 6;
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
@@ -28,6 +29,9 @@ export const HomePage = () => {
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
+
+  const [sortType, setSortType] = useState("");
+  const [showCount, setShowCount] = useState(MAX_COVERS);
 
   useEffect(() => {
     if (data && data.length >= 2) {
@@ -53,6 +57,43 @@ export const HomePage = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
+  };
+
+  const handleShowMore = () => {
+    setShowCount((val) => val + MAX_COVERS);
+  };
+
+  const sortData = (dataList) => {
+    switch (sortType.name) {
+      case "A-Z":
+        return dataList.sort((a, b) => {
+          if (a.projectName < b.projectName) return -1;
+          else if (a.projectName > b.projectName) return 1;
+          return 0;
+        });
+      case "Utilization Ratio":
+        return dataList.sort((a, b) => {
+          if (parseFloat(a.stats.utilization) > parseFloat(b.stats.utilization))
+            return -1;
+          else if (
+            parseFloat(a.stats.utilization) < parseFloat(b.stats.utilization)
+          )
+            return 1;
+          return 0;
+        });
+      case "Liquidity":
+        return dataList.sort((a, b) => {
+          if (parseFloat(a.stats.liquidity) > parseFloat(b.stats.liquidity))
+            return -1;
+          else if (
+            parseFloat(a.stats.liquidity) < parseFloat(b.stats.liquidity)
+          )
+            return 1;
+          return 0;
+        });
+      default:
+        return dataList;
+    }
   };
 
   return (
@@ -156,12 +197,15 @@ export const HomePage = () => {
             sortClass="w-full md:w-48 lg:w-64 rounded-lg"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
             searchClass="w-full md:w-64 rounded-lg"
+            sortType={sortType}
+            setSortType={setSortType}
           />
         </div>
         <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {filtered.map((c) => {
+          {sortData(filtered).map((c, idx) => {
+            if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
@@ -171,9 +215,14 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        <NeutralButton className={"rounded-lg border-0.5"}>
-          Show More
-        </NeutralButton>
+        {sortData(filtered).length > showCount && (
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+          >
+            Show More
+          </NeutralButton>
+        )}
       </Container>
     </>
   );
