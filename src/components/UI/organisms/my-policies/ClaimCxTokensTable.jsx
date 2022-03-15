@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import {
   Table,
@@ -31,16 +31,7 @@ const renderAddress = (row) => (
   <td className="px-6 py-6 text-404040">{row.cxToken.id}</td>
 );
 
-const renderClaimBefore = (row) => (
-  <td className="px-6 py-6">
-    <span
-      className="text-left whitespace-nowrap"
-      title={DateLib.toLongDateFormat(row.expiresOn)}
-    >
-      {fromNow(row.expiresOn)}
-    </span>
-  </td>
-);
+const renderClaimBefore = (row) => <ClaimBeforeColumnRenderer row={row} />;
 
 const renderAmount = (row) => <CxTokenAmountRenderer row={row} />;
 
@@ -75,23 +66,37 @@ const columns = [
   },
 ];
 
+const ClaimTableContext = React.createContext({ report: null });
+function useClaimTableContext() {
+  const context = React.useContext(ClaimTableContext);
+  if (context === undefined) {
+    throw new Error(
+      "useClaimTableContext must be used within a ClaimTableContext.Provider"
+    );
+  }
+  return context;
+}
+
 export const ClaimCxTokensTable = ({
   activePolicies,
   coverKey,
   incidentDate,
+  report,
 }) => {
   return (
     <>
-      <TableWrapper>
-        <Table>
-          <THead columns={columns}></THead>
-          <TBody
-            columns={columns}
-            data={activePolicies}
-            extraData={{ coverKey, incidentDate }}
-          ></TBody>
-        </Table>
-      </TableWrapper>
+      <ClaimTableContext.Provider value={{ report }}>
+        <TableWrapper>
+          <Table>
+            <THead columns={columns}></THead>
+            <TBody
+              columns={columns}
+              data={activePolicies}
+              extraData={{ coverKey, incidentDate }}
+            ></TBody>
+          </Table>
+        </TableWrapper>
+      </ClaimTableContext.Provider>
     </>
   );
 };
@@ -116,6 +121,22 @@ const CxTokenAmountRenderer = ({ row }) => {
   );
 };
 
+const ClaimBeforeColumnRenderer = ({ row }) => {
+  const { report } = useClaimTableContext();
+  const claimExpiryDate = report?.claimExpiresAt || 0;
+
+  return (
+    <td className="px-6 py-6">
+      <span
+        className="text-left whitespace-nowrap"
+        title={DateLib.toLongDateFormat(claimExpiryDate)}
+      >
+        {fromNow(claimExpiryDate)}
+      </span>
+    </td>
+  );
+};
+
 const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -128,9 +149,9 @@ const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   };
 
   return (
-    <td className="text-right px-6 py-6 min-w-120">
+    <td className="px-6 py-6 text-right min-w-120">
       <button
-        className="text-4e7dd9 hover:underline cursor-pointer"
+        className="cursor-pointer text-4e7dd9 hover:underline"
         onClick={onOpen}
       >
         Claim
