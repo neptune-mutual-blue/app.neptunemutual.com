@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -57,6 +57,13 @@ export const WithdrawLiquidityModal = ({
     value: podValue || "0",
     npmValue: npmValue || "0",
   });
+
+  useEffect(() => {
+    if (isOpen) return;
+
+    setPodValue();
+    setNpmValue();
+  }, [isOpen]);
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(myStake).toString());
