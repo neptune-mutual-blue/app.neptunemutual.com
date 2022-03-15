@@ -18,7 +18,6 @@ export const useTokenSymbol = (tokenAddress) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     const instance = registry.IERC20.getInstance(
-      networkId,
       tokenAddress,
       signerOrProvider
     );

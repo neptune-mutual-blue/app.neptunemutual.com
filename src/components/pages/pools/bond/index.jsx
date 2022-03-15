@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
-
+import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
 import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
@@ -36,10 +36,11 @@ const BondPage = () => {
   const {
     balance,
     receiveAmount,
+    receiveAmountLoading,
     approving,
     bonding,
     canBond,
-    isError,
+    error,
     handleApprove,
     handleBond,
   } = useCreateBond({ info, value: delayedValue });
@@ -142,15 +143,24 @@ const BondPage = () => {
           disabled={approving || bonding}
           handleChooseMax={handleChooseMax}
         />
+        {error && <p className="px-3 text-FA5C2F">{error}</p>}
         <div className="receive mt-16">
           <ReceiveAmountInput
             labelText="You Will Receive"
             tokenSymbol="NPM"
             inputValue={convertFromUnits(receiveAmount).toString()}
           />
+          <div className="text-xs tracking-normal px-2 py-1 mt-2 flex justify-end items-center">
+            {receiveAmountLoading && (
+              <>
+                <RefreshDoubleIcon className="w-3 h-3 text-4e7dd9 animate-spin mr-2" />
+                <p>Fetching...</p>
+              </>
+            )}
+          </div>
         </div>
 
-        <div className="unlock mt-16">
+        <div className="unlock mt-14">
           <Label className="mb-2" htmlFor="unlock-on">
             Will Unlock On
           </Label>
@@ -165,7 +175,7 @@ const BondPage = () => {
 
         {!canBond ? (
           <RegularButton
-            disabled={isError || approving || !value}
+            disabled={error || approving || !value}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={handleApprove}
           >
@@ -173,7 +183,7 @@ const BondPage = () => {
           </RegularButton>
         ) : (
           <RegularButton
-            disabled={isError || bonding}
+            disabled={error || bonding}
             className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
             onClick={async () => {
               await handleBond();
