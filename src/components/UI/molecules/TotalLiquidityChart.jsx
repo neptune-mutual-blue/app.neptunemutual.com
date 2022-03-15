@@ -43,7 +43,9 @@ const TotalLiquidityChart = () => {
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
       min: chartData?.length
-        ? chartData.reduce((p, c) => (c.y < p ? c.y : p)).y - 5000
+        ? chartData.reduce((p, c) => (c.y < p ? c.y : p), Infinity).y > 5000
+          ? chartData.reduce((p, c) => (c.y < p ? c.y : p), Infinity).y - 5000
+          : 0
         : 0,
     },
     series: [
@@ -139,7 +141,7 @@ const TotalLiquidityChart = () => {
       data.map(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
-          y: convertFromUnits(totalLiquidity).c[0],
+          y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
       });
       setChartData(_chartData);

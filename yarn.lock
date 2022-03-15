@@ -1268,10 +1268,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@neptunemutual/sdk@^0.3.7-beta":
-  version "0.3.7-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.3.7-beta.tgz#f187a9d1aaf8d0534ab3283b562827c8d0192a0a"
-  integrity sha512-89Wjz+pyAxyPGob1fmLrbqtcF7YpUUuAX+LWsEwcfaA0xommZOjqyzHFvvBBLw+LSsWsRL1zaYwdnalv8W+www==
+"@neptunemutual/sdk@^0.3.9-beta":
+  version "0.3.9-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.3.9-beta.tgz#d1ed197bfe3c4c15ec13f61ac4ef7f57b0618d87"
+  integrity sha512-LAuUQW+CzFl9NLwpX6XjfWCCM+IdHVOL13iKlM6VsnzwoWiSKqu4F0STKqRu0nUO0sRF6sTWVqj6/lfwlCUnig==
   dependencies:
     axios "0.26.0"
     bs58 "4.0.1"
