@@ -58,6 +58,7 @@ export const WithdrawLiquidityModal = ({
     npmValue: npmValue || "0",
   });
 
+  // Clear on modal close
   useEffect(() => {
     if (isOpen) return;
 
