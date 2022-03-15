@@ -71,7 +71,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 2) % 12],
   ];
 
-  console.log(!coverMonth);
   return (
     <div className="max-w-md">
       <TokenAmountInput
