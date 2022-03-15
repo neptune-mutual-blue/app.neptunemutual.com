@@ -40,8 +40,6 @@ export const InputWithTrailingButton = ({
     value: val,
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
-    thousandSeparator: ",",
-    isNumericString: true,
     onChange: (ev) => {
       const val = ev.target.value;
       if (val !== "" && !val.match(/^\d*(,\d+)*$/)) return;
