@@ -8,6 +8,7 @@ import { MyLiquidityPage } from "@/components/pages/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { useWeb3React } from "@web3-react/core";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -23,6 +24,8 @@ export async function getServerSideProps() {
 }
 
 export default function MyLiquidity({ disabled }) {
+  const { account } = useWeb3React();
+
   if (disabled) {
     return <ComingSoon />;
   }
@@ -40,9 +43,11 @@ export default function MyLiquidity({ disabled }) {
       <Hero>
         <Container className="px-2 flex py-20">
           <HeroTitle>My Liquidity</HeroTitle>
-          <HeroStat title="My Total Liquidity">
-            <>$ {formatCurrency(150000, "USD", true).long}</>
-          </HeroStat>
+          {account && (
+            <HeroStat title="My Total Liquidity">
+              <>$ {formatCurrency(150000, "USD", true).long}</>
+            </HeroStat>
+          )}
         </Container>
         <hr className="border-b border-B0C4DB" />
       </Hero>
