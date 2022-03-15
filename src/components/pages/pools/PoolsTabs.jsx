@@ -34,7 +34,7 @@ export const PoolsTabs = ({ active, children }) => {
   return (
     <>
       <Hero>
-        <Container className="px-2 flex py-20">
+        <Container className="flex flex-wrap px-2 py-20">
           <HeroTitle>Bond and Staking Pools</HeroTitle>
 
           {/* Total Value Locked */}

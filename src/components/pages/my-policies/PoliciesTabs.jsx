@@ -27,7 +27,7 @@ export const PoliciesTabs = ({ active, children }) => {
   return (
     <>
       <Hero>
-        <Container className="px-2 flex py-20">
+        <Container className="flex flex-wrap px-2 py-20">
           <HeroTitle>My Policies</HeroTitle>
 
           {/* Total Active Protection */}
