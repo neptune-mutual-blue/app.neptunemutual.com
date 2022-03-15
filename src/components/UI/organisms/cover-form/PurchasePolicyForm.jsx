@@ -71,6 +71,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 2) % 12],
   ];
 
+  console.log(!coverMonth);
   return (
     <div className="max-w-md">
       <TokenAmountInput
@@ -97,10 +98,10 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         )}
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
-      <div className="mt-12 px-3">
-        <div className="flex gap-2 items-start">
+      <div className="px-3 mt-12">
+        <div className="flex items-start gap-2">
           <h5
-            className="block uppercase text-black text-h6 font-semibold mb-4"
+            className="block mb-4 font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
             Select your coverage period
@@ -109,7 +110,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
               <span className="sr-only">Info</span>
-              <InfoCircleIcon width={24} className="fill-9B9B9B pr-1" />
+              <InfoCircleIcon width={24} className="pr-1 fill-9B9B9B" />
             </Tooltip.Trigger>
             <CovergaeInfoTooltipContent />
           </Tooltip.Root>
@@ -148,16 +149,16 @@ export const PurchasePolicyForm = ({ coverKey }) => {
 
       {!canPurchase ? (
         <RegularButton
-          disabled={!!error || approving}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          disabled={!!error || approving || !coverMonth}
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handleApprove}
         >
           {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
         </RegularButton>
       ) : (
         <RegularButton
-          disabled={!!error || purchasing}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          disabled={!!error || purchasing || !coverMonth}
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handlePurchase}
         >
           {purchasing ? "Purchasing..." : "Purchase policy"}
@@ -177,7 +178,7 @@ const CovergaeInfoTooltipContent = () => {
   return (
     <>
       <Tooltip.Content side="right">
-        <div className="text-xs font-light leading-5 tracking-normal text-white bg-black p-4 rounded-xl max-w-15">
+        <div className="p-4 text-xs font-light leading-5 tracking-normal text-white bg-black rounded-xl max-w-15">
           <p className="">
             Coverage period will cover from date of purchase up to the month you
             have selected.
