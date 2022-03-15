@@ -13,6 +13,8 @@ import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
+import { Alert } from "@/components/UI/atoms/alert";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -33,6 +35,11 @@ export default function ClaimPolicy({ disabled }) {
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { data } = useActivePoliciesByCover({ coverKey });
+  const { data: reports, loading: loadingReports } =
+    useFetchReportsByKeyAndDate({
+      coverKey,
+      incidentDate: timestamp,
+    });
 
   const title = coverInfo?.projectName;
 
@@ -89,18 +96,26 @@ export default function ClaimPolicy({ disabled }) {
       </Hero>
 
       <Container className="px-2 pt-12 pb-36">
-        <h2 className="text-h2 font-sora font-bold">
+        <h2 className="font-bold text-h2 font-sora">
           Available cxTokens for {title} to Claim
         </h2>
-        <p className="text-lg w-full pt-6 pb-16 max-w-xl ml-0">
+        <p className="w-full max-w-xl pt-6 pb-16 ml-0 text-lg">
           Claim your {title} cover cxTokens from the following addresses before
           the given claim date. Also indicated is the amount of cxTokens you
           will receive per claim.
         </p>
+
+        {!loadingReports && reports.length === 0 && (
+          <Alert className="mb-8 -mt-8">
+            No valid incidents are reported with the given timestamp
+          </Alert>
+        )}
+
         <ClaimCxTokensTable
           activePolicies={data.activePolicies}
           coverKey={coverKey}
           incidentDate={timestamp}
+          report={reports[0]}
         />
       </Container>
     </main>
