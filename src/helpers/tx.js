@@ -5,7 +5,9 @@ export const getErrorMessage = (_error) => {
       return "Unexpected Error Occured";
     }
 
-    if (error?.data?.originalError?.message) {
+    if (error?.data?.message) {
+      return error.data.message.trim().replace("execution reverted: ", "");
+    } else if (error?.data?.originalError?.message) {
       return error.data.originalError.message
         .trim()
         .replace("execution reverted: ", "");
