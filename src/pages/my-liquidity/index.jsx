@@ -45,7 +45,7 @@ export default function MyLiquidity({ disabled }) {
       </Head>
 
       <Hero>
-        <Container className="px-2 flex py-20">
+        <Container className="flex flex-wrap px-2 py-20">
           <HeroTitle>My Liquidity</HeroTitle>
           {account && (
             <HeroStat title="My Total Liquidity">
