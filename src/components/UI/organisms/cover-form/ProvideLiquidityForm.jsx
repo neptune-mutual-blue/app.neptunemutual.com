@@ -179,7 +179,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
 
       {hasBothAllowances && (
         <RegularButton
-          disabled={isError || providing}
+          disabled={isError || providing || !lqValue || !npmValue}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleProvide}
         >
