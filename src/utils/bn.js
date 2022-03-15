@@ -165,3 +165,16 @@ export const getRelativePercent = (min, max, now) => {
 
   return a.dividedBy(b).decimalPlaces(2, BigNumber.ROUND_DOWN).toNumber();
 };
+
+export const isEqualTo = (a, b) => {
+  try {
+    const bigA = new BigNumber(a.toString());
+    const bigB = new BigNumber(b.toString());
+
+    return bigA.isEqualTo(bigB);
+  } catch (error) {
+    console.error(error);
+  }
+
+  return false;
+};

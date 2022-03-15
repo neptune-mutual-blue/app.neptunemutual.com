@@ -7,6 +7,7 @@ import {
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
+  isEqualTo,
   isValidNumber,
 } from "@/utils/bn";
 import { useAppContext } from "@/src/context/AppWrapper";
@@ -21,9 +22,10 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 export const useCreateBond = ({ info, value }) => {
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
-
+  const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
   const [approving, setApproving] = useState(false);
   const [bonding, setBonding] = useState(false);
+  const [error, setError] = useState("");
 
   const { networkId } = useAppContext();
   const { account, library } = useWeb3React();
@@ -50,25 +52,40 @@ export const useCreateBond = ({ info, value }) => {
     if (!networkId || !account || !debouncedValue) return;
 
     async function updateReceiveAmount() {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      try {
+        setReceiveAmountLoading(true);
 
-      const instance = await registry.BondPool.getInstance(
-        networkId,
-        signerOrProvider
-      );
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
+        const instance = await registry.BondPool.getInstance(
+          networkId,
+          signerOrProvider
+        );
 
-      const args = [convertToUnits(debouncedValue).toString()];
-      const result = await invoke(
-        instance,
-        "calculateTokensForLp",
-        {},
-        notifyError,
-        args,
-        false
-      );
+        const args = [convertToUnits(debouncedValue).toString()];
 
-      if (ignore) return;
-      setReceiveAmount(result.toString());
+        const result = await invoke(
+          instance,
+          "calculateTokensForLp",
+          {},
+          notifyError,
+          args,
+          false
+        );
+
+        if (ignore) return;
+        setReceiveAmount(result.toString());
+      } catch (err) {
+        console.error(err);
+
+        if (ignore) return;
+      } finally {
+        if (ignore) return;
+        setReceiveAmountLoading(false);
+      }
     }
 
     updateReceiveAmount();
@@ -77,6 +94,35 @@ export const useCreateBond = ({ info, value }) => {
       ignore = true;
     };
   }, [networkId, debouncedValue, invoke, notifyError]);
+
+  useEffect(() => {
+    if (!value && error) {
+      setError("");
+      return;
+    }
+
+    if (!value) {
+      return;
+    }
+
+    if (!isValidNumber(value)) {
+      setError("Invalid amount to bond");
+      return;
+    }
+
+    if (
+      isGreater(convertToUnits(value || "0"), balance) ||
+      isEqualTo(convertToUnits(value), 0)
+    ) {
+      setError("Insufficient Balance");
+      return;
+    }
+
+    if (error) {
+      setError("");
+      return;
+    }
+  }, [balance, error, value]);
 
   const handleApprove = async () => {
     try {
@@ -133,18 +179,16 @@ export const useCreateBond = ({ info, value }) => {
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
-  const isError =
-    value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
 
   return {
     balance,
     receiveAmount,
+    receiveAmountLoading,
     approving,
     bonding,
 
     canBond,
-    isError,
+    error,
 
     handleApprove,
     handleBond,
