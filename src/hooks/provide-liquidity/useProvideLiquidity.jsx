@@ -18,10 +18,8 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useRouter } from "next/router";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
-  const router = useRouter();
   const [lqApproving, setLqApproving] = useState();
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
@@ -124,8 +122,6 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         success: "Added Liquidity Successfully",
         failure: "Could not add liquidity",
       });
-
-      router.push(`/my-liquidity`);
     } catch (err) {
       notifyError(err, "add liquidity");
     } finally {
