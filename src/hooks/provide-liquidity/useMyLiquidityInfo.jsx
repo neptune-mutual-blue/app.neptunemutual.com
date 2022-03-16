@@ -7,6 +7,9 @@ import { useAppContext } from "@/src/context/AppWrapper";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
+import { useTxToast } from "@/src/hooks/useTxToast";
+import DateLib from "@/lib/date/DateLib";
+import { isGreater } from "@/utils/bn";
 
 const defaultInfo = {
   totalPods: "0",
@@ -27,6 +30,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const { library, account } = useWeb3React();
   const { networkId } = useAppContext();
+  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -113,9 +117,41 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
   }, [account, coverKey, library, networkId]);
 
+  const accrueInterest = async () => {
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+      const instance = await registry.Vault.getInstance(
+        networkId,
+        coverKey,
+        signerOrProvider
+      );
+
+      const tx = await invoke(instance, "accrueInterest", {}, notifyError, []);
+
+      await txToast.push(tx, {
+        pending: "Accruing intrest",
+        success: "Accrued intrest successfully",
+        failure: "Could not accrue interest",
+      });
+    } catch (err) {
+      notifyError(err, "accrue interest");
+    } finally {
+    }
+  };
+
+  const now = DateLib.unix();
+  const canAccrue =
+    account &&
+    isGreater(now, info.withdrawalOpen) &&
+    isGreater(info.withdrawalClose, now);
+
   return {
     info,
     minNpmStake,
     myStake,
+
+    canAccrue,
+    accrueInterest,
   };
 };
