@@ -86,17 +86,15 @@ export const WithdrawLiquidityModal = ({
     }
   };
 
-  const now = DateLib.unix();
   const canWithdraw =
     podValue &&
     isValidNumber(podValue) &&
     isGreaterOrEqual(allowance, convertToUnits(podValue || "0"));
-  isGreater(now, info.withdrawalOpen) && isGreater(info.withdrawalClose, now);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
-      <div className="max-w-xl max-h-90vh overflow-y-auto w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h2 flex">
+      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+        <Dialog.Title className="flex font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
 
@@ -134,7 +132,7 @@ export const WithdrawLiquidityModal = ({
             tokenAddress={vaultTokenAddress}
           />
         </div>
-        <div className="modal-unlock mt-6">
+        <div className="mt-6 modal-unlock">
           <ReceiveAmountInput
             labelText="You Will Receive"
             tokenSymbol={liquidityTokenSymbol}
@@ -145,7 +143,7 @@ export const WithdrawLiquidityModal = ({
           />
         </div>
 
-        <h5 className="block  text-black text-h6 font-semibold mt-6 mb-1 uppercase">
+        <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
           NEXT UNLOCK CYCLE
         </h5>
         <div>
@@ -164,7 +162,7 @@ export const WithdrawLiquidityModal = ({
         {!canWithdraw ? (
           <RegularButton
             onClick={handleApprove}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
             disabled={approving}
           >
             {approving ? "Approving.." : "Approve"}
@@ -172,7 +170,7 @@ export const WithdrawLiquidityModal = ({
         ) : (
           <RegularButton
             onClick={handleWithdraw}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
             disabled={withdrawing}
           >
             {withdrawing ? "Withdrawing.." : "Withdraw"}
