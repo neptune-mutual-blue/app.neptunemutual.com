@@ -15,6 +15,8 @@ export const UNSTAKE_INFO_URL =
 export const POOL_URLS = {
   3: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
   42: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
+  80001:
+    "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
 export const SUBGRAPH_API_URLS = {

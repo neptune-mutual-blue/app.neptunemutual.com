@@ -49,19 +49,16 @@ export default function MyLiquidity({ disabled }) {
           <HeroTitle>My Liquidity</HeroTitle>
           {account && (
             <HeroStat title="My Total Liquidity">
-              {loading && <div className="text-center">Loading...</div>}
-              {!loading && (
-                <>
-                  ${" "}
-                  {
-                    formatCurrency(
-                      convertFromUnits(totalLiquidityProvided),
-                      "USD",
-                      true
-                    ).long
-                  }
-                </>
-              )}
+              {loading && "Loading..."}
+              {!loading &&
+                `$ ${
+                  formatCurrency(
+                    convertFromUnits(totalLiquidityProvided),
+                    "USD",
+                    true
+                  ).long
+                }
+                `}
             </HeroStat>
           )}
         </Container>
