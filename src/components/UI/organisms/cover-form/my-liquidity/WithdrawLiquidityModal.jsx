@@ -29,6 +29,7 @@ export const WithdrawLiquidityModal = ({
   onClose,
   info,
   myStake,
+  refetchInfo,
 }) => {
   const router = useRouter();
   const { cover_id } = router.query;
@@ -56,6 +57,7 @@ export const WithdrawLiquidityModal = ({
     coverKey,
     value: podValue || "0",
     npmValue: npmValue || "0",
+    refetchInfo,
   });
 
   // Clear on modal close

@@ -23,7 +23,9 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { info, minNpmStake } = useMyLiquidityInfo({ coverKey });
+  const { info, minNpmStake, canAccrue, accrueInterest } = useMyLiquidityInfo({
+    coverKey,
+  });
   const status = coverInfo.stats.status;
 
   const imgSrc = getCoverImgSrc(coverInfo);
@@ -67,7 +69,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid md:gap-32 grid-cols-3">
+        <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 md:col-span-2">
             {/* Description */}
             <span className="hidden md:block">
@@ -93,30 +95,42 @@ export const CoverAddLiquidityDetailsPage = () => {
             )}
           </div>
 
-          <span className="block md:hidden row-start-1 col-span-3 mb-11">
+          <span className="block col-span-3 row-start-1 md:hidden mb-11">
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
-          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
-            <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-            <div
-              className="flex justify-between pb-2"
-              title={formatCurrency(convertFromUnits(totalLiquidity)).long}
-            >
-              <span className="">Total Liquidity:</span>
-              <strong className="text-right font-bold">
-                {formatCurrency(convertFromUnits(totalLiquidity)).short}
-              </strong>
+          <div>
+            <CoverPurchaseResolutionSources coverInfo={coverInfo}>
+              <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
+              <div
+                className="flex justify-between pb-2"
+                title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+              >
+                <span className="">Total Liquidity:</span>
+                <strong className="font-bold text-right">
+                  {formatCurrency(convertFromUnits(totalLiquidity)).short}
+                </strong>
+              </div>
+              <div
+                className="flex justify-between"
+                title={formatCurrency(convertFromUnits(reassuranceAmount)).long}
+              >
+                <span className="">Reassurance:</span>
+                <strong className="font-bold text-right">
+                  {formatCurrency(convertFromUnits(reassuranceAmount)).short}
+                </strong>
+              </div>
+            </CoverPurchaseResolutionSources>
+            <div className="flex justify-end">
+              {canAccrue && (
+                <button
+                  className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
+                  onClick={accrueInterest}
+                >
+                  Accrue
+                </button>
+              )}
             </div>
-            <div
-              className="flex justify-between"
-              title={formatCurrency(convertFromUnits(reassuranceAmount)).long}
-            >
-              <span className="">Reassurance:</span>
-              <strong className="text-right font-bold">
-                {formatCurrency(convertFromUnits(reassuranceAmount)).short}
-              </strong>
-            </div>
-          </CoverPurchaseResolutionSources>
+          </div>
         </Container>
       </div>
 
