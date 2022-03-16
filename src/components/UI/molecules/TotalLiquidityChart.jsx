@@ -6,6 +6,7 @@ import HighchartsExporting from "highcharts/modules/exporting";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
@@ -15,7 +16,8 @@ const TotalLiquidityChart = () => {
   const { data } = useProtocolDayData();
   const chartRef = useRef();
 
-  const yAxisMin = sort(chartData.map((x) => x.y))[0] || 0;
+  const yAxisMin =
+    (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0;
 
   const chartOptions = {
     xAxis: {

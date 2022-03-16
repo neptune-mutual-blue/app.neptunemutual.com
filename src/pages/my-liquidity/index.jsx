@@ -9,6 +9,8 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { useWeb3React } from "@web3-react/core";
+import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
+import { convertFromUnits } from "@/utils/bn";
 
 // This gets called on every request
 export async function getServerSideProps() {
@@ -25,6 +27,8 @@ export async function getServerSideProps() {
 
 export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
+  const { data, loading } = useMyLiquidities();
+  const { totalLiquidityProvided } = data;
 
   if (disabled) {
     return <ComingSoon />;
@@ -41,11 +45,23 @@ export default function MyLiquidity({ disabled }) {
       </Head>
 
       <Hero>
-        <Container className="px-2 flex py-20">
+        <Container className="flex flex-wrap px-2 py-20">
           <HeroTitle>My Liquidity</HeroTitle>
           {account && (
             <HeroStat title="My Total Liquidity">
-              <>$ {formatCurrency(150000, "USD", true).long}</>
+              {loading && <div className="text-center">Loading...</div>}
+              {!loading && (
+                <>
+                  ${" "}
+                  {
+                    formatCurrency(
+                      convertFromUnits(totalLiquidityProvided),
+                      "USD",
+                      true
+                    ).long
+                  }
+                </>
+              )}
             </HeroStat>
           )}
         </Container>

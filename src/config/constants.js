@@ -20,4 +20,6 @@ export const POOL_URLS = {
 export const SUBGRAPH_API_URLS = {
   3: "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten",
   42: "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan",
+  80001:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
 };
