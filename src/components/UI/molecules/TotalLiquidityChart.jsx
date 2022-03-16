@@ -4,8 +4,9 @@ import Highcharts from "highcharts/highstock.src";
 
 import HighchartsExporting from "highcharts/modules/exporting";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
@@ -14,6 +15,9 @@ const TotalLiquidityChart = () => {
   const [chartData, setChartData] = useState([]);
   const { data } = useProtocolDayData();
   const chartRef = useRef();
+
+  const yAxisMin =
+    (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0;
 
   const chartOptions = {
     xAxis: {
@@ -42,9 +46,7 @@ const TotalLiquidityChart = () => {
       gridLineDashStyle: "Dash",
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
-      min: chartData?.length
-        ? chartData.reduce((p, c) => (c.y < p ? c.y : p)).y - 5000
-        : 0,
+      min: yAxisMin,
     },
     series: [
       {
@@ -139,7 +141,7 @@ const TotalLiquidityChart = () => {
       data.map(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
-          y: convertFromUnits(totalLiquidity).c[0],
+          y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
       });
       setChartData(_chartData);

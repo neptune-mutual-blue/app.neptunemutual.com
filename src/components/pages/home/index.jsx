@@ -20,6 +20,7 @@ import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
+import BigNumber from "bignumber.js";
 
 const MAX_COVERS = 6;
 export const HomePage = () => {
@@ -35,15 +36,18 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (data && data.length >= 2) {
-      const previous = data[data.length - 2].totalLiquidity;
-      const current = data[data.length - 1].totalLiquidity;
-
-      let diff = current - previous;
-      diff = (diff / previous) * 100;
+      const previous = BigNumber(data[data.length - 2].totalLiquidity);
+      const current = BigNumber(data[data.length - 1].totalLiquidity);
+      let diff = current.minus(previous);
+      diff = diff
+        .absoluteValue()
+        .dividedBy(previous)
+        .multipliedBy(100)
+        .decimalPlaces(2);
       setChangeData({
-        last: current,
-        diff: Math.abs(diff).toFixed(2),
-        rise: diff >= 0,
+        last: current.toString(),
+        diff: diff.toString(),
+        rise: parseFloat(diff) >= 0,
       });
     }
   }, [data]);
