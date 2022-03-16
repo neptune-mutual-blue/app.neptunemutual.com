@@ -22,9 +22,9 @@ export const Banner = () => {
   if (!show) return <></>;
 
   return (
-    <div className="relative bg-4e7dd9 text-white text-sm text-center">
-      <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-        <p className="ml-3">
+    <div className="relative text-sm text-center text-white bg-4e7dd9">
+      <div className="px-3 py-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <p className="sm:ml-3">
           You&#x2019;re on {NetworkNames[networkId]} Network. Get{" "}
           <a
             className="underline"
@@ -48,7 +48,7 @@ export const Banner = () => {
       </div>
       <button
         onClick={handleClose}
-        className="absolute right-7 sm:right-10 xl:right-14 top-1/2 transform -translate-y-1/2"
+        className="absolute transform -translate-y-1/2 right-2 sm:right-10 xl:right-14 top-1/2"
       >
         <CloseIcon className="w-5 h-5" />
       </button>
