@@ -125,7 +125,7 @@ const ForceTxModal = ({
   isOpen,
   onClose,
   message,
-  // description,
+  description,
   handleContinue,
 }) => {
   return (
@@ -140,9 +140,13 @@ const ForceTxModal = ({
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="my-12 mb-8">
-          {/* <p className="break-words">{description}</p> */}
           <p className="text-DC2121 mt-8">{message}</p>
         </div>
+
+        <details open>
+          <summary>More details</summary>
+          <pre className="break-words whitespace-pre-wrap">{description}</pre>
+        </details>
 
         <Divider />
 

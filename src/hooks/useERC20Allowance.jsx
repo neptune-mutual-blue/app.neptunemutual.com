@@ -31,7 +31,6 @@ export const useERC20Allowance = (tokenAddress) => {
         );
 
         const tokenInstance = registry.IERC20.getInstance(
-          networkId,
           tokenAddress,
           signerOrProvider
         );
@@ -84,7 +83,6 @@ export const useERC20Allowance = (tokenAddress) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     const tokenInstance = registry.IERC20.getInstance(
-      networkId,
       tokenAddress,
       signerOrProvider
     );

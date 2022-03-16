@@ -18,7 +18,6 @@ export const useERC20Balance = (tokenAddress) => {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const tokenInstance = registry.IERC20.getInstance(
-        networkId,
         tokenAddress,
         signerOrProvider
       );

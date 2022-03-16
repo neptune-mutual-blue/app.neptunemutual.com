@@ -15,9 +15,13 @@ export const UNSTAKE_INFO_URL =
 export const POOL_URLS = {
   3: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
   42: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
+  80001:
+    "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
 export const SUBGRAPH_API_URLS = {
   3: "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten",
   42: "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan",
+  80001:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
 };

@@ -1,11 +1,11 @@
 import ExclamationCircleIcon from "@/icons/ExclamationCircleIcon";
 import { classNames } from "@/utils/classnames";
 
-export const Alert = ({ children, info }) => {
+export const Alert = ({ children, info, className }) => {
   return (
-    // <div className={`bg-F4F8FC border border-l-4 ${color.border} rounded p-5`}>
     <div
       className={classNames(
+        className,
         `bg-F4F8FC border border-l-4 rounded p-5`,
         info ? "border-4e7dd9" : "border-FA5C2F"
       )}
