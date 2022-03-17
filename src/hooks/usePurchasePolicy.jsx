@@ -35,7 +35,9 @@ export const usePurchasePolicy = ({
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
   const { liquidityTokenAddress } = useAppConstants();
-  const { balance } = useERC20Balance(liquidityTokenAddress);
+  const { balance, refetch: updateBalance } = useERC20Balance(
+    liquidityTokenAddress
+  );
   const {
     allowance,
     approve,
@@ -134,6 +136,9 @@ export const usePurchasePolicy = ({
         success: "Purchased Policy Successfully",
         failure: "Could not purchase policy",
       });
+
+      updateAllowance();
+      updateBalance();
     } catch (err) {
       notifyError(err, "purchase policy");
     } finally {

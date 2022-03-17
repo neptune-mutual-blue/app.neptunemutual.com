@@ -53,10 +53,10 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
 
   return (
     <>
-      <OutlinedCard className="md:flex bg-white">
+      <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
-        <div className="p-10 md:border-r border-B0C4DB flex-1">
-          <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
+        <div className="flex-1 p-10 md:border-r border-B0C4DB">
+          <h2 className="mb-6 font-bold text-h3 font-sora">Report Summary</h2>
 
           <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
@@ -71,12 +71,12 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
 
         {/* Right half */}
         <div className="p-10">
-          <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
+          <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
           <InsightsTable
             insights={[
               {
                 title: "Incident Occurred",
-                value: `${yesPercent}%`,
+                value: formatPercent(yesPercent),
                 variant: "success",
               },
               {
@@ -99,7 +99,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             insights={[
               {
                 title: "False Reporting",
-                value: `${noPercent}%`,
+                value: formatPercent(noPercent),
                 variant: "error",
               },
               { title: "User Votes:", value: incidentReport.totalRefutedCount },
@@ -115,7 +115,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           />
 
           <hr className="mt-6 mb-6 border-t border-d4dfee" />
-          <h3 className="text-h4 font-sora font-bold mb-4">
+          <h3 className="mb-4 font-bold text-h4 font-sora">
             Incident Reporters
           </h3>
           <IncidentReporter
@@ -132,8 +132,8 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           )}
 
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
-          <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
-          <p className="text-sm opacity-50 mb-4">
+          <h3 className="mb-4 font-bold text-h4 font-sora">Reporting Period</h3>
+          <p className="mb-4 text-sm opacity-50">
             <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
@@ -157,7 +157,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
 
           {!incidentReport.finalized && (
             <button
-              className="text-4e7dd9 text-sm"
+              className="text-sm text-4e7dd9"
               onClick={async () => {
                 await finalize();
                 setTimeout(refetchReport, 15000);
