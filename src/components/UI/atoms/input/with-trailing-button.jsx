@@ -1,4 +1,5 @@
 import { classNames } from "@/utils/classnames";
+import BigNumber from "bignumber.js";
 import { useState, useEffect, useRef } from "react";
 
 export const InputWithTrailingButton = ({
@@ -29,7 +30,7 @@ export const InputWithTrailingButton = ({
 
   useEffect(() => {
     if (!isNaN(parseInt(inputProps.value))) {
-      const formattedNumber = new Intl.NumberFormat().format(inputProps.value);
+      const formattedNumber = BigNumber(inputProps.value).toFormat();
       setVal(formattedNumber);
     }
     if (inputProps.value === "") setVal("");
@@ -42,7 +43,10 @@ export const InputWithTrailingButton = ({
     disabled: inputProps.disabled,
     onChange: (ev) => {
       const val = ev.target.value;
-      if (val !== "" && !val.match(/^\d*(,\d+)*$/)) return;
+      if (val !== "" && val.match(/^\d*(,\d+)*\.$/)) {
+        return setVal(val);
+      }
+      if (val !== "" && !val.match(/^\d*(,\d+)*(\.\d*)?$/)) return;
       const returnVal = val.replaceAll(",", "");
       if (inputProps.onChange) inputProps.onChange(returnVal);
     },
