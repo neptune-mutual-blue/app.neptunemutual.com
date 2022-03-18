@@ -1,6 +1,12 @@
 module.exports = {
   content: ["./lib/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      sm: "600px",
+      md: "768px",
+      lg: "992px",
+      xl: "1200px",
+    },
     boxShadow: {
       card: "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
       mainCard:

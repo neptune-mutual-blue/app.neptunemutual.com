@@ -26,7 +26,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { info, minNpmStake, canAccrue, accrueInterest } = useMyLiquidityInfo({
     coverKey,
   });
-  const status = coverInfo.stats.status;
 
   const imgSrc = getCoverImgSrc(coverInfo);
 
@@ -58,7 +57,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           />
           <div className="flex">
             <CoverProfileInfo
-              status={status}
+              coverKey={coverKey}
               imgSrc={imgSrc}
               projectName={coverInfo?.coverName}
               links={coverInfo?.links}

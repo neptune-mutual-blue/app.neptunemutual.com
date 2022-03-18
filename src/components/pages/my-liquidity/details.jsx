@@ -24,7 +24,7 @@ export const MyLiquidityCoverPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const status = coverInfo.stats.status;
+
   const {
     info,
     refetch: refetchInfo,
@@ -71,7 +71,7 @@ export const MyLiquidityCoverPage = () => {
             />
             <div className="flex">
               <CoverProfileInfo
-                status={status}
+                coverKey={coverKey}
                 projectName={coverInfo?.coverName}
                 links={coverInfo?.links}
                 imgSrc={imgSrc}

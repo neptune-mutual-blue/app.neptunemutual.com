@@ -148,7 +148,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
 
       {!canPurchase ? (
         <RegularButton
-          disabled={!!error || approving || !coverMonth}
+          disabled={!!error || approving || !coverMonth || updatingFee}
           className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handleApprove}
         >
@@ -156,7 +156,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </RegularButton>
       ) : (
         <RegularButton
-          disabled={!!error || purchasing || !coverMonth}
+          disabled={!!error || purchasing || !coverMonth || updatingFee}
           className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handlePurchase}
         >
