@@ -3,7 +3,10 @@ import StatusFalseReportingIcon from "@/icons/StatusFalseReportingIcon";
 import StatusIncidentOccurredIcon from "@/icons/StatusIncidentOccurredIcon";
 import StatusNormalIcon from "@/icons/StatusNormalIcon";
 import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
+import { getParsedKey } from "@/src/helpers/cover";
+import { isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
+import Link from "next/link";
 
 // Status => Variant
 const variants = {
@@ -23,7 +26,7 @@ const icons = {
   "False Reporting": StatusFalseReportingIcon,
 };
 
-export const ProjectStatusIndicator = ({ status }) => {
+export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
   const variant = variants[status] || "green";
   const Icon = icons[status] || StatusNormalIcon;
 
@@ -31,7 +34,7 @@ export const ProjectStatusIndicator = ({ status }) => {
     return null;
   }
 
-  return (
+  const badge = (
     <div
       className={classNames(
         "ml-4 flex items-center rounded-1 py-0.5 px-1.5 text-xs leading-4.5 text-white",
@@ -44,4 +47,16 @@ export const ProjectStatusIndicator = ({ status }) => {
       <Icon width="14" height="14" /> <div className="ml-1">{status}</div>
     </div>
   );
+
+  if (isGreater(incidentDate, "0")) {
+    return (
+      <Link
+        href={`/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`}
+      >
+        <a>{badge}</a>
+      </Link>
+    );
+  }
+
+  return badge;
 };

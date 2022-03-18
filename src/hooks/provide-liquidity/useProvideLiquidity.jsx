@@ -27,8 +27,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const { balance: lqTokenBalance } = useERC20Balance(liquidityTokenAddress);
-  const { balance: npmBalance } = useERC20Balance(NPMTokenAddress);
+  const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =
+    useERC20Balance(liquidityTokenAddress);
+  const { balance: npmBalance, refetch: updateNpmBalance } =
+    useERC20Balance(NPMTokenAddress);
   const vaultAddress = useVaultAddress({ coverKey });
   const {
     allowance: lqTokenAllowance,
@@ -122,6 +124,11 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         success: "Added Liquidity Successfully",
         failure: "Could not add liquidity",
       });
+
+      updateLqTokenBalance();
+      updateNpmBalance();
+      updateLqAllowance();
+      updateStakeAllowance();
     } catch (err) {
       notifyError(err, "add liquidity");
     } finally {

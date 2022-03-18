@@ -1,5 +1,4 @@
-import DateLib from "@/lib/date/DateLib";
-import { isGreater, sumOf, toBN } from "@/utils/bn";
+import { sumOf, toBN } from "@/utils/bn";
 import {
   parseBytes32String,
   formatBytes32String,
@@ -9,7 +8,6 @@ export const defaultStats = {
   liquidity: "0",
   protection: "0",
   utilization: "0",
-  status: "",
 };
 
 export const getCoverImgSrc = (coverInfo) => {
@@ -36,41 +34,8 @@ export const toBytes32 = (str) => {
   }
 };
 
-export const getCoverStatus = (incidentReports, stopped) => {
-  if (stopped) {
-    return "Stopped";
-  }
-
-  if (incidentReports.length === 0) {
-    return "Normal";
-  }
-
-  if (incidentReports[0].resolved === false) {
-    const isAttestedWon = isGreater(
-      incidentReports[0].totalAttestedStake,
-      incidentReports[0].totalRefutedStake
-    );
-
-    return isAttestedWon ? "Incident Happened" : "False Reporting";
-  }
-
-  const now = DateLib.unix();
-  const isClaimableNow =
-    incidentReports[0].decision &&
-    isGreater(incidentReports[0].claimExpiresAt, now) &&
-    isGreater(now, incidentReports[0].claimBeginsFrom);
-
-  if (isClaimableNow) {
-    return "Claimable";
-  }
-
-  return incidentReports[0].decision ? "Incident Happened" : "False Reporting";
-};
-
 export const calculateCoverStats = (cover) => {
   try {
-    const status = getCoverStatus(cover.incidentReports, cover.stopped);
-
     const liquidity = sumOf(
       ...cover.vaults.map((x) => {
         return toBN(x.totalCoverLiquidityAdded)
@@ -89,7 +54,6 @@ export const calculateCoverStats = (cover) => {
       .toString();
 
     return {
-      status,
       liquidity,
       protection,
       utilization: utilization == "NaN" ? "0" : utilization,

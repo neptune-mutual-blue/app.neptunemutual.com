@@ -82,7 +82,10 @@ class MyDocument extends Document {
           />
           <meta name="theme-color" content="#01052D" />
         </Head>
-        <body className="font-poppins text-black text-para bg-f1f3f6">
+        <body
+          translate="no"
+          className="text-black font-poppins text-para bg-f1f3f6"
+        >
           <Main />
           <NextScript />
         </body>
