@@ -121,7 +121,7 @@ const CxTokenAmountRenderer = ({ row }) => {
   );
 };
 
-const ClaimBeforeColumnRenderer = ({ row }) => {
+const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext();
   const claimExpiryDate = report?.claimExpiresAt || 0;
 
