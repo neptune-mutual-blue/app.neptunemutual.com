@@ -22,36 +22,35 @@ export const Banner = () => {
   if (!show) return <></>;
 
   return (
-    <div className="relative text-sm text-center text-white bg-4e7dd9">
-      <div className="px-3 py-3 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <p className="sm:ml-3">
-          You&#x2019;re on {NetworkNames[networkId]} Network. Get{" "}
-          <a
-            className="underline"
-            href={FAUCET_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Test Tokens
-          </a>{" "}
-          or{" "}
-          <a
-            className="underline"
-            href={LEADERBOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View Leaderboard
-          </a>
-          .
-        </p>
+    <div className="relative bg-4e7dd9">
+      <div className="flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7">
+        <div className="flex items-center justify-center flex-auto min-w-0">
+          <p>
+            You&#x2019;re on {NetworkNames[networkId]} Network. Get{" "}
+            <a
+              className="underline"
+              href={FAUCET_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Test Tokens
+            </a>{" "}
+            or{" "}
+            <a
+              className="underline"
+              href={LEADERBOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Leaderboard
+            </a>
+            .
+          </p>
+        </div>
+        <button onClick={handleClose} className="block p-1 ml-auto">
+          <CloseIcon className="w-5 h-5" />
+        </button>
       </div>
-      <button
-        onClick={handleClose}
-        className="absolute transform -translate-y-1/2 right-2 sm:right-10 xl:right-14 top-1/2"
-      >
-        <CloseIcon className="w-5 h-5" />
-      </button>
     </div>
   );
 };
