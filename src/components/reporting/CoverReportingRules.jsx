@@ -19,8 +19,8 @@ export const CoverReportingRules = ({
     <>
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid md:gap-32 grid-cols-3">
-          <div className="col-span-3 md:col-span-2 row-start-3 md:row-start-auto">
+        <Container className="grid grid-cols-3 md:gap-32">
+          <div className="col-span-3 row-start-3 md:col-span-2 md:row-start-auto">
             {/* Rules */}
             <CoverRules rules={coverInfo?.rules} />
 
@@ -29,12 +29,12 @@ export const CoverReportingRules = ({
             <div className="mt-16">
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className="mt-16">
-                  <h2 className="font-sora font-bold text-h2 mb-6">
+                  <h2 className="mb-6 font-bold font-sora text-h2">
                     Active Reporting
                   </h2>
 
                   {!hasActiveReportings && (
-                    <p className="text-h4 text-8F949C mb-10">
+                    <p className="mb-10 text-h4 text-8F949C">
                       There are no known incidents of {coverInfo.coverName}.
                     </p>
                   )}
@@ -62,7 +62,7 @@ export const CoverReportingRules = ({
                     <br />
                     <br />
                     <span>
-                      Note: dishonest reporters get 100% of their stakes
+                      Note: Dishonest reporters get 100% of their stakes
                       forfeited which is distributed to honest reporters. You
                       may lose all of your stakes if resolution is not in your
                       favor.
@@ -74,7 +74,7 @@ export const CoverReportingRules = ({
           </div>
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <Link href="#">
-              <a className="block text-4e7dd9 hover:underline mt-3">
+              <a className="block mt-3 text-4e7dd9 hover:underline">
                 Neptune Mutual Reporters
               </a>
             </Link>

@@ -147,13 +147,13 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
           <strong>Open: </strong>
-          {DateLib.toLongDateFormat(info.withdrawalOpen, "UTC")}
+          {DateLib.toLongDateFormat(info.withdrawalOpen)}
         </span>
       </div>
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
           <strong>Close: </strong>
-          {DateLib.toLongDateFormat(info.withdrawalClose, "UTC")}
+          {DateLib.toLongDateFormat(info.withdrawalClose)}
         </span>
       </div>
 
@@ -179,7 +179,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
 
       {hasBothAllowances && (
         <RegularButton
-          disabled={isError || providing}
+          disabled={isError || providing || !lqValue || !npmValue}
           className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
           onClick={handleProvide}
         >

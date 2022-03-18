@@ -18,10 +18,8 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useRouter } from "next/router";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
-  const router = useRouter();
   const [lqApproving, setLqApproving] = useState();
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
@@ -29,8 +27,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const { networkId } = useAppContext();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const { balance: lqTokenBalance } = useERC20Balance(liquidityTokenAddress);
-  const { balance: npmBalance } = useERC20Balance(NPMTokenAddress);
+  const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =
+    useERC20Balance(liquidityTokenAddress);
+  const { balance: npmBalance, refetch: updateNpmBalance } =
+    useERC20Balance(NPMTokenAddress);
   const vaultAddress = useVaultAddress({ coverKey });
   const {
     allowance: lqTokenAllowance,
@@ -125,7 +125,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         failure: "Could not add liquidity",
       });
 
-      router.push(`/my-liquidity`);
+      updateLqTokenBalance();
+      updateNpmBalance();
+      updateLqAllowance();
+      updateStakeAllowance();
     } catch (err) {
       notifyError(err, "add liquidity");
     } finally {

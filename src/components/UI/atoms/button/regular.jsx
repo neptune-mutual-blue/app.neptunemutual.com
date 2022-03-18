@@ -9,6 +9,7 @@ export const RegularButton = ({ children, className, ...props }) => {
         "text-EEEEEE border border-4e7dd9 rounded-lg bg-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9",
         className
       )}
+      translate="no"
       {...props}
     >
       {children}

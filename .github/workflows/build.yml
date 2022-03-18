@@ -31,4 +31,4 @@ jobs:
         run: yarn run build
 
       - name: Lint
-        run: yarn run lint
+        run: yarn run lint --max-warnings=0

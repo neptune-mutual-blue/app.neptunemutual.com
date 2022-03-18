@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
@@ -34,61 +34,71 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  useEffect(() => {
-    let ignore = false;
-
+  const fetchInfo = useCallback(async () => {
     if (!networkId || !account || !coverKey) {
       return;
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    async function fetchInfo() {
-      try {
-        const instance = await registry.Vault.getInstance(
-          networkId,
-          coverKey,
-          signerOrProvider
-        );
+    try {
+      const instance = await registry.Vault.getInstance(
+        networkId,
+        coverKey,
+        signerOrProvider
+      );
 
-        const args = [account];
-        const [
-          totalPods,
-          balance,
-          extendedBalance,
-          totalReassurance,
-          myPodBalance,
-          myDeposits,
-          myWithdrawals,
-          myShare,
-          withdrawalOpen,
-          withdrawalClose,
-        ] = await invoke(instance, "getInfo", {}, notifyError, args, false);
+      const args = [account];
+      const [
+        totalPods,
+        balance,
+        extendedBalance,
+        totalReassurance,
+        myPodBalance,
+        myDeposits,
+        myWithdrawals,
+        myShare,
+        withdrawalOpen,
+        withdrawalClose,
+      ] = await invoke(instance, "getInfo", {}, notifyError, args, false);
 
-        if (ignore) return;
-
-        setInfo({
-          totalPods: totalPods.toString(),
-          balance: balance.toString(),
-          extendedBalance: extendedBalance.toString(),
-          totalReassurance: totalReassurance.toString(),
-          myPodBalance: myPodBalance.toString(),
-          myDeposits: myDeposits.toString(),
-          myWithdrawals: myWithdrawals.toString(),
-          myShare: myShare.toString(),
-          withdrawalOpen: withdrawalOpen.toString(),
-          withdrawalClose: withdrawalClose.toString(),
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      return {
+        totalPods: totalPods.toString(),
+        balance: balance.toString(),
+        extendedBalance: extendedBalance.toString(),
+        totalReassurance: totalReassurance.toString(),
+        myPodBalance: myPodBalance.toString(),
+        myDeposits: myDeposits.toString(),
+        myWithdrawals: myWithdrawals.toString(),
+        myShare: myShare.toString(),
+        withdrawalOpen: withdrawalOpen.toString(),
+        withdrawalClose: withdrawalClose.toString(),
+      };
+    } catch (error) {
+      console.error(error);
     }
+  }, [account, coverKey, invoke, library, networkId, notifyError]);
 
-    fetchInfo();
+  useEffect(() => {
+    let ignore = false;
+
+    fetchInfo().then((_info) => {
+      if (!_info || ignore) return;
+
+      setInfo(_info);
+    });
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, invoke, library, networkId, notifyError]);
+  }, [fetchInfo]);
+
+  const updateInfo = useCallback(async () => {
+    fetchInfo().then((_info) => {
+      if (!_info) return;
+
+      setInfo(_info);
+    });
+  }, [fetchInfo]);
 
   useEffect(() => {
     let ignore = false;
@@ -153,5 +163,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
     canAccrue,
     accrueInterest,
+
+    refetch: updateInfo,
   };
 };

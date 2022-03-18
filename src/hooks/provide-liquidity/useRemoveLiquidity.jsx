@@ -13,7 +13,12 @@ import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 
-export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
+export const useRemoveLiquidity = ({
+  coverKey,
+  value,
+  npmValue,
+  refetchInfo,
+}) => {
   const [approving, setApproving] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
@@ -93,6 +98,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
 
       updateBalance();
       updateAllowance(vaultTokenAddress);
+      refetchInfo();
     } catch (err) {
       notifyError(err, "remove liquidity");
     } finally {

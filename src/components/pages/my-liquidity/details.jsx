@@ -24,11 +24,17 @@ export const MyLiquidityCoverPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const status = coverInfo.stats.status;
-  const { info, minNpmStake, myStake, canAccrue, accrueInterest } =
-    useMyLiquidityInfo({
-      coverKey,
-    });
+
+  const {
+    info,
+    refetch: refetchInfo,
+    minNpmStake,
+    myStake,
+    canAccrue,
+    accrueInterest,
+  } = useMyLiquidityInfo({
+    coverKey,
+  });
 
   function onClose() {
     setIsOpen(false);
@@ -65,7 +71,7 @@ export const MyLiquidityCoverPage = () => {
             />
             <div className="flex">
               <CoverProfileInfo
-                status={status}
+                coverKey={coverKey}
                 projectName={coverInfo?.coverName}
                 links={coverInfo?.links}
                 imgSrc={imgSrc}
@@ -167,11 +173,11 @@ export const MyLiquidityCoverPage = () => {
       </main>
 
       <WithdrawLiquidityModal
-        id={"1234"}
         modalTitle={<ModalTitle imgSrc={imgSrc}>Withdraw Liquidity</ModalTitle>}
         onClose={onClose}
         isOpen={isOpen}
         info={info}
+        refetchInfo={refetchInfo}
         myStake={myStake}
       />
     </div>
