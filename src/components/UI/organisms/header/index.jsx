@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppContext } from "@/src/context/AppWrapper";
@@ -232,10 +232,17 @@ export const MenuModal = ({
 }) => {
   const router = useRouter();
 
-  function handleOnClickNavigate(link) {
-    router.push(link.href);
+  const handleRouteNavigate = useCallback(() => {
     onClose();
-  }
+  }, [onClose]);
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", handleRouteNavigate);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteNavigate);
+    };
+  }, [handleRouteNavigate, router.events]);
 
   return (
     <div>
@@ -259,18 +266,18 @@ export const MenuModal = ({
                 <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
                   {navigation.map((link) => {
                     return (
-                      <a
-                        className={classNames(
-                          "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
-                          router.pathname == link.href
-                            ? "border-4e7dd9 text-4e7dd9 font-semibold"
-                            : "border-transparent text-white"
-                        )}
-                        key={link.name}
-                        onClick={() => handleOnClickNavigate(link)}
-                      >
-                        {link.name}
-                      </a>
+                      <Link key={link.name} href={link.href}>
+                        <a
+                          className={classNames(
+                            "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
+                            router.pathname == link.href
+                              ? "border-4e7dd9 text-4e7dd9 font-semibold"
+                              : "border-transparent text-white"
+                          )}
+                        >
+                          {link.name}
+                        </a>
+                      </Link>
                     );
                   })}
                 </div>
