@@ -71,7 +71,7 @@ export const MyLiquidityCoverPage = () => {
             />
             <div className="flex">
               <CoverProfileInfo
-                status={status}
+                coverKey={coverKey}
                 projectName={coverInfo?.coverName}
                 links={coverInfo?.links}
                 imgSrc={imgSrc}

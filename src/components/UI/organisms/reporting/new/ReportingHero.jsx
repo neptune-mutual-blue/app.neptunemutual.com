@@ -2,14 +2,15 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
   const status = coverInfo.stats.status;
-  const cover_id = router.query?.id;
+  const { id: cover_id } = router.query;
+  const coverKey = toBytes32(cover_id);
 
   const breadcrumbData = reportStatus
     ? [
@@ -50,7 +51,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
         <BreadCrumbs pages={breadcrumbData} />
         <div className="flex">
           <CoverProfileInfo
-            status={status}
+            coverKey={coverKey}
             imgSrc={imgSrc}
             links={coverInfo?.links}
             projectName={coverInfo?.coverName}

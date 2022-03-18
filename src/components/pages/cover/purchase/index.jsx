@@ -58,7 +58,7 @@ export const CoverPurchaseDetailsPage = () => {
           />
           <div className="flex flex-wrap">
             <CoverProfileInfo
-              status={status}
+              coverKey={coverKey}
               imgSrc={imgSrc}
               projectName={coverInfo?.coverName}
               links={coverInfo?.links}
@@ -77,7 +77,7 @@ export const CoverPurchaseDetailsPage = () => {
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid md:gap-32 grid-cols-3">
+        <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 md:col-span-2">
             <span className="hidden md:block">
               <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
@@ -97,7 +97,7 @@ export const CoverPurchaseDetailsPage = () => {
             )}
           </div>
 
-          <span className="block md:hidden row-start-1 col-span-3 mb-11">
+          <span className="block col-span-3 row-start-1 md:hidden mb-11">
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
@@ -107,7 +107,7 @@ export const CoverPurchaseDetailsPage = () => {
               title={formatCurrency(availableLiquidity).long}
             >
               <span className="">Available Liquidity:</span>
-              <strong className="text-right font-bold">
+              <strong className="font-bold text-right">
                 {formatCurrency(availableLiquidity).short}
               </strong>
             </div>
