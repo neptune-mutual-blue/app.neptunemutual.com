@@ -1,5 +1,10 @@
 import { classNames } from "@/utils/classnames";
-import BigNumber from "bignumber.js";
+import {
+  getNumberSeparators,
+  getPlainString,
+} from "@/utils/formatter/currency";
+import { getLocale } from "@/utils/locale";
+// import { getLocale } from "@/utils/locale";
 import { useState, useEffect, useRef } from "react";
 
 export const InputWithTrailingButton = ({
@@ -30,7 +35,9 @@ export const InputWithTrailingButton = ({
 
   useEffect(() => {
     if (!isNaN(parseInt(inputProps.value))) {
-      const formattedNumber = BigNumber(inputProps.value).toFormat();
+      const formattedNumber = Intl.NumberFormat(getLocale(), {
+        maximumFractionDigits: 10,
+      }).format(inputProps.value);
       setVal(formattedNumber);
     }
     if (inputProps.value === "") setVal("");
@@ -43,11 +50,26 @@ export const InputWithTrailingButton = ({
     disabled: inputProps.disabled,
     onChange: (ev) => {
       const val = ev.target.value;
-      if (val !== "" && val.match(/^\d*(,\d+)*\.$/)) {
+      const sep = getNumberSeparators(getLocale());
+      const incompleteRegex = new RegExp(
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(${sep.thousand}\\d+)*\\${
+          sep.decimal
+        }$`
+      );
+      if (
+        val !== "" &&
+        (val.match(incompleteRegex) ||
+          (inputProps.allowNegative && val === "-"))
+      ) {
         return setVal(val);
       }
-      if (val !== "" && !val.match(/^\d*(,\d+)*(\.\d*)?$/)) return;
-      const returnVal = val.replaceAll(",", "");
+      const formattedRegex = new RegExp(
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
+          sep.thousand
+        }\\d+)*(\\${sep.decimal}\\d*)?$`
+      );
+      if (val !== "" && !val.match(formattedRegex)) return;
+      const returnVal = getPlainString(val, getLocale());
       if (inputProps.onChange) inputProps.onChange(returnVal);
     },
     autoComplete: "off",
