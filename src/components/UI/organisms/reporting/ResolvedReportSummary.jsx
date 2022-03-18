@@ -10,6 +10,7 @@ import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 import { formatCurrency } from "@/utils/formatter/currency";
 import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
+import { formatPercent } from "@/utils/formatter/percent";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize } = useFinalizeIncident({
