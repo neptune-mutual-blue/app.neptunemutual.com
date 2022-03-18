@@ -26,7 +26,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { info, minNpmStake, canAccrue, accrueInterest } = useMyLiquidityInfo({
     coverKey,
   });
-  const status = coverInfo.stats.status;
 
   const imgSrc = getCoverImgSrc(coverInfo);
 

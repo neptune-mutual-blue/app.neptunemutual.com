@@ -24,7 +24,6 @@ export const CoverPurchaseDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const status = coverInfo.stats.status;
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { info } = useMyLiquidityInfo({ coverKey });

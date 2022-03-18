@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
-  const status = coverInfo.stats.status;
+
   const { id: cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
 
