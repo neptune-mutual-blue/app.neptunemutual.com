@@ -4,6 +4,7 @@ import {
   getPlainString,
 } from "@/utils/formatter/currency";
 import { getLocale } from "@/utils/locale";
+import BigNumber from "bignumber.js";
 // import { getLocale } from "@/utils/locale";
 import { useState, useEffect, useRef } from "react";
 
@@ -35,9 +36,15 @@ export const InputWithTrailingButton = ({
 
   useEffect(() => {
     if (!isNaN(parseInt(inputProps.value))) {
-      const formattedNumber = Intl.NumberFormat(getLocale(), {
-        maximumFractionDigits: 10,
-      }).format(inputProps.value);
+      // const formattedNumber = Intl.NumberFormat(getLocale(), {
+      //   maximumFractionDigits: 10,
+      // }).format(inputProps.value);
+      const sep = getNumberSeparators(getLocale());
+      const formattedNumber = new BigNumber(inputProps.value).toFormat({
+        decimalSeparator: sep.decimal,
+        groupSeparator: sep.thousand,
+        groupSize: 3,
+      });
       setVal(formattedNumber);
     }
     if (inputProps.value === "") setVal("");
