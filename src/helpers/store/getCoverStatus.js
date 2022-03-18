@@ -12,9 +12,23 @@ export const getCoverStatus = async (networkId, coverKey, provider) => {
         return value.toString();
       },
     },
+    {
+      key: [
+        utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_INCIDENT_DATE,
+        coverKey,
+      ],
+      returns: "uint256",
+      property: "activeIncidentDate",
+      compute: async ({ value }) => {
+        return value.toString();
+      },
+    },
   ];
 
   const result = await getStoredData(candidates, networkId, provider);
 
-  return CoverStatus[result.status];
+  return {
+    activeIncidentDate: result.activeIncidentDate,
+    status: CoverStatus[result.status],
+  };
 };

@@ -10,7 +10,10 @@ import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
 import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
 
 export const CoverProfileInfo = ({ imgSrc, projectName, links, coverKey }) => {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState({
+    activeIncidentDate: "0",
+    status: "",
+  });
   const { account, library } = useWeb3React();
   const { networkId } = useAppContext();
 
@@ -21,9 +24,9 @@ export const CoverProfileInfo = ({ imgSrc, projectName, links, coverKey }) => {
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    getCoverStatus(networkId, coverKey, signerOrProvider.provider).then(
-      setStatus
-    );
+    getCoverStatus(networkId, coverKey, signerOrProvider.provider)
+      .then(setStatus)
+      .catch(console.error);
   }, [account, coverKey, library, networkId]);
 
   return (
@@ -35,7 +38,11 @@ export const CoverProfileInfo = ({ imgSrc, projectName, links, coverKey }) => {
       <div>
         <div className="flex items-center">
           <ProjectName name={projectName} />
-          <ProjectStatusIndicator status={status} />
+          <ProjectStatusIndicator
+            coverKey={coverKey}
+            status={status.status}
+            incidentDate={status.activeIncidentDate}
+          />
         </div>
         <ProjectWebsiteLink website={links?.website} />
         <SocialIconLinks links={links} />
