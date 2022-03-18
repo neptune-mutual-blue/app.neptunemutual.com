@@ -1,6 +1,12 @@
 import { classNames } from "@/utils/classnames";
+import {
+  getNumberSeparators,
+  getPlainString,
+} from "@/utils/formatter/currency";
+import { getLocale } from "@/utils/locale";
+import BigNumber from "bignumber.js";
+// import { getLocale } from "@/utils/locale";
 import { useState, useEffect, useRef } from "react";
-import NumberFormat from "react-number-format";
 
 export const InputWithTrailingButton = ({
   inputProps,
@@ -10,6 +16,7 @@ export const InputWithTrailingButton = ({
 }) => {
   const ref = useRef(null);
   const [width, setWidth] = useState();
+  const [val, setVal] = useState(inputProps.value ?? "");
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -27,20 +34,57 @@ export const InputWithTrailingButton = ({
     return () => window.removeEventListener("resize", getSize);
   }, []);
 
+  useEffect(() => {
+    if (!isNaN(parseInt(inputProps.value))) {
+      // const formattedNumber = Intl.NumberFormat(getLocale(), {
+      //   maximumFractionDigits: 10,
+      // }).format(inputProps.value);
+      const sep = getNumberSeparators(getLocale());
+      const formattedNumber = new BigNumber(inputProps.value).toFormat({
+        decimalSeparator: sep.decimal,
+        groupSeparator: sep.thousand,
+        groupSize: 3,
+      });
+      setVal(formattedNumber);
+    }
+    if (inputProps.value === "") setVal("");
+  }, [inputProps.value]);
+
   const numberFormatProps = {
     id: inputProps.id,
-    value: inputProps.value,
+    value: val,
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
-    thousandSeparator: ",",
-    isNumericString: true,
-    onValueChange: (values) => inputProps.onChange(values.value),
+    onChange: (ev) => {
+      const val = ev.target.value;
+      const sep = getNumberSeparators(getLocale());
+      const incompleteRegex = new RegExp(
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(${sep.thousand}\\d+)*\\${
+          sep.decimal
+        }$`
+      );
+      if (
+        val !== "" &&
+        (val.match(incompleteRegex) ||
+          (inputProps.allowNegative && val === "-"))
+      ) {
+        return setVal(val);
+      }
+      const formattedRegex = new RegExp(
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
+          sep.thousand
+        }\\d+)*(\\${sep.decimal}\\d*)?$`
+      );
+      if (val !== "" && !val.match(formattedRegex)) return;
+      const returnVal = getPlainString(val, getLocale());
+      if (inputProps.onChange) inputProps.onChange(returnVal);
+    },
     autoComplete: "off",
   };
 
   return (
     <div className="relative text-black text-h4 w-full">
-      <NumberFormat
+      <input
         {...numberFormatProps}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",

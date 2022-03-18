@@ -14,6 +14,7 @@ export const TokenAmountInput = ({
   error,
   disabled,
   children,
+  allowNegative,
 }) => {
   return (
     <>
@@ -36,6 +37,7 @@ export const TokenAmountInput = ({
           placeholder: "Enter Amount",
           value: inputValue,
           onChange: onChange,
+          allowNegative: allowNegative ?? false,
         }}
       />
       <TokenBalance

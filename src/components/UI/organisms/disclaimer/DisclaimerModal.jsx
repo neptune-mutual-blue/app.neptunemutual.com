@@ -1,7 +1,7 @@
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { classNames } from "@/utils/classnames";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Title, Description } from "@radix-ui/react-dialog";
 import { useState } from "react";
 // import styles from "./styles.module.css";
 
@@ -24,11 +24,11 @@ export const DisclaimerModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="max-w-full lg:max-w-4xl w-max max-h-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h4 flex items-center">
+      <div className="max-w-full lg:max-w-5xl w-max max-h-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+        <Title className="font-sora font-bold text-h4 flex items-center">
           Disclaimer and Warranty
-        </Dialog.Title>
-        <Dialog.Description
+        </Title>
+        <Description
           className={classNames(
             "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-96 overflow-y-auto pr-1"
             // styles.scroll_container
@@ -73,7 +73,7 @@ export const DisclaimerModal = () => {
             you do not agree to any changes made to this disclaimer, you should
             cease use of this testnet.
           </span>
-        </Dialog.Description>
+        </Description>
 
         <div className="border-t border-f1f3f6 my-2"></div>
 

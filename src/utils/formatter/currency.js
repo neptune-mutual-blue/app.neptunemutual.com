@@ -63,3 +63,29 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
     long: asCurrency(sign, number, "", currency, token),
   };
 };
+
+export const getPlainString = (formattedString, locale) => {
+  const thousandSeparator = Intl.NumberFormat(locale)
+    .format(11111)
+    .replace(/\p{Number}/gu, "");
+  const decimalSeparator = Intl.NumberFormat(locale)
+    .format(1.1)
+    .replace(/\p{Number}/gu, "");
+  return formattedString
+    .toString()
+    .replaceAll(thousandSeparator, "")
+    .replace(decimalSeparator, ".");
+};
+
+export const getNumberSeparators = (locale) => {
+  const thousand = Intl.NumberFormat(locale)
+    .format(11111)
+    .replace(/\p{Number}/gu, "");
+  const decimal = Intl.NumberFormat(locale)
+    .format(1.1)
+    .replace(/\p{Number}/gu, "");
+  return {
+    thousand,
+    decimal,
+  };
+};
