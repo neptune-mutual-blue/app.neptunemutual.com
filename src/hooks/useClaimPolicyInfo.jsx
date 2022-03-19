@@ -73,26 +73,26 @@ export const useClaimPolicyInfo = ({
       return;
     }
 
-    try {
-      setApproving(true);
-      const tx = await approve(
-        claimsProcessorAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving cxDAI tokens`,
+          success: `Approved cxDAI tokens Successfully`,
+          failure: `Could not approve cxDAI tokens`,
+        });
+      } catch (err) {
+        notifyError(err, `approve cxDAI tokens`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      await txToast.push(tx, {
-        pending: `Approving cxDAI tokens`,
-        success: `Approved cxDAI tokens Successfully`,
-        failure: `Could not approve cxDAI tokens`,
-      });
-
-      updateBalance();
-      updateAllowance(claimsProcessorAddress);
-    } catch (err) {
-      notifyError(err, `approve cxDAI tokens`);
-    } finally {
-      setApproving(false);
-    }
+    approve(
+      claimsProcessorAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleClaim = async () => {
@@ -110,25 +110,33 @@ export const useClaimPolicyInfo = ({
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Claiming policy`,
+          success: `Claimed policy Successfully`,
+          failure: `Could not Claim policy`,
+        });
+
+        updateBalance();
+        updateAllowance(claimsProcessorAddress);
+        setClaiming(false);
+      };
+
       const args = [
         cxTokenAddress,
         coverKey,
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      const tx = await invoke(instance, "claim", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: `Claiming policy`,
-        success: `Claimed policy Successfully`,
-        failure: `Could not Claim policy`,
+      invoke({
+        instance,
+        methodName: "claim",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
-
-      updateBalance();
-      updateAllowance(claimsProcessorAddress);
     } catch (err) {
       notifyError(err, "claim policy");
-    } finally {
       setClaiming(false);
     }
   };

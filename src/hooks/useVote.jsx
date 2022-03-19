@@ -44,24 +44,25 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
   const handleApprove = async () => {
     setApproving(true);
-    try {
-      const tx = await approve(
-        governanceAddress,
-        convertToUnits(value).toString()
-      );
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol} tokens`,
+          success: `Approved ${tokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${tokenSymbol} tokens`,
+        });
+      } catch (err) {
+        notifyError(err, `approve ${tokenSymbol} tokens`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol} tokens`,
-        success: `Approved ${tokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${tokenSymbol} tokens`,
-      });
-
-      updateAllowance(governanceAddress);
-    } catch (err) {
-      notifyError(err, `approve ${tokenSymbol} tokens`);
-    } finally {
-      setApproving(false);
-    }
+    approve(
+      governanceAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleAttest = async () => {
@@ -75,20 +76,29 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "attest", {}, notifyError, args);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Attesting",
+          success: "Attested successfully",
+          failure: "Could not attest",
+        });
+        updateBalance();
+        updateAllowance();
+        setVoting(false);
+      };
 
-      await txToast.push(tx, {
-        pending: "Attesting",
-        success: "Attested successfully",
-        failure: "Could not attest",
+      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      invoke({
+        instance,
+        methodName: "attest",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-      updateBalance();
-      updateAllowance();
     } catch (err) {
       notifyError(err, "attest");
-    } finally {
       setVoting(false);
+    } finally {
     }
   };
 
@@ -103,19 +113,27 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "refute", {}, notifyError, args);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Refuting",
+          success: "Refuted successfully",
+          failure: "Could not refute",
+        });
+        setVoting(false);
+      };
 
-      await txToast.push(tx, {
-        pending: "Refuting",
-        success: "Refuted successfully",
-        failure: "Could not refute",
+      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      invoke({
+        instance,
+        methodName: "refute",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
     } catch (err) {
-      // console.error(err);
       notifyError(err, "refute");
-    } finally {
       setVoting(false);
+    } finally {
     }
   };
 

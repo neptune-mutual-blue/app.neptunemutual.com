@@ -4,12 +4,14 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { registry } from "@neptunemutual/sdk";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useTokenName = (tokenAddress) => {
   const [tokenName, setTokenName] = useState("");
 
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
+  const { invoke } = useInvokeMethod();
 
   useEffect(() => {
     let ignore = false;
@@ -31,18 +33,21 @@ export const useTokenName = (tokenAddress) => {
       return;
     }
 
-    instance
-      .name()
-      .then((name) => {
+    invoke({
+      instance,
+      methodName: "name",
+      catcher: console.error,
+      onTransactionResult: (tx) => {
+        const name = tx;
         if (ignore) return;
         setTokenName(name);
-      })
-      .catch(console.error);
+      },
+    });
 
     return () => {
       ignore = true;
     };
-  }, [account, library, networkId, tokenAddress]);
+  }, [account, invoke, library, networkId, tokenAddress]);
 
   return tokenName;
 };

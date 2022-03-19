@@ -52,29 +52,29 @@ export const useStakingPoolDeposit = ({
   }, [poolContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
+    setApproving(true);
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol}`,
+          success: `Approved ${tokenSymbol} Successfully`,
+          failure: `Could not approve ${tokenSymbol}`,
+        });
+      } catch (error) {
+        notifyError(error, `approve ${tokenSymbol}`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      const tx = await approve(
-        poolContractAddress,
-        convertToUnits(value).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol}`,
-        success: `Approved ${tokenSymbol} Successfully`,
-        failure: `Could not approve ${tokenSymbol}`,
-      });
-
-      setApproving(false);
-      updateAllowance(poolContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol}`);
-      setApproving(false);
-    }
+    approve(
+      poolContractAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
-  const handleDeposit = async () => {
+  const handleDeposit = async (onDepositSuccess) => {
     if (!account || !networkId) {
       return;
     }
@@ -88,24 +88,35 @@ export const useStakingPoolDeposit = ({
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: `Staking ${tokenSymbol}`,
+            success: `Staked ${tokenSymbol} successfully`,
+            failure: `Could not stake ${tokenSymbol}`,
+          },
+          {
+            onTxSuccess: onDepositSuccess,
+          }
+        );
+
+        updateBalance();
+        updateAllowance(poolContractAddress);
+        refetchInfo();
+        setDepositing(false);
+      };
+
       const args = [poolKey, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "deposit", {}, notifyError, args);
-
-      const txnStatus = await txToast.push(tx, {
-        pending: `Staking ${tokenSymbol}`,
-        success: `Staked ${tokenSymbol} successfully`,
-        failure: `Could not stake ${tokenSymbol}`,
+      invoke({
+        instance,
+        methodName: "deposit",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      updateBalance();
-      updateAllowance(poolContractAddress);
-      refetchInfo();
-
-      return txnStatus;
     } catch (err) {
       notifyError(err, `stake ${tokenSymbol}`);
-    } finally {
-      setDepositing(false);
     }
   };
 

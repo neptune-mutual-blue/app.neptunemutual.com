@@ -55,7 +55,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           networkId,
           signerOrProvider
         );
-        const catcher = notifyError;
 
         const args = [
           coverKey,
@@ -63,41 +62,43 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           convertToUnits(debouncedValue).toString(),
         ];
 
-        const [
-          fee,
-          utilizationRatio,
-          totalAvailableLiquidity,
-          coverRatio,
-          floor,
-          ceiling,
-          rate,
-        ] = await invoke(
-          policyContract,
-          "getCoverFeeInfo",
-          {},
-          catcher,
-          args,
-          false
-        );
+        const onTransactionResult = (result) => {
+          const [
+            fee,
+            utilizationRatio,
+            totalAvailableLiquidity,
+            coverRatio,
+            floor,
+            ceiling,
+            rate,
+          ] = result;
 
-        if (ignore) return;
-        setData({
-          fee: fee.toString(),
-          utilizationRatio: utilizationRatio.toString(),
-          totalAvailableLiquidity: totalAvailableLiquidity.toString(),
-          coverRatio: coverRatio.toString(),
-          floor: floor.toString(),
-          ceiling: ceiling.toString(),
-          rate: rate.toString(),
+          if (ignore) return;
+          setLoading(false);
+          setData({
+            fee: fee.toString(),
+            utilizationRatio: utilizationRatio.toString(),
+            totalAvailableLiquidity: totalAvailableLiquidity.toString(),
+            coverRatio: coverRatio.toString(),
+            floor: floor.toString(),
+            ceiling: ceiling.toString(),
+            rate: rate.toString(),
+          });
+        };
+
+        invoke({
+          instance: policyContract,
+          methodName: "getCoverFeeInfo",
+          catcher: notifyError,
+          args,
+          retry: false,
+          onTransactionResult,
         });
       } catch (err) {
         console.error(err);
 
         if (ignore) return;
         setError(true);
-      } finally {
-        if (ignore) return;
-        setLoading(false);
       }
     }
 

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
-import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
 import { Label } from "@/components/UI/atoms/label";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
@@ -13,7 +12,6 @@ import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useDebounce } from "@/src/hooks/useDebounce";
 import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -22,6 +20,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { getReplacedString } from "@/utils/string";
 import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -30,20 +29,21 @@ const BondPage = () => {
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
-  const delayedValue = useDebounce(value, 200);
   const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
 
   const {
     balance,
+    loadingBalance,
     receiveAmount,
     receiveAmountLoading,
     approving,
+    loadingAllowance,
     bonding,
     canBond,
     error,
     handleApprove,
     handleBond,
-  } = useCreateBond({ info, value: delayedValue });
+  } = useCreateBond({ info, value });
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
 
   const leftHalf = [
@@ -128,6 +128,14 @@ const BondPage = () => {
   };
 
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || "0");
+  let loadingMessage = "";
+  if (receiveAmountLoading) {
+    loadingMessage = "Calculating tokens...";
+  } else if (loadingBalance) {
+    loadingMessage = "Fetching balance...";
+  } else if (loadingAllowance) {
+    loadingMessage = "Fetching allowance...";
+  }
 
   return (
     <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
@@ -144,20 +152,12 @@ const BondPage = () => {
           handleChooseMax={handleChooseMax}
         />
         {error && <p className="px-3 text-FA5C2F">{error}</p>}
-        <div className="receive mt-16">
+        <div className="mt-16 receive">
           <ReceiveAmountInput
             labelText="You Will Receive"
             tokenSymbol="NPM"
             inputValue={convertFromUnits(receiveAmount).toString()}
           />
-          <div className="text-xs tracking-normal px-2 py-1 mt-2 flex justify-end items-center">
-            {receiveAmountLoading && (
-              <>
-                <RefreshDoubleIcon className="w-3 h-3 text-4e7dd9 animate-spin mr-2" />
-                <p>Fetching...</p>
-              </>
-            )}
-          </div>
         </div>
 
         <div className="unlock mt-14">
@@ -166,33 +166,36 @@ const BondPage = () => {
           </Label>
           <p
             id="unlock-on"
-            className="text-7398C0 text-h4 font-medium"
+            className="font-medium text-7398C0 text-h4"
             title={DateLib.toLongDateFormat(unlockTimestamp)}
           >
             {fromNow(unlockTimestamp)}
           </p>
         </div>
 
-        {!canBond ? (
-          <RegularButton
-            disabled={error || approving || !value}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={handleApprove}
-          >
-            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            disabled={error || bonding}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={async () => {
-              await handleBond();
-              refetchBondInfo();
-            }}
-          >
-            {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
-          </RegularButton>
-        )}
+        <div className="mt-8">
+          <DataLoadingIndicator message={loadingMessage} />
+          {!canBond ? (
+            <RegularButton
+              disabled={error || approving || !value || loadingMessage}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleApprove}
+            >
+              {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+            </RegularButton>
+          ) : (
+            <RegularButton
+              disabled={error || bonding || loadingMessage}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={async () => {
+                await handleBond();
+                refetchBondInfo();
+              }}
+            >
+              {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
+            </RegularButton>
+          )}
+        </div>
       </div>
       <div>
         <div className="flex justify-end mb-10">
@@ -203,13 +206,13 @@ const BondPage = () => {
             })}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mr-8 text-h4 font-medium text-4e7dd9 hover:underline"
+            className="inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline"
           >
             Get LP tokens
           </a>
 
           <Link href="/pools/bond/transactions">
-            <a className="inline-block text-h4 font-medium text-4e7dd9 hover:underline">
+            <a className="inline-block font-medium text-h4 text-4e7dd9 hover:underline">
               Transaction List
             </a>
           </Link>

@@ -9,9 +9,8 @@ import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Divider } from "@/components/UI/atoms/divider";
 
 const initValue = {
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  invoke: async (instance, methodName, overrides, catcher, args, retry) => {},
-  onSuccess: async () => {},
+  // prettier-ignore
+  invoke: async ({instance, methodName, overrides, catcher, args, retry, onTransactionResult}) => {}, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
@@ -33,7 +32,15 @@ export const TxPosterProvider = ({ children }) => {
   });
 
   const invoke = useCallback(
-    async (instance, methodName, overrides, catcher, args, retry = true) => {
+    async ({
+      instance,
+      methodName,
+      overrides = {},
+      catcher,
+      args = [],
+      retry = true,
+      onTransactionResult = () => {},
+    }) => {
       if (!instance) {
         catcher(new Error("Instance not found"));
         return;
@@ -58,6 +65,7 @@ export const TxPosterProvider = ({ children }) => {
               methodName,
               overrides,
               args,
+              onTransactionResult,
             },
           });
         }
@@ -72,13 +80,15 @@ export const TxPosterProvider = ({ children }) => {
         ...overrides,
       });
 
+      onTransactionResult(tx);
       return tx;
     },
     [notifyError]
   );
 
   const handleContinue = async () => {
-    const { instance, methodName, overrides, args } = data.pendingInvokeArgs;
+    const { instance, methodName, overrides, args, onTransactionResult } =
+      data.pendingInvokeArgs;
 
     setData({
       message: "",
@@ -91,6 +101,7 @@ export const TxPosterProvider = ({ children }) => {
       ...overrides,
     });
 
+    onTransactionResult(tx);
     return tx;
   };
 
@@ -130,9 +141,9 @@ const ForceTxModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-2xl w-full inline-block bg-f1f3f6 align-middle text-left px-8 py-12 rounded-3xl relative">
+      <div className="relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center">
-          <div className="font-sora font-bold text-h2">
+          <div className="font-bold font-sora text-h2">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
@@ -140,7 +151,7 @@ const ForceTxModal = ({
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="my-12 mb-8">
-          <p className="text-DC2121 mt-8">{message}</p>
+          <p className="mt-8 text-DC2121">{message}</p>
         </div>
 
         <details open>
@@ -157,13 +168,13 @@ const ForceTxModal = ({
 
         <div className="flex justify-end">
           <button
-            className="border border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10 rounded px-6 py-2 mr-8"
+            className="px-6 py-2 mr-8 border rounded border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="border border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white rounded px-6 py-2 mr-8"
+            className="px-6 py-2 mr-8 border rounded border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white"
             onClick={handleContinue}
           >
             Send transaction ignoring this error

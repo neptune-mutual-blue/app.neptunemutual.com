@@ -29,13 +29,21 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
-      const args = [coverKey, incidentDate];
-      const tx = await invoke(instance, "finalize", {}, notifyError, args);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Finalizing Incident",
+          success: "Finalized Incident Successfully",
+          failure: "Could not Finalize Incident",
+        });
+      };
 
-      await txToast.push(tx, {
-        pending: "Finalizing Incident",
-        success: "Finalized Incident Successfully",
-        failure: "Could not Finalize Incident",
+      const args = [coverKey, incidentDate];
+      invoke({
+        instance,
+        methodName: "finalize",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
     } catch (err) {
       notifyError(err, "Finalize Incident");

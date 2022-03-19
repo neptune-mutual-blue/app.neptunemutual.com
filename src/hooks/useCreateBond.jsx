@@ -32,12 +32,15 @@ export const useCreateBond = ({ info, value }) => {
   const bondContractAddress = useBondPoolAddress();
   const {
     allowance,
+    loading: loadingAllowance,
     refetch: updateAllowance,
     approve,
   } = useERC20Allowance(info.lpTokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(
-    info.lpTokenAddress
-  );
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(info.lpTokenAddress);
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
@@ -46,6 +49,20 @@ export const useCreateBond = ({ info, value }) => {
   useEffect(() => {
     updateAllowance(bondContractAddress);
   }, [bondContractAddress, updateAllowance]);
+
+  // Resets loading and other states which are modified in the above hook
+  // "IF" condition should match the above effect
+  // Should appear after the effect which contains the async function (which sets loading state)
+  useEffect(() => {
+    if (!networkId || !account || !debouncedValue) {
+      if (receiveAmount !== "0") {
+        setReceiveAmount("0");
+      }
+      if (receiveAmountLoading !== false) {
+        setReceiveAmountLoading(false);
+      }
+    }
+  }, [account, debouncedValue, networkId, receiveAmount, receiveAmountLoading]);
 
   useEffect(() => {
     let ignore = false;
@@ -67,23 +84,24 @@ export const useCreateBond = ({ info, value }) => {
 
         const args = [convertToUnits(debouncedValue).toString()];
 
-        const result = await invoke(
-          instance,
-          "calculateTokensForLp",
-          {},
-          notifyError,
-          args,
-          false
-        );
+        const onTransactionResult = async (tx) => {
+          const result = tx;
 
-        if (ignore) return;
-        setReceiveAmount(result.toString());
+          if (ignore) return;
+          setReceiveAmount(result.toString());
+          setReceiveAmountLoading(false);
+        };
+
+        invoke({
+          instance,
+          methodName: "calculateTokensForLp",
+          args,
+          catcher: notifyError,
+          retry: false,
+          onTransactionResult,
+        });
       } catch (err) {
         console.error(err);
-
-        if (ignore) return;
-      } finally {
-        if (ignore) return;
         setReceiveAmountLoading(false);
       }
     }
@@ -93,7 +111,7 @@ export const useCreateBond = ({ info, value }) => {
     return () => {
       ignore = true;
     };
-  }, [networkId, debouncedValue, invoke, notifyError]);
+  }, [networkId, debouncedValue, invoke, notifyError, account, library]);
 
   useEffect(() => {
     if (!value && error) {
@@ -111,7 +129,7 @@ export const useCreateBond = ({ info, value }) => {
     }
 
     if (
-      isGreater(convertToUnits(value || "0"), balance) ||
+      isGreater(convertToUnits(value), balance) ||
       isEqualTo(convertToUnits(value), 0)
     ) {
       setError("Insufficient Balance");
@@ -125,25 +143,27 @@ export const useCreateBond = ({ info, value }) => {
   }, [balance, error, value]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
-      const tx = await approve(
-        bondContractAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
 
-      await txToast.push(tx, {
-        pending: "Approving LP tokens",
-        success: "Approved LP tokens Successfully",
-        failure: "Could not approve LP tokens",
-      });
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Approving LP tokens",
+          success: "Approved LP tokens Successfully",
+          failure: "Could not approve LP tokens",
+        });
+      } catch (error) {
+        notifyError(error, "approve LP tokens");
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      updateAllowance(bondContractAddress);
-    } catch (error) {
-      notifyError(error, "approve LP tokens");
-    } finally {
-      setApproving(false);
-    }
+    approve(
+      bondContractAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleBond = async () => {
@@ -156,21 +176,28 @@ export const useCreateBond = ({ info, value }) => {
         signerOrProvider
       );
 
-      //TODO: passing minNpm desired (smart contract)
-      const args = [convertToUnits(value).toString(), receiveAmount];
-      const tx = await invoke(instance, "createBond", {}, notifyError, args);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Creating bond",
+          success: "Created bond successfully",
+          failure: "Could not create bond",
+        });
+        setBonding(false);
+      };
 
-      await txToast.push(tx, {
-        pending: "Creating bond",
-        success: "Created bond successfully",
-        failure: "Could not create bond",
+      const args = [convertToUnits(value).toString(), receiveAmount];
+      invoke({
+        instance,
+        methodName: "createBond",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
 
       updateBalance();
       updateAllowance(bondContractAddress);
     } catch (err) {
       notifyError(err, "create bond");
-    } finally {
       setBonding(false);
     }
   };
@@ -182,9 +209,14 @@ export const useCreateBond = ({ info, value }) => {
 
   return {
     balance,
+    loadingBalance,
+
     receiveAmount,
     receiveAmountLoading,
+
     approving,
+    loadingAllowance,
+
     bonding,
 
     canBond,

@@ -28,17 +28,19 @@ export const useFirstReportingStake = ({ coverKey }) => {
         signerOrProvider
       );
 
-      const args = [coverKey];
-      const minStake = await invoke(
-        instance,
-        "getFirstReportingStake(bytes32)",
-        {},
-        notifyError,
-        args
-      );
+      const onTransactionResult = (result) => {
+        const minStake = result;
+        if (ignore) return;
+        setMinStake(minStake.toString());
+      };
 
-      if (ignore) return;
-      setMinStake(minStake.toString());
+      invoke({
+        instance,
+        methodName: "getFirstReportingStake(bytes32)",
+        catcher: notifyError,
+        args: [coverKey],
+        onTransactionResult,
+      });
     }
 
     fetchMinStake().catch((err) => {

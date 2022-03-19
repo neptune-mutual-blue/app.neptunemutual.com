@@ -29,64 +29,72 @@ export const useBondInfo = () => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const fetchBondInfo = useCallback(async () => {
-    if (!networkId || !account) {
-      return;
-    }
+  const fetchBondInfo = useCallback(
+    async (onResult) => {
+      if (!networkId || !account) {
+        return;
+      }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    let instance = await registry.BondPool.getInstance(
-      networkId,
-      signerOrProvider
-    );
+      let instance = await registry.BondPool.getInstance(
+        networkId,
+        signerOrProvider
+      );
 
-    const [addresses, values] = await invoke(
-      instance,
-      "getInfo",
-      {},
-      notifyError,
-      [account],
-      false
-    );
+      const onTransactionResult = (result) => {
+        const [addresses, values] = result;
 
-    const [lpToken] = addresses;
-    const [
-      marketPrice,
-      discountRate,
-      vestingTerm,
-      maxBond,
-      totalNpmAllocated,
-      totalNpmDistributed,
-      npmAvailable,
-      bondContribution,
-      claimable,
-      unlockDate,
-    ] = values;
+        const [lpToken] = addresses;
+        const [
+          marketPrice,
+          discountRate,
+          vestingTerm,
+          maxBond,
+          totalNpmAllocated,
+          totalNpmDistributed,
+          npmAvailable,
+          bondContribution,
+          claimable,
+          unlockDate,
+        ] = values;
 
-    return {
-      lpTokenAddress: lpToken,
-      marketPrice: marketPrice.toString(),
-      discountRate: discountRate.toString(),
-      vestingTerm: vestingTerm.toString(),
-      maxBond: maxBond.toString(),
-      totalNpmAllocated: totalNpmAllocated.toString(),
-      totalNpmDistributed: totalNpmDistributed.toString(),
-      npmAvailable: npmAvailable.toString(),
-      bondContribution: bondContribution.toString(),
-      claimable: claimable.toString(),
-      unlockDate: unlockDate.toString(),
-    };
-  }, [account, invoke, library, networkId, notifyError]);
+        onResult({
+          lpTokenAddress: lpToken,
+          marketPrice: marketPrice.toString(),
+          discountRate: discountRate.toString(),
+          vestingTerm: vestingTerm.toString(),
+          maxBond: maxBond.toString(),
+          totalNpmAllocated: totalNpmAllocated.toString(),
+          totalNpmDistributed: totalNpmDistributed.toString(),
+          npmAvailable: npmAvailable.toString(),
+          bondContribution: bondContribution.toString(),
+          claimable: claimable.toString(),
+          unlockDate: unlockDate.toString(),
+        });
+      };
+
+      invoke({
+        instance,
+        methodName: "getInfo",
+        catcher: notifyError,
+        args: [account],
+        retry: false,
+        onTransactionResult,
+      });
+    },
+    [account, invoke, library, networkId, notifyError]
+  );
 
   useEffect(() => {
     let ignore = false;
-    fetchBondInfo()
-      .then((_info) => {
-        if (ignore) return;
-        setInfo(_info || defaultInfo);
-      })
-      .catch(console.error);
+
+    const onResult = (_info) => {
+      if (ignore) return;
+      setInfo(_info || defaultInfo);
+    };
+
+    fetchBondInfo(onResult).catch(console.error);
 
     return () => {
       ignore = true;
@@ -94,9 +102,11 @@ export const useBondInfo = () => {
   }, [fetchBondInfo]);
 
   const updateBondInfo = useCallback(() => {
-    fetchBondInfo()
-      .then((_info) => setInfo(_info || defaultInfo))
-      .catch(console.error);
+    const onResult = (_info) => {
+      setInfo(_info || defaultInfo);
+    };
+
+    fetchBondInfo(onResult).catch(console.error);
   }, [fetchBondInfo]);
 
   return { info, refetch: updateBondInfo };

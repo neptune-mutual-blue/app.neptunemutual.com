@@ -38,18 +38,22 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
         signerOrProvider
       );
 
-      const args = [convertToUnits(debouncedValue).toString()];
-      const liquidityAmount = await invoke(
-        instance,
-        "calculateLiquidity",
-        {},
-        notifyError,
-        args,
-        false
-      );
+      const onTransactionResult = (result) => {
+        const liquidityAmount = result;
 
-      if (!mountedRef.current) return;
-      setReceiveAmount(liquidityAmount);
+        if (!mountedRef.current) return;
+        setReceiveAmount(liquidityAmount);
+      };
+
+      const args = [convertToUnits(debouncedValue).toString()];
+      invoke({
+        instance,
+        methodName: "calculateLiquidity",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
+        retry: false,
+      });
     } catch (error) {
       notifyError(error, "calculate liquidity");
     }

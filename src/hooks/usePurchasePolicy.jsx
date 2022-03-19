@@ -90,15 +90,15 @@ export const usePurchasePolicy = ({
     try {
       setApproving(true);
 
-      const tx = await approve(policyContractAddress, feeAmount);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Approving DAI",
+          success: "Approved DAI Successfully",
+          failure: "Could not approve DAI",
+        });
+      };
 
-      await txToast.push(tx, {
-        pending: "Approving DAI",
-        success: "Approved DAI Successfully",
-        failure: "Could not approve DAI",
-      });
-
-      updateAllowance(policyContractAddress);
+      approve(policyContractAddress, feeAmount, onTransactionResult);
     } catch (err) {
       notifyError(err, "approve DAI");
     } finally {
@@ -116,33 +116,34 @@ export const usePurchasePolicy = ({
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Purchasing Policy",
+          success: "Purchased Policy Successfully",
+          failure: "Could not purchase policy",
+        });
+
+        setPurchasing(false);
+        updateAllowance();
+        updateBalance();
+      };
 
       const args = [
         coverKey,
         parseInt(coverMonth, 10),
         convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
       ];
-      const tx = await invoke(
-        policyContract,
-        "purchaseCover",
-        {},
-        catcher,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Purchasing Policy",
-        success: "Purchased Policy Successfully",
-        failure: "Could not purchase policy",
+      invoke({
+        instance: policyContract,
+        methodName: "purchaseCover",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
-
-      updateAllowance();
-      updateBalance();
     } catch (err) {
-      notifyError(err, "purchase policy");
-    } finally {
       setPurchasing(false);
+      notifyError(err, "purchase policy");
     }
   };
 

@@ -43,24 +43,25 @@ export const useRemoveLiquidity = ({
 
   const handleApprove = async () => {
     setApproving(true);
-    try {
-      const tx = await approve(
-        vaultTokenAddress,
-        convertToUnits(value).toString()
-      );
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${vaultTokenSymbol} tokens`,
+          success: `Approved ${vaultTokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${vaultTokenSymbol} tokens`,
+        });
+      } catch (err) {
+        notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      await txToast.push(tx, {
-        pending: `Approving ${vaultTokenSymbol} tokens`,
-        success: `Approved ${vaultTokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${vaultTokenSymbol} tokens`,
-      });
-
-      updateAllowance(vaultTokenAddress);
-    } catch (err) {
-      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
-    } finally {
-      setApproving(false);
-    }
+    approve(
+      vaultTokenAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleWithdraw = async () => {
@@ -76,33 +77,36 @@ export const useRemoveLiquidity = ({
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Removing Liquidity",
+          success: "Removed Liquidity Successfully",
+          failure: "Could not remove liquidity",
+        });
+
+        updateBalance();
+        updateAllowance(vaultTokenAddress);
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
       const args = [
         coverKey,
         convertToUnits(value).toString(),
         convertToUnits(npmValue).toString(),
         false,
       ];
-      const tx = await invoke(
+      invoke({
         instance,
-        "removeLiquidity",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Removing Liquidity",
-        success: "Removed Liquidity Successfully",
-        failure: "Could not remove liquidity",
+        methodName: "removeLiquidity",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      updateBalance();
-      updateAllowance(vaultTokenAddress);
-      refetchInfo();
     } catch (err) {
       notifyError(err, "remove liquidity");
-    } finally {
       setWithdrawing(false);
+    } finally {
     }
   };
 

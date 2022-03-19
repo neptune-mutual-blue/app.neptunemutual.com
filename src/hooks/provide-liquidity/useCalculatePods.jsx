@@ -42,18 +42,22 @@ export const useCalculatePods = ({ coverKey, value }) => {
           signerOrProvider
         );
 
-        const args = [convertToUnits(debouncedValue).toString()];
-        const podAmount = await invoke(
-          instance,
-          "calculatePods",
-          {},
-          notifyError,
-          args,
-          false
-        );
+        const onTransactionResult = (result) => {
+          const podAmount = result;
 
-        if (ignore) return;
-        setReceiveAmount(convertFromUnits(podAmount).toString());
+          if (ignore) return;
+          setReceiveAmount(convertFromUnits(podAmount).toString());
+        };
+
+        const args = [convertToUnits(debouncedValue).toString()];
+        invoke({
+          instance,
+          methodName: "calculatePods",
+          catcher: notifyError,
+          onTransactionResult,
+          args,
+          retry: false,
+        });
       } catch (error) {
         console.error(error);
       }

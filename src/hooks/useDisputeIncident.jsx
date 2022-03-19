@@ -49,25 +49,26 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   }, [governanceContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
-      const tx = await approve(
-        governanceContractAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol} tokens`,
+          success: `Approved ${tokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${tokenSymbol} tokens`,
+        });
+      } catch (error) {
+        notifyError(error, `approve ${tokenSymbol} tokens`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol} tokens`,
-        success: `Approved ${tokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${tokenSymbol} tokens`,
-      });
-
-      setApproving(false);
-      updateAllowance(governanceContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol} tokens`);
-      setApproving(false);
-    }
+    approve(
+      governanceContractAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleDispute = async (info) => {
@@ -93,27 +94,35 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Disputing",
+          success: "Disputed successfully",
+          failure: "Could not dispute",
+        });
+        setDisputing(false);
+
+        router.replace(
+          `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+        );
+      };
+
       const args = [
         coverKey,
         incidentDate,
         hashBytes32,
         convertToUnits(value).toString(),
       ];
-      const tx = await invoke(instance, "dispute", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: "Disputing",
-        success: "Disputed successfully",
-        failure: "Could not dispute",
+      invoke({
+        instance,
+        methodName: "dispute",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
-
-      router.replace(
-        `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
-      );
     } catch (err) {
-      notifyError(err, "dispute");
-    } finally {
       setDisputing(false);
+      notifyError(err, "dispute");
     }
   };
 

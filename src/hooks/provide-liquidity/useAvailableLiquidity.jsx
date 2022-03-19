@@ -33,22 +33,25 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           signerOrProvider
         );
 
+        const onTransactionResult = (result) => {
+          const [totalPoolAmount, totalCommitment] = result;
+          const availableLiquidity = BigNumber(totalPoolAmount.toString())
+            .minus(totalCommitment.toString())
+            .toString();
+
+          if (ignore) return;
+          setData(convertFromUnits(availableLiquidity).toString());
+        };
+
         const args = [coverKey];
-        const [totalPoolAmount, totalCommitment] = await invoke(
+        invoke({
           instance,
-          "getCoverPoolSummary",
-          {},
-          notifyError,
+          methodName: "getCoverPoolSummary",
+          catcher: notifyError,
+          onTransactionResult,
           args,
-          false
-        );
-
-        const availableLiquidity = BigNumber(totalPoolAmount.toString())
-          .minus(totalCommitment.toString())
-          .toString();
-        if (ignore) return;
-
-        setData(convertFromUnits(availableLiquidity).toString());
+          retry: false,
+        });
       } catch (error) {
         console.error(error);
       }
@@ -58,7 +61,7 @@ export const useAvailableLiquidity = ({ coverKey }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, library, networkId]);
+  }, [account, coverKey, invoke, library, networkId, notifyError]);
 
   return {
     availableLiquidity: data,

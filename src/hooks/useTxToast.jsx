@@ -12,11 +12,11 @@ export const useTxToast = () => {
    *
    * @param {*} tx
    * @param {{pending: string, success: string, failure: string}} titles
-   * @returns {boolean} transaction status - helps decide auto close modals or clearing forms
+   * @param {{onTxSuccess: function, onTxFailure: function}} options
    */
-  const push = async (tx, titles) => {
+  const push = async (tx, titles, options = {}) => {
     if (!tx) {
-      return false;
+      return;
     }
 
     const txLink = getTxLink(networkId, tx);
@@ -36,15 +36,17 @@ export const useTxToast = () => {
         message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_DEFAULT_TIMEOUT,
       });
-      return true;
-    } else {
-      toast?.pushError({
-        title: titles.failure,
-        message: <ViewTxLink txLink={txLink} />,
-        lifetime: TOAST_DEFAULT_TIMEOUT,
-      });
-      return false;
+
+      options?.onTxSuccess();
+      return;
     }
+
+    toast?.pushError({
+      title: titles.failure,
+      message: <ViewTxLink txLink={txLink} />,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
+    options?.onTxFailure();
   };
 
   return { push };

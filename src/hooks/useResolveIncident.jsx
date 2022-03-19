@@ -34,19 +34,26 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Resolving Incident",
+          success: "Resolved Incident Successfully",
+          failure: "Could not Resolve Incident",
+        });
+        setResolving(false);
+      };
+
       const args = [coverKey, incidentDate];
-
-      const tx = await invoke(instance, "resolve", {}, catcher, args);
-
-      await txToast.push(tx, {
-        pending: "Resolving Incident",
-        success: "Resolved Incident Successfully",
-        failure: "Could not Resolve Incident",
+      invoke({
+        instance,
+        methodName: "resolve",
+        catcher: notifyError,
+        args,
+        onTransactionResult,
       });
     } catch (err) {
       notifyError(err, "Resolve Incident");
-    } finally {
       setResolving(false);
     }
   };
@@ -65,19 +72,26 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Emergency Resolving Incident",
+          success: "Emergency Resolved Incident Successfully",
+          failure: "Could not Emergency Resolve Incident",
+        });
+        setEmergencyResolving(false);
+      };
+
       const args = [coverKey, incidentDate, decision];
-
-      const tx = await invoke(instance, "emergencyResolve", {}, catcher, args);
-
-      await txToast.push(tx, {
-        pending: "Emergency Resolving Incident",
-        success: "Emergency Resolved Incident Successfully",
-        failure: "Could not Emergency Resolve Incident",
+      invoke({
+        instance,
+        methodName: "emergencyResolve",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
     } catch (err) {
       notifyError(err, "Emergency Resolve Incident");
-    } finally {
       setEmergencyResolving(false);
     }
   };

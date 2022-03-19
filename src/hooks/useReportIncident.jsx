@@ -47,25 +47,26 @@ export const useReportIncident = ({ coverKey, value }) => {
   }, [governanceContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
-      const tx = await approve(
-        governanceContractAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol} tokens`,
+          success: `Approved ${tokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${tokenSymbol} tokens`,
+        });
+      } catch (error) {
+        notifyError(error, `approve ${tokenSymbol} tokens`);
+      } finally {
+        setApproving(false);
+      }
+    };
 
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol} tokens`,
-        success: `Approved ${tokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${tokenSymbol} tokens`,
-      });
-
-      setApproving(false);
-      updateAllowance(governanceContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol} tokens`);
-      setApproving(false);
-    }
+    approve(
+      governanceContractAddress,
+      convertToUnits(value).toString(),
+      onTransactionResult
+    );
   };
 
   const handleReport = async (payload) => {

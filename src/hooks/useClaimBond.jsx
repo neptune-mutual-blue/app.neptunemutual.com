@@ -25,23 +25,29 @@ export const useClaimBond = () => {
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      setClaiming(true);
       const instance = await registry.BondPool.getInstance(
         networkId,
         signerOrProvider
       );
 
-      let tx = await invoke(instance, "claimBond", {}, notifyError, []);
+      setClaiming(true);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Claiming NPM",
+          success: "Claimed NPM Successfully",
+          failure: "Could not claim bond",
+        });
+        setClaiming(false);
+      };
 
-      await txToast.push(tx, {
-        pending: "Claiming NPM",
-        success: "Claimed NPM Successfully",
-        failure: "Could not claim bond",
+      invoke({
+        instance,
+        methodName: "claimBond",
+        catcher: notifyError,
+        onTransactionResult,
       });
     } catch (err) {
       notifyError(err);
-    } finally {
-      setClaiming(false);
     }
   };
 

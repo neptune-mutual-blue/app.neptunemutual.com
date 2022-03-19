@@ -54,65 +54,69 @@ export const usePoolInfo = ({ key }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = (result) => {
+        const [name, addresses, values] = result;
+
+        if (!mountedRef.current) return;
+
+        const [
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
+        ] = addresses;
+        const [
+          totalStaked,
+          target,
+          maximumStake,
+          stakeBalance,
+          cumulativeDeposits,
+          rewardPerBlock,
+          platformFee,
+          lockupPeriodInBlocks,
+          rewardTokenBalance,
+          accountStakeBalance,
+          totalBlockSinceLastReward,
+          rewards,
+          canWithdrawFrom,
+          lastDepositHeight,
+          lastRewardHeight,
+        ] = values;
+
+        setInfo({
+          name,
+
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
+
+          totalStaked: totalStaked.toString(),
+          target: target.toString(),
+          maximumStake: maximumStake.toString(),
+          stakeBalance: stakeBalance.toString(),
+          cumulativeDeposits: cumulativeDeposits.toString(),
+          rewardPerBlock: rewardPerBlock.toString(),
+          platformFee: platformFee.toString(),
+          lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
+          rewardTokenBalance: rewardTokenBalance.toString(),
+          accountStakeBalance: accountStakeBalance.toString(),
+          totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
+          rewards: rewards.toString(),
+          canWithdrawFrom: canWithdrawFrom.toString(),
+          lastDepositHeight: lastDepositHeight.toString(),
+          lastRewardHeight: lastRewardHeight.toString(),
+        });
+      };
+
       const args = [key, account];
-      const [name, addresses, values] = await invoke(
+      invoke({
         instance,
-        "getInfo",
-        {},
-        notifyError,
+        methodName: "getInfo",
         args,
-        false
-      );
-
-      if (!mountedRef.current) return;
-
-      const [
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
-      ] = addresses;
-      const [
-        totalStaked,
-        target,
-        maximumStake,
-        stakeBalance,
-        cumulativeDeposits,
-        rewardPerBlock,
-        platformFee,
-        lockupPeriodInBlocks,
-        rewardTokenBalance,
-        accountStakeBalance,
-        totalBlockSinceLastReward,
-        rewards,
-        canWithdrawFrom,
-        lastDepositHeight,
-        lastRewardHeight,
-      ] = values;
-
-      setInfo({
-        name,
-
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
-
-        totalStaked: totalStaked.toString(),
-        target: target.toString(),
-        maximumStake: maximumStake.toString(),
-        stakeBalance: stakeBalance.toString(),
-        cumulativeDeposits: cumulativeDeposits.toString(),
-        rewardPerBlock: rewardPerBlock.toString(),
-        platformFee: platformFee.toString(),
-        lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
-        rewardTokenBalance: rewardTokenBalance.toString(),
-        accountStakeBalance: accountStakeBalance.toString(),
-        totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
-        rewards: rewards.toString(),
-        canWithdrawFrom: canWithdrawFrom.toString(),
-        lastDepositHeight: lastDepositHeight.toString(),
-        lastRewardHeight: lastRewardHeight.toString(),
+        retry: false,
+        catcher: notifyError,
+        onTransactionResult,
       });
     } catch (err) {
       console.error(err);

@@ -34,70 +34,86 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const fetchInfo = useCallback(async () => {
-    if (!networkId || !account || !coverKey) {
-      return;
-    }
+  const fetchInfo = useCallback(
+    async (onResult) => {
+      if (!networkId || !account || !coverKey) {
+        return;
+      }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    try {
-      const instance = await registry.Vault.getInstance(
-        networkId,
-        coverKey,
-        signerOrProvider
-      );
+      try {
+        const instance = await registry.Vault.getInstance(
+          networkId,
+          coverKey,
+          signerOrProvider
+        );
 
-      const args = [account];
-      const [
-        totalPods,
-        balance,
-        extendedBalance,
-        totalReassurance,
-        myPodBalance,
-        myDeposits,
-        myWithdrawals,
-        myShare,
-        withdrawalOpen,
-        withdrawalClose,
-      ] = await invoke(instance, "getInfo", {}, notifyError, args, false);
+        const onTransactionResult = (result) => {
+          const [
+            totalPods,
+            balance,
+            extendedBalance,
+            totalReassurance,
+            myPodBalance,
+            myDeposits,
+            myWithdrawals,
+            myShare,
+            withdrawalOpen,
+            withdrawalClose,
+          ] = result;
 
-      return {
-        totalPods: totalPods.toString(),
-        balance: balance.toString(),
-        extendedBalance: extendedBalance.toString(),
-        totalReassurance: totalReassurance.toString(),
-        myPodBalance: myPodBalance.toString(),
-        myDeposits: myDeposits.toString(),
-        myWithdrawals: myWithdrawals.toString(),
-        myShare: myShare.toString(),
-        withdrawalOpen: withdrawalOpen.toString(),
-        withdrawalClose: withdrawalClose.toString(),
-      };
-    } catch (error) {
-      console.error(error);
-    }
-  }, [account, coverKey, invoke, library, networkId, notifyError]);
+          onResult({
+            totalPods: totalPods.toString(),
+            balance: balance.toString(),
+            extendedBalance: extendedBalance.toString(),
+            totalReassurance: totalReassurance.toString(),
+            myPodBalance: myPodBalance.toString(),
+            myDeposits: myDeposits.toString(),
+            myWithdrawals: myWithdrawals.toString(),
+            myShare: myShare.toString(),
+            withdrawalOpen: withdrawalOpen.toString(),
+            withdrawalClose: withdrawalClose.toString(),
+          });
+        };
+
+        const args = [account];
+        invoke({
+          instance,
+          methodName: "getInfo",
+          catcher: notifyError,
+          args,
+          retry: false,
+          onTransactionResult,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [account, coverKey, invoke, library, networkId, notifyError]
+  );
 
   useEffect(() => {
     let ignore = false;
 
-    fetchInfo().then((_info) => {
+    const onResult = (_info) => {
       if (!_info || ignore) return;
-
       setInfo(_info);
-    });
+    };
+
+    fetchInfo(onResult).catch(console.error);
     return () => {
       ignore = true;
     };
   }, [fetchInfo]);
 
   const updateInfo = useCallback(async () => {
-    fetchInfo().then((_info) => {
+    const onResult = (_info) => {
       if (!_info) return;
-
       setInfo(_info);
-    });
+    };
+
+    fetchInfo(onResult).catch(console.error);
   }, [fetchInfo]);
 
   useEffect(() => {
@@ -137,16 +153,22 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         signerOrProvider
       );
 
-      const tx = await invoke(instance, "accrueInterest", {}, notifyError, []);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Accruing intrest",
+          success: "Accrued intrest successfully",
+          failure: "Could not accrue interest",
+        });
+      };
 
-      await txToast.push(tx, {
-        pending: "Accruing intrest",
-        success: "Accrued intrest successfully",
-        failure: "Could not accrue interest",
+      invoke({
+        instance,
+        methodName: "accrueInterest",
+        catcher: notifyError,
+        onTransactionResult,
       });
     } catch (err) {
       notifyError(err, "accrue interest");
-    } finally {
     }
   };
 

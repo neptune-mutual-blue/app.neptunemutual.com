@@ -38,19 +38,27 @@ export const useStakingPoolWithdraw = ({
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Unstaking ${tokenSymbol}`,
+          success: `Unstaked ${tokenSymbol} successfully`,
+          failure: `Could not unstake ${tokenSymbol}`,
+        });
+
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
       const args = [poolKey, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "withdraw", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: `Unstaking ${tokenSymbol}`,
-        success: `Unstaked ${tokenSymbol} successfully`,
-        failure: `Could not unstake ${tokenSymbol}`,
+      invoke({
+        instance,
+        methodName: "withdraw",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      refetchInfo();
     } catch (err) {
       notifyError(err, `unstake ${tokenSymbol}`);
-    } finally {
       setWithdrawing(false);
     }
   };
@@ -85,25 +93,27 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Withdrawing rewards`,
+          success: `Withdrawn rewards successfully`,
+          failure: `Could not withdraw rewards`,
+        });
+
+        refetchInfo();
+        setWithdrawingRewards(false);
+      };
+
       const args = [poolKey];
-      const tx = await invoke(
+      invoke({
         instance,
-        "withdrawRewards",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: `Withdrawing rewards`,
-        success: `Withdrawn rewards successfully`,
-        failure: `Could not withdraw rewards`,
+        methodName: "withdrawRewards",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      refetchInfo();
     } catch (err) {
       console.error(err);
-    } finally {
       setWithdrawingRewards(false);
     }
   };

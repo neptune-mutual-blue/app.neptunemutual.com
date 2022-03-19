@@ -100,26 +100,28 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Unstaking NPM",
+          success: "Unstaked NPM Successfully",
+          failure: "Could not unstake NPM",
+        });
+
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
       const args = [coverKey, incidentDate];
-      const tx = await invoke(
-        resolutionContract,
-        "unstake",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Unstaking NPM",
-        success: "Unstaked NPM Successfully",
-        failure: "Could not unstake NPM",
+      invoke({
+        instance: resolutionContract,
+        methodName: "unstake",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      fetchInfo().catch(console.error);
     } catch (err) {
-      notifyError(err, "Unstake NPM");
-    } finally {
       setUnstaking(false);
+      notifyError(err, "Unstake NPM");
     }
   };
 
@@ -137,31 +139,33 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
-      let resolutionContract = new ethers.Contract(
+      const resolutionContract = new ethers.Contract(
         resolutionContractAddress,
         ["function unstakeWithClaim(bytes32, uint256)"],
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Unstaking & claiming NPM",
+          success: "Unstaked & claimed NPM Successfully",
+          failure: "Could not unstake & claim NPM",
+        });
+
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
       const args = [coverKey, incidentDate];
-      const tx = await invoke(
-        resolutionContract,
-        "unstakeWithClaim",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Unstaking & claiming NPM",
-        success: "Unstaked & claimed NPM Successfully",
-        failure: "Could not unstake & claim NPM",
+      invoke({
+        instance: resolutionContract,
+        methodName: "unstakeWithClaim",
+        catcher: notifyError,
+        onTransactionResult,
+        args,
       });
-
-      fetchInfo().catch(console.error);
     } catch (err) {
       notifyError(err, "Unstake & claim NPM");
-    } finally {
       setUnstaking(false);
     }
   };

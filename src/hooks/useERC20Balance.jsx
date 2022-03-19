@@ -4,53 +4,99 @@ import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
+import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useERC20Balance = (tokenAddress) => {
   const [balance, setBalance] = useState("0");
+  const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
+  const { invoke } = useInvokeMethod();
 
-  const fetchBalance = useCallback(async () => {
-    if (!networkId || !account) return "0";
-    if (!tokenAddress) return "0";
-
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const tokenInstance = registry.IERC20.getInstance(
-        tokenAddress,
-        signerOrProvider
-      );
-
-      if (!tokenInstance) {
-        console.log("Could not get an instance of the ERC20 from the SDK");
+  const fetchBalance = useCallback(
+    async (onTransactionResult) => {
+      if (!networkId || !account || !tokenAddress) {
+        return;
       }
 
-      return tokenInstance.balanceOf(account);
-    } catch (e) {
-      console.error(e);
-    }
+      try {
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
 
-    return "0";
-  }, [account, library, networkId, tokenAddress]);
+        const tokenInstance = registry.IERC20.getInstance(
+          tokenAddress,
+          signerOrProvider
+        );
+
+        if (!tokenInstance) {
+          console.log("Could not get an instance of the ERC20 from the SDK");
+          return;
+        }
+
+        invoke({
+          args: [account],
+          catcher: console.error,
+          instance: tokenInstance,
+          methodName: "balanceOf",
+          onTransactionResult,
+          retry: false,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [account, invoke, library, networkId, tokenAddress]
+  );
 
   useEffect(() => {
     let ignore = false;
 
-    fetchBalance().then((_bal) => {
-      if (ignore) return;
-      setBalance(_bal.toString());
-    });
+    setLoading(true);
+
+    const onTransactionResult = (result) => {
+      const _balance = result;
+      if (ignore || !_balance) return;
+      setBalance(_balance.toString());
+      setLoading(false);
+    };
+
+    fetchBalance(onTransactionResult);
 
     return () => {
       ignore = true;
     };
   }, [fetchBalance]);
 
+  // Resets loading and other states which are modified in the above hook
+  // "IF" condition should match the above effect
+  // Should appear after the effect which contains the async function (which sets loading state)
+  useEffect(() => {
+    if (!networkId || !account || !tokenAddress) {
+      if (balance !== "0") {
+        setBalance("0");
+      }
+      if (loading !== false) {
+        setLoading(false);
+      }
+    }
+  }, [account, balance, loading, networkId, tokenAddress]);
+
   const refetch = useCallback(async () => {
-    const _balance = await fetchBalance();
-    setBalance(_balance.toString());
+    setLoading(true);
+
+    const onTransactionResult = (result) => {
+      const _balance = result;
+      setLoading(false);
+      if (_balance) {
+        setBalance(_balance.toString());
+      }
+    };
+
+    fetchBalance(onTransactionResult);
   }, [fetchBalance]);
 
-  return { balance, refetch };
+  return { balance, loading, refetch };
 };
