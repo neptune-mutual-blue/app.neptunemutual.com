@@ -36,6 +36,8 @@ export const WithdrawLiquidityModal = ({
   const coverKey = toBytes32(cover_id);
   const [podValue, setPodValue] = useState();
   const [npmValue, setNpmValue] = useState();
+  const [npmErrorMsg, setNpmErrorMsg] = useState("");
+  const [podErrorMsg, setPodErrorMsg] = useState("");
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const { receiveAmount } = useCalculateLiquidity({
@@ -67,6 +69,25 @@ export const WithdrawLiquidityModal = ({
     setPodValue();
     setNpmValue();
   }, [isOpen]);
+
+  useEffect(() => {
+    // input withdraw validations
+    if (npmValue && isGreater(convertToUnits(npmValue), myStake)) {
+      setNpmErrorMsg("Insufficient Stake");
+    } else if (npmValue && !isValidNumber(npmValue)) {
+      setNpmErrorMsg("Invalid amount to withdraw");
+    } else {
+      setNpmErrorMsg("");
+    }
+
+    if (podValue && isGreater(convertToUnits(podValue), balance)) {
+      setPodErrorMsg("Insufficient Balance");
+    } else if (podValue && !isValidNumber(podValue)) {
+      setPodErrorMsg("Invalid amount to withdraw");
+    } else {
+      setPodErrorMsg("");
+    }
+  }, [balance, myStake, npmValue, podValue]);
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(myStake).toString());
@@ -120,6 +141,9 @@ export const WithdrawLiquidityModal = ({
                 Staked: {convertFromUnits(myStake).toString()} {npmTokenSymbol}
               </>
             )}
+            {npmErrorMsg && (
+              <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
+            )}
           </TokenAmountInput>
         </div>
         <div className="mt-6">
@@ -133,6 +157,9 @@ export const WithdrawLiquidityModal = ({
             tokenBalance={balance}
             tokenAddress={vaultTokenAddress}
           />
+          {podErrorMsg && (
+            <p className="flex items-center text-FA5C2F">{podErrorMsg}</p>
+          )}
         </div>
         <div className="mt-6 modal-unlock">
           <ReceiveAmountInput
@@ -165,7 +192,7 @@ export const WithdrawLiquidityModal = ({
           <RegularButton
             onClick={handleApprove}
             className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            disabled={approving}
+            disabled={approving || npmErrorMsg || podErrorMsg}
           >
             {approving ? "Approving.." : "Approve"}
           </RegularButton>
@@ -173,7 +200,7 @@ export const WithdrawLiquidityModal = ({
           <RegularButton
             onClick={handleWithdraw}
             className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            disabled={withdrawing}
+            disabled={withdrawing || npmErrorMsg || podErrorMsg}
           >
             {withdrawing ? "Withdrawing.." : "Withdraw"}
           </RegularButton>
