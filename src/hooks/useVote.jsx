@@ -9,7 +9,7 @@ import {
   isGreaterOrEqual,
   isValidNumber,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -24,7 +24,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
   const [voting, setVoting] = useState(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const txToast = useTxToast();

@@ -1,12 +1,12 @@
 import { getGraphURL } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const useQuery = () => {
   const [data, setData] = useState(null);
   const mountedRef = useRef(false);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const fetchApi = useCallback(
     async (query) => {

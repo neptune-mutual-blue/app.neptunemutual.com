@@ -6,26 +6,28 @@ import { registry } from "@neptunemutual/sdk";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useNetwork } from "@/src/context/Network";
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
-  const { chainId, account, library } = useWeb3React();
 
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleClaim = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       setClaiming(true);
       const instance = await registry.BondPool.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 

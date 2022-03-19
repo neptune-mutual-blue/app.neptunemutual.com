@@ -2,7 +2,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { getTokenLink } from "@/lib/connect-wallet/utils/explorer";
 import { useWeb3React } from "@web3-react/core";
 import CopyIcon from "@/icons/CopyIcon";
@@ -11,7 +11,7 @@ import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { formatCurrency } from "@/utils/formatter/currency";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
   const toast = useToast();

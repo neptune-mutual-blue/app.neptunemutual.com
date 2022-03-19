@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
@@ -38,7 +38,7 @@ export const usePoolInfo = ({ key }) => {
   const mountedRef = useRef(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 

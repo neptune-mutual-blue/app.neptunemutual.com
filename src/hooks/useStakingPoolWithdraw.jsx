@@ -7,6 +7,7 @@ import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useNetwork } from "@/src/context/Network";
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -16,23 +17,24 @@ export const useStakingPoolWithdraw = ({
 }) => {
   const [withdrawing, setWithdrawing] = useState(false);
 
-  const { chainId, account, library } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       setWithdrawing(true);
       const instance = await registry.StakingPools.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 
@@ -61,23 +63,25 @@ export const useStakingPoolWithdraw = ({
 
 export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false);
-  const { chainId, account, library } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdrawRewards = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       setWithdrawingRewards(true);
       const instance = await registry.StakingPools.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 

@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { convertFromUnits } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -11,7 +11,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const [data, setData] = useState("0");
   const { notifyError } = useErrorNotifier();

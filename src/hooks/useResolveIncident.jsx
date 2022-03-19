@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { requiresAuth } = useAuthValidation();
 

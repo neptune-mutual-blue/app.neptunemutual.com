@@ -4,7 +4,7 @@ import { registry } from "@neptunemutual/sdk";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
@@ -21,7 +21,7 @@ const defaultInfo = {
 
 export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const debouncedValue = useDebounce(value, 200);
   const [data, setData] = useState(defaultInfo);

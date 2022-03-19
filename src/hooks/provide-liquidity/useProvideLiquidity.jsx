@@ -12,7 +12,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
@@ -24,7 +24,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =

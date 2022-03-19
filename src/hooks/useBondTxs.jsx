@@ -1,5 +1,6 @@
 import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
+import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -7,21 +8,22 @@ export const useBondTxs = ({ itemsToQuery }) => {
   const [itemsToSkip, setItemsToSkip] = useState(0);
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-
-  const { chainId, account } = useWeb3React();
   const [bondTransactions, setBondTransactions] = useState([]);
   const [isShowMoreVisible, setIsShowMoreVisible] = useState(true);
+
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   useEffect(() => {
     setItemsToSkip(0);
   }, [account]);
 
   useEffect(() => {
-    if (!chainId || !account) {
+    if (!networkId || !account) {
       return;
     }
 
-    const graphURL = getGraphURL(chainId);
+    const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
       return;
@@ -85,7 +87,7 @@ export const useBondTxs = ({ itemsToQuery }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId, itemsToQuery, itemsToSkip]);
+  }, [account, networkId, itemsToQuery, itemsToSkip]);
 
   const handleShowMore = () => {
     setItemsToSkip((prev) => prev + ROWS_PER_PAGE);

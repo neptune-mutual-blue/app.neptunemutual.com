@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { registry } from "@neptunemutual/sdk";
 
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useWeb3React } from "@web3-react/core";
@@ -27,7 +27,7 @@ export function useAppConstants() {
 
 export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { tvl, getTVLById } = usePoolsTVL(data.NPMTokenAddress);
   const { library, account } = useWeb3React();
 

@@ -16,6 +16,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useNetwork } from "@/src/context/Network";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -29,7 +30,8 @@ export const useStakingPoolDeposit = ({
   const [approving, setApproving] = useState(false);
   const [depositing, setDepositing] = useState(false);
 
-  const { chainId, account, library } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
   const poolContractAddress = useStakingPoolsAddress();
   const {
     allowance,
@@ -73,16 +75,16 @@ export const useStakingPoolDeposit = ({
   };
 
   const handleDeposit = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
     setDepositing(true);
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
       const instance = await registry.StakingPools.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 

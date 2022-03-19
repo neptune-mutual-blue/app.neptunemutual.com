@@ -21,10 +21,10 @@ import Link from "next/link";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { getReplacedString } from "@/utils/string";
 import { POOL_URLS } from "@/src/config/constants";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 const BondPage = () => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { info, refetch: refetchBondInfo } = useBondInfo();
   const [value, setValue] = useState();
   const { account } = useWeb3React();

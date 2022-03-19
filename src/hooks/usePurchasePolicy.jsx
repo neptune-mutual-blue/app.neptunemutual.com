@@ -11,7 +11,7 @@ import {
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -26,7 +26,7 @@ export const usePurchasePolicy = ({
   coverMonth,
 }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();

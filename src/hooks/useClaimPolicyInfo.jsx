@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { getClaimAmount } from "@/src/helpers/store/getClaimAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -31,7 +31,7 @@ export const useClaimPolicyInfo = ({
   const [receiveAmount, setReceiveAmount] = useState("0");
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const claimsProcessorAddress = useClaimsProcessorAddress();
   const {
     allowance,

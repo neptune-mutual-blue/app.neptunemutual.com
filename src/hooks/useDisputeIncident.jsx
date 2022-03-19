@@ -8,7 +8,7 @@ import {
   isGreaterOrEqual,
   isValidNumber,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -29,7 +29,7 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   const [disputing, setDisputing] = useState(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const governanceContractAddress = useGovernanceAddress();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);

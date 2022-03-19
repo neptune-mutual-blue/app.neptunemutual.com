@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import ConnectWallet from "@/lib/connect-wallet/components/ConnectWallet/ConnectWallet";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";
@@ -76,7 +76,7 @@ const getNavigationLinks = (pathname = "") => {
 export const Header = () => {
   const router = useRouter();
   const { notifier } = useNotifier();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { active, account } = useWeb3React();
   const { logout } = useAuth(networkId, notifier);
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);

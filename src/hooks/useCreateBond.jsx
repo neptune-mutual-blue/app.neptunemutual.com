@@ -10,7 +10,7 @@ import {
   isEqualTo,
   isValidNumber,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
@@ -27,7 +27,7 @@ export const useCreateBond = ({ info, value }) => {
   const [bonding, setBonding] = useState(false);
   const [error, setError] = useState("");
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
   const bondContractAddress = useBondPoolAddress();
   const {

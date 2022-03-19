@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
@@ -29,7 +29,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const [myStake, setMyStake] = useState("0");
 
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();

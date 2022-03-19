@@ -2,11 +2,11 @@ import CloseIcon from "@/icons/CloseIcon";
 import { NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { FAUCET_URL, LEADERBOARD_URL } from "@/src/config/constants";
 import { testnetChainIds } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useState } from "react";
 
 export const Banner = () => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const [show, setShow] = useState(true);
 
   const isTestnet = testnetChainIds.indexOf(networkId) > -1;

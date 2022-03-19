@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
@@ -11,7 +11,7 @@ import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 
 export const useERC20Allowance = (tokenAddress) => {
   const [allowance, setAllowance] = useState("0");
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();

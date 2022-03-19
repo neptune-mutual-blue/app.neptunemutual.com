@@ -1,11 +1,11 @@
-import { useWeb3React } from "@web3-react/core";
 import { ViewTxLink } from "@/components/common/ViewTxLink";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import { useNetwork } from "@/src/context/Network";
 
 export const useTxToast = () => {
-  const { chainId } = useWeb3React();
+  const { networkId } = useNetwork();
   const toast = useToast();
 
   /**
@@ -19,7 +19,7 @@ export const useTxToast = () => {
       return false;
     }
 
-    const txLink = getTxLink(chainId, tx);
+    const txLink = getTxLink(networkId, tx);
 
     toast?.pushSuccess({
       title: titles.pending,

@@ -5,7 +5,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -22,7 +22,7 @@ export const useRemoveLiquidity = ({
   const [approving, setApproving] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
   const { balance, refetch: updateBalance } =

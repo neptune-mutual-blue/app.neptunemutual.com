@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -34,7 +34,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const txToast = useTxToast();
   const { requiresAuth } = useAuthValidation();
