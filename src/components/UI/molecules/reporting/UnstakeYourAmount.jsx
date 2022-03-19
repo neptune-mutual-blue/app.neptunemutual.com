@@ -7,7 +7,7 @@ import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
-import { convertFromUnits, isGreater, sumOf } from "@/utils/bn";
+import { convertFromUnits, isGreater } from "@/utils/bn";
 import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
@@ -47,25 +47,20 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     isGreater(now, incidentReport.claimBeginsFrom);
 
   const handleUnstake = async () => {
-    if (isIncidentOccured) {
-      if (isClaimableNow) {
-        await unstakeWithClaim();
-        return;
-      }
-
-      // After claim expiry
-      await unstake();
+    // For incident occured, during claim period
+    if (isIncidentOccured && isClaimableNow) {
+      await unstakeWithClaim();
       return;
     }
 
-    // For false reporting
-    if (incidentReport.finalized) {
-      await unstake();
+    // For false reporting, Before finalization
+    if (!isIncidentOccured && !incidentReport.finalized) {
+      await unstakeWithClaim();
       return;
     }
 
-    // Before finalization
-    await unstakeWithClaim();
+    await unstake();
+    return;
   };
 
   return (
@@ -91,7 +86,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
       )}
 
       <RegularButton
-        className="px-10 py-4 mb-16 font-semibold w-full md:w-80"
+        className="w-full px-10 py-4 mb-16 font-semibold md:w-80"
         onClick={() => setIsOpen(true)}
       >
         UNSTAKE
@@ -101,13 +96,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         isOpen={isOpen}
         onClose={onClose}
         unstake={handleUnstake}
-        reward={convertFromUnits(
-          sumOf(info.myStakeInWinningCamp, info.myReward)
-            .minus(info.unstaken)
-            .toString()
-        )
-          .decimalPlaces(2)
-          .toString()}
+        reward={convertFromUnits(info.willReceive).decimalPlaces(2).toString()}
         logoSrc={logoSrc}
         altName={coverInfo?.coverName}
         unstaking={unstaking}
@@ -127,24 +116,24 @@ const UnstakeModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <div className="sm:min-w-500 w-96 sm:w-auto max-w-xl inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+      <div className="relative inline-block max-w-xl p-12 text-left align-middle sm:min-w-500 w-96 sm:w-auto bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
             alt={logoAlt}
             src={logoSrc}
           />
-          <span className="font-sora font-bold text-h2">Unstake</span>
+          <span className="font-bold font-sora text-h2">Unstake</span>
         </Dialog.Title>
 
         <div className="my-8">
-          <div className="font-semibold mb-5">YOU WILL RECEIVE</div>
+          <div className="mb-5 font-semibold">YOU WILL RECEIVE</div>
           <DisabledInput value={reward} unit="NPM" />
         </div>
 
         <RegularButton
           disabled={unstaking}
-          className="px-10 py-4 w-full font-semibold uppercase"
+          className="w-full px-10 py-4 font-semibold uppercase"
           onClick={unstake}
         >
           {unstaking ? "Unstaking..." : "Unstake"}
