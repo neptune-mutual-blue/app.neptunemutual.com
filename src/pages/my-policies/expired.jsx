@@ -1,18 +1,13 @@
 import Head from "next/head";
 import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
 import { PoliciesExpiredPage } from "@/components/pages/my-policies/PoliciesExpiredPage";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("policy") > -1;
-
+export function getStaticProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("policy"),
     },
   };
 }

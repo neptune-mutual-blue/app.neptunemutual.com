@@ -15,31 +15,24 @@ import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
 import { Root, Overlay, Content } from "@radix-ui/react-dialog";
-import { getFeatures } from "@/src/config/environment";
+import { isFeatureEnabled } from "@/src/config/environment";
 
 const getNavigationLinks = (pathname = "") => {
-  const features = getFeatures();
-  const policyEnabled = features.indexOf("policy") > -1;
-  const poolEnabled =
-    features.indexOf("bond") > -1 ||
-    features.indexOf("staking-pool") > -1 ||
-    features.indexOf("pod-staking-pool") > -1;
-  const liquidityEnabled = features.indexOf("liquidity") > -1;
-  const reportingEnabled = features.indexOf("reporting") > -1;
+  const policyEnabled = isFeatureEnabled("policy");
+  const liquidityEnabled = isFeatureEnabled("liquidity");
+  const reportingEnabled = isFeatureEnabled("reporting");
 
-  let poolLink = "/pools/bond";
-
-  if (features.indexOf("bond") == -1 && features.indexOf("staking-pool") > -1) {
+  let poolLink = null;
+  if (isFeatureEnabled("bond")) {
+    poolLink = "/pools/bond";
+  } else if (isFeatureEnabled("staking-pool")) {
     poolLink = "/pools/staking";
-  } else if (
-    features.indexOf("bond") == -1 &&
-    features.indexOf("pod-staking-pool") > -1
-  ) {
+  } else if (isFeatureEnabled("pod-staking-pool")) {
     poolLink = "/pools/pod-staking";
   }
 
   let links = [
-    poolEnabled && {
+    poolLink && {
       name: "Pool",
       href: poolLink,
       activeWhenStartsWith: "/pools",

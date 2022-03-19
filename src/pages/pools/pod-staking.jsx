@@ -2,18 +2,13 @@ import Head from "next/head";
 
 import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
 import { PodStakingPage } from "@/components/pages/pools/pod-staking";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("pod-staking-pool") > -1;
-
+export function getStaticProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("pod-staking-pool"),
     },
   };
 }

@@ -3,25 +3,23 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { TabNav } from "@/components/UI/molecules/tabnav";
-import { getFeatures } from "@/src/config/environment";
+import { isFeatureEnabled } from "@/src/config/environment";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 
-const features = getFeatures();
-
 const headers = [
-  features.indexOf("bond") > -1 && {
+  isFeatureEnabled("bond") && {
     name: "bond",
     href: "/pools/bond",
     displayAs: "Bond",
   },
-  features.indexOf("staking-pool") > -1 && {
+  isFeatureEnabled("staking-pool") && {
     name: "staking",
     href: "/pools/staking",
     displayAs: "Staking",
   },
-  features.indexOf("pod-staking-pool") > -1 && {
+  isFeatureEnabled("pod-staking-pool") && {
     name: "pod-staking",
     href: "/pools/pod-staking",
     displayAs: "POD Staking",

@@ -7,18 +7,13 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("reporting") > -1;
-
+export function getServerSideProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("reporting"),
     },
   };
 }
