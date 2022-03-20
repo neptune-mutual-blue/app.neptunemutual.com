@@ -22,6 +22,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useNetwork } from "@/src/context/Network";
 
 const renderHeader = (col) => (
   <th
@@ -82,7 +83,9 @@ export const MyLiquidityTxsTable = () => {
   const { data, loading, page, maxPage, setPage } = useLiquidityTxs({
     maxItems,
   });
-  const { account, chainId } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   // Go to page 1 if maxItems changes
   useEffect(() => {
@@ -93,10 +96,10 @@ export const MyLiquidityTxsTable = () => {
   return (
     <>
       {blockNumber && (
-        <p className="text-9B9B9B text-xs text-right font-semibold mb-8">
+        <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
           LAST SYNCED:{" "}
           <a
-            href={getBlockLink(chainId, blockNumber)}
+            href={getBlockLink(networkId, blockNumber)}
             target="_blank"
             rel="noreferrer noopener"
             className="pl-1 text-4e7dd9"
@@ -192,11 +195,11 @@ const PodAmountRenderer = ({ row }) => {
           }
         </span>
         <button
-          className="ml-3 p-1"
+          className="p-1 ml-3"
           onClick={() => register(row.vault.id, tokenSymbol)}
         >
           <span className="sr-only">Add to metamask</span>
-          <AddCircleIcon className="h-4 w-4" />
+          <AddCircleIcon className="w-4 h-4" />
         </button>
       </div>
     </td>
@@ -204,7 +207,7 @@ const PodAmountRenderer = ({ row }) => {
 };
 
 const ActionsRenderer = ({ row }) => {
-  const { chainId } = useWeb3React();
+  const { networkId } = useNetwork();
 
   return (
     <td className="px-6 py-6 min-w-120">
@@ -213,11 +216,11 @@ const ActionsRenderer = ({ row }) => {
         <Tooltip.Root>
           <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
             <span className="sr-only">Timestamp</span>
-            <ClockIcon className="h-4 w-4" />
+            <ClockIcon className="w-4 h-4" />
           </Tooltip.Trigger>
 
           <Tooltip.Content side="top">
-            <div className="text-sm leading-6 bg-black text-white p-3 rounded-xl max-w-sm">
+            <div className="max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl">
               <p>
                 {DateLib.toLongDateFormat(row.transaction.timestamp, "UTC")}
               </p>
@@ -227,13 +230,13 @@ const ActionsRenderer = ({ row }) => {
         </Tooltip.Root>
 
         <a
-          href={getTxLink(chainId, { hash: row.transaction.id })}
+          href={getTxLink(networkId, { hash: row.transaction.id })}
           target="_blank"
           rel="noreferrer noopener"
           className="p-1 text-black"
         >
           <span className="sr-only">Open in explorer</span>
-          <OpenInNewIcon className="h-4 w-4" />
+          <OpenInNewIcon className="w-4 h-4" />
         </a>
       </div>
     </td>

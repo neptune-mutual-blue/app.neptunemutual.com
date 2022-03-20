@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { requiresAuth } = useAuthValidation();
 
@@ -26,28 +26,53 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setResolving(true);
+
+    const cleanup = () => {
+      setResolving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "Resolve Incident");
+    };
+
     try {
-      setResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Resolving Incident",
+          success: "Resolved Incident Successfully",
+          failure: "Could not Resolve Incident",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, incidentDate];
-
-      const tx = await invoke(instance, "resolve", {}, catcher, args);
-
-      await txToast.push(tx, {
-        pending: "Resolving Incident",
-        success: "Resolved Incident Successfully",
-        failure: "Could not Resolve Incident",
+      invoke({
+        instance,
+        methodName: "resolve",
+        args,
+        onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
-      notifyError(err, "Resolve Incident");
-    } finally {
-      setResolving(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -57,28 +82,54 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setEmergencyResolving(true);
+
+    const cleanup = () => {
+      setEmergencyResolving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "Emergency Resolve Incident");
+    };
+
     try {
-      setEmergencyResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Emergency Resolving Incident",
+          success: "Emergency Resolved Incident Successfully",
+          failure: "Could not Emergency Resolve Incident",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, incidentDate, decision];
-
-      const tx = await invoke(instance, "emergencyResolve", {}, catcher, args);
-
-      await txToast.push(tx, {
-        pending: "Emergency Resolving Incident",
-        success: "Emergency Resolved Incident Successfully",
-        failure: "Could not Emergency Resolve Incident",
+      invoke({
+        instance,
+        methodName: "emergencyResolve",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
     } catch (err) {
-      notifyError(err, "Emergency Resolve Incident");
-    } finally {
-      setEmergencyResolving(false);
+      handleError(err);
+      cleanup();
     }
   };
 

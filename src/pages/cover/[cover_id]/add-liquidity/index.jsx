@@ -1,18 +1,13 @@
 import Head from "next/head";
 
 import { CoverAddLiquidityDetailsPage } from "@/components/pages/cover/add-liquidity";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("liquidity") > -1;
-
+export function getServerSideProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("liquidity"),
     },
   };
 }

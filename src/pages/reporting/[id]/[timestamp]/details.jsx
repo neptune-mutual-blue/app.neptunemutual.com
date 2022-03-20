@@ -3,18 +3,13 @@ import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/components/pages/reporting/details";
 import { toBytes32 } from "@/src/helpers/cover";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("reporting") > -1;
-
+export function getServerSideProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("reporting"),
     },
   };
 }

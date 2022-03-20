@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { registry } from "@neptunemutual/sdk";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -12,7 +12,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const mountedRef = useRef(false);
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const debouncedValue = useDebounce(podAmount, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
@@ -29,29 +29,44 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const handleError = (err) => {
+      notifyError(err, "calculate liquidity");
+    };
 
     try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
         signerOrProvider
       );
 
-      const args = [convertToUnits(debouncedValue).toString()];
-      const liquidityAmount = await invoke(
-        instance,
-        "calculateLiquidity",
-        {},
-        notifyError,
-        args,
-        false
-      );
+      const onTransactionResult = (result) => {
+        const liquidityAmount = result;
 
-      if (!mountedRef.current) return;
-      setReceiveAmount(liquidityAmount);
-    } catch (error) {
-      notifyError(error, "calculate liquidity");
+        if (!mountedRef.current) return;
+        setReceiveAmount(liquidityAmount);
+      };
+
+      const onRetryCancel = () => {};
+
+      const onError = (err) => {
+        handleError(err);
+      };
+
+      const args = [convertToUnits(debouncedValue).toString()];
+      invoke({
+        instance,
+        methodName: "calculateLiquidity",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
+        retry: false,
+      });
+    } catch (err) {
+      handleError(err);
     }
   }, [
     account,

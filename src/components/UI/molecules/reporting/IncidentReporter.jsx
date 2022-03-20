@@ -1,10 +1,10 @@
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { classNames } from "@/utils/classnames";
 
 export const IncidentReporter = ({ variant, account, txHash }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   return (
     <>

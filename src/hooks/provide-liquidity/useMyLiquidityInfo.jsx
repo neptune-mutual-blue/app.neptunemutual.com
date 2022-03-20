@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
@@ -29,75 +29,106 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const [myStake, setMyStake] = useState("0");
 
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const fetchInfo = useCallback(async () => {
-    if (!networkId || !account || !coverKey) {
-      return;
-    }
+  const fetchInfo = useCallback(
+    async (onResult) => {
+      if (!networkId || !account || !coverKey) {
+        return;
+      }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    try {
-      const instance = await registry.Vault.getInstance(
-        networkId,
-        coverKey,
-        signerOrProvider
-      );
-
-      const args = [account];
-      const [
-        totalPods,
-        balance,
-        extendedBalance,
-        totalReassurance,
-        myPodBalance,
-        myDeposits,
-        myWithdrawals,
-        myShare,
-        withdrawalOpen,
-        withdrawalClose,
-      ] = await invoke(instance, "getInfo", {}, notifyError, args, false);
-
-      return {
-        totalPods: totalPods.toString(),
-        balance: balance.toString(),
-        extendedBalance: extendedBalance.toString(),
-        totalReassurance: totalReassurance.toString(),
-        myPodBalance: myPodBalance.toString(),
-        myDeposits: myDeposits.toString(),
-        myWithdrawals: myWithdrawals.toString(),
-        myShare: myShare.toString(),
-        withdrawalOpen: withdrawalOpen.toString(),
-        withdrawalClose: withdrawalClose.toString(),
+      const handleError = (err) => {
+        notifyError(err, "get liquidity info");
       };
-    } catch (error) {
-      console.error(error);
-    }
-  }, [account, coverKey, invoke, library, networkId, notifyError]);
+
+      try {
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
+
+        const instance = await registry.Vault.getInstance(
+          networkId,
+          coverKey,
+          signerOrProvider
+        );
+
+        const onTransactionResult = (result) => {
+          const [
+            totalPods,
+            balance,
+            extendedBalance,
+            totalReassurance,
+            myPodBalance,
+            myDeposits,
+            myWithdrawals,
+            myShare,
+            withdrawalOpen,
+            withdrawalClose,
+          ] = result;
+
+          onResult({
+            totalPods: totalPods.toString(),
+            balance: balance.toString(),
+            extendedBalance: extendedBalance.toString(),
+            totalReassurance: totalReassurance.toString(),
+            myPodBalance: myPodBalance.toString(),
+            myDeposits: myDeposits.toString(),
+            myWithdrawals: myWithdrawals.toString(),
+            myShare: myShare.toString(),
+            withdrawalOpen: withdrawalOpen.toString(),
+            withdrawalClose: withdrawalClose.toString(),
+          });
+        };
+
+        const onRetryCancel = () => {};
+
+        const onError = (err) => {
+          handleError(err);
+        };
+
+        const args = [account];
+        invoke({
+          instance,
+          methodName: "getInfo",
+          args,
+          retry: false,
+          onTransactionResult,
+          onRetryCancel,
+          onError,
+        });
+      } catch (err) {
+        handleError(err);
+      }
+    },
+    [account, coverKey, invoke, library, networkId, notifyError]
+  );
 
   useEffect(() => {
     let ignore = false;
 
-    fetchInfo().then((_info) => {
+    const onResult = (_info) => {
       if (!_info || ignore) return;
-
       setInfo(_info);
-    });
+    };
+
+    fetchInfo(onResult).catch(console.error);
     return () => {
       ignore = true;
     };
   }, [fetchInfo]);
 
   const updateInfo = useCallback(async () => {
-    fetchInfo().then((_info) => {
+    const onResult = (_info) => {
       if (!_info) return;
-
       setInfo(_info);
-    });
+    };
+
+    fetchInfo(onResult).catch(console.error);
   }, [fetchInfo]);
 
   useEffect(() => {
@@ -128,6 +159,10 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   }, [account, coverKey, library, networkId]);
 
   const accrueInterest = async () => {
+    const handleError = (err) => {
+      notifyError(err, "accrue interest");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -137,16 +172,28 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         signerOrProvider
       );
 
-      const tx = await invoke(instance, "accrueInterest", {}, notifyError, []);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Accruing intrest",
+          success: "Accrued intrest successfully",
+          failure: "Could not accrue interest",
+        });
+      };
 
-      await txToast.push(tx, {
-        pending: "Accruing intrest",
-        success: "Accrued intrest successfully",
-        failure: "Could not accrue interest",
+      const onRetryCancel = () => {};
+      const onError = (err) => {
+        handleError(err);
+      };
+
+      invoke({
+        instance,
+        methodName: "accrueInterest",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
-      notifyError(err, "accrue interest");
-    } finally {
+      handleError(err);
     }
   };
 

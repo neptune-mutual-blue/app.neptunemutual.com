@@ -17,7 +17,7 @@ import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
@@ -26,7 +26,7 @@ import { useTokenName } from "@/src/hooks/useTokenName";
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
 
   const rewardTokenAddress = info.rewardToken;

@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { convertFromUnits } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -11,7 +11,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const [data, setData] = useState("0");
   const { notifyError } = useErrorNotifier();
@@ -24,6 +24,10 @@ export const useAvailableLiquidity = ({ coverKey }) => {
       return;
     }
 
+    const handleError = (err) => {
+      notifyError(err, "get pool summary");
+    };
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function fetchAvailableLiquidity() {
@@ -33,24 +37,34 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           signerOrProvider
         );
 
+        const onTransactionResult = (result) => {
+          const [totalPoolAmount, totalCommitment] = result;
+          const availableLiquidity = BigNumber(totalPoolAmount.toString())
+            .minus(totalCommitment.toString())
+            .toString();
+
+          if (ignore) return;
+          setData(convertFromUnits(availableLiquidity).toString());
+        };
+
+        const onRetryCancel = () => {};
+
+        const onError = (err) => {
+          handleError(err);
+        };
+
         const args = [coverKey];
-        const [totalPoolAmount, totalCommitment] = await invoke(
+        invoke({
           instance,
-          "getCoverPoolSummary",
-          {},
-          notifyError,
+          methodName: "getCoverPoolSummary",
+          onTransactionResult,
+          onRetryCancel,
+          onError,
           args,
-          false
-        );
-
-        const availableLiquidity = BigNumber(totalPoolAmount.toString())
-          .minus(totalCommitment.toString())
-          .toString();
-        if (ignore) return;
-
-        setData(convertFromUnits(availableLiquidity).toString());
-      } catch (error) {
-        console.error(error);
+          retry: false,
+        });
+      } catch (err) {
+        handleError(err);
       }
     }
 
@@ -58,7 +72,7 @@ export const useAvailableLiquidity = ({ coverKey }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, library, networkId]);
+  }, [account, coverKey, invoke, library, networkId, notifyError]);
 
   return {
     availableLiquidity: data,

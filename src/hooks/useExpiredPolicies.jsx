@@ -2,18 +2,21 @@ import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
+import { useNetwork } from "@/src/context/Network";
 
 export const useExpiredPolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { chainId, account } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   useEffect(() => {
-    if (!chainId || !account) {
+    if (!networkId || !account) {
       return;
     }
 
-    const graphURL = getGraphURL(chainId);
+    const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
       return;
@@ -63,7 +66,7 @@ export const useExpiredPolicies = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId]);
+  }, [account, networkId]);
 
   return {
     data: {

@@ -1,21 +1,16 @@
+import Head from "next/head";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { MyLiquidityTxsTable } from "@/components/UI/organisms/my-liquidity/MyLiquidityTxsTable";
-import { getFeatures } from "@/src/config/environment";
-import Head from "next/head";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("liquidity") > -1;
-
+export function getStaticProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("liquidity"),
     },
   };
 }

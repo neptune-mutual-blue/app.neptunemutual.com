@@ -58,10 +58,14 @@ export const StakeModal = ({
     }
   };
 
+  const onDepositSuccess = () => {
+    onClose();
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
-      <div className="max-w-xl max-h-90vh overflow-y-auto w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h2 flex items-center">
+      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+        <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
 
@@ -87,11 +91,11 @@ export const StakeModal = ({
             )}
           </TokenAmountInput>
         </div>
-        <div className="modal-unlock mt-8">
+        <div className="mt-8 modal-unlock">
           <Label className="mb-3" htmlFor="modal-unlock-on">
             Lockup Period
           </Label>
-          <p id="modal-unlock-on" className="text-7398C0 text-h4 font-medium">
+          <p id="modal-unlock-on" className="font-medium text-7398C0 text-h4">
             {explainInterval(lockupPeriod)}
           </p>
         </div>
@@ -99,7 +103,7 @@ export const StakeModal = ({
         {!canDeposit ? (
           <RegularButton
             disabled={isError || approving || !inputValue}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
             onClick={handleApprove}
           >
             {approving ? "Approving..." : <>Approve {stakingTokenSymbol}</>}
@@ -107,11 +111,8 @@ export const StakeModal = ({
         ) : (
           <RegularButton
             disabled={isError || depositing}
-            className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-            onClick={async () => {
-              const isSuccess = await handleDeposit();
-              isSuccess && onClose();
-            }}
+            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
+            onClick={() => handleDeposit(onDepositSuccess)}
           >
             {depositing ? "Staking..." : "Stake"}
           </RegularButton>

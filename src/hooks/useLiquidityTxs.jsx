@@ -1,11 +1,14 @@
 import { getGraphURL } from "@/src/config/environment";
+import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect, useMemo } from "react";
 
 export const useLiquidityTxs = ({ maxItems }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { chainId, account } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   // pagination
   const [page, setPage] = useState(1);
@@ -22,11 +25,11 @@ export const useLiquidityTxs = ({ maxItems }) => {
   }, [data.liquidityTransactions, maxItems]);
 
   useEffect(() => {
-    if (!chainId || !account) {
+    if (!networkId || !account) {
       return;
     }
 
-    const graphURL = getGraphURL(chainId);
+    const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
       return;
@@ -82,7 +85,7 @@ export const useLiquidityTxs = ({ maxItems }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId]);
+  }, [account, networkId]);
 
   const filteredTransactions = useMemo(() => {
     const transactions = data.liquidityTransactions || [];

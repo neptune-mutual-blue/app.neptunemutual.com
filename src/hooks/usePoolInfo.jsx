@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
@@ -38,7 +38,7 @@ export const usePoolInfo = ({ key }) => {
   const mountedRef = useRef(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -47,6 +47,10 @@ export const usePoolInfo = ({ key }) => {
       return;
     }
 
+    const handleError = (err) => {
+      notifyError(err, "get pool info");
+    };
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
     try {
       let instance = await registry.StakingPools.getInstance(
@@ -54,68 +58,78 @@ export const usePoolInfo = ({ key }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = (result) => {
+        const [name, addresses, values] = result;
+
+        if (!mountedRef.current) return;
+
+        const [
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
+        ] = addresses;
+        const [
+          totalStaked,
+          target,
+          maximumStake,
+          stakeBalance,
+          cumulativeDeposits,
+          rewardPerBlock,
+          platformFee,
+          lockupPeriodInBlocks,
+          rewardTokenBalance,
+          accountStakeBalance,
+          totalBlockSinceLastReward,
+          rewards,
+          canWithdrawFrom,
+          lastDepositHeight,
+          lastRewardHeight,
+        ] = values;
+
+        setInfo({
+          name,
+
+          stakingToken,
+          stakingTokenStablecoinPair,
+          rewardToken,
+          rewardTokenStablecoinPair,
+
+          totalStaked: totalStaked.toString(),
+          target: target.toString(),
+          maximumStake: maximumStake.toString(),
+          stakeBalance: stakeBalance.toString(),
+          cumulativeDeposits: cumulativeDeposits.toString(),
+          rewardPerBlock: rewardPerBlock.toString(),
+          platformFee: platformFee.toString(),
+          lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
+          rewardTokenBalance: rewardTokenBalance.toString(),
+          accountStakeBalance: accountStakeBalance.toString(),
+          totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
+          rewards: rewards.toString(),
+          canWithdrawFrom: canWithdrawFrom.toString(),
+          lastDepositHeight: lastDepositHeight.toString(),
+          lastRewardHeight: lastRewardHeight.toString(),
+        });
+      };
+
+      const onRetryCancel = () => {};
+      const onError = (err) => {
+        handleError(err);
+      };
+
       const args = [key, account];
-      const [name, addresses, values] = await invoke(
+      invoke({
         instance,
-        "getInfo",
-        {},
-        notifyError,
+        methodName: "getInfo",
         args,
-        false
-      );
-
-      if (!mountedRef.current) return;
-
-      const [
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
-      ] = addresses;
-      const [
-        totalStaked,
-        target,
-        maximumStake,
-        stakeBalance,
-        cumulativeDeposits,
-        rewardPerBlock,
-        platformFee,
-        lockupPeriodInBlocks,
-        rewardTokenBalance,
-        accountStakeBalance,
-        totalBlockSinceLastReward,
-        rewards,
-        canWithdrawFrom,
-        lastDepositHeight,
-        lastRewardHeight,
-      ] = values;
-
-      setInfo({
-        name,
-
-        stakingToken,
-        stakingTokenStablecoinPair,
-        rewardToken,
-        rewardTokenStablecoinPair,
-
-        totalStaked: totalStaked.toString(),
-        target: target.toString(),
-        maximumStake: maximumStake.toString(),
-        stakeBalance: stakeBalance.toString(),
-        cumulativeDeposits: cumulativeDeposits.toString(),
-        rewardPerBlock: rewardPerBlock.toString(),
-        platformFee: platformFee.toString(),
-        lockupPeriodInBlocks: lockupPeriodInBlocks.toString(),
-        rewardTokenBalance: rewardTokenBalance.toString(),
-        accountStakeBalance: accountStakeBalance.toString(),
-        totalBlockSinceLastReward: totalBlockSinceLastReward.toString(),
-        rewards: rewards.toString(),
-        canWithdrawFrom: canWithdrawFrom.toString(),
-        lastDepositHeight: lastDepositHeight.toString(),
-        lastRewardHeight: lastRewardHeight.toString(),
+        retry: false,
+        onError,
+        onTransactionResult,
+        onRetryCancel,
       });
     } catch (err) {
-      console.error(err);
+      handleError(err);
     }
   }, [account, invoke, key, library, networkId, notifyError]);
 

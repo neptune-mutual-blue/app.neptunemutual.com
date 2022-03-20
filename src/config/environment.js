@@ -28,12 +28,13 @@ function getChainIdFromDNS() {
 export const getNetworkId = () => parseInt(getChainIdFromDNS(), 10);
 export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null;
 
-export const getFeatures = () => {
+export const isFeatureEnabled = (feature) => {
   const str =
     process.env.NEXT_PUBLIC_FEATURES ||
     "policy,liquidity,reporting,claim,bond,staking-pool,pod-staking-pool";
   const features = str.split(",").map((x) => x.trim());
-  return features;
+
+  return features.indexOf(feature) > -1;
 };
 
 export const testnetChainIds = [3, 97, 42, 80001];

@@ -2,18 +2,21 @@ import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
+import { useNetwork } from "@/src/context/Network";
 
 export const useMyLiquidities = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { chainId, account } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   useEffect(() => {
-    if (!chainId || !account) {
+    if (!networkId || !account) {
       return;
     }
 
-    const graphURL = getGraphURL(chainId);
+    const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
       return;
@@ -57,7 +60,7 @@ export const useMyLiquidities = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId]);
+  }, [account, networkId]);
 
   const myLiquidities = data?.coverUsers || [];
   const totalLiquidityProvided = sumOf(

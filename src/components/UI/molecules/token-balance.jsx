@@ -2,7 +2,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { convertFromUnits } from "@/utils/bn";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { getTokenLink } from "@/lib/connect-wallet/utils/explorer";
 import { useWeb3React } from "@web3-react/core";
 import CopyIcon from "@/icons/CopyIcon";
@@ -11,7 +11,7 @@ import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { formatCurrency } from "@/utils/formatter/currency";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
   const toast = useToast();
@@ -24,8 +24,8 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
         message: "Token address copied Successfully",
         lifetime: SHORT_TOAST_TIME,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       toast?.pushError({
         title: "Error",
         message: "Unable to copy token address",
@@ -35,7 +35,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   };
 
   return (
-    <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
+    <div className="flex items-start justify-between px-3 mt-2 text-9B9B9B">
       <div>
         {balance && (
           <p title={formatCurrency(convertFromUnits(balance), unit, true).long}>

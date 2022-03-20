@@ -16,6 +16,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useNetwork } from "@/src/context/Network";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -29,7 +30,8 @@ export const useStakingPoolDeposit = ({
   const [approving, setApproving] = useState(false);
   const [depositing, setDepositing] = useState(false);
 
-  const { chainId, account, library } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
   const poolContractAddress = useStakingPoolsAddress();
   const {
     allowance,
@@ -50,60 +52,108 @@ export const useStakingPoolDeposit = ({
   }, [poolContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
+    setApproving(true);
 
-      const tx = await approve(
-        poolContractAddress,
-        convertToUnits(value).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol}`,
-        success: `Approved ${tokenSymbol} Successfully`,
-        failure: `Could not approve ${tokenSymbol}`,
-      });
-
+    const cleanup = () => {
       setApproving(false);
-      updateAllowance(poolContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol}`);
-      setApproving(false);
-    }
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve ${tokenSymbol}`);
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol}`,
+          success: `Approved ${tokenSymbol} Successfully`,
+          failure: `Could not approve ${tokenSymbol}`,
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(poolContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
-  const handleDeposit = async () => {
-    if (!account || !chainId) {
+  const handleDeposit = async (onDepositSuccess) => {
+    if (!account || !networkId) {
       return;
     }
 
     setDepositing(true);
-    const signerOrProvider = getProviderOrSigner(library, account, chainId);
 
-    try {
-      const instance = await registry.StakingPools.getInstance(
-        chainId,
-        signerOrProvider
-      );
-
-      const args = [poolKey, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "deposit", {}, notifyError, args);
-
-      const txnStatus = await txToast.push(tx, {
-        pending: `Staking ${tokenSymbol}`,
-        success: `Staked ${tokenSymbol} successfully`,
-        failure: `Could not stake ${tokenSymbol}`,
-      });
-
+    const cleanup = () => {
       updateBalance();
       updateAllowance(poolContractAddress);
       refetchInfo();
-
-      return txnStatus;
-    } catch (err) {
-      notifyError(err, `stake ${tokenSymbol}`);
-    } finally {
       setDepositing(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, `stake ${tokenSymbol}`);
+    };
+
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+    try {
+      const instance = await registry.StakingPools.getInstance(
+        networkId,
+        signerOrProvider
+      );
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: `Staking ${tokenSymbol}`,
+            success: `Staked ${tokenSymbol} successfully`,
+            failure: `Could not stake ${tokenSymbol}`,
+          },
+          {
+            onTxSuccess: onDepositSuccess,
+          }
+        );
+
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
+      const args = [poolKey, convertToUnits(value).toString()];
+      invoke({
+        instance,
+        methodName: "deposit",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
+      });
+    } catch (err) {
+      handleError(err);
+      cleanup();
     }
   };
 

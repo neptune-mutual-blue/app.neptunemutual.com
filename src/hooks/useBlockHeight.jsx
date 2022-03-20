@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 export const useBlockHeight = () => {
   const [blockHeight, setblockHeight] = useState(1);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { AppWrapper } from "@/src/context/AppWrapper";
+import { NetworkProvider } from "@/src/context/Network";
 import { ToastProvider } from "@/lib/toast/provider";
 import { Web3ReactProvider } from "@web3-react/core";
 import { render } from "@testing-library/react";
@@ -14,9 +14,9 @@ const position = {
 const AllTheProviders = ({ children }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <AppWrapper>
+      <NetworkProvider>
         <ToastProvider variant={position.variant}>{children}</ToastProvider>
-      </AppWrapper>
+      </NetworkProvider>
     </Web3ReactProvider>
   );
 };
