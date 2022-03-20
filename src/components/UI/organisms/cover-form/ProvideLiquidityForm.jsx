@@ -12,6 +12,10 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
+import { Alert } from "@/components/UI/atoms/alert";
+import Link from "next/link";
+import { getParsedKey } from "@/src/helpers/cover";
+import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 
 export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   const [lqValue, setLqValue] = useState();
@@ -24,6 +28,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
 
+  const statusInfo = useCoverStatusInfo(coverKey);
   const {
     lqTokenBalance,
     npmBalance,
@@ -86,6 +91,23 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
 
+  if (statusInfo.status && statusInfo.status !== "Normal") {
+    return (
+      <Alert>
+        Cannot add liquidity, since the cover status is{" "}
+        <Link
+          href={`/reporting/${getParsedKey(coverKey)}/${
+            statusInfo.activeIncidentDate
+          }/details`}
+        >
+          <a className="font-medium underline hover:no-underline">
+            {statusInfo.status}
+          </a>
+        </Link>
+      </Alert>
+    );
+  }
+
   return (
     <div className="max-w-md">
       <div className="pb-16">
@@ -141,7 +163,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
         />
       </div>
 
-      <h5 className="block  text-black text-h6 font-semibold mb-1 uppercase">
+      <h5 className="block mb-1 font-semibold text-black uppercase text-h6">
         NEXT UNLOCK CYCLE
       </h5>
       <div>
@@ -160,7 +182,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
       {!hasBothAllowances && (
         <RegularButton
           disabled={hasLqTokenAllowance || lqApproving}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handleLqTokenApprove}
         >
           {lqApproving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
@@ -170,7 +192,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
       {!hasBothAllowances && (
         <RegularButton
           disabled={hasNPMTokenAllowance || npmApproving}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handleNPMTokenApprove}
         >
           {npmApproving ? "Approving..." : <>Approve {npmTokenSymbol}</>}
@@ -180,7 +202,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
       {hasBothAllowances && (
         <RegularButton
           disabled={isError || providing || !lqValue || !npmValue}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
           onClick={handleProvide}
         >
           {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
@@ -189,7 +211,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
 
       <div className="mt-16">
         <OutlinedButton
-          className="rounded-big block m-auto sm:m-0"
+          className="block m-auto rounded-big sm:m-0"
           onClick={() => router.back()}
         >
           &#x27F5;&nbsp;Back
