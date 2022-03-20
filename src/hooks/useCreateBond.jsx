@@ -19,7 +19,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useDebounce } from "@/src/hooks/useDebounce";
 
-export const useCreateBond = ({ info, value }) => {
+export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
@@ -82,26 +82,39 @@ export const useCreateBond = ({ info, value }) => {
           signerOrProvider
         );
 
-        const args = [convertToUnits(debouncedValue).toString()];
+        const cleanup = () => {
+          setReceiveAmountLoading(false);
+        };
 
         const onTransactionResult = async (tx) => {
           const result = tx;
 
           if (ignore) return;
           setReceiveAmount(result.toString());
-          setReceiveAmountLoading(false);
+          cleanup();
         };
 
+        const onRetryCancel = () => {
+          cleanup();
+        };
+
+        const onError = (err) => {
+          notifyError(err, "calculate tokens");
+          cleanup();
+        };
+
+        const args = [convertToUnits(debouncedValue).toString()];
         invoke({
           instance,
           methodName: "calculateTokensForLp",
           args,
-          catcher: notifyError,
           retry: false,
           onTransactionResult,
+          onRetryCancel,
+          onError,
         });
       } catch (err) {
-        console.error(err);
+        notifyError(err, "calculate tokens");
         setReceiveAmountLoading(false);
       }
     }
@@ -145,6 +158,10 @@ export const useCreateBond = ({ info, value }) => {
   const handleApprove = async () => {
     setApproving(true);
 
+    const cleanup = () => {
+      setApproving(false);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -155,15 +172,24 @@ export const useCreateBond = ({ info, value }) => {
       } catch (error) {
         notifyError(error, "approve LP tokens");
       } finally {
-        setApproving(false);
+        cleanup();
       }
     };
 
-    approve(
-      bondContractAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      notifyError(err, "approve LP tokens");
+      cleanup();
+    };
+
+    approve(bondContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleBond = async () => {
@@ -176,26 +202,40 @@ export const useCreateBond = ({ info, value }) => {
         signerOrProvider
       );
 
+      const cleanup = () => {
+        setBonding(false);
+        updateBalance();
+        updateAllowance(bondContractAddress);
+        refetchBondInfo();
+      };
+
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
           pending: "Creating bond",
           success: "Created bond successfully",
           failure: "Could not create bond",
         });
-        setBonding(false);
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        notifyError(err, "create bond");
+        cleanup();
       };
 
       const args = [convertToUnits(value).toString(), receiveAmount];
       invoke({
         instance,
         methodName: "createBond",
-        catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
-
-      updateBalance();
-      updateAllowance(bondContractAddress);
     } catch (err) {
       notifyError(err, "create bond");
       setBonding(false);

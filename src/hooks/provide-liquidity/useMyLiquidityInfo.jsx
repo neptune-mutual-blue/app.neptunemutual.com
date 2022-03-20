@@ -77,17 +77,24 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           });
         };
 
+        const onRetryCancel = () => {};
+
+        const onError = (err) => {
+          notifyError(err, "get liquidity info");
+        };
+
         const args = [account];
         invoke({
           instance,
           methodName: "getInfo",
-          catcher: notifyError,
           args,
           retry: false,
           onTransactionResult,
+          onRetryCancel,
+          onError,
         });
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        notifyError(err, "get liquidity info");
       }
     },
     [account, coverKey, invoke, library, networkId, notifyError]
@@ -161,11 +168,17 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         });
       };
 
+      const onRetryCancel = () => {};
+      const onError = (err) => {
+        notifyError(err, "accrue interest");
+      };
+
       invoke({
         instance,
         methodName: "accrueInterest",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
       notifyError(err, "accrue interest");

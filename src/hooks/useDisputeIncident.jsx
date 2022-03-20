@@ -50,6 +50,11 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
 
   const handleApprove = async () => {
     setApproving(true);
+
+    const cleanup = () => {
+      setApproving(false);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -60,15 +65,24 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
       } catch (error) {
         notifyError(error, `approve ${tokenSymbol} tokens`);
       } finally {
-        setApproving(false);
+        cleanup();
       }
     };
 
-    approve(
-      governanceContractAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
+      cleanup();
+    };
+
+    approve(governanceContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleDispute = async (info) => {
@@ -94,17 +108,36 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
-      const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Disputing",
-          success: "Disputed successfully",
-          failure: "Could not dispute",
-        });
+      const cleanup = () => {
         setDisputing(false);
+      };
 
-        router.replace(
-          `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Disputing",
+            success: "Disputed successfully",
+            failure: "Could not dispute",
+          },
+          {
+            onTxSuccess: () =>
+              router.replace(
+                `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+              ),
+          }
         );
+
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        cleanup();
+        notifyError(err, "dispute");
       };
 
       const args = [
@@ -119,6 +152,8 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
       setDisputing(false);

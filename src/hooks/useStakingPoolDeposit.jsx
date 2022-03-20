@@ -60,18 +60,27 @@ export const useStakingPoolDeposit = ({
           success: `Approved ${tokenSymbol} Successfully`,
           failure: `Could not approve ${tokenSymbol}`,
         });
-      } catch (error) {
-        notifyError(error, `approve ${tokenSymbol}`);
-      } finally {
+        setApproving(false);
+      } catch (err) {
+        notifyError(err, `approve ${tokenSymbol}`);
         setApproving(false);
       }
     };
 
-    approve(
-      poolContractAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      setApproving(false);
+    };
+
+    const onError = (err) => {
+      notifyError(err, `approve ${tokenSymbol}`);
+      setApproving(false);
+    };
+
+    approve(poolContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleDeposit = async (onDepositSuccess) => {
@@ -80,6 +89,18 @@ export const useStakingPoolDeposit = ({
     }
 
     setDepositing(true);
+
+    const cleanup = () => {
+      updateBalance();
+      updateAllowance(poolContractAddress);
+      refetchInfo();
+      setDepositing(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, `stake ${tokenSymbol}`);
+    };
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     try {
@@ -101,22 +122,30 @@ export const useStakingPoolDeposit = ({
           }
         );
 
-        updateBalance();
-        updateAllowance(poolContractAddress);
-        refetchInfo();
-        setDepositing(false);
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
       };
 
       const args = [poolKey, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "deposit",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
-      notifyError(err, `stake ${tokenSymbol}`);
+      handleError(err);
+      cleanup();
     }
   };
 

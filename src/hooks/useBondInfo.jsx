@@ -74,13 +74,16 @@ export const useBondInfo = () => {
         });
       };
 
+      const onRetryCancel = () => {};
+
       invoke({
         instance,
         methodName: "getInfo",
-        catcher: notifyError,
         args: [account],
         retry: false,
         onTransactionResult,
+        onError: notifyError,
+        onRetryCancel,
       });
     },
     [account, invoke, library, networkId, notifyError]

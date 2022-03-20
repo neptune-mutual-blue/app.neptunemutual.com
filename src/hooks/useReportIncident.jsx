@@ -15,7 +15,6 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useRouter } from "next/router";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -39,7 +38,6 @@ export const useReportIncident = ({ coverKey, value }) => {
   const { balance } = useERC20Balance(NPMTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -48,6 +46,15 @@ export const useReportIncident = ({ coverKey, value }) => {
 
   const handleApprove = async () => {
     setApproving(true);
+
+    const cleanup = () => {
+      setApproving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -55,18 +62,27 @@ export const useReportIncident = ({ coverKey, value }) => {
           success: `Approved ${tokenSymbol} tokens Successfully`,
           failure: `Could not approve ${tokenSymbol} tokens`,
         });
-      } catch (error) {
-        notifyError(error, `approve ${tokenSymbol} tokens`);
-      } finally {
-        setApproving(false);
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
       }
     };
 
-    approve(
-      governanceContractAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(governanceContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleReport = async (payload) => {
@@ -84,15 +100,18 @@ export const useReportIncident = ({ coverKey, value }) => {
 
       const tx = wrappedResult.result.tx;
 
-      await txToast.push(tx, {
-        pending: "Reporting incident",
-        success: "Reported incident successfully",
-        failure: "Could not report incident",
-      });
-
-      router.replace(`/reporting/active`);
+      await txToast.push(
+        tx,
+        {
+          pending: "Reporting incident",
+          success: "Reported incident successfully",
+          failure: "Could not report incident",
+        },
+        {
+          onTxSuccess: () => router.replace(`/reporting/active`),
+        }
+      );
     } catch (err) {
-      // console.error(err);
       notifyError(err, "report incident");
     } finally {
       setReporting(false);

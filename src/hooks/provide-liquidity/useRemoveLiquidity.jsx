@@ -50,18 +50,27 @@ export const useRemoveLiquidity = ({
           success: `Approved ${vaultTokenSymbol} tokens Successfully`,
           failure: `Could not approve ${vaultTokenSymbol} tokens`,
         });
+        setApproving(false);
       } catch (err) {
         notifyError(err, `approve ${vaultTokenSymbol} tokens`);
-      } finally {
         setApproving(false);
       }
     };
 
-    approve(
-      vaultTokenAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      setApproving(false);
+    };
+
+    const onError = (err) => {
+      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+      setApproving(false);
+    };
+
+    approve(vaultTokenAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleWithdraw = async () => {
@@ -90,6 +99,22 @@ export const useRemoveLiquidity = ({
         setWithdrawing(false);
       };
 
+      const onRetryCancel = () => {
+        updateBalance();
+        updateAllowance(vaultTokenAddress);
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "remove liquidity");
+
+        updateBalance();
+        updateAllowance(vaultTokenAddress);
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
       const args = [
         coverKey,
         convertToUnits(value).toString(),
@@ -99,14 +124,14 @@ export const useRemoveLiquidity = ({
       invoke({
         instance,
         methodName: "removeLiquidity",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
       notifyError(err, "remove liquidity");
       setWithdrawing(false);
-    } finally {
     }
   };
 

@@ -33,15 +33,21 @@ export const useTokenSymbol = (tokenAddress) => {
       return;
     }
 
+    const onTransactionResult = (tx) => {
+      const symbol = tx;
+      if (ignore) return;
+      setTokenSymbol(symbol);
+    };
+
+    const onRetryCancel = () => {};
+    const onError = () => {};
+
     invoke({
       instance,
       methodName: "symbol",
-      catcher: console.error,
-      onTransactionResult: (tx) => {
-        const symbol = tx;
-        if (ignore) return;
-        setTokenSymbol(symbol);
-      },
+      onTransactionResult,
+      onRetryCancel,
+      onError,
     });
 
     return () => {

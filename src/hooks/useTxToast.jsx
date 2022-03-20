@@ -16,6 +16,7 @@ export const useTxToast = () => {
    */
   const push = async (tx, titles, options = {}) => {
     if (!tx) {
+      options?.onTxFailure && options.onTxFailure();
       return;
     }
 
@@ -37,7 +38,7 @@ export const useTxToast = () => {
         lifetime: TOAST_DEFAULT_TIMEOUT,
       });
 
-      options?.onTxSuccess();
+      options?.onTxSuccess && options.onTxSuccess();
       return;
     }
 
@@ -46,7 +47,8 @@ export const useTxToast = () => {
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_DEFAULT_TIMEOUT,
     });
-    options?.onTxFailure();
+
+    options?.onTxFailure && options.onTxFailure();
   };
 
   return { push };

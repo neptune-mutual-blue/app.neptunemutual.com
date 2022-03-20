@@ -45,17 +45,24 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
         setReceiveAmount(liquidityAmount);
       };
 
+      const onRetryCancel = () => {};
+
+      const onError = (err) => {
+        notifyError(err, "calculate liquidity");
+      };
+
       const args = [convertToUnits(debouncedValue).toString()];
       invoke({
         instance,
         methodName: "calculateLiquidity",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
         retry: false,
       });
-    } catch (error) {
-      notifyError(error, "calculate liquidity");
+    } catch (err) {
+      notifyError(err, "calculate liquidity");
     }
   }, [
     account,

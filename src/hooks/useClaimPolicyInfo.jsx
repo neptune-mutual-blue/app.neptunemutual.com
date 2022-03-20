@@ -74,6 +74,10 @@ export const useClaimPolicyInfo = ({
     }
 
     setApproving(true);
+    const cleanup = () => {
+      setApproving(false);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -84,15 +88,24 @@ export const useClaimPolicyInfo = ({
       } catch (err) {
         notifyError(err, `approve cxDAI tokens`);
       } finally {
-        setApproving(false);
+        cleanup();
       }
     };
 
-    approve(
-      claimsProcessorAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      cleanup();
+      notifyError(err, `approve cxDAI tokens`);
+    };
+
+    approve(claimsProcessorAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleClaim = async () => {
@@ -110,6 +123,12 @@ export const useClaimPolicyInfo = ({
         signerOrProvider
       );
 
+      const cleanup = () => {
+        updateBalance();
+        updateAllowance(claimsProcessorAddress);
+        setClaiming(false);
+      };
+
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
           pending: `Claiming policy`,
@@ -117,9 +136,16 @@ export const useClaimPolicyInfo = ({
           failure: `Could not Claim policy`,
         });
 
-        updateBalance();
-        updateAllowance(claimsProcessorAddress);
-        setClaiming(false);
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        cleanup();
+        notifyError(err, "claim policy");
       };
 
       const args = [
@@ -134,10 +160,12 @@ export const useClaimPolicyInfo = ({
         catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
-      notifyError(err, "claim policy");
       setClaiming(false);
+      notifyError(err, "claim policy");
     }
   };
 

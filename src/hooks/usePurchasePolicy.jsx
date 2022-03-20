@@ -87,29 +87,60 @@ export const usePurchasePolicy = ({
   }, [account, balance, error, feeAmount, feeError, value]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
+    setApproving(true);
 
+    const cleanup = () => {
+      setApproving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "approve DAI");
+    };
+
+    try {
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
           pending: "Approving DAI",
           success: "Approved DAI Successfully",
           failure: "Could not approve DAI",
         });
+        cleanup();
       };
 
-      approve(policyContractAddress, feeAmount, onTransactionResult);
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
+      approve(policyContractAddress, feeAmount, {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      });
     } catch (err) {
-      notifyError(err, "approve DAI");
-    } finally {
-      setApproving(false);
+      handleError(err);
+      cleanup();
     }
   };
 
   const handlePurchase = async () => {
-    try {
-      setPurchasing(true);
+    setPurchasing(true);
 
+    const cleanup = () => {
+      setPurchasing(false);
+      updateAllowance();
+      updateBalance();
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "purchase policy");
+    };
+
+    try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const policyContract = await registry.PolicyContract.getInstance(
@@ -124,9 +155,16 @@ export const usePurchasePolicy = ({
           failure: "Could not purchase policy",
         });
 
-        setPurchasing(false);
-        updateAllowance();
-        updateBalance();
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
       };
 
       const args = [
@@ -137,13 +175,14 @@ export const usePurchasePolicy = ({
       invoke({
         instance: policyContract,
         methodName: "purchaseCover",
-        catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
-      setPurchasing(false);
-      notifyError(err, "purchase policy");
+      handleError(err);
+      cleanup();
     }
   };
 

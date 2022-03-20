@@ -65,18 +65,27 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Approved DAI Successfully",
           failure: "Could not approve DAI",
         });
-      } catch (error) {
-        notifyError(error, "approve DAI");
-      } finally {
+        setLqApproving(false);
+      } catch (err) {
+        notifyError(err, "approve DAI");
         setLqApproving(false);
       }
     };
 
-    lqTokenApprove(
-      vaultAddress,
-      convertToUnits(lqValue).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      setLqApproving(false);
+    };
+
+    const onError = (err) => {
+      notifyError(err, "approve DAI");
+      setLqApproving(false);
+    };
+
+    lqTokenApprove(vaultAddress, convertToUnits(lqValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleNPMTokenApprove = async () => {
@@ -88,18 +97,27 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Approved NPM Successfully",
           failure: "Could not approve NPM",
         });
-      } catch (error) {
-        notifyError(error, "approve NPM");
+      } catch (err) {
+        notifyError(err, "approve NPM");
       } finally {
         setNPMApproving(false);
       }
     };
 
-    npmTokenApprove(
-      vaultAddress,
-      convertToUnits(npmValue).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      setNPMApproving(false);
+    };
+
+    const onError = (err) => {
+      notifyError(err, "approve NPM");
+      setNPMApproving(false);
+    };
+
+    npmTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleProvide = async () => {
@@ -130,18 +148,36 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         updateStakeAllowance();
       };
 
+      const onRetryCancel = () => {
+        setProviding(false);
+        updateLqTokenBalance();
+        updateNpmBalance();
+        updateLqAllowance();
+        updateStakeAllowance();
+      };
+
+      const onError = (err) => {
+        notifyError(err, "add liquidity");
+
+        setProviding(false);
+        updateLqTokenBalance();
+        updateNpmBalance();
+        updateLqAllowance();
+        updateStakeAllowance();
+      };
+
       const args = [coverKey, lqAmount, npmAmount];
       invoke({
         instance: vault,
         methodName: "addLiquidity",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
       setProviding(false);
       notifyError(err, "add liquidity");
-    } finally {
     }
   };
 

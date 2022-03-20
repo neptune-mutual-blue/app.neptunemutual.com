@@ -43,7 +43,7 @@ const BondPage = () => {
     error,
     handleApprove,
     handleBond,
-  } = useCreateBond({ info, value });
+  } = useCreateBond({ info, value, refetchBondInfo });
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
 
   const leftHalf = [

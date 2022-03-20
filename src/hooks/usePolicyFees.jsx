@@ -47,10 +47,20 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
-      try {
-        setLoading(true);
-        setError(false);
+      setLoading(true);
+      setError(false);
 
+      const cleanup = () => {
+        setLoading(false);
+      };
+
+      const handleError = (err) => {
+        console.error(err);
+        if (ignore) return;
+        setError(true);
+      };
+
+      try {
         const policyContract = await registry.PolicyContract.getInstance(
           networkId,
           signerOrProvider
@@ -74,7 +84,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           ] = result;
 
           if (ignore) return;
-          setLoading(false);
+          cleanup();
           setData({
             fee: fee.toString(),
             utilizationRatio: utilizationRatio.toString(),
@@ -86,6 +96,15 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           });
         };
 
+        const onRetryCancel = () => {
+          cleanup();
+        };
+
+        const onError = (err) => {
+          handleError(err);
+          cleanup();
+        };
+
         invoke({
           instance: policyContract,
           methodName: "getCoverFeeInfo",
@@ -93,12 +112,12 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           args,
           retry: false,
           onTransactionResult,
+          onRetryCancel,
+          onError,
         });
       } catch (err) {
-        console.error(err);
-
-        if (ignore) return;
-        setError(true);
+        handleError(err);
+        cleanup();
       }
     }
 

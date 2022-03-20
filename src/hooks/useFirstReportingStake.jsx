@@ -34,12 +34,20 @@ export const useFirstReportingStake = ({ coverKey }) => {
         setMinStake(minStake.toString());
       };
 
+      const onRetryCancel = () => {};
+
+      const onError = (err) => {
+        notifyError(err, "get first reporting stake");
+      };
+
       invoke({
         instance,
         methodName: "getFirstReportingStake(bytes32)",
         catcher: notifyError,
         args: [coverKey],
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     }
 

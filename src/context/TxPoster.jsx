@@ -3,14 +3,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { calculateGasMargin } from "@/utils/bn";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Divider } from "@/components/UI/atoms/divider";
 
 const initValue = {
   // prettier-ignore
-  invoke: async ({instance, methodName, overrides, catcher, args, retry, onTransactionResult}) => {}, // eslint-disable-line
+  invoke: async ({instance, methodName, overrides,  args, retry, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
@@ -24,7 +23,6 @@ export function useTxPoster() {
 }
 
 export const TxPosterProvider = ({ children }) => {
-  const { notifyError } = useErrorNotifier();
   const [data, setData] = useState({
     message: "",
     isError: false,
@@ -36,13 +34,15 @@ export const TxPosterProvider = ({ children }) => {
       instance,
       methodName,
       overrides = {},
-      catcher,
+
       args = [],
       retry = true,
       onTransactionResult = () => {},
+      onRetryCancel = () => {},
+      onError = console.error,
     }) => {
       if (!instance) {
-        catcher(new Error("Instance not found"));
+        onError(new Error("Instance not found"));
         return;
       }
 
@@ -53,7 +53,7 @@ export const TxPosterProvider = ({ children }) => {
         console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
         if (retry) {
-          notifyError(err, "estimate gas");
+          onError(err);
           setData({
             description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
               args
@@ -66,50 +66,72 @@ export const TxPosterProvider = ({ children }) => {
               overrides,
               args,
               onTransactionResult,
+              onRetryCancel,
+              onError,
             },
           });
         }
       }
 
       if (!estimatedGas && retry) {
+        // Could not estimate gas, therefore could not proceed
+        // Shows popup and wait for confirmation
         return;
       }
 
+      try {
+        const tx = await instance[methodName](...args, {
+          gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+          ...overrides,
+        });
+
+        onTransactionResult(tx);
+      } catch (err) {
+        onError(err);
+      }
+    },
+    []
+  );
+
+  const handleContinue = async () => {
+    const {
+      instance,
+      methodName,
+      overrides,
+      args,
+      onTransactionResult,
+      onError,
+    } = data.pendingInvokeArgs;
+
+    try {
+      // Closes modal and clears data
+      setData({
+        message: "",
+        isError: false,
+        pendingInvokeArgs: {},
+      });
+
       const tx = await instance[methodName](...args, {
-        gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+        gasLimit: DEFAULT_GAS_LIMIT,
         ...overrides,
       });
 
       onTransactionResult(tx);
-      return tx;
-    },
-    [notifyError]
-  );
-
-  const handleContinue = async () => {
-    const { instance, methodName, overrides, args, onTransactionResult } =
-      data.pendingInvokeArgs;
-
-    setData({
-      message: "",
-      isError: false,
-      pendingInvokeArgs: {},
-    });
-
-    const tx = await instance[methodName](...args, {
-      gasLimit: DEFAULT_GAS_LIMIT,
-      ...overrides,
-    });
-
-    onTransactionResult(tx);
-    return tx;
+    } catch (err) {
+      onError(err);
+    }
   };
 
   const handleClose = () => {
-    setData({
-      message: "",
-      isError: false,
-      pendingInvokeArgs: {},
+    setData((prevData) => {
+      const { onRetryCancel } = prevData.pendingInvokeArgs;
+      onRetryCancel && onRetryCancel();
+
+      return {
+        message: "",
+        isError: false,
+        pendingInvokeArgs: {},
+      };
     });
   };
 

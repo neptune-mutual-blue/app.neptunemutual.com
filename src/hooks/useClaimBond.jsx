@@ -17,7 +17,7 @@ export const useClaimBond = () => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const handleClaim = async () => {
+  const handleClaim = async (onTxSuccess) => {
     if (!account || !networkId) {
       return;
     }
@@ -32,22 +32,38 @@ export const useClaimBond = () => {
 
       setClaiming(true);
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Claiming NPM",
-          success: "Claimed NPM Successfully",
-          failure: "Could not claim bond",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Claiming NPM",
+            success: "Claimed NPM Successfully",
+            failure: "Could not claim bond",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
         setClaiming(false);
+      };
+
+      const onRetryCancel = () => {
+        setClaiming(false);
+      };
+
+      const onError = (err) => {
+        setClaiming(false);
+        notifyError(err, "claim bond");
       };
 
       invoke({
         instance,
         methodName: "claimBond",
-        catcher: notifyError,
+        onError,
         onTransactionResult,
+        onRetryCancel,
       });
     } catch (err) {
-      notifyError(err);
+      notifyError(err, "claim bond");
     }
   };
 

@@ -49,17 +49,24 @@ export const useCalculatePods = ({ coverKey, value }) => {
           setReceiveAmount(convertFromUnits(podAmount).toString());
         };
 
+        const onRetryCancel = () => {};
+
+        const onError = (err) => {
+          notifyError(err, "calculate pods");
+        };
+
         const args = [convertToUnits(debouncedValue).toString()];
         invoke({
           instance,
           methodName: "calculatePods",
-          catcher: notifyError,
           onTransactionResult,
+          onRetryCancel,
+          onError,
           args,
           retry: false,
         });
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        notifyError(err, "calculate pods");
       }
     }
 
@@ -67,7 +74,16 @@ export const useCalculatePods = ({ coverKey, value }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, debouncedValue, library, networkId, receiveAmount]);
+  }, [
+    account,
+    coverKey,
+    debouncedValue,
+    invoke,
+    library,
+    networkId,
+    notifyError,
+    receiveAmount,
+  ]);
 
   return {
     receiveAmount,

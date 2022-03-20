@@ -43,12 +43,19 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           setData(convertFromUnits(availableLiquidity).toString());
         };
 
+        const onRetryCancel = () => {};
+
+        const onError = (err) => {
+          notifyError(err, "get pool summary");
+        };
+
         const args = [coverKey];
         invoke({
           instance,
           methodName: "getCoverPoolSummary",
-          catcher: notifyError,
           onTransactionResult,
+          onRetryCancel,
+          onError,
           args,
           retry: false,
         });

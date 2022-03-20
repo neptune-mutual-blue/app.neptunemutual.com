@@ -37,6 +37,12 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
         });
       };
 
+      const onRetryCancel = () => {};
+
+      const onError = (err) => {
+        notifyError(err, "Finalize Incident");
+      };
+
       const args = [coverKey, incidentDate];
       invoke({
         instance,
@@ -44,6 +50,8 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
         catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
       notifyError(err, "Finalize Incident");

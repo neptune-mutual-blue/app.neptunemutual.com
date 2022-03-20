@@ -26,8 +26,16 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setResolving(true);
+
+    const cleanup = () => {
+      setResolving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "Resolve Incident");
+    };
+
     try {
-      setResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
@@ -41,20 +49,30 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
           success: "Resolved Incident Successfully",
           failure: "Could not Resolve Incident",
         });
-        setResolving(false);
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, incidentDate];
       invoke({
         instance,
         methodName: "resolve",
-        catcher: notifyError,
         args,
         onTransactionResult,
+        onRetryCancel,
+        onError,
       });
     } catch (err) {
-      notifyError(err, "Resolve Incident");
-      setResolving(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -64,8 +82,17 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setEmergencyResolving(true);
+
+    const cleanup = () => {
+      setEmergencyResolving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "Emergency Resolve Incident");
+    };
+
     try {
-      setEmergencyResolving(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Resolution.getInstance(
@@ -79,20 +106,30 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
           success: "Emergency Resolved Incident Successfully",
           failure: "Could not Emergency Resolve Incident",
         });
-        setEmergencyResolving(false);
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, incidentDate, decision];
       invoke({
         instance,
         methodName: "emergencyResolve",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
-      notifyError(err, "Emergency Resolve Incident");
-      setEmergencyResolving(false);
+      handleError(err);
+      cleanup();
     }
   };
 

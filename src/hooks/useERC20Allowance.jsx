@@ -20,7 +20,7 @@ export const useERC20Allowance = (tokenAddress) => {
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
-    async (spender, onTransactionResult) => {
+    async (spender, { onTransactionResult, onRetryCancel }) => {
       if (!networkId || !account) return;
       if (!tokenAddress || !spender) return;
 
@@ -52,6 +52,7 @@ export const useERC20Allowance = (tokenAddress) => {
           args,
           retry: false,
           onTransactionResult,
+          onRetryCancel,
         });
       } catch (err) {
         notifyError(err, "get allowance");
@@ -77,16 +78,33 @@ export const useERC20Allowance = (tokenAddress) => {
   const refetch = useCallback(
     async (spender) => {
       setLoading(true);
+
+      const cleanup = () => {
+        setLoading(false);
+      };
+
       const onTransactionResult = async (tx) => {
         const _allowance = tx;
 
-        setLoading(false);
+        cleanup();
         if (_allowance) {
           setAllowance(_allowance.toString());
         }
       };
 
-      await fetchAllowance(spender, onTransactionResult);
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = () => {
+        cleanup();
+      };
+
+      await fetchAllowance(spender, {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      });
     },
     [fetchAllowance]
   );
@@ -96,7 +114,11 @@ export const useERC20Allowance = (tokenAddress) => {
    * @param {string} spender
    * @param {string} amount
    */
-  const approve = async (spender, amount, onTransactionResult) => {
+  const approve = async (
+    spender,
+    amount,
+    { onTransactionResult, onRetryCancel, onError }
+  ) => {
     if (!networkId || !account || !tokenAddress || !spender) {
       requiresAuth();
       throw new Error("Could not approve");
@@ -120,8 +142,9 @@ export const useERC20Allowance = (tokenAddress) => {
     invoke({
       instance: tokenInstance,
       methodName: "approve",
-      catcher: notifyError,
       args,
+      onError,
+      onRetryCancel,
       onTransactionResult: (tx) => {
         tx?.wait().then(() => {
           refetch(spender);

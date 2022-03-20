@@ -47,6 +47,10 @@ export const usePoolInfo = ({ key }) => {
       return;
     }
 
+    const handleError = (err) => {
+      notifyError(err, "get pool info");
+    };
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
     try {
       let instance = await registry.StakingPools.getInstance(
@@ -109,17 +113,23 @@ export const usePoolInfo = ({ key }) => {
         });
       };
 
+      const onRetryCancel = () => {};
+      const onError = (err) => {
+        handleError(err);
+      };
+
       const args = [key, account];
       invoke({
         instance,
         methodName: "getInfo",
         args,
         retry: false,
-        catcher: notifyError,
+        onError,
         onTransactionResult,
+        onRetryCancel,
       });
     } catch (err) {
-      console.error(err);
+      handleError(err);
     }
   }, [account, invoke, key, library, networkId, notifyError]);
 

@@ -49,12 +49,25 @@ export const useStakingPoolWithdraw = ({
         setWithdrawing(false);
       };
 
+      const onRetryCancel = () => {
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, `unstake ${tokenSymbol}`);
+
+        refetchInfo();
+        setWithdrawing(false);
+      };
+
       const args = [poolKey, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "withdraw",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
@@ -104,16 +117,29 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
         setWithdrawingRewards(false);
       };
 
+      const onRetryCancel = () => {
+        refetchInfo();
+        setWithdrawingRewards(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "withdraw rewards");
+
+        refetchInfo();
+        setWithdrawingRewards(false);
+      };
+
       const args = [poolKey];
       invoke({
         instance,
         methodName: "withdrawRewards",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
-      console.error(err);
+      notifyError(err, "withdraw rewards");
       setWithdrawingRewards(false);
     }
   };

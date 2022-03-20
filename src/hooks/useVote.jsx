@@ -51,18 +51,27 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
           success: `Approved ${tokenSymbol} tokens Successfully`,
           failure: `Could not approve ${tokenSymbol} tokens`,
         });
+        setApproving(false);
       } catch (err) {
         notifyError(err, `approve ${tokenSymbol} tokens`);
-      } finally {
         setApproving(false);
       }
     };
 
-    approve(
-      governanceAddress,
-      convertToUnits(value).toString(),
-      onTransactionResult
-    );
+    const onRetryCancel = () => {
+      setApproving(false);
+    };
+
+    const onError = (err) => {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
+      setApproving(false);
+    };
+
+    approve(governanceAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleAttest = async () => {
@@ -87,18 +96,32 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         setVoting(false);
       };
 
+      const onRetryCancel = () => {
+        updateBalance();
+        updateAllowance();
+        setVoting(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "attest");
+
+        updateBalance();
+        updateAllowance();
+        setVoting(false);
+      };
+
       const args = [coverKey, incidentDate, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "attest",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
       notifyError(err, "attest");
       setVoting(false);
-    } finally {
     }
   };
 
@@ -122,18 +145,27 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         setVoting(false);
       };
 
+      const onRetryCancel = () => {
+        setVoting(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "refute");
+        setVoting(false);
+      };
+
       const args = [coverKey, incidentDate, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "refute",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
       notifyError(err, "refute");
       setVoting(false);
-    } finally {
     }
   };
 

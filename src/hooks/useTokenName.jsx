@@ -33,15 +33,21 @@ export const useTokenName = (tokenAddress) => {
       return;
     }
 
+    const onTransactionResult = (tx) => {
+      const name = tx;
+      if (ignore) return;
+      setTokenName(name);
+    };
+
+    const onRetryCancel = () => {};
+    const onError = () => {};
+
     invoke({
       instance,
       methodName: "name",
-      catcher: console.error,
-      onTransactionResult: (tx) => {
-        const name = tx;
-        if (ignore) return;
-        setTokenName(name);
-      },
+      onTransactionResult,
+      onRetryCancel,
+      onError,
     });
 
     return () => {

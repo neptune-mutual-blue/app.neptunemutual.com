@@ -111,12 +111,25 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         setUnstaking(false);
       };
 
+      const onRetryCancel = () => {
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "Unstake NPM");
+
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
       const args = [coverKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstake",
-        catcher: notifyError,
+        onError,
         onTransactionResult,
+        onRetryCancel,
         args,
       });
     } catch (err) {
@@ -156,12 +169,25 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         setUnstaking(false);
       };
 
+      const onRetryCancel = () => {
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
+      const onError = (err) => {
+        notifyError(err, "Unstake & claim NPM");
+
+        fetchInfo().catch(console.error);
+        setUnstaking(false);
+      };
+
       const args = [coverKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstakeWithClaim",
-        catcher: notifyError,
         onTransactionResult,
+        onRetryCancel,
+        onError,
         args,
       });
     } catch (err) {
