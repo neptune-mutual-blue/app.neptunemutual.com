@@ -58,6 +58,15 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const handleLqTokenApprove = async () => {
     setLqApproving(true);
+
+    const cleanup = () => {
+      setLqApproving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "approve DAI");
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -65,20 +74,20 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Approved DAI Successfully",
           failure: "Could not approve DAI",
         });
-        setLqApproving(false);
+        cleanup();
       } catch (err) {
-        notifyError(err, "approve DAI");
-        setLqApproving(false);
+        handleError(err);
+        cleanup();
       }
     };
 
     const onRetryCancel = () => {
-      setLqApproving(false);
+      cleanup();
     };
 
     const onError = (err) => {
-      notifyError(err, "approve DAI");
-      setLqApproving(false);
+      handleError(err);
+      cleanup();
     };
 
     lqTokenApprove(vaultAddress, convertToUnits(lqValue).toString(), {
@@ -90,6 +99,14 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const handleNPMTokenApprove = async () => {
     setNPMApproving(true);
+
+    const cleanup = () => {
+      setNPMApproving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "approve NPM");
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -97,20 +114,20 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Approved NPM Successfully",
           failure: "Could not approve NPM",
         });
+        cleanup();
       } catch (err) {
-        notifyError(err, "approve NPM");
-      } finally {
-        setNPMApproving(false);
+        handleError(err);
+        cleanup();
       }
     };
 
     const onRetryCancel = () => {
-      setNPMApproving(false);
+      cleanup();
     };
 
     const onError = (err) => {
-      notifyError(err, "approve NPM");
-      setNPMApproving(false);
+      handleError(err);
+      cleanup();
     };
 
     npmTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
@@ -121,9 +138,20 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   };
 
   const handleProvide = async () => {
-    try {
-      setProviding(true);
+    setProviding(true);
 
+    const cleanup = () => {
+      setProviding(false);
+      updateLqTokenBalance();
+      updateNpmBalance();
+      updateLqAllowance();
+      updateStakeAllowance();
+    };
+    const handleError = (err) => {
+      notifyError(err, "add liquidity");
+    };
+
+    try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
@@ -140,30 +168,16 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Added Liquidity Successfully",
           failure: "Could not add liquidity",
         });
-
-        setProviding(false);
-        updateLqTokenBalance();
-        updateNpmBalance();
-        updateLqAllowance();
-        updateStakeAllowance();
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        setProviding(false);
-        updateLqTokenBalance();
-        updateNpmBalance();
-        updateLqAllowance();
-        updateStakeAllowance();
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, "add liquidity");
-
-        setProviding(false);
-        updateLqTokenBalance();
-        updateNpmBalance();
-        updateLqAllowance();
-        updateStakeAllowance();
+        handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, lqAmount, npmAmount];
@@ -176,8 +190,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         args,
       });
     } catch (err) {
-      setProviding(false);
-      notifyError(err, "add liquidity");
+      handleError(err);
+      cleanup();
     }
   };
 

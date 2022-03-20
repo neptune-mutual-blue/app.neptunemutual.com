@@ -108,7 +108,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
         invoke({
           instance: policyContract,
           methodName: "getCoverFeeInfo",
-          catcher: notifyError,
           args,
           retry: false,
           onTransactionResult,

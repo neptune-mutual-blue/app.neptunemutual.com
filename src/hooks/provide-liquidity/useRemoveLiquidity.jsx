@@ -43,6 +43,13 @@ export const useRemoveLiquidity = ({
 
   const handleApprove = async () => {
     setApproving(true);
+    const cleanup = () => {
+      setApproving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -50,20 +57,20 @@ export const useRemoveLiquidity = ({
           success: `Approved ${vaultTokenSymbol} tokens Successfully`,
           failure: `Could not approve ${vaultTokenSymbol} tokens`,
         });
-        setApproving(false);
+        cleanup();
       } catch (err) {
-        notifyError(err, `approve ${vaultTokenSymbol} tokens`);
-        setApproving(false);
+        handleError(err);
+        cleanup();
       }
     };
 
     const onRetryCancel = () => {
-      setApproving(false);
+      cleanup();
     };
 
     const onError = (err) => {
-      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
-      setApproving(false);
+      handleError(err);
+      cleanup();
     };
 
     approve(vaultTokenAddress, convertToUnits(value).toString(), {
@@ -76,10 +83,20 @@ export const useRemoveLiquidity = ({
   const handleWithdraw = async () => {
     if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    setWithdrawing(true);
+    const cleanup = () => {
+      updateBalance();
+      updateAllowance(vaultTokenAddress);
+      refetchInfo();
+      setWithdrawing(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "remove liquidity");
+    };
 
     try {
-      setWithdrawing(true);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -92,27 +109,16 @@ export const useRemoveLiquidity = ({
           success: "Removed Liquidity Successfully",
           failure: "Could not remove liquidity",
         });
-
-        updateBalance();
-        updateAllowance(vaultTokenAddress);
-        refetchInfo();
-        setWithdrawing(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        updateBalance();
-        updateAllowance(vaultTokenAddress);
-        refetchInfo();
-        setWithdrawing(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, "remove liquidity");
-
-        updateBalance();
-        updateAllowance(vaultTokenAddress);
-        refetchInfo();
-        setWithdrawing(false);
+        handleError(err);
+        cleanup();
       };
 
       const args = [
@@ -130,8 +136,8 @@ export const useRemoveLiquidity = ({
         args,
       });
     } catch (err) {
-      notifyError(err, "remove liquidity");
-      setWithdrawing(false);
+      handleError(err);
+      cleanup();
     }
   };
 

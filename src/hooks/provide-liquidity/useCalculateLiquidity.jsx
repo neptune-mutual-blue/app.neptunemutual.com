@@ -29,9 +29,13 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const handleError = (err) => {
+      notifyError(err, "calculate liquidity");
+    };
 
     try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -48,7 +52,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       const onRetryCancel = () => {};
 
       const onError = (err) => {
-        notifyError(err, "calculate liquidity");
+        handleError(err);
       };
 
       const args = [convertToUnits(debouncedValue).toString()];
@@ -62,7 +66,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
         retry: false,
       });
     } catch (err) {
-      notifyError(err, "calculate liquidity");
+      handleError(err);
     }
   }, [
     account,

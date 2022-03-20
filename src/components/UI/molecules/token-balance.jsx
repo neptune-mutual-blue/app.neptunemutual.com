@@ -24,8 +24,8 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
         message: "Token address copied Successfully",
         lifetime: SHORT_TOAST_TIME,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       toast?.pushError({
         title: "Error",
         message: "Unable to copy token address",
@@ -35,7 +35,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   };
 
   return (
-    <div className="flex justify-between items-start text-9B9B9B px-3 mt-2">
+    <div className="flex items-start justify-between px-3 mt-2 text-9B9B9B">
       <div>
         {balance && (
           <p title={formatCurrency(convertFromUnits(balance), unit, true).long}>

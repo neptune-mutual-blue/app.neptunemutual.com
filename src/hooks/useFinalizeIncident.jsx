@@ -22,6 +22,10 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    const handleError = (err) => {
+      notifyError(err, "Finalize Incident");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const instance = await registry.Resolution.getInstance(
@@ -40,21 +44,20 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
       const onRetryCancel = () => {};
 
       const onError = (err) => {
-        notifyError(err, "Finalize Incident");
+        handleError(err);
       };
 
       const args = [coverKey, incidentDate];
       invoke({
         instance,
         methodName: "finalize",
-        catcher: notifyError,
         args,
         onTransactionResult,
         onRetryCancel,
         onError,
       });
     } catch (err) {
-      notifyError(err, "Finalize Incident");
+      handleError(err);
     }
   };
 

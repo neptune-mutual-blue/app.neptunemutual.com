@@ -20,6 +20,11 @@ export const useFirstReportingStake = ({ coverKey }) => {
     if (!networkId || !account) return;
 
     let ignore = false;
+
+    const handleError = (err) => {
+      notifyError(err, "get first reporting stake");
+    };
+
     async function fetchMinStake() {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -37,13 +42,12 @@ export const useFirstReportingStake = ({ coverKey }) => {
       const onRetryCancel = () => {};
 
       const onError = (err) => {
-        notifyError(err, "get first reporting stake");
+        handleError(err);
       };
 
       invoke({
         instance,
         methodName: "getFirstReportingStake(bytes32)",
-        catcher: notifyError,
         args: [coverKey],
         onTransactionResult,
         onRetryCancel,
@@ -52,7 +56,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
     }
 
     fetchMinStake().catch((err) => {
-      notifyError(err, "get first reporting stake");
+      handleError(err);
     });
 
     return () => {

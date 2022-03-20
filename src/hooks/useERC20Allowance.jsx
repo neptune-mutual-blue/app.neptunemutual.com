@@ -20,7 +20,7 @@ export const useERC20Allowance = (tokenAddress) => {
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
-    async (spender, { onTransactionResult, onRetryCancel }) => {
+    async (spender, { onTransactionResult, onRetryCancel, onError }) => {
       if (!networkId || !account) return;
       if (!tokenAddress || !spender) return;
 
@@ -48,17 +48,17 @@ export const useERC20Allowance = (tokenAddress) => {
         invoke({
           instance: tokenInstance,
           methodName: "allowance",
-          catcher: notifyError,
           args,
           retry: false,
           onTransactionResult,
           onRetryCancel,
+          onError,
         });
       } catch (err) {
-        notifyError(err, "get allowance");
+        onError(err);
       }
     },
-    [account, invoke, library, networkId, notifyError, tokenAddress]
+    [account, invoke, library, networkId, tokenAddress]
   );
 
   // Resets loading and other states which are modified in the above hook
@@ -83,6 +83,10 @@ export const useERC20Allowance = (tokenAddress) => {
         setLoading(false);
       };
 
+      const handleError = (err) => {
+        notifyError(err, "get allowance");
+      };
+
       const onTransactionResult = async (tx) => {
         const _allowance = tx;
 
@@ -96,7 +100,8 @@ export const useERC20Allowance = (tokenAddress) => {
         cleanup();
       };
 
-      const onError = () => {
+      const onError = (err) => {
+        handleError(err);
         cleanup();
       };
 
@@ -106,7 +111,7 @@ export const useERC20Allowance = (tokenAddress) => {
         onError,
       });
     },
-    [fetchAllowance]
+    [fetchAllowance, notifyError]
   );
 
   /**

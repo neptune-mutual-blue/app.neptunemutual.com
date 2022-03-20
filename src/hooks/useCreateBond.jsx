@@ -69,9 +69,16 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (!networkId || !account || !debouncedValue) return;
 
     async function updateReceiveAmount() {
-      try {
-        setReceiveAmountLoading(true);
+      setReceiveAmountLoading(true);
 
+      const cleanup = () => {
+        setReceiveAmountLoading(false);
+      };
+      const handleError = (err) => {
+        notifyError(err, "calculate tokens");
+      };
+
+      try {
         const signerOrProvider = getProviderOrSigner(
           library,
           account,
@@ -81,10 +88,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           networkId,
           signerOrProvider
         );
-
-        const cleanup = () => {
-          setReceiveAmountLoading(false);
-        };
 
         const onTransactionResult = async (tx) => {
           const result = tx;
@@ -99,7 +102,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         };
 
         const onError = (err) => {
-          notifyError(err, "calculate tokens");
+          handleError(err);
           cleanup();
         };
 
@@ -114,8 +117,8 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           onError,
         });
       } catch (err) {
-        notifyError(err, "calculate tokens");
-        setReceiveAmountLoading(false);
+        handleError(err);
+        cleanup();
       }
     }
 
@@ -161,6 +164,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     const cleanup = () => {
       setApproving(false);
     };
+    const handleError = (err) => {
+      notifyError(err, "approve LP tokens");
+    };
 
     const onTransactionResult = async (tx) => {
       try {
@@ -169,9 +175,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           success: "Approved LP tokens Successfully",
           failure: "Could not approve LP tokens",
         });
-      } catch (error) {
-        notifyError(error, "approve LP tokens");
-      } finally {
+        cleanup();
+      } catch (err) {
+        handleError(err);
         cleanup();
       }
     };
@@ -181,7 +187,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     };
 
     const onError = (err) => {
-      notifyError(err, "approve LP tokens");
+      handleError(err);
       cleanup();
     };
 
@@ -194,6 +200,17 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
   const handleBond = async () => {
     setBonding(true);
+
+    const cleanup = () => {
+      setBonding(false);
+      updateBalance();
+      updateAllowance(bondContractAddress);
+      refetchBondInfo();
+    };
+    const handleError = (err) => {
+      notifyError(err, "create bond");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -201,13 +218,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         networkId,
         signerOrProvider
       );
-
-      const cleanup = () => {
-        setBonding(false);
-        updateBalance();
-        updateAllowance(bondContractAddress);
-        refetchBondInfo();
-      };
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
@@ -223,7 +233,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       };
 
       const onError = (err) => {
-        notifyError(err, "create bond");
+        handleError(err);
         cleanup();
       };
 
@@ -237,8 +247,8 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         onError,
       });
     } catch (err) {
-      notifyError(err, "create bond");
-      setBonding(false);
+      handleError(err);
+      cleanup();
     }
   };
 

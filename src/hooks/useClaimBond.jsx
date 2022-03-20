@@ -22,6 +22,14 @@ export const useClaimBond = () => {
       return;
     }
 
+    setClaiming(true);
+    const cleanup = () => {
+      setClaiming(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "claim bond");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -30,7 +38,6 @@ export const useClaimBond = () => {
         signerOrProvider
       );
 
-      setClaiming(true);
       const onTransactionResult = async (tx) => {
         await txToast.push(
           tx,
@@ -43,16 +50,16 @@ export const useClaimBond = () => {
             onTxSuccess: onTxSuccess,
           }
         );
-        setClaiming(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        setClaiming(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        setClaiming(false);
-        notifyError(err, "claim bond");
+        handleError(err);
+        cleanup();
       };
 
       invoke({
@@ -63,7 +70,8 @@ export const useClaimBond = () => {
         onRetryCancel,
       });
     } catch (err) {
-      notifyError(err, "claim bond");
+      handleError(err);
+      cleanup();
     }
   };
 

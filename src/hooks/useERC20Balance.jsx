@@ -38,7 +38,6 @@ export const useERC20Balance = (tokenAddress) => {
 
         invoke({
           args: [account],
-          catcher: console.error,
           instance: tokenInstance,
           methodName: "balanceOf",
           onTransactionResult,
@@ -116,8 +115,9 @@ export const useERC20Balance = (tokenAddress) => {
       cleanup();
     };
 
-    const onError = () => {
+    const onError = (err) => {
       cleanup();
+      console.error(err);
     };
 
     fetchBalance({ onTransactionResult, onRetryCancel, onError });

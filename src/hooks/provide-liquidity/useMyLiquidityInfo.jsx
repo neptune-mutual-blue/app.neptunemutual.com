@@ -40,9 +40,17 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         return;
       }
 
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const handleError = (err) => {
+        notifyError(err, "get liquidity info");
+      };
 
       try {
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
+
         const instance = await registry.Vault.getInstance(
           networkId,
           coverKey,
@@ -80,7 +88,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         const onRetryCancel = () => {};
 
         const onError = (err) => {
-          notifyError(err, "get liquidity info");
+          handleError(err);
         };
 
         const args = [account];
@@ -94,7 +102,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           onError,
         });
       } catch (err) {
-        notifyError(err, "get liquidity info");
+        handleError(err);
       }
     },
     [account, coverKey, invoke, library, networkId, notifyError]
@@ -151,6 +159,10 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   }, [account, coverKey, library, networkId]);
 
   const accrueInterest = async () => {
+    const handleError = (err) => {
+      notifyError(err, "accrue interest");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -170,7 +182,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
       const onRetryCancel = () => {};
       const onError = (err) => {
-        notifyError(err, "accrue interest");
+        handleError(err);
       };
 
       invoke({
@@ -181,7 +193,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         onError,
       });
     } catch (err) {
-      notifyError(err, "accrue interest");
+      handleError(err);
     }
   };
 

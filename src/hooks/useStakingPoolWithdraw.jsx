@@ -29,10 +29,19 @@ export const useStakingPoolWithdraw = ({
       return;
     }
 
+    setWithdrawing(true);
+
+    const cleanup = () => {
+      refetchInfo();
+      setWithdrawing(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, `unstake ${tokenSymbol}`);
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      setWithdrawing(true);
       const instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
@@ -44,21 +53,16 @@ export const useStakingPoolWithdraw = ({
           success: `Unstaked ${tokenSymbol} successfully`,
           failure: `Could not unstake ${tokenSymbol}`,
         });
-
-        refetchInfo();
-        setWithdrawing(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        refetchInfo();
-        setWithdrawing(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, `unstake ${tokenSymbol}`);
-
-        refetchInfo();
-        setWithdrawing(false);
+        handleError(err);
+        cleanup();
       };
 
       const args = [poolKey, convertToUnits(value).toString()];
@@ -71,8 +75,8 @@ export const useStakingPoolWithdraw = ({
         args,
       });
     } catch (err) {
-      notifyError(err, `unstake ${tokenSymbol}`);
-      setWithdrawing(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -97,10 +101,19 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       return;
     }
 
+    setWithdrawingRewards(true);
+
+    const cleanup = () => {
+      refetchInfo();
+      setWithdrawingRewards(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "withdraw rewards");
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      setWithdrawingRewards(true);
       const instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
@@ -113,20 +126,16 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
           failure: `Could not withdraw rewards`,
         });
 
-        refetchInfo();
-        setWithdrawingRewards(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        refetchInfo();
-        setWithdrawingRewards(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, "withdraw rewards");
-
-        refetchInfo();
-        setWithdrawingRewards(false);
+        handleError(err);
+        cleanup();
       };
 
       const args = [poolKey];
@@ -139,8 +148,8 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
         args,
       });
     } catch (err) {
-      notifyError(err, "withdraw rewards");
-      setWithdrawingRewards(false);
+      handleError(err);
+      cleanup();
     }
   };
 

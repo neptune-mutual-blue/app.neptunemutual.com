@@ -92,8 +92,16 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setUnstaking(true);
+    const cleanup = () => {
+      fetchInfo().catch(console.error);
+      setUnstaking(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "Unstake NPM");
+    };
+
     try {
-      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContract = await registry.Resolution.getInstance(
         networkId,
@@ -106,21 +114,16 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
           success: "Unstaked NPM Successfully",
           failure: "Could not unstake NPM",
         });
-
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, "Unstake NPM");
-
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, incidentDate];
@@ -133,8 +136,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         args,
       });
     } catch (err) {
-      setUnstaking(false);
-      notifyError(err, "Unstake NPM");
+      cleanup();
+      handleError(err);
     }
   };
 
@@ -144,8 +147,17 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setUnstaking(true);
+    const cleanup = () => {
+      fetchInfo().catch(console.error);
+      setUnstaking(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "Unstake & claim NPM");
+    };
+
     try {
-      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
@@ -164,21 +176,16 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
           success: "Unstaked & claimed NPM Successfully",
           failure: "Could not unstake & claim NPM",
         });
-
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        cleanup();
       };
 
       const onRetryCancel = () => {
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        cleanup();
       };
 
       const onError = (err) => {
-        notifyError(err, "Unstake & claim NPM");
-
-        fetchInfo().catch(console.error);
-        setUnstaking(false);
+        handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, incidentDate];
@@ -191,8 +198,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         args,
       });
     } catch (err) {
-      notifyError(err, "Unstake & claim NPM");
-      setUnstaking(false);
+      handleError(err);
+      cleanup();
     }
   };
 

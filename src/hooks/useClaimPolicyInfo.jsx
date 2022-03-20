@@ -77,6 +77,9 @@ export const useClaimPolicyInfo = ({
     const cleanup = () => {
       setApproving(false);
     };
+    const handleError = (err) => {
+      notifyError(err, `approve cxDAI tokens`);
+    };
 
     const onTransactionResult = async (tx) => {
       try {
@@ -85,9 +88,9 @@ export const useClaimPolicyInfo = ({
           success: `Approved cxDAI tokens Successfully`,
           failure: `Could not approve cxDAI tokens`,
         });
+        cleanup();
       } catch (err) {
-        notifyError(err, `approve cxDAI tokens`);
-      } finally {
+        handleError(err);
         cleanup();
       }
     };
@@ -97,8 +100,8 @@ export const useClaimPolicyInfo = ({
     };
 
     const onError = (err) => {
+      handleError(err);
       cleanup();
-      notifyError(err, `approve cxDAI tokens`);
     };
 
     approve(claimsProcessorAddress, convertToUnits(value).toString(), {
@@ -114,8 +117,19 @@ export const useClaimPolicyInfo = ({
       return;
     }
 
+    setClaiming(true);
+
+    const cleanup = () => {
+      updateBalance();
+      updateAllowance(claimsProcessorAddress);
+      setClaiming(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "claim policy");
+    };
+
     try {
-      setClaiming(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.ClaimsProcessor.getInstance(
@@ -123,19 +137,12 @@ export const useClaimPolicyInfo = ({
         signerOrProvider
       );
 
-      const cleanup = () => {
-        updateBalance();
-        updateAllowance(claimsProcessorAddress);
-        setClaiming(false);
-      };
-
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
           pending: `Claiming policy`,
           success: `Claimed policy Successfully`,
           failure: `Could not Claim policy`,
         });
-
         cleanup();
       };
 
@@ -144,8 +151,8 @@ export const useClaimPolicyInfo = ({
       };
 
       const onError = (err) => {
+        handleError(err);
         cleanup();
-        notifyError(err, "claim policy");
       };
 
       const args = [
@@ -157,15 +164,14 @@ export const useClaimPolicyInfo = ({
       invoke({
         instance,
         methodName: "claim",
-        catcher: notifyError,
         args,
         onTransactionResult,
         onRetryCancel,
         onError,
       });
     } catch (err) {
-      setClaiming(false);
-      notifyError(err, "claim policy");
+      handleError(err);
+      cleanup();
     }
   };
 

@@ -28,9 +28,12 @@ export const useCalculatePods = ({ coverKey, value }) => {
       !isValidNumber(debouncedValue)
     ) {
       if (receiveAmount !== "0") setReceiveAmount("0");
-
       return;
     }
+
+    const handleError = (err) => {
+      notifyError(err, "calculate pods");
+    };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -52,7 +55,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
         const onRetryCancel = () => {};
 
         const onError = (err) => {
-          notifyError(err, "calculate pods");
+          handleError(err);
         };
 
         const args = [convertToUnits(debouncedValue).toString()];
@@ -66,7 +69,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
           retry: false,
         });
       } catch (err) {
-        notifyError(err, "calculate pods");
+        handleError(err);
       }
     }
 

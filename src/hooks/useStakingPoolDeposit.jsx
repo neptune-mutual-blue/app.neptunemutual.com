@@ -53,6 +53,14 @@ export const useStakingPoolDeposit = ({
 
   const handleApprove = async () => {
     setApproving(true);
+
+    const cleanup = () => {
+      setApproving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve ${tokenSymbol}`);
+    };
+
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
@@ -60,20 +68,20 @@ export const useStakingPoolDeposit = ({
           success: `Approved ${tokenSymbol} Successfully`,
           failure: `Could not approve ${tokenSymbol}`,
         });
-        setApproving(false);
+        cleanup();
       } catch (err) {
-        notifyError(err, `approve ${tokenSymbol}`);
-        setApproving(false);
+        handleError(err);
+        cleanup();
       }
     };
 
     const onRetryCancel = () => {
-      setApproving(false);
+      cleanup();
     };
 
     const onError = (err) => {
-      notifyError(err, `approve ${tokenSymbol}`);
-      setApproving(false);
+      handleError(err);
+      cleanup();
     };
 
     approve(poolContractAddress, convertToUnits(value).toString(), {

@@ -24,6 +24,10 @@ export const useAvailableLiquidity = ({ coverKey }) => {
       return;
     }
 
+    const handleError = (err) => {
+      notifyError(err, "get pool summary");
+    };
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function fetchAvailableLiquidity() {
@@ -46,7 +50,7 @@ export const useAvailableLiquidity = ({ coverKey }) => {
         const onRetryCancel = () => {};
 
         const onError = (err) => {
-          notifyError(err, "get pool summary");
+          handleError(err);
         };
 
         const args = [coverKey];
@@ -59,8 +63,8 @@ export const useAvailableLiquidity = ({ coverKey }) => {
           args,
           retry: false,
         });
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        handleError(err);
       }
     }
 
