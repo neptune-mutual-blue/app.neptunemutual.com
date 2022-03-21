@@ -1,9 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
@@ -11,7 +11,8 @@ import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 
 export const useERC20Allowance = (tokenAddress) => {
   const [allowance, setAllowance] = useState("0");
-  const { networkId } = useAppContext();
+  const [loading, setLoading] = useState(false);
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
@@ -19,9 +20,9 @@ export const useERC20Allowance = (tokenAddress) => {
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
-    async (spender) => {
-      if (!networkId || !account) return "0";
-      if (!tokenAddress || !spender) return "0";
+    async (spender, { onTransactionResult, onRetryCancel, onError }) => {
+      if (!networkId || !account) return;
+      if (!tokenAddress || !spender) return;
 
       try {
         const signerOrProvider = getProviderOrSigner(
@@ -40,33 +41,77 @@ export const useERC20Allowance = (tokenAddress) => {
             "Could not get an instance of the ERC20 from the SDK",
             tokenAddress
           );
+          return;
         }
 
         const args = [account, spender];
-        const _allowance = await invoke(
-          tokenInstance,
-          "allowance",
-          {},
-          notifyError,
-          args
-        );
-
-        return _allowance;
+        invoke({
+          instance: tokenInstance,
+          methodName: "allowance",
+          args,
+          retry: false,
+          onTransactionResult,
+          onRetryCancel,
+          onError,
+        });
       } catch (err) {
-        notifyError(err, "get allowance");
+        onError(err);
       }
-
-      return "0";
     },
-    [account, invoke, library, networkId, notifyError, tokenAddress]
+    [account, invoke, library, networkId, tokenAddress]
   );
+
+  // Resets loading and other states which are modified in the above hook
+  // "IF" condition should match the above effect
+  // Should appear after the effect which contains the async function (which sets loading state)
+  useEffect(() => {
+    if (!networkId || !account || !tokenAddress) {
+      if (allowance !== "0") {
+        setAllowance("0");
+      }
+      if (loading !== false) {
+        setLoading(false);
+      }
+    }
+  }, [account, allowance, loading, networkId, tokenAddress]);
 
   const refetch = useCallback(
     async (spender) => {
-      const _allowance = await fetchAllowance(spender);
-      setAllowance(_allowance.toString());
+      setLoading(true);
+
+      const cleanup = () => {
+        setLoading(false);
+      };
+
+      const handleError = (err) => {
+        notifyError(err, "get allowance");
+      };
+
+      const onTransactionResult = async (tx) => {
+        const _allowance = tx;
+
+        cleanup();
+        if (_allowance) {
+          setAllowance(_allowance.toString());
+        }
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
+      await fetchAllowance(spender, {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      });
     },
-    [fetchAllowance]
+    [fetchAllowance, notifyError]
   );
 
   /**
@@ -74,7 +119,11 @@ export const useERC20Allowance = (tokenAddress) => {
    * @param {string} spender
    * @param {string} amount
    */
-  const approve = async (spender, amount) => {
+  const approve = async (
+    spender,
+    amount,
+    { onTransactionResult, onRetryCancel, onError }
+  ) => {
     if (!networkId || !account || !tokenAddress || !spender) {
       requiresAuth();
       throw new Error("Could not approve");
@@ -95,10 +144,21 @@ export const useERC20Allowance = (tokenAddress) => {
     }
 
     const args = [spender, getApprovalAmount(amount)];
-    const tx = await invoke(tokenInstance, "approve", {}, notifyError, args);
+    invoke({
+      instance: tokenInstance,
+      methodName: "approve",
+      args,
+      onError,
+      onRetryCancel,
+      onTransactionResult: (tx) => {
+        tx?.wait().then(() => {
+          refetch(spender);
+        });
 
-    return tx;
+        onTransactionResult(tx);
+      },
+    });
   };
 
-  return { allowance, approve, refetch };
+  return { allowance, loading, approve, refetch };
 };

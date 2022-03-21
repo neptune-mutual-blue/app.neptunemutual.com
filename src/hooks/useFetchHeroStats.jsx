@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { useQuery } from "@/src/hooks/useQuery";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 const defaultData = {
   availableCovers: 0,
@@ -45,7 +45,7 @@ export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {

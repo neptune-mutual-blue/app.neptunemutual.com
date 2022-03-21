@@ -9,13 +9,12 @@ import {
   isGreaterOrEqual,
   isValidNumber,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useRouter } from "next/router";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -27,7 +26,7 @@ export const useReportIncident = ({ coverKey, value }) => {
   const [reporting, setReporting] = useState(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const governanceContractAddress = useGovernanceAddress();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
@@ -39,7 +38,6 @@ export const useReportIncident = ({ coverKey, value }) => {
   const { balance } = useERC20Balance(NPMTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -47,25 +45,44 @@ export const useReportIncident = ({ coverKey, value }) => {
   }, [governanceContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
-      const tx = await approve(
-        governanceContractAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
 
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol} tokens`,
-        success: `Approved ${tokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${tokenSymbol} tokens`,
-      });
+    const cleanup = () => {
+      setApproving(false);
+    };
 
-      setApproving(false);
-      updateAllowance(governanceContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol} tokens`);
-      setApproving(false);
-    }
+    const handleError = (err) => {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol} tokens`,
+          success: `Approved ${tokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${tokenSymbol} tokens`,
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(governanceContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleReport = async (payload) => {
@@ -83,15 +100,18 @@ export const useReportIncident = ({ coverKey, value }) => {
 
       const tx = wrappedResult.result.tx;
 
-      await txToast.push(tx, {
-        pending: "Reporting incident",
-        success: "Reported incident successfully",
-        failure: "Could not report incident",
-      });
-
-      router.replace(`/reporting/active`);
+      await txToast.push(
+        tx,
+        {
+          pending: "Reporting incident",
+          success: "Reported incident successfully",
+          failure: "Could not report incident",
+        },
+        {
+          onTxSuccess: () => router.replace(`/reporting/active`),
+        }
+      );
     } catch (err) {
-      // console.error(err);
       notifyError(err, "report incident");
     } finally {
       setReporting(false);

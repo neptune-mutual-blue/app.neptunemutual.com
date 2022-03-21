@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useQuery } from "@/src/hooks/useQuery";
 import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
@@ -36,7 +36,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     tvl: "0",
   });
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {

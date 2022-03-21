@@ -6,21 +6,16 @@ import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { MyLiquidityPage } from "@/components/pages/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { useWeb3React } from "@web3-react/core";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { convertFromUnits } from "@/utils/bn";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("liquidity") > -1;
-
+export function getStaticProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("liquidity"),
     },
   };
 }

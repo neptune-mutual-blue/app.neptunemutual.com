@@ -11,20 +11,15 @@ import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
 import { Alert } from "@/components/UI/atoms/alert";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("claim") > -1;
-
+export function getServerSideProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("claim"),
     },
   };
 }

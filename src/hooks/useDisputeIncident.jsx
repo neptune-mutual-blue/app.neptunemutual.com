@@ -8,7 +8,7 @@ import {
   isGreaterOrEqual,
   isValidNumber,
 } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -29,7 +29,7 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   const [disputing, setDisputing] = useState(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const governanceContractAddress = useGovernanceAddress();
   const { NPMTokenAddress } = useAppConstants();
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
@@ -49,33 +49,57 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
   }, [governanceContractAddress, updateAllowance]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
-      const tx = await approve(
-        governanceContractAddress,
-        convertToUnits(value).toString()
-      );
+    setApproving(true);
 
-      await txToast.push(tx, {
-        pending: `Approving ${tokenSymbol} tokens`,
-        success: `Approved ${tokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${tokenSymbol} tokens`,
-      });
+    const cleanup = () => {
+      setApproving(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve ${tokenSymbol} tokens`);
+    };
 
-      setApproving(false);
-      updateAllowance(governanceContractAddress);
-    } catch (error) {
-      notifyError(error, `approve ${tokenSymbol} tokens`);
-      setApproving(false);
-    }
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${tokenSymbol} tokens`,
+          success: `Approved ${tokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${tokenSymbol} tokens`,
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(governanceContractAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleDispute = async (info) => {
-    setDisputing(true);
-
     if (!networkId || !account) {
       return;
     }
+
+    setDisputing(true);
+    const cleanup = () => {
+      setDisputing(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "dispute");
+    };
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
@@ -93,27 +117,52 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Disputing",
+            success: "Disputed successfully",
+            failure: "Could not dispute",
+          },
+          {
+            onTxSuccess: () => {
+              router.replace(
+                `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+              );
+            },
+          }
+        );
+
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        cleanup();
+        handleError(err);
+      };
+
       const args = [
         coverKey,
         incidentDate,
         hashBytes32,
         convertToUnits(value).toString(),
       ];
-      const tx = await invoke(instance, "dispute", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: "Disputing",
-        success: "Disputed successfully",
-        failure: "Could not dispute",
+      invoke({
+        instance,
+        methodName: "dispute",
+        args,
+        onTransactionResult,
+        onRetryCancel,
+        onError,
       });
-
-      router.replace(
-        `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
-      );
     } catch (err) {
-      notifyError(err, "dispute");
-    } finally {
-      setDisputing(false);
+      cleanup();
+      handleError(err);
     }
   };
 

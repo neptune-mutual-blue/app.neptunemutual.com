@@ -6,7 +6,7 @@ import "@fontsource/sora/latin.css";
 import "../styles/globals.css";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
 import { Header } from "@/components/UI/organisms/header";
-import { AppWrapper } from "@/src/context/AppWrapper";
+import { NetworkProvider } from "@/src/context/Network";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
-      <AppWrapper>
+      <NetworkProvider>
         <AppConstantsProvider>
           <IpfsProvider>
             <CoversProvider>
@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }) {
             </CoversProvider>
           </IpfsProvider>
         </AppConstantsProvider>
-      </AppWrapper>
+      </NetworkProvider>
     </Web3ReactProvider>
   );
 }

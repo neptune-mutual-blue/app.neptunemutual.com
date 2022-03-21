@@ -1,18 +1,20 @@
 import { getGraphURL } from "@/src/config/environment";
+import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
 export const usePolicyTxs = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { chainId, account } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { account } = useWeb3React();
 
   useEffect(() => {
-    if (!chainId || !account) {
+    if (!networkId || !account) {
       return;
     }
 
-    const graphURL = getGraphURL(chainId);
+    const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
       return;
@@ -66,7 +68,7 @@ export const usePolicyTxs = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, chainId]);
+  }, [account, networkId]);
 
   return {
     data: {

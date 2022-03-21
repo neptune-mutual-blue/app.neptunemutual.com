@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 export const useFetchReport = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const fetchApi = useCallback(async () => {
     if (!networkId || !coverKey || !incidentDate) {

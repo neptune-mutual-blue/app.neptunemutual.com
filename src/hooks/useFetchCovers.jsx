@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { toUtf8String } from "@ethersproject/strings";
 import { useQuery } from "@/src/hooks/useQuery";
 import { useIpfs } from "@/src/context/Ipfs";
@@ -43,7 +43,7 @@ export const useFetchCovers = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { data: ipfs, getIpfsByHash } = useIpfs();
   const { data: graphData, refetch } = useQuery();
 

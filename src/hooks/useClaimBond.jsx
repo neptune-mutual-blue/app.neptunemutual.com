@@ -6,40 +6,72 @@ import { registry } from "@neptunemutual/sdk";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { useNetwork } from "@/src/context/Network";
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
-  const { chainId, account, library } = useWeb3React();
 
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const handleClaim = async () => {
-    if (!account || !chainId) {
+  const handleClaim = async (onTxSuccess) => {
+    if (!account || !networkId) {
       return;
     }
 
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    setClaiming(true);
+    const cleanup = () => {
+      setClaiming(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "claim bond");
+    };
 
-      setClaiming(true);
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
       const instance = await registry.BondPool.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 
-      let tx = await invoke(instance, "claimBond", {}, notifyError, []);
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Claiming NPM",
+            success: "Claimed NPM Successfully",
+            failure: "Could not claim bond",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
+        cleanup();
+      };
 
-      await txToast.push(tx, {
-        pending: "Claiming NPM",
-        success: "Claimed NPM Successfully",
-        failure: "Could not claim bond",
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
+      invoke({
+        instance,
+        methodName: "claimBond",
+        onError,
+        onTransactionResult,
+        onRetryCancel,
       });
     } catch (err) {
-      notifyError(err);
-    } finally {
-      setClaiming(false);
+      handleError(err);
+      cleanup();
     }
   };
 

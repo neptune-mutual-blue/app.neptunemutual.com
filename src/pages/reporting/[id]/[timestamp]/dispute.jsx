@@ -9,18 +9,13 @@ import { Container } from "@/components/UI/atoms/container";
 import { Alert } from "@/components/UI/atoms/alert";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("reporting") > -1;
-
+export function getServerSideProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("reporting"),
     },
   };
 }

@@ -3,15 +3,13 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { calculateGasMargin } from "@/utils/bn";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Divider } from "@/components/UI/atoms/divider";
 
 const initValue = {
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  invoke: async (instance, methodName, overrides, catcher, args, retry) => {},
-  onSuccess: async () => {},
+  // prettier-ignore
+  invoke: async ({instance, methodName, overrides,  args, retry, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
@@ -25,7 +23,6 @@ export function useTxPoster() {
 }
 
 export const TxPosterProvider = ({ children }) => {
-  const { notifyError } = useErrorNotifier();
   const [data, setData] = useState({
     message: "",
     isError: false,
@@ -33,9 +30,19 @@ export const TxPosterProvider = ({ children }) => {
   });
 
   const invoke = useCallback(
-    async (instance, methodName, overrides, catcher, args, retry = true) => {
+    async ({
+      instance,
+      methodName,
+      overrides = {},
+
+      args = [],
+      retry = true,
+      onTransactionResult = () => {},
+      onRetryCancel = () => {},
+      onError = console.error,
+    }) => {
       if (!instance) {
-        catcher(new Error("Instance not found"));
+        onError(new Error("Instance not found"));
         return;
       }
 
@@ -46,7 +53,7 @@ export const TxPosterProvider = ({ children }) => {
         console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
         if (retry) {
-          notifyError(err, "estimate gas");
+          onError(err);
           setData({
             description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
               args
@@ -58,47 +65,73 @@ export const TxPosterProvider = ({ children }) => {
               methodName,
               overrides,
               args,
+              onTransactionResult,
+              onRetryCancel,
+              onError,
             },
           });
         }
       }
 
       if (!estimatedGas && retry) {
+        // Could not estimate gas, therefore could not proceed
+        // Shows popup and wait for confirmation
         return;
       }
 
-      const tx = await instance[methodName](...args, {
-        gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
-        ...overrides,
-      });
+      try {
+        const tx = await instance[methodName](...args, {
+          gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+          ...overrides,
+        });
 
-      return tx;
+        onTransactionResult(tx);
+      } catch (err) {
+        onError(err);
+      }
     },
-    [notifyError]
+    []
   );
 
   const handleContinue = async () => {
-    const { instance, methodName, overrides, args } = data.pendingInvokeArgs;
+    const {
+      instance,
+      methodName,
+      overrides,
+      args,
+      onTransactionResult,
+      onError,
+    } = data.pendingInvokeArgs;
 
-    setData({
-      message: "",
-      isError: false,
-      pendingInvokeArgs: {},
-    });
+    try {
+      // Closes modal and clears data
+      setData({
+        message: "",
+        isError: false,
+        pendingInvokeArgs: {},
+      });
 
-    const tx = await instance[methodName](...args, {
-      gasLimit: DEFAULT_GAS_LIMIT,
-      ...overrides,
-    });
+      const tx = await instance[methodName](...args, {
+        gasLimit: DEFAULT_GAS_LIMIT,
+        ...overrides,
+      });
 
-    return tx;
+      onTransactionResult(tx);
+    } catch (err) {
+      onError(err);
+    }
   };
 
   const handleClose = () => {
-    setData({
-      message: "",
-      isError: false,
-      pendingInvokeArgs: {},
+    setData((prevData) => {
+      const { onRetryCancel } = prevData.pendingInvokeArgs;
+      onRetryCancel && onRetryCancel();
+
+      return {
+        message: "",
+        isError: false,
+        pendingInvokeArgs: {},
+      };
     });
   };
 
@@ -130,9 +163,9 @@ const ForceTxModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="max-w-2xl w-full inline-block bg-f1f3f6 align-middle text-left px-8 py-12 rounded-3xl relative">
+      <div className="relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center">
-          <div className="font-sora font-bold text-h2">
+          <div className="font-bold font-sora text-h2">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
@@ -140,7 +173,7 @@ const ForceTxModal = ({
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="my-12 mb-8">
-          <p className="text-DC2121 mt-8">{message}</p>
+          <p className="mt-8 text-DC2121">{message}</p>
         </div>
 
         <details open>
@@ -157,13 +190,13 @@ const ForceTxModal = ({
 
         <div className="flex justify-end">
           <button
-            className="border border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10 rounded px-6 py-2 mr-8"
+            className="px-6 py-2 mr-8 border rounded border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="border border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white rounded px-6 py-2 mr-8"
+            className="px-6 py-2 mr-8 border rounded border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white"
             onClick={handleContinue}
           >
             Send transaction ignoring this error

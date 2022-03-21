@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { getClaimAmount } from "@/src/helpers/store/getClaimAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -31,7 +31,7 @@ export const useClaimPolicyInfo = ({
   const [receiveAmount, setReceiveAmount] = useState("0");
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const claimsProcessorAddress = useClaimsProcessorAddress();
   const {
     allowance,
@@ -73,26 +73,42 @@ export const useClaimPolicyInfo = ({
       return;
     }
 
-    try {
-      setApproving(true);
-      const tx = await approve(
-        claimsProcessorAddress,
-        convertToUnits(value).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: `Approving cxDAI tokens`,
-        success: `Approved cxDAI tokens Successfully`,
-        failure: `Could not approve cxDAI tokens`,
-      });
-
-      updateBalance();
-      updateAllowance(claimsProcessorAddress);
-    } catch (err) {
-      notifyError(err, `approve cxDAI tokens`);
-    } finally {
+    setApproving(true);
+    const cleanup = () => {
       setApproving(false);
-    }
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve cxDAI tokens`);
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving cxDAI tokens`,
+          success: `Approved cxDAI tokens Successfully`,
+          failure: `Could not approve cxDAI tokens`,
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(claimsProcessorAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleClaim = async () => {
@@ -101,8 +117,19 @@ export const useClaimPolicyInfo = ({
       return;
     }
 
+    setClaiming(true);
+
+    const cleanup = () => {
+      updateBalance();
+      updateAllowance(claimsProcessorAddress);
+      setClaiming(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "claim policy");
+    };
+
     try {
-      setClaiming(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.ClaimsProcessor.getInstance(
@@ -110,26 +137,41 @@ export const useClaimPolicyInfo = ({
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Claiming policy`,
+          success: `Claimed policy Successfully`,
+          failure: `Could not Claim policy`,
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [
         cxTokenAddress,
         coverKey,
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      const tx = await invoke(instance, "claim", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: `Claiming policy`,
-        success: `Claimed policy Successfully`,
-        failure: `Could not Claim policy`,
+      invoke({
+        instance,
+        methodName: "claim",
+        args,
+        onTransactionResult,
+        onRetryCancel,
+        onError,
       });
-
-      updateBalance();
-      updateAllowance(claimsProcessorAddress);
     } catch (err) {
-      notifyError(err, "claim policy");
-    } finally {
-      setClaiming(false);
+      handleError(err);
+      cleanup();
     }
   };
 

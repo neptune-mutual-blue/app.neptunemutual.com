@@ -8,7 +8,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";
 import { convertFromUnits } from "@/utils/bn";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useRecentVotes } from "@/src/hooks/useRecentVotes";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
@@ -116,7 +116,7 @@ const AmountRenderer = ({ row }) => {
 };
 
 const ActionsRenderer = ({ row }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   return (
     <td className="px-6 py-6 min-w-60">

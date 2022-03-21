@@ -12,7 +12,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
@@ -24,7 +24,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =
@@ -57,55 +57,101 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   }, [updateStakeAllowance, vaultAddress]);
 
   const handleLqTokenApprove = async () => {
-    try {
-      setLqApproving(true);
+    setLqApproving(true);
 
-      const tx = await lqTokenApprove(
-        vaultAddress,
-        convertToUnits(lqValue).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: "Approving DAI",
-        success: "Approved DAI Successfully",
-        failure: "Could not approve DAI",
-      });
-
-      updateLqAllowance(vaultAddress);
-    } catch (error) {
-      notifyError(error, "approve DAI");
-    } finally {
+    const cleanup = () => {
       setLqApproving(false);
-    }
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "approve DAI");
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Approving DAI",
+          success: "Approved DAI Successfully",
+          failure: "Could not approve DAI",
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    lqTokenApprove(vaultAddress, convertToUnits(lqValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleNPMTokenApprove = async () => {
-    try {
-      setNPMApproving(true);
+    setNPMApproving(true);
 
-      const tx = await npmTokenApprove(
-        vaultAddress,
-        convertToUnits(npmValue).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: "Approving NPM",
-        success: "Approved NPM Successfully",
-        failure: "Could not approve NPM",
-      });
-
-      updateStakeAllowance(vaultAddress);
-    } catch (error) {
-      notifyError(error, "approve NPM");
-    } finally {
+    const cleanup = () => {
       setNPMApproving(false);
-    }
+    };
+    const handleError = (err) => {
+      notifyError(err, "approve NPM");
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Approving NPM",
+          success: "Approved NPM Successfully",
+          failure: "Could not approve NPM",
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    npmTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleProvide = async () => {
-    try {
-      setProviding(true);
+    setProviding(true);
 
+    const cleanup = () => {
+      setProviding(false);
+      updateLqTokenBalance();
+      updateNpmBalance();
+      updateLqAllowance();
+      updateStakeAllowance();
+    };
+    const handleError = (err) => {
+      notifyError(err, "add liquidity");
+    };
+
+    try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
@@ -116,23 +162,36 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Adding Liquidity",
+          success: "Added Liquidity Successfully",
+          failure: "Could not add liquidity",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, lqAmount, npmAmount];
-      const tx = await invoke(vault, "addLiquidity", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: "Adding Liquidity",
-        success: "Added Liquidity Successfully",
-        failure: "Could not add liquidity",
+      invoke({
+        instance: vault,
+        methodName: "addLiquidity",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      updateLqTokenBalance();
-      updateNpmBalance();
-      updateLqAllowance();
-      updateStakeAllowance();
     } catch (err) {
-      notifyError(err, "add liquidity");
-    } finally {
-      setProviding(false);
+      handleError(err);
+      cleanup();
     }
   };
 

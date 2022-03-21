@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import ConnectWallet from "@/lib/connect-wallet/components/ConnectWallet/ConnectWallet";
 import { ChainLogos, NetworkNames } from "@/lib/connect-wallet/config/chains";
 import { useNotifier } from "@/src/hooks/useNotifier";
@@ -15,31 +15,24 @@ import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
 import { Root, Overlay, Content } from "@radix-ui/react-dialog";
-import { getFeatures } from "@/src/config/environment";
+import { isFeatureEnabled } from "@/src/config/environment";
 
 const getNavigationLinks = (pathname = "") => {
-  const features = getFeatures();
-  const policyEnabled = features.indexOf("policy") > -1;
-  const poolEnabled =
-    features.indexOf("bond") > -1 ||
-    features.indexOf("staking-pool") > -1 ||
-    features.indexOf("pod-staking-pool") > -1;
-  const liquidityEnabled = features.indexOf("liquidity") > -1;
-  const reportingEnabled = features.indexOf("reporting") > -1;
+  const policyEnabled = isFeatureEnabled("policy");
+  const liquidityEnabled = isFeatureEnabled("liquidity");
+  const reportingEnabled = isFeatureEnabled("reporting");
 
-  let poolLink = "/pools/bond";
-
-  if (features.indexOf("bond") == -1 && features.indexOf("staking-pool") > -1) {
+  let poolLink = null;
+  if (isFeatureEnabled("bond")) {
+    poolLink = "/pools/bond";
+  } else if (isFeatureEnabled("staking-pool")) {
     poolLink = "/pools/staking";
-  } else if (
-    features.indexOf("bond") == -1 &&
-    features.indexOf("pod-staking-pool") > -1
-  ) {
+  } else if (isFeatureEnabled("pod-staking-pool")) {
     poolLink = "/pools/pod-staking";
   }
 
   let links = [
-    poolEnabled && {
+    poolLink && {
       name: "Pool",
       href: poolLink,
       activeWhenStartsWith: "/pools",
@@ -76,7 +69,7 @@ const getNavigationLinks = (pathname = "") => {
 export const Header = () => {
   const router = useRouter();
   const { notifier } = useNotifier();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { active, account } = useWeb3React();
   const { logout } = useAuth(networkId, notifier);
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
