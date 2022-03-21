@@ -15,6 +15,10 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
+import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
+import { Alert } from "@/components/UI/atoms/alert";
+import Link from "next/link";
+import { getParsedKey } from "@/src/helpers/cover";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -22,6 +26,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const statusInfo = useCoverStatusInfo(coverKey);
   const {
     loading: updatingFee,
     data: feeData,
@@ -70,6 +75,23 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 1) % 12],
     monthNames[(now.getMonth() + 2) % 12],
   ];
+
+  if (statusInfo.status && statusInfo.status !== "Normal") {
+    return (
+      <Alert>
+        Cannot purchase policy, since the cover status is{" "}
+        <Link
+          href={`/reporting/${getParsedKey(coverKey)}/${
+            statusInfo.activeIncidentDate
+          }/details`}
+        >
+          <a className="font-medium underline hover:no-underline">
+            {statusInfo.status}
+          </a>
+        </Link>
+      </Alert>
+    );
+  }
 
   return (
     <div className="max-w-md">
