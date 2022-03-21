@@ -87,6 +87,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       updateBalance();
       updateAllowance();
       setVoting(false);
+      setAttestSuccess(false);
     };
     const handleError = (err) => {
       notifyError(err, "attest");
@@ -112,13 +113,11 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       };
 
       const onRetryCancel = () => {
-        setAttestSuccess(false);
         cleanup();
       };
 
       const onError = (err) => {
         handleError(err);
-        setAttestSuccess(false);
         cleanup();
       };
 
@@ -133,7 +132,6 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       });
     } catch (err) {
       handleError(err);
-      setAttestSuccess(false);
       cleanup();
     }
   };

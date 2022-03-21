@@ -54,9 +54,7 @@ export const CastYourVote = ({ incidentReport }) => {
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError(
-        `Maximum balance available ${convertFromUnits(balance).toString()}`
-      );
+      setError("Exceeds maximum balance");
       return;
     }
 
