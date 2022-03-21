@@ -30,6 +30,7 @@ const TotalLiquidityChart = () => {
         dashStyle: "Dash",
       },
       ordinal: false,
+      minRange: 24 * 3600 * 1000,
     },
     yAxis: {
       opposite: false,
@@ -72,6 +73,9 @@ const TotalLiquidityChart = () => {
           lineWidth: 2,
           radius: 3,
           lineColor: "#4E7DD9",
+        },
+        animation: {
+          duration: 500,
         },
       },
     ],
@@ -144,12 +148,22 @@ const TotalLiquidityChart = () => {
           y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
       });
-      setChartData(_chartData);
-      if (chartRef.current?.chart) {
-        chartRef.current.chart.hideLoading();
-      }
+      _chartData.sort((a, b) => {
+        if (a.x > b.x) return 1;
+        if (a.x < b.x) return -1;
+        else return 0;
+      });
+      setTimeout(
+        () => {
+          setChartData(_chartData);
+          if (chartRef.current?.chart) {
+            chartRef.current.chart.hideLoading();
+          }
+        },
+        chartData.length ? 0 : 500
+      );
     }
-  }, [data]);
+  }, [data, chartData.length]);
 
   return (
     <div>

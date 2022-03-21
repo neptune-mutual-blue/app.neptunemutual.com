@@ -24,13 +24,13 @@ export const DisclaimerModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="max-w-full lg:max-w-5xl w-max max-h-full inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+      <div className="max-w-full lg:max-w-5xl w-max max-h-90vh inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
         <Title className="font-sora font-bold text-h4 flex items-center">
           Disclaimer and Warranty
         </Title>
         <Description
           className={classNames(
-            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-96 overflow-y-auto pr-1"
+            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-30vh md:max-h-45vh overflow-y-auto pr-1"
             // styles.scroll_container
           )}
         >
