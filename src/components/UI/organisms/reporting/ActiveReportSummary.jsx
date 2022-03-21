@@ -68,10 +68,10 @@ export const ActiveReportSummary = ({
 
   return (
     <>
-      <OutlinedCard className="md:flex bg-white">
+      <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
-        <div className="pb-0 md:pb-6 p-6 md:p-10 md:border-r border-B0C4DB flex-1">
-          <h2 className="text-h3 font-sora font-bold mb-6">Report Summary</h2>
+        <div className="flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB">
+          <h2 className="mb-6 font-bold text-h3 font-sora">Report Summary</h2>
 
           {!reportingEnded && (
             <>
@@ -91,8 +91,7 @@ export const ActiveReportSummary = ({
             majority={majority}
           />
           <Divider />
-
-          <div className="p-6 md:p-0">
+          <>
             {reportingEnded ? (
               <ResolveIncident
                 incidentReport={incidentReport}
@@ -102,12 +101,12 @@ export const ActiveReportSummary = ({
             ) : (
               <CastYourVote incidentReport={incidentReport} />
             )}
-          </div>
+          </>
         </div>
 
         {/* Right half */}
-        <div className="pt-0 p-6 md:p-10">
-          <h3 className="text-h4 font-sora font-bold mb-4">Insights</h3>
+        <div className="p-6 pt-0 lg:p-10 sm:pt-6">
+          <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
           <InsightsTable
             insights={[
               {
@@ -153,7 +152,7 @@ export const ActiveReportSummary = ({
           />
 
           <hr className="mt-6 mb-6 border-t border-d4dfee" />
-          <h3 className="text-h4 font-sora font-bold mb-4">
+          <h3 className="mb-4 font-bold text-h4 font-sora">
             Incident Reporters
           </h3>
           <IncidentReporter
@@ -170,8 +169,8 @@ export const ActiveReportSummary = ({
           )}
 
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
-          <h3 className="text-h4 font-sora font-bold mb-4">Reporting Period</h3>
-          <p className="text-sm opacity-50 mb-4">
+          <h3 className="mb-4 font-bold text-h4 font-sora">Reporting Period</h3>
+          <p className="mb-4 text-sm opacity-50">
             <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
