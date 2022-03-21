@@ -53,10 +53,14 @@ export const CastYourVote = ({ incidentReport }) => {
       return;
     }
 
-    if (
-      isGreater(convertToUnits(value), balance) ||
-      isEqualTo(convertToUnits(value), 0)
-    ) {
+    if (isGreater(convertToUnits(value), balance)) {
+      setError(
+        `Maximum balance available ${convertFromUnits(balance).toString()}`
+      );
+      return;
+    }
+
+    if (isEqualTo(convertToUnits(value), 0)) {
       setError("Insufficient Balance");
       return;
     }
