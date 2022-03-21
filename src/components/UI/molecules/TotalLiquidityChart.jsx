@@ -144,12 +144,17 @@ const TotalLiquidityChart = () => {
           y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
       });
-      setChartData(_chartData);
-      if (chartRef.current?.chart) {
-        chartRef.current.chart.hideLoading();
-      }
+      setTimeout(
+        () => {
+          setChartData(_chartData);
+          if (chartRef.current?.chart) {
+            chartRef.current.chart.hideLoading();
+          }
+        },
+        chartData.length ? 0 : 500
+      );
     }
-  }, [data]);
+  }, [data, chartData.length]);
 
   return (
     <div>
