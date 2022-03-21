@@ -30,6 +30,7 @@ const TotalLiquidityChart = () => {
         dashStyle: "Dash",
       },
       ordinal: false,
+      minRange: 24 * 3600 * 1000,
     },
     yAxis: {
       opposite: false,
@@ -146,6 +147,11 @@ const TotalLiquidityChart = () => {
           x: date * 1000,
           y: parseFloat(convertFromUnits(totalLiquidity).toString()),
         });
+      });
+      _chartData.sort((a, b) => {
+        if (a.x > b.x) return 1;
+        if (a.x < b.x) return -1;
+        else return 0;
       });
       setTimeout(
         () => {
