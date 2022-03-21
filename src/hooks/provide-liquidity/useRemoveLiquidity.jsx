@@ -21,15 +21,20 @@ export const useRemoveLiquidity = ({
 }) => {
   const [approving, setApproving] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
+  const [withdrawSuccess, setWithdrawSuccess] = useState(false);
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
-  const { balance, refetch: updateBalance } =
-    useERC20Balance(vaultTokenAddress);
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(vaultTokenAddress);
   const {
     allowance,
     approve,
+    loading: loadingAllowance,
     refetch: updateAllowance,
   } = useERC20Allowance(vaultTokenAddress);
 
@@ -89,6 +94,7 @@ export const useRemoveLiquidity = ({
       updateAllowance(vaultTokenAddress);
       refetchInfo();
       setWithdrawing(false);
+      setWithdrawSuccess(false);
     };
 
     const handleError = (err) => {
@@ -96,6 +102,8 @@ export const useRemoveLiquidity = ({
     };
 
     try {
+      setWithdrawSuccess(false);
+
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const instance = await registry.Vault.getInstance(
         networkId,
@@ -109,6 +117,7 @@ export const useRemoveLiquidity = ({
           success: "Removed Liquidity Successfully",
           failure: "Could not remove liquidity",
         });
+        setWithdrawSuccess(true);
         cleanup();
       };
 
@@ -146,6 +155,11 @@ export const useRemoveLiquidity = ({
     allowance,
     vaultTokenAddress,
     vaultTokenSymbol,
+
+    loadingBalance,
+    loadingAllowance,
+
+    withdrawSuccess,
 
     approving,
     withdrawing,

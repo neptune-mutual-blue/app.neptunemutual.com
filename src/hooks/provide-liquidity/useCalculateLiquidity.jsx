@@ -16,6 +16,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
 
   const debouncedValue = useDebounce(podAmount, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -33,6 +34,12 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       notifyError(err, "calculate liquidity");
     };
 
+    setReceiveAmountLoading(true);
+
+    const cleanup = () => {
+      setReceiveAmountLoading(false);
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -47,12 +54,16 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
 
         if (!mountedRef.current) return;
         setReceiveAmount(liquidityAmount);
+        cleanup();
       };
 
-      const onRetryCancel = () => {};
+      const onRetryCancel = () => {
+        cleanup();
+      };
 
       const onError = (err) => {
         handleError(err);
+        cleanup();
       };
 
       const args = [convertToUnits(debouncedValue).toString()];
@@ -67,6 +78,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       });
     } catch (err) {
       handleError(err);
+      cleanup();
     }
   }, [
     account,
@@ -90,5 +102,6 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
 
   return {
     receiveAmount,
+    receiveAmountLoading,
   };
 };
