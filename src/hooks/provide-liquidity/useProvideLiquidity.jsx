@@ -23,6 +23,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqApproving, setLqApproving] = useState();
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
+  const [provideSuccess, setProvideSuccess] = useState(false);
 
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
@@ -142,6 +143,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
     const cleanup = () => {
       setProviding(false);
+      setProvideSuccess(false);
       updateLqTokenBalance();
       updateNpmBalance();
       updateLqAllowance();
@@ -152,6 +154,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     };
 
     try {
+      setProvideSuccess(false);
+
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
@@ -168,6 +172,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
           success: "Added Liquidity Successfully",
           failure: "Could not add liquidity",
         });
+        setProvideSuccess(true);
         cleanup();
       };
 
@@ -224,6 +229,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     lqApproving,
     npmApproving,
     providing,
+    provideSuccess,
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,

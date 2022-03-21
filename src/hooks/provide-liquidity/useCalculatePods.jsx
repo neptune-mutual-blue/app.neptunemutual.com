@@ -15,6 +15,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
 
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -38,6 +39,12 @@ export const useCalculatePods = ({ coverKey, value }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
+      setReceiveAmountLoading(true);
+
+      const cleanup = () => {
+        setReceiveAmountLoading(false);
+      };
+
       try {
         const instance = await registry.Vault.getInstance(
           networkId,
@@ -50,12 +57,16 @@ export const useCalculatePods = ({ coverKey, value }) => {
 
           if (ignore) return;
           setReceiveAmount(convertFromUnits(podAmount).toString());
+          cleanup();
         };
 
-        const onRetryCancel = () => {};
+        const onRetryCancel = () => {
+          cleanup();
+        };
 
         const onError = (err) => {
           handleError(err);
+          cleanup();
         };
 
         const args = [convertToUnits(debouncedValue).toString()];
@@ -70,6 +81,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
         });
       } catch (err) {
         handleError(err);
+        cleanup();
       }
     }
 
@@ -90,5 +102,6 @@ export const useCalculatePods = ({ coverKey, value }) => {
 
   return {
     receiveAmount,
+    receiveAmountLoading,
   };
 };
