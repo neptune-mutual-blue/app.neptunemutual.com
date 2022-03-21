@@ -86,7 +86,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         <Container>
           <div className="max-w-3xl">
-            <div className="w-full flex justify-between flex-wrap md:flex-nowrap">
+            <div className="flex flex-wrap justify-between w-full md:flex-nowrap">
               <div className="flex-grow mr-4">
                 <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
                   Incident Title
@@ -97,10 +97,11 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                     id: "incident_title",
                     placeholder: "Enter Incident Title",
                     value: incidentTitle,
+                    disabled: approving || reporting,
                     onChange: (e) => setIncidentTitle(e.target.value),
                   }}
                 />
-                <p className="text-sm text-9B9B9B mt-2 pl-2">
+                <p className="pl-2 mt-2 text-sm text-9B9B9B">
                   Enter the incident title.
                 </p>
               </div>
@@ -109,17 +110,18 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   Observed Date &amp; Time
                 </Label>
                 <RegularInput
-                  className="uppercase text-9B9B9B pr-3"
+                  className="pr-3 uppercase text-9B9B9B"
                   inputProps={{
                     max: maxDate,
                     id: "incident_date",
                     // placeholder: "DD/MM/YY | HH:MM:SS",
                     value: incidentDate,
                     type: "datetime-local",
+                    disabled: approving || reporting,
                     onChange: (e) => setIncidentDate(e.target.value),
                   }}
                 />
-                <p className="text-sm text-9B9B9B mt-2 pl-2">
+                <p className="pl-2 mt-2 text-sm text-9B9B9B">
                   Select the incident observance date.
                 </p>
               </div>
@@ -138,19 +140,25 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                         id: `incident_url_${i}`,
                         placeholder: "https://",
                         value: x["url"],
+                        disabled: approving || reporting,
                         onChange: (e) => handleChange(e, i),
                       }}
                     />
                     {i !== 0 && (
                       <span
-                        onClick={() => handleDeleteLink(i)}
-                        className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
+                        onClick={() =>
+                          approving || reporting ? {} : handleDeleteLink(i)
+                        }
+                        className={classNames(
+                          "p-2 ml-4 border rounded-md cursor-pointer border-CEEBED",
+                          (approving || reporting) && "cursor-not-allowed"
+                        )}
                       >
                         <DeleteIcon width={14} height={16} />
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-9B9B9B mt-2 mb-x pl-2">
+                  <p className="pl-2 mt-2 text-sm text-9B9B9B mb-x">
                     Provide URL with a proximate proof of the incident.
                   </p>
                 </div>
@@ -158,8 +166,11 @@ export const NewIncidentReportForm = ({ coverKey }) => {
             ))}
 
             <button
-              onClick={handleNewLink}
-              className="bg-transparent text-black border-none hover:underline mt-4"
+              onClick={() => (approving || reporting ? {} : handleNewLink())}
+              className={classNames(
+                "mt-4 text-black bg-transparent border-none hover:underline",
+                (approving || reporting) && "cursor-not-allowed"
+              )}
             >
               + Add new link
             </button>
@@ -169,10 +180,14 @@ export const NewIncidentReportForm = ({ coverKey }) => {
             <div className="relative">
               <textarea
                 id="reporting-description"
-                className="focus:ring-4e7dd9 focus:border-4e7dd9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB mb-10"
+                className={classNames(
+                  "block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB",
+                  (approving || reporting) && "cursor-not-allowed"
+                )}
                 placeholder="Explain briefly about the incident if you want to add anything."
                 rows={5}
                 value={description}
+                disabled={approving || reporting}
                 onChange={(e) => handleTextArea(e)}
               />
               <span
@@ -205,7 +220,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
             {!canReport ? (
               <RegularButton
                 disabled={isError || approving || !value}
-                className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
+                className="px-24 py-6 mt-16 font-semibold uppercase text-h6"
                 onClick={handleApprove}
               >
                 {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
@@ -213,7 +228,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
             ) : (
               <RegularButton
                 disabled={isError || reporting}
-                className="uppercase text-h6 font-semibold py-6 px-24 mt-16"
+                className="px-24 py-6 mt-16 font-semibold uppercase text-h6"
                 onClick={handleSubmit}
               >
                 {reporting ? "Reporting..." : "Report"}
