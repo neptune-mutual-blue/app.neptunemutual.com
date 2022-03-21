@@ -142,6 +142,9 @@ module.exports = {
       transitionTimingFunction: {
         menu: "cubic-bezier(0.4, 0, 0.2, 1)",
       },
+      zIndex: {
+        60: "60",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

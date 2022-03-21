@@ -14,7 +14,7 @@ import { Banner } from "@/components/common/Banner";
 import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
-import { Root, Overlay, Content } from "@radix-ui/react-dialog";
+import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 const getNavigationLinks = (pathname = "") => {
@@ -240,79 +240,81 @@ export const MenuModal = ({
   return (
     <div>
       <Root open={isOpen} onOpenChange={onClose}>
-        <Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
+        <Portal>
+          <Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl z-40" />
 
-        <Content className="fixed max-h-screen min-w-full px-4 pr-0 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
-          <div className="min-h-screen px-4 text-center flex flex-col justify-between items-end">
-            <div className="w-full flex justify-end max-w-full pt-6 pr-2 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
-              <BurgerComponent isOpen={isOpen} onToggle={onClose} />
-            </div>
-            <div className="flex-grow flex flex-col justify-between w-full px-6 text-left align-middle transition-all transform shadow-xl sm:px-20 sm:align-baseline rounded-2xl">
-              <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
-                {navigation.map((link) => {
-                  return (
-                    <Link key={link.name} href={link.href}>
-                      <a
-                        className={classNames(
-                          "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
-                          router.pathname == link.href
-                            ? "border-4e7dd9 text-4e7dd9 font-semibold"
-                            : "border-transparent text-white"
-                        )}
-                      >
-                        {link.name}
-                      </a>
-                    </Link>
-                  );
-                })}
+          <Content className="fixed max-h-screen min-w-full px-4 pr-0 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2 z-50">
+            <div className="min-h-screen px-4 text-center flex flex-col justify-between items-end">
+              <div className="w-full flex justify-end max-w-full pt-6 pr-2 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
+                <BurgerComponent isOpen={isOpen} onToggle={onClose} />
               </div>
-              <div className="">
-                <ConnectWallet networkId={networkId} notifier={notifier}>
-                  {({ onOpen }) => {
-                    let button = (
-                      <button
-                        className="justify-center inline-block w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
-                        onClick={onOpen}
-                      >
-                        Connect Wallet
-                      </button>
-                    );
-                    if (active) {
-                      button = (
-                        <button
-                          className="relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
-                          onClick={handleToggleAccountPopup}
+              <div className="flex-grow flex flex-col justify-between w-full px-6 text-left align-middle transition-all transform shadow-xl sm:px-20 sm:align-baseline rounded-2xl">
+                <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
+                  {navigation.map((link) => {
+                    return (
+                      <Link key={link.name} href={link.href}>
+                        <a
+                          className={classNames(
+                            "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",
+                            router.pathname == link.href
+                              ? "border-4e7dd9 text-4e7dd9 font-semibold"
+                              : "border-transparent text-white"
+                          )}
                         >
-                          <AccountBalanceWalletIcon width="24" height="24" />
-                          <span className="pl-2">
-                            {truncateAddress(account)}
-                          </span>
+                          {link.name}
+                        </a>
+                      </Link>
+                    );
+                  })}
+                </div>
+                <div className="">
+                  <ConnectWallet networkId={networkId} notifier={notifier}>
+                    {({ onOpen }) => {
+                      let button = (
+                        <button
+                          className="justify-center inline-block w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
+                          onClick={onOpen}
+                        >
+                          Connect Wallet
                         </button>
                       );
-                    }
-                    return (
-                      <div className="flex justify-between py-5 pr-4">
-                        {network} {button}
-                        {isAccountDetailsOpen && (
-                          <AccountDetailsModal
-                            {...{
-                              networkId,
-                              account,
-                              isOpen: isAccountDetailsOpen,
-                              onClose: handleToggleAccountPopup,
-                              active,
-                              handleDisconnect,
-                            }}
-                          />
-                        )}
-                      </div>
-                    );
-                  }}
-                </ConnectWallet>
+                      if (active) {
+                        button = (
+                          <button
+                            className="relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
+                            onClick={handleToggleAccountPopup}
+                          >
+                            <AccountBalanceWalletIcon width="24" height="24" />
+                            <span className="pl-2">
+                              {truncateAddress(account)}
+                            </span>
+                          </button>
+                        );
+                      }
+                      return (
+                        <div className="flex justify-between py-5 pr-4">
+                          {network} {button}
+                          {isAccountDetailsOpen && (
+                            <AccountDetailsModal
+                              {...{
+                                networkId,
+                                account,
+                                isOpen: isAccountDetailsOpen,
+                                onClose: handleToggleAccountPopup,
+                                active,
+                                handleDisconnect,
+                              }}
+                            />
+                          )}
+                        </div>
+                      );
+                    }}
+                  </ConnectWallet>
+                </div>
               </div>
             </div>
-          </div>
-        </Content>
+          </Content>
+        </Portal>
       </Root>
     </div>
   );
