@@ -4,6 +4,9 @@ const http = require("./http");
 module.exports = (phase, { _c }) => {
   return {
     reactStrictMode: true,
+    experimental: {
+      outputStandalone: true,
+    },
     headers: async () => {
       if (phase === PHASE_DEVELOPMENT_SERVER) {
         return http.headers.development;
