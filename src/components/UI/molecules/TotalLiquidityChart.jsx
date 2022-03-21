@@ -73,6 +73,9 @@ const TotalLiquidityChart = () => {
           radius: 3,
           lineColor: "#4E7DD9",
         },
+        animation: {
+          duration: 500,
+        },
       },
     ],
     chart: {
