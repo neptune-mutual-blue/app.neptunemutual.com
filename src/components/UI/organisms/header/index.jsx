@@ -267,7 +267,7 @@ export const MenuModal = ({
                     );
                   })}
                 </div>
-                <div className="">
+                <div className="mb-12">
                   <ConnectWallet networkId={networkId} notifier={notifier}>
                     {({ onOpen }) => {
                       let button = (
