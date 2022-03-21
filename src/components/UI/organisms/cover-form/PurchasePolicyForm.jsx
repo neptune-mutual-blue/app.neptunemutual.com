@@ -19,6 +19,7 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { Alert } from "@/components/UI/atoms/alert";
 import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -44,6 +45,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     error,
     handleApprove,
     handlePurchase,
+    updatingBalance,
   } = usePurchasePolicy({
     value,
     coverMonth,
@@ -75,6 +77,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 1) % 12],
     monthNames[(now.getMonth() + 2) % 12],
   ];
+  let loadingMessage = "";
+  if (updatingFee) {
+    loadingMessage = "Fetching...";
+  } else if (updatingBalance) {
+    loadingMessage = "Fetching Balance...";
+  }
 
   if (statusInfo.status && statusInfo.status !== "Normal") {
     return (
@@ -161,30 +169,43 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </div>
       </div>
       {value && coverMonth && (
-        <PolicyFeesAndExpiry
-          fetching={updatingFee}
-          data={feeData}
-          coverPeriod={coverMonth}
-        />
+        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
       )}
 
-      {!canPurchase ? (
-        <RegularButton
-          disabled={!!error || approving || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handleApprove}
-        >
-          {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
-        </RegularButton>
-      ) : (
-        <RegularButton
-          disabled={!!error || purchasing || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handlePurchase}
-        >
-          {purchasing ? "Purchasing..." : "Purchase policy"}
-        </RegularButton>
-      )}
+      <div className="mt-8">
+        <DataLoadingIndicator message={loadingMessage} />
+        {!canPurchase ? (
+          <RegularButton
+            disabled={
+              !!error ||
+              approving ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={handleApprove}
+          >
+            {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            disabled={
+              !!error ||
+              purchasing ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={() => {
+              handlePurchase(() => setValue(""));
+            }}
+          >
+            {purchasing ? "Purchasing..." : "Purchase policy"}
+          </RegularButton>
+        )}
+      </div>
 
       <div className="mt-20">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
