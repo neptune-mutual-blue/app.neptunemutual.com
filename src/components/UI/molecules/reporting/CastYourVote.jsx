@@ -33,6 +33,7 @@ export const CastYourVote = ({ incidentReport }) => {
     voting,
     canVote,
     isError,
+    attestSuccess,
   } = useVote({
     value,
     coverKey: incidentReport.key,
@@ -65,6 +66,13 @@ export const CastYourVote = ({ incidentReport }) => {
       return;
     }
   }, [balance, error, value]);
+
+  useEffect(() => {
+    if (attestSuccess) {
+      setValue("");
+      return;
+    }
+  }, [attestSuccess]);
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);

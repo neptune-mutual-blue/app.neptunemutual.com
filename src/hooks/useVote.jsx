@@ -22,7 +22,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [approving, setApproving] = useState(false);
   const [voting, setVoting] = useState(false);
-
+  const [attestSuccess, setAttestSuccess] = useState(false);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { NPMTokenAddress } = useAppConstants();
@@ -93,6 +93,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     };
 
     try {
+      setAttestSuccess(false);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Governance.getInstance(
@@ -106,15 +107,18 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
           success: "Attested successfully",
           failure: "Could not attest",
         });
+        setAttestSuccess(true);
         cleanup();
       };
 
       const onRetryCancel = () => {
+        setAttestSuccess(false);
         cleanup();
       };
 
       const onError = (err) => {
         handleError(err);
+        setAttestSuccess(false);
         cleanup();
       };
 
@@ -129,6 +133,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       });
     } catch (err) {
       handleError(err);
+      setAttestSuccess(false);
       cleanup();
     }
   };
@@ -202,6 +207,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
     canVote,
     isError,
+
+    attestSuccess,
 
     handleApprove,
     handleAttest,
