@@ -13,6 +13,7 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
+  isEqualTo,
 } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useCalculateLiquidity } from "@/src/hooks/provide-liquidity/useCalculateLiquidity";
@@ -22,6 +23,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
@@ -40,10 +42,11 @@ export const WithdrawLiquidityModal = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const { receiveAmount } = useCalculateLiquidity({
-    coverKey,
-    podAmount: podValue,
-  });
+  const { receiveAmount, loading: receiveAmountLoading } =
+    useCalculateLiquidity({
+      coverKey,
+      podAmount: podValue || "0",
+    });
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const {
@@ -51,6 +54,8 @@ export const WithdrawLiquidityModal = ({
     allowance,
     approving,
     withdrawing,
+    loadingAllowance,
+    loadingBalance,
     handleApprove,
     handleWithdraw,
     vaultTokenSymbol,
@@ -71,26 +76,30 @@ export const WithdrawLiquidityModal = ({
   }, [isOpen]);
 
   useEffect(() => {
-    // input withdraw validations
-    if (npmValue && isGreater(convertToUnits(npmValue), myStake)) {
-      setNpmErrorMsg("Insufficient Stake");
-    } else if (npmValue && !isValidNumber(npmValue)) {
-      setNpmErrorMsg("Invalid amount to withdraw");
+    if (
+      npmValue &&
+      isGreater(
+        convertToUnits(npmValue),
+        myStake - convertToUnits(250).toString()
+      ) // prevent from entering more than the allowed max withdraw
+    ) {
+      setNpmErrorMsg("Exceeds maximum withdraw");
     } else {
       setNpmErrorMsg("");
     }
 
     if (podValue && isGreater(convertToUnits(podValue), balance)) {
+      setPodErrorMsg("Exceeds maximum balance");
+    } else if (podValue && isEqualTo(convertToUnits(podValue), 0)) {
       setPodErrorMsg("Insufficient Balance");
-    } else if (podValue && !isValidNumber(podValue)) {
-      setPodErrorMsg("Invalid amount to withdraw");
     } else {
       setPodErrorMsg("");
     }
   }, [balance, myStake, npmValue, podValue]);
 
   const handleChooseNpmMax = () => {
-    setNpmValue(convertFromUnits(myStake).toString());
+    // my stake - min stake
+    setNpmValue(convertFromUnits(myStake).toString() - 250);
   };
 
   const handleChoosePodMax = () => {
@@ -113,6 +122,15 @@ export const WithdrawLiquidityModal = ({
     podValue &&
     isValidNumber(podValue) &&
     isGreaterOrEqual(allowance, convertToUnits(podValue || "0"));
+
+  let loadingMessage = "";
+  if (receiveAmountLoading) {
+    loadingMessage = "Calculating tokens...";
+  } else if (loadingBalance) {
+    loadingMessage = "Fetching balance...";
+  } else if (loadingAllowance) {
+    loadingMessage = "Fetching allowance...";
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
@@ -188,23 +206,49 @@ export const WithdrawLiquidityModal = ({
           </span>
         </div>
 
-        {!canWithdraw ? (
-          <RegularButton
-            onClick={handleApprove}
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            disabled={approving || npmErrorMsg || podErrorMsg}
-          >
-            {approving ? "Approving.." : "Approve"}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            onClick={handleWithdraw}
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            disabled={withdrawing || npmErrorMsg || podErrorMsg}
-          >
-            {withdrawing ? "Withdrawing.." : "Withdraw"}
-          </RegularButton>
-        )}
+        <div className="mt-8">
+          <DataLoadingIndicator message={loadingMessage} />
+          {!canWithdraw ? (
+            <RegularButton
+              onClick={handleApprove}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              disabled={
+                approving ||
+                npmErrorMsg ||
+                podErrorMsg ||
+                receiveAmountLoading ||
+                !npmValue ||
+                !podValue ||
+                loadingBalance ||
+                loadingAllowance
+              }
+            >
+              {approving ? "Approving.." : "Approve"}
+            </RegularButton>
+          ) : (
+            <RegularButton
+              onClick={() => {
+                handleWithdraw(() => {
+                  setPodValue("");
+                  setNpmValue("");
+                });
+              }}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              disabled={
+                withdrawing ||
+                npmErrorMsg ||
+                podErrorMsg ||
+                receiveAmountLoading ||
+                !npmValue ||
+                !podValue ||
+                loadingBalance ||
+                loadingAllowance
+              }
+            >
+              {withdrawing ? "Withdrawing.." : "Withdraw"}
+            </RegularButton>
+          )}
+        </div>
       </div>
     </Modal>
   );

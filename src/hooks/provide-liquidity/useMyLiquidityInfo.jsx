@@ -122,20 +122,8 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
   }, [fetchInfo]);
 
-  const updateInfo = useCallback(async () => {
-    const onResult = (_info) => {
-      if (!_info) return;
-      setInfo(_info);
-    };
-
-    fetchInfo(onResult).catch(console.error);
-  }, [fetchInfo]);
-
-  useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account || !coverKey) return;
-
-    async function fetchMinStake() {
+  const fetchMinStake = useCallback(
+    async (ignore) => {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const { remaining: _minNpmStake, myStake: _myStake } =
@@ -149,14 +137,30 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
       if (ignore) return;
       setMinNpmStake(_minNpmStake);
       setMyStake(_myStake);
-    }
+    },
+    [account, coverKey, library, networkId]
+  );
+
+  const updateInfo = useCallback(async () => {
+    const onResult = (_info) => {
+      if (!_info) return;
+      setInfo(_info);
+    };
 
     fetchMinStake();
+    fetchInfo(onResult).catch(console.error);
+  }, [fetchInfo, fetchMinStake]);
+
+  useEffect(() => {
+    let ignore = false;
+    if (!networkId || !account || !coverKey) return;
+
+    fetchMinStake(ignore);
 
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, library, networkId]);
+  }, [account, coverKey, fetchMinStake, library, networkId]);
 
   const accrueInterest = async () => {
     const handleError = (err) => {

@@ -25,11 +25,15 @@ export const useRemoveLiquidity = ({
   const { networkId } = useNetwork();
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
-  const { balance, refetch: updateBalance } =
-    useERC20Balance(vaultTokenAddress);
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(vaultTokenAddress);
   const {
     allowance,
     approve,
+    loading: loadingAllowance,
     refetch: updateAllowance,
   } = useERC20Allowance(vaultTokenAddress);
 
@@ -80,7 +84,7 @@ export const useRemoveLiquidity = ({
     });
   };
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (onTxSuccess) => {
     if (!networkId || !account) return;
 
     setWithdrawing(true);
@@ -104,11 +108,17 @@ export const useRemoveLiquidity = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Removing Liquidity",
-          success: "Removed Liquidity Successfully",
-          failure: "Could not remove liquidity",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Removing Liquidity",
+            success: "Removed Liquidity Successfully",
+            failure: "Could not remove liquidity",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
         cleanup();
       };
 
@@ -146,6 +156,9 @@ export const useRemoveLiquidity = ({
     allowance,
     vaultTokenAddress,
     vaultTokenSymbol,
+
+    loadingAllowance,
+    loadingBalance,
 
     approving,
     withdrawing,

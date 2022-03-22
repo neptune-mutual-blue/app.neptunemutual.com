@@ -87,13 +87,11 @@ export const useERC20Allowance = (tokenAddress) => {
         notifyError(err, "get allowance");
       };
 
-      const onTransactionResult = async (tx) => {
-        const _allowance = tx;
-
-        cleanup();
+      const onTransactionResult = async (_allowance) => {
         if (_allowance) {
           setAllowance(_allowance.toString());
         }
+        cleanup();
       };
 
       const onRetryCancel = () => {
@@ -105,7 +103,7 @@ export const useERC20Allowance = (tokenAddress) => {
         cleanup();
       };
 
-      await fetchAllowance(spender, {
+      fetchAllowance(spender, {
         onTransactionResult,
         onRetryCancel,
         onError,
