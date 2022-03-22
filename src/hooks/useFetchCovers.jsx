@@ -6,7 +6,9 @@ import { useIpfs } from "@/src/context/Ipfs";
 import { calculateCoverStats, defaultStats } from "@/src/helpers/cover";
 import DateLib from "@/lib/date/DateLib";
 
-const getQuery = (now) => {
+const getQuery = () => {
+  const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+
   return `
   {
     covers {
@@ -20,7 +22,7 @@ const getQuery = (now) => {
         totalCoverLiquidityRemoved
         totalFlashLoanFees
       }
-      cxTokens(where: { expiryDate_gt: "${now}" }) {
+      cxTokens(where: { expiryDate_gt: "${startOfMonth}" }) {
         key
         totalCoveredAmount
       }
@@ -99,8 +101,8 @@ export const useFetchCovers = () => {
     let ignore = false;
 
     setLoading(true);
-    const now = DateLib.unix();
-    refetch(getQuery(now))
+
+    refetch(getQuery())
       .catch(console.error)
       .finally(() => {
         if (ignore) return;

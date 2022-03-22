@@ -23,7 +23,7 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
       return;
     }
 
-    const now = DateLib.unix();
+    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
     fetch(graphURL, {
@@ -37,7 +37,7 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
         {
           userPolicies(
             where: {
-              expiresOn_gt: "${now}"
+              expiresOn_gt: "${startOfMonth}"
               account: "${account}"
               key: "${coverKey}"
             }

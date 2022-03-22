@@ -13,7 +13,9 @@ const defaultData = {
   coverFee: "0",
 };
 
-const getQuery = (now) => {
+const getQuery = () => {
+  const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+
   return `
   {
     covers {
@@ -33,7 +35,7 @@ const getQuery = (now) => {
       
     }
     cxTokens(where: {
-      expiryDate_gt: "${now}"
+      expiryDate_gt: "${startOfMonth}"
     }){
       totalCoveredAmount
     }
@@ -89,9 +91,7 @@ export const useFetchHeroStats = () => {
   }, [graphData, networkId]);
 
   useEffect(() => {
-    const now = DateLib.unix();
-
-    refetch(getQuery(now));
+    refetch(getQuery());
   }, [refetch]);
 
   return {

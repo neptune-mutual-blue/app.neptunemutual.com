@@ -22,7 +22,7 @@ export const useExpiredPolicies = () => {
       return;
     }
 
-    const now = DateLib.unix();
+    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
     fetch(graphURL, {
@@ -36,7 +36,7 @@ export const useExpiredPolicies = () => {
         {
           userPolicies(
             where: {
-              expiresOn_lt: "${now}"
+              expiresOn_lt: "${startOfMonth}"
               account: "${account}"
             }
           ) {
