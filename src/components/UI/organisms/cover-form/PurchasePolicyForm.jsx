@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
@@ -9,7 +10,6 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
-import { useEffect, useState } from "react";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -28,11 +28,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const statusInfo = useCoverStatusInfo(coverKey);
-  const {
-    loading: updatingFee,
-    data: feeData,
-    error: feeError,
-  } = usePolicyFees({
+
+  const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
     coverMonth,
     coverKey,
@@ -46,18 +43,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     handleApprove,
     handlePurchase,
     updatingBalance,
-    moreThanLiquidityError,
   } = usePurchasePolicy({
     value,
     coverMonth,
     coverKey,
     feeAmount: feeData.fee,
-    feeError,
   });
-
-  useEffect(() => {
-    if (moreThanLiquidityError) setCoverMonth();
-  }, [moreThanLiquidityError]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -155,7 +146,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-1"
             value="1"
             name="cover-period"
-            disabled={moreThanLiquidityError}
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
             checked={coverMonth === "1"}
           />
@@ -164,7 +155,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-2"
             value="2"
             name="cover-period"
-            disabled={moreThanLiquidityError}
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
             checked={coverMonth === "2"}
           />
@@ -173,7 +164,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-3"
             value="3"
             name="cover-period"
-            disabled={moreThanLiquidityError}
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
             checked={coverMonth == "3"}
           />

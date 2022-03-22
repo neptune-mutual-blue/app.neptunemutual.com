@@ -43,7 +43,7 @@ const ToastContainer = ({ variant = "top_right" }) => {
     <div
       className={classNames(
         Var.style,
-        "fixed z-50 w-full md:max-w-sm",
+        "fixed z-60 w-full md:max-w-sm",
         "p-4 md:p-4 max-h-screen overflow-hidden pointer-events-none"
       )}
     >
