@@ -5,8 +5,10 @@ export const formatPercent = (x) => {
     return "";
   }
 
+  const percent = parseFloat(x) * 100;
+
   return new Intl.NumberFormat(getLocale(), {
     style: "percent",
-    maximumFractionDigits: x < 1 ? 6 : 2,
+    maximumFractionDigits: percent < 1 ? 6 : 2,
   }).format(x);
 };
