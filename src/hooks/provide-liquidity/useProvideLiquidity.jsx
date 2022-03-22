@@ -33,9 +33,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     refetch: updateLqTokenBalance,
   } = useERC20Balance(liquidityTokenAddress);
   const {
-    balance: npmBalance,
-    loading: npmBalanceLoading,
-    refetch: updateNpmBalance,
+    balance: stakeBalance,
+    loading: stakeBalanceLoading,
+    refetch: updateStakeBalance,
   } = useERC20Balance(NPMTokenAddress);
   const vaultAddress = useVaultAddress({ coverKey });
   const {
@@ -45,9 +45,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     refetch: updateLqAllowance,
   } = useERC20Allowance(liquidityTokenAddress);
   const {
-    allowance: npmTokenAllowance,
-    approve: npmTokenApprove,
-    loading: npmAllowanceLoading,
+    allowance: stakeTokenAllowance,
+    approve: stakeTokenApprove,
+    loading: stakeAllowanceLoading,
     refetch: updateStakeAllowance,
   } = useERC20Allowance(NPMTokenAddress);
   const podSymbol = useTokenSymbol(vaultAddress);
@@ -138,7 +138,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       cleanup();
     };
 
-    npmTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
+    stakeTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
       onTransactionResult,
       onRetryCancel,
       onError,
@@ -151,9 +151,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     const cleanup = () => {
       setProviding(false);
       updateLqTokenBalance();
-      updateNpmBalance();
-      updateLqAllowance();
-      updateStakeAllowance();
+      updateStakeBalance();
+      updateLqAllowance(vaultAddress);
+      updateStakeAllowance(vaultAddress);
     };
     const handleError = (err) => {
       notifyError(err, "add liquidity");
@@ -214,7 +214,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     convertToUnits(lqValue || "0")
   );
   const hasNPMTokenAllowance = isGreaterOrEqual(
-    npmTokenAllowance || "0",
+    stakeTokenAllowance || "0",
     convertToUnits(npmValue || "0")
   );
 
@@ -229,23 +229,25 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       isGreater(convertToUnits(lqValue || "0"), lqTokenBalance || "0"));
 
   return {
-    lqTokenBalance,
-    npmBalance,
-    hasLqTokenAllowance,
+    npmApproving,
+    npmBalance: stakeBalance,
+    npmBalanceLoading: stakeBalanceLoading,
     hasNPMTokenAllowance,
+    npmAllowanceLoading: stakeAllowanceLoading,
+
+    hasLqTokenAllowance,
+    lqApproving,
+    lqTokenBalance,
+    lqBalanceLoading,
+    lqAllowanceLoading,
+
     canProvideLiquidity,
     isError,
-    lqApproving,
-    npmApproving,
     providing,
+    podSymbol,
+
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,
-    podSymbol,
-
-    lqBalanceLoading,
-    npmBalanceLoading,
-    lqAllowanceLoading,
-    npmAllowanceLoading,
   };
 };

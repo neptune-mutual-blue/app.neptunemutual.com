@@ -131,7 +131,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   } else if (lqBalanceLoading || npmBalanceLoading) {
     loadingMessage = "Fetching balance...";
   } else if (lqAllowanceLoading || npmAllowanceLoading) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = "Fetching allowances...";
   }
 
   return (
@@ -205,24 +205,21 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
         </span>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-6">
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
           <RegularButton
             disabled={
-              hasLqTokenAllowance ||
-              lqApproving ||
-              npmErrorMsg ||
-              lqErrorMsg ||
-              lqAllowanceLoading ||
-              npmAllowanceLoading ||
-              lqBalanceLoading ||
-              npmBalanceLoading
+              hasLqTokenAllowance || lqApproving || lqErrorMsg || loadingMessage
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleLqTokenApprove}
           >
-            {lqApproving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
+            {lqApproving ? (
+              "Approving..."
+            ) : (
+              <>Approve {liquidityTokenSymbol || "Liquidity"}</>
+            )}
           </RegularButton>
         )}
 
@@ -232,16 +229,16 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
               hasNPMTokenAllowance ||
               npmApproving ||
               npmErrorMsg ||
-              lqErrorMsg ||
-              lqAllowanceLoading ||
-              npmAllowanceLoading ||
-              lqBalanceLoading ||
-              npmBalanceLoading
+              loadingMessage
             }
             className="w-full p-6 mt-8 font-semibold uppercase text-h6"
             onClick={handleNPMTokenApprove}
           >
-            {npmApproving ? "Approving..." : <>Approve {npmTokenSymbol}</>}
+            {npmApproving ? (
+              "Approving..."
+            ) : (
+              <>Approve {npmTokenSymbol || "Stake"}</>
+            )}
           </RegularButton>
         )}
 
@@ -254,10 +251,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
               !npmValue ||
               npmErrorMsg ||
               lqErrorMsg ||
-              lqAllowanceLoading ||
-              npmAllowanceLoading ||
-              lqBalanceLoading ||
-              npmBalanceLoading
+              loadingMessage
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
