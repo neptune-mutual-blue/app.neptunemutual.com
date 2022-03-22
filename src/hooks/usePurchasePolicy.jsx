@@ -17,12 +17,13 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 
 export const usePurchasePolicy = ({
   coverKey,
   value,
   feeAmount,
-  feeError,
   coverMonth,
 }) => {
   const { library, account } = useWeb3React();
@@ -34,10 +35,13 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
+  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { liquidityTokenAddress } = useAppConstants();
-  const { balance, refetch: updateBalance } = useERC20Balance(
-    liquidityTokenAddress
-  );
+  const {
+    balance,
+    refetch: updateBalance,
+    loading: updatingBalance,
+  } = useERC20Balance(liquidityTokenAddress);
   const {
     allowance,
     approve,
@@ -70,21 +74,26 @@ export const usePurchasePolicy = ({
       return;
     }
 
-    if (feeError) {
-      setError("Could not get fees");
-      return;
-    }
-
     if (isGreater(feeAmount || "0", balance || "0")) {
       setError("Insufficient Balance");
       return;
+    }
+
+    if (isGreater(value || 0, availableLiquidity || 0)) {
+      setError(
+        `Maximum protection available is ${
+          formatCurrency(availableLiquidity).short
+        }`
+      );
+      return;
+    } else {
     }
 
     if (error) {
       setError("");
       return;
     }
-  }, [account, balance, error, feeAmount, feeError, value]);
+  }, [account, availableLiquidity, balance, error, feeAmount, value]);
 
   const handleApprove = async () => {
     setApproving(true);
@@ -127,7 +136,7 @@ export const usePurchasePolicy = ({
     }
   };
 
-  const handlePurchase = async () => {
+  const handlePurchase = async (onTxSuccess) => {
     setPurchasing(true);
 
     const cleanup = () => {
@@ -149,11 +158,15 @@ export const usePurchasePolicy = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Purchasing Policy",
-          success: "Purchased Policy Successfully",
-          failure: "Could not purchase policy",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Purchasing Policy",
+            success: "Purchased Policy Successfully",
+            failure: "Could not purchase policy",
+          },
+          { onTxSuccess: onTxSuccess }
+        );
 
         cleanup();
       };
@@ -200,5 +213,6 @@ export const usePurchasePolicy = ({
     error,
     handleApprove,
     handlePurchase,
+    updatingBalance,
   };
 };
