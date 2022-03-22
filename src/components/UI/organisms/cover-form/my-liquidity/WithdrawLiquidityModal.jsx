@@ -45,7 +45,7 @@ export const WithdrawLiquidityModal = ({
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
-      podAmount: podValue,
+      podAmount: podValue || "0",
     });
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
@@ -213,7 +213,9 @@ export const WithdrawLiquidityModal = ({
                 podErrorMsg ||
                 receiveAmountLoading ||
                 !npmValue ||
-                !podValue
+                !podValue ||
+                loadingBalance ||
+                loadingAllowance
               }
             >
               {approving ? "Approving.." : "Approve"}
@@ -233,7 +235,9 @@ export const WithdrawLiquidityModal = ({
                 podErrorMsg ||
                 receiveAmountLoading ||
                 !npmValue ||
-                !podValue
+                !podValue ||
+                loadingBalance ||
+                loadingAllowance
               }
             >
               {withdrawing ? "Withdrawing.." : "Withdraw"}
