@@ -10,7 +10,7 @@ export const useRegisterToken = () => {
     if (!networkId || !account) return;
 
     const image = symbol
-      ? `https://api.neptunemutual.com/images/tokens/${symbol.toLowerCase()}.svg`
+      ? `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       : undefined;
 
     registerToken(address, symbol, 18, image)

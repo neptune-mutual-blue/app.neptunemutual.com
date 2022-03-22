@@ -7,13 +7,15 @@ import {
   THead,
 } from "@/components/UI/organisms/Table";
 import { classNames } from "@/utils/classnames";
-import { ClaimCoverModal } from "@/components/UI/organisms/my-policies/ClaimCoverModal";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { ClaimCoverModal } from "@/components/ClaimCxTokens/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
+import {
+  CxTokenRowProvider,
+  useCxTokenRowContext,
+} from "@/components/ClaimCxTokens/CxTokenRowContext";
 
 const renderHeader = (col) => (
   <th
@@ -93,6 +95,7 @@ export const ClaimCxTokensTable = ({
               columns={columns}
               data={activePolicies}
               extraData={{ coverKey, incidentDate }}
+              RowWrapper={CxTokenRowProvider}
             ></TBody>
           </Table>
         </TableWrapper>
@@ -101,10 +104,8 @@ export const ClaimCxTokensTable = ({
   );
 };
 
-const CxTokenAmountRenderer = ({ row }) => {
-  const tokenAddress = row.cxToken.id;
-  const tokenSymbol = useTokenSymbol(tokenAddress);
-  const { balance } = useERC20Balance(tokenAddress);
+const CxTokenAmountRenderer = () => {
+  const { balance, tokenSymbol } = useCxTokenRowContext();
 
   return (
     <>
