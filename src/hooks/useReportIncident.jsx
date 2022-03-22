@@ -136,7 +136,6 @@ export const useReportIncident = ({ coverKey, value }) => {
   const isError =
     value &&
     (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
-  const isErrMessage = isError ? "Insufficient Balance" : "";
 
   return {
     tokenAddress: NPMTokenAddress,
@@ -152,7 +151,6 @@ export const useReportIncident = ({ coverKey, value }) => {
 
     canReport,
     isError,
-    isErrMessage,
 
     handleApprove,
     handleReport,

@@ -7,9 +7,9 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useReportIncident } from "@/src/hooks/useReportIncident";
-import { convertFromUnits, convertToUnits } from "@/utils/bn";
+import { convertFromUnits, convertToUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
@@ -26,7 +26,6 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     reporting,
     canReport,
     isError,
-    isErrMessage,
   } = useReportIncident({ coverKey, value });
 
   const [incidentTitle, setIncidentTitle] = useState("");
@@ -34,7 +33,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
-  const [validatonErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
 
   const maxDate = new Date().toISOString().slice(0, 16);
 
@@ -86,8 +85,8 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   };
 
   const handleDateChange = (e) => {
-    if (new Date(e.target.value).toISOString().slice(0, 16) < maxDate) {
-      setIncidentDate(e.target.value);
+    setIncidentDate(e.target.value);
+    if (new Date(e.target.value).toISOString().slice(0, 16) <= maxDate) {
       setValidationErrors((prev) => ({ ...prev, dateError: "" }));
     } else {
       setValidationErrors((prev) => ({
@@ -105,6 +104,25 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   } else if (fetchingMinStake) {
     loadingMessage = "Fetching min stake...";
   }
+
+  useEffect(() => {
+    if (value && isGreater(minStake, convertToUnits(value))) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: "Insufficient Stake",
+      }));
+    } else if (value && isGreater(convertToUnits(value), balance)) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: "Insufficient Balance",
+      }));
+    } else {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: "",
+      }));
+    }
+  }, [value, minStake, balance]);
 
   return (
     <>
@@ -150,9 +168,9 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <p className="pl-2 mt-2 text-sm text-9B9B9B">
                   Select the incident observance date.
                 </p>
-                {validatonErrors.dateError && (
+                {validationErrors.dateError && (
                   <p className="flex items-center pl-2 text-sm text-FA5C2F">
-                    {validatonErrors.dateError}
+                    {validationErrors.dateError}
                   </p>
                 )}
               </div>
@@ -245,9 +263,9 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <p className="text-9B9B9B">
                   Minimum Stake: {convertFromUnits(minStake).toString()} NPM
                 </p>
-                {isErrMessage && (
+                {validationErrors.balanceError && (
                   <p className="flex items-center text-FA5C2F">
-                    {isErrMessage}
+                    {validationErrors.balanceError}
                   </p>
                 )}
               </TokenAmountInput>
@@ -262,6 +280,8 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <RegularButton
                   disabled={
                     isError ||
+                    validationErrors.balanceError ||
+                    validationErrors.dateError ||
                     approving ||
                     !value ||
                     loadingAllowance ||
@@ -277,6 +297,8 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <RegularButton
                   disabled={
                     isError ||
+                    validationErrors.balanceError ||
+                    validationErrors.dateError ||
                     reporting ||
                     loadingAllowance ||
                     loadingBalance ||
