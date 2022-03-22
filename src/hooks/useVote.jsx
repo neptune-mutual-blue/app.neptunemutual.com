@@ -90,7 +90,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     setVoting(true);
     const cleanup = () => {
       updateBalance();
-      updateAllowance();
+      updateAllowance(governanceAddress);
       setVoting(false);
     };
     const handleError = (err) => {

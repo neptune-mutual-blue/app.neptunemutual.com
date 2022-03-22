@@ -101,9 +101,9 @@ export const CastYourVote = ({ incidentReport }) => {
 
   let loadingMessage = "";
   if (loadingBalance) {
-    loadingMessage = "Fetching balances...";
+    loadingMessage = "Fetching balance...";
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowances...";
+    loadingMessage = "Fetching allowance...";
   }
 
   return (
