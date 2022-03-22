@@ -4,13 +4,13 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
   return (
     <div
       className={classNames(
-        "flex items-center w-full mr-4",
+        "flex items-center p-6 sm:p-0",
         disabled && "cursor-not-allowed"
       )}
     >
       <input
         className={classNames(
-          "h-5 w-5 bg-EEEEEE border-B0C4DB mr-2",
+          "w-5 h-5 mr-2 bg-EEEEEE border-B0C4DB",
           disabled && "cursor-not-allowed"
         )}
         type="radio"
@@ -20,7 +20,7 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
       />
       <label
         className={classNames(
-          "text-sm uppercase",
+          "w-full h-full text-sm uppercase lg:h-auto lg:w-auto",
           disabled && "cursor-not-allowed"
         )}
         htmlFor={id}

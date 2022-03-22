@@ -33,9 +33,14 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
   const {
     allowance,
     approve,
+    loading: loadingAllowance,
     refetch: updateAllowance,
   } = useERC20Allowance(NPMTokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(NPMTokenAddress);
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(NPMTokenAddress);
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -81,7 +86,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     });
   };
 
-  const handleAttest = async () => {
+  const handleAttest = async (onTxSuccess) => {
     setVoting(true);
     const cleanup = () => {
       updateBalance();
@@ -101,11 +106,17 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Attesting",
-          success: "Attested successfully",
-          failure: "Could not attest",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Attesting",
+            success: "Attested successfully",
+            failure: "Could not attest",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
         cleanup();
       };
 
@@ -199,6 +210,9 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
     balance,
     approving,
     voting,
+
+    loadingAllowance,
+    loadingBalance,
 
     canVote,
     isError,
