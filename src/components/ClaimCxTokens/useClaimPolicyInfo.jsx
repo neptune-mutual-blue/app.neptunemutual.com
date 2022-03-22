@@ -1,6 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
-import { getClaimAmount } from "@/src/helpers/store/getClaimAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -9,6 +8,7 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
+  toBN,
 } from "@/utils/bn";
 import { registry } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
@@ -17,8 +17,10 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useCxTokenRowContext } from "@/components/ClaimCxTokens/CxTokenRowContext";
+import { getClaimPlatformFee } from "@/src/helpers/store/getClaimPlatformFee";
+import { MULTIPLIER } from "@/src/config/constants";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -29,16 +31,20 @@ export const useClaimPolicyInfo = ({
   const [approving, setApproving] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const [loadingFees, setLoadingFees] = useState(false);
+  const [claimPlatformFee, setClaimPlatformFee] = useState("0");
+  const [error, setError] = useState("");
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const claimsProcessorAddress = useClaimsProcessorAddress();
+  const { balance, refetchBalance } = useCxTokenRowContext();
   const {
     allowance,
+    loading: loadingAllowance,
     refetch: updateAllowance,
     approve,
   } = useERC20Allowance(cxTokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(cxTokenAddress);
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
@@ -49,8 +55,9 @@ export const useClaimPolicyInfo = ({
     updateAllowance(claimsProcessorAddress);
   }, [claimsProcessorAddress, updateAllowance]);
 
+  // Fetching fees
   useEffect(() => {
-    if (!networkId || !value) return;
+    if (!networkId) return;
 
     const signerOrProvider = getProviderOrSigner(
       library,
@@ -58,14 +65,35 @@ export const useClaimPolicyInfo = ({
       networkId
     );
 
-    getClaimAmount(
-      networkId,
-      convertToUnits(value).toString(),
-      signerOrProvider.provider
-    ).then((res) => {
-      setReceiveAmount(res);
-    });
+    setLoadingFees(true);
+    getClaimPlatformFee(networkId, signerOrProvider.provider)
+      .then((result) => setClaimPlatformFee(result))
+      .finally(() => setLoadingFees(false));
   }, [library, networkId, value]);
+
+  // Update receive amount
+  useEffect(() => {
+    if (!value) return;
+
+    const cxTokenAmount = convertToUnits(value).toString();
+
+    // cxTokenAmount * claimPlatformFee / MULTIPLIER
+    const platformFeeAmount = toBN(cxTokenAmount)
+      .multipliedBy(claimPlatformFee)
+      .dividedBy(MULTIPLIER);
+
+    // cxTokenAmount - platformFeeAmount
+    const claimAmount = toBN(cxTokenAmount).minus(platformFeeAmount).toString();
+
+    setReceiveAmount(claimAmount);
+  }, [claimPlatformFee, value]);
+
+  // RESET STATE
+  useEffect(() => {
+    if (!value && receiveAmount !== "0") {
+      setReceiveAmount("0");
+    }
+  }, [receiveAmount, value]);
 
   const handleApprove = async () => {
     if (!networkId || !account || !cxTokenAddress) {
@@ -111,7 +139,7 @@ export const useClaimPolicyInfo = ({
     });
   };
 
-  const handleClaim = async () => {
+  const handleClaim = async (onTxSuccess) => {
     if (!networkId || !account || !cxTokenAddress) {
       requiresAuth();
       return;
@@ -120,7 +148,6 @@ export const useClaimPolicyInfo = ({
     setClaiming(true);
 
     const cleanup = () => {
-      updateBalance();
       updateAllowance(claimsProcessorAddress);
       setClaiming(false);
     };
@@ -138,11 +165,20 @@ export const useClaimPolicyInfo = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: `Claiming policy`,
-          success: `Claimed policy Successfully`,
-          failure: `Could not Claim policy`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: `Claiming policy`,
+            success: `Claimed policy Successfully`,
+            failure: `Could not Claim policy`,
+          },
+          {
+            onTxSuccess: () => {
+              refetchBalance();
+              onTxSuccess();
+            },
+          }
+        );
         cleanup();
       };
 
@@ -175,23 +211,52 @@ export const useClaimPolicyInfo = ({
     }
   };
 
+  useEffect(() => {
+    if (!value && error) {
+      setError("");
+      return;
+    }
+
+    if (!value) {
+      return;
+    }
+
+    if (!account) {
+      setError("Please connect your wallet");
+      return;
+    }
+
+    if (!isValidNumber(value)) {
+      setError("Invalid amount to claim");
+      return;
+    }
+
+    if (isGreater(convertToUnits(value), balance || "0")) {
+      setError("Insufficient Balance");
+      return;
+    }
+
+    if (error) {
+      setError("");
+      return;
+    }
+  }, [account, balance, error, value]);
+
   const canClaim =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
 
-  const isError =
-    value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
-
   return {
-    balance,
     claiming,
     handleClaim,
     canClaim,
+    loadingAllowance,
     approving,
     handleApprove,
-    isError,
+    error,
     receiveAmount,
+    loadingFees,
+    claimPlatformFee,
   };
 };
