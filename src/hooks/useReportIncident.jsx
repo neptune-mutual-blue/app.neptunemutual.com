@@ -32,10 +32,15 @@ export const useReportIncident = ({ coverKey, value }) => {
   const tokenSymbol = useTokenSymbol(NPMTokenAddress);
   const {
     allowance,
+    loading: loadingAllowance,
     refetch: updateAllowance,
     approve,
   } = useERC20Allowance(NPMTokenAddress);
-  const { balance } = useERC20Balance(NPMTokenAddress);
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(NPMTokenAddress);
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
@@ -88,6 +93,12 @@ export const useReportIncident = ({ coverKey, value }) => {
   const handleReport = async (payload) => {
     setReporting(true);
 
+    const cleanup = () => {
+      setReporting(false);
+      updateAllowance();
+      updateBalance();
+    };
+
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
@@ -114,7 +125,7 @@ export const useReportIncident = ({ coverKey, value }) => {
     } catch (err) {
       notifyError(err, "report incident");
     } finally {
-      setReporting(false);
+      cleanup();
     }
   };
 
@@ -125,17 +136,23 @@ export const useReportIncident = ({ coverKey, value }) => {
   const isError =
     value &&
     (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
+  const isErrMessage = isError ? "Insufficient Balance" : "";
 
   return {
     tokenAddress: NPMTokenAddress,
     tokenSymbol,
 
     balance,
+    loadingBalance,
+
     approving,
+    loadingAllowance,
+
     reporting,
 
     canReport,
     isError,
+    isErrMessage,
 
     handleApprove,
     handleReport,

@@ -1,3 +1,4 @@
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Container } from "@/components/UI/atoms/container";
 import { RegularInput } from "@/components/UI/atoms/input/regular-input";
@@ -12,9 +13,11 @@ import { Fragment, useState } from "react";
 
 export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey });
+  const { minStake, fetchingMinStake } = useFirstReportingStake({ coverKey });
   const {
     balance,
+    loadingBalance,
+    loadingAllowance,
     tokenAddress,
     tokenSymbol,
     handleApprove,
@@ -23,6 +26,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     reporting,
     canReport,
     isError,
+    isErrMessage,
   } = useReportIncident({ coverKey, value });
 
   const [incidentTitle, setIncidentTitle] = useState("");
@@ -30,8 +34,10 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
+  const [dateError, setDateError] = useState("");
 
   const maxDate = new Date().toISOString().slice(0, 16);
+  console.log(maxDate);
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
@@ -80,6 +86,24 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     setUrls(newArr);
   };
 
+  const handleDateChange = (e) => {
+    if (new Date(e.target.value).toISOString().slice(0, 16) < maxDate) {
+      setIncidentDate(e.target.value);
+      setDateError("");
+    } else {
+      setDateError("Please choose date from the past");
+    }
+  };
+
+  let loadingMessage = "";
+  if (loadingAllowance) {
+    loadingMessage = "Fetching allowance...";
+  } else if (loadingBalance) {
+    loadingMessage = "Fetching balance...";
+  } else if (fetchingMinStake) {
+    loadingMessage = "Fetching min stake...";
+  }
+
   return (
     <>
       {/* Content */}
@@ -118,12 +142,17 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                     value: incidentDate,
                     type: "datetime-local",
                     disabled: approving || reporting,
-                    onChange: (e) => setIncidentDate(e.target.value),
+                    onChange: (e) => handleDateChange(e),
                   }}
                 />
                 <p className="pl-2 mt-2 text-sm text-9B9B9B">
                   Select the incident observance date.
                 </p>
+                {dateError && (
+                  <p className="flex items-center pl-2 text-sm text-FA5C2F">
+                    {dateError}
+                  </p>
+                )}
               </div>
             </div>
             <Label htmlFor={"incident_url"} className={"mt-10 mb-2"}>
@@ -214,26 +243,50 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <p className="text-9B9B9B">
                   Minimum Stake: {convertFromUnits(minStake).toString()} NPM
                 </p>
+                {isErrMessage && (
+                  <p className="flex items-center text-FA5C2F">
+                    {isErrMessage}
+                  </p>
+                )}
               </TokenAmountInput>
             </div>
 
-            {!canReport ? (
-              <RegularButton
-                disabled={isError || approving || !value}
-                className="px-24 py-6 mt-16 font-semibold uppercase text-h6"
-                onClick={handleApprove}
-              >
-                {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
-              </RegularButton>
-            ) : (
-              <RegularButton
-                disabled={isError || reporting}
-                className="px-24 py-6 mt-16 font-semibold uppercase text-h6"
-                onClick={handleSubmit}
-              >
-                {reporting ? "Reporting..." : "Report"}
-              </RegularButton>
-            )}
+            <div className="mt-16">
+              <div className="max-w-xs pr-8">
+                <DataLoadingIndicator message={loadingMessage} />
+              </div>
+
+              {!canReport ? (
+                <RegularButton
+                  disabled={
+                    isError ||
+                    approving ||
+                    !value ||
+                    loadingAllowance ||
+                    loadingBalance ||
+                    fetchingMinStake
+                  }
+                  className="px-24 py-6 font-semibold uppercase text-h6"
+                  onClick={handleApprove}
+                >
+                  {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+                </RegularButton>
+              ) : (
+                <RegularButton
+                  disabled={
+                    isError ||
+                    reporting ||
+                    loadingAllowance ||
+                    loadingBalance ||
+                    fetchingMinStake
+                  }
+                  className="px-24 py-6 font-semibold uppercase text-h6"
+                  onClick={handleSubmit}
+                >
+                  {reporting ? "Reporting..." : "Report"}
+                </RegularButton>
+              )}
+            </div>
           </div>
         </Container>
       </div>
