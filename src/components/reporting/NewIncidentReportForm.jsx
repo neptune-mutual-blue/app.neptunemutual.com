@@ -34,10 +34,9 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [urls, setUrls] = useState([{ url: "" }]);
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
-  const [dateError, setDateError] = useState("");
+  const [validatonErrors, setValidationErrors] = useState({});
 
   const maxDate = new Date().toISOString().slice(0, 16);
-  console.log(maxDate);
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
@@ -89,9 +88,12 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const handleDateChange = (e) => {
     if (new Date(e.target.value).toISOString().slice(0, 16) < maxDate) {
       setIncidentDate(e.target.value);
-      setDateError("");
+      setValidationErrors((prev) => ({ ...prev, dateError: "" }));
     } else {
-      setDateError("Please choose date from the past");
+      setValidationErrors((prev) => ({
+        ...prev,
+        dateError: "Please choose date from the past",
+      }));
     }
   };
 
@@ -148,9 +150,9 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 <p className="pl-2 mt-2 text-sm text-9B9B9B">
                   Select the incident observance date.
                 </p>
-                {dateError && (
+                {validatonErrors.dateError && (
                   <p className="flex items-center pl-2 text-sm text-FA5C2F">
-                    {dateError}
+                    {validatonErrors.dateError}
                   </p>
                 )}
               </div>
