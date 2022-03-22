@@ -76,10 +76,14 @@ export const WithdrawLiquidityModal = ({
   }, [isOpen]);
 
   useEffect(() => {
-    if (npmValue && isGreater(convertToUnits(npmValue), myStake)) {
-      setNpmErrorMsg("Exceeds maximum stake");
-    } else if (npmValue && isEqualTo(convertToUnits(npmValue), 0)) {
-      setNpmErrorMsg("Insufficient Balance");
+    if (
+      npmValue &&
+      isGreater(
+        convertToUnits(npmValue),
+        myStake - convertToUnits(250).toString()
+      ) // prevent from entering more than the allowed max withdraw
+    ) {
+      setNpmErrorMsg("Exceeds maximum withdraw");
     } else {
       setNpmErrorMsg("");
     }
@@ -94,7 +98,8 @@ export const WithdrawLiquidityModal = ({
   }, [balance, myStake, npmValue, podValue]);
 
   const handleChooseNpmMax = () => {
-    setNpmValue(convertFromUnits(myStake).toString());
+    // my stake - min stake
+    setNpmValue(convertFromUnits(myStake).toString() - 250);
   };
 
   const handleChoosePodMax = () => {
