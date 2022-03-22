@@ -35,7 +35,7 @@ export const ClaimCoverModal = ({
     receiveAmount,
     error,
     loadingAllowance,
-    loadingReceiveAmount,
+    loadingFees,
     claimPlatformFee,
   } = useClaimPolicyInfo({
     value: delayedValue,
@@ -61,8 +61,8 @@ export const ClaimCoverModal = ({
     loadingMessage = "Fetching balance...";
   } else if (loadingAllowance) {
     loadingMessage = "Fetching allowance...";
-  } else if (loadingReceiveAmount) {
-    loadingMessage = "Calculating receive amount...";
+  } else if (loadingFees) {
+    loadingMessage = "Fetching fees...";
   }
 
   return (
@@ -98,14 +98,13 @@ export const ClaimCoverModal = ({
             value={convertFromUnits(receiveAmount).toString()}
             unit="DAI"
           />
-          {isGreater(claimPlatformFee, "0") && (
-            <p className="px-3 pt-2 text-9B9B9B">
-              Fee: {formatPercent(claimPlatformFee / MULTIPLIER)}
-            </p>
-          )}
+          <p className="px-3 pt-2 text-9B9B9B">
+            {isGreater(claimPlatformFee, "0") &&
+              `Fee: ${formatPercent(claimPlatformFee / MULTIPLIER)}`}
+          </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <DataLoadingIndicator message={loadingMessage} />
           {!canClaim ? (
             <RegularButton

@@ -1,6 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
-import { getClaimAmount } from "@/src/helpers/store/getClaimAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -9,6 +8,7 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
+  toBN,
 } from "@/utils/bn";
 import { registry } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
@@ -19,6 +19,8 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useCxTokenRowContext } from "@/components/ClaimCxTokens/CxTokenRowContext";
+import { getClaimPlatformFee } from "@/src/helpers/store/getClaimPlatformFee";
+import { MULTIPLIER } from "@/src/config/constants";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -29,7 +31,7 @@ export const useClaimPolicyInfo = ({
   const [approving, setApproving] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
-  const [loadingReceiveAmount, setLoadingReceiveAmount] = useState(false);
+  const [loadingFees, setLoadingFees] = useState(false);
   const [claimPlatformFee, setClaimPlatformFee] = useState("0");
   const [error, setError] = useState("");
 
@@ -53,8 +55,9 @@ export const useClaimPolicyInfo = ({
     updateAllowance(claimsProcessorAddress);
   }, [claimsProcessorAddress, updateAllowance]);
 
+  // Fetching fees
   useEffect(() => {
-    if (!networkId || !value) return;
+    if (!networkId) return;
 
     const signerOrProvider = getProviderOrSigner(
       library,
@@ -62,20 +65,35 @@ export const useClaimPolicyInfo = ({
       networkId
     );
 
-    setLoadingReceiveAmount(true);
-    getClaimAmount(
-      networkId,
-      convertToUnits(value).toString(),
-      signerOrProvider.provider
-    )
-      .then(({ claimAmount, claimPlatformFee }) => {
-        setReceiveAmount(claimAmount);
-        setClaimPlatformFee(claimPlatformFee);
-      })
-      .finally(() => {
-        setLoadingReceiveAmount(false);
-      });
+    setLoadingFees(true);
+    getClaimPlatformFee(networkId, signerOrProvider.provider)
+      .then((result) => setClaimPlatformFee(result))
+      .finally(() => setLoadingFees(false));
   }, [library, networkId, value]);
+
+  // Update receive amount
+  useEffect(() => {
+    if (!value) return;
+
+    const cxTokenAmount = convertToUnits(value).toString();
+
+    // cxTokenAmount * claimPlatformFee / MULTIPLIER
+    const platformFeeAmount = toBN(cxTokenAmount)
+      .multipliedBy(claimPlatformFee)
+      .dividedBy(MULTIPLIER);
+
+    // cxTokenAmount - platformFeeAmount
+    const claimAmount = toBN(cxTokenAmount).minus(platformFeeAmount).toString();
+
+    setReceiveAmount(claimAmount);
+  }, [claimPlatformFee, value]);
+
+  // RESET STATE
+  useEffect(() => {
+    if (!value && receiveAmount !== "0") {
+      setReceiveAmount("0");
+    }
+  }, [receiveAmount, value]);
 
   const handleApprove = async () => {
     if (!networkId || !account || !cxTokenAddress) {
@@ -238,7 +256,7 @@ export const useClaimPolicyInfo = ({
     handleApprove,
     error,
     receiveAmount,
-    loadingReceiveAmount,
+    loadingFees,
     claimPlatformFee,
   };
 };
