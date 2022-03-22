@@ -10,6 +10,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useFirstReportingStake = ({ coverKey }) => {
   const [minStake, setMinStake] = useState("0");
+  const [fetchingMinStake, setFetchingMinStake] = useState(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
@@ -26,6 +27,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
     };
 
     async function fetchMinStake() {
+      setFetchingMinStake(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Governance.getInstance(
@@ -37,6 +39,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
         const minStake = result;
         if (ignore) return;
         setMinStake(minStake.toString());
+        setFetchingMinStake(false);
       };
 
       const onRetryCancel = () => {};
@@ -66,5 +69,6 @@ export const useFirstReportingStake = ({ coverKey }) => {
 
   return {
     minStake,
+    fetchingMinStake,
   };
 };
