@@ -17,8 +17,8 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useCxTokenRowContext } from "@/components/ClaimCxTokens/CxTokenRowContext";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -29,16 +29,20 @@ export const useClaimPolicyInfo = ({
   const [approving, setApproving] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const [loadingReceiveAmount, setLoadingReceiveAmount] = useState(false);
+  const [claimPlatformFee, setClaimPlatformFee] = useState("0");
+  const [error, setError] = useState("");
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const claimsProcessorAddress = useClaimsProcessorAddress();
+  const { balance, refetchBalance } = useCxTokenRowContext();
   const {
     allowance,
+    loading: loadingAllowance,
     refetch: updateAllowance,
     approve,
   } = useERC20Allowance(cxTokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(cxTokenAddress);
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
@@ -58,13 +62,19 @@ export const useClaimPolicyInfo = ({
       networkId
     );
 
+    setLoadingReceiveAmount(true);
     getClaimAmount(
       networkId,
       convertToUnits(value).toString(),
       signerOrProvider.provider
-    ).then((res) => {
-      setReceiveAmount(res);
-    });
+    )
+      .then(({ claimAmount, claimPlatformFee }) => {
+        setReceiveAmount(claimAmount);
+        setClaimPlatformFee(claimPlatformFee);
+      })
+      .finally(() => {
+        setLoadingReceiveAmount(false);
+      });
   }, [library, networkId, value]);
 
   const handleApprove = async () => {
@@ -111,7 +121,7 @@ export const useClaimPolicyInfo = ({
     });
   };
 
-  const handleClaim = async () => {
+  const handleClaim = async (onTxSuccess) => {
     if (!networkId || !account || !cxTokenAddress) {
       requiresAuth();
       return;
@@ -120,7 +130,6 @@ export const useClaimPolicyInfo = ({
     setClaiming(true);
 
     const cleanup = () => {
-      updateBalance();
       updateAllowance(claimsProcessorAddress);
       setClaiming(false);
     };
@@ -138,11 +147,20 @@ export const useClaimPolicyInfo = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: `Claiming policy`,
-          success: `Claimed policy Successfully`,
-          failure: `Could not Claim policy`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: `Claiming policy`,
+            success: `Claimed policy Successfully`,
+            failure: `Could not Claim policy`,
+          },
+          {
+            onTxSuccess: () => {
+              refetchBalance();
+              onTxSuccess();
+            },
+          }
+        );
         cleanup();
       };
 
@@ -175,23 +193,52 @@ export const useClaimPolicyInfo = ({
     }
   };
 
+  useEffect(() => {
+    if (!value && error) {
+      setError("");
+      return;
+    }
+
+    if (!value) {
+      return;
+    }
+
+    if (!account) {
+      setError("Please connect your wallet");
+      return;
+    }
+
+    if (!isValidNumber(value)) {
+      setError("Invalid amount to claim");
+      return;
+    }
+
+    if (isGreater(convertToUnits(value), balance || "0")) {
+      setError("Insufficient Balance");
+      return;
+    }
+
+    if (error) {
+      setError("");
+      return;
+    }
+  }, [account, balance, error, value]);
+
   const canClaim =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
 
-  const isError =
-    value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
-
   return {
-    balance,
     claiming,
     handleClaim,
     canClaim,
+    loadingAllowance,
     approving,
     handleApprove,
-    isError,
+    error,
     receiveAmount,
+    loadingReceiveAmount,
+    claimPlatformFee,
   };
 };

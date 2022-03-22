@@ -9,6 +9,9 @@ export const getClaimAmount = async (networkId, cxTokenAmount, provider) => {
       key: [utils.keyUtil.PROTOCOL.NS.CLAIM_PLATFORM_FEE],
       returns: "uint256",
       property: "claimPlatformFee",
+      compute: async ({ value }) => {
+        return value.toString();
+      },
     },
     {
       returns: "uint256",
@@ -33,5 +36,8 @@ export const getClaimAmount = async (networkId, cxTokenAmount, provider) => {
 
   const result = await getStoredData(candidates, networkId, provider);
 
-  return result.claimAmount;
+  return {
+    claimPlatformFee: result.claimPlatformFee,
+    claimAmount: result.claimAmount,
+  };
 };
