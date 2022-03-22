@@ -181,6 +181,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             disabled={
               !!error ||
               approving ||
+              !value ||
               !coverMonth ||
               updatingFee ||
               updatingBalance
@@ -195,13 +196,17 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             disabled={
               !!error ||
               purchasing ||
+              !value ||
               !coverMonth ||
               updatingFee ||
               updatingBalance
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
-              handlePurchase(() => setValue(""));
+              handlePurchase(() => {
+                setValue("");
+                setCoverMonth();
+              });
             }}
           >
             {purchasing ? "Purchasing..." : "Purchase policy"}
