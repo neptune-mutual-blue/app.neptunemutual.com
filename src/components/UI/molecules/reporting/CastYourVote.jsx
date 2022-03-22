@@ -114,7 +114,7 @@ export const CastYourVote = ({ incidentReport }) => {
       <div className="flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row">
         <div
           className={classNames(
-            "w-full p-6 mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:p-0 sm:rounded-none sm:border-0 sm:mr-4 md:mr-8 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 sm:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "incident-occurred" && "border-2 border-[#4e7dd9]"
           )}
         >
@@ -129,7 +129,7 @@ export const CastYourVote = ({ incidentReport }) => {
         </div>
         <div
           className={classNames(
-            "w-full p-6 mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:p-0 sm:rounded-none sm:border-0 sm:mr-4 md:mr-8 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 sm:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "false-reporting" && "border-2 border-[#4e7dd9]"
           )}
         >
@@ -174,7 +174,7 @@ export const CastYourVote = ({ incidentReport }) => {
                 )}
               </TokenAmountInput>
             </div>
-            <div>
+            <div className="w-full lg:w-64">
               {!canVote ? (
                 <RegularButton
                   className={
