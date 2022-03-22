@@ -31,9 +31,13 @@ export const POOL_URLS = {
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
+// Will end with `/`
+export const SUBGRAPH_BASE_URL = process.env.NEXT_PUBLIC_SUBGRAPH_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUBGRAPH_URL).toString()
+  : "/";
+
 export const SUBGRAPH_API_URLS = {
-  3: "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten",
-  42: "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan",
-  80001:
-    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
+  3: `${SUBGRAPH_BASE_URL}subgraph/ropsten`,
+  42: `${SUBGRAPH_BASE_URL}subgraph/kovan`,
+  80001: `${SUBGRAPH_BASE_URL}subgraph/mumbai`,
 };
