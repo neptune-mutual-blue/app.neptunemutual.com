@@ -8,6 +8,7 @@ import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState } from "react";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -183,23 +184,40 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           </TokenAmountInput>
         </div>
 
-        {!canDispute ? (
-          <RegularButton
-            disabled={isError || approving || !value}
-            className="px-24 py-6 mt-16 font-semibold uppercase text-h6 w-max"
-            onClick={handleApprove}
+        <div className="mt-12 w-max">
+          <div
+            className={classNames(
+              approving || disputing ? "opacity-100" : "opacity-0"
+            )}
           >
-            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            disabled={isError || disputing}
-            className="px-24 py-6 mt-16 font-semibold uppercase text-h6 w-max"
-            onClick={handleSubmit}
-          >
-            {disputing ? "Disputing..." : "Dispute"}
-          </RegularButton>
-        )}
+            <DataLoadingIndicator
+              message={
+                approving
+                  ? "Approving..."
+                  : disputing
+                  ? "Disputing"
+                  : "Loading..."
+              }
+            />
+          </div>
+          {!canDispute ? (
+            <RegularButton
+              disabled={isError || approving || !value}
+              className="px-24 py-6 font-semibold uppercase text-h6 w-max"
+              onClick={handleApprove}
+            >
+              {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+            </RegularButton>
+          ) : (
+            <RegularButton
+              disabled={isError || disputing}
+              className="px-24 py-6 font-semibold uppercase text-h6 w-max"
+              onClick={handleSubmit}
+            >
+              {disputing ? "Disputing..." : "Dispute"}
+            </RegularButton>
+          )}
+        </div>
       </div>
     </div>
   );
