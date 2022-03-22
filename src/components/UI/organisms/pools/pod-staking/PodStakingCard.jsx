@@ -21,6 +21,9 @@ import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
+import { Badge } from "@/components/UI/atoms/badge";
+import { formatPercent } from "@/utils/formatter/percent";
+import { MULTIPLIER } from "@/src/config/constants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -52,9 +55,9 @@ export const PodStakingCard = ({ data, tvl }) => {
   }
 
   const poolKey = data.key;
-  const stakedAmount = info.accountStakeBalance;
+  const stakedAmount = info.myStake;
   const rewardAmount = info.rewards;
-  const hasStaked = isGreater(info.accountStakeBalance, "0");
+  const hasStaked = isGreater(info.myStake, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
 
@@ -101,19 +104,23 @@ export const PodStakingCard = ({ data, tvl }) => {
   }
 
   return (
-    <OutlinedCard className="bg-white px-6 pt-6 pb-10">
+    <OutlinedCard className="px-6 pt-6 pb-10 bg-white">
       <div className="flex justify-between">
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
           <StakingCardTitle text={poolName} />
           <StakingCardSubTitle text={"Stake " + stakingTokenName} />
         </div>
-        <div>{/* <Badge className="text-21AD8C">APR: {25}%</Badge> */}</div>
+        <div>
+          <Badge className="text-21AD8C">
+            APR: {formatPercent(info.apr / MULTIPLIER)}
+          </Badge>
+        </div>
       </div>
 
       <hr className="mt-4 border-t border-B0C4DB" />
 
-      <div className="flex flex-wrap justify-between text-sm  px-1">
+      <div className="flex flex-wrap justify-between px-1 text-sm">
         {stats.map((x, idx) => {
           return (
             <div key={x.title} className="flex flex-col w-1/2 mt-5">
