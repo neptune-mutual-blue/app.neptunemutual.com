@@ -9,7 +9,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -46,6 +46,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     handleApprove,
     handlePurchase,
     updatingBalance,
+    moreThanLiquidityError,
   } = usePurchasePolicy({
     value,
     coverMonth,
@@ -53,6 +54,10 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: feeData.fee,
     feeError,
   });
+
+  useEffect(() => {
+    if (moreThanLiquidityError) setCoverMonth();
+  }, [moreThanLiquidityError]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -150,21 +155,27 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-1"
             value="1"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth === "1"}
           />
           <Radio
             label={coverPeriodLabels[1]}
             id="period-2"
             value="2"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth === "2"}
           />
           <Radio
             label={coverPeriodLabels[2]}
             id="period-3"
             value="3"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth == "3"}
           />
         </div>
       </div>

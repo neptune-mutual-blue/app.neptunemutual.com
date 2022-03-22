@@ -33,6 +33,7 @@ export const usePurchasePolicy = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
   const [error, setError] = useState("");
+  const [moreThanLiquidityError, setMoreThanLiquidityError] = useState(false);
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
 
@@ -87,12 +88,15 @@ export const usePurchasePolicy = ({
     }
 
     if (isGreater(value || 0, availableLiquidity || 0)) {
+      setMoreThanLiquidityError(true);
       setError(
         `Maximum protection available is ${
           formatCurrency(availableLiquidity).short
         }`
       );
       return;
+    } else {
+      setMoreThanLiquidityError(false);
     }
 
     if (error) {
@@ -220,5 +224,6 @@ export const usePurchasePolicy = ({
     handleApprove,
     handlePurchase,
     updatingBalance,
+    moreThanLiquidityError,
   };
 };
