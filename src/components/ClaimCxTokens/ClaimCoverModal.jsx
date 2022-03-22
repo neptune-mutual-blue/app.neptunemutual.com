@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { Label } from "@/components/UI/atoms/label";
@@ -43,6 +43,13 @@ export const ClaimCoverModal = ({
     coverKey,
     incidentDate,
   });
+
+  // Clear on modal close
+  useEffect(() => {
+    if (isOpen) return;
+
+    setValue("");
+  }, [isOpen]);
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance).toString());
