@@ -27,19 +27,27 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =
-    useERC20Balance(liquidityTokenAddress);
-  const { balance: npmBalance, refetch: updateNpmBalance } =
-    useERC20Balance(NPMTokenAddress);
+  const {
+    balance: lqTokenBalance,
+    loading: lqBalanceLoading,
+    refetch: updateLqTokenBalance,
+  } = useERC20Balance(liquidityTokenAddress);
+  const {
+    balance: npmBalance,
+    loading: npmBalanceLoading,
+    refetch: updateNpmBalance,
+  } = useERC20Balance(NPMTokenAddress);
   const vaultAddress = useVaultAddress({ coverKey });
   const {
     allowance: lqTokenAllowance,
     approve: lqTokenApprove,
+    loading: lqAllowanceLoading,
     refetch: updateLqAllowance,
   } = useERC20Allowance(liquidityTokenAddress);
   const {
     allowance: npmTokenAllowance,
     approve: npmTokenApprove,
+    loading: npmAllowanceLoading,
     refetch: updateStakeAllowance,
   } = useERC20Allowance(NPMTokenAddress);
   const podSymbol = useTokenSymbol(vaultAddress);
@@ -137,7 +145,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     });
   };
 
-  const handleProvide = async () => {
+  const handleProvide = async (onTxSuccess) => {
     setProviding(true);
 
     const cleanup = () => {
@@ -163,11 +171,17 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Adding Liquidity",
-          success: "Added Liquidity Successfully",
-          failure: "Could not add liquidity",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Adding Liquidity",
+            success: "Added Liquidity Successfully",
+            failure: "Could not add liquidity",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
         cleanup();
       };
 
@@ -228,5 +242,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     handleNPMTokenApprove,
     handleProvide,
     podSymbol,
+
+    lqBalanceLoading,
+    npmBalanceLoading,
+    lqAllowanceLoading,
+    npmAllowanceLoading,
   };
 };
