@@ -23,7 +23,6 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
 import { Badge } from "@/components/UI/atoms/badge";
 import { formatPercent } from "@/utils/formatter/percent";
-import { MULTIPLIER } from "@/src/config/constants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -112,9 +111,7 @@ export const PodStakingCard = ({ data, tvl }) => {
           <StakingCardSubTitle text={"Stake " + stakingTokenName} />
         </div>
         <div>
-          <Badge className="text-21AD8C">
-            APR: {formatPercent(info.apr / MULTIPLIER)}
-          </Badge>
+          <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
         </div>
       </div>
 

@@ -21,7 +21,6 @@ import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Badge } from "@/components/UI/atoms/badge";
-import { MULTIPLIER } from "@/src/config/constants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -145,9 +144,7 @@ export const StakingCard = ({ data, tvl }) => {
           <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
         </div>
         <div>
-          <Badge className="text-21AD8C">
-            APR: {formatPercent(info.apr / MULTIPLIER)}
-          </Badge>
+          <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
         </div>
       </div>
 
