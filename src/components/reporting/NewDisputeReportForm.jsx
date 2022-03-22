@@ -41,11 +41,9 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
       const _minStake = parseFloat(convertFromUnits(minStake).toString());
 
       // When minStake is being fetched
-      if (_minStake <= 0) setIsLoading({ msg: "Fetching min-stake amount..." });
+      if (_minStake <= 0)
+        return setIsLoading({ msg: "Fetching min-stake amount..." });
       else setIsLoading(null);
-
-      // return if both minStake & balance are 0
-      if (_balance <= 0 && _minStake <= 0) return;
 
       // set balance error if balance is less than minStake
       if (_balance < _minStake)
