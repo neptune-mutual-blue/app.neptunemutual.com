@@ -26,7 +26,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   const debouncedValue = useDebounce(value, 200);
   const [data, setData] = useState(defaultInfo);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -48,16 +47,13 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
     async function exec() {
       setLoading(true);
-      setError(false);
 
       const cleanup = () => {
         setLoading(false);
       };
 
       const handleError = (err) => {
-        console.error(err);
-        if (ignore) return;
-        setError(true);
+        notifyError(err, "get fees");
       };
 
       try {
@@ -137,7 +133,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
   return {
     loading,
-    error,
     data,
   };
 };

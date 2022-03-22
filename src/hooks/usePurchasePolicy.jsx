@@ -24,7 +24,6 @@ export const usePurchasePolicy = ({
   coverKey,
   value,
   feeAmount,
-  feeError,
   coverMonth,
 }) => {
   const { library, account } = useWeb3React();
@@ -33,12 +32,10 @@ export const usePurchasePolicy = ({
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
   const [error, setError] = useState("");
-  const [moreThanLiquidityError, setMoreThanLiquidityError] = useState(false);
-
-  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
+  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { liquidityTokenAddress } = useAppConstants();
   const {
     balance,
@@ -77,18 +74,12 @@ export const usePurchasePolicy = ({
       return;
     }
 
-    if (feeError) {
-      setError("Could not get fees");
-      return;
-    }
-
     if (isGreater(feeAmount || "0", balance || "0")) {
       setError("Insufficient Balance");
       return;
     }
 
     if (isGreater(value || 0, availableLiquidity || 0)) {
-      setMoreThanLiquidityError(true);
       setError(
         `Maximum protection available is ${
           formatCurrency(availableLiquidity).short
@@ -96,14 +87,13 @@ export const usePurchasePolicy = ({
       );
       return;
     } else {
-      setMoreThanLiquidityError(false);
     }
 
     if (error) {
       setError("");
       return;
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, feeError, value]);
+  }, [account, availableLiquidity, balance, error, feeAmount, value]);
 
   const handleApprove = async () => {
     setApproving(true);
@@ -224,6 +214,5 @@ export const usePurchasePolicy = ({
     handleApprove,
     handlePurchase,
     updatingBalance,
-    moreThanLiquidityError,
   };
 };
