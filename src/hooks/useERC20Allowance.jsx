@@ -65,7 +65,7 @@ export const useERC20Allowance = (tokenAddress) => {
   // "IF" condition should match the above effect
   // Should appear after the effect which contains the async function (which sets loading state)
   useEffect(() => {
-    if (!networkId || !account || !tokenAddress || !spender) {
+    if (!networkId || !account || !tokenAddress) {
       if (allowance !== "0") {
         setAllowance("0");
       }

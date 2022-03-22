@@ -129,7 +129,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   if (receiveAmountLoading) {
     loadingMessage = "Calculating tokens...";
   } else if (lqBalanceLoading || npmBalanceLoading) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = "Fetching balances...";
   } else if (lqAllowanceLoading || npmAllowanceLoading) {
     loadingMessage = "Fetching allowances...";
   }
