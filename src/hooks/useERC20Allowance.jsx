@@ -77,7 +77,6 @@ export const useERC20Allowance = (tokenAddress) => {
 
   const refetch = useCallback(
     async (spender) => {
-      console.log("spender :>> ", spender);
       setLoading(true);
 
       const cleanup = () => {
