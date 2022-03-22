@@ -7,7 +7,7 @@ import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
@@ -32,6 +32,27 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
+  const [balanceError, setBalanceError] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
+
+  useEffect(() => {
+    if (balance && minStake) {
+      const _balance = parseFloat(convertFromUnits(balance).toString());
+      const _minStake = parseFloat(convertFromUnits(minStake).toString());
+
+      // When minStake is being fetched
+      if (_minStake <= 0) setIsLoading({ msg: "Fetching min-stake amount..." });
+      else setIsLoading(null);
+
+      // return if both minStake & balance are 0
+      if (_balance <= 0 && _minStake <= 0) return;
+
+      // set balance error if balance is less than minStake
+      if (_balance < _minStake)
+        setBalanceError({ msg: "Insufficient Balance" });
+      else setBalanceError(null);
+    }
+  }, [minStake, balance]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -80,7 +101,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
   return (
     <div className="pt-8 pb-24">
-      <h2 className="mb-8 font-bold text-h3 font-sora">Submit Your Dispute</h2>
+      <h2 className="mb-12 font-bold text-h3 font-sora">Submit Your Dispute</h2>
       <div className="flex flex-col max-w-3xl gap-y-10">
         <div>
           <Label htmlFor={"incident_title"} className={"mb-2"}>
@@ -148,7 +169,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           <div className="relative">
             <textarea
               id="reporting-description"
-              className="block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB disabled:cursor-not-allowed"
+              className="block w-full py-6 pl-6 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB disabled:cursor-not-allowed"
               placeholder="Explain briefly about the incident if you want to add anything."
               rows={8}
               value={description}
@@ -181,24 +202,22 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
+            {balanceError && (
+              <p className="flex items-center text-FA5C2F">
+                {balanceError?.msg}
+              </p>
+            )}
           </TokenAmountInput>
         </div>
 
-        <div className="mt-12 w-max">
+        <div className=" w-max">
           <div
             className={classNames(
-              approving || disputing ? "opacity-100" : "opacity-0"
+              isLoading ? "opacity-100" : "opacity-0",
+              "mb-1"
             )}
           >
-            <DataLoadingIndicator
-              message={
-                approving
-                  ? "Approving..."
-                  : disputing
-                  ? "Disputing"
-                  : "Loading..."
-              }
-            />
+            <DataLoadingIndicator message={isLoading?.msg} />
           </div>
           {!canDispute ? (
             <RegularButton
