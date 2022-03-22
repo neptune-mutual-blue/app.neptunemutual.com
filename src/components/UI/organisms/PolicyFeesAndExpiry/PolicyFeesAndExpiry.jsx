@@ -1,10 +1,9 @@
-import RefreshDoubleIcon from "@/icons/RefreshDoubleIcon";
 import DateLib from "@/lib/date/DateLib";
 import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 
-export const PolicyFeesAndExpiry = ({ fetching, data, coverPeriod }) => {
+export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
   const { fee, rate } = data;
 
   const rateConverted = convertUintToPercentage(rate);
@@ -15,16 +14,8 @@ export const PolicyFeesAndExpiry = ({ fetching, data, coverPeriod }) => {
 
   return (
     <>
-      <div className="text-xs tracking-normal px-2 py-1 mt-14 flex justify-end items-center">
-        {fetching && (
-          <>
-            <RefreshDoubleIcon className="w-3 h-3 text-4e7dd9 animate-spin mr-2" />
-            <p>Fetching...</p>
-          </>
-        )}
-      </div>
-      <hr className="mb-4 border-t border-d4dfee" />
-      <table className="w-full uppercase text-black text-h6 font-semibold">
+      <hr className="py-1 mb-4 border-t mt-14 border-d4dfee" />
+      <table className="w-full font-semibold text-black uppercase text-h6">
         <tbody>
           <tr className="flex justify-between mt-3">
             <th>Fees</th>

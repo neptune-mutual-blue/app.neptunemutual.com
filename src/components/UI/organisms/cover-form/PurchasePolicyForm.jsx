@@ -9,7 +9,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -19,6 +19,7 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { Alert } from "@/components/UI/atoms/alert";
 import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -44,6 +45,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     error,
     handleApprove,
     handlePurchase,
+    updatingBalance,
+    moreThanLiquidityError,
   } = usePurchasePolicy({
     value,
     coverMonth,
@@ -51,6 +54,10 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: feeData.fee,
     feeError,
   });
+
+  useEffect(() => {
+    if (moreThanLiquidityError) setCoverMonth();
+  }, [moreThanLiquidityError]);
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -75,6 +82,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 1) % 12],
     monthNames[(now.getMonth() + 2) % 12],
   ];
+  let loadingMessage = "";
+  if (updatingFee) {
+    loadingMessage = "Fetching...";
+  } else if (updatingBalance) {
+    loadingMessage = "Fetching Balance...";
+  }
 
   if (statusInfo.status && statusInfo.status !== "Normal") {
     return (
@@ -142,49 +155,68 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-1"
             value="1"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth === "1"}
           />
           <Radio
             label={coverPeriodLabels[1]}
             id="period-2"
             value="2"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth === "2"}
           />
           <Radio
             label={coverPeriodLabels[2]}
             id="period-3"
             value="3"
             name="cover-period"
+            disabled={moreThanLiquidityError}
             onChange={handleRadioChange}
+            checked={coverMonth == "3"}
           />
         </div>
       </div>
       {value && coverMonth && (
-        <PolicyFeesAndExpiry
-          fetching={updatingFee}
-          data={feeData}
-          coverPeriod={coverMonth}
-        />
+        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
       )}
 
-      {!canPurchase ? (
-        <RegularButton
-          disabled={!!error || approving || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handleApprove}
-        >
-          {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
-        </RegularButton>
-      ) : (
-        <RegularButton
-          disabled={!!error || purchasing || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handlePurchase}
-        >
-          {purchasing ? "Purchasing..." : "Purchase policy"}
-        </RegularButton>
-      )}
+      <div className="mt-8">
+        <DataLoadingIndicator message={loadingMessage} />
+        {!canPurchase ? (
+          <RegularButton
+            disabled={
+              !!error ||
+              approving ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={handleApprove}
+          >
+            {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            disabled={
+              !!error ||
+              purchasing ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={() => {
+              handlePurchase(() => setValue(""));
+            }}
+          >
+            {purchasing ? "Purchasing..." : "Purchase policy"}
+          </RegularButton>
+        )}
+      </div>
 
       <div className="mt-20">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
