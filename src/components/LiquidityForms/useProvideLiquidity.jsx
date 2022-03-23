@@ -10,14 +10,12 @@ import {
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqApproving, setLqApproving] = useState();
@@ -26,18 +24,17 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
+  const {
+    vaultTokenAddress,
+    vaultTokenSymbol,
+    lqTokenBalance,
+    lqBalanceLoading,
+    updateLqTokenBalance,
+    stakeBalance,
+    stakeBalanceLoading,
+    updateStakeBalance,
+  } = useLiquidityFormsContext();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const {
-    balance: lqTokenBalance,
-    loading: lqBalanceLoading,
-    refetch: updateLqTokenBalance,
-  } = useERC20Balance(liquidityTokenAddress);
-  const {
-    balance: stakeBalance,
-    loading: stakeBalanceLoading,
-    refetch: updateStakeBalance,
-  } = useERC20Balance(NPMTokenAddress);
-  const vaultAddress = useVaultAddress({ coverKey });
   const {
     allowance: lqTokenAllowance,
     approve: lqTokenApprove,
@@ -50,19 +47,18 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     loading: stakeAllowanceLoading,
     refetch: updateStakeAllowance,
   } = useERC20Allowance(NPMTokenAddress);
-  const podSymbol = useTokenSymbol(vaultAddress);
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
-    updateLqAllowance(vaultAddress);
-  }, [updateLqAllowance, vaultAddress]);
+    updateLqAllowance(vaultTokenAddress);
+  }, [updateLqAllowance, vaultTokenAddress]);
 
   useEffect(() => {
-    updateStakeAllowance(vaultAddress);
-  }, [updateStakeAllowance, vaultAddress]);
+    updateStakeAllowance(vaultTokenAddress);
+  }, [updateStakeAllowance, vaultTokenAddress]);
 
   const handleLqTokenApprove = async () => {
     setLqApproving(true);
@@ -98,7 +94,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       cleanup();
     };
 
-    lqTokenApprove(vaultAddress, convertToUnits(lqValue).toString(), {
+    lqTokenApprove(vaultTokenAddress, convertToUnits(lqValue).toString(), {
       onTransactionResult,
       onRetryCancel,
       onError,
@@ -138,7 +134,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       cleanup();
     };
 
-    stakeTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
+    stakeTokenApprove(vaultTokenAddress, convertToUnits(npmValue).toString(), {
       onTransactionResult,
       onRetryCancel,
       onError,
@@ -152,8 +148,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       setProviding(false);
       updateLqTokenBalance();
       updateStakeBalance();
-      updateLqAllowance(vaultAddress);
-      updateStakeAllowance(vaultAddress);
+      updateLqAllowance(vaultTokenAddress);
+      updateStakeAllowance(vaultTokenAddress);
     };
     const handleError = (err) => {
       notifyError(err, "add liquidity");
@@ -244,7 +240,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     canProvideLiquidity,
     isError,
     providing,
-    podSymbol,
+    podSymbol: vaultTokenSymbol,
 
     handleLqTokenApprove,
     handleNPMTokenApprove,

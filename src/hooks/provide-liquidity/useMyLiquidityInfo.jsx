@@ -6,7 +6,6 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { getRemainingMinStakeToAddLiquidity } from "@/src/helpers/store/getRemainingMinStakeToAddLiquidity";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
@@ -25,8 +24,6 @@ const defaultInfo = {
 };
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const [info, setInfo] = useState(defaultInfo);
-  const [minNpmStake, setMinNpmStake] = useState("0");
-  const [myStake, setMyStake] = useState("0");
 
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
@@ -122,45 +119,14 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
   }, [fetchInfo]);
 
-  const fetchMinStake = useCallback(
-    async (ignore) => {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const { remaining: _minNpmStake, myStake: _myStake } =
-        await getRemainingMinStakeToAddLiquidity(
-          networkId,
-          coverKey,
-          account,
-          signerOrProvider.provider
-        );
-
-      if (ignore) return;
-      setMinNpmStake(_minNpmStake);
-      setMyStake(_myStake);
-    },
-    [account, coverKey, library, networkId]
-  );
-
   const updateInfo = useCallback(async () => {
     const onResult = (_info) => {
       if (!_info) return;
       setInfo(_info);
     };
 
-    fetchMinStake();
     fetchInfo(onResult).catch(console.error);
-  }, [fetchInfo, fetchMinStake]);
-
-  useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account || !coverKey) return;
-
-    fetchMinStake(ignore);
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, coverKey, fetchMinStake, library, networkId]);
+  }, [fetchInfo]);
 
   const accrueInterest = async () => {
     const handleError = (err) => {
@@ -202,17 +168,15 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   };
 
   const now = DateLib.unix();
-  const canAccrue =
+  const isWithdrawalWindowOpen =
     account &&
     isGreater(now, info.withdrawalOpen) &&
     isGreater(info.withdrawalClose, now);
 
   return {
     info,
-    minNpmStake,
-    myStake,
 
-    canAccrue,
+    isWithdrawalWindowOpen: isWithdrawalWindowOpen,
     accrueInterest,
 
     refetch: updateInfo,

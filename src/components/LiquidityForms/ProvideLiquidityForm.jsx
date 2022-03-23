@@ -6,12 +6,13 @@ import {
   isGreater,
   convertToUnits,
   isEqualTo,
+  toBN,
 } from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
-import { useProvideLiquidity } from "@/src/hooks/provide-liquidity/useProvideLiquidity";
+import { useProvideLiquidity } from "@/components/LiquidityForms/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -22,8 +23,10 @@ import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import { TokenAmountWithPrefix } from "@/components/TokenAmountWithPrefix";
+import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
 
-export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
+export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
   const [npmValue, setNPMValue] = useState();
   const router = useRouter();
@@ -58,19 +61,19 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
     lqValue,
     npmValue,
   });
+  const { minStakeToAddLiquidity, myStake } = useLiquidityFormsContext();
 
   const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
     coverKey,
     value: lqValue,
   });
 
+  const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
-    if (npmValue && isGreater(minNpmStake, convertToUnits(npmValue))) {
+    if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
       setNpmErrorMsg("Insufficient Stake");
     } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
       setNpmErrorMsg("Exceeds maximum balance");
-    } else if (npmValue && isEqualTo(convertToUnits(npmValue), 0)) {
-      setNpmErrorMsg("Insufficient Balance");
     } else {
       setNpmErrorMsg("");
     }
@@ -78,11 +81,11 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
     if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
       setLqErrorMsg("Exceeds maximum balance");
     } else if (lqValue && isEqualTo(convertToUnits(lqValue), 0)) {
-      setLqErrorMsg("Insufficient Balance");
+      setLqErrorMsg("Please specify an amount");
     } else {
       setLqErrorMsg("");
     }
-  }, [lqTokenBalance, lqValue, minNpmStake, npmBalance, npmValue]);
+  }, [lqTokenBalance, lqValue, npmBalance, npmValue, requiredStake]);
 
   const handleMaxNPM = () => {
     if (!npmBalance) {
@@ -130,8 +133,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
     loadingMessage = "Calculating tokens...";
   } else if (lqBalanceLoading || npmBalanceLoading) {
     loadingMessage = "Fetching balances...";
-  } else if (lqAllowanceLoading || npmAllowanceLoading) {
-    loadingMessage = "Fetching allowances...";
+  } else if (npmAllowanceLoading) {
+    loadingMessage = `Fetching ${npmTokenSymbol} allowance...`;
+  } else if (lqAllowanceLoading) {
+    loadingMessage = `Fetching ${liquidityTokenSymbol} allowance...`;
   }
 
   return (
@@ -149,11 +154,19 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
           inputValue={npmValue}
           disabled={lqApproving || providing}
         >
-          {isGreater(minNpmStake, "0") && (
-            <>
-              Minimum Stake: {convertFromUnits(minNpmStake).toString()}{" "}
-              {npmTokenSymbol}
-            </>
+          {isGreater(minStakeToAddLiquidity, myStake) && (
+            <TokenAmountWithPrefix
+              amountInUnits={minStakeToAddLiquidity}
+              prefix="Minimum Stake: "
+              symbol={npmTokenSymbol}
+            />
+          )}
+          {isGreater(myStake, "0") && (
+            <TokenAmountWithPrefix
+              amountInUnits={myStake}
+              prefix="Your Stake: "
+              symbol={npmTokenSymbol}
+            />
           )}
 
           {npmErrorMsg && (
