@@ -7,7 +7,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import { WithdrawLiquidityModal } from "@/components/UI/organisms/cover-form/my-liquidity/WithdrawLiquidityModal";
+import { WithdrawLiquidityModal } from "@/components/LiquidityForms/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
@@ -15,7 +15,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ProvideLiquidityForm } from "@/components/UI/organisms/cover-form/ProvideLiquidityForm";
+import { ProvideLiquidityForm } from "@/components/LiquidityForms/ProvideLiquidityForm";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,9 +28,7 @@ export const MyLiquidityCoverPage = () => {
   const {
     info,
     refetch: refetchInfo,
-    minNpmStake,
-    myStake,
-    canAccrue,
+    isWithdrawalWindowOpen,
     accrueInterest,
   } = useMyLiquidityInfo({
     coverKey,
@@ -93,11 +91,7 @@ export const MyLiquidityCoverPage = () => {
               <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
 
               <div className="mt-12">
-                <ProvideLiquidityForm
-                  coverKey={coverKey}
-                  info={info}
-                  minNpmStake={minNpmStake}
-                />
+                <ProvideLiquidityForm coverKey={coverKey} info={info} />
               </div>
             </div>
 
@@ -158,7 +152,7 @@ export const MyLiquidityCoverPage = () => {
                 </div>
               </CoverPurchaseResolutionSources>
               <div className="flex justify-end">
-                {canAccrue && (
+                {isWithdrawalWindowOpen && (
                   <button
                     className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
                     onClick={accrueInterest}
@@ -178,7 +172,6 @@ export const MyLiquidityCoverPage = () => {
         isOpen={isOpen}
         info={info}
         refetchInfo={refetchInfo}
-        myStake={myStake}
       />
     </div>
   );

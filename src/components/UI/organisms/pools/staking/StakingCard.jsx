@@ -132,7 +132,7 @@ export const StakingCard = ({ data, tvl }) => {
 
   return (
     <OutlinedCard className="px-6 pt-6 pb-10 bg-white">
-      <div className="flex justify-between">
+      <div className="flex items-start justify-between">
         <div>
           <DoubleImage
             images={[
@@ -140,13 +140,12 @@ export const StakingCard = ({ data, tvl }) => {
               { src: imgSrc, alt: name },
             ]}
           />
-          <StakingCardTitle text={poolName} />
-          <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
         </div>
-        <div>
-          <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
-        </div>
+
+        <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
       </div>
+      <StakingCardTitle text={poolName} />
+      <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
 
       <hr className="mt-4 border-t border-B0C4DB" />
 

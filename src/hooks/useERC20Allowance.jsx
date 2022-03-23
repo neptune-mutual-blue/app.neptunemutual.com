@@ -20,9 +20,19 @@ export const useERC20Allowance = (tokenAddress) => {
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
-    async (spender, { onTransactionResult, onRetryCancel, onError }) => {
-      if (!networkId || !account) return;
-      if (!tokenAddress || !spender) return;
+    async (
+      spender,
+      { onTransactionResult, onRetryCancel, onError, cleanup }
+    ) => {
+      if (!networkId || !account || !tokenAddress) {
+        return;
+      }
+
+      if (!spender) {
+        // Cleanup explicitly since the below useEffect cannot access spender
+        cleanup();
+        return;
+      }
 
       try {
         const signerOrProvider = getProviderOrSigner(
@@ -87,7 +97,7 @@ export const useERC20Allowance = (tokenAddress) => {
         notifyError(err, "get allowance");
       };
 
-      const onTransactionResult = async (_allowance) => {
+      const onTransactionResult = (_allowance) => {
         if (_allowance) {
           setAllowance(_allowance.toString());
         }
@@ -107,6 +117,7 @@ export const useERC20Allowance = (tokenAddress) => {
         onTransactionResult,
         onRetryCancel,
         onError,
+        cleanup,
       });
     },
     [fetchAllowance, notifyError]

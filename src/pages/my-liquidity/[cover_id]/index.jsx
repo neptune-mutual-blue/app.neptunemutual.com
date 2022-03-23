@@ -2,6 +2,9 @@ import Head from "next/head";
 import { MyLiquidityCoverPage } from "@/components/pages/my-liquidity/details";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { LiquidityFormsProvider } from "@/components/LiquidityForms/LiquidityFormsContext";
+import { useRouter } from "next/router";
+import { toBytes32 } from "@/src/helpers/cover";
 
 export function getServerSideProps() {
   return {
@@ -12,6 +15,10 @@ export function getServerSideProps() {
 }
 
 export default function MyLiquidityCover({ disabled }) {
+  const router = useRouter();
+  const { cover_id } = router.query;
+  const coverKey = toBytes32(cover_id);
+
   if (disabled) {
     return <ComingSoon />;
   }
@@ -26,7 +33,9 @@ export default function MyLiquidityCover({ disabled }) {
         />
       </Head>
 
-      <MyLiquidityCoverPage />
+      <LiquidityFormsProvider coverKey={coverKey}>
+        <MyLiquidityCoverPage />
+      </LiquidityFormsProvider>
     </main>
   );
 }

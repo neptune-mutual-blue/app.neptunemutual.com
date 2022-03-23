@@ -271,7 +271,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               </TokenAmountInput>
             </div>
 
-            <div className="mt-16">
+            <div className="mt-10">
               <div className="max-w-xs pr-8">
                 <DataLoadingIndicator message={loadingMessage} />
               </div>

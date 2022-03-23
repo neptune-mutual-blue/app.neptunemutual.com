@@ -6,12 +6,10 @@ import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
-import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
+import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
 
 export const useRemoveLiquidity = ({
   coverKey,
@@ -23,13 +21,17 @@ export const useRemoveLiquidity = ({
   const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
-  const vaultTokenAddress = useVaultAddress({ coverKey });
-  const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
   const {
-    balance,
-    loading: loadingBalance,
-    refetch: updateBalance,
-  } = useERC20Balance(vaultTokenAddress);
+    updateMinStakeInfo,
+    vaultTokenAddress,
+    vaultTokenSymbol,
+    podBalance,
+    loadingPodBalance,
+    updatePodBalance,
+    // Both NPM and DAI should be updated after withdrawal is successful
+    updateLqTokenBalance,
+    updateStakeBalance,
+  } = useLiquidityFormsContext();
   const {
     allowance,
     approve,
@@ -89,10 +91,17 @@ export const useRemoveLiquidity = ({
 
     setWithdrawing(true);
     const cleanup = () => {
-      updateBalance();
-      updateAllowance(vaultTokenAddress);
       refetchInfo();
       setWithdrawing(false);
+
+      updatePodBalance();
+      updateAllowance(vaultTokenAddress);
+      updateMinStakeInfo();
+
+      // Both NPM and DAI should be updated after withdrawal is successful
+      // Will be reflected in provide liquidity form
+      updateLqTokenBalance();
+      updateStakeBalance();
     };
 
     const handleError = (err) => {
@@ -152,13 +161,13 @@ export const useRemoveLiquidity = ({
   };
 
   return {
-    balance,
+    podBalance,
     allowance,
     vaultTokenAddress,
     vaultTokenSymbol,
 
     loadingAllowance,
-    loadingBalance,
+    loadingPodBalance,
 
     approving,
     withdrawing,
