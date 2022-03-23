@@ -11,22 +11,23 @@ import {
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 
 export const usePurchasePolicy = ({
   coverKey,
   value,
   feeAmount,
-  feeError,
   coverMonth,
 }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const [approving, setApproving] = useState();
   const [purchasing, setPurchasing] = useState();
@@ -34,10 +35,13 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
+  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { liquidityTokenAddress } = useAppConstants();
-  const { balance, refetch: updateBalance } = useERC20Balance(
-    liquidityTokenAddress
-  );
+  const {
+    balance,
+    refetch: updateBalance,
+    loading: updatingBalance,
+  } = useERC20Balance(liquidityTokenAddress);
   const {
     allowance,
     approve,
@@ -70,79 +74,128 @@ export const usePurchasePolicy = ({
       return;
     }
 
-    if (feeError) {
-      setError("Could not get fees");
-      return;
-    }
-
     if (isGreater(feeAmount || "0", balance || "0")) {
       setError("Insufficient Balance");
       return;
+    }
+
+    if (isGreater(value || 0, availableLiquidity || 0)) {
+      setError(
+        `Maximum protection available is ${
+          formatCurrency(availableLiquidity).short
+        }`
+      );
+      return;
+    } else {
     }
 
     if (error) {
       setError("");
       return;
     }
-  }, [account, balance, error, feeAmount, feeError, value]);
+  }, [account, availableLiquidity, balance, error, feeAmount, value]);
 
   const handleApprove = async () => {
-    try {
-      setApproving(true);
+    setApproving(true);
 
-      const tx = await approve(policyContractAddress, feeAmount);
-
-      await txToast.push(tx, {
-        pending: "Approving DAI",
-        success: "Approved DAI Successfully",
-        failure: "Could not approve DAI",
-      });
-
-      updateAllowance(policyContractAddress);
-    } catch (err) {
-      notifyError(err, "approve DAI");
-    } finally {
+    const cleanup = () => {
       setApproving(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "approve DAI");
+    };
+
+    try {
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Approving DAI",
+          success: "Approved DAI Successfully",
+          failure: "Could not approve DAI",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
+      approve(policyContractAddress, feeAmount, {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      });
+    } catch (err) {
+      handleError(err);
+      cleanup();
     }
   };
 
-  const handlePurchase = async () => {
-    try {
-      setPurchasing(true);
+  const handlePurchase = async (onTxSuccess) => {
+    setPurchasing(true);
 
+    const cleanup = () => {
+      setPurchasing(false);
+      updateAllowance();
+      updateBalance();
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "purchase policy");
+    };
+
+    try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const policyContract = await registry.PolicyContract.getInstance(
         networkId,
         signerOrProvider
       );
-      const catcher = notifyError;
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Purchasing Policy",
+            success: "Purchased Policy Successfully",
+            failure: "Could not purchase policy",
+          },
+          { onTxSuccess: onTxSuccess }
+        );
+
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
 
       const args = [
         coverKey,
         parseInt(coverMonth, 10),
         convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
       ];
-      const tx = await invoke(
-        policyContract,
-        "purchaseCover",
-        {},
-        catcher,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Purchasing Policy",
-        success: "Purchased Policy Successfully",
-        failure: "Could not purchase policy",
+      invoke({
+        instance: policyContract,
+        methodName: "purchaseCover",
+        args,
+        onTransactionResult,
+        onRetryCancel,
+        onError,
       });
-
-      updateAllowance();
-      updateBalance();
     } catch (err) {
-      notifyError(err, "purchase policy");
-    } finally {
-      setPurchasing(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -160,5 +213,6 @@ export const usePurchasePolicy = ({
     error,
     handleApprove,
     handlePurchase,
+    updatingBalance,
   };
 };

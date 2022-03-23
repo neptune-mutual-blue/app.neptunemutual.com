@@ -1,7 +1,12 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { convertFromUnits, isGreater, convertToUnits } from "@/utils/bn";
+import {
+  convertFromUnits,
+  isGreater,
+  convertToUnits,
+  isEqualTo,
+} from "@/utils/bn";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
@@ -12,6 +17,11 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
+import { Alert } from "@/components/UI/atoms/alert";
+import Link from "next/link";
+import { getParsedKey } from "@/src/helpers/cover";
+import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   const [lqValue, setLqValue] = useState();
@@ -24,6 +34,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
 
+  const statusInfo = useCoverStatusInfo(coverKey);
   const {
     lqTokenBalance,
     npmBalance,
@@ -38,24 +49,35 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
     isError,
     providing,
     podSymbol,
+    lqBalanceLoading,
+    npmBalanceLoading,
+    lqAllowanceLoading,
+    npmAllowanceLoading,
   } = useProvideLiquidity({
     coverKey,
     lqValue,
     npmValue,
   });
 
-  const { receiveAmount } = useCalculatePods({ coverKey, value: lqValue });
+  const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
+    coverKey,
+    value: lqValue,
+  });
 
   useEffect(() => {
     if (npmValue && isGreater(minNpmStake, convertToUnits(npmValue))) {
       setNpmErrorMsg("Insufficient Stake");
     } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
+      setNpmErrorMsg("Exceeds maximum balance");
+    } else if (npmValue && isEqualTo(convertToUnits(npmValue), 0)) {
       setNpmErrorMsg("Insufficient Balance");
     } else {
       setNpmErrorMsg("");
     }
 
     if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
+      setLqErrorMsg("Exceeds maximum balance");
+    } else if (lqValue && isEqualTo(convertToUnits(lqValue), 0)) {
       setLqErrorMsg("Insufficient Balance");
     } else {
       setLqErrorMsg("");
@@ -85,6 +107,32 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
+
+  if (statusInfo.status && statusInfo.status !== "Normal") {
+    return (
+      <Alert>
+        Cannot add liquidity, since the cover status is{" "}
+        <Link
+          href={`/reporting/${getParsedKey(coverKey)}/${
+            statusInfo.activeIncidentDate
+          }/details`}
+        >
+          <a className="font-medium underline hover:no-underline">
+            {statusInfo.status}
+          </a>
+        </Link>
+      </Alert>
+    );
+  }
+
+  let loadingMessage = "";
+  if (receiveAmountLoading) {
+    loadingMessage = "Calculating tokens...";
+  } else if (lqBalanceLoading || npmBalanceLoading) {
+    loadingMessage = "Fetching balances...";
+  } else if (lqAllowanceLoading || npmAllowanceLoading) {
+    loadingMessage = "Fetching allowances...";
+  }
 
   return (
     <div className="max-w-md">
@@ -141,7 +189,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
         />
       </div>
 
-      <h5 className="block  text-black text-h6 font-semibold mb-1 uppercase">
+      <h5 className="block mb-1 font-semibold text-black uppercase text-h6">
         NEXT UNLOCK CYCLE
       </h5>
       <div>
@@ -157,39 +205,70 @@ export const ProvideLiquidityForm = ({ coverKey, info, minNpmStake }) => {
         </span>
       </div>
 
-      {!hasBothAllowances && (
-        <RegularButton
-          disabled={hasLqTokenAllowance || lqApproving}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          onClick={handleLqTokenApprove}
-        >
-          {lqApproving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
-        </RegularButton>
-      )}
+      <div className="mt-6">
+        <DataLoadingIndicator message={loadingMessage} />
+        {!hasBothAllowances && (
+          <RegularButton
+            disabled={
+              hasLqTokenAllowance || lqApproving || lqErrorMsg || loadingMessage
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={handleLqTokenApprove}
+          >
+            {lqApproving ? (
+              "Approving..."
+            ) : (
+              <>Approve {liquidityTokenSymbol || "Liquidity"}</>
+            )}
+          </RegularButton>
+        )}
 
-      {!hasBothAllowances && (
-        <RegularButton
-          disabled={hasNPMTokenAllowance || npmApproving}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          onClick={handleNPMTokenApprove}
-        >
-          {npmApproving ? "Approving..." : <>Approve {npmTokenSymbol}</>}
-        </RegularButton>
-      )}
+        {!hasBothAllowances && (
+          <RegularButton
+            disabled={
+              hasNPMTokenAllowance ||
+              npmApproving ||
+              npmErrorMsg ||
+              loadingMessage
+            }
+            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
+            onClick={handleNPMTokenApprove}
+          >
+            {npmApproving ? (
+              "Approving..."
+            ) : (
+              <>Approve {npmTokenSymbol || "Stake"}</>
+            )}
+          </RegularButton>
+        )}
 
-      {hasBothAllowances && (
-        <RegularButton
-          disabled={isError || providing || !lqValue || !npmValue}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
-          onClick={handleProvide}
-        >
-          {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
-        </RegularButton>
-      )}
+        {hasBothAllowances && (
+          <RegularButton
+            disabled={
+              isError ||
+              providing ||
+              !lqValue ||
+              !npmValue ||
+              npmErrorMsg ||
+              lqErrorMsg ||
+              loadingMessage
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={() => {
+              handleProvide(() => {
+                setNPMValue("");
+                setLqValue("");
+              });
+            }}
+          >
+            {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
+          </RegularButton>
+        )}
+      </div>
 
       <div className="mt-16">
         <OutlinedButton
-          className="rounded-big block m-auto sm:m-0"
+          className="block m-auto rounded-big sm:m-0"
           onClick={() => router.back()}
         >
           &#x27F5;&nbsp;Back

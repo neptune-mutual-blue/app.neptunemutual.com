@@ -7,6 +7,7 @@ import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useNetwork } from "@/src/context/Network";
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -16,40 +17,66 @@ export const useStakingPoolWithdraw = ({
 }) => {
   const [withdrawing, setWithdrawing] = useState(false);
 
-  const { chainId, account, library } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    setWithdrawing(true);
 
-      setWithdrawing(true);
+    const cleanup = () => {
+      refetchInfo();
+      setWithdrawing(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, `unstake ${tokenSymbol}`);
+    };
+
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
       const instance = await registry.StakingPools.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Unstaking ${tokenSymbol}`,
+          success: `Unstaked ${tokenSymbol} successfully`,
+          failure: `Could not unstake ${tokenSymbol}`,
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [poolKey, convertToUnits(value).toString()];
-      const tx = await invoke(instance, "withdraw", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: `Unstaking ${tokenSymbol}`,
-        success: `Unstaked ${tokenSymbol} successfully`,
-        failure: `Could not unstake ${tokenSymbol}`,
+      invoke({
+        instance,
+        methodName: "withdraw",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      refetchInfo();
     } catch (err) {
-      notifyError(err, `unstake ${tokenSymbol}`);
-    } finally {
-      setWithdrawing(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -61,46 +88,68 @@ export const useStakingPoolWithdraw = ({
 
 export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false);
-  const { chainId, account, library } = useWeb3React();
+
+  const { networkId } = useNetwork();
+  const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdrawRewards = async () => {
-    if (!account || !chainId) {
+    if (!account || !networkId) {
       return;
     }
 
-    try {
-      const signerOrProvider = getProviderOrSigner(library, account, chainId);
+    setWithdrawingRewards(true);
 
-      setWithdrawingRewards(true);
+    const cleanup = () => {
+      refetchInfo();
+      setWithdrawingRewards(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "withdraw rewards");
+    };
+
+    try {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
       const instance = await registry.StakingPools.getInstance(
-        chainId,
+        networkId,
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: `Withdrawing rewards`,
+          success: `Withdrawn rewards successfully`,
+          failure: `Could not withdraw rewards`,
+        });
+
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [poolKey];
-      const tx = await invoke(
+      invoke({
         instance,
-        "withdrawRewards",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: `Withdrawing rewards`,
-        success: `Withdrawn rewards successfully`,
-        failure: `Could not withdraw rewards`,
+        methodName: "withdrawRewards",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      refetchInfo();
     } catch (err) {
-      console.error(err);
-    } finally {
-      setWithdrawingRewards(false);
+      handleError(err);
+      cleanup();
     }
   };
 

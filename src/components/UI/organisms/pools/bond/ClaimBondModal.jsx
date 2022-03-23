@@ -22,8 +22,8 @@ export const ClaimBondModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={claiming}>
-      <div className="max-w-lg max-h-90vh overflow-y-auto w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
-        <Dialog.Title className="font-sora font-bold text-h2">
+      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+        <Dialog.Title className="font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
         <ModalCloseButton
@@ -31,7 +31,7 @@ export const ClaimBondModal = ({
           onClick={onClose}
         ></ModalCloseButton>
         <div className="mt-6">
-          <Label htmlFor={"claimable-bond"} className="font-semibold mb-4">
+          <Label htmlFor={"claimable-bond"} className="mb-4 font-semibold">
             Amount Available To Claim
           </Label>
           <DisabledInput
@@ -39,13 +39,13 @@ export const ClaimBondModal = ({
             unit="NPM"
           />
         </div>
-        <div className="modal-unlock mt-8">
+        <div className="mt-8 modal-unlock">
           <Label className="mb-3" htmlFor="modal-unlock-on">
             Unlock Date
           </Label>
           <p
             id="modal-unlock-on"
-            className="text-7398C0 text-h4 font-medium"
+            className="font-medium text-7398C0 text-h4"
             title={DateLib.toLongDateFormat(unlockDate)}
           >
             {fromNow(unlockDate)}
@@ -55,10 +55,12 @@ export const ClaimBondModal = ({
         <RegularButton
           disabled={claiming}
           onClick={async () => {
-            await handleClaim();
-            refetchBondInfo();
+            await handleClaim(() => {
+              onClose();
+              refetchBondInfo();
+            });
           }}
-          className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
         >
           {claiming ? "Claiming..." : "Claim Now"}
         </RegularButton>

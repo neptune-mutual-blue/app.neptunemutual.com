@@ -128,6 +128,8 @@ module.exports = {
       maxHeight: {
         "144": "36rem",
         "90vh": "90vh",
+        "30vh": "30vh",
+        "45vh": "45vh",
       },
       height: {
         500: "500px",
@@ -141,6 +143,9 @@ module.exports = {
       },
       transitionTimingFunction: {
         menu: "cubic-bezier(0.4, 0, 0.2, 1)",
+      },
+      zIndex: {
+        60: "60",
       },
     },
   },

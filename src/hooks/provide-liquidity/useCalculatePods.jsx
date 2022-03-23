@@ -4,17 +4,18 @@ import { useWeb3React } from "@web3-react/core";
 
 import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
 export const useCalculatePods = ({ coverKey, value }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
+  const [loading, setLoading] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -28,13 +29,22 @@ export const useCalculatePods = ({ coverKey, value }) => {
       !isValidNumber(debouncedValue)
     ) {
       if (receiveAmount !== "0") setReceiveAmount("0");
-
       return;
     }
+
+    const handleError = (err) => {
+      notifyError(err, "calculate pods");
+    };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
+      setLoading(true);
+
+      const cleanup = () => {
+        setLoading(false);
+      };
+
       try {
         const instance = await registry.Vault.getInstance(
           networkId,
@@ -42,20 +52,36 @@ export const useCalculatePods = ({ coverKey, value }) => {
           signerOrProvider
         );
 
-        const args = [convertToUnits(debouncedValue).toString()];
-        const podAmount = await invoke(
-          instance,
-          "calculatePods",
-          {},
-          notifyError,
-          args,
-          false
-        );
+        const onTransactionResult = (result) => {
+          const podAmount = result;
 
-        if (ignore) return;
-        setReceiveAmount(convertFromUnits(podAmount).toString());
-      } catch (error) {
-        console.error(error);
+          if (ignore) return;
+          setReceiveAmount(convertFromUnits(podAmount).toString());
+          cleanup();
+        };
+
+        const onRetryCancel = () => {
+          cleanup();
+        };
+
+        const onError = (err) => {
+          handleError(err);
+          cleanup();
+        };
+
+        const args = [convertToUnits(debouncedValue).toString()];
+        invoke({
+          instance,
+          methodName: "calculatePods",
+          onTransactionResult,
+          onRetryCancel,
+          onError,
+          args,
+          retry: false,
+        });
+      } catch (err) {
+        handleError(err);
+        cleanup();
       }
     }
 
@@ -63,9 +89,19 @@ export const useCalculatePods = ({ coverKey, value }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, debouncedValue, library, networkId, receiveAmount]);
+  }, [
+    account,
+    coverKey,
+    debouncedValue,
+    invoke,
+    library,
+    networkId,
+    notifyError,
+    receiveAmount,
+  ]);
 
   return {
     receiveAmount,
+    loading,
   };
 };

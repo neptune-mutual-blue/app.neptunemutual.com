@@ -11,6 +11,13 @@ const getTime = () => {
 const target = DateLib.unix() + 60 * 60 * 44;
 const formatCount = (n) => String(n).padStart(2, "0");
 
+export function getStaticProps() {
+  return {
+    // returns the default 404 page with a status code of 404 in production
+    notFound: process.env.NODE_ENV === "production",
+  };
+}
+
 export default function Components() {
   const { hours, minutes, seconds } = useCountdown({
     target,
@@ -44,7 +51,7 @@ export default function Components() {
         <br />
         <br />
 
-        <div className="flex text-h2 justify-center">
+        <div className="flex justify-center text-h2">
           <div>{formatCount(hours)}:</div>
           <div>{formatCount(minutes)}:</div>
           <div>{formatCount(seconds)}</div>

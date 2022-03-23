@@ -4,17 +4,17 @@ import { useEagerConnect } from "@/lib/connect-wallet/hooks/useEagerConnect";
 import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListener";
 import { getNetworkId } from "@/src/config/environment";
 
-const AppContext = React.createContext({ networkId: null });
+const NetworkContext = React.createContext({ networkId: null });
 
-export function useAppContext() {
-  const context = React.useContext(AppContext);
+export function useNetwork() {
+  const context = React.useContext(NetworkContext);
   if (context === undefined) {
     throw new Error("useAppContext must be used within a AppWrapper");
   }
   return context;
 }
 
-export const AppWrapper = ({ children }) => {
+export const NetworkProvider = ({ children }) => {
   const [networkId, setNetworkId] = useState();
 
   useEffect(() => {
@@ -22,10 +22,10 @@ export const AppWrapper = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ networkId }}>
+    <NetworkContext.Provider value={{ networkId }}>
       {networkId && <PostNetworkIdLoad networkId={networkId} />}
       {children}
-    </AppContext.Provider>
+    </NetworkContext.Provider>
   );
 };
 

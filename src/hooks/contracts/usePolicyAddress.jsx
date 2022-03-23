@@ -3,11 +3,11 @@ import { useWeb3React } from "@web3-react/core";
 import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 export const usePolicyAddress = () => {
   const [address, setAddress] = useState(null);
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
 
   useEffect(() => {

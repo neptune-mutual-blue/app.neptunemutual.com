@@ -9,7 +9,7 @@ export const Table = ({ children }) => {
 export const TableWrapper = ({ children }) => {
   return (
     <>
-      <div className="relative bg-white text-404040 rounded-3xl overflow-x-scroll lg:overflow-hidden">
+      <div className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden">
         {children}
       </div>
     </>
@@ -32,10 +32,10 @@ export const TablePagination = ({
 
   return (
     <>
-      <div className="w-full flex justify-end items-center p-4 border-t border-t-DAE2EB">
+      <div className="flex items-center justify-end w-full p-4 border-t border-t-DAE2EB">
         <p className="p-2 opacity-40">Rows per page</p>
         <select
-          className="rounded-lg mx-4"
+          className="mx-4 rounded-lg"
           value={limit.toString()}
           onChange={(ev) => updateRowCount(ev.target.value)}
         >
@@ -67,7 +67,7 @@ export const TablePagination = ({
 
 export const THead = ({ columns }) => {
   return (
-    <thead className="bg-black text-white rounded-sm">
+    <thead className="text-white bg-black rounded-sm">
       <tr>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
@@ -77,7 +77,14 @@ export const THead = ({ columns }) => {
   );
 };
 
-export const TBody = ({ columns, data, isLoading, extraData }) => {
+// RowWrapper can probably only be a "Context Provider"
+export const TBody = ({
+  columns,
+  data,
+  isLoading,
+  extraData,
+  RowWrapper = Fragment,
+}) => {
   return (
     <tbody className="divide-y divide-DAE2EB">
       {data.length === 0 && (
@@ -89,13 +96,17 @@ export const TBody = ({ columns, data, isLoading, extraData }) => {
       )}
       {data.map((row, idx) => {
         return (
-          <tr key={idx}>
-            {columns.map((col, _idx) => {
-              return (
-                <Fragment key={_idx}>{col.renderData(row, extraData)}</Fragment>
-              );
-            })}
-          </tr>
+          <RowWrapper key={idx} row={row} extraData={extraData}>
+            <tr>
+              {columns.map((col, _idx) => {
+                return (
+                  <Fragment key={_idx}>
+                    {col.renderData(row, extraData)}
+                  </Fragment>
+                );
+              })}
+            </tr>
+          </RowWrapper>
         );
       })}
     </tbody>

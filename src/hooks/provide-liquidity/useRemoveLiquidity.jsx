@@ -5,7 +5,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -22,14 +22,18 @@ export const useRemoveLiquidity = ({
   const [approving, setApproving] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
-  const { balance, refetch: updateBalance } =
-    useERC20Balance(vaultTokenAddress);
+  const {
+    balance,
+    loading: loadingBalance,
+    refetch: updateBalance,
+  } = useERC20Balance(vaultTokenAddress);
   const {
     allowance,
     approve,
+    loading: loadingAllowance,
     refetch: updateAllowance,
   } = useERC20Allowance(vaultTokenAddress);
 
@@ -43,38 +47,89 @@ export const useRemoveLiquidity = ({
 
   const handleApprove = async () => {
     setApproving(true);
-    try {
-      const tx = await approve(
-        vaultTokenAddress,
-        convertToUnits(value).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: `Approving ${vaultTokenSymbol} tokens`,
-        success: `Approved ${vaultTokenSymbol} tokens Successfully`,
-        failure: `Could not approve ${vaultTokenSymbol} tokens`,
-      });
-
-      updateAllowance(vaultTokenAddress);
-    } catch (err) {
-      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
-    } finally {
+    const cleanup = () => {
       setApproving(false);
-    }
+    };
+    const handleError = (err) => {
+      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: `Approving ${vaultTokenSymbol} tokens`,
+          success: `Approved ${vaultTokenSymbol} tokens Successfully`,
+          failure: `Could not approve ${vaultTokenSymbol} tokens`,
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    approve(vaultTokenAddress, convertToUnits(value).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
-  const handleWithdraw = async () => {
+  const handleWithdraw = async (onTxSuccess) => {
     if (!networkId || !account) return;
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    setWithdrawing(true);
+    const cleanup = () => {
+      updateBalance();
+      updateAllowance(vaultTokenAddress);
+      refetchInfo();
+      setWithdrawing(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "remove liquidity");
+    };
 
     try {
-      setWithdrawing(true);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
         signerOrProvider
       );
+
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Removing Liquidity",
+            success: "Removed Liquidity Successfully",
+            failure: "Could not remove liquidity",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
 
       const args = [
         coverKey,
@@ -82,27 +137,17 @@ export const useRemoveLiquidity = ({
         convertToUnits(npmValue).toString(),
         false,
       ];
-      const tx = await invoke(
+      invoke({
         instance,
-        "removeLiquidity",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Removing Liquidity",
-        success: "Removed Liquidity Successfully",
-        failure: "Could not remove liquidity",
+        methodName: "removeLiquidity",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      updateBalance();
-      updateAllowance(vaultTokenAddress);
-      refetchInfo();
     } catch (err) {
-      notifyError(err, "remove liquidity");
-    } finally {
-      setWithdrawing(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -111,6 +156,9 @@ export const useRemoveLiquidity = ({
     allowance,
     vaultTokenAddress,
     vaultTokenSymbol,
+
+    loadingAllowance,
+    loadingBalance,
 
     approving,
     withdrawing,

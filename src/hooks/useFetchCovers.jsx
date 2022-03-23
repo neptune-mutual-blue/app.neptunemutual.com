@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { toUtf8String } from "@ethersproject/strings";
 import { useQuery } from "@/src/hooks/useQuery";
 import { useIpfs } from "@/src/context/Ipfs";
 import { calculateCoverStats, defaultStats } from "@/src/helpers/cover";
 import DateLib from "@/lib/date/DateLib";
 
-const getQuery = (now) => {
+const getQuery = () => {
+  const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+
   return `
   {
     covers {
@@ -20,7 +22,7 @@ const getQuery = (now) => {
         totalCoverLiquidityRemoved
         totalFlashLoanFees
       }
-      cxTokens(where: { expiryDate_gt: "${now}" }) {
+      cxTokens(where: { expiryDate_gt: "${startOfMonth}" }) {
         key
         totalCoveredAmount
       }
@@ -43,7 +45,7 @@ export const useFetchCovers = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { data: ipfs, getIpfsByHash } = useIpfs();
   const { data: graphData, refetch } = useQuery();
 
@@ -99,8 +101,8 @@ export const useFetchCovers = () => {
     let ignore = false;
 
     setLoading(true);
-    const now = DateLib.unix();
-    refetch(getQuery(now))
+
+    refetch(getQuery())
       .catch(console.error)
       .finally(() => {
         if (ignore) return;

@@ -12,7 +12,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
@@ -24,22 +24,30 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [npmApproving, setNPMApproving] = useState();
   const [providing, setProviding] = useState();
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const { balance: lqTokenBalance, refetch: updateLqTokenBalance } =
-    useERC20Balance(liquidityTokenAddress);
-  const { balance: npmBalance, refetch: updateNpmBalance } =
-    useERC20Balance(NPMTokenAddress);
+  const {
+    balance: lqTokenBalance,
+    loading: lqBalanceLoading,
+    refetch: updateLqTokenBalance,
+  } = useERC20Balance(liquidityTokenAddress);
+  const {
+    balance: stakeBalance,
+    loading: stakeBalanceLoading,
+    refetch: updateStakeBalance,
+  } = useERC20Balance(NPMTokenAddress);
   const vaultAddress = useVaultAddress({ coverKey });
   const {
     allowance: lqTokenAllowance,
     approve: lqTokenApprove,
+    loading: lqAllowanceLoading,
     refetch: updateLqAllowance,
   } = useERC20Allowance(liquidityTokenAddress);
   const {
-    allowance: npmTokenAllowance,
-    approve: npmTokenApprove,
+    allowance: stakeTokenAllowance,
+    approve: stakeTokenApprove,
+    loading: stakeAllowanceLoading,
     refetch: updateStakeAllowance,
   } = useERC20Allowance(NPMTokenAddress);
   const podSymbol = useTokenSymbol(vaultAddress);
@@ -57,55 +65,101 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   }, [updateStakeAllowance, vaultAddress]);
 
   const handleLqTokenApprove = async () => {
-    try {
-      setLqApproving(true);
+    setLqApproving(true);
 
-      const tx = await lqTokenApprove(
-        vaultAddress,
-        convertToUnits(lqValue).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: "Approving DAI",
-        success: "Approved DAI Successfully",
-        failure: "Could not approve DAI",
-      });
-
-      updateLqAllowance(vaultAddress);
-    } catch (error) {
-      notifyError(error, "approve DAI");
-    } finally {
+    const cleanup = () => {
       setLqApproving(false);
-    }
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "approve DAI");
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Approving DAI",
+          success: "Approved DAI Successfully",
+          failure: "Could not approve DAI",
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    lqTokenApprove(vaultAddress, convertToUnits(lqValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
   const handleNPMTokenApprove = async () => {
-    try {
-      setNPMApproving(true);
+    setNPMApproving(true);
 
-      const tx = await npmTokenApprove(
-        vaultAddress,
-        convertToUnits(npmValue).toString()
-      );
-
-      await txToast.push(tx, {
-        pending: "Approving NPM",
-        success: "Approved NPM Successfully",
-        failure: "Could not approve NPM",
-      });
-
-      updateStakeAllowance(vaultAddress);
-    } catch (error) {
-      notifyError(error, "approve NPM");
-    } finally {
+    const cleanup = () => {
       setNPMApproving(false);
-    }
+    };
+    const handleError = (err) => {
+      notifyError(err, "approve NPM");
+    };
+
+    const onTransactionResult = async (tx) => {
+      try {
+        await txToast.push(tx, {
+          pending: "Approving NPM",
+          success: "Approved NPM Successfully",
+          failure: "Could not approve NPM",
+        });
+        cleanup();
+      } catch (err) {
+        handleError(err);
+        cleanup();
+      }
+    };
+
+    const onRetryCancel = () => {
+      cleanup();
+    };
+
+    const onError = (err) => {
+      handleError(err);
+      cleanup();
+    };
+
+    stakeTokenApprove(vaultAddress, convertToUnits(npmValue).toString(), {
+      onTransactionResult,
+      onRetryCancel,
+      onError,
+    });
   };
 
-  const handleProvide = async () => {
-    try {
-      setProviding(true);
+  const handleProvide = async (onTxSuccess) => {
+    setProviding(true);
 
+    const cleanup = () => {
+      setProviding(false);
+      updateLqTokenBalance();
+      updateStakeBalance();
+      updateLqAllowance(vaultAddress);
+      updateStakeAllowance(vaultAddress);
+    };
+    const handleError = (err) => {
+      notifyError(err, "add liquidity");
+    };
+
+    try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const lqAmount = convertToUnits(lqValue).toString();
       const npmAmount = convertToUnits(npmValue).toString();
@@ -116,23 +170,42 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(
+          tx,
+          {
+            pending: "Adding Liquidity",
+            success: "Added Liquidity Successfully",
+            failure: "Could not add liquidity",
+          },
+          {
+            onTxSuccess: onTxSuccess,
+          }
+        );
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, lqAmount, npmAmount];
-      const tx = await invoke(vault, "addLiquidity", {}, notifyError, args);
-
-      await txToast.push(tx, {
-        pending: "Adding Liquidity",
-        success: "Added Liquidity Successfully",
-        failure: "Could not add liquidity",
+      invoke({
+        instance: vault,
+        methodName: "addLiquidity",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      updateLqTokenBalance();
-      updateNpmBalance();
-      updateLqAllowance();
-      updateStakeAllowance();
     } catch (err) {
-      notifyError(err, "add liquidity");
-    } finally {
-      setProviding(false);
+      handleError(err);
+      cleanup();
     }
   };
 
@@ -141,7 +214,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     convertToUnits(lqValue || "0")
   );
   const hasNPMTokenAllowance = isGreaterOrEqual(
-    npmTokenAllowance || "0",
+    stakeTokenAllowance || "0",
     convertToUnits(npmValue || "0")
   );
 
@@ -156,18 +229,25 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       isGreater(convertToUnits(lqValue || "0"), lqTokenBalance || "0"));
 
   return {
-    lqTokenBalance,
-    npmBalance,
-    hasLqTokenAllowance,
+    npmApproving,
+    npmBalance: stakeBalance,
+    npmBalanceLoading: stakeBalanceLoading,
     hasNPMTokenAllowance,
+    npmAllowanceLoading: stakeAllowanceLoading,
+
+    hasLqTokenAllowance,
+    lqApproving,
+    lqTokenBalance,
+    lqBalanceLoading,
+    lqAllowanceLoading,
+
     canProvideLiquidity,
     isError,
-    lqApproving,
-    npmApproving,
     providing,
+    podSymbol,
+
     handleLqTokenApprove,
     handleNPMTokenApprove,
     handleProvide,
-    podSymbol,
   };
 };

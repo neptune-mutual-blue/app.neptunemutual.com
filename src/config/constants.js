@@ -13,12 +13,17 @@ export const CoverStatus = {
   4: "Claimable",
 };
 
-// Should be added to CSP
-export const PRICING_URL = "https://api.neptunemutual.com/pricing/{networkId}";
+// Will end with `/`
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
+  ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
+  : "/";
+
+export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`;
+export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
+export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{networkId}/{poolKey}/{account}`;
+
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
 export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";
-export const UNSTAKE_INFO_URL =
-  "https://api.neptunemutual.com/protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}";
 
 export const POOL_URLS = {
   3: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
@@ -27,9 +32,13 @@ export const POOL_URLS = {
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
+// Will end with `/`
+export const SUBGRAPH_BASE_URL = process.env.NEXT_PUBLIC_SUBGRAPH_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUBGRAPH_URL).toString()
+  : "/";
+
 export const SUBGRAPH_API_URLS = {
-  3: "https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten",
-  42: "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan",
-  80001:
-    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
+  3: `${SUBGRAPH_BASE_URL}subgraph/ropsten`,
+  42: `${SUBGRAPH_BASE_URL}subgraph/kovan`,
+  80001: `${SUBGRAPH_BASE_URL}subgraph/mumbai`,
 };

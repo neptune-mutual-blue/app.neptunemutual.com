@@ -18,17 +18,9 @@ export const UnStakeForm = ({
   inputValue,
   setInputValue,
 }) => {
-  /* const [inputValue, setInputValue] = useState(); */
   const blockHeight = useBlockHeight();
 
-  /* const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
-    value: inputValue,
-    tokenAddress: info.stakingToken,
-    tokenSymbol: stakingTokenSymbol,
-    poolKey,
-  }); */
-
-  const canWithdraw = isGreater(blockHeight, info.canWithdrawFrom);
+  const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;
   const isError =
     inputValue &&
@@ -76,7 +68,7 @@ export const UnStakeForm = ({
 
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
-        className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+        className="w-full p-6 mt-8 font-semibold uppercase text-h6"
         onClick={handleWithdraw}
       >
         {withdrawing ? "withdrawing..." : "Unstake"}

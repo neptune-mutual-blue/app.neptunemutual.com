@@ -7,7 +7,8 @@ import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -31,6 +32,25 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
+  const [balanceError, setBalanceError] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
+
+  useEffect(() => {
+    if (balance && minStake) {
+      const _balance = parseFloat(convertFromUnits(balance).toString());
+      const _minStake = parseFloat(convertFromUnits(minStake).toString());
+
+      // When minStake is being fetched
+      if (_minStake <= 0)
+        return setIsLoading({ msg: "Fetching min-stake amount..." });
+      else setIsLoading(null);
+
+      // set balance error if balance is less than minStake
+      if (_balance < _minStake)
+        setBalanceError({ msg: "Insufficient Balance" });
+      else setBalanceError(null);
+    }
+  }, [minStake, balance]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -79,19 +99,20 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
   return (
     <div className="pt-8 pb-24">
-      <h2 className="text-h3 font-sora font-bold mb-8">Submit Your Dispute</h2>
-      <div className="max-w-3xl flex flex-col gap-y-10">
+      <h2 className="mb-12 font-bold text-h3 font-sora">Submit Your Dispute</h2>
+      <div className="flex flex-col max-w-3xl gap-y-10">
         <div>
           <Label htmlFor={"incident_title"} className={"mb-2"}>
             Title
           </Label>
           <RegularInput
-            className="leading-none"
+            className="leading-none disabled:cursor-not-allowed"
             inputProps={{
               id: "incident_title",
               placeholder: "Enter a title of this dispute",
               value: disputeTitle,
               onChange: (e) => setDisputeTitle(e.target.value),
+              disabled: approving || disputing,
             }}
           />
         </div>
@@ -106,18 +127,22 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
               <div>
                 <div className="flex items-center mt-2">
                   <RegularInput
-                    className={i === 0 && "mr-12"}
+                    className={classNames(
+                      i === 0 && "mr-12",
+                      "disabled:cursor-not-allowed"
+                    )}
                     inputProps={{
                       id: `incident_url_${i}`,
                       placeholder: "https://",
                       value: x["url"],
                       onChange: (e) => handleChange(e, i),
+                      disabled: approving || disputing,
                     }}
                   />
                   {i !== 0 && (
                     <span
                       onClick={() => handleDeleteLink(i)}
-                      className="ml-4 border border-CEEBED rounded-md p-2 cursor-pointer"
+                      className="p-2 ml-4 border rounded-md cursor-pointer border-CEEBED"
                     >
                       <DeleteIcon width={14} height={16} />
                     </span>
@@ -129,7 +154,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
           <button
             onClick={handleNewLink}
-            className="bg-transparent text-black border-none hover:underline mt-4"
+            className="mt-4 text-black bg-transparent border-none hover:underline"
           >
             + Add new link
           </button>
@@ -142,11 +167,12 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           <div className="relative">
             <textarea
               id="reporting-description"
-              className="focus:ring-4e7dd9 focus:border-4e7dd9 bg-white block w-full rounded-lg py-6 pl-6 border border-B0C4DB mb-10"
+              className="block w-full py-6 pl-6 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB disabled:cursor-not-allowed"
               placeholder="Explain briefly about the incident if you want to add anything."
               rows={8}
               value={description}
               onChange={(e) => handleTextArea(e)}
+              disabled={approving || disputing}
             />
             <span
               className={classNames(
@@ -174,26 +200,41 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
+            {balanceError && (
+              <p className="flex items-center text-FA5C2F">
+                {balanceError?.msg}
+              </p>
+            )}
           </TokenAmountInput>
         </div>
 
-        {!canDispute ? (
-          <RegularButton
-            disabled={isError || approving || !value}
-            className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
-            onClick={handleApprove}
+        <div className=" w-max">
+          <div
+            className={classNames(
+              isLoading ? "opacity-100" : "opacity-0",
+              "mb-1"
+            )}
           >
-            {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            disabled={isError || disputing}
-            className="uppercase text-h6 font-semibold py-6 px-24 mt-16 w-max"
-            onClick={handleSubmit}
-          >
-            {disputing ? "Disputing..." : "Dispute"}
-          </RegularButton>
-        )}
+            <DataLoadingIndicator message={isLoading?.msg} />
+          </div>
+          {!canDispute ? (
+            <RegularButton
+              disabled={isError || approving || !value}
+              className="px-24 py-6 font-semibold uppercase text-h6 w-max"
+              onClick={handleApprove}
+            >
+              {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+            </RegularButton>
+          ) : (
+            <RegularButton
+              disabled={isError || disputing}
+              className="px-24 py-6 font-semibold uppercase text-h6 w-max"
+              onClick={handleSubmit}
+            >
+              {disputing ? "Disputing..." : "Dispute"}
+            </RegularButton>
+          )}
+        </div>
       </div>
     </div>
   );

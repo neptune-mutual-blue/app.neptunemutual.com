@@ -17,16 +17,18 @@ import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
+import { Badge } from "@/components/UI/atoms/badge";
+import { formatPercent } from "@/utils/formatter/percent";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl }) => {
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
 
   const rewardTokenAddress = info.rewardToken;
@@ -52,9 +54,9 @@ export const PodStakingCard = ({ data, tvl }) => {
   }
 
   const poolKey = data.key;
-  const stakedAmount = info.accountStakeBalance;
+  const stakedAmount = info.myStake;
   const rewardAmount = info.rewards;
-  const hasStaked = isGreater(info.accountStakeBalance, "0");
+  const hasStaked = isGreater(info.myStake, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
 
@@ -101,19 +103,21 @@ export const PodStakingCard = ({ data, tvl }) => {
   }
 
   return (
-    <OutlinedCard className="bg-white px-6 pt-6 pb-10">
+    <OutlinedCard className="px-6 pt-6 pb-10 bg-white">
       <div className="flex justify-between">
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
           <StakingCardTitle text={poolName} />
           <StakingCardSubTitle text={"Stake " + stakingTokenName} />
         </div>
-        <div>{/* <Badge className="text-21AD8C">APR: {25}%</Badge> */}</div>
+        <div>
+          <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
+        </div>
       </div>
 
       <hr className="mt-4 border-t border-B0C4DB" />
 
-      <div className="flex flex-wrap justify-between text-sm  px-1">
+      <div className="flex flex-wrap justify-between px-1 text-sm">
         {stats.map((x, idx) => {
           return (
             <div key={x.title} className="flex flex-col w-1/2 mt-5">

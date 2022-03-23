@@ -4,7 +4,7 @@ import { registry } from "@neptunemutual/sdk";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
@@ -21,12 +21,11 @@ const defaultInfo = {
 
 export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
   const { library, account } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const debouncedValue = useDebounce(value, 200);
   const [data, setData] = useState(defaultInfo);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -47,15 +46,21 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
-      try {
-        setLoading(true);
-        setError(false);
+      setLoading(true);
 
+      const cleanup = () => {
+        setLoading(false);
+      };
+
+      const handleError = (err) => {
+        notifyError(err, "get fees");
+      };
+
+      try {
         const policyContract = await registry.PolicyContract.getInstance(
           networkId,
           signerOrProvider
         );
-        const catcher = notifyError;
 
         const args = [
           coverKey,
@@ -63,41 +68,51 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           convertToUnits(debouncedValue).toString(),
         ];
 
-        const [
-          fee,
-          utilizationRatio,
-          totalAvailableLiquidity,
-          coverRatio,
-          floor,
-          ceiling,
-          rate,
-        ] = await invoke(
-          policyContract,
-          "getCoverFeeInfo",
-          {},
-          catcher,
-          args,
-          false
-        );
+        const onTransactionResult = (result) => {
+          const [
+            fee,
+            utilizationRatio,
+            totalAvailableLiquidity,
+            coverRatio,
+            floor,
+            ceiling,
+            rate,
+          ] = result;
 
-        if (ignore) return;
-        setData({
-          fee: fee.toString(),
-          utilizationRatio: utilizationRatio.toString(),
-          totalAvailableLiquidity: totalAvailableLiquidity.toString(),
-          coverRatio: coverRatio.toString(),
-          floor: floor.toString(),
-          ceiling: ceiling.toString(),
-          rate: rate.toString(),
+          if (ignore) return;
+          cleanup();
+          setData({
+            fee: fee.toString(),
+            utilizationRatio: utilizationRatio.toString(),
+            totalAvailableLiquidity: totalAvailableLiquidity.toString(),
+            coverRatio: coverRatio.toString(),
+            floor: floor.toString(),
+            ceiling: ceiling.toString(),
+            rate: rate.toString(),
+          });
+        };
+
+        const onRetryCancel = () => {
+          cleanup();
+        };
+
+        const onError = (err) => {
+          handleError(err);
+          cleanup();
+        };
+
+        invoke({
+          instance: policyContract,
+          methodName: "getCoverFeeInfo",
+          args,
+          retry: false,
+          onTransactionResult,
+          onRetryCancel,
+          onError,
         });
       } catch (err) {
-        console.error(err);
-
-        if (ignore) return;
-        setError(true);
-      } finally {
-        if (ignore) return;
-        setLoading(false);
+        handleError(err);
+        cleanup();
       }
     }
 
@@ -118,7 +133,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
 
   return {
     loading,
-    error,
     data,
   };
 };

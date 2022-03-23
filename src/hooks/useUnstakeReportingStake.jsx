@@ -1,5 +1,5 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -34,7 +34,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   const txToast = useTxToast();
   const { requiresAuth } = useAuthValidation();
@@ -92,34 +92,52 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setUnstaking(true);
+    const cleanup = () => {
+      fetchInfo().catch(console.error);
+      setUnstaking(false);
+    };
+    const handleError = (err) => {
+      notifyError(err, "Unstake NPM");
+    };
+
     try {
-      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContract = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Unstaking NPM",
+          success: "Unstaked NPM Successfully",
+          failure: "Could not unstake NPM",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, incidentDate];
-      const tx = await invoke(
-        resolutionContract,
-        "unstake",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Unstaking NPM",
-        success: "Unstaked NPM Successfully",
-        failure: "Could not unstake NPM",
+      invoke({
+        instance: resolutionContract,
+        methodName: "unstake",
+        onError,
+        onTransactionResult,
+        onRetryCancel,
+        args,
       });
-
-      fetchInfo().catch(console.error);
     } catch (err) {
-      notifyError(err, "Unstake NPM");
-    } finally {
-      setUnstaking(false);
+      cleanup();
+      handleError(err);
     }
   };
 
@@ -129,40 +147,59 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
+    setUnstaking(true);
+    const cleanup = () => {
+      fetchInfo().catch(console.error);
+      setUnstaking(false);
+    };
+
+    const handleError = (err) => {
+      notifyError(err, "Unstake & claim NPM");
+    };
+
     try {
-      setUnstaking(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
       const resolutionContractAddress = await registry.Resolution.getAddress(
         networkId,
         signerOrProvider
       );
 
-      let resolutionContract = new ethers.Contract(
+      const resolutionContract = new ethers.Contract(
         resolutionContractAddress,
         ["function unstakeWithClaim(bytes32, uint256)"],
         signerOrProvider
       );
 
+      const onTransactionResult = async (tx) => {
+        await txToast.push(tx, {
+          pending: "Unstaking & claiming NPM",
+          success: "Unstaked & claimed NPM Successfully",
+          failure: "Could not unstake & claim NPM",
+        });
+        cleanup();
+      };
+
+      const onRetryCancel = () => {
+        cleanup();
+      };
+
+      const onError = (err) => {
+        handleError(err);
+        cleanup();
+      };
+
       const args = [coverKey, incidentDate];
-      const tx = await invoke(
-        resolutionContract,
-        "unstakeWithClaim",
-        {},
-        notifyError,
-        args
-      );
-
-      await txToast.push(tx, {
-        pending: "Unstaking & claiming NPM",
-        success: "Unstaked & claimed NPM Successfully",
-        failure: "Could not unstake & claim NPM",
+      invoke({
+        instance: resolutionContract,
+        methodName: "unstakeWithClaim",
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+        args,
       });
-
-      fetchInfo().catch(console.error);
     } catch (err) {
-      notifyError(err, "Unstake & claim NPM");
-    } finally {
-      setUnstaking(false);
+      handleError(err);
+      cleanup();
     }
   };
 

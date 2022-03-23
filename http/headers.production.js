@@ -3,7 +3,9 @@ module.exports = [
     key: "Content-Security-Policy",
     values: [
       "script-src 'self'",
-      "connect-src 'self' https://eth-mainnet.alchemyapi.io https://eth-ropsten.alchemyapi.io https://eth-kovan.alchemyapi.io https://*.neptunemutual.com/ https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/",
+      `connect-src 'self' https://eth-mainnet.alchemyapi.io https://eth-ropsten.alchemyapi.io https://eth-kovan.alchemyapi.io https://*.neptunemutual.com/ https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/ ${
+        process.env.NEXT_PUBLIC_API_URL || ""
+      }`,
       "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",

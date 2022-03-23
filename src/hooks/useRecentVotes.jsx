@@ -1,12 +1,12 @@
 import { getGraphURL } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useState, useEffect } from "react";
 
 export const useRecentVotes = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   useEffect(() => {
     if (!networkId || !coverKey || !incidentDate) {
       return;

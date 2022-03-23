@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 
 const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
 
@@ -9,7 +9,7 @@ export const useValidReport = ({ start, end, coverKey }) => {
     incidentReports: [],
   });
   const [loading, setLoading] = useState(false);
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
 
   useEffect(() => {
     if (!networkId || !isValidTimestamp(start) || !isValidTimestamp(end)) {

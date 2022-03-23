@@ -4,15 +4,16 @@ import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
-import { useAppContext } from "@/src/context/AppWrapper";
+import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 
 export const useFirstReportingStake = ({ coverKey }) => {
   const [minStake, setMinStake] = useState("0");
+  const [fetchingMinStake, setFetchingMinStake] = useState(false);
 
   const { account, library } = useWeb3React();
-  const { networkId } = useAppContext();
+  const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -20,7 +21,13 @@ export const useFirstReportingStake = ({ coverKey }) => {
     if (!networkId || !account) return;
 
     let ignore = false;
+
+    const handleError = (err) => {
+      notifyError(err, "get first reporting stake");
+    };
+
     async function fetchMinStake() {
+      setFetchingMinStake(true);
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
       const instance = await registry.Governance.getInstance(
@@ -28,21 +35,31 @@ export const useFirstReportingStake = ({ coverKey }) => {
         signerOrProvider
       );
 
-      const args = [coverKey];
-      const minStake = await invoke(
-        instance,
-        "getFirstReportingStake(bytes32)",
-        {},
-        notifyError,
-        args
-      );
+      const onTransactionResult = (result) => {
+        const minStake = result;
+        if (ignore) return;
+        setMinStake(minStake.toString());
+        setFetchingMinStake(false);
+      };
 
-      if (ignore) return;
-      setMinStake(minStake.toString());
+      const onRetryCancel = () => {};
+
+      const onError = (err) => {
+        handleError(err);
+      };
+
+      invoke({
+        instance,
+        methodName: "getFirstReportingStake(bytes32)",
+        args: [coverKey],
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      });
     }
 
     fetchMinStake().catch((err) => {
-      notifyError(err, "get first reporting stake");
+      handleError(err);
     });
 
     return () => {
@@ -52,5 +69,6 @@ export const useFirstReportingStake = ({ coverKey }) => {
 
   return {
     minStake,
+    fetchingMinStake,
   };
 };

@@ -1,18 +1,13 @@
 import Head from "next/head";
 import { ReportingTabs } from "@/components/pages/reporting/ReportingTabs";
 import { ReportingActivePage } from "@/components/pages/reporting/active";
-import { getFeatures } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
+import { isFeatureEnabled } from "@/src/config/environment";
 
-// This gets called on every request
-export async function getServerSideProps() {
-  // Pass data to the page via props
-  const features = getFeatures();
-  const enabled = features.indexOf("reporting") > -1;
-
+export function getStaticProps() {
   return {
     props: {
-      disabled: !enabled,
+      disabled: !isFeatureEnabled("reporting"),
     },
   };
 }

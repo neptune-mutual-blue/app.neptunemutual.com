@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
@@ -9,12 +10,16 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
-import { useState } from "react";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
+import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
+import { Alert } from "@/components/UI/atoms/alert";
+import Link from "next/link";
+import { getParsedKey } from "@/src/helpers/cover";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -22,11 +27,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const {
-    loading: updatingFee,
-    data: feeData,
-    error: feeError,
-  } = usePolicyFees({
+  const statusInfo = useCoverStatusInfo(coverKey);
+
+  const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
     coverMonth,
     coverKey,
@@ -39,12 +42,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     error,
     handleApprove,
     handlePurchase,
+    updatingBalance,
   } = usePurchasePolicy({
     value,
     coverMonth,
     coverKey,
     feeAmount: feeData.fee,
-    feeError,
   });
 
   const handleChange = (val) => {
@@ -70,6 +73,29 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     monthNames[(now.getMonth() + 1) % 12],
     monthNames[(now.getMonth() + 2) % 12],
   ];
+  let loadingMessage = "";
+  if (updatingFee) {
+    loadingMessage = "Fetching...";
+  } else if (updatingBalance) {
+    loadingMessage = "Fetching Balance...";
+  }
+
+  if (statusInfo.status && statusInfo.status !== "Normal") {
+    return (
+      <Alert>
+        Cannot purchase policy, since the cover status is{" "}
+        <Link
+          href={`/reporting/${getParsedKey(coverKey)}/${
+            statusInfo.activeIncidentDate
+          }/details`}
+        >
+          <a className="font-medium underline hover:no-underline">
+            {statusInfo.status}
+          </a>
+        </Link>
+      </Alert>
+    );
+  }
 
   return (
     <div className="max-w-md">
@@ -120,49 +146,73 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             id="period-1"
             value="1"
             name="cover-period"
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
+            checked={coverMonth === "1"}
           />
           <Radio
             label={coverPeriodLabels[1]}
             id="period-2"
             value="2"
             name="cover-period"
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
+            checked={coverMonth === "2"}
           />
           <Radio
             label={coverPeriodLabels[2]}
             id="period-3"
             value="3"
             name="cover-period"
+            disabled={approving || purchasing}
             onChange={handleRadioChange}
+            checked={coverMonth == "3"}
           />
         </div>
       </div>
       {value && coverMonth && (
-        <PolicyFeesAndExpiry
-          fetching={updatingFee}
-          data={feeData}
-          coverPeriod={coverMonth}
-        />
+        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
       )}
 
-      {!canPurchase ? (
-        <RegularButton
-          disabled={!!error || approving || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handleApprove}
-        >
-          {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
-        </RegularButton>
-      ) : (
-        <RegularButton
-          disabled={!!error || purchasing || !coverMonth || updatingFee}
-          className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-          onClick={handlePurchase}
-        >
-          {purchasing ? "Purchasing..." : "Purchase policy"}
-        </RegularButton>
-      )}
+      <div className="mt-8">
+        <DataLoadingIndicator message={loadingMessage} />
+        {!canPurchase ? (
+          <RegularButton
+            disabled={
+              !!error ||
+              approving ||
+              !value ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={handleApprove}
+          >
+            {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            disabled={
+              !!error ||
+              purchasing ||
+              !value ||
+              !coverMonth ||
+              updatingFee ||
+              updatingBalance
+            }
+            className="w-full p-6 font-semibold uppercase text-h6"
+            onClick={() => {
+              handlePurchase(() => {
+                setValue("");
+                setCoverMonth();
+              });
+            }}
+          >
+            {purchasing ? "Purchasing..." : "Purchase policy"}
+          </RegularButton>
+        )}
+      </div>
 
       <div className="mt-20">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
