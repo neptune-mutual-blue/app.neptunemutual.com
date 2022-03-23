@@ -1,10 +1,10 @@
 import { classNames } from "@/utils/classnames";
 
-export const Radio = ({ label, id, disabled, ...rest }) => {
+export const RadioReport = ({ label, id, disabled, ...rest }) => {
   return (
     <div
       className={classNames(
-        "flex items-center w-full mr-4",
+        "flex items-center p-6 sm:p-0",
         disabled && "cursor-not-allowed"
       )}
     >
@@ -20,7 +20,7 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
       />
       <label
         className={classNames(
-          "text-sm uppercase",
+          "w-full h-full text-sm uppercase lg:h-auto lg:w-auto",
           disabled && "cursor-not-allowed"
         )}
         htmlFor={id}

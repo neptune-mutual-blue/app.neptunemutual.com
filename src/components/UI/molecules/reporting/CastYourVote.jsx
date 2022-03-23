@@ -2,7 +2,7 @@ import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
 import { useState, useEffect } from "react";
-import { Radio } from "@/components/UI/atoms/radio";
+import { RadioReport } from "@/components/UI/atoms/radio-report";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
 import {
@@ -114,11 +114,11 @@ export const CastYourVote = ({ incidentReport }) => {
       <div className="flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row">
         <div
           className={classNames(
-            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 sm:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "incident-occurred" && "border-2 border-[#4e7dd9]"
           )}
         >
-          <Radio
+          <RadioReport
             label={"Incident Occurred"}
             id="incident-radio"
             value="incident-occurred"
@@ -129,11 +129,11 @@ export const CastYourVote = ({ incidentReport }) => {
         </div>
         <div
           className={classNames(
-            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 sm:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "false-reporting" && "border-2 border-[#4e7dd9]"
           )}
         >
-          <Radio
+          <RadioReport
             label={"False Reporting"}
             id="false-radio"
             name="vote-radio"
