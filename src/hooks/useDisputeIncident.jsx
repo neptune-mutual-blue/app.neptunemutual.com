@@ -174,7 +174,7 @@ export const useDisputeIncident = ({
   };
 
   function getInputError() {
-    let err = null,
+    let err = "",
       _minStake = minStake && convertFromUnits(minStake);
     const _balance = convertFromUnits(balance);
     if (value) {
@@ -183,19 +183,18 @@ export const useDisputeIncident = ({
       err =
         !isValidNumber(value) ||
         isGreater(convertToUnits(value || "0"), balance)
-          ? { msg: "Error" }
-          : null;
+          ? "Error"
+          : "";
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance))
-        err = { msg: "Amount greater than balance!" };
+      if (_value.isGreaterThan(_balance)) err = "Amount greater than balance!";
       else if (_minStake && _value.isLessThan(_minStake))
-        err = { msg: "Amount less than minimum stake!" };
+        err = "Amount less than minimum stake!";
     }
 
     // set error if balance is less than minStake
     if (_minStake && _balance.isLessThan(_minStake))
-      err = { msg: "Insufficient Balance" };
+      err = "Insufficient Balance";
 
     return err;
   }
@@ -204,7 +203,7 @@ export const useDisputeIncident = ({
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
-  const isError = getInputError();
+  const error = getInputError();
 
   return {
     tokenAddress: NPMTokenAddress,
@@ -215,7 +214,7 @@ export const useDisputeIncident = ({
     disputing,
 
     canDispute,
-    isError,
+    error,
 
     handleApprove,
     handleDispute,

@@ -26,14 +26,14 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     approving,
     disputing,
     canDispute,
-    isError,
+    error,
   } = useDisputeIncident({
     value,
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
     minStake,
   });
-  const [isLoading, setIsLoading] = useState(null);
+  const [loading, setLoading] = useState("");
 
   useEffect(() => {
     if (minStake) {
@@ -41,8 +41,8 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
       // When minStake is being fetched
       if (_minStake.isLessThanOrEqualTo(0))
-        return setIsLoading({ msg: "Fetching min-stake amount..." });
-      else setIsLoading(null);
+        return setLoading("Fetching min-stake amount...");
+      else setLoading("");
     }
   }, [minStake]);
 
@@ -190,31 +190,31 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             disabled={approving || disputing}
             onChange={handleValueChange}
-            error={isError}
+            error={error}
           >
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
             <p
               className={classNames(
-                isError ? "opacity-100" : "opacity-0",
+                error ? "opacity-100" : "opacity-0",
                 "flex items-center text-FA5C2F"
               )}
             >
-              {isError?.msg ?? "Error!!!"}
+              {error ?? "Error!!!"}
             </p>
           </TokenAmountInput>
         </div>
 
         <div className="w-max">
-          {isLoading && (
+          {loading && (
             <div className={classNames("mb-1")}>
-              <DataLoadingIndicator message={isLoading?.msg} />
+              <DataLoadingIndicator message={loading} />
             </div>
           )}
           {!canDispute ? (
             <RegularButton
-              disabled={isError || approving || !value}
+              disabled={error || approving || !value}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleApprove}
             >
@@ -222,7 +222,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             </RegularButton>
           ) : (
             <RegularButton
-              disabled={isError || disputing}
+              disabled={error || disputing}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleSubmit}
             >
