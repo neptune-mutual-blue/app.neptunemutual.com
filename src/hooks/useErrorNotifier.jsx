@@ -1,4 +1,5 @@
 import { useToast } from "@/lib/toast/context";
+import { ERROR_TOAST_TIME } from "@/src/config/toast";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { useCallback } from "react";
 
@@ -16,7 +17,7 @@ export const useErrorNotifier = ({ duration } = {}) => {
       toast?.pushError({
         title: title,
         message: getErrorMessage(error),
-        lifetime: duration || 5000,
+        lifetime: duration || ERROR_TOAST_TIME,
       });
     },
     [duration, toast?.pushError]

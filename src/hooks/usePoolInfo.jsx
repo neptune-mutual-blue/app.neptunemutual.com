@@ -38,7 +38,7 @@ const defaultInfo = {
   stakingPoolsContractAddress: "",
 };
 
-export const usePoolInfo = ({ key }) => {
+export const usePoolInfo = ({ key, type = "token" }) => {
   const [info, setInfo] = useState(defaultInfo);
   const mountedRef = useRef(false);
 
@@ -59,8 +59,9 @@ export const usePoolInfo = ({ key }) => {
       const response = await fetch(
         getReplacedString(POOL_INFO_URL, {
           networkId,
-          poolKey: key,
+          key,
           account,
+          type,
         }),
         {
           method: "GET",
@@ -76,7 +77,7 @@ export const usePoolInfo = ({ key }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [account, key, networkId, notifyError]);
+  }, [account, key, networkId, notifyError, type]);
 
   useEffect(() => {
     mountedRef.current = true;

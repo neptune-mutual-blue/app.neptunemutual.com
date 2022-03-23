@@ -13,7 +13,7 @@ import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/components/LiquidityForms/ProvideLiquidityForm";
 
@@ -44,10 +44,10 @@ export const MyLiquidityCoverPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
-  const myLiquidity = toBN(info.myShare);
-  const myEarnings = myLiquidity.minus(
-    toBN(info.myDeposits).minus(info.myWithdrawals)
+  const totalLiquidity = info.vaultStablecoinBalance;
+  const myLiquidity = info.myUnrealizedShare;
+  const myEarnings = toBN(myLiquidity).minus(
+    toBN(info.liquidityAddedByMe).minus(info.liquidityRemovedByMe)
   );
   const reassuranceAmount = info.totalReassurance;
 

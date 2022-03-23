@@ -7,7 +7,7 @@ import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
@@ -37,7 +37,7 @@ export const CoverPurchaseDetailsPage = () => {
   };
 
   const imgSrc = getCoverImgSrc(coverInfo);
-  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
+  const totalLiquidity = info.vaultStablecoinBalance;
 
   return (
     <main>
