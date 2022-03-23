@@ -8,6 +8,7 @@ import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const StakeModal = ({
   info,
@@ -86,6 +87,26 @@ export const StakeModal = ({
             disabled={approving || depositing}
             onChange={handleChange}
           >
+            <p>
+              Maximum Limit:{" "}
+              <span
+                title={`${
+                  formatCurrency(
+                    convertFromUnits(info.maximumStake).toString(),
+                    stakingTokenSymbol,
+                    true
+                  ).long
+                }`}
+              >
+                {
+                  formatCurrency(
+                    convertFromUnits(info.maximumStake).toString(),
+                    stakingTokenSymbol,
+                    true
+                  ).short
+                }
+              </span>
+            </p>
             {errorMsg && (
               <p className="flex items-center text-FA5C2F">{errorMsg}</p>
             )}
