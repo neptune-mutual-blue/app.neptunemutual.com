@@ -4,7 +4,9 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import {
+  convertFromUnits,
   convertToUnits,
+  isEqualTo,
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
@@ -17,6 +19,7 @@ import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAdd
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -26,7 +29,7 @@ export const useStakingPoolDeposit = ({
   maximumStake,
   refetchInfo,
 }) => {
-  const [errorMsg, setErrorMsg] = useState("");
+  const [error, setError] = useState("");
   const [approving, setApproving] = useState(false);
   const [depositing, setDepositing] = useState(false);
 
@@ -158,34 +161,67 @@ export const useStakingPoolDeposit = ({
   };
 
   useEffect(() => {
-    let msg = "";
-
-    if (isGreater(convertToUnits(value || "0").toString(), maxStakableAmount)) {
-      msg = "Maximum Limit Reached";
+    if (!value && error) {
+      setError("");
+      return;
     }
 
-    if (isGreater(convertToUnits(value || "0").toString(), balance)) {
-      msg = "Insufficient Balance";
+    if (!value) {
+      return;
     }
 
-    if (msg !== errorMsg) {
-      setErrorMsg(msg);
+    if (!isValidNumber(value)) {
+      setError("Invalid amount to stake");
+      return;
     }
-  }, [balance, errorMsg, value, maxStakableAmount]);
+
+    if (!account) {
+      setError("Please connect your wallet");
+      return;
+    }
+
+    if (isEqualTo(value, "0")) {
+      setError("Please specify an amount");
+      return;
+    }
+
+    if (isGreater(convertToUnits(value).toString(), balance)) {
+      setError("Insufficient Balance");
+      return;
+    }
+
+    if (isGreater(convertToUnits(value).toString(), maxStakableAmount)) {
+      setError(
+        `Cannot stake more than ${
+          formatCurrency(
+            convertFromUnits(maxStakableAmount).toString(),
+            "",
+            true
+          ).short
+        }`
+      );
+      return;
+    }
+
+    if (error) {
+      setError("");
+      return;
+    }
+  }, [account, balance, error, maxStakableAmount, value]);
 
   const canDeposit =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
 
-  const isError = value && (!isValidNumber(value) || errorMsg);
+  const isError = value && (!isValidNumber(value) || error);
 
   return {
     balance,
     maxStakableAmount,
 
     isError,
-    errorMsg,
+    errorMsg: error,
 
     approving,
     depositing,
