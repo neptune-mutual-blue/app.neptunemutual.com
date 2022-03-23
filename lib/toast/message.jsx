@@ -5,23 +5,28 @@ import WarningIcon from "./components/icons/WarningIcon";
 import CloseIcon from "./components/icons/CloseIcon";
 import SuccessIcon from "./components/icons/SuccessIcon";
 import { classNames } from "./utils";
+import LoadingIcon from "@/lib/toast/components/icons/LoadingIcon";
 
 export const VARIANTS = {
   Info: {
-    icon: <InfoIcon className="h-6 w-6" aria-hidden="true" />,
+    icon: <InfoIcon className="w-6 h-6 text-FA5C2F" aria-hidden="true" />,
     name: "Info",
   },
   Error: {
-    icon: <ErrorIcon className="h-6 w-6" aria-hidden="true" />,
+    icon: <ErrorIcon className="w-6 h-6 text-FA5C2F" aria-hidden="true" />,
     name: "Error",
   },
   Warning: {
-    icon: <WarningIcon className="h-6 w-6" aria-hidden="true" />,
+    icon: <WarningIcon className="w-6 h-6 text-FA5C2F" aria-hidden="true" />,
     name: "Warning",
   },
   Success: {
-    icon: <SuccessIcon className="h-6 w-6" aria-hidden="true" />,
+    icon: <SuccessIcon className="w-6 h-6 text-21AD8C" aria-hidden="true" />,
     name: "Success",
+  },
+  Loading: {
+    icon: <LoadingIcon className="w-6 h-6 text-999BAB" aria-hidden="true" />,
+    name: "Loading",
   },
 };
 
@@ -62,21 +67,21 @@ const ToastMessage = ({
         <div className="flex items-start">
           <div className="flex-shrink-0">{Var.icon}</div>
 
-          <div className="ml-3 w-0 flex-1">
-            <p className="text-para font-sora font-light">
+          <div className="flex-1 w-0 ml-3">
+            <p className="font-light text-para font-sora">
               {title || Var.name}
             </p>
             <div className="mt-3 text-sm text-EEEEEE">{message}</div>
           </div>
-          <div className="ml-4 flex-shrink-0 flex">
+          <div className="flex flex-shrink-0 ml-4">
             <button
-              className="rounded-md inline-flex text-EEEEEE focus:outline-none focus:ring-1 focus:ring-4E7DD9"
+              className="inline-flex rounded-md text-EEEEEE focus:outline-none focus:ring-1 focus:ring-4E7DD9"
               onClick={() => {
                 onRemove && onRemove(id);
               }}
             >
               <span className="sr-only">Close</span>
-              <CloseIcon className="h-5 w-5" aria-hidden="true" />
+              <CloseIcon className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>

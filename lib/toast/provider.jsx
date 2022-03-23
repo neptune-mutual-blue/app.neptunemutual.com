@@ -33,13 +33,14 @@ export const ToastProvider = ({ children, variant }) => {
     [setData]
   );
   const PushCustom = useCallback(
-    ({ message, lifetime }, icon) => {
+    ({ message, lifetime, icon, header }) => {
       if (message) {
         const newItem = {
           id: uuidv4(),
           message: message,
           lifetime: lifetime || DEFAULT_INTERVAL,
           icon: icon,
+          header: header,
           type: undefined,
         };
         setData((prevState) => [...prevState, newItem]);
@@ -67,6 +68,11 @@ export const ToastProvider = ({ children, variant }) => {
       Push(message, "Info", lifetime, title),
     [Push]
   );
+  const PushLoading = useCallback(
+    ({ message, title = "Loading", lifetime }) =>
+      Push(message, "Loading", lifetime, title),
+    [Push]
+  );
   const ToastContexd = useCallback(() => {
     return {
       data: data,
@@ -74,6 +80,7 @@ export const ToastProvider = ({ children, variant }) => {
       pushWarning: PushWarning,
       pushSuccess: PushSuccess,
       pushInfo: PushInfo,
+      pushLoading: PushLoading,
       push: Push,
       pushCustom: PushCustom,
       remove: async (id) => {
@@ -87,6 +94,7 @@ export const ToastProvider = ({ children, variant }) => {
     PushWarning,
     PushSuccess,
     PushInfo,
+    PushLoading,
     Push,
     PushCustom,
   ]);

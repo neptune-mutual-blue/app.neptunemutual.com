@@ -22,7 +22,7 @@ export const useTxToast = () => {
 
     const txLink = getTxLink(networkId, tx);
 
-    toast?.pushSuccess({
+    toast?.pushLoading({
       title: titles.pending,
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_DEFAULT_TIMEOUT,

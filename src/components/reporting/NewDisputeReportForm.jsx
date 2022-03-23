@@ -9,6 +9,7 @@ import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import BigNumber from "bignumber.js";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -37,25 +38,25 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
   useEffect(() => {
     if (balance && minStake) {
-      const _balance = parseFloat(convertFromUnits(balance).toString());
-      const _minStake = parseFloat(convertFromUnits(minStake).toString());
+      const _balance = convertFromUnits(balance);
+      const _minStake = convertFromUnits(minStake);
 
       // When minStake is being fetched
-      if (_minStake <= 0)
+      if (_minStake.isLessThanOrEqualTo(0))
         return setIsLoading({ msg: "Fetching min-stake amount..." });
       else setIsLoading(null);
 
       // set balance error if balance is less than minStake
-      if (_balance < _minStake)
+      if (_balance.isLessThan(_minStake))
         return setBalanceError({ msg: "Insufficient Balance" });
       else setBalanceError(null);
 
       // set balance error if entered value is invalid
       if (value) {
-        const _val = parseFloat(value);
-        if (_val > _balance)
+        const _val = BigNumber(value);
+        if (_val.isGreaterThan(_balance))
           setBalanceError({ msg: "Amount greater than balance!" });
-        else if (_val < _minStake)
+        else if (_val.isLessThan(_minStake))
           setBalanceError({ msg: "Amount less than minimum stake!" });
         else setBalanceError(null);
       }
