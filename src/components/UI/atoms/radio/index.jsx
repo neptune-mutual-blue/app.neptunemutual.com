@@ -4,8 +4,9 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
   return (
     <div
       className={classNames(
-        "flex items-center p-6 sm:p-0",
-        disabled && "cursor-not-allowed"
+        "flex items-center w-full mr-4",
+        disabled && "cursor-not-allowed",
+        rest.name === "vote-radio" && "p-6 sm:p-0 w-auto mr-0"
       )}
     >
       <input
@@ -20,8 +21,9 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
       />
       <label
         className={classNames(
-          "w-full h-full text-sm uppercase lg:h-auto lg:w-auto",
-          disabled && "cursor-not-allowed"
+          "text-sm uppercase",
+          disabled && "cursor-not-allowed",
+          rest.name === "vote-radio" && "w-full h-full lg:h-auto lg:w-auto"
         )}
         htmlFor={id}
       >
