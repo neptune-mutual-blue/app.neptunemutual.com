@@ -9,7 +9,6 @@ import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
-import BigNumber from "bignumber.js";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -32,36 +31,20 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     value,
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
+    minStake,
   });
-  const [balanceError, setBalanceError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
   useEffect(() => {
-    if (balance && minStake) {
-      const _balance = convertFromUnits(balance);
+    if (minStake) {
       const _minStake = convertFromUnits(minStake);
 
       // When minStake is being fetched
       if (_minStake.isLessThanOrEqualTo(0))
         return setIsLoading({ msg: "Fetching min-stake amount..." });
       else setIsLoading(null);
-
-      // set balance error if balance is less than minStake
-      if (_balance.isLessThan(_minStake))
-        return setBalanceError({ msg: "Insufficient Balance" });
-      else setBalanceError(null);
-
-      // set balance error if entered value is invalid
-      if (value) {
-        const _val = BigNumber(value);
-        if (_val.isGreaterThan(_balance))
-          setBalanceError({ msg: "Amount greater than balance!" });
-        else if (_val.isLessThan(_minStake))
-          setBalanceError({ msg: "Amount less than minimum stake!" });
-        else setBalanceError(null);
-      }
     }
-  }, [minStake, balance, value]);
+  }, [minStake]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -207,18 +190,18 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             disabled={approving || disputing}
             onChange={handleValueChange}
-            error={balanceError}
+            error={isError}
           >
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
             <p
               className={classNames(
-                balanceError ? "opacity-100" : "opacity-0",
+                isError ? "opacity-100" : "opacity-0",
                 "flex items-center text-FA5C2F"
               )}
             >
-              {balanceError?.msg ?? "Error!!!"}
+              {isError?.msg ?? "Error!!!"}
             </p>
           </TokenAmountInput>
         </div>
@@ -231,7 +214,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           )}
           {!canDispute ? (
             <RegularButton
-              disabled={isError || approving || !value || balanceError}
+              disabled={isError || approving || !value}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleApprove}
             >
@@ -239,7 +222,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             </RegularButton>
           ) : (
             <RegularButton
-              disabled={isError || disputing || balanceError}
+              disabled={isError || disputing}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleSubmit}
             >
