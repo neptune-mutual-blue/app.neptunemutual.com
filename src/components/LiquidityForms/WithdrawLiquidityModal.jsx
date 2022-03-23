@@ -215,7 +215,7 @@ export const WithdrawLiquidityModal = ({
           </span>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4">
           <DataLoadingIndicator message={loadingMessage} />
           {!canWithdraw ? (
             <RegularButton

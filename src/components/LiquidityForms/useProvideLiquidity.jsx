@@ -33,6 +33,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     stakeBalance,
     stakeBalanceLoading,
     updateStakeBalance,
+    updateMinStakeInfo,
   } = useLiquidityFormsContext();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const {
@@ -146,6 +147,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
     const cleanup = () => {
       setProviding(false);
+      updateMinStakeInfo();
       updateLqTokenBalance();
       updateStakeBalance();
       updateLqAllowance(vaultTokenAddress);

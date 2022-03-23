@@ -72,6 +72,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   useEffect(() => {
     if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
       setNpmErrorMsg("Insufficient Stake");
+    } else if (npmValue && isEqualTo(convertToUnits(npmValue), "0")) {
+      // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
+      // then user should be able to provide ZERO for this input.
+      setNpmErrorMsg("Please specify an amount");
     } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
       setNpmErrorMsg("Exceeds maximum balance");
     } else {
@@ -141,7 +145,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   return (
     <div className="max-w-md">
-      <div className="pb-16">
+      <div className="pb-12">
         <TokenAmountInput
           labelText={"Enter your NPM stake"}
           onChange={handleNPMChange}
@@ -175,7 +179,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </TokenAmountInput>
       </div>
 
-      <div className="pb-16">
+      <div className="pb-12">
         <TokenAmountInput
           labelText={"Enter Amount you wish to provide"}
           onChange={handleLqChange}
@@ -194,7 +198,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </TokenAmountInput>
       </div>
 
-      <div className="pb-16">
+      <div className="pb-12">
         <ReceiveAmountInput
           labelText="You Will Receive"
           tokenSymbol={podSymbol}

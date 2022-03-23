@@ -174,7 +174,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
       )}
 
-      <div className="mt-8">
+      <div className="mt-4">
         <DataLoadingIndicator message={loadingMessage} />
         {!canPurchase ? (
           <RegularButton

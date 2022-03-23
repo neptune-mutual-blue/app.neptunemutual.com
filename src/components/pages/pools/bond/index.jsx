@@ -173,7 +173,7 @@ const BondPage = () => {
           </p>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4">
           <DataLoadingIndicator message={loadingMessage} />
           {!canBond ? (
             <RegularButton
