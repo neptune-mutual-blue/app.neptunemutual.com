@@ -1,7 +1,7 @@
 import { Alert } from "@/components/UI/atoms/alert";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { Label } from "@/components/UI/atoms/label";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Radio } from "@/components/UI/atoms/radio";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
@@ -42,6 +42,8 @@ export const CastYourVote = ({ incidentReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
   const { commission } = useReporterCommission();
+  const incidentOccuredRef = useRef(null);
+  const falseReportingRef = useRef(null);
 
   const router = useRouter();
 
@@ -70,6 +72,18 @@ export const CastYourVote = ({ incidentReport }) => {
       return;
     }
   }, [balance, error, value]);
+
+  const handleRadioContainer = (votingType) => {
+    if (votingType === "incident-occured") {
+      incidentOccuredRef.current?.focus();
+      incidentOccuredRef.current?.click();
+      return;
+    }
+
+    falseReportingRef.current?.focus();
+    falseReportingRef.current?.click();
+    return;
+  };
 
   const handleRadioChange = (e) => {
     setVotingType(e.target.value);
@@ -114,9 +128,10 @@ export const CastYourVote = ({ incidentReport }) => {
       <div className="flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row">
         <div
           className={classNames(
-            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full p-6 sm:p-0 h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "incident-occurred" && "border-2 border-[#4e7dd9]"
           )}
+          onClick={() => handleRadioContainer("incident-occured")}
         >
           <Radio
             label={"Incident Occurred"}
@@ -124,14 +139,16 @@ export const CastYourVote = ({ incidentReport }) => {
             value="incident-occurred"
             name="vote-radio"
             checked={votingType === "incident-occurred"}
+            refs={incidentOccuredRef}
             onChange={handleRadioChange}
           />
         </div>
         <div
           className={classNames(
-            "w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
+            "w-full p-6 sm:p-0 h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
             votingType === "false-reporting" && "border-2 border-[#4e7dd9]"
           )}
+          onClick={() => handleRadioContainer("false-reporting")}
         >
           <Radio
             label={"False Reporting"}
@@ -139,6 +156,7 @@ export const CastYourVote = ({ incidentReport }) => {
             name="vote-radio"
             value="false-reporting"
             checked={votingType === "false-reporting"}
+            refs={falseReportingRef}
             onChange={handleRadioChange}
           />
         </div>
