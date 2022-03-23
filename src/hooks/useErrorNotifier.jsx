@@ -16,7 +16,7 @@ export const useErrorNotifier = ({ duration } = {}) => {
       toast?.pushError({
         title: title,
         message: getErrorMessage(error),
-        lifetime: duration || 5000,
+        lifetime: duration || ERROR_TOAST_TIME,
       });
     },
     [duration, toast?.pushError]

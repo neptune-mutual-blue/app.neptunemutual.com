@@ -12,7 +12,7 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
 
@@ -29,7 +29,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const totalLiquidity = sumOf(info.balance, info.extendedBalance);
+  const totalLiquidity = info.vaultStablecoinBalance;
   const reassuranceAmount = info.totalReassurance;
 
   const handleAcceptRules = () => {

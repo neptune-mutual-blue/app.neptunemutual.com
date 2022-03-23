@@ -9,19 +9,25 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
+import { getReplacedString } from "@/utils/string";
+import { VAULT_INFO_URL } from "@/src/config/constants";
 
 const defaultInfo = {
-  totalPods: "0",
-  balance: "0",
-  extendedBalance: "0",
-  totalReassurance: "0",
-  myPodBalance: "0",
-  myDeposits: "0",
-  myWithdrawals: "0",
-  myShare: "0",
   withdrawalOpen: "0",
   withdrawalClose: "0",
+  totalReassurance: "0",
+  vault: "",
+  stablecoin: "",
+  podTotalSupply: "0",
+  myPodBalance: "0",
+  vaultStablecoinBalance: "0",
+  amountLentInStrategies: "0",
+  liquidityAddedByMe: "0",
+  liquidityRemovedByMe: "0",
+  myShare: "0",
+  myUnrealizedShare: "0",
 };
+
 export const useMyLiquidityInfo = ({ coverKey }) => {
   const [info, setInfo] = useState(defaultInfo);
 
@@ -31,102 +37,65 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const fetchInfo = useCallback(
-    async (onResult) => {
+  const updateInfo = useCallback(
+    async (ignore = false) => {
       if (!networkId || !account || !coverKey) {
         return;
       }
 
       const handleError = (err) => {
-        notifyError(err, "get liquidity info");
+        notifyError(err, "get vault info");
       };
 
       try {
-        const signerOrProvider = getProviderOrSigner(
-          library,
-          account,
-          networkId
+        const response = await fetch(
+          getReplacedString(VAULT_INFO_URL, {
+            networkId,
+            coverKey,
+            account,
+          }),
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          }
         );
 
-        const instance = await registry.Vault.getInstance(
-          networkId,
-          coverKey,
-          signerOrProvider
-        );
+        const { data } = await response.json();
 
-        const onTransactionResult = (result) => {
-          const [
-            totalPods,
-            balance,
-            extendedBalance,
-            totalReassurance,
-            myPodBalance,
-            myDeposits,
-            myWithdrawals,
-            myShare,
-            withdrawalOpen,
-            withdrawalClose,
-          ] = result;
-
-          onResult({
-            totalPods: totalPods.toString(),
-            balance: balance.toString(),
-            extendedBalance: extendedBalance.toString(),
-            totalReassurance: totalReassurance.toString(),
-            myPodBalance: myPodBalance.toString(),
-            myDeposits: myDeposits.toString(),
-            myWithdrawals: myWithdrawals.toString(),
-            myShare: myShare.toString(),
-            withdrawalOpen: withdrawalOpen.toString(),
-            withdrawalClose: withdrawalClose.toString(),
-          });
-        };
-
-        const onRetryCancel = () => {};
-
-        const onError = (err) => {
-          handleError(err);
-        };
-
-        const args = [account];
-        invoke({
-          instance,
-          methodName: "getInfo",
-          args,
-          retry: false,
-          onTransactionResult,
-          onRetryCancel,
-          onError,
+        if (ignore) return;
+        setInfo({
+          withdrawalOpen: data.withdrawalStarts,
+          withdrawalClose: data.withdrawalEnds,
+          totalReassurance: data.totalReassurance,
+          vault: data.vault,
+          stablecoin: data.stablecoin,
+          podTotalSupply: data.podTotalSupply,
+          myPodBalance: data.myPodBalance,
+          vaultStablecoinBalance: data.vaultStablecoinBalance,
+          amountLentInStrategies: data.amountLentInStrategies,
+          liquidityAddedByMe: data.liquidityAddedByMe,
+          liquidityRemovedByMe: data.liquidityRemovedByMe,
+          myShare: data.myShare,
+          myUnrealizedShare: data.myUnrealizedShare,
         });
       } catch (err) {
         handleError(err);
       }
     },
-    [account, coverKey, invoke, library, networkId, notifyError]
+    [account, coverKey, networkId, notifyError]
   );
 
   useEffect(() => {
     let ignore = false;
 
-    const onResult = (_info) => {
-      if (!_info || ignore) return;
-      setInfo(_info);
-    };
-
-    fetchInfo(onResult).catch(console.error);
+    updateInfo(ignore).catch(console.error);
     return () => {
       ignore = true;
     };
-  }, [fetchInfo]);
-
-  const updateInfo = useCallback(async () => {
-    const onResult = (_info) => {
-      if (!_info) return;
-      setInfo(_info);
-    };
-
-    fetchInfo(onResult).catch(console.error);
-  }, [fetchInfo]);
+  }, [updateInfo]);
 
   const accrueInterest = async () => {
     const handleError = (err) => {

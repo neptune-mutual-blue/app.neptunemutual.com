@@ -29,7 +29,10 @@ import { formatPercent } from "@/utils/formatter/percent";
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl }) => {
   const { networkId } = useNetwork();
-  const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
+  const { info, refetch: refetchInfo } = usePoolInfo({
+    key: data.key,
+    type: "pod",
+  });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
