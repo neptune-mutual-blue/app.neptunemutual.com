@@ -47,10 +47,20 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
       // set balance error if balance is less than minStake
       if (_balance < _minStake)
-        setBalanceError({ msg: "Insufficient Balance" });
+        return setBalanceError({ msg: "Insufficient Balance" });
       else setBalanceError(null);
+
+      // set balance error if entered value is invalid
+      if (value) {
+        const _val = parseFloat(value);
+        if (_val > _balance)
+          setBalanceError({ msg: "Amount greater than balance!" });
+        else if (_val < _minStake)
+          setBalanceError({ msg: "Amount less than minimum stake!" });
+        else setBalanceError(null);
+      }
     }
-  }, [minStake, balance]);
+  }, [minStake, balance, value]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -196,30 +206,31 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             disabled={approving || disputing}
             onChange={handleValueChange}
+            error={balanceError}
           >
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
-            {balanceError && (
-              <p className="flex items-center text-FA5C2F">
-                {balanceError?.msg}
-              </p>
-            )}
+            <p
+              className={classNames(
+                balanceError ? "opacity-100" : "opacity-0",
+                "flex items-center text-FA5C2F"
+              )}
+            >
+              {balanceError?.msg ?? "Error!!!"}
+            </p>
           </TokenAmountInput>
         </div>
 
-        <div className=" w-max">
-          <div
-            className={classNames(
-              isLoading ? "opacity-100" : "opacity-0",
-              "mb-1"
-            )}
-          >
-            <DataLoadingIndicator message={isLoading?.msg} />
-          </div>
+        <div className="w-max">
+          {isLoading && (
+            <div className={classNames("mb-1")}>
+              <DataLoadingIndicator message={isLoading?.msg} />
+            </div>
+          )}
           {!canDispute ? (
             <RegularButton
-              disabled={isError || approving || !value}
+              disabled={isError || approving || !value || balanceError}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleApprove}
             >
@@ -227,7 +238,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             </RegularButton>
           ) : (
             <RegularButton
-              disabled={isError || disputing}
+              disabled={isError || disputing || balanceError}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleSubmit}
             >
