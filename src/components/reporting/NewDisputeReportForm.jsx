@@ -26,31 +26,25 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     approving,
     disputing,
     canDispute,
-    isError,
+    error,
   } = useDisputeIncident({
     value,
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
+    minStake,
   });
-  const [balanceError, setBalanceError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
+  const [loading, setLoading] = useState("");
 
   useEffect(() => {
-    if (balance && minStake) {
-      const _balance = parseFloat(convertFromUnits(balance).toString());
-      const _minStake = parseFloat(convertFromUnits(minStake).toString());
+    if (minStake) {
+      const _minStake = convertFromUnits(minStake);
 
       // When minStake is being fetched
-      if (_minStake <= 0)
-        return setIsLoading({ msg: "Fetching min-stake amount..." });
-      else setIsLoading(null);
-
-      // set balance error if balance is less than minStake
-      if (_balance < _minStake)
-        setBalanceError({ msg: "Insufficient Balance" });
-      else setBalanceError(null);
+      if (_minStake.isLessThanOrEqualTo(0))
+        return setLoading("Fetching min-stake amount...");
+      else setLoading("");
     }
-  }, [minStake, balance]);
+  }, [minStake]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -196,30 +190,31 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             disabled={approving || disputing}
             onChange={handleValueChange}
+            error={error}
           >
             <p className="text-9B9B9B">
               Minimum Stake: {convertFromUnits(minStake).toString()} NPM
             </p>
-            {balanceError && (
-              <p className="flex items-center text-FA5C2F">
-                {balanceError?.msg}
-              </p>
-            )}
+            <p
+              className={classNames(
+                error ? "opacity-100" : "opacity-0",
+                "flex items-center text-FA5C2F"
+              )}
+            >
+              {error ?? "Error!!!"}
+            </p>
           </TokenAmountInput>
         </div>
 
-        <div className=" w-max">
-          <div
-            className={classNames(
-              isLoading ? "opacity-100" : "opacity-0",
-              "mb-1"
-            )}
-          >
-            <DataLoadingIndicator message={isLoading?.msg} />
-          </div>
+        <div className="w-max">
+          {loading && (
+            <div className={classNames("mb-1")}>
+              <DataLoadingIndicator message={loading} />
+            </div>
+          )}
           {!canDispute ? (
             <RegularButton
-              disabled={isError || approving || !value}
+              disabled={error || approving || !value}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleApprove}
             >
@@ -227,7 +222,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             </RegularButton>
           ) : (
             <RegularButton
-              disabled={isError || disputing}
+              disabled={error || disputing}
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleSubmit}
             >

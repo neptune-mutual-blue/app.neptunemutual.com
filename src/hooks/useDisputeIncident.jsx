@@ -3,6 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import {
+  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
@@ -21,8 +22,14 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import BigNumber from "bignumber.js";
 
-export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
+export const useDisputeIncident = ({
+  coverKey,
+  value,
+  incidentDate,
+  minStake,
+}) => {
   const router = useRouter();
 
   const [approving, setApproving] = useState(false);
@@ -166,13 +173,37 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
     }
   };
 
+  function getInputError() {
+    let err = "",
+      _minStake = minStake && convertFromUnits(minStake);
+    const _balance = convertFromUnits(balance);
+    if (value) {
+      const _value = BigNumber(value);
+
+      err =
+        !isValidNumber(value) ||
+        isGreater(convertToUnits(value || "0"), balance)
+          ? "Error"
+          : "";
+
+      // set error if entered value is invalid
+      if (_value.isGreaterThan(_balance)) err = "Amount greater than balance!";
+      else if (_minStake && _value.isLessThan(_minStake))
+        err = "Amount less than minimum stake!";
+    }
+
+    // set error if balance is less than minStake
+    if (_minStake && _balance.isLessThan(_minStake))
+      err = "Insufficient Balance";
+
+    return err;
+  }
+
   const canDispute =
     value &&
     isValidNumber(value) &&
     isGreaterOrEqual(allowance, convertToUnits(value || "0"));
-  const isError =
-    value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
+  const error = getInputError();
 
   return {
     tokenAddress: NPMTokenAddress,
@@ -183,7 +214,7 @@ export const useDisputeIncident = ({ coverKey, value, incidentDate }) => {
     disputing,
 
     canDispute,
-    isError,
+    error,
 
     handleApprove,
     handleDispute,
