@@ -38,8 +38,14 @@ export const SUBGRAPH_BASE_URL = process.env.NEXT_PUBLIC_SUBGRAPH_URL
   ? new URL(process.env.NEXT_PUBLIC_SUBGRAPH_URL).toString()
   : "/";
 
-export const SUBGRAPH_API_URLS = {
+export const SUBGRAPH_SECONDARY_API_URLS = {
   3: `${SUBGRAPH_BASE_URL}subgraph/ropsten`,
   42: `${SUBGRAPH_BASE_URL}subgraph/kovan`,
   80001: `${SUBGRAPH_BASE_URL}subgraph/mumbai`,
+};
+
+export const SUBGRAPH_PRIMARY_API_URLS = {
+  3: `https://api.thegraph.com/subgraphs/name/neptune-mutual/neptune-mutual-ropsten`,
+  42: `https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-kovan`,
+  80001: `https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai`,
 };

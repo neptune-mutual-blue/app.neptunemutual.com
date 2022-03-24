@@ -47,7 +47,7 @@ export const useFetchCovers = () => {
 
   const { networkId } = useNetwork();
   const { data: ipfs, getIpfsByHash } = useIpfs();
-  const { data: graphData, refetch } = useQuery();
+  const { data: graphData, refetch } = useQuery(true);
 
   useEffect(() => {
     let ignore = false;

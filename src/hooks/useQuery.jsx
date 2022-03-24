@@ -2,7 +2,7 @@ import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const useQuery = () => {
+export const useQuery = (cached = false) => {
   const [data, setData] = useState(null);
   const mountedRef = useRef(false);
 
@@ -14,7 +14,7 @@ export const useQuery = () => {
         return;
       }
 
-      const graphURL = getGraphURL(networkId);
+      const graphURL = getGraphURL(networkId, cached);
 
       if (!graphURL) {
         return;
@@ -40,7 +40,7 @@ export const useQuery = () => {
       if (!mountedRef.current) return;
       setData(result.data);
     },
-    [networkId]
+    [cached, networkId]
   );
 
   useEffect(() => {

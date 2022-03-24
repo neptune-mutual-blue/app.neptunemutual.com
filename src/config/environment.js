@@ -1,4 +1,7 @@
-import { SUBGRAPH_API_URLS } from "@/src/config/constants";
+import {
+  SUBGRAPH_PRIMARY_API_URLS,
+  SUBGRAPH_SECONDARY_API_URLS,
+} from "@/src/config/constants";
 
 function getChainIdFromDNS() {
   // window.location.host - subdomain.domain.com
@@ -26,7 +29,13 @@ function getChainIdFromDNS() {
 }
 
 export const getNetworkId = () => parseInt(getChainIdFromDNS(), 10);
-export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null;
+export const getGraphURL = (networkId, cached = false) => {
+  if (cached && SUBGRAPH_SECONDARY_API_URLS[networkId]) {
+    return SUBGRAPH_SECONDARY_API_URLS[networkId];
+  }
+
+  return SUBGRAPH_PRIMARY_API_URLS[networkId] || null;
+};
 
 export const isFeatureEnabled = (feature) => {
   const str =
