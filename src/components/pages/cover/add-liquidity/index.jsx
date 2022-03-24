@@ -93,7 +93,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           <span className="block col-span-3 row-start-1 md:hidden mb-11">
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
-          <div>
+          <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
             <CoverPurchaseResolutionSources coverInfo={coverInfo}>
               <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
               <div
