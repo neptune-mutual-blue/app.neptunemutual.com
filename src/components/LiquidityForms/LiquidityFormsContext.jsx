@@ -1,7 +1,7 @@
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useNetwork } from "@/src/context/Network";
-import { getMinStakeForLiquidityInfo } from "@/src/helpers/store/getMinStakeForLiquidityInfo";
+import { getLiquidityInfoFromStore } from "@/src/helpers/store/getLiquidityInfoFromStore";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -9,6 +9,7 @@ import { useWeb3React } from "@web3-react/core";
 import React, { useCallback, useEffect, useState } from "react";
 
 const defaultValue = {
+  isAccrualComplete: true,
   myStake: "0",
   minStakeToAddLiquidity: "0",
   updateMinStakeInfo: (_ignore = false) => {},
@@ -28,9 +29,10 @@ const defaultValue = {
 const LiquidityFormsContext = React.createContext(defaultValue);
 
 export const LiquidityFormsProvider = ({ coverKey, children }) => {
-  const [minStakeInfo, setMinStakeInfo] = useState({
+  const [liquidityInfoFromStore, setLiquidityInfoFromStore] = useState({
     minStakeToAddLiquidity: defaultValue.minStakeToAddLiquidity,
     myStake: defaultValue.myStake,
+    isAccrualComplete: defaultValue.isAccrualComplete,
   });
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
@@ -58,7 +60,7 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
     async (ignore = false) => {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const _minStakeInfo = await getMinStakeForLiquidityInfo(
+      const _liquidityInfoFromStore = await getLiquidityInfoFromStore(
         networkId,
         coverKey,
         account,
@@ -66,7 +68,7 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
       );
 
       if (ignore) return;
-      setMinStakeInfo(_minStakeInfo);
+      setLiquidityInfoFromStore(_liquidityInfoFromStore);
     },
     [account, coverKey, library, networkId]
   );
@@ -85,8 +87,9 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
   return (
     <LiquidityFormsContext.Provider
       value={{
-        minStakeToAddLiquidity: minStakeInfo.minStakeToAddLiquidity,
-        myStake: minStakeInfo.myStake,
+        isAccrualComplete: liquidityInfoFromStore.isAccrualComplete,
+        minStakeToAddLiquidity: liquidityInfoFromStore.minStakeToAddLiquidity,
+        myStake: liquidityInfoFromStore.myStake,
         updateMinStakeInfo,
         vaultTokenAddress,
         vaultTokenSymbol,

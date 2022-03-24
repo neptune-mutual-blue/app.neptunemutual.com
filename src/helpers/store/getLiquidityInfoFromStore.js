@@ -2,7 +2,7 @@ import { utils } from "@neptunemutual/sdk";
 import { getStoredData } from "@/src/helpers/store";
 import { convertToUnits } from "@/utils/bn";
 
-export const getMinStakeForLiquidityInfo = async (
+export const getLiquidityInfoFromStore = async (
   networkId,
   coverKey,
   account,
@@ -30,11 +30,17 @@ export const getMinStakeForLiquidityInfo = async (
         return value.toString();
       },
     },
+    {
+      key: [utils.keyUtil.PROTOCOL.NS.ACCRUAL_INVOCATION, coverKey],
+      returns: "bool",
+      property: "isAccrualComplete",
+    },
   ];
 
   const result = await getStoredData(candidates, networkId, provider);
   return {
     minStakeToAddLiquidity: result.minStakeToAddLiquidity,
     myStake: result.myStake,
+    isAccrualComplete: result.isAccrualComplete,
   };
 };

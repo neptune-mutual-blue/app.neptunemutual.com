@@ -53,7 +53,8 @@ export const WithdrawLiquidityModal = ({
     });
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-  const { myStake, minStakeToAddLiquidity } = useLiquidityFormsContext();
+  const { myStake, minStakeToAddLiquidity, isAccrualComplete } =
+    useLiquidityFormsContext();
   const {
     podBalance: balance,
     allowance,
@@ -168,9 +169,7 @@ export const WithdrawLiquidityModal = ({
               prefix="Minimum Stake: "
               symbol={npmTokenSymbol}
             />
-            {npmErrorMsg && (
-              <p className="flex items-center text-FA5C2F">{npmErrorMsg}</p>
-            )}
+            {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
           </TokenAmountInput>
         </div>
         <div className="mt-6">
@@ -184,9 +183,7 @@ export const WithdrawLiquidityModal = ({
             tokenBalance={balance}
             tokenAddress={vaultTokenAddress}
           />
-          {podErrorMsg && (
-            <p className="flex items-center text-FA5C2F">{podErrorMsg}</p>
-          )}
+          {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
         </div>
         <div className="mt-6 modal-unlock">
           <ReceiveAmountInput
@@ -216,6 +213,9 @@ export const WithdrawLiquidityModal = ({
         </div>
 
         <div className="mt-4">
+          {!isAccrualComplete && (
+            <p className="text-FA5C2F">Wait for accrual</p>
+          )}
           <DataLoadingIndicator message={loadingMessage} />
           {!canWithdraw ? (
             <RegularButton
@@ -229,7 +229,8 @@ export const WithdrawLiquidityModal = ({
                 !npmValue ||
                 !podValue ||
                 loadingBalance ||
-                loadingAllowance
+                loadingAllowance ||
+                !isAccrualComplete
               }
             >
               {approving ? "Approving.." : "Approve"}
@@ -251,7 +252,8 @@ export const WithdrawLiquidityModal = ({
                 !npmValue ||
                 !podValue ||
                 loadingBalance ||
-                loadingAllowance
+                loadingAllowance ||
+                !isAccrualComplete
               }
             >
               {withdrawing ? "Withdrawing.." : "Withdraw"}
