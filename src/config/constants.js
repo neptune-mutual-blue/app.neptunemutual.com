@@ -33,13 +33,8 @@ export const POOL_URLS = {
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
-// Will end with `/`
-export const SUBGRAPH_BASE_URL = process.env.NEXT_PUBLIC_SUBGRAPH_URL
-  ? new URL(process.env.NEXT_PUBLIC_SUBGRAPH_URL).toString()
-  : "/";
-
 export const SUBGRAPH_API_URLS = {
-  3: `${SUBGRAPH_BASE_URL}subgraph/ropsten`,
-  42: `${SUBGRAPH_BASE_URL}subgraph/kovan`,
-  80001: `${SUBGRAPH_BASE_URL}subgraph/mumbai`,
+  3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
+  42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
+  80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };
