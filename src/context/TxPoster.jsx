@@ -173,7 +173,7 @@ const ForceTxModal = ({
         <ModalCloseButton onClick={onClose}></ModalCloseButton>
 
         <div className="my-12 mb-8">
-          <p className="mt-8 text-DC2121">{message}</p>
+          <p className="mt-8 overflow-x-auto text-DC2121">{message}</p>
         </div>
 
         <details open>

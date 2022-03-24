@@ -46,9 +46,9 @@ export const MyLiquidityCoverPage = () => {
 
   const totalLiquidity = info.vaultStablecoinBalance;
   const myLiquidity = info.myUnrealizedShare;
-  const myEarnings = toBN(myLiquidity).minus(
-    toBN(info.liquidityAddedByMe).minus(info.liquidityRemovedByMe)
-  );
+  const myEarnings = toBN(info.myUnrealizedShare)
+    .plus(info.liquidityRemovedByMe)
+    .minus(info.liquidityAddedByMe);
   const reassuranceAmount = info.totalReassurance;
 
   if (!coverInfo) {
