@@ -25,6 +25,7 @@ export const useERC20Allowance = (tokenAddress) => {
       { onTransactionResult, onRetryCancel, onError, cleanup }
     ) => {
       if (!networkId || !account || !tokenAddress) {
+        cleanup();
         return;
       }
 
