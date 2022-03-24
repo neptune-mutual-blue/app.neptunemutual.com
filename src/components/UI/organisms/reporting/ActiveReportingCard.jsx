@@ -10,8 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits } from "@/utils/bn";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
-import { Badge } from "@/components/UI/atoms/badge";
-import { classNames } from "@/utils/classnames";
+import { CardStatusBadge } from "@/components/CardStatusBadge";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -19,12 +18,6 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const data = coverInfo.stats;
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
-
-  const statusType =
-    ["Incident Happened", "Claimable", "Stopped"].indexOf(statusInfo.status) >
-    -1
-      ? "failure"
-      : "";
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -36,13 +29,9 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
             className="inline-block max-w-full"
           />
         </div>
-        <Badge
-          className={classNames(
-            statusType == "failure" ? " text-FA5C2F" : "text-21AD8C"
-          )}
-        >
-          {statusInfo.status}
-        </Badge>
+        <div>
+          <CardStatusBadge status={statusInfo.status} />
+        </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
         {coverInfo.projectName}
