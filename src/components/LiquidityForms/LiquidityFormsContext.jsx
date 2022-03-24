@@ -12,7 +12,7 @@ const defaultValue = {
   isAccrualComplete: true,
   myStake: "0",
   minStakeToAddLiquidity: "0",
-  updateMinStakeInfo: (_ignore = false) => {},
+  updateMinStakeInfo: () => {},
   vaultTokenAddress: "",
   vaultTokenSymbol: "",
   podBalance: "0",
@@ -56,33 +56,45 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
 
-  const updateMinStakeInfo = useCallback(
-    async (ignore = false) => {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+  const fetchMinStakeInfo = useCallback(async () => {
+    if (!networkId || !account || !coverKey) return;
 
-      const _liquidityInfoFromStore = await getLiquidityInfoFromStore(
-        networkId,
-        coverKey,
-        account,
-        signerOrProvider.provider
-      );
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      if (ignore) return;
-      setLiquidityInfoFromStore(_liquidityInfoFromStore);
-    },
-    [account, coverKey, library, networkId]
-  );
+    const _liquidityInfoFromStore = await getLiquidityInfoFromStore(
+      networkId,
+      coverKey,
+      account,
+      signerOrProvider.provider
+    );
+
+    return _liquidityInfoFromStore;
+  }, [account, coverKey, library, networkId]);
 
   useEffect(() => {
     let ignore = false;
     if (!networkId || !account || !coverKey) return;
 
-    updateMinStakeInfo(ignore);
+    fetchMinStakeInfo()
+      .then((_liquidityInfoFromStore) => {
+        if (ignore || !_liquidityInfoFromStore) return;
+        setLiquidityInfoFromStore(_liquidityInfoFromStore);
+      })
+      .catch(console.error);
 
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, updateMinStakeInfo, library, networkId]);
+  }, [account, coverKey, fetchMinStakeInfo, library, networkId]);
+
+  const updateMinStakeInfo = useCallback(() => {
+    fetchMinStakeInfo()
+      .then((_liquidityInfoFromStore) => {
+        if (!_liquidityInfoFromStore) return;
+        setLiquidityInfoFromStore(_liquidityInfoFromStore);
+      })
+      .catch(console.error);
+  }, [fetchMinStakeInfo]);
 
   return (
     <LiquidityFormsContext.Provider
