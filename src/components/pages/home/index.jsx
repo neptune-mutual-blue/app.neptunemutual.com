@@ -15,12 +15,12 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
-import BigNumber from "bignumber.js";
+import { formatPercent } from "@/utils/formatter/percent";
 
 const MAX_COVERS = 6;
 export const HomePage = () => {
@@ -36,18 +36,20 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (data && data.length >= 2) {
-      const previous = BigNumber(data[data.length - 2].totalLiquidity);
-      const current = BigNumber(data[data.length - 1].totalLiquidity);
-      let diff = current.minus(previous);
-      diff = diff
-        .absoluteValue()
-        .dividedBy(previous)
-        .multipliedBy(100)
-        .decimalPlaces(2);
+      const lastSecond = toBN(data[data.length - 2].totalLiquidity);
+      const last = toBN(data[data.length - 1].totalLiquidity);
+
+      let diff = last.minus(lastSecond).dividedBy(lastSecond);
       setChangeData({
-        last: current.toString(),
-        diff: diff.toString(),
+        last: last.toString(),
+        diff: diff.absoluteValue().toString(),
         rise: parseFloat(diff) >= 0,
+      });
+    } else if (data && data.length == 1) {
+      setChangeData({
+        last: toBN(data[0].totalLiquidity).toString(),
+        diff: null,
+        rise: false,
       });
     }
   }, [data]);
@@ -103,10 +105,10 @@ export const HomePage = () => {
   return (
     <>
       <Hero>
-        <Container className="py-10 md:py-16 md:px-10 lg:py-28 justify-between flex flex-wrap flex-col-reverse md:flex-col-reverse lg:flex-row lg:flex-nowrap">
+        <Container className="flex flex-col-reverse flex-wrap justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row lg:flex-nowrap">
           <div className="pt-10 md:flex md:gap-4 lg:block lg:mr-18 md:w-full lg:w-auto lg:pt-0">
             <div className="flex-1">
-              <div className="md:mb-0 mb-2 lg:mb-8 flex md:justify-center lg:justify-start">
+              <div className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start">
                 <HomeCard
                   items={[
                     {
@@ -125,7 +127,7 @@ export const HomePage = () => {
                   className="md:border-0.5 md:border-B0C4DB md:rounded-tl-xl md:rounded-tr-xl"
                 />
               </div>
-              <div className="md:mb-0 mb-2 lg:mb-8  flex md:justify-center lg:justify-start">
+              <div className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start">
                 <HomeCard
                   items={[
                     {
@@ -150,20 +152,20 @@ export const HomePage = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex flex-col flex-1">
             <div className="pt-6 mb-8">
-              <h3 className="text-h3 font-sora text-4e7dd9 mb-1">
+              <h3 className="mb-1 text-h3 font-sora text-4e7dd9">
                 Total Liquidity
               </h3>
               <div className="flex items-center">
-                <h2 className="text-h2 text-black font-sora font-bold pr-3">
+                <h2 className="pr-3 font-bold text-black text-h2 font-sora">
                   {
                     formatCurrency(
                       convertFromUnits(changeData?.last || "0").toString()
                     ).short
                   }
                 </h2>
-                {changeData && (
+                {changeData && changeData.diff && (
                   <h6
                     className={classNames(
                       "text-h6 font-sora font-bold flex items-center",
@@ -177,7 +179,7 @@ export const HomePage = () => {
                         className={changeData.rise ? "" : "transform-flip"}
                       />
                     </span>
-                    <span>{changeData.diff}%</span>
+                    <span>{formatPercent(changeData.diff)}</span>
                   </h6>
                 )}
               </div>
@@ -191,8 +193,8 @@ export const HomePage = () => {
       </Hero>
 
       <Container className="py-16">
-        <div className="flex justify-between flex-wrap md:flex-nowrap gap-6 items-center">
-          <h1 className="text-h3 lg:text-h2 font-sora font-bold">
+        <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
+          <h1 className="font-bold text-h3 lg:text-h2 font-sora">
             Available Covers
           </h1>
           <SearchAndSortBar
@@ -205,7 +207,7 @@ export const HomePage = () => {
             setSortType={setSortType}
           />
         </div>
-        <Grid className="mt-14 lg:mb-24 mb-14 gap-4">
+        <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
           {sortData(filtered).map((c, idx) => {
