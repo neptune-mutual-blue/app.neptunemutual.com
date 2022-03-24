@@ -2,6 +2,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
 import { ResolvedReportingCard } from "@/components/UI/organisms/reporting/ResolvedReportingCard";
+import { ReportStatus } from "@/src/config/constants";
 import { useCovers } from "@/src/context/Covers";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
@@ -38,7 +39,7 @@ export const ReportingResolvedPage = () => {
 
       {!loading && isEmpty && <p className="text-center">No data found</p>}
 
-      <Grid className="mt-14 mb-24">
+      <Grid className="mb-24 mt-14">
         {filtered.map((report) => {
           const resolvedOn = report.emergencyResolved
             ? report.emergencyResolveTransaction?.timestamp
@@ -55,7 +56,7 @@ export const ReportingResolvedPage = () => {
                 <ResolvedReportingCard
                   coverKey={report.key}
                   resolvedOn={resolvedOn}
-                  status={report.status}
+                  status={ReportStatus[report.status]}
                 />
               </a>
             </Link>

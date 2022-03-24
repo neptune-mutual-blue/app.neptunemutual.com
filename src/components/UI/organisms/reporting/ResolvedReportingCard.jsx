@@ -1,43 +1,32 @@
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { Badge } from "@/components/UI/atoms/badge";
-import { classNames } from "@/utils/classnames";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { IncidentReportStatus } from "@/components/common/IncidentReportStatus";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { CardStatusBadge } from "@/components/CardStatusBadge";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
-  const statusType = ["Reporting", "FalseReporting"].includes(status)
-    ? "failure"
-    : "";
 
   return (
-    <OutlinedCard className="bg-white p-6" type="link">
+    <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex justify-between">
         <div>
-          <div className="w-18 h-18 bg-DEEAF6 rounded-full">
+          <div className="rounded-full w-18 h-18 bg-DEEAF6">
             <img
               src={imgSrc}
               alt={coverInfo.projectName}
               className="inline-block max-w-full"
             />
           </div>
-          <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
+          <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
             {coverInfo.projectName}
           </h4>
         </div>
         <div>
-          <Badge
-            className={classNames(
-              statusType == "failure" ? "text-FA5C2F" : "text-21AD8C"
-            )}
-          >
-            <IncidentReportStatus status={status} />
-          </Badge>
+          <CardStatusBadge status={status} />
         </div>
       </div>
 
@@ -45,7 +34,7 @@ export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
       <Divider />
 
       {/* Stats */}
-      <div className="flex justify-between text-sm px-1 mb-4">
+      <div className="flex justify-between px-1 mb-4 text-sm">
         <span className="" title={DateLib.toLongDateFormat(resolvedOn)}>
           Resolved On:{" "}
           <span title={DateLib.toLongDateFormat(resolvedOn)}>
