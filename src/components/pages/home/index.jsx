@@ -39,11 +39,11 @@ export const HomePage = () => {
       const lastSecond = toBN(data[data.length - 2].totalLiquidity);
       const last = toBN(data[data.length - 1].totalLiquidity);
 
-      let diff = last.minus(lastSecond).dividedBy(lastSecond);
+      const diff = last.minus(lastSecond).dividedBy(lastSecond);
       setChangeData({
         last: last.toString(),
         diff: diff.absoluteValue().toString(),
-        rise: parseFloat(diff) >= 0,
+        rise: diff.isGreaterThanOrEqualTo(0),
       });
     } else if (data && data.length == 1) {
       setChangeData({
