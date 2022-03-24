@@ -1,11 +1,10 @@
 import { classNames } from "@/utils/classnames";
 import {
+  getLocaleNumber,
   getNumberSeparators,
-  getPlainString,
+  getPlainNumber,
 } from "@/utils/formatter/currency";
 import { getLocale } from "@/utils/locale";
-import BigNumber from "bignumber.js";
-// import { getLocale } from "@/utils/locale";
 import { useState, useEffect, useRef } from "react";
 
 export const InputWithTrailingButton = ({
@@ -36,21 +35,13 @@ export const InputWithTrailingButton = ({
 
   useEffect(() => {
     if (!isNaN(parseInt(inputProps.value))) {
-      // const formattedNumber = Intl.NumberFormat(getLocale(), {
-      //   maximumFractionDigits: 10,
-      // }).format(inputProps.value);
-      const sep = getNumberSeparators(getLocale());
-      const formattedNumber = new BigNumber(inputProps.value).toFormat({
-        decimalSeparator: sep.decimal,
-        groupSeparator: sep.thousand,
-        groupSize: 3,
-      });
+      const formattedNumber = getLocaleNumber(inputProps.value, getLocale());
       setVal(formattedNumber);
     }
     if (inputProps.value === "") setVal("");
   }, [inputProps.value]);
 
-  const numberFormatProps = {
+  const inputFieldProps = {
     id: inputProps.id,
     value: val,
     placeholder: inputProps.placeholder,
@@ -58,6 +49,8 @@ export const InputWithTrailingButton = ({
     onChange: (ev) => {
       const val = ev.target.value;
       const sep = getNumberSeparators(getLocale());
+
+      // regex to identify localized number with decimal separator at the end
       const incompleteRegex = new RegExp(
         `^${inputProps.allowNegative ? "-?" : ""}\\d*(${sep.thousand}\\d+)*\\${
           sep.decimal
@@ -70,34 +63,37 @@ export const InputWithTrailingButton = ({
       ) {
         return setVal(val);
       }
+
+      // regex to identify localized number
       const formattedRegex = new RegExp(
         `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
           sep.thousand
         }\\d+)*(\\${sep.decimal}\\d*)?$`
       );
       if (val !== "" && !val.match(formattedRegex)) return;
-      const returnVal = getPlainString(val, getLocale());
+      const returnVal = getPlainNumber(val, getLocale());
       if (inputProps.onChange) inputProps.onChange(returnVal);
+      else setVal(getLocaleNumber(returnVal, getLocale()));
     },
     autoComplete: "off",
   };
 
   return (
-    <div className="relative text-black text-h4 w-full">
+    <div className="relative w-full text-black text-h4">
       <input
-        {...numberFormatProps}
+        {...inputFieldProps}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
           error
             ? "border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F"
             : "border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9",
-          numberFormatProps.disabled && "cursor-not-allowed"
+          inputFieldProps.disabled && "cursor-not-allowed"
         )}
         style={{ paddingRight: `${width || 64}px` }}
       />
-      <div className="flex absolute right-0 inset-y-0" ref={ref}>
+      <div className="absolute inset-y-0 right-0 flex" ref={ref}>
         {unit && (
-          <div className="whitespace-nowrap self-center px-4 text-9B9B9B">
+          <div className="self-center px-4 whitespace-nowrap text-9B9B9B">
             {unit}
           </div>
         )}

@@ -1,4 +1,5 @@
 import { getLocale } from "@/utils/locale";
+import BigNumber from "bignumber.js";
 
 const asCurrency = (sign, number, symbol, currency, token = false) => {
   if (token) {
@@ -64,20 +65,7 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   };
 };
 
-export const getPlainString = (formattedString, locale) => {
-  const thousandSeparator = Intl.NumberFormat(locale)
-    .format(11111)
-    .replace(/\p{Number}/gu, "");
-  const decimalSeparator = Intl.NumberFormat(locale)
-    .format(1.1)
-    .replace(/\p{Number}/gu, "");
-  return formattedString
-    .toString()
-    .replaceAll(thousandSeparator, "")
-    .replace(decimalSeparator, ".");
-};
-
-export const getNumberSeparators = (locale) => {
+export const getNumberSeparators = (locale = "en") => {
   const thousand = Intl.NumberFormat(locale)
     .format(11111)
     .replace(/\p{Number}/gu, "");
@@ -88,4 +76,22 @@ export const getNumberSeparators = (locale) => {
     thousand,
     decimal,
   };
+};
+
+export const getPlainNumber = (formattedString, locale = "en") => {
+  const sep = getNumberSeparators(locale);
+  return formattedString
+    .toString()
+    .replaceAll(sep.thousand, "")
+    .replace(sep.decimal, ".");
+};
+
+export const getLocaleNumber = (plainNumber, locale = "en") => {
+  const sep = getNumberSeparators(locale);
+  const formattedNumber = new BigNumber(plainNumber).toFormat({
+    decimalSeparator: sep.decimal,
+    groupSeparator: sep.thousand,
+    groupSize: 3,
+  });
+  return formattedNumber;
 };
