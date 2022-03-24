@@ -138,7 +138,9 @@ const BondPage = () => {
   }
 
   return (
-    <Container className={"grid gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}>
+    <Container
+      className={"grid sm:gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}
+    >
       <div className="max-w-lg col-span-2">
         <TokenAmountInput
           labelText={"Enter your amount"}
@@ -197,7 +199,7 @@ const BondPage = () => {
           )}
         </div>
       </div>
-      <div>
+      <div className="row-start-1 mb-10 md:row-start-auto">
         <div className="flex justify-end mb-10">
           <a
             href={getReplacedString(POOL_URLS[networkId], {
