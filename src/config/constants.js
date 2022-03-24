@@ -33,26 +33,8 @@ export const POOL_URLS = {
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
-// Will end with `/`
-export const ROPSTEN_SUBGRAPH_BASE_URL = process.env
-  .NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL
-  ? new URL(process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL).toString()
-  : "/";
-
-// Will end with `/`
-export const KOVAN_SUBGRAPH_BASE_URL = process.env
-  .NEXT_PUBLIC_KOVAN_SUBGRAPH_URL
-  ? new URL(process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL).toString()
-  : "/";
-
-// Will end with `/`
-export const MUMBAI_SUBGRAPH_BASE_URL = process.env
-  .NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL
-  ? new URL(process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL).toString()
-  : "/";
-
 export const SUBGRAPH_API_URLS = {
-  3: `${ROPSTEN_SUBGRAPH_BASE_URL}subgraph/ropsten`,
-  42: `${KOVAN_SUBGRAPH_BASE_URL}subgraph/kovan`,
-  80001: `${MUMBAI_SUBGRAPH_BASE_URL}subgraph/mumbai`,
+  3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
+  42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
+  80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };
