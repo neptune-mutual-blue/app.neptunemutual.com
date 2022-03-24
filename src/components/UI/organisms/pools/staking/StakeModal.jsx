@@ -65,7 +65,7 @@ export const StakeModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
-      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle min-w-300 md:min-w-600 max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>

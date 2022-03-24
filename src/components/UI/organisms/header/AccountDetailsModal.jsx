@@ -63,7 +63,7 @@ export const AccountDetailsModal = ({
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} overlayClass="backdrop-blur-sm">
       <div className="relative inline-block max-w-xs px-6 py-4 my-8 overflow-y-auto text-left align-middle transition-all sm:py-12 sm:px-16 sm:max-w-xl max-h-90vh rounded-3xl bg-f1f3f6">
         <Dialog.Title
           as="h3"

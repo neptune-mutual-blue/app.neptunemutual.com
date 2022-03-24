@@ -66,9 +66,9 @@ export const CollectRewardModal = ({
       onClose={onClose}
       disabled={withdrawingRewards || withdrawing}
     >
-      <div className="max-w-xl max-h-90vh overflow-y-auto w-full inline-block bg-f1f3f6 align-middle text-left py-12 rounded-3xl relative">
+      <div className="relative inline-block w-full max-w-xl py-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl min-w-300 sm:min-w-500">
         <div className="px-12">
-          <Dialog.Title className="font-sora font-bold text-h2 flex">
+          <Dialog.Title className="flex font-bold font-sora text-h2">
             {modalTitle}
           </Dialog.Title>
         </div>

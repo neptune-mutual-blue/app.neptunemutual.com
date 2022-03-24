@@ -22,7 +22,7 @@ export const ClaimBondModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={claiming}>
-      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-300 sm:min-w-550 max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
