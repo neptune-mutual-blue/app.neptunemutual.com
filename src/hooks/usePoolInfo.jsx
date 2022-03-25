@@ -3,10 +3,9 @@ import { useWeb3React } from "@web3-react/core";
 
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { PoolTypes, POOL_INFO_URL } from "@/src/config/constants";
+import { PoolTypes } from "@/src/config/constants";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { getInfo as getStakingPoolInfo } from "@/src/services/protocol/staking-pool/info";
-import { getReplacedString } from "@/utils/string";
 
 const defaultInfo = {
   // From store
@@ -31,13 +30,6 @@ const defaultInfo = {
   canWithdrawFromBlockHeight: "0",
   lastDepositHeight: "0",
   lastRewardHeight: "0",
-
-  // // From API
-  // rewardTokenDecimals: "0",
-  // stakingTokenDecimals: "0",
-  // stakingTokenPrice: "0",
-  // rewardTokenPrice: "0",
-  apr: "0",
 };
 
 export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
@@ -64,29 +56,6 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
         if (!_info) return;
 
         setInfo((prevData) => ({ ...prevData, ..._info }));
-      })
-      .catch((err) => handleError(err));
-
-    fetch(
-      getReplacedString(POOL_INFO_URL, {
-        networkId,
-        key,
-        account,
-        type,
-      }),
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        if (!result || !result.data || !result.data.apr) return;
-
-        setInfo((prevData) => ({ ...prevData, apr: result.data.apr }));
       })
       .catch((err) => handleError(err));
   }, [account, key, library, networkId, notifyError, type]);

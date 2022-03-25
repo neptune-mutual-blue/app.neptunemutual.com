@@ -8,7 +8,7 @@ import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 
 export const PodStakingPage = () => {
-  const { getTVLById } = useAppConstants();
+  const { getTVLById, getPriceByAddress } = useAppConstants();
   const { data, loading } = usePodStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
@@ -54,6 +54,7 @@ export const PodStakingPage = () => {
               key={poolData.id}
               data={poolData}
               tvl={getTVLById(poolData.id)}
+              getPriceByAddress={getPriceByAddress}
             />
           );
         })}
