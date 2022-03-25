@@ -23,6 +23,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
 import { Badge } from "@/components/UI/atoms/badge";
 import { formatPercent } from "@/utils/formatter/percent";
+import { PoolTypes } from "@/src/config/constants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -31,7 +32,7 @@ export const PodStakingCard = ({ data, tvl }) => {
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
-    type: "pod",
+    type: PoolTypes.POD,
   });
 
   const rewardTokenAddress = info.rewardToken;
