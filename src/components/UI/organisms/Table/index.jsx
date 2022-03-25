@@ -95,8 +95,10 @@ export const TBody = ({
         </tr>
       )}
       {data.map((row, idx) => {
+        const wrapperProps = RowWrapper === Fragment ? {} : { row, extraData };
+
         return (
-          <RowWrapper key={idx} row={row} extraData={extraData}>
+          <RowWrapper key={idx} {...wrapperProps}>
             <tr>
               {columns.map((col, _idx) => {
                 return (

@@ -8,7 +8,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 
 export const StakingPage = () => {
-  const { getTVLById } = useAppConstants();
+  const { getTVLById, getPriceByAddress } = useAppConstants();
   const { data, loading } = useTokenStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
@@ -53,6 +53,7 @@ export const StakingPage = () => {
               key={poolData.id}
               data={poolData}
               tvl={getTVLById(poolData.id)}
+              getPriceByAddress={getPriceByAddress}
             />
           );
         })}

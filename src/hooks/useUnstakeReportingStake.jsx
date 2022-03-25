@@ -5,11 +5,10 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { UNSTAKE_INFO_URL } from "@/src/config/constants";
-import { getReplacedString } from "@/utils/string";
+import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
 
 const defaultInfo = {
   yes: "0",
@@ -31,7 +30,6 @@ const defaultInfo = {
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
-  const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
@@ -47,43 +45,36 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const response = await fetch(
-      getReplacedString(UNSTAKE_INFO_URL, {
-        networkId,
-        coverKey,
-        account,
-        incidentDate,
-      }),
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      }
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const data = await getUnstakeInfoFor(
+      networkId,
+      coverKey,
+      account,
+      incidentDate,
+      signerOrProvider.provider
     );
 
-    const { data } = await response.json();
-
-    if (!mountedRef.current || !data) {
+    if (!data) {
       return;
     }
 
-    setInfo({
-      ...data,
-    });
-  }, [account, coverKey, incidentDate, networkId]);
+    return data;
+  }, [account, coverKey, incidentDate, library, networkId]);
 
   useEffect(() => {
-    mountedRef.current = true;
+    let ignore = false;
+
+    fetchInfo()
+      .then((_info) => {
+        if (!_info || ignore) return;
+
+        setInfo(_info);
+      })
+      .catch(console.error);
 
     return () => {
-      mountedRef.current = false;
+      ignore = true;
     };
-  }, []);
-
-  useEffect(() => {
-    fetchInfo().catch(console.error);
   }, [fetchInfo]);
 
   const unstake = async () => {

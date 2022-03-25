@@ -9,8 +9,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import { getReplacedString } from "@/utils/string";
-import { VAULT_INFO_URL } from "@/src/config/constants";
+import { getInfo as getVaultInfo } from "@/src/services/protocol/vault/info";
 
 const defaultInfo = {
   withdrawalOpen: "0",
@@ -47,22 +46,14 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
 
     try {
-      const response = await fetch(
-        getReplacedString(VAULT_INFO_URL, {
-          networkId,
-          coverKey,
-          account,
-        }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-      const { data } = await response.json();
+      const data = await getVaultInfo(
+        networkId,
+        coverKey,
+        account,
+        signerOrProvider.provider
+      );
 
       return {
         withdrawalOpen: data.withdrawalStarts,
@@ -82,7 +73,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [account, coverKey, networkId, notifyError]);
+  }, [account, coverKey, library, networkId, notifyError]);
 
   useEffect(() => {
     let ignore = false;

@@ -11,6 +11,7 @@ const initValue = {
   NPMTokenAddress: "",
   poolsTvl: "0",
   getTVLById: (_id) => "0",
+  getPriceByAddress: (_address) => "0",
 };
 
 const AppConstantsContext = React.createContext(initValue);
@@ -28,7 +29,9 @@ export function useAppConstants() {
 export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
   const { networkId } = useNetwork();
-  const { tvl, getTVLById } = usePoolsTVL(data.NPMTokenAddress);
+  const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(
+    data.NPMTokenAddress
+  );
   const { library, account } = useWeb3React();
 
   const setAddress = (_address, key) => {
@@ -53,7 +56,7 @@ export const AppConstantsProvider = ({ children }) => {
 
   return (
     <AppConstantsContext.Provider
-      value={{ ...data, poolsTvl: tvl, getTVLById }}
+      value={{ ...data, poolsTvl: tvl, getTVLById, getPriceByAddress }}
     >
       {children}
     </AppConstantsContext.Provider>
