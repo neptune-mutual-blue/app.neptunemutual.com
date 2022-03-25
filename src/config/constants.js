@@ -19,6 +19,11 @@ export const ReportStatus = {
   FalseReporting: "False Reporting",
 };
 
+export const PoolTypes = {
+  TOKEN: "token",
+  POD: "pod",
+};
+
 // Will end with `/`
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()

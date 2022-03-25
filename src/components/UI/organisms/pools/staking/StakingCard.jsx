@@ -21,13 +21,17 @@ import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Badge } from "@/components/UI/atoms/badge";
+import { PoolTypes } from "@/src/config/constants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data, tvl }) => {
   const { networkId } = useNetwork();
-  const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
+  const { info, refetch: refetchInfo } = usePoolInfo({
+    key: data.key,
+    type: PoolTypes.TOKEN,
+  });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
