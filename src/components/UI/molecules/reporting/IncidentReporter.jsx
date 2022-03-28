@@ -8,7 +8,7 @@ export const IncidentReporter = ({ variant, account, txHash }) => {
 
   return (
     <>
-      <div className="flex items-center text-sm mb-4">
+      <div className="flex items-center mb-4 text-sm">
         <div
           className={classNames(
             "w-3 h-3 mr-2 rounded rotate-45",
@@ -19,15 +19,15 @@ export const IncidentReporter = ({ variant, account, txHash }) => {
         <div className="text-4e7dd9">{account}</div>
 
         {/* Link to reported tx */}
-        <div className="ml-auto flex justify-center items-center">
+        <div className="flex items-center justify-center ml-auto">
           <a
             href={getTxLink(networkId, { hash: txHash })}
             target="_blank"
-            rel="noreferrer noopener"
+            rel="noreferrer noopener nofollow"
             className="p-1 text-black"
           >
             <span className="sr-only">Open in explorer</span>
-            <OpenInNewIcon className="h-4 w-4" />
+            <OpenInNewIcon className="w-4 h-4" />
           </a>
         </div>
       </div>

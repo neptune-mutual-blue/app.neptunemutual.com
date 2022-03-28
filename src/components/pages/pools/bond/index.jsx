@@ -207,7 +207,7 @@ const BondPage = () => {
               NPMTokenAddress,
             })}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             className="inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline"
           >
             Get LP tokens

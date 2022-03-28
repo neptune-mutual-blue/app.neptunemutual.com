@@ -108,7 +108,7 @@ export const AccountDetailsModal = ({
             <a
               href={getAddressLink(networkId, account)}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferrer nofollow"
               className="flex items-center ml-3.5 cursor-pointer sm:ml-6"
             >
               <OpenInNewIcon width={16} height={16} fill="#999BAB" />

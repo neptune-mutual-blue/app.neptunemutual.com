@@ -74,7 +74,10 @@ export const CoverReportingRules = ({
           </div>
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <Link href="#">
-              <a className="block mt-3 text-4e7dd9 hover:underline">
+              <a
+                className="block mt-3 text-4e7dd9 hover:underline"
+                rel="nofollow"
+              >
                 Neptune Mutual Reporters
               </a>
             </Link>
