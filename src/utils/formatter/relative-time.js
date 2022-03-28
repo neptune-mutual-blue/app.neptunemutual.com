@@ -104,6 +104,10 @@ export const fromNow = (date) => {
     return "";
   }
 
+  if (parseInt(date) === 0) {
+    return "";
+  }
+
   if (!(date instanceof Date)) {
     date = DateLib.fromUnix(date);
   }
