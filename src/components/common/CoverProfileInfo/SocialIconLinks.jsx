@@ -8,7 +8,7 @@ const IconLink = ({ href, iconText, icon }) => {
       href={href}
       className="inline-block mr-4 hover:text-4e7dd9"
       target="_blank"
-      rel="noreferrer"
+      rel="noreferrer nofollow"
     >
       <span className="sr-only">{iconText}</span>
       {icon}

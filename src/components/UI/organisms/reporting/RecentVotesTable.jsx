@@ -79,7 +79,7 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className="text-h4 font-sora font-bold mt-14 mb-6">Recent Votes</h3>
+      <h3 className="mb-6 font-bold text-h4 font-sora mt-14">Recent Votes</h3>
 
       <TableWrapper>
         <Table>
@@ -124,11 +124,11 @@ const ActionsRenderer = ({ row }) => {
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener nofollow"
           className="p-1 text-black"
         >
           <span className="sr-only">Open in explorer</span>
-          <OpenInNewIcon className="h-4 w-4" />
+          <OpenInNewIcon className="w-4 h-4" />
         </a>
       </div>
     </td>

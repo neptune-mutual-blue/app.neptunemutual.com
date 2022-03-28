@@ -92,7 +92,7 @@ export const MyPoliciesTxsTable = () => {
           <a
             href={getBlockLink(networkId, blockNumber)}
             target="_blank"
-            rel="noreferrer noopener"
+            rel="noreferrer noopener nofollow"
             className="pl-1 text-4e7dd9"
           >
             #{blockNumber}
@@ -213,7 +213,7 @@ const ActionsRenderer = ({ row }) => {
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
           target="_blank"
-          rel="noreferrer noopener"
+          rel="noreferrer noopener nofollow"
           className="p-1 text-black"
         >
           <span className="sr-only">Open in explorer</span>

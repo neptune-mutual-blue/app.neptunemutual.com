@@ -32,6 +32,7 @@ export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
               <a
                 target="_blank"
                 className="block capitalize text-4e7dd9 hover:underline sm:mt-0 md:mt-3"
+                rel="nofollow"
               >
                 {projectName} Knowledgebase
               </a>
@@ -40,6 +41,7 @@ export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
               <a
                 target="_blank"
                 className="block mt-3 capitalize text-4e7dd9 hover:underline sm:mt-0 md:mt-3"
+                rel="nofollow"
               >
                 {projectName} Twitter
               </a>
