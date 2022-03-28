@@ -5,7 +5,6 @@ export const Disclaimer = () => {
       <a
         className="font-medium text-4e7dd9 hover:text-black hover:underline"
         href="#"
-        rel="nofollow"
       >
         {" "}
         Terms &amp; Conditions{" "}
@@ -14,7 +13,6 @@ export const Disclaimer = () => {
       <a
         className="font-medium text-4e7dd9 hover:text-black hover:underline"
         href="#"
-        rel="nofollow"
       >
         {" "}
         Protocol Disclaimer

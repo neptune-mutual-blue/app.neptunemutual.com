@@ -31,7 +31,7 @@ export const Banner = () => {
               className="underline"
               href={FAUCET_URL}
               target="_blank"
-              rel="noopener noreferrer nofollow"
+              rel="noopener noreferrer"
             >
               Test Tokens
             </a>{" "}
@@ -40,7 +40,7 @@ export const Banner = () => {
               className="underline"
               href={LEADERBOARD_URL}
               target="_blank"
-              rel="noopener noreferrer nofollow"
+              rel="noopener noreferrer"
             >
               View Leaderboard
             </a>
