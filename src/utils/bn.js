@@ -1,4 +1,4 @@
-import { MULTIPLIER } from "@/src/config/constants";
+import { GAS_MARGIN_MULTIPLIER, MULTIPLIER } from "@/src/config/constants";
 import BigNumber from "bignumber.js";
 
 BigNumber.config({
@@ -78,7 +78,7 @@ export const amountsToPercentages = (...amounts) => {
 
 export const calculateGasMargin = (value) => {
   return new BigNumber(value.toString())
-    .multipliedBy(1.5)
+    .multipliedBy(GAS_MARGIN_MULTIPLIER)
     .decimalPlaces(0)
     .toString();
 };

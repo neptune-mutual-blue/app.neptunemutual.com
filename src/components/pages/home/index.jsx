@@ -21,8 +21,8 @@ import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
-const MAX_COVERS = 6;
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
@@ -32,18 +32,20 @@ export const HomePage = () => {
   const { data } = useProtocolDayData();
 
   const [sortType, setSortType] = useState("");
-  const [showCount, setShowCount] = useState(MAX_COVERS);
+  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   useEffect(() => {
     if (data && data.length >= 2) {
       const lastSecond = toBN(data[data.length - 2].totalLiquidity);
       const last = toBN(data[data.length - 1].totalLiquidity);
 
-      const diff = last.minus(lastSecond).dividedBy(lastSecond);
+      const diff =
+        lastSecond.isGreaterThan(0) &&
+        last.minus(lastSecond).dividedBy(lastSecond);
       setChangeData({
         last: last.toString(),
-        diff: diff.absoluteValue().toString(),
-        rise: diff.isGreaterThanOrEqualTo(0),
+        diff: diff && diff.absoluteValue().toString(),
+        rise: diff && diff.isGreaterThanOrEqualTo(0),
       });
     } else if (data && data.length == 1) {
       setChangeData({
@@ -66,7 +68,7 @@ export const HomePage = () => {
   };
 
   const handleShowMore = () => {
-    setShowCount((val) => val + MAX_COVERS);
+    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   const sortData = (dataList) => {
