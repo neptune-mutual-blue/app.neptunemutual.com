@@ -23,15 +23,17 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { useTokenName } from "@/src/hooks/useTokenName";
 import { Badge } from "@/components/UI/atoms/badge";
 import { formatPercent } from "@/utils/formatter/percent";
+import { PoolTypes } from "@/src/config/constants";
+import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
-export const PodStakingCard = ({ data, tvl }) => {
+export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
-    type: "pod",
+    type: PoolTypes.POD,
   });
 
   const rewardTokenAddress = info.rewardToken;
@@ -69,6 +71,12 @@ export const PodStakingCard = ({ data, tvl }) => {
 
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const poolName = info.name;
+
+  const apr = getApr(networkId, {
+    stakingTokenPrice: getPriceByAddress(info.stakingToken),
+    rewardPerBlock: info.rewardPerBlock,
+    rewardTokenPrice: getPriceByAddress(info.rewardToken),
+  });
 
   const leftHalf = [];
 
@@ -114,7 +122,7 @@ export const PodStakingCard = ({ data, tvl }) => {
           <StakingCardSubTitle text={"Stake " + stakingTokenName} />
         </div>
         <div>
-          <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
+          <Badge className="text-21AD8C">APR: {formatPercent(apr)}</Badge>
         </div>
       </div>
 

@@ -13,15 +13,23 @@ export const CoverStatus = {
   4: "Claimable",
 };
 
+export const ReportStatus = {
+  Reporting: "Incident Happened",
+  Claimable: "Claimable",
+  FalseReporting: "False Reporting",
+};
+
+export const PoolTypes = {
+  TOKEN: "token",
+  POD: "pod",
+};
+
 // Will end with `/`
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
   : "/";
 
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`;
-export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
-export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`;
-export const VAULT_INFO_URL = `${API_BASE_URL}/protocol/vault/info/{networkId}/{coverKey}/{account}`;
 
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
 export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";
@@ -33,13 +41,8 @@ export const POOL_URLS = {
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
-// Will end with `/`
-export const SUBGRAPH_BASE_URL = process.env.NEXT_PUBLIC_SUBGRAPH_URL
-  ? new URL(process.env.NEXT_PUBLIC_SUBGRAPH_URL).toString()
-  : "/";
-
 export const SUBGRAPH_API_URLS = {
-  3: `${SUBGRAPH_BASE_URL}subgraph/ropsten`,
-  42: `${SUBGRAPH_BASE_URL}subgraph/kovan`,
-  80001: `${SUBGRAPH_BASE_URL}subgraph/mumbai`,
+  3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
+  42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
+  80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };

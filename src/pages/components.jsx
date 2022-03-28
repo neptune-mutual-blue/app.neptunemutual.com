@@ -4,6 +4,11 @@ import Head from "next/head";
 import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
+import { useEffect } from "react";
+import { getInfo as getStakingPoolInfo } from "@/src/services/protocol/staking-pool/info";
+import { PoolTypes } from "@/src/config/constants";
+import { useWeb3React } from "@web3-react/core";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 const getTime = () => {
   return DateLib.unix().toString();
@@ -15,6 +20,7 @@ export function getStaticProps() {
   return {
     // returns the default 404 page with a status code of 404 in production
     notFound: process.env.NODE_ENV === "production",
+    props: {},
   };
 }
 
@@ -23,6 +29,26 @@ export default function Components() {
     target,
     getTime,
   });
+
+  const { account, chainId, library } = useWeb3React();
+
+  useEffect(() => {
+    if (!account || !chainId) {
+      return;
+    }
+
+    const signerOrProvider = getProviderOrSigner(library, account, chainId);
+
+    getStakingPoolInfo(
+      "80001",
+      PoolTypes.POD,
+      "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+      account,
+      signerOrProvider.provider
+    )
+      .then(console.log)
+      .catch(console.error);
+  }, [account, chainId, library]);
 
   return (
     <main>

@@ -21,13 +21,18 @@ import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Badge } from "@/components/UI/atoms/badge";
+import { PoolTypes } from "@/src/config/constants";
+import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
-export const StakingCard = ({ data, tvl }) => {
+export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const { networkId } = useNetwork();
-  const { info, refetch: refetchInfo } = usePoolInfo({ key: data.key });
+  const { info, refetch: refetchInfo } = usePoolInfo({
+    key: data.key,
+    type: PoolTypes.TOKEN,
+  });
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -63,6 +68,12 @@ export const StakingCard = ({ data, tvl }) => {
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
   const npmImgSrc = getTokenImgSrc(stakingTokenSymbol);
   const poolName = info.name;
+
+  const apr = getApr(networkId, {
+    stakingTokenPrice: getPriceByAddress(info.stakingToken),
+    rewardPerBlock: info.rewardPerBlock,
+    rewardTokenPrice: getPriceByAddress(info.rewardToken),
+  });
 
   const leftHalf = [];
 
@@ -142,7 +153,7 @@ export const StakingCard = ({ data, tvl }) => {
           />
         </div>
 
-        <Badge className="text-21AD8C">APR: {formatPercent(info.apr)}</Badge>
+        <Badge className="text-21AD8C">APR: {formatPercent(apr)}</Badge>
       </div>
       <StakingCardTitle text={poolName} />
       <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
@@ -8,6 +9,8 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
+  const [finalizing, setFinalizing] = useState(false);
+
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { requiresAuth } = useAuthValidation();
@@ -21,6 +24,11 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
       requiresAuth();
       return;
     }
+
+    setFinalizing(true);
+    const cleanup = () => {
+      setFinalizing(false);
+    };
 
     const handleError = (err) => {
       notifyError(err, "Finalize Incident");
@@ -39,12 +47,16 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
           success: "Finalized Incident Successfully",
           failure: "Could not Finalize Incident",
         });
+        cleanup();
       };
 
-      const onRetryCancel = () => {};
+      const onRetryCancel = () => {
+        cleanup();
+      };
 
       const onError = (err) => {
         handleError(err);
+        cleanup();
       };
 
       const args = [coverKey, incidentDate];
@@ -58,10 +70,12 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
       });
     } catch (err) {
       handleError(err);
+      cleanup();
     }
   };
 
   return {
     finalize,
+    finalizing,
   };
 };

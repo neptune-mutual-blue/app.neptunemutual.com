@@ -7,44 +7,44 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
+import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
+import { CardStatusBadge } from "@/components/CardStatusBadge";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
+  const statusInfo = useCoverStatusInfo(key);
   const data = coverInfo.stats;
   const imgSrc = getCoverImgSrc(coverInfo);
 
   return (
-    <OutlinedCard className="bg-white p-6" type="link">
-      <div className="flex justify-between">
-        <div>
-          <div className="">
-            <img
-              src={imgSrc}
-              alt={projectName}
-              className="inline-block max-w-full w-14 lg:w-18"
-            />
-          </div>
-          <h4 className="text-h4 font-sora font-semibold uppercase mt-4">
-            {projectName}
-          </h4>
-          <div className="text-h7 lg:text-sm text-7398C0 uppercase  mt-1 lg:mt-2">
-            Cover fee: {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
-            {formatPercent(ipfsData.pricingCeiling / MULTIPLIER)}
-          </div>
+    <OutlinedCard className="p-6 bg-white" type="link">
+      <div className="flex items-start justify-between">
+        <div className="">
+          <img
+            src={imgSrc}
+            alt={projectName}
+            className="inline-block max-w-full w-14 lg:w-18"
+          />
         </div>
         <div>
-          {/* <Badge className="text-h7 lg:text-sm text-21AD8C border rounded-3xl">
-            APR: {''}%
-          </Badge> */}
+          <CardStatusBadge status={statusInfo.status} />
         </div>
+      </div>
+
+      <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+        {projectName}
+      </h4>
+      <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
+        Cover fee: {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
+        {formatPercent(ipfsData.pricingCeiling / MULTIPLIER)}
       </div>
 
       {/* Divider */}
       <Divider className="mb-4 lg:mb-8" />
 
       {/* Stats */}
-      <div className="flex justify-between text-h7 lg:text-sm px-1">
+      <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
         <span className="font-semibold text-right text-h7 lg:text-sm ">
           {formatPercent(data.utilization)}
@@ -53,7 +53,7 @@ export const CoverCard = ({ details }) => {
       <div className="mt-2 mb-4">
         <ProgressBar value={data.utilization} />
       </div>
-      <div className="flex justify-between text-h7 lg:text-sm px-1">
+      <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
           className="flex-1"
           title={

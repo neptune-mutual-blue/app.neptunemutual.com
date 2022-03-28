@@ -1,66 +1,54 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
-import { useNetwork } from "@/src/context/Network";
+import { useQuery } from "@/src/hooks/useQuery";
+
+const getQuery = (account) => {
+  return `
+{
+  coverUsers(
+    where: {
+      user: "${account}"
+      totalPODs_gt: "0"
+    }
+  ) {
+    id
+    user
+    totalLiquidity
+    totalPODs
+    cover {
+      id
+    }
+  }
+}
+`;
+};
 
 export const useMyLiquidities = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
-    if (!networkId || !account) {
-      return;
-    }
+    let ignore = false;
 
-    const graphURL = getGraphURL(networkId);
+    if (!graphData || ignore) return;
+    setData(graphData);
 
-    if (!graphURL) {
-      return;
-    }
+    return () => {
+      ignore = true;
+    };
+  }, [graphData]);
 
+  useEffect(() => {
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          coverUsers(
-            where: {
-              user: "${account}"
-              totalPODs_gt: "0"
-            }
-          ) {
-            id
-            user
-            totalLiquidity
-            totalPODs
-            cover {
-              id
-            }
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [account, networkId]);
+
+    refetch(getQuery(account))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
+  }, [account, refetch]);
 
   const myLiquidities = data?.coverUsers || [];
   const totalLiquidityProvided = sumOf(

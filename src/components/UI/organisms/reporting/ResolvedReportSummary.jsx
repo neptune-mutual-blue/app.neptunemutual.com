@@ -13,7 +13,7 @@ import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting
 import { formatPercent } from "@/utils/formatter/percent";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
-  const { finalize } = useFinalizeIncident({
+  const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
@@ -159,12 +159,13 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           {!incidentReport.finalized && (
             <button
               className="text-sm text-4e7dd9"
+              disabled={finalizing}
               onClick={async () => {
                 await finalize();
                 setTimeout(refetchReport, 15000);
               }}
             >
-              Finalize
+              {finalizing ? "Finalizing..." : "Finalize"}
             </button>
           )}
         </div>

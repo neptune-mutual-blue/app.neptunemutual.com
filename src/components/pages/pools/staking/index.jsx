@@ -8,7 +8,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 
 export const StakingPage = () => {
-  const { getTVLById } = useAppConstants();
+  const { getTVLById, getPriceByAddress } = useAppConstants();
   const { data, loading } = useTokenStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
@@ -28,28 +28,32 @@ export const StakingPage = () => {
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={searchHandler}
+          sortClass="w-full md:w-48 lg:w-64 rounded-lg z-10"
+          containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
+          searchClass="w-full md:w-64 rounded-lg"
         />
       </div>
-      {loading && <div className="text-center py-10">Loading...</div>}
+      {loading && <div className="py-10 text-center">Loading...</div>}
       {!loading && data.pools.length === 0 && (
-        <div className="w-full flex flex-col items-center pt-20">
+        <div className="flex flex-col items-center w-full pt-20">
           <img
             src="/images/covers/empty-list-illustration.svg"
             alt="no data found"
             className="w-48 h-48"
           />
-          <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
+          <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
             No <span className="whitespace-nowrap">staking pools found.</span>
           </p>
         </div>
       )}
-      <Grid className="mt-14 mb-24">
+      <Grid className="mb-24 mt-14">
         {filtered.map((poolData) => {
           return (
             <StakingCard
               key={poolData.id}
               data={poolData}
               tvl={getTVLById(poolData.id)}
+              getPriceByAddress={getPriceByAddress}
             />
           );
         })}

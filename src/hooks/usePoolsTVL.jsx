@@ -5,7 +5,7 @@ import { useQuery } from "@/src/hooks/useQuery";
 import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
 import { getPricingData } from "@/src/helpers/pricing";
-import { sumOf } from "@/utils/bn";
+import { sumOf, toBN } from "@/utils/bn";
 
 const getQuery = () => {
   return `
@@ -84,5 +84,20 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     return tvl;
   };
 
-  return { tvl: poolsTVL.tvl, getTVLById };
+  const getPriceByAddress = (address) => {
+    for (let i = 0; i < poolsTVL.items.length; i++) {
+      const item = poolsTVL.items[i];
+
+      for (let j = 0; j < item.data.length; j++) {
+        const tokenData = item.data[j];
+        if (tokenData.address.toLowerCase() == address.toLowerCase()) {
+          return toBN(tokenData.price).dividedBy(tokenData.amount).toString();
+        }
+      }
+    }
+
+    return "0";
+  };
+
+  return { tvl: poolsTVL.tvl, getTVLById, getPriceByAddress };
 };
