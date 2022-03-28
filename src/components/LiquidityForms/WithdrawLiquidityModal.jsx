@@ -29,6 +29,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
 import { TokenAmountWithPrefix } from "@/components/TokenAmountWithPrefix";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
@@ -137,7 +138,7 @@ export const WithdrawLiquidityModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
-      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle min-w-300 md:min-w-600 max-h-90vh bg-f1f3f6 rounded-3xl">
+      <ModalWrapper>
         <Dialog.Title className="flex font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
@@ -261,7 +262,7 @@ export const WithdrawLiquidityModal = ({
             )}
           </div>
         </div>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

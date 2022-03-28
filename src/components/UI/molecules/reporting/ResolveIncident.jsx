@@ -8,6 +8,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -87,7 +88,7 @@ const EmergencyResolveModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={emergencyResolving}>
-      <div className="relative inline-block w-full max-w-xl p-12 text-left align-middle min-w-300 md:min-w-550 bg-f1f3f6 rounded-3xl">
+      <ModalWrapper>
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
@@ -135,7 +136,7 @@ const EmergencyResolveModal = ({
           disabled={emergencyResolving}
           onClick={onClose}
         ></ModalCloseButton>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

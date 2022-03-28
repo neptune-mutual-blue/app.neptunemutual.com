@@ -9,6 +9,7 @@ import {
   useStakingPoolWithdraw,
   useStakingPoolWithdrawRewards,
 } from "@/src/hooks/useStakingPoolWithdraw";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 const headers = [
   {
@@ -66,7 +67,7 @@ export const CollectRewardModal = ({
       onClose={onClose}
       disabled={withdrawingRewards || withdrawing}
     >
-      <div className="relative inline-block w-full max-w-xl py-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl min-w-300 sm:min-w-500">
+      <ModalWrapper className="sm:min-w-600">
         <div className="px-12">
           <Dialog.Title className="flex font-bold font-sora text-h2">
             {modalTitle}
@@ -108,7 +109,7 @@ export const CollectRewardModal = ({
             />
           )}
         </div>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };
