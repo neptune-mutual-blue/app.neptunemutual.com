@@ -1,8 +1,8 @@
 export const ProgressBar = ({ value }) => {
   return (
-    <div className="bg-CEEBED w-full rounded-full my-2">
+    <div className="w-full my-2 rounded-full bg-CEEBED">
       <div
-        className="bg-21AD8C py-1 rounded-full min-w-5"
+        className="max-w-full py-1 rounded-full bg-21AD8C min-w-5"
         style={{ width: `${value * 100}%` }}
       ></div>
     </div>
