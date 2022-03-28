@@ -189,9 +189,10 @@ const BondPage = () => {
             <RegularButton
               disabled={error || bonding || loadingMessage}
               className="w-full p-6 font-semibold uppercase text-h6"
-              onClick={async () => {
-                await handleBond();
-                refetchBondInfo();
+              onClick={() => {
+                handleBond(() => {
+                  setValue("");
+                });
               }}
             >
               {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}

@@ -30,10 +30,11 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     lqTokenBalance,
     lqBalanceLoading,
     updateLqTokenBalance,
-    stakeBalance,
-    stakeBalanceLoading,
-    updateStakeBalance,
+    stakingTokenBalance,
+    stakingTokenBalanceLoading,
+    updateStakingTokenBalance,
     updateMinStakeInfo,
+    updatePodBalance,
   } = useLiquidityFormsContext();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const {
@@ -149,7 +150,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       setProviding(false);
       updateMinStakeInfo();
       updateLqTokenBalance();
-      updateStakeBalance();
+      updateStakingTokenBalance();
+      updatePodBalance();
       updateLqAllowance(vaultTokenAddress);
       updateStakeAllowance(vaultTokenAddress);
     };
@@ -228,8 +230,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   return {
     npmApproving,
-    npmBalance: stakeBalance,
-    npmBalanceLoading: stakeBalanceLoading,
+    npmBalance: stakingTokenBalance,
+    npmBalanceLoading: stakingTokenBalanceLoading,
     hasNPMTokenAllowance,
     npmAllowanceLoading: stakeAllowanceLoading,
 

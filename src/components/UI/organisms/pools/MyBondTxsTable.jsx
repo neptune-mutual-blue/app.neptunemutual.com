@@ -9,18 +9,17 @@ import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
-import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { useBondTxs } from "@/src/hooks/useBondTxs";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
+import { useBondInfo } from "@/src/hooks/useBondInfo";
+import { TokenAmountSpan } from "@/components/TokenAmountSpan";
 
 const renderHeader = (col) => (
   <th
@@ -44,10 +43,12 @@ const renderWhen = (row) => (
 );
 
 const renderDetails = (row, extraData) => (
-  <DetailsRenderer row={row} lpTokenAddress={extraData} />
+  <DetailsRenderer row={row} lpTokenSymbol={extraData.lpTokenSymbol} />
 );
 
-const renderAmount = (row) => <BondAmountRenderer row={row} />;
+const renderAmount = (row, extraData) => (
+  <BondAmountRenderer row={row} npmTokenSymbol={extraData.npmTokenSymbol} />
+);
 
 const renderActions = (row) => <ActionsRenderer row={row} />;
 
@@ -79,14 +80,17 @@ const columns = [
 ];
 
 export const MyBondTxsTable = () => {
-  const { data, loading, isShowMoreVisible, handleShowMore } = useBondTxs({
-    itemsToQuery: ROWS_PER_PAGE,
-  });
+  const { info } = useBondInfo();
+  const { data, loading, hasMore, handleShowMore } = useBondTxs();
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const { blockNumber, transactions, lpTokenAddress } = data;
+  const { NPMTokenAddress } = useAppConstants();
+  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const lpTokenSymbol = useTokenSymbol(info.lpTokenAddress);
+
+  const { blockNumber, transactions } = data;
 
   return (
     <>
@@ -111,7 +115,7 @@ export const MyBondTxsTable = () => {
               isLoading={loading}
               columns={columns}
               data={transactions}
-              extraData={lpTokenAddress}
+              extraData={{ npmTokenSymbol, lpTokenSymbol }}
             ></TBody>
           ) : (
             <tbody>
@@ -123,91 +127,56 @@ export const MyBondTxsTable = () => {
             </tbody>
           )}
         </Table>
-        {isShowMoreVisible && (
-          <div className="flex justify-center p-5 border-t hover:bg-F4F8FC border-DAE2EB">
-            <button className={"block w-full"} onClick={handleShowMore}>
-              Show More
-            </button>
-          </div>
+        {hasMore && (
+          <button
+            disabled={loading}
+            className={classNames(
+              "block w-full p-5 border-t border-DAE2EB",
+              !loading && "hover:bg-F4F8FC"
+            )}
+            onClick={handleShowMore}
+          >
+            {loading && transactions.length > 0 ? "loading..." : "Show More"}
+          </button>
         )}
       </TableWrapper>
     </>
   );
 };
 
-const DetailsRenderer = ({ row, lpTokenAddress }) => {
-  const liquidityTokenSymbol = useTokenSymbol(lpTokenAddress);
+const DetailsRenderer = ({ row, lpTokenSymbol }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
         <img src="/images/tokens/npm.svg" alt="npm" height={32} width={32} />
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type === "BondCreated" ? "Bonded " : "Claimed "}
-          <span
-            title={
-              formatCurrency(
-                convertFromUnits(
-                  row.type === "BondCreated"
-                    ? row.lpTokenAmount
-                    : row.claimAmount
-                ),
-                row.type === "BondCreated" ? liquidityTokenSymbol : "NPM",
-                true
-              ).long
+          <TokenAmountSpan
+            amountInUnits={
+              row.type === "BondCreated" ? row.lpTokenAmount : row.claimAmount
             }
-          >
-            {
-              formatCurrency(
-                convertFromUnits(
-                  row.type === "BondCreated"
-                    ? row.lpTokenAmount
-                    : row.claimAmount
-                ),
-                row.type === "BondCreated" ? liquidityTokenSymbol : "NPM",
-                true
-              ).short
-            }
-          </span>{" "}
+            symbol={row.type === "BondCreated" ? lpTokenSymbol : "NPM"}
+          />
         </span>
       </div>
     </td>
   );
 };
 
-const BondAmountRenderer = ({ row }) => {
+const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
   const { register } = useRegisterToken();
   const { NPMTokenAddress } = useAppConstants();
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-  //add NPM token address
+
   return (
     <td className="px-6 py-6 text-right">
       <div className="flex items-center justify-end whitespace-nowrap">
-        <span
+        <TokenAmountSpan
           className={row.type == "BondCreated" ? "text-404040" : "text-FA5C2F"}
-          title={
-            formatCurrency(
-              convertFromUnits(
-                row.type == "BondCreated"
-                  ? row.npmToVestAmount
-                  : row.claimAmount
-              ),
-              "NPM",
-              true
-            ).long
+          amountInUnits={
+            row.type == "BondCreated" ? row.npmToVestAmount : row.claimAmount
           }
-        >
-          {
-            formatCurrency(
-              convertFromUnits(
-                row.type == "BondCreated"
-                  ? row.npmToVestAmount
-                  : row.claimAmount
-              ),
-              "NPM",
-              true
-            ).short
-          }
-        </span>
+          symbol={npmTokenSymbol}
+        />
         <button
           className="p-1 ml-3"
           onClick={() => register(NPMTokenAddress, npmTokenSymbol)}

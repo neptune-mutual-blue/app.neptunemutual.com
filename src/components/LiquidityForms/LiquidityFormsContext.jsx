@@ -21,9 +21,9 @@ const defaultValue = {
   lqTokenBalance: "0",
   lqBalanceLoading: false,
   updateLqTokenBalance: async () => {},
-  stakeBalance: "0",
-  stakeBalanceLoading: false,
-  updateStakeBalance: async () => {},
+  stakingTokenBalance: "0",
+  stakingTokenBalanceLoading: false,
+  updateStakingTokenBalance: async () => {},
 };
 
 const LiquidityFormsContext = React.createContext(defaultValue);
@@ -48,9 +48,9 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
     refetch: updateLqTokenBalance,
   } = useERC20Balance(liquidityTokenAddress);
   const {
-    balance: stakeBalance,
-    loading: stakeBalanceLoading,
-    refetch: updateStakeBalance,
+    balance: stakingTokenBalance,
+    loading: stakingTokenBalanceLoading,
+    refetch: updateStakingTokenBalance,
   } = useERC20Balance(NPMTokenAddress);
 
   const { networkId } = useNetwork();
@@ -111,9 +111,9 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
         lqTokenBalance,
         lqBalanceLoading,
         updateLqTokenBalance,
-        stakeBalance,
-        stakeBalanceLoading,
-        updateStakeBalance,
+        stakingTokenBalance,
+        stakingTokenBalanceLoading,
+        updateStakingTokenBalance,
       }}
     >
       {children}
