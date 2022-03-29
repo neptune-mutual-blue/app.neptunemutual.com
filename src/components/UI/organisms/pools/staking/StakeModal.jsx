@@ -28,12 +28,14 @@ export const StakeModal = ({
   const {
     balance,
     loadingBalance,
+    updateBalance,
     maxStakableAmount,
     isError,
     errorMsg,
     canDeposit,
     approving,
     loadingAllowance,
+    updateAllowance,
     depositing,
     handleDeposit,
     handleApprove,
@@ -47,11 +49,15 @@ export const StakeModal = ({
   });
 
   useEffect(() => {
-    if (isOpen) return;
+    if (isOpen) {
+      if (updateBalance) updateBalance();
+      if (updateAllowance) updateAllowance();
+      return;
+    }
 
     // Clear on modal close
     setInputValue();
-  }, [isOpen]);
+  }, [isOpen, updateBalance, updateAllowance]);
 
   const handleChooseMax = () => {
     setInputValue(convertFromUnits(maxStakableAmount).toString());

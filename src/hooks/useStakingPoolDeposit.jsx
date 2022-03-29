@@ -224,6 +224,7 @@ export const useStakingPoolDeposit = ({
   return {
     balance,
     loadingBalance,
+    updateBalance,
 
     maxStakableAmount,
 
@@ -232,6 +233,7 @@ export const useStakingPoolDeposit = ({
 
     approving,
     loadingAllowance,
+    updateAllowance,
 
     depositing,
 
