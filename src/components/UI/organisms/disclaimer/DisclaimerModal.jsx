@@ -24,8 +24,8 @@ export const DisclaimerModal = () => {
 
   return (
     <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="max-w-full lg:max-w-5xl w-max max-h-90vh inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
-        <Title className="font-sora font-bold text-h4 flex items-center">
+      <div className="border-[1.5px] border-[#B0C4DB] max-w-full lg:max-w-5xl w-max max-h-90vh inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+        <Title className="flex items-center font-bold font-sora text-h4">
           Disclaimer and Warranty
         </Title>
         <Description
@@ -75,7 +75,7 @@ export const DisclaimerModal = () => {
           </span>
         </Description>
 
-        <div className="border-t border-f1f3f6 my-2"></div>
+        <div className="my-2 border-t border-f1f3f6"></div>
 
         <div className="flex items-start gap-2 mt-3">
           <input
@@ -87,16 +87,16 @@ export const DisclaimerModal = () => {
           />
           <label
             htmlFor="agreement-checkbox"
-            className="text-sm leading-6 text-404040 cursor-pointer"
+            className="text-sm leading-6 cursor-pointer text-404040"
           >
             By visiting this testnet environment, you acknowledge and agree the
             disclaimer as above and/or any changes made to this disclaimer.
           </label>
         </div>
 
-        <div className="w-full flex justify-end gap-6 mt-6">
+        <div className="flex justify-end w-full gap-6 mt-6">
           <button
-            className="border border-4e7dd9 text-h6 font-medium rounded-md p-3 text-4e7dd9 box-border"
+            className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
             onClick={handleDecline}
           >
             Decline

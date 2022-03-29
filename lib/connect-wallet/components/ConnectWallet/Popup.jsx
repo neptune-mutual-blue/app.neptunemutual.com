@@ -34,17 +34,17 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative inline-block min-w-sm max-w-md p-12 my-8 text-left align-middle transition-all rounded-3xl bg-f1f3f6">
+      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block max-w-md p-12 my-8 text-left align-middle transition-all min-w-sm rounded-3xl bg-f1f3f6">
         <Dialog.Title
           as="h3"
-          className="font-sora text-h2 font-bold text-black leading-9"
+          className="font-bold leading-9 text-black font-sora text-h2"
         >
           Connect Wallet
         </Dialog.Title>
 
         <button
           onClick={onClose}
-          className="absolute top-7 right-12 flex justify-center items-center text-black hover:text-4e7dd9 focus:text-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-md focus-visible:ring-offset-transparent"
+          className="absolute flex items-center justify-center text-black rounded-md top-7 right-12 hover:text-4e7dd9 focus:text-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-transparent"
         >
           <span className="sr-only">Close</span>
           <CloseIcon width={24} height={24} />
@@ -59,7 +59,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
         {isConnecting && (
           <>
-            <div className="mt-8 flex justify-left items-center">
+            <div className="flex items-center mt-8 justify-left">
               <Loader />
               <p className="">Connecting</p>
             </div>
