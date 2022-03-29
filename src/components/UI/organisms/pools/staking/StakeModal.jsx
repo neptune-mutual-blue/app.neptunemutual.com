@@ -10,6 +10,7 @@ import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
+import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const StakeModal = ({
   info,
@@ -26,11 +27,13 @@ export const StakeModal = ({
 
   const {
     balance,
+    loadingBalance,
     maxStakableAmount,
     isError,
     errorMsg,
     canDeposit,
     approving,
+    loadingAllowance,
     depositing,
     handleDeposit,
     handleApprove,
@@ -63,6 +66,13 @@ export const StakeModal = ({
   const onDepositSuccess = () => {
     onClose();
   };
+
+  let loadingMessage = "";
+  if (loadingBalance) {
+    loadingMessage = "Fetching balance...";
+  } else if (loadingAllowance) {
+    loadingMessage = "Fetching allowance...";
+  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
@@ -122,23 +132,26 @@ export const StakeModal = ({
           </p>
         </div>
 
-        {!canDeposit ? (
-          <RegularButton
-            disabled={isError || approving || !inputValue}
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            onClick={handleApprove}
-          >
-            {approving ? "Approving..." : <>Approve {stakingTokenSymbol}</>}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            disabled={isError || depositing}
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            onClick={() => handleDeposit(onDepositSuccess)}
-          >
-            {depositing ? "Staking..." : "Stake"}
-          </RegularButton>
-        )}
+        <div className="mt-4">
+          <DataLoadingIndicator message={loadingMessage} />
+          {!canDeposit ? (
+            <RegularButton
+              disabled={isError || approving || !inputValue || loadingMessage}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleApprove}
+            >
+              {approving ? "Approving..." : <>Approve {stakingTokenSymbol}</>}
+            </RegularButton>
+          ) : (
+            <RegularButton
+              disabled={isError || depositing || loadingMessage}
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={() => handleDeposit(onDepositSuccess)}
+            >
+              {depositing ? "Staking..." : "Stake"}
+            </RegularButton>
+          )}
+        </div>
       </ModalWrapper>
     </Modal>
   );
