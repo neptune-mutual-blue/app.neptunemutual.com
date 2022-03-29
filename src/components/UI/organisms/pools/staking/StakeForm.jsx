@@ -43,7 +43,7 @@ export const StakeForm = ({
 
   useEffect(() => {
     setModalDisabled(approving || depositing);
-  }, [approving, depositing]);
+  }, [approving, depositing, setModalDisabled]);
 
   const handleChooseMax = () => {
     setInputValue(convertFromUnits(maxStakableAmount).toString());

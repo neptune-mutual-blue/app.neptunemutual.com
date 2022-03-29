@@ -80,7 +80,7 @@ export const WithdrawLiquidityForm = ({
 
   useEffect(() => {
     setModalDisabled(withdrawing);
-  }, [withdrawing]);
+  }, [setModalDisabled, withdrawing]);
 
   useEffect(() => {
     if (npmValue && isGreater(convertToUnits(npmValue), unStakableAmount)) {

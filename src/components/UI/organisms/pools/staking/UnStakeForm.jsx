@@ -39,7 +39,7 @@ export const UnStakeForm = ({
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, w: withdrawing }));
-  }, [withdrawing]);
+  }, [setModalDisabled, withdrawing]);
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;

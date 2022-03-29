@@ -25,16 +25,16 @@ export const HarvestForm = ({
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));
-  }, [withdrawingRewards]);
+  }, [setModalDisabled, withdrawingRewards]);
 
   return (
     <div className="px-12">
-      <div className="flex justify-between text-sm font-semibold px-1 mt-6">
+      <div className="flex justify-between px-1 mt-6 text-sm font-semibold">
         <span className="capitalize">Your Stake</span>
         <span className="text-right">You Earned</span>
       </div>
-      <div className="flex justify-between text-sm px-1 pt-2">
-        <span className="text-7398C0 uppercase">
+      <div className="flex justify-between px-1 pt-2 text-sm">
+        <span className="uppercase text-7398C0">
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
@@ -43,7 +43,7 @@ export const HarvestForm = ({
             ).long
           }
         </span>
-        <span className="text-right text-7398C0 uppercase inline-flex items-center">
+        <span className="inline-flex items-center text-right uppercase text-7398C0">
           {
             formatCurrency(
               convertFromUnits(rewardAmount),
@@ -63,7 +63,7 @@ export const HarvestForm = ({
 
       <RegularButton
         disabled={withdrawingRewards}
-        className="w-full mt-8 p-6 text-h6 uppercase font-semibold"
+        className="w-full p-6 mt-8 font-semibold uppercase text-h6"
         onClick={handleWithdrawRewards}
       >
         {withdrawingRewards ? "Collecting..." : "Collect"}
