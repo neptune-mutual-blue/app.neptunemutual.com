@@ -163,7 +163,7 @@ const ForceTxModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
+      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center">
           <div className="font-bold font-sora text-h2">
             EVM Error Occurred While Processing Your Request
