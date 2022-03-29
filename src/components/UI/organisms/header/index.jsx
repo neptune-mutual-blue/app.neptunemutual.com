@@ -241,15 +241,15 @@ export const MenuModal = ({
     <div>
       <Root open={isOpen} onOpenChange={onClose}>
         <Portal>
-          <Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl z-40" />
+          <Overlay className="fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
 
-          <Content className="fixed max-h-screen min-w-full px-4 pr-0 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2 z-50">
-            <div className="min-h-screen px-4 text-center flex flex-col justify-between items-end">
-              <div className="w-full flex justify-end max-w-full pt-6 pr-2 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
+          <Content className="fixed z-50 max-h-screen min-w-full px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
+            <div className="flex flex-col items-end justify-between min-h-screen px-4 text-center">
+              <div className="flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
                 <BurgerComponent isOpen={isOpen} onToggle={onClose} />
               </div>
-              <div className="flex-grow flex flex-col justify-between w-full px-6 text-left align-middle transition-all transform shadow-xl sm:px-20 sm:align-baseline rounded-2xl">
-                <div className="flex flex-col max-h-[70vh] overflow-y-auto justify-start">
+              <div className="flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl">
+                <div className="flex flex-col justify-start overflow-y-auto mb-28">
                   {navigation.map((link) => {
                     return (
                       <Link key={link.name} href={link.href}>
@@ -267,7 +267,7 @@ export const MenuModal = ({
                     );
                   })}
                 </div>
-                <div className="mb-12">
+                <div className="py-5 mb-12">
                   <ConnectWallet networkId={networkId} notifier={notifier}>
                     {({ onOpen }) => {
                       let button = (
@@ -292,7 +292,7 @@ export const MenuModal = ({
                         );
                       }
                       return (
-                        <div className="flex justify-between py-5 pr-4">
+                        <div className="flex justify-between">
                           {network} {button}
                           {isAccountDetailsOpen && (
                             <AccountDetailsModal
