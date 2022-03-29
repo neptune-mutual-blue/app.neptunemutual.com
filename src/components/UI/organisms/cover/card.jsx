@@ -3,19 +3,30 @@ import { ProgressBar } from "@/components/UI/atoms/progress-bar";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { CardStatusBadge } from "@/components/CardStatusBadge";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
   const statusInfo = useCoverStatusInfo(key);
-  const data = coverInfo.stats;
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
+  const { commitment } = useCommitment({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
+
+  const liquidity = liquidityInfo.totalLiquidity;
+  const protection = commitment;
+
+  const utilization = toBN(protection)
+    .dividedBy(liquidity)
+    .decimalPlaces(2)
+    .toString();
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -47,31 +58,27 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
         <span className="font-semibold text-right text-h7 lg:text-sm ">
-          {formatPercent(data.utilization)}
+          {formatPercent(utilization)}
         </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={data.utilization} />
+        <ProgressBar value={utilization} />
       </div>
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
           className="flex-1"
-          title={
-            formatCurrency(convertFromUnits(data.protection).toString()).long
-          }
+          title={formatCurrency(convertFromUnits(commitment).toString()).long}
         >
           Protection:{" "}
-          {formatCurrency(convertFromUnits(data.protection).toString()).short}
+          {formatCurrency(convertFromUnits(commitment).toString()).short}
         </div>
 
         <div
           className="flex-1 text-right"
-          title={
-            formatCurrency(convertFromUnits(data.liquidity).toString()).long
-          }
+          title={formatCurrency(convertFromUnits(liquidity).toString()).long}
         >
           Liquidity:{" "}
-          {formatCurrency(convertFromUnits(data.liquidity).toString()).short}
+          {formatCurrency(convertFromUnits(liquidity).toString()).short}
         </div>
       </div>
     </OutlinedCard>

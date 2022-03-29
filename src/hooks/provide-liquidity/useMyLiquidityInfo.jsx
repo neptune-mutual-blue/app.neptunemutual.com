@@ -25,6 +25,7 @@ const defaultInfo = {
   liquidityRemovedByMe: "0",
   myShare: "0",
   myUnrealizedShare: "0",
+  totalLiquidity: "0",
 };
 
 export const useMyLiquidityInfo = ({ coverKey }) => {
@@ -69,6 +70,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         liquidityRemovedByMe: data.liquidityRemovedByMe,
         myShare: data.myShare,
         myUnrealizedShare: data.myUnrealizedShare,
+        totalLiquidity: data.totalLiquidity,
       };
     } catch (err) {
       handleError(err);

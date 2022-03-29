@@ -29,7 +29,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const totalLiquidity = info.vaultStablecoinBalance;
+  const totalLiquidity = info.totalLiquidity;
   const reassuranceAmount = info.totalReassurance;
 
   const handleAcceptRules = () => {

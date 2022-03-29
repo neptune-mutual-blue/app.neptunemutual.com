@@ -118,5 +118,13 @@ export const getKeys = async (chainId, provider, key, account) => {
           .div(podTotalSupply);
       },
     },
+    {
+      returns: "uint256",
+      property: "totalLiquidity",
+      compute: async ({ result }) => {
+        const { vaultStablecoinBalance, amountLentInStrategies } = result;
+        return vaultStablecoinBalance.add(amountLentInStrategies);
+      },
+    },
   ];
 };

@@ -37,7 +37,7 @@ export const CoverPurchaseDetailsPage = () => {
   };
 
   const imgSrc = getCoverImgSrc(coverInfo);
-  const totalLiquidity = info.vaultStablecoinBalance;
+  const totalLiquidity = info.totalLiquidity;
 
   return (
     <main>
