@@ -29,6 +29,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
 import { TokenAmountWithPrefix } from "@/components/TokenAmountWithPrefix";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
@@ -137,7 +138,7 @@ export const WithdrawLiquidityModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={withdrawing}>
-      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <ModalWrapper>
         <Dialog.Title className="flex font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
@@ -146,121 +147,122 @@ export const WithdrawLiquidityModal = ({
           disabled={withdrawing}
           onClick={onClose}
         ></ModalCloseButton>
-
-        <div className="mt-6">
-          <TokenAmountInput
-            labelText={"Enter Npm Amount"}
-            tokenSymbol={npmTokenSymbol}
-            handleChooseMax={handleChooseNpmMax}
-            inputValue={npmValue}
-            id={"my-staked-amount"}
-            onChange={handleNpmChange}
-            tokenAddress={NPMTokenAddress}
-          >
-            {isGreater(myStake, "0") && (
+        <div className="overflow-y-auto max-h-[70vh] pr-2">
+          <div className="mt-6">
+            <TokenAmountInput
+              labelText={"Enter Npm Amount"}
+              tokenSymbol={npmTokenSymbol}
+              handleChooseMax={handleChooseNpmMax}
+              inputValue={npmValue}
+              id={"my-staked-amount"}
+              onChange={handleNpmChange}
+              tokenAddress={NPMTokenAddress}
+            >
+              {isGreater(myStake, "0") && (
+                <TokenAmountWithPrefix
+                  amountInUnits={myStake}
+                  prefix="Your Stake: "
+                  symbol={npmTokenSymbol}
+                />
+              )}
               <TokenAmountWithPrefix
-                amountInUnits={myStake}
-                prefix="Your Stake: "
+                amountInUnits={minStakeToAddLiquidity}
+                prefix="Minimum Stake: "
                 symbol={npmTokenSymbol}
               />
-            )}
-            <TokenAmountWithPrefix
-              amountInUnits={minStakeToAddLiquidity}
-              prefix="Minimum Stake: "
-              symbol={npmTokenSymbol}
+              {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
+            </TokenAmountInput>
+          </div>
+          <div className="mt-6">
+            <TokenAmountInput
+              labelText={"Enter your POD"}
+              tokenSymbol={vaultTokenSymbol}
+              handleChooseMax={handleChoosePodMax}
+              inputValue={podValue}
+              id={"my-liquidity-amount"}
+              onChange={handlePodChange}
+              tokenBalance={balance}
+              tokenAddress={vaultTokenAddress}
             />
-            {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
-          </TokenAmountInput>
-        </div>
-        <div className="mt-6">
-          <TokenAmountInput
-            labelText={"Enter your POD"}
-            tokenSymbol={vaultTokenSymbol}
-            handleChooseMax={handleChoosePodMax}
-            inputValue={podValue}
-            id={"my-liquidity-amount"}
-            onChange={handlePodChange}
-            tokenBalance={balance}
-            tokenAddress={vaultTokenAddress}
-          />
-          {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
-        </div>
-        <div className="mt-6 modal-unlock">
-          <ReceiveAmountInput
-            labelText="You Will Receive"
-            tokenSymbol={liquidityTokenSymbol}
-            inputValue={formatAmount(
-              convertFromUnits(receiveAmount).toString()
+            {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
+          </div>
+          <div className="mt-6 modal-unlock">
+            <ReceiveAmountInput
+              labelText="You Will Receive"
+              tokenSymbol={liquidityTokenSymbol}
+              inputValue={formatAmount(
+                convertFromUnits(receiveAmount).toString()
+              )}
+              inputId="my-liquidity-receive"
+            />
+          </div>
+
+          <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
+            NEXT UNLOCK CYCLE
+          </h5>
+          <div>
+            <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
+              <strong>Open: </strong>
+              {DateLib.toLongDateFormat(info.withdrawalOpen)}
+            </span>
+          </div>
+          <div>
+            <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
+              <strong>Close: </strong>
+              {DateLib.toLongDateFormat(info.withdrawalClose)}
+            </span>
+          </div>
+
+          <div className="mt-4">
+            {!isAccrualComplete && (
+              <p className="text-FA5C2F">Wait for accrual</p>
             )}
-            inputId="my-liquidity-receive"
-          />
+            <DataLoadingIndicator message={loadingMessage} />
+            {!canWithdraw ? (
+              <RegularButton
+                onClick={handleApprove}
+                className="w-full p-6 font-semibold uppercase text-h6"
+                disabled={
+                  approving ||
+                  npmErrorMsg ||
+                  podErrorMsg ||
+                  receiveAmountLoading ||
+                  !npmValue ||
+                  !podValue ||
+                  loadingBalance ||
+                  loadingAllowance ||
+                  !isAccrualComplete
+                }
+              >
+                {approving ? "Approving.." : "Approve"}
+              </RegularButton>
+            ) : (
+              <RegularButton
+                onClick={() => {
+                  handleWithdraw(() => {
+                    setPodValue("");
+                    setNpmValue("");
+                  });
+                }}
+                className="w-full p-6 font-semibold uppercase text-h6"
+                disabled={
+                  withdrawing ||
+                  npmErrorMsg ||
+                  podErrorMsg ||
+                  receiveAmountLoading ||
+                  !npmValue ||
+                  !podValue ||
+                  loadingBalance ||
+                  loadingAllowance ||
+                  !isAccrualComplete
+                }
+              >
+                {withdrawing ? "Withdrawing.." : "Withdraw"}
+              </RegularButton>
+            )}
+          </div>
         </div>
-
-        <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
-          NEXT UNLOCK CYCLE
-        </h5>
-        <div>
-          <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
-            <strong>Open: </strong>
-            {DateLib.toLongDateFormat(info.withdrawalOpen)}
-          </span>
-        </div>
-        <div>
-          <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
-            <strong>Close: </strong>
-            {DateLib.toLongDateFormat(info.withdrawalClose)}
-          </span>
-        </div>
-
-        <div className="mt-4">
-          {!isAccrualComplete && (
-            <p className="text-FA5C2F">Wait for accrual</p>
-          )}
-          <DataLoadingIndicator message={loadingMessage} />
-          {!canWithdraw ? (
-            <RegularButton
-              onClick={handleApprove}
-              className="w-full p-6 font-semibold uppercase text-h6"
-              disabled={
-                approving ||
-                npmErrorMsg ||
-                podErrorMsg ||
-                receiveAmountLoading ||
-                !npmValue ||
-                !podValue ||
-                loadingBalance ||
-                loadingAllowance ||
-                !isAccrualComplete
-              }
-            >
-              {approving ? "Approving.." : "Approve"}
-            </RegularButton>
-          ) : (
-            <RegularButton
-              onClick={() => {
-                handleWithdraw(() => {
-                  setPodValue("");
-                  setNpmValue("");
-                });
-              }}
-              className="w-full p-6 font-semibold uppercase text-h6"
-              disabled={
-                withdrawing ||
-                npmErrorMsg ||
-                podErrorMsg ||
-                receiveAmountLoading ||
-                !npmValue ||
-                !podValue ||
-                loadingBalance ||
-                loadingAllowance ||
-                !isAccrualComplete
-              }
-            >
-              {withdrawing ? "Withdrawing.." : "Withdraw"}
-            </RegularButton>
-          )}
-        </div>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

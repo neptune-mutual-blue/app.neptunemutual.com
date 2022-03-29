@@ -8,6 +8,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -34,11 +35,11 @@ export const ResolveIncident = ({
         <CountDownTimer title="Resolving in" target={resolvableTill} />
       )}
 
-      <div className="flex flex-wrap gap-10 mb-16 w-auto">
+      <div className="flex flex-wrap w-auto gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
             disabled={resolving}
-            className="px-10 py-4 w-full md:w-80  font-semibold uppercase"
+            className="w-full px-10 py-4 font-semibold uppercase md:w-80"
             onClick={async () => {
               await resolve();
               setTimeout(refetchReport, 15000);
@@ -49,7 +50,7 @@ export const ResolveIncident = ({
         )}
 
         <RegularButton
-          className="px-10 py-4 w-full md:w-80 font-semibold uppercase"
+          className="w-full px-10 py-4 font-semibold uppercase md:w-80"
           onClick={() => setIsOpen(true)}
         >
           Emergency Resolve
@@ -87,14 +88,14 @@ const EmergencyResolveModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={emergencyResolving}>
-      <div className="max-w-xl w-full inline-block bg-f1f3f6 align-middle text-left p-12 rounded-3xl relative">
+      <ModalWrapper>
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
             alt={logoAlt}
             src={logoSource}
           />
-          <div className="font-sora font-bold text-h2">
+          <div className="font-bold font-sora text-h2">
             Emergency Resolution
           </div>
         </Dialog.Title>
@@ -122,7 +123,7 @@ const EmergencyResolveModal = ({
 
         <RegularButton
           disabled={emergencyResolving}
-          className="px-10 py-4 mt-12 w-full font-semibold uppercase"
+          className="w-full px-10 py-4 mt-12 font-semibold uppercase"
           onClick={async () => {
             await emergencyResolve(decision === "true");
             setTimeout(refetchReport, 15000);
@@ -135,7 +136,7 @@ const EmergencyResolveModal = ({
           disabled={emergencyResolving}
           onClick={onClose}
         ></ModalCloseButton>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

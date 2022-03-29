@@ -9,6 +9,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 
 export const StakeModal = ({
@@ -75,7 +76,7 @@ export const StakeModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
-      <div className="relative inline-block w-full max-w-xl p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <ModalWrapper>
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
@@ -151,7 +152,7 @@ export const StakeModal = ({
             </RegularButton>
           )}
         </div>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

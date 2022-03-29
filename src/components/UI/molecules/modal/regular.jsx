@@ -1,12 +1,24 @@
+import { classNames } from "@/utils/classnames";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 
-export const Modal = ({ isOpen = false, children, onClose, disabled }) => (
+export const Modal = ({
+  isOpen = false,
+  children,
+  onClose,
+  disabled,
+  overlayClass = "",
+}) => (
   <Root open={isOpen} onOpenChange={disabled ? () => {} : () => onClose()}>
     <Portal>
-      <Overlay className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 z-40" />
+      <Overlay
+        className={classNames(
+          "fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-50",
+          overlayClass
+        )}
+      />
 
-      <Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto max-h-screen max-w-full w-max z-50">
-        <div className="p-6">{children}</div>
+      <Content className="fixed z-50 max-w-full max-h-screen px-3 py-6 overflow-y-auto transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max sm:p-0">
+        {children}
       </Content>
     </Portal>
   </Root>

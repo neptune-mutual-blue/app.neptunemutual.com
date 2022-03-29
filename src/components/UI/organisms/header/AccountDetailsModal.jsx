@@ -10,6 +10,7 @@ import CheckCircleIcon from "@/icons/CheckCircleIcon";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { Toggle } from "@/components/common/Toggle";
 import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 const CopyAddressComponent = ({ account }) => {
   const [copyAddress, setCopyAddress] = useState(false);
@@ -63,8 +64,8 @@ export const AccountDetailsModal = ({
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="relative inline-block max-w-xs px-6 py-4 my-8 overflow-y-auto text-left align-middle transition-all sm:py-12 sm:px-16 sm:max-w-xl max-h-90vh rounded-3xl bg-f1f3f6">
+    <Modal isOpen={isOpen} onClose={onClose} overlayClass="backdrop-blur-sm">
+      <ModalWrapper className="max-w-xs px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-16 sm:max-w-xl">
         <Dialog.Title
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
@@ -132,7 +133,7 @@ export const AccountDetailsModal = ({
             this box.
           </p>
         </div>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

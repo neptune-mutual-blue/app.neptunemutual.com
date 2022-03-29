@@ -12,6 +12,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -116,7 +117,7 @@ const UnstakeModal = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <div className="relative inline-block max-w-xl p-12 text-left align-middle sm:min-w-500 w-96 sm:w-auto bg-f1f3f6 rounded-3xl">
+      <ModalWrapper className="sm:min-w-500 md:min-w-600">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
@@ -143,7 +144,7 @@ const UnstakeModal = ({
           disabled={unstaking}
           onClick={onClose}
         ></ModalCloseButton>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

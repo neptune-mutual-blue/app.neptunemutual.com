@@ -9,6 +9,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { useClaimBond } from "@/src/hooks/useClaimBond";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -22,7 +23,7 @@ export const ClaimBondModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={claiming}>
-      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <ModalWrapper className="sm:min-w-600">
         <Dialog.Title className="font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
@@ -64,7 +65,7 @@ export const ClaimBondModal = ({
         >
           {claiming ? "Claiming..." : "Claim Now"}
         </RegularButton>
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

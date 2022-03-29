@@ -74,7 +74,7 @@ export const ClaimCoverModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} disabled={approving || claiming}>
-      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle max-h-90vh bg-f1f3f6 rounded-3xl">
+      <div className="relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-300 lg:min-w-600 max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center w-full font-bold font-sora text-h2">
           <img src={imgSrc} alt="policy" height={48} width={48} />
           <span className="pl-3">{modalTitle}</span>
