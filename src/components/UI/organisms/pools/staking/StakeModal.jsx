@@ -1,3 +1,4 @@
+import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
@@ -14,15 +15,16 @@ export const StakeModal = ({
   stakingTokenSymbol,
   lockupPeriod,
 }) => {
+  const [isDisabled, setIsDisabled] = useState(false);
   return (
-    <Modal isOpen={isOpen} onClose={onClose} disabled={approving || depositing}>
+    <Modal isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
       <ModalWrapper>
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>
 
         <ModalCloseButton
-          disabled={approving || depositing}
+          disabled={isDisabled}
           onClick={onClose}
         ></ModalCloseButton>
 
@@ -33,6 +35,7 @@ export const StakeModal = ({
           onClose={onClose}
           stakingTokenSymbol={stakingTokenSymbol}
           lockupPeriod={lockupPeriod}
+          setModalDisabled={setIsDisabled}
         />
       </ModalWrapper>
     </Modal>

@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";
 import { HarvestForm } from "@/components/UI/organisms/pools/staking/HarvestForm";
 import { UnStakeForm } from "@/components/UI/organisms/pools/staking/UnStakeForm";
-import {
-  useStakingPoolWithdraw,
-  useStakingPoolWithdrawRewards,
-} from "@/src/hooks/useStakingPoolWithdraw";
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 const headers = [
@@ -36,36 +32,13 @@ export const CollectRewardModal = ({
   modalTitle,
 }) => {
   const [activeTab, setActiveTab] = useState(headers[0].name);
-
-  const { handleWithdrawRewards, withdrawingRewards } =
-    useStakingPoolWithdrawRewards({
-      poolKey,
-      refetchInfo,
-    });
-
-  //unstake form
-  const [inputValue, setInputValue] = useState();
-
-  const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
-    value: inputValue,
-    tokenAddress: info.stakingToken,
-    tokenSymbol: stakingTokenSymbol,
-    poolKey,
-    refetchInfo,
-  });
-
-  // Clear on modal close
-  useEffect(() => {
-    if (isOpen) return;
-
-    setInputValue();
-  }, [isOpen]);
+  const [isDisabled, setIsDisabled] = useState({ w: false, wr: false });
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      disabled={withdrawingRewards || withdrawing}
+      disabled={isDisabled.w || isDisabled.wr}
     >
       <ModalWrapper className="sm:min-w-600">
         <div className="px-12">
@@ -75,7 +48,7 @@ export const CollectRewardModal = ({
         </div>
 
         <ModalCloseButton
-          disabled={withdrawingRewards || withdrawing}
+          disabled={isDisabled.w || isDisabled.wr}
           onClick={onClose}
         ></ModalCloseButton>
 
@@ -93,8 +66,9 @@ export const CollectRewardModal = ({
               rewardTokenAddress={rewardTokenAddress}
               stakingTokenSymbol={stakingTokenSymbol}
               rewardTokenSymbol={rewardTokenSymbol}
-              handleWithdrawRewards={handleWithdrawRewards}
-              withdrawingRewards={withdrawingRewards}
+              poolKey={poolKey}
+              refetchInfo={refetchInfo}
+              setModalDisabled={setIsDisabled}
             />
           ) : (
             <UnStakeForm
@@ -102,10 +76,8 @@ export const CollectRewardModal = ({
               poolKey={poolKey}
               stakedAmount={stakedAmount}
               stakingTokenSymbol={stakingTokenSymbol}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              handleWithdraw={handleWithdraw}
-              withdrawing={withdrawing}
+              refetchInfo={refetchInfo}
+              setModalDisabled={setIsDisabled}
             />
           )}
         </div>
