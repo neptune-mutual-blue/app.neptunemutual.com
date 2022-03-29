@@ -40,8 +40,13 @@ export const useStakingPoolDeposit = ({
     allowance,
     approve,
     refetch: updateAllowance,
+    loading: loadingAllowance,
   } = useERC20Allowance(tokenAddress);
-  const { balance, refetch: updateBalance } = useERC20Balance(tokenAddress);
+  const {
+    balance,
+    refetch: updateBalance,
+    loading: loadingBalance,
+  } = useERC20Balance(tokenAddress);
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
@@ -218,12 +223,16 @@ export const useStakingPoolDeposit = ({
 
   return {
     balance,
+    loadingBalance,
+
     maxStakableAmount,
 
     isError,
     errorMsg: error,
 
     approving,
+    loadingAllowance,
+
     depositing,
 
     canDeposit,
