@@ -44,7 +44,7 @@ export const MyLiquidityCoverPage = () => {
 
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const totalLiquidity = info.vaultStablecoinBalance;
+  const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;
   const myEarnings = toBN(info.myUnrealizedShare)
     .plus(info.liquidityRemovedByMe)

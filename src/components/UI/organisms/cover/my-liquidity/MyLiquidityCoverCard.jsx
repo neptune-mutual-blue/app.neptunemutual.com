@@ -19,7 +19,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const reassurancePercent = toBN(info.totalReassurance)
-    .dividedBy(sumOf(info.vaultStablecoinBalance, info.totalReassurance))
+    .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
     .decimalPlaces(2);
 
   return (
