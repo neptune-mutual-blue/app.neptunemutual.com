@@ -198,7 +198,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     });
   };
 
-  const handleBond = async () => {
+  const handleBond = async (onTxSuccess) => {
     setBonding(true);
 
     const cleanup = () => {
@@ -220,11 +220,17 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: "Creating bond",
-          success: "Created bond successfully",
-          failure: "Could not create bond",
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: "Creating bond",
+            success: "Created bond successfully",
+            failure: "Could not create bond",
+          },
+          {
+            onTxSuccess,
+          }
+        );
         cleanup();
       };
 

@@ -54,7 +54,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
           href={getTokenLink(networkId, tokenAddress, account)}
           target="_blank"
           className="ml-3"
-          rel="noreferrer"
+          rel="noreferrer nofollow"
         >
           <span className="sr-only">Open In Explorer</span>
           <OpenInNewIcon width={20} fill="currentColor" />

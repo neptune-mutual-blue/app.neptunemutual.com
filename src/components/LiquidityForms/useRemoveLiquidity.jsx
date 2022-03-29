@@ -30,7 +30,7 @@ export const useRemoveLiquidity = ({
     updatePodBalance,
     // Both NPM and DAI should be updated after withdrawal is successful
     updateLqTokenBalance,
-    updateStakeBalance,
+    updateStakingTokenBalance,
   } = useLiquidityFormsContext();
   const {
     allowance,
@@ -101,7 +101,7 @@ export const useRemoveLiquidity = ({
       // Both NPM and DAI should be updated after withdrawal is successful
       // Will be reflected in provide liquidity form
       updateLqTokenBalance();
-      updateStakeBalance();
+      updateStakingTokenBalance();
     };
 
     const handleError = (err) => {

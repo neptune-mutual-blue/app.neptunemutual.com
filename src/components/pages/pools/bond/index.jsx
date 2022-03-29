@@ -189,9 +189,10 @@ const BondPage = () => {
             <RegularButton
               disabled={error || bonding || loadingMessage}
               className="w-full p-6 font-semibold uppercase text-h6"
-              onClick={async () => {
-                await handleBond();
-                refetchBondInfo();
+              onClick={() => {
+                handleBond(() => {
+                  setValue("");
+                });
               }}
             >
               {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
@@ -207,7 +208,7 @@ const BondPage = () => {
               NPMTokenAddress,
             })}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             className="inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline"
           >
             Get LP tokens
