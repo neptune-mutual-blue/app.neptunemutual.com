@@ -17,5 +17,6 @@ export const getUnstakeInfoFor = async (
     return stringifyProps(result);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

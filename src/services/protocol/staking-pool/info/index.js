@@ -10,5 +10,6 @@ export const getInfo = async (chainId, type, poolKey, account, provider) => {
     return stringifyProps(result);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };

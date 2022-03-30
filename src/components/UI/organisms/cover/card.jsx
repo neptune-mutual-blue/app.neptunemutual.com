@@ -22,11 +22,9 @@ export const CoverCard = ({ details }) => {
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;
-
-  const utilization = toBN(protection)
-    .dividedBy(liquidity)
-    .decimalPlaces(2)
-    .toString();
+  const utilization = toBN(liquidity).isEqualTo(0)
+    ? "0"
+    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
