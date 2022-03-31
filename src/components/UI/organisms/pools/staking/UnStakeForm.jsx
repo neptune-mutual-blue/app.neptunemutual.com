@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
 import { useBlockHeight } from "@/src/hooks/useBlockHeight";
+import { useStakingPoolWithdraw } from "@/src/hooks/useStakingPoolWithdraw";
 import {
   convertFromUnits,
   convertToUnits,
@@ -13,12 +15,31 @@ export const UnStakeForm = ({
   info,
   stakingTokenSymbol,
   stakedAmount,
-  withdrawing,
-  handleWithdraw,
-  inputValue,
-  setInputValue,
+  refetchInfo,
+  poolKey,
+  setModalDisabled,
 }) => {
   const blockHeight = useBlockHeight();
+
+  const [inputValue, setInputValue] = useState();
+
+  const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
+    value: inputValue,
+    tokenAddress: info.stakingToken,
+    tokenSymbol: stakingTokenSymbol,
+    poolKey,
+    refetchInfo,
+  });
+
+  useEffect(() => {
+    return () => {
+      setInputValue("");
+    };
+  }, []);
+
+  useEffect(() => {
+    setModalDisabled((val) => ({ ...val, w: withdrawing }));
+  }, [setModalDisabled, withdrawing]);
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;
