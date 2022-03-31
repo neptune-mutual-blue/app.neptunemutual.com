@@ -10,5 +10,6 @@ export const getInfo = async (chainId, coverKey, account, provider) => {
     return stringifyProps(result);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
