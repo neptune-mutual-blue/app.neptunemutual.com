@@ -9,7 +9,7 @@ export const getApr = (chainId, info) => {
   const rewardPerYear = rewardPerBlock.multipliedBy(blocksPerYear);
 
   if (stakingTokenPrice.isEqualTo("0")) {
-    return 0;
+    return "0";
   }
 
   const result = rewardPerYear
@@ -17,5 +17,5 @@ export const getApr = (chainId, info) => {
     .dividedBy(stakingTokenPrice)
     .toString();
 
-  return convertFromUnits(result);
+  return convertFromUnits(result).toString();
 };
