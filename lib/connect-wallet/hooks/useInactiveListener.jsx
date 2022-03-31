@@ -61,7 +61,7 @@ export function useInactiveListener(networkId, notifier) {
         }
       };
     }
-  }, []);
+  }, [logout, networkId]);
 
   useEffect(() => {
     const { BinanceChain } = window;
