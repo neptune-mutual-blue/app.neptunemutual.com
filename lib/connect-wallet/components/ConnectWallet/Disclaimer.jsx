@@ -4,7 +4,9 @@ export const Disclaimer = () => {
       By connecting a wallet, you agree to Neptune Mutual
       <a
         className="font-medium text-4e7dd9 hover:text-black hover:underline"
-        href="#"
+        href="https://docs.neptunemutual.com/usage/terms-of-use"
+        target="_blank"
+        rel="noreferrer noopener nofollow"
       >
         {" "}
         Terms &amp; Conditions{" "}
@@ -12,7 +14,9 @@ export const Disclaimer = () => {
       and acknowledge that you have read and understand the Neptune Mutual
       <a
         className="font-medium text-4e7dd9 hover:text-black hover:underline"
-        href="#"
+        href="https://docs.neptunemutual.com/usage/disclaimer"
+        target="_blank"
+        rel="noreferrer noopener nofollow"
       >
         {" "}
         Protocol Disclaimer
