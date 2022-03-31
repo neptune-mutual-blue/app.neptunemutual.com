@@ -11,12 +11,21 @@ export function useInactiveListener(networkId, notifier) {
   useEffect(() => {
     const { ethereum } = window;
 
-    ethereum.on("chainChanged", async (chainId) => {
-      let chainIdOnChange = await parseInt(chainId);
-      if (networkId !== chainIdOnChange) {
-        logout();
-      }
-    });
+    if (ethereum && ethereum.on) {
+      const handleChainChanged = async (chainId) => {
+        let chainIdOnChange = await parseInt(chainId);
+        if (networkId !== chainIdOnChange) {
+          logout();
+        }
+      };
+      ethereum.on("chainChanged", handleChainChanged);
+
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener("chainChanged", handleChainChanged);
+        }
+      };
+    }
 
     const connectorName = window.localStorage.getItem(ACTIVE_CONNECTOR_KEY);
 
