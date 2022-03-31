@@ -11,6 +11,13 @@ export function useInactiveListener(networkId, notifier) {
   useEffect(() => {
     const { ethereum } = window;
 
+    ethereum.on("chainChanged", async (chainId) => {
+      let chainIdOnChange = await parseInt(chainId);
+      if (networkId !== chainIdOnChange) {
+        logout();
+      }
+    });
+
     const connectorName = window.localStorage.getItem(ACTIVE_CONNECTOR_KEY);
 
     if (connectorName !== ConnectorNames.Injected) {
@@ -41,7 +48,7 @@ export function useInactiveListener(networkId, notifier) {
         }
       };
     }
-  }, [active, error, activate, login, logout]);
+  }, [active, error, activate, login, logout, networkId]);
 
   useEffect(() => {
     const { BinanceChain } = window;
