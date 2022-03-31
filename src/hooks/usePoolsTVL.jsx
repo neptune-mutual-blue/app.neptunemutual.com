@@ -5,7 +5,7 @@ import { useQuery } from "@/src/hooks/useQuery";
 import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
 import { getPricingData } from "@/src/helpers/pricing";
-import { sumOf, toBN } from "@/utils/bn";
+import { isEqualTo, sumOf, toBN } from "@/utils/bn";
 
 const getQuery = () => {
   return `
@@ -91,6 +91,10 @@ export const usePoolsTVL = (NPMTokenAddress) => {
       for (let j = 0; j < item.data.length; j++) {
         const tokenData = item.data[j];
         if (tokenData.address.toLowerCase() == address.toLowerCase()) {
+          if (isEqualTo(tokenData.amount, "0")) {
+            return "0";
+          }
+
           return toBN(tokenData.price).dividedBy(tokenData.amount).toString();
         }
       }

@@ -1,5 +1,5 @@
 import { DAYS, MULTIPLIER } from "@/src/config/constants";
-import { toBN } from "@/utils/bn";
+import { isGreater, toBN } from "@/utils/bn";
 
 export const getDiscountedPrice = (discountRate, npmPrice) => {
   const discountedPrice = (npmPrice * (MULTIPLIER - discountRate)) / MULTIPLIER;
@@ -20,7 +20,9 @@ export const calcBondPoolTVL = (bondPool, networkId, NPMTokenAddress) => {
   const bondClaimed = bondPool.totalBondClaimed;
   const bondLpTokensAdded = bondPool.totalLpAddedToBond;
 
-  const bondNpmBalance = toBN(bondInitialNpm).minus(bondClaimed).toString();
+  const bondNpmBalance = isGreater(bondInitialNpm, bondClaimed)
+    ? toBN(bondInitialNpm).minus(bondClaimed).toString()
+    : "0";
 
   return {
     id: bondPool.id,
