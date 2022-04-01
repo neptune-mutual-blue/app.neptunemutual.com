@@ -46,6 +46,7 @@ export const usePurchasePolicy = ({
     allowance,
     approve,
     refetch: updateAllowance,
+    loading: updatingAllowance,
   } = useERC20Allowance(liquidityTokenAddress);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
@@ -141,7 +142,7 @@ export const usePurchasePolicy = ({
 
     const cleanup = () => {
       setPurchasing(false);
-      updateAllowance();
+      updateAllowance(policyContractAddress);
       updateBalance();
     };
 
@@ -208,6 +209,7 @@ export const usePurchasePolicy = ({
     balance,
     allowance,
     approving,
+    updatingAllowance,
     purchasing,
     canPurchase,
     error,

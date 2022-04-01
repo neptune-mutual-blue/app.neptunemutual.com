@@ -43,6 +43,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     handleApprove,
     handlePurchase,
     updatingBalance,
+    updatingAllowance,
   } = usePurchasePolicy({
     value,
     coverMonth,
@@ -76,6 +77,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   let loadingMessage = "";
   if (updatingFee) {
     loadingMessage = "Fetching...";
+  } else if (updatingAllowance) {
+    loadingMessage = "Fetching Allowance...";
   } else if (updatingBalance) {
     loadingMessage = "Fetching Balance...";
   }
