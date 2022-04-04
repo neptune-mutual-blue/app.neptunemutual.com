@@ -56,10 +56,19 @@ export const InputWithTrailingButton = ({
           sep.decimal
         }$`
       );
+
+      // regex to identify if there are 0s at the end
+      const endZeroRegex = new RegExp(
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
+          sep.thousand
+        }\\d+)*\\${sep.decimal}\\d*0+$`
+      );
+
       if (
         val !== "" &&
         (val.match(incompleteRegex) ||
-          (inputProps.allowNegative && val === "-"))
+          (inputProps.allowNegative && val === "-") ||
+          val.match(endZeroRegex))
       ) {
         return setVal(val);
       }
