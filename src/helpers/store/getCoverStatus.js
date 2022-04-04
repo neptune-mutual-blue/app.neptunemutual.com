@@ -42,6 +42,6 @@ export const getCoverStatus = async (networkId, coverKey, provider) => {
     activeIncidentDate: result.activeIncidentDate,
     status: CoverStatus[result.status],
     whitelisted: result.whitelisted,
-    requires_whitelist: result.requires_whitelist,
+    requiresWhitelist: result.requiresWhitelist,
   };
 };
