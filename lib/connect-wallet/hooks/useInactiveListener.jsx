@@ -41,7 +41,27 @@ export function useInactiveListener(networkId, notifier) {
         }
       };
     }
-  }, [active, error, activate, login, logout]);
+  }, [active, error, activate, login, logout, networkId]);
+
+  useEffect(() => {
+    const { ethereum } = window;
+
+    if (ethereum && ethereum.on) {
+      const handleChainChanged = async (chainId) => {
+        let chainIdOnChange = await parseInt(chainId);
+        if (networkId !== chainIdOnChange) {
+          logout();
+        }
+      };
+      ethereum.on("chainChanged", handleChainChanged);
+
+      return () => {
+        if (ethereum.removeListener) {
+          ethereum.removeListener("chainChanged", handleChainChanged);
+        }
+      };
+    }
+  }, [logout, networkId]);
 
   useEffect(() => {
     const { BinanceChain } = window;
