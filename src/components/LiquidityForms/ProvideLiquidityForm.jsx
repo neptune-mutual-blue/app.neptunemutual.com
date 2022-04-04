@@ -25,6 +25,9 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/components/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/components/LiquidityForms/LiquidityFormsContext";
+import { useToast } from "@/lib/toast/context";
+import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -36,6 +39,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+
+  const toast = useToast();
 
   const statusInfo = useCoverStatusInfo(coverKey);
   const {
@@ -67,6 +72,15 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     coverKey,
     value: lqValue,
   });
+
+  const ViewToastLiquidityLink = () => (
+    <Link href="/my-liquidity">
+      <a className="flex items-center">
+        <span className="inline-block">View provided liquidity</span>
+        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
+      </a>
+    </Link>
+  );
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
@@ -111,6 +125,14 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const handleLqChange = (val) => {
     setLqValue(val);
+  };
+
+  const handleSuccessViewProvidedLiquidity = () => {
+    toast?.pushSuccess({
+      title: "Added Liquidity Successfully",
+      message: <ViewToastLiquidityLink />,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
@@ -273,6 +295,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handleProvide(() => {
+                handleSuccessViewProvidedLiquidity();
                 setNPMValue("");
                 setLqValue("");
               });

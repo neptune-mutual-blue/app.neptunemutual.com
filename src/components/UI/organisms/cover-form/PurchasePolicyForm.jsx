@@ -20,6 +20,9 @@ import { Alert } from "@/components/UI/atoms/alert";
 import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import { useToast } from "@/lib/toast/context";
+import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -28,6 +31,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const statusInfo = useCoverStatusInfo(coverKey);
+  const toast = useToast();
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -51,6 +55,15 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: feeData.fee,
   });
 
+  const ViewToastPoliciesLink = () => (
+    <Link href="/my-policies/active">
+      <a className="flex items-center">
+        <span className="inline-block">View purchased policies</span>
+        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
+      </a>
+    </Link>
+  );
+
   const handleChange = (val) => {
     if (typeof val === "string") {
       setValue(val);
@@ -66,6 +79,14 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       return;
     }
     setValue(convertFromUnits(balance).toString());
+  };
+
+  const handleSuccessViewPurchasedPolicies = () => {
+    toast?.pushSuccess({
+      title: "Purchased Policy Successfully",
+      message: <ViewToastPoliciesLink />,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
   };
 
   const now = new Date();
@@ -207,6 +228,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handlePurchase(() => {
+                handleSuccessViewPurchasedPolicies();
                 setValue("");
                 setCoverMonth();
               });
