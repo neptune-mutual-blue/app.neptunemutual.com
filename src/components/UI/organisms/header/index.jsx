@@ -16,6 +16,7 @@ import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { Trans } from "@lingui/macro";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -99,6 +100,23 @@ export const Header = () => {
     setIsAccountDetailsOpen(false);
   };
 
+  function menuTranslations(linkName) {
+    switch (linkName) {
+      case "Home":
+        return <Trans>Home</Trans>;
+      case "Pool":
+        return <Trans>Pool</Trans>;
+      case "My Policies":
+        return <Trans>My Policies</Trans>;
+      case "My Liquidity":
+        return <Trans> My Liquidity</Trans>;
+      case "Reporting":
+        return <Trans>Reporting</Trans>;
+      default:
+        break;
+    }
+  }
+
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
   const network = (
@@ -136,7 +154,7 @@ export const Header = () => {
                           : "border-transparent text-999BAB"
                       )}
                     >
-                      {link.name}
+                      {menuTranslations(link.name)}
                     </a>
                   </Link>
                 );

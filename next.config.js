@@ -1,4 +1,5 @@
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+const { i18n } = require("./i18n.config");
 const http = require("./http");
 
 module.exports = (phase, { _c }) => {
@@ -16,6 +17,15 @@ module.exports = (phase, { _c }) => {
     },
     redirects: async () => {
       return http.redirects;
+    },
+    i18n,
+    webpack: (config) => {
+      config.module.rules.push({
+        test: /\.po/,
+        use: ["@lingui/loader"],
+      });
+
+      return config;
     },
   };
 };
