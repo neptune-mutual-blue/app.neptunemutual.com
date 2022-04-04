@@ -13,6 +13,17 @@ export const getCoverStatus = async (networkId, coverKey, provider) => {
       },
     },
     {
+      key: [utils.keyUtil.PROTOCOL.NS.COVER_USER_WHITELIST, coverKey],
+      returns: "bool",
+      property: "whitelisted",
+    },
+    {
+      key: [utils.keyUtil.PROTOCOL.NS.COVER_REQUIRES_WHITELIST, coverKey],
+      returns: "bool",
+      property: "requiresWhitelist",
+    },
+
+    {
       key: [
         utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_INCIDENT_DATE,
         coverKey,
@@ -30,5 +41,7 @@ export const getCoverStatus = async (networkId, coverKey, provider) => {
   return {
     activeIncidentDate: result.activeIncidentDate,
     status: CoverStatus[result.status],
+    whitelisted: result.whitelisted,
+    requires_whitelist: result.requires_whitelist,
   };
 };
