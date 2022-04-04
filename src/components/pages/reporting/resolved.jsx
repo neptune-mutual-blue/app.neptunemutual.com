@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
@@ -8,6 +10,8 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { sortDataCovers } from "@/utils/sorting";
 
 export const ReportingResolvedPage = () => {
   const { data, loading } = useResolvedReportings();
@@ -20,8 +24,21 @@ export const ReportingResolvedPage = () => {
     },
   });
 
+  const [sortType, setSortType] = useState("");
+  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
+
+  const filteredResolvedCardInfo = filtered.map((item) => {
+    const resolvedCardInfo = getInfoByKey(item.key);
+
+    return { ...resolvedCardInfo, resolvedReporting: item };
+  });
+
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
+  };
+
+  const handleShowMore = () => {
+    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   const isEmpty = data.incidentReports.length === 0;
@@ -32,6 +49,8 @@ export const ReportingResolvedPage = () => {
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={searchHandler}
+          sortType={sortType}
+          setSortType={setSortType}
         />
       </div>
 
@@ -40,29 +59,41 @@ export const ReportingResolvedPage = () => {
       {!loading && isEmpty && <p className="text-center">No data found</p>}
 
       <Grid className="mb-24 mt-14">
-        {filtered.map((report) => {
-          const resolvedOn = report.emergencyResolved
-            ? report.emergencyResolveTransaction?.timestamp
-            : report.resolveTransaction?.timestamp;
+        {sortDataCovers(filteredResolvedCardInfo, sortType.name).map(
+          ({ resolvedReporting }, idx) => {
+            if (idx > showCount - 1) return;
+            const resolvedOn = resolvedReporting.emergencyResolved
+              ? resolvedReporting.emergencyResolveTransaction?.timestamp
+              : resolvedReporting.resolveTransaction?.timestamp;
 
-          return (
-            <Link
-              href={`/reporting/${getParsedKey(report.id.split("-")[0])}/${
-                report.id.split("-")[1]
-              }/details`}
-              key={report.id}
-            >
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                <ResolvedReportingCard
-                  coverKey={report.key}
-                  resolvedOn={resolvedOn}
-                  status={ReportStatus[report.status]}
-                />
-              </a>
-            </Link>
-          );
-        })}
+            return (
+              <Link
+                href={`/reporting/${getParsedKey(
+                  resolvedReporting.id.split("-")[0]
+                )}/${resolvedReporting.id.split("-")[1]}/details`}
+                key={resolvedReporting.id}
+              >
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                  <ResolvedReportingCard
+                    coverKey={resolvedReporting.key}
+                    resolvedOn={resolvedOn}
+                    status={ReportStatus[resolvedReporting.status]}
+                  />
+                </a>
+              </Link>
+            );
+          }
+        )}
       </Grid>
+      {sortDataCovers(filteredResolvedCardInfo, sortType.name).length >
+        showCount && (
+        <NeutralButton
+          className={"rounded-lg border-0.5"}
+          onClick={handleShowMore}
+        >
+          Show More
+        </NeutralButton>
+      )}
     </Container>
   );
 };
