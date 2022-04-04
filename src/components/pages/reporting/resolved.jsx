@@ -11,7 +11,7 @@ import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
-import { sortDataCovers } from "@/utils/sorting";
+import { sortData } from "@/utils/sorting";
 
 export const ReportingResolvedPage = () => {
   const { data, loading } = useResolvedReportings();
@@ -24,7 +24,7 @@ export const ReportingResolvedPage = () => {
     },
   });
 
-  const [sortType, setSortType] = useState("");
+  const [sortType, setSortType] = useState({ name: "A-Z" });
   const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const filteredResolvedCardInfo = filtered.map((item) => {
@@ -59,7 +59,7 @@ export const ReportingResolvedPage = () => {
       {!loading && isEmpty && <p className="text-center">No data found</p>}
 
       <Grid className="mb-24 mt-14">
-        {sortDataCovers(filteredResolvedCardInfo, sortType.name).map(
+        {sortData(filteredResolvedCardInfo, sortType.name).map(
           ({ resolvedReporting }, idx) => {
             if (idx > showCount - 1) return;
             const resolvedOn = resolvedReporting.emergencyResolved
@@ -85,8 +85,7 @@ export const ReportingResolvedPage = () => {
           }
         )}
       </Grid>
-      {sortDataCovers(filteredResolvedCardInfo, sortType.name).length >
-        showCount && (
+      {sortData(filteredResolvedCardInfo, sortType.name).length > showCount && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
-import { sortDataCovers } from "@/utils/sorting";
+import { sortData } from "@/utils/sorting";
 
 export const ReportingActivePage = () => {
   const { data, loading } = useActiveReportings();
@@ -41,7 +41,7 @@ const ActiveReportingCards = ({ reportings }) => {
     },
   });
 
-  const [sortType, setSortType] = useState("");
+  const [sortType, setSortType] = useState({ name: "A-Z" });
   const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const filteredActiveCardInfo = filtered.map((item) => {
@@ -69,7 +69,7 @@ const ActiveReportingCards = ({ reportings }) => {
         />
       </div>
       <Grid className="mb-24 mt-14">
-        {sortDataCovers(filteredActiveCardInfo, sortType.name).map(
+        {sortData(filteredActiveCardInfo, sortType.name).map(
           ({ activeReporting }, idx) => {
             if (idx > showCount - 1) return;
             return (
@@ -90,8 +90,7 @@ const ActiveReportingCards = ({ reportings }) => {
           }
         )}
       </Grid>
-      {sortDataCovers(filteredActiveCardInfo, sortType.name).length >
-        showCount && (
+      {sortData(filteredActiveCardInfo, sortType.name).length > showCount && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}

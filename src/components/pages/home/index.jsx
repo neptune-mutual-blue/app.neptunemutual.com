@@ -22,7 +22,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
-import { sortDataCovers } from "@/utils/sorting";
+import { sortData } from "@/utils/sorting";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -32,7 +32,7 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
-  const [sortType, setSortType] = useState("");
+  const [sortType, setSortType] = useState({ name: "A-Z" });
   const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   useEffect(() => {
@@ -180,7 +180,7 @@ export const HomePage = () => {
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {sortDataCovers(filtered, sortType.name).map((c, idx) => {
+          {sortData(filtered, sortType.name).map((c, idx) => {
             if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
@@ -191,7 +191,7 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        {sortDataCovers(filtered, sortType.name).length > showCount && (
+        {sortData(filtered, sortType.name).length > showCount && (
           <NeutralButton
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}
