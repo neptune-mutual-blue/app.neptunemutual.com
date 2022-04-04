@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
@@ -6,6 +7,8 @@ import { StakingCard } from "@/components/UI/organisms/pools/staking/StakingCard
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { sortData } from "@/utils/sorting";
 
 export const StakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
@@ -18,8 +21,22 @@ export const StakingPage = () => {
     },
   });
 
+  const [sortType, setSortType] = useState({ name: "A-Z" });
+  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
+
+  const options = [{ name: "A-Z" }, { name: "TVL" }];
+  const filteredStakingCardTvl = filtered.map((poolData) => {
+    const tvl = getTVLById(poolData.id);
+
+    return { ...poolData, tvl };
+  });
+
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
+  };
+
+  const handleShowMore = () => {
+    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   return (
@@ -31,6 +48,9 @@ export const StakingPage = () => {
           sortClass="w-full md:w-48 lg:w-64 rounded-lg z-10"
           containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
           searchClass="w-full md:w-64 rounded-lg"
+          searchAndSortOptions={options}
+          sortType={sortType}
+          setSortType={setSortType}
         />
       </div>
       {loading && <div className="py-10 text-center">Loading...</div>}
@@ -47,18 +67,28 @@ export const StakingPage = () => {
         </div>
       )}
       <Grid className="mb-24 mt-14">
-        {filtered.map((poolData) => {
-          return (
-            <StakingCard
-              key={poolData.id}
-              data={poolData}
-              tvl={getTVLById(poolData.id)}
-              getPriceByAddress={getPriceByAddress}
-            />
-          );
-        })}
+        {sortData(filteredStakingCardTvl, sortType.name).map(
+          (poolData, idx) => {
+            if (idx > showCount - 1) return;
+            return (
+              <StakingCard
+                key={poolData.id}
+                data={poolData}
+                tvl={poolData.tvl}
+                getPriceByAddress={getPriceByAddress}
+              />
+            );
+          }
+        )}
       </Grid>
-      <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>
+      {sortData(filteredStakingCardTvl, sortType.name).length > showCount && (
+        <NeutralButton
+          className={"rounded-lg border-0.5"}
+          onClick={handleShowMore}
+        >
+          Show More
+        </NeutralButton>
+      )}
     </Container>
   );
 };
