@@ -104,8 +104,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     loadingMessage = "Fetching Balance...";
   }
 
-  console.log(statusInfo);
-
   if (statusInfo.requiresWhitelist && !statusInfo.whitelisted) {
     return <Alert>You are not whitelisted </Alert>;
   }
