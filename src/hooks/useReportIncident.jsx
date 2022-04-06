@@ -95,7 +95,7 @@ export const useReportIncident = ({ coverKey, value }) => {
 
     const cleanup = () => {
       setReporting(false);
-      updateAllowance();
+      updateAllowance(governanceContractAddress);
       updateBalance();
     };
 

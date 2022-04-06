@@ -62,6 +62,8 @@ export default function DisputeFormPage({ disabled }) {
         }}
       />
 
+      <hr className="border-t border-t-B0C4DB" />
+
       {loading && <p className="text-center">Loading...</p>}
 
       {!loading && !data.incidentReport && (
@@ -69,7 +71,7 @@ export default function DisputeFormPage({ disabled }) {
       )}
 
       {data.incidentReport && (
-        <div className="border-t border-t-B0C4DB">
+        <div>
           <Container className="py-16">
             {canDispute ? (
               <NewDisputeReportForm incidentReport={data.incidentReport} />
