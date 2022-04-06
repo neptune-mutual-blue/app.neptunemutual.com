@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import "tailwindcss/tailwind.css";
 import "@fontsource/poppins/latin.css";
 import "@fontsource/sora/latin.css";
@@ -18,72 +16,47 @@ import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { IpfsProvider } from "@/src/context/Ipfs";
 import { useRouter } from "next/router";
-
-import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
-import { zh, en, fr, id, ja, ko, ru, es, tr } from "make-plural";
-
-const position = {
-  variant: "top_right",
-};
-
-i18n.loadLocaleData({
-  zh: { plurals: zh },
-  en: { plurals: en },
-  fr: { plurals: fr },
-  id: { plurals: id },
-  ja: { plurals: ja },
-  ko: { plurals: ko },
-  ru: { plurals: ru },
-  es: { plurals: es },
-  tr: { plurals: tr },
-});
+import { LanguageProvider } from "../i18n";
+import { DEFAULT_VARIANT } from "@/src/config/toast";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   const locale = router.locale;
 
-  useEffect(() => {
-    async function load(l) {
-      const { messages } = await import(`../../locales/${l}/messages.po`);
-
-      i18n.load(l, messages);
-      i18n.activate(l);
-    }
-
-    load(locale);
-  }, [locale]);
-
   if (pageProps.noWrappers) {
-    return <Component {...pageProps} />;
+    return (
+      <LanguageProvider>
+        <Component {...pageProps} />
+      </LanguageProvider>
+    );
   }
 
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <NetworkProvider>
-        <AppConstantsProvider>
-          <IpfsProvider>
-            <CoversProvider>
-              <UnlimitedApprovalProvider>
-                <ToastProvider variant={position.variant}>
-                  <TxPosterProvider>
-                    <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
+    <LanguageProvider>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <NetworkProvider>
+          <AppConstantsProvider>
+            <IpfsProvider>
+              <CoversProvider>
+                <UnlimitedApprovalProvider>
+                  <ToastProvider variant={DEFAULT_VARIANT}>
+                    <TxPosterProvider>
                       <Header></Header>
                       <div className="relative sm:static">
                         <Component {...pageProps} />
                         <DisclaimerModal />
                         <ScrollToTopButton />
                       </div>
-                    </I18nProvider>
-                  </TxPosterProvider>
-                </ToastProvider>
-              </UnlimitedApprovalProvider>
-            </CoversProvider>
-          </IpfsProvider>
-        </AppConstantsProvider>
-      </NetworkProvider>
-    </Web3ReactProvider>
+                    </TxPosterProvider>
+                  </ToastProvider>
+                </UnlimitedApprovalProvider>
+              </CoversProvider>
+            </IpfsProvider>
+          </AppConstantsProvider>
+        </NetworkProvider>
+      </Web3ReactProvider>
+    </LanguageProvider>
   );
 }
 
