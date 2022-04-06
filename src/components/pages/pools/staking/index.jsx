@@ -7,12 +7,11 @@ import { StakingCard } from "@/components/UI/organisms/pools/staking/StakingCard
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 
 export const StakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
-  const { data, loading } = useTokenStakingPools();
+  const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools,
@@ -22,7 +21,6 @@ export const StakingPage = () => {
   });
 
   const [sortType, setSortType] = useState({ name: "A-Z" });
-  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const options = [{ name: "A-Z" }, { name: "TVL" }];
   const filteredStakingCardTvl = filtered.map((poolData) => {
@@ -33,10 +31,6 @@ export const StakingPage = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
-  };
-
-  const handleShowMore = () => {
-    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   return (
@@ -67,21 +61,18 @@ export const StakingPage = () => {
         </div>
       )}
       <Grid className="mb-24 mt-14">
-        {sortData(filteredStakingCardTvl, sortType.name).map(
-          (poolData, idx) => {
-            if (idx > showCount - 1) return;
-            return (
-              <StakingCard
-                key={poolData.id}
-                data={poolData}
-                tvl={poolData.tvl}
-                getPriceByAddress={getPriceByAddress}
-              />
-            );
-          }
-        )}
+        {sortData(filteredStakingCardTvl, sortType.name).map((poolData) => {
+          return (
+            <StakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={poolData.tvl}
+              getPriceByAddress={getPriceByAddress}
+            />
+          );
+        })}
       </Grid>
-      {sortData(filteredStakingCardTvl, sortType.name).length > showCount && (
+      {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}

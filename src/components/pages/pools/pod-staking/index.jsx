@@ -7,12 +7,11 @@ import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodS
 import { useAppConstants } from "@/src/context/AppConstants";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 
 export const PodStakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
-  const { data, loading } = usePodStakingPools();
+  const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools,
@@ -22,7 +21,6 @@ export const PodStakingPage = () => {
   });
 
   const [sortType, setSortType] = useState({ name: "A-Z" });
-  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const options = [{ name: "A-Z" }, { name: "TVL" }];
   const filteredPodStakingCardTvl = filtered.map((poolData) => {
@@ -33,10 +31,6 @@ export const PodStakingPage = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
-  };
-
-  const handleShowMore = () => {
-    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   return (
@@ -68,22 +62,18 @@ export const PodStakingPage = () => {
         </div>
       )}
       <Grid className="mb-24 mt-14">
-        {sortData(filteredPodStakingCardTvl, sortType.name).map(
-          (poolData, idx) => {
-            if (idx > showCount - 1) return;
-            return (
-              <PodStakingCard
-                key={poolData.id}
-                data={poolData}
-                tvl={poolData.tvl}
-                getPriceByAddress={getPriceByAddress}
-              />
-            );
-          }
-        )}
+        {sortData(filteredPodStakingCardTvl, sortType.name).map((poolData) => {
+          return (
+            <PodStakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={poolData.tvl}
+              getPriceByAddress={getPriceByAddress}
+            />
+          );
+        })}
       </Grid>
-      {sortData(filteredPodStakingCardTvl, sortType.name).length >
-        showCount && (
+      {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
