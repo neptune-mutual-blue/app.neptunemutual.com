@@ -10,11 +10,10 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 
 export const ReportingResolvedPage = () => {
-  const { data, loading } = useResolvedReportings();
+  const { data, loading, hasMore, handleShowMore } = useResolvedReportings();
   const { getInfoByKey } = useCovers();
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.incidentReports,
@@ -25,7 +24,6 @@ export const ReportingResolvedPage = () => {
   });
 
   const [sortType, setSortType] = useState({ name: "A-Z" });
-  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const filteredResolvedCardInfo = filtered.map((item) => {
     const resolvedCardInfo = getInfoByKey(item.key);
@@ -35,10 +33,6 @@ export const ReportingResolvedPage = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
-  };
-
-  const handleShowMore = () => {
-    setShowCount((val) => val + COVERS_PER_PAGE);
   };
 
   const isEmpty = data.incidentReports.length === 0;
@@ -60,8 +54,7 @@ export const ReportingResolvedPage = () => {
 
       <Grid className="mb-24 mt-14">
         {sortData(filteredResolvedCardInfo, sortType.name).map(
-          ({ resolvedReporting }, idx) => {
-            if (idx > showCount - 1) return;
+          ({ resolvedReporting }) => {
             const resolvedOn = resolvedReporting.emergencyResolved
               ? resolvedReporting.emergencyResolveTransaction?.timestamp
               : resolvedReporting.resolveTransaction?.timestamp;
@@ -85,7 +78,7 @@ export const ReportingResolvedPage = () => {
           }
         )}
       </Grid>
-      {sortData(filteredResolvedCardInfo, sortType.name).length > showCount && (
+      {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}

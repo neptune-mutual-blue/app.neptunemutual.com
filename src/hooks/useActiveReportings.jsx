@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const useActiveReportings = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    incidentReports: [],
+  });
   const [loading, setLoading] = useState(false);
+  const [itemsToSkip, setItemsToSkip] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
   const { networkId } = useNetwork();
 
   useEffect(() => {
@@ -29,6 +35,8 @@ export const useActiveReportings = () => {
         query: `
         {
           incidentReports(
+            skip: ${itemsToSkip}
+            first: ${COVERS_PER_PAGE}
             orderBy: incidentDate
             orderDirection: desc
             where:{
@@ -50,7 +58,24 @@ export const useActiveReportings = () => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (res.errors || !res.data) {
+          return;
+        }
+
+        const isLastPage =
+          res.data.incidentReports.length === 0 ||
+          res.data.incidentReports.length < COVERS_PER_PAGE;
+
+        if (isLastPage) {
+          setHasMore(false);
+        }
+
+        setData((prev) => ({
+          incidentReports: [
+            ...prev.incidentReports,
+            ...res.data.incidentReports,
+          ],
+        }));
       })
       .catch((err) => {
         console.error(err);
@@ -58,11 +83,17 @@ export const useActiveReportings = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [networkId]);
+  }, [itemsToSkip, networkId]);
+
+  const handleShowMore = () => {
+    setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
+  };
 
   return {
+    handleShowMore,
+    hasMore,
     data: {
-      incidentReports: data?.incidentReports || [],
+      incidentReports: data.incidentReports,
     },
     loading,
   };

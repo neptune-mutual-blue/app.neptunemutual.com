@@ -10,30 +10,13 @@ import { getParsedKey } from "@/src/helpers/cover";
 import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 
 export const ReportingActivePage = () => {
-  const { data, loading } = useActiveReportings();
-
-  if (loading) {
-    return <>loading...</>;
-  }
-
-  const isEmpty = data.incidentReports.length === 0;
-
-  return (
-    <Container className={"pt-16 pb-36"}>
-      {isEmpty && <ActiveReportingEmptyState />}
-      {!isEmpty && <ActiveReportingCards reportings={data.incidentReports} />}
-    </Container>
-  );
-};
-
-const ActiveReportingCards = ({ reportings }) => {
+  const { data, loading, hasMore, handleShowMore } = useActiveReportings();
   const { getInfoByKey } = useCovers();
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: reportings,
+    list: data.incidentReports,
     filter: (item, term) => {
       const info = getInfoByKey(item.key);
 
@@ -42,7 +25,6 @@ const ActiveReportingCards = ({ reportings }) => {
   });
 
   const [sortType, setSortType] = useState({ name: "A-Z" });
-  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   const filteredActiveCardInfo = filtered.map((item) => {
     const activeCardInfo = getInfoByKey(item.key);
@@ -54,12 +36,10 @@ const ActiveReportingCards = ({ reportings }) => {
     setSearchValue(ev.target.value);
   };
 
-  const handleShowMore = () => {
-    setShowCount((val) => val + COVERS_PER_PAGE);
-  };
+  const isEmpty = data.incidentReports.length === 0;
 
   return (
-    <>
+    <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
         <SearchAndSortBar
           searchValue={searchValue}
@@ -68,10 +48,14 @@ const ActiveReportingCards = ({ reportings }) => {
           setSortType={setSortType}
         />
       </div>
+
+      {loading && <p className="text-center">Loading...</p>}
+
+      {!loading && isEmpty && <ActiveReportingEmptyState />}
+
       <Grid className="mb-24 mt-14">
         {sortData(filteredActiveCardInfo, sortType.name).map(
-          ({ activeReporting }, idx) => {
-            if (idx > showCount - 1) return;
+          ({ activeReporting }) => {
             return (
               <Link
                 href={`/reporting/${getParsedKey(
@@ -90,7 +74,7 @@ const ActiveReportingCards = ({ reportings }) => {
           }
         )}
       </Grid>
-      {sortData(filteredActiveCardInfo, sortType.name).length > showCount && (
+      {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
@@ -98,6 +82,6 @@ const ActiveReportingCards = ({ reportings }) => {
           Show More
         </NeutralButton>
       )}
-    </>
+    </Container>
   );
 };
