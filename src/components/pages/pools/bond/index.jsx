@@ -93,18 +93,12 @@ const BondPage = () => {
     rightHalf.push({
       title: "Your Bond",
       value: `${
-        formatCurrency(
-          convertFromUnits(info.bondContribution).toString(),
-          tokenSymbol,
-          true
-        ).short
+        formatCurrency(convertFromUnits(info.claimable).toString(), "NPM", true)
+          .short
       }`,
       tooltip: `${
-        formatCurrency(
-          convertFromUnits(info.bondContribution).toString(),
-          tokenSymbol,
-          true
-        ).long
+        formatCurrency(convertFromUnits(info.claimable).toString(), "NPM", true)
+          .long
       }`,
       titleClasses: `mt-7`,
       valueClasses: `text-sm text-9B9B9B mt-1`,
