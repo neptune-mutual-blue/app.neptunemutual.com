@@ -15,15 +15,10 @@ import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/Disclaimer
 import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { IpfsProvider } from "@/src/context/Ipfs";
-import { useRouter } from "next/router";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
-
-  const locale = router.locale;
-
   if (pageProps.noWrappers) {
     return (
       <LanguageProvider>
