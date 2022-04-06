@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:{"Home":"Rumah","My Liquidity":"Likuiditas Saya","My Policies":"Kebijakan Saya","Pool":"Kolam","Reporting":"Pelaporan","Settings":"Pengaturan"}};

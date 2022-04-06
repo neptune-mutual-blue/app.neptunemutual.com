@@ -16,7 +16,7 @@ import { HeaderLogo } from "@/components/UI/atoms/HeaderLogo";
 import { BurgerComponent } from "@/components/UI/atoms/burgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -34,22 +34,22 @@ const getNavigationLinks = (pathname = "") => {
 
   let links = [
     poolLink && {
-      name: "Pool",
+      name: t`Pool`,
       href: poolLink,
       activeWhenStartsWith: "/pools",
     },
     policyEnabled && {
-      name: "My Policies",
+      name: t`My Policies`,
       href: "/my-policies/active",
       activeWhenStartsWith: "/my-policies",
     },
     liquidityEnabled && {
-      name: "My Liquidity",
+      name: t`My Liquidity`,
       href: "/my-liquidity",
       activeWhenStartsWith: "/my-liquidity",
     },
     reportingEnabled && {
-      name: "Reporting",
+      name: t`Reporting`,
       href: "/reporting/active",
       activeWhenStartsWith: "/reporting",
     },
@@ -62,13 +62,14 @@ const getNavigationLinks = (pathname = "") => {
     active: pathname.startsWith(link.activeWhenStartsWith),
   }));
 
-  links.unshift({ name: "Home", href: "/", active: pathname === "/" });
+  links.unshift({ name: t`Home`, href: "/", active: pathname === "/" });
 
   return links;
 };
 
 export const Header = () => {
   const router = useRouter();
+
   const { notifier } = useNotifier();
   const { networkId } = useNetwork();
   const { active, account } = useWeb3React();
@@ -100,23 +101,6 @@ export const Header = () => {
     setIsAccountDetailsOpen(false);
   };
 
-  function menuTranslations(linkName) {
-    switch (linkName) {
-      case "Home":
-        return <Trans>Home</Trans>;
-      case "Pool":
-        return <Trans>Pool</Trans>;
-      case "My Policies":
-        return <Trans>My Policies</Trans>;
-      case "My Liquidity":
-        return <Trans> My Liquidity</Trans>;
-      case "Reporting":
-        return <Trans>Reporting</Trans>;
-      default:
-        break;
-    }
-  }
-
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
   const network = (
@@ -137,7 +121,7 @@ export const Header = () => {
       >
         <div className="flex items-center justify-between w-full xl:border-b border-B0C4DB xl:border-none">
           <div className="flex items-center">
-            <Link href="/">
+            <Link href="/" locale={router.locale || router.defaultLocale}>
               <a>
                 <HeaderLogo />
               </a>
@@ -145,7 +129,7 @@ export const Header = () => {
             <div className="hidden ml-16 space-x-8 xl:block">
               {navigation.map((link) => {
                 return (
-                  <Link key={link.name} href={link.href}>
+                  <Link key={link.name} href={link.href} locale={router.locale}>
                     <a
                       className={classNames(
                         "text-sm py-7 border-b-4",
@@ -154,7 +138,7 @@ export const Header = () => {
                           : "border-transparent text-999BAB"
                       )}
                     >
-                      {menuTranslations(link.name)}
+                      {link.name}
                     </a>
                   </Link>
                 );
@@ -270,7 +254,11 @@ export const MenuModal = ({
                 <div className="flex flex-col justify-start overflow-y-auto mb-28">
                   {navigation.map((link) => {
                     return (
-                      <Link key={link.name} href={link.href}>
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        locale={router.locale}
+                      >
                         <a
                           className={classNames(
                             "text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit",

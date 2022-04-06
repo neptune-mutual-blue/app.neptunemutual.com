@@ -1,0 +1,1 @@
+/*eslint-disable*/module.exports={messages:{"Home":"집","My Liquidity":"나의 유동성","My Policies":"내 정책","Pool":"수영장","Reporting":"보고","Settings":"설정"}};

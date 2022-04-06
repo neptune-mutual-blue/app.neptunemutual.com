@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2022-04-06 18:35+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-CN\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/components/UI/organisms/header/index.jsx:65
+msgid "Home"
+msgstr "家"
+
+#: src/components/UI/organisms/header/index.jsx:47
+msgid "My Liquidity"
+msgstr "我的流动性"
+
+#: src/components/UI/organisms/header/index.jsx:42
+msgid "My Policies"
+msgstr "我的政策"
+
+#: src/components/UI/organisms/header/index.jsx:37
+msgid "Pool"
+msgstr "水池"
+
+#: src/components/UI/organisms/header/index.jsx:52
+msgid "Reporting"
+msgstr "报告"
+
+#: src/pages/settings.jsx:34
+msgid "Settings"
+msgstr "设置"
