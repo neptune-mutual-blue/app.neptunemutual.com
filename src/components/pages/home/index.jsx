@@ -23,6 +23,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
+import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -178,14 +179,14 @@ export const HomePage = () => {
           />
         </div>
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
-          {loading && <>loading...</>}
+          {loading && <CardSkeleton numberOfCards={6} />}
           {!loading && availableCovers.length === 0 && <>No data found</>}
           {sortData(filtered, sortType.name).map((c, idx) => {
             if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <CoverCard details={c}></CoverCard>
+                  <CoverCard details={c} />
                 </a>
               </Link>
             );
