@@ -16,6 +16,7 @@ export const InputWithTrailingButton = ({
   const ref = useRef(null);
   const [width, setWidth] = useState();
   const [val, setVal] = useState(inputProps.value ?? "");
+  const [noChange, setNoChange] = useState(null);
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -51,7 +52,7 @@ export const InputWithTrailingButton = ({
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
     onChange: (ev) => {
-      const val = ev.target.value;
+      const newVal = ev.target.value;
       const sep = getNumberSeparators(getLocale());
 
       // regex to identify localized number with decimal separator at the end
@@ -68,12 +69,18 @@ export const InputWithTrailingButton = ({
       //   }\\d+)*\\${sep.decimal}\\d*0+$`
       // );
 
+      if (noChange === newVal) {
+        setNoChange(null);
+        return setVal(newVal);
+      }
+
       if (
-        val !== "" &&
-        (val.match(incompleteRegex) ||
-          (inputProps.allowNegative && val === "-"))
+        newVal !== "" &&
+        (newVal.match(incompleteRegex) ||
+          (inputProps.allowNegative && newVal === "-"))
       ) {
-        return setVal(val);
+        setNoChange(val);
+        return setVal(newVal);
       }
 
       // regex to identify localized number
@@ -82,8 +89,8 @@ export const InputWithTrailingButton = ({
           sep.thousand
         }\\d+)*(\\${sep.decimal}\\d*)?$`
       );
-      if (val !== "" && !val.match(formattedRegex)) return;
-      const returnVal = getPlainNumber(val, getLocale());
+      if (newVal !== "" && !newVal.match(formattedRegex)) return;
+      const returnVal = getPlainNumber(newVal, getLocale());
       if (inputProps.onChange) inputProps.onChange(returnVal);
       else setVal(getLocaleNumber(returnVal, getLocale()));
     },
