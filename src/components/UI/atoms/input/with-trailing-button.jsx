@@ -35,7 +35,11 @@ export const InputWithTrailingButton = ({
 
   useEffect(() => {
     if (!isNaN(parseInt(inputProps.value))) {
-      const formattedNumber = getLocaleNumber(inputProps.value, getLocale());
+      const formattedNumber = getLocaleNumber(
+        inputProps.value,
+        getLocale(),
+        true
+      );
       setVal(formattedNumber);
     }
     if (inputProps.value === "") setVal("");
@@ -58,17 +62,16 @@ export const InputWithTrailingButton = ({
       );
 
       // regex to identify if there are 0s at the end
-      const endZeroRegex = new RegExp(
-        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
-          sep.thousand
-        }\\d+)*\\${sep.decimal}\\d*0+$`
-      );
+      // const endZeroRegex = new RegExp(
+      //   `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
+      //     sep.thousand
+      //   }\\d+)*\\${sep.decimal}\\d*0+$`
+      // );
 
       if (
         val !== "" &&
         (val.match(incompleteRegex) ||
-          (inputProps.allowNegative && val === "-") ||
-          val.match(endZeroRegex))
+          (inputProps.allowNegative && val === "-"))
       ) {
         return setVal(val);
       }
