@@ -6,50 +6,71 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { MyLiquidityCoverCard } from "@/components/UI/organisms/cover/my-liquidity/MyLiquidityCoverCard";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
+import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 
 export const MyLiquidityPage = () => {
   const { data, loading } = useMyLiquidities();
   const { myLiquidities } = data;
 
+  const renderMyLiquidities = () => {
+    const noData = myLiquidities.length <= 0;
+
+    if (!loading && !noData) {
+      return (
+        <Grid className="mb-24 mt-14">
+          {myLiquidities.map((x) => {
+            return (
+              <Link
+                href={`/my-liquidity/${getParsedKey(x.cover.id)}`}
+                key={x.id}
+              >
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                  <MyLiquidityCoverCard
+                    coverKey={x.cover.id}
+                    totalPODs={x.totalPODs}
+                  ></MyLiquidityCoverCard>
+                </a>
+              </Link>
+            );
+          })}
+        </Grid>
+      );
+    } else if (!loading && noData) {
+      setTimeout(() => {
+        // added slight delay here to prevent unnecessary rendering of this block cause of the delay in fetching data
+        return (
+          <div className="flex flex-col items-center w-full pt-20">
+            <img
+              src="/images/covers/empty-list-illustration.svg"
+              alt="no data found"
+              className="w-48 h-48"
+            />
+            <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
+              Liquidity providers collectively own a liquidity pool. To become a
+              liquidity provider, select a cover from the home screen.
+            </p>
+          </div>
+        );
+      }, 100);
+    }
+
+    return (
+      <Grid className="mb-24 mt-14">
+        <CardSkeleton numberOfCards={6} statusBadge={false} subTitle={false} />
+      </Grid>
+    );
+  };
+
   return (
     <Container className="py-16">
       <div className="flex justify-end">
         <Link href="/my-liquidity/transactions">
-          <a className="text-h4 font-medium text-4e7dd9 hover:underline">
+          <a className="font-medium text-h4 text-4e7dd9 hover:underline">
             Transaction List
           </a>
         </Link>
       </div>
-      {loading && myLiquidities.length === 0 && (
-        <div className="text-center py-10">Loading...</div>
-      )}
-      {!loading && myLiquidities.length === 0 && (
-        <div className="w-full flex flex-col items-center pt-20">
-          <img
-            src="/images/covers/empty-list-illustration.svg"
-            alt="no data found"
-            className="w-48 h-48"
-          />
-          <p className="text-h5 text-404040 text-center mt-8 w-96 max-w-full">
-            Liquidity providers collectively own a liquidity pool. To become a
-            liquidity provider, select a cover from the home screen.
-          </p>
-        </div>
-      )}
-      <Grid className="mt-14 mb-24">
-        {myLiquidities.map((x) => {
-          return (
-            <Link href={`/my-liquidity/${getParsedKey(x.cover.id)}`} key={x.id}>
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                <MyLiquidityCoverCard
-                  coverKey={x.cover.id}
-                  totalPODs={x.totalPODs}
-                ></MyLiquidityCoverCard>
-              </a>
-            </Link>
-          );
-        })}
-      </Grid>
+      {renderMyLiquidities()}
     </Container>
   );
 };
