@@ -36,22 +36,19 @@ export const MyLiquidityPage = () => {
         </Grid>
       );
     } else if (!loading && noData) {
-      setTimeout(() => {
-        // added slight delay here to prevent unnecessary rendering of this block cause of the delay in fetching data
-        return (
-          <div className="flex flex-col items-center w-full pt-20">
-            <img
-              src="/images/covers/empty-list-illustration.svg"
-              alt="no data found"
-              className="w-48 h-48"
-            />
-            <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-              Liquidity providers collectively own a liquidity pool. To become a
-              liquidity provider, select a cover from the home screen.
-            </p>
-          </div>
-        );
-      }, 100);
+      return (
+        <div className="flex flex-col items-center w-full pt-20">
+          <img
+            src="/images/covers/empty-list-illustration.svg"
+            alt="no data found"
+            className="w-48 h-48"
+          />
+          <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
+            Liquidity providers collectively own a liquidity pool. To become a
+            liquidity provider, select a cover from the home screen.
+          </p>
+        </div>
+      );
     }
 
     return (
