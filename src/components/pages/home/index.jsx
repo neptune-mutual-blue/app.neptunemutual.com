@@ -22,6 +22,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { sortData } from "@/utils/sorting";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -31,7 +32,7 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
-  const [sortType, setSortType] = useState("");
+  const [sortType, setSortType] = useState({ name: "A-Z" });
   const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
 
   useEffect(() => {
@@ -69,39 +70,6 @@ export const HomePage = () => {
 
   const handleShowMore = () => {
     setShowCount((val) => val + COVERS_PER_PAGE);
-  };
-
-  const sortData = (dataList) => {
-    switch (sortType.name) {
-      case "A-Z":
-        return dataList.sort((a, b) => {
-          if (a.projectName < b.projectName) return -1;
-          else if (a.projectName > b.projectName) return 1;
-          return 0;
-        });
-      case "Utilization Ratio":
-        return dataList.sort((a, b) => {
-          if (parseFloat(a.stats.utilization) > parseFloat(b.stats.utilization))
-            return -1;
-          else if (
-            parseFloat(a.stats.utilization) < parseFloat(b.stats.utilization)
-          )
-            return 1;
-          return 0;
-        });
-      case "Liquidity":
-        return dataList.sort((a, b) => {
-          if (parseFloat(a.stats.liquidity) > parseFloat(b.stats.liquidity))
-            return -1;
-          else if (
-            parseFloat(a.stats.liquidity) < parseFloat(b.stats.liquidity)
-          )
-            return 1;
-          return 0;
-        });
-      default:
-        return dataList;
-    }
   };
 
   return (
@@ -212,7 +180,7 @@ export const HomePage = () => {
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {loading && <>loading...</>}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {sortData(filtered).map((c, idx) => {
+          {sortData(filtered, sortType.name).map((c, idx) => {
             if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
@@ -223,7 +191,7 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        {sortData(filtered).length > showCount && (
+        {sortData(filtered, sortType.name).length > showCount && (
           <NeutralButton
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}

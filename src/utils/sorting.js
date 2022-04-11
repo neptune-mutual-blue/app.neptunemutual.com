@@ -36,6 +36,10 @@ export const sortData = (dataList, sortTypeName) => {
   switch (sortTypeName) {
     case "A-Z":
       return sortByObjectKey(dataList, "projectName", true);
+    case "Utilization Ratio":
+      return sortByObjectKey(dataList, "stats.utilization", false, parseFloat);
+    case "Liquidity":
+      return sortByObjectKey(dataList, "stats.liquidity", false, parseFloat);
     case "TVL":
       return sortByObjectKey(dataList, "tvl", false, parseFloat);
     default:
