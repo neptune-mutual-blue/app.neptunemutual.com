@@ -9,6 +9,7 @@ import {
   isGreaterOrEqual,
   isEqualTo,
   isValidNumber,
+  convertFromUnits,
 } from "@/utils/bn";
 import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -18,6 +19,7 @@ import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useDebounce } from "@/src/hooks/useDebounce";
+import { formatCurrency } from "@/utils/formatter/currency";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -144,11 +146,23 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       return;
     }
 
-    if (
-      isGreater(convertToUnits(value), balance) ||
-      isEqualTo(convertToUnits(value), 0)
-    ) {
+    if (isGreater(convertToUnits(value), balance)) {
       setError("Insufficient Balance");
+      return;
+    }
+
+    if (isEqualTo(convertToUnits(value), 0)) {
+      setError("Please specify a value");
+      return;
+    }
+
+    if (isGreater(receiveAmount, info.maxBond)) {
+      setError(
+        `Exceeds maximum bond ${
+          formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+            .long
+        }`
+      );
       return;
     }
 
@@ -156,7 +170,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setError("");
       return;
     }
-  }, [balance, error, value]);
+  }, [balance, error, info.maxBond, receiveAmount, value]);
 
   const handleApprove = async () => {
     setApproving(true);
