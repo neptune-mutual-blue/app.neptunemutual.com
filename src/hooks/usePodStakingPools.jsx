@@ -1,14 +1,30 @@
 import { useState, useEffect } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { useWeb3React } from "@web3-react/core";
 
 export const usePodStakingPools = () => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    pools: [],
+  });
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
+  const [itemsToSkip, setItemsToSkip] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const { account } = useWeb3React();
 
   useEffect(() => {
-    if (!networkId) {
+    setItemsToSkip(0);
+    setData({
+      pools: [],
+    });
+  }, [account]);
+
+  useEffect(() => {
+    if (!networkId || !account) {
+      setHasMore(false);
       return;
     }
 
@@ -28,7 +44,14 @@ export const usePodStakingPools = () => {
       body: JSON.stringify({
         query: `
         {
-          pools(where: {closed: false, poolType: PODStaking}) {
+          pools(
+            skip: ${itemsToSkip}
+            first: ${COVERS_PER_PAGE}
+            where: {
+              closed: false, 
+              poolType: PODStaking
+            }
+          ) {
             id
             key
             name
@@ -49,7 +72,21 @@ export const usePodStakingPools = () => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (res.errors || !res.data) {
+          return;
+        }
+
+        const isLastPage =
+          res.data.pools.length === 0 ||
+          res.data.pools.length < COVERS_PER_PAGE;
+
+        if (isLastPage) {
+          setHasMore(false);
+        }
+
+        setData((prev) => ({
+          pools: [...prev.pools, ...res.data.pools],
+        }));
       })
       .catch((err) => {
         console.error(err);
@@ -57,13 +94,17 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [networkId]);
+  }, [account, itemsToSkip, networkId]);
 
-  const pools = data?.pools || [];
+  const handleShowMore = () => {
+    setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
+  };
 
   return {
+    handleShowMore,
+    hasMore,
     data: {
-      pools,
+      pools: data.pools,
     },
     loading,
   };

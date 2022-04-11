@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
@@ -6,16 +7,26 @@ import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodS
 import { useAppConstants } from "@/src/context/AppConstants";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
+import { sortData } from "@/utils/sorting";
 
 export const PodStakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
-  const { data, loading } = usePodStakingPools();
+  const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools,
     filter: (item, term) => {
       return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     },
+  });
+
+  const [sortType, setSortType] = useState({ name: "A-Z" });
+
+  const options = [{ name: "A-Z" }, { name: "TVL" }];
+  const filteredPodStakingCardTvl = filtered.map((poolData) => {
+    const tvl = getTVLById(poolData.id);
+
+    return { ...poolData, tvl };
   });
 
   const searchHandler = (ev) => {
@@ -31,6 +42,9 @@ export const PodStakingPage = () => {
           sortClass="w-full md:w-48 lg:w-64 rounded-lg z-10"
           containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
           searchClass="w-full md:w-64 rounded-lg"
+          searchAndSortOptions={options}
+          sortType={sortType}
+          setSortType={setSortType}
         />
       </div>
       {loading && <div className="py-10 text-center">Loading...</div>}
@@ -48,18 +62,25 @@ export const PodStakingPage = () => {
         </div>
       )}
       <Grid className="mb-24 mt-14">
-        {filtered.map((poolData) => {
+        {sortData(filteredPodStakingCardTvl, sortType.name).map((poolData) => {
           return (
             <PodStakingCard
               key={poolData.id}
               data={poolData}
-              tvl={getTVLById(poolData.id)}
+              tvl={poolData.tvl}
               getPriceByAddress={getPriceByAddress}
             />
           );
         })}
       </Grid>
-      <NeutralButton className={"rounded-lg"}>Show More</NeutralButton>
+      {!loading && hasMore && (
+        <NeutralButton
+          className={"rounded-lg border-0.5"}
+          onClick={handleShowMore}
+        >
+          Show More
+        </NeutralButton>
+      )}
     </Container>
   );
 };

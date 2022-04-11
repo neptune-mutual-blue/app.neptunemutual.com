@@ -3,7 +3,7 @@ import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 
-const options = [
+const defaultOptions = [
   { name: "A-Z" },
   { name: "Utilization Ratio" },
   { name: "Liquidity" },
@@ -18,7 +18,9 @@ export const SearchAndSortBar = ({
   onSearchChange,
   sortType,
   setSortType,
+  searchAndSortOptions,
 }) => {
+  const options = searchAndSortOptions ?? defaultOptions;
   const [selected, setSelected] = useState(options[0]);
 
   return (
@@ -33,7 +35,7 @@ export const SearchAndSortBar = ({
           onChange={onSearchChange}
         />
 
-        <div className="text-9B9B9B flex justify-center items-center">
+        <div className="flex items-center justify-center text-9B9B9B">
           <SearchIcon width={24} height={24} />
         </div>
       </div>
