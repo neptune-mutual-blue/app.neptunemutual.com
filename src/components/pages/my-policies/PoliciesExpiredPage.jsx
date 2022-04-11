@@ -5,6 +5,7 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
 import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const PoliciesExpiredPage = () => {
   const { data, loading } = useExpiredPolicies();
@@ -45,7 +46,11 @@ export const PoliciesExpiredPage = () => {
 
     return (
       <Grid className="mb-24 mt-14">
-        <CardSkeleton numberOfCards={6} statusBadge={false} subTitle={false} />
+        <CardSkeleton
+          numberOfCards={COVERS_PER_PAGE}
+          statusBadge={false}
+          subTitle={false}
+        />
       </Grid>
     );
   };

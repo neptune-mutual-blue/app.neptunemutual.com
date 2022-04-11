@@ -5,6 +5,7 @@ import { Grid } from "@/components/UI/atoms/grid";
 import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
 import { useActivePolicies } from "@/src/hooks/useActivePolicies";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const PoliciesActivePage = () => {
   const { data, loading } = useActivePolicies();
@@ -45,7 +46,11 @@ export const PoliciesActivePage = () => {
 
     return (
       <Grid className="mb-24 mt-14">
-        <CardSkeleton numberOfCards={6} statusBadge={false} subTitle={false} />
+        <CardSkeleton
+          numberOfCards={COVERS_PER_PAGE}
+          statusBadge={false}
+          subTitle={false}
+        />
       </Grid>
     );
   };

@@ -8,6 +8,8 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 import { sortData } from "@/utils/sorting";
+import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const StakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
@@ -33,6 +35,46 @@ export const StakingPage = () => {
     setSearchValue(ev.target.value);
   };
 
+  const renderStakingPools = () => {
+    const noData = data.pools.length <= 0;
+
+    if (!loading && !noData) {
+      return (
+        <Grid className="mb-24 mt-14">
+          {sortData(filteredStakingCardTvl, sortType.name).map((poolData) => {
+            return (
+              <StakingCard
+                key={poolData.id}
+                data={poolData}
+                tvl={poolData.tvl}
+                getPriceByAddress={getPriceByAddress}
+              />
+            );
+          })}
+        </Grid>
+      );
+    } else if (!loading && noData) {
+      return (
+        <div className="flex flex-col items-center w-full pt-20">
+          <img
+            src="/images/covers/empty-list-illustration.svg"
+            alt="no data found"
+            className="w-48 h-48"
+          />
+          <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
+            No <span className="whitespace-nowrap">staking pools found.</span>
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <Grid className="mb-24 mt-14">
+        <CardSkeleton numberOfCards={data.pools.length || COVERS_PER_PAGE} />
+      </Grid>
+    );
+  };
+
   return (
     <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
@@ -47,31 +89,9 @@ export const StakingPage = () => {
           setSortType={setSortType}
         />
       </div>
-      {loading && <div className="py-10 text-center">Loading...</div>}
-      {!loading && data.pools.length === 0 && (
-        <div className="flex flex-col items-center w-full pt-20">
-          <img
-            src="/images/covers/empty-list-illustration.svg"
-            alt="no data found"
-            className="w-48 h-48"
-          />
-          <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            No <span className="whitespace-nowrap">staking pools found.</span>
-          </p>
-        </div>
-      )}
-      <Grid className="mb-24 mt-14">
-        {sortData(filteredStakingCardTvl, sortType.name).map((poolData) => {
-          return (
-            <StakingCard
-              key={poolData.id}
-              data={poolData}
-              tvl={poolData.tvl}
-              getPriceByAddress={getPriceByAddress}
-            />
-          );
-        })}
-      </Grid>
+
+      {renderStakingPools()}
+
       {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}

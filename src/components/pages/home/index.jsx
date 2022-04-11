@@ -179,7 +179,7 @@ export const HomePage = () => {
           />
         </div>
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
-          {loading && <CardSkeleton numberOfCards={6} />}
+          {loading && <CardSkeleton numberOfCards={COVERS_PER_PAGE} />}
           {!loading && availableCovers.length === 0 && <>No data found</>}
           {sortData(filtered, sortType.name).map((c, idx) => {
             if (idx > showCount - 1) return;

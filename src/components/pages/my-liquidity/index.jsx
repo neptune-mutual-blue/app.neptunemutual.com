@@ -7,6 +7,7 @@ import { MyLiquidityCoverCard } from "@/components/UI/organisms/cover/my-liquidi
 import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const MyLiquidityPage = () => {
   const { data, loading } = useMyLiquidities();
@@ -53,7 +54,11 @@ export const MyLiquidityPage = () => {
 
     return (
       <Grid className="mb-24 mt-14">
-        <CardSkeleton numberOfCards={6} statusBadge={false} subTitle={false} />
+        <CardSkeleton
+          numberOfCards={COVERS_PER_PAGE}
+          statusBadge={false}
+          subTitle={false}
+        />
       </Grid>
     );
   };

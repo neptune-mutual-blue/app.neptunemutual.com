@@ -5,8 +5,10 @@ export const CardSkeleton = ({
   numberOfCards = 1,
   statusBadge = true,
   subTitle = true,
+  lineContent = 3,
 }) => {
   const cardsArray = new Array(numberOfCards).fill(1); // convert number of card to array
+  const lineContentArray = new Array(lineContent).fill(1); // convert number of line content to array
 
   return (
     <>
@@ -23,9 +25,9 @@ export const CardSkeleton = ({
             <div className="w-2/4 h-4 mt-3 rounded-full bg-skeleton" />
           )}
           <Divider className="mb-4 lg:mb-8" />
-          <div className="h-3 mt-3 rounded-full bg-skeleton" />
-          <div className="h-3 mt-3 rounded-full bg-skeleton" />
-          <div className="h-3 mt-3 rounded-full bg-skeleton" />
+          {lineContentArray.map((line, i) => (
+            <div key={i} className="h-3 mt-3 rounded-full bg-skeleton" />
+          ))}
         </OutlinedCard>
       ))}
     </>
