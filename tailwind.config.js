@@ -20,6 +20,7 @@ module.exports = {
       current: "currentColor",
       black: "#01052d",
       white: "#fefeff",
+      skeleton: "rgb(226 232 240)",
     },
     fontSize: {
       h1: ["33px", "48px"],

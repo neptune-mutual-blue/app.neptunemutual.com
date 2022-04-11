@@ -11,6 +11,8 @@ import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
 import { sortData } from "@/utils/sorting";
+import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const ReportingActivePage = () => {
   const { data, loading, hasMore, handleShowMore } = useActiveReportings();
@@ -36,7 +38,45 @@ export const ReportingActivePage = () => {
     setSearchValue(ev.target.value);
   };
 
-  const isEmpty = data.incidentReports.length === 0;
+  const renderActiveReportings = () => {
+    const noData = data.incidentReports.length <= 0;
+
+    if (!loading && !noData) {
+      return (
+        <Grid className="mb-24 mt-14">
+          {sortData(filteredActiveCardInfo, sortType.name).map(
+            ({ activeReporting }) => {
+              return (
+                <Link
+                  href={`/reporting/${getParsedKey(
+                    activeReporting.id.split("-")[0]
+                  )}/${activeReporting.id.split("-")[1]}/details`}
+                  key={activeReporting.id}
+                >
+                  <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                    <ActiveReportingCard
+                      coverKey={activeReporting.key}
+                      incidentDate={activeReporting.incidentDate}
+                    />
+                  </a>
+                </Link>
+              );
+            }
+          )}
+        </Grid>
+      );
+    } else if (!loading && noData) {
+      return <ActiveReportingEmptyState />;
+    }
+
+    return (
+      <Grid className="mb-24 mt-14">
+        <CardSkeleton
+          numberOfCards={data.incidentReports.length || COVERS_PER_PAGE}
+        />
+      </Grid>
+    );
+  };
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -49,31 +89,8 @@ export const ReportingActivePage = () => {
         />
       </div>
 
-      {loading && <p className="text-center">Loading...</p>}
+      {renderActiveReportings()}
 
-      {!loading && isEmpty && <ActiveReportingEmptyState />}
-
-      <Grid className="mb-24 mt-14">
-        {sortData(filteredActiveCardInfo, sortType.name).map(
-          ({ activeReporting }) => {
-            return (
-              <Link
-                href={`/reporting/${getParsedKey(
-                  activeReporting.id.split("-")[0]
-                )}/${activeReporting.id.split("-")[1]}/details`}
-                key={activeReporting.id}
-              >
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <ActiveReportingCard
-                    coverKey={activeReporting.key}
-                    incidentDate={activeReporting.incidentDate}
-                  />
-                </a>
-              </Link>
-            );
-          }
-        )}
-      </Grid>
       {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}

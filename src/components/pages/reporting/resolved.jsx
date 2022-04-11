@@ -11,6 +11,8 @@ import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
 import { sortData } from "@/utils/sorting";
+import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const ReportingResolvedPage = () => {
   const { data, loading, hasMore, handleShowMore } = useResolvedReportings();
@@ -35,7 +37,52 @@ export const ReportingResolvedPage = () => {
     setSearchValue(ev.target.value);
   };
 
-  const isEmpty = data.incidentReports.length === 0;
+  const renderResolvedReportings = () => {
+    const noData = data.incidentReports.length <= 0;
+
+    if (!loading && !noData) {
+      return (
+        <Grid className="mb-24 mt-14">
+          {sortData(filteredResolvedCardInfo, sortType.name).map(
+            ({ resolvedReporting }) => {
+              const resolvedOn = resolvedReporting.emergencyResolved
+                ? resolvedReporting.emergencyResolveTransaction?.timestamp
+                : resolvedReporting.resolveTransaction?.timestamp;
+
+              return (
+                <Link
+                  href={`/reporting/${getParsedKey(
+                    resolvedReporting.id.split("-")[0]
+                  )}/${resolvedReporting.id.split("-")[1]}/details`}
+                  key={resolvedReporting.id}
+                >
+                  <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                    <ResolvedReportingCard
+                      coverKey={resolvedReporting.key}
+                      resolvedOn={resolvedOn}
+                      status={ReportStatus[resolvedReporting.status]}
+                    />
+                  </a>
+                </Link>
+              );
+            }
+          )}
+        </Grid>
+      );
+    } else if (!loading && noData) {
+      return <p className="text-center">No data found</p>;
+    }
+
+    return (
+      <Grid className="mb-24 mt-14">
+        <CardSkeleton
+          numberOfCards={data.incidentReports.length || COVERS_PER_PAGE}
+          subTitle={false}
+          lineContent={1}
+        />
+      </Grid>
+    );
+  };
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -48,36 +95,8 @@ export const ReportingResolvedPage = () => {
         />
       </div>
 
-      {loading && <p className="text-center">Loading...</p>}
+      {renderResolvedReportings()}
 
-      {!loading && isEmpty && <p className="text-center">No data found</p>}
-
-      <Grid className="mb-24 mt-14">
-        {sortData(filteredResolvedCardInfo, sortType.name).map(
-          ({ resolvedReporting }) => {
-            const resolvedOn = resolvedReporting.emergencyResolved
-              ? resolvedReporting.emergencyResolveTransaction?.timestamp
-              : resolvedReporting.resolveTransaction?.timestamp;
-
-            return (
-              <Link
-                href={`/reporting/${getParsedKey(
-                  resolvedReporting.id.split("-")[0]
-                )}/${resolvedReporting.id.split("-")[1]}/details`}
-                key={resolvedReporting.id}
-              >
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <ResolvedReportingCard
-                    coverKey={resolvedReporting.key}
-                    resolvedOn={resolvedOn}
-                    status={ReportStatus[resolvedReporting.status]}
-                  />
-                </a>
-              </Link>
-            );
-          }
-        )}
-      </Grid>
       {!loading && hasMore && (
         <NeutralButton
           className={"rounded-lg border-0.5"}
