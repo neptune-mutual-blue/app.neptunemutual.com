@@ -82,12 +82,45 @@ export const getPlainNumber = (formattedString, locale = "en") => {
     .replace(sep.decimal, ".");
 };
 
-export const getLocaleNumber = (plainNumber, locale = "en") => {
+BigNumber.prototype.newFormat = (function (u) {
+  const format = BigNumber.prototype.toFormat;
+  return function (dp, rm) {
+    if (typeof dp === "object" && dp) {
+      let t = dp.minimumDecimalPlaces;
+      if (t !== u) return format.call(this, this.dp() < t ? t : u);
+      rm = dp.roundingMode;
+      t = dp.maximumDecimalPlaces;
+      if (t !== u) return format.call(this.dp(t, rm));
+      t = dp.decimalPlaces;
+      if (t !== u) return format.call(this, t, rm);
+    }
+    return format.call(this, dp, rm);
+  };
+})();
+
+export const getLocaleNumber = (
+  plainNumber,
+  locale = "en",
+  preserveTrailingZeroes = false
+) => {
   const sep = getNumberSeparators(locale);
-  const formattedNumber = new BigNumber(plainNumber).toFormat({
-    decimalSeparator: sep.decimal,
-    groupSeparator: sep.thousand,
-    groupSize: 3,
-  });
+  let formattedNumber = "";
+  if (preserveTrailingZeroes) {
+    const decimalLength = plainNumber
+      ? plainNumber.toString().split(".")[1]?.length ?? 0
+      : 0;
+    formattedNumber = new BigNumber(plainNumber).newFormat({
+      decimalSeparator: sep.decimal,
+      groupSeparator: sep.thousand,
+      groupSize: 3,
+      minimumDecimalPlaces: decimalLength,
+    });
+  } else {
+    formattedNumber = new BigNumber(plainNumber).toFormat({
+      decimalSeparator: sep.decimal,
+      groupSeparator: sep.thousand,
+      groupSize: 3,
+    });
+  }
   return formattedNumber;
 };
