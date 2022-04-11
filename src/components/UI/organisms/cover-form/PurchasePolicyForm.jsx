@@ -23,6 +23,7 @@ import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
+import { useIfWhitelisted } from "@/src/hooks/useIfWhitelisted";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -54,6 +55,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     coverKey,
     feeAmount: feeData.fee,
   });
+
+  const whitelisted = useIfWhitelisted({ coverKey });
+  console.log("whitelisted", whitelisted);
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
@@ -104,6 +108,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     loadingMessage = "Fetching Balance...";
   }
 
+  console.log(statusInfo);
   if (statusInfo.requiresWhitelist && !statusInfo.whitelisted) {
     return <Alert>You are not whitelisted </Alert>;
   }
