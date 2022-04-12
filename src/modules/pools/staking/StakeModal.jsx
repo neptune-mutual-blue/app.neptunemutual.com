@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
-import { StakeForm } from "@/components/UI/organisms/pools/staking/StakeForm";
+import { StakeForm } from "@/src/modules/pools/staking/StakeForm";
 
 export const StakeModal = ({
   info,

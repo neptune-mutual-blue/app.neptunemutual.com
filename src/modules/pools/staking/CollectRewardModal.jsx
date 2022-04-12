@@ -3,8 +3,8 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { TabHeader } from "@/components/UI/molecules/tabheader";
-import { HarvestForm } from "@/components/UI/organisms/pools/staking/HarvestForm";
-import { UnStakeForm } from "@/components/UI/organisms/pools/staking/UnStakeForm";
+import { HarvestForm } from "@/src/modules/pools/staking/HarvestForm";
+import { UnStakeForm } from "@/src/modules/pools/staking/UnStakeForm";
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 const headers = [

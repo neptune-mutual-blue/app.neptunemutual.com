@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { CollectRewardModal } from "@/components/UI/organisms/pools/staking/CollectRewardModal";
+import { CollectRewardModal } from "@/src/modules/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
 import { SingleImage } from "@/components/common/SingleImage";
 import { StakingCardTitle } from "@/components/UI/molecules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/components/UI/molecules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/components/UI/molecules/pools/staking/StakingCardCTA";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
-import { StakeModal } from "@/components/UI/organisms/pools/staking/StakeModal";
+import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";

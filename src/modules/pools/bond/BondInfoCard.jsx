@@ -9,7 +9,7 @@ import { Badge } from "@/components/UI/atoms/badge";
 import { isGreater } from "@/utils/bn";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatPercent } from "@/utils/formatter/percent";
-import { ClaimBondModal } from "@/components/UI/organisms/pools/bond/ClaimBondModal";
+import { ClaimBondModal } from "@/src/modules/pools/bond/ClaimBondModal";
 import { useState } from "react";
 
 export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
@@ -24,15 +24,15 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   };
 
   return (
-    <OutlinedCard className="bg-DEEAF6 p-10">
-      <div className="flex justify-between items-start">
+    <OutlinedCard className="p-10 bg-DEEAF6">
+      <div className="flex items-start justify-between">
         <div>
           <img
             src="/images/tokens/npm.svg"
             alt="NPM Logo"
             className="w-10 h-10"
           />
-          <h3 className="flex items-center text-h4 mt-1 font-sora font-semibold">
+          <h3 className="flex items-center mt-1 font-semibold text-h4 font-sora">
             <div>Bond Info</div>
 
             {/* Tooltip */}
@@ -47,12 +47,12 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
           </h3>
         </div>
 
-        <Badge className="text-21AD8C uppercase">
+        <Badge className="uppercase text-21AD8C">
           ROI: {formatPercent(roi)}
         </Badge>
       </div>
 
-      <p className="text-sm mt-2 mb-6 opacity-50">
+      <p className="mt-2 mb-6 text-sm opacity-50">
         {explainInterval(info.vestingTerm)} vesting term
       </p>
 
@@ -86,9 +86,9 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side="top">
-        <div className="text-sm leading-6 bg-black p-6 rounded-xl max-w-sm">
-          <h3 className="font-sora font-bold text-EEEEEE">What is Bond?</h3>
-          <p className="text-AABDCB mt-2">
+        <div className="max-w-sm p-6 text-sm leading-6 bg-black rounded-xl">
+          <h3 className="font-bold font-sora text-EEEEEE">What is Bond?</h3>
+          <p className="mt-2 text-AABDCB">
             The bond feature provides you NPM tokens at a discounted value for a
             vesting period of {explainInterval(vestingPeriod)}.
           </p>
