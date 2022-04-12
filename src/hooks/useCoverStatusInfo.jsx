@@ -8,7 +8,6 @@ export const useCoverStatusInfo = (coverKey) => {
   const [statusInfo, setStatusInfo] = useState({
     activeIncidentDate: "0",
     status: "",
-    whitelisted: false,
     requiresWhitelist: false,
   });
   const { account, library } = useWeb3React();
