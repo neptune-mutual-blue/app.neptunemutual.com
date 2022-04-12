@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
+import { PoolsTabs } from "@/src/modules/pools/bond/PoolsTabs";
 import BondPage from "@/components/pages/pools/bond";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
