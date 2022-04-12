@@ -34,9 +34,8 @@ export const useIfWhitelisted = ({ coverKey }) => {
       );
 
       const onTransactionResult = (result) => {
-        const whitelisted = result;
         if (ignore) return;
-        if (whitelisted) {
+        if (result) {
           setIsUserWhitelisted(true);
         }
       };

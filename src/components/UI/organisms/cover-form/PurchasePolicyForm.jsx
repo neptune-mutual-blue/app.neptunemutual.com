@@ -56,8 +56,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: feeData.fee,
   });
 
-  const whitelisted = useIfWhitelisted({ coverKey });
-  console.log("whitelisted", whitelisted);
+  const { isUserWhitelisted } = useIfWhitelisted({ coverKey });
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
@@ -109,7 +108,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   }
 
   console.log(statusInfo);
-  if (statusInfo.requiresWhitelist && !statusInfo.whitelisted) {
+  if (statusInfo.requiresWhitelist && !isUserWhitelisted) {
     return <Alert>You are not whitelisted </Alert>;
   }
   if (statusInfo.status && statusInfo.status !== "Normal") {

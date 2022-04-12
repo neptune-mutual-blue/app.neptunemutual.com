@@ -19,7 +19,7 @@ export const useCoverStatusInfo = (coverKey) => {
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    getCoverStatus(networkId, coverKey, signerOrProvider.provider, account)
+    getCoverStatus(networkId, coverKey, signerOrProvider.provider)
       .then(setStatusInfo)
       .catch(console.error);
   }, [account, coverKey, library, networkId]);

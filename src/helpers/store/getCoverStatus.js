@@ -2,12 +2,7 @@ import { utils } from "@neptunemutual/sdk";
 import { getStoredData } from "@/src/helpers/store";
 import { CoverStatus } from "@/src/config/constants";
 
-export const getCoverStatus = async (
-  networkId,
-  coverKey,
-  provider,
-  account
-) => {
+export const getCoverStatus = async (networkId, coverKey, provider) => {
   const candidates = [
     {
       key: [utils.keyUtil.PROTOCOL.NS.COVER_STATUS, coverKey],
@@ -16,12 +11,6 @@ export const getCoverStatus = async (
       compute: async ({ value }) => {
         return value.toString();
       },
-    },
-    {
-      key: [utils.keyUtil.PROTOCOL.NS.COVER_USER_WHITELIST, coverKey, account],
-      signature: ["bytes32", "bytes32", "address"],
-      returns: "bool",
-      property: "whitelisted",
     },
     {
       key: [utils.keyUtil.PROTOCOL.NS.COVER_REQUIRES_WHITELIST, coverKey],
@@ -47,7 +36,6 @@ export const getCoverStatus = async (
   return {
     activeIncidentDate: result.activeIncidentDate,
     status: CoverStatus[result.status],
-    whitelisted: result.whitelisted,
     requiresWhitelist: result.requiresWhitelist,
   };
 };
