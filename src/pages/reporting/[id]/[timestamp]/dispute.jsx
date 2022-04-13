@@ -4,7 +4,7 @@ import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { toBytes32 } from "@/src/helpers/cover";
 import { NewDisputeReportForm } from "@/components/reporting/NewDisputeReportForm";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
+import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { Container } from "@/components/UI/atoms/container";
 import { Alert } from "@/components/UI/atoms/alert";
 import DateLib from "@/lib/date/DateLib";

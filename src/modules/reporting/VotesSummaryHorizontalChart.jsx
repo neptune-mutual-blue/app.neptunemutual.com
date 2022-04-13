@@ -1,5 +1,5 @@
 import { PercentXStackedChart } from "@/components/UI/molecules/PercentXStackedChart";
-import { HorizontalChartLegend } from "@/components/UI/molecules/reporting/HorizontalChartLegend";
+import { HorizontalChartLegend } from "@/src/modules/reporting/HorizontalChartLegend";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -52,10 +52,10 @@ const ToolTipContent = ({ majority }) => {
       <Tooltip.Content
         side="top"
         sideOffset={-32}
-        className="test hidden md:block"
+        className="hidden test md:block"
         portalled={false}
       >
-        <div className="bg-white flex flex-col shadow-toolTip px-6 py-2 justify-center items-center rounded">
+        <div className="flex flex-col items-center justify-center px-6 py-2 bg-white rounded shadow-toolTip">
           <>
             <span
               className={classNames(
@@ -67,12 +67,12 @@ const ToolTipContent = ({ majority }) => {
                 ? "Incident Occurred"
                 : "False Reporting"}
             </span>
-            <span className="text-black text-sm py-1 leading-5">
+            <span className="py-1 text-sm leading-5 text-black">
               {majority.voteCount} ({formatPercent(majority.percent)})
             </span>
           </>
 
-          <span className="text-black text-sm opacity-40 leading-5">
+          <span className="text-sm leading-5 text-black opacity-40">
             Stake: {majority.stake} NPM
           </span>
         </div>

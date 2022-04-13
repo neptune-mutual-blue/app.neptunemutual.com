@@ -1,7 +1,7 @@
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { CoverReportingRules } from "@/components/reporting/CoverReportingRules";
-import { NewIncidentReportForm } from "@/components/reporting/NewIncidentReportForm";
-import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
+import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
+import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
+import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { toBytes32 } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";

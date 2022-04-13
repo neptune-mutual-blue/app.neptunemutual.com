@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { ReportingTabs } from "@/components/pages/reporting/ReportingTabs";
-import { ReportingActivePage } from "@/components/pages/reporting/active";
+import { ReportingTabs } from "@/src/modules/reporting/ReportingTabs";
+import { ReportingActivePage } from "@/src/modules/reporting/active/active";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
