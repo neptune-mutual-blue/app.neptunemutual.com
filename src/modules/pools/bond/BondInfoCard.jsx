@@ -2,7 +2,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
-import { BondStatsContainer } from "@/components/UI/molecules/pools/bond/BondStatsContainer";
+import { BondStatsContainer } from "@/src/modules/pools/bond/BondStatsContainer";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
 import { classNames } from "@/utils/classnames";
 import { Badge } from "@/components/UI/atoms/badge";
