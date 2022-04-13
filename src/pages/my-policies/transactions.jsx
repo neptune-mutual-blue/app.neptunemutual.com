@@ -3,7 +3,7 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { MyPoliciesTxsTable } from "@/components/UI/organisms/my-policies/MyPoliciesTxsTable";
+import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 

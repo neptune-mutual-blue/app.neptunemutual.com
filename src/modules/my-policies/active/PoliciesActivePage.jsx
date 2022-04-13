@@ -2,22 +2,22 @@ import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
-import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
+import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
+import { useActivePolicies } from "@/src/hooks/useActivePolicies";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
-export const PoliciesExpiredPage = () => {
-  const { data, loading } = useExpiredPolicies();
-  const { expiredPolicies } = data;
+export const PoliciesActivePage = () => {
+  const { data, loading } = useActivePolicies();
+  const { activePolicies } = data;
 
-  const renderMyExpiredPolicies = () => {
-    const noData = expiredPolicies.length <= 0;
+  const renderMyActivePolicies = () => {
+    const noData = activePolicies.length <= 0;
 
     if (!loading && !noData) {
       return (
         <Grid className="mb-24 mt-14">
-          {expiredPolicies.map((policyInfo) => {
+          {activePolicies.map((policyInfo) => {
             return (
               <PolicyCard
                 key={policyInfo.id}
@@ -36,9 +36,9 @@ export const PoliciesExpiredPage = () => {
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            When a policy&apos;s duration ends, it automatically moves to this
-            section. Explore products on the home screen to view available
-            protections.
+            A cover policy enables you to claim and receive payout when an
+            incident occurs. To purchase a policy, select a cover from the home
+            screen.
           </p>
         </div>
       );
@@ -64,7 +64,7 @@ export const PoliciesExpiredPage = () => {
           </a>
         </Link>
       </div>
-      {renderMyExpiredPolicies()}
+      {renderMyActivePolicies()}
     </Container>
   );
 };
