@@ -1,27 +1,22 @@
-import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { CastYourVote } from "@/components/UI/molecules/reporting/CastYourVote";
-import { IncidentReporter } from "@/components/UI/molecules/reporting/IncidentReporter";
-import { InsightsTable } from "@/components/UI/molecules/reporting/InsightsTable";
-import { ResolveIncident } from "@/components/UI/molecules/reporting/ResolveIncident";
-import { VotesSummaryDoughnutChart } from "@/components/UI/organisms/reporting/VotesSummaryDoughnutCharts";
-import { HlCalendar } from "@/lib/hl-calendar";
-import { truncateAddress } from "@/utils/address";
+import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
+import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
+import { UnstakeYourAmount } from "@/src/modules/reporting/resolved/UnstakeYourAmount";
+import { Divider } from "@/components/UI/atoms/divider";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import BigNumber from "bignumber.js";
-import DateLib from "@/lib/date/DateLib";
+import { truncateAddress } from "@/utils/address";
+import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 import { formatCurrency } from "@/utils/formatter/currency";
+import DateLib from "@/lib/date/DateLib";
+import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { formatPercent } from "@/utils/formatter/percent";
-import { VotesSummaryHorizontalChart } from "@/components/UI/organisms/reporting/VotesSummaryHorizontalChart";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
-export const ActiveReportSummary = ({
-  refetchReport,
-  incidentReport,
-  resolvableTill,
-}) => {
-  const startDate = DateLib.fromUnix(incidentReport.incidentDate);
-  const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
+export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
+  const { finalize, finalizing } = useFinalizeIncident({
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -57,56 +52,26 @@ export const ActiveReportSummary = ({
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  const now = DateLib.unix();
-  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
-
-  // Refreshes when reporting period ends
-  useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.resolutionTimestamp);
-  }, true);
-
   return (
     <>
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
-        <div className="flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB">
+        <div className="flex-1 p-10 md:border-r border-B0C4DB">
           <h2 className="mb-6 font-bold text-h3 font-sora">Report Summary</h2>
-
-          {!reportingEnded && (
-            <>
-              <VotesSummaryDoughnutChart
-                votes={votes}
-                yesPercent={yesPercent}
-                noPercent={noPercent}
-              />
-              <Divider />
-            </>
-          )}
 
           <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
-            showTooltip={reportingEnded}
+            showTooltip={incidentReport.resolved}
             majority={majority}
           />
           <Divider />
 
-          <>
-            {reportingEnded ? (
-              <ResolveIncident
-                incidentReport={incidentReport}
-                resolvableTill={resolvableTill}
-                refetchReport={refetchReport}
-              />
-            ) : (
-              <CastYourVote incidentReport={incidentReport} />
-            )}
-          </>
+          <UnstakeYourAmount incidentReport={incidentReport} />
         </div>
 
         {/* Right half */}
-        <div className="p-6 pt-0 lg:p-10 sn:pt-6">
+        <div className="p-10">
           <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
           <InsightsTable
             insights={[
@@ -124,7 +89,7 @@ export const ActiveReportSummary = ({
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   "NPM",
-                  truncateAddress
+                  true
                 ).short,
               },
             ]}
@@ -141,13 +106,11 @@ export const ActiveReportSummary = ({
               { title: "User Votes:", value: incidentReport.totalRefutedCount },
               {
                 title: "Stake:",
-                value: `${
-                  formatCurrency(
-                    convertFromUnits(incidentReport.totalRefutedStake),
-                    "NPM",
-                    true
-                  ).short
-                }`,
+                value: formatCurrency(
+                  convertFromUnits(incidentReport.totalRefutedStake),
+                  "NPM",
+                  true
+                ).short,
               },
             ]}
           />
@@ -192,10 +155,22 @@ export const ActiveReportSummary = ({
               )}
             </span>
           </p>
-          {!reportingEnded && (
-            <HlCalendar startDate={startDate} endDate={endDate} />
+
+          {!incidentReport.finalized && (
+            <button
+              className="text-sm text-4e7dd9"
+              disabled={finalizing}
+              onClick={async () => {
+                await finalize();
+                setTimeout(refetchReport, 15000);
+              }}
+            >
+              {finalizing ? "Finalizing..." : "Finalize"}
+            </button>
           )}
         </div>
+
+        <></>
       </OutlinedCard>
     </>
   );

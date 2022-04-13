@@ -2,7 +2,7 @@ import { RegularButton } from "@/components/UI/atoms/button/regular";
 import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 import { Modal } from "@/components/UI/molecules/modal/regular";
-import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
+import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";

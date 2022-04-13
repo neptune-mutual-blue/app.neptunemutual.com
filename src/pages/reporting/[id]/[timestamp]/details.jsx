@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
-import { ReportingDetailsPage } from "@/components/pages/reporting/details";
+import { ReportingDetailsPage } from "@/src/modules/reporting/details";
 import { toBytes32 } from "@/src/helpers/cover";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";

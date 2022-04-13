@@ -1,5 +1,5 @@
 import { CoverRules } from "@/components/common/CoverRules";
-import { ReportingInfo } from "@/components/reporting/ReportingInfo";
+import { ReportingInfo } from "./ReportingInfo";
 import { Alert } from "@/components/UI/atoms/alert";
 import { Container } from "@/components/UI/atoms/container";
 import { AcceptReportRulesForm } from "@/components/UI/organisms/accept-cover-rules-form";

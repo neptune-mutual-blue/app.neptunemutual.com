@@ -3,60 +3,64 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import { ActiveReportingCard } from "@/components/UI/organisms/reporting/ActiveReportingCard";
-import { ActiveReportingEmptyState } from "@/components/UI/organisms/reporting/ActiveReportingEmptyState";
-import { useActiveReportings } from "@/src/hooks/useActiveReportings";
-import { getParsedKey } from "@/src/helpers/cover";
-import Link from "next/link";
-import { useSearchResults } from "@/src/hooks/useSearchResults";
+import { ResolvedReportingCard } from "@/src/modules/reporting/resolved/ResolvedReportingCard";
+import { ReportStatus } from "@/src/config/constants";
 import { useCovers } from "@/src/context/Covers";
+import { getParsedKey } from "@/src/helpers/cover";
+import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
+import { useSearchResults } from "@/src/hooks/useSearchResults";
+import Link from "next/link";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
-export const ReportingActivePage = () => {
-  const { data, loading, hasMore, handleShowMore } = useActiveReportings();
+export const ReportingResolvedPage = () => {
+  const { data, loading, hasMore, handleShowMore } = useResolvedReportings();
   const { getInfoByKey } = useCovers();
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.incidentReports,
     filter: (item, term) => {
       const info = getInfoByKey(item.key);
-
       return info.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
     },
   });
 
   const [sortType, setSortType] = useState({ name: "A-Z" });
 
-  const filteredActiveCardInfo = filtered.map((item) => {
-    const activeCardInfo = getInfoByKey(item.key);
+  const filteredResolvedCardInfo = filtered.map((item) => {
+    const resolvedCardInfo = getInfoByKey(item.key);
 
-    return { ...activeCardInfo, activeReporting: item };
+    return { ...resolvedCardInfo, resolvedReporting: item };
   });
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
   };
 
-  const renderActiveReportings = () => {
+  const renderResolvedReportings = () => {
     const noData = data.incidentReports.length <= 0;
 
     if (!loading && !noData) {
       return (
         <Grid className="mb-24 mt-14">
-          {sortData(filteredActiveCardInfo, sortType.name).map(
-            ({ activeReporting }) => {
+          {sortData(filteredResolvedCardInfo, sortType.name).map(
+            ({ resolvedReporting }) => {
+              const resolvedOn = resolvedReporting.emergencyResolved
+                ? resolvedReporting.emergencyResolveTransaction?.timestamp
+                : resolvedReporting.resolveTransaction?.timestamp;
+
               return (
                 <Link
                   href={`/reporting/${getParsedKey(
-                    activeReporting.id.split("-")[0]
-                  )}/${activeReporting.id.split("-")[1]}/details`}
-                  key={activeReporting.id}
+                    resolvedReporting.id.split("-")[0]
+                  )}/${resolvedReporting.id.split("-")[1]}/details`}
+                  key={resolvedReporting.id}
                 >
                   <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                    <ActiveReportingCard
-                      coverKey={activeReporting.key}
-                      incidentDate={activeReporting.incidentDate}
+                    <ResolvedReportingCard
+                      coverKey={resolvedReporting.key}
+                      resolvedOn={resolvedOn}
+                      status={ReportStatus[resolvedReporting.status]}
                     />
                   </a>
                 </Link>
@@ -66,13 +70,15 @@ export const ReportingActivePage = () => {
         </Grid>
       );
     } else if (!loading && noData) {
-      return <ActiveReportingEmptyState />;
+      return <p className="text-center">No data found</p>;
     }
 
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton
           numberOfCards={data.incidentReports.length || COVERS_PER_PAGE}
+          subTitle={false}
+          lineContent={1}
         />
       </Grid>
     );
@@ -89,7 +95,7 @@ export const ReportingActivePage = () => {
         />
       </div>
 
-      {renderActiveReportings()}
+      {renderResolvedReportings()}
 
       {!loading && hasMore && (
         <NeutralButton

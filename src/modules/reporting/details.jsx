@@ -1,11 +1,11 @@
-import { ReportingHero } from "@/components/UI/organisms/reporting/new/ReportingHero";
+import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { RecentVotesTable } from "@/components/UI/organisms/reporting/RecentVotesTable";
+import { RecentVotesTable } from "@/src/modules/reporting/RecentVotesTable";
 import { Container } from "@/components/UI/atoms/container";
-import { ResolvedReportSummary } from "@/components/UI/organisms/reporting/ResolvedReportSummary";
+import { ResolvedReportSummary } from "@/src/modules/reporting/resolved/ResolvedReportSummary";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import { ActiveReportSummary } from "@/components/UI/organisms/reporting/ActiveReportSummary";
+import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReportSummary";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {

@@ -7,7 +7,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { CountDownTimer } from "@/components/UI/molecules/reporting/CountdownTimer";
+import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
 
 export const ResolveIncident = ({
