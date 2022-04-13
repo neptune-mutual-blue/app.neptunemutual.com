@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-import { PoolsTabs } from "@/components/pages/pools/PoolsTabs";
-import { StakingPage } from "@/components/pages/pools/staking";
+import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
+import { StakingPage } from "@/src/modules/pools/staking";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 

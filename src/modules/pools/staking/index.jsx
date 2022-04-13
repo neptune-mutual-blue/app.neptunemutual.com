@@ -3,17 +3,17 @@ import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
 import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
-import { PodStakingCard } from "@/components/UI/organisms/pools/pod-staking/PodStakingCard";
+import { StakingCard } from "@/src/modules/pools/staking/StakingCard";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
+import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
-export const PodStakingPage = () => {
+export const StakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
-  const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
+  const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools,
@@ -25,7 +25,7 @@ export const PodStakingPage = () => {
   const [sortType, setSortType] = useState({ name: "A-Z" });
 
   const options = [{ name: "A-Z" }, { name: "TVL" }];
-  const filteredPodStakingCardTvl = filtered.map((poolData) => {
+  const filteredStakingCardTvl = filtered.map((poolData) => {
     const tvl = getTVLById(poolData.id);
 
     return { ...poolData, tvl };
@@ -35,24 +35,22 @@ export const PodStakingPage = () => {
     setSearchValue(ev.target.value);
   };
 
-  const renderPodStakingPools = () => {
+  const renderStakingPools = () => {
     const noData = data.pools.length <= 0;
 
     if (!loading && !noData) {
       return (
         <Grid className="mb-24 mt-14">
-          {sortData(filteredPodStakingCardTvl, sortType.name).map(
-            (poolData) => {
-              return (
-                <PodStakingCard
-                  key={poolData.id}
-                  data={poolData}
-                  tvl={poolData.tvl}
-                  getPriceByAddress={getPriceByAddress}
-                />
-              );
-            }
-          )}
+          {sortData(filteredStakingCardTvl, sortType.name).map((poolData) => {
+            return (
+              <StakingCard
+                key={poolData.id}
+                data={poolData}
+                tvl={poolData.tvl}
+                getPriceByAddress={getPriceByAddress}
+              />
+            );
+          })}
         </Grid>
       );
     } else if (!loading && noData) {
@@ -64,8 +62,7 @@ export const PodStakingPage = () => {
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            No POD{" "}
-            <span className="whitespace-nowrap">staking pools found.</span>
+            No <span className="whitespace-nowrap">staking pools found.</span>
           </p>
         </div>
       );
@@ -93,7 +90,7 @@ export const PodStakingPage = () => {
         />
       </div>
 
-      {renderPodStakingPools()}
+      {renderStakingPools()}
 
       {!loading && hasMore && (
         <NeutralButton

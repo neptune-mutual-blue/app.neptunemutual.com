@@ -3,7 +3,7 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { MyBondTxsTable } from "@/components/UI/organisms/pools/MyBondTxsTable";
+import { MyBondTxsTable } from "@/src/modules/pools/bond/MyBondTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import Head from "next/head";
 
