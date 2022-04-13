@@ -2,22 +2,22 @@ import Link from "next/link";
 
 import { Container } from "@/components/UI/atoms/container";
 import { Grid } from "@/components/UI/atoms/grid";
-import { PolicyCard } from "@/components/UI/organisms/policy/PolicyCard";
-import { useActivePolicies } from "@/src/hooks/useActivePolicies";
+import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
+import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
 import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
-export const PoliciesActivePage = () => {
-  const { data, loading } = useActivePolicies();
-  const { activePolicies } = data;
+export const PoliciesExpiredPage = () => {
+  const { data, loading } = useExpiredPolicies();
+  const { expiredPolicies } = data;
 
-  const renderMyActivePolicies = () => {
-    const noData = activePolicies.length <= 0;
+  const renderMyExpiredPolicies = () => {
+    const noData = expiredPolicies.length <= 0;
 
     if (!loading && !noData) {
       return (
         <Grid className="mb-24 mt-14">
-          {activePolicies.map((policyInfo) => {
+          {expiredPolicies.map((policyInfo) => {
             return (
               <PolicyCard
                 key={policyInfo.id}
@@ -36,9 +36,9 @@ export const PoliciesActivePage = () => {
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            A cover policy enables you to claim and receive payout when an
-            incident occurs. To purchase a policy, select a cover from the home
-            screen.
+            When a policy&apos;s duration ends, it automatically moves to this
+            section. Explore products on the home screen to view available
+            protections.
           </p>
         </div>
       );
@@ -64,7 +64,7 @@ export const PoliciesActivePage = () => {
           </a>
         </Link>
       </div>
-      {renderMyActivePolicies()}
+      {renderMyExpiredPolicies()}
     </Container>
   );
 };

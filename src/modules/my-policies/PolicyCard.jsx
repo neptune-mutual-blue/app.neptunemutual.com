@@ -2,7 +2,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Divider } from "@/components/UI/atoms/divider";
 import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { PolicyCardFooter } from "@/components/UI/organisms/policy/PolicyCard/PolicyCardFooter";
+import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";

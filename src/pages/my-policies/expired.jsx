@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { PoliciesTabs } from "@/components/pages/my-policies/PoliciesTabs";
-import { PoliciesExpiredPage } from "@/components/pages/my-policies/PoliciesExpiredPage";
+import { PoliciesTabs } from "@/src/modules/my-policies/PoliciesTabs";
+import { PoliciesExpiredPage } from "@/src/modules/my-policies/expired/PoliciesExpiredPage";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
