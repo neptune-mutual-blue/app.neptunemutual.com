@@ -4,7 +4,7 @@ import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
 import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { MyLiquidityTxsTable } from "@/components/UI/organisms/my-liquidity/MyLiquidityTxsTable";
+import { MyLiquidityTxsTable } from "@/src/modules/my-liquidity/MyLiquidityTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

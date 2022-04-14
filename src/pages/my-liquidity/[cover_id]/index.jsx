@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { MyLiquidityCoverPage } from "@/components/pages/my-liquidity/details";
+import { MyLiquidityCoverPage } from "@/src/modules/my-liquidity/details";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { LiquidityFormsProvider } from "@/components/LiquidityForms/LiquidityFormsContext";

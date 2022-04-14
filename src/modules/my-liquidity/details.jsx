@@ -7,7 +7,7 @@ import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
 import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
 import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
-import { WithdrawLiquidityModal } from "@/components/LiquidityForms/WithdrawLiquidityModal";
+import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
 import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
