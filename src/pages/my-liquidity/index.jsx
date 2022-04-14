@@ -4,7 +4,7 @@ import { Container } from "@/components/UI/atoms/container";
 import { Hero } from "@/components/UI/molecules/Hero";
 import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
 import { HeroStat } from "@/components/UI/molecules/HeroStat";
-import { MyLiquidityPage } from "@/components/pages/my-liquidity";
+import { MyLiquidityPage } from "@/src/modules/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/components/pages/ComingSoon";
 import { useWeb3React } from "@web3-react/core";

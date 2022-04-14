@@ -5,7 +5,7 @@ import { Modal } from "@/components/UI/molecules/modal/regular";
 import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
 
 import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
-import { WithdrawLiquidityForm } from "@/components/LiquidityForms/WithdrawLiquidityForm";
+import { WithdrawLiquidityForm } from "@/src/modules/my-liquidity/WithdrawLiquidityForm";
 
 export const WithdrawLiquidityModal = ({
   modalTitle,
