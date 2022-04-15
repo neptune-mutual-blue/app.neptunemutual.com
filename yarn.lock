@@ -1392,10 +1392,10 @@
     "@babel/runtime" "^7.11.2"
     "@lingui/core" "^3.13.2"
 
-"@neptunemutual/sdk@^0.4.2-beta":
-  version "0.4.2-beta"
-  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.4.2-beta.tgz#3e8f2de1875305e9e04503c46975448fa4ffa174"
-  integrity sha512-ypPdyKAEhmEIIvLJeg0JiFUOjS1evsGUTMUeikW8FCU9n2klQjAZ2nGpS56fE2gsV86fIVBsImvlvG0Qb03r1g==
+"@neptunemutual/sdk@^0.4.3-beta":
+  version "0.4.3-beta"
+  resolved "https://registry.yarnpkg.com/@neptunemutual/sdk/-/sdk-0.4.3-beta.tgz#4e661830d62608c60706665e102a8f611246abb9"
+  integrity sha512-GvyjHQE4u/t0b0ebd8yG3x4I8Vxz8AN/jw9EpP9+UFrZrbil9vlnh/9Uytzob6DTC798WRSFKdBmHU5xZVyhPw==
   dependencies:
     axios "0.26.0"
     bs58 "4.0.1"

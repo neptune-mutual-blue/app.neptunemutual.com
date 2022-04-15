@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import {
@@ -194,7 +194,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         cleanup();
       };
 
-      const args = [coverKey, lqAmount, npmAmount];
+      const args = [coverKey, lqAmount, npmAmount, utils.keyUtil.toBytes32("")];
       invoke({
         instance: vault,
         methodName: "addLiquidity",

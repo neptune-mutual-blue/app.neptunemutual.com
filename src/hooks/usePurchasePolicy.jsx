@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 
 import {
   convertToUnits,
@@ -185,6 +185,7 @@ export const usePurchasePolicy = ({
         coverKey,
         parseInt(coverMonth, 10),
         convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+        utils.keyUtil.toBytes32(""),
       ];
       invoke({
         instance: policyContract,
