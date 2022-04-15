@@ -70,32 +70,6 @@ export const getKeys = async (chainId, provider, key, account) => {
     },
     {
       returns: "uint256",
-      property: "liquidityAddedByMe",
-      compute: async () => {
-        const store = sdk.registry.Store.getInstance(chainId, provider);
-        const k = ethers.utils.solidityKeccak256(
-          ["bytes32", "bytes32", "address"],
-          [sdk.utils.keyUtil.PROTOCOL.NS.COVER_LIQUIDITY_ADDED, key, account]
-        );
-
-        return store.getUint(k);
-      },
-    },
-    {
-      returns: "uint256",
-      property: "liquidityRemovedByMe",
-      compute: async () => {
-        const store = sdk.registry.Store.getInstance(chainId, provider);
-        const k = ethers.utils.solidityKeccak256(
-          ["bytes32", "bytes32", "address"],
-          [sdk.utils.keyUtil.PROTOCOL.NS.COVER_LIQUIDITY_REMOVED, key, account]
-        );
-
-        return store.getUint(k);
-      },
-    },
-    {
-      returns: "uint256",
       property: "myShare",
       compute: async ({ result }) => {
         const { vaultStablecoinBalance, myPodBalance, podTotalSupply } = result;

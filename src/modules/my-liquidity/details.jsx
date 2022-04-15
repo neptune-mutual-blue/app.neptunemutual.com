@@ -13,7 +13,7 @@ import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
-import { convertFromUnits, toBN } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/components/LiquidityForms/ProvideLiquidityForm";
 
@@ -46,9 +46,6 @@ export const MyLiquidityCoverPage = () => {
 
   const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;
-  const myEarnings = toBN(info.myUnrealizedShare)
-    .plus(info.liquidityRemovedByMe)
-    .minus(info.liquidityAddedByMe);
   const reassuranceAmount = info.totalReassurance;
 
   if (!coverInfo) {
@@ -104,22 +101,6 @@ export const MyLiquidityCoverPage = () => {
                   <span className="">Total Liquidity:</span>
                   <strong className="font-bold text-right">
                     {formatCurrency(convertFromUnits(totalLiquidity)).short}
-                  </strong>
-                </div>
-                <div
-                  className="flex justify-between pb-2"
-                  title={
-                    formatCurrency(convertFromUnits(myEarnings.toString())).long
-                  }
-                >
-                  <span className="">My Earnings:</span>
-                  <strong className="font-bold text-right">
-                    {
-                      formatCurrency(
-                        convertFromUnits(myEarnings.toString()),
-                        "USD"
-                      ).short
-                    }
                   </strong>
                 </div>
                 <div
