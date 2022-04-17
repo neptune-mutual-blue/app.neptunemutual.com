@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { ReportingTabs } from "@/src/modules/reporting/ReportingTabs";
 import { ReportingActivePage } from "@/src/modules/reporting/active/active";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

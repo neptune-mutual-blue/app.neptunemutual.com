@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { TokenAmountInput } from "@/src/common/components/token-amount-input";
 import { useBlockHeight } from "@/src/hooks/useBlockHeight";
 import { useStakingPoolWithdraw } from "@/src/hooks/useStakingPoolWithdraw";
 import {

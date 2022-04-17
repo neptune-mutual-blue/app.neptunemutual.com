@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import { Container } from "@/components/UI/atoms/container";
-import { Grid } from "@/components/UI/atoms/grid";
+import { Container } from "@/src/common/components/container";
+import { Grid } from "@/src/common/components/grid";
 
-import { MyLiquidityCoverCard } from "@/components/UI/organisms/cover/my-liquidity/MyLiquidityCoverCard";
+import { MyLiquidityCoverCard } from "@/src/common/components/cover/my-liquidity/MyLiquidityCoverCard";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
-import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const MyLiquidityPage = () => {

@@ -1,14 +1,14 @@
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Radio } from "@/components/UI/atoms/radio";
-import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { Modal } from "@/components/UI/molecules/modal/regular";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Radio } from "@/src/common/components/radio";
+import { ModalCloseButton } from "@/src/common/components/modal/close-button";
+import { Modal } from "@/src/common/components/modal/regular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
-import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
+import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
 
 export const ResolveIncident = ({
   refetchReport,

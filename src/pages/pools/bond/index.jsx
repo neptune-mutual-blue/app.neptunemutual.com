@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import BondPage from "@/src/modules/pools/bond";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

@@ -1,9 +1,9 @@
-import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Container } from "@/components/UI/atoms/container";
-import { RegularInput } from "@/components/UI/atoms/input/regular-input";
-import { Label } from "@/components/UI/atoms/label";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Container } from "@/src/common/components/container";
+import { RegularInput } from "@/src/common/components/input/regular-input";
+import { Label } from "@/src/common/components/label";
+import { TokenAmountInput } from "@/src/common/components/token-amount-input";
 import DeleteIcon from "@/icons/delete-icon";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useReportIncident } from "@/src/hooks/useReportIncident";

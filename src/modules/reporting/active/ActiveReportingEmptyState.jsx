@@ -1,5 +1,5 @@
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Label } from "@/components/UI/atoms/label";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Label } from "@/src/common/components/label";
 import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";

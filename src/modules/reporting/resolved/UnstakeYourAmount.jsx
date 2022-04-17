@@ -1,7 +1,7 @@
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
-import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { Modal } from "@/components/UI/molecules/modal/regular";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { DisabledInput } from "@/src/common/components/input/disabled-input";
+import { ModalCloseButton } from "@/src/common/components/modal/close-button";
+import { Modal } from "@/src/common/components/modal/regular";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -12,7 +12,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
-import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
+import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);

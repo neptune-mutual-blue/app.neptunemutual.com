@@ -1,9 +1,9 @@
-import { Alert } from "@/components/UI/atoms/alert";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Label } from "@/components/UI/atoms/label";
+import { Alert } from "@/src/common/components/alert";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Label } from "@/src/common/components/label";
 import { useState, useEffect } from "react";
-import { RadioReport } from "@/components/UI/atoms/radio-report";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { RadioReport } from "@/src/common/components/radio-report";
+import { TokenAmountInput } from "@/src/common/components/token-amount-input";
 import { useVote } from "@/src/hooks/useVote";
 import {
   convertFromUnits,
@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { classNames } from "@/utils/classnames";
-import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");

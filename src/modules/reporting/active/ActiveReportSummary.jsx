@@ -1,5 +1,5 @@
-import { Divider } from "@/components/UI/atoms/divider";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { Divider } from "@/src/common/components/divider";
+import { OutlinedCard } from "@/src/common/components/outlined-card";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
 import { InsightsTable } from "@/src/modules/reporting/InsightsTable";

@@ -1,12 +1,12 @@
-import { Container } from "@/components/UI/atoms/container";
+import { Container } from "@/src/common/components/container";
 import Link from "next/link";
 
 export default function PageNotFound() {
   return (
-    <div className="bg-white max-w-full">
-      <Container className="py-28 flex flex-col bg-contain sm:bg-auto items-center  bg-404-background bg-no-repeat bg-top bg-origin-content">
+    <div className="max-w-full bg-white">
+      <Container className="flex flex-col items-center bg-top bg-no-repeat bg-contain py-28 sm:bg-auto bg-404-background bg-origin-content">
         <img src="/404.svg" alt="404 page not found" />
-        <p className="font-sora text-xxxl leading-10 font-bold text-center my-12 py-3">
+        <p className="py-3 my-12 font-bold leading-10 text-center font-sora text-xxxl">
           404
         </p>
         <p className="mb-11 text-h5">

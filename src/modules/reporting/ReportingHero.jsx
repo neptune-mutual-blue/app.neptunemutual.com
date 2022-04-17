@@ -1,7 +1,7 @@
-import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
+import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { CoverProfileInfo } from "@/src/common/CoverProfileInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 

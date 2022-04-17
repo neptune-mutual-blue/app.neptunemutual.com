@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { PoliciesTabs } from "@/src/modules/my-policies/PoliciesTabs";
 import { PoliciesActivePage } from "@/src/modules/my-policies/active/PoliciesActivePage";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

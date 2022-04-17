@@ -1,12 +1,12 @@
 import Head from "next/head";
 
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { HeroStat } from "@/src/common/components/HeroStat";
 import { MyLiquidityPage } from "@/src/modules/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { useWeb3React } from "@web3-react/core";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { convertFromUnits } from "@/utils/bn";

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
-import { Label } from "@/components/UI/atoms/label";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Container } from "@/components/UI/atoms/container";
+import { Label } from "@/src/common/components/label";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Container } from "@/src/common/components/container";
 import { BondInfoCard } from "@/src/modules/pools/bond/BondInfoCard";
 import { mergeAlternatively } from "@/utils/arrays";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
-import { ReceiveAmountInput } from "@/components/UI/organisms/receive-amount-input";
+import { TokenAmountInput } from "@/src/common/components/token-amount-input";
+import { ReceiveAmountInput } from "@/src/common/components/receive-amount-input";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
@@ -20,7 +20,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { getReplacedString } from "@/utils/string";
 import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
-import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
 
 const BondPage = () => {
   const { networkId } = useNetwork();

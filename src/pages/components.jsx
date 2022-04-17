@@ -1,7 +1,7 @@
-import { Container } from "@/components/UI/atoms/container";
-import { InputWithTrailingButton } from "@/components/UI/atoms/input/with-trailing-button";
+import { Container } from "@/src/common/components/container";
+import { InputWithTrailingButton } from "@/src/common/components/input/with-trailing-button";
 import Head from "next/head";
-import { TotalLiquidityChart } from "@/components/UI/molecules/TotalLiquidityChart";
+import { TotalLiquidityChart } from "@/src/common/components/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
 import { useEffect } from "react";
