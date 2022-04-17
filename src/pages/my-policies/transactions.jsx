@@ -1,10 +1,10 @@
 import Head from "next/head";
-import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
+import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroTitle } from "@/src/common/components/HeroTitle";
 import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

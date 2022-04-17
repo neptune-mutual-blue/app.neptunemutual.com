@@ -1,10 +1,10 @@
-import { Divider } from "@/components/UI/atoms/divider";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { Divider } from "@/src/common/components/divider";
+import { OutlinedCard } from "@/src/common/components/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { CardStatusBadge } from "@/components/CardStatusBadge";
+import { CardStatusBadge } from "@/src/common/components/CardStatusBadge";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);

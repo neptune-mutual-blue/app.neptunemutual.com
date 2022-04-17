@@ -1,12 +1,12 @@
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { Label } from "@/components/UI/atoms/label";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { Label } from "@/src/common/components/label";
 import { useState, useEffect } from "react";
-import { TokenAmountInput } from "@/components/UI/organisms/token-amount-input";
+import { TokenAmountInput } from "@/src/common/components/token-amount-input";
 import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { DataLoadingIndicator } from "@/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
 
 export const StakeForm = ({
   info,

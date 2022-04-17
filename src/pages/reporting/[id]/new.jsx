@@ -7,7 +7,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {

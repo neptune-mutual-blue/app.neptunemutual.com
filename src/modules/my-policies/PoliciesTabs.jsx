@@ -1,9 +1,9 @@
 import { useActivePolicies } from "@/src/hooks/useActivePolicies";
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
-import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { TabNav } from "@/components/UI/molecules/tabnav";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroStat } from "@/src/common/components/HeroStat";
+import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { TabNav } from "@/src/common/components/tabnav";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 

@@ -1,6 +1,6 @@
-import { Divider } from "@/components/UI/atoms/divider";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
-import { ProgressBar } from "@/components//UI/atoms/progress-bar";
+import { Divider } from "@/src/common/components/divider";
+import { OutlinedCard } from "@/src/common/components/outlined-card";
+import { ProgressBar } from "@/src/common/components/progress-bar";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -10,7 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
-import { CardStatusBadge } from "@/components/CardStatusBadge";
+import { CardStatusBadge } from "@/src/common/components/CardStatusBadge";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
 

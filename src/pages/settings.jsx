@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { languageKey, localesKey } from "@/components/common/LanguageKey";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { languageKey, localesKey } from "@/src/common/LanguageKey";
 import { Trans } from "@lingui/macro";
 
 export default function Settings() {

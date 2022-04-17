@@ -1,19 +1,19 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
-import { ClaimCxTokensTable } from "@/components/ClaimCxTokens/ClaimCxTokensTable";
+import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { HeroStat } from "@/src/common/components/HeroStat";
+import { ClaimCxTokensTable } from "@/src/common/ClaimCxTokens/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
-import { Alert } from "@/components/UI/atoms/alert";
+import { Alert } from "@/src/common/components/alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {

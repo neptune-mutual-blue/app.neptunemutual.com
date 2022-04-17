@@ -1,5 +1,5 @@
 import Head from "next/head";
-import CreateNewCoverPage from "../components/pages/cover/create/CreateNewCoverPage";
+import CreateNewCoverPage from "../modules/cover/create/CreateNewCoverPage";
 
 export default function CreateCover() {
   return (

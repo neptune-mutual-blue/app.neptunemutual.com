@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/src/modules/reporting/details";
 import { toBytes32 } from "@/src/helpers/cover";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Modal } from "@/components/UI/molecules/modal/regular";
+import { Modal } from "@/src/common/components/modal/regular";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
-import { TabHeader } from "@/components/UI/molecules/tabheader";
+import { ModalCloseButton } from "@/src/common/components/modal/close-button";
+import { TabHeader } from "@/src/common/components/tabheader";
 import { HarvestForm } from "@/src/modules/pools/staking/HarvestForm";
 import { UnStakeForm } from "@/src/modules/pools/staking/UnStakeForm";
-import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
+import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
 
 const headers = [
   {

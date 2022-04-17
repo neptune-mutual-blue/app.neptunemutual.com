@@ -1,6 +1,6 @@
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { Divider } from "@/components/UI/atoms/divider";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { Divider } from "@/src/common/components/divider";
+import { OutlinedCard } from "@/src/common/components/outlined-card";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
@@ -9,7 +9,7 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
-import { CardStatusBadge } from "@/components/CardStatusBadge";
+import { CardStatusBadge } from "@/src/common/components/CardStatusBadge";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;

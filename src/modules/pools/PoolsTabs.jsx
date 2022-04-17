@@ -1,8 +1,8 @@
-import { Container } from "@/components/UI/atoms/container";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
-import { HeroTitle } from "@/components/UI/molecules/HeroTitle";
-import { TabNav } from "@/components/UI/molecules/tabnav";
+import { Container } from "@/src/common/components/container";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroStat } from "@/src/common/components/HeroStat";
+import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { TabNav } from "@/src/common/components/tabnav";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";

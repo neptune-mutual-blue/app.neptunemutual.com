@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { HomePage } from "@/components/pages/home";
+import { HomePage } from "@/src/modules/home";
 
 export default function Home() {
   return (

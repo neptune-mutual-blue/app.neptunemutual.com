@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { NeutralButton } from "@/components/UI/atoms/button/neutral-button";
-import { Container } from "@/components/UI/atoms/container";
-import { Grid } from "@/components/UI/atoms/grid";
-import { SearchAndSortBar } from "@/components/UI/molecules/search-and-sort";
+import { NeutralButton } from "@/src/common/components/button/neutral-button";
+import { Container } from "@/src/common/components/container";
+import { Grid } from "@/src/common/components/grid";
+import { SearchAndSortBar } from "@/src/common/components/search-and-sort";
 import { StakingCard } from "@/src/modules/pools/staking/StakingCard";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const StakingPage = () => {

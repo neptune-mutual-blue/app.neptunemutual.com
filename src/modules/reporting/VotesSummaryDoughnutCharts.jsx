@@ -1,4 +1,4 @@
-import { PercentDoughnutChart } from "@/components/UI/molecules/PercentDoughnutChart";
+import { PercentDoughnutChart } from "@/src/common/components/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
 
@@ -30,7 +30,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
   return (
     <>
-      <div className="my-10 flex justify-center items-center flex-wrap gap-8">
+      <div className="flex flex-wrap items-center justify-center gap-8 my-10">
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title="Incident Occurred"
@@ -57,7 +57,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
 const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
   return (
-    <div className="absolute flex flex-col justify-center items-center w-16 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute flex flex-col items-center justify-center w-16 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
       <h5
         className={classNames(
           "text-h4 font-bold text-center",

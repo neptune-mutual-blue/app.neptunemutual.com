@@ -3,7 +3,7 @@ import {
   TableWrapper,
   TBody,
   THead,
-} from "@/components/UI/organisms/Table";
+} from "@/src/common/components/Table";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";

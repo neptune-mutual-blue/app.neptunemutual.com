@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { CollectRewardModal } from "@/src/modules/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
-import { DoubleImage } from "@/components/common/DoubleImage";
+import { DoubleImage } from "@/src/common/components/DoubleImage";
 import { StakingCardTitle } from "@/src/modules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/src/modules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/src/modules/pools/staking/StakingCardCTA";
 import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
-import { OutlinedCard } from "@/components/UI/molecules/outlined-card";
+import { OutlinedCard } from "@/src/common/components/outlined-card";
 import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
@@ -20,7 +20,7 @@ import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
-import { Badge } from "@/components/UI/atoms/badge";
+import { Badge } from "@/src/common/components/badge";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 

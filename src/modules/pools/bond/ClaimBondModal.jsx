@@ -1,15 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { RegularButton } from "@/components/UI/atoms/button/regular";
-import { DisabledInput } from "@/components/UI/atoms/input/disabled-input";
-import { Label } from "@/components/UI/atoms/label";
-import { Modal } from "@/components/UI/molecules/modal/regular";
-import { ModalCloseButton } from "@/components/UI/molecules/modal/close-button";
+import { RegularButton } from "@/src/common/components/button/regular";
+import { DisabledInput } from "@/src/common/components/input/disabled-input";
+import { Label } from "@/src/common/components/label";
+import { Modal } from "@/src/common/components/modal/regular";
+import { ModalCloseButton } from "@/src/common/components/modal/close-button";
 import { formatAmount } from "@/utils/formatter";
 import { convertFromUnits } from "@/utils/bn";
 import { useClaimBond } from "@/src/hooks/useClaimBond";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { ModalWrapper } from "@/components/UI/molecules/modal/modal-wrapper";
+import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
 
 export const ClaimBondModal = ({
   modalTitle,

@@ -1,4 +1,4 @@
-import { RegularButton } from "@/components/UI/atoms/button/regular";
+import { RegularButton } from "@/src/common/components/button/regular";
 import { classNames } from "@/utils/classnames";
 
 export const StakingCardCTA = ({ children, onClick, className }) => (

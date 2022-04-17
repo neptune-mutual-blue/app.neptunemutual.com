@@ -4,7 +4,7 @@ import {
   TableWrapper,
   TBody,
   THead,
-} from "@/components/UI/organisms/Table";
+} from "@/src/common/components/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -19,7 +19,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNetwork } from "@/src/context/Network";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
-import { TokenAmountSpan } from "@/components/TokenAmountSpan";
+import { TokenAmountSpan } from "@/src/common/components/TokenAmountSpan";
 
 const renderHeader = (col) => (
   <th

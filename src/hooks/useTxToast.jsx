@@ -1,4 +1,4 @@
-import { ViewTxLink } from "@/components/common/ViewTxLink";
+import { ViewTxLink } from "@/src/common/components/ViewTxLink";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";

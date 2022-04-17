@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { Container } from "@/components/UI/atoms/container";
-import { Grid } from "@/components/UI/atoms/grid";
+import { Container } from "@/src/common/components/container";
+import { Grid } from "@/src/common/components/grid";
 import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
 import { useActivePolicies } from "@/src/hooks/useActivePolicies";
-import { CardSkeleton } from "@/components/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const PoliciesActivePage = () => {

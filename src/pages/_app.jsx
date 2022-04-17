@@ -5,14 +5,14 @@ import "../styles/globals.css";
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { Header } from "@/components/UI/organisms/header";
+import { Header } from "@/src/common/components/header";
 import { NetworkProvider } from "@/src/context/Network";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
-import { DisclaimerModal } from "@/components/UI/organisms/disclaimer/DisclaimerModal";
-import { ScrollToTopButton } from "@/components/UI/atoms/scrollToTop";
+import { DisclaimerModal } from "@/src/common/components/disclaimer/DisclaimerModal";
+import { ScrollToTopButton } from "@/src/common/components/scrollToTop";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { IpfsProvider } from "@/src/context/Ipfs";
 import { LanguageProvider } from "../i18n";

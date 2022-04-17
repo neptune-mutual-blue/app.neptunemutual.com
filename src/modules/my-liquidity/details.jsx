@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Container } from "@/components/UI/atoms/container";
+import { Container } from "@/src/common/components/container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { BreadCrumbs } from "@/components/UI/atoms/breadcrumbs";
-import { Hero } from "@/components/UI/molecules/Hero";
-import { HeroStat } from "@/components/UI/molecules/HeroStat";
-import { CoverPurchaseResolutionSources } from "@/components/UI/organisms/cover/purchase/resolution-sources";
-import { OutlinedButton } from "@/components/UI/atoms/button/outlined";
+import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
+import { Hero } from "@/src/common/components/Hero";
+import { HeroStat } from "@/src/common/components/HeroStat";
+import { CoverPurchaseResolutionSources } from "@/src/common/components/cover/purchase/resolution-sources";
+import { OutlinedButton } from "@/src/common/components/button/outlined";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/components/UI/molecules/modal/ModalTitle";
-import { SeeMoreParagraph } from "@/components/UI/molecules/SeeMoreParagraph";
+import { ModalTitle } from "@/src/common/components/modal/ModalTitle";
+import { SeeMoreParagraph } from "@/src/common/components/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { CoverProfileInfo } from "@/components/common/CoverProfileInfo";
+import { CoverProfileInfo } from "@/src/common/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ProvideLiquidityForm } from "@/components/LiquidityForms/ProvideLiquidityForm";
+import { ProvideLiquidityForm } from "@/src/common/LiquidityForms/ProvideLiquidityForm";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);

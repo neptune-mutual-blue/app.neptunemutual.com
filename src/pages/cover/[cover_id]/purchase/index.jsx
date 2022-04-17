@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-import { CoverPurchaseDetailsPage } from "@/components/pages/cover/purchase";
-import { ComingSoon } from "@/components/pages/ComingSoon";
+import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
+import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {
