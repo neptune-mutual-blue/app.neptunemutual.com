@@ -1,4 +1,4 @@
-import { RegularButton } from "@/src/common/components/button/regular";
+import { RegularButton } from "@/common/components/Button/RegularButton";
 import { classNames } from "@/utils/classnames";
 
 export const StakingCardCTA = ({ children, onClick, className }) => (

@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Modal } from "@/src/common/components/modal/regular";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
-import { Divider } from "@/src/common/components/divider";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { Divider } from "@/common/components/Divider/Divider";
 
 const initValue = {
   // prettier-ignore
@@ -162,7 +162,7 @@ const ForceTxModal = ({
   handleContinue,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalRegular isOpen={isOpen} onClose={onClose}>
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center">
           <div className="font-bold font-sora text-h2">
@@ -203,6 +203,6 @@ const ForceTxModal = ({
           </button>
         </div>
       </div>
-    </Modal>
+    </ModalRegular>
   );
 };

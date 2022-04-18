@@ -1,5 +1,5 @@
-import { RegularInput } from "@/src/common/components/input/regular-input";
-import { Label } from "@/src/common/components/label";
+import { RegularInput } from "@/common/components/Input/RegularInput";
+import { Label } from "@/common/components/Label/Label";
 
 const SocialUrlInput = ({ handleSocialsInput, socialUrls }) => {
   return (

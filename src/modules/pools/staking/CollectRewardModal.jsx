@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Modal } from "@/src/common/components/modal/regular";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
-import { TabHeader } from "@/src/common/components/tabheader";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { TabHeader } from "@/common/components/Tab/TabHeader";
 import { HarvestForm } from "@/src/modules/pools/staking/HarvestForm";
 import { UnStakeForm } from "@/src/modules/pools/staking/UnStakeForm";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 
 const headers = [
   {
@@ -35,7 +35,7 @@ export const CollectRewardModal = ({
   const [isDisabled, setIsDisabled] = useState({ w: false, wr: false });
 
   return (
-    <Modal
+    <ModalRegular
       isOpen={isOpen}
       onClose={onClose}
       disabled={isDisabled.w || isDisabled.wr}
@@ -82,6 +82,6 @@ export const CollectRewardModal = ({
           )}
         </div>
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

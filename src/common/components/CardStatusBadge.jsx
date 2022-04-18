@@ -1,4 +1,4 @@
-import { Badge } from "@/src/common/components/badge";
+import { Badge } from "@/common/components/Badge/Badge";
 import { classNames } from "@/utils/classnames";
 
 export const CardStatusBadge = ({ status }) => {

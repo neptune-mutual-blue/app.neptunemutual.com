@@ -1,5 +1,5 @@
-import { Label } from "@/src/common/components/label";
-import { RegularInput } from "@/src/common/components/input/regular-input";
+import { Label } from "@/common/components/Label/Label";
+import { RegularInput } from "@/common/components/Input/RegularInput";
 
 const PricingInput = ({ setPricing, pricing }) => {
   return (

@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { Container } from "@/src/common/components/container";
-import { Grid } from "@/src/common/components/grid";
-import { CoverCard } from "@/src/common/components/cover/card";
-import { HomeCard } from "@/src/common/components/home-card";
-import { HomeMainCard } from "@/src/common/components/home-card/main";
-import { SearchAndSortBar } from "@/src/common/components/search-and-sort";
+import { Container } from "@/common/components/Container/Container";
+import { Grid } from "@/common/components/Grid/Grid";
+import { CoverCard } from "@/common/components/Cover/CoverCard";
+import { HomeCard } from "@/common/components/HomeCard/HomeCard";
+import { HomeMainCard } from "@/common/components/HomeCard/HomeMainCard";
+import { SearchAndSortBar } from "@/common/components/SearchAndSortBar";
 import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/src/common/components/Hero";
-import { NeutralButton } from "@/src/common/components/button/neutral-button";
+import { NeutralButton } from "@/common/components/Button/NeutralButton";
 import { TotalLiquidityChart } from "@/src/common/components/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
@@ -23,7 +23,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();

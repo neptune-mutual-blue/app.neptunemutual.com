@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
-import { Container } from "@/src/common/components/container";
+import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
+import { Container } from "@/common/components/Container/Container";
 import { Hero } from "@/src/common/components/Hero";
 import { HeroTitle } from "@/src/common/components/HeroTitle";
 import { HeroStat } from "@/src/common/components/HeroStat";
-import { ClaimCxTokensTable } from "@/src/common/ClaimCxTokens/ClaimCxTokensTable";
+import { ClaimCxTokensTable } from "@/src/modules/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
@@ -13,7 +13,7 @@ import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/src/common/components/ComingSoon";
 import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
-import { Alert } from "@/src/common/components/alert";
+import { Alert } from "@/common/components/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {

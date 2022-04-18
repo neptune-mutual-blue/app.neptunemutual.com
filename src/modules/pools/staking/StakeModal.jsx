@@ -1,8 +1,8 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Modal } from "@/src/common/components/modal/regular";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 import { StakeForm } from "@/src/modules/pools/staking/StakeForm";
 
 export const StakeModal = ({
@@ -17,7 +17,7 @@ export const StakeModal = ({
 }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   return (
-    <Modal isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
+    <ModalRegular isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
       <ModalWrapper>
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
@@ -38,6 +38,6 @@ export const StakeModal = ({
           setModalDisabled={setIsDisabled}
         />
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

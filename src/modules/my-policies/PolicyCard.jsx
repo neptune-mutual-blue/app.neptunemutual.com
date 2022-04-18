@@ -1,6 +1,6 @@
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { Divider } from "@/src/common/components/divider";
-import { OutlinedCard } from "@/src/common/components/outlined-card";
+import { Divider } from "@/common/components/Divider/Divider";
+import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";

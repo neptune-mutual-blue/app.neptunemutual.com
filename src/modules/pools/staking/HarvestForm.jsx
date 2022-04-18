@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { RegularButton } from "@/src/common/components/button/regular";
+import { RegularButton } from "@/common/components/Button/RegularButton";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";

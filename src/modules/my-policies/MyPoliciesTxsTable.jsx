@@ -5,7 +5,7 @@ import {
   TableWrapper,
   TBody,
   THead,
-} from "@/src/common/components/Table";
+} from "@/common/components/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";

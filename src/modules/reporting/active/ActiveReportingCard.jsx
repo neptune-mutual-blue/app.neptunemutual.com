@@ -1,6 +1,6 @@
-import { Divider } from "@/src/common/components/divider";
-import { OutlinedCard } from "@/src/common/components/outlined-card";
-import { ProgressBar } from "@/src/common/components/progress-bar";
+import { Divider } from "@/common/components/Divider/Divider";
+import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
+import { ProgressBar } from "@/common/components/ProgressBar/ProgressBar";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";

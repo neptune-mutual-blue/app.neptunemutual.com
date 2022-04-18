@@ -1,15 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { RegularButton } from "@/src/common/components/button/regular";
-import { DisabledInput } from "@/src/common/components/input/disabled-input";
-import { Label } from "@/src/common/components/label";
-import { Modal } from "@/src/common/components/modal/regular";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { DisabledInput } from "@/common/components/Input/DisabledInput";
+import { Label } from "@/common/components/Label/Label";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
 import { formatAmount } from "@/utils/formatter";
 import { convertFromUnits } from "@/utils/bn";
 import { useClaimBond } from "@/src/hooks/useClaimBond";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -22,7 +22,7 @@ export const ClaimBondModal = ({
   const { handleClaim, claiming } = useClaimBond();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} disabled={claiming}>
+    <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
       <ModalWrapper className="sm:min-w-600">
         <Dialog.Title className="font-bold font-sora text-h2">
           {modalTitle}
@@ -66,6 +66,6 @@ export const ClaimBondModal = ({
           {claiming ? "Claiming..." : "Claim Now"}
         </RegularButton>
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

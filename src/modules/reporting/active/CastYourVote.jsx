@@ -1,9 +1,9 @@
-import { Alert } from "@/src/common/components/alert";
-import { RegularButton } from "@/src/common/components/button/regular";
-import { Label } from "@/src/common/components/label";
+import { Alert } from "@/common/components/Alert/Alert";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { Label } from "@/common/components/Label/Label";
 import { useState, useEffect } from "react";
-import { RadioReport } from "@/src/common/components/radio-report";
-import { TokenAmountInput } from "@/src/common/components/token-amount-input";
+import { RadioReport } from "@/common/components/RadioReport/RadioReport";
+import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
 import { useVote } from "@/src/hooks/useVote";
 import {
   convertFromUnits,

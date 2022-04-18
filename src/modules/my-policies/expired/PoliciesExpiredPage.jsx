@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-import { Container } from "@/src/common/components/container";
-import { Grid } from "@/src/common/components/grid";
+import { Container } from "@/common/components/Container/Container";
+import { Grid } from "@/common/components/Grid/Grid";
 import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
 import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
-import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const PoliciesExpiredPage = () => {

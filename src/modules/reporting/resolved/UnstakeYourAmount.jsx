@@ -1,7 +1,7 @@
-import { RegularButton } from "@/src/common/components/button/regular";
-import { DisabledInput } from "@/src/common/components/input/disabled-input";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
-import { Modal } from "@/src/common/components/modal/regular";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { DisabledInput } from "@/common/components/Input/DisabledInput";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -12,7 +12,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -116,7 +116,7 @@ const UnstakeModal = ({
   unstaking,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} disabled={unstaking}>
+    <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
       <ModalWrapper className="sm:min-w-500 md:min-w-600">
         <Dialog.Title className="flex items-center">
           <img
@@ -145,6 +145,6 @@ const UnstakeModal = ({
           onClick={onClose}
         ></ModalCloseButton>
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

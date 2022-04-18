@@ -1,4 +1,4 @@
-import { Container } from "@/src/common/components/container";
+import { Container } from "@/common/components/Container/Container";
 import Link from "next/link";
 
 export default function PageNotFound() {

@@ -1,8 +1,8 @@
-import { OutlinedCard } from "@/src/common/components/outlined-card";
+import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
 import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
 import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
 import { UnstakeYourAmount } from "@/src/modules/reporting/resolved/UnstakeYourAmount";
-import { Divider } from "@/src/common/components/divider";
+import { Divider } from "@/common/components/Divider/Divider";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { truncateAddress } from "@/utils/address";
