@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 
-export const BurgerComponent = ({ isOpen, onToggle }) => {
+export const BurgerMenu = ({ isOpen, onToggle }) => {
   return (
     <button
       onClick={onToggle}

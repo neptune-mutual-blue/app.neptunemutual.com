@@ -8,7 +8,7 @@ import { HeroStat } from "@/src/common/components/HeroStat";
 import { CoverPurchaseResolutionSources } from "@/common/components/Cover/Purchase/CoverPurchaseResolutionSources";
 import { OutlinedButton } from "@/common/components/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/src/common/components/Modal/ModalTitle";
+import { ModalTitle } from "@/common/components/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/src/common/components/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";

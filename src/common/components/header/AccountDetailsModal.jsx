@@ -4,7 +4,7 @@ import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
-import Identicon from "@/src/common/components/Header/Identicon";
+import Identicon from "@/common/components/Header/Identicon";
 import { useEffect, useState } from "react";
 import CheckCircleIcon from "@/icons/CheckCircleIcon";
 import { ModalRegular } from "@/common/components/Modal/ModalRegular";
