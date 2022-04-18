@@ -5,7 +5,7 @@ import { SingleImage } from "@/src/common/components/SingleImage";
 import { StakingCardTitle } from "@/src/modules/pools/staking/StakingCardTitle";
 import { StakingCardSubTitle } from "@/src/modules/pools/staking/StakingCardSubTitle";
 import { StakingCardCTA } from "@/src/modules/pools/staking/StakingCardCTA";
-import { ModalTitle } from "@/src/common/components/Modal/ModalTitle";
+import { ModalTitle } from "@/common/components/Modal/ModalTitle";
 import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
 import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
 import BigNumber from "bignumber.js";

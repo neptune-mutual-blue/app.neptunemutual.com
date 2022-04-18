@@ -11,7 +11,7 @@ import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
-import { DisclaimerModal } from "@/src/common/components/Disclaimer/DisclaimerModal";
+import { DisclaimerModal } from "@/common/components/Disclaimer/DisclaimerModal";
 import { ScrollToTopButton } from "@/common/components/ScrollToTop/ScrollToTopButton";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { IpfsProvider } from "@/src/context/Ipfs";

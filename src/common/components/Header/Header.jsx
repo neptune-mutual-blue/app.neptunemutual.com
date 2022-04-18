@@ -8,12 +8,12 @@ import { useNotifier } from "@/src/hooks/useNotifier";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import AccountBalanceWalletIcon from "@/icons/AccountBalanceWalletIcon";
-import { AccountDetailsModal } from "@/src/common/components/Header/AccountDetailsModal";
+import { AccountDetailsModal } from "@/common/components/Header/AccountDetailsModal";
 import useAuth from "@/lib/connect-wallet/hooks/useAuth";
 import { Banner } from "@/src/common/components/Banner";
 import { truncateAddress } from "@/utils/address";
 import { HeaderLogo } from "@/src/common/components/HeaderLogo";
-import { BurgerComponent } from "@/src/common/components/BurgerMenu";
+import { BurgerMenu } from "@/common/components/BurgerMenu/BurgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
@@ -148,7 +148,7 @@ export const Header = () => {
 
           {!isOpen && (
             <div className="flex xl:hidden">
-              <BurgerComponent isOpen={isOpen} onToggle={toggleMenu} />
+              <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
             </div>
           )}
           <div className="hidden xl:flex">
@@ -248,7 +248,7 @@ export const MenuModal = ({
           <Content className="fixed z-50 max-h-screen min-w-full px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
             <div className="flex flex-col items-end justify-between min-h-screen px-4 text-center">
               <div className="flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
-                <BurgerComponent isOpen={isOpen} onToggle={onClose} />
+                <BurgerMenu isOpen={isOpen} onToggle={onClose} />
               </div>
               <div className="flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl">
                 <div className="flex flex-col justify-start overflow-y-auto mb-28">
