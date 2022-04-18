@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Container } from "@/src/common/components/container";
+import { Container } from "@/common/components/Container/Container";
 import { HeaderLogo } from "@/src/common/components/HeaderLogo";
 
 export const getStaticProps = async () => {

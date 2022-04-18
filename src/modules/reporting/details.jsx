@@ -1,7 +1,7 @@
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { RecentVotesTable } from "@/src/modules/reporting/RecentVotesTable";
-import { Container } from "@/src/common/components/container";
+import { Container } from "@/common/components/Container/Container";
 import { ResolvedReportSummary } from "@/src/modules/reporting/resolved/ResolvedReportSummary";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";

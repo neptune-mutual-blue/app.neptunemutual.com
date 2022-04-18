@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
-import { Label } from "@/src/common/components/label";
-import { RegularButton } from "@/src/common/components/button/regular";
-import { Container } from "@/src/common/components/container";
+import { Label } from "@/common/components/Label/Label";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { Container } from "@/common/components/Container/Container";
 import { BondInfoCard } from "@/src/modules/pools/bond/BondInfoCard";
 import { mergeAlternatively } from "@/utils/arrays";
-import { TokenAmountInput } from "@/src/common/components/token-amount-input";
-import { ReceiveAmountInput } from "@/src/common/components/receive-amount-input";
+import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
+import { ReceiveAmountInput } from "@/common/components/ReceiveAmountInput/ReceiveAmountInput";
 import { convertFromUnits, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";

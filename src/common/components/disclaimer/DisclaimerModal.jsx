@@ -1,4 +1,4 @@
-import { Modal } from "@/src/common/components/modal/regular";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { classNames } from "@/utils/classnames";
 import { Title, Description } from "@radix-ui/react-dialog";
@@ -23,7 +23,7 @@ export const DisclaimerModal = () => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
+    <ModalRegular isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
       <div className="border-[1.5px] border-[#B0C4DB] max-w-full lg:max-w-5xl w-max max-h-90vh inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
         <Title className="flex items-center font-bold font-sora text-h4">
           Disclaimer and Warranty
@@ -114,6 +114,6 @@ export const DisclaimerModal = () => {
           </button>
         </div>
       </div>
-    </Modal>
+    </ModalRegular>
   );
 };

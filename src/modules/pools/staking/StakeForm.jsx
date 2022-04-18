@@ -1,7 +1,7 @@
-import { RegularButton } from "@/src/common/components/button/regular";
-import { Label } from "@/src/common/components/label";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { Label } from "@/common/components/Label/Label";
 import { useState, useEffect } from "react";
-import { TokenAmountInput } from "@/src/common/components/token-amount-input";
+import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
 import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";

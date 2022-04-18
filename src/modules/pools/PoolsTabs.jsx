@@ -1,8 +1,8 @@
-import { Container } from "@/src/common/components/container";
+import { Container } from "@/common/components/Container/Container";
 import { Hero } from "@/src/common/components/Hero";
 import { HeroStat } from "@/src/common/components/HeroStat";
 import { HeroTitle } from "@/src/common/components/HeroTitle";
-import { TabNav } from "@/src/common/components/tabnav";
+import { TabNav } from "@/common/components/Tab/TabNav";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";

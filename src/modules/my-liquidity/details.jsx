@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Container } from "@/src/common/components/container";
+import { Container } from "@/common/components/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
+import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/src/common/components/Hero";
 import { HeroStat } from "@/src/common/components/HeroStat";
-import { CoverPurchaseResolutionSources } from "@/src/common/components/cover/purchase/resolution-sources";
-import { OutlinedButton } from "@/src/common/components/button/outlined";
+import { CoverPurchaseResolutionSources } from "@/common/components/Cover/Purchase/CoverPurchaseResolutionSources";
+import { OutlinedButton } from "@/common/components/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/src/common/components/modal/ModalTitle";
+import { ModalTitle } from "@/src/common/components/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/src/common/components/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { CoverProfileInfo } from "@/src/common/CoverProfileInfo";
+import { CoverProfileInfo } from "@/common/components/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ProvideLiquidityForm } from "@/src/common/LiquidityForms/ProvideLiquidityForm";
+import { ProvideLiquidityForm } from "@/src/common/components/LiquidityForms/ProvideLiquidityForm";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);

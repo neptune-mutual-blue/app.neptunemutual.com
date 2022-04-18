@@ -1,5 +1,5 @@
-import { Container } from "@/src/common/components/container";
-import { InputWithTrailingButton } from "@/src/common/components/input/with-trailing-button";
+import { Container } from "@/common/components/Container/Container";
+import { InputWithTrailingButton } from "@/common/components/Input/InputWithTrailingButton";
 import Head from "next/head";
 import { TotalLiquidityChart } from "@/src/common/components/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";

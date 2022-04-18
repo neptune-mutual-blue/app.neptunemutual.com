@@ -1,6 +1,6 @@
 import { ComingSoon } from "@/src/common/components/ComingSoon";
-import { BreadCrumbs } from "@/src/common/components/breadcrumbs";
-import { Container } from "@/src/common/components/container";
+import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
+import { Container } from "@/common/components/Container/Container";
 import { Hero } from "@/src/common/components/Hero";
 import { HeroTitle } from "@/src/common/components/HeroTitle";
 import { MyBondTxsTable } from "@/src/modules/pools/bond/MyBondTxsTable";

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedButton } from "@/src/common/components/button/outlined";
-import { CoverProfileInfoShort } from "@/src/common/CoverProfileInfo/CoverProfileInfoShort";
-import { OptionActionCard } from "@/src/common/components/option/action-card";
-import { Container } from "@/src/common/components/container";
+import { OutlinedButton } from "@/common/components/Button/OutlinedButton";
+import { CoverProfileInfoShort } from "@/src/common/components/CoverProfileInfo/CoverProfileInfoShort";
+import { OptionActionCard } from "@/common/components/Option/OptionActionCard";
+import { Container } from "@/common/components/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";

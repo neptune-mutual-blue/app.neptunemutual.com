@@ -11,7 +11,8 @@ const customJestConfig = {
   transformIgnorePatterns: ["/next[/\\\\]dist/", "/\\.next/"],
   testEnvironment: "jest-environment-jsdom",
   moduleNameMapper: {
-    "^@/components/(.*)$": "<rootDir>/src/components/$1",
+    "^@/common/(.*)$": "<rootDir>/src/common/$1",
+    "^@/modules/(.*)$": "<rootDir>/src/modules/$1",
     "^@/lib/(.*)$": "<rootDir>/lib/$1",
     "^@/translations/(.*)$": "<rootDir>/src/translations/$1",
     "^@/utils/(.*)$": "<rootDir>/src/utils/$1",

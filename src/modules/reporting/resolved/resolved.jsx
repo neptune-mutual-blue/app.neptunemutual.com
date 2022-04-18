@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { NeutralButton } from "@/src/common/components/button/neutral-button";
-import { Container } from "@/src/common/components/container";
-import { Grid } from "@/src/common/components/grid";
-import { SearchAndSortBar } from "@/src/common/components/search-and-sort";
+import { NeutralButton } from "@/common/components/Button/NeutralButton";
+import { Container } from "@/common/components/Container/Container";
+import { Grid } from "@/common/components/Grid/Grid";
+import { SearchAndSortBar } from "@/common/components/SearchAndSortBar";
 import { ResolvedReportingCard } from "@/src/modules/reporting/resolved/ResolvedReportingCard";
 import { ReportStatus } from "@/src/config/constants";
 import { useCovers } from "@/src/context/Covers";
@@ -11,7 +11,7 @@ import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/src/common/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const ReportingResolvedPage = () => {

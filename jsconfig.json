@@ -18,8 +18,11 @@
       "@/icons/*": [
         "src/icons/*"
       ],
-      "@/components/*": [
-        "src/components/*"
+      "@/common/*": [
+        "src/common/*"
+      ],
+      "@/modules/*": [
+        "src/modules/*"
       ],
       "@/src/*": [
         "src/*"

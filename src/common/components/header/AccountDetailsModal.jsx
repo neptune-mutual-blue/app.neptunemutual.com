@@ -4,13 +4,13 @@ import CopyIcon from "@/icons/CopyIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
-import Identicon from "@/src/common/components/header/Identicon";
+import Identicon from "@/src/common/components/Header/Identicon";
 import { useEffect, useState } from "react";
 import CheckCircleIcon from "@/icons/CheckCircleIcon";
-import { Modal } from "@/src/common/components/modal/regular";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import { Toggle } from "@/src/common/components/Toggle";
 import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 
 const CopyAddressComponent = ({ account }) => {
   const [copyAddress, setCopyAddress] = useState(false);
@@ -64,7 +64,11 @@ export const AccountDetailsModal = ({
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval();
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} overlayClass="backdrop-blur-sm">
+    <ModalRegular
+      isOpen={isOpen}
+      onClose={onClose}
+      overlayClass="backdrop-blur-sm"
+    >
       <ModalWrapper className="max-w-xs px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-16 sm:max-w-xl">
         <Dialog.Title
           as="h3"
@@ -134,6 +138,6 @@ export const AccountDetailsModal = ({
           </p>
         </div>
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

@@ -1,14 +1,14 @@
-import { RegularButton } from "@/src/common/components/button/regular";
-import { Radio } from "@/src/common/components/radio";
-import { ModalCloseButton } from "@/src/common/components/modal/close-button";
-import { Modal } from "@/src/common/components/modal/regular";
+import { RegularButton } from "@/common/components/Button/RegularButton";
+import { Radio } from "@/common/components/Radio/Radio";
+import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { ModalRegular } from "@/common/components/Modal/ModalRegular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
-import { ModalWrapper } from "@/src/common/components/modal/modal-wrapper";
+import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -87,7 +87,11 @@ const EmergencyResolveModal = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} disabled={emergencyResolving}>
+    <ModalRegular
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={emergencyResolving}
+    >
       <ModalWrapper>
         <Dialog.Title className="flex items-center">
           <img
@@ -137,6 +141,6 @@ const EmergencyResolveModal = ({
           onClick={onClose}
         ></ModalCloseButton>
       </ModalWrapper>
-    </Modal>
+    </ModalRegular>
   );
 };

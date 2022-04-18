@@ -1,11 +1,11 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-import { OutlinedCard } from "@/src/common/components/outlined-card";
+import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { BondStatsContainer } from "@/src/modules/pools/bond/BondStatsContainer";
-import { OutlinedButton } from "@/src/common/components/button/outlined";
+import { OutlinedButton } from "@/common/components/Button/OutlinedButton";
 import { classNames } from "@/utils/classnames";
-import { Badge } from "@/src/common/components/badge";
+import { Badge } from "@/common/components/Badge/Badge";
 import { isGreater } from "@/utils/bn";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatPercent } from "@/utils/formatter/percent";

@@ -3,11 +3,11 @@ import GovernanceParameters from "@/src/modules/cover/create/GovernanceParameter
 import PricingInput from "@/src/modules/cover/create/PricingInput";
 import { ResolutionSourcesInput } from "@/src/modules/cover/create/ResolutionSourcesInput";
 import SocialUrlInput from "@/src/modules/cover/create/SocialUrlInput";
-import { Checkbox } from "@/src/common/components/checkbox";
-import { Container } from "@/src/common/components/container";
-import { RegularInput } from "@/src/common/components/input/regular-input";
-import { Label } from "@/src/common/components/label";
-import { TagsInput } from "@/src/common/components/tags-input";
+import { Checkbox } from "@/common/components/Checkbox/Checkbox";
+import { Container } from "@/common/components/Container/Container";
+import { RegularInput } from "@/common/components/Input/RegularInput";
+import { Label } from "@/common/components/Label/Label";
+import { TagsInput } from "@/common/components/TagsInput/TagsInput";
 import { classNames } from "@/utils/classnames";
 import React, { useState } from "react";
 
