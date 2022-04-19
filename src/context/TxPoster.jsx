@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ModalRegular } from "@/common/components/Modal/ModalRegular";
+import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
-import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
-import { Divider } from "@/common/components/Divider/Divider";
+import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
+import { Divider } from "@/common/Divider/Divider";
 
 const initValue = {
   // prettier-ignore

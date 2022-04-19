@@ -1,12 +1,12 @@
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { Label } from "@/common/components/Label/Label";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { Label } from "@/common/Label/Label";
 import { useState, useEffect } from "react";
-import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
+import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 
 export const StakeForm = ({
   info,

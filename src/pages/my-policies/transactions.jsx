@@ -1,10 +1,10 @@
 import Head from "next/head";
-import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
-import { Container } from "@/common/components/Container/Container";
-import { Hero } from "@/src/common/components/Hero";
-import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { Container } from "@/common/Container/Container";
+import { Hero } from "@/common/Hero";
+import { HeroTitle } from "@/common/HeroTitle";
 import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable";
-import { ComingSoon } from "@/src/common/components/ComingSoon";
+import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

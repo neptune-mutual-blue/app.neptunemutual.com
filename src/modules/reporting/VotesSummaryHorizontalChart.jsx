@@ -1,4 +1,4 @@
-import { PercentXStackedChart } from "@/src/common/components/PercentXStackedChart";
+import { PercentXStackedChart } from "@/common/PercentXStackedChart";
 import { HorizontalChartLegend } from "@/src/modules/reporting/HorizontalChartLegend";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";

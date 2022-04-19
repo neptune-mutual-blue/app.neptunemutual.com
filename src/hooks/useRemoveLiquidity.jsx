@@ -9,7 +9,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useLiquidityFormsContext } from "@/src/common/components/LiquidityForms/LiquidityFormsContext";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 
 export const useRemoveLiquidity = ({
   coverKey,

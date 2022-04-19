@@ -1,10 +1,10 @@
-import { Divider } from "@/common/components/Divider/Divider";
-import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
+import { Divider } from "@/common/Divider/Divider";
+import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { CardStatusBadge } from "@/src/common/components/CardStatusBadge";
+import { CardStatusBadge } from "@/common/CardStatusBadge";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);

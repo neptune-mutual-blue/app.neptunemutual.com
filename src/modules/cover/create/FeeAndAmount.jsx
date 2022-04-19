@@ -1,6 +1,6 @@
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { RegularInput } from "@/common/components/Input/RegularInput";
-import { Label } from "@/common/components/Label/Label";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { RegularInput } from "@/common/Input/RegularInput";
+import { Label } from "@/common/Label/Label";
 import React from "react";
 
 const FeeAndAmount = ({

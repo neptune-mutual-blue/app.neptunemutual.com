@@ -1,9 +1,9 @@
-import { CoverRules } from "@/common/components/CoverRules/CoverRules";
+import { CoverRules } from "@/common/CoverRules/CoverRules";
 import { ReportingInfo } from "./ReportingInfo";
-import { Alert } from "@/common/components/Alert/Alert";
-import { Container } from "@/common/components/Container/Container";
-import { AcceptReportRulesForm } from "@/common/components/AcceptCoverRulesForm/AcceptReportRulesForm";
-import { CoverPurchaseResolutionSources } from "@/common/components/Cover/Purchase/CoverPurchaseResolutionSources";
+import { Alert } from "@/common/Alert/Alert";
+import { Container } from "@/common/Container/Container";
+import { AcceptReportRulesForm } from "@/common/AcceptCoverRulesForm/AcceptReportRulesForm";
+import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import Link from "next/link";
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ModalRegular } from "@/common/components/Modal/ModalRegular";
-import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
-import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
+import { ModalRegular } from "@/common/Modal/ModalRegular";
+import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
+import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { StakeForm } from "@/src/modules/pools/staking/StakeForm";
 
 export const StakeModal = ({

@@ -3,7 +3,7 @@ import React from "react";
 import { screen } from "@testing-library/react";
 import { render } from "@/utils/test-utils";
 
-import { UnlockDate } from "@/src/common/components/UnlockDate";
+import { UnlockDate } from "@/common/UnlockDate";
 
 describe("Date", () => {
   it("renders Unlock Date string", () => {

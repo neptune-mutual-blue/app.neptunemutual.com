@@ -1,8 +1,8 @@
-import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
-import { TokenAmountWithPrefix } from "@/src/common/components/TokenAmountWithPrefix";
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { ReceiveAmountInput } from "@/common/components/ReceiveAmountInput/ReceiveAmountInput";
-import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
+import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
+import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -23,7 +23,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCalculateLiquidity } from "@/src/hooks/useCalculateLiquidity";
 import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useLiquidityFormsContext } from "@/src/common/components/LiquidityForms/LiquidityFormsContext";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 
 export const WithdrawLiquidityForm = ({
   info,

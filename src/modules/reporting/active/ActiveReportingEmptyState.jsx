@@ -1,5 +1,5 @@
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { Label } from "@/common/components/Label/Label";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { Label } from "@/common/Label/Label";
 import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";

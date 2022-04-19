@@ -1,9 +1,9 @@
 import Head from "next/head";
 
 import { CoverAddLiquidityDetailsPage } from "@/src/modules/cover/add-liquidity";
-import { ComingSoon } from "@/src/common/components/ComingSoon";
+import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { LiquidityFormsProvider } from "@/src/common/components/LiquidityForms/LiquidityFormsContext";
+import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 
