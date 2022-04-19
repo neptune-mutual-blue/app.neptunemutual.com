@@ -1,7 +1,7 @@
-import { Container } from "@/common/components/Container/Container";
-import { Hero } from "@/src/common/components/Hero";
-import { HeroTitle } from "@/src/common/components/HeroTitle";
-import { TabNav } from "@/common/components/Tab/TabNav";
+import { Container } from "@/common/Container/Container";
+import { Hero } from "@/common/Hero";
+import { HeroTitle } from "@/common/HeroTitle";
+import { TabNav } from "@/common/Tab/TabNav";
 
 const headers = [
   {

@@ -1,5 +1,5 @@
-import { Divider } from "@/common/components/Divider/Divider";
-import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
+import { Divider } from "@/common/Divider/Divider";
+import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
 import { InsightsTable } from "@/src/modules/reporting/InsightsTable";

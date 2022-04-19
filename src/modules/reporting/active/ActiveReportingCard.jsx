@@ -1,6 +1,6 @@
-import { Divider } from "@/common/components/Divider/Divider";
-import { OutlinedCard } from "@/common/components/OutlinedCard/OutlinedCard";
-import { ProgressBar } from "@/common/components/ProgressBar/ProgressBar";
+import { Divider } from "@/common/Divider/Divider";
+import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
+import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -10,7 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
-import { CardStatusBadge } from "@/src/common/components/CardStatusBadge";
+import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
 

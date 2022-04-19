@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Container } from "@/common/components/Container/Container";
+import { Container } from "@/common/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
-import { Hero } from "@/src/common/components/Hero";
-import { HeroStat } from "@/src/common/components/HeroStat";
-import { CoverPurchaseResolutionSources } from "@/common/components/Cover/Purchase/CoverPurchaseResolutionSources";
-import { OutlinedButton } from "@/common/components/Button/OutlinedButton";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { Hero } from "@/common/Hero";
+import { HeroStat } from "@/common/HeroStat";
+import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
+import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/common/components/Modal/ModalTitle";
-import { SeeMoreParagraph } from "@/src/common/components/SeeMoreParagraph";
+import { ModalTitle } from "@/common/Modal/ModalTitle";
+import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { CoverProfileInfo } from "@/common/components/CoverProfileInfo/CoverProfileInfo";
+import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { ProvideLiquidityForm } from "@/src/common/components/LiquidityForms/ProvideLiquidityForm";
+import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);

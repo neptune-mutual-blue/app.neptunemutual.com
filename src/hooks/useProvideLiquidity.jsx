@@ -14,7 +14,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useLiquidityFormsContext } from "@/src/common/components/LiquidityForms/LiquidityFormsContext";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {

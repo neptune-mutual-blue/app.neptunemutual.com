@@ -1,7 +1,7 @@
-import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
-import { Container } from "@/common/components/Container/Container";
-import { Hero } from "@/src/common/components/Hero";
-import { CoverProfileInfo } from "@/common/components/CoverProfileInfo/CoverProfileInfo";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { Container } from "@/common/Container/Container";
+import { Hero } from "@/common/Hero";
+import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 

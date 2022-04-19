@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import { Container } from "@/common/components/Container/Container";
-import { Grid } from "@/common/components/Grid/Grid";
-import { CoverCard } from "@/common/components/Cover/CoverCard";
-import { HomeCard } from "@/common/components/HomeCard/HomeCard";
-import { HomeMainCard } from "@/common/components/HomeCard/HomeMainCard";
-import { SearchAndSortBar } from "@/common/components/SearchAndSortBar";
+import { Container } from "@/common/Container/Container";
+import { Grid } from "@/common/Grid/Grid";
+import { CoverCard } from "@/common/Cover/CoverCard";
+import { HomeCard } from "@/common/HomeCard/HomeCard";
+import { HomeMainCard } from "@/common/HomeCard/HomeMainCard";
+import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import IncreaseIcon from "@/icons/IncreaseIcon";
-import { Hero } from "@/src/common/components/Hero";
-import { NeutralButton } from "@/common/components/Button/NeutralButton";
-import { TotalLiquidityChart } from "@/src/common/components/TotalLiquidityChart";
+import { Hero } from "@/common/Hero";
+import { NeutralButton } from "@/common/Button/NeutralButton";
+import { TotalLiquidityChart } from "@/common/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
@@ -23,7 +23,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();

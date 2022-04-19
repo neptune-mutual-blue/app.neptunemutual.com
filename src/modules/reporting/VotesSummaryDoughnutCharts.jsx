@@ -1,4 +1,4 @@
-import { PercentDoughnutChart } from "@/src/common/components/PercentDoughnutChart";
+import { PercentDoughnutChart } from "@/common/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
 

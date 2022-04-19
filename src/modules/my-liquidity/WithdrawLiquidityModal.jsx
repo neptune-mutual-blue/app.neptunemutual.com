@@ -1,10 +1,10 @@
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { ModalRegular } from "@/common/components/Modal/ModalRegular";
-import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
+import { ModalRegular } from "@/common/Modal/ModalRegular";
+import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 
-import { ModalWrapper } from "@/common/components/Modal/ModalWrapper";
+import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { WithdrawLiquidityForm } from "@/src/modules/my-liquidity/WithdrawLiquidityForm";
 
 export const WithdrawLiquidityModal = ({

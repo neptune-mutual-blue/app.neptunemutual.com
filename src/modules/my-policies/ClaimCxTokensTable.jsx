@@ -5,7 +5,7 @@ import {
   TBody,
   TableWrapper,
   THead,
-} from "@/common/components/Table/Table";
+} from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/src/modules/my-policies/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";

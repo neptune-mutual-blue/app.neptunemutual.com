@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { NeutralButton } from "@/common/components/Button/NeutralButton";
-import { Container } from "@/common/components/Container/Container";
-import { Grid } from "@/common/components/Grid/Grid";
-import { SearchAndSortBar } from "@/common/components/SearchAndSortBar";
+import { NeutralButton } from "@/common/Button/NeutralButton";
+import { Container } from "@/common/Container/Container";
+import { Grid } from "@/common/Grid/Grid";
+import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { PodStakingCard } from "@/src/modules/pools/pod-staking/PodStakingCard";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const PodStakingPage = () => {

@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { DisabledInput } from "@/common/components/Input/DisabledInput";
-import { Label } from "@/common/components/Label/Label";
-import { ModalRegular } from "@/common/components/Modal/ModalRegular";
-import { ModalCloseButton } from "@/common/components/Modal/ModalCloseButton";
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
+import { DisabledInput } from "@/common/Input/DisabledInput";
+import { Label } from "@/common/Label/Label";
+import { ModalRegular } from "@/common/Modal/ModalRegular";
+import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useClaimPolicyInfo } from "@/src/hooks/useClaimPolicyInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
-import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 

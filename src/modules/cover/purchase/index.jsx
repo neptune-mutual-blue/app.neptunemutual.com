@@ -1,21 +1,21 @@
-import { Container } from "@/common/components/Container/Container";
-import { AcceptRulesForm } from "@/common/components/AcceptRulesForm/AcceptRulesForm";
+import { Container } from "@/common/Container/Container";
+import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useRouter } from "next/router";
-import { CoverActionsFooter } from "@/common/components/Cover/CoverActionsFooter";
-import { CoverPurchaseResolutionSources } from "@/common/components/Cover/Purchase/CoverPurchaseResolutionSources";
-import { SeeMoreParagraph } from "@/src/common/components/SeeMoreParagraph";
+import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
+import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
+import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
-import { HeroStat } from "@/src/common/components/HeroStat";
-import { CoverProfileInfo } from "@/common/components/CoverProfileInfo/CoverProfileInfo";
-import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
-import { Hero } from "@/src/common/components/Hero";
-import { CoverRules } from "@/common/components/CoverRules/CoverRules";
+import { HeroStat } from "@/common/HeroStat";
+import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { Hero } from "@/common/Hero";
+import { CoverRules } from "@/common/CoverRules/CoverRules";
 import { useState } from "react";
-import { PurchasePolicyForm } from "@/src/common/components/CoverForm/PurchasePolicyForm";
+import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 
 export const CoverPurchaseDetailsPage = () => {

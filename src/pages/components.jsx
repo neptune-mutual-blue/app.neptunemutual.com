@@ -1,7 +1,7 @@
-import { Container } from "@/common/components/Container/Container";
-import { InputWithTrailingButton } from "@/common/components/Input/InputWithTrailingButton";
+import { Container } from "@/common/Container/Container";
+import { InputWithTrailingButton } from "@/common/Input/InputWithTrailingButton";
 import Head from "next/head";
-import { TotalLiquidityChart } from "@/src/common/components/TotalLiquidityChart";
+import { TotalLiquidityChart } from "@/common/TotalLiquidityChart";
 import { useCountdown } from "@/lib/countdown/useCountdown";
 import DateLib from "@/lib/date/DateLib";
 import { useEffect } from "react";

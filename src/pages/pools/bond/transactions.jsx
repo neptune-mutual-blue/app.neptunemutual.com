@@ -1,8 +1,8 @@
-import { ComingSoon } from "@/src/common/components/ComingSoon";
-import { BreadCrumbs } from "@/common/components/BreadCrumbs/BreadCrumbs";
-import { Container } from "@/common/components/Container/Container";
-import { Hero } from "@/src/common/components/Hero";
-import { HeroTitle } from "@/src/common/components/HeroTitle";
+import { ComingSoon } from "@/common/ComingSoon";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { Container } from "@/common/Container/Container";
+import { Hero } from "@/common/Hero";
+import { HeroTitle } from "@/common/HeroTitle";
 import { MyBondTxsTable } from "@/src/modules/pools/bond/MyBondTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import Head from "next/head";

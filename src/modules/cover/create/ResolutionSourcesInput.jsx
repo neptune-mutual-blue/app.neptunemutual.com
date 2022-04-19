@@ -1,4 +1,4 @@
-import { RegularInput } from "@/common/components/Input/RegularInput";
+import { RegularInput } from "@/common/Input/RegularInput";
 import DeleteIcon from "@/icons/delete-icon";
 import React from "react";
 

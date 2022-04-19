@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Container } from "@/common/components/Container/Container";
-import { Hero } from "@/src/common/components/Hero";
+import { Container } from "@/common/Container/Container";
+import { Hero } from "@/common/Hero";
 import { languageKey, localesKey } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 

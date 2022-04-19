@@ -1,14 +1,14 @@
-import { RegularButton } from "@/common/components/Button/RegularButton";
-import { RegularInput } from "@/common/components/Input/RegularInput";
-import { Label } from "@/common/components/Label/Label";
-import { TokenAmountInput } from "@/common/components/TokenAmountInput/TokenAmountInput";
+import { RegularButton } from "@/common/Button/RegularButton";
+import { RegularInput } from "@/common/Input/RegularInput";
+import { Label } from "@/common/Label/Label";
+import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import DeleteIcon from "@/icons/delete-icon";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
-import { DataLoadingIndicator } from "@/src/common/components/DataLoadingIndicator";
+import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");

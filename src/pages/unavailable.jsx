@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { Container } from "@/common/components/Container/Container";
-import { HeaderLogo } from "@/src/common/components/HeaderLogo";
+import { Container } from "@/common/Container/Container";
+import { HeaderLogo } from "@/common/HeaderLogo";
 
 export const getStaticProps = async () => {
   return {

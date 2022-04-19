@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import { PodStakingPage } from "@/src/modules/pools/pod-staking";
-import { ComingSoon } from "@/src/common/components/ComingSoon";
+import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
 export function getStaticProps() {

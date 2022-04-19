@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { NeutralButton } from "@/common/components/Button/NeutralButton";
-import { Container } from "@/common/components/Container/Container";
-import { Grid } from "@/common/components/Grid/Grid";
-import { SearchAndSortBar } from "@/common/components/SearchAndSortBar";
+import { NeutralButton } from "@/common/Button/NeutralButton";
+import { Container } from "@/common/Container/Container";
+import { Grid } from "@/common/Grid/Grid";
+import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { ActiveReportingCard } from "@/src/modules/reporting/active/ActiveReportingCard";
 import { ActiveReportingEmptyState } from "@/src/modules/reporting/active/ActiveReportingEmptyState";
 import { useActiveReportings } from "@/src/hooks/useActiveReportings";
@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
 import { sortData } from "@/utils/sorting";
-import { CardSkeleton } from "@/src/common/components/Skeleton/CardSkeleton";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 
 export const ReportingActivePage = () => {
