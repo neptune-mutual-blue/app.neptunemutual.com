@@ -13,23 +13,23 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/UI/organisms/header/index.jsx:65
+#: src/common/Header/Header.jsx:65
 msgid "Home"
 msgstr "家"
 
-#: src/components/UI/organisms/header/index.jsx:47
+#: src/common/Header/Header.jsx:47
 msgid "My Liquidity"
 msgstr "我的流动性"
 
-#: src/components/UI/organisms/header/index.jsx:42
+#: src/common/Header/Header.jsx:42
 msgid "My Policies"
 msgstr "我的政策"
 
-#: src/components/UI/organisms/header/index.jsx:37
+#: src/common/Header/Header.jsx:37
 msgid "Pool"
 msgstr "水池"
 
-#: src/components/UI/organisms/header/index.jsx:52
+#: src/common/Header/Header.jsx:52
 msgid "Reporting"
 msgstr "报告"
 
