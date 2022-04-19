@@ -75,11 +75,17 @@ const plurals = {
  * many ways how to load messages — from REST API, from file, from cache, etc.
  */
 export const dynamicActivate = async (locale) => {
-  const { messages } = await import(
-    `@lingui/loader!../locales/${locale}/messages.po`
-  );
+  const isProduction = process.env.NODE_ENV === "production";
+  let messages;
+
+  if (isProduction) {
+    messages = await import(`../locales/${locale}/messages`);
+  } else {
+    messages = await import(`@lingui/loader!../locales/${locale}/messages.po`);
+  }
+
   i18n.loadLocaleData(locale, { plurals: () => plurals[locale] });
-  i18n.load(locale, messages);
+  i18n.load(locale, messages.messages);
   i18n.activate(locale);
 };
 
