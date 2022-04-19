@@ -13,23 +13,23 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/UI/organisms/header/index.jsx:65
+#: src/common/Header/Header.jsx:65
 msgid "Home"
 msgstr "Home"
 
-#: src/components/UI/organisms/header/index.jsx:47
+#: src/common/Header/Header.jsx:47
 msgid "My Liquidity"
 msgstr "My Liquidity"
 
-#: src/components/UI/organisms/header/index.jsx:42
+#: src/common/Header/Header.jsx:42
 msgid "My Policies"
 msgstr "My Policies"
 
-#: src/components/UI/organisms/header/index.jsx:37
+#: src/common/Header/Header.jsx:37
 msgid "Pool"
 msgstr "Pool"
 
-#: src/components/UI/organisms/header/index.jsx:52
+#: src/common/Header/Header.jsx:52
 msgid "Reporting"
 msgstr "Reporting"
 
