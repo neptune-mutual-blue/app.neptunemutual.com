@@ -57,9 +57,9 @@ export const InputWithTrailingButton = ({
 
       // regex to identify localized number with decimal separator at the end
       const incompleteRegex = new RegExp(
-        `^${inputProps.allowNegative ? "-?" : ""}\\d*(${sep.thousand}\\d+)*\\${
-          sep.decimal
-        }$`
+        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
+          sep.thousand
+        }\\d+)*\\${sep.decimal}$`
       );
 
       // regex to identify if there are 0s at the end
