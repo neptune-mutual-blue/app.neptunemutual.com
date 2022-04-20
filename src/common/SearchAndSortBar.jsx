@@ -2,11 +2,12 @@ import { Select } from "@/common/Select";
 import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
+import { t } from "@lingui/macro";
 
 const defaultOptions = [
-  { name: "A-Z" },
-  { name: "Utilization Ratio" },
-  { name: "Liquidity" },
+  { name: t`A-Z` },
+  { name: t`Utilization Ratio` },
+  { name: t`Liquidity` },
   // { name: "APR" },
 ];
 
@@ -30,7 +31,7 @@ export const SearchAndSortBar = ({
           className={
             "w-full -mr-11 pl-4 pr-12 py-3 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
           }
-          placeholder="Search"
+          placeholder={t`Search`}
           value={searchValue}
           onChange={onSearchChange}
         />
@@ -43,7 +44,7 @@ export const SearchAndSortBar = ({
       <div className="p-3"></div>
 
       <Select
-        prefix="Sort by: "
+        prefix={t`Sort by:` + " "}
         options={options}
         selected={sortType ?? selected}
         setSelected={setSortType ?? setSelected}

@@ -1,5 +1,6 @@
 import { classNames } from "@/utils/classnames";
 import { useEffect, useRef, useState } from "react";
+import { t } from "@lingui/macro";
 
 export const SeeMoreParagraph = ({ text = "" }) => {
   const [showFullText, setShowFullText] = useState(false);
@@ -32,9 +33,9 @@ export const SeeMoreParagraph = ({ text = "" }) => {
       {hasOverflow && (
         <button
           onClick={handleReadMore}
-          className="opacity-40 underline hover:no-underline mt-4 cursor-pointer capitalize"
+          className="mt-4 underline capitalize cursor-pointer opacity-40 hover:no-underline"
         >
-          See {showFullText ? "less" : "more"}
+          {showFullText ? t`See less` : t`See more`}
         </button>
       )}
     </>

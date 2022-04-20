@@ -17,6 +17,7 @@ import { CoverRules } from "@/common/CoverRules/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -46,13 +47,13 @@ export const CoverPurchaseDetailsPage = () => {
         <Container className="px-2 py-20">
           <BreadCrumbs
             pages={[
-              { name: "Home", href: "/", current: false },
+              { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.coverName,
                 href: `/cover/${cover_id}/options`,
                 current: false,
               },
-              { name: "Purchase Policy", current: true },
+              { name: t`Purchase Policy`, current: true },
             ]}
           />
           <div className="flex flex-wrap">
@@ -64,7 +65,7 @@ export const CoverPurchaseDetailsPage = () => {
             />
 
             {/* Total Liquidity */}
-            <HeroStat title="Total Liquidity">
+            <HeroStat title={t`Total Liquidity`}>
               {
                 formatCurrency(convertFromUnits(totalLiquidity), "DAI", true)
                   .long
@@ -90,7 +91,10 @@ export const CoverPurchaseDetailsPage = () => {
                 <CoverRules rules={coverInfo?.rules} />
                 <br className="mt-20" />
                 <AcceptRulesForm onAccept={handleAcceptRules}>
-                  I have read, understood, and agree to the terms of cover rules
+                  <Trans>
+                    I have read, understood, and agree to the terms of cover
+                    rules
+                  </Trans>
                 </AcceptRulesForm>
               </>
             )}
@@ -105,7 +109,9 @@ export const CoverPurchaseDetailsPage = () => {
               className="flex justify-between pb-2"
               title={formatCurrency(availableLiquidity).long}
             >
-              <span className="">Available Liquidity:</span>
+              <span className="">
+                <Trans>Available Liquidity:</Trans>
+              </span>
               <strong className="font-bold text-right">
                 {formatCurrency(availableLiquidity).short}
               </strong>

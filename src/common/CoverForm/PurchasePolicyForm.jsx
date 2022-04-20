@@ -24,6 +24,8 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { useIfWhitelisted } from "@/src/hooks/useIfWhitelisted";
+import { t, Trans } from "@lingui/macro";
+import { renderMonthLabel } from "@/utils/translations";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -61,7 +63,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
       <a className="flex items-center">
-        <span className="inline-block">View purchased policies</span>
+        <span className="inline-block">
+          <Trans>View purchased policies</Trans>
+        </span>
         <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
       </a>
     </Link>
@@ -86,7 +90,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
 
   const handleSuccessViewPurchasedPolicies = () => {
     toast?.pushSuccess({
-      title: "Purchased Policy Successfully",
+      title: t`Purchased Policy Successfully`,
       message: <ViewToastPoliciesLink />,
       lifetime: TOAST_DEFAULT_TIMEOUT,
     });
@@ -100,20 +104,24 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   ];
   let loadingMessage = "";
   if (updatingFee) {
-    loadingMessage = "Fetching...";
+    loadingMessage = t`Fetching...`;
   } else if (updatingAllowance) {
-    loadingMessage = "Fetching Allowance...";
+    loadingMessage = t`Fetching Allowance...`;
   } else if (updatingBalance) {
-    loadingMessage = "Fetching Balance...";
+    loadingMessage = t`Fetching Balance...`;
   }
 
   if (statusInfo.requiresWhitelist && !isUserWhitelisted) {
-    return <Alert>You are not whitelisted </Alert>;
+    return (
+      <Alert>
+        <Trans>You are not whitelisted</Trans>
+      </Alert>
+    );
   }
   if (statusInfo.status && statusInfo.status !== "Normal") {
     return (
       <Alert>
-        Cannot purchase policy, since the cover status is{" "}
+        <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
           href={`/reporting/${getParsedKey(coverKey)}/${
             statusInfo.activeIncidentDate
@@ -130,7 +138,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   return (
     <div className="max-w-md">
       <TokenAmountInput
-        labelText={"Amount you wish to cover"}
+        labelText={t`Amount you wish to cover`}
         onChange={handleChange}
         error={!!error}
         handleChooseMax={handleChooseMax}
@@ -147,7 +155,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             title={formatCurrency(value, "cxDAI", true).long}
           >
             <p>
-              You will receive: {formatCurrency(value, "cxDAI", true).short}
+              <Trans>You will receive:</Trans>{" "}
+              {formatCurrency(value, "cxDAI", true).short}
             </p>
           </div>
         )}
@@ -159,7 +168,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             className="block mb-4 font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
-            Select your coverage period
+            <Trans>Select your coverage period</Trans>
           </h5>
           {/* Tooltip */}
           <Tooltip.Root>
@@ -172,7 +181,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </div>
         <div className="flex">
           <Radio
-            label={coverPeriodLabels[0]}
+            label={renderMonthLabel(coverPeriodLabels[0])}
             id="period-1"
             value="1"
             name="cover-period"
@@ -181,7 +190,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             checked={coverMonth === "1"}
           />
           <Radio
-            label={coverPeriodLabels[1]}
+            label={renderMonthLabel(coverPeriodLabels[1])}
             id="period-2"
             value="2"
             name="cover-period"
@@ -190,7 +199,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             checked={coverMonth === "2"}
           />
           <Radio
-            label={coverPeriodLabels[2]}
+            label={renderMonthLabel(coverPeriodLabels[2])}
             id="period-3"
             value="3"
             name="cover-period"
@@ -219,7 +228,13 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
           >
-            {approving ? "Approving..." : <>Approve {liquidityTokenSymbol}</>}
+            {approving ? (
+              t`Approving...`
+            ) : (
+              <>
+                <Trans>Approve</Trans> {liquidityTokenSymbol}
+              </>
+            )}
           </RegularButton>
         ) : (
           <RegularButton
@@ -240,14 +255,14 @@ export const PurchasePolicyForm = ({ coverKey }) => {
               });
             }}
           >
-            {purchasing ? "Purchasing..." : "Purchase policy"}
+            {purchasing ? t`Purchasing...` : t`Purchase policy`}
           </RegularButton>
         )}
       </div>
 
       <div className="mt-20">
         <OutlinedButton className="rounded-big" onClick={() => router.back()}>
-          &#x27F5;&nbsp;Back
+          &#x27F5;&nbsp;<Trans>Back</Trans>
         </OutlinedButton>
       </div>
     </div>

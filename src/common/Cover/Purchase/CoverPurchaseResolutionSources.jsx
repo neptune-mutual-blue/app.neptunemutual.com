@@ -2,6 +2,7 @@ import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { explainInterval } from "@/utils/formatter/interval";
 import Link from "next/link";
 import { useReportingPeriod } from "@/src/hooks/useReportingPeriod";
+import { Trans } from "@lingui/macro";
 
 export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
   const coverKey = coverInfo.key;
@@ -21,10 +22,10 @@ export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
         <div className="flex flex-wrap justify-between md:block">
           <div>
             <h3 className="font-semibold text-h4 font-sora">
-              Resolution Sources
+              <Trans>Resolution Sources</Trans>
             </h3>
             <p className="mt-1 mb-6 text-sm opacity-50">
-              {explainInterval(reportingPeriod)} reporting period
+              {explainInterval(reportingPeriod)} <Trans>reporting period</Trans>
             </p>
           </div>
           <div className="flex flex-col md:block sm:items-end">

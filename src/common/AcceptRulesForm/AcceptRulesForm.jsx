@@ -1,6 +1,7 @@
 import { Checkbox } from "@/common/Checkbox/Checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
+import { Trans } from "@lingui/macro";
 
 export const AcceptRulesForm = ({ onAccept, children }) => {
   const [checked, setChecked] = useState(false);
@@ -38,7 +39,7 @@ export const AcceptRulesForm = ({ onAccept, children }) => {
             "bg-4e7dd9 text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto"
           )}
         >
-          Next&nbsp;&#x27F6;
+          <Trans>Next</Trans>&nbsp;&#x27F6;
         </button>
       </form>
     </>

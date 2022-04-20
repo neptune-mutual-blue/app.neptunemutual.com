@@ -11,6 +11,7 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
+import { Trans } from "@lingui/macro";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
@@ -45,7 +46,8 @@ export const CoverCard = ({ details }) => {
         {projectName}
       </h4>
       <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
-        Cover fee: {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
+        <Trans>Cover fee:</Trans>{" "}
+        {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
         {formatPercent(ipfsData.pricingCeiling / MULTIPLIER)}
       </div>
 
@@ -67,7 +69,7 @@ export const CoverCard = ({ details }) => {
           className="flex-1"
           title={formatCurrency(convertFromUnits(commitment).toString()).long}
         >
-          Protection:{" "}
+          <Trans>Protection:</Trans>{" "}
           {formatCurrency(convertFromUnits(commitment).toString()).short}
         </div>
 
@@ -75,7 +77,7 @@ export const CoverCard = ({ details }) => {
           className="flex-1 text-right"
           title={formatCurrency(convertFromUnits(liquidity).toString()).long}
         >
-          Liquidity:{" "}
+          <Trans>Liquidity:</Trans>{" "}
           {formatCurrency(convertFromUnits(liquidity).toString()).short}
         </div>
       </div>

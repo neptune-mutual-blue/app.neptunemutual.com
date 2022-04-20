@@ -24,6 +24,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { t, Trans } from "@lingui/macro";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -83,13 +84,13 @@ export const HomePage = () => {
                 <HomeCard
                   items={[
                     {
-                      name: "TVL (Cover)",
+                      name: t`TVL (Cover)`,
                       amount: formatCurrency(
                         convertFromUnits(heroData.tvlCover).toString()
                       ).short,
                     },
                     {
-                      name: "TVL (Pool)",
+                      name: t`TVL (Pool)`,
                       amount: formatCurrency(
                         convertFromUnits(poolsTvl).toString()
                       ).short,
@@ -102,13 +103,13 @@ export const HomePage = () => {
                 <HomeCard
                   items={[
                     {
-                      name: "Covered",
+                      name: t`Covered`,
                       amount: formatCurrency(
                         convertFromUnits(heroData.covered).toString()
                       ).short,
                     },
                     {
-                      name: "Cover Fee",
+                      name: t`Cover Fee`,
                       amount: formatCurrency(
                         convertFromUnits(heroData.coverFee).toString()
                       ).short,
@@ -126,7 +127,7 @@ export const HomePage = () => {
           <div className="flex flex-col flex-1">
             <div className="pt-6 mb-8">
               <h3 className="mb-1 text-h3 font-sora text-4e7dd9">
-                Total Liquidity
+                <Trans>Total Liquidity</Trans>
               </h3>
               <div className="flex items-center">
                 <h2 className="pr-3 font-bold text-black text-h2 font-sora">
@@ -166,7 +167,7 @@ export const HomePage = () => {
       <Container className="py-16">
         <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
           <h1 className="font-bold text-h3 lg:text-h2 font-sora">
-            Available Covers
+            <Trans>Available Covers</Trans>
           </h1>
           <SearchAndSortBar
             searchValue={searchValue}
@@ -197,7 +198,7 @@ export const HomePage = () => {
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}
           >
-            Show More
+            <Trans>Show More</Trans>
           </NeutralButton>
         )}
       </Container>

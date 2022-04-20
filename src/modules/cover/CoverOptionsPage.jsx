@@ -8,6 +8,11 @@ import { Container } from "@/common/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
+import { Trans } from "@lingui/macro";
+import {
+  renderTitleTranslation,
+  renderDescriptionTranslation,
+} from "@/utils/translations";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
@@ -33,7 +38,7 @@ export const CoverOptionsPage = () => {
       </div>
       <Container className="pb-16">
         <h2 className="mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12">
-          I Want to
+          <Trans>I Want to</Trans>
         </h2>
         <div className="container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14">
           {Object.keys(coverActions).map((actionKey) => {
@@ -51,8 +56,12 @@ export const CoverOptionsPage = () => {
                   )}
                 >
                   <OptionActionCard
-                    title={coverActions[actionKey].title}
-                    description={coverActions[actionKey].description}
+                    title={renderTitleTranslation(
+                      coverActions[actionKey].title
+                    )}
+                    description={renderDescriptionTranslation(
+                      coverActions[actionKey].description
+                    )}
                     imgSrc={coverActions[actionKey].imgSrc}
                     smImgSrc={coverActions[actionKey].smImgSrc}
                     mdImgSrc={coverActions[actionKey].mdImgSrc}
@@ -67,7 +76,7 @@ export const CoverOptionsPage = () => {
             className="pt-1 pb-1 pl-5 pr-4 border border-solid rounded-big border-4E7DD9 md:py-3 md:pl-6 md:pr-5 "
             onClick={() => router.back()}
           >
-            &#x27F5;&nbsp;Back
+            &#x27F5;&nbsp;<Trans>Back</Trans>
           </OutlinedButton>
         </div>
       </Container>
