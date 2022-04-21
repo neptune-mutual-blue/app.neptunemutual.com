@@ -15,6 +15,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
 import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { t, Trans } from "@lingui/macro";
 
 export function getServerSideProps() {
   return {
@@ -57,7 +58,7 @@ export default function ClaimPolicy({ disabled }) {
           <BreadCrumbs
             pages={[
               {
-                name: "My Policies",
+                name: t`My Policies`,
                 href: "/my-policies/active",
                 current: false,
               },
@@ -66,15 +67,17 @@ export default function ClaimPolicy({ disabled }) {
                 href: `/cover/${cover_id}/options`,
                 current: false,
               },
-              { name: "Claim", href: "#", current: true },
+              { name: t`Claim`, href: "#", current: true },
             ]}
           />
 
           <div className="flex items-start">
-            <HeroTitle>My Policies</HeroTitle>
+            <HeroTitle>
+              <Trans>My Policies</Trans>
+            </HeroTitle>
 
             {/* My Active Protection */}
-            <HeroStat title="My Active Protection">
+            <HeroStat title={t`My Active Protection`}>
               <>
                 {
                   formatCurrency(
@@ -92,17 +95,21 @@ export default function ClaimPolicy({ disabled }) {
 
       <Container className="px-2 pt-12 pb-36">
         <h2 className="font-bold text-h2 font-sora">
-          Available cxTokens for {title} to Claim
+          <Trans>Available cxTokens for {title} to Claim</Trans>
         </h2>
         <p className="w-full max-w-xl pt-6 pb-16 ml-0 text-lg">
-          Claim your {title} cover cxTokens from the following addresses before
-          the given claim date. Also indicated is the amount of cxTokens you
-          will receive per claim.
+          <Trans>
+            Claim your {title} cover cxTokens from the following addresses
+            before the given claim date. Also indicated is the amount of
+            cxTokens you will receive per claim.
+          </Trans>
         </p>
 
         {!loadingReports && reports.length === 0 && (
           <Alert className="mb-8 -mt-8">
-            No valid incidents are reported with the given timestamp
+            <Trans>
+              No valid incidents are reported with the given timestamp
+            </Trans>
           </Alert>
         )}
 

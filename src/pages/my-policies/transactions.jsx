@@ -6,6 +6,7 @@ import { HeroTitle } from "@/common/HeroTitle";
 import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { t, Trans } from "@lingui/macro";
 
 export function getStaticProps() {
   return {
@@ -35,15 +36,17 @@ export default function MyPoliciesTxs({ disabled }) {
           <BreadCrumbs
             pages={[
               {
-                name: "My Policies",
+                name: t`My Policies`,
                 href: "/my-policies/active",
                 current: false,
               },
-              { name: "Transaction List", href: "#", current: true },
+              { name: t`Transaction List`, href: "#", current: true },
             ]}
           />
 
-          <HeroTitle>Transaction List</HeroTitle>
+          <HeroTitle>
+            <Trans>Transaction List</Trans>
+          </HeroTitle>
         </Container>
 
         <hr className="border-b border-B0C4DB" />
