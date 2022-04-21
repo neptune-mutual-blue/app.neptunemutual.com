@@ -10,6 +10,7 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 export const UnStakeForm = ({
   info,
@@ -64,14 +65,14 @@ export const UnStakeForm = ({
         inputId={"withdraw-amount"}
         inputValue={inputValue}
         handleChooseMax={handleChooseMax}
-        labelText={"Amount you wish to withdraw"}
+        labelText={t`Amount you wish to withdraw`}
         onChange={handleChange}
         tokenSymbol={stakingTokenSymbol}
         tokenAddress={stakingTokenAddress}
         disabled={withdrawing}
       >
         <p>
-          Staked:{" "}
+          <Trans>Staked:</Trans>{" "}
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
@@ -82,7 +83,7 @@ export const UnStakeForm = ({
         </p>
         {!canWithdraw && (
           <p className="flex items-center text-FA5C2F">
-            Could not withdraw during lockup period
+            <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
       </TokenAmountInput>
@@ -92,7 +93,7 @@ export const UnStakeForm = ({
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
         onClick={handleWithdraw}
       >
-        {withdrawing ? "withdrawing..." : "Unstake"}
+        {withdrawing ? t`withdrawing...` : t`Unstake`}
       </RegularButton>
     </div>
   );

@@ -6,6 +6,7 @@ import { HeroTitle } from "@/common/HeroTitle";
 import { MyBondTxsTable } from "@/src/modules/pools/bond/MyBondTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import Head from "next/head";
+import { t, Trans } from "@lingui/macro";
 
 export function getStaticProps() {
   return {
@@ -34,19 +35,21 @@ export default function MyBondTxs({ disabled }) {
         <Container className="px-2 py-20">
           <BreadCrumbs
             pages={[
-              { name: "Pool", href: "/pools/bond", current: false },
+              { name: t`Pool`, href: "/pools/bond", current: false },
               {
-                name: "Bond",
+                name: t`Bond`,
                 current: false,
               },
               {
-                name: "Transaction List",
+                name: t`Transaction List`,
                 href: "/pools/bond/transactions",
                 current: true,
               },
             ]}
           />
-          <HeroTitle>Transaction List</HeroTitle>
+          <HeroTitle>
+            <Trans>Transaction List</Trans>
+          </HeroTitle>
         </Container>
         <hr className="border-b border-B0C4DB" />
       </Hero>

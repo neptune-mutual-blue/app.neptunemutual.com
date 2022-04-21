@@ -25,6 +25,7 @@ import { Badge } from "@/common/Badge/Badge";
 import { formatPercent } from "@/utils/formatter/percent";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
+import { t, Trans } from "@lingui/macro";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -82,7 +83,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     leftHalf.push({
-      title: "Your Stake",
+      title: t`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         stakingTokenSymbol,
@@ -91,14 +92,14 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     });
   } else {
     leftHalf.push({
-      title: "Lockup Period",
+      title: t`Lockup Period`,
       value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
 
   const rightHalf = [
     {
-      title: "TVL",
+      title: t`TVL`,
       value: formatCurrency(convertFromUnits(tvl), "USD").short,
       tooltip: formatCurrency(convertFromUnits(tvl), "USD").long,
     },
@@ -119,10 +120,12 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         <div>
           <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
           <StakingCardTitle text={poolName} />
-          <StakingCardSubTitle text={"Stake " + stakingTokenName} />
+          <StakingCardSubTitle text={t`Stake` + " " + stakingTokenName} />
         </div>
         <div>
-          <Badge className="text-21AD8C">APR: {formatPercent(apr)}</Badge>
+          <Badge className="text-21AD8C">
+            <Trans>APR:</Trans> {formatPercent(apr)}
+          </Badge>
         </div>
       </div>
 
@@ -147,7 +150,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
           <>
             <div className="flex-1 text-sm">
               <PoolCardStat
-                title="You Earned"
+                title={t`You Earned`}
                 value={
                   formatCurrency(
                     convertFromUnits(rewardAmount),
@@ -175,12 +178,14 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
                 className={"font-semibold uppercase text-sm px-5 py-2"}
                 onClick={onCollectModalOpen}
               >
-                Collect
+                <Trans>Collect</Trans>
               </StakingCardCTA>
             </div>
           </>
         ) : (
-          <StakingCardCTA onClick={onStakeModalOpen}>Stake</StakingCardCTA>
+          <StakingCardCTA onClick={onStakeModalOpen}>
+            <Trans>Stake</Trans>
+          </StakingCardCTA>
         )}
       </div>
       <StakeModal
@@ -192,7 +197,9 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         onClose={onStakeModalClose}
         stakingTokenSymbol={stakingTokenSymbol}
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Stake {stakingTokenSymbol}</ModalTitle>
+          <ModalTitle imgSrc={imgSrc}>
+            <Trans>Stake</Trans> {stakingTokenSymbol}
+          </ModalTitle>
         }
       />
       <CollectRewardModal
@@ -207,7 +214,9 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         isOpen={isCollectModalOpen}
         onClose={onCollectModalClose}
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>Earn {rewardTokenSymbol}</ModalTitle>
+          <ModalTitle imgSrc={imgSrc}>
+            <Trans>Earn</Trans> {rewardTokenSymbol}
+          </ModalTitle>
         }
       />
     </OutlinedCard>

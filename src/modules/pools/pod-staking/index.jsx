@@ -10,6 +10,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { t, Trans } from "@lingui/macro";
 
 export const PodStakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
@@ -22,9 +23,9 @@ export const PodStakingPage = () => {
     },
   });
 
-  const [sortType, setSortType] = useState({ name: "A-Z" });
+  const [sortType, setSortType] = useState({ name: t`A-Z` });
 
-  const options = [{ name: "A-Z" }, { name: "TVL" }];
+  const options = [{ name: t`A-Z` }, { name: t`TVL` }];
   const filteredPodStakingCardTvl = filtered.map((poolData) => {
     const tvl = getTVLById(poolData.id);
 
@@ -60,12 +61,14 @@ export const PodStakingPage = () => {
         <div className="flex flex-col items-center w-full pt-20">
           <img
             src="/images/covers/empty-list-illustration.svg"
-            alt="no data found"
+            alt={t`no data found`}
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            No POD{" "}
-            <span className="whitespace-nowrap">staking pools found.</span>
+            <Trans>No POD</Trans>{" "}
+            <span className="whitespace-nowrap">
+              <Trans>staking pools found.</Trans>
+            </span>
           </p>
         </div>
       );
@@ -100,7 +103,7 @@ export const PodStakingPage = () => {
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
         >
-          Show More
+          <Trans>Show More</Trans>
         </NeutralButton>
       )}
     </Container>

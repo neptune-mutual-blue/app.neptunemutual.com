@@ -11,6 +11,7 @@ import { explainInterval } from "@/utils/formatter/interval";
 import { formatPercent } from "@/utils/formatter/percent";
 import { ClaimBondModal } from "@/src/modules/pools/bond/ClaimBondModal";
 import { useState } from "react";
+import { t, Trans } from "@lingui/macro";
 
 export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,11 +30,13 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
         <div>
           <img
             src="/images/tokens/npm.svg"
-            alt="NPM Logo"
+            alt={t`NPM Logo`}
             className="w-10 h-10"
           />
           <h3 className="flex items-center mt-1 font-semibold text-h4 font-sora">
-            <div>Bond Info</div>
+            <div>
+              <Trans>Bond Info</Trans>
+            </div>
 
             {/* Tooltip */}
             <Tooltip.Root>
@@ -48,12 +51,12 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
         </div>
 
         <Badge className="uppercase text-21AD8C">
-          ROI: {formatPercent(roi)}
+          <Trans>ROI:</Trans> {formatPercent(roi)}
         </Badge>
       </div>
 
       <p className="mt-2 mb-6 text-sm opacity-50">
-        {explainInterval(info.vestingTerm)} vesting term
+        {explainInterval(info.vestingTerm)} <Trans>vesting term</Trans>
       </p>
 
       <BondStatsContainer details={details} />
@@ -65,13 +68,13 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
             onClick={onOpen}
             className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
           >
-            Claim My Bond
+            <Trans>Claim My Bond</Trans>
           </OutlinedButton>
 
           <ClaimBondModal
             isOpen={isOpen}
             onClose={onClose}
-            modalTitle={"Claim Bond"}
+            modalTitle={t`Claim Bond`}
             unlockDate={info.unlockDate}
             claimable={info.claimable}
             refetchBondInfo={refetchBondInfo}
@@ -89,8 +92,11 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
         <div className="max-w-sm p-6 text-sm leading-6 bg-black rounded-xl">
           <h3 className="font-bold font-sora text-EEEEEE">What is Bond?</h3>
           <p className="mt-2 text-AABDCB">
-            The bond feature provides you NPM tokens at a discounted value for a
-            vesting period of {explainInterval(vestingPeriod)}.
+            <Trans>
+              The bond feature provides you NPM tokens at a discounted value for
+              a vesting period of
+            </Trans>{" "}
+            {explainInterval(vestingPeriod)}.
           </p>
         </div>
         <Tooltip.Arrow offset={16} className="fill-black" />

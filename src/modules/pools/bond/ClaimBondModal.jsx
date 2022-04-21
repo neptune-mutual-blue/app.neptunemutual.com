@@ -10,6 +10,7 @@ import { useClaimBond } from "@/src/hooks/useClaimBond";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { t, Trans } from "@lingui/macro";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -33,7 +34,7 @@ export const ClaimBondModal = ({
         ></ModalCloseButton>
         <div className="mt-6">
           <Label htmlFor={"claimable-bond"} className="mb-4 font-semibold">
-            Amount Available To Claim
+            <Trans>Amount Available To Claim</Trans>
           </Label>
           <DisabledInput
             value={formatAmount(convertFromUnits(claimable).toString())}
@@ -42,7 +43,7 @@ export const ClaimBondModal = ({
         </div>
         <div className="mt-8 modal-unlock">
           <Label className="mb-3" htmlFor="modal-unlock-on">
-            Unlock Date
+            <Trans>Unlock Date</Trans>
           </Label>
           <p
             id="modal-unlock-on"
@@ -63,7 +64,7 @@ export const ClaimBondModal = ({
           }}
           className="w-full p-6 mt-8 font-semibold uppercase text-h6"
         >
-          {claiming ? "Claiming..." : "Claim Now"}
+          {claiming ? t`Claiming...` : t`Claim Now`}
         </RegularButton>
       </ModalWrapper>
     </ModalRegular>

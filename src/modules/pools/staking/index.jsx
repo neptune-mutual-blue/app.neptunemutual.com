@@ -10,6 +10,7 @@ import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { t, Trans } from "@lingui/macro";
 
 export const StakingPage = () => {
   const { getTVLById, getPriceByAddress } = useAppConstants();
@@ -22,9 +23,9 @@ export const StakingPage = () => {
     },
   });
 
-  const [sortType, setSortType] = useState({ name: "A-Z" });
+  const [sortType, setSortType] = useState({ name: t`A-Z` });
 
-  const options = [{ name: "A-Z" }, { name: "TVL" }];
+  const options = [{ name: t`A-Z` }, { name: t`TVL` }];
   const filteredStakingCardTvl = filtered.map((poolData) => {
     const tvl = getTVLById(poolData.id);
 
@@ -62,7 +63,9 @@ export const StakingPage = () => {
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            No <span className="whitespace-nowrap">staking pools found.</span>
+            <Trans>
+              No <span className="whitespace-nowrap">staking pools found.</span>
+            </Trans>
           </p>
         </div>
       );
@@ -97,7 +100,7 @@ export const StakingPage = () => {
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
         >
-          Show More
+          <Trans>Show More</Trans>
         </NeutralButton>
       )}
     </Container>

@@ -21,6 +21,7 @@ import { getReplacedString } from "@/utils/string";
 import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { t, Trans } from "@lingui/macro";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -48,7 +49,7 @@ const BondPage = () => {
 
   const leftHalf = [
     {
-      title: "Bond Price",
+      title: t`Bond Price`,
       value: formatCurrency(
         getDiscountedPrice(
           info.discountRate,
@@ -63,7 +64,7 @@ const BondPage = () => {
       valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
     {
-      title: "Maximum Bond",
+      title: t`Maximum Bond`,
       value: `${
         formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
           .short
@@ -79,7 +80,7 @@ const BondPage = () => {
 
   const rightHalf = [
     {
-      title: "Market Price",
+      title: t`Market Price`,
       value: formatCurrency(
         convertFromUnits(info.marketPrice).toString(),
         "USD"
@@ -91,7 +92,7 @@ const BondPage = () => {
 
   if (account) {
     rightHalf.push({
-      title: "Your Bond",
+      title: t`Your Bond`,
       value: `${
         formatCurrency(convertFromUnits(info.claimable).toString(), "NPM", true)
           .short
@@ -124,11 +125,11 @@ const BondPage = () => {
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || "0");
   let loadingMessage = "";
   if (receiveAmountLoading) {
-    loadingMessage = "Calculating tokens...";
+    loadingMessage = t`Calculating tokens...`;
   } else if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   }
 
   return (
@@ -137,7 +138,7 @@ const BondPage = () => {
     >
       <div className="max-w-lg col-span-2">
         <TokenAmountInput
-          labelText={"Enter your amount"}
+          labelText={t`Enter your amount`}
           inputValue={value}
           tokenBalance={balance}
           tokenSymbol={tokenSymbol}
@@ -150,7 +151,7 @@ const BondPage = () => {
         {error && <p className="px-3 text-FA5C2F">{error}</p>}
         <div className="mt-16 receive">
           <ReceiveAmountInput
-            labelText="You Will Receive"
+            labelText={t`You Will Receive`}
             tokenSymbol="NPM"
             inputValue={convertFromUnits(receiveAmount).toString()}
           />
@@ -158,7 +159,7 @@ const BondPage = () => {
 
         <div className="unlock mt-14">
           <Label className="mb-2" htmlFor="unlock-on">
-            Will Unlock On
+            <Trans>Will Unlock On</Trans>
           </Label>
           <p
             id="unlock-on"
@@ -177,7 +178,13 @@ const BondPage = () => {
               className="w-full p-6 font-semibold uppercase text-h6"
               onClick={handleApprove}
             >
-              {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+              {approving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {tokenSymbol}
+                </>
+              )}
             </RegularButton>
           ) : (
             <RegularButton
@@ -189,7 +196,13 @@ const BondPage = () => {
                 });
               }}
             >
-              {bonding ? "Bonding..." : <>Bond {tokenSymbol}</>}
+              {bonding ? (
+                t`Bonding...`
+              ) : (
+                <>
+                  <Trans>Bond</Trans> {tokenSymbol}
+                </>
+              )}
             </RegularButton>
           )}
         </div>
@@ -205,12 +218,12 @@ const BondPage = () => {
             rel="noopener noreferrer nofollow"
             className="inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline"
           >
-            Get LP tokens
+            <Trans>Get LP tokens</Trans>
           </a>
 
           <Link href="/pools/bond/transactions">
             <a className="inline-block font-medium text-h4 text-4e7dd9 hover:underline">
-              Transaction List
+              <Trans>Transaction List</Trans>
             </a>
           </Link>
         </div>

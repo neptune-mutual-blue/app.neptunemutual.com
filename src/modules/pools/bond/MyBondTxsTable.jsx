@@ -1,10 +1,5 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
-import {
-  Table,
-  TableWrapper,
-  TBody,
-  THead,
-} from "@/common/Table/Table";
+import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -20,6 +15,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNetwork } from "@/src/context/Network";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { TokenAmountSpan } from "@/common/TokenAmountSpan";
+import { t, Trans } from "@lingui/macro";
 
 const renderHeader = (col) => (
   <th
@@ -54,19 +50,19 @@ const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
-    name: "when",
+    name: t`when`,
     align: "left",
     renderHeader,
     renderData: renderWhen,
   },
   {
-    name: "details",
+    name: t`details`,
     align: "left",
     renderHeader,
     renderData: renderDetails,
   },
   {
-    name: "amount",
+    name: t`amount`,
     align: "right",
     renderHeader,
     renderData: renderAmount,
@@ -96,7 +92,7 @@ export const MyBondTxsTable = () => {
     <>
       {blockNumber && (
         <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
-          LAST SYNCED:{" "}
+          <Trans>LAST SYNCED:</Trans>{" "}
           <a
             href={getBlockLink(networkId, blockNumber)}
             target="_blank"
@@ -121,7 +117,7 @@ export const MyBondTxsTable = () => {
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
-                  Please connect your wallet...
+                  <Trans>Please connect your wallet...</Trans>
                 </td>
               </tr>
             </tbody>
@@ -136,7 +132,7 @@ export const MyBondTxsTable = () => {
             )}
             onClick={handleShowMore}
           >
-            {loading && transactions.length > 0 ? "loading..." : "Show More"}
+            {loading && transactions.length > 0 ? t`loading...` : t`Show More`}
           </button>
         )}
       </TableWrapper>
@@ -198,7 +194,9 @@ const ActionsRenderer = ({ row }) => {
         {/* Tooltip */}
         <Tooltip.Root>
           <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
-            <span className="sr-only">Timestamp</span>
+            <span className="sr-only">
+              <Trans>Timestamp</Trans>
+            </span>
             <ClockIcon className="w-4 h-4" />
           </Tooltip.Trigger>
 

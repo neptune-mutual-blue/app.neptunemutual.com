@@ -23,6 +23,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { Badge } from "@/common/Badge/Badge";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
+import { t, Trans } from "@lingui/macro";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -79,7 +80,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   if (hasStaked) {
     leftHalf.push({
-      title: "Your Stake",
+      title: t`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
         stakingTokenSymbol,
@@ -88,14 +89,14 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     });
   } else {
     leftHalf.push({
-      title: "Lockup Period",
+      title: t`Lockup Period`,
       value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`,
     });
   }
 
   const rightHalf = [
     {
-      title: "TVL",
+      title: t`TVL`,
       value: formatCurrency(convertFromUnits(tvl), "USD").short,
       tooltip: formatCurrency(convertFromUnits(tvl), "USD").long,
     },
@@ -122,7 +123,9 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         />
       </div>
 
-      <h3>Earn {rewardTokenSymbol}</h3>
+      <h3>
+        <Trans>Earn</Trans> {rewardTokenSymbol}
+      </h3>
     </div>
   );
 
@@ -153,10 +156,12 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
           />
         </div>
 
-        <Badge className="text-21AD8C">APR: {formatPercent(apr)}</Badge>
+        <Badge className="text-21AD8C">
+          <Trans>APR:</Trans> {formatPercent(apr)}
+        </Badge>
       </div>
       <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={"Stake " + stakingTokenSymbol} />
+      <StakingCardSubTitle text={t`Stake` + " " + stakingTokenSymbol} />
 
       <hr className="mt-4 border-t border-B0C4DB" />
 
@@ -179,7 +184,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
           <>
             <div className="flex-1 text-sm">
               <PoolCardStat
-                title="You Earned"
+                title={t`You Earned`}
                 value={
                   formatCurrency(
                     convertFromUnits(rewardAmount),
@@ -207,12 +212,14 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                 className={"font-semibold uppercase text-sm px-5 py-2"}
                 onClick={onCollectModalOpen}
               >
-                Collect
+                <Trans>Collect</Trans>
               </StakingCardCTA>
             </div>
           </>
         ) : (
-          <StakingCardCTA onClick={onStakeModalOpen}>Stake</StakingCardCTA>
+          <StakingCardCTA onClick={onStakeModalOpen}>
+            <Trans>Stake</Trans>
+          </StakingCardCTA>
         )}
       </div>
       <StakeModal
