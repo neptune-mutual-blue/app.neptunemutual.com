@@ -5,6 +5,7 @@ import { Grid } from "@/common/Grid/Grid";
 import { CoverActionCard } from "./CoverActionCard";
 import { actions as coverActions } from "@/src/config/cover/actions";
 import { useRouter } from "next/router";
+import { Trans } from "@lingui/macro";
 
 export const CoverActionsFooter = ({ activeKey }) => {
   const router = useRouter();
@@ -16,7 +17,7 @@ export const CoverActionsFooter = ({ activeKey }) => {
       <div className="pt-12 border-t sm:pt-20 pb-36 bg-f1f3f6 border-t-B0C4DB">
         <Container>
           <h1 className="mb-10 font-bold text-center text-h4 md:text-h2 font-sora sm:mb-12">
-            Didn&#x2019;t Find What You Were Looking For?
+            <Trans>Didn&#x2019;t Find What You Were Looking For?</Trans>
           </h1>
           <Grid>
             {Object.keys(coverActions)

@@ -7,6 +7,7 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
+import { renderStatusIndicatorTranslation } from "@/utils/translations";
 
 // Status => Variant
 const variants = {
@@ -44,7 +45,8 @@ export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
         variant === "red" && "bg-FA5C2F"
       )}
     >
-      <Icon width="14" height="14" /> <div className="ml-1">{status}</div>
+      <Icon width="14" height="14" />{" "}
+      <div className="ml-1">{renderStatusIndicatorTranslation(status)}</div>
     </div>
   );
 

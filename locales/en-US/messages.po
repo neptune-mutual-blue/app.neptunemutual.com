@@ -13,9 +13,122 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/common/SearchAndSortBar.jsx:8
+msgid "A-Z"
+msgstr "A-Z"
+
+#: src/modules/cover/add-liquidity/index.jsx:132
+msgid "Accrue"
+msgstr "Accrue"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:141
+msgid "Amount you wish to cover"
+msgstr "Amount you wish to cover"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:235
+msgid "Approve"
+msgstr "Approve"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:232
+msgid "Approving..."
+msgstr "Approving..."
+
+#: src/common/HomeCard/HomeMainCard.jsx:18
+msgid "Available"
+msgstr "Available"
+
+#: src/modules/home/index.jsx:170
+msgid "Available Covers"
+msgstr "Available Covers"
+
+#: src/modules/cover/purchase/index.jsx:113
+msgid "Available Liquidity:"
+msgstr "Available Liquidity:"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:265
+#: src/modules/cover/CoverOptionsPage.jsx:79
+msgid "Back"
+msgstr "Back"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:124
+msgid "Cannot purchase policy, since the cover status is"
+msgstr "Cannot purchase policy, since the cover status is"
+
+#: src/common/CoverRules/CoverRules.jsx:10
+msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
+msgstr "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
+
+#: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:40
+msgid "Claim Expiry"
+msgstr "Claim Expiry"
+
+#: src/common/CardStatusBadge.jsx:6
+msgid "Claimable"
+msgstr "Claimable"
+
+#: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:29
+#: src/modules/home/index.jsx:112
+msgid "Cover Fee"
+msgstr "Cover Fee"
+
+#: src/common/CoverRules/CoverRules.jsx:7
+msgid "Cover Rules"
+msgstr "Cover Rules"
+
+#: src/common/Cover/CoverCard.jsx:49
+msgid "Cover fee:"
+msgstr "Cover fee:"
+
+#: src/modules/home/index.jsx:106
+msgid "Covered"
+msgstr "Covered"
+
+#: src/common/Cover/CoverActionsFooter.jsx:20
+msgid "Didn’t Find What You Were Looking For?"
+msgstr "Didn’t Find What You Were Looking For?"
+
+#: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:23
+msgid "Fees"
+msgstr "Fees"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:109
+msgid "Fetching Allowance..."
+msgstr "Fetching Allowance..."
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:111
+msgid "Fetching Balance..."
+msgstr "Fetching Balance..."
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:107
+msgid "Fetching..."
+msgstr "Fetching..."
+
 #: src/common/Header/Header.jsx:65
+#: src/modules/cover/add-liquidity/index.jsx:50
+#: src/modules/cover/purchase/index.jsx:50
 msgid "Home"
 msgstr "Home"
+
+#: src/modules/cover/CoverOptionsPage.jsx:41
+msgid "I Want to"
+msgstr "I Want to"
+
+#: src/modules/cover/add-liquidity/index.jsx:88
+#: src/modules/cover/purchase/index.jsx:94
+msgid "I have read, understood, and agree to the terms of cover rules"
+msgstr "I have read, understood, and agree to the terms of cover rules"
+
+#: src/common/CardStatusBadge.jsx:6
+msgid "Incident Happened"
+msgstr "Incident Happened"
+
+#: src/common/SearchAndSortBar.jsx:10
+msgid "Liquidity"
+msgstr "Liquidity"
+
+#: src/common/Cover/CoverCard.jsx:80
+msgid "Liquidity:"
+msgstr "Liquidity:"
 
 #: src/common/Header/Header.jsx:47
 msgid "My Liquidity"
@@ -25,14 +138,112 @@ msgstr "My Liquidity"
 msgid "My Policies"
 msgstr "My Policies"
 
+#: src/common/AcceptRulesForm/AcceptRulesForm.jsx:42
+msgid "Next"
+msgstr "Next"
+
 #: src/common/Header/Header.jsx:37
 msgid "Pool"
 msgstr "Pool"
 
+#: src/common/Cover/CoverCard.jsx:72
+msgid "Protection:"
+msgstr "Protection:"
+
+#: src/modules/cover/add-liquidity/index.jsx:56
+msgid "Provide Liquidity"
+msgstr "Provide Liquidity"
+
+#: src/modules/cover/purchase/index.jsx:56
+msgid "Purchase Policy"
+msgstr "Purchase Policy"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:258
+msgid "Purchase policy"
+msgstr "Purchase policy"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:93
+msgid "Purchased Policy Successfully"
+msgstr "Purchased Policy Successfully"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:258
+msgid "Purchasing..."
+msgstr "Purchasing..."
+
+#: src/modules/cover/add-liquidity/index.jsx:119
+msgid "Reassurance:"
+msgstr "Reassurance:"
+
 #: src/common/Header/Header.jsx:52
+#: src/common/HomeCard/HomeMainCard.jsx:31
 msgid "Reporting"
 msgstr "Reporting"
+
+#: src/common/Cover/Purchase/CoverPurchaseResolutionSources.jsx:25
+msgid "Resolution Sources"
+msgstr "Resolution Sources"
+
+#: src/common/SearchAndSortBar.jsx:34
+msgid "Search"
+msgstr "Search"
+
+#: src/common/SeeMoreParagraph.jsx:38
+msgid "See less"
+msgstr "See less"
+
+#: src/common/SeeMoreParagraph.jsx:38
+msgid "See more"
+msgstr "See more"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:171
+msgid "Select your coverage period"
+msgstr "Select your coverage period"
 
 #: src/pages/settings.jsx:34
 msgid "Settings"
 msgstr "Settings"
+
+#: src/modules/home/index.jsx:201
+msgid "Show More"
+msgstr "Show More"
+
+#: src/common/SearchAndSortBar.jsx:47
+msgid "Sort by:"
+msgstr "Sort by:"
+
+#: src/modules/home/index.jsx:87
+msgid "TVL (Cover)"
+msgstr "TVL (Cover)"
+
+#: src/modules/home/index.jsx:93
+msgid "TVL (Pool)"
+msgstr "TVL (Pool)"
+
+#: src/modules/cover/purchase/index.jsx:68
+#: src/modules/home/index.jsx:130
+msgid "Total Liquidity"
+msgstr "Total Liquidity"
+
+#: src/modules/cover/add-liquidity/index.jsx:108
+msgid "Total Liquidity:"
+msgstr "Total Liquidity:"
+
+#: src/common/SearchAndSortBar.jsx:9
+msgid "Utilization Ratio"
+msgstr "Utilization Ratio"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:67
+msgid "View purchased policies"
+msgstr "View purchased policies"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:117
+msgid "You are not whitelisted"
+msgstr "You are not whitelisted"
+
+#: src/common/CoverForm/PurchasePolicyForm.jsx:158
+msgid "You will receive:"
+msgstr "You will receive:"
+
+#: src/common/Cover/Purchase/CoverPurchaseResolutionSources.jsx:28
+msgid "reporting period"
+msgstr "reporting period"

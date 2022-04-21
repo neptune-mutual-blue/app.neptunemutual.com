@@ -2,6 +2,7 @@ import DateLib from "@/lib/date/DateLib";
 import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
+import { Trans } from "@lingui/macro";
 
 export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
   const { fee, rate } = data;
@@ -18,11 +19,15 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
       <table className="w-full font-semibold text-black uppercase text-h6">
         <tbody>
           <tr className="flex justify-between mt-3">
-            <th>Fees</th>
+            <th>
+              <Trans>Fees</Trans>
+            </th>
             <td className="text-4e7dd9">{formatPercent(rateConverted)}</td>
           </tr>
           <tr className="flex justify-between mt-3">
-            <th>Cover Fee</th>
+            <th>
+              <Trans>Cover Fee</Trans>
+            </th>
             <td
               className="text-4e7dd9"
               title={formatCurrency(coverFee, "DAI", true).long}
@@ -31,7 +36,9 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
             </td>
           </tr>
           <tr className="flex justify-between mt-3">
-            <th>Claim Expiry</th>
+            <th>
+              <Trans>Claim Expiry</Trans>
+            </th>
             <td className="text-4e7dd9" title={expires.toString()}>
               {DateLib.toLongDateFormat(expires, "UTC")}
             </td>

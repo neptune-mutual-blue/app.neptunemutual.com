@@ -15,6 +15,7 @@ import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPur
 import { convertFromUnits } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -46,13 +47,13 @@ export const CoverAddLiquidityDetailsPage = () => {
         <Container className="px-2 py-20">
           <BreadCrumbs
             pages={[
-              { name: "Home", href: "/", current: false },
+              { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.coverName,
                 href: `/cover/${cover_id}/options`,
                 current: false,
               },
-              { name: "Provide Liquidity", current: true },
+              { name: t`Provide Liquidity`, current: true },
             ]}
           />
           <div className="flex">
@@ -84,7 +85,10 @@ export const CoverAddLiquidityDetailsPage = () => {
                 <CoverRules rules={coverInfo?.rules} />
                 <br className="mt-20" />
                 <AcceptRulesForm onAccept={handleAcceptRules}>
-                  I have read, understood, and agree to the terms of cover rules
+                  <Trans>
+                    I have read, understood, and agree to the terms of cover
+                    rules
+                  </Trans>
                 </AcceptRulesForm>
               </>
             )}
@@ -100,7 +104,9 @@ export const CoverAddLiquidityDetailsPage = () => {
                 className="flex justify-between pb-2"
                 title={formatCurrency(convertFromUnits(totalLiquidity)).long}
               >
-                <span className="">Total Liquidity:</span>
+                <span className="">
+                  <Trans>Total Liquidity:</Trans>
+                </span>
                 <strong className="font-bold text-right">
                   {formatCurrency(convertFromUnits(totalLiquidity)).short}
                 </strong>
@@ -109,7 +115,9 @@ export const CoverAddLiquidityDetailsPage = () => {
                 className="flex justify-between"
                 title={formatCurrency(convertFromUnits(reassuranceAmount)).long}
               >
-                <span className="">Reassurance:</span>
+                <span className="">
+                  <Trans>Reassurance:</Trans>
+                </span>
                 <strong className="font-bold text-right">
                   {formatCurrency(convertFromUnits(reassuranceAmount)).short}
                 </strong>
@@ -121,7 +129,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                   className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
                   onClick={accrueInterest}
                 >
-                  Accrue
+                  <Trans>Accrue</Trans>
                 </button>
               )}
             </div>
