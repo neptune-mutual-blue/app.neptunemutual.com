@@ -5,7 +5,7 @@ import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 
 export const HarvestForm = ({
   stakingTokenSymbol,
