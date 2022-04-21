@@ -98,6 +98,13 @@ BigNumber.prototype.newFormat = (function (u) {
   };
 })();
 
+export const numberLocaleChange = (formattedNumber, locale = "en") => {
+  const sep = getNumberSeparators(locale);
+  return formattedNumber
+    .replaceAll(",", sep.thousand)
+    .replace(".", sep.decimal);
+};
+
 export const getLocaleNumber = (
   plainNumber,
   locale = "en",
@@ -110,11 +117,12 @@ export const getLocaleNumber = (
       ? plainNumber.toString().split(".")[1]?.length ?? 0
       : 0;
     formattedNumber = new BigNumber(plainNumber).newFormat({
-      decimalSeparator: sep.decimal,
-      groupSeparator: sep.thousand,
+      // decimalSeparator: sep.decimal,
+      // groupSeparator: sep.thousand,
       groupSize: 3,
       minimumDecimalPlaces: decimalLength,
     });
+    formattedNumber = numberLocaleChange(formattedNumber, locale);
   } else {
     formattedNumber = new BigNumber(plainNumber).toFormat({
       decimalSeparator: sep.decimal,
