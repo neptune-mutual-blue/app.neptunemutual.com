@@ -14,22 +14,47 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/common/SearchAndSortBar.jsx:8
+#: src/modules/pools/pod-staking/index.jsx:26
+#: src/modules/pools/pod-staking/index.jsx:28
+#: src/modules/pools/staking/index.jsx:26
+#: src/modules/pools/staking/index.jsx:28
 msgid "A-Z"
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:127
+#: src/modules/pools/staking/StakingCard.jsx:160
+msgid "APR:"
 msgstr ""
 
 #: src/modules/cover/add-liquidity/index.jsx:132
 msgid "Accrue"
 msgstr ""
 
+#: src/modules/pools/bond/ClaimBondModal.jsx:37
+msgid "Amount Available To Claim"
+msgstr ""
+
+#: src/modules/pools/staking/StakeForm.jsx:74
+msgid "Amount You Wish To Stake"
+msgstr ""
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:141
 msgid "Amount you wish to cover"
 msgstr ""
 
+#: src/modules/pools/staking/UnStakeForm.jsx:68
+msgid "Amount you wish to withdraw"
+msgstr ""
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:235
+#: src/modules/pools/bond/index.jsx:185
+#: src/modules/pools/staking/StakeForm.jsx:130
 msgid "Approve"
 msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:232
+#: src/modules/pools/bond/index.jsx:182
+#: src/modules/pools/staking/StakeForm.jsx:127
 msgid "Approving..."
 msgstr ""
 
@@ -50,6 +75,36 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+#: src/common/TokenBalance.jsx:43
+msgid "Balance:"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:203
+#: src/modules/pools/PoolsTabs.jsx:16
+#: src/pages/pools/bond/transactions.jsx:40
+msgid "Bond"
+msgstr ""
+
+#: src/modules/pools/bond/BondInfoCard.jsx:38
+msgid "Bond Info"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:52
+msgid "Bond Price"
+msgstr ""
+
+#: src/modules/pools/PoolsTabs.jsx:38
+msgid "Bond and Staking Pools"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:200
+msgid "Bonding..."
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:128
+msgid "Calculating tokens..."
+msgstr ""
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:124
 msgid "Cannot purchase policy, since the cover status is"
 msgstr ""
@@ -58,12 +113,37 @@ msgstr ""
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 msgstr ""
 
+#: src/modules/pools/bond/BondInfoCard.jsx:77
+msgid "Claim Bond"
+msgstr ""
+
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:40
 msgid "Claim Expiry"
 msgstr ""
 
+#: src/modules/pools/bond/BondInfoCard.jsx:71
+msgid "Claim My Bond"
+msgstr ""
+
+#: src/modules/pools/bond/ClaimBondModal.jsx:67
+msgid "Claim Now"
+msgstr ""
+
 #: src/common/CardStatusBadge.jsx:6
 msgid "Claimable"
+msgstr ""
+
+#: src/modules/pools/bond/ClaimBondModal.jsx:67
+msgid "Claiming..."
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:181
+#: src/modules/pools/staking/StakingCard.jsx:215
+msgid "Collect"
+msgstr ""
+
+#: src/modules/pools/staking/UnStakeForm.jsx:86
+msgid "Could not withdraw during lockup period"
 msgstr ""
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:29
@@ -87,6 +167,23 @@ msgstr ""
 msgid "Didn’t Find What You Were Looking For?"
 msgstr ""
 
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:218
+#: src/modules/pools/staking/StakingCard.jsx:127
+msgid "Earn"
+msgstr ""
+
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:38
+msgid "Enter Amount"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:141
+msgid "Enter your amount"
+msgstr ""
+
+#: src/common/TokenBalance.jsx:31
+msgid "Error"
+msgstr ""
+
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:23
 msgid "Fees"
 msgstr ""
@@ -99,8 +196,22 @@ msgstr ""
 msgid "Fetching Balance..."
 msgstr ""
 
+#: src/modules/pools/bond/index.jsx:132
+#: src/modules/pools/staking/StakeForm.jsx:67
+msgid "Fetching allowance..."
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:130
+#: src/modules/pools/staking/StakeForm.jsx:65
+msgid "Fetching balance..."
+msgstr ""
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:107
 msgid "Fetching..."
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:221
+msgid "Get LP tokens"
 msgstr ""
 
 #: src/common/Header/Header.jsx:65
@@ -122,12 +233,38 @@ msgstr ""
 msgid "Incident Happened"
 msgstr ""
 
+#: src/modules/pools/bond/MyBondTxsTable.jsx:95
+msgid "LAST SYNCED:"
+msgstr ""
+
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
 msgstr ""
 
 #: src/common/Cover/CoverCard.jsx:80
 msgid "Liquidity:"
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:95
+#: src/modules/pools/staking/StakeForm.jsx:111
+#: src/modules/pools/staking/StakingCard.jsx:92
+msgid "Lockup Period"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:83
+msgid "Market Price"
+msgstr ""
+
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:30
+msgid "Max"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:67
+msgid "Maximum Bond"
+msgstr ""
+
+#: src/modules/pools/staking/StakeForm.jsx:85
+msgid "Maximum Limit:"
 msgstr ""
 
 #: src/common/Header/Header.jsx:47
@@ -138,11 +275,32 @@ msgstr "Mi Liquidez"
 msgid "My Policies"
 msgstr "Mis Pólizas"
 
+#: src/modules/pools/bond/BondInfoCard.jsx:33
+msgid "NPM Logo"
+msgstr ""
+
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:42
 msgid "Next"
 msgstr ""
 
+#: src/modules/pools/staking/index.jsx:66
+msgid "No <0>staking pools found.</0>"
+msgstr ""
+
+#: src/modules/pools/pod-staking/index.jsx:68
+msgid "No POD"
+msgstr ""
+
+#: src/modules/pools/PoolsTabs.jsx:26
+msgid "POD Staking"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:120
+msgid "Please connect your wallet..."
+msgstr ""
+
 #: src/common/Header/Header.jsx:37
+#: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "Piscina"
 
@@ -168,6 +326,10 @@ msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:258
 msgid "Purchasing..."
+msgstr ""
+
+#: src/modules/pools/bond/BondInfoCard.jsx:54
+msgid "ROI:"
 msgstr ""
 
 #: src/modules/cover/add-liquidity/index.jsx:119
@@ -204,11 +366,46 @@ msgid "Settings"
 msgstr "Ajustes"
 
 #: src/modules/home/index.jsx:201
+#: src/modules/pools/bond/MyBondTxsTable.jsx:135
+#: src/modules/pools/pod-staking/index.jsx:106
+#: src/modules/pools/staking/index.jsx:103
 msgid "Show More"
 msgstr ""
 
 #: src/common/SearchAndSortBar.jsx:47
 msgid "Sort by:"
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:123
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:187
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:201
+#: src/modules/pools/staking/StakeForm.jsx:140
+#: src/modules/pools/staking/StakingCard.jsx:164
+#: src/modules/pools/staking/StakingCard.jsx:221
+msgid "Stake"
+msgstr ""
+
+#: src/modules/pools/staking/UnStakeForm.jsx:75
+msgid "Staked:"
+msgstr ""
+
+#: src/modules/pools/PoolsTabs.jsx:21
+msgid "Staking"
+msgstr ""
+
+#: src/modules/pools/staking/StakeForm.jsx:140
+msgid "Staking..."
+msgstr ""
+
+#: src/common/TokenBalance.jsx:24
+msgid "Success"
+msgstr ""
+
+#: src/modules/pools/pod-staking/index.jsx:28
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:102
+#: src/modules/pools/staking/index.jsx:28
+#: src/modules/pools/staking/StakingCard.jsx:99
+msgid "TVL"
 msgstr ""
 
 #: src/modules/home/index.jsx:87
@@ -217,6 +414,18 @@ msgstr ""
 
 #: src/modules/home/index.jsx:93
 msgid "TVL (Pool)"
+msgstr ""
+
+#: src/modules/pools/bond/BondInfoCard.jsx:95
+msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:198
+msgid "Timestamp"
+msgstr ""
+
+#: src/common/TokenBalance.jsx:25
+msgid "Token address copied Successfully"
 msgstr ""
 
 #: src/modules/cover/purchase/index.jsx:68
@@ -228,12 +437,44 @@ msgstr ""
 msgid "Total Liquidity:"
 msgstr ""
 
+#: src/modules/pools/bond/index.jsx:226
+#: src/pages/pools/bond/transactions.jsx:44
+#: src/pages/pools/bond/transactions.jsx:51
+msgid "Transaction List"
+msgstr ""
+
+#: src/common/TokenBalance.jsx:32
+msgid "Unable to copy token address"
+msgstr ""
+
+#: src/modules/pools/bond/ClaimBondModal.jsx:46
+msgid "Unlock Date"
+msgstr ""
+
+#: src/modules/pools/staking/UnStakeForm.jsx:96
+msgid "Unstake"
+msgstr ""
+
 #: src/common/SearchAndSortBar.jsx:9
 msgid "Utilization Ratio"
 msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:67
 msgid "View purchased policies"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:162
+msgid "Will Unlock On"
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:153
+#: src/modules/pools/staking/HarvestForm.jsx:38
+#: src/modules/pools/staking/StakingCard.jsx:187
+msgid "You Earned"
+msgstr ""
+
+#: src/modules/pools/bond/index.jsx:154
+msgid "You Will Receive"
 msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:117
@@ -244,6 +485,48 @@ msgstr ""
 msgid "You will receive:"
 msgstr ""
 
+#: src/modules/pools/bond/index.jsx:95
+msgid "Your Bond"
+msgstr ""
+
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:86
+#: src/modules/pools/staking/HarvestForm.jsx:35
+#: src/modules/pools/staking/StakingCard.jsx:83
+msgid "Your Stake"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:65
+msgid "amount"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:59
+msgid "details"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:135
+msgid "loading..."
+msgstr ""
+
+#: src/modules/pools/pod-staking/index.jsx:64
+msgid "no data found"
+msgstr ""
+
 #: src/common/Cover/Purchase/CoverPurchaseResolutionSources.jsx:28
 msgid "reporting period"
+msgstr ""
+
+#: src/modules/pools/pod-staking/index.jsx:70
+msgid "staking pools found."
+msgstr ""
+
+#: src/modules/pools/bond/BondInfoCard.jsx:59
+msgid "vesting term"
+msgstr ""
+
+#: src/modules/pools/bond/MyBondTxsTable.jsx:53
+msgid "when"
+msgstr ""
+
+#: src/modules/pools/staking/UnStakeForm.jsx:96
+msgid "withdrawing..."
 msgstr ""

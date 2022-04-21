@@ -9,6 +9,7 @@ import CopyIcon from "@/icons/CopyIcon";
 import { useToast } from "@/lib/toast/context";
 import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useNetwork();
@@ -20,15 +21,15 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
     try {
       await navigator.clipboard.writeText(tokenAddress);
       toast?.pushSuccess({
-        title: "Success",
-        message: "Token address copied Successfully",
+        title: t`Success`,
+        message: t`Token address copied Successfully`,
         lifetime: SHORT_TOAST_TIME,
       });
     } catch (err) {
       console.error(err);
       toast?.pushError({
-        title: "Error",
-        message: "Unable to copy token address",
+        title: t`Error`,
+        message: t`Unable to copy token address`,
         lifetime: SHORT_TOAST_TIME,
       });
     }
@@ -39,7 +40,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
       <div>
         {balance && (
           <p title={formatCurrency(convertFromUnits(balance), unit, true).long}>
-            Balance:{" "}
+            <Trans>Balance:</Trans>{" "}
             {formatCurrency(convertFromUnits(balance), unit, true).short}
           </p>
         )}

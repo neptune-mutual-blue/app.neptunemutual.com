@@ -7,6 +7,7 @@ import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { t, Trans } from "@lingui/macro";
 
 export const StakeForm = ({
   info,
@@ -61,16 +62,16 @@ export const StakeForm = ({
 
   let loadingMessage = "";
   if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   }
 
   return (
     <>
       <div className="mt-6">
         <TokenAmountInput
-          labelText={"Amount You Wish To Stake"}
+          labelText={t`Amount You Wish To Stake`}
           tokenBalance={balance}
           tokenSymbol={stakingTokenSymbol}
           tokenAddress={tokenAddress}
@@ -81,7 +82,7 @@ export const StakeForm = ({
           onChange={handleChange}
         >
           <p>
-            Maximum Limit:{" "}
+            <Trans>Maximum Limit:</Trans>{" "}
             <span
               title={`${
                 formatCurrency(
@@ -107,7 +108,7 @@ export const StakeForm = ({
       </div>
       <div className="mt-8 modal-unlock">
         <Label className="mb-3" htmlFor="modal-unlock-on">
-          Lockup Period
+          <Trans>Lockup Period</Trans>
         </Label>
         <p id="modal-unlock-on" className="font-medium text-7398C0 text-h4">
           {explainInterval(lockupPeriod)}
@@ -122,7 +123,13 @@ export const StakeForm = ({
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
           >
-            {approving ? "Approving..." : <>Approve {stakingTokenSymbol}</>}
+            {approving ? (
+              t`Approving...`
+            ) : (
+              <>
+                <Trans>Approve</Trans> {stakingTokenSymbol}
+              </>
+            )}
           </RegularButton>
         ) : (
           <RegularButton
@@ -130,7 +137,7 @@ export const StakeForm = ({
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => handleDeposit(onDepositSuccess)}
           >
-            {depositing ? "Staking..." : "Stake"}
+            {depositing ? t`Staking...` : t`Stake`}
           </RegularButton>
         )}
       </div>

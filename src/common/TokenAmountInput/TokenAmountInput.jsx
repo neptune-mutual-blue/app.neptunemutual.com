@@ -1,6 +1,7 @@
 import { Label } from "@/common/Label/Label";
 import { InputWithTrailingButton } from "@/common/Input/InputWithTrailingButton";
 import { TokenBalance } from "@/common/TokenBalance";
+import { t } from "@lingui/macro";
 
 export const TokenAmountInput = ({
   tokenAddress,
@@ -26,7 +27,7 @@ export const TokenAmountInput = ({
       <InputWithTrailingButton
         error={error}
         buttonProps={{
-          children: "Max",
+          children: t`Max`,
           onClick: handleChooseMax,
           disabled: disabled,
         }}
@@ -34,7 +35,7 @@ export const TokenAmountInput = ({
         inputProps={{
           id: inputId,
           disabled: disabled,
-          placeholder: "Enter Amount",
+          placeholder: t`Enter Amount`,
           value: inputValue,
           onChange: onChange,
           allowNegative: allowNegative ?? false,
