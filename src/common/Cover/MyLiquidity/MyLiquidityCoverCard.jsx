@@ -7,6 +7,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
+import { Trans } from "@lingui/macro";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -45,7 +46,9 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
 
       {/* Stats */}
       <div className="flex justify-between px-1 text-sm">
-        <span className="uppercase">Reassurance Ratio</span>
+        <span className="uppercase">
+          <Trans>Reassurance Ratio</Trans>
+        </span>
         <span className="font-semibold text-right">
           {formatPercent(reassurancePercent)}
         </span>
@@ -60,7 +63,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
         }
       >
         <span className="">
-          My Liquidity:{" "}
+          <Trans>My Liquidity:</Trans>{" "}
           {
             formatCurrency(convertFromUnits(totalPODs || "0"), "POD", true)
               .short

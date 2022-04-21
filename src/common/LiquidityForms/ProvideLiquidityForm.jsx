@@ -28,6 +28,7 @@ import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityForms
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
+import { t, Trans } from "@lingui/macro";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -76,7 +77,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const ViewToastLiquidityLink = () => (
     <Link href="/my-liquidity">
       <a className="flex items-center">
-        <span className="inline-block">View provided liquidity</span>
+        <span className="inline-block">
+          <Trans>View provided liquidity</Trans>
+        </span>
         <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
       </a>
     </Link>
@@ -85,21 +88,21 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
     if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
-      setNpmErrorMsg("Insufficient Stake");
+      setNpmErrorMsg(t`Insufficient Stake`);
     } else if (npmValue && isEqualTo(convertToUnits(npmValue), "0")) {
       // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
       // then user should be able to provide ZERO for this input.
-      setNpmErrorMsg("Please specify an amount");
+      setNpmErrorMsg(t`Please specify an amount`);
     } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
-      setNpmErrorMsg("Exceeds maximum balance");
+      setNpmErrorMsg(t`Exceeds maximum balance`);
     } else {
       setNpmErrorMsg("");
     }
 
     if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
-      setLqErrorMsg("Exceeds maximum balance");
+      setLqErrorMsg(t`Exceeds maximum balance`);
     } else if (lqValue && isEqualTo(convertToUnits(lqValue), 0)) {
-      setLqErrorMsg("Please specify an amount");
+      setLqErrorMsg(t`Please specify an amount`);
     } else {
       setLqErrorMsg("");
     }
@@ -129,7 +132,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const handleSuccessViewProvidedLiquidity = () => {
     toast?.pushSuccess({
-      title: "Added Liquidity Successfully",
+      title: t`Added Liquidity Successfully`,
       message: <ViewToastLiquidityLink />,
       lifetime: TOAST_DEFAULT_TIMEOUT,
     });
@@ -140,7 +143,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   if (statusInfo.status && statusInfo.status !== "Normal") {
     return (
       <Alert>
-        Cannot add liquidity, since the cover status is{" "}
+        <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
         <Link
           href={`/reporting/${getParsedKey(coverKey)}/${
             statusInfo.activeIncidentDate
@@ -156,20 +159,20 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   let loadingMessage = "";
   if (receiveAmountLoading) {
-    loadingMessage = "Calculating tokens...";
+    loadingMessage = t`Calculating tokens...`;
   } else if (lqBalanceLoading || npmBalanceLoading) {
-    loadingMessage = "Fetching balances...";
+    loadingMessage = t`Fetching balances...`;
   } else if (npmAllowanceLoading) {
-    loadingMessage = `Fetching ${npmTokenSymbol} allowance...`;
+    loadingMessage = t`Fetching ${npmTokenSymbol} allowance...`;
   } else if (lqAllowanceLoading) {
-    loadingMessage = `Fetching ${liquidityTokenSymbol} allowance...`;
+    loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
 
   return (
     <div className="max-w-md">
       <div className="pb-12">
         <TokenAmountInput
-          labelText={"Enter your NPM stake"}
+          labelText={t`Enter your NPM stake`}
           onChange={handleNPMChange}
           handleChooseMax={handleMaxNPM}
           error={npmErrorMsg}
@@ -183,14 +186,14 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           {isGreater(minStakeToAddLiquidity, myStake) && (
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
-              prefix="Minimum Stake: "
+              prefix={t`Minimum Stake:` + " "}
               symbol={npmTokenSymbol}
             />
           )}
           {isGreater(myStake, "0") && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
-              prefix="Your Stake: "
+              prefix={t`Your Stake:` + " "}
               symbol={npmTokenSymbol}
             />
           )}
@@ -203,7 +206,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
       <div className="pb-12">
         <TokenAmountInput
-          labelText={"Enter Amount you wish to provide"}
+          labelText={t`Enter Amount you wish to provide`}
           onChange={handleLqChange}
           handleChooseMax={handleMaxLq}
           error={isError}
@@ -222,24 +225,28 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
       <div className="pb-12">
         <ReceiveAmountInput
-          labelText="You Will Receive"
+          labelText={t`You Will Receive`}
           tokenSymbol={podSymbol}
           inputValue={receiveAmount}
         />
       </div>
 
       <h5 className="block mb-1 font-semibold text-black uppercase text-h6">
-        NEXT UNLOCK CYCLE
+        <Trans>NEXT UNLOCK CYCLE</Trans>
       </h5>
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
-          <strong>Open: </strong>
+          <strong>
+            <Trans>Open:</Trans>{" "}
+          </strong>
           {DateLib.toLongDateFormat(info.withdrawalOpen)}
         </span>
       </div>
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
-          <strong>Close: </strong>
+          <strong>
+            <Trans>Close:</Trans>{" "}
+          </strong>
           {DateLib.toLongDateFormat(info.withdrawalClose)}
         </span>
       </div>
@@ -255,9 +262,11 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             onClick={handleLqTokenApprove}
           >
             {lqApproving ? (
-              "Approving..."
+              t`Approving...`
             ) : (
-              <>Approve {liquidityTokenSymbol || "Liquidity"}</>
+              <>
+                <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
+              </>
             )}
           </RegularButton>
         )}
@@ -274,9 +283,11 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             onClick={handleNPMTokenApprove}
           >
             {npmApproving ? (
-              "Approving..."
+              t`Approving...`
             ) : (
-              <>Approve {npmTokenSymbol || "Stake"}</>
+              <>
+                <Trans>Approve</Trans> {npmTokenSymbol || t`Stake`}
+              </>
             )}
           </RegularButton>
         )}
@@ -301,7 +312,13 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               });
             }}
           >
-            {providing ? "Providing Liquidity..." : <>Provide Liquidity</>}
+            {providing ? (
+              t`Providing Liquidity...`
+            ) : (
+              <>
+                <Trans>Provide Liquidity</Trans>
+              </>
+            )}
           </RegularButton>
         )}
       </div>
@@ -311,7 +328,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           className="block m-auto rounded-big sm:m-0"
           onClick={() => router.back()}
         >
-          &#x27F5;&nbsp;Back
+          &#x27F5;&nbsp;<Trans>Back</Trans>
         </OutlinedButton>
       </div>
     </div>
