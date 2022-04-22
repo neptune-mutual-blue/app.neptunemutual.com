@@ -8,6 +8,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
+import { t } from "@lingui/macro";
 
 const defaultInfo = {
   fee: "0",
@@ -52,7 +53,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
       };
 
       const handleError = (err) => {
-        notifyError(err, "get fees");
+        notifyError(err, t`get fees`);
       };
 
       try {

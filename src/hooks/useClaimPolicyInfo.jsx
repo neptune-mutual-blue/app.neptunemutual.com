@@ -21,6 +21,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
 import { getClaimPlatformFee } from "@/src/helpers/store/getClaimPlatformFee";
 import { MULTIPLIER } from "@/src/config/constants";
+import { t } from "@lingui/macro";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -106,15 +107,15 @@ export const useClaimPolicyInfo = ({
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, `approve cxDAI tokens`);
+      notifyError(err, t`approve cxDAI tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving cxDAI tokens`,
-          success: `Approved cxDAI tokens Successfully`,
-          failure: `Could not approve cxDAI tokens`,
+          pending: t`Approving cxDAI tokens`,
+          success: t`Approved cxDAI tokens Successfully`,
+          failure: t`Could not approve cxDAI tokens`,
         });
         cleanup();
       } catch (err) {
@@ -153,7 +154,7 @@ export const useClaimPolicyInfo = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, "claim policy");
+      notifyError(err, t`claim policy`);
     };
 
     try {
@@ -168,9 +169,9 @@ export const useClaimPolicyInfo = ({
         await txToast.push(
           tx,
           {
-            pending: `Claiming policy`,
-            success: `Claimed policy Successfully`,
-            failure: `Could not Claim policy`,
+            pending: t`Claiming policy`,
+            success: t`Claimed policy Successfully`,
+            failure: t`Could not Claim policy`,
           },
           {
             onTxSuccess: () => {
@@ -222,17 +223,17 @@ export const useClaimPolicyInfo = ({
     }
 
     if (!account) {
-      setError("Please connect your wallet");
+      setError(t`Please connect your wallet`);
       return;
     }
 
     if (!isValidNumber(value)) {
-      setError("Invalid amount to claim");
+      setError(t`Invalid amount to claim`);
       return;
     }
 
     if (isGreater(convertToUnits(value), balance || "0")) {
-      setError("Insufficient Balance");
+      setError(t`Insufficient Balance`);
       return;
     }
 

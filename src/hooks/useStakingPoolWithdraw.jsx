@@ -8,6 +8,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
+import { t } from "@lingui/macro";
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -36,7 +37,7 @@ export const useStakingPoolWithdraw = ({
       setWithdrawing(false);
     };
     const handleError = (err) => {
-      notifyError(err, `unstake ${tokenSymbol}`);
+      notifyError(err, t`unstake ${tokenSymbol}`);
     };
 
     try {
@@ -49,9 +50,9 @@ export const useStakingPoolWithdraw = ({
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: `Unstaking ${tokenSymbol}`,
-          success: `Unstaked ${tokenSymbol} successfully`,
-          failure: `Could not unstake ${tokenSymbol}`,
+          pending: t`Unstaking ${tokenSymbol}`,
+          success: t`Unstaked ${tokenSymbol} successfully`,
+          failure: t`Could not unstake ${tokenSymbol}`,
         });
         cleanup();
       };
@@ -108,7 +109,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       setWithdrawingRewards(false);
     };
     const handleError = (err) => {
-      notifyError(err, "withdraw rewards");
+      notifyError(err, t`withdraw rewards`);
     };
 
     try {
@@ -121,9 +122,9 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: `Withdrawing rewards`,
-          success: `Withdrawn rewards successfully`,
-          failure: `Could not withdraw rewards`,
+          pending: t`Withdrawing rewards`,
+          success: t`Withdrawn rewards successfully`,
+          failure: t`Could not withdraw rewards`,
         });
 
         cleanup();

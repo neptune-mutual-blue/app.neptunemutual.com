@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc, getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();

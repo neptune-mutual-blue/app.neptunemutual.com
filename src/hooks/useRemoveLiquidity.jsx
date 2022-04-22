@@ -10,6 +10,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import { t } from "@lingui/macro";
 
 export const useRemoveLiquidity = ({
   coverKey,
@@ -53,15 +54,15 @@ export const useRemoveLiquidity = ({
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, `approve ${vaultTokenSymbol} tokens`);
+      notifyError(err, t`approve ${vaultTokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving ${vaultTokenSymbol} tokens`,
-          success: `Approved ${vaultTokenSymbol} tokens Successfully`,
-          failure: `Could not approve ${vaultTokenSymbol} tokens`,
+          pending: t`Approving ${vaultTokenSymbol} tokens`,
+          success: t`Approved ${vaultTokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${vaultTokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -105,7 +106,7 @@ export const useRemoveLiquidity = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, "remove liquidity");
+      notifyError(err, t`remove liquidity`);
     };
 
     try {
@@ -120,9 +121,9 @@ export const useRemoveLiquidity = ({
         await txToast.push(
           tx,
           {
-            pending: "Removing Liquidity",
-            success: "Removed Liquidity Successfully",
-            failure: "Could not remove liquidity",
+            pending: t`Removing Liquidity`,
+            success: t`Removed Liquidity Successfully`,
+            failure: t`Could not remove liquidity`,
           },
           {
             onTxSuccess: onTxSuccess,

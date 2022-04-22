@@ -7,6 +7,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
+import { t } from "@lingui/macro";
 
 export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const { account, library } = useWeb3React();
@@ -32,7 +33,7 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       setResolving(false);
     };
     const handleError = (err) => {
-      notifyError(err, "Resolve Incident");
+      notifyError(err, t`Resolve Incident`);
     };
 
     try {
@@ -45,9 +46,9 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Resolving Incident",
-          success: "Resolved Incident Successfully",
-          failure: "Could not Resolve Incident",
+          pending: t`Resolving Incident`,
+          success: t`Resolved Incident Successfully`,
+          failure: t`Could not Resolve Incident`,
         });
         cleanup();
       };
@@ -89,7 +90,7 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, "Emergency Resolve Incident");
+      notifyError(err, t`Emergency Resolve Incident`);
     };
 
     try {
@@ -102,9 +103,9 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Emergency Resolving Incident",
-          success: "Emergency Resolved Incident Successfully",
-          failure: "Could not Emergency Resolve Incident",
+          pending: t`Emergency Resolving Incident`,
+          success: t`Emergency Resolved Incident Successfully`,
+          failure: t`Could not Emergency Resolve Incident`,
         });
         cleanup();
       };

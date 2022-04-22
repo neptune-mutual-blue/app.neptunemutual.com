@@ -20,6 +20,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t } from "@lingui/macro";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -77,7 +78,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         setReceiveAmountLoading(false);
       };
       const handleError = (err) => {
-        notifyError(err, "calculate tokens");
+        notifyError(err, t`calculate tokens`);
       };
 
       try {
@@ -142,23 +143,23 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     }
 
     if (!isValidNumber(value)) {
-      setError("Invalid amount to bond");
+      setError(t`Invalid amount to bond`);
       return;
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError("Insufficient Balance");
+      setError(t`Insufficient Balance`);
       return;
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError("Please specify a value");
+      setError(t`Please specify a value`);
       return;
     }
 
     if (isGreater(receiveAmount, info.maxBond)) {
       setError(
-        `Exceeds maximum bond ${
+        t`Exceeds maximum bond ${
           formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
             .long
         }`
@@ -179,15 +180,15 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, "approve LP tokens");
+      notifyError(err, t`approve LP tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: "Approving LP tokens",
-          success: "Approved LP tokens Successfully",
-          failure: "Could not approve LP tokens",
+          pending: t`Approving LP tokens`,
+          success: t`Approved LP tokens Successfully`,
+          failure: t`Could not approve LP tokens`,
         });
         cleanup();
       } catch (err) {
@@ -222,7 +223,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       refetchBondInfo();
     };
     const handleError = (err) => {
-      notifyError(err, "create bond");
+      notifyError(err, t`create bond`);
     };
 
     try {
@@ -237,9 +238,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         await txToast.push(
           tx,
           {
-            pending: "Creating bond",
-            success: "Created bond successfully",
-            failure: "Could not create bond",
+            pending: t`Creating bond`,
+            success: t`Created bond successfully`,
+            failure: t`Could not create bond`,
           },
           {
             onTxSuccess,

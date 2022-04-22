@@ -6,6 +6,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { t } from "@lingui/macro";
 
 export const useCommitment = ({ coverKey }) => {
   const { library, account } = useWeb3React();
@@ -23,7 +24,7 @@ export const useCommitment = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "get commitment");
+      notifyError(err, t`get commitment`);
     };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);

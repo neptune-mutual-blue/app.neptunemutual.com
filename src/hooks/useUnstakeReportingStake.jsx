@@ -8,6 +8,8 @@ import { useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
+import { t } from "@lingui/macro";
 import { getReplacedString } from "@/utils/string";
 import { UNSTAKE_INFO_URL } from "@/src/config/constants";
 
@@ -100,7 +102,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       setUnstaking(false);
     };
     const handleError = (err) => {
-      notifyError(err, "Unstake NPM");
+      notifyError(err, t`Unstake NPM`);
     };
 
     try {
@@ -112,9 +114,9 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Unstaking NPM",
-          success: "Unstaked NPM Successfully",
-          failure: "Could not unstake NPM",
+          pending: t`Unstaking NPM`,
+          success: t`Unstaked NPM Successfully`,
+          failure: t`Could not unstake NPM`,
         });
         cleanup();
       };
@@ -156,7 +158,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, "Unstake & claim NPM");
+      notifyError(err, t`Unstake & claim NPM`);
     };
 
     try {
@@ -174,9 +176,9 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Unstaking & claiming NPM",
-          success: "Unstaked & claimed NPM Successfully",
-          failure: "Could not unstake & claim NPM",
+          pending: t`Unstaking & claiming NPM`,
+          success: t`Unstaked & claimed NPM Successfully`,
+          failure: t`Could not unstake & claim NPM`,
         });
         cleanup();
       };

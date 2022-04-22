@@ -1,6 +1,7 @@
 import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
 import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
 import { Fragment } from "react";
+import { t, Trans } from "@lingui/macro";
 
 export const Table = ({ children }) => {
   return <table className="min-w-full">{children}</table>;
@@ -33,7 +34,9 @@ export const TablePagination = ({
   return (
     <>
       <div className="flex items-center justify-end w-full p-4 border-t border-t-DAE2EB">
-        <p className="p-2 opacity-40">Rows per page</p>
+        <p className="p-2 opacity-40">
+          <Trans>Rows per page</Trans>
+        </p>
         <select
           className="mx-4 rounded-lg"
           value={limit.toString()}
@@ -90,7 +93,7 @@ export const TBody = ({
       {data.length === 0 && (
         <tr className="w-full text-center">
           <td className="p-6" colSpan={columns.length}>
-            {isLoading ? "Loading..." : "No data found"}
+            {isLoading ? t`Loading...` : t`No data found`}
           </td>
         </tr>
       )}

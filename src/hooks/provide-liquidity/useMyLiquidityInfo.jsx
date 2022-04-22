@@ -10,6 +10,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { getInfo as getVaultInfo } from "@/src/services/protocol/vault/info";
+import { t } from "@lingui/macro";
 
 const defaultInfo = {
   withdrawalOpen: "0",
@@ -41,7 +42,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "get vault info");
+      notifyError(err, t`get vault info`);
     };
 
     try {
@@ -99,7 +100,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const accrueInterest = async () => {
     const handleError = (err) => {
-      notifyError(err, "accrue interest");
+      notifyError(err, t`accrue interest`);
     };
 
     try {
@@ -113,9 +114,9 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Accruing intrest",
-          success: "Accrued intrest successfully",
-          failure: "Could not accrue interest",
+          pending: t`Accruing intrest`,
+          success: t`Accrued intrest successfully`,
+          failure: t`Could not accrue interest`,
         });
       };
 

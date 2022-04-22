@@ -18,6 +18,7 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { t } from "@lingui/macro";
 
 export const useVote = ({ coverKey, value, incidentDate }) => {
   const [approving, setApproving] = useState(false);
@@ -53,15 +54,15 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, `approve ${tokenSymbol} tokens`);
+      notifyError(err, t`approve ${tokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving ${tokenSymbol} tokens`,
-          success: `Approved ${tokenSymbol} tokens Successfully`,
-          failure: `Could not approve ${tokenSymbol} tokens`,
+          pending: t`Approving ${tokenSymbol} tokens`,
+          success: t`Approved ${tokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${tokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -94,7 +95,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       setVoting(false);
     };
     const handleError = (err) => {
-      notifyError(err, "attest");
+      notifyError(err, t`attest`);
     };
 
     try {
@@ -109,9 +110,9 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         await txToast.push(
           tx,
           {
-            pending: "Attesting",
-            success: "Attested successfully",
-            failure: "Could not attest",
+            pending: t`Attesting`,
+            success: t`Attested successfully`,
+            failure: t`Could not attest`,
           },
           {
             onTxSuccess: onTxSuccess,
@@ -151,7 +152,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       setVoting(false);
     };
     const handleError = (err) => {
-      notifyError(err, "refute");
+      notifyError(err, t`refute`);
     };
 
     try {
@@ -164,9 +165,9 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Refuting",
-          success: "Refuted successfully",
-          failure: "Could not refute",
+          pending: t`Refuting`,
+          success: t`Refuted successfully`,
+          failure: t`Could not refute`,
         });
         cleanup();
       };

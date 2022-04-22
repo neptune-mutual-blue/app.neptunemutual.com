@@ -8,6 +8,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
+import { t } from "@lingui/macro";
 
 export const useERC20Allowance = (tokenAddress) => {
   const [allowance, setAllowance] = useState("0");
@@ -95,7 +96,7 @@ export const useERC20Allowance = (tokenAddress) => {
       };
 
       const handleError = (err) => {
-        notifyError(err, "get allowance");
+        notifyError(err, t`get allowance`);
       };
 
       const onTransactionResult = (_allowance) => {

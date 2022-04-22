@@ -7,6 +7,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { t } from "@lingui/macro";
 
 export const useFirstReportingStake = ({ coverKey }) => {
   const [minStake, setMinStake] = useState("0");
@@ -23,7 +24,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
     let ignore = false;
 
     const handleError = (err) => {
-      notifyError(err, "get first reporting stake");
+      notifyError(err, t`get first reporting stake`);
     };
 
     async function fetchMinStake() {

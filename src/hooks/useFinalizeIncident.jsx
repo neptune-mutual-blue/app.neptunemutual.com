@@ -7,6 +7,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
+import { t } from "@lingui/macro";
 
 export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
   const [finalizing, setFinalizing] = useState(false);
@@ -31,7 +32,7 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, "Finalize Incident");
+      notifyError(err, t`Finalize Incident`);
     };
 
     try {
@@ -43,9 +44,9 @@ export const useFinalizeIncident = ({ coverKey, incidentDate }) => {
 
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Finalizing Incident",
-          success: "Finalized Incident Successfully",
-          failure: "Could not Finalize Incident",
+          pending: t`Finalizing Incident`,
+          success: t`Finalized Incident Successfully`,
+          failure: t`Could not Finalize Incident`,
         });
         cleanup();
       };
