@@ -75,4 +75,10 @@ export const SUBGRAPH_API_URLS = {
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };
 
+export const NetworkUrlParam = {
+  97: "bsc-testnet",
+  80001: "mumbai",
+  1: "",
+  3: "ropsten",
+};
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;

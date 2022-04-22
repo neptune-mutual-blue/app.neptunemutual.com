@@ -5,9 +5,11 @@ import { useNetwork } from "@/src/context/Network";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useWeb3React } from "@web3-react/core";
-import { GET_CONTRACTS_INFO_URL } from "@/src/config/constants";
+import {
+  GET_CONTRACTS_INFO_URL,
+  NetworkUrlParam,
+} from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
-import { NetworkNames } from "@/lib/connect-wallet/config/chains";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -46,7 +48,7 @@ export const AppConstantsProvider = ({ children }) => {
 
   const getNPMAddressWhenNotConnected = async (networkId) => {
     try {
-      const networkName = NetworkNames[networkId].toLowerCase();
+      const networkName = NetworkUrlParam[networkId];
       const response = await fetch(
         getReplacedString(GET_CONTRACTS_INFO_URL, { networkName }),
         {
@@ -70,6 +72,7 @@ export const AppConstantsProvider = ({ children }) => {
     if (!networkId) return;
     if (!account) {
       getNPMAddressWhenNotConnected(networkId);
+      return;
     }
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
