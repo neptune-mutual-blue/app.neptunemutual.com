@@ -1220,6 +1220,7 @@ msgstr "loading..."
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:36
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:64
+#: src/modules/reporting/active/ActiveReportingEmptyState.jsx:40
 msgid "no data found"
 msgstr "no data found"
 

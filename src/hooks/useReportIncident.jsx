@@ -116,7 +116,7 @@ export const useReportIncident = ({ coverKey, value }) => {
         tx,
         {
           pending: t`Reporting incident`,
-          success: t`Reported incident successfully`
+          success: t`Reported incident successfully`,
           failure: t`Could not report incident`,
         },
         {
