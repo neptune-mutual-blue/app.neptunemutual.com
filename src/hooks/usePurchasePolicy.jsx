@@ -19,6 +19,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
+import { t } from "@lingui/macro";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -66,23 +67,23 @@ export const usePurchasePolicy = ({
     }
 
     if (!account) {
-      setError("Please connect your wallet");
+      setError(t`Please connect your wallet`);
       return;
     }
 
     if (!isValidNumber(value)) {
-      setError("Invalid amount to cover");
+      setError(t`Invalid amount to cover`);
       return;
     }
 
     if (isGreater(feeAmount || "0", balance || "0")) {
-      setError("Insufficient Balance");
+      setError(t`Insufficient Balance`);
       return;
     }
 
     if (isGreater(value || 0, availableLiquidity || 0)) {
       setError(
-        `Maximum protection available is ${
+        t`Maximum protection available is ${
           formatCurrency(availableLiquidity).short
         }`
       );
@@ -104,15 +105,15 @@ export const usePurchasePolicy = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, "approve DAI");
+      notifyError(err, t`approve DAI`);
     };
 
     try {
       const onTransactionResult = async (tx) => {
         await txToast.push(tx, {
-          pending: "Approving DAI",
-          success: "Approved DAI Successfully",
-          failure: "Could not approve DAI",
+          pending: t`Approving DAI`,
+          success: t`Approved DAI Successfully`,
+          failure: t`Could not approve DAI`,
         });
         cleanup();
       };
@@ -147,7 +148,7 @@ export const usePurchasePolicy = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, "purchase policy");
+      notifyError(err, t`purchase policy`);
     };
 
     try {
@@ -162,9 +163,9 @@ export const usePurchasePolicy = ({
         await txToast.push(
           tx,
           {
-            pending: "Purchasing Policy",
-            success: "Purchased Policy Successfully",
-            failure: "Could not purchase policy",
+            pending: t`Purchasing Policy`,
+            success: t`Purchased Policy Successfully`,
+            failure: t`Could not purchase policy`,
           },
           { onTxSuccess: onTxSuccess }
         );

@@ -20,6 +20,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t } from "@lingui/macro";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -66,15 +67,15 @@ export const useStakingPoolDeposit = ({
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, `approve ${tokenSymbol}`);
+      notifyError(err, t`approve ${tokenSymbol}`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving ${tokenSymbol}`,
-          success: `Approved ${tokenSymbol} Successfully`,
-          failure: `Could not approve ${tokenSymbol}`,
+          pending: t`Approving ${tokenSymbol}`,
+          success: t`Approved ${tokenSymbol} Successfully`,
+          failure: t`Could not approve ${tokenSymbol}`,
         });
         cleanup();
       } catch (err) {
@@ -114,7 +115,7 @@ export const useStakingPoolDeposit = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, `stake ${tokenSymbol}`);
+      notifyError(err, t`stake ${tokenSymbol}`);
     };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
@@ -129,9 +130,9 @@ export const useStakingPoolDeposit = ({
         await txToast.push(
           tx,
           {
-            pending: `Staking ${tokenSymbol}`,
-            success: `Staked ${tokenSymbol} successfully`,
-            failure: `Could not stake ${tokenSymbol}`,
+            pending: t`Staking ${tokenSymbol}`,
+            success: t`Staked ${tokenSymbol} successfully`,
+            failure: t`Could not stake ${tokenSymbol}`,
           },
           {
             onTxSuccess: onDepositSuccess,
@@ -176,28 +177,28 @@ export const useStakingPoolDeposit = ({
     }
 
     if (!isValidNumber(value)) {
-      setError("Invalid amount to stake");
+      setError(t`Invalid amount to stake`);
       return;
     }
 
     if (!account) {
-      setError("Please connect your wallet");
+      setError(t`Please connect your wallet`);
       return;
     }
 
     if (isEqualTo(value, "0")) {
-      setError("Please specify an amount");
+      setError(t`Please specify an amount`);
       return;
     }
 
     if (isGreater(convertToUnits(value).toString(), balance)) {
-      setError("Insufficient Balance");
+      setError(t`Insufficient Balance`);
       return;
     }
 
     if (isGreater(convertToUnits(value).toString(), maxStakableAmount)) {
       setError(
-        `Cannot stake more than ${
+        t`Cannot stake more than ${
           formatCurrency(
             convertFromUnits(maxStakableAmount).toString(),
             "",

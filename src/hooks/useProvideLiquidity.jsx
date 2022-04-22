@@ -16,6 +16,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { t } from "@lingui/macro";
 
 export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const [lqApproving, setLqApproving] = useState();
@@ -70,15 +71,15 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, "approve DAI");
+      notifyError(err, t`approve DAI`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: "Approving DAI",
-          success: "Approved DAI Successfully",
-          failure: "Could not approve DAI",
+          pending: t`Approving DAI`,
+          success: t`Approved DAI Successfully`,
+          failure: t`Could not approve DAI`,
         });
         cleanup();
       } catch (err) {
@@ -110,15 +111,15 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       setNPMApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, "approve NPM");
+      notifyError(err, t`approve NPM`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: "Approving NPM",
-          success: "Approved NPM Successfully",
-          failure: "Could not approve NPM",
+          pending: t`Approving NPM`,
+          success: t`Approved NPM Successfully`,
+          failure: t`Could not approve NPM`,
         });
         cleanup();
       } catch (err) {
@@ -156,7 +157,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       updateStakeAllowance(vaultTokenAddress);
     };
     const handleError = (err) => {
-      notifyError(err, "add liquidity");
+      notifyError(err, t`add liquidity`);
     };
 
     try {
@@ -174,9 +175,9 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
         await txToast.push(
           tx,
           {
-            pending: "Adding Liquidity",
-            success: "Added Liquidity Successfully",
-            failure: "Could not add liquidity",
+            pending: t`Adding Liquidity`,
+            success: t`Added Liquidity Successfully`,
+            failure: t`Could not add liquidity`,
           },
           {
             onTxSuccess: onTxSuccess,

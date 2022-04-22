@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { t } from "@lingui/macro";
 
 export const useReportIncident = ({ coverKey, value }) => {
   const router = useRouter();
@@ -57,15 +58,15 @@ export const useReportIncident = ({ coverKey, value }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, `approve ${tokenSymbol} tokens`);
+      notifyError(err, t`approve ${tokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving ${tokenSymbol} tokens`,
-          success: `Approved ${tokenSymbol} tokens Successfully`,
-          failure: `Could not approve ${tokenSymbol} tokens`,
+          pending: t`Approving ${tokenSymbol} tokens`,
+          success: t`Approved ${tokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${tokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -114,16 +115,16 @@ export const useReportIncident = ({ coverKey, value }) => {
       await txToast.push(
         tx,
         {
-          pending: "Reporting incident",
-          success: "Reported incident successfully",
-          failure: "Could not report incident",
+          pending: t`Reporting incident`,
+          success: t`Reported incident successfully`
+          failure: t`Could not report incident`,
         },
         {
           onTxSuccess: () => router.replace(`/reporting/active`),
         }
       );
     } catch (err) {
-      notifyError(err, "report incident");
+      notifyError(err, t`report incident`);
     } finally {
       cleanup();
     }

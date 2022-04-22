@@ -8,6 +8,7 @@ import { convertFromUnits } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { t } from "@lingui/macro";
 
 export const useAvailableLiquidity = ({ coverKey }) => {
   const { library, account } = useWeb3React();
@@ -25,7 +26,7 @@ export const useAvailableLiquidity = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "get pool summary");
+      notifyError(err, t`get pool summary`);
     };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);

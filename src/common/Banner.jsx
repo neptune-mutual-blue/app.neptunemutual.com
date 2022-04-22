@@ -4,6 +4,7 @@ import { FAUCET_URL, LEADERBOARD_URL } from "@/src/config/constants";
 import { testnetChainIds } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useState } from "react";
+import { Trans } from "@lingui/macro";
 
 export const Banner = () => {
   const { networkId } = useNetwork();
@@ -26,25 +27,27 @@ export const Banner = () => {
       <div className="flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7">
         <div className="flex items-center justify-center flex-auto min-w-0">
           <p>
-            You&#x2019;re on {NetworkNames[networkId]} Network. Get{" "}
-            <a
-              className="underline"
-              href={FAUCET_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Test Tokens
-            </a>{" "}
-            or{" "}
-            <a
-              className="underline"
-              href={LEADERBOARD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View Leaderboard
-            </a>
-            .
+            <Trans>
+              You&#x2019;re on {NetworkNames[networkId]} Network. Get{" "}
+              <a
+                className="underline"
+                href={FAUCET_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Test Tokens
+              </a>{" "}
+              or{" "}
+              <a
+                className="underline"
+                href={LEADERBOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Leaderboard
+              </a>
+              .
+            </Trans>
           </p>
         </div>
         <button onClick={handleClose} className="block p-1 ml-auto">

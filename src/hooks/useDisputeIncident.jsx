@@ -23,6 +23,7 @@ import { registry, utils } from "@neptunemutual/sdk";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import BigNumber from "bignumber.js";
+import { t } from "@lingui/macro";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -62,15 +63,15 @@ export const useDisputeIncident = ({
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, `approve ${tokenSymbol} tokens`);
+      notifyError(err, t`approve ${tokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: `Approving ${tokenSymbol} tokens`,
-          success: `Approved ${tokenSymbol} tokens Successfully`,
-          failure: `Could not approve ${tokenSymbol} tokens`,
+          pending: t`Approving ${tokenSymbol} tokens`,
+          success: t`Approved ${tokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${tokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -105,7 +106,7 @@ export const useDisputeIncident = ({
       setDisputing(false);
     };
     const handleError = (err) => {
-      notifyError(err, "dispute");
+      notifyError(err, t`dispute`);
     };
 
     try {
@@ -128,9 +129,9 @@ export const useDisputeIncident = ({
         await txToast.push(
           tx,
           {
-            pending: "Disputing",
-            success: "Disputed successfully",
-            failure: "Could not dispute",
+            pending: t`Disputing`,
+            success: t`Disputed successfully`,
+            failure: t`Could not dispute`,
           },
           {
             onTxSuccess: () => {
@@ -183,18 +184,18 @@ export const useDisputeIncident = ({
       err =
         !isValidNumber(value) ||
         isGreater(convertToUnits(value || "0"), balance)
-          ? "Error"
+          ? t`Error`
           : "";
 
       // set error if entered value is invalid
       if (_value.isGreaterThan(_balance)) err = "Amount greater than balance!";
       else if (_minStake && _value.isLessThan(_minStake))
-        err = "Amount less than minimum stake!";
+        err = t`Amount less than minimum stake!`;
     }
 
     // set error if balance is less than minStake
     if (_minStake && _balance.isLessThan(_minStake))
-      err = "Insufficient Balance";
+      err = t`Insufficient Balance`;
 
     return err;
   }

@@ -8,6 +8,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { t } from "@lingui/macro";
 
 export const useCalculatePods = ({ coverKey, value }) => {
   const { library, account } = useWeb3React();
@@ -33,7 +34,7 @@ export const useCalculatePods = ({ coverKey, value }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "calculate pods");
+      notifyError(err, t`calculate pods`);
     };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);

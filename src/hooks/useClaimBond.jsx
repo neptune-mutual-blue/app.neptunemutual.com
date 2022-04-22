@@ -7,6 +7,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
+import { t } from "@lingui/macro";
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
@@ -27,7 +28,7 @@ export const useClaimBond = () => {
       setClaiming(false);
     };
     const handleError = (err) => {
-      notifyError(err, "claim bond");
+      notifyError(err, t`claim bond`);
     };
 
     try {
@@ -42,9 +43,9 @@ export const useClaimBond = () => {
         await txToast.push(
           tx,
           {
-            pending: "Claiming NPM",
-            success: "Claimed NPM Successfully",
-            failure: "Could not claim bond",
+            pending: t`Claiming NPM`,
+            success: t`Claimed NPM Successfully`,
+            failure: t`Could not claim bond`,
           },
           {
             onTxSuccess: onTxSuccess,

@@ -11,6 +11,7 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { Toggle } from "@/common/Toggle";
 import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { Trans } from "@lingui/macro";
 
 const CopyAddressComponent = ({ account }) => {
   const [copyAddress, setCopyAddress] = useState(false);
@@ -38,14 +39,14 @@ const CopyAddressComponent = ({ account }) => {
         <>
           <CopyIcon className="w-4 h-4 text-999BAB" />
           <span className="text-21AD8C text-xs tracking-normal ml-2.5">
-            Copy Address
+            <Trans>Copy Address</Trans>
           </span>
         </>
       ) : (
         <>
           <CheckCircleIcon className="w-4 h-4 text-999BAB" />
           <span className="text-21AD8C text-xs tracking-normal ml-2.5">
-            Copied
+            <Trans>Copied</Trans>
           </span>
         </>
       )}
@@ -74,7 +75,7 @@ export const AccountDetailsModal = ({
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
         >
-          Account
+          <Trans>Account</Trans>
         </Dialog.Title>
 
         <button
@@ -88,7 +89,9 @@ export const AccountDetailsModal = ({
         <div className="p-4 bg-white border mt-7 border-B0C4DB rounded-big">
           <div className="flex flex-col-reverse items-center justify-between sm:flex-row">
             <span className="flex items-center text-xs tracking-normal text-364253 whitespace-nowrap">
-              <span>Connected With {network.name}</span>
+              <span>
+                <Trans>Connected With</Trans> {network.name}
+              </span>
               <span className="ml-2">
                 {<network.Icon width={12} height={12} />}
               </span>
@@ -97,7 +100,7 @@ export const AccountDetailsModal = ({
               onClick={handleDisconnect}
               className="px-2 py-1 mb-2 border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 text-xxs text-4e7dd9"
             >
-              Disconnect
+              <Trans>Disconnect</Trans>
             </button>
           </div>
 
@@ -118,7 +121,7 @@ export const AccountDetailsModal = ({
             >
               <OpenInNewIcon width={16} height={16} fill="#999BAB" />
               <span className="text-21AD8C text-xs tracking-normal ml-2.5">
-                View on Explorer
+                <Trans>View on Explorer</Trans>
               </span>
             </a>
           </div>
@@ -126,15 +129,19 @@ export const AccountDetailsModal = ({
 
         <div className="flex flex-col w-full p-5 mt-8 border border-B0C4DB rounded-big">
           <div className="flex items-center justify-between w-full">
-            <p className="text-h5 text-364253">Unlimited Approvals</p>
+            <p className="text-h5 text-364253">
+              <Trans>Unlimited Approvals</Trans>
+            </p>
             <Toggle
               enabled={unlimitedApproval}
               setEnabled={setUnlimitedApproval}
             />
           </div>
           <p className="text-999BAB mt-3 text-xs tracking-normal leading-4.5">
-            If you do not want to keep approving for each transaction, enable
-            this box.
+            <Trans>
+              If you do not want to keep approving for each transaction, enable
+              this box.
+            </Trans>
           </p>
         </div>
       </ModalWrapper>

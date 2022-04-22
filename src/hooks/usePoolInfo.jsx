@@ -6,6 +6,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { PoolTypes } from "@/src/config/constants";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { getInfo as getStakingPoolInfo } from "@/src/services/protocol/staking-pool/info";
+import { t } from "@lingui/macro";
 
 const defaultInfo = {
   // From store
@@ -46,7 +47,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "get pool info");
+      notifyError(err, t`get pool info`);
     };
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId);

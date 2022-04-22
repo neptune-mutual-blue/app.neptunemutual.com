@@ -8,6 +8,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
+import { t } from "@lingui/macro";
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const mountedRef = useRef(false);
@@ -31,7 +32,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, "calculate liquidity");
+      notifyError(err, t`calculate liquidity`);
     };
 
     setLoading(true);
