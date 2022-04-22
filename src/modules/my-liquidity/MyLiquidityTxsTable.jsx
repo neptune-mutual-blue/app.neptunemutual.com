@@ -23,6 +23,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
+import { t, Trans } from "@lingui/macro";
 
 const renderHeader = (col) => (
   <th
@@ -53,19 +54,19 @@ const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
-    name: "when",
+    name: t`when`,
     align: "left",
     renderHeader,
     renderData: renderWhen,
   },
   {
-    name: "details",
+    name: t`details`,
     align: "left",
     renderHeader,
     renderData: renderDetails,
   },
   {
-    name: "amount",
+    name: t`amount`,
     align: "right",
     renderHeader,
     renderData: renderAmount,
@@ -97,7 +98,7 @@ export const MyLiquidityTxsTable = () => {
     <>
       {blockNumber && (
         <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
-          LAST SYNCED:{" "}
+          <Trans>LAST SYNCED:</Trans>{" "}
           <a
             href={getBlockLink(networkId, blockNumber)}
             target="_blank"
@@ -121,7 +122,7 @@ export const MyLiquidityTxsTable = () => {
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
-                  Please connect your wallet...
+                  <Trans>Please connect your wallet...</Trans>
                 </td>
               </tr>
             </tbody>
@@ -156,19 +157,19 @@ const DetailsRenderer = ({ row }) => {
       <div className="flex items-center">
         <img
           src={getCoverImgSrc({ key: row.cover.id })}
-          alt="policy"
+          alt={t`policy`}
           height={32}
           width={32}
         />
 
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "PodsIssued" ? "Added" : "Removed"}{" "}
+          {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
             title={formatCurrency(convertFromUnits(row.liquidityAmount)).long}
           >
             {formatCurrency(convertFromUnits(row.liquidityAmount)).short}
           </span>{" "}
-          {row.type == "PodsIssued" ? "to" : "from"} {coverInfo.projectName}
+          {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
         </span>
       </div>
     </td>

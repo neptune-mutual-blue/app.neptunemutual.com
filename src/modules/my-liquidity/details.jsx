@@ -16,6 +16,7 @@ import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
+import { t, Trans } from "@lingui/macro";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,11 @@ export const MyLiquidityCoverPage = () => {
   const reassuranceAmount = info.totalReassurance;
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return (
+      <>
+        <Trans>loading...</Trans>
+      </>
+    );
   }
 
   return (
@@ -60,7 +65,11 @@ export const MyLiquidityCoverPage = () => {
           <Container className="px-2 py-20">
             <BreadCrumbs
               pages={[
-                { name: "My Liquidity", href: "/my-liquidity", current: false },
+                {
+                  name: t`My Liquidity`,
+                  href: "/my-liquidity",
+                  current: false,
+                },
                 { name: coverInfo.projectName, href: "#", current: true },
               ]}
             />
@@ -73,7 +82,7 @@ export const MyLiquidityCoverPage = () => {
               />
 
               {/* My Liquidity */}
-              <HeroStat title="My Liquidity">
+              <HeroStat title={t`My Liquidity`}>
                 {formatCurrency(convertFromUnits(myLiquidity)).long}
               </HeroStat>
             </div>
@@ -98,7 +107,9 @@ export const MyLiquidityCoverPage = () => {
                   className="flex justify-between pt-4 pb-2"
                   title={formatCurrency(convertFromUnits(totalLiquidity)).long}
                 >
-                  <span className="">Total Liquidity:</span>
+                  <span className="">
+                    <Trans>Total Liquidity:</Trans>
+                  </span>
                   <strong className="font-bold text-right">
                     {formatCurrency(convertFromUnits(totalLiquidity)).short}
                   </strong>
@@ -128,7 +139,7 @@ export const MyLiquidityCoverPage = () => {
                     className="w-full rounded-big"
                     onClick={onOpen}
                   >
-                    Withdraw Liquidity
+                    <Trans>Withdraw Liquidity</Trans>
                   </OutlinedButton>
                 </div>
               </CoverPurchaseResolutionSources>
@@ -138,7 +149,7 @@ export const MyLiquidityCoverPage = () => {
                     className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
                     onClick={accrueInterest}
                   >
-                    Accrue
+                    <Trans>Accrue</Trans>
                   </button>
                 )}
               </div>
@@ -148,7 +159,11 @@ export const MyLiquidityCoverPage = () => {
       </main>
 
       <WithdrawLiquidityModal
-        modalTitle={<ModalTitle imgSrc={imgSrc}>Withdraw Liquidity</ModalTitle>}
+        modalTitle={
+          <ModalTitle imgSrc={imgSrc}>
+            <Trans>Withdraw Liquidity</Trans>
+          </ModalTitle>
+        }
         onClose={onClose}
         isOpen={isOpen}
         info={info}

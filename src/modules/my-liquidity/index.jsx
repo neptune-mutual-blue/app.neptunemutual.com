@@ -8,6 +8,7 @@ import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { t, Trans } from "@lingui/macro";
 
 export const MyLiquidityPage = () => {
   const { data, loading } = useMyLiquidities();
@@ -41,12 +42,14 @@ export const MyLiquidityPage = () => {
         <div className="flex flex-col items-center w-full pt-20">
           <img
             src="/images/covers/empty-list-illustration.svg"
-            alt="no data found"
+            alt={t`no data found`}
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            Liquidity providers collectively own a liquidity pool. To become a
-            liquidity provider, select a cover from the home screen.
+            <Trans>
+              Liquidity providers collectively own a liquidity pool. To become a
+              liquidity provider, select a cover from the home screen.
+            </Trans>
           </p>
         </div>
       );
@@ -68,7 +71,7 @@ export const MyLiquidityPage = () => {
       <div className="flex justify-end">
         <Link href="/my-liquidity/transactions">
           <a className="font-medium text-h4 text-4e7dd9 hover:underline">
-            Transaction List
+            <Trans>Transaction List</Trans>
           </a>
         </Link>
       </div>

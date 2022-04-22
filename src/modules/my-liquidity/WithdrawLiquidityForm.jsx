@@ -24,6 +24,7 @@ import { useCalculateLiquidity } from "@/src/hooks/useCalculateLiquidity";
 import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import { t, Trans } from "@lingui/macro";
 
 export const WithdrawLiquidityForm = ({
   info,
@@ -84,15 +85,15 @@ export const WithdrawLiquidityForm = ({
 
   useEffect(() => {
     if (npmValue && isGreater(convertToUnits(npmValue), unStakableAmount)) {
-      setNpmErrorMsg("Cannot go below minimum stake");
+      setNpmErrorMsg(t`Cannot go below minimum stake`);
     } else {
       setNpmErrorMsg("");
     }
 
     if (podValue && isGreater(convertToUnits(podValue), balance)) {
-      setPodErrorMsg("Exceeds maximum balance");
+      setPodErrorMsg(t`Exceeds maximum balance`);
     } else if (podValue && isEqualTo(convertToUnits(podValue), 0)) {
-      setPodErrorMsg("Insufficient Balance");
+      setPodErrorMsg(t`Insufficient Balance`);
     } else {
       setPodErrorMsg("");
     }
@@ -125,18 +126,18 @@ export const WithdrawLiquidityForm = ({
 
   let loadingMessage = "";
   if (receiveAmountLoading) {
-    loadingMessage = "Calculating tokens...";
+    loadingMessage = t`Calculating tokens...`;
   } else if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   }
 
   return (
     <div className="overflow-y-auto max-h-[70vh] pr-2">
       <div className="mt-6">
         <TokenAmountInput
-          labelText={"Enter Npm Amount"}
+          labelText={t`Enter Npm Amount`}
           tokenSymbol={npmTokenSymbol}
           handleChooseMax={handleChooseNpmMax}
           inputValue={npmValue}
@@ -147,13 +148,13 @@ export const WithdrawLiquidityForm = ({
           {isGreater(myStake, "0") && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
-              prefix="Your Stake: "
+              prefix={t`Your Stake:` + " "}
               symbol={npmTokenSymbol}
             />
           )}
           <TokenAmountWithPrefix
             amountInUnits={minStakeToAddLiquidity}
-            prefix="Minimum Stake: "
+            prefix={t`Minimum Stake:` + " "}
             symbol={npmTokenSymbol}
           />
           {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
@@ -161,7 +162,7 @@ export const WithdrawLiquidityForm = ({
       </div>
       <div className="mt-6">
         <TokenAmountInput
-          labelText={"Enter your POD"}
+          labelText={t`Enter your POD`}
           tokenSymbol={vaultTokenSymbol}
           handleChooseMax={handleChoosePodMax}
           inputValue={podValue}
@@ -174,7 +175,7 @@ export const WithdrawLiquidityForm = ({
       </div>
       <div className="mt-6 modal-unlock">
         <ReceiveAmountInput
-          labelText="You Will Receive"
+          labelText={t`You Will Receive`}
           tokenSymbol={liquidityTokenSymbol}
           inputValue={formatAmount(convertFromUnits(receiveAmount).toString())}
           inputId="my-liquidity-receive"
@@ -182,17 +183,21 @@ export const WithdrawLiquidityForm = ({
       </div>
 
       <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
-        NEXT UNLOCK CYCLE
+        <Trans>NEXT UNLOCK CYCLE</Trans>
       </h5>
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
-          <strong>Open: </strong>
+          <strong>
+            <Trans>Open:</Trans>{" "}
+          </strong>
           {DateLib.toLongDateFormat(info.withdrawalOpen)}
         </span>
       </div>
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
-          <strong>Close: </strong>
+          <strong>
+            <Trans>Close:</Trans>{" "}
+          </strong>
           {DateLib.toLongDateFormat(info.withdrawalClose)}
         </span>
       </div>
@@ -216,7 +221,7 @@ export const WithdrawLiquidityForm = ({
               !isAccrualComplete
             }
           >
-            {approving ? "Approving.." : "Approve"}
+            {approving ? t`Approving..` : t`Approve`}
           </RegularButton>
         ) : (
           <RegularButton
@@ -239,7 +244,7 @@ export const WithdrawLiquidityForm = ({
               !isAccrualComplete
             }
           >
-            {withdrawing ? "Withdrawing.." : "Withdraw"}
+            {withdrawing ? t`Withdrawing..` : t`Withdraw`}
           </RegularButton>
         )}
       </div>

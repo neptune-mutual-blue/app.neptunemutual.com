@@ -11,6 +11,7 @@ import { useWeb3React } from "@web3-react/core";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { convertFromUnits } from "@/utils/bn";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { t, Trans } from "@lingui/macro";
 
 export function getStaticProps() {
   return {
@@ -41,10 +42,12 @@ export default function MyLiquidity({ disabled }) {
 
       <Hero>
         <Container className="flex flex-wrap px-2 py-20">
-          <HeroTitle>My Liquidity</HeroTitle>
+          <HeroTitle>
+            <Trans>My Liquidity</Trans>
+          </HeroTitle>
           {account && (
-            <HeroStat title="My Total Liquidity">
-              {loading && "Loading..."}
+            <HeroStat title={t`My Total Liquidity`}>
+              {loading && t`Loading...`}
               {!loading &&
                 `$ ${
                   formatCurrency(
