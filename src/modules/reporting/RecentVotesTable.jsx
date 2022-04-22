@@ -1,9 +1,4 @@
-import {
-  Table,
-  TableWrapper,
-  TBody,
-  THead,
-} from "@/common/Table/Table";
+import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";
@@ -13,6 +8,7 @@ import { useRecentVotes } from "@/src/hooks/useRecentVotes";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 const renderHeader = (col) => (
   <th
@@ -47,19 +43,19 @@ const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
-    name: "when",
+    name: t`when`,
     align: "left",
     renderHeader,
     renderData: renderWhen,
   },
   {
-    name: "account",
+    name: t`account`,
     align: "left",
     renderHeader,
     renderData: renderAccount,
   },
   {
-    name: "Weight",
+    name: t`Weight`,
     align: "left",
     renderHeader,
     renderData: renderAmount,
@@ -79,7 +75,9 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className="mb-6 font-bold text-h4 font-sora mt-14">Recent Votes</h3>
+      <h3 className="mb-6 font-bold text-h4 font-sora mt-14">
+        <Trans>Recent Votes</Trans>
+      </h3>
 
       <TableWrapper>
         <Table>

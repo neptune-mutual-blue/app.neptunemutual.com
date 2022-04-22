@@ -5,6 +5,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Trans } from "@lingui/macro";
 
 export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -34,7 +35,7 @@ export const ResolvedReportingCard = ({ coverKey, status, resolvedOn }) => {
       {/* Stats */}
       <div className="flex justify-between px-1 mb-4 text-sm">
         <span className="" title={DateLib.toLongDateFormat(resolvedOn)}>
-          Resolved On:{" "}
+          <Trans>Resolved On:</Trans>{" "}
           <span title={DateLib.toLongDateFormat(resolvedOn)}>
             {fromNow(resolvedOn)}
           </span>

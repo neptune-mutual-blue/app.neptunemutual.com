@@ -13,6 +13,7 @@ import { useCovers } from "@/src/context/Covers";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { Trans } from "@lingui/macro";
 
 export const ReportingActivePage = () => {
   const { data, loading, hasMore, handleShowMore } = useActiveReportings();
@@ -96,7 +97,7 @@ export const ReportingActivePage = () => {
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
         >
-          Show More
+          <Trans>Show More</Trans>
         </NeutralButton>
       )}
     </Container>

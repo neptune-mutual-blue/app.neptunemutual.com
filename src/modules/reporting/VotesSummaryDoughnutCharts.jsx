@@ -1,13 +1,14 @@
 import { PercentDoughnutChart } from "@/common/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
+import { t } from "@lingui/macro";
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: "# of Votes",
+        label: t`# of Votes`,
         data: [noPercent, yesPercent],
         backgroundColor: ["#DEEAF6", "#0FB88F"],
         borderColor: ["#DEEAF6", "#0FB88F"],
@@ -19,7 +20,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
     // labels: ["Red", "Blue"],
     datasets: [
       {
-        label: "# of Votes",
+        label: t`# of Votes`,
         data: [noPercent, yesPercent],
         backgroundColor: ["#FA5C2F", "#DEEAF6"],
         borderColor: ["#FA5C2F", "#DEEAF6"],
@@ -33,7 +34,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
       <div className="flex flex-wrap items-center justify-center gap-8 my-10">
         <div className="relative max-w-fit">
           <DoughnutChartInsight
-            title="Incident Occurred"
+            title={t`Incident Occurred`}
             percent={formatPercent(yesPercent)}
             amountStaked={votes.yes}
             variant="success"
@@ -43,7 +44,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
         <div className="relative max-w-fit">
           <DoughnutChartInsight
-            title="False Reporting"
+            title={t`False Reporting`}
             percent={formatPercent(noPercent)}
             amountStaked={votes.no}
             variant="error"

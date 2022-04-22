@@ -13,6 +13,7 @@ import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
+import { Trans } from "@lingui/macro";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -46,7 +47,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
         {coverInfo.projectName}
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
-        Cover fee:{" "}
+        <Trans>Cover fee:</Trans>{" "}
         {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER)}-
         {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER)}
       </div>
@@ -56,7 +57,9 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
 
       {/* Stats */}
       <div className="flex justify-between px-1 text-sm">
-        <span className="uppercase">utilization Ratio</span>
+        <span className="uppercase">
+          <Trans>utilization Ratio</Trans>
+        </span>
         <span className="font-semibold text-right">
           {formatPercent(utilization)}
         </span>
@@ -69,14 +72,14 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
           className=""
           title={formatCurrency(convertFromUnits(commitment).toString()).long}
         >
-          Protection:{" "}
+          <Trans>Protection:</Trans>{" "}
           {formatCurrency(convertFromUnits(commitment).toString()).short}
         </span>
         <span
           className="text-right"
           title={DateLib.toLongDateFormat(incidentDate)}
         >
-          Reported On:{" "}
+          <Trans>Reported On:</Trans>{" "}
           <span title={DateLib.toLongDateFormat(incidentDate)}>
             {fromNow(incidentDate)}
           </span>

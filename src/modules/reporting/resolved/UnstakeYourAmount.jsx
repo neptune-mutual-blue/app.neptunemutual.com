@@ -13,6 +13,7 @@ import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { t, Trans } from "@lingui/macro";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,21 +68,21 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   return (
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
-        Result:{" "}
-        {incidentReport.decision ? "Incident Occured" : "False Reporting"}{" "}
-        {incidentReport.emergencyResolved && "(Emergency Resolved)"}
+        <Trans>Result:</Trans>{" "}
+        {incidentReport.decision ? t`Incident Occured` : t`False Reporting`}{" "}
+        {incidentReport.emergencyResolved && t`(Emergency Resolved)`}
       </span>
 
       {isClaimableNow && (
         <CountDownTimer
-          title="CLAIM ENDS IN"
+          title={t`CLAIM ENDS IN`}
           target={incidentReport.claimExpiresAt}
         />
       )}
 
       {notClaimableYet && (
         <CountDownTimer
-          title="CLAIM BEGINS IN"
+          title={t`CLAIM BEGINS IN`}
           target={incidentReport.claimBeginsFrom}
         />
       )}
@@ -90,7 +91,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         className="w-full px-10 py-4 mb-16 font-semibold md:w-80"
         onClick={() => setIsOpen(true)}
       >
-        UNSTAKE
+        <Trans>UNSTAKE</Trans>
       </RegularButton>
 
       <UnstakeModal
@@ -124,11 +125,15 @@ const UnstakeModal = ({
             alt={logoAlt}
             src={logoSrc}
           />
-          <span className="font-bold font-sora text-h2">Unstake</span>
+          <span className="font-bold font-sora text-h2">
+            <Trans>Unstake</Trans>
+          </span>
         </Dialog.Title>
 
         <div className="my-8">
-          <div className="mb-5 font-semibold">YOU WILL RECEIVE</div>
+          <div className="mb-5 font-semibold">
+            <Trans>YOU WILL RECEIVE</Trans>
+          </div>
           <DisabledInput value={reward} unit="NPM" />
         </div>
 
@@ -137,7 +142,7 @@ const UnstakeModal = ({
           className="w-full px-10 py-4 font-semibold uppercase"
           onClick={unstake}
         >
-          {unstaking ? "Unstaking..." : "Unstake"}
+          {unstaking ? t`Unstaking...` : t`Unstake`}
         </RegularButton>
 
         <ModalCloseButton

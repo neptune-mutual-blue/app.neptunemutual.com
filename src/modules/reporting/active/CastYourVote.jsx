@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { classNames } from "@/utils/classnames";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { t, Trans } from "@lingui/macro";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
@@ -56,12 +57,12 @@ export const CastYourVote = ({ incidentReport }) => {
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError("Exceeds maximum balance");
+      setError(t`Exceeds maximum balance`);
       return;
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError("Insufficient Balance");
+      setError(t`Insufficient Balance`);
       return;
     }
 
@@ -101,15 +102,15 @@ export const CastYourVote = ({ incidentReport }) => {
 
   let loadingMessage = "";
   if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   }
 
   return (
     <>
       <h3 className="font-bold text-center lg:text-left text-h3 font-sora">
-        Cast Your Vote
+        <Trans>Cast Your Vote</Trans>
       </h3>
       <div className="flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row">
         <div
@@ -119,7 +120,7 @@ export const CastYourVote = ({ incidentReport }) => {
           )}
         >
           <RadioReport
-            label={"Incident Occurred"}
+            label={t`Incident Occurred`}
             id="incident-radio"
             value="incident-occurred"
             name="vote-radio"
@@ -134,7 +135,7 @@ export const CastYourVote = ({ incidentReport }) => {
           )}
         >
           <RadioReport
-            label={"False Reporting"}
+            label={t`False Reporting`}
             id="false-radio"
             name="vote-radio"
             value="false-reporting"
@@ -149,7 +150,7 @@ export const CastYourVote = ({ incidentReport }) => {
             htmlFor={"stake-to-cast-vote"}
             className="mb-2 ml-2 font-semibold uppercase"
           >
-            Stake
+            <Trans>Stake</Trans>
           </Label>
 
           <div className="flex flex-wrap items-start gap-8 mb-11">
@@ -166,7 +167,8 @@ export const CastYourVote = ({ incidentReport }) => {
               >
                 {isFirstDispute && (
                   <p className="text-9B9B9B">
-                    Minimum Stake: {convertFromUnits(minStake).toString()} NPM
+                    <Trans>Minimum Stake:</Trans>{" "}
+                    {convertFromUnits(minStake).toString()} NPM
                   </p>
                 )}
                 {error && (
@@ -190,7 +192,13 @@ export const CastYourVote = ({ incidentReport }) => {
                     loadingAllowance
                   }
                 >
-                  {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+                  {approving ? (
+                    t`Approving...`
+                  ) : (
+                    <>
+                      <Trans>Approve</Trans> {tokenSymbol}
+                    </>
+                  )}
                 </RegularButton>
               ) : (
                 <RegularButton
@@ -206,7 +214,7 @@ export const CastYourVote = ({ incidentReport }) => {
                     loadingAllowance
                   }
                 >
-                  {voting ? "Reporting..." : "Report"}
+                  {voting ? t`Reporting...` : `Report`}
                 </RegularButton>
               )}
               <DataLoadingIndicator message={loadingMessage} />
@@ -217,11 +225,13 @@ export const CastYourVote = ({ incidentReport }) => {
       {isFirstDispute && (
         <>
           <Alert info>
-            Since you are the first person to dispute this incident reporting,
-            you will need to stake atleast{" "}
-            {convertFromUnits(minStake).toString()} NPM tokens. If the majority
-            agree with you, you will earn {commission}% of the platform fee
-            instead of the incident reporter.
+            <Trans>
+              Since you are the first person to dispute this incident reporting,
+              you will need to stake atleast{" "}
+              {convertFromUnits(minStake).toString()} NPM tokens. If the
+              majority agree with you, you will earn {commission}% of the
+              platform fee instead of the incident reporter.
+            </Trans>
           </Alert>
           <Link href={disputeUrl} passHref>
             <RegularButton
@@ -229,7 +239,7 @@ export const CastYourVote = ({ incidentReport }) => {
                 "flex-auto w-full lg:w-64 mb-11 sm:mb-0 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mt-4"
               }
             >
-              Add Dispute
+              <Trans>Add Dispute</Trans>
             </RegularButton>
           </Link>
         </>

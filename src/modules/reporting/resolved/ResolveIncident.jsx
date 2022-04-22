@@ -9,6 +9,7 @@ import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { t, Trans } from "@lingui/macro";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -32,7 +33,7 @@ export const ResolveIncident = ({
   return (
     <div className="flex flex-col items-center">
       {incidentReport.resolved && (
-        <CountDownTimer title="Resolving in" target={resolvableTill} />
+        <CountDownTimer title={t`Resolving in`} target={resolvableTill} />
       )}
 
       <div className="flex flex-wrap w-auto gap-10 mb-16">
@@ -45,7 +46,7 @@ export const ResolveIncident = ({
               setTimeout(refetchReport, 15000);
             }}
           >
-            {resolving ? "Resolving..." : "Resolve"}
+            {resolving ? t`Resolving...` : t`Resolve`}
           </RegularButton>
         )}
 
@@ -53,7 +54,7 @@ export const ResolveIncident = ({
           className="w-full px-10 py-4 font-semibold uppercase md:w-80"
           onClick={() => setIsOpen(true)}
         >
-          Emergency Resolve
+          <Trans>Emergency Resolve</Trans>
         </RegularButton>
 
         <EmergencyResolveModal
@@ -100,15 +101,15 @@ const EmergencyResolveModal = ({
             src={logoSource}
           />
           <div className="font-bold font-sora text-h2">
-            Emergency Resolution
+            <Trans>Emergency Resolution</Trans>
           </div>
         </Dialog.Title>
         <div className="mt-8 mb-6 font-semibold uppercase">
-          Select Your Decision
+          <Trans>Select Your Decision</Trans>
         </div>
         <div className="flex gap-4 my-4">
           <Radio
-            label={"INCIDENT OCCURED"}
+            label={t`INCIDENT OCCURED`}
             id="decision-1"
             value="true"
             name="decision"
@@ -116,7 +117,7 @@ const EmergencyResolveModal = ({
             onChange={handleRadioChange}
           />
           <Radio
-            label={"FALSE REPORTING"}
+            label={t`FALSE REPORTING`}
             id="decision-2"
             value="false"
             name="decision"
@@ -133,7 +134,9 @@ const EmergencyResolveModal = ({
             setTimeout(refetchReport, 15000);
           }}
         >
-          {emergencyResolving ? "Emergency Resolving..." : "EMERGENCY RESOLVE"}
+          {emergencyResolving
+            ? t`Emergency Resolving...`
+            : t`EMERGENCY RESOLVE`}
         </RegularButton>
 
         <ModalCloseButton
