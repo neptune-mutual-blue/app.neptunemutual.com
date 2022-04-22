@@ -11,6 +11,7 @@ import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { Trans } from "@lingui/macro";
 
 export function getServerSideProps() {
   return {
@@ -64,10 +65,16 @@ export default function DisputeFormPage({ disabled }) {
 
       <hr className="border-t border-t-B0C4DB" />
 
-      {loading && <p className="text-center">Loading...</p>}
+      {loading && (
+        <p className="text-center">
+          <Trans>Loading...</Trans>
+        </p>
+      )}
 
       {!loading && !data.incidentReport && (
-        <p className="text-center">No data found</p>
+        <p className="text-center">
+          <Trans>No data found</Trans>
+        </p>
       )}
 
       {data.incidentReport && (
@@ -76,7 +83,9 @@ export default function DisputeFormPage({ disabled }) {
             {canDispute ? (
               <NewDisputeReportForm incidentReport={data.incidentReport} />
             ) : (
-              <Alert>Not applicable for disputing</Alert>
+              <Alert>
+                <Trans>Not applicable for disputing</Trans>
+              </Alert>
             )}
           </Container>
         </div>

@@ -10,6 +10,7 @@ import { useReportIncident } from "@/src/hooks/useReportIncident";
 import { convertFromUnits, convertToUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
+import { t, Trans } from "@lingui/macro";
 
 export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
@@ -91,30 +92,30 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     } else {
       setValidationErrors((prev) => ({
         ...prev,
-        dateError: "Please choose date from the past",
+        dateError: t`Please choose date from the past`,
       }));
     }
   };
 
   let loadingMessage = "";
   if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   } else if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (fetchingMinStake) {
-    loadingMessage = "Fetching min stake...";
+    loadingMessage = t`Fetching min stake...`;
   }
 
   useEffect(() => {
     if (value && isGreater(minStake, convertToUnits(value))) {
       setValidationErrors((prev) => ({
         ...prev,
-        balanceError: "Insufficient Stake",
+        balanceError: t`Insufficient Stake`,
       }));
     } else if (value && isGreater(convertToUnits(value), balance)) {
       setValidationErrors((prev) => ({
         ...prev,
-        balanceError: "Insufficient Balance",
+        balanceError: t`Insufficient Balance`,
       }));
     } else {
       setValidationErrors((prev) => ({
@@ -133,25 +134,25 @@ export const NewIncidentReportForm = ({ coverKey }) => {
             <div className="flex flex-wrap justify-between w-full md:flex-nowrap">
               <div className="flex-grow mr-4">
                 <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
-                  Incident Title
+                  <Trans>Incident Title</Trans>
                 </Label>
                 <RegularInput
                   className="leading-none"
                   inputProps={{
                     id: "incident_title",
-                    placeholder: "Enter Incident Title",
+                    placeholder: t`Enter Incident Title`,
                     value: incidentTitle,
                     disabled: approving || reporting,
                     onChange: (e) => setIncidentTitle(e.target.value),
                   }}
                 />
                 <p className="pl-2 mt-2 text-sm text-9B9B9B">
-                  Enter the incident title.
+                  <Trans>Enter the incident title.</Trans>
                 </p>
               </div>
               <div className="">
                 <Label htmlFor={"incident_date"} className={"mb-2 mt-6"}>
-                  Observed Date &amp; Time
+                  <Trans>Observed Date &amp; Time</Trans>
                 </Label>
                 <RegularInput
                   className="pr-3 uppercase text-9B9B9B"
@@ -166,7 +167,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   }}
                 />
                 <p className="pl-2 mt-2 text-sm text-9B9B9B">
-                  Select the incident observance date.
+                  <Trans>Select the incident observance date.</Trans>
                 </p>
                 {validationErrors.dateError && (
                   <p className="flex items-center pl-2 text-sm text-FA5C2F">
@@ -176,7 +177,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               </div>
             </div>
             <Label htmlFor={"incident_url"} className={"mt-10 mb-2"}>
-              Proof of incident
+              <Trans>Proof of incident</Trans>
             </Label>
 
             {urls.map((x, i) => (
@@ -187,7 +188,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                       className={i === 0 && "mr-12"}
                       inputProps={{
                         id: `incident_url_${i}`,
-                        placeholder: "https://",
+                        placeholder: t`https://`,
                         value: x["url"],
                         disabled: approving || reporting,
                         onChange: (e) => handleChange(e, i),
@@ -208,7 +209,9 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                     )}
                   </div>
                   <p className="pl-2 mt-2 text-sm text-9B9B9B mb-x">
-                    Provide URL with a proximate proof of the incident.
+                    <Trans>
+                      Provide URL with a proximate proof of the incident.
+                    </Trans>
                   </p>
                 </div>
               </Fragment>
@@ -221,10 +224,10 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 (approving || reporting) && "cursor-not-allowed"
               )}
             >
-              + Add new link
+              + <Trans>Add new link</Trans>
             </button>
             <Label htmlFor={"reporting-description"} className={"mt-10 mb-2"}>
-              Description
+              <Trans>Description</Trans>
             </Label>
             <div className="relative">
               <textarea
@@ -233,7 +236,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   "block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB",
                   (approving || reporting) && "cursor-not-allowed"
                 )}
-                placeholder="Explain briefly about the incident if you want to add anything."
+                placeholder={t`Explain briefly about the incident if you want to add anything.`}
                 rows={5}
                 value={description}
                 disabled={approving || reporting}
@@ -252,7 +255,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               <TokenAmountInput
                 inputId={"stake-amount"}
                 inputValue={value}
-                labelText={"Enter your amount"}
+                labelText={t`Enter your amount`}
                 tokenBalance={balance}
                 tokenSymbol={tokenSymbol}
                 tokenAddress={tokenAddress}
@@ -261,7 +264,8 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                 onChange={handleValueChange}
               >
                 <p className="text-9B9B9B">
-                  Minimum Stake: {convertFromUnits(minStake).toString()} NPM
+                  <Trans>Minimum Stake:</Trans>{" "}
+                  {convertFromUnits(minStake).toString()} NPM
                 </p>
                 {validationErrors.balanceError && (
                   <p className="flex items-center text-FA5C2F">
@@ -291,7 +295,13 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   className="px-24 py-6 font-semibold uppercase text-h6"
                   onClick={handleApprove}
                 >
-                  {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+                  {approving ? (
+                    t`Approving...`
+                  ) : (
+                    <>
+                      <Trans>Approve</Trans> {tokenSymbol}
+                    </>
+                  )}
                 </RegularButton>
               ) : (
                 <RegularButton
@@ -307,7 +317,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
                   className="px-24 py-6 font-semibold uppercase text-h6"
                   onClick={handleSubmit}
                 >
-                  {reporting ? "Reporting..." : "Report"}
+                  {reporting ? t`Reporting...` : t`Report`}
                 </RegularButton>
               )}
             </div>

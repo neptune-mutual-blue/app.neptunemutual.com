@@ -4,6 +4,7 @@ import { Hero } from "@/common/Hero";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
+import { t } from "@lingui/macro";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const imgSrc = getCoverImgSrc(coverInfo);
@@ -14,9 +15,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
 
   const breadcrumbData = reportStatus
     ? [
-        { name: "Home", href: "/", current: false },
+        { name: t`Home`, href: "/", current: false },
         {
-          name: "Reporting",
+          name: t`Reporting`,
           href: `/reporting/${reportStatus.resolved ? "resolved" : "active"}`,
           current: false,
         },
@@ -29,13 +30,13 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
         },
       ]
     : [
-        { name: "Home", href: "/", current: false },
+        { name: t`Home`, href: "/", current: false },
         {
           name: coverInfo?.coverName,
           href: `/cover/${cover_id}/options`,
           current: false,
         },
-        { name: "Reporting", current: true },
+        { name: t`Reporting`, current: true },
       ];
 
   if (reportStatus?.dispute) {

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { Trans } from "@lingui/macro";
 
 export const ReportingResolvedPage = () => {
   const { data, loading, hasMore, handleShowMore } = useResolvedReportings();
@@ -70,7 +71,11 @@ export const ReportingResolvedPage = () => {
         </Grid>
       );
     } else if (!loading && noData) {
-      return <p className="text-center">No data found</p>;
+      return (
+        <p className="text-center">
+          <Trans>No data found</Trans>
+        </p>
+      );
     }
 
     return (
@@ -102,7 +107,7 @@ export const ReportingResolvedPage = () => {
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
         >
-          Show More
+          <Trans>Show More</Trans>
         </NeutralButton>
       )}
     </Container>

@@ -3,6 +3,7 @@ import { HorizontalChartLegend } from "@/src/modules/reporting/HorizontalChartLe
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { t, Trans } from "@lingui/macro";
 
 export const VotesSummaryHorizontalChart = ({
   yesPercent,
@@ -11,7 +12,7 @@ export const VotesSummaryHorizontalChart = ({
   majority,
 }) => {
   const data = {
-    labels: ["votes"],
+    labels: [t`votes`],
     datasets: [
       {
         data: [yesPercent],
@@ -64,8 +65,8 @@ const ToolTipContent = ({ majority }) => {
               )}
             >
               {majority.variant == "success"
-                ? "Incident Occurred"
-                : "False Reporting"}
+                ? t`Incident Occurred`
+                : t`False Reporting`}
             </span>
             <span className="py-1 text-sm leading-5 text-black">
               {majority.voteCount} ({formatPercent(majority.percent)})
@@ -73,7 +74,7 @@ const ToolTipContent = ({ majority }) => {
           </>
 
           <span className="text-sm leading-5 text-black opacity-40">
-            Stake: {majority.stake} NPM
+            <Trans>Stake:</Trans> {majority.stake} NPM
           </span>
         </div>
         <Tooltip.Arrow

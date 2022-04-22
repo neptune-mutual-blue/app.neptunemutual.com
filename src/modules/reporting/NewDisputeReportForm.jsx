@@ -9,6 +9,7 @@ import { convertFromUnits, convertToUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { t, Trans } from "@lingui/macro";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -41,7 +42,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
       // When minStake is being fetched
       if (_minStake.isLessThanOrEqualTo(0))
-        return setLoading("Fetching min-stake amount...");
+        return setLoading(t`Fetching min-stake amount...`);
       else setLoading("");
     }
   }, [minStake]);
@@ -97,13 +98,13 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
       <div className="flex flex-col max-w-3xl gap-y-10">
         <div>
           <Label htmlFor={"incident_title"} className={"mb-2"}>
-            Title
+            <Trans>Title</Trans>
           </Label>
           <RegularInput
             className="leading-none disabled:cursor-not-allowed"
             inputProps={{
               id: "incident_title",
-              placeholder: "Enter a title of this dispute",
+              placeholder: t`Enter a title of this dispute`,
               value: disputeTitle,
               onChange: (e) => setDisputeTitle(e.target.value),
               disabled: approving || disputing,
@@ -113,7 +114,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
         <div>
           <Label htmlFor={"incident_url"} className={"mb-2"}>
-            Proof of dispute
+            <Trans>Proof of dispute</Trans>
           </Label>
 
           {urls.map((x, i) => (
@@ -150,19 +151,19 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             onClick={handleNewLink}
             className="mt-4 text-black bg-transparent border-none hover:underline"
           >
-            + Add new link
+            + <Trans>Add new link</Trans>
           </button>
         </div>
 
         <div>
           <Label htmlFor={"reporting-description"} className={"mb-2"}>
-            Description
+            <Trans>Description</Trans>
           </Label>
           <div className="relative">
             <textarea
               id="reporting-description"
               className="block w-full py-6 pl-6 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB disabled:cursor-not-allowed"
-              placeholder="Explain briefly about the incident if you want to add anything."
+              placeholder={t`Explain briefly about the incident if you want to add anything.`}
               rows={8}
               value={description}
               onChange={(e) => handleTextArea(e)}
@@ -183,7 +184,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           <TokenAmountInput
             inputId={"stake-amount"}
             inputValue={value}
-            labelText={"Enter your amount"}
+            labelText={t`Enter your amount`}
             tokenBalance={balance}
             tokenSymbol={tokenSymbol}
             tokenAddress={tokenAddress}
@@ -193,7 +194,8 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             error={error}
           >
             <p className="text-9B9B9B">
-              Minimum Stake: {convertFromUnits(minStake).toString()} NPM
+              <Trans>Minimum Stake:</Trans>{" "}
+              {convertFromUnits(minStake).toString()} NPM
             </p>
             <p
               className={classNames(
@@ -201,7 +203,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
                 "flex items-center text-FA5C2F"
               )}
             >
-              {error ?? "Error!!!"}
+              {error ?? t`Error!!!`}
             </p>
           </TokenAmountInput>
         </div>
@@ -218,7 +220,13 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleApprove}
             >
-              {approving ? "Approving..." : <>Approve {tokenSymbol}</>}
+              {approving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {tokenSymbol}
+                </>
+              )}
             </RegularButton>
           ) : (
             <RegularButton
@@ -226,7 +234,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
               className="px-24 py-6 font-semibold uppercase text-h6 w-max"
               onClick={handleSubmit}
             >
-              {disputing ? "Disputing..." : "Dispute"}
+              {disputing ? t`Disputing...` : t`Dispute`}
             </RegularButton>
           )}
         </div>

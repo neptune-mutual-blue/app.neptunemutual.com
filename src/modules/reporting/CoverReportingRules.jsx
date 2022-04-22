@@ -6,6 +6,7 @@ import { AcceptReportRulesForm } from "@/common/AcceptCoverRulesForm/AcceptRepor
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import Link from "next/link";
+import { Trans } from "@lingui/macro";
 
 export const CoverReportingRules = ({
   coverInfo,
@@ -30,12 +31,14 @@ export const CoverReportingRules = ({
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className="mt-16">
                   <h2 className="mb-6 font-bold font-sora text-h2">
-                    Active Reporting
+                    <Trans>Active Reporting</Trans>
                   </h2>
 
                   {!hasActiveReportings && (
                     <p className="mb-10 text-h4 text-8F949C">
-                      There are no known incidents of {coverInfo.coverName}.
+                      <Trans>
+                        There are no known incidents of {coverInfo.coverName}.
+                      </Trans>
                     </p>
                   )}
 
@@ -53,20 +56,22 @@ export const CoverReportingRules = ({
                   )}
 
                   <Alert>
-                    If you just came to know about a recent incident of{" "}
-                    {coverInfo.projectName}, carefully read the cover rules
-                    above. You can earn flat {commission}% of total dishonest
-                    stakes if you are the first person to report this incident.
-                    In addition to NPM rewards, you may also earn a percentage
-                    commission on individual claims payout.
-                    <br />
-                    <br />
-                    <span>
-                      Note: Dishonest reporters get 100% of their stakes
-                      forfeited which is distributed to honest reporters. You
-                      may lose all of your stakes if resolution is not in your
-                      favor.
-                    </span>
+                    <Trans>
+                      If you just came to know about a recent incident of{" "}
+                      {coverInfo.projectName}, carefully read the cover rules
+                      above. You can earn flat {commission}% of total dishonest
+                      stakes if you are the first person to report this
+                      incident. In addition to NPM rewards, you may also earn a
+                      percentage commission on individual claims payout.
+                      <br />
+                      <br />
+                      <span>
+                        Note: Dishonest reporters get 100% of their stakes
+                        forfeited which is distributed to honest reporters. You
+                        may lose all of your stakes if resolution is not in your
+                        favor.
+                      </span>
+                    </Trans>
                   </Alert>
                 </div>
               </AcceptReportRulesForm>
@@ -75,7 +80,7 @@ export const CoverReportingRules = ({
           <CoverPurchaseResolutionSources coverInfo={coverInfo}>
             <Link href="#">
               <a className="block mt-3 text-4e7dd9 hover:underline">
-                Neptune Mutual Reporters
+                <Trans>Neptune Mutual Reporters</Trans>
               </a>
             </Link>
           </CoverPurchaseResolutionSources>

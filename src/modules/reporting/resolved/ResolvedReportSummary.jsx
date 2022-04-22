@@ -11,6 +11,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { formatPercent } from "@/utils/formatter/percent";
+import { t, Trans } from "@lingui/macro";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize, finalizing } = useFinalizeIncident({
@@ -57,7 +58,9 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
         <div className="flex-1 p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-h3 font-sora">Report Summary</h2>
+          <h2 className="mb-6 font-bold text-h3 font-sora">
+            <Trans>Report Summary</Trans>
+          </h2>
 
           <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
@@ -72,20 +75,22 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
 
         {/* Right half */}
         <div className="p-10">
-          <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
+          <h3 className="mb-4 font-bold text-h4 font-sora">
+            <Trans>Insights</Trans>
+          </h3>
           <InsightsTable
             insights={[
               {
-                title: "Incident Occurred",
+                title: t`Incident Occurred`,
                 value: formatPercent(yesPercent),
                 variant: "success",
               },
               {
-                title: "User Votes:",
+                title: t`User Votes:`,
                 value: incidentReport.totalAttestedCount,
               },
               {
-                title: "Stake:",
+                title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   "NPM",
@@ -99,13 +104,16 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           <InsightsTable
             insights={[
               {
-                title: "False Reporting",
+                title: t`False Reporting`,
                 value: formatPercent(noPercent),
                 variant: "error",
               },
-              { title: "User Votes:", value: incidentReport.totalRefutedCount },
               {
-                title: "Stake:",
+                title: t`User Votes:`,
+                value: incidentReport.totalRefutedCount,
+              },
+              {
+                title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
                   "NPM",
@@ -117,7 +125,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
 
           <hr className="mt-6 mb-6 border-t border-d4dfee" />
           <h3 className="mb-4 font-bold text-h4 font-sora">
-            Incident Reporters
+            <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
             variant={"success"}
@@ -133,7 +141,9 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           )}
 
           <hr className="mt-8 mb-6 border-t border-d4dfee" />
-          <h3 className="mb-4 font-bold text-h4 font-sora">Reporting Period</h3>
+          <h3 className="mb-4 font-bold text-h4 font-sora">
+            <Trans>Reporting Period</Trans>
+          </h3>
           <p className="mb-4 text-sm opacity-50">
             <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
@@ -165,7 +175,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 setTimeout(refetchReport, 15000);
               }}
             >
-              {finalizing ? "Finalizing..." : "Finalize"}
+              {finalizing ? t`Finalizing...` : t`Finalize`}
             </button>
           )}
         </div>
