@@ -58,6 +58,8 @@ export const usePoolsTVL = (NPMTokenAddress) => {
         ...poolsPayload,
       ]);
 
+      console.log("result", result);
+
       if (ignore) return;
       setPoolsTVL({
         items: result.items,

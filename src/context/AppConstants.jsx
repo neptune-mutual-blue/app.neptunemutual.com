@@ -5,6 +5,7 @@ import { useNetwork } from "@/src/context/Network";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useWeb3React } from "@web3-react/core";
+import { ADDRESS_ONE } from "@/src/config/constants";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -42,8 +43,13 @@ export const AppConstantsProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!networkId || !account) return;
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    if (!networkId) return;
+    let accountToFetch = account ? account : ADDRESS_ONE;
+    const signerOrProvider = getProviderOrSigner(
+      library,
+      accountToFetch,
+      networkId
+    );
 
     registry.Stablecoin.getAddress(networkId, signerOrProvider).then((_addr) =>
       setAddress(_addr, "liquidityTokenAddress")
