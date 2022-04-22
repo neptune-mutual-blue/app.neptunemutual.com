@@ -23,7 +23,7 @@ export const usePodStakingPools = () => {
   }, [account]);
 
   useEffect(() => {
-    if (!networkId || !account) {
+    if (!networkId) {
       setHasMore(false);
       return;
     }

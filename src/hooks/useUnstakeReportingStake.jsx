@@ -10,6 +10,8 @@ import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
 import { t } from "@lingui/macro";
+import { getReplacedString } from "@/utils/string";
+import { UNSTAKE_INFO_URL } from "@/src/config/constants";
 
 const defaultInfo = {
   yes: "0",
@@ -31,6 +33,7 @@ const defaultInfo = {
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
+  const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
@@ -46,36 +49,45 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-    const data = await getUnstakeInfoFor(
-      networkId,
-      coverKey,
-      account,
-      incidentDate,
-      signerOrProvider.provider
+    const response = await fetch(
+      getReplacedString(UNSTAKE_INFO_URL, {
+        networkId,
+        coverKey,
+        account,
+        incidentDate,
+      }),
+      {
+        method: "GET",
+        header: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+      }
     );
 
-    if (!data) {
+    const { data } = await response.json();
+
+    if (!mountedRef.current || !data) {
       return;
     }
 
+    setInfo({
+      ...data,
+    });
+
     return data;
-  }, [account, coverKey, incidentDate, library, networkId]);
+  }, [account, coverKey, incidentDate, networkId]);
 
   useEffect(() => {
-    let ignore = false;
-
-    fetchInfo()
-      .then((_info) => {
-        if (!_info || ignore) return;
-
-        setInfo(_info);
-      })
-      .catch(console.error);
+    mountedRef.current = true;
 
     return () => {
-      ignore = true;
+      mountedRef.current = false;
     };
+  });
+
+  useEffect(() => {
+    fetchInfo().catch(console.error);
   }, [fetchInfo]);
 
   const unstake = async () => {
