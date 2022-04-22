@@ -6,17 +6,18 @@ import { HeroTitle } from "@/common/HeroTitle";
 import { TabNav } from "@/common/Tab/TabNav";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { t, Trans } from "@lingui/macro";
 
 const headers = [
   {
     name: "active",
     href: "/my-policies/active",
-    displayAs: "Active",
+    displayAs: t`Active`,
   },
   {
     name: "expired",
     href: "/my-policies/expired",
-    displayAs: "Expired",
+    displayAs: t`Expired`,
   },
 ];
 
@@ -28,7 +29,9 @@ export const PoliciesTabs = ({ active, children }) => {
     <>
       <Hero>
         <Container className="flex flex-wrap px-2 py-20">
-          <HeroTitle>My Policies</HeroTitle>
+          <HeroTitle>
+            <Trans>My Policies</Trans>
+          </HeroTitle>
 
           {/* Total Active Protection */}
           <HeroStat title="Total Active Protection">

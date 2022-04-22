@@ -14,6 +14,7 @@ import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContex
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
+import { t, Trans } from "@lingui/macro";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -65,11 +66,11 @@ export const ClaimCoverModal = ({
 
   let loadingMessage = "";
   if (loadingBalance) {
-    loadingMessage = "Fetching balance...";
+    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
-    loadingMessage = "Fetching allowance...";
+    loadingMessage = t`Fetching allowance...`;
   } else if (loadingFees) {
-    loadingMessage = "Fetching fees...";
+    loadingMessage = t`Fetching fees...`;
   }
 
   return (
@@ -80,7 +81,7 @@ export const ClaimCoverModal = ({
     >
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-300 lg:min-w-600 max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title className="flex items-center w-full font-bold font-sora text-h2">
-          <img src={imgSrc} alt="policy" height={48} width={48} />
+          <img src={imgSrc} alt={t`policy`} height={48} width={48} />
           <span className="pl-3">{modalTitle}</span>
         </Dialog.Title>
         <ModalCloseButton
@@ -92,7 +93,7 @@ export const ClaimCoverModal = ({
             tokenAddress={cxTokenAddress}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
-            labelText={`Enter your ${tokenSymbol}`}
+            labelText={t`Enter your ${tokenSymbol}`}
             handleChooseMax={handleChooseMax}
             inputValue={value}
             id={"bond-amount"}
@@ -104,14 +105,16 @@ export const ClaimCoverModal = ({
           </TokenAmountInput>
         </div>
         <div className="mt-8 modal-unlock">
-          <Label className="mb-4 font-semibold">You will receive</Label>
+          <Label className="mb-4 font-semibold">
+            <Trans>You will receive</Trans>
+          </Label>
           <DisabledInput
             value={convertFromUnits(receiveAmount).toString()}
             unit="DAI"
           />
           <p className="px-3 pt-2 text-9B9B9B">
             {isGreater(claimPlatformFee, "0") &&
-              `Fee: ${formatPercent(claimPlatformFee / MULTIPLIER)}`}
+              t`Fee:`` ${formatPercent(claimPlatformFee / MULTIPLIER)}`}
           </p>
         </div>
 
@@ -123,7 +126,7 @@ export const ClaimCoverModal = ({
               disabled={!value || approving || error || loadingMessage}
               onClick={handleApprove}
             >
-              {approving ? "Approving..." : "Approve"}
+              {approving ? t`Approving...` : t`Approve`}
             </RegularButton>
           ) : (
             <RegularButton
@@ -135,7 +138,7 @@ export const ClaimCoverModal = ({
                 })
               }
             >
-              {claiming ? "Claiming..." : "Claim"}
+              {claiming ? t`Claiming...` : t`Claim`}
             </RegularButton>
           )}
         </div>

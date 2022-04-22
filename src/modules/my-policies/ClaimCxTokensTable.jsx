@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  Table,
-  TBody,
-  TableWrapper,
-  THead,
-} from "@/common/Table/Table";
+import { Table, TBody, TableWrapper, THead } from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/src/modules/my-policies/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";

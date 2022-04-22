@@ -6,6 +6,7 @@ import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
 import { useActivePolicies } from "@/src/hooks/useActivePolicies";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { t, Trans } from "@lingui/macro";
 
 export const PoliciesActivePage = () => {
   const { data, loading } = useActivePolicies();
@@ -32,13 +33,15 @@ export const PoliciesActivePage = () => {
         <div className="flex flex-col items-center w-full pt-20">
           <img
             src="/images/covers/empty-list-illustration.svg"
-            alt="no data found"
+            alt={t`no data found`}
             className="w-48 h-48"
           />
           <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-            A cover policy enables you to claim and receive payout when an
-            incident occurs. To purchase a policy, select a cover from the home
-            screen.
+            <Trans>
+              A cover policy enables you to claim and receive payout when an
+              incident occurs. To purchase a policy, select a cover from the
+              home screen.
+            </Trans>
           </p>
         </div>
       );
@@ -60,7 +63,7 @@ export const PoliciesActivePage = () => {
       <div className="flex justify-end">
         <Link href="/my-policies/transactions">
           <a className="font-medium text-h4 text-4e7dd9 hover:underline">
-            Transaction List
+            <Trans>Transaction List</Trans>
           </a>
         </Link>
       </div>

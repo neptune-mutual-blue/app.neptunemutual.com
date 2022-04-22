@@ -6,6 +6,7 @@ import DateLib from "@/lib/date/DateLib";
 import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
+import { t, Trans } from "@lingui/macro";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -28,26 +29,26 @@ export const PolicyCardFooter = ({
   const stats = [];
   if (withinClaimPeriod) {
     stats.push({
-      title: "Claim Before",
+      title: t`Claim Before`,
       tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
       value: fromNow(report.claimExpiresAt),
       variant: "error",
     });
   } else if (beforeResolutionDeadline) {
     stats.push({
-      title: "Resolution By",
+      title: t`Resolution By`,
       tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
       value: fromNow(report.claimBeginsFrom),
     });
   } else if (isPolicyExpired) {
     stats.push({
-      title: "Expired On",
+      title: t`Expired On`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt),
       value: fromNow(validityEndsAt),
     });
   } else {
     stats.push({
-      title: "Expires In",
+      title: t`Expires In`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt),
       value: fromNow(validityEndsAt),
     });
@@ -56,7 +57,7 @@ export const PolicyCardFooter = ({
   return (
     <>
       {/* Stats */}
-      <div className="flex justify-between flex-wrap text-sm px-1">
+      <div className="flex flex-wrap justify-between px-1 text-sm">
         {stats.map((stat, idx) => {
           return (
             <Stat
@@ -71,7 +72,7 @@ export const PolicyCardFooter = ({
         })}
 
         <Stat
-          title="Purchased Policy"
+          title={t`Purchased Policy`}
           tooltip={formatCurrency(convertFromUnits(tokenBalance)).long}
           value={formatCurrency(convertFromUnits(tokenBalance)).short}
           right
@@ -86,7 +87,7 @@ export const PolicyCardFooter = ({
           }/claim`}
         >
           <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4">
-            CLAIM
+            <Trans>CLAIM</Trans>
           </a>
         </Link>
       )}
@@ -99,7 +100,7 @@ const Stat = ({ title, tooltip, value, right, variant }) => {
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}
     >
-      <h5 className="font-semibold text-black text-sm mb-2">{title}</h5>
+      <h5 className="mb-2 text-sm font-semibold text-black">{title}</h5>
       <p
         title={tooltip}
         className={classNames(

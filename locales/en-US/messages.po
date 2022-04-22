@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/modules/my-policies/active/PoliciesActivePage.jsx:40
+msgid "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
+msgstr "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
+
 #: src/common/SearchAndSortBar.jsx:8
 #: src/modules/pools/pod-staking/index.jsx:26
 #: src/modules/pools/pod-staking/index.jsx:28
@@ -29,6 +33,10 @@ msgstr "APR:"
 #: src/modules/cover/add-liquidity/index.jsx:132
 msgid "Accrue"
 msgstr "Accrue"
+
+#: src/modules/my-policies/PoliciesTabs.jsx:15
+msgid "Active"
+msgstr "Active"
 
 #: src/modules/pools/bond/ClaimBondModal.jsx:37
 msgid "Amount Available To Claim"
@@ -47,12 +55,14 @@ msgid "Amount you wish to withdraw"
 msgstr "Amount you wish to withdraw"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:235
+#: src/modules/my-policies/ClaimCoverModal.jsx:129
 #: src/modules/pools/bond/index.jsx:185
 #: src/modules/pools/staking/StakeForm.jsx:130
 msgid "Approve"
 msgstr "Approve"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:232
+#: src/modules/my-policies/ClaimCoverModal.jsx:129
 #: src/modules/pools/bond/index.jsx:182
 #: src/modules/pools/staking/StakeForm.jsx:127
 msgid "Approving..."
@@ -69,6 +79,10 @@ msgstr "Available Covers"
 #: src/modules/cover/purchase/index.jsx:113
 msgid "Available Liquidity:"
 msgstr "Available Liquidity:"
+
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:98
+msgid "Available cxTokens for {title} to Claim"
+msgstr "Available cxTokens for {title} to Claim"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:265
 #: src/modules/cover/CoverOptionsPage.jsx:79
@@ -101,6 +115,10 @@ msgstr "Bond and Staking Pools"
 msgid "Bonding..."
 msgstr "Bonding..."
 
+#: src/modules/my-policies/PolicyCardFooter.jsx:90
+msgid "CLAIM"
+msgstr "CLAIM"
+
 #: src/modules/pools/bond/index.jsx:128
 msgid "Calculating tokens..."
 msgstr "Calculating tokens..."
@@ -112,6 +130,15 @@ msgstr "Cannot purchase policy, since the cover status is"
 #: src/common/CoverRules/CoverRules.jsx:10
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
 msgstr "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
+
+#: src/modules/my-policies/ClaimCoverModal.jsx:141
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:70
+msgid "Claim"
+msgstr "Claim"
+
+#: src/modules/my-policies/PolicyCardFooter.jsx:32
+msgid "Claim Before"
+msgstr "Claim Before"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:77
 msgid "Claim Bond"
@@ -129,10 +156,15 @@ msgstr "Claim My Bond"
 msgid "Claim Now"
 msgstr "Claim Now"
 
-#: src/common/CardStatusBadge.jsx:6
-msgid "Claimable"
-msgstr "Claimable"
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:101
+msgid "Claim your {title} cover cxTokens from the following addresses before the given claim date. Also indicated is the amount of cxTokens you will receive per claim."
+msgstr "Claim your {title} cover cxTokens from the following addresses before the given claim date. Also indicated is the amount of cxTokens you will receive per claim."
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:136
+msgid "Claimed"
+msgstr "Claimed"
+
+#: src/modules/my-policies/ClaimCoverModal.jsx:141
 #: src/modules/pools/bond/ClaimBondModal.jsx:67
 msgid "Claiming..."
 msgstr "Claiming..."
@@ -180,9 +212,29 @@ msgstr "Enter Amount"
 msgid "Enter your amount"
 msgstr "Enter your amount"
 
+#: src/modules/my-policies/ClaimCoverModal.jsx:96
+msgid "Enter your {tokenSymbol}"
+msgstr "Enter your {tokenSymbol}"
+
 #: src/common/TokenBalance.jsx:31
 msgid "Error"
 msgstr "Error"
+
+#: src/modules/my-policies/PoliciesTabs.jsx:20
+msgid "Expired"
+msgstr "Expired"
+
+#: src/modules/my-policies/PolicyCardFooter.jsx:45
+msgid "Expired On"
+msgstr "Expired On"
+
+#: src/modules/my-policies/PolicyCardFooter.jsx:51
+msgid "Expires In"
+msgstr "Expires In"
+
+#: src/modules/my-policies/ClaimCoverModal.jsx:117
+msgid "Fee:"
+msgstr "Fee:"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:23
 msgid "Fees"
@@ -196,15 +248,21 @@ msgstr "Fetching Allowance..."
 msgid "Fetching Balance..."
 msgstr "Fetching Balance..."
 
+#: src/modules/my-policies/ClaimCoverModal.jsx:71
 #: src/modules/pools/bond/index.jsx:132
 #: src/modules/pools/staking/StakeForm.jsx:67
 msgid "Fetching allowance..."
 msgstr "Fetching allowance..."
 
+#: src/modules/my-policies/ClaimCoverModal.jsx:69
 #: src/modules/pools/bond/index.jsx:130
 #: src/modules/pools/staking/StakeForm.jsx:65
 msgid "Fetching balance..."
 msgstr "Fetching balance..."
+
+#: src/modules/my-policies/ClaimCoverModal.jsx:73
+msgid "Fetching fees..."
+msgstr "Fetching fees..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:107
 msgid "Fetching..."
@@ -229,10 +287,7 @@ msgstr "I Want to"
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "I have read, understood, and agree to the terms of cover rules"
 
-#: src/common/CardStatusBadge.jsx:6
-msgid "Incident Happened"
-msgstr "Incident Happened"
-
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:87
 #: src/modules/pools/bond/MyBondTxsTable.jsx:95
 msgid "LAST SYNCED:"
 msgstr "LAST SYNCED:"
@@ -267,11 +322,19 @@ msgstr "Maximum Bond"
 msgid "Maximum Limit:"
 msgstr "Maximum Limit:"
 
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:80
+msgid "My Active Protection"
+msgstr "My Active Protection"
+
 #: src/common/Header/Header.jsx:47
 msgid "My Liquidity"
 msgstr "My Liquidity"
 
 #: src/common/Header/Header.jsx:42
+#: src/modules/my-policies/PoliciesTabs.jsx:33
+#: src/pages/my-policies/transactions.jsx:39
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:61
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:76
 msgid "My Policies"
 msgstr "My Policies"
 
@@ -291,10 +354,15 @@ msgstr "No <0>staking pools found.</0>"
 msgid "No POD"
 msgstr "No POD"
 
+#: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:110
+msgid "No valid incidents are reported with the given timestamp"
+msgstr "No valid incidents are reported with the given timestamp"
+
 #: src/modules/pools/PoolsTabs.jsx:26
 msgid "POD Staking"
 msgstr "POD Staking"
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:111
 #: src/modules/pools/bond/MyBondTxsTable.jsx:120
 msgid "Please connect your wallet..."
 msgstr "Please connect your wallet..."
@@ -320,6 +388,14 @@ msgstr "Purchase Policy"
 msgid "Purchase policy"
 msgstr "Purchase policy"
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:136
+msgid "Purchased"
+msgstr "Purchased"
+
+#: src/modules/my-policies/PolicyCardFooter.jsx:75
+msgid "Purchased Policy"
+msgstr "Purchased Policy"
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:93
 msgid "Purchased Policy Successfully"
 msgstr "Purchased Policy Successfully"
@@ -340,6 +416,10 @@ msgstr "Reassurance:"
 #: src/common/HomeCard/HomeMainCard.jsx:31
 msgid "Reporting"
 msgstr "Reporting"
+
+#: src/modules/my-policies/PolicyCardFooter.jsx:39
+msgid "Resolution By"
+msgstr "Resolution By"
 
 #: src/common/Cover/Purchase/CoverPurchaseResolutionSources.jsx:25
 msgid "Resolution Sources"
@@ -437,7 +517,11 @@ msgstr "Total Liquidity"
 msgid "Total Liquidity:"
 msgstr "Total Liquidity:"
 
+#: src/modules/my-policies/active/PoliciesActivePage.jsx:66
+#: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:66
 #: src/modules/pools/bond/index.jsx:226
+#: src/pages/my-policies/transactions.jsx:43
+#: src/pages/my-policies/transactions.jsx:48
 #: src/pages/pools/bond/transactions.jsx:44
 #: src/pages/pools/bond/transactions.jsx:51
 msgid "Transaction List"
@@ -463,6 +547,10 @@ msgstr "Utilization Ratio"
 msgid "View purchased policies"
 msgstr "View purchased policies"
 
+#: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:40
+msgid "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections."
+msgstr "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections."
+
 #: src/modules/pools/bond/index.jsx:162
 msgid "Will Unlock On"
 msgstr "Will Unlock On"
@@ -481,6 +569,10 @@ msgstr "You Will Receive"
 msgid "You are not whitelisted"
 msgstr "You are not whitelisted"
 
+#: src/modules/my-policies/ClaimCoverModal.jsx:109
+msgid "You will receive"
+msgstr "You will receive"
+
 #: src/common/CoverForm/PurchasePolicyForm.jsx:158
 msgid "You will receive:"
 msgstr "You will receive:"
@@ -495,10 +587,12 @@ msgstr "Your Bond"
 msgid "Your Stake"
 msgstr "Your Stake"
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:62
 #: src/modules/pools/bond/MyBondTxsTable.jsx:65
 msgid "amount"
 msgstr "amount"
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:56
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
 msgid "details"
 msgstr "details"
@@ -507,9 +601,17 @@ msgstr "details"
 msgid "loading..."
 msgstr "loading..."
 
+#: src/modules/my-policies/active/PoliciesActivePage.jsx:36
+#: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:64
 msgid "no data found"
 msgstr "no data found"
+
+#: src/modules/my-policies/ClaimCoverModal.jsx:84
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:130
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:140
+msgid "policy"
+msgstr "policy"
 
 #: src/common/Cover/Purchase/CoverPurchaseResolutionSources.jsx:28
 msgid "reporting period"
@@ -523,6 +625,7 @@ msgstr "staking pools found."
 msgid "vesting term"
 msgstr "vesting term"
 
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:50
 #: src/modules/pools/bond/MyBondTxsTable.jsx:53
 msgid "when"
 msgstr "when"

@@ -1,9 +1,8 @@
 import { Badge } from "@/common/Badge/Badge";
 import { classNames } from "@/utils/classnames";
-import { t } from "@lingui/macro";
 
 export const CardStatusBadge = ({ status }) => {
-  const isRed = [t`Incident Happened`, t`Claimable`].includes(status);
+  const isRed = ["Incident Happened", "Claimable"].includes(status);
 
   if (!status || status == "Normal") {
     return null;

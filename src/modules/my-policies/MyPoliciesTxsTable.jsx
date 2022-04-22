@@ -1,11 +1,6 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { usePolicyTxs } from "@/src/hooks/usePolicyTxs";
-import {
-  Table,
-  TableWrapper,
-  TBody,
-  THead,
-} from "@/common/Table/Table";
+import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -21,6 +16,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
+import { t, Trans } from "@lingui/macro";
 
 const renderHeader = (col) => (
   <th
@@ -51,19 +47,19 @@ const renderActions = (row) => <ActionsRenderer row={row} />;
 
 const columns = [
   {
-    name: "when",
+    name: t`when`,
     align: "left",
     renderHeader,
     renderData: renderWhen,
   },
   {
-    name: "details",
+    name: t`details`,
     align: "left",
     renderHeader,
     renderData: renderDetails,
   },
   {
-    name: "amount",
+    name: t`amount`,
     align: "right",
     renderHeader,
     renderData: renderAmount,
@@ -88,7 +84,7 @@ export const MyPoliciesTxsTable = () => {
     <>
       {blockNumber && (
         <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
-          LAST SYNCED:{" "}
+          <Trans>LAST SYNCED:</Trans>{" "}
           <a
             href={getBlockLink(networkId, blockNumber)}
             target="_blank"
@@ -112,7 +108,7 @@ export const MyPoliciesTxsTable = () => {
             <tbody>
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
-                  Please connect your wallet...
+                  <Trans>Please connect your wallet...</Trans>
                 </td>
               </tr>
             </tbody>
@@ -131,17 +127,17 @@ const DetailsRenderer = ({ row }) => {
       <div className="flex items-center">
         <img
           src={getCoverImgSrc({ key: row.cover.id })}
-          alt="policy"
+          alt={t`policy`}
           height={32}
           width={32}
         />
 
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "CoverPurchased" ? "Purchased" : "Claimed"}{" "}
+          {row.type == "CoverPurchased" ? t`Purchased` : t`Claimed`}{" "}
           <span title={formatCurrency(convertFromUnits(row.daiAmount)).long}>
             {formatCurrency(convertFromUnits(row.daiAmount)).short}
           </span>{" "}
-          {coverInfo.projectName} policy
+          {coverInfo.projectName} <Trans>policy</Trans>
         </span>
       </div>
     </td>
