@@ -56,6 +56,8 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   : "/";
 
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`;
+export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`;
+export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
 
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
 export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";
@@ -72,3 +74,11 @@ export const SUBGRAPH_API_URLS = {
   42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };
+
+export const NetworkUrlParam = {
+  97: "bsc-testnet",
+  80001: "mumbai",
+  1: "",
+  3: "ropsten",
+};
+export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;

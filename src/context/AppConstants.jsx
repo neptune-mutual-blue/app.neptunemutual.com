@@ -5,6 +5,11 @@ import { useNetwork } from "@/src/context/Network";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useWeb3React } from "@web3-react/core";
+import {
+  GET_CONTRACTS_INFO_URL,
+  NetworkUrlParam,
+} from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -41,8 +46,34 @@ export const AppConstantsProvider = ({ children }) => {
     }));
   };
 
+  const getNPMAddressWhenNotConnected = async (networkId) => {
+    try {
+      const networkName = NetworkUrlParam[networkId];
+      const response = await fetch(
+        getReplacedString(GET_CONTRACTS_INFO_URL, { networkName }),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }
+      );
+      const { data } = await response.json();
+      const findNPM = data.find((item) => item.key === "NPM");
+      const _addr = findNPM["value"];
+      setAddress(_addr, "NPMTokenAddress");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    if (!networkId || !account) return;
+    if (!networkId) return;
+    if (!account) {
+      getNPMAddressWhenNotConnected(networkId);
+      return;
+    }
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     registry.Stablecoin.getAddress(networkId, signerOrProvider).then((_addr) =>
