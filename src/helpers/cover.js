@@ -3,12 +3,6 @@ import {
   formatBytes32String,
 } from "@ethersproject/strings";
 
-export const defaultStats = {
-  liquidity: "0",
-  protection: "0",
-  utilization: "0",
-};
-
 export const getCoverImgSrc = (coverInfo) => {
   try {
     return `/images/covers/${parseBytes32String(coverInfo?.key)}.svg`;

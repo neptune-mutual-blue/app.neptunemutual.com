@@ -3,12 +3,8 @@ import { useNetwork } from "@/src/context/Network";
 import { toUtf8String } from "@ethersproject/strings";
 import { useQuery } from "@/src/hooks/useQuery";
 import { useIpfs } from "@/src/context/Ipfs";
-import { defaultStats } from "@/src/helpers/cover";
-import DateLib from "@/lib/date/DateLib";
 
 const getQuery = () => {
-  const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
-
   return `
   {
     covers {
@@ -21,20 +17,6 @@ const getQuery = () => {
         totalCoverLiquidityAdded
         totalCoverLiquidityRemoved
         totalFlashLoanFees
-      }
-      cxTokens(where: { expiryDate_gt: "${startOfMonth}" }) {
-        key
-        totalCoveredAmount
-      }
-      incidentReports(first: 1, where: { finalized: false }) {
-        status
-        resolved
-        incidentDate
-        decision
-        claimExpiresAt
-        claimBeginsFrom
-        totalAttestedStake
-        totalRefutedStake
       }
     }
   }
@@ -114,7 +96,7 @@ export const useFetchCovers = () => {
   }, [refetch]);
 
   const getInfoByKey = (coverKey) => {
-    return data.find((x) => x.key === coverKey) || { stats: defaultStats };
+    return data.find((x) => x.key === coverKey) || {};
   };
 
   return {
