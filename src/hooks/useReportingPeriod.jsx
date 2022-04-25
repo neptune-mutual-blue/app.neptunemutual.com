@@ -9,11 +9,11 @@ import { getReportingPeriod } from "@/src/helpers/store/getReportingPeriod";
 export const useReportingPeriod = ({ coverKey }) => {
   const [reportingPeriod, setReportingPeriod] = useState("0");
 
-  const { library } = useWeb3React();
+  const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    if (!networkId || !coverKey) return;
+    if (!networkId || !coverKey || !account) return;
 
     const signerOrProvider = getProviderOrSigner(
       library,
@@ -24,7 +24,7 @@ export const useReportingPeriod = ({ coverKey }) => {
     getReportingPeriod(networkId, coverKey, signerOrProvider.provider)
       .then((x) => setReportingPeriod(x))
       .catch((err) => console.error(err));
-  }, [coverKey, library, networkId]);
+  }, [account, coverKey, library, networkId]);
 
   return {
     reportingPeriod,
