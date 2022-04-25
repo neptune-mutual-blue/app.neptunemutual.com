@@ -3,7 +3,7 @@ import { useNetwork } from "@/src/context/Network";
 import { toUtf8String } from "@ethersproject/strings";
 import { useQuery } from "@/src/hooks/useQuery";
 import { useIpfs } from "@/src/context/Ipfs";
-import { calculateCoverStats, defaultStats } from "@/src/helpers/cover";
+import { defaultStats } from "@/src/helpers/cover";
 import DateLib from "@/lib/date/DateLib";
 
 const getQuery = () => {
@@ -82,7 +82,6 @@ export const useFetchCovers = () => {
           links: ipfsData.links,
 
           ipfsData: ipfsData,
-          stats: calculateCoverStats(_cover),
         };
       });
 
