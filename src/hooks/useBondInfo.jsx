@@ -6,6 +6,8 @@ import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -31,8 +33,34 @@ export const useBondInfo = () => {
 
   const fetchBondInfo = useCallback(
     async (onResult) => {
-      if (!networkId || !account) {
+      if (!networkId) {
         return;
+      }
+
+      if (!account) {
+        try {
+          const response = await fetch(
+            getReplacedString(BOND_INFO_URL, {
+              networkId,
+              account: ADDRESS_ONE,
+            }),
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+            }
+          );
+          const { data } = await response.json();
+          return onResult({
+            ...data,
+            lpTokenAddress: data.lpToken,
+            marketPrice: "0",
+          });
+        } catch (err) {
+          return notifyError(err, "get bond details");
+        }
       }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
