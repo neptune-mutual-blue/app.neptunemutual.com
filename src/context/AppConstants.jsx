@@ -46,7 +46,7 @@ export const AppConstantsProvider = ({ children }) => {
     }));
   };
 
-  const getNPMAddressWhenNotConnected = async (networkId) => {
+  const getAddressFromApi = async (networkId) => {
     try {
       const networkName = NetworkUrlParam[networkId];
       const response = await fetch(
@@ -63,6 +63,10 @@ export const AppConstantsProvider = ({ children }) => {
       const findNPM = data.find((item) => item.key === "NPM");
       const _addr = findNPM["value"];
       setAddress(_addr, "NPMTokenAddress");
+
+      const findDAI = data.find((item) => item.key === "Stablecoin");
+      const _daiAddr = findDAI["value"];
+      setAddress(_daiAddr, "liquidityTokenAddress");
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +75,7 @@ export const AppConstantsProvider = ({ children }) => {
   useEffect(() => {
     if (!networkId) return;
     if (!account) {
-      getNPMAddressWhenNotConnected(networkId);
+      getAddressFromApi(networkId);
       return;
     }
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
