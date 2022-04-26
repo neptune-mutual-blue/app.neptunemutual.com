@@ -65,10 +65,14 @@ export const useBondInfo = () => {
             }
           );
           const { data } = await response.json();
-          return onResult({
+
+          let _marketPrice = getPriceByAddress(NPMTokenAddress);
+          _marketPrice = convertToUnits(_marketPrice).toString();
+
+          return setInfo({
             ...data,
             lpTokenAddress: data.lpToken,
-            marketPrice: "0",
+            marketPrice: _marketPrice,
           });
         } catch (err) {
           return notifyError(err, "get bond details");

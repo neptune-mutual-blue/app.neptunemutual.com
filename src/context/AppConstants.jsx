@@ -60,12 +60,12 @@ export const AppConstantsProvider = ({ children }) => {
         }
       );
       const { data } = await response.json();
-      const findNPM = data.find((item) => item.key === "NPM");
-      const _addr = findNPM["value"];
+      const npm = data.find((item) => item.key === "NPM");
+      const _addr = npm.value;
       setAddress(_addr, "NPMTokenAddress");
 
-      const findDAI = data.find((item) => item.key === "Stablecoin");
-      const _daiAddr = findDAI["value"];
+      const dai = data.find((item) => item.key === "Stablecoin");
+      const _daiAddr = dai.value;
       setAddress(_daiAddr, "liquidityTokenAddress");
     } catch (error) {
       console.error(error);
