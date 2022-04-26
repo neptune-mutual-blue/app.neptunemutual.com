@@ -6,6 +6,7 @@ import { calcBondPoolTVL } from "@/src/helpers/bond";
 import { calcStakingPoolTVL } from "@/src/helpers/pool";
 import { getPricingData } from "@/src/helpers/pricing";
 import { isEqualTo, sumOf, toBN } from "@/utils/bn";
+import { getNpmPayload } from "@/src/helpers/token";
 
 const getQuery = () => {
   return `
@@ -50,12 +51,15 @@ export const usePoolsTVL = (NPMTokenAddress) => {
       });
 
       const poolsPayload = graphData.pools.map((currentPool) => {
-        return calcStakingPoolTVL(currentPool, networkId);
+        return calcStakingPoolTVL(currentPool);
       });
+
+      const npmPayload = getNpmPayload(NPMTokenAddress);
 
       const result = await getPricingData(networkId, [
         ...bondsPayload,
         ...poolsPayload,
+        ...npmPayload,
       ]);
 
       if (ignore) return;

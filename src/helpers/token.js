@@ -1,4 +1,4 @@
-import { toWei } from "@/utils/bn";
+import { convertToUnits } from "@/utils/bn";
 
 export const getTokenImgSrc = (tokenSymbol = "") => {
   try {
@@ -20,7 +20,7 @@ export const getNpmPayload = (address) => {
         {
           type: "token",
           address: address,
-          amount: toWei(1).toString(),
+          amount: convertToUnits(1).toString(),
         },
       ],
     },
