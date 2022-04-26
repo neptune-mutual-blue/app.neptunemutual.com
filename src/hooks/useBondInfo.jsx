@@ -183,10 +183,6 @@ export const useBondInfo = () => {
     let ignore = false;
 
     const onResult = (_info) => {
-      console.log({
-        _info,
-      });
-
       if (ignore) return;
       setInfo(_info || defaultInfo);
     };
