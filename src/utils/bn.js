@@ -6,7 +6,7 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 });
 
-export const ZERO_BI = BigNumber("0");
+export const ZERO_BI = new BigNumber("0");
 
 export const toBN = (x) => new BigNumber(x?.toString() || "0");
 
@@ -28,53 +28,20 @@ export const isValidNumber = (x) => {
 };
 
 export const convertUintToPercentage = (value) => {
-  return BigNumber(value.toString()).dividedBy(MULTIPLIER).toString();
+  return new BigNumber(value.toString()).dividedBy(MULTIPLIER).toString();
 };
 
 export const convertFromUnits = (value, decimals = 18) => {
-  return BigNumber(value.toString()).dividedBy(Math.pow(10, decimals));
+  return new BigNumber(value.toString()).dividedBy(Math.pow(10, decimals));
 };
 
 export const convertToUnits = (value, decimals = 18) => {
-  return BigNumber(value.toString())
+  return new BigNumber(value.toString())
     .multipliedBy(Math.pow(10, decimals))
     .decimalPlaces(0);
 };
 
-export const toWei = (value) => {
-  return BigNumber(value.toString())
-    .multipliedBy(Math.pow(10, 18))
-    .decimalPlaces(0);
-};
-
 // --- Utils ---
-
-export const calcPercent = (a, b) => {
-  let divisor = b;
-
-  if (!hasValue(divisor)) {
-    divisor = 1;
-  }
-
-  return BigNumber(a.toString())
-    .multipliedBy(100)
-    .dividedBy(divisor.toString());
-};
-
-export const amountsToPercentages = (...amounts) => {
-  let total = BigNumber.sum.apply(
-    null,
-    amounts.map((x) => x.toString())
-  );
-
-  if (!hasValue(total)) {
-    total = 1;
-  }
-
-  return amounts.map((x) =>
-    new BigNumber(x.toString()).multipliedBy(100).dividedBy(total).toNumber()
-  );
-};
 
 export const calculateGasMargin = (value) => {
   return new BigNumber(value.toString())
@@ -97,10 +64,6 @@ export const sumOf = (...amounts) => {
   });
 
   return sum;
-};
-
-export const differenceOf = (a, b) => {
-  return new BigNumber(a.toString()).minus(b.toString());
 };
 
 export const sort = (amounts, selector, reverse = false) => {
@@ -155,15 +118,6 @@ export const maxIn = (arr) => {
       acc = new BigNumber(val).isGreaterThan(acc) ? val : acc;
       return acc;
     }, "0");
-};
-
-export const getRelativePercent = (min, max, now) => {
-  const a = new BigNumber(now.toString())
-    .minus(min.toString())
-    .multipliedBy(100);
-  const b = new BigNumber(max.toString()).minus(min.toString());
-
-  return a.dividedBy(b).decimalPlaces(2, BigNumber.ROUND_DOWN).toNumber();
 };
 
 export const isEqualTo = (a, b) => {

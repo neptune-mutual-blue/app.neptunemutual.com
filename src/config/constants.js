@@ -59,6 +59,8 @@ export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`;
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`;
 export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
 
+export const BOND_INFO_URL = `${API_BASE_URL}protocol/bond/info/{networkId}/{account}`;
+
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
 export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";
 

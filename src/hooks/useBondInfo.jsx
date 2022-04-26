@@ -6,6 +6,10 @@ import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { convertToUnits } from "@/utils/bn";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -29,10 +33,51 @@ export const useBondInfo = () => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
+  const { poolsTvl, NPMTokenAddress, getPriceByAddress } = useAppConstants();
+
+  useEffect(() => {
+    if (!account && NPMTokenAddress) {
+      let price = getPriceByAddress(NPMTokenAddress);
+      price = convertToUnits(price).toString();
+      setInfo((_info) => ({ ..._info, marketPrice: price }));
+    }
+  }, [NPMTokenAddress, poolsTvl, account]);
+
   const fetchBondInfo = useCallback(
     async (onResult) => {
-      if (!networkId || !account) {
+      if (!networkId) {
         return;
+      }
+
+      if (!account) {
+        try {
+          const response = await fetch(
+            getReplacedString(BOND_INFO_URL, {
+              networkId,
+              account: ADDRESS_ONE,
+            }),
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+            }
+          );
+          const { data } = await response.json();
+
+          const _marketPrice = convertToUnits(
+            getPriceByAddress(NPMTokenAddress)
+          ).toString();
+
+          return setInfo({
+            ...data,
+            lpTokenAddress: data.lpToken,
+            marketPrice: _marketPrice,
+          });
+        } catch (err) {
+          return notifyError(err, "get bond details");
+        }
       }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
@@ -102,7 +147,7 @@ export const useBondInfo = () => {
     return () => {
       ignore = true;
     };
-  }, [fetchBondInfo]);
+  }, [fetchBondInfo, account]);
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {
