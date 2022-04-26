@@ -8,6 +8,12 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useQuery } from "@/src/hooks/useQuery";
+import { getPricingData } from "@/src/helpers/pricing";
+import { calcBondPoolTVL } from "@/src/helpers/bond";
+import { calcStakingPoolTVL } from "@/src/helpers/pool";
+import { getNpmPayload } from "@/src/helpers/token";
 
 const defaultInfo = {
   lpTokenAddress: "",
@@ -30,6 +36,62 @@ export const useBondInfo = () => {
   const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+
+  const { NPMTokenAddress } = useAppConstants();
+  const { data: graphData, refetch } = useQuery();
+  const query = `
+  {
+    pools {
+      id
+      poolType
+      rewardToken
+      stakingToken
+      rewardTokenDeposit
+      totalRewardsWithdrawn
+      totalStakingTokenDeposited
+      totalStakingTokenWithdrawn
+    }
+    bondPools {
+      id
+      address0
+      values
+      totalBondClaimed
+      totalLpAddedToBond
+    }
+  }`;
+
+  useEffect(() => {
+    refetch(query);
+  }, [refetch]);
+
+  useEffect(() => {
+    if (!account && graphData && NPMTokenAddress && networkId) {
+      async function getResult() {
+        const bondsPayload = graphData.bondPools.map((bondPool) => {
+          return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress);
+        });
+
+        const poolsPayload = graphData.pools.map((currentPool) => {
+          return calcStakingPoolTVL(currentPool);
+        });
+
+        const npmPayload = getNpmPayload(NPMTokenAddress);
+
+        return await getPricingData(networkId, [
+          ...bondsPayload,
+          ...poolsPayload,
+          ...npmPayload,
+        ]);
+      }
+      getResult().then((d) => {
+        let price = d.items.find((item) => item.id === NPMTokenAddress);
+        if (price) {
+          price = price.data[0].price;
+          setInfo((_info) => ({ ..._info, marketPrice: price }));
+        }
+      });
+    }
+  }, [graphData, NPMTokenAddress, networkId, account]);
 
   const fetchBondInfo = useCallback(
     async (onResult) => {
@@ -121,6 +183,10 @@ export const useBondInfo = () => {
     let ignore = false;
 
     const onResult = (_info) => {
+      console.log({
+        _info,
+      });
+
       if (ignore) return;
       setInfo(_info || defaultInfo);
     };
