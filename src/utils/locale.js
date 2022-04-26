@@ -2,16 +2,13 @@ export const getLocale = () => {
   const fallback = "en-US";
 
   try {
-    return (
-      navigator.userLanguage ||
-      (navigator.languages &&
-        navigator.languages.length &&
-        navigator.languages[0]) ||
-      navigator.language ||
-      navigator.browserLanguage ||
-      navigator.systemLanguage ||
-      fallback
-    );
+    let locale;
+
+    if (typeof window !== "undefined") {
+      locale = window.location.pathname.substring(1, 6); // will get the locale from route
+    }
+
+    return locale || fallback;
   } catch {
     // `navigator` is not available
   }
