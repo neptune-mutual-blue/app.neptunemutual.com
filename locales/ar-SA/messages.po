@@ -520,7 +520,7 @@ msgstr ""
 msgid "Get LP tokens"
 msgstr ""
 
-#: src/common/Header/Header.jsx:65
+#: src/common/Header/Header.jsx:66
 #: src/modules/cover/add-liquidity/index.jsx:50
 #: src/modules/cover/purchase/index.jsx:50
 #: src/modules/reporting/ReportingHero.jsx:18
@@ -647,7 +647,7 @@ msgstr ""
 msgid "My Active Protection"
 msgstr ""
 
-#: src/common/Header/Header.jsx:47
+#: src/common/Header/Header.jsx:48
 #: src/modules/my-liquidity/details.jsx:69
 #: src/modules/my-liquidity/details.jsx:85
 #: src/pages/my-liquidity/index.jsx:46
@@ -659,7 +659,7 @@ msgstr ""
 msgid "My Liquidity:"
 msgstr ""
 
-#: src/common/Header/Header.jsx:42
+#: src/common/Header/Header.jsx:43
 #: src/modules/my-policies/PoliciesTabs.jsx:33
 #: src/pages/my-policies/transactions.jsx:39
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:61
@@ -751,7 +751,7 @@ msgstr ""
 msgid "Please specify an amount"
 msgstr ""
 
-#: src/common/Header/Header.jsx:37
+#: src/common/Header/Header.jsx:38
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr ""
@@ -844,7 +844,7 @@ msgstr ""
 msgid "Reported On:"
 msgstr ""
 
-#: src/common/Header/Header.jsx:52
+#: src/common/Header/Header.jsx:53
 #: src/common/HomeCard/HomeMainCard.jsx:31
 #: src/modules/reporting/ReportingHero.jsx:20
 #: src/modules/reporting/ReportingHero.jsx:39
@@ -906,6 +906,10 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+#: src/common/Header/LanguageDropdown.jsx:71
+msgid "Search Language"
+msgstr ""
+
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See less"
 msgstr ""
@@ -924,10 +928,6 @@ msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:171
 msgid "Select your coverage period"
-msgstr ""
-
-#: src/pages/settings.jsx:34
-msgid "Settings"
 msgstr ""
 
 #: src/modules/home/index.jsx:201
@@ -1208,6 +1208,10 @@ msgstr ""
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:191
 msgid "https://"
+msgstr ""
+
+#: src/common/Header/LanguageDropdown.jsx:52
+msgid "language translation"
 msgstr ""
 
 #: src/modules/my-liquidity/details.jsx:55

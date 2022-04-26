@@ -520,7 +520,7 @@ msgstr "Finalizing..."
 msgid "Get LP tokens"
 msgstr "Get LP tokens"
 
-#: src/common/Header/Header.jsx:65
+#: src/common/Header/Header.jsx:66
 #: src/modules/cover/add-liquidity/index.jsx:50
 #: src/modules/cover/purchase/index.jsx:50
 #: src/modules/reporting/ReportingHero.jsx:18
@@ -647,7 +647,7 @@ msgstr "Minimum Stake:"
 msgid "My Active Protection"
 msgstr "My Active Protection"
 
-#: src/common/Header/Header.jsx:47
+#: src/common/Header/Header.jsx:48
 #: src/modules/my-liquidity/details.jsx:69
 #: src/modules/my-liquidity/details.jsx:85
 #: src/pages/my-liquidity/index.jsx:46
@@ -659,7 +659,7 @@ msgstr "My Liquidity"
 msgid "My Liquidity:"
 msgstr "My Liquidity:"
 
-#: src/common/Header/Header.jsx:42
+#: src/common/Header/Header.jsx:43
 #: src/modules/my-policies/PoliciesTabs.jsx:33
 #: src/pages/my-policies/transactions.jsx:39
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:61
@@ -751,7 +751,7 @@ msgstr "Please connect your wallet..."
 msgid "Please specify an amount"
 msgstr "Please specify an amount"
 
-#: src/common/Header/Header.jsx:37
+#: src/common/Header/Header.jsx:38
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "Pool"
@@ -844,7 +844,7 @@ msgstr "Report Summary"
 msgid "Reported On:"
 msgstr "Reported On:"
 
-#: src/common/Header/Header.jsx:52
+#: src/common/Header/Header.jsx:53
 #: src/common/HomeCard/HomeMainCard.jsx:31
 #: src/modules/reporting/ReportingHero.jsx:20
 #: src/modules/reporting/ReportingHero.jsx:39
@@ -906,6 +906,10 @@ msgstr "Rows per page"
 msgid "Search"
 msgstr "Search"
 
+#: src/common/Header/LanguageDropdown.jsx:71
+msgid "Search Language"
+msgstr "Search Language"
+
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See less"
 msgstr "See less"
@@ -925,10 +929,6 @@ msgstr "Select the incident observance date."
 #: src/common/CoverForm/PurchasePolicyForm.jsx:171
 msgid "Select your coverage period"
 msgstr "Select your coverage period"
-
-#: src/pages/settings.jsx:34
-msgid "Settings"
-msgstr "Settings"
 
 #: src/modules/home/index.jsx:201
 #: src/modules/pools/bond/MyBondTxsTable.jsx:135
@@ -1209,6 +1209,10 @@ msgstr "from"
 #: src/modules/reporting/NewIncidentReportForm.jsx:191
 msgid "https://"
 msgstr "https://"
+
+#: src/common/Header/LanguageDropdown.jsx:52
+msgid "language translation"
+msgstr "language translation"
 
 #: src/modules/my-liquidity/details.jsx:55
 #: src/modules/pools/bond/MyBondTxsTable.jsx:135

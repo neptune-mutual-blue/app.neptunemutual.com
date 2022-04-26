@@ -17,6 +17,7 @@ import { BurgerMenu } from "@/common/BurgerMenu/BurgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
+import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -151,7 +152,7 @@ export const Header = () => {
               <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
             </div>
           )}
-          <div className="hidden xl:flex">
+          <div className="items-center hidden xl:flex">
             <ConnectWallet networkId={networkId} notifier={notifier}>
               {({ onOpen }) => {
                 let button = (
@@ -174,7 +175,7 @@ export const Header = () => {
                   );
                 }
                 return (
-                  <div className="flex py-5 ml-10 space-x-4 sm:pl-6 xl:pl-8">
+                  <div className="flex py-5 pr-4 ml-10 space-x-4 border-l border-728FB2 sm:pl-6 xl:pl-8">
                     {network} {button}
                     {isAccountDetailsOpen && (
                       <AccountDetailsModal
@@ -192,6 +193,7 @@ export const Header = () => {
                 );
               }}
             </ConnectWallet>
+            <LanguageDropdown />
           </div>
         </div>
       </nav>
