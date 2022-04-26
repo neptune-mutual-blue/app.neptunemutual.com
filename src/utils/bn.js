@@ -6,7 +6,7 @@ BigNumber.config({
   DECIMAL_PLACES: 80,
 });
 
-export const ZERO_BI = BigNumber("0");
+export const ZERO_BI = new BigNumber("0");
 
 export const toBN = (x) => new BigNumber(x?.toString() || "0");
 
@@ -28,22 +28,16 @@ export const isValidNumber = (x) => {
 };
 
 export const convertUintToPercentage = (value) => {
-  return BigNumber(value.toString()).dividedBy(MULTIPLIER).toString();
+  return new BigNumber(value.toString()).dividedBy(MULTIPLIER).toString();
 };
 
 export const convertFromUnits = (value, decimals = 18) => {
-  return BigNumber(value.toString()).dividedBy(Math.pow(10, decimals));
+  return new BigNumber(value.toString()).dividedBy(Math.pow(10, decimals));
 };
 
 export const convertToUnits = (value, decimals = 18) => {
-  return BigNumber(value.toString())
+  return new BigNumber(value.toString())
     .multipliedBy(Math.pow(10, decimals))
-    .decimalPlaces(0);
-};
-
-export const toWei = (value) => {
-  return BigNumber(value.toString())
-    .multipliedBy(Math.pow(10, 18))
     .decimalPlaces(0);
 };
 
@@ -56,7 +50,7 @@ export const calcPercent = (a, b) => {
     divisor = 1;
   }
 
-  return BigNumber(a.toString())
+  return new BigNumber(a.toString())
     .multipliedBy(100)
     .dividedBy(divisor.toString());
 };
