@@ -66,8 +66,9 @@ export const useBondInfo = () => {
           );
           const { data } = await response.json();
 
-          let _marketPrice = getPriceByAddress(NPMTokenAddress);
-          _marketPrice = convertToUnits(_marketPrice).toString();
+          const _marketPrice = convertToUnits(
+            getPriceByAddress(NPMTokenAddress)
+          ).toString();
 
           return setInfo({
             ...data,

@@ -43,33 +43,6 @@ export const convertToUnits = (value, decimals = 18) => {
 
 // --- Utils ---
 
-export const calcPercent = (a, b) => {
-  let divisor = b;
-
-  if (!hasValue(divisor)) {
-    divisor = 1;
-  }
-
-  return new BigNumber(a.toString())
-    .multipliedBy(100)
-    .dividedBy(divisor.toString());
-};
-
-export const amountsToPercentages = (...amounts) => {
-  let total = BigNumber.sum.apply(
-    null,
-    amounts.map((x) => x.toString())
-  );
-
-  if (!hasValue(total)) {
-    total = 1;
-  }
-
-  return amounts.map((x) =>
-    new BigNumber(x.toString()).multipliedBy(100).dividedBy(total).toNumber()
-  );
-};
-
 export const calculateGasMargin = (value) => {
   return new BigNumber(value.toString())
     .multipliedBy(GAS_MARGIN_MULTIPLIER)
@@ -91,10 +64,6 @@ export const sumOf = (...amounts) => {
   });
 
   return sum;
-};
-
-export const differenceOf = (a, b) => {
-  return new BigNumber(a.toString()).minus(b.toString());
 };
 
 export const sort = (amounts, selector, reverse = false) => {
@@ -149,15 +118,6 @@ export const maxIn = (arr) => {
       acc = new BigNumber(val).isGreaterThan(acc) ? val : acc;
       return acc;
     }, "0");
-};
-
-export const getRelativePercent = (min, max, now) => {
-  const a = new BigNumber(now.toString())
-    .minus(min.toString())
-    .multipliedBy(100);
-  const b = new BigNumber(max.toString()).minus(min.toString());
-
-  return a.dividedBy(b).decimalPlaces(2, BigNumber.ROUND_DOWN).toNumber();
 };
 
 export const isEqualTo = (a, b) => {
