@@ -15,9 +15,9 @@ import { Hero } from "@/common/Hero";
 import { CoverRules } from "@/common/CoverRules/CoverRules";
 import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -25,6 +25,7 @@ export const CoverPurchaseDetailsPage = () => {
   const { cover_id } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
+  const { formatCurrency } = useNumberFormat();
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { info } = useMyLiquidityInfo({ coverKey });

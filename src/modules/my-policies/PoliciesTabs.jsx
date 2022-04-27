@@ -5,8 +5,8 @@ import { HeroStat } from "@/common/HeroStat";
 import { HeroTitle } from "@/common/HeroTitle";
 import { TabNav } from "@/common/Tab/TabNav";
 import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const headers = [
   {
@@ -24,6 +24,7 @@ const headers = [
 export const PoliciesTabs = ({ active, children }) => {
   const { data } = useActivePolicies();
   const { totalActiveProtection } = data;
+  const { formatCurrency } = useNumberFormat();
 
   return (
     <>

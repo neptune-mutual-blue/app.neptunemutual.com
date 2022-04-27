@@ -19,8 +19,8 @@ import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -44,6 +44,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     loading: loadingBalance,
     refetch: updateBalance,
   } = useERC20Balance(info.lpTokenAddress);
+  const { formatCurrency } = useNumberFormat();
 
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();

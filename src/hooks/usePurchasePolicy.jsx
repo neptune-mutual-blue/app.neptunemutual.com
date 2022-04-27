@@ -17,9 +17,9 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { t } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -51,6 +51,7 @@ export const usePurchasePolicy = ({
   } = useERC20Allowance(liquidityTokenAddress);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const { formatCurrency } = useNumberFormat();
 
   useEffect(() => {
     updateAllowance(policyContractAddress);

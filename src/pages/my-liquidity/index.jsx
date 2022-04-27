@@ -5,13 +5,13 @@ import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { HeroStat } from "@/common/HeroStat";
 import { MyLiquidityPage } from "@/src/modules/my-liquidity";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useWeb3React } from "@web3-react/core";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { convertFromUnits } from "@/utils/bn";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export function getStaticProps() {
   return {
@@ -25,6 +25,7 @@ export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
   const { data, loading } = useMyLiquidities();
   const { totalLiquidityProvided } = data;
+  const { formatCurrency } = useNumberFormat();
 
   if (disabled) {
     return <ComingSoon />;

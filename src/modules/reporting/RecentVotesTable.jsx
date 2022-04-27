@@ -7,8 +7,8 @@ import { useNetwork } from "@/src/context/Network";
 import { useRecentVotes } from "@/src/hooks/useRecentVotes";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const renderHeader = (col) => (
   <th
@@ -94,6 +94,8 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 };
 
 const AmountRenderer = ({ row }) => {
+  const { formatCurrency } = useNumberFormat();
+
   return (
     <td className="px-6 py-6">
       <div className="flex items-center whitespace-nowrap">

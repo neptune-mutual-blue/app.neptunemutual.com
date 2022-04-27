@@ -5,12 +5,12 @@ import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/src/modules/my-policies/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import {
   CxTokenRowProvider,
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const renderHeader = (col) => (
   <th
@@ -101,6 +101,7 @@ export const ClaimCxTokensTable = ({
 
 const CxTokenAmountRenderer = () => {
   const { balance, tokenSymbol } = useCxTokenRowContext();
+  const { formatCurrency } = useNumberFormat();
 
   return (
     <>

@@ -5,7 +5,7 @@ import Highcharts from "highcharts/highstock.src";
 import HighchartsExporting from "highcharts/modules/exporting";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
@@ -15,6 +15,7 @@ const TotalLiquidityChart = () => {
   const [chartData, setChartData] = useState([]);
   const { data } = useProtocolDayData();
   const chartRef = useRef();
+  const { formatCurrency } = useNumberFormat();
 
   const yAxisMin =
     (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0;

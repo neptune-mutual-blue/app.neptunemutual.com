@@ -2,7 +2,6 @@ import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
@@ -11,12 +10,14 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
+  const { formatCurrency } = useNumberFormat();
 
   const { commitment, status } = useFetchCoverInfo({
     coverKey: key,

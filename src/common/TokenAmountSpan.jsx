@@ -1,7 +1,9 @@
 import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const TokenAmountSpan = ({ amountInUnits, symbol, className }) => {
+  const { formatCurrency } = useNumberFormat();
+
   return (
     <span
       className={className}

@@ -10,13 +10,13 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAndDate";
 import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export function getServerSideProps() {
   return {
@@ -37,6 +37,7 @@ export default function ClaimPolicy({ disabled }) {
       coverKey,
       incidentDate: timestamp,
     });
+  const { formatCurrency } = useNumberFormat();
 
   const title = coverInfo?.projectName;
 

@@ -21,9 +21,9 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const renderHeader = (col) => (
   <th
@@ -151,6 +151,7 @@ export const MyLiquidityTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
+  const { formatCurrency } = useNumberFormat();
 
   return (
     <td className="px-6 py-6">
@@ -179,6 +180,7 @@ const DetailsRenderer = ({ row }) => {
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = useTokenSymbol(row.vault.id);
+  const { formatCurrency } = useNumberFormat();
 
   return (
     <td className="px-6 py-6 text-right">

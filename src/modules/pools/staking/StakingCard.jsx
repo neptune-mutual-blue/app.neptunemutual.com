@@ -18,12 +18,12 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Badge } from "@/common/Badge/Badge";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -34,6 +34,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     key: data.key,
     type: PoolTypes.TOKEN,
   });
+  const { formatCurrency } = useNumberFormat();
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);

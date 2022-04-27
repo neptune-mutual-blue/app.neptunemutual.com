@@ -5,9 +5,9 @@ import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { convertFromUnits } from "@/utils/bn";
 import { useStakingPoolDeposit } from "@/src/hooks/useStakingPoolDeposit";
 import { explainInterval } from "@/utils/formatter/interval";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const StakeForm = ({
   info,
@@ -21,6 +21,7 @@ export const StakeForm = ({
   const tokenAddress = info.stakingToken;
   const [inputValue, setInputValue] = useState();
 
+  const { formatCurrency } = useNumberFormat();
   const {
     balance,
     loadingBalance,
