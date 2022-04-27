@@ -111,15 +111,6 @@ export const isGreaterOrEqual = (a, b) => {
   return false;
 };
 
-export const maxIn = (arr) => {
-  return arr
-    .filter((x) => x && hasValue(x))
-    .reduce((acc, val) => {
-      acc = new BigNumber(val).isGreaterThan(acc) ? val : acc;
-      return acc;
-    }, "0");
-};
-
 export const isEqualTo = (a, b) => {
   try {
     const bigA = new BigNumber(a.toString());
