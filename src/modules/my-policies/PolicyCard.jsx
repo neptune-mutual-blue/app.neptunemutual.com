@@ -34,6 +34,7 @@ export const PolicyCard = ({ policyInfo }) => {
   const isPolicyExpired = isGreater(now, validityEndsAt);
 
   let status = null;
+  let showStatus = true;
 
   // If policy expired, show the last reporting status between `validityStartsAt` and `validityEndsAt`
   // else when policy is currently valid, show the current status of the cover
@@ -42,6 +43,13 @@ export const PolicyCard = ({ policyInfo }) => {
     status = ReportStatus[report?.status];
   } else {
     status = currentStatus;
+
+    const isClaimable = report ? report.status == "Claimable" : false;
+    const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
+    const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
+
+    // If status is "Claimable" then show status only during claim period
+    showStatus = isClaimable ? isClaimStarted && !isClaimExpired : true;
   }
 
   return (
@@ -57,9 +65,7 @@ export const PolicyCard = ({ policyInfo }) => {
               />
             </div>
 
-            <div>
-              <CardStatusBadge status={status} />
-            </div>
+            <div>{showStatus && <CardStatusBadge status={status} />}</div>
           </div>
           <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
             {coverInfo.projectName}
