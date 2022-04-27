@@ -16,3 +16,23 @@ input:checked + div svg {
 .transform-flip {
   transform: scale(1, -1);
 }
+
+@layer utilities {
+  .scrollbar {
+    scrollbar-width: 5px;
+    scrollbar-color: #f1f3f6 #fefeff;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: #fefeff;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background-color: #f1f3f6;
+    border-radius: 46px;
+  }
+}

@@ -17,7 +17,7 @@ export const ModalRegular = ({
         )}
       />
 
-      <Content className="fixed z-50 max-w-full max-h-screen px-3 py-6 overflow-y-auto transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max sm:p-0">
+      <Content className="fixed z-50 max-w-full max-h-screen px-3 py-6 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max sm:p-0">
         {children}
       </Content>
     </Portal>
