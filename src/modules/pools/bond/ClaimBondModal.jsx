@@ -4,13 +4,13 @@ import { DisabledInput } from "@/common/Input/DisabledInput";
 import { Label } from "@/common/Label/Label";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
-import { formatAmount } from "@/utils/formatter";
 import { convertFromUnits } from "@/utils/bn";
 import { useClaimBond } from "@/src/hooks/useClaimBond";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -21,6 +21,7 @@ export const ClaimBondModal = ({
   refetchBondInfo,
 }) => {
   const { handleClaim, claiming } = useClaimBond();
+  const { formatAmount } = useNumberFormat();
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>

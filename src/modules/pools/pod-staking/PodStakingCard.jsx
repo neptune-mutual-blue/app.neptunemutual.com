@@ -21,7 +21,6 @@ import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
 import { useTokenName } from "@/src/hooks/useTokenName";
 import { Badge } from "@/common/Badge/Badge";
-import { formatPercent } from "@/utils/formatter/percent";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
@@ -36,7 +35,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     key: data.key,
     type: PoolTypes.POD,
   });
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);

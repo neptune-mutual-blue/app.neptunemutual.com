@@ -12,9 +12,9 @@ import { convertFromUnits, isGreater } from "@/utils/bn";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
-import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -44,6 +44,7 @@ export const ClaimCoverModal = ({
     coverKey,
     incidentDate,
   });
+  const { formatPercent } = useNumberFormat();
 
   // Clear on modal close
   useEffect(() => {

@@ -9,7 +9,6 @@ import { truncateAddress } from "@/utils/address";
 import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
-import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
 import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
@@ -18,7 +17,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)

@@ -17,7 +17,6 @@ import {
 } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { toBytes32 } from "@/src/helpers/cover";
-import { formatAmount } from "@/utils/formatter";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCalculateLiquidity } from "@/src/hooks/useCalculateLiquidity";
@@ -25,6 +24,7 @@ import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const WithdrawLiquidityForm = ({
   info,
@@ -66,6 +66,7 @@ export const WithdrawLiquidityForm = ({
     npmValue: npmValue || "0",
     refetchInfo,
   });
+  const { formatAmount } = useNumberFormat();
 
   const unStakableAmount = toBN(myStake)
     .minus(minStakeToAddLiquidity)

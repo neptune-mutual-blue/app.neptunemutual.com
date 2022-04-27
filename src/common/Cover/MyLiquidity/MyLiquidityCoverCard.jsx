@@ -5,14 +5,13 @@ import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
-import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { coverInfo } = useCoverInfo(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   if (!coverInfo) {
     return null;
