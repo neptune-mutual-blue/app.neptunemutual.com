@@ -7,7 +7,6 @@ import { Radio } from "@/common/Radio/Radio";
 import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
-import { monthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
@@ -23,8 +22,8 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
-import { renderMonthLabel } from "@/utils/translations";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useDateFormat } from "@/src/hooks/useDateFormat";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -33,6 +32,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const toast = useToast();
+  const { getMonthNames } = useDateFormat();
+  const monthNames = getMonthNames()
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -178,7 +179,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </div>
         <div className="flex">
           <Radio
-            label={renderMonthLabel(coverPeriodLabels[0])}
+            label={coverPeriodLabels[0]}
             id="period-1"
             value="1"
             name="cover-period"
@@ -187,7 +188,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             checked={coverMonth === "1"}
           />
           <Radio
-            label={renderMonthLabel(coverPeriodLabels[1])}
+            label={coverPeriodLabels[1]}
             id="period-2"
             value="2"
             name="cover-period"
@@ -196,7 +197,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             checked={coverMonth === "2"}
           />
           <Radio
-            label={renderMonthLabel(coverPeriodLabels[2])}
+            label={coverPeriodLabels[2]}
             id="period-3"
             value="3"
             name="cover-period"
