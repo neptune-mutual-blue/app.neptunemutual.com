@@ -10,20 +10,19 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const {
-    commitment,
-    totalPoolAmount: liquidity,
-    status,
-  } = useFetchCoverInfo({
+  const { commitment, status } = useFetchCoverInfo({
     coverKey: key,
   });
 
+  const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"

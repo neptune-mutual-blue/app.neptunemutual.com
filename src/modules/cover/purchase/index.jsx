@@ -17,7 +17,7 @@ import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -27,7 +27,7 @@ export const CoverPurchaseDetailsPage = () => {
   const { coverInfo } = useCoverInfo(coverKey);
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
-  const { totalPoolAmount: totalLiquidity } = useFetchCoverInfo({ coverKey });
+  const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -38,6 +38,7 @@ export const CoverPurchaseDetailsPage = () => {
   };
 
   const imgSrc = getCoverImgSrc(coverInfo);
+  const totalLiquidity = info.totalLiquidity;
 
   return (
     <main>

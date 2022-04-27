@@ -11,21 +11,19 @@ import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
+import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
-  const {
-    commitment,
-    totalPoolAmount: totalLiquidity,
-    status,
-  } = useFetchCoverInfo({
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
+  const { commitment, status } = useFetchCoverInfo({
     coverKey,
   });
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
-  const liquidity = totalLiquidity;
+  const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"

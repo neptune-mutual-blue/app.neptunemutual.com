@@ -23,7 +23,7 @@ const defaultInfo = {
 
 export const useFetchCoverInfo = ({ coverKey }) => {
   const [info, setInfo] = useState(defaultInfo);
-  const { account: userAccount } = useWeb3React();
+  const { account } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
@@ -31,9 +31,12 @@ export const useFetchCoverInfo = ({ coverKey }) => {
       if (!networkId || !coverKey) return;
 
       try {
-        const account = userAccount ? userAccount : ADDRESS_ONE;
         const response = await fetch(
-          getReplacedString(COVER_INFO_URL, { networkId, coverKey, account }),
+          getReplacedString(COVER_INFO_URL, {
+            networkId,
+            coverKey,
+            account: account || ADDRESS_ONE,
+          }),
           {
             method: "GET",
             headers: {
@@ -61,7 +64,7 @@ export const useFetchCoverInfo = ({ coverKey }) => {
       }
     }
     fetchCoverInfo();
-  }, [userAccount, coverKey, networkId]);
+  }, [account, coverKey, networkId]);
 
   return info;
 };
