@@ -12,6 +12,7 @@ import { isGreater } from "@/utils/bn";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
+import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
   return {
@@ -45,51 +46,53 @@ export default function DisputeFormPage({ disabled }) {
   }
 
   return (
-    <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+    <CoverInfoProvider coverKey={coverKey}>
+      <main>
+        <Head>
+          <title>Neptune Mutual Covers</title>
+          <meta
+            name="description"
+            content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          />
+        </Head>
+
+        {/* hero */}
+        <ReportingHero
+          coverInfo={coverInfo}
+          reportStatus={{
+            resolved: data.incidentReport?.resolved,
+            dispute: true,
+          }}
         />
-      </Head>
 
-      {/* hero */}
-      <ReportingHero
-        coverInfo={coverInfo}
-        reportStatus={{
-          resolved: data.incidentReport?.resolved,
-          dispute: true,
-        }}
-      />
+        <hr className="border-t border-t-B0C4DB" />
 
-      <hr className="border-t border-t-B0C4DB" />
+        {loading && (
+          <p className="text-center">
+            <Trans>Loading...</Trans>
+          </p>
+        )}
 
-      {loading && (
-        <p className="text-center">
-          <Trans>Loading...</Trans>
-        </p>
-      )}
+        {!loading && !data.incidentReport && (
+          <p className="text-center">
+            <Trans>No data found</Trans>
+          </p>
+        )}
 
-      {!loading && !data.incidentReport && (
-        <p className="text-center">
-          <Trans>No data found</Trans>
-        </p>
-      )}
-
-      {data.incidentReport && (
-        <div>
-          <Container className="py-16">
-            {canDispute ? (
-              <NewDisputeReportForm incidentReport={data.incidentReport} />
-            ) : (
-              <Alert>
-                <Trans>Not applicable for disputing</Trans>
-              </Alert>
-            )}
-          </Container>
-        </div>
-      )}
-    </main>
+        {data.incidentReport && (
+          <div>
+            <Container className="py-16">
+              {canDispute ? (
+                <NewDisputeReportForm incidentReport={data.incidentReport} />
+              ) : (
+                <Alert>
+                  <Trans>Not applicable for disputing</Trans>
+                </Alert>
+              )}
+            </Container>
+          </div>
+        )}
+      </main>
+    </CoverInfoProvider>
   );
 }

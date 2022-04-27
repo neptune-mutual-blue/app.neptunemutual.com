@@ -5,6 +5,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useRouter } from "next/router";
 import { toBytes32 } from "@/src/helpers/cover";
+import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
   return {
@@ -33,9 +34,11 @@ export default function MyLiquidityCover({ disabled }) {
         />
       </Head>
 
-      <LiquidityFormsProvider coverKey={coverKey}>
-        <MyLiquidityCoverPage />
-      </LiquidityFormsProvider>
+      <CoverInfoProvider coverKey={coverKey}>
+        <LiquidityFormsProvider coverKey={coverKey}>
+          <MyLiquidityCoverPage />
+        </LiquidityFormsProvider>
+      </CoverInfoProvider>
     </main>
   );
 }

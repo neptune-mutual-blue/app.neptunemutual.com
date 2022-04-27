@@ -16,6 +16,7 @@ import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAnd
 import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
+import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
   return {
@@ -44,82 +45,84 @@ export default function ClaimPolicy({ disabled }) {
   }
 
   return (
-    <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
-        />
-      </Head>
-
-      <Hero>
-        <Container className="px-2 py-20">
-          <BreadCrumbs
-            pages={[
-              {
-                name: t`My Policies`,
-                href: "/my-policies/active",
-                current: false,
-              },
-              {
-                name: title,
-                href: `/cover/${cover_id}/options`,
-                current: false,
-              },
-              { name: t`Claim`, href: "#", current: true },
-            ]}
+    <CoverInfoProvider coverKey={coverKey}>
+      <main>
+        <Head>
+          <title>Neptune Mutual Covers</title>
+          <meta
+            name="description"
+            content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
           />
+        </Head>
 
-          <div className="flex items-start">
-            <HeroTitle>
-              <Trans>My Policies</Trans>
-            </HeroTitle>
-
-            {/* My Active Protection */}
-            <HeroStat title={t`My Active Protection`}>
-              <>
+        <Hero>
+          <Container className="px-2 py-20">
+            <BreadCrumbs
+              pages={[
                 {
-                  formatCurrency(
-                    convertFromUnits(data.totalActiveProtection),
-                    "USD"
-                  ).long
-                }
-              </>
-            </HeroStat>
-          </div>
-        </Container>
+                  name: t`My Policies`,
+                  href: "/my-policies/active",
+                  current: false,
+                },
+                {
+                  name: title,
+                  href: `/cover/${cover_id}/options`,
+                  current: false,
+                },
+                { name: t`Claim`, href: "#", current: true },
+              ]}
+            />
 
-        <hr className="border-b border-B0C4DB" />
-      </Hero>
+            <div className="flex items-start">
+              <HeroTitle>
+                <Trans>My Policies</Trans>
+              </HeroTitle>
 
-      <Container className="px-2 pt-12 pb-36">
-        <h2 className="font-bold text-h2 font-sora">
-          <Trans>Available cxTokens for {title} to Claim</Trans>
-        </h2>
-        <p className="w-full max-w-xl pt-6 pb-16 ml-0 text-lg">
-          <Trans>
-            Claim your {title} cover cxTokens from the following addresses
-            before the given claim date. Also indicated is the amount of
-            cxTokens you will receive per claim.
-          </Trans>
-        </p>
+              {/* My Active Protection */}
+              <HeroStat title={t`My Active Protection`}>
+                <>
+                  {
+                    formatCurrency(
+                      convertFromUnits(data.totalActiveProtection),
+                      "USD"
+                    ).long
+                  }
+                </>
+              </HeroStat>
+            </div>
+          </Container>
 
-        {!loadingReports && reports.length === 0 && (
-          <Alert className="mb-8 -mt-8">
+          <hr className="border-b border-B0C4DB" />
+        </Hero>
+
+        <Container className="px-2 pt-12 pb-36">
+          <h2 className="font-bold text-h2 font-sora">
+            <Trans>Available cxTokens for {title} to Claim</Trans>
+          </h2>
+          <p className="w-full max-w-xl pt-6 pb-16 ml-0 text-lg">
             <Trans>
-              No valid incidents are reported with the given timestamp
+              Claim your {title} cover cxTokens from the following addresses
+              before the given claim date. Also indicated is the amount of
+              cxTokens you will receive per claim.
             </Trans>
-          </Alert>
-        )}
+          </p>
 
-        <ClaimCxTokensTable
-          activePolicies={data.activePolicies}
-          coverKey={coverKey}
-          incidentDate={timestamp}
-          report={reports[0]}
-        />
-      </Container>
-    </main>
+          {!loadingReports && reports.length === 0 && (
+            <Alert className="mb-8 -mt-8">
+              <Trans>
+                No valid incidents are reported with the given timestamp
+              </Trans>
+            </Alert>
+          )}
+
+          <ClaimCxTokensTable
+            activePolicies={data.activePolicies}
+            coverKey={coverKey}
+            incidentDate={timestamp}
+            report={reports[0]}
+          />
+        </Container>
+      </main>
+    </CoverInfoProvider>
   );
 }

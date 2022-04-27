@@ -3,7 +3,6 @@ import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import { classNames } from "@/utils/classnames";
 import { Title, Description } from "@radix-ui/react-dialog";
 import { useState } from "react";
-// import styles from "./styles.module.css";
 import { Trans } from "@lingui/macro";
 
 export const DisclaimerModal = () => {
@@ -32,7 +31,6 @@ export const DisclaimerModal = () => {
         <Description
           className={classNames(
             "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-30vh md:max-h-45vh overflow-y-auto pr-1"
-            // styles.scroll_container
           )}
         >
           <span>

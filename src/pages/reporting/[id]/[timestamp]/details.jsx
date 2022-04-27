@@ -6,6 +6,7 @@ import { toBytes32 } from "@/src/helpers/cover";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
+import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
   return {
@@ -30,33 +31,35 @@ export default function IncidentResolvedCoverPage({ disabled }) {
   }
 
   return (
-    <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
-        />
-      </Head>
+    <CoverInfoProvider coverKey={coverKey}>
+      <main>
+        <Head>
+          <title>Neptune Mutual Covers</title>
+          <meta
+            name="description"
+            content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          />
+        </Head>
 
-      {loading && (
-        <p className="text-center">
-          <Trans>Loading...</Trans>
-        </p>
-      )}
+        {loading && (
+          <p className="text-center">
+            <Trans>Loading...</Trans>
+          </p>
+        )}
 
-      {!data.incidentReport && (
-        <p className="text-center">
-          <Trans>No data found</Trans>
-        </p>
-      )}
+        {!data.incidentReport && (
+          <p className="text-center">
+            <Trans>No data found</Trans>
+          </p>
+        )}
 
-      {data.incidentReport && (
-        <ReportingDetailsPage
-          incidentReport={data.incidentReport}
-          refetchReport={refetch}
-        />
-      )}
-    </main>
+        {data.incidentReport && (
+          <ReportingDetailsPage
+            incidentReport={data.incidentReport}
+            refetchReport={refetch}
+          />
+        )}
+      </main>
+    </CoverInfoProvider>
   );
 }

@@ -4,12 +4,11 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
-import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { Divider } from "@/common/Divider/Divider";
 
 const initValue = {
   // prettier-ignore
-  invoke: async ({instance, methodName, overrides,  args, retry, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
+  invoke: async ({instance, methodName, overrides = {},  args = [], retry = true, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
@@ -24,6 +23,7 @@ export function useTxPoster() {
 
 export const TxPosterProvider = ({ children }) => {
   const [data, setData] = useState({
+    description: "",
     message: "",
     isError: false,
     pendingInvokeArgs: {},
@@ -37,7 +37,7 @@ export const TxPosterProvider = ({ children }) => {
 
       args = [],
       retry = true,
-      onTransactionResult = () => {},
+      onTransactionResult = (_tx) => {},
       onRetryCancel = () => {},
       onError = console.error,
     }) => {
@@ -106,6 +106,7 @@ export const TxPosterProvider = ({ children }) => {
     try {
       // Closes modal and clears data
       setData({
+        description: "",
         message: "",
         isError: false,
         pendingInvokeArgs: {},
@@ -128,6 +129,7 @@ export const TxPosterProvider = ({ children }) => {
       onRetryCancel && onRetryCancel();
 
       return {
+        description: "",
         message: "",
         isError: false,
         pendingInvokeArgs: {},
@@ -163,43 +165,51 @@ const ForceTxModal = ({
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-2xl px-8 py-12 text-left align-middle bg-f1f3f6 rounded-3xl">
+      <div className="border-[1.5px] border-B0C4DB relative inline-block w-full max-w-[699px] py-8 px-10 text-left align-middle bg-[#FEFEFF] rounded-3xl">
         <Dialog.Title className="flex items-center">
-          <div className="font-bold font-sora text-h2">
+          <div className="font-semibold text-black font-sora text-h4">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
+        <div className="overflow-y-auto max-h-56">
+          <div className="my-5">
+            <p className="text-sm leading-5 text-404040 font-poppins">
+              We attempted to submit your transaction but ran into an unexpected
+              error. The smart contract sent the following error message:
+            </p>
+          </div>
 
-        <div className="my-12 mb-8">
-          <p className="mt-8 overflow-x-auto text-DC2121">{message}</p>
+          <div className="mb-5">
+            <p className="text-940000">{message}</p>
+          </div>
+
+          <div className="mb-4 text-940000">
+            <p className="break-words whitespace-pre-wrap">{description}</p>
+          </div>
         </div>
 
-        <details open>
-          <summary>More details</summary>
-          <pre className="break-words whitespace-pre-wrap">{description}</pre>
-        </details>
+        <Divider className="mt-0 mb-4" />
 
-        <Divider />
-
-        <p className="mb-8">
-          We don&apos;t recommend doing this but you can forcibly send this
-          transaction anyway.
-        </p>
+        <div className="mb-5">
+          <p className="text-sm leading-5 text-404040 font-poppins">
+            While we do not suggest it, you may force this transaction to be
+            sent nonetheless.
+          </p>
+        </div>
 
         <div className="flex justify-end">
           <button
-            className="px-6 py-2 mr-8 border rounded border-4e7dd9 text-4e7dd9 hover:bg-4e7dd9 hover:bg-opacity-10"
+            className="p-3 mr-6 border rounded border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="px-6 py-2 mr-8 border rounded border-DC2121 text-DC2121 hover:bg-DC2121 hover:text-white"
+            className="p-3 border rounded border-E52E2E text-E52E2E hover:bg-E52E2E hover:text-white"
             onClick={handleContinue}
           >
-            Send transaction ignoring this error
+            Send Transaction Ignoring This Error
           </button>
         </div>
       </div>
