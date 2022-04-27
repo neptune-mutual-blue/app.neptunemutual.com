@@ -174,7 +174,7 @@ export const Header = () => {
                   );
                 }
                 return (
-                  <div className="flex py-5 ml-10 space-x-4 border-l border-728FB2 sm:pl-6 xl:pl-8">
+                  <div className="flex py-5 ml-10 space-x-4 sm:pl-6 xl:pl-8">
                     {network} {button}
                     {isAccountDetailsOpen && (
                       <AccountDetailsModal
