@@ -9,8 +9,9 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
-import { getInfo as getVaultInfo } from "@/src/services/protocol/vault/info";
 import { t } from "@lingui/macro";
+import { ADDRESS_ONE, VAULT_INFO_URL } from "@/src/config/constants";
+import { getReplacedString } from "@/utils/string";
 
 const defaultInfo = {
   withdrawalOpen: "0",
@@ -37,7 +38,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { notifyError } = useErrorNotifier();
 
   const fetchInfo = useCallback(async () => {
-    if (!networkId || !account || !coverKey) {
+    if (!networkId || !coverKey) {
       return;
     }
 
@@ -46,14 +47,22 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-      const data = await getVaultInfo(
-        networkId,
-        coverKey,
-        account,
-        signerOrProvider.provider
+      const response = await fetch(
+        getReplacedString(VAULT_INFO_URL, {
+          networkId,
+          coverKey,
+          account: account || ADDRESS_ONE,
+        }),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }
       );
+
+      const { data } = await response.json();
 
       return {
         withdrawalOpen: data.withdrawalStarts,
@@ -72,7 +81,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [account, coverKey, library, networkId, notifyError]);
+  }, [account, coverKey, networkId, notifyError]);
 
   useEffect(() => {
     let ignore = false;
