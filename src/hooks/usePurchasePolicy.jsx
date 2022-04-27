@@ -96,7 +96,15 @@ export const usePurchasePolicy = ({
       setError("");
       return;
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, value]);
+  }, [
+    account,
+    availableLiquidity,
+    balance,
+    error,
+    feeAmount,
+    formatCurrency,
+    value,
+  ]);
 
   const handleApprove = async () => {
     setApproving(true);

@@ -172,7 +172,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setError("");
       return;
     }
-  }, [balance, error, info.maxBond, receiveAmount, value]);
+  }, [balance, error, formatCurrency, info.maxBond, receiveAmount, value]);
 
   const handleApprove = async () => {
     setApproving(true);

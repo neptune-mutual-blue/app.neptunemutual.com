@@ -214,7 +214,7 @@ export const useStakingPoolDeposit = ({
       setError("");
       return;
     }
-  }, [account, balance, error, maxStakableAmount, value]);
+  }, [account, balance, error, formatCurrency, maxStakableAmount, value]);
 
   const canDeposit =
     value &&
