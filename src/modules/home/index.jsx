@@ -14,7 +14,6 @@ import { TotalLiquidityChart } from "@/common/TotalLiquidityChart";
 import { getParsedKey } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
@@ -25,11 +24,13 @@ import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl } = useAppConstants();
+  const { formatCurrency } = useNumberFormat();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();

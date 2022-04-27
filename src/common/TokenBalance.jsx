@@ -8,7 +8,7 @@ import { useWeb3React } from "@web3-react/core";
 import CopyIcon from "@/icons/CopyIcon";
 import { useToast } from "@/lib/toast/context";
 import { SHORT_TOAST_TIME } from "@/src/config/toast";
-import { formatCurrency } from "@/utils/formatter/currency";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 import { t, Trans } from "@lingui/macro";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
@@ -16,6 +16,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
   const toast = useToast();
+  const { formatCurrency } = useNumberFormat();
 
   const handleCopy = async () => {
     try {

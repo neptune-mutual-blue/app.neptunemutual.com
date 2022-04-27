@@ -10,11 +10,11 @@ import { truncateAddress } from "@/utils/address";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import BigNumber from "bignumber.js";
 import DateLib from "@/lib/date/DateLib";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -23,6 +23,8 @@ export const ActiveReportSummary = ({
 }) => {
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
+
+  const { formatCurrency } = useNumberFormat();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)

@@ -13,7 +13,6 @@ import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import Link from "next/link";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -22,6 +21,7 @@ import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -31,6 +31,7 @@ const BondPage = () => {
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
   const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
+  const { formatCurrency } = useNumberFormat();
 
   const {
     balance,

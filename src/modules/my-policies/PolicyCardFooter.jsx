@@ -4,9 +4,9 @@ import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import DateLib from "@/lib/date/DateLib";
 import Link from "next/link";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -20,6 +20,7 @@ export const PolicyCardFooter = ({
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
   const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
   const isPolicyExpired = isGreater(now, validityEndsAt);
+  const { formatCurrency } = useNumberFormat();
 
   const hasBalance = isGreater(tokenBalance, "0");
   const withinClaimPeriod =

@@ -19,8 +19,8 @@ import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAdd
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -52,6 +52,7 @@ export const useStakingPoolDeposit = ({
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const { formatCurrency } = useNumberFormat();
 
   // Minimum of info.maximumStake, balance
   const maxStakableAmount = sort([maximumStake, balance])[0];

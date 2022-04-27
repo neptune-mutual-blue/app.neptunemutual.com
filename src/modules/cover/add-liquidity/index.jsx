@@ -14,8 +14,8 @@ import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { convertFromUnits } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -27,6 +27,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { info, isWithdrawalWindowOpen, accrueInterest } = useMyLiquidityInfo({
     coverKey,
   });
+  const { formatCurrency } = useNumberFormat();
 
   const imgSrc = getCoverImgSrc(coverInfo);
 

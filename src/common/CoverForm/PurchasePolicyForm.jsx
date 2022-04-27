@@ -13,7 +13,6 @@ import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { Alert } from "@/common/Alert/Alert";
@@ -26,6 +25,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { useIfWhitelisted } from "@/src/hooks/useIfWhitelisted";
 import { t, Trans } from "@lingui/macro";
 import { renderMonthLabel } from "@/utils/translations";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -35,6 +35,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const statusInfo = useCoverStatusInfo(coverKey);
   const toast = useToast();
+  const { formatCurrency } = useNumberFormat();
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,

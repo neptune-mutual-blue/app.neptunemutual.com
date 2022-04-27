@@ -9,8 +9,8 @@ import {
   isGreater,
   isValidNumber,
 } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const UnStakeForm = ({
   info,
@@ -24,6 +24,7 @@ export const UnStakeForm = ({
 
   const [inputValue, setInputValue] = useState();
 
+  const { formatCurrency } = useNumberFormat();
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
     tokenAddress: info.stakingToken,

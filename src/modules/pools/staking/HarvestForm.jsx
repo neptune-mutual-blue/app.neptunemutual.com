@@ -4,8 +4,8 @@ import AddCircleIcon from "@/icons/AddCircleIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
 import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { Trans, t } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const HarvestForm = ({
   stakingTokenSymbol,
@@ -23,6 +23,7 @@ export const HarvestForm = ({
       refetchInfo,
     });
   const { register } = useRegisterToken();
+  const { formatCurrency } = useNumberFormat();
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));

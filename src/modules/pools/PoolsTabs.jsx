@@ -6,8 +6,8 @@ import { TabNav } from "@/common/Tab/TabNav";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 const headers = [
   isFeatureEnabled("bond") && {
@@ -29,6 +29,7 @@ const headers = [
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl: tvl } = useAppConstants();
+  const { formatCurrency } = useNumberFormat();
 
   return (
     <>
