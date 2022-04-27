@@ -8,21 +8,43 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { convertToUnits } from "@/utils/bn";
 
 const defaultInfo = {
   lpTokenAddress: "",
-  marketPrice: "0",
   discountRate: "0",
   vestingTerm: "0",
   maxBond: "0",
   totalNpmAllocated: "0",
   totalNpmDistributed: "0",
-  npmAvailable: "0",
   bondContribution: "0",
   claimable: "0",
   unlockDate: "0",
+};
+
+const fetchBondInfoApi = async (networkId, account) => {
+  const response = await fetch(
+    getReplacedString(BOND_INFO_URL, { networkId, account }),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    }
+  );
+  const { data } = await response.json();
+
+  return {
+    lpTokenAddress: data.lpToken,
+    discountRate: data.discountRate,
+    vestingTerm: data.vestingTerm,
+    maxBond: data.maxBond,
+    totalNpmAllocated: data.totalNpmAllocated,
+    totalNpmDistributed: data.totalNpmDistributed,
+    bondContribution: data.bondContribution,
+    claimable: data.claimable,
+    unlockDate: data.unlockDate,
+  };
 };
 
 export const useBondInfo = () => {
@@ -33,16 +55,6 @@ export const useBondInfo = () => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
-  const { poolsTvl, NPMTokenAddress, getPriceByAddress } = useAppConstants();
-
-  useEffect(() => {
-    if (!account && NPMTokenAddress) {
-      let price = getPriceByAddress(NPMTokenAddress);
-      price = convertToUnits(price).toString();
-      setInfo((_info) => ({ ..._info, marketPrice: price }));
-    }
-  }, [NPMTokenAddress, poolsTvl, account]);
-
   const fetchBondInfo = useCallback(
     async (onResult) => {
       if (!networkId) {
@@ -50,34 +62,9 @@ export const useBondInfo = () => {
       }
 
       if (!account) {
-        try {
-          const response = await fetch(
-            getReplacedString(BOND_INFO_URL, {
-              networkId,
-              account: ADDRESS_ONE,
-            }),
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-              },
-            }
-          );
-          const { data } = await response.json();
-
-          const _marketPrice = convertToUnits(
-            getPriceByAddress(NPMTokenAddress)
-          ).toString();
-
-          return setInfo({
-            ...data,
-            lpTokenAddress: data.lpToken,
-            marketPrice: _marketPrice,
-          });
-        } catch (err) {
-          return notifyError(err, "get bond details");
-        }
+        const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
+        setInfo(data);
+        return;
       }
 
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
@@ -92,13 +79,13 @@ export const useBondInfo = () => {
 
         const [lpToken] = addresses;
         const [
-          marketPrice,
+          _marketPrice,
           discountRate,
           vestingTerm,
           maxBond,
           totalNpmAllocated,
           totalNpmDistributed,
-          npmAvailable,
+          _npmAvailable,
           bondContribution,
           claimable,
           unlockDate,
@@ -106,13 +93,11 @@ export const useBondInfo = () => {
 
         onResult({
           lpTokenAddress: lpToken,
-          marketPrice: marketPrice.toString(),
           discountRate: discountRate.toString(),
           vestingTerm: vestingTerm.toString(),
           maxBond: maxBond.toString(),
           totalNpmAllocated: totalNpmAllocated.toString(),
           totalNpmDistributed: totalNpmDistributed.toString(),
-          npmAvailable: npmAvailable.toString(),
           bondContribution: bondContribution.toString(),
           claimable: claimable.toString(),
           unlockDate: unlockDate.toString(),
@@ -147,7 +132,7 @@ export const useBondInfo = () => {
     return () => {
       ignore = true;
     };
-  }, [fetchBondInfo, account]);
+  }, [fetchBondInfo]);
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {

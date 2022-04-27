@@ -9,7 +9,7 @@ import { Divider } from "@/common/Divider/Divider";
 
 const initValue = {
   // prettier-ignore
-  invoke: async ({instance, methodName, overrides,  args, retry, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
+  invoke: async ({instance, methodName, overrides = {},  args = [], retry, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
