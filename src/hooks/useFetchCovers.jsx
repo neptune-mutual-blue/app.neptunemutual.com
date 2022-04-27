@@ -13,11 +13,6 @@ const getQuery = () => {
       ipfsHash
       ipfsBytes
       stopped
-      vaults {
-        totalCoverLiquidityAdded
-        totalCoverLiquidityRemoved
-        totalFlashLoanFees
-      }
     }
   }
 `;
