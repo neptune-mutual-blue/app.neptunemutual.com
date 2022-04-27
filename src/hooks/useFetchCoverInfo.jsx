@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useNetwork } from "@/src/context/Network";
 import { getReplacedString } from "@/utils/string";
-import { CoverStatus, COVER_INFO_URL } from "@/src/config/constants";
+import {
+  ADDRESS_ONE,
+  CoverStatus,
+  COVER_INFO_URL,
+} from "@/src/config/constants";
 
 const defaultInfo = {
   activeIncidentDate: "",
@@ -19,14 +23,15 @@ const defaultInfo = {
 
 export const useFetchCoverInfo = ({ coverKey }) => {
   const [info, setInfo] = useState(defaultInfo);
-  const { account } = useWeb3React();
+  const { account: userAccount } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
     async function fetchCoverInfo() {
-      if (!networkId || !coverKey || !account) return;
+      if (!networkId || !coverKey) return;
 
       try {
+        const account = userAccount ? userAccount : ADDRESS_ONE;
         const response = await fetch(
           getReplacedString(COVER_INFO_URL, { networkId, coverKey, account }),
           {
@@ -56,7 +61,7 @@ export const useFetchCoverInfo = ({ coverKey }) => {
       }
     }
     fetchCoverInfo();
-  }, [account, coverKey, networkId]);
+  }, [userAccount, coverKey, networkId]);
 
   return info;
 };

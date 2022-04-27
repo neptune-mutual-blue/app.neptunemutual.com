@@ -6,7 +6,6 @@ import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/common/HeroStat";
@@ -18,6 +17,7 @@ import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -27,7 +27,7 @@ export const CoverPurchaseDetailsPage = () => {
   const { coverInfo } = useCoverInfo(coverKey);
 
   const { availableLiquidity } = useAvailableLiquidity({ coverKey });
-  const { info } = useMyLiquidityInfo({ coverKey });
+  const { totalPoolAmount: totalLiquidity } = useFetchCoverInfo({ coverKey });
 
   if (!coverInfo) {
     return <>loading...</>;
@@ -38,7 +38,6 @@ export const CoverPurchaseDetailsPage = () => {
   };
 
   const imgSrc = getCoverImgSrc(coverInfo);
-  const totalLiquidity = info.totalLiquidity;
 
   return (
     <main>
