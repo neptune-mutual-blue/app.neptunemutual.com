@@ -28,7 +28,7 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -43,7 +43,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const toast = useToast();
 
-  const { status, activeIncidentDate } = useFetchCoverInfo({ coverKey });
+  const { status, activeIncidentDate } = useCoverInfoContext();
   const {
     lqTokenBalance,
     npmBalance,
