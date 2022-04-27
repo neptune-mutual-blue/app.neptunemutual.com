@@ -3,7 +3,6 @@ import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { convertFromUnits, toBN } from "@/utils/bn";
-import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
@@ -20,7 +19,7 @@ export const CoverCard = ({ details }) => {
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const { commitment } = useCommitment({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;

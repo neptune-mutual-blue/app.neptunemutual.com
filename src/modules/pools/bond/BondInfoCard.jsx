@@ -8,13 +8,14 @@ import { classNames } from "@/utils/classnames";
 import { Badge } from "@/common/Badge/Badge";
 import { isGreater } from "@/utils/bn";
 import { explainInterval } from "@/utils/formatter/interval";
-import { formatPercent } from "@/utils/formatter/percent";
 import { ClaimBondModal } from "@/src/modules/pools/bond/ClaimBondModal";
 import { useState } from "react";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { formatPercent } = useNumberFormat();
 
   const onOpen = () => {
     setIsOpen(true);

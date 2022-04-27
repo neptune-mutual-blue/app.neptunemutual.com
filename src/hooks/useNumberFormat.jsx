@@ -69,7 +69,30 @@ export const useNumberFormat = () => {
     };
   };
 
+  const formatAmount = (x) => {
+    return new Intl.NumberFormat(router.locale, {
+      style: "decimal",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: parseFloat(x) < 1 ? 6 : 2,
+    }).format(x);
+  };
+
+  const formatPercent = (x) => {
+    if (!x) {
+      return "";
+    }
+
+    const percent = parseFloat(x) * 100;
+
+    return new Intl.NumberFormat(router.locale, {
+      style: "percent",
+      maximumFractionDigits: percent < 1 ? 6 : 2,
+    }).format(x);
+  };
+
   return {
     formatCurrency,
+    formatAmount,
+    formatPercent,
   };
 };

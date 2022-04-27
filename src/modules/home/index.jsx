@@ -19,7 +19,6 @@ import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
-import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
@@ -30,7 +29,7 @@ export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl } = useAppConstants();
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();

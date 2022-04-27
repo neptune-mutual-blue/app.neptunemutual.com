@@ -1,12 +1,11 @@
 import DateLib from "@/lib/date/DateLib";
 import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
-import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
   const { fee, rate } = data;
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const rateConverted = convertUintToPercentage(rate);
   const coverFee = convertFromUnits(fee).toString();

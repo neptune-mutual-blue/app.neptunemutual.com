@@ -1,9 +1,11 @@
 import { PercentDoughnutChart } from "@/common/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
-import { formatPercent } from "@/utils/formatter/percent";
 import { t } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
+  const { formatPercent } = useNumberFormat();
+
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [

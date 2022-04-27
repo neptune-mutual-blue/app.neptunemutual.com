@@ -1,9 +1,9 @@
 import { PercentXStackedChart } from "@/common/PercentXStackedChart";
 import { HorizontalChartLegend } from "@/src/modules/reporting/HorizontalChartLegend";
 import { classNames } from "@/utils/classnames";
-import { formatPercent } from "@/utils/formatter/percent";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { t, Trans } from "@lingui/macro";
+import { useNumberFormat } from "@/src/hooks/useNumberFormat";
 
 export const VotesSummaryHorizontalChart = ({
   yesPercent,
@@ -44,6 +44,8 @@ export const VotesSummaryHorizontalChart = ({
 };
 
 const ToolTipContent = ({ majority }) => {
+  const { formatPercent } = useNumberFormat();
+
   if (!majority) {
     return null;
   }

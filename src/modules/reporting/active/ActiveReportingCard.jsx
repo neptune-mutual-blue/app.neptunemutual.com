@@ -5,7 +5,6 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
-import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
@@ -20,7 +19,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const statusInfo = useCoverStatusInfo(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
   const { commitment } = useCommitment({ coverKey });
-  const { formatCurrency } = useNumberFormat();
+  const { formatCurrency, formatPercent } = useNumberFormat();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
