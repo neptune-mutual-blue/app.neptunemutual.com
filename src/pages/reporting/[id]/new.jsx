@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
   return {
@@ -56,27 +57,29 @@ export default function ReportingNewCoverPage({ disabled }) {
   }
 
   return (
-    <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
-        />
-      </Head>
+    <CoverInfoProvider coverKey={coverKey}>
+      <main>
+        <Head>
+          <title>Neptune Mutual Covers</title>
+          <meta
+            name="description"
+            content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          />
+        </Head>
 
-      {/* hero */}
-      <ReportingHero coverInfo={coverInfo} />
+        {/* hero */}
+        <ReportingHero coverInfo={coverInfo} />
 
-      {accepted ? (
-        <NewIncidentReportForm coverKey={coverKey} />
-      ) : (
-        <CoverReportingRules
-          coverInfo={coverInfo}
-          handleAcceptRules={handleAcceptRules}
-          activeReportings={activeReportings}
-        />
-      )}
-    </main>
+        {accepted ? (
+          <NewIncidentReportForm coverKey={coverKey} />
+        ) : (
+          <CoverReportingRules
+            coverInfo={coverInfo}
+            handleAcceptRules={handleAcceptRules}
+            activeReportings={activeReportings}
+          />
+        )}
+      </main>
+    </CoverInfoProvider>
   );
 }

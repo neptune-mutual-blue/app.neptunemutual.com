@@ -22,9 +22,9 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { t, Trans } from "@lingui/macro";
 import { renderMonthLabel } from "@/utils/translations";
+import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -57,9 +57,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   });
 
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
-    useFetchCoverInfo({
-      coverKey,
-    });
+    useCoverInfoContext();
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
