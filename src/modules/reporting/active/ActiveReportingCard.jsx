@@ -9,21 +9,23 @@ import DateLib from "@/lib/date/DateLib";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
-import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
 import { Trans } from "@lingui/macro";
+import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
-  const statusInfo = useCoverStatusInfo(coverKey);
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { commitment } = useCommitment({ coverKey });
+  const {
+    commitment,
+    totalPoolAmount: totalLiquidity,
+    status,
+  } = useFetchCoverInfo({
+    coverKey,
+  });
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
-  const liquidity = liquidityInfo.totalLiquidity;
+  const liquidity = totalLiquidity;
   const protection = commitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -40,7 +42,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
           />
         </div>
         <div>
-          <CardStatusBadge status={statusInfo.status} />
+          <CardStatusBadge status={status} />
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">

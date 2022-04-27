@@ -15,7 +15,6 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
-import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
@@ -23,7 +22,7 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import { useIfWhitelisted } from "@/src/hooks/useIfWhitelisted";
+import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { t, Trans } from "@lingui/macro";
 import { renderMonthLabel } from "@/utils/translations";
 
@@ -33,7 +32,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const statusInfo = useCoverStatusInfo(coverKey);
   const toast = useToast();
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
@@ -58,7 +56,10 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     feeAmount: feeData.fee,
   });
 
-  const { isUserWhitelisted } = useIfWhitelisted({ coverKey });
+  const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
+    useFetchCoverInfo({
+      coverKey,
+    });
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
@@ -111,25 +112,23 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     loadingMessage = t`Fetching Balance...`;
   }
 
-  if (statusInfo.requiresWhitelist && !isUserWhitelisted) {
+  if (requiresWhitelist && !isUserWhitelisted) {
     return (
       <Alert>
         <Trans>You are not whitelisted</Trans>
       </Alert>
     );
   }
-  if (statusInfo.status && statusInfo.status !== "Normal") {
+  if (status && status !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(coverKey)}/${
-            statusInfo.activeIncidentDate
-          }/details`}
+          href={`/reporting/${getParsedKey(
+            coverKey
+          )}/${activeIncidentDate}/details`}
         >
-          <a className="font-medium underline hover:no-underline">
-            {statusInfo.status}
-          </a>
+          <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>
     );

@@ -7,21 +7,23 @@ import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useCommitment } from "@/src/hooks/provide-liquidity/useCommitment";
 import { Trans } from "@lingui/macro";
+import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
-  const statusInfo = useCoverStatusInfo(key);
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
-  const { commitment } = useCommitment({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
 
-  const liquidity = liquidityInfo.totalLiquidity;
+  const {
+    commitment,
+    totalPoolAmount: liquidity,
+    status,
+  } = useFetchCoverInfo({
+    coverKey: key,
+  });
+
   const protection = commitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -38,7 +40,7 @@ export const CoverCard = ({ details }) => {
           />
         </div>
         <div>
-          <CardStatusBadge status={statusInfo.status} />
+          <CardStatusBadge status={status} />
         </div>
       </div>
 

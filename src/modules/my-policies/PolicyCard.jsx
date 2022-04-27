@@ -5,18 +5,18 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
   const { coverInfo } = useCoverInfo(coverKey);
-  const statusInfo = useCoverStatusInfo(coverKey);
+  const { status: currentStatus } = useFetchCoverInfo({ coverKey });
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
@@ -41,7 +41,7 @@ export const PolicyCard = ({ policyInfo }) => {
   if (isPolicyExpired) {
     status = ReportStatus[report?.status];
   } else {
-    status = statusInfo.status;
+    status = currentStatus;
   }
 
   return (

@@ -82,3 +82,5 @@ export const NetworkUrlParam = {
   3: "ropsten",
 };
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;
+
+export const COVER_INFO_URL = `${API_BASE_URL}protocol/cover/info/{networkId}/{coverKey}/{account}`;
