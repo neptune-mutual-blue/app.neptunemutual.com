@@ -5,7 +5,7 @@ export const ModalRegular = ({
   isOpen = false,
   children,
   onClose,
-  disabled,
+  disabled = false,
   overlayClass = "",
 }) => (
   <Root open={isOpen} onOpenChange={disabled ? () => {} : () => onClose()}>

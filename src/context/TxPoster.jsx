@@ -4,7 +4,6 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
-import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { Divider } from "@/common/Divider/Divider";
 
 const initValue = {
@@ -24,6 +23,7 @@ export function useTxPoster() {
 
 export const TxPosterProvider = ({ children }) => {
   const [data, setData] = useState({
+    description: "",
     message: "",
     isError: false,
     pendingInvokeArgs: {},
@@ -37,7 +37,7 @@ export const TxPosterProvider = ({ children }) => {
 
       args = [],
       retry = true,
-      onTransactionResult = () => {},
+      onTransactionResult = (_tx) => {},
       onRetryCancel = () => {},
       onError = console.error,
     }) => {
@@ -106,6 +106,7 @@ export const TxPosterProvider = ({ children }) => {
     try {
       // Closes modal and clears data
       setData({
+        description: "",
         message: "",
         isError: false,
         pendingInvokeArgs: {},
@@ -128,6 +129,7 @@ export const TxPosterProvider = ({ children }) => {
       onRetryCancel && onRetryCancel();
 
       return {
+        description: "",
         message: "",
         isError: false,
         pendingInvokeArgs: {},
@@ -163,47 +165,48 @@ const ForceTxModal = ({
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-[699px] py-8 px-10 text-left align-middle bg-[#FEFEFF] rounded-3xl">
+      <div className="border-[1.5px] border-B0C4DB relative inline-block w-full max-w-[699px] py-8 px-10 text-left align-middle bg-[#FEFEFF] rounded-3xl">
         <Dialog.Title className="flex items-center">
-          <div className="font-sora text-[19px] leading-6 font-semibold text-[#01052D]">
+          <div className="font-semibold text-black font-sora text-h4">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
-        <ModalCloseButton onClick={onClose}></ModalCloseButton>
-        
-        <div className="overflow-y-auto max-h-[200px] scrollbar">
+        <div className="overflow-y-auto max-h-56">
           <div className="my-5">
-            <p className="text-[#404040] text-sm leading-[21px] font-poppins">We attempted to submit your transaction but ran into an unexpected error. The smart contract sent the following error message:</p>
+            <p className="text-sm leading-5 text-404040 font-poppins">
+              We attempted to submit your transaction but ran into an unexpected
+              error. The smart contract sent the following error message:
+            </p>
           </div>
 
           <div className="mb-5">
-          <p className="text-[#940000]">{message}</p>
+            <p className="text-940000">{message}</p>
           </div>
 
-          <details open className="mb-4 text-[#940000]">
-            <summary>More details</summary>
-            <pre className="break-words whitespace-pre-wrap">{description}</pre>
-          </details>
+          <div className="mb-4 text-940000">
+            <p className="break-words whitespace-pre-wrap">{description}</p>
+          </div>
         </div>
 
         <Divider className="mt-0 mb-4" />
 
         <div className="mb-5">
-            <p className="text-[#404040] text-sm leading-[21px] font-poppins">
-                While we do not suggest it, you may force this transaction to be sent nonetheless.
-            </p>
+          <p className="text-sm leading-5 text-404040 font-poppins">
+            While we do not suggest it, you may force this transaction to be
+            sent nonetheless.
+          </p>
         </div>
 
         <div className="flex justify-end">
           <button
-            className="p-3 mr-8 border rounded border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
+            className="p-3 mr-6 border rounded border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="p-3 mr-8 border rounded border-[#E52E2E] text-[#E52E2E] hover:bg-[#E52E2E] hover:text-white"
+            className="p-3 border rounded border-E52E2E text-E52E2E hover:bg-E52E2E hover:text-white"
             onClick={handleContinue}
           >
             Send Transaction Ignoring This Error
