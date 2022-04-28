@@ -1,7 +1,6 @@
-import { getLocale } from "@/utils/locale";
 import BigNumber from "bignumber.js";
 
-const asCurrency = (sign, number, symbol, currency, token = false) => {
+const asCurrency = (sign, number, symbol, locale, currency, token = false) => {
   if (token) {
     if (number < 0.00000001) {
       return "A fraction of " + currency;
@@ -11,10 +10,10 @@ const asCurrency = (sign, number, symbol, currency, token = false) => {
       number = number.toFixed(8);
     }
 
-    return `${sign}${number.toLocaleString(getLocale())}${symbol} ${currency}`;
+    return `${sign}${number.toLocaleString(locale)}${symbol} ${currency}`;
   }
 
-  const formatter = new Intl.NumberFormat(getLocale(), {
+  const formatter = new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: parseFloat(number) < 1 ? 8 : 2,
@@ -23,7 +22,7 @@ const asCurrency = (sign, number, symbol, currency, token = false) => {
   return `${sign}${formatter.format(number)}${symbol}`;
 };
 
-export const formatCurrency = (input, currency = "USD", token = false) => {
+export const formatCurrency = (input, locale, currency = "USD", token = false) => {
   const number = parseFloat(Math.abs(input).toString());
 
   if (!number) {
@@ -60,8 +59,8 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   }
 
   return {
-    short: asCurrency(sign, result, symbol, currency, token),
-    long: asCurrency(sign, number, "", currency, token),
+    short: asCurrency(sign, result, symbol, locale, currency, token),
+    long: asCurrency(sign, number, "", locale, currency, token),
   };
 };
 

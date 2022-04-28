@@ -35,7 +35,7 @@ export const PoliciesTabs = ({ active, children }) => {
 
           {/* Total Active Protection */}
           <HeroStat title="Total Active Protection">
-            {formatCurrency(convertFromUnits(totalActiveProtection)).long}
+            {formatCurrency(convertFromUnits(totalActiveProtection), router.locale).long}
           </HeroStat>
         </Container>
 

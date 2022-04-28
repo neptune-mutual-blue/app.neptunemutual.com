@@ -7,6 +7,7 @@ import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -15,6 +16,7 @@ export const PolicyCardFooter = ({
   tokenBalance,
 }) => {
   const now = DateLib.unix();
+  const router = useRouter();
 
   const isClaimable = report ? report.status == "Claimable" : false;
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
@@ -73,8 +75,8 @@ export const PolicyCardFooter = ({
 
         <Stat
           title={t`Purchased Policy`}
-          tooltip={formatCurrency(convertFromUnits(tokenBalance)).long}
-          value={formatCurrency(convertFromUnits(tokenBalance)).short}
+          tooltip={formatCurrency(convertFromUnits(tokenBalance), router.locale).long}
+          value={formatCurrency(convertFromUnits(tokenBalance), router.locale).short}
           right
         />
       </div>

@@ -25,11 +25,13 @@ import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl } = useAppConstants();
+  const router = useRouter();
 
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
@@ -86,13 +88,15 @@ export const HomePage = () => {
                     {
                       name: t`TVL (Cover)`,
                       amount: formatCurrency(
-                        convertFromUnits(heroData.tvlCover).toString()
+                        convertFromUnits(heroData.tvlCover).toString(),
+                        router.locale
                       ).short,
                     },
                     {
                       name: t`TVL (Pool)`,
                       amount: formatCurrency(
-                        convertFromUnits(poolsTvl).toString()
+                        convertFromUnits(poolsTvl).toString(),
+                        router.locale
                       ).short,
                     },
                   ]}
@@ -105,13 +109,15 @@ export const HomePage = () => {
                     {
                       name: t`Covered`,
                       amount: formatCurrency(
-                        convertFromUnits(heroData.covered).toString()
+                        convertFromUnits(heroData.covered).toString(),
+                        router.locale
                       ).short,
                     },
                     {
                       name: t`Cover Fee`,
                       amount: formatCurrency(
-                        convertFromUnits(heroData.coverFee).toString()
+                        convertFromUnits(heroData.coverFee).toString(),
+                        router.locale
                       ).short,
                     },
                   ]}
@@ -133,7 +139,8 @@ export const HomePage = () => {
                 <h2 className="pr-3 font-bold text-black text-h2 font-sora">
                   {
                     formatCurrency(
-                      convertFromUnits(changeData?.last || "0").toString()
+                      convertFromUnits(changeData?.last || "0").toString(),
+                      router.locale
                     ).short
                   }
                 </h2>
@@ -151,7 +158,7 @@ export const HomePage = () => {
                         className={changeData.rise ? "" : "transform-flip"}
                       />
                     </span>
-                    <span>{formatPercent(changeData.diff)}</span>
+                    <span>{formatPercent(changeData.diff, router.locale)}</span>
                   </h6>
                 )}
               </div>

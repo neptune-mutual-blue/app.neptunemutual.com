@@ -2,8 +2,11 @@ import { PercentDoughnutChart } from "@/common/PercentDoughnutChart";
 import { classNames } from "@/utils/classnames";
 import { formatPercent } from "@/utils/formatter/percent";
 import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
+  const router = useRouter();
+  
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [
@@ -35,7 +38,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title={t`Incident Occurred`}
-            percent={formatPercent(yesPercent)}
+            percent={formatPercent(yesPercent, router.locale)}
             amountStaked={votes.yes}
             variant="success"
           />
@@ -45,7 +48,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title={t`False Reporting`}
-            percent={formatPercent(noPercent)}
+            percent={formatPercent(noPercent, router.locale)}
             amountStaked={votes.no}
             variant="error"
           />

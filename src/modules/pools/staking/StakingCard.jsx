@@ -24,6 +24,7 @@ import { Badge } from "@/common/Badge/Badge";
 import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -41,6 +42,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
+  const router = useRouter();
 
   function onStakeModalOpen() {
     setIsStakeModalOpen(true);
@@ -83,6 +85,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       title: t`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
+        router.locale,
         stakingTokenSymbol,
         true
       ).long,
@@ -97,8 +100,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), "USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), "USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
     },
   ];
 
@@ -157,7 +160,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         </div>
 
         <Badge className="text-21AD8C">
-          <Trans>APR:</Trans> {formatPercent(apr)}
+          <Trans>APR:</Trans> {formatPercent(apr, router.locale)}
         </Badge>
       </div>
       <StakingCardTitle text={poolName} />
@@ -188,6 +191,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                 value={
                   formatCurrency(
                     convertFromUnits(rewardAmount),
+                    router.locale,
                     rewardTokenSymbol,
                     true
                   ).short
@@ -195,6 +199,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                 tooltip={
                   formatCurrency(
                     convertFromUnits(rewardAmount),
+                    router.locale,
                     rewardTokenSymbol,
                     true
                   ).long

@@ -8,10 +8,12 @@ import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { coverInfo } = useCoverInfo(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
+  const router = useRouter();
 
   if (!coverInfo) {
     return null;
@@ -50,7 +52,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
           <Trans>Reassurance Ratio</Trans>
         </span>
         <span className="font-semibold text-right">
-          {formatPercent(reassurancePercent)}
+          {formatPercent(reassurancePercent, router.locale)}
         </span>
       </div>
       <div className="mt-2 mb-4">
@@ -59,13 +61,13 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
       <div
         className="flex justify-between px-1 text-sm"
         title={
-          formatCurrency(convertFromUnits(totalPODs || "0"), "POD", true).long
+          formatCurrency(convertFromUnits(totalPODs || "0"), router.locale,"POD", true).long
         }
       >
         <span className="">
           <Trans>My Liquidity:</Trans>{" "}
           {
-            formatCurrency(convertFromUnits(totalPODs || "0"), "POD", true)
+            formatCurrency(convertFromUnits(totalPODs || "0"), router.locale,"POD", true)
               .short
           }
         </span>

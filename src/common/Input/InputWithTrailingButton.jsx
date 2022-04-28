@@ -4,8 +4,8 @@ import {
   getNumberSeparators,
   getPlainNumber,
 } from "@/utils/formatter/currency";
-import { getLocale } from "@/utils/locale";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 
 export const InputWithTrailingButton = ({
   inputProps,
@@ -17,6 +17,7 @@ export const InputWithTrailingButton = ({
   const [width, setWidth] = useState();
   const [val, setVal] = useState(inputProps.value ?? "");
   const [noChange, setNoChange] = useState(null);
+  const router = useRouter();
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -38,7 +39,7 @@ export const InputWithTrailingButton = ({
     if (!isNaN(parseInt(inputProps.value))) {
       const formattedNumber = getLocaleNumber(
         inputProps.value,
-        getLocale(),
+        router.locale,
         true
       );
       setVal(formattedNumber);
@@ -53,7 +54,7 @@ export const InputWithTrailingButton = ({
     disabled: inputProps.disabled,
     onChange: (ev) => {
       const newVal = ev.target.value;
-      const sep = getNumberSeparators(getLocale());
+      const sep = getNumberSeparators(router.locale);
 
       // regex to identify localized number with decimal separator at the end
       const incompleteRegex = new RegExp(
@@ -90,9 +91,9 @@ export const InputWithTrailingButton = ({
         }\\d+)*(\\${sep.decimal}\\d*)?$`
       );
       if (newVal !== "" && !newVal.match(formattedRegex)) return;
-      const returnVal = getPlainNumber(newVal, getLocale());
+      const returnVal = getPlainNumber(newVal, router.locale);
       if (inputProps.onChange) inputProps.onChange(returnVal);
-      else setVal(getLocaleNumber(returnVal, getLocale()));
+      else setVal(getLocaleNumber(returnVal, router.locale));
     },
     autoComplete: "off",
   };

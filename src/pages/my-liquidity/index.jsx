@@ -12,6 +12,7 @@ import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { convertFromUnits } from "@/utils/bn";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export function getStaticProps() {
   return {
@@ -25,6 +26,8 @@ export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
   const { data, loading } = useMyLiquidities();
   const { totalLiquidityProvided } = data;
+
+  const router = useRouter();
 
   if (disabled) {
     return <ComingSoon />;
@@ -52,6 +55,7 @@ export default function MyLiquidity({ disabled }) {
                 `$ ${
                   formatCurrency(
                     convertFromUnits(totalLiquidityProvided),
+                    router.locale,
                     "USD",
                     true
                   ).long

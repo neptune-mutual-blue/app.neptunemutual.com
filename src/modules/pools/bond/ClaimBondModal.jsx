@@ -11,6 +11,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -21,6 +22,7 @@ export const ClaimBondModal = ({
   refetchBondInfo,
 }) => {
   const { handleClaim, claiming } = useClaimBond();
+  const router = useRouter();
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
@@ -37,7 +39,7 @@ export const ClaimBondModal = ({
             <Trans>Amount Available To Claim</Trans>
           </Label>
           <DisabledInput
-            value={formatAmount(convertFromUnits(claimable).toString())}
+            value={formatAmount(convertFromUnits(claimable).toString(), router.locale)}
             unit="NPM"
           />
         </div>

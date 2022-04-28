@@ -22,6 +22,7 @@ import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -32,6 +33,7 @@ const BondPage = () => {
   const tokenSymbol = useTokenSymbol(tokenAddress);
   const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
     useAppConstants();
+  const router = useRouter();
 
   const {
     balance,
@@ -59,6 +61,7 @@ const BondPage = () => {
           info.discountRate,
           convertFromUnits(marketPrice).toString()
         ),
+        router.locale,
         "USD"
       ).short,
       tooltip: getDiscountedPrice(
@@ -70,11 +73,11 @@ const BondPage = () => {
     {
       title: t`Maximum Bond`,
       value: `${
-        formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+        formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
           .short
       }`,
       tooltip: `${
-        formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+        formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
           .long
       }`,
       valueClasses: "text-sm text-9B9B9B mt-1",
@@ -85,7 +88,7 @@ const BondPage = () => {
   const rightHalf = [
     {
       title: t`Market Price`,
-      value: formatCurrency(convertFromUnits(marketPrice).toString(), "USD")
+      value: formatCurrency(convertFromUnits(marketPrice).toString(), router.locale,"USD")
         .short,
       tooltip: convertFromUnits(marketPrice).toString(),
       valueClasses: "text-h3 text-9B9B9B mt-1",
@@ -96,11 +99,11 @@ const BondPage = () => {
     rightHalf.push({
       title: t`Your Bond`,
       value: `${
-        formatCurrency(convertFromUnits(info.claimable).toString(), "NPM", true)
+        formatCurrency(convertFromUnits(info.claimable).toString(), router.locale,"NPM", true)
           .short
       }`,
       tooltip: `${
-        formatCurrency(convertFromUnits(info.claimable).toString(), "NPM", true)
+        formatCurrency(convertFromUnits(info.claimable).toString(), router.locale,"NPM", true)
           .long
       }`,
       titleClasses: `mt-7`,

@@ -8,6 +8,7 @@ import { explainInterval } from "@/utils/formatter/interval";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const StakeForm = ({
   info,
@@ -41,6 +42,7 @@ export const StakeForm = ({
     poolKey,
     maximumStake: info.maximumStake,
   });
+  const router = useRouter();
 
   useEffect(() => {
     setModalDisabled(approving || depositing);
@@ -87,6 +89,7 @@ export const StakeForm = ({
               title={`${
                 formatCurrency(
                   convertFromUnits(info.maximumStake).toString(),
+                  router.locale,
                   stakingTokenSymbol,
                   true
                 ).long
@@ -95,6 +98,7 @@ export const StakeForm = ({
               {
                 formatCurrency(
                   convertFromUnits(info.maximumStake).toString(),
+                  router.locale,
                   stakingTokenSymbol,
                   true
                 ).short

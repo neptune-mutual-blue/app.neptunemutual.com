@@ -6,6 +6,7 @@ import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdra
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { Trans, t } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const HarvestForm = ({
   stakingTokenSymbol,
@@ -23,6 +24,7 @@ export const HarvestForm = ({
       refetchInfo,
     });
   const { register } = useRegisterToken();
+  const router = useRouter();
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));
@@ -43,6 +45,7 @@ export const HarvestForm = ({
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
+              router.locale,
               stakingTokenSymbol,
               true
             ).long
@@ -52,6 +55,7 @@ export const HarvestForm = ({
           {
             formatCurrency(
               convertFromUnits(rewardAmount),
+              router.locale,
               rewardTokenSymbol,
               true
             ).long
