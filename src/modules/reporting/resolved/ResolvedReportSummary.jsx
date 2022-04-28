@@ -147,7 +147,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             <Trans>Reporting Period</Trans>
           </h3>
           <p className="mb-4 text-sm opacity-50">
-            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
+            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate, router.locale)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
                 router.locale,
@@ -158,7 +158,8 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             {" - "}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp
+                incidentReport.resolutionTimestamp,
+                router.locale
               )}
             >
               {DateLib.toDateFormat(

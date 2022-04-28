@@ -3,6 +3,7 @@ import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
   const { fee, rate } = data;
@@ -12,6 +13,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
 
   const next = DateLib.addMonths(new Date(), coverPeriod - 1);
   const expires = DateLib.getEomInUTC(next);
+  const router = useRouter();
 
   return (
     <>
@@ -40,7 +42,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
               <Trans>Claim Expiry</Trans>
             </th>
             <td className="text-4e7dd9" title={expires.toString()}>
-              {DateLib.toLongDateFormat(expires, "UTC")}
+              {DateLib.toLongDateFormat(expires, router.locale,"UTC")}
             </td>
           </tr>
         </tbody>

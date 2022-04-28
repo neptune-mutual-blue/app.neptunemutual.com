@@ -9,6 +9,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -22,14 +23,7 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => (
-  <td
-    className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
-  >
-    {fromNow(row.transaction.timestamp)}
-  </td>
-);
+const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderAccount = (row) => (
   <td className="px-6 py-6">
@@ -92,6 +86,19 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
     </>
   );
 };
+
+const WhenRenderer = () => {
+  const router = useRouter();
+
+  return (
+    <td
+    className="px-6 py-6"
+    title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+  >
+    {fromNow(row.transaction.timestamp)}
+  </td>
+  )
+}
 
 const AmountRenderer = ({ row }) => {
   return (

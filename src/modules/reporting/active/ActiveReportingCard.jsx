@@ -13,6 +13,7 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useRouter } from "next/router";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -28,6 +29,8 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+
+  const router = useRouter();
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -77,10 +80,10 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
         </span>
         <span
           className="text-right"
-          title={DateLib.toLongDateFormat(incidentDate)}
+          title={DateLib.toLongDateFormat(incidentDate, router.locale)}
         >
           <Trans>Reported On:</Trans>{" "}
-          <span title={DateLib.toLongDateFormat(incidentDate)}>
+          <span title={DateLib.toLongDateFormat(incidentDate, router.locale)}>
             {fromNow(incidentDate)}
           </span>
         </span>

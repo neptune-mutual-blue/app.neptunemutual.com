@@ -17,6 +17,7 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -30,14 +31,7 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => (
-  <td
-    className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
-  >
-    {fromNow(row.transaction.timestamp)}
-  </td>
-);
+const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderDetails = (row) => <DetailsRenderer row={row} />;
 
@@ -119,6 +113,19 @@ export const MyPoliciesTxsTable = () => {
   );
 };
 
+const WhenRenderer = ({ row }) => {
+  const router = useRouter();
+
+  return (
+    <td
+    className="px-6 py-6"
+    title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+  >
+    {fromNow(row.transaction.timestamp)}
+  </td>
+  )
+}
+
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
 
@@ -185,7 +192,8 @@ const CxDaiAmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork();
-
+  const router = useRouter();
+  
   return (
     <td className="px-6 py-6 min-w-120">
       <div className="flex items-center justify-end">
@@ -199,7 +207,7 @@ const ActionsRenderer = ({ row }) => {
           <Tooltip.Content side="top">
             <div className="max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl">
               <p>
-                {DateLib.toLongDateFormat(row.transaction.timestamp, "UTC")}
+                {DateLib.toLongDateFormat(row.transaction.timestamp,router.locale, "UTC")}
               </p>
             </div>
             <Tooltip.Arrow offset={16} className="fill-black" />

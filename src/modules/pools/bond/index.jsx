@@ -22,6 +22,7 @@ import { POOL_URLS } from "@/src/config/constants";
 import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -50,6 +51,7 @@ const BondPage = () => {
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress)
   ).toString();
+  const router = useRouter();
 
   const leftHalf = [
     {
@@ -166,7 +168,7 @@ const BondPage = () => {
           <p
             id="unlock-on"
             className="font-medium text-7398C0 text-h4"
-            title={DateLib.toLongDateFormat(unlockTimestamp)}
+            title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
           >
             {fromNow(unlockTimestamp)}
           </p>

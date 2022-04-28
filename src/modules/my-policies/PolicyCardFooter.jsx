@@ -7,6 +7,7 @@ import Link from "next/link";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -15,6 +16,7 @@ export const PolicyCardFooter = ({
   tokenBalance,
 }) => {
   const now = DateLib.unix();
+  const router = useRouter();
 
   const isClaimable = report ? report.status == "Claimable" : false;
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
@@ -30,26 +32,26 @@ export const PolicyCardFooter = ({
   if (withinClaimPeriod) {
     stats.push({
       title: t`Claim Before`,
-      tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt),
+      tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt, router.locale),
       value: fromNow(report.claimExpiresAt),
       variant: "error",
     });
   } else if (beforeResolutionDeadline) {
     stats.push({
       title: t`Resolution By`,
-      tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom),
+      tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom, router.locale),
       value: fromNow(report.claimBeginsFrom),
     });
   } else if (isPolicyExpired) {
     stats.push({
       title: t`Expired On`,
-      tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
       value: fromNow(validityEndsAt),
     });
   } else {
     stats.push({
       title: t`Expires In`,
-      tooltipText: DateLib.toLongDateFormat(validityEndsAt),
+      tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
       value: fromNow(validityEndsAt),
     });
   }
