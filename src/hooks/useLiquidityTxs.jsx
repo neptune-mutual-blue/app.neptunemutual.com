@@ -1,28 +1,55 @@
+import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
-export const useLiquidityTxs = ({ maxItems }) => {
-  const [data, setData] = useState({});
+const getQuery = (account, limit, skip) => {
+  return `
+  {
+    _meta {
+      block {
+        number
+      }
+    }
+    liquidityTransactions(
+      skip: ${skip}
+      first: ${limit}, 
+      orderBy: createdAtTimestamp
+      orderDirection: desc
+      where: {account: "${account}"}
+    ) {
+      type
+      key
+      account
+      liquidityAmount
+      podAmount
+      vault{
+        id
+      }
+      cover {
+        id
+      }
+      transaction {
+        id
+        timestamp
+      }
+    }
+  }
+  `;
+};
+
+export const useLiquidityTxs = () => {
+  const [data, setData] = useState({
+    blockNumber: null,
+    liquidityTransactions: [],
+  });
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [itemsToSkip, setItemsToSkip] = useState(0);
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-
-  // pagination
-  const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
-
-  useEffect(() => {
-    const transactions = data.liquidityTransactions || [];
-
-    let extraPages = 1;
-    if (transactions.length % maxItems === 0) {
-      extraPages = 0;
-    }
-    setMaxPage(Math.floor(transactions.length / maxItems) + extraPages);
-  }, [data.liquidityTransactions, maxItems]);
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -43,41 +70,31 @@ export const useLiquidityTxs = ({ maxItems }) => {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        query: `
-      {
-        _meta {
-          block {
-            number
-          }
-        }
-        liquidityTransactions(
-          orderBy: createdAtTimestamp
-          orderDirection: desc
-          where: {account: "${account}"}
-        ) {
-          type
-          key
-          account
-          liquidityAmount
-          podAmount
-          vault{
-            id
-          }
-          cover {
-            id
-          }
-          transaction {
-            id
-            timestamp
-          }
-        }
-      }
-      `,
+        query: getQuery(account, ROWS_PER_PAGE, itemsToSkip),
       }),
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (res.errors || !res.data) {
+          return;
+        }
+
+        const isLastPage =
+          res.data.liquidityTransactions.length === 0 ||
+          res.data.liquidityTransactions.length < ROWS_PER_PAGE;
+
+        if (isLastPage) {
+          setHasMore(false);
+        }
+
+        //setData(res.data);
+        setData((prev) => ({
+          blockNumber: res.data._meta.block.number,
+          liquidityTransactions: [
+            ...prev.liquidityTransactions,
+            ...res.data.liquidityTransactions,
+          ],
+        }));
       })
       .catch((err) => {
         console.error(err);
@@ -85,24 +102,19 @@ export const useLiquidityTxs = ({ maxItems }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, networkId]);
+  }, [account, itemsToSkip, networkId]);
 
-  const filteredTransactions = useMemo(() => {
-    const transactions = data.liquidityTransactions || [];
-
-    return transactions
-      ? transactions.slice().slice(maxItems * (page - 1), page * maxItems)
-      : [];
-  }, [data.liquidityTransactions, maxItems, page]);
+  const handleShowMore = () => {
+    setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
+  };
 
   return {
-    page,
-    maxPage,
-    setPage,
+    handleShowMore,
+    hasMore,
     data: {
-      blockNumber: data?._meta?.block?.number,
-      transactions: filteredTransactions,
-      totalCount: (data?.liquidityTransactions || []).length,
+      blockNumber: data.blockNumber,
+      transactions: data.liquidityTransactions,
+      totalCount: data.liquidityTransactions.length,
     },
     loading,
   };
