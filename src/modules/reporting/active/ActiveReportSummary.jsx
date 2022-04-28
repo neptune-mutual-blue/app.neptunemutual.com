@@ -15,12 +15,14 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ActiveReportSummary = ({
   refetchReport,
   incidentReport,
   resolvableTill,
 }) => {
+  const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
 
@@ -183,6 +185,7 @@ export const ActiveReportSummary = ({
             <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
@@ -195,6 +198,7 @@ export const ActiveReportSummary = ({
             >
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}

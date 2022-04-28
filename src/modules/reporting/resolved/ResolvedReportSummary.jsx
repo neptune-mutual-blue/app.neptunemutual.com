@@ -12,13 +12,15 @@ import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
-
+  const router = useRouter();
+  
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
       .decimalPlaces(0)
@@ -148,6 +150,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
@@ -160,6 +163,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             >
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
