@@ -30,6 +30,11 @@ export const InputWithTrailingButton = ({
     return () => window.removeEventListener("resize", getSize);
   }, []);
 
+  useEffect(() => {
+    if (inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/))
+      setInputValue(inputProps.value);
+  }, [inputProps.value]);
+
   const inputFieldProps = {
     id: inputProps.id,
     value: inputValue,
@@ -43,7 +48,7 @@ export const InputWithTrailingButton = ({
       locale: getLocale(),
     },
     autoComplete: "off",
-    decimalsLimit: 10,
+    decimalsLimit: 25,
   };
 
   return (
