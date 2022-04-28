@@ -87,7 +87,7 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
   );
 };
 
-const WhenRenderer = () => {
+const WhenRenderer = ({ row }) => {
   const router = useRouter();
 
   return (
