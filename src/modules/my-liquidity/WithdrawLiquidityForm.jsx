@@ -177,7 +177,7 @@ export const WithdrawLiquidityForm = ({
         <ReceiveAmountInput
           labelText={t`You Will Receive`}
           tokenSymbol={liquidityTokenSymbol}
-          inputValue={formatAmount(convertFromUnits(receiveAmount).toString())}
+          inputValue={formatAmount(convertFromUnits(receiveAmount).toString(), router.locale)}
           inputId="my-liquidity-receive"
         />
       </div>

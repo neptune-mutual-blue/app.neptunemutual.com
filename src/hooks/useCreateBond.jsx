@@ -21,6 +21,8 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
+
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -48,6 +50,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const router = useRouter();
 
   useEffect(() => {
     updateAllowance(bondContractAddress);
@@ -160,7 +163,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (isGreater(receiveAmount, info.maxBond)) {
       setError(
         t`Exceeds maximum bond ${
-          formatCurrency(convertFromUnits(info.maxBond).toString(), "NPM", true)
+          formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
             .long
         }`
       );
@@ -171,7 +174,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setError("");
       return;
     }
-  }, [balance, error, info.maxBond, receiveAmount, value]);
+  }, [balance, error, info.maxBond, receiveAmount, router.locale, value]);
 
   const handleApprove = async () => {
     setApproving(true);

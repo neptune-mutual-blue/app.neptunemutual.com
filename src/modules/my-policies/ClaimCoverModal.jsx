@@ -15,6 +15,7 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -44,6 +45,7 @@ export const ClaimCoverModal = ({
     coverKey,
     incidentDate,
   });
+  const router = useRouter();
 
   // Clear on modal close
   useEffect(() => {
@@ -116,7 +118,7 @@ export const ClaimCoverModal = ({
             {isGreater(claimPlatformFee, "0") && (
               <>
                 <Trans>
-                  Fee: {formatPercent(claimPlatformFee / MULTIPLIER)}
+                  Fee: {formatPercent(claimPlatformFee / MULTIPLIER, router.locale)}
                 </Trans>
               </>
             )}

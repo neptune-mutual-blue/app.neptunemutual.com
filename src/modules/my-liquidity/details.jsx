@@ -83,7 +83,7 @@ export const MyLiquidityCoverPage = () => {
 
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
-                {formatCurrency(convertFromUnits(myLiquidity)).long}
+                {formatCurrency(convertFromUnits(myLiquidity), router.locale).long}
               </HeroStat>
             </div>
           </Container>
@@ -105,13 +105,13 @@ export const MyLiquidityCoverPage = () => {
               <CoverPurchaseResolutionSources coverInfo={coverInfo}>
                 <div
                   className="flex justify-between pt-4 pb-2"
-                  title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+                  title={formatCurrency(convertFromUnits(totalLiquidity), router.locale).long}
                 >
                   <span className="">
                     <Trans>Total Liquidity:</Trans>
                   </span>
                   <strong className="font-bold text-right">
-                    {formatCurrency(convertFromUnits(totalLiquidity)).short}
+                    {formatCurrency(convertFromUnits(totalLiquidity), router.locale).short}
                   </strong>
                 </div>
                 <div
@@ -119,6 +119,7 @@ export const MyLiquidityCoverPage = () => {
                   title={
                     formatCurrency(
                       convertFromUnits(reassuranceAmount).toString(),
+                      router.locale,
                       "USD"
                     ).long
                   }
@@ -128,6 +129,7 @@ export const MyLiquidityCoverPage = () => {
                     {
                       formatCurrency(
                         convertFromUnits(reassuranceAmount).toString(),
+                        router.locale,
                         "USD"
                       ).short
                     }

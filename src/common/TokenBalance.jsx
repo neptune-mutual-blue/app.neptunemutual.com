@@ -10,12 +10,14 @@ import { useToast } from "@/lib/toast/context";
 import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const { networkId } = useNetwork();
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
   const toast = useToast();
+  const router = useRouter();
 
   const handleCopy = async () => {
     try {
@@ -39,9 +41,9 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
     <div className="flex items-start justify-between px-3 mt-2 text-9B9B9B">
       <div>
         {balance && (
-          <p title={formatCurrency(convertFromUnits(balance), unit, true).long}>
+          <p title={formatCurrency(convertFromUnits(balance), router.locale, unit, true).long}>
             <Trans>Balance:</Trans>{" "}
-            {formatCurrency(convertFromUnits(balance), unit, true).short}
+            {formatCurrency(convertFromUnits(balance), router.locale,unit, true).short}
           </p>
         )}
         {children}

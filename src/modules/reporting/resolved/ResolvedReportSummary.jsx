@@ -12,13 +12,15 @@ import DateLib from "@/lib/date/DateLib";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
-
+  const router = useRouter();
+  
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
       .decimalPlaces(0)
@@ -82,7 +84,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             insights={[
               {
                 title: t`Incident Occurred`,
-                value: formatPercent(yesPercent),
+                value: formatPercent(yesPercent, router.locale),
                 variant: "success",
               },
               {
@@ -93,6 +95,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
+                  router.locale,
                   "NPM",
                   true
                 ).short,
@@ -105,7 +108,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             insights={[
               {
                 title: t`False Reporting`,
-                value: formatPercent(noPercent),
+                value: formatPercent(noPercent, router.locale),
                 variant: "error",
               },
               {
@@ -116,6 +119,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
+                  router.locale,
                   "NPM",
                   true
                 ).short,

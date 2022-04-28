@@ -102,24 +102,24 @@ export const CoverAddLiquidityDetailsPage = () => {
               <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
               <div
                 className="flex justify-between pb-2"
-                title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+                title={formatCurrency(convertFromUnits(totalLiquidity), router.locale).long}
               >
                 <span className="">
                   <Trans>Total Liquidity:</Trans>
                 </span>
                 <strong className="font-bold text-right">
-                  {formatCurrency(convertFromUnits(totalLiquidity)).short}
+                  {formatCurrency(convertFromUnits(totalLiquidity), router.locale).short}
                 </strong>
               </div>
               <div
                 className="flex justify-between"
-                title={formatCurrency(convertFromUnits(reassuranceAmount)).long}
+                title={formatCurrency(convertFromUnits(reassuranceAmount), router.locale).long}
               >
                 <span className="">
                   <Trans>Reassurance:</Trans>
                 </span>
                 <strong className="font-bold text-right">
-                  {formatCurrency(convertFromUnits(reassuranceAmount)).short}
+                  {formatCurrency(convertFromUnits(reassuranceAmount), router.locale).short}
                 </strong>
               </div>
             </CoverPurchaseResolutionSources>

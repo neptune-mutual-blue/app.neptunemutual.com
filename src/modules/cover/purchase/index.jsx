@@ -67,7 +67,7 @@ export const CoverPurchaseDetailsPage = () => {
             {/* Total Liquidity */}
             <HeroStat title={t`Total Liquidity`}>
               {
-                formatCurrency(convertFromUnits(totalLiquidity), "DAI", true)
+                formatCurrency(convertFromUnits(totalLiquidity), router.locale,"DAI", true)
                   .long
               }
             </HeroStat>
@@ -107,13 +107,13 @@ export const CoverPurchaseDetailsPage = () => {
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div
               className="flex justify-between pb-2"
-              title={formatCurrency(availableLiquidity).long}
+              title={formatCurrency(availableLiquidity, router.locale).long}
             >
               <span className="">
                 <Trans>Available Liquidity:</Trans>
               </span>
               <strong className="font-bold text-right">
-                {formatCurrency(availableLiquidity).short}
+                {formatCurrency(availableLiquidity, router.locale).short}
               </strong>
             </div>
           </CoverPurchaseResolutionSources>

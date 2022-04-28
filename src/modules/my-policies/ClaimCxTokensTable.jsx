@@ -11,6 +11,7 @@ import {
   CxTokenRowProvider,
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -101,16 +102,17 @@ export const ClaimCxTokensTable = ({
 
 const CxTokenAmountRenderer = () => {
   const { balance, tokenSymbol } = useCxTokenRowContext();
+  const router = useRouter();
 
   return (
     <>
       <td className="px-6 py-6 text-right">
         <span
           title={
-            formatCurrency(convertFromUnits(balance), tokenSymbol, true).long
+            formatCurrency(convertFromUnits(balance), router.locale,tokenSymbol, true).long
           }
         >
-          {formatCurrency(convertFromUnits(balance), tokenSymbol, true).short}
+          {formatCurrency(convertFromUnits(balance), router.locale,tokenSymbol, true).short}
         </span>
       </td>
     </>

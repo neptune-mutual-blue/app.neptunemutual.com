@@ -18,6 +18,7 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -134,6 +135,7 @@ export const MyLiquidityTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6">
@@ -148,9 +150,9 @@ const DetailsRenderer = ({ row }) => {
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
-            title={formatCurrency(convertFromUnits(row.liquidityAmount)).long}
+            title={formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).long}
           >
-            {formatCurrency(convertFromUnits(row.liquidityAmount)).short}
+            {formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).short}
           </span>{" "}
           {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
         </span>
@@ -162,6 +164,7 @@ const DetailsRenderer = ({ row }) => {
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = useTokenSymbol(row.vault.id);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6 text-right">
@@ -169,12 +172,12 @@ const PodAmountRenderer = ({ row }) => {
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
-            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+            formatCurrency(convertFromUnits(row.podAmount), router.locale, tokenSymbol, true)
               .long
           }
         >
           {
-            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+            formatCurrency(convertFromUnits(row.podAmount), router.locale,tokenSymbol, true)
               .short
           }
         </span>

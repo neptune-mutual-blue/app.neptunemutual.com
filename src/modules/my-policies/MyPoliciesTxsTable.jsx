@@ -17,6 +17,7 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -121,6 +122,7 @@ export const MyPoliciesTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6">
@@ -134,8 +136,8 @@ const DetailsRenderer = ({ row }) => {
 
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "CoverPurchased" ? t`Purchased` : t`Claimed`}{" "}
-          <span title={formatCurrency(convertFromUnits(row.daiAmount)).long}>
-            {formatCurrency(convertFromUnits(row.daiAmount)).short}
+          <span title={formatCurrency(convertFromUnits(row.daiAmount), router.locale).long}>
+            {formatCurrency(convertFromUnits(row.daiAmount), router.locale).short}
           </span>{" "}
           {coverInfo.projectName} <Trans>policy</Trans>
         </span>
@@ -147,6 +149,7 @@ const DetailsRenderer = ({ row }) => {
 const CxDaiAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = useTokenSymbol(row.cxToken);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6 text-right">
@@ -158,6 +161,7 @@ const CxDaiAmountRenderer = ({ row }) => {
           title={
             formatCurrency(
               convertFromUnits(row.cxTokenAmount),
+              router.locale,
               tokenSymbol,
               true
             ).long
@@ -166,6 +170,7 @@ const CxDaiAmountRenderer = ({ row }) => {
           {
             formatCurrency(
               convertFromUnits(row.cxTokenAmount),
+              router.locale,
               tokenSymbol,
               true
             ).short
