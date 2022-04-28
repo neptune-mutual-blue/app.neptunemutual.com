@@ -1,12 +1,6 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useLiquidityTxs } from "@/src/hooks/useLiquidityTxs";
-import {
-  Table,
-  TablePagination,
-  TableWrapper,
-  TBody,
-  THead,
-} from "@/common/Table/Table";
+import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -15,7 +9,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
@@ -24,6 +18,7 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -81,19 +76,12 @@ const columns = [
 
 export const MyLiquidityTxsTable = () => {
   const [maxItems, setMaxItems] = useState(10);
-  const { data, loading, page, maxPage, setPage } = useLiquidityTxs({
-    maxItems,
-  });
+  const { data, loading, hasMore, handleShowMore } = useLiquidityTxs();
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  // Go to page 1 if maxItems changes
-  useEffect(() => {
-    setPage(1);
-  }, [maxItems, setPage]);
-
-  const { blockNumber, transactions, totalCount } = data;
+  const { blockNumber, transactions } = data;
   return (
     <>
       {blockNumber && (
@@ -128,22 +116,18 @@ export const MyLiquidityTxsTable = () => {
             </tbody>
           )}
         </Table>
-        <TablePagination
-          skip={maxItems * (page - 1)}
-          limit={maxItems}
-          totalCount={totalCount}
-          hasPrev={page !== 1}
-          hasNext={page !== maxPage}
-          onPrev={() => {
-            setPage(page === 1 ? page : page - 1);
-          }}
-          onNext={() => {
-            setPage(page === maxPage ? page : page + 1);
-          }}
-          updateRowCount={(newCount) => {
-            setMaxItems(parseInt(newCount, 10));
-          }}
-        />
+        {hasMore && (
+          <button
+            disabled={loading}
+            className={classNames(
+              "block w-full p-5 border-t border-DAE2EB",
+              !loading && "hover:bg-F4F8FC"
+            )}
+            onClick={handleShowMore}
+          >
+            {loading && transactions.length > 0 ? t`loading...` : t`Show More`}
+          </button>
+        )}
       </TableWrapper>
     </>
   );
@@ -151,6 +135,7 @@ export const MyLiquidityTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6">
@@ -165,9 +150,9 @@ const DetailsRenderer = ({ row }) => {
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
-            title={formatCurrency(convertFromUnits(row.liquidityAmount)).long}
+            title={formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).long}
           >
-            {formatCurrency(convertFromUnits(row.liquidityAmount)).short}
+            {formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).short}
           </span>{" "}
           {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
         </span>
@@ -179,6 +164,7 @@ const DetailsRenderer = ({ row }) => {
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = useTokenSymbol(row.vault.id);
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6 text-right">
@@ -186,12 +172,12 @@ const PodAmountRenderer = ({ row }) => {
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
-            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+            formatCurrency(convertFromUnits(row.podAmount), router.locale, tokenSymbol, true)
               .long
           }
         >
           {
-            formatCurrency(convertFromUnits(row.podAmount), tokenSymbol, true)
+            formatCurrency(convertFromUnits(row.podAmount), router.locale,tokenSymbol, true)
               .short
           }
         </span>

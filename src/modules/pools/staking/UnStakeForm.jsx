@@ -11,6 +11,7 @@ import {
 } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const UnStakeForm = ({
   info,
@@ -23,6 +24,7 @@ export const UnStakeForm = ({
   const blockHeight = useBlockHeight();
 
   const [inputValue, setInputValue] = useState();
+  const router = useRouter();
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
@@ -76,6 +78,7 @@ export const UnStakeForm = ({
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
+              router.locale,
               stakingTokenSymbol,
               true
             ).long

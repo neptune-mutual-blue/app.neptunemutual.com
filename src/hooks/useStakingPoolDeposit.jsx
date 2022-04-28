@@ -21,6 +21,7 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -52,6 +53,7 @@ export const useStakingPoolDeposit = ({
   const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const router = useRouter();
 
   // Minimum of info.maximumStake, balance
   const maxStakableAmount = sort([maximumStake, balance])[0];
@@ -201,6 +203,7 @@ export const useStakingPoolDeposit = ({
         t`Cannot stake more than ${
           formatCurrency(
             convertFromUnits(maxStakableAmount).toString(),
+            router.locale,
             "",
             true
           ).short
@@ -213,7 +216,7 @@ export const useStakingPoolDeposit = ({
       setError("");
       return;
     }
-  }, [account, balance, error, maxStakableAmount, value]);
+  }, [account, balance, error, maxStakableAmount, router.locale, value]);
 
   const canDeposit =
     value &&

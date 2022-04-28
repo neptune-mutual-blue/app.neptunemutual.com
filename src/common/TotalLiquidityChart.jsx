@@ -6,6 +6,7 @@ import HighchartsExporting from "highcharts/modules/exporting";
 import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
+import { useRouter } from "next/router";
 
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
@@ -15,6 +16,7 @@ const TotalLiquidityChart = () => {
   const [chartData, setChartData] = useState([]);
   const { data } = useProtocolDayData();
   const chartRef = useRef();
+  const router = useRouter();
 
   const yAxisMin =
     (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0;
@@ -39,7 +41,7 @@ const TotalLiquidityChart = () => {
           const fo =
             this.value === 0
               ? { short: "0" }
-              : formatCurrency(this.value, "", true);
+              : formatCurrency(this.value, router.locale,"", true);
           return `<span class='font-poppins text-black'>${fo.short}</span>`;
         },
         useHTML: true,
@@ -95,7 +97,7 @@ const TotalLiquidityChart = () => {
       useHTML: true,
       formatter: function () {
         return `<div class='px-2'><p class='font-bold font-poppins text-h6'>${
-          formatCurrency(this.y).short
+          formatCurrency(this.y, router.locale).short
         }</p><p class='text-xs font-poppins'>${Highcharts.dateFormat(
           "%b %e, %H:%S",
           new Date(this.x)

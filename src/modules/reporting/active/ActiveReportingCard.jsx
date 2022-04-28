@@ -13,6 +13,7 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useRouter } from "next/router";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
@@ -20,6 +21,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { commitment, status } = useFetchCoverInfo({
     coverKey,
   });
+  const router = useRouter();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
@@ -48,8 +50,8 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER)}-
-        {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER)}
+        {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
@@ -61,7 +63,7 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
           <Trans>utilization Ratio</Trans>
         </span>
         <span className="font-semibold text-right">
-          {formatPercent(utilization)}
+          {formatPercent(utilization, router.locale)}
         </span>
       </div>
       <div className="mt-2 mb-4">
@@ -70,10 +72,10 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       <div className="flex justify-between px-1 text-sm">
         <span
           className=""
-          title={formatCurrency(convertFromUnits(commitment).toString()).long}
+          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString()).short}
+          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
         </span>
         <span
           className="text-right"

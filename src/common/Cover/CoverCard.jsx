@@ -11,12 +11,14 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useRouter } from "next/router";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
   const { coverInfo } = useCoverInfo(key);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const imgSrc = getCoverImgSrc(coverInfo);
+  const router = useRouter();
 
   const { commitment, status } = useFetchCoverInfo({
     coverKey: key,
@@ -48,8 +50,8 @@ export const CoverCard = ({ details }) => {
       </h4>
       <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(ipfsData.pricingFloor / MULTIPLIER)}-
-        {formatPercent(ipfsData.pricingCeiling / MULTIPLIER)}
+        {formatPercent(ipfsData.pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(ipfsData.pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
@@ -59,7 +61,7 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
         <span className="font-semibold text-right text-h7 lg:text-sm ">
-          {formatPercent(utilization)}
+          {formatPercent(utilization, router.locale)}
         </span>
       </div>
       <div className="mt-2 mb-4">
@@ -68,18 +70,18 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
           className="flex-1"
-          title={formatCurrency(convertFromUnits(commitment).toString()).long}
+          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString()).short}
+          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
         </div>
 
         <div
           className="flex-1 text-right"
-          title={formatCurrency(convertFromUnits(liquidity).toString()).long}
+          title={formatCurrency(convertFromUnits(liquidity).toString(), router.locale).long}
         >
           <Trans>Liquidity:</Trans>{" "}
-          {formatCurrency(convertFromUnits(liquidity).toString()).short}
+          {formatCurrency(convertFromUnits(liquidity).toString(), router.locale).short}
         </div>
       </div>
     </OutlinedCard>

@@ -84,6 +84,7 @@ export default function ClaimPolicy({ disabled }) {
                   {
                     formatCurrency(
                       convertFromUnits(data.totalActiveProtection),
+                      router.locale,
                       "USD"
                     ).long
                   }

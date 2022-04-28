@@ -9,6 +9,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -94,6 +95,8 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 };
 
 const AmountRenderer = ({ row }) => {
+  const router = useRouter();
+
   return (
     <td className="px-6 py-6">
       <div className="flex items-center whitespace-nowrap">
@@ -104,9 +107,9 @@ const AmountRenderer = ({ row }) => {
           )}
         ></div>
         <div
-          title={formatCurrency(convertFromUnits(row.stake), "NPM", true).long}
+          title={formatCurrency(convertFromUnits(row.stake), router.locale, "NPM", true).long}
         >
-          {formatCurrency(convertFromUnits(row.stake), "NPM", true).short}
+          {formatCurrency(convertFromUnits(row.stake), router.locale,"NPM", true).short}
         </div>
       </div>
     </td>

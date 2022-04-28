@@ -149,11 +149,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         {value && isValidNumber(value) && (
           <div
             className="flex items-center text-15aac8"
-            title={formatCurrency(value, "cxDAI", true).long}
+            title={formatCurrency(value, router.locale,"cxDAI", true).long}
           >
             <p>
               <Trans>You will receive:</Trans>{" "}
-              {formatCurrency(value, "cxDAI", true).short}
+              {formatCurrency(value, router.locale,"cxDAI", true).short}
             </p>
           </div>
         )}

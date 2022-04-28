@@ -20,6 +20,7 @@ import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -51,6 +52,7 @@ export const usePurchasePolicy = ({
   } = useERC20Allowance(liquidityTokenAddress);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const router = useRouter();
 
   useEffect(() => {
     updateAllowance(policyContractAddress);
@@ -84,7 +86,7 @@ export const usePurchasePolicy = ({
     if (isGreater(value || 0, availableLiquidity || 0)) {
       setError(
         t`Maximum protection available is ${
-          formatCurrency(availableLiquidity).short
+          formatCurrency(availableLiquidity, router.locale).short
         }`
       );
       return;
@@ -95,7 +97,7 @@ export const usePurchasePolicy = ({
       setError("");
       return;
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, value]);
+  }, [account, availableLiquidity, balance, error, feeAmount, router.locale, value]);
 
   const handleApprove = async () => {
     setApproving(true);

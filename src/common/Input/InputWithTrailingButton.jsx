@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 import { getPlainNumber } from "@/utils/formatter/input";
-import { getLocale } from "@/utils/locale";
+import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import CurrencyInput from "react-currency-input-field";
 
@@ -13,6 +13,7 @@ export const InputWithTrailingButton = ({
   const ref = useRef(null);
   const [width, setWidth] = useState();
   const [inputValue, setInputValue] = useState(inputProps.value ?? "");
+  const { locale } = useRouter();
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -41,11 +42,11 @@ export const InputWithTrailingButton = ({
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
     onValueChange: (val) => {
-      inputProps.onChange(getPlainNumber(val ?? "", getLocale()));
+      inputProps.onChange(getPlainNumber(val ?? "", locale));
       setInputValue(val ?? "");
     },
     intlConfig: {
-      locale: getLocale(),
+      locale: locale,
     },
     autoComplete: "off",
     decimalsLimit: 25,
