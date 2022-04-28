@@ -36,9 +36,7 @@ module.exports = {
     {
       path: "<rootDir>/locales/{locale}/messages",
       include: [
-        "<rootDir>/src/common",
-        "<rootDir>/src/modules",
-        "<rootDir>/src/pages",
+        "<rootDir>/src",
         "<rootDir>/lib",
       ],
     },

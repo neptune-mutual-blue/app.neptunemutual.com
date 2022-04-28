@@ -8,7 +8,7 @@ import { BondInfoCard } from "@/src/modules/pools/bond/BondInfoCard";
 import { mergeAlternatively } from "@/utils/arrays";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
-import { convertFromUnits, sumOf } from "@/utils/bn";
+import { convertFromUnits, convertToUnits, sumOf } from "@/utils/bn";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { useCreateBond } from "@/src/hooks/useCreateBond";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -30,7 +30,8 @@ const BondPage = () => {
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
-  const { NPMTokenAddress, liquidityTokenAddress } = useAppConstants();
+  const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
+    useAppConstants();
 
   const {
     balance,
@@ -46,6 +47,9 @@ const BondPage = () => {
     handleBond,
   } = useCreateBond({ info, value, refetchBondInfo });
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
+  const marketPrice = convertToUnits(
+    getPriceByAddress(NPMTokenAddress)
+  ).toString();
 
   const leftHalf = [
     {
@@ -53,13 +57,13 @@ const BondPage = () => {
       value: formatCurrency(
         getDiscountedPrice(
           info.discountRate,
-          convertFromUnits(info.marketPrice).toString()
+          convertFromUnits(marketPrice).toString()
         ),
         "USD"
       ).short,
       tooltip: getDiscountedPrice(
         info.discountRate,
-        convertFromUnits(info.marketPrice).toString()
+        convertFromUnits(marketPrice).toString()
       ),
       valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
@@ -81,11 +85,9 @@ const BondPage = () => {
   const rightHalf = [
     {
       title: t`Market Price`,
-      value: formatCurrency(
-        convertFromUnits(info.marketPrice).toString(),
-        "USD"
-      ).short,
-      tooltip: convertFromUnits(info.marketPrice).toString(),
+      value: formatCurrency(convertFromUnits(marketPrice).toString(), "USD")
+        .short,
+      tooltip: convertFromUnits(marketPrice).toString(),
       valueClasses: "text-h3 text-9B9B9B mt-1",
     },
   ];

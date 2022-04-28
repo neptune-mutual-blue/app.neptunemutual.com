@@ -21,7 +21,6 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { getParsedKey } from "@/src/helpers/cover";
-import { useCoverStatusInfo } from "@/src/hooks/useCoverStatusInfo";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -29,6 +28,7 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
+import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -43,7 +43,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const toast = useToast();
 
-  const statusInfo = useCoverStatusInfo(coverKey);
+  const { status, activeIncidentDate } = useCoverInfoContext();
   const {
     lqTokenBalance,
     npmBalance,
@@ -140,18 +140,16 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
 
-  if (statusInfo.status && statusInfo.status !== "Normal") {
+  if (status && status !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(coverKey)}/${
-            statusInfo.activeIncidentDate
-          }/details`}
+          href={`/reporting/${getParsedKey(
+            coverKey
+          )}/${activeIncidentDate}/details`}
         >
-          <a className="font-medium underline hover:no-underline">
-            {statusInfo.status}
-          </a>
+          <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>
     );

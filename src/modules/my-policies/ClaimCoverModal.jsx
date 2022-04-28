@@ -113,8 +113,13 @@ export const ClaimCoverModal = ({
             unit="DAI"
           />
           <p className="px-3 pt-2 text-9B9B9B">
-            {isGreater(claimPlatformFee, "0") &&
-              t`Fee:`` ${formatPercent(claimPlatformFee / MULTIPLIER)}`}
+            {isGreater(claimPlatformFee, "0") && (
+              <>
+                <Trans>
+                  Fee: {formatPercent(claimPlatformFee / MULTIPLIER)}
+                </Trans>
+              </>
+            )}
           </p>
         </div>
 
