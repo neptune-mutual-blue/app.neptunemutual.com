@@ -8,6 +8,9 @@ module.exports = (phase, { _c }) => {
     experimental: {
       outputStandalone: true,
     },
+    eslint: {
+      dirs: ["http", "lib", "src"],
+    },
     headers: async () => {
       if (phase === PHASE_DEVELOPMENT_SERVER) {
         return http.headers.development;
