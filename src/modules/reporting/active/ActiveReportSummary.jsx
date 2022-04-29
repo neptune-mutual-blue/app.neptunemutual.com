@@ -25,7 +25,6 @@ export const ActiveReportSummary = ({
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
-  const router = useRouter();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)

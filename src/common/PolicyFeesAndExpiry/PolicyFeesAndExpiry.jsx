@@ -14,7 +14,6 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
 
   const next = DateLib.addMonths(new Date(), coverPeriod - 1);
   const expires = DateLib.getEomInUTC(next);
-  const router = useRouter();
 
   return (
     <>
