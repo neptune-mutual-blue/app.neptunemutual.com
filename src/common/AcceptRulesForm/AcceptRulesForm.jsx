@@ -2,9 +2,17 @@ import { Checkbox } from "@/common/Checkbox/Checkbox";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
 import { Trans } from "@lingui/macro";
+import { Alert } from "@/common/Alert/Alert";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { getParsedKey } from "@/src/helpers/cover";
 
-export const AcceptRulesForm = ({ onAccept, children }) => {
+export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
+  const router = useRouter();
+  const coverPurchasePage = router.pathname.includes("purchase");
   const [checked, setChecked] = useState(false);
+  const { activeIncidentDate, status } = useCoverInfoContext();
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked);
@@ -17,6 +25,24 @@ export const AcceptRulesForm = ({ onAccept, children }) => {
       onAccept();
     }
   };
+
+  if (status && status !== "Normal") {
+    return (
+      <Alert>
+        <Trans>
+          Cannot {coverPurchasePage ? "purchase policy" : "add liquidity"},
+          since the cover status is
+        </Trans>{" "}
+        <Link
+          href={`/reporting/${getParsedKey(
+            coverKey
+          )}/${activeIncidentDate}/details`}
+        >
+          <a className="font-medium underline hover:no-underline">{status}</a>
+        </Link>
+      </Alert>
+    );
+  }
 
   return (
     <>

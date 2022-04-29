@@ -52,7 +52,6 @@ const BondPage = () => {
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress)
   ).toString();
-  const router = useRouter();
 
   const leftHalf = [
     {
