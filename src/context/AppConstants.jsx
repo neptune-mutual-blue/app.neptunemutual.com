@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { registry } from "@neptunemutual/sdk";
 
 import { useNetwork } from "@/src/context/Network";
@@ -46,7 +46,7 @@ export const AppConstantsProvider = ({ children }) => {
     }));
   };
 
-  const getAddressFromApi = async (networkId) => {
+  const getAddressFromApi = useCallback(async (networkId) => {
     try {
       const networkName = NetworkUrlParam[networkId];
       const response = await fetch(
@@ -70,7 +70,7 @@ export const AppConstantsProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (!networkId) return;
@@ -87,7 +87,7 @@ export const AppConstantsProvider = ({ children }) => {
     registry.NPMToken.getAddress(networkId, signerOrProvider).then((_addr) =>
       setAddress(_addr, "NPMTokenAddress")
     );
-  }, [account, library, networkId]);
+  }, [account, getAddressFromApi, library, networkId]);
 
   return (
     <AppConstantsContext.Provider
