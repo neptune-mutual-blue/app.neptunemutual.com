@@ -18,7 +18,6 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
 
@@ -27,6 +26,7 @@ export const usePurchasePolicy = ({
   value,
   feeAmount,
   coverMonth,
+  availableLiquidity,
 }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
@@ -37,7 +37,6 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
-  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
   const { liquidityTokenAddress } = useAppConstants();
   const {
     balance,
@@ -97,7 +96,15 @@ export const usePurchasePolicy = ({
       setError("");
       return;
     }
-  }, [account, availableLiquidity, balance, error, feeAmount, router.locale, value]);
+  }, [
+    account,
+    availableLiquidity,
+    balance,
+    error,
+    feeAmount,
+    router.locale,
+    value,
+  ]);
 
   const handleApprove = async () => {
     setApproving(true);
