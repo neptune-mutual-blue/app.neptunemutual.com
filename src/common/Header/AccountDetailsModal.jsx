@@ -70,7 +70,7 @@ export const AccountDetailsModal = ({
       onClose={onClose}
       overlayClass="backdrop-blur-sm"
     >
-      <ModalWrapper className="max-w-xs px-6 py-4 my-8 overflow-y-auto transition-all sm:py-12 sm:px-16 sm:max-w-xl">
+      <ModalWrapper className="max-w-lg transition-all">
         <Dialog.Title
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
@@ -86,7 +86,7 @@ export const AccountDetailsModal = ({
           <CloseIcon width={24} height={24} />
         </button>
 
-        <div className="p-4 bg-white border mt-7 border-B0C4DB rounded-big">
+        <div className="px-4 py-3.5 bg-white border mt-7 border-B0C4DB rounded-big">
           <div className="flex flex-col-reverse items-center justify-between sm:flex-row">
             <span className="flex items-center text-xs tracking-normal text-364253 whitespace-nowrap">
               <span>

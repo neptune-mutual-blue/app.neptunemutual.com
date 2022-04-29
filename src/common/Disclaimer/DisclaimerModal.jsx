@@ -4,6 +4,7 @@ import { classNames } from "@/utils/classnames";
 import { Title, Description } from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { Trans } from "@lingui/macro";
+import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 
 export const DisclaimerModal = () => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage(
@@ -24,7 +25,7 @@ export const DisclaimerModal = () => {
 
   return (
     <ModalRegular isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
-      <div className="border-[1.5px] border-[#B0C4DB] max-w-full lg:max-w-5xl w-max max-h-90vh inline-block bg-white align-middle text-left p-12 rounded-3xl relative">
+      <ModalWrapper className="max-w-5xl">
         <Title className="flex items-center font-bold font-sora text-h4">
           <Trans>Disclaimer and Warranty</Trans>
         </Title>
@@ -123,7 +124,7 @@ export const DisclaimerModal = () => {
             <Trans>Accept</Trans>
           </button>
         </div>
-      </div>
+      </ModalWrapper>
     </ModalRegular>
   );
 };

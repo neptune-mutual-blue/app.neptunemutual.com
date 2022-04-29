@@ -134,120 +134,121 @@ export const WithdrawLiquidityForm = ({
   }
 
   return (
-    <div className="overflow-y-auto max-h-[70vh] pr-2">
-      <div className="mt-6">
-        <TokenAmountInput
-          labelText={t`Enter Npm Amount`}
-          tokenSymbol={npmTokenSymbol}
-          handleChooseMax={handleChooseNpmMax}
-          inputValue={npmValue}
-          id={"my-staked-amount"}
-          onChange={handleNpmChange}
-          tokenAddress={NPMTokenAddress}
-        >
-          {isGreater(myStake, "0") && (
+    <>
+      <div className="overflow-y-auto max-h-[50vh] pr-2">
+        <div className="mt-6">
+          <TokenAmountInput
+            labelText={t`Enter Npm Amount`}
+            tokenSymbol={npmTokenSymbol}
+            handleChooseMax={handleChooseNpmMax}
+            inputValue={npmValue}
+            id={"my-staked-amount"}
+            onChange={handleNpmChange}
+            tokenAddress={NPMTokenAddress}
+          >
+            {isGreater(myStake, "0") && (
+              <TokenAmountWithPrefix
+                amountInUnits={myStake}
+                prefix={t`Your Stake:` + " "}
+                symbol={npmTokenSymbol}
+              />
+            )}
             <TokenAmountWithPrefix
-              amountInUnits={myStake}
-              prefix={t`Your Stake:` + " "}
+              amountInUnits={minStakeToAddLiquidity}
+              prefix={t`Minimum Stake:` + " "}
               symbol={npmTokenSymbol}
             />
-          )}
-          <TokenAmountWithPrefix
-            amountInUnits={minStakeToAddLiquidity}
-            prefix={t`Minimum Stake:` + " "}
-            symbol={npmTokenSymbol}
+            {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
+          </TokenAmountInput>
+        </div>
+        <div className="mt-6">
+          <TokenAmountInput
+            labelText={t`Enter your POD`}
+            tokenSymbol={vaultTokenSymbol}
+            handleChooseMax={handleChoosePodMax}
+            inputValue={podValue}
+            id={"my-liquidity-amount"}
+            onChange={handlePodChange}
+            tokenBalance={balance}
+            tokenAddress={vaultTokenAddress}
           />
-          {npmErrorMsg && <p className="text-FA5C2F">{npmErrorMsg}</p>}
-        </TokenAmountInput>
-      </div>
-      <div className="mt-6">
-        <TokenAmountInput
-          labelText={t`Enter your POD`}
-          tokenSymbol={vaultTokenSymbol}
-          handleChooseMax={handleChoosePodMax}
-          inputValue={podValue}
-          id={"my-liquidity-amount"}
-          onChange={handlePodChange}
-          tokenBalance={balance}
-          tokenAddress={vaultTokenAddress}
-        />
-        {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
-      </div>
-      <div className="mt-6 modal-unlock">
-        <ReceiveAmountInput
-          labelText={t`You Will Receive`}
-          tokenSymbol={liquidityTokenSymbol}
-          inputValue={formatAmount(convertFromUnits(receiveAmount).toString(), router.locale)}
-          inputId="my-liquidity-receive"
-        />
-      </div>
+          {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
+        </div>
+        <div className="mt-6 modal-unlock">
+          <ReceiveAmountInput
+            labelText={t`You Will Receive`}
+            tokenSymbol={liquidityTokenSymbol}
+            inputValue={formatAmount(convertFromUnits(receiveAmount).toString(), router.locale)}
+            inputId="my-liquidity-receive"
+          />
+        </div>
 
-      <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
-        <Trans>NEXT UNLOCK CYCLE</Trans>
-      </h5>
-      <div>
-        <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
-          <strong>
-            <Trans>Open:</Trans>{" "}
-          </strong>
-          {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
-        </span>
-      </div>
-      <div>
-        <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
-          <strong>
-            <Trans>Close:</Trans>{" "}
-          </strong>
-          {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
-        </span>
-      </div>
-
-      <div className="mt-4">
-        {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
-        <DataLoadingIndicator message={loadingMessage} />
-        {!canWithdraw ? (
-          <RegularButton
-            onClick={handleApprove}
-            className="w-full p-6 font-semibold uppercase text-h6"
-            disabled={
-              approving ||
-              npmErrorMsg ||
-              podErrorMsg ||
-              receiveAmountLoading ||
-              !npmValue ||
-              !podValue ||
-              loadingBalance ||
-              loadingAllowance ||
-              !isAccrualComplete
-            }
-          >
-            {approving ? t`Approving..` : t`Approve`}
-          </RegularButton>
-        ) : (
-          <RegularButton
-            onClick={() => {
-              handleWithdraw(() => {
-                setPodValue("");
-                setNpmValue("");
-              });
-            }}
-            className="w-full p-6 font-semibold uppercase text-h6"
-            disabled={
-              withdrawing ||
-              npmErrorMsg ||
-              podErrorMsg ||
-              receiveAmountLoading ||
-              !npmValue ||
-              !podValue ||
-              loadingBalance ||
-              loadingAllowance ||
-              !isAccrualComplete
-            }
-          >
-            {withdrawing ? t`Withdrawing..` : t`Withdraw`}
-          </RegularButton>
-        )}
-      </div>
+        <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
+          <Trans>NEXT UNLOCK CYCLE</Trans>
+        </h5>
+        <div>
+          <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
+            <strong>
+              <Trans>Open:</Trans>{" "}
+            </strong>
+            {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
+          </span>
+        </div>
+        <div>
+          <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
+            <strong>
+              <Trans>Close:</Trans>{" "}
+            </strong>
+            {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
+          </span>
+        </div>
     </div>
+    <div className="mt-4">
+    {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
+    <DataLoadingIndicator message={loadingMessage} />
+    {!canWithdraw ? (
+      <RegularButton
+        onClick={handleApprove}
+        className="w-full p-6 font-semibold uppercase text-h6"
+        disabled={
+          approving ||
+          npmErrorMsg ||
+          podErrorMsg ||
+          receiveAmountLoading ||
+          !npmValue ||
+          !podValue ||
+          loadingBalance ||
+          loadingAllowance ||
+          !isAccrualComplete
+        }
+      >
+        {approving ? t`Approving..` : t`Approve`}
+      </RegularButton>
+    ) : (
+      <RegularButton
+        onClick={() => {
+          handleWithdraw(() => {
+            setPodValue("");
+            setNpmValue("");
+          });
+        }}
+        className="w-full p-6 font-semibold uppercase text-h6"
+        disabled={
+          withdrawing ||
+          npmErrorMsg ||
+          podErrorMsg ||
+          receiveAmountLoading ||
+          !npmValue ||
+          !podValue ||
+          loadingBalance ||
+          loadingAllowance ||
+          !isAccrualComplete
+        }
+      >
+        {withdrawing ? t`Withdrawing..` : t`Withdraw`}
+      </RegularButton>
+    )}
+    </div>
+  </>
   );
 };
