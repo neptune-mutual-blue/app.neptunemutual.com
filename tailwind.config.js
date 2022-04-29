@@ -2,6 +2,7 @@ module.exports = {
   content: ["./lib/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     screens: {
+      xs: "375px",
       sm: "600px",
       md: "768px",
       lg: "992px",
@@ -89,6 +90,7 @@ module.exports = {
         60: "60px",
         120: "120px",
         300: "300px",
+        400: "400px",
         500: "500px",
         550: "550px",
         600: "600px",
@@ -127,6 +129,7 @@ module.exports = {
         "940000": "#940000",
         "E52E2E": "#E52E2E",
         "4289F2": "#4289F2",
+        "FEFEFF": "#FEFEFF"
       },
       minHeight: {
         360: "360px",
