@@ -152,7 +152,7 @@ export const MyLiquidityCoverPage = () => {
                   </strong>
                 </div>
 
-                {isGreater(myStake, 0) && isGreater(podBalance, 0) && (
+                {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
                   <div className="flex justify-center px-7">
                     <OutlinedButton
                       className="w-full rounded-big"
