@@ -31,8 +31,6 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
 
-  const router = useRouter();
-
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
