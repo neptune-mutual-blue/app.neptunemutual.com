@@ -24,6 +24,7 @@ import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import BigNumber from "bignumber.js";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -31,6 +32,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const { totalCommitment, totalPoolAmount } = useCoverInfoContext();
+
+  const availableLiquidity = convertFromUnits(
+    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
+  ).toString();
+
   const toast = useToast();
   const monthNames = getMonthNames(router.locale)
 
@@ -54,6 +61,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     coverMonth,
     coverKey,
     feeAmount: feeData.fee,
+    availableLiquidity,
   });
 
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
@@ -149,11 +157,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         {value && isValidNumber(value) && (
           <div
             className="flex items-center text-15aac8"
-            title={formatCurrency(value, router.locale,"cxDAI", true).long}
+            title={formatCurrency(value, router.locale, "cxDAI", true).long}
           >
             <p>
               <Trans>You will receive:</Trans>{" "}
-              {formatCurrency(value, router.locale,"cxDAI", true).short}
+              {formatCurrency(value, router.locale, "cxDAI", true).short}
             </p>
           </div>
         )}
