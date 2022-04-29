@@ -50,7 +50,7 @@ export const ClaimBondModal = ({
           <p
             id="modal-unlock-on"
             className="font-medium text-7398C0 text-h4"
-            title={DateLib.toLongDateFormat(unlockDate)}
+            title={DateLib.toLongDateFormat(unlockDate,router.locale)}
           >
             {fromNow(unlockDate)}
           </p>

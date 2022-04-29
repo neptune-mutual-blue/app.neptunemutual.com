@@ -14,6 +14,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
 
   const next = DateLib.addMonths(new Date(), coverPeriod - 1);
   const expires = DateLib.getEomInUTC(next);
+  const router = useRouter();
 
   return (
     <>
@@ -42,7 +43,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
               <Trans>Claim Expiry</Trans>
             </th>
             <td className="text-4e7dd9" title={expires.toString()}>
-              {DateLib.toLongDateFormat(expires, "UTC")}
+              {DateLib.toLongDateFormat(expires, router.locale,"UTC")}
             </td>
           </tr>
         </tbody>

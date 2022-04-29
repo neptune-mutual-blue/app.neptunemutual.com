@@ -52,6 +52,7 @@ const BondPage = () => {
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress)
   ).toString();
+  const router = useRouter();
 
   const leftHalf = [
     {
@@ -169,7 +170,7 @@ const BondPage = () => {
           <p
             id="unlock-on"
             className="font-medium text-7398C0 text-h4"
-            title={DateLib.toLongDateFormat(unlockTimestamp)}
+            title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
           >
             {fromNow(unlockTimestamp)}
           </p>

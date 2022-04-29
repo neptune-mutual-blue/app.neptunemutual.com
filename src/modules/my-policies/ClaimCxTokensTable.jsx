@@ -122,12 +122,13 @@ const CxTokenAmountRenderer = () => {
 const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext();
   const claimExpiryDate = report?.claimExpiresAt || 0;
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6">
       <span
         className="text-left whitespace-nowrap"
-        title={DateLib.toLongDateFormat(claimExpiryDate)}
+        title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
       >
         {fromNow(claimExpiryDate)}
       </span>

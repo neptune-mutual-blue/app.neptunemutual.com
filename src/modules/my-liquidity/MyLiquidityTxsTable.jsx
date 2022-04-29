@@ -9,7 +9,6 @@ import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
@@ -32,14 +31,7 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => (
-  <td
-    className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
-  >
-    {fromNow(row.transaction.timestamp)}
-  </td>
-);
+const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderDetails = (row) => <DetailsRenderer row={row} />;
 
@@ -75,7 +67,6 @@ const columns = [
 ];
 
 export const MyLiquidityTxsTable = () => {
-  const [maxItems, setMaxItems] = useState(10);
   const { data, loading, hasMore, handleShowMore } = useLiquidityTxs();
 
   const { networkId } = useNetwork();
@@ -132,6 +123,19 @@ export const MyLiquidityTxsTable = () => {
     </>
   );
 };
+
+const WhenRenderer = ({ row }) => {
+  const router = useRouter();
+
+  return (
+    <td
+    className="px-6 py-6"
+    title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+  >
+    {fromNow(row.transaction.timestamp)}
+  </td>
+  )
+}
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
@@ -195,6 +199,7 @@ const PodAmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork();
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6 min-w-120">
@@ -209,7 +214,7 @@ const ActionsRenderer = ({ row }) => {
           <Tooltip.Content side="top">
             <div className="max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl">
               <p>
-                {DateLib.toLongDateFormat(row.transaction.timestamp, "UTC")}
+                {DateLib.toLongDateFormat(row.transaction.timestamp, router.locale, "UTC")}
               </p>
             </div>
             <Tooltip.Arrow offset={16} className="fill-black" />

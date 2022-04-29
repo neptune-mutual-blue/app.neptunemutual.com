@@ -22,6 +22,7 @@ export const ActiveReportSummary = ({
   incidentReport,
   resolvableTill,
 }) => {
+  const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
   const router = useRouter();
@@ -184,9 +185,10 @@ export const ActiveReportSummary = ({
             <Trans>Reporting Period</Trans>
           </h3>
           <p className="mb-4 text-sm opacity-50">
-            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
+            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate, router.locale)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
@@ -194,11 +196,13 @@ export const ActiveReportSummary = ({
             {" - "}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp
+                incidentReport.resolutionTimestamp,
+                router.locale
               )}
             >
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
