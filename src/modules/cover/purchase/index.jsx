@@ -67,8 +67,12 @@ export const CoverPurchaseDetailsPage = () => {
             {/* Total Liquidity */}
             <HeroStat title={t`Total Liquidity`}>
               {
-                formatCurrency(convertFromUnits(totalLiquidity), router.locale,"DAI", true)
-                  .long
+                formatCurrency(
+                  convertFromUnits(totalLiquidity),
+                  router.locale,
+                  "DAI",
+                  true
+                ).long
               }
             </HeroStat>
           </div>
@@ -90,7 +94,10 @@ export const CoverPurchaseDetailsPage = () => {
               <>
                 <CoverRules rules={coverInfo?.rules} />
                 <br className="mt-20" />
-                <AcceptRulesForm onAccept={handleAcceptRules}>
+                <AcceptRulesForm
+                  onAccept={handleAcceptRules}
+                  coverKey={coverKey}
+                >
                   <Trans>
                     I have read, understood, and agree to the terms of cover
                     rules
