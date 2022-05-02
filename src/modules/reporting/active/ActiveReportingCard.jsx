@@ -79,10 +79,10 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
         </span>
         <span
           className="text-right"
-          title={DateLib.toLongDateFormat(incidentDate)}
+          title={DateLib.toLongDateFormat(incidentDate, router.locale)}
         >
           <Trans>Reported On:</Trans>{" "}
-          <span title={DateLib.toLongDateFormat(incidentDate)}>
+          <span title={DateLib.toLongDateFormat(incidentDate, router.locale)}>
             {fromNow(incidentDate)}
           </span>
         </span>

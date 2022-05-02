@@ -237,7 +237,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           <strong>
             <Trans>Open:</Trans>{" "}
           </strong>
-          {DateLib.toLongDateFormat(info.withdrawalOpen)}
+          {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
         </span>
       </div>
       <div>
@@ -245,7 +245,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           <strong>
             <Trans>Close:</Trans>{" "}
           </strong>
-          {DateLib.toLongDateFormat(info.withdrawalClose)}
+          {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
         </span>
       </div>
 

@@ -5,6 +5,7 @@ import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
 import { Divider } from "@/common/Divider/Divider";
+import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 
 const initValue = {
   // prettier-ignore
@@ -165,7 +166,7 @@ const ForceTxModal = ({
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <div className="border-[1.5px] border-B0C4DB relative inline-block w-full max-w-[699px] py-8 px-10 text-left align-middle bg-[#FEFEFF] rounded-3xl">
+      <ModalWrapper className="max-w-xs sm:max-w-2xl bg-FEFEFF">
         <Dialog.Title className="flex items-center">
           <div className="font-semibold text-black font-sora text-h4">
             EVM Error Occurred While Processing Your Request
@@ -198,21 +199,21 @@ const ForceTxModal = ({
           </p>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex flex-col justify-end sm:flex-row">
           <button
-            className="p-3 mr-6 border rounded border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
+            className="w-full p-3 mb-4 border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="p-3 border rounded border-E52E2E text-E52E2E hover:bg-E52E2E hover:text-white"
+            className="w-full p-3 border rounded sm:w-auto border-E52E2E text-E52E2E hover:bg-E52E2E hover:text-white"
             onClick={handleContinue}
           >
             Send Transaction Ignoring This Error
           </button>
         </div>
-      </div>
+      </ModalWrapper>
     </ModalRegular>
   );
 };

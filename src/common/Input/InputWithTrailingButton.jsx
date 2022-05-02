@@ -1,11 +1,8 @@
 import { classNames } from "@/utils/classnames";
-import {
-  getLocaleNumber,
-  getNumberSeparators,
-  getPlainNumber,
-} from "@/utils/formatter/currency";
-import { useState, useEffect, useRef } from "react";
+import { getPlainNumber } from "@/utils/formatter/input";
 import { useRouter } from "next/router";
+import { useState, useEffect, useRef } from "react";
+import CurrencyInput from "react-currency-input-field";
 
 export const InputWithTrailingButton = ({
   inputProps,
@@ -15,9 +12,8 @@ export const InputWithTrailingButton = ({
 }) => {
   const ref = useRef(null);
   const [width, setWidth] = useState();
-  const [val, setVal] = useState(inputProps.value ?? "");
-  const [noChange, setNoChange] = useState(null);
-  const router = useRouter();
+  const [inputValue, setInputValue] = useState(inputProps.value ?? "");
+  const { locale } = useRouter();
 
   const getSize = () => {
     const newWidth = ref?.current?.clientWidth;
@@ -36,71 +32,29 @@ export const InputWithTrailingButton = ({
   }, []);
 
   useEffect(() => {
-    if (!isNaN(parseInt(inputProps.value))) {
-      const formattedNumber = getLocaleNumber(
-        inputProps.value,
-        router.locale,
-        true
-      );
-      setVal(formattedNumber);
-    }
-    if (inputProps.value === "") setVal("");
+    if (inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/))
+      setInputValue(inputProps.value);
   }, [inputProps.value]);
 
   const inputFieldProps = {
     id: inputProps.id,
-    value: val,
+    value: inputValue,
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
-    onChange: (ev) => {
-      const newVal = ev.target.value;
-      const sep = getNumberSeparators(router.locale);
-
-      // regex to identify localized number with decimal separator at the end
-      const incompleteRegex = new RegExp(
-        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
-          sep.thousand
-        }\\d+)*\\${sep.decimal}$`
-      );
-
-      // regex to identify if there are 0s at the end
-      // const endZeroRegex = new RegExp(
-      //   `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
-      //     sep.thousand
-      //   }\\d+)*\\${sep.decimal}\\d*0+$`
-      // );
-
-      if (noChange === newVal) {
-        setNoChange(null);
-        return setVal(newVal);
-      }
-
-      if (
-        newVal !== "" &&
-        (newVal.match(incompleteRegex) ||
-          (inputProps.allowNegative && newVal === "-"))
-      ) {
-        setNoChange(val);
-        return setVal(newVal);
-      }
-
-      // regex to identify localized number
-      const formattedRegex = new RegExp(
-        `^${inputProps.allowNegative ? "-?" : ""}\\d*(\\${
-          sep.thousand
-        }\\d+)*(\\${sep.decimal}\\d*)?$`
-      );
-      if (newVal !== "" && !newVal.match(formattedRegex)) return;
-      const returnVal = getPlainNumber(newVal, router.locale);
-      if (inputProps.onChange) inputProps.onChange(returnVal);
-      else setVal(getLocaleNumber(returnVal, router.locale));
+    onValueChange: (val) => {
+      inputProps.onChange(getPlainNumber(val ?? "", locale));
+      setInputValue(val ?? "");
+    },
+    intlConfig: {
+      locale: locale,
     },
     autoComplete: "off",
+    decimalsLimit: 25,
   };
 
   return (
     <div className="relative w-full text-black text-h4">
-      <input
+      <CurrencyInput
         {...inputFieldProps}
         className={classNames(
           "bg-white block w-full py-6 pl-6 pr-40 rounded-lg overflow-hidden border",
