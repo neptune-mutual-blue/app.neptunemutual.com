@@ -84,7 +84,7 @@ const columns = [
 
 export const MyBondTxsTable = () => {
   const { info } = useBondInfo();
-  const { page, limit, setPage } = usePagination({ defaultLimit: 1 });
+  const { page, limit, setPage } = usePagination();
   const { data, loading, hasMore } = useBondTxs({ page, limit });
 
   const { networkId } = useNetwork();
