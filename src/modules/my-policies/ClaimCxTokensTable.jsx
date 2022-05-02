@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-import { Table, TBody, TableWrapper, THead } from "@/common/Table/Table";
+import {
+  Table,
+  TBody,
+  TableWrapper,
+  THead,
+  TableShowMore,
+} from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/src/modules/my-policies/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -80,6 +86,9 @@ export const ClaimCxTokensTable = ({
   coverKey,
   incidentDate,
   report,
+  setPage,
+  hasMore = false,
+  loading = false,
 }) => {
   return (
     <>
@@ -92,8 +101,17 @@ export const ClaimCxTokensTable = ({
               data={activePolicies}
               extraData={{ coverKey, incidentDate }}
               RowWrapper={CxTokenRowProvider}
+              isLoading={loading}
             ></TBody>
           </Table>
+          {hasMore && (
+            <TableShowMore
+              isLoading={loading}
+              onShowMore={() => {
+                setPage((prev) => prev + 1);
+              }}
+            />
+          )}
         </TableWrapper>
       </ClaimTableContext.Provider>
     </>
@@ -109,10 +127,22 @@ const CxTokenAmountRenderer = () => {
       <td className="px-6 py-6 text-right">
         <span
           title={
-            formatCurrency(convertFromUnits(balance), router.locale,tokenSymbol, true).long
+            formatCurrency(
+              convertFromUnits(balance),
+              router.locale,
+              tokenSymbol,
+              true
+            ).long
           }
         >
-          {formatCurrency(convertFromUnits(balance), router.locale,tokenSymbol, true).short}
+          {
+            formatCurrency(
+              convertFromUnits(balance),
+              router.locale,
+              tokenSymbol,
+              true
+            ).short
+          }
         </span>
       </td>
     </>

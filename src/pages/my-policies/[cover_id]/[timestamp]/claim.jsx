@@ -17,6 +17,7 @@ import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { usePagination } from "@/src/hooks/usePagination";
 
 export function getServerSideProps() {
   return {
@@ -28,10 +29,15 @@ export function getServerSideProps() {
 
 export default function ClaimPolicy({ disabled }) {
   const router = useRouter();
+  const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { data } = useActivePoliciesByCover({ coverKey });
+  const { data, hasMore, loading } = useActivePoliciesByCover({
+    coverKey,
+    page,
+    limit,
+  });
   const { data: reports, loading: loadingReports } =
     useFetchReportsByKeyAndDate({
       coverKey,
@@ -121,6 +127,9 @@ export default function ClaimPolicy({ disabled }) {
             coverKey={coverKey}
             incidentDate={timestamp}
             report={reports[0]}
+            hasMore={hasMore}
+            setPage={setPage}
+            loading={hasMore}
           />
         </Container>
       </main>

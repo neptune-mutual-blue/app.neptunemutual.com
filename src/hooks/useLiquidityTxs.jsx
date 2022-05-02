@@ -1,4 +1,3 @@
-import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
@@ -39,15 +38,13 @@ const getQuery = (account, limit, skip) => {
   `;
 };
 
-export const useLiquidityTxs = () => {
+export const useLiquidityTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
     liquidityTransactions: [],
   });
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [itemsToSkip, setItemsToSkip] = useState(0);
-
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
@@ -70,7 +67,7 @@ export const useLiquidityTxs = () => {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        query: getQuery(account, ROWS_PER_PAGE, itemsToSkip),
+        query: getQuery(account, limit, limit * (page - 1)),
       }),
     })
       .then((r) => r.json())
@@ -81,7 +78,7 @@ export const useLiquidityTxs = () => {
 
         const isLastPage =
           res.data.liquidityTransactions.length === 0 ||
-          res.data.liquidityTransactions.length < ROWS_PER_PAGE;
+          res.data.liquidityTransactions.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
@@ -102,14 +99,9 @@ export const useLiquidityTxs = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]);
-
-  const handleShowMore = () => {
-    setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
-  };
+  }, [account, limit, networkId, page]);
 
   return {
-    handleShowMore,
     hasMore,
     data: {
       blockNumber: data.blockNumber,

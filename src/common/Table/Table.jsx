@@ -2,6 +2,7 @@ import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
 import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
 import { Fragment } from "react";
 import { t, Trans } from "@lingui/macro";
+import { classNames } from "@/utils/classnames";
 
 export const Table = ({ children }) => {
   return <table className="min-w-full">{children}</table>;
@@ -23,13 +24,15 @@ export const TablePagination = ({
   totalCount = 124,
   onNext,
   onPrev,
-  hasPrev,
-  hasNext,
   updateRowCount,
+  page,
 }) => {
   if (totalCount <= 0) {
     return null;
   }
+
+  const extraPages = totalCount % limit === 0 ? 0 : 1;
+  const maxPage = Math.floor(totalCount / limit) + extraPages;
 
   return (
     <>
@@ -51,20 +54,41 @@ export const TablePagination = ({
         </p>
         <button
           className="p-2 mx-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onPrev}
-          disabled={!hasPrev}
+          disabled={page !== 1}
+          onClick={() => {
+            onPrev(page - 1);
+          }}
         >
           <ChevronLeftLgIcon width={16} height={16} />
         </button>
         <button
           className="p-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onNext}
-          disabled={!hasNext}
+          disabled={page !== maxPage}
+          onClick={() => {
+            onNext(page + 1);
+          }}
         >
           <ChevronRightLgIcon width={16} height={16} />
         </button>
       </div>
     </>
+  );
+};
+
+export const TableShowMore = ({ isLoading = false, onShowMore }) => {
+  return (
+    <button
+      disabled={isLoading}
+      onClick={() => {
+        onShowMore();
+      }}
+      className={classNames(
+        "block w-full p-5 border-t border-DAE2EB",
+        !isLoading && "hover:bg-F4F8FC"
+      )}
+    >
+      {isLoading ? t`loading...` : t`Show More`}
+    </button>
   );
 };
 
