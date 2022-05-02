@@ -7,6 +7,7 @@ import SelectedCircleIcon from "@/icons/SelectedCircleIcon";
 import SearchLanguageIcon from "@/icons/SearchLanguageIcon";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
+import ChevronDownArrowIcon from "@/icons/ChevronDownArrowIcon";
 
 const DEBOUNCE_TIMER = 200;
 
@@ -41,21 +42,16 @@ export const LanguageDropdown = () => {
   };
 
   return (
-    <div className="border-l h-[26px] pl-[18px] border-728FB2 cursor-pointer relative">
+    <div className="relative h-6 my-1.5 cursor-pointer">
       <Listbox
         value={languageKey[router.locale]}
         onChange={handleOnChangeLanguage}
       >
-        <Listbox.Button className="flex items-center text-sm leading-[21px] outline-none">
-          <img
-            src="/icons/global-language-icon.svg"
-            alt={t`language translation`}
-            width={16}
-            height={16}
-          />
-          <span className="pl-1 underline">
-            {router.locale.substring(0, 2).toUpperCase()}
-          </span>
+        <Listbox.Button className="flex items-center text-sm outline-none">
+          <div className="flex items-center text-xs text-white underline">
+            <span className="mr-1.5">{languageKey[router.locale]?.split('-')[0]}</span>
+            <ChevronDownArrowIcon aria-hidden="true" />
+          </div>
         </Listbox.Button>
         <Transition
           as={Fragment}
@@ -63,7 +59,7 @@ export const LanguageDropdown = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute right-0 py-[22px] px-4 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Listbox.Options className="absolute z-10 xl:right-0 py-[22px] px-4 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="flex items-center mb-3 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input

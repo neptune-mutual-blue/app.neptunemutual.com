@@ -30,30 +30,14 @@ export const languageKey = {
   "zh-CN": "Chinese - 中文",
   "en-US": "English",
   "fr-FR": "French - français",
-  "de-DE": "German - Deutsch",
-  "id-ID": "Indonesian - Bahasa Indonesia",
-  "it-IT": "Italian - italiano",
   "ja-JP": "Japanese - 日本語",
-  "ko-KR": "Korean - 한국어",
-  "ru-RU": "Russian - русский",
-  "es-ES": "Spanish - Español",
-  "el-el": "Greek - Ελληνικά",
-  "tr-TR": "Turkish - Türkçe",
 };
 
 export const localesKey = {
   "Chinese - 中文": "zh-CN",
   "English": "en-US",
   "French - français": "fr-FR",
-  "German - Deutsch": "de-DE",
-  "Indonesian - Bahasa Indonesia": "id-ID",
-  "Italian - italiano": "it-IT",
   "Japanese - 日本語": "ja-JP",
-  "Korean - 한국어": "ko-KR",
-  "Russian - русский": "ru-RU",
-  "Spanish - Español": "es-ES",
-  "Greek - Ελληνικά": "el-el",
-  "Turkish - Türkçe": "tr-TR",
 };
 
 // Will end with `/`
