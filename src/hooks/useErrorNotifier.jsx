@@ -14,7 +14,8 @@ export const useErrorNotifier = ({ duration } = {}) => {
       console.warn(`Could not ${action}`);
       console.error(error);
 
-      toast?.pushError({
+      const pushFn = toast?.pushError;
+      pushFn({
         title: title,
         message: getErrorMessage(error),
         lifetime: duration || ERROR_TOAST_TIME,

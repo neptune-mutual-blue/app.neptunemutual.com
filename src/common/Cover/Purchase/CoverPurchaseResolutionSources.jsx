@@ -5,7 +5,7 @@ import { Trans } from "@lingui/macro";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 
 export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
-  const coverKey = coverInfo.key;
+  // const coverKey = coverInfo.key;
   const projectName = coverInfo.projectName;
   const { reportingPeriod } = useCoverInfoContext();
 
