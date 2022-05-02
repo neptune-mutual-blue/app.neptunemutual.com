@@ -2,7 +2,7 @@ import { classNames } from "@/utils/classnames";
 import { getPlainNumber } from "@/utils/formatter/input";
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
-import CurrencyInput from "react-currency-input-field";
+import CurrencyInput from "@/lib/react-currency-input-field";
 
 export const InputWithTrailingButton = ({
   inputProps,
