@@ -3,7 +3,7 @@ import { classNames } from "@/utils/classnames";
 /**
  * Props
  * @param {Object} props
- * @param {"normal"|"link"} props.type
+ * @param {"normal"|"link"} [props.type]
  * @param {string} props.className
  * @param {*} props.children
  */
