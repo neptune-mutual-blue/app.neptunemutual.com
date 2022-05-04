@@ -17,11 +17,17 @@ export const HarvestForm = ({
   poolKey,
   refetchInfo,
   setModalDisabled,
+  onHarvestSuccess = (_) => {},
 }) => {
   const { handleWithdrawRewards, withdrawingRewards } =
     useStakingPoolWithdrawRewards({
       poolKey,
       refetchInfo,
+      onWithdrawSuccess: (tx) => {
+        if (onHarvestSuccess) {
+          onHarvestSuccess(tx);
+        }
+      },
     });
   const { register } = useRegisterToken();
   const router = useRouter();

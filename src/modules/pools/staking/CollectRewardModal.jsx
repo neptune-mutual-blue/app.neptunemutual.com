@@ -69,6 +69,9 @@ export const CollectRewardModal = ({
               poolKey={poolKey}
               refetchInfo={refetchInfo}
               setModalDisabled={setIsDisabled}
+              onHarvestSuccess={() => {
+                onClose();
+              }}
             />
           ) : (
             <UnStakeForm

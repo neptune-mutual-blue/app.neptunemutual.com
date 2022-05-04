@@ -87,7 +87,11 @@ export const useStakingPoolWithdraw = ({
   };
 };
 
-export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
+export const useStakingPoolWithdrawRewards = ({
+  poolKey,
+  refetchInfo,
+  onWithdrawSuccess = (_) => {},
+}) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false);
 
   const { networkId } = useNetwork();
@@ -121,13 +125,16 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
+        const result = await txToast.push(tx, {
           pending: t`Withdrawing rewards`,
           success: t`Withdrawn rewards successfully`,
           failure: t`Could not withdraw rewards`,
         });
 
         cleanup();
+        if (result?.success && onWithdrawSuccess) {
+          onWithdrawSuccess(tx);
+        }
       };
 
       const onRetryCancel = () => {
