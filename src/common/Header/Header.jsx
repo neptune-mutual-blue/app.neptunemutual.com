@@ -17,6 +17,7 @@ import { BurgerMenu } from "@/common/BurgerMenu/BurgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
+import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -132,7 +133,7 @@ export const Header = () => {
                   <Link key={link.name} href={link.href} locale={router.locale}>
                     <a
                       className={classNames(
-                        "text-sm py-7 border-b-4",
+                        "text-sm py-9 border-b-4",
                         link.active
                           ? "border-4e7dd9 text-4e7dd9 font-semibold"
                           : "border-transparent text-999BAB"
@@ -151,7 +152,7 @@ export const Header = () => {
               <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
             </div>
           )}
-          <div className="hidden xl:flex">
+          <div className="items-center hidden xl:flex">
             <ConnectWallet networkId={networkId} notifier={notifier}>
               {({ onOpen }) => {
                 let button = (
@@ -174,20 +175,25 @@ export const Header = () => {
                   );
                 }
                 return (
-                  <div className="flex py-5 ml-10 space-x-4 sm:pl-6 xl:pl-8">
-                    {network} {button}
-                    {isAccountDetailsOpen && (
-                      <AccountDetailsModal
-                        {...{
-                          networkId,
-                          account,
-                          isOpen: isAccountDetailsOpen,
-                          onClose: handleToggleAccountPopup,
-                          active,
-                          handleDisconnect,
-                        }}
-                      />
-                    )}
+                  <div className="pb-5 ml-10 sm:pl-6 xl:pl-8">
+                    <div className="flex justify-end">
+                      <LanguageDropdown />
+                    </div>
+                    <div className="flex space-x-4">
+                      {network} {button}
+                      {isAccountDetailsOpen && (
+                        <AccountDetailsModal
+                          {...{
+                            networkId,
+                            account,
+                            isOpen: isAccountDetailsOpen,
+                            onClose: handleToggleAccountPopup,
+                            active,
+                            handleDisconnect,
+                          }}
+                        />
+                      )}
+                    </div>
                   </div>
                 );
               }}
@@ -249,6 +255,9 @@ export const MenuModal = ({
             <div className="flex flex-col items-end justify-between min-h-screen px-4 text-center">
               <div className="flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
                 <BurgerMenu isOpen={isOpen} onToggle={onClose} />
+              </div>
+              <div className="w-full sm:px-16">
+                <LanguageDropdown />
               </div>
               <div className="flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl">
                 <div className="flex flex-col justify-start overflow-y-auto mb-28">

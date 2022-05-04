@@ -6,7 +6,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
   );
 
   const arr = chunk(allDates, 7);
-  const weekDays = getWeekDays("en-US");
+  const weekDays = getWeekDays("en");
 
   return (
     <table className="text-xxs" aria-hidden="true">
@@ -15,7 +15,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
           {weekDays.map((x) => (
             <td
               key={x}
-              className="p-3 text-center align-middle lowercase font-medium"
+              className="p-3 font-medium text-center lowercase align-middle"
             >
               {x[0]}
             </td>
