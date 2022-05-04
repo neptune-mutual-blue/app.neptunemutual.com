@@ -6,19 +6,21 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useRouter } from "next/router";
+import { useCovers } from "@/src/context/Covers";
+import { useEffect, useMemo } from "react";
 
 export const CoverCard = ({ details }) => {
   const { projectName, key, ipfsData } = details;
-  const { coverInfo } = useCoverInfo(key);
+  const { getInfoByKey, updateCoverInfo } = useCovers();
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
-  const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
+  const coverInfo = useMemo(() => getInfoByKey(key), [getInfoByKey, key]);
+  const imgSrc = useMemo(() => getCoverImgSrc(coverInfo), [coverInfo]);
 
   const { commitment, status } = useFetchCoverInfo({
     coverKey: key,
@@ -29,6 +31,13 @@ export const CoverCard = ({ details }) => {
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+
+  useEffect(() => {
+    updateCoverInfo(key, {
+      liquidity,
+      utilization,
+    });
+  }, [key, updateCoverInfo, liquidity, utilization]);
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -70,18 +79,38 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
           className="flex-1"
-          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).short
+          }
         </div>
 
         <div
           className="flex-1 text-right"
-          title={formatCurrency(convertFromUnits(liquidity).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(liquidity).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Liquidity:</Trans>{" "}
-          {formatCurrency(convertFromUnits(liquidity).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(liquidity).toString(),
+              router.locale
+            ).short
+          }
         </div>
       </div>
     </OutlinedCard>

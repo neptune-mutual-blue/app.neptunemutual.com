@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useCallback, useEffect, useReducer } from "react";
 
 import { useFetchCovers } from "@/src/hooks/useFetchCovers";
 
 const initValue = {
   loading: false,
   getInfoByKey: (_key) => ({}),
+  covers: [],
+  updateCoverInfo: (id, payload) => {},
+};
+
+const initialState = {
   covers: [],
 };
 
@@ -18,11 +23,59 @@ export function useCovers() {
   return context;
 }
 
+const ACTIONS = {
+  UPDATE_COVER_INFO: "UPDATE_COVER_INFO",
+  UPDATE_COVER_LIST: "UPDATE_COVER_LIST",
+};
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case ACTIONS.UPDATE_COVER_INFO:
+      const covers = state.covers.map((cover) => {
+        if (cover.key === payload.key) {
+          Object.assign(cover, payload.data);
+        }
+
+        return cover;
+      });
+
+      return { ...state, covers };
+    case ACTIONS.UPDATE_COVER_LIST:
+      return { ...state, covers: payload };
+    default:
+      return state;
+  }
+}
+
 export const CoversProvider = ({ children }) => {
-  const { data: covers, loading, getInfoByKey } = useFetchCovers();
+  const { data, loading } = useFetchCovers();
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const getInfoByKey = useCallback(
+    (coverKey) => state.covers.find((x) => x.key === coverKey) || {},
+    [state.covers]
+  );
+
+  const updateCoverInfo = useCallback((key, data) => {
+    dispatch({
+      type: ACTIONS.UPDATE_COVER_INFO,
+      payload: {
+        key,
+        data,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: ACTIONS.UPDATE_COVER_LIST,
+      payload: data,
+    });
+  }, [data]);
 
   return (
-    <CoversContext.Provider value={{ covers, getInfoByKey, loading }}>
+    <CoversContext.Provider
+      value={{ covers: state.covers, getInfoByKey, loading, updateCoverInfo }}
+    >
       {children}
     </CoversContext.Provider>
   );
