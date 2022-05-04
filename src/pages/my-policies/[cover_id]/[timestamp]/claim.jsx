@@ -33,7 +33,7 @@ export default function ClaimPolicy({ disabled }) {
   const { cover_id, timestamp } = router.query;
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
-  const { data, hasMore, loading } = useActivePoliciesByCover({
+  const { data, hasMore } = useActivePoliciesByCover({
     coverKey,
     page,
     limit,

@@ -23,7 +23,7 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
         lifetime: duration || ERROR_TOAST_TIME,
       });
     },
-    [duration, toast?.pushError]
+    [duration, toast]
   );
 
   return { notifyError };
