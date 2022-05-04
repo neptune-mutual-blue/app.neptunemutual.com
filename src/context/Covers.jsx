@@ -6,7 +6,7 @@ const initValue = {
   loading: false,
   getInfoByKey: (_key) => ({}),
   covers: [],
-  updateCoverInfo: (id, payload) => {},
+  updateCoverInfo: (_key, _payload) => {},
 };
 
 const initialState = {
