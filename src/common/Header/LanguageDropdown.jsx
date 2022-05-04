@@ -32,7 +32,7 @@ export const LanguageDropdown = () => {
   }, [debouncedSearch]);
 
   const handleOnChangeLanguage = (value) => {
-    router.push(router.pathname, router.pathname, {
+    router.push(router.asPath, router.asPath, {
       locale: localesKey[value],
     });
   };
@@ -74,7 +74,7 @@ export const LanguageDropdown = () => {
                 {({ selected, active }) => (
                   <span
                     className={classNames(
-                      `truncate p-2 flex justify-between items-center text-xs font-medium`,
+                      `truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal`,
                       selected && "bg-[#b0c4db]   bg-opacity-20 rounded",
                       active
                         ? "text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded"

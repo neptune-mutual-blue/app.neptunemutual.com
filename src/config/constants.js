@@ -27,17 +27,17 @@ export const PoolTypes = {
 };
 
 export const languageKey = {
-  "zh-CN": "Chinese - 中文",
-  "en-US": "English",
-  "fr-FR": "French - français",
-  "ja-JP": "Japanese - 日本語",
+  "zh": "Chinese - 中文",
+  "en": "English",
+  "fr": "French - français",
+  "ja": "Japanese - 日本語",
 };
 
 export const localesKey = {
-  "Chinese - 中文": "zh-CN",
-  "English": "en-US",
-  "French - français": "fr-FR",
-  "Japanese - 日本語": "ja-JP",
+  "Chinese - 中文": "zh",
+  "English": "en",
+  "French - français": "fr",
+  "Japanese - 日本語": "ja",
 };
 
 // Will end with `/`

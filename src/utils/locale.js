@@ -1,5 +1,5 @@
 export const getLocale = () => {
-  const fallback = "en-US";
+  const fallback = "en";
 
   try {
     return (
