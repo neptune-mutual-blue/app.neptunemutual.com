@@ -1,7 +1,5 @@
-import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
-import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
 import { Fragment } from "react";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { classNames } from "@/utils/classnames";
 
 export const Table = ({ children }) => {
@@ -13,63 +11,6 @@ export const TableWrapper = ({ children }) => {
     <>
       <div className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden">
         {children}
-      </div>
-    </>
-  );
-};
-
-export const TablePagination = ({
-  skip = 5,
-  limit = 10,
-  totalCount = 124,
-  onNext,
-  onPrev,
-  updateRowCount,
-  page,
-}) => {
-  if (totalCount <= 0) {
-    return null;
-  }
-
-  const extraPages = totalCount % limit === 0 ? 0 : 1;
-  const maxPage = Math.floor(totalCount / limit) + extraPages;
-
-  return (
-    <>
-      <div className="flex items-center justify-end w-full p-4 border-t border-t-DAE2EB">
-        <p className="p-2 opacity-40">
-          <Trans>Rows per page</Trans>
-        </p>
-        <select
-          className="mx-4 rounded-lg"
-          value={limit.toString()}
-          onChange={(ev) => updateRowCount(ev.target.value)}
-        >
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-        </select>
-        <p className="p-2 opacity-40">
-          {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
-        </p>
-        <button
-          className="p-2 mx-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          disabled={page !== 1}
-          onClick={() => {
-            onPrev(page - 1);
-          }}
-        >
-          <ChevronLeftLgIcon width={16} height={16} />
-        </button>
-        <button
-          className="p-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          disabled={page !== maxPage}
-          onClick={() => {
-            onNext(page + 1);
-          }}
-        >
-          <ChevronRightLgIcon width={16} height={16} />
-        </button>
       </div>
     </>
   );
