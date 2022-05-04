@@ -1,4 +1,3 @@
-import { ROWS_PER_PAGE } from "@/src/config/constants";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
@@ -39,25 +38,16 @@ const getQuery = (account, limit, skip) => {
   `;
 };
 
-export const useBondTxs = () => {
+export const useBondTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
     bondTransactions: [],
   });
-  const [itemsToSkip, setItemsToSkip] = useState(0);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-
-  useEffect(() => {
-    setItemsToSkip(0);
-    setData({
-      blockNumber: null,
-      bondTransactions: [],
-    });
-  }, [account]);
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -78,7 +68,7 @@ export const useBondTxs = () => {
         "Accept": "application/json",
       },
       body: JSON.stringify({
-        query: getQuery(account, ROWS_PER_PAGE, itemsToSkip),
+        query: getQuery(account, limit, limit * (page - 1)),
       }),
     })
       .then((r) => r.json())
@@ -89,7 +79,7 @@ export const useBondTxs = () => {
 
         const isLastPage =
           res.data.bondTransactions.length === 0 ||
-          res.data.bondTransactions.length < ROWS_PER_PAGE;
+          res.data.bondTransactions.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
@@ -105,14 +95,9 @@ export const useBondTxs = () => {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, [account, networkId, itemsToSkip]);
-
-  const handleShowMore = () => {
-    setItemsToSkip((prev) => prev + ROWS_PER_PAGE);
-  };
+  }, [account, limit, networkId, page]);
 
   return {
-    handleShowMore,
     hasMore,
     data: {
       blockNumber: data.blockNumber,

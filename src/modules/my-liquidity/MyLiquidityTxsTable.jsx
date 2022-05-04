@@ -1,6 +1,12 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useLiquidityTxs } from "@/src/hooks/useLiquidityTxs";
-import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead,
+} from "@/common/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -18,6 +24,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { usePagination } from "@/src/hooks/usePagination";
 
 const renderHeader = (col) => (
   <th
@@ -31,7 +38,7 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => <WhenRenderer row={row} />
+const renderWhen = (row) => <WhenRenderer row={row} />;
 
 const renderDetails = (row) => <DetailsRenderer row={row} />;
 
@@ -67,7 +74,11 @@ const columns = [
 ];
 
 export const MyLiquidityTxsTable = () => {
-  const { data, loading, hasMore, handleShowMore } = useLiquidityTxs();
+  const { page, limit, setPage } = usePagination();
+  const { data, loading, hasMore } = useLiquidityTxs({
+    page,
+    limit,
+  });
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
@@ -90,13 +101,9 @@ export const MyLiquidityTxsTable = () => {
       )}
       <TableWrapper>
         <Table>
-          <THead columns={columns}></THead>
+          <THead columns={columns} />
           {account ? (
-            <TBody
-              isLoading={loading}
-              columns={columns}
-              data={transactions}
-            ></TBody>
+            <TBody isLoading={loading} columns={columns} data={transactions} />
           ) : (
             <tbody>
               <tr className="w-full text-center">
@@ -108,16 +115,12 @@ export const MyLiquidityTxsTable = () => {
           )}
         </Table>
         {hasMore && (
-          <button
-            disabled={loading}
-            className={classNames(
-              "block w-full p-5 border-t border-DAE2EB",
-              !loading && "hover:bg-F4F8FC"
-            )}
-            onClick={handleShowMore}
-          >
-            {loading && transactions.length > 0 ? t`loading...` : t`Show More`}
-          </button>
+          <TableShowMore
+            isLoading={loading}
+            onShowMore={() => {
+              setPage((prev) => prev + 1);
+            }}
+          />
         )}
       </TableWrapper>
     </>
@@ -129,13 +132,13 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-    className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
-  >
-    {fromNow(row.transaction.timestamp)}
-  </td>
-  )
-}
+      className="px-6 py-6"
+      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+    >
+      {fromNow(row.transaction.timestamp)}
+    </td>
+  );
+};
 
 const DetailsRenderer = ({ row }) => {
   const { coverInfo } = useCoverInfo(row.cover.id);
@@ -154,9 +157,19 @@ const DetailsRenderer = ({ row }) => {
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
-            title={formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).long}
+            title={
+              formatCurrency(
+                convertFromUnits(row.liquidityAmount),
+                router.locale
+              ).long
+            }
           >
-            {formatCurrency(convertFromUnits(row.liquidityAmount), router.locale).short}
+            {
+              formatCurrency(
+                convertFromUnits(row.liquidityAmount),
+                router.locale
+              ).short
+            }
           </span>{" "}
           {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
         </span>
@@ -176,13 +189,21 @@ const PodAmountRenderer = ({ row }) => {
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
-            formatCurrency(convertFromUnits(row.podAmount), router.locale, tokenSymbol, true)
-              .long
+            formatCurrency(
+              convertFromUnits(row.podAmount),
+              router.locale,
+              tokenSymbol,
+              true
+            ).long
           }
         >
           {
-            formatCurrency(convertFromUnits(row.podAmount), router.locale,tokenSymbol, true)
-              .short
+            formatCurrency(
+              convertFromUnits(row.podAmount),
+              router.locale,
+              tokenSymbol,
+              true
+            ).short
           }
         </span>
         <button
@@ -214,7 +235,11 @@ const ActionsRenderer = ({ row }) => {
           <Tooltip.Content side="top">
             <div className="max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl">
               <p>
-                {DateLib.toLongDateFormat(row.transaction.timestamp, router.locale, "UTC")}
+                {DateLib.toLongDateFormat(
+                  row.transaction.timestamp,
+                  router.locale,
+                  "UTC"
+                )}
               </p>
             </div>
             <Tooltip.Arrow offset={16} className="fill-black" />
