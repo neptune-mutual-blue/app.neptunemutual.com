@@ -39,12 +39,12 @@ export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
         query: `
         {
           userPolicies(
+            skip: ${limit * (page - 1)}
+            first: ${limit}
             where: {
               expiresOn_gt: "${startOfMonth}"
               account: "${account}"
               key: "${coverKey}"
-              skip: ${limit * (page - 1)}
-              first: ${limit}
             }
           ) {
             id
