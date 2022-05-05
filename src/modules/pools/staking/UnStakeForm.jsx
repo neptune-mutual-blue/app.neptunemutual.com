@@ -20,6 +20,7 @@ export const UnStakeForm = ({
   refetchInfo,
   poolKey,
   setModalDisabled,
+  onUnstakeSuccess = (_) => {},
 }) => {
   const blockHeight = useBlockHeight();
 
@@ -32,6 +33,11 @@ export const UnStakeForm = ({
     tokenSymbol: stakingTokenSymbol,
     poolKey,
     refetchInfo,
+    onWithdrawSuccess: (tx) => {
+      if (onUnstakeSuccess) {
+        onUnstakeSuccess(tx);
+      }
+    },
   });
 
   useEffect(() => {

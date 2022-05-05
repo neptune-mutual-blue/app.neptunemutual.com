@@ -81,6 +81,9 @@ export const CollectRewardModal = ({
               stakingTokenSymbol={stakingTokenSymbol}
               refetchInfo={refetchInfo}
               setModalDisabled={setIsDisabled}
+              onUnstakeSuccess={() => {
+                onClose();
+              }}
             />
           )}
         </div>

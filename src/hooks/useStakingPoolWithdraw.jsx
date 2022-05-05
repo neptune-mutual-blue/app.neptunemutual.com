@@ -15,6 +15,7 @@ export const useStakingPoolWithdraw = ({
   poolKey,
   tokenSymbol,
   refetchInfo,
+  onWithdrawSuccess = (_) => {},
 }) => {
   const [withdrawing, setWithdrawing] = useState(false);
 
@@ -49,12 +50,16 @@ export const useStakingPoolWithdraw = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
+        const result = await txToast.push(tx, {
           pending: t`Unstaking ${tokenSymbol}`,
           success: t`Unstaked ${tokenSymbol} successfully`,
           failure: t`Could not unstake ${tokenSymbol}`,
         });
+
         cleanup();
+        if (result?.success && onWithdrawSuccess) {
+          onWithdrawSuccess(tx);
+        }
       };
 
       const onRetryCancel = () => {
