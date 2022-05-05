@@ -3,7 +3,9 @@ import { ERROR_TOAST_TIME } from "@/src/config/toast";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { useCallback } from "react";
 
-export const useErrorNotifier = ({ duration } = {}) => {
+const defaultArgs = { duration: ERROR_TOAST_TIME };
+
+export const useErrorNotifier = ({ duration } = defaultArgs) => {
   const toast = useToast();
 
   const notifyError = useCallback(
@@ -21,7 +23,7 @@ export const useErrorNotifier = ({ duration } = {}) => {
         lifetime: duration || ERROR_TOAST_TIME,
       });
     },
-    [duration, toast?.pushError]
+    [duration, toast]
   );
 
   return { notifyError };

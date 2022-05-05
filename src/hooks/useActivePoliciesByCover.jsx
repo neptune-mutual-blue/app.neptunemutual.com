@@ -2,12 +2,15 @@ import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
 
-export const useActivePoliciesByCover = ({ coverKey }) => {
-  const [data, setData] = useState({});
+export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
+  const [data, setData] = useState({
+    userPolicies: [],
+  });
   const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
@@ -36,6 +39,8 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
         query: `
         {
           userPolicies(
+            skip: ${limit * (page - 1)}
+            first: ${limit}
             where: {
               expiresOn_gt: "${startOfMonth}"
               account: "${account}"
@@ -60,7 +65,21 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (res.errors || !res.data) {
+          return;
+        }
+
+        const isLastPage =
+          res.data.userPolicies.length === 0 ||
+          res.data.userPolicies.length < limit;
+
+        if (isLastPage) {
+          setHasMore(false);
+        }
+
+        setData((prev) => ({
+          userPolicies: [...prev.userPolicies, ...res.data.userPolicies],
+        }));
       })
       .catch((err) => {
         console.error(err);
@@ -68,19 +87,21 @@ export const useActivePoliciesByCover = ({ coverKey }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, networkId, coverKey]);
+  }, [account, coverKey, limit, networkId, page]);
 
-  const activePolicies = data?.userPolicies || [];
-  const totalActiveProtection = sumOf(
-    "0",
-    ...activePolicies.map((x) => x.totalAmountToCover || "0")
-  );
+  const totalActiveProtection = useMemo(() => {
+    return sumOf(
+      "0",
+      ...data.userPolicies.map((x) => x.totalAmountToCover || "0")
+    );
+  }, [data.userPolicies]);
 
   return {
     data: {
-      activePolicies,
+      activePolicies: data.userPolicies,
       totalActiveProtection,
     },
     loading,
+    hasMore,
   };
 };
