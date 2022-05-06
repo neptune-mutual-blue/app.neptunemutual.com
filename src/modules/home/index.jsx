@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { Container } from "@/common/Container/Container";
@@ -22,7 +22,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
-import { sortData } from "@/utils/sorting";
+import { getProperty, sortList, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
@@ -36,8 +36,19 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
-  const [sortType, setSortType] = useState({ name: "A-Z" });
+  const [sortType, setSortType] = useState({ name: SORT_TYPES.AtoZ });
   const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
+
+  const { searchValue, setSearchValue, filtered } = useSearchResults({
+    list: availableCovers,
+    filter: (item, term) =>
+      item.projectName.toLowerCase().includes(term.toLowerCase()),
+  });
+
+  const sortedCovers = useMemo(
+    () => sortList(filtered, getSortCallback(sortType.name), sortType.name),
+    [filtered, sortType.name]
+  );
 
   useEffect(() => {
     if (data && data.length >= 2) {
@@ -60,13 +71,6 @@ export const HomePage = () => {
       });
     }
   }, [data]);
-
-  const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: availableCovers,
-    filter: (item, term) => {
-      return item.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
-    },
-  });
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
@@ -189,7 +193,7 @@ export const HomePage = () => {
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {loading && <CardSkeleton numberOfCards={COVERS_PER_PAGE} />}
           {!loading && availableCovers.length === 0 && <>No data found</>}
-          {sortData(filtered, sortType.name).map((c, idx) => {
+          {sortedCovers.map((c, idx) => {
             if (idx > showCount - 1) return;
             return (
               <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
@@ -200,7 +204,7 @@ export const HomePage = () => {
             );
           })}
         </Grid>
-        {sortData(filtered, sortType.name).length > showCount && (
+        {sortedCovers.length > showCount && (
           <NeutralButton
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}
@@ -212,3 +216,20 @@ export const HomePage = () => {
     </>
   );
 };
+
+const SORT_CALLBACK = {
+  [SORT_TYPES.AtoZ]: (cover) => cover.projectName,
+  [SORT_TYPES.Liquidity]: (cover) => {
+    const liquidity = getProperty(cover, "liquidity", "0");
+
+    return toBN(liquidity);
+  },
+  [SORT_TYPES.Utilization]: (cover) => {
+    const utilization = getProperty(cover, "utilization", "0");
+
+    return Number(utilization);
+  },
+};
+
+const getSortCallback = (sortTypeName) =>
+  getProperty(SORT_CALLBACK, sortTypeName, SORT_CALLBACK[SORT_TYPES.AtoZ]);
