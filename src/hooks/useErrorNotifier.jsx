@@ -16,14 +16,14 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
       console.warn(`Could not ${action}`);
       console.error(error);
 
-      const pushFn = toast?.pushError;
-      pushFn({
+      toast?.pushError({
         title: title,
         message: getErrorMessage(error),
         lifetime: duration || ERROR_TOAST_TIME,
       });
     },
-    [duration, toast]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [duration, toast?.pushError]
   );
 
   return { notifyError };
