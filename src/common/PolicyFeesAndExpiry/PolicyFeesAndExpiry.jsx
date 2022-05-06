@@ -3,9 +3,11 @@ import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
   const { fee, rate } = data;
+  const router = useRouter();
 
   const rateConverted = convertUintToPercentage(rate);
   const coverFee = convertFromUnits(fee).toString();
@@ -22,7 +24,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
             <th>
               <Trans>Fees</Trans>
             </th>
-            <td className="text-4e7dd9">{formatPercent(rateConverted)}</td>
+            <td className="text-4e7dd9">{formatPercent(rateConverted, router.locale)}</td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>
@@ -30,9 +32,9 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
             </th>
             <td
               className="text-4e7dd9"
-              title={formatCurrency(coverFee, "DAI", true).long}
+              title={formatCurrency(coverFee, router.locale,"DAI", true).long}
             >
-              {formatCurrency(coverFee, "DAI", true).short}
+              {formatCurrency(coverFee, router.locale,"DAI", true).short}
             </td>
           </tr>
           <tr className="flex justify-between mt-3">
@@ -40,7 +42,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
               <Trans>Claim Expiry</Trans>
             </th>
             <td className="text-4e7dd9" title={expires.toString()}>
-              {DateLib.toLongDateFormat(expires, "UTC")}
+              {DateLib.toLongDateFormat(expires, router.locale,"UTC")}
             </td>
           </tr>
         </tbody>

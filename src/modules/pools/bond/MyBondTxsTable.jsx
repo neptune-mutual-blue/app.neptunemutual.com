@@ -1,5 +1,11 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
-import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead,
+} from "@/common/Table/Table";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import ClockIcon from "@/icons/ClockIcon";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
@@ -16,6 +22,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { TokenAmountSpan } from "@/common/TokenAmountSpan";
 import { t, Trans } from "@lingui/macro";
+import { usePagination } from "@/src/hooks/usePagination";
 
 const renderHeader = (col) => (
   <th
@@ -77,7 +84,8 @@ const columns = [
 
 export const MyBondTxsTable = () => {
   const { info } = useBondInfo();
-  const { data, loading, hasMore, handleShowMore } = useBondTxs();
+  const { page, limit, setPage } = usePagination();
+  const { data, loading, hasMore } = useBondTxs({ page, limit });
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
@@ -124,16 +132,12 @@ export const MyBondTxsTable = () => {
           )}
         </Table>
         {hasMore && (
-          <button
-            disabled={loading}
-            className={classNames(
-              "block w-full p-5 border-t border-DAE2EB",
-              !loading && "hover:bg-F4F8FC"
-            )}
-            onClick={handleShowMore}
-          >
-            {loading && transactions.length > 0 ? t`loading...` : t`Show More`}
-          </button>
+          <TableShowMore
+            isLoading={loading}
+            onShowMore={() => {
+              setPage((prev) => prev + 1);
+            }}
+          />
         )}
       </TableWrapper>
     </>

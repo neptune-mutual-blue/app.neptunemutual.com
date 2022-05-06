@@ -2,10 +2,13 @@ import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useState, useEffect } from "react";
 
-export const useRecentVotes = ({ coverKey, incidentDate }) => {
-  const [data, setData] = useState({});
+export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
+  const [data, setData] = useState({
+    votes: [],
+    blockNumber: null,
+  });
   const [loading, setLoading] = useState(false);
-
+  const [hasMore, setHasMore] = useState(true);
   const { networkId } = useNetwork();
   useEffect(() => {
     if (!networkId || !coverKey || !incidentDate) {
@@ -34,6 +37,8 @@ export const useRecentVotes = ({ coverKey, incidentDate }) => {
             }
           }
           votes(
+            skip: ${limit * (page - 1)}
+            first: ${limit} 
             orderBy: createdAtTimestamp
             orderDirection: desc
             where: {
@@ -56,7 +61,21 @@ export const useRecentVotes = ({ coverKey, incidentDate }) => {
     })
       .then((r) => r.json())
       .then((res) => {
-        setData(res.data);
+        if (res.errors || !res.data) {
+          return;
+        }
+
+        const isLastPage =
+          res.data.votes.length === 0 || res.data.votes.length < limit;
+
+        if (isLastPage) {
+          setHasMore(false);
+        }
+
+        setData((prev) => ({
+          blockNumber: res.data._meta.block.number,
+          votes: [...prev.votes, ...res.data.votes],
+        }));
       })
       .catch((err) => {
         console.error(err);
@@ -64,14 +83,14 @@ export const useRecentVotes = ({ coverKey, incidentDate }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, incidentDate, networkId]);
+  }, [coverKey, incidentDate, limit, networkId, page]);
 
   return {
     data: {
-      blockNumber: data?._meta?.block?.number,
+      blockNumber: data.blockNumber,
       transactions: data?.votes || [],
-      totalCount: (data?.votes || []).length,
     },
     loading,
+    hasMore,
   };
 };

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-import { Table, TBody, TableWrapper, THead } from "@/common/Table/Table";
+import {
+  Table,
+  TBody,
+  TableWrapper,
+  THead,
+  TableShowMore,
+} from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { ClaimCoverModal } from "@/src/modules/my-policies/ClaimCoverModal";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -11,6 +17,7 @@ import {
   CxTokenRowProvider,
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
+import { useRouter } from "next/router";
 
 const renderHeader = (col) => (
   <th
@@ -79,6 +86,9 @@ export const ClaimCxTokensTable = ({
   coverKey,
   incidentDate,
   report,
+  setPage,
+  hasMore = false,
+  loading = false,
 }) => {
   return (
     <>
@@ -91,8 +101,17 @@ export const ClaimCxTokensTable = ({
               data={activePolicies}
               extraData={{ coverKey, incidentDate }}
               RowWrapper={CxTokenRowProvider}
+              isLoading={loading}
             ></TBody>
           </Table>
+          {hasMore && (
+            <TableShowMore
+              isLoading={loading}
+              onShowMore={() => {
+                setPage((prev) => prev + 1);
+              }}
+            />
+          )}
         </TableWrapper>
       </ClaimTableContext.Provider>
     </>
@@ -101,16 +120,29 @@ export const ClaimCxTokensTable = ({
 
 const CxTokenAmountRenderer = () => {
   const { balance, tokenSymbol } = useCxTokenRowContext();
+  const router = useRouter();
 
   return (
     <>
       <td className="px-6 py-6 text-right">
         <span
           title={
-            formatCurrency(convertFromUnits(balance), tokenSymbol, true).long
+            formatCurrency(
+              convertFromUnits(balance),
+              router.locale,
+              tokenSymbol,
+              true
+            ).long
           }
         >
-          {formatCurrency(convertFromUnits(balance), tokenSymbol, true).short}
+          {
+            formatCurrency(
+              convertFromUnits(balance),
+              router.locale,
+              tokenSymbol,
+              true
+            ).short
+          }
         </span>
       </td>
     </>
@@ -120,12 +152,13 @@ const CxTokenAmountRenderer = () => {
 const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext();
   const claimExpiryDate = report?.claimExpiresAt || 0;
+  const router = useRouter();
 
   return (
     <td className="px-6 py-6">
       <span
         className="text-left whitespace-nowrap"
-        title={DateLib.toLongDateFormat(claimExpiryDate)}
+        title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
       >
         {fromNow(claimExpiryDate)}
       </span>

@@ -9,6 +9,7 @@ import { Disclaimer } from "../ConnectWallet/Disclaimer";
 import { WalletList } from "../ConnectWallet/WalletList";
 import { Loader } from "../Loader/Loader";
 import CloseIcon from "../icons/CloseIcon";
+import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 
 export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -34,7 +35,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block max-w-md p-12 my-8 text-left align-middle transition-all min-w-sm rounded-3xl bg-f1f3f6">
+      <ModalWrapper className="max-w-md my-2 transition-all">
         <Dialog.Title
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
@@ -65,7 +66,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
             </div>
           </>
         )}
-      </div>
+      </ModalWrapper>
     </Modal>
   );
 };

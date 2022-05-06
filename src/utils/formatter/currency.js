@@ -1,7 +1,4 @@
-import { getLocale } from "@/utils/locale";
-import BigNumber from "bignumber.js";
-
-const asCurrency = (sign, number, symbol, currency, token = false) => {
+const asCurrency = (sign, number, symbol, locale, currency, token = false) => {
   if (token) {
     if (number < 0.00000001) {
       return "A fraction of " + currency;
@@ -11,10 +8,10 @@ const asCurrency = (sign, number, symbol, currency, token = false) => {
       number = number.toFixed(8);
     }
 
-    return `${sign}${number.toLocaleString(getLocale())}${symbol} ${currency}`;
+    return `${sign}${number.toLocaleString(locale)}${symbol} ${currency}`;
   }
 
-  const formatter = new Intl.NumberFormat(getLocale(), {
+  const formatter = new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: parseFloat(number) < 1 ? 8 : 2,
@@ -23,7 +20,12 @@ const asCurrency = (sign, number, symbol, currency, token = false) => {
   return `${sign}${formatter.format(number)}${symbol}`;
 };
 
-export const formatCurrency = (input, currency = "USD", token = false) => {
+export const formatCurrency = (
+  input,
+  locale,
+  currency = "USD",
+  token = false
+) => {
   const number = parseFloat(Math.abs(input).toString());
 
   if (!number) {
@@ -60,75 +62,7 @@ export const formatCurrency = (input, currency = "USD", token = false) => {
   }
 
   return {
-    short: asCurrency(sign, result, symbol, currency, token),
-    long: asCurrency(sign, number, "", currency, token),
+    short: asCurrency(sign, result, symbol, locale, currency, token),
+    long: asCurrency(sign, number, "", locale, currency, token),
   };
-};
-
-export const getNumberSeparators = (locale = "en") => {
-  const thousand = Intl.NumberFormat(locale).format(11111).replace(/\d/gu, "");
-  const decimal = Intl.NumberFormat(locale).format(1.1).replace(/\d/gu, "");
-  return {
-    thousand,
-    decimal,
-  };
-};
-
-export const getPlainNumber = (formattedString, locale = "en") => {
-  const sep = getNumberSeparators(locale);
-  return formattedString
-    .toString()
-    .replaceAll(sep.thousand, "")
-    .replace(sep.decimal, ".");
-};
-
-BigNumber.prototype.newFormat = (function (u) {
-  const format = BigNumber.prototype.toFormat;
-  return function (dp, rm) {
-    if (typeof dp === "object" && dp) {
-      let t = dp.minimumDecimalPlaces;
-      if (t !== u) return format.call(this, this.dp() < t ? t : u);
-      rm = dp.roundingMode;
-      t = dp.maximumDecimalPlaces;
-      if (t !== u) return format.call(this.dp(t, rm));
-      t = dp.decimalPlaces;
-      if (t !== u) return format.call(this, t, rm);
-    }
-    return format.call(this, dp, rm);
-  };
-})();
-
-export const numberLocaleChange = (formattedNumber, locale = "en") => {
-  const sep = getNumberSeparators(locale);
-  return formattedNumber
-    .replaceAll(",", sep.thousand)
-    .replace(".", sep.decimal);
-};
-
-export const getLocaleNumber = (
-  plainNumber,
-  locale = "en",
-  preserveTrailingZeroes = false
-) => {
-  const sep = getNumberSeparators(locale);
-  let formattedNumber = "";
-  if (preserveTrailingZeroes) {
-    const decimalLength = plainNumber
-      ? plainNumber.toString().split(".")[1]?.length ?? 0
-      : 0;
-    formattedNumber = new BigNumber(plainNumber).newFormat({
-      // decimalSeparator: sep.decimal,
-      // groupSeparator: sep.thousand,
-      groupSize: 3,
-      minimumDecimalPlaces: decimalLength,
-    });
-    formattedNumber = numberLocaleChange(formattedNumber, locale);
-  } else {
-    formattedNumber = new BigNumber(plainNumber).toFormat({
-      decimalSeparator: sep.decimal,
-      groupSeparator: sep.thousand,
-      groupSize: 3,
-    });
-  }
-  return formattedNumber;
 };

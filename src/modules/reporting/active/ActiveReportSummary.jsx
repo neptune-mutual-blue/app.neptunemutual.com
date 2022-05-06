@@ -15,12 +15,14 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const ActiveReportSummary = ({
   refetchReport,
   incidentReport,
   resolvableTill,
 }) => {
+  const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
 
@@ -115,7 +117,7 @@ export const ActiveReportSummary = ({
             insights={[
               {
                 title: t`Incident Occurred`,
-                value: formatPercent(yesPercent),
+                value: formatPercent(yesPercent, router.locale),
                 variant: "success",
               },
               {
@@ -126,6 +128,7 @@ export const ActiveReportSummary = ({
                 title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
+                  router.locale,
                   "NPM",
                   truncateAddress
                 ).short,
@@ -138,7 +141,7 @@ export const ActiveReportSummary = ({
             insights={[
               {
                 title: t`False Reporting`,
-                value: formatPercent(noPercent),
+                value: formatPercent(noPercent, router.locale),
                 variant: "error",
               },
               {
@@ -150,6 +153,7 @@ export const ActiveReportSummary = ({
                 value: `${
                   formatCurrency(
                     convertFromUnits(incidentReport.totalRefutedStake),
+                    router.locale,
                     "NPM",
                     true
                   ).short
@@ -180,9 +184,10 @@ export const ActiveReportSummary = ({
             <Trans>Reporting Period</Trans>
           </h3>
           <p className="mb-4 text-sm opacity-50">
-            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate)}>
+            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate, router.locale)}>
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}
@@ -190,11 +195,13 @@ export const ActiveReportSummary = ({
             {" - "}
             <span
               title={DateLib.toLongDateFormat(
-                incidentReport.resolutionTimestamp
+                incidentReport.resolutionTimestamp,
+                router.locale
               )}
             >
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
+                router.locale,
                 { month: "short", day: "numeric" },
                 "UTC"
               )}

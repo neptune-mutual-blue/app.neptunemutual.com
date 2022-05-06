@@ -13,9 +13,10 @@ import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, isGreater } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
 
 export const MyLiquidityCoverPage = () => {
@@ -34,6 +35,8 @@ export const MyLiquidityCoverPage = () => {
   } = useMyLiquidityInfo({
     coverKey,
   });
+
+  const { myStake, podBalance } = useLiquidityFormsContext();
 
   function onClose() {
     setIsOpen(false);
@@ -83,7 +86,10 @@ export const MyLiquidityCoverPage = () => {
 
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
-                {formatCurrency(convertFromUnits(myLiquidity)).long}
+                {
+                  formatCurrency(convertFromUnits(myLiquidity), router.locale)
+                    .long
+                }
               </HeroStat>
             </div>
           </Container>
@@ -105,13 +111,23 @@ export const MyLiquidityCoverPage = () => {
               <CoverPurchaseResolutionSources coverInfo={coverInfo}>
                 <div
                   className="flex justify-between pt-4 pb-2"
-                  title={formatCurrency(convertFromUnits(totalLiquidity)).long}
+                  title={
+                    formatCurrency(
+                      convertFromUnits(totalLiquidity),
+                      router.locale
+                    ).long
+                  }
                 >
                   <span className="">
                     <Trans>Total Liquidity:</Trans>
                   </span>
                   <strong className="font-bold text-right">
-                    {formatCurrency(convertFromUnits(totalLiquidity)).short}
+                    {
+                      formatCurrency(
+                        convertFromUnits(totalLiquidity),
+                        router.locale
+                      ).short
+                    }
                   </strong>
                 </div>
                 <div
@@ -119,6 +135,7 @@ export const MyLiquidityCoverPage = () => {
                   title={
                     formatCurrency(
                       convertFromUnits(reassuranceAmount).toString(),
+                      router.locale,
                       "USD"
                     ).long
                   }
@@ -128,20 +145,23 @@ export const MyLiquidityCoverPage = () => {
                     {
                       formatCurrency(
                         convertFromUnits(reassuranceAmount).toString(),
+                        router.locale,
                         "USD"
                       ).short
                     }
                   </strong>
                 </div>
 
-                <div className="flex justify-center px-7">
-                  <OutlinedButton
-                    className="w-full rounded-big"
-                    onClick={onOpen}
-                  >
-                    <Trans>Withdraw Liquidity</Trans>
-                  </OutlinedButton>
-                </div>
+                {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
+                  <div className="flex justify-center px-7">
+                    <OutlinedButton
+                      className="w-full rounded-big"
+                      onClick={onOpen}
+                    >
+                      <Trans>Withdraw Liquidity</Trans>
+                    </OutlinedButton>
+                  </div>
+                )}
               </CoverPurchaseResolutionSources>
               <div className="flex justify-end">
                 {isWithdrawalWindowOpen && (

@@ -12,9 +12,11 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { ClaimBondModal } from "@/src/modules/pools/bond/ClaimBondModal";
 import { useState } from "react";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const onOpen = () => {
     setIsOpen(true);
@@ -51,7 +53,7 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
         </div>
 
         <Badge className="uppercase text-21AD8C">
-          <Trans>ROI:</Trans> {formatPercent(roi)}
+          <Trans>ROI:</Trans> {formatPercent(roi, router.locale)}
         </Badge>
       </div>
 

@@ -7,7 +7,6 @@ import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPur
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
-import { useAvailableLiquidity } from "@/src/hooks/provide-liquidity/useAvailableLiquidity";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -18,6 +17,8 @@ import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import BigNumber from "bignumber.js";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -26,7 +27,11 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = toBytes32(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
-  const { availableLiquidity } = useAvailableLiquidity({ coverKey });
+  const { totalPoolAmount, totalCommitment } = useCoverInfoContext();
+  const availableLiquidity = convertFromUnits(
+    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
+  ).toString();
+
   const { info } = useMyLiquidityInfo({ coverKey });
 
   if (!coverInfo) {
@@ -67,8 +72,12 @@ export const CoverPurchaseDetailsPage = () => {
             {/* Total Liquidity */}
             <HeroStat title={t`Total Liquidity`}>
               {
-                formatCurrency(convertFromUnits(totalLiquidity), "DAI", true)
-                  .long
+                formatCurrency(
+                  convertFromUnits(totalLiquidity),
+                  router.locale,
+                  "DAI",
+                  true
+                ).long
               }
             </HeroStat>
           </div>
@@ -90,7 +99,10 @@ export const CoverPurchaseDetailsPage = () => {
               <>
                 <CoverRules rules={coverInfo?.rules} />
                 <br className="mt-20" />
-                <AcceptRulesForm onAccept={handleAcceptRules}>
+                <AcceptRulesForm
+                  onAccept={handleAcceptRules}
+                  coverKey={coverKey}
+                >
                   <Trans>
                     I have read, understood, and agree to the terms of cover
                     rules
@@ -107,13 +119,13 @@ export const CoverPurchaseDetailsPage = () => {
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div
               className="flex justify-between pb-2"
-              title={formatCurrency(availableLiquidity).long}
+              title={formatCurrency(availableLiquidity, router.locale).long}
             >
               <span className="">
                 <Trans>Available Liquidity:</Trans>
               </span>
               <strong className="font-bold text-right">
-                {formatCurrency(availableLiquidity).short}
+                {formatCurrency(availableLiquidity, router.locale).short}
               </strong>
             </div>
           </CoverPurchaseResolutionSources>

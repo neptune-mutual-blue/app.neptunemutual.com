@@ -1,7 +1,6 @@
-import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
-import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
 import { Fragment } from "react";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
+import { classNames } from "@/utils/classnames";
 
 export const Table = ({ children }) => {
   return <table className="min-w-full">{children}</table>;
@@ -17,54 +16,20 @@ export const TableWrapper = ({ children }) => {
   );
 };
 
-export const TablePagination = ({
-  skip = 5,
-  limit = 10,
-  totalCount = 124,
-  onNext,
-  onPrev,
-  hasPrev,
-  hasNext,
-  updateRowCount,
-}) => {
-  if (totalCount <= 0) {
-    return null;
-  }
-
+export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   return (
-    <>
-      <div className="flex items-center justify-end w-full p-4 border-t border-t-DAE2EB">
-        <p className="p-2 opacity-40">
-          <Trans>Rows per page</Trans>
-        </p>
-        <select
-          className="mx-4 rounded-lg"
-          value={limit.toString()}
-          onChange={(ev) => updateRowCount(ev.target.value)}
-        >
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-        </select>
-        <p className="p-2 opacity-40">
-          {skip + 1}-{Math.min(skip + limit, totalCount)} of {totalCount}
-        </p>
-        <button
-          className="p-2 mx-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onPrev}
-          disabled={!hasPrev}
-        >
-          <ChevronLeftLgIcon width={16} height={16} />
-        </button>
-        <button
-          className="p-2 disabled:opacity-25 disabled:cursor-not-allowed"
-          onClick={onNext}
-          disabled={!hasNext}
-        >
-          <ChevronRightLgIcon width={16} height={16} />
-        </button>
-      </div>
-    </>
+    <button
+      disabled={isLoading}
+      onClick={() => {
+        onShowMore();
+      }}
+      className={classNames(
+        "block w-full p-5 border-t border-DAE2EB",
+        !isLoading && "hover:bg-F4F8FC"
+      )}
+    >
+      {isLoading ? t`loading...` : t`Show More`}
+    </button>
   );
 };
 

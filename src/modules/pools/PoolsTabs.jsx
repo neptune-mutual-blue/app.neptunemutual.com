@@ -8,6 +8,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
 
 const headers = [
   isFeatureEnabled("bond") && {
@@ -29,6 +30,7 @@ const headers = [
 
 export const PoolsTabs = ({ active, children }) => {
   const { poolsTvl: tvl } = useAppConstants();
+  const router = useRouter();
 
   return (
     <>
@@ -40,7 +42,7 @@ export const PoolsTabs = ({ active, children }) => {
 
           {/* Total Value Locked */}
           <HeroStat title="Total Value Locked">
-            {formatCurrency(convertFromUnits(tvl)).long}
+            {formatCurrency(convertFromUnits(tvl), router.locale).long}
           </HeroStat>
         </Container>
 

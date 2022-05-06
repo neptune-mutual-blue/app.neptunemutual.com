@@ -1,4 +1,10 @@
-import { Table, TableWrapper, TBody, THead } from "@/common/Table/Table";
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead,
+} from "@/common/Table/Table";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { classNames } from "@/utils/classnames";
@@ -9,6 +15,8 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
+import { usePagination } from "@/src/hooks/usePagination";
 
 const renderHeader = (col) => (
   <th
@@ -22,14 +30,7 @@ const renderHeader = (col) => (
   </th>
 );
 
-const renderWhen = (row) => (
-  <td
-    className="px-6 py-6"
-    title={DateLib.toLongDateFormat(row.transaction.timestamp)}
-  >
-    {fromNow(row.transaction.timestamp)}
-  </td>
-);
+const renderWhen = (row) => <WhenRenderer row={row} />;
 
 const renderAccount = (row) => (
   <td className="px-6 py-6">
@@ -69,7 +70,13 @@ const columns = [
 ];
 
 export const RecentVotesTable = ({ coverKey, incidentDate }) => {
-  const { data, loading } = useRecentVotes({ coverKey, incidentDate });
+  const { page, limit, setPage } = usePagination();
+  const { data, loading, hasMore } = useRecentVotes({
+    coverKey,
+    incidentDate,
+    page,
+    limit,
+  });
 
   const { transactions } = data;
 
@@ -88,12 +95,35 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
             data={transactions}
           ></TBody>
         </Table>
+        {hasMore && (
+          <TableShowMore
+            isLoading={loading}
+            onShowMore={() => {
+              setPage((prev) => prev + 1);
+            }}
+          />
+        )}
       </TableWrapper>
     </>
   );
 };
 
+const WhenRenderer = ({ row }) => {
+  const router = useRouter();
+
+  return (
+    <td
+      className="px-6 py-6"
+      title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+    >
+      {fromNow(row.transaction.timestamp)}
+    </td>
+  );
+};
+
 const AmountRenderer = ({ row }) => {
+  const router = useRouter();
+
   return (
     <td className="px-6 py-6">
       <div className="flex items-center whitespace-nowrap">
@@ -104,9 +134,23 @@ const AmountRenderer = ({ row }) => {
           )}
         ></div>
         <div
-          title={formatCurrency(convertFromUnits(row.stake), "NPM", true).long}
+          title={
+            formatCurrency(
+              convertFromUnits(row.stake),
+              router.locale,
+              "NPM",
+              true
+            ).long
+          }
         >
-          {formatCurrency(convertFromUnits(row.stake), "NPM", true).short}
+          {
+            formatCurrency(
+              convertFromUnits(row.stake),
+              router.locale,
+              "NPM",
+              true
+            ).short
+          }
         </div>
       </div>
     </td>
