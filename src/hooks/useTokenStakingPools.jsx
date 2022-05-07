@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
@@ -9,10 +9,10 @@ export const useTokenStakingPools = () => {
     pools: [],
   });
   const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export const useTokenStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL) {
+    if (!graphURL || !account) {
       return;
     }
 
@@ -48,7 +48,7 @@ export const useTokenStakingPools = () => {
             skip: ${itemsToSkip}
             first: ${COVERS_PER_PAGE}
             where: {
-              closed: false, 
+              closed: false,
               poolType: TokenStaking
             }
           ) {
@@ -76,6 +76,7 @@ export const useTokenStakingPools = () => {
           return;
         }
 
+        // NO property for pagination
         const isLastPage =
           res.data.pools.length === 0 ||
           res.data.pools.length < COVERS_PER_PAGE;
@@ -96,9 +97,9 @@ export const useTokenStakingPools = () => {
       });
   }, [account, itemsToSkip, networkId]);
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  }, []);
 
   return {
     handleShowMore,

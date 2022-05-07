@@ -37,6 +37,7 @@ export const SORT_TYPES = {
   Utilization: "Utilization Ratio",
   Liquidity: "Liquidity",
   TVL: "TVL",
+  APR: "APR",
 };
 
 /**
@@ -127,6 +128,8 @@ export function sortList(dataList, callback, sortTypeName) {
     case SORT_TYPES.Liquidity:
       return sortByBigNumber(dataList, callback);
     case SORT_TYPES.Utilization:
+    case SORT_TYPES.TVL:
+      console.log(dataList);
       return sortByNumber(dataList, callback);
     default:
       return dataList;

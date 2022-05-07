@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useNetwork } from "@/src/context/Network";
 import { useQuery } from "@/src/hooks/useQuery";
@@ -80,13 +80,16 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     refetch(getQuery());
   }, [refetch]);
 
-  const getTVLById = (id) => {
-    const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {};
-    const tokensInfo = poolTVLInfo.data || [];
+  const getTVLById = useCallback(
+    (id) => {
+      const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {};
+      const tokensInfo = poolTVLInfo.data || [];
 
-    const tvl = sumOf(...tokensInfo.map((x) => x.price || "0")).toString();
-    return tvl;
-  };
+      const tvl = sumOf(...tokensInfo.map((x) => x.price || "0")).toString();
+      return tvl;
+    },
+    [poolsTVL.items]
+  );
 
   const getPriceByAddress = (address) => {
     for (let i = 0; i < poolsTVL.items.length; i++) {
