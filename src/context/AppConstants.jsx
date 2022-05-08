@@ -34,7 +34,7 @@ export function useAppConstants() {
 export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
   const { networkId } = useNetwork();
-  const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(
+  const { tvl, items, getTVLById, getPriceByAddress } = usePoolsTVL(
     data.NPMTokenAddress
   );
   const { library, account } = useWeb3React();
@@ -91,7 +91,13 @@ export const AppConstantsProvider = ({ children }) => {
 
   return (
     <AppConstantsContext.Provider
-      value={{ ...data, poolsTvl: tvl, getTVLById, getPriceByAddress }}
+      value={{
+        ...data,
+        poolsTvl: tvl,
+        pooltsTvlItems: items,
+        getTVLById,
+        getPriceByAddress,
+      }}
     >
       {children}
     </AppConstantsContext.Provider>

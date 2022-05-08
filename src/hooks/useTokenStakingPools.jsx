@@ -3,6 +3,7 @@ import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
@@ -14,6 +15,7 @@ export const useTokenStakingPools = () => {
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const { pooltsTvlItems: items, getTVLById } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -30,7 +32,7 @@ export const useTokenStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL || !account) {
+    if (!graphURL || !account || !items.length) {
       return;
     }
 
@@ -77,16 +79,24 @@ export const useTokenStakingPools = () => {
         }
 
         // NO property for pagination
-        const isLastPage =
-          res.data.pools.length === 0 ||
-          res.data.pools.length < COVERS_PER_PAGE;
+        const isLastPage = res.data.pools.length < COVERS_PER_PAGE;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          pools: [...prev.pools, ...res.data.pools],
+          pools: [
+            ...prev.pools,
+            ...res.data.pools.map((pool) => {
+              const tvl = getTVLById(pool.id);
+
+              return {
+                ...pool,
+                tvl,
+              };
+            }),
+          ],
         }));
       })
       .catch((err) => {
@@ -95,7 +105,7 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]);
+  }, [account, itemsToSkip, networkId, items, getTVLById]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);

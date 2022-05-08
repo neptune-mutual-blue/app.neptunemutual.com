@@ -63,10 +63,11 @@ export const usePoolsTVL = (NPMTokenAddress) => {
       ]);
 
       if (ignore) return;
-      setPoolsTVL({
+
+      setPoolsTVL(() => ({
         items: result.items,
         tvl: result.total,
-      });
+      }));
     }
 
     updateTVL();
@@ -110,5 +111,10 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     return "0";
   };
 
-  return { tvl: poolsTVL.tvl, getTVLById, getPriceByAddress };
+  return {
+    items: poolsTVL.items,
+    tvl: poolsTVL.tvl,
+    getTVLById,
+    getPriceByAddress,
+  };
 };

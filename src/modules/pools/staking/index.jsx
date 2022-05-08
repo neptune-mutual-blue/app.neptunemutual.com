@@ -19,7 +19,6 @@ import { StakingCard } from "@/modules/pools/staking/StakingCard";
 
 function StakingPage() {
   const stakingProvider = useStaking();
-  const { getTVLById } = useAppConstants();
   const [sortType, setSortType] = useState({ name: t`${SORT_TYPES.AtoZ}` });
 
   const router = useRouter();
@@ -31,24 +30,9 @@ function StakingPage() {
     },
   });
 
-  const filteredStakingCardTvl = useMemo(
-    () =>
-      filtered.map((poolData) => {
-        const tvl = getTVLById(poolData.id);
-
-        return { ...poolData, tvl };
-      }),
-    [filtered, getTVLById]
-  );
-
   const sortedPools = useMemo(
-    () =>
-      sortList(
-        filteredStakingCardTvl,
-        getSortCallback(sortType.name),
-        sortType.name
-      ),
-    [filteredStakingCardTvl, sortType.name]
+    () => sortList(filtered, getSortCallback(sortType.name), sortType.name),
+    [filtered, sortType.name]
   );
 
   const options = useMemo(() => {
