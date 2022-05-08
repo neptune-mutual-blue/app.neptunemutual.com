@@ -39,7 +39,7 @@ export const useTxToast = () => {
       });
 
       options?.onTxSuccess && options.onTxSuccess();
-      return { success: true };
+      return;
     }
 
     toast?.pushError({
