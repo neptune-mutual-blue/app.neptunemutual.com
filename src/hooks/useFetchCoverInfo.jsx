@@ -9,16 +9,16 @@ import {
 } from "@/src/config/constants";
 
 const defaultInfo = {
-  activeIncidentDate: "",
-  claimPlatformFee: "",
-  commitment: "",
+  activeIncidentDate: "0",
+  claimPlatformFee: "0",
+  commitment: "0",
   isUserWhitelisted: false,
-  reporterCommission: "",
-  reportingPeriod: "",
+  reporterCommission: "0",
+  reportingPeriod: "0",
   requiresWhitelist: false,
   status: "",
-  totalCommitment: "",
-  totalPoolAmount: "",
+  totalCommitment: "0",
+  totalPoolAmount: "0",
 };
 
 export const useFetchCoverInfo = ({ coverKey }) => {
@@ -46,7 +46,16 @@ export const useFetchCoverInfo = ({ coverKey }) => {
           }
         );
 
+        if (!response.ok) {
+          return;
+        }
+
         const { data } = await response.json();
+
+        if (!data || Object.keys(data).length === 0) {
+          return;
+        }
+
         setInfo({
           activeIncidentDate: data.activeIncidentDate,
           claimPlatformFee: data.claimPlatformFee,
