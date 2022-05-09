@@ -69,6 +69,7 @@ export const CollectRewardModal = ({
               poolKey={poolKey}
               refetchInfo={refetchInfo}
               setModalDisabled={setIsDisabled}
+              onHarvestSuccess={onClose}
             />
           ) : (
             <UnStakeForm
@@ -78,6 +79,7 @@ export const CollectRewardModal = ({
               stakingTokenSymbol={stakingTokenSymbol}
               refetchInfo={refetchInfo}
               setModalDisabled={setIsDisabled}
+              onUnstakeSuccess={onClose}
             />
           )}
         </div>

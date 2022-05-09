@@ -17,6 +17,7 @@ export const HarvestForm = ({
   poolKey,
   refetchInfo,
   setModalDisabled,
+  onHarvestSuccess = () => {},
 }) => {
   const { handleWithdrawRewards, withdrawingRewards } =
     useStakingPoolWithdrawRewards({
@@ -73,7 +74,12 @@ export const HarvestForm = ({
       <RegularButton
         disabled={withdrawingRewards}
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-        onClick={handleWithdrawRewards}
+        onClick={async () => {
+          await handleWithdrawRewards(() => {
+            onHarvestSuccess();
+            refetchInfo();
+          });
+        }}
       >
         {withdrawingRewards ? t`Collecting...` : t`Collect`}
       </RegularButton>
