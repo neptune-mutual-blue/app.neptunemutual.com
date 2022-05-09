@@ -8,14 +8,37 @@ import SearchLanguageIcon from "@/icons/SearchLanguageIcon";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
 import ChevronDownArrowIcon from "@/icons/ChevronDownArrowIcon";
+import { getBrowserLocale } from "@/utils/locale";
+import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 
 const DEBOUNCE_TIMER = 200;
 
 const LANGUAGES = Object.values(languageKey);
+const LANGUAGE_KEYS = Object.keys(languageKey);
 
 export const LanguageDropdown = () => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
+
+  const [language, setLanguage] = useLocalStorage("locale", null);
+
+  useEffect(() => {
+    const browserLocale = getBrowserLocale().replace(/-.*/, "");
+    if (!language) {
+      if (
+        LANGUAGE_KEYS.includes(browserLocale) &&
+        router.locale !== browserLocale
+      ) {
+        router.push(router.asPath, router.asPath, {
+          locale: browserLocale,
+        });
+      }
+    } else if (router.locale !== language) {
+      router.push(router.asPath, router.asPath, {
+        locale: language,
+      });
+    }
+  }, [language, router]);
 
   const [languages, setLanguages] = useState(LANGUAGES);
   const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMER);
@@ -32,6 +55,7 @@ export const LanguageDropdown = () => {
   }, [debouncedSearch]);
 
   const handleOnChangeLanguage = (value) => {
+    setLanguage(localesKey[value]);
     router.push(router.asPath, router.asPath, {
       locale: localesKey[value],
     });
@@ -49,7 +73,9 @@ export const LanguageDropdown = () => {
       >
         <Listbox.Button className="flex items-center text-sm outline-none">
           <div className="flex items-center text-xs text-white underline">
-            <span className="mr-1.5">{languageKey[router.locale]?.split('-')[0]}</span>
+            <span className="mr-1.5">
+              {languageKey[router.locale]?.split("-")[0]}
+            </span>
             <ChevronDownArrowIcon aria-hidden="true" />
           </div>
         </Listbox.Button>

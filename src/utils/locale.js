@@ -1,4 +1,4 @@
-export const getLocale = () => {
+export const getBrowserLocale = () => {
   const fallback = "en";
 
   try {
