@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment, useMemo } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { Listbox, Transition } from "@headlessui/react";
 import { languageKey, localesKey } from "@/src/config/constants";
@@ -20,30 +20,26 @@ export const LanguageDropdown = () => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
 
-  const browserLocale = useMemo(
-    () => getBrowserLocale().replace(/-.*/, ""),
-    []
-  );
   const [language, setLanguage] = useLocalStorage("locale", null);
 
   useEffect(() => {
-    if (!language) {
-      if (
-        LANGUAGE_KEYS.includes(browserLocale) &&
-        router.locale !== browserLocale
-      ) {
-        router.push(router.asPath, router.asPath, {
-          locale: browserLocale,
-        });
-      }
-    } else {
-      if (router.locale !== language) {
-        router.push(router.asPath, router.asPath, {
-          locale: language,
-        });
-      }
+    const browserLocale = getBrowserLocale().replace(/-.*/, "");
+    if (
+      !language &&
+      LANGUAGE_KEYS.includes(browserLocale) &&
+      router.locale !== browserLocale
+    ) {
+      router.push(router.asPath, router.asPath, {
+        locale: browserLocale,
+      });
+      return;
     }
-  }, [browserLocale, language, router]);
+    if (router.locale !== language) {
+      router.push(router.asPath, router.asPath, {
+        locale: language,
+      });
+    }
+  }, [language, router]);
 
   const [languages, setLanguages] = useState(LANGUAGES);
   const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMER);
