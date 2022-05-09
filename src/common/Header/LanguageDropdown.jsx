@@ -24,17 +24,16 @@ export const LanguageDropdown = () => {
 
   useEffect(() => {
     const browserLocale = getBrowserLocale().replace(/-.*/, "");
-    if (
-      !language &&
-      LANGUAGE_KEYS.includes(browserLocale) &&
-      router.locale !== browserLocale
-    ) {
-      router.push(router.asPath, router.asPath, {
-        locale: browserLocale,
-      });
-      return;
-    }
-    if (router.locale !== language) {
+    if (!language) {
+      if (
+        LANGUAGE_KEYS.includes(browserLocale) &&
+        router.locale !== browserLocale
+      ) {
+        router.push(router.asPath, router.asPath, {
+          locale: browserLocale,
+        });
+      }
+    } else if (router.locale !== language) {
       router.push(router.asPath, router.asPath, {
         locale: language,
       });
