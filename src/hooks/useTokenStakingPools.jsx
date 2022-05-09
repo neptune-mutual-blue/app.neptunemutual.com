@@ -15,7 +15,7 @@ export const useTokenStakingPools = () => {
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-  const { pooltsTvlItems: items, getTVLById } = useAppConstants();
+  const { pooltsTvlItems, getTVLById } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -32,7 +32,7 @@ export const useTokenStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL || !account || !items.length) {
+    if (!graphURL || !account || !pooltsTvlItems.length) {
       return;
     }
 
@@ -105,7 +105,7 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId, items, getTVLById]);
+  }, [account, itemsToSkip, networkId, pooltsTvlItems, getTVLById]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);

@@ -14,7 +14,6 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
 export const PodStakingPage = () => {
-  const { getTVLById } = useAppConstants();
   const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
   const [sortType, setSortType] = useState({ name: t`${SORT_TYPES.AtoZ}` });
 
@@ -27,24 +26,9 @@ export const PodStakingPage = () => {
     },
   });
 
-  const filteredPodStakingCardTvl = useMemo(
-    () =>
-      filtered.map((poolData) => {
-        const tvl = getTVLById(poolData.id);
-
-        return { ...poolData, tvl };
-      }),
-    [filtered, getTVLById]
-  );
-
   const sortedPools = useMemo(
-    () =>
-      sortList(
-        filteredPodStakingCardTvl,
-        getSortCallback(sortType.name),
-        sortType.name
-      ),
-    [filteredPodStakingCardTvl, sortType.name]
+    () => sortList(filtered, getSortCallback(sortType.name), sortType.name),
+    [filtered, sortType.name]
   );
 
   const options = useMemo(
