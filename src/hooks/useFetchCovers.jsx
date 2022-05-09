@@ -23,7 +23,7 @@ export const useFetchCovers = () => {
   const [loading, setLoading] = useState(false);
 
   const { networkId } = useNetwork();
-  const { data: ipfs, getIpfsByHash } = useIpfs();
+  const { getIpfsByHash, updateIpfsData } = useIpfs();
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const useFetchCovers = () => {
 
       const _covers = graphData.covers || [];
       const _data = _covers.map((_cover) => {
-        let ipfsData = _cover.ipfsData || ipfs[_cover.ipfsHash];
+        let ipfsData = _cover.ipfsData || getIpfsByHash(_cover.ipfsHash);
 
         try {
           ipfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
@@ -44,19 +44,19 @@ export const useFetchCovers = () => {
 
         // Fetch IPFS data if does not exist
         if (!ipfsData) {
-          getIpfsByHash(_cover.ipfsHash);
+          updateIpfsData(_cover.ipfsHash);
           return null;
         }
 
         return {
           key: _cover.key,
-          projectName: ipfsData.projectName,
-          coverName: ipfsData.coverName,
-          resolutionSources: ipfsData.resolutionSources,
-          about: ipfsData.about,
-          tags: ipfsData.tags,
-          rules: ipfsData.rules,
-          links: ipfsData.links,
+          projectName: ipfsData.projectName || "",
+          coverName: ipfsData.coverName || "",
+          resolutionSources: ipfsData.resolutionSources || [],
+          about: ipfsData.about || "",
+          tags: ipfsData.tags || [],
+          rules: ipfsData.rules || "",
+          links: ipfsData.links || {},
 
           ipfsData: ipfsData,
         };
@@ -71,7 +71,7 @@ export const useFetchCovers = () => {
     return () => {
       ignore = true;
     };
-  }, [getIpfsByHash, graphData, ipfs, networkId]);
+  }, [graphData, networkId, getIpfsByHash, updateIpfsData]);
 
   useEffect(() => {
     let ignore = false;
