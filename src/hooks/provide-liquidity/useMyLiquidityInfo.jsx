@@ -62,7 +62,15 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         }
       );
 
+      if (!response.ok) {
+        return;
+      }
+
       const { data } = await response.json();
+
+      if (!data || Object.keys(data).length === 0) {
+        return;
+      }
 
       return {
         withdrawalOpen: data.withdrawalStarts,

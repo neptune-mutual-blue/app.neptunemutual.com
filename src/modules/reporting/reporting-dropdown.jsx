@@ -13,7 +13,7 @@ export const ReportingDropdown = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className="relative w-full">
-        <Listbox.Button className="w-full relative  py-3 pl-4 pr-12 border border-B0C4DB bg-white rounded-lg cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+        <Listbox.Button className="relative w-full py-3 pl-4 pr-12 bg-white border rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
           <span className="flex items-center truncate text-9B9B9B">
             {prefix}
             {selected?.projectName}
@@ -41,7 +41,7 @@ export const ReportingDropdown = ({
                 }
                 value={option}
               >
-                {({ _selected, active }) => (
+                {({ selected: _selected, active }) => (
                   <>
                     <span
                       className={classNames(
@@ -50,7 +50,7 @@ export const ReportingDropdown = ({
                         active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                       )}
                     >
-                      <div className="w-8 h-8 p-1 mr-2 bg-DEEAF6 rounded-full">
+                      <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
                         <img
                           src={getCoverImgSrc(option)}
                           alt={option.projectName}
