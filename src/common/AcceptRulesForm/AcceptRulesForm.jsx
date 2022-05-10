@@ -6,7 +6,7 @@ import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 
 export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   const router = useRouter();
@@ -34,7 +34,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           since the cover status is
         </Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(
+          href={`/reporting/${safeParseBytes32String(
             coverKey
           )}/${activeIncidentDate}/details`}
         >

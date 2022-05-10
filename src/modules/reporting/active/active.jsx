@@ -6,7 +6,7 @@ import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { ActiveReportingCard } from "@/src/modules/reporting/active/ActiveReportingCard";
 import { ActiveReportingEmptyState } from "@/src/modules/reporting/active/ActiveReportingEmptyState";
 import { useActiveReportings } from "@/src/hooks/useActiveReportings";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
@@ -49,7 +49,7 @@ export const ReportingActivePage = () => {
             ({ activeReporting }) => {
               return (
                 <Link
-                  href={`/reporting/${getParsedKey(
+                  href={`/reporting/${safeParseBytes32String(
                     activeReporting.id.split("-")[0]
                   )}/${activeReporting.id.split("-")[1]}/details`}
                   key={activeReporting.id}

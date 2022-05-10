@@ -6,7 +6,7 @@ import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInf
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -17,7 +17,7 @@ import {
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
   if (!coverInfo) {

@@ -20,7 +20,7 @@ import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -145,7 +145,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(
+          href={`/reporting/${safeParseBytes32String(
             coverKey
           )}/${activeIncidentDate}/details`}
         >

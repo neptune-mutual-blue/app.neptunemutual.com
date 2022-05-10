@@ -3,15 +3,15 @@ import {
   formatBytes32String,
 } from "@ethersproject/strings";
 
-export const getCoverImgSrc = (coverInfo) => {
+export const getCoverImgSrc = ({ key } = { key: "" }) => {
   try {
-    return `/images/covers/${parseBytes32String(coverInfo?.key)}.svg`;
+    return `/images/covers/${parseBytes32String(key)}.svg`;
   } catch (error) {
     return `/images/covers/empty.svg`;
   }
 };
 
-export const getParsedKey = (bytes32String) => {
+export const safeParseBytes32String = (bytes32String) => {
   try {
     return parseBytes32String(bytes32String);
   } catch (error) {
@@ -19,7 +19,7 @@ export const getParsedKey = (bytes32String) => {
   }
 };
 
-export const toBytes32 = (str) => {
+export const safeFormatBytes32String = (str) => {
   try {
     return formatBytes32String(str);
   } catch (error) {

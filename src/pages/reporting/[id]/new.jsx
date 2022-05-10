@@ -2,7 +2,7 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
 import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
-import { toBytes32 } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export function getServerSideProps() {
 export default function ReportingNewCoverPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,

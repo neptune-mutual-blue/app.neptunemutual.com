@@ -36,7 +36,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
   const [info, setInfo] = useState(defaultInfo);
   const mountedRef = useRef(false);
 
-  const { account: userAccount } = useWeb3React();
+  const { account } = useWeb3React();
   const { networkId } = useNetwork();
   const { notifyError } = useErrorNotifier();
 
@@ -50,9 +50,13 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     };
 
     try {
-      const account = userAccount ? userAccount : ADDRESS_ONE;
       const response = await fetch(
-        getReplacedString(POOL_INFO_URL, { networkId, key, account, type }),
+        getReplacedString(POOL_INFO_URL, {
+          networkId,
+          key,
+          account: account || ADDRESS_ONE,
+          type,
+        }),
         {
           method: "GET",
           headers: {
@@ -67,7 +71,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [userAccount, key, networkId, notifyError, type]);
+  }, [account, key, networkId, notifyError, type]);
 
   useEffect(() => {
     mountedRef.current = true;

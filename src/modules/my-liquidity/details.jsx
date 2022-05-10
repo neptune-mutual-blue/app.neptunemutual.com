@@ -10,7 +10,7 @@ import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
@@ -24,7 +24,7 @@ export const MyLiquidityCoverPage = () => {
 
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
   const {

@@ -9,6 +9,9 @@ const initialValue = {
 
 const IpfsContext = React.createContext(initialValue);
 
+/**
+ * @description DO NOT use `getIpfsByHash` and `updateIpfsData` in the same effect (`useEffect`, `useCallback` or `useMemo`)
+ */
 export function useIpfs() {
   const context = React.useContext(IpfsContext);
   if (context === undefined) {
@@ -30,12 +33,10 @@ export const IpfsProvider = ({ children }) => {
       setData((prev) => ({ ...prev, [hash]: _data || {} }));
     };
 
-    updateState(hash, {}); // Fallback to empty obj, so tries only once
-
     utils.ipfs
       .read(hash)
       .then((ipfsData) => updateState(hash, ipfsData))
-      .catch(() => console.log(`Could not get ipfsData: ${hash}`));
+      .catch(() => updateState(hash, {})); // Fallback to empty obj, so tries only once
   }, []);
 
   return (

@@ -17,7 +17,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
@@ -39,7 +39,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   ).toString();
 
   const toast = useToast();
-  const monthNames = getMonthNames(router.locale)
+  const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -130,7 +130,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(
+          href={`/reporting/${safeParseBytes32String(
             coverKey
           )}/${activeIncidentDate}/details`}
         >

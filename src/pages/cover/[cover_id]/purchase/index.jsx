@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { toBytes32 } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
@@ -18,7 +18,7 @@ export function getServerSideProps() {
 export default function CoverPurchaseDetails({ disabled }) {
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
 
   if (disabled) {
     return <ComingSoon />;

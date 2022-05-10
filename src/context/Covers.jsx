@@ -27,6 +27,7 @@ const ACTIONS = {
   UPDATE_COVER_INFO: "UPDATE_COVER_INFO",
   UPDATE_COVER_LIST: "UPDATE_COVER_LIST",
 };
+
 function reducer(state, { type, payload }) {
   switch (type) {
     case ACTIONS.UPDATE_COVER_INFO:
