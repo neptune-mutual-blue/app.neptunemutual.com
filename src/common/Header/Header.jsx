@@ -18,6 +18,7 @@ import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
+import { useScrollPosition } from "@/src/hooks/useScrollPosition";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -78,6 +79,22 @@ export const Header = () => {
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [showHeader, setShowHeader] = useState(true);
+  useScrollPosition(
+    ({ prevPos, currPos }) => {
+      if (currPos?.y <= 175) {
+        setShowHeader(true);
+      } else {
+        if (currPos?.y > prevPos?.y) setShowHeader(false);
+        else if (currPos?.y < prevPos?.y) setShowHeader(true);
+      }
+    },
+    [showHeader],
+    null,
+    true,
+    100
+  );
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -114,7 +131,12 @@ export const Header = () => {
   );
 
   return (
-    <header className="bg-black text-EEEEEE">
+    <header
+      className={classNames(
+        "sticky top-0 z-40 bg-black text-EEEEEE transition-all duration-100",
+        showHeader ? "transform -translate-y-0" : "transform -translate-y-full"
+      )}
+    >
       <Banner />
       <nav
         className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
