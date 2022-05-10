@@ -35,7 +35,7 @@ const VARIANTS = {
 
 const ToastContainer = ({ variant = "top_right" }) => {
   const { toasts, remove } = useToastsStore(
-    (state) => ({ toasts: state.toasts, remove: state.remove }),
+    (state) => ({ toasts: state.toasts, remove: state.toastActions.remove }),
     shallow
   );
 

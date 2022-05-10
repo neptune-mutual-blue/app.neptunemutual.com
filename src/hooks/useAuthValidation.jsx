@@ -1,10 +1,9 @@
-import { useToast } from "@/lib/toast/context";
 import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { useWeb3React } from "@web3-react/core";
+import { toast } from "@/src/store/toast";
 
 export const useAuthValidation = () => {
   const { account } = useWeb3React();
-  const toast = useToast();
 
   const requiresAuth = () => {
     if (account) {

@@ -24,7 +24,7 @@ import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { useToast } from "@/lib/toast/context";
+import { toast } from "@/src/store/toast";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
@@ -40,8 +40,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-
-  const toast = useToast();
 
   const { status, activeIncidentDate } = useCoverInfoContext();
   const {

@@ -19,7 +19,7 @@ import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
-import { useToast } from "@/lib/toast/context";
+import { toast } from "@/src/store/toast";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
@@ -38,7 +38,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
   ).toString();
 
-  const toast = useToast();
   const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
