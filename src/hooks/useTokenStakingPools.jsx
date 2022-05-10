@@ -94,7 +94,7 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]);
+  }, [itemsToSkip, networkId]);
 
   const handleShowMore = () => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);

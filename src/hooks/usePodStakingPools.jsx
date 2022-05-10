@@ -5,9 +5,7 @@ import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
 
 export const usePodStakingPools = () => {
-  const [data, setData] = useState({
-    pools: [],
-  });
+  const [data, setData] = useState({ pools: [] });
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
@@ -17,9 +15,7 @@ export const usePodStakingPools = () => {
 
   useEffect(() => {
     setItemsToSkip(0);
-    setData({
-      pools: [],
-    });
+    setData({ pools: [] });
   }, [account]);
 
   useEffect(() => {
@@ -94,7 +90,7 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]);
+  }, [itemsToSkip, networkId]);
 
   const handleShowMore = () => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
