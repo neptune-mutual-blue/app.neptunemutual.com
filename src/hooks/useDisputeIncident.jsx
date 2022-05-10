@@ -20,10 +20,10 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import BigNumber from "bignumber.js";
 import { t } from "@lingui/macro";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const useDisputeIncident = ({
   coverKey,

@@ -6,7 +6,6 @@ import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { ActiveReportingCard } from "@/src/modules/reporting/active/ActiveReportingCard";
 import { ActiveReportingEmptyState } from "@/src/modules/reporting/active/ActiveReportingEmptyState";
 import { useActiveReportings } from "@/src/hooks/useActiveReportings";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import Link from "next/link";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { useCovers } from "@/src/context/Covers";
@@ -14,6 +13,7 @@ import { sortData } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ReportingActivePage = () => {
   const { data, loading, hasMore, handleShowMore } = useActiveReportings();

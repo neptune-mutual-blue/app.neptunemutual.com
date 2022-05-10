@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
@@ -19,6 +19,7 @@ import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 import BigNumber from "bignumber.js";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);

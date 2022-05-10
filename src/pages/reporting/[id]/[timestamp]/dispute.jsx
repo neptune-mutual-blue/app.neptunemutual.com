@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
-import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { NewDisputeReportForm } from "@/src/modules/reporting/NewDisputeReportForm";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
@@ -13,6 +12,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {

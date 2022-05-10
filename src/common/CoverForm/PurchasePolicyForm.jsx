@@ -17,7 +17,6 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
@@ -25,6 +24,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
 import BigNumber from "bignumber.js";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();

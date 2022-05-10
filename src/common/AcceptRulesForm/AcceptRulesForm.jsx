@@ -6,7 +6,7 @@ import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
-import { safeParseBytes32String } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   const router = useRouter();
