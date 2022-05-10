@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
@@ -24,7 +24,7 @@ export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
   const { totalPoolAmount, totalCommitment } = useCoverInfoContext();

@@ -6,7 +6,7 @@ import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { ResolvedReportingCard } from "@/src/modules/reporting/resolved/ResolvedReportingCard";
 import { ReportStatus } from "@/src/config/constants";
 import { useCovers } from "@/src/context/Covers";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
@@ -52,7 +52,7 @@ export const ReportingResolvedPage = () => {
 
               return (
                 <Link
-                  href={`/reporting/${getParsedKey(
+                  href={`/reporting/${safeParseBytes32String(
                     resolvedReporting.id.split("-")[0]
                   )}/${resolvedReporting.id.split("-")[1]}/details`}
                   key={resolvedReporting.id}

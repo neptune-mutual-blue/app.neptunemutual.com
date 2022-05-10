@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
-import { toBytes32 } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { NewDisputeReportForm } from "@/src/modules/reporting/NewDisputeReportForm";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
@@ -26,7 +26,7 @@ export default function DisputeFormPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id, timestamp } = router.query;
 
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { data, loading } = useFetchReport({
     coverKey: coverKey,

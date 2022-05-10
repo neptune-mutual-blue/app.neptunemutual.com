@@ -4,7 +4,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useRouter } from "next/router";
-import { toBytes32 } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 
 export function getServerSideProps() {
@@ -18,7 +18,7 @@ export function getServerSideProps() {
 export default function MyLiquidityCover({ disabled }) {
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
 
   if (disabled) {
     return <ComingSoon />;

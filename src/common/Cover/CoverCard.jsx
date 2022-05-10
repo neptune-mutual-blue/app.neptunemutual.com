@@ -12,15 +12,15 @@ import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 export const CoverCard = ({ details }) => {
-  const { projectName, key, ipfsData } = details;
-  const { getInfoByKey, updateCoverInfo } = useCovers();
+  const { projectName, key, pricingFloor, pricingCeiling } = details;
+  const { updateCoverInfo } = useCovers();
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const router = useRouter();
-  const coverInfo = useMemo(() => getInfoByKey(key), [getInfoByKey, key]);
-  const imgSrc = useMemo(() => getCoverImgSrc(coverInfo), [coverInfo]);
+
+  const imgSrc = getCoverImgSrc({ key });
 
   const { commitment, status } = useFetchCoverInfo({
     coverKey: key,
@@ -59,8 +59,8 @@ export const CoverCard = ({ details }) => {
       </h4>
       <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(ipfsData.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(ipfsData.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
