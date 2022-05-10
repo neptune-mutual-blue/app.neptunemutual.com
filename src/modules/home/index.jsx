@@ -11,7 +11,7 @@ import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/common/Hero";
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { TotalLiquidityChart } from "@/common/TotalLiquidityChart";
-import { getParsedKey } from "@/src/helpers/cover";
+import { safeParseBytes32String } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -196,7 +196,10 @@ export const HomePage = () => {
           {sortedCovers.map((c, idx) => {
             if (idx > showCount - 1) return;
             return (
-              <Link href={`/cover/${getParsedKey(c.key)}/options`} key={c.key}>
+              <Link
+                href={`/cover/${safeParseBytes32String(c.key)}/options`}
+                key={c.key}
+              >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <CoverCard details={c} />
                 </a>

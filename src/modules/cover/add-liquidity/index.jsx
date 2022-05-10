@@ -10,7 +10,7 @@ import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { convertFromUnits } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
@@ -22,7 +22,7 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { info, isWithdrawalWindowOpen, accrueInterest } = useMyLiquidityInfo({
     coverKey,

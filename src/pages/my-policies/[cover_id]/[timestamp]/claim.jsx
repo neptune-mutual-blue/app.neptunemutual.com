@@ -8,7 +8,7 @@ import { HeroStat } from "@/common/HeroStat";
 import { ClaimCxTokensTable } from "@/src/modules/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { toBytes32 } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
@@ -31,7 +31,7 @@ export default function ClaimPolicy({ disabled }) {
   const router = useRouter();
   const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
   const { data, hasMore } = useActivePoliciesByCover({
     coverKey,

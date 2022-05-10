@@ -2,7 +2,7 @@ import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 
@@ -11,7 +11,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const router = useRouter();
 
   const { id: cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
 
   const breadcrumbData = reportStatus
     ? [

@@ -50,8 +50,8 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(coverInfo.pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(coverInfo.pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
@@ -72,10 +72,20 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       <div className="flex justify-between px-1 text-sm">
         <span
           className=""
-          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).short
+          }
         </span>
         <span
           className="text-right"
