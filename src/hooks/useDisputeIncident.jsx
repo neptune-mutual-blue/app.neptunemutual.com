@@ -10,7 +10,7 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { useNetwork } from "@/src/context/Network";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { txToast } from "@/src/store/toast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -48,7 +48,6 @@ export const useDisputeIncident = ({
   } = useERC20Allowance(NPMTokenAddress);
   const { balance } = useERC20Balance(NPMTokenAddress);
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -68,10 +67,14 @@ export const useDisputeIncident = ({
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol} tokens`,
-          success: t`Approved ${tokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${tokenSymbol} tokens`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving ${tokenSymbol} tokens`,
+            success: t`Approved ${tokenSymbol} tokens Successfully`,
+            failure: t`Could not approve ${tokenSymbol} tokens`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -126,14 +129,14 @@ export const useDisputeIncident = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Disputing`,
             success: t`Disputed successfully`,
             failure: t`Could not dispute`,
           },
-          {
+          options: {
             onTxSuccess: () => {
               router.replace(
                 `/reporting/${safeParseBytes32String(
@@ -141,8 +144,9 @@ export const useDisputeIncident = ({
                 )}/${incidentDate}/details`
               );
             },
-          }
-        );
+          },
+          networkId,
+        });
 
         cleanup();
       };

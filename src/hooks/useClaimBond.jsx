@@ -3,18 +3,17 @@ import { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
+import { txToast } from "@/src/store/toast";
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
 
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -40,17 +39,16 @@ export const useClaimBond = () => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Claiming NPM`,
             success: t`Claimed NPM Successfully`,
             failure: t`Could not claim bond`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
         cleanup();
       };
 

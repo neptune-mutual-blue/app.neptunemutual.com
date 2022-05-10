@@ -6,7 +6,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { txToast } from "@/src/store/toast";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { t } from "@lingui/macro";
@@ -33,7 +33,6 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -130,10 +129,14 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Accruing intrest`,
-          success: t`Accrued intrest successfully`,
-          failure: t`Could not accrue interest`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Accruing intrest`,
+            success: t`Accrued intrest successfully`,
+            failure: t`Could not accrue interest`,
+          },
+          networkId,
         });
       };
 

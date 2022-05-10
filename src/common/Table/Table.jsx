@@ -17,6 +17,10 @@ export const TableWrapper = ({ children }) => {
 };
 
 export const TableShowMore = ({ isLoading = false, onShowMore }) => {
+  if (isLoading) {
+    return <></>;
+  }
+
   return (
     <button
       disabled={isLoading}

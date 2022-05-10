@@ -2,7 +2,6 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import {
   convertToUnits,
   isGreater,
@@ -12,7 +11,6 @@ import {
 } from "@/utils/bn";
 import { registry } from "@neptunemutual/sdk";
 import { AddressZero } from "@ethersproject/constants";
-
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
@@ -22,6 +20,7 @@ import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContex
 import { getClaimPlatformFee } from "@/src/helpers/store/getClaimPlatformFee";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t } from "@lingui/macro";
+import { txToast } from "@/src/store/toast";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -47,7 +46,6 @@ export const useClaimPolicyInfo = ({
     approve,
   } = useERC20Allowance(cxTokenAddress);
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { requiresAuth } = useAuthValidation();
   const { notifyError } = useErrorNotifier();
@@ -112,10 +110,14 @@ export const useClaimPolicyInfo = ({
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving cxDAI tokens`,
-          success: t`Approved cxDAI tokens Successfully`,
-          failure: t`Could not approve cxDAI tokens`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving cxDAI tokens`,
+            success: t`Approved cxDAI tokens Successfully`,
+            failure: t`Could not approve cxDAI tokens`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -166,20 +168,21 @@ export const useClaimPolicyInfo = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Claiming policy`,
             success: t`Claimed policy Successfully`,
             failure: t`Could not Claim policy`,
           },
-          {
+          options: {
             onTxSuccess: () => {
               refetchBalance();
               onTxSuccess();
             },
-          }
-        );
+          },
+          networkId,
+        });
         cleanup();
       };
 

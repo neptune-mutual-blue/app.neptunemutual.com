@@ -9,7 +9,6 @@ import {
   isGreater,
 } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -20,6 +19,7 @@ import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { txToast } from "@/src/store/toast";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -35,7 +35,6 @@ export const usePurchasePolicy = ({
   const [purchasing, setPurchasing] = useState();
   const [error, setError] = useState("");
 
-  const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
   const { liquidityTokenAddress } = useAppConstants();
   const {
@@ -119,10 +118,14 @@ export const usePurchasePolicy = ({
 
     try {
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Approving DAI`,
-          success: t`Approved DAI Successfully`,
-          failure: t`Could not approve DAI`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving DAI`,
+            success: t`Approved DAI Successfully`,
+            failure: t`Could not approve DAI`,
+          },
+          networkId,
         });
         cleanup();
       };
@@ -169,15 +172,16 @@ export const usePurchasePolicy = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Purchasing Policy`,
             success: t`Purchased Policy Successfully`,
             failure: t`Could not purchase policy`,
           },
-          { onTxSuccess: onTxSuccess }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
 
         cleanup();
       };

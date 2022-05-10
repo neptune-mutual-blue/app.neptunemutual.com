@@ -10,7 +10,6 @@ import {
   isValidNumber,
 } from "@/utils/bn";
 import { useNetwork } from "@/src/context/Network";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
@@ -19,6 +18,7 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { t } from "@lingui/macro";
+import { txToast } from "@/src/store/toast";
 
 export const useReportIncident = ({ coverKey, value }) => {
   const router = useRouter();
@@ -43,7 +43,6 @@ export const useReportIncident = ({ coverKey, value }) => {
     refetch: updateBalance,
   } = useERC20Balance(NPMTokenAddress);
 
-  const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -63,10 +62,14 @@ export const useReportIncident = ({ coverKey, value }) => {
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol} tokens`,
-          success: t`Approved ${tokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${tokenSymbol} tokens`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving ${tokenSymbol} tokens`,
+            success: t`Approved ${tokenSymbol} tokens Successfully`,
+            failure: t`Could not approve ${tokenSymbol} tokens`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -112,17 +115,16 @@ export const useReportIncident = ({ coverKey, value }) => {
 
       const tx = wrappedResult.result.tx;
 
-      await txToast.push(
+      await txToast({
         tx,
-        {
+        titles: {
           pending: t`Reporting incident`,
           success: t`Reported incident successfully`,
           failure: t`Could not report incident`,
         },
-        {
-          onTxSuccess: () => router.replace(`/reporting/active`),
-        }
-      );
+        options: { onTxSuccess: () => router.replace(`/reporting/active`) },
+        networkId,
+      });
     } catch (err) {
       notifyError(err, t`report incident`);
     } finally {

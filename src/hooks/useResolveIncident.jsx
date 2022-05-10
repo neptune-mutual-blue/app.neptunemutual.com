@@ -3,7 +3,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { txToast } from "@/src/store/toast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
@@ -15,7 +15,6 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
   const { invoke } = useInvokeMethod();
   const { requiresAuth } = useAuthValidation();
 
-  const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
 
   const [resolving, setResolving] = useState(false);
@@ -45,10 +44,14 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Resolving Incident`,
-          success: t`Resolved Incident Successfully`,
-          failure: t`Could not Resolve Incident`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Resolving Incident`,
+            success: t`Resolved Incident Successfully`,
+            failure: t`Could not Resolve Incident`,
+          },
+          networkId,
         });
         cleanup();
       };
@@ -102,10 +105,14 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Emergency Resolving Incident`,
-          success: t`Emergency Resolved Incident Successfully`,
-          failure: t`Could not Emergency Resolve Incident`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Emergency Resolving Incident`,
+            success: t`Emergency Resolved Incident Successfully`,
+            failure: t`Could not Emergency Resolve Incident`,
+          },
+          networkId,
         });
         cleanup();
       };

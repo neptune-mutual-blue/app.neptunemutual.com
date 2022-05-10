@@ -12,7 +12,7 @@ import {
   isValidNumber,
   sort,
 } from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { txToast } from "@/src/store/toast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
@@ -50,7 +50,6 @@ export const useStakingPoolDeposit = ({
     loading: loadingBalance,
   } = useERC20Balance(tokenAddress);
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
@@ -74,10 +73,14 @@ export const useStakingPoolDeposit = ({
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol}`,
-          success: t`Approved ${tokenSymbol} Successfully`,
-          failure: t`Could not approve ${tokenSymbol}`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving ${tokenSymbol}`,
+            success: t`Approved ${tokenSymbol} Successfully`,
+            failure: t`Could not approve ${tokenSymbol}`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -129,17 +132,16 @@ export const useStakingPoolDeposit = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Staking ${tokenSymbol}`,
             success: t`Staked ${tokenSymbol} successfully`,
             failure: t`Could not stake ${tokenSymbol}`,
           },
-          {
-            onTxSuccess: onDepositSuccess,
-          }
-        );
+          options: { onTxSuccess: onDepositSuccess },
+          networkId,
+        });
 
         cleanup();
       };

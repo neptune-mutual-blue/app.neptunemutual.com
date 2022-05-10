@@ -12,7 +12,6 @@ import {
   convertFromUnits,
 } from "@/utils/bn";
 import { useNetwork } from "@/src/context/Network";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
@@ -22,7 +21,7 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-
+import { txToast } from "@/src/store/toast";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -47,7 +46,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     refetch: updateBalance,
   } = useERC20Balance(info.lpTokenAddress);
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
@@ -163,8 +161,12 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (isGreater(receiveAmount, info.maxBond)) {
       setError(
         t`Exceeds maximum bond ${
-          formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
-            .long
+          formatCurrency(
+            convertFromUnits(info.maxBond).toString(),
+            router.locale,
+            "NPM",
+            true
+          ).long
         }`
       );
       return;
@@ -188,10 +190,14 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving LP tokens`,
-          success: t`Approved LP tokens Successfully`,
-          failure: t`Could not approve LP tokens`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving LP tokens`,
+            success: t`Approved LP tokens Successfully`,
+            failure: t`Could not approve LP tokens`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -238,17 +244,16 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Creating bond`,
             success: t`Created bond successfully`,
             failure: t`Could not create bond`,
           },
-          {
-            onTxSuccess,
-          }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
         cleanup();
       };
 

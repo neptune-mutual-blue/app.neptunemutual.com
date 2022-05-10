@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { convertToUnits } from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
+import { txToast } from "@/src/store/toast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -40,7 +40,6 @@ export const useRemoveLiquidity = ({
     refetch: updateAllowance,
   } = useERC20Allowance(vaultTokenAddress);
 
-  const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
@@ -59,10 +58,14 @@ export const useRemoveLiquidity = ({
 
     const onTransactionResult = async (tx) => {
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${vaultTokenSymbol} tokens`,
-          success: t`Approved ${vaultTokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${vaultTokenSymbol} tokens`,
+        await txToast({
+          tx,
+          titles: {
+            pending: t`Approving ${vaultTokenSymbol} tokens`,
+            success: t`Approved ${vaultTokenSymbol} tokens Successfully`,
+            failure: t`Could not approve ${vaultTokenSymbol} tokens`,
+          },
+          networkId,
         });
         cleanup();
       } catch (err) {
@@ -118,17 +121,16 @@ export const useRemoveLiquidity = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Removing Liquidity`,
             success: t`Removed Liquidity Successfully`,
             failure: t`Could not remove liquidity`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
         cleanup();
       };
 

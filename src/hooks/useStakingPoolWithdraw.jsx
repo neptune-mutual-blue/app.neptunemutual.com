@@ -4,11 +4,11 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import { convertToUnits } from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
+import { txToast } from "@/src/store/toast";
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -21,7 +21,6 @@ export const useStakingPoolWithdraw = ({
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -49,17 +48,16 @@ export const useStakingPoolWithdraw = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Unstaking ${tokenSymbol}`,
             success: t`Unstaked ${tokenSymbol} successfully`,
             failure: t`Could not unstake ${tokenSymbol}`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
 
         cleanup();
       };
@@ -100,7 +98,6 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
 
-  const txToast = useTxToast();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
@@ -128,17 +125,16 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
+        await txToast({
           tx,
-          {
+          titles: {
             pending: t`Withdrawing rewards`,
             success: t`Withdrawn rewards successfully`,
             failure: t`Could not withdraw rewards`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
-        );
+          options: { onTxSuccess },
+          networkId,
+        });
 
         cleanup();
       };

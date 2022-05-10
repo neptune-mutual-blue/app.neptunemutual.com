@@ -6,7 +6,8 @@
 import React from "react";
 import { classNames } from "./utils";
 import ToastMessage from "./message";
-import { useToast } from "./context";
+import shallow from "zustand/shallow";
+import { useToastsStore } from "@/src/store/toast";
 
 const VARIANTS = {
   top_left: {
@@ -33,12 +34,17 @@ const VARIANTS = {
 };
 
 const ToastContainer = ({ variant = "top_right" }) => {
-  const context = useToast();
+  const { toasts, remove } = useToastsStore(
+    (state) => ({ toasts: state.toasts, remove: state.remove }),
+    shallow
+  );
+
   const Var = VARIANTS[variant] || VARIANTS.top_right;
 
   const handleRemove = (id) => {
-    context && context.remove(id);
+    remove(id);
   };
+
   return (
     <div
       className={classNames(
@@ -52,7 +58,7 @@ const ToastContainer = ({ variant = "top_right" }) => {
           "flex-1 flex-col fade w-full mr-8 justify-end pointer-events-none"
         )}
       >
-        {context?.data.map((toast) => {
+        {toasts.map((toast) => {
           return (
             <div
               key={toast.id}
