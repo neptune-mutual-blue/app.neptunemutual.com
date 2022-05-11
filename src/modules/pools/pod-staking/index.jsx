@@ -14,9 +14,9 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
 export const PodStakingPage = () => {
-  const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
   const [sortType, setSortType] = useState({ name: t`${SORT_TYPES.AtoZ}` });
 
+  const { data } = usePodStakingPools();
   const router = useRouter();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
@@ -31,14 +31,13 @@ export const PodStakingPage = () => {
     [filtered, sortType.name]
   );
 
-  const options = useMemo(
-    () =>
-      router.locale && [
-        { name: t`${SORT_TYPES.AtoZ}` },
-        { name: t`${SORT_TYPES.TVL}` },
-      ],
-    [router.locale]
-  );
+  const options = useMemo(() => {
+    if (router.locale) {
+      return [{ name: t`${SORT_TYPES.AtoZ}` }, { name: t`${SORT_TYPES.TVL}` }];
+    }
+
+    return [{ name: SORT_TYPES.AtoZ }, { name: SORT_TYPES.TVL }];
+  }, [router.locale]);
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -57,42 +56,44 @@ export const PodStakingPage = () => {
         />
       </div>
 
-      <Content data={sortedPools} loading={loading} />
-
-      {!loading && hasMore && (
-        <NeutralButton
-          className={"rounded-lg border-0.5"}
-          onClick={handleShowMore}
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
-      )}
+      <Content data={sortedPools} />
     </Container>
   );
 };
 
-function Content({ data, loading }) {
+function Content({ data }) {
+  const { loading, hasMore, handleShowMore } = usePodStakingPools();
   const { getPriceByAddress } = useAppConstants();
+
+  if (data.length) {
+    return (
+      <>
+        <Grid className="mb-24 mt-14">
+          {data.map((poolData) => (
+            <PodStakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={poolData.tvl}
+              getPriceByAddress={getPriceByAddress}
+            />
+          ))}
+        </Grid>
+        {!loading && hasMore && (
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
+        )}
+      </>
+    );
+  }
 
   if (loading) {
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton numberOfCards={data.length || COVERS_PER_PAGE} />
-      </Grid>
-    );
-  }
-
-  if (data.length) {
-    return (
-      <Grid className="mb-24 mt-14">
-        {data.map((poolData) => (
-          <PodStakingCard
-            key={poolData.id}
-            data={poolData}
-            tvl={poolData.tvl}
-            getPriceByAddress={getPriceByAddress}
-          />
-        ))}
       </Grid>
     );
   }

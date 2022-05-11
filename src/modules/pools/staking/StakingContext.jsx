@@ -52,7 +52,10 @@ export function StakingProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
 
-  // arrayOfItems: items[]
+  /**
+   * Set items
+   * @param {array} arrayOfItems - array of covers
+   */
   const setData = useCallback(
     (arrayOfItems) =>
       dispatch({
@@ -62,7 +65,10 @@ export function StakingProvider({ children }) {
     []
   );
 
-  // arrayOfItems: items[]
+  /**
+   * Add items
+   * @param {array} arrayOfItems - array of covers
+   */
   const addData = useCallback(
     (arrayOfItems) =>
       dispatch({
@@ -73,11 +79,9 @@ export function StakingProvider({ children }) {
   );
 
   /**
-   * id @string
-   * data @object { item properties to override
-   *   [key]: @string
-   *   [value]: @any
-   * }
+   * Update item
+   * @param {string} id - item unique identification
+   * @param {object} data - Properties to edit on the item
    */
   const updateData = useCallback(
     (id, data) =>

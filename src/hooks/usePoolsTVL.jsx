@@ -40,10 +40,13 @@ export const usePoolsTVL = (NPMTokenAddress) => {
   const { networkId } = useNetwork();
   const { data: graphData, refetch } = useQuery();
 
-  useEffect(() => {
-    let ignore = false;
+  // notifies that initial fetch is complete
+  // we will use this to block 1st useEffect of page components
+  // that depends on poolsTVL value
+  const [loaded, setLoading] = useState(false);
 
-    async function updateTVL() {
+  useEffect(() => {
+    (async () => {
       if (!graphData || !NPMTokenAddress) return;
 
       const bondsPayload = graphData.bondPools.map((bondPool) => {
@@ -62,19 +65,13 @@ export const usePoolsTVL = (NPMTokenAddress) => {
         ...npmPayload,
       ]);
 
-      if (ignore) return;
-
       setPoolsTVL(() => ({
         items: result.items,
         tvl: result.total,
       }));
-    }
 
-    updateTVL();
-
-    return () => {
-      ignore = true;
-    };
+      setLoading(true);
+    })();
   }, [NPMTokenAddress, graphData, networkId]);
 
   useEffect(() => {
@@ -112,9 +109,9 @@ export const usePoolsTVL = (NPMTokenAddress) => {
   };
 
   return {
-    items: poolsTVL.items,
     tvl: poolsTVL.tvl,
     getTVLById,
     getPriceByAddress,
+    loaded,
   };
 };

@@ -18,13 +18,13 @@ import {
 import { StakingCard } from "@/modules/pools/staking/StakingCard";
 
 function StakingPage() {
-  const stakingProvider = useStaking();
+  const { data } = useStaking();
   const [sortType, setSortType] = useState({ name: t`${SORT_TYPES.AtoZ}` });
 
   const router = useRouter();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: stakingProvider.data,
+    list: data,
     filter: (item, term) => {
       return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
     },
@@ -68,42 +68,44 @@ function StakingPage() {
         />
       </div>
 
-      <Content data={sortedPools} loading={stakingProvider.loading} />
-
-      {!stakingProvider.loading && stakingProvider.hasMore && (
-        <NeutralButton
-          className={"rounded-lg border-0.5"}
-          onClick={stakingProvider.handleShowMore}
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
-      )}
+      <Content data={sortedPools} />
     </Container>
   );
 }
 
-function Content({ data, loading }) {
+function Content({ data }) {
+  const { loading, hasMore, handleShowMore } = useStaking();
   const { getPriceByAddress } = useAppConstants();
+
+  if (data.length) {
+    return (
+      <>
+        <Grid className="mb-24 mt-14">
+          {data.map((poolData) => (
+            <StakingCard
+              key={poolData.id}
+              data={poolData}
+              tvl={poolData.tvl}
+              getPriceByAddress={getPriceByAddress}
+            />
+          ))}
+        </Grid>
+        {!loading && hasMore && (
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
+        )}
+      </>
+    );
+  }
 
   if (loading) {
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton numberOfCards={data.length || COVERS_PER_PAGE} />
-      </Grid>
-    );
-  }
-
-  if (data.length) {
-    return (
-      <Grid className="mb-24 mt-14">
-        {data.map((poolData) => (
-          <StakingCard
-            key={poolData.id}
-            data={poolData}
-            tvl={poolData.tvl}
-            getPriceByAddress={getPriceByAddress}
-          />
-        ))}
       </Grid>
     );
   }

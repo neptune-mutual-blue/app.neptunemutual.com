@@ -11,11 +11,11 @@ export const useTokenStakingPools = () => {
   });
   const [loading, setLoading] = useState(false);
   const [itemsToSkip, setItemsToSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-  const { pooltsTvlItems, getTVLById } = useAppConstants();
+  const { getTVLById, tvlLoaded } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -32,7 +32,7 @@ export const useTokenStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL || !account || !pooltsTvlItems.length) {
+    if (!graphURL || !tvlLoaded) {
       return;
     }
 
@@ -77,13 +77,9 @@ export const useTokenStakingPools = () => {
         if (res.errors || !res.data) {
           return;
         }
+        const { pools } = res.data;
 
-        // NO property for pagination
-        const isLastPage = res.data.pools.length < COVERS_PER_PAGE;
-
-        if (isLastPage) {
-          setHasMore(false);
-        }
+        setHasMore(pools.length > itemsToSkip || pools.length !== 0);
 
         setData((prev) => ({
           pools: [
@@ -105,7 +101,7 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId, pooltsTvlItems, getTVLById]);
+  }, [itemsToSkip, networkId, getTVLById, tvlLoaded]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);

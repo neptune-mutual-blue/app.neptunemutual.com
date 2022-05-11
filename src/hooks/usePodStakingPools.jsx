@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
@@ -10,12 +10,12 @@ export const usePodStakingPools = () => {
     pools: [],
   });
   const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
   const { account } = useWeb3React();
-  const { getTVLById, pooltsTvlItems } = useAppConstants();
+  const { networkId } = useNetwork();
+  const { getTVLById, tvlLoaded } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -32,7 +32,7 @@ export const usePodStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL || !account || !pooltsTvlItems.length) {
+    if (!graphURL || !tvlLoaded) {
       return;
     }
 
@@ -78,19 +78,19 @@ export const usePodStakingPools = () => {
           return;
         }
 
-        const isLastPage = res.data.pools.length < COVERS_PER_PAGE;
+        const { pools } = res.data;
 
-        if (isLastPage) {
-          setHasMore(false);
-        }
+        setHasMore(pools.length > itemsToSkip || pools.length !== 0);
 
         setData((prev) => ({
           pools: [
             ...prev.pools,
-            ...res.data.pools.map((pool) => {
+            ...pools.map((pool) => {
+              const tvl = getTVLById(pool.id);
+
               return {
                 ...pool,
-                tvl: getTVLById(pool.id),
+                tvl,
               };
             }),
           ],
@@ -102,11 +102,11 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId, pooltsTvlItems, getTVLById]);
+  }, [itemsToSkip, networkId, getTVLById, tvlLoaded]);
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  }, []);
 
   return {
     handleShowMore,
