@@ -8,7 +8,6 @@ import { HeroStat } from "@/common/HeroStat";
 import { ClaimCxTokensTable } from "@/src/modules/my-policies/ClaimCxTokensTable";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
@@ -18,6 +17,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
 import { usePagination } from "@/src/hooks/usePagination";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {

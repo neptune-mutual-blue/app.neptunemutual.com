@@ -3,11 +3,11 @@ import StatusFalseReportingIcon from "@/icons/StatusFalseReportingIcon";
 import StatusIncidentOccurredIcon from "@/icons/StatusIncidentOccurredIcon";
 import StatusNormalIcon from "@/icons/StatusNormalIcon";
 import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import { isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 import { renderStatusIndicatorTranslation } from "@/utils/translations";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 // Status => Variant
 const variants = {
