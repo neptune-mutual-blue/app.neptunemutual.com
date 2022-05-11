@@ -15,7 +15,7 @@ import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAnd
 import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
@@ -51,7 +51,7 @@ export default function ClaimPolicy({ disabled }) {
   }
 
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -133,6 +133,6 @@ export default function ClaimPolicy({ disabled }) {
           />
         </Container>
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

@@ -2,11 +2,11 @@ import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { explainInterval } from "@/utils/formatter/interval";
 import Link from "next/link";
 import { Trans } from "@lingui/macro";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
 export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
   const projectName = coverInfo.projectName;
-  const { reportingPeriod } = useCoverInfoContext();
+  const { reportingPeriod } = useCoverStatsContext();
 
   if (!coverInfo.resolutionSources) {
     return null;

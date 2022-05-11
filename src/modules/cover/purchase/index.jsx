@@ -17,7 +17,7 @@ import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import BigNumber from "bignumber.js";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
@@ -28,7 +28,7 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const { coverInfo } = useCoverInfo(coverKey);
 
-  const { totalPoolAmount, totalCommitment } = useCoverInfoContext();
+  const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
     BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
   ).toString();

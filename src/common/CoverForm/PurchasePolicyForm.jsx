@@ -22,7 +22,7 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import BigNumber from "bignumber.js";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
@@ -32,7 +32,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const { totalCommitment, totalPoolAmount } = useCoverInfoContext();
+  const { totalCommitment, totalPoolAmount } = useCoverStatsContext();
 
   const availableLiquidity = convertFromUnits(
     BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
@@ -65,7 +65,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   });
 
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
-    useCoverInfoContext();
+    useCoverStatsContext();
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">

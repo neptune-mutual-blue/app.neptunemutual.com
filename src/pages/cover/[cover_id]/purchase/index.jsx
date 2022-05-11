@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 
 import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
 import { ComingSoon } from "@/common/ComingSoon";
@@ -34,9 +34,9 @@ export default function CoverPurchaseDetails({ disabled }) {
         />
       </Head>
 
-      <CoverInfoProvider coverKey={coverKey}>
+      <CoverStatsProvider coverKey={coverKey}>
         <CoverPurchaseDetailsPage />
-      </CoverInfoProvider>
+      </CoverStatsProvider>
     </>
   );
 }

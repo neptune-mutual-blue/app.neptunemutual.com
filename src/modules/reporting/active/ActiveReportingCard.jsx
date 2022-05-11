@@ -12,13 +12,13 @@ import { convertFromUnits, toBN } from "@/utils/bn";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useRouter } from "next/router";
 
 export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const { coverInfo } = useCoverInfo(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { commitment, status } = useFetchCoverInfo({
+  const { commitment, status } = useFetchCoverStats({
     coverKey,
   });
   const router = useRouter();
