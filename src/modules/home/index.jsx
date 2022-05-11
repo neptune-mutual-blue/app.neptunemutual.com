@@ -83,7 +83,7 @@ export const HomePage = () => {
   return (
     <>
       <Hero>
-        <Container className="flex flex-col-reverse flex-wrap justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row lg:flex-nowrap">
+        <Container className="flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row">
           <div className="pt-10 md:flex md:gap-4 lg:block lg:mr-18 md:w-full lg:w-auto lg:pt-0">
             <div className="flex-1">
               <div className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start">
@@ -134,7 +134,7 @@ export const HomePage = () => {
             </div>
           </div>
 
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 min-w-0">
             <div className="pt-6 mb-8">
               <h3 className="mb-1 text-h3 font-sora text-4e7dd9">
                 <Trans>Total Liquidity</Trans>
