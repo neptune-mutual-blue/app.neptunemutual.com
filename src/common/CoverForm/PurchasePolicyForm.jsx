@@ -8,7 +8,7 @@ import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndE
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { getMonthNames } from "@/lib/dates";
-import { convertFromUnits, isValidNumber } from "@/utils/bn";
+import { convertFromUnits, isValidNumber, toBN } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -23,7 +23,6 @@ import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import BigNumber from "bignumber.js";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
@@ -35,7 +34,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { totalCommitment, totalPoolAmount } = useCoverStatsContext();
 
   const availableLiquidity = convertFromUnits(
-    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
+    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
   ).toString();
 
   const toast = useToast();
@@ -96,7 +95,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   };
 
   const handleSuccessViewPurchasedPolicies = () => {
-    toast?.pushSuccess({
+    toast.pushSuccess({
       title: t`Purchased Policy Successfully`,
       message: <ViewToastPoliciesLink />,
       lifetime: TOAST_DEFAULT_TIMEOUT,

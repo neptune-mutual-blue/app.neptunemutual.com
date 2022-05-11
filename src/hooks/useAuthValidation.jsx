@@ -11,7 +11,7 @@ export const useAuthValidation = () => {
       return;
     }
 
-    toast?.pushError({
+    toast.pushError({
       title: "Error",
       message: "Please connect your wallet",
       lifetime: SHORT_TOAST_TIME,
