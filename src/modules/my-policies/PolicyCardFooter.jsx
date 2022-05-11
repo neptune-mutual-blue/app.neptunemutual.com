@@ -1,5 +1,3 @@
-import { safeParseBytes32String } from "@/src/helpers/cover";
-
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import DateLib from "@/lib/date/DateLib";
@@ -8,6 +6,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PolicyCardFooter = ({
   coverKey,

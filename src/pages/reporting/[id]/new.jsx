@@ -2,14 +2,14 @@ import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
 import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
-import { safeFormatBytes32String } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {
@@ -57,7 +57,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   }
 
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -80,6 +80,6 @@ export default function ReportingNewCoverPage({ disabled }) {
           />
         )}
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

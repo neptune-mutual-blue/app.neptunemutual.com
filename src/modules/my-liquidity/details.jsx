@@ -10,7 +10,7 @@ import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
@@ -18,6 +18,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,11 +1,11 @@
 import Head from "next/head";
-import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 
 import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {
@@ -34,9 +34,9 @@ export default function CoverPurchaseDetails({ disabled }) {
         />
       </Head>
 
-      <CoverInfoProvider coverKey={coverKey}>
+      <CoverStatsProvider coverKey={coverKey}>
         <CoverPurchaseDetailsPage />
-      </CoverInfoProvider>
+      </CoverStatsProvider>
     </>
   );
 }

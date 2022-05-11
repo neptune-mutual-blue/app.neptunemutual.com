@@ -16,7 +16,6 @@ import {
   toBN,
 } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
-import { safeFormatBytes32String } from "@/src/helpers/cover";
 import { formatAmount } from "@/utils/formatter";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -25,6 +24,7 @@ import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const WithdrawLiquidityForm = ({
   info,

@@ -5,14 +5,14 @@ import { Trans } from "@lingui/macro";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
-import { safeParseBytes32String } from "@/src/helpers/cover";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   const router = useRouter();
   const coverPurchasePage = router.pathname.includes("purchase");
   const [checked, setChecked] = useState(false);
-  const { activeIncidentDate, status } = useCoverInfoContext();
+  const { activeIncidentDate, status } = useCoverStatsContext();
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked);

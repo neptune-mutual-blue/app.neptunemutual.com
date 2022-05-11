@@ -11,7 +11,6 @@ import IncreaseIcon from "@/icons/IncreaseIcon";
 import { Hero } from "@/common/Hero";
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { TotalLiquidityChart } from "@/common/TotalLiquidityChart";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -26,6 +25,7 @@ import { getProperty, sortList, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();

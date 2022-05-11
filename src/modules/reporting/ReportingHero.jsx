@@ -2,9 +2,10 @@ import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
-import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const imgSrc = getCoverImgSrc(coverInfo);

@@ -6,13 +6,14 @@ import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInf
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
 import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { getCoverImgSrc, safeFormatBytes32String } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
   renderTitleTranslation,
   renderDescriptionTranslation,
 } from "@/utils/translations";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();

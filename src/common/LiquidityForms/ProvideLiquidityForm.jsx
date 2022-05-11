@@ -20,7 +20,6 @@ import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
-import { safeParseBytes32String } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -28,7 +27,8 @@ import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState();
@@ -43,7 +43,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const toast = useToast();
 
-  const { status, activeIncidentDate } = useCoverInfoContext();
+  const { status, activeIncidentDate } = useCoverStatsContext();
   const {
     lqTokenBalance,
     npmBalance,

@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
-const defaultInfo = {
+const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
   commitment: "0",
@@ -14,9 +14,9 @@ const defaultInfo = {
   totalPoolAmount: "0",
 };
 
-const CoverInfoContext = createContext(defaultInfo);
+const CoverStatsContext = createContext(defaultStats);
 
-export const CoverInfoProvider = ({ coverKey, children }) => {
+export const CoverStatsProvider = ({ coverKey, children }) => {
   const {
     activeIncidentDate,
     claimPlatformFee,
@@ -28,10 +28,10 @@ export const CoverInfoProvider = ({ coverKey, children }) => {
     status,
     totalCommitment,
     totalPoolAmount,
-  } = useFetchCoverInfo({ coverKey });
+  } = useFetchCoverStats({ coverKey });
 
   return (
-    <CoverInfoContext.Provider
+    <CoverStatsContext.Provider
       value={{
         activeIncidentDate,
         claimPlatformFee,
@@ -46,15 +46,15 @@ export const CoverInfoProvider = ({ coverKey, children }) => {
       }}
     >
       {children}
-    </CoverInfoContext.Provider>
+    </CoverStatsContext.Provider>
   );
 };
 
-export function useCoverInfoContext() {
-  const context = useContext(CoverInfoContext);
+export function useCoverStatsContext() {
+  const context = useContext(CoverStatsContext);
   if (context === undefined) {
     throw new Error(
-      "useCoverInfoContext must be used within a CoverInfoContext.Provider"
+      "useCoverStatsContext must be used within a CoverStatsContext.Provider"
     );
   }
   return context;
