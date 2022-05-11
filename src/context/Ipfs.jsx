@@ -1,5 +1,5 @@
 import { utils } from "@neptunemutual/sdk";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 const initValue = {
   data: [],
@@ -28,13 +28,13 @@ export const IpfsProvider = ({ children }) => {
     });
   };
 
-  const getIpfsByHash = (hash) => {
+  const getIpfsByHash = useCallback((hash) => {
     updateState(hash, {}); // to avoid recursive calls
     utils.ipfs
       .read(hash)
       .then((ipfsData) => updateState(hash, ipfsData))
       .catch(() => updateState(hash, {})); // Provide fallback to stop infinite retries
-  };
+  }, []);
 
   return (
     <IpfsContext.Provider value={{ data, getIpfsByHash }}>

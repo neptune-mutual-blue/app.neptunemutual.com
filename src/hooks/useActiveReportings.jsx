@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
@@ -62,19 +62,14 @@ export const useActiveReportings = () => {
           return;
         }
 
-        const isLastPage =
-          res.data.incidentReports.length === 0 ||
-          res.data.incidentReports.length < COVERS_PER_PAGE;
+        const { incidentReports } = res.data;
 
-        if (isLastPage) {
-          setHasMore(false);
-        }
+        setHasMore(
+          incidentReports.length > itemsToSkip || incidentReports.length !== 0
+        );
 
         setData((prev) => ({
-          incidentReports: [
-            ...prev.incidentReports,
-            ...res.data.incidentReports,
-          ],
+          incidentReports: [...prev.incidentReports, ...incidentReports],
         }));
       })
       .catch((err) => {
@@ -85,9 +80,9 @@ export const useActiveReportings = () => {
       });
   }, [itemsToSkip, networkId]);
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  }, []);
 
   return {
     handleShowMore,

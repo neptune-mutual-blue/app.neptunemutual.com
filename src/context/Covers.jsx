@@ -47,13 +47,8 @@ function reducer(state, { type, payload }) {
 }
 
 export const CoversProvider = ({ children }) => {
-  const { data, loading } = useFetchCovers();
+  const { data, getInfoByKey, loading } = useFetchCovers();
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const getInfoByKey = useCallback(
-    (coverKey) => state.covers.find((x) => x.key === coverKey) || {},
-    [state.covers]
-  );
 
   const updateCoverInfo = useCallback((key, data) => {
     dispatch({
@@ -74,7 +69,12 @@ export const CoversProvider = ({ children }) => {
 
   return (
     <CoversContext.Provider
-      value={{ covers: state.covers, getInfoByKey, loading, updateCoverInfo }}
+      value={{
+        covers: state.covers,
+        getInfoByKey,
+        loading,
+        updateCoverInfo,
+      }}
     >
       {children}
     </CoversContext.Provider>
