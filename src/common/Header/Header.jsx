@@ -114,107 +114,116 @@ export const Header = () => {
   );
 
   return (
-    <header className="bg-black text-EEEEEE">
-      <Banner />
-      <nav
-        className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
-        aria-label="Top"
-      >
-        <div className="flex items-center justify-between w-full xl:border-b border-B0C4DB xl:border-none">
-          <div className="flex items-center">
-            <Link href="/" locale={router.locale || router.defaultLocale}>
-              <a>
-                <HeaderLogo />
-              </a>
-            </Link>
-            <div className="hidden ml-16 space-x-8 xl:block">
-              {navigation.map((link) => {
-                return (
-                  <Link key={link.name} href={link.href} locale={router.locale}>
-                    <a
-                      className={classNames(
-                        "text-sm py-9 border-b-4",
-                        link.active
-                          ? "border-4e7dd9 text-4e7dd9 font-semibold"
-                          : "border-transparent text-999BAB"
-                      )}
+    <>
+      <div className="bg-black text-EEEEEE">
+        <Banner />
+        <div className="flex justify-end max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0">
+          <LanguageDropdown />
+        </div>
+      </div>
+      <header className="sticky top-0 z-10 bg-black text-EEEEEE">
+        <nav
+          className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
+          aria-label="Top"
+        >
+          <div className="flex items-stretch justify-between xl:border-b border-B0C4DB xl:border-none">
+            <div className="flex items-center">
+              <Link href="/" locale={router.locale || router.defaultLocale}>
+                <a>
+                  <HeaderLogo />
+                </a>
+              </Link>
+              <div className="self-stretch hidden ml-16 space-x-8 xl:flex">
+                {navigation.map((link) => {
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      locale={router.locale}
                     >
-                      {link.name}
-                    </a>
-                  </Link>
-                );
-              })}
+                      <a
+                        className={classNames(
+                          "text-sm border-b-4 border-t-4 border-t-transparent inline-flex items-center",
+                          link.active
+                            ? "border-4e7dd9 text-4e7dd9 font-semibold"
+                            : "border-transparent text-999BAB"
+                        )}
+                      >
+                        {link.name}
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          {!isOpen && (
-            <div className="flex xl:hidden">
-              <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
-            </div>
-          )}
-          <div className="items-center hidden xl:flex">
-            <ConnectWallet networkId={networkId} notifier={notifier}>
-              {({ onOpen }) => {
-                let button = (
-                  <button
-                    className="inline-block px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
-                    onClick={onOpen}
-                  >
-                    Connect Wallet
-                  </button>
-                );
-                if (active) {
-                  button = (
+            {!isOpen && (
+              <div className="flex xl:hidden">
+                <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
+              </div>
+            )}
+
+            <div className="items-center hidden py-4 xl:flex">
+              <ConnectWallet networkId={networkId} notifier={notifier}>
+                {({ onOpen }) => {
+                  let button = (
                     <button
-                      className="relative flex items-center px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
-                      onClick={handleToggleAccountPopup}
+                      className="inline-block px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
+                      onClick={onOpen}
                     >
-                      <AccountBalanceWalletIcon width="24" height="24" />
-                      <span className="pl-2">{truncateAddress(account)}</span>
+                      Connect Wallet
                     </button>
                   );
-                }
-                return (
-                  <div className="pb-5 ml-10 sm:pl-6 xl:pl-8">
-                    <div className="flex justify-end">
-                      <LanguageDropdown />
+                  if (active) {
+                    button = (
+                      <button
+                        className="relative flex items-center px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
+                        onClick={handleToggleAccountPopup}
+                      >
+                        <AccountBalanceWalletIcon width="24" height="24" />
+                        <span className="pl-2">{truncateAddress(account)}</span>
+                      </button>
+                    );
+                  }
+                  return (
+                    <div className="ml-10 sm:pl-6 xl:pl-8">
+                      <div className="flex space-x-4">
+                        {network} {button}
+                        {isAccountDetailsOpen && (
+                          <AccountDetailsModal
+                            {...{
+                              networkId,
+                              account,
+                              isOpen: isAccountDetailsOpen,
+                              onClose: handleToggleAccountPopup,
+                              active,
+                              handleDisconnect,
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
-                    <div className="flex space-x-4">
-                      {network} {button}
-                      {isAccountDetailsOpen && (
-                        <AccountDetailsModal
-                          {...{
-                            networkId,
-                            account,
-                            isOpen: isAccountDetailsOpen,
-                            onClose: handleToggleAccountPopup,
-                            active,
-                            handleDisconnect,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              }}
-            </ConnectWallet>
+                  );
+                }}
+              </ConnectWallet>
+            </div>
           </div>
-        </div>
-      </nav>
-      <MenuModal
-        isOpen={isOpen}
-        onClose={onClose}
-        navigation={navigation}
-        network={network}
-        networkId={networkId}
-        notifier={notifier}
-        active={active}
-        account={account}
-        handleToggleAccountPopup={handleToggleAccountPopup}
-        isAccountDetailsOpen={isAccountDetailsOpen}
-        handleDisconnect={handleDisconnect}
-      />
-    </header>
+        </nav>
+        <MenuModal
+          isOpen={isOpen}
+          onClose={onClose}
+          navigation={navigation}
+          network={network}
+          networkId={networkId}
+          notifier={notifier}
+          active={active}
+          account={account}
+          handleToggleAccountPopup={handleToggleAccountPopup}
+          isAccountDetailsOpen={isAccountDetailsOpen}
+          handleDisconnect={handleDisconnect}
+        />
+      </header>
+    </>
   );
 };
 
