@@ -7,13 +7,12 @@ import { StakingCardSubTitle } from "@/src/modules/pools/staking/StakingCardSubT
 import { StakingCardCTA } from "@/src/modules/pools/staking/StakingCardCTA";
 import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { PoolCardStat } from "@/src/modules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useNetwork } from "@/src/context/Network";
@@ -25,6 +24,7 @@ import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -65,7 +65,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const hasStaked = isGreater(info.myStake, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
-  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks).multipliedBy(
+  const lockupPeriod = toBN(data.lockupPeriodInBlocks).multipliedBy(
     approxBlockTime
   );
   const imgSrc = getTokenImgSrc(rewardTokenSymbol);
@@ -100,8 +100,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
     },
   ];
 
@@ -112,7 +112,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   });
 
   if (info.name === "") {
-    return null;
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const stakeModalTitle = (

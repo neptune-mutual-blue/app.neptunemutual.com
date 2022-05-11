@@ -7,8 +7,7 @@ import { ResolveIncident } from "@/src/modules/reporting/resolved/ResolveInciden
 import { VotesSummaryDoughnutChart } from "@/src/modules/reporting/VotesSummaryDoughnutCharts";
 import { HlCalendar } from "@/lib/hl-calendar";
 import { truncateAddress } from "@/utils/address";
-import { convertFromUnits, isGreater } from "@/utils/bn";
-import BigNumber from "bignumber.js";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
@@ -35,10 +34,10 @@ export const ActiveReportSummary = ({
       .toNumber(),
   };
 
-  const yesPercent = BigNumber(votes.yes / (votes.yes + votes.no))
+  const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
-  const noPercent = BigNumber(1 - yesPercent)
+  const noPercent = toBN(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();
 
@@ -184,7 +183,12 @@ export const ActiveReportSummary = ({
             <Trans>Reporting Period</Trans>
           </h3>
           <p className="mb-4 text-sm opacity-50">
-            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate, router.locale)}>
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.incidentDate,
+                router.locale
+              )}
+            >
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
                 router.locale,

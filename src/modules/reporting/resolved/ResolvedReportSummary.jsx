@@ -3,8 +3,7 @@ import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
 import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
 import { UnstakeYourAmount } from "@/src/modules/reporting/resolved/UnstakeYourAmount";
 import { Divider } from "@/common/Divider/Divider";
-import { convertFromUnits, isGreater } from "@/utils/bn";
-import BigNumber from "bignumber.js";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import { truncateAddress } from "@/utils/address";
 import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -20,7 +19,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
   const router = useRouter();
-  
+
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
       .decimalPlaces(0)
@@ -30,10 +29,10 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
       .toNumber(),
   };
 
-  const yesPercent = BigNumber(votes.yes / (votes.yes + votes.no))
+  const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
-  const noPercent = BigNumber(1 - yesPercent)
+  const noPercent = toBN(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();
 
@@ -149,7 +148,12 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             <Trans>Reporting Period</Trans>
           </h3>
           <p className="mb-4 text-sm opacity-50">
-            <span title={DateLib.toLongDateFormat(incidentReport.incidentDate, router.locale)}>
+            <span
+              title={DateLib.toLongDateFormat(
+                incidentReport.incidentDate,
+                router.locale
+              )}
+            >
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
                 router.locale,

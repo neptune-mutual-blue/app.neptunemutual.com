@@ -5,7 +5,7 @@ import { Grid } from "@/common/Grid/Grid";
 import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
 import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 
 export const PoliciesExpiredPage = () => {
@@ -50,7 +50,7 @@ export const PoliciesExpiredPage = () => {
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton
-          numberOfCards={COVERS_PER_PAGE}
+          numberOfCards={CARDS_PER_PAGE}
           statusBadge={false}
           subTitle={false}
         />

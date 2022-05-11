@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { registry } from "@neptunemutual/sdk";
+import React, { useEffect, useState } from "react";
 
 import { useNetwork } from "@/src/context/Network";
 import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useWeb3React } from "@web3-react/core";
+
 import {
-  GET_CONTRACTS_INFO_URL,
-  NetworkUrlParam,
-} from "@/src/config/constants";
-import { getReplacedString } from "@/utils/string";
+  getAddressesFromApi,
+  getAddressesFromProvider,
+} from "@/src/services/contracts/getAddresses";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -39,55 +38,32 @@ export const AppConstantsProvider = ({ children }) => {
   );
   const { library, account } = useWeb3React();
 
-  const setAddress = (_address, key) => {
-    setData((prev) => ({
-      ...prev,
-      [key]: _address,
-    }));
-  };
-
-  const getAddressFromApi = useCallback(async (networkId) => {
-    try {
-      const networkName = NetworkUrlParam[networkId];
-      const response = await fetch(
-        getReplacedString(GET_CONTRACTS_INFO_URL, { networkName }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
-      const { data } = await response.json();
-      const npm = data.find((item) => item.key === "NPM");
-      const _addr = npm.value;
-      setAddress(_addr, "NPMTokenAddress");
-
-      const dai = data.find((item) => item.key === "Stablecoin");
-      const _daiAddr = dai.value;
-      setAddress(_daiAddr, "liquidityTokenAddress");
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
   useEffect(() => {
     if (!networkId) return;
     if (!account) {
-      getAddressFromApi(networkId);
+      getAddressesFromApi(networkId).then((result) => {
+        const { NPMTokenAddress, liquidityTokenAddress } = result;
+
+        setData((prev) => ({
+          ...prev,
+          NPMTokenAddress,
+          liquidityTokenAddress,
+        }));
+      });
       return;
     }
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
-    registry.Stablecoin.getAddress(networkId, signerOrProvider).then((_addr) =>
-      setAddress(_addr, "liquidityTokenAddress")
-    );
+    getAddressesFromProvider(networkId, signerOrProvider).then((result) => {
+      const { NPMTokenAddress, liquidityTokenAddress } = result;
 
-    registry.NPMToken.getAddress(networkId, signerOrProvider).then((_addr) =>
-      setAddress(_addr, "NPMTokenAddress")
-    );
-  }, [account, getAddressFromApi, library, networkId]);
+      setData((prev) => ({
+        ...prev,
+        NPMTokenAddress,
+        liquidityTokenAddress,
+      }));
+    });
+  }, [account, library, networkId]);
 
   return (
     <AppConstantsContext.Provider

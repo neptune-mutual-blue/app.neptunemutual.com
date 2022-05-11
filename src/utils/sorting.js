@@ -1,151 +1,64 @@
-Object.byString = function(o, s) {
-  s = s.replace(/\[(\w+)\]/g, ".$1"); // convert indexes to properties
-  s = s.replace(/^\./, ""); // strip a leading dot
-  var a = s.split(".");
-  for (var i = 0, n = a.length; i < n; ++i) {
-    var k = a[i];
-    if (k in o) {
-      o = o[k];
-    } else {
-      return;
-    }
-  }
-  return o;
-};
-
-export const sortByObjectKey = (
-  array,
-  key,
-  ascending = true,
-  formatFunction
-) => {
-  return array.sort((a, b) => {
-    const dataA = formatFunction ?
-      formatFunction(Object.byString(a, key)) :
-      Object.byString(a, key);
-    const dataB = formatFunction ?
-      formatFunction(Object.byString(b, key)) :
-      Object.byString(b, key);
-    if (dataA < dataB) return ascending ? -1 : 1;
-    else if (dataA > dataB) return ascending ? 1 : -1;
-    return 0;
-  });
-};
+import { toBNSafe } from "@/utils/bn";
+import { toStringSafe } from "@/utils/string";
 
 export const SORT_TYPES = {
-  AtoZ: "A-Z",
-  Utilization: "Utilization Ratio",
-  Liquidity: "Liquidity",
+  ALPHABETIC: "A-Z",
+  UTILIZATION_RATIO: "Utilization Ratio",
+  LIQUIDITY: "Liquidity",
   TVL: "TVL",
+  APR: "APR",
+  INCIDENT_DATE: "Incident Date",
 };
 
-/**
- *
- * @param {*} object object | array
- * @param {*} key string | number
- * @param {*} defaultValue string | number | Function
- * @returns string | number | Function
- */
-export const getProperty = (object, key, defaultValue = "") => {
-  if (object.hasOwnProperty(key)) {
-    return object[key];
-  }
-
-  return defaultValue;
+export const SORT_DATA_TYPES = {
+  BIGNUMBER: "BIGNUMBER",
+  STRING: "STRING",
 };
 
-const sortByString = (dataList, callback, asc = true) =>
-  dataList.sort((a, b) => {
-    const aKey = callback(a).trim().toLowerCase();
-    const bKey = callback(b).trim().toLowerCase();
+const sortByString = (dataList, selector, asc = true) => {
+  return dataList.sort((a, b) => {
+    const aKey = toStringSafe(selector(a));
+    const bKey = toStringSafe(selector(b));
 
     const compare = new Intl.Collator("en").compare;
 
     return asc ? compare(aKey, bKey) : compare(bKey, aKey);
   });
+};
 
-const sortByBigNumber = (dataList, callback, asc = true) =>
-  dataList.sort((a, b) => {
-    const aKey = callback(a);
-    const bKey = callback(b);
-
-    if (asc) {
-      if (aKey.isGreaterThan(bKey)) {
-        return -1;
-      }
-
-      if (bKey.isGreaterThan(aKey)) {
-        return 1;
-      }
-
-      return 0;
-    }
+const sortByBigNumber = (dataList, selector, asc = false) => {
+  return dataList.sort((a, b) => {
+    const aKey = toBNSafe(selector(a));
+    const bKey = toBNSafe(selector(b));
 
     if (aKey.isGreaterThan(bKey)) {
-      return 1;
+      return asc ? 1 : -1;
     }
 
     if (bKey.isGreaterThan(aKey)) {
-      return -1;
+      return asc ? -1 : 1;
     }
 
     return 0;
   });
+};
 
-const sortByNumber = (dataList, callback, asc = true) =>
-  dataList.sort((a, b) => {
-    const aKey = callback(a);
-    const bKey = callback(b);
-
-    if (asc) {
-      if (aKey > bKey) {
-        return -1;
-      }
-
-      if (bKey > aKey) {
-        return 1;
-      }
-
-      return 0;
-    }
-
-    if (aKey < bKey) {
-      return -1;
-    }
-
-    if (bKey < aKey) {
-      return 1;
-    }
-
-    return 0;
-  });
-
-export function sortList(dataList, callback, sortTypeName) {
-  switch (sortTypeName) {
-    case SORT_TYPES.AtoZ:
-      return sortByString(dataList, callback);
-    case SORT_TYPES.Liquidity:
-      return sortByBigNumber(dataList, callback);
-    case SORT_TYPES.Utilization:
-      return sortByNumber(dataList, callback);
-    default:
-      return dataList;
+/**
+ *
+ * @param {Object} sorterArgs - args used for sorting
+ * @param {(any)=>any} sorterArgs.selector - a function which returns the value to sort with.
+ * @param {any[]} sorterArgs.list - array of items
+ * @param {keyof SORT_DATA_TYPES} sorterArgs.datatype - array of items
+ * @param {boolean} [sorterArgs.ascending] - array of items
+ */
+export const sorter = ({ selector, list, datatype, ascending }) => {
+  if (datatype === SORT_DATA_TYPES.STRING) {
+    return sortByString(list, selector, ascending);
   }
-}
 
-export const sortData = (dataList, sortTypeName) => {
-  switch (sortTypeName) {
-    case SORT_TYPES.AtoZ:
-      return sortByObjectKey(dataList, "projectName", true);
-    case SORT_TYPES.Utilization:
-      /* return sortByObjectKey(dataList, "stats.utilization", false, parseFloat); */
-      return dataList;
-    case SORT_TYPES.Liquidity:
-      /* return sortByObjectKey(dataList, "stats.liquidity", false, parseFloat); */
-      return dataList;
-    case SORT_TYPES.TVL:
-      return sortByObjectKey(dataList, "tvl", false, parseFloat);
-    default:
-      return dataList;
+  if (datatype === SORT_DATA_TYPES.BIGNUMBER) {
+    return sortByBigNumber(list, selector, ascending);
   }
+
+  return list;
 };

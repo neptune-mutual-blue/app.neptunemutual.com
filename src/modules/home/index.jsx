@@ -20,12 +20,30 @@ import { classNames } from "@/utils/classnames";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { formatPercent } from "@/utils/formatter/percent";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
-import { getProperty, sortList, SORT_TYPES } from "@/utils/sorting";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
+import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+
+/**
+ * @type {Object.<string, {selector:(any) => any, datatype: any }>}
+ */
+const sorterData = {
+  [SORT_TYPES.ALPHABETIC]: {
+    selector: (cover) => cover.projectName,
+    datatype: SORT_DATA_TYPES.STRING,
+  },
+  [SORT_TYPES.LIQUIDITY]: {
+    selector: (cover) => cover.liquidity,
+    datatype: SORT_DATA_TYPES.BIGNUMBER,
+  },
+  [SORT_TYPES.UTILIZATION_RATIO]: {
+    selector: (cover) => cover.utilization,
+    datatype: SORT_DATA_TYPES.BIGNUMBER,
+  },
+};
 
 export const HomePage = () => {
   const { covers: availableCovers, loading } = useCovers();
@@ -36,8 +54,8 @@ export const HomePage = () => {
   const [changeData, setChangeData] = useState(null);
   const { data } = useProtocolDayData();
 
-  const [sortType, setSortType] = useState({ name: SORT_TYPES.AtoZ });
-  const [showCount, setShowCount] = useState(COVERS_PER_PAGE);
+  const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
+  const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers,
@@ -46,7 +64,12 @@ export const HomePage = () => {
   });
 
   const sortedCovers = useMemo(
-    () => sortList(filtered, getSortCallback(sortType.name), sortType.name),
+    () =>
+      sorter({
+        ...sorterData[sortType.name],
+        list: filtered,
+      }),
+    // (filtered, getSortCallback(sortType.name), sortType.name),
     [filtered, sortType.name]
   );
 
@@ -77,7 +100,7 @@ export const HomePage = () => {
   };
 
   const handleShowMore = () => {
-    setShowCount((val) => val + COVERS_PER_PAGE);
+    setShowCount((val) => val + CARDS_PER_PAGE);
   };
 
   return (
@@ -191,7 +214,7 @@ export const HomePage = () => {
           />
         </div>
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
-          {loading && <CardSkeleton numberOfCards={COVERS_PER_PAGE} />}
+          {loading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
           {!loading && availableCovers.length === 0 && <>No data found</>}
           {sortedCovers.map((c, idx) => {
             if (idx > showCount - 1) return;
@@ -219,20 +242,3 @@ export const HomePage = () => {
     </>
   );
 };
-
-const SORT_CALLBACK = {
-  [SORT_TYPES.AtoZ]: (cover) => cover.projectName,
-  [SORT_TYPES.Liquidity]: (cover) => {
-    const liquidity = getProperty(cover, "liquidity", "0");
-
-    return toBN(liquidity);
-  },
-  [SORT_TYPES.Utilization]: (cover) => {
-    const utilization = getProperty(cover, "utilization", "0");
-
-    return Number(utilization);
-  },
-};
-
-const getSortCallback = (sortTypeName) =>
-  getProperty(SORT_CALLBACK, sortTypeName, SORT_CALLBACK[SORT_TYPES.AtoZ]);
