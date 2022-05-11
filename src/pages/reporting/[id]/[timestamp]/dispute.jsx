@@ -11,7 +11,7 @@ import { isGreater } from "@/utils/bn";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
@@ -46,7 +46,7 @@ export default function DisputeFormPage({ disabled }) {
   }
 
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -93,6 +93,6 @@ export default function DisputeFormPage({ disabled }) {
           </div>
         )}
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

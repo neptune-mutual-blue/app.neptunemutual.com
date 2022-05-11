@@ -5,10 +5,10 @@ import { getReplacedString } from "@/utils/string";
 import {
   ADDRESS_ONE,
   CoverStatus,
-  COVER_INFO_URL,
+  COVER_STATS_URL,
 } from "@/src/config/constants";
 
-const defaultInfo = {
+const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
   commitment: "0",
@@ -21,18 +21,18 @@ const defaultInfo = {
   totalPoolAmount: "0",
 };
 
-export const useFetchCoverInfo = ({ coverKey }) => {
-  const [info, setInfo] = useState(defaultInfo);
+export const useFetchCoverStats = ({ coverKey }) => {
+  const [info, setInfo] = useState(defaultStats);
   const { account } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    async function fetchCoverInfo() {
+    async function exec() {
       if (!networkId || !coverKey) return;
 
       try {
         const response = await fetch(
-          getReplacedString(COVER_INFO_URL, {
+          getReplacedString(COVER_STATS_URL, {
             networkId,
             coverKey,
             account: account || ADDRESS_ONE,
@@ -72,7 +72,8 @@ export const useFetchCoverInfo = ({ coverKey }) => {
         console.error(error);
       }
     }
-    fetchCoverInfo();
+
+    exec();
   }, [account, coverKey, networkId]);
 
   return info;

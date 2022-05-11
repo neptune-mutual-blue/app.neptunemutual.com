@@ -8,7 +8,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
@@ -22,7 +22,7 @@ export const CoverCard = ({ details }) => {
 
   const imgSrc = getCoverImgSrc({ key });
 
-  const { commitment, status } = useFetchCoverInfo({
+  const { commitment, status } = useFetchCoverStats({
     coverKey: key,
   });
 

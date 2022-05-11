@@ -9,14 +9,14 @@ import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
   const { coverInfo } = useCoverInfo(coverKey);
-  const { status: currentStatus } = useFetchCoverInfo({ coverKey });
+  const { status: currentStatus } = useFetchCoverStats({ coverKey });
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
