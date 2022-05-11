@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const usePodStakingPools = () => {
   const [data, setData] = useState({ pools: [] });
   const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
   const { account } = useWeb3React();
+  const { networkId } = useNetwork();
+  const { getTVLById, tvlLoaded } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -26,7 +28,7 @@ export const usePodStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL) {
+    if (!graphURL || !tvlLoaded) {
       return;
     }
 
@@ -44,7 +46,7 @@ export const usePodStakingPools = () => {
             skip: ${itemsToSkip}
             first: ${COVERS_PER_PAGE}
             where: {
-              closed: false, 
+              closed: false,
               poolType: PODStaking
             }
           ) {
@@ -72,16 +74,22 @@ export const usePodStakingPools = () => {
           return;
         }
 
-        const isLastPage =
-          res.data.pools.length === 0 ||
-          res.data.pools.length < COVERS_PER_PAGE;
+        const { pools } = res.data;
 
-        if (isLastPage) {
-          setHasMore(false);
-        }
+        setHasMore(pools.length > itemsToSkip || pools.length !== 0);
 
         setData((prev) => ({
-          pools: [...prev.pools, ...res.data.pools],
+          pools: [
+            ...prev.pools,
+            ...pools.map((pool) => {
+              const tvl = getTVLById(pool.id);
+
+              return {
+                ...pool,
+                tvl,
+              };
+            }),
+          ],
         }));
       })
       .catch((err) => {
@@ -90,11 +98,11 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [itemsToSkip, networkId]);
+  }, [itemsToSkip, networkId, getTVLById, tvlLoaded]);
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  }, []);
 
   return {
     handleShowMore,

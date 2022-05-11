@@ -34,43 +34,54 @@ export function useAppConstants() {
 export const AppConstantsProvider = ({ children }) => {
   const [data, setData] = useState(initValue);
   const { networkId } = useNetwork();
-  const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(
-    data.NPMTokenAddress
-  );
+  const {
+    tvl,
+    getTVLById,
+    getPriceByAddress,
+    loaded: tvlLoaded,
+  } = usePoolsTVL(data.NPMTokenAddress);
   const { library, account } = useWeb3React();
 
-  const setAddress = (_address, key) => {
+  /**
+   * Set token value
+   * @param {string} _address - token value
+   * @param {string} key- token name
+   */
+  const setAddress = useCallback((_address, key) => {
     setData((prev) => ({
       ...prev,
       [key]: _address,
     }));
-  };
-
-  const getAddressFromApi = useCallback(async (networkId) => {
-    try {
-      const networkName = NetworkUrlParam[networkId];
-      const response = await fetch(
-        getReplacedString(GET_CONTRACTS_INFO_URL, { networkName }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
-      const { data } = await response.json();
-      const npm = data.find((item) => item.key === "NPM");
-      const _addr = npm.value;
-      setAddress(_addr, "NPMTokenAddress");
-
-      const dai = data.find((item) => item.key === "Stablecoin");
-      const _daiAddr = dai.value;
-      setAddress(_daiAddr, "liquidityTokenAddress");
-    } catch (error) {
-      console.error(error);
-    }
   }, []);
+
+  const getAddressFromApi = useCallback(
+    async (networkId) => {
+      try {
+        const networkName = NetworkUrlParam[networkId];
+        const response = await fetch(
+          getReplacedString(GET_CONTRACTS_INFO_URL, { networkName }),
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          }
+        );
+        const { data } = await response.json();
+        const npm = data.find((item) => item.key === "NPM");
+        const _addr = npm.value;
+        setAddress(_addr, "NPMTokenAddress");
+
+        const dai = data.find((item) => item.key === "Stablecoin");
+        const _daiAddr = dai.value;
+        setAddress(_daiAddr, "liquidityTokenAddress");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [setAddress]
+  );
 
   useEffect(() => {
     if (!networkId) return;
@@ -87,11 +98,17 @@ export const AppConstantsProvider = ({ children }) => {
     registry.NPMToken.getAddress(networkId, signerOrProvider).then((_addr) =>
       setAddress(_addr, "NPMTokenAddress")
     );
-  }, [account, getAddressFromApi, library, networkId]);
+  }, [account, getAddressFromApi, library, networkId, setAddress]);
 
   return (
     <AppConstantsContext.Provider
-      value={{ ...data, poolsTvl: tvl, getTVLById, getPriceByAddress }}
+      value={{
+        ...data,
+        tvlLoaded,
+        poolsTvl: tvl,
+        getTVLById,
+        getPriceByAddress,
+      }}
     >
       {children}
     </AppConstantsContext.Provider>

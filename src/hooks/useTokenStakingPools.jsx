@@ -1,19 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
     pools: [],
   });
   const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
 
+  const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const { getTVLById, tvlLoaded } = useAppConstants();
 
   useEffect(() => {
     setItemsToSkip(0);
@@ -30,7 +32,7 @@ export const useTokenStakingPools = () => {
 
     const graphURL = getGraphURL(networkId);
 
-    if (!graphURL) {
+    if (!graphURL || !tvlLoaded) {
       return;
     }
 
@@ -48,7 +50,7 @@ export const useTokenStakingPools = () => {
             skip: ${itemsToSkip}
             first: ${COVERS_PER_PAGE}
             where: {
-              closed: false, 
+              closed: false,
               poolType: TokenStaking
             }
           ) {
@@ -75,17 +77,22 @@ export const useTokenStakingPools = () => {
         if (res.errors || !res.data) {
           return;
         }
+        const { pools } = res.data;
 
-        const isLastPage =
-          res.data.pools.length === 0 ||
-          res.data.pools.length < COVERS_PER_PAGE;
-
-        if (isLastPage) {
-          setHasMore(false);
-        }
+        setHasMore(pools.length > itemsToSkip || pools.length !== 0);
 
         setData((prev) => ({
-          pools: [...prev.pools, ...res.data.pools],
+          pools: [
+            ...prev.pools,
+            ...res.data.pools.map((pool) => {
+              const tvl = getTVLById(pool.id);
+
+              return {
+                ...pool,
+                tvl,
+              };
+            }),
+          ],
         }));
       })
       .catch((err) => {
@@ -94,11 +101,11 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [itemsToSkip, networkId]);
+  }, [itemsToSkip, networkId, getTVLById, tvlLoaded]);
 
-  const handleShowMore = () => {
+  const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  }, []);
 
   return {
     handleShowMore,

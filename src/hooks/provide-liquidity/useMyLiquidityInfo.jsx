@@ -89,7 +89,10 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [account, coverKey, networkId, notifyError]);
+
+    // temporarily removed notifyError dependency as it causes infinite loop to app when an error detected happened in fetch api
+    // eslint-disable-next-line
+  }, [account, coverKey, networkId]);
 
   useEffect(() => {
     let ignore = false;
