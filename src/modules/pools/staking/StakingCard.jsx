@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CollectRewardModal } from "@/src/modules/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
 import { DoubleImage } from "@/common/DoubleImage";
@@ -25,12 +25,14 @@ import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useStaking } from "@/modules/pools/staking/StakingContext";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const { networkId } = useNetwork();
+  const { updateData } = useStaking();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
     type: PoolTypes.TOKEN,
@@ -100,8 +102,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
     },
   ];
 
@@ -110,6 +112,12 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     value: "",
     tooltip: "",
   });
+
+  useEffect(() => {
+    updateData(data.id, {
+      apr,
+    });
+  }, [data.id, apr, updateData]);
 
   if (info.name === "") {
     return null;

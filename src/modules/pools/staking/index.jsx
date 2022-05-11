@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
-
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
@@ -16,6 +15,7 @@ import {
   withStaking,
 } from "@/modules/pools/staking/StakingContext";
 import { StakingCard } from "@/modules/pools/staking/StakingCard";
+import { toBN } from "@/utils/bn";
 
 function StakingPage() {
   const { data } = useStaking();
@@ -131,12 +131,12 @@ const SORT_CALLBACK = {
   [SORT_TYPES.TVL]: (cover) => {
     const tvl = getProperty(cover, "tvl", "0");
 
-    return Number(tvl);
+    return toBN(tvl);
   },
   [SORT_TYPES.APR]: (cover) => {
     const apr = getProperty(cover, "apr", "0");
 
-    return Number(apr);
+    return toBN(apr);
   },
 };
 

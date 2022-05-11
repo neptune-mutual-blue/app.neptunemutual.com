@@ -12,6 +12,7 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { COVERS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { toBN } from "@/utils/bn";
 
 export const PodStakingPage = () => {
   const [sortType, setSortType] = useState({ name: t`${SORT_TYPES.AtoZ}` });
@@ -120,7 +121,7 @@ const SORT_CALLBACK = {
   [SORT_TYPES.TVL]: (cover) => {
     const tvl = getProperty(cover, "tvl", "0");
 
-    return Number(tvl);
+    return toBN(tvl);
   },
 };
 

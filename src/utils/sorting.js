@@ -90,6 +90,7 @@ export function sortList(dataList, callback, sortTypeName) {
     case SORT_TYPES.Liquidity:
     case SORT_TYPES.Utilization:
     case SORT_TYPES.TVL:
+    case SORT_TYPES.APR:
       return sortByBigNumber(dataList, callback);
     default:
       return dataList;

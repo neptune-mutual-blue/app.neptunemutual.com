@@ -86,7 +86,7 @@ export function StakingProvider({ children }) {
   const updateData = useCallback(
     (id, data) =>
       dispatch({
-        type: REDUCER_ACTIONS.SET,
+        type: REDUCER_ACTIONS.UPDATE,
         payload: {
           id,
           data,
