@@ -22,14 +22,14 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(tokenAddress);
-      toast?.pushSuccess({
+      toast.pushSuccess({
         title: t`Success`,
         message: t`Token address copied Successfully`,
         lifetime: SHORT_TOAST_TIME,
       });
     } catch (err) {
       console.error(err);
-      toast?.pushError({
+      toast.pushError({
         title: t`Error`,
         message: t`Unable to copy token address`,
         lifetime: SHORT_TOAST_TIME,
@@ -41,9 +41,25 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
     <div className="flex items-start justify-between px-3 mt-2 text-9B9B9B">
       <div>
         {balance && (
-          <p title={formatCurrency(convertFromUnits(balance), router.locale, unit, true).long}>
+          <p
+            title={
+              formatCurrency(
+                convertFromUnits(balance),
+                router.locale,
+                unit,
+                true
+              ).long
+            }
+          >
             <Trans>Balance:</Trans>{" "}
-            {formatCurrency(convertFromUnits(balance), router.locale,unit, true).short}
+            {
+              formatCurrency(
+                convertFromUnits(balance),
+                router.locale,
+                unit,
+                true
+              ).short
+            }
           </p>
         )}
         {children}

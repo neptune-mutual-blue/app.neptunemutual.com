@@ -131,7 +131,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleSuccessViewProvidedLiquidity = () => {
-    toast?.pushSuccess({
+    toast.pushSuccess({
       title: t`Added Liquidity Successfully`,
       message: <ViewToastLiquidityLink />,
       lifetime: TOAST_DEFAULT_TIMEOUT,

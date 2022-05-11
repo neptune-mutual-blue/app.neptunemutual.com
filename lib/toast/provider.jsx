@@ -2,7 +2,7 @@
  * Inspiration: https://github.com/damikun/React-Toast
  * Author: Dalibor Kundrat  https://github.com/damikun
  */
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 
 import ToastContainer from "./container";
 import { ToastContext } from "./context";
@@ -73,9 +73,12 @@ export const ToastProvider = ({ children, variant }) => {
       Push(message, "Loading", lifetime, title),
     [Push]
   );
-  const ToastContexd = useCallback(() => {
-    return {
-      data: data,
+  const remove = useCallback(async (id) => {
+    setData((prevState) => prevState.filter((e) => e.id !== id));
+  }, []);
+
+  const toastFunctions = useMemo(
+    () => ({
       pushError: PushError,
       pushWarning: PushWarning,
       pushSuccess: PushSuccess,
@@ -83,25 +86,23 @@ export const ToastProvider = ({ children, variant }) => {
       pushLoading: PushLoading,
       push: Push,
       pushCustom: PushCustom,
-      remove: async (id) => {
-        setData((prevState) => prevState.filter((e) => e.id !== id));
-      },
-    };
-  }, [
-    data,
-    setData,
-    PushError,
-    PushWarning,
-    PushSuccess,
-    PushInfo,
-    PushLoading,
-    Push,
-    PushCustom,
-  ]);
+      remove,
+    }),
+    [
+      Push,
+      PushCustom,
+      PushError,
+      PushInfo,
+      PushLoading,
+      PushSuccess,
+      PushWarning,
+      remove,
+    ]
+  );
 
   return (
-    <ToastContext.Provider value={ToastContexd()}>
-      <ToastContainer variant={variant} />
+    <ToastContext.Provider value={toastFunctions}>
+      <ToastContainer variant={variant} data={data} />
       {children}
     </ToastContext.Provider>
   );

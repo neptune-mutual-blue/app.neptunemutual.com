@@ -32,12 +32,12 @@ const VARIANTS = {
   },
 };
 
-const ToastContainer = ({ variant = "top_right" }) => {
+const ToastContainer = ({ variant = "top_right", data }) => {
   const context = useToast();
   const Var = VARIANTS[variant] || VARIANTS.top_right;
 
   const handleRemove = (id) => {
-    context && context.remove(id);
+    context.remove(id);
   };
   return (
     <div
@@ -52,7 +52,7 @@ const ToastContainer = ({ variant = "top_right" }) => {
           "flex-1 flex-col fade w-full mr-8 justify-end pointer-events-none"
         )}
       >
-        {context?.data.map((toast) => {
+        {data.map((toast) => {
           return (
             <div
               key={toast.id}
