@@ -66,7 +66,7 @@ export const LanguageDropdown = () => {
   };
 
   return (
-    <div className="relative h-6 my-1.5 cursor-pointer">
+    <div className="relative mt-1.5 cursor-pointer">
       <Listbox
         value={languageKey[router.locale]}
         onChange={handleOnChangeLanguage}
