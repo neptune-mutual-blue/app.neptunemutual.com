@@ -1,6 +1,5 @@
 import { Container } from "@/common/Container/Container";
 import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
@@ -19,13 +18,15 @@ import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
 
   const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
   const availableLiquidity = convertFromUnits(

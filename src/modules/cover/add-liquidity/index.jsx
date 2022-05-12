@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
 import { CoverRules } from "@/common/CoverRules/CoverRules";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
@@ -17,6 +16,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -24,12 +24,13 @@ export const CoverAddLiquidityDetailsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { info, isWithdrawalWindowOpen, accrueInterest } = useMyLiquidityInfo({
     coverKey,
   });
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const totalLiquidity = info.totalLiquidity;
   const reassuranceAmount = info.totalReassurance;

@@ -1,4 +1,3 @@
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -10,12 +9,14 @@ import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
+import { useCovers } from "@/src/context/Covers";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { status: currentStatus } = useFetchCoverStats({ coverKey });
 
   const validityStartsAt = cxToken.creationDate || "0";

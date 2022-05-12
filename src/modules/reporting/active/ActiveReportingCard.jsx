@@ -5,7 +5,6 @@ import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
@@ -17,10 +16,12 @@ import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useCovers } from "@/src/context/Covers";
 
 export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
   const { setStatsByKey } = useSortableStats();
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
   const { commitment, status } = useFetchCoverStats({ coverKey });
   const router = useRouter();

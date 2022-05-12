@@ -6,7 +6,6 @@ import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { HeroStat } from "@/common/HeroStat";
 import { ClaimCxTokensTable } from "@/src/modules/my-policies/ClaimCxTokensTable";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -18,6 +17,7 @@ import { t, Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export function getServerSideProps() {
   return {
@@ -32,7 +32,8 @@ export default function ClaimPolicy({ disabled }) {
   const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { data, hasMore } = useActivePoliciesByCover({
     coverKey,
     page,

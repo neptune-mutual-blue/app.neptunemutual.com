@@ -2,7 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { NewDisputeReportForm } from "@/src/modules/reporting/NewDisputeReportForm";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { Container } from "@/common/Container/Container";
 import { Alert } from "@/common/Alert/Alert";
@@ -13,6 +12,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export function getServerSideProps() {
   return {
@@ -27,7 +27,8 @@ export default function DisputeFormPage({ disabled }) {
   const { id: cover_id, timestamp } = router.query;
 
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { data, loading } = useFetchReport({
     coverKey: coverKey,
     incidentDate: timestamp,
