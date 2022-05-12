@@ -26,6 +26,7 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { toStringSafe } from "@/utils/string";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -59,8 +60,9 @@ export const HomePage = () => {
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers,
-    filter: (item, term) =>
-      item.projectName.toLowerCase().includes(term.toLowerCase()),
+    filter: (item, term) => {
+      return toStringSafe(item.projectName).indexOf(toStringSafe(term)) > -1;
+    },
   });
 
   const sortedCovers = useMemo(

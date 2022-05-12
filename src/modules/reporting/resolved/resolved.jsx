@@ -15,6 +15,7 @@ import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { toStringSafe } from "@/utils/string";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -54,8 +55,9 @@ export const ReportingResolvedPage = () => {
       };
     }),
     filter: (item, term) => {
-      const info = getInfoByKey(item.key);
-      return info.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
+      return (
+        toStringSafe(item.info.projectName).indexOf(toStringSafe(term)) > -1
+      );
     },
   });
 

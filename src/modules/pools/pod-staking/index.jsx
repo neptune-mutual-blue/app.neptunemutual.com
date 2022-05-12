@@ -14,6 +14,7 @@ import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { PodStakingCard } from "@/src/modules/pools/pod-staking/PodStakingCard";
 import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useStakingPoolsStats } from "@/modules/pools/staking/StakingPoolsStatsContext";
+import { toStringSafe } from "@/utils/string";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -52,7 +53,7 @@ export const PodStakingPage = () => {
     })),
 
     filter: (item, term) => {
-      return item.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+      return toStringSafe(item.name).indexOf(toStringSafe(term)) > -1;
     },
   });
 

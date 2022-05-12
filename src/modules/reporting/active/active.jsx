@@ -15,6 +15,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { toStringSafe } from "@/utils/string";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -53,8 +54,9 @@ export const ReportingActivePage = () => {
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data,
     filter: (cover, term) => {
-      const projectName = cover.info.projectName;
-      return projectName.toLowerCase().indexOf(term.toLowerCase()) > -1;
+      return (
+        toStringSafe(cover.info.projectName).indexOf(toStringSafe(term)) > -1
+      );
     },
   });
 
