@@ -9,9 +9,8 @@
     "export": "next build && next export",
     "lang:extract": "cross-env NODE_ENV=development lingui extract --clean",
     "lang": "yarn lang:extract && lingui compile",
-    "test": "jest coverage",
-    "test:watch": "jest __test__/ --watch",
-    "test:unit": "jest __test__/unit/ --watch"
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
@@ -43,7 +42,7 @@
     "@lingui/core": "3.13.2",
     "@lingui/loader": "3.13.2",
     "@lingui/macro": "3.13.2",
-    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.2",
     "autoprefixer": "10.4.0",
     "babel-jest": "27.4.6",
@@ -54,7 +53,8 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-unused-imports": "2.0.0",
-    "jest": "27.4.7",
+    "jest": "28.1.0",
+    "jest-environment-jsdom": "28.1.0",
     "postcss": "8.4.4",
     "prettier": "2.5.1",
     "tailwindcss": "3.0.0"
