@@ -27,13 +27,13 @@ import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { useStakingPoolsStats } from "@/modules/pools/staking/StakingPoolsStatsContext";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
-  const { setStatsByKey } = useStakingPoolsStats();
+  const { setStatsByKey } = useSortableStats();
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,

@@ -13,11 +13,11 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { StakingCard } from "@/modules/pools/staking/StakingCard";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
-import { useStakingPoolsStats } from "@/modules/pools/staking/StakingPoolsStatsContext";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { toStringSafe } from "@/utils/string";
 
 /**
- * @type {Object.<string, {selector:(any) => any, datatype: any }>}
+ * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
@@ -41,7 +41,7 @@ export const StakingPage = () => {
   const router = useRouter();
 
   const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
-  const { getStatsByKey } = useStakingPoolsStats();
+  const { getStatsByKey } = useSortableStats();
   const { getTVLById } = useAppConstants();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({

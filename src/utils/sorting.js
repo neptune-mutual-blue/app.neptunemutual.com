@@ -8,6 +8,7 @@ export const SORT_TYPES = {
   TVL: "TVL",
   APR: "APR",
   INCIDENT_DATE: "Incident Date",
+  RESOLVED_DATE: "Resolved Date",
 };
 
 export const SORT_DATA_TYPES = {

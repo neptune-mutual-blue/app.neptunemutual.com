@@ -5,23 +5,25 @@ const defaultValue = {
   getStatsByKey: (_key) => ({}),
 };
 
-const StakingPoolsStatsContext = React.createContext(defaultValue);
+const SortableStatsContext = React.createContext(defaultValue);
 
 /**
- * Used for storing and sorting the data fetched when each card is loaded (like APR)
  * @description DO NOT use `setStatsByKey` and `getStatsByKey` in the same effect (`useEffect`, `useCallback` or `useMemo`)
+ *
+ * Used for storing and sorting the data fetched when each card is loaded (like APR)
  */
-export function useStakingPoolsStats() {
-  const context = React.useContext(StakingPoolsStatsContext);
+export function useSortableStats() {
+  const context = React.useContext(SortableStatsContext);
   if (context === undefined) {
     throw new Error(
-      "useStakingPoolsStats must be used within a StakingPoolsStatsProvider"
+      "useSortableStats must be used within a SortableStatsProvider"
     );
   }
   return context;
 }
 
-export const StakingStatsProvider = ({ children }) => {
+/** Used Only For Sorting */
+export const SortableStatsProvider = ({ children }) => {
   const [state, setState] = useState(defaultValue);
 
   const setStatsByKey = useCallback((key, obj) => {
@@ -37,8 +39,8 @@ export const StakingStatsProvider = ({ children }) => {
   const getStatsByKey = useCallback((key) => state[key] || {}, [state]);
 
   return (
-    <StakingPoolsStatsContext.Provider value={{ getStatsByKey, setStatsByKey }}>
+    <SortableStatsContext.Provider value={{ getStatsByKey, setStatsByKey }}>
       {children}
-    </StakingPoolsStatsContext.Provider>
+    </SortableStatsContext.Provider>
   );
 };

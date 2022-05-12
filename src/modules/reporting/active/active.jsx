@@ -16,9 +16,10 @@ import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 /**
- * @type {Object.<string, {selector:(any) => any, datatype: any }>}
+ * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
@@ -26,7 +27,7 @@ const sorterData = {
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (report) => report.info.utilization,
+    selector: (report) => report.utilization,
     datatype: SORT_DATA_TYPES.BIGNUMBER,
   },
   [SORT_TYPES.INCIDENT_DATE]: {
@@ -42,17 +43,20 @@ export const ReportingActivePage = () => {
     hasMore,
     handleShowMore,
   } = useActiveReportings();
-  const { getInfoByKey } = useCovers();
-
   const [data, setData] = useState([]);
-
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.ALPHABETIC}`,
+    name: t`${SORT_TYPES.INCIDENT_DATE}`,
   });
   const router = useRouter();
 
+  const { getInfoByKey } = useCovers();
+  const { getStatsByKey } = useSortableStats();
+
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: data,
+    list: data.map((report) => ({
+      ...report,
+      ...getStatsByKey(report.id),
+    })),
     filter: (cover, term) => {
       return (
         toStringSafe(cover.info.projectName).indexOf(toStringSafe(term)) > -1
@@ -126,18 +130,19 @@ function Content({ data, loading, hasMore, handleShowMore }) {
     return (
       <>
         <Grid className="mb-24 mt-14">
-          {data.map((cover) => {
+          {data.map((report) => {
             return (
               <Link
                 href={`/reporting/${safeParseBytes32String(
-                  cover.id.split("-")[0]
-                )}/${cover.id.split("-")[1]}/details`}
-                key={cover.id}
+                  report.id.split("-")[0]
+                )}/${report.id.split("-")[1]}/details`}
+                key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <ActiveReportingCard
-                    coverKey={cover.key}
-                    incidentDate={cover.incidentDate}
+                    id={report.id}
+                    coverKey={report.key}
+                    incidentDate={report.incidentDate}
                   />
                 </a>
               </Link>

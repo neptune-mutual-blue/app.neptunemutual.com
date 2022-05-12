@@ -3,6 +3,7 @@ import { ReportingTabs } from "@/src/modules/reporting/ReportingTabs";
 import { ReportingResolvedPage } from "@/src/modules/reporting/resolved/resolved";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
 export function getStaticProps() {
   return {
@@ -27,7 +28,9 @@ export default function ReportingResolved({ disabled }) {
         />
       </Head>
       <ReportingTabs active="resolved">
-        <ReportingResolvedPage />
+        <SortableStatsProvider>
+          <ReportingResolvedPage />
+        </SortableStatsProvider>
       </ReportingTabs>
     </main>
   );

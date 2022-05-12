@@ -16,9 +16,10 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 /**
- * @type {Object.<string, {selector:(any) => any, datatype: any }>}
+ * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
@@ -27,6 +28,10 @@ const sorterData = {
   },
   [SORT_TYPES.INCIDENT_DATE]: {
     selector: (report) => report.incidentDate,
+    datatype: SORT_DATA_TYPES.BIGNUMBER,
+  },
+  [SORT_TYPES.RESOLVED_DATE]: {
+    selector: (report) => report.resolvedOn,
     datatype: SORT_DATA_TYPES.BIGNUMBER,
   },
 };
@@ -38,20 +43,21 @@ export const ReportingResolvedPage = () => {
     hasMore,
     handleShowMore,
   } = useResolvedReportings();
-  const { getInfoByKey } = useCovers();
 
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.ALPHABETIC}`,
+    name: t`${SORT_TYPES.RESOLVED_DATE}`,
   });
   const router = useRouter();
 
-  console.log(incidentReports);
+  const { getInfoByKey } = useCovers();
+  const { getStatsByKey } = useSortableStats();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: incidentReports.map((item) => {
+    list: incidentReports.map((report) => {
       return {
-        ...item,
-        info: getInfoByKey(item.key),
+        ...report,
+        info: getInfoByKey(report.key),
+        ...getStatsByKey(report.id),
       };
     }),
     filter: (item, term) => {
@@ -71,17 +77,21 @@ export const ReportingResolvedPage = () => {
     [filtered, sortType.name]
   );
 
+  console.log(resolvedCardInfoArray.map((x) => x.resolvedOn));
+
   const options = useMemo(() => {
     if (router.locale) {
       return [
         { name: t`${SORT_TYPES.ALPHABETIC}` },
         { name: t`${SORT_TYPES.INCIDENT_DATE}` },
+        { name: t`${SORT_TYPES.RESOLVED_DATE}` },
       ];
     }
 
     return [
       { name: SORT_TYPES.ALPHABETIC },
       { name: SORT_TYPES.INCIDENT_DATE },
+      { name: SORT_TYPES.RESOLVED_DATE },
     ];
   }, [router.locale]);
 
@@ -114,23 +124,24 @@ function Content({ data, loading, hasMore, handleShowMore }) {
     return (
       <>
         <Grid className="mb-24 mt-14">
-          {data.map((cover) => {
-            const resolvedOn = cover.emergencyResolved
-              ? cover.emergencyResolveTransaction?.timestamp
-              : cover.resolveTransaction?.timestamp;
+          {data.map((report) => {
+            const resolvedOn = report.emergencyResolved
+              ? report.emergencyResolveTransaction?.timestamp
+              : report.resolveTransaction?.timestamp;
 
             return (
               <Link
                 href={`/reporting/${safeParseBytes32String(
-                  cover.id.split("-")[0]
-                )}/${cover.id.split("-")[1]}/details`}
-                key={cover.id}
+                  report.id.split("-")[0]
+                )}/${report.id.split("-")[1]}/details`}
+                key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <ResolvedReportingCard
-                    coverKey={cover.key}
+                    id={report.id}
+                    coverKey={report.key}
                     resolvedOn={resolvedOn}
-                    status={ReportStatus[cover.status]}
+                    status={ReportStatus[report.status]}
                   />
                 </a>
               </Link>
