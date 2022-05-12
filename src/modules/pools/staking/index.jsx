@@ -13,6 +13,7 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { StakingCard } from "@/modules/pools/staking/StakingCard";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
+import { useStakingPoolsStats } from "@/modules/pools/staking/StakingPoolsStatsContext";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -32,19 +33,21 @@ const sorterData = {
   },
 };
 
-export function StakingPage() {
-  const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
+export const StakingPage = () => {
   const [sortType, setSortType] = useState({
     name: t`${SORT_TYPES.ALPHABETIC}`,
   });
-
   const router = useRouter();
+
+  const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
+  const { getStatsByKey } = useStakingPoolsStats();
   const { getTVLById } = useAppConstants();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({
       ...pool,
       tvl: getTVLById(pool.id),
+      ...getStatsByKey(pool.id),
     })),
 
     filter: (item, term) => {
@@ -102,7 +105,7 @@ export function StakingPage() {
       />
     </Container>
   );
-}
+};
 
 function Content({ data, loading, hasMore, handleShowMore }) {
   const { getPriceByAddress } = useAppConstants();
@@ -144,7 +147,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
     <div className="flex flex-col items-center w-full pt-20">
       <img
         src="/images/covers/empty-list-illustration.svg"
-        alt="no data found"
+        alt={t`no data found`}
         className="w-48 h-48"
       />
       <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">

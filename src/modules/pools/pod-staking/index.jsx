@@ -1,17 +1,19 @@
 import { useMemo, useState } from "react";
+import { t, Trans } from "@lingui/macro";
+import { useRouter } from "next/router";
+
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
-import { PodStakingCard } from "@/src/modules/pools/pod-staking/PodStakingCard";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sorter, SORT_TYPES, SORT_DATA_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { PodStakingCard } from "@/src/modules/pools/pod-staking/PodStakingCard";
+import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
+import { useStakingPoolsStats } from "@/modules/pools/staking/StakingPoolsStatsContext";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any }>}
@@ -25,6 +27,10 @@ const sorterData = {
     selector: (pool) => pool.tvl,
     datatype: SORT_DATA_TYPES.BIGNUMBER,
   },
+  [SORT_TYPES.APR]: {
+    selector: (pool) => pool.apr,
+    datatype: SORT_DATA_TYPES.BIGNUMBER,
+  },
 };
 
 export const PodStakingPage = () => {
@@ -33,13 +39,16 @@ export const PodStakingPage = () => {
   });
 
   const router = useRouter();
+
   const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
+  const { getStatsByKey } = useStakingPoolsStats();
   const { getTVLById } = useAppConstants();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({
       ...pool,
       tvl: getTVLById(pool.id),
+      ...getStatsByKey(pool.id),
     })),
 
     filter: (item, term) => {
@@ -61,10 +70,15 @@ export const PodStakingPage = () => {
       return [
         { name: t`${SORT_TYPES.ALPHABETIC}` },
         { name: t`${SORT_TYPES.TVL}` },
+        { name: t`${SORT_TYPES.APR}` },
       ];
     }
 
-    return [{ name: SORT_TYPES.ALPHABETIC }, { name: SORT_TYPES.TVL }];
+    return [
+      { name: SORT_TYPES.ALPHABETIC },
+      { name: SORT_TYPES.TVL },
+      { name: SORT_TYPES.APR },
+    ];
   }, [router.locale]);
 
   return (

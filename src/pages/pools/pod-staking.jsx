@@ -4,6 +4,7 @@ import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import { PodStakingPage } from "@/src/modules/pools/pod-staking";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
+import { StakingStatsProvider } from "@/modules/pools/staking/StakingPoolsStatsContext";
 
 export function getStaticProps() {
   return {
@@ -28,7 +29,9 @@ export default function PodStaking({ disabled }) {
         />
       </Head>
       <PoolsTabs active="pod-staking">
-        <PodStakingPage />
+        <StakingStatsProvider>
+          <PodStakingPage />
+        </StakingStatsProvider>
       </PoolsTabs>
     </main>
   );
