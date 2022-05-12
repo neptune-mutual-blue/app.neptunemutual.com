@@ -9,8 +9,8 @@
       "@/lib/*": [
         "lib/*"
       ],
-      "@/translations/*": [
-        "src/translations/*"
+      "@/locales/*": [
+        "locales/*"
       ],
       "@/utils/*": [
         "src/utils/*"
@@ -23,6 +23,9 @@
       ],
       "@/modules/*": [
         "src/modules/*"
+      ],
+      "@/pages/*": [
+        "src/pages/*"
       ],
       "@/src/*": [
         "src/*"
