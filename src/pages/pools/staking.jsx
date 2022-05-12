@@ -4,6 +4,7 @@ import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import { StakingPage } from "@/src/modules/pools/staking";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
+import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
 export function getStaticProps() {
   return {
@@ -28,7 +29,9 @@ export default function Staking({ disabled }) {
         />
       </Head>
       <PoolsTabs active="staking">
-        <StakingPage />
+        <SortableStatsProvider>
+          <StakingPage />
+        </SortableStatsProvider>
       </PoolsTabs>
     </main>
   );

@@ -6,7 +6,7 @@ import { Grid } from "@/common/Grid/Grid";
 import { MyLiquidityCoverCard } from "@/common/Cover/MyLiquidity/MyLiquidityCoverCard";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
@@ -58,7 +58,7 @@ export const MyLiquidityPage = () => {
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton
-          numberOfCards={COVERS_PER_PAGE}
+          numberOfCards={CARDS_PER_PAGE}
           statusBadge={false}
           subTitle={false}
         />

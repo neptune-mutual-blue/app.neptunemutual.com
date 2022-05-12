@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
@@ -10,21 +13,19 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useRouter } from "next/router";
-import { useCovers } from "@/src/context/Covers";
-import { useEffect } from "react";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 export const CoverCard = ({ details }) => {
-  const { projectName, key, pricingFloor, pricingCeiling } = details;
-  const { updateCoverInfo } = useCovers();
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const router = useRouter();
+  const { setStatsByKey } = useSortableStats();
 
-  const imgSrc = getCoverImgSrc({ key });
-
+  const { projectName, key, pricingFloor, pricingCeiling } = details;
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const { commitment, status } = useFetchCoverStats({
     coverKey: key,
   });
+
+  const imgSrc = getCoverImgSrc({ key });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;
@@ -32,12 +33,13 @@ export const CoverCard = ({ details }) => {
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
 
+  // Used for sorting purpose only
   useEffect(() => {
-    updateCoverInfo(key, {
+    setStatsByKey(key, {
       liquidity,
       utilization,
     });
-  }, [key, updateCoverInfo, liquidity, utilization]);
+  }, [key, liquidity, setStatsByKey, utilization]);
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
