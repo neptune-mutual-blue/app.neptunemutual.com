@@ -3,7 +3,6 @@ import { useWeb3React } from "@web3-react/core";
 
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { t } from "@lingui/macro";
 import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
 
