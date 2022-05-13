@@ -48,7 +48,7 @@ export const MyLiquidityCoverPage = () => {
     setIsOpen(true);
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;

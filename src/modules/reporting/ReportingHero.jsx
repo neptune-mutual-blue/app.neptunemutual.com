@@ -8,11 +8,11 @@ import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
-  const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
-
   const { id: cover_id } = router.query;
+
   const coverKey = safeFormatBytes32String(cover_id);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const breadcrumbData = reportStatus
     ? [
