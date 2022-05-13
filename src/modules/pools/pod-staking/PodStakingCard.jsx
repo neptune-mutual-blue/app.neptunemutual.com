@@ -13,7 +13,6 @@ import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { PoolCardStat } from "@/src/modules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
-import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
@@ -27,16 +26,16 @@ import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useCallback, useEffect } from "react/cjs/react.production.min";
+import * as podStakingServiceApi from "@/src/services/api/pod-staking";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const { networkId } = useNetwork();
-  const { info, refetch: refetchInfo } = usePoolInfo({
-    key: data.key,
-    type: PoolTypes.POD,
-  });
+
+  const [info, setInfo] = useState(defaultInfo);
 
   const rewardTokenAddress = info.rewardToken;
   const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
@@ -46,6 +45,27 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);
   const router = useRouter();
+
+  const fetchInfo = useCallback(() => {
+    if (networkId && data.key) {
+      podStakingServiceApi
+        .getPoolInfo({
+          key: data.key,
+          type: PoolTypes.POD,
+          networkId,
+        })
+        .then((info) => setInfo(info))
+        .catch((error) => {
+          notifyError(error);
+        });
+    }
+  }, [networkId, data.key]);
+
+  useEffect(() => {
+    if (networkId && data.key) {
+      fetchInfo();
+    }
+  }, [data.key, fetchInfo, networkId]);
 
   function onStakeModalOpen() {
     setIsStakeModalOpen(true);
@@ -103,8 +123,8 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
     },
   ];
 
@@ -196,7 +216,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       <StakeModal
         poolKey={poolKey}
         info={info}
-        refetchInfo={refetchInfo}
+        refetchInfo={fetchInfo}
         lockupPeriod={lockupPeriod}
         isOpen={isStakeModalOpen}
         onClose={onStakeModalClose}
@@ -210,7 +230,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       <CollectRewardModal
         poolKey={poolKey}
         info={info}
-        refetchInfo={refetchInfo}
+        refetchInfo={fetchInfo}
         stakedAmount={stakedAmount}
         rewardAmount={rewardAmount}
         rewardTokenAddress={rewardTokenAddress}
