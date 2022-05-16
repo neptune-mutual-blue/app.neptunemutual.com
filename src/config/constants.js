@@ -4,7 +4,7 @@ export const DAYS = 86400;
 export const DEFAULT_GAS_LIMIT = "6000000";
 export const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
 export const ROWS_PER_PAGE = 50;
-export const COVERS_PER_PAGE = 6;
+export const CARDS_PER_PAGE = 6;
 export const GAS_MARGIN_MULTIPLIER = 1.5;
 
 export const CoverStatus = {
@@ -27,10 +27,10 @@ export const PoolTypes = {
 };
 
 export const languageKey = {
-  "zh": "Chinese - 中文",
-  "en": "English",
-  "fr": "French - français",
-  "ja": "Japanese - 日本語",
+  zh: "Chinese - 中文",
+  en: "English",
+  fr: "French - français",
+  ja: "Japanese - 日本語",
 };
 
 export const localesKey = {

@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
@@ -13,14 +16,13 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useRouter } from "next/router";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
-export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
+export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
+  const { setStatsByKey } = useSortableStats();
   const { coverInfo } = useCoverInfo(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { commitment, status } = useFetchCoverStats({
-    coverKey,
-  });
+  const { commitment, status } = useFetchCoverStats({ coverKey });
   const router = useRouter();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
@@ -30,6 +32,14 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+
+  // Used for sorting purpose only
+  useEffect(() => {
+    setStatsByKey(id, {
+      liquidity,
+      utilization,
+    });
+  }, [id, liquidity, setStatsByKey, utilization]);
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">

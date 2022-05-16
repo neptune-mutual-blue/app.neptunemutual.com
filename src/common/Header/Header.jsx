@@ -121,7 +121,7 @@ export const Header = () => {
           <LanguageDropdown />
         </div>
       </div>
-      <header className="sticky top-0 z-10 bg-black text-EEEEEE">
+      <header className="sticky top-0 z-40 bg-black text-EEEEEE">
         <nav
           className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
           aria-label="Top"

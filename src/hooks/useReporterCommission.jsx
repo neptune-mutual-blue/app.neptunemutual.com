@@ -5,8 +5,8 @@ import { AddressZero } from "@ethersproject/constants";
 import { useNetwork } from "@/src/context/Network";
 import { getReporterCommission } from "@/src/helpers/store/getReporterCommission";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import BigNumber from "bignumber.js";
 import { MULTIPLIER } from "@/src/config/constants";
+import { toBN } from "@/utils/bn";
 
 export const useReporterCommission = () => {
   const [commission, setCommission] = useState("0");
@@ -26,7 +26,7 @@ export const useReporterCommission = () => {
     getReporterCommission(networkId, signerOrProvider.provider).then(
       (_commission) => {
         setCommission(
-          BigNumber(_commission.toString())
+          toBN(_commission.toString())
             .multipliedBy(100)
             .dividedBy(MULTIPLIER)
             .decimalPlaces(3)

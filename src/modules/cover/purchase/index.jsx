@@ -6,7 +6,7 @@ import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -18,7 +18,6 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import BigNumber from "bignumber.js";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const CoverPurchaseDetailsPage = () => {
@@ -30,7 +29,7 @@ export const CoverPurchaseDetailsPage = () => {
 
   const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
+    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
   ).toString();
 
   const { info } = useMyLiquidityInfo({ coverKey });

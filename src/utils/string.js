@@ -11,3 +11,11 @@ export const getReplacedString = (
 
   return str;
 };
+
+export const toStringSafe = (x) => {
+  try {
+    return x.toString().trim().toLowerCase();
+  } catch (error) {
+    return "";
+  }
+};

@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
 
 export const usePodStakingPools = () => {
@@ -42,7 +42,7 @@ export const usePodStakingPools = () => {
         {
           pools(
             skip: ${itemsToSkip}
-            first: ${COVERS_PER_PAGE}
+            first: ${CARDS_PER_PAGE}
             where: {
               closed: false, 
               poolType: PODStaking
@@ -73,8 +73,7 @@ export const usePodStakingPools = () => {
         }
 
         const isLastPage =
-          res.data.pools.length === 0 ||
-          res.data.pools.length < COVERS_PER_PAGE;
+          res.data.pools.length === 0 || res.data.pools.length < CARDS_PER_PAGE;
 
         if (isLastPage) {
           setHasMore(false);
@@ -92,9 +91,9 @@ export const usePodStakingPools = () => {
       });
   }, [itemsToSkip, networkId]);
 
-  const handleShowMore = () => {
-    setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  const handleShowMore = useCallback(() => {
+    setItemsToSkip((prev) => prev + CARDS_PER_PAGE);
+  }, []);
 
   return {
     handleShowMore,

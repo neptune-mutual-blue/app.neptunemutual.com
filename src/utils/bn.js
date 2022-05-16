@@ -10,6 +10,14 @@ export const ZERO_BI = new BigNumber("0");
 
 export const toBN = (x) => new BigNumber(x?.toString() || "0");
 
+export const toBNSafe = (x) => {
+  try {
+    return toBN(x.toString());
+  } catch (error) {
+    return toBN("0");
+  }
+};
+
 export const hasValue = (x) => {
   return !(!x || !parseFloat(x.toString()));
 };
