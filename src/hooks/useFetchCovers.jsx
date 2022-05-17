@@ -12,7 +12,6 @@ const getQuery = () => {
       key
       ipfsHash
       ipfsBytes
-      stopped
     }
   }
 `;
@@ -100,8 +99,6 @@ export const useFetchCovers = () => {
         resolutionSources: ipfsData.resolutionSources || [],
         stakeWithFees: ipfsData.stakeWithFees || "0",
         reassurance: ipfsData.reassurance || "0",
-
-        // ipfsData: ipfsData, // TODO: remove this
       };
     },
     [data, getIpfsByHash]

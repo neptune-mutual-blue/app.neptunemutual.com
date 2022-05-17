@@ -5,7 +5,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
@@ -32,7 +32,6 @@ const defaultInfo = {
 };
 
 export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
-  const mountedRef = useRef(false);
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
@@ -57,7 +56,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
       }),
       {
         method: "GET",
-        header: {
+        headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
         },
@@ -66,27 +65,25 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
 
     const { data } = await response.json();
 
-    if (!mountedRef.current || !data) {
-      return;
-    }
-
-    setInfo({
-      ...data,
-    });
-
     return data;
   }, [account, coverKey, incidentDate, networkId]);
 
   useEffect(() => {
-    mountedRef.current = true;
+    let ignore = false;
+
+    fetchInfo()
+      .then((data) => {
+        if (ignore || !data) {
+          return;
+        }
+
+        setInfo(data);
+      })
+      .catch(console.error);
 
     return () => {
-      mountedRef.current = false;
+      ignore = true;
     };
-  });
-
-  useEffect(() => {
-    fetchInfo().catch(console.error);
   }, [fetchInfo]);
 
   const unstake = async () => {

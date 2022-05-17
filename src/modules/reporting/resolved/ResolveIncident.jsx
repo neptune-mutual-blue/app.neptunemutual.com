@@ -3,13 +3,13 @@ import { Radio } from "@/common/Radio/Radio";
 import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
+import { useCovers } from "@/src/context/Covers";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -23,8 +23,9 @@ export const ResolveIncident = ({
       incidentDate: incidentReport.incidentDate,
     });
 
-  const { coverInfo } = useCoverInfo(incidentReport.key);
-  const logoSource = getCoverImgSrc(coverInfo);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(incidentReport.key);
+  const logoSource = getCoverImgSrc({ key: incidentReport.key });
 
   function onClose() {
     setIsOpen(false);
