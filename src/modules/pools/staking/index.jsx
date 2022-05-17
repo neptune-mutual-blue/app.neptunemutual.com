@@ -42,7 +42,7 @@ export const StakingPage = () => {
 
   const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
   const { getStatsByKey } = useSortableStats();
-  const { getTVLById } = useAppConstants();
+  const { getTVLById, getPriceByAddress } = useAppConstants();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({
@@ -103,14 +103,19 @@ export const StakingPage = () => {
         loading={loading}
         hasMore={hasMore}
         handleShowMore={handleShowMore}
+        getPriceByAddress={getPriceByAddress}
       />
     </Container>
   );
 };
 
-function Content({ data, loading, hasMore, handleShowMore }) {
-  const { getPriceByAddress } = useAppConstants();
-
+function Content({
+  data,
+  loading,
+  hasMore,
+  handleShowMore,
+  getPriceByAddress,
+}) {
   if (data.length) {
     return (
       <>
