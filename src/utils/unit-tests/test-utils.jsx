@@ -16,10 +16,10 @@ import { messages as enMessages } from "@/locales/en/messages";
 import { messages as frMessages } from "@/locales/fr/messages";
 import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
-import { RouterContext } from "next/dist/shared/lib/router-context";
-import { createRouter } from "next/router";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
+import { createMockRouter } from '@/utils/unit-tests/createMockRouter';
+import { RouterContext } from "next/dist/shared/lib/router-context";
 
 export * from "@testing-library/react";
 
@@ -29,6 +29,7 @@ i18n.load({
   ja: jaMessages,
   zh: zhMessages,
 });
+
 i18n.loadLocaleData({
   en: { plurals: en },
   fr: { plurals: fr },
@@ -36,20 +37,11 @@ i18n.loadLocaleData({
   zh: { plurals: zh },
 });
 
-const AllTheProviders = ({ children }) => {
-  const router = createRouter("", {}, "", {
-    subscription: jest.fn().mockImplementation(Promise.resolve),
-    initialProps: {},
-    pageLoader: jest.fn(),
-    Component: jest.fn(),
-    App: jest.fn(),
-    wrapApp: jest.fn(),
-    isFallback: false,
-  });
 
+const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
     <RouterContext.Provider value={router}>
-      <I18nProvider i18n={i18n}>
+      <I18nProvider i18n={i18n} >
         <Web3ReactProvider getLibrary={getLibrary}>
           <NetworkProvider>
             <AppConstantsProvider>
