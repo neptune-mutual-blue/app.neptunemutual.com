@@ -16,8 +16,9 @@ import { messages as enMessages } from "@/locales/en/messages";
 import { messages as frMessages } from "@/locales/fr/messages";
 import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
+import { LanguageProvider } from "@/src/i18n";
+import { createRouter } from "next/router";
 
 i18n.load({
   en: enMessages,
@@ -33,26 +34,36 @@ i18n.loadLocaleData({
 });
 
 const AllTheProviders = ({ children }) => {
-  const router = createMockRouter({});
+  const router = createRouter("", {}, "", {
+    subscription: jest.fn().mockImplementation(Promise.resolve),
+    initialProps: {},
+    pageLoader: jest.fn(),
+    Component: jest.fn(),
+    App: jest.fn(),
+    wrapApp: jest.fn(),
+    isFallback: false,
+  });
 
   return (
     <RouterContext.Provider value={router}>
       <I18nProvider i18n={i18n}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <NetworkProvider>
-            <AppConstantsProvider>
-              <IpfsProvider>
-                <CoversProvider>
-                  <UnlimitedApprovalProvider>
-                    <ToastProvider>
-                      <TxPosterProvider>{children}</TxPosterProvider>
-                    </ToastProvider>
-                  </UnlimitedApprovalProvider>
-                </CoversProvider>
-              </IpfsProvider>
-            </AppConstantsProvider>
-          </NetworkProvider>
-        </Web3ReactProvider>
+        <LanguageProvider forceRenderOnLocaleChange={false}>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <NetworkProvider>
+              <AppConstantsProvider>
+                <IpfsProvider>
+                  <CoversProvider>
+                    <UnlimitedApprovalProvider>
+                      <ToastProvider>
+                        <TxPosterProvider>{children}</TxPosterProvider>
+                      </ToastProvider>
+                    </UnlimitedApprovalProvider>
+                  </CoversProvider>
+                </IpfsProvider>
+              </AppConstantsProvider>
+            </NetworkProvider>
+          </Web3ReactProvider>
+        </LanguageProvider>
       </I18nProvider>
     </RouterContext.Provider>
   );
