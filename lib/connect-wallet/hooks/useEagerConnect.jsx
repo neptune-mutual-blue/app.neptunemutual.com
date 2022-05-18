@@ -21,7 +21,9 @@ export const useEagerConnect = (networkId, notifier) => {
   const { login } = useAuth(networkId, notifier);
 
   useEffect(() => {
-    const connectorName = window.localStorage.getItem(ACTIVE_CONNECTOR_KEY);
+    const connectorName =
+      window.localStorage.getItem(ACTIVE_CONNECTOR_KEY) ||
+      process.env.NEXT_PUBLIC_TEST_CONNECTOR;
 
     if (!connectorName) {
       console.info("Unable to find connector from local storage");

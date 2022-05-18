@@ -14,6 +14,7 @@ export function Content({
   handleShowMore,
   getPriceByAddress,
 }) {
+  console.log("fetch data", data);
   if (data.length) {
     return (
       <>
