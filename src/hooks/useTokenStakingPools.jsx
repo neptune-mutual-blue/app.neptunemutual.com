@@ -48,7 +48,7 @@ export const useTokenStakingPools = () => {
             skip: ${itemsToSkip}
             first: ${CARDS_PER_PAGE}
             where: {
-              closed: false, 
+              closed: false,
               poolType: TokenStaking
             }
           ) {
