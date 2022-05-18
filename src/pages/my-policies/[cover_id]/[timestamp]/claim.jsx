@@ -45,12 +45,15 @@ export default function ClaimPolicy({ disabled }) {
       incidentDate: timestamp,
     });
 
-  const title = coverInfo?.projectName;
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
 
   if (disabled) {
     return <ComingSoon />;
   }
 
+  const title = coverInfo.projectName;
   return (
     <CoverStatsProvider coverKey={coverKey}>
       <main>

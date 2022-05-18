@@ -10,6 +10,7 @@ import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
@@ -29,6 +30,10 @@ export const PolicyCard = ({ policyInfo }) => {
     coverKey,
   });
   const { balance } = useERC20Balance(cxToken.id);
+
+  if (!coverInfo) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   const now = DateLib.unix();
   const imgSrc = getCoverImgSrc({ key: coverKey });

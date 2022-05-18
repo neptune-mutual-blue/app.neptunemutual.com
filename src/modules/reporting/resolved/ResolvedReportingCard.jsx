@@ -10,6 +10,7 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
   const { setStatsByKey } = useSortableStats();
@@ -24,6 +25,10 @@ export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
       resolvedOn,
     });
   }, [id, resolvedOn, setStatsByKey]);
+
+  if (!coverInfo) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">

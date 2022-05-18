@@ -30,6 +30,10 @@ export const CoverAddLiquidityDetailsPage = () => {
     coverKey,
   });
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const totalLiquidity = info.totalLiquidity;
@@ -38,10 +42,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   const handleAcceptRules = () => {
     setAcceptedRules(true);
   };
-
-  if (!coverInfo) {
-    return <>loading...</>;
-  }
 
   return (
     <>

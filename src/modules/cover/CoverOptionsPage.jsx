@@ -23,7 +23,7 @@ export const CoverOptionsPage = () => {
   const coverInfo = getInfoByKey(coverKey);
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <Trans>loading...</Trans>;
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
@@ -66,7 +66,6 @@ export const CoverOptionsPage = () => {
                     )}
                     imgSrc={coverActions[actionKey].imgSrc}
                     smImgSrc={coverActions[actionKey].smImgSrc}
-                    mdImgSrc={coverActions[actionKey].mdImgSrc}
                   />
                 </a>
               </Link>

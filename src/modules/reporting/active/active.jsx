@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
@@ -13,7 +13,6 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { useCovers } from "@/src/context/Covers";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
@@ -43,17 +42,16 @@ export const ReportingActivePage = () => {
     hasMore,
     handleShowMore,
   } = useActiveReportings();
-  const [data, setData] = useState([]);
+
   const [sortType, setSortType] = useState({
     name: t`${SORT_TYPES.INCIDENT_DATE}`,
   });
   const router = useRouter();
 
-  const { getInfoByKey } = useCovers();
   const { getStatsByKey } = useSortableStats();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: data.map((report) => ({
+    list: incidentReports.map((report) => ({
       ...report,
       ...getStatsByKey(report.id),
     })),
@@ -89,17 +87,6 @@ export const ReportingActivePage = () => {
       { name: SORT_TYPES.INCIDENT_DATE },
     ];
   }, [router.locale]);
-
-  useEffect(() => {
-    setData(
-      incidentReports.map((item) => {
-        return {
-          ...item,
-          info: getInfoByKey(item.key),
-        };
-      })
-    );
-  }, [incidentReports, getInfoByKey]);
 
   return (
     <Container className={"pt-16 pb-36"}>

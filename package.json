@@ -41,7 +41,7 @@
     "@lingui/cli": "3.13.2",
     "@lingui/core": "3.13.2",
     "@lingui/loader": "3.13.2",
-    "@lingui/macro": "3.13.2",
+    "@lingui/macro": "3.13.3",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.2",
     "autoprefixer": "10.4.0",

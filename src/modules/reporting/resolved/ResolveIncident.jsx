@@ -27,6 +27,10 @@ export const ResolveIncident = ({
   const coverInfo = getInfoByKey(incidentReport.key);
   const logoSource = getCoverImgSrc({ key: incidentReport.key });
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
   function onClose() {
     setIsOpen(false);
   }

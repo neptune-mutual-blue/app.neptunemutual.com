@@ -43,7 +43,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
 
         {loading && (
           <p className="text-center">
-            <Trans>Loading...</Trans>
+            <Trans>loading...</Trans>
           </p>
         )}
 

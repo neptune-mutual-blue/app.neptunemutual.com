@@ -89,7 +89,7 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [itemsToSkip, networkId]);
+  }, [account, itemsToSkip, networkId]); // TODO: remove `account` and fix issue with first useEffect which clears current data when account changes but does not fetch the new data
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + CARDS_PER_PAGE);

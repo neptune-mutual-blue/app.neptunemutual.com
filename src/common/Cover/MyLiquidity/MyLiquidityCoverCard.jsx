@@ -9,6 +9,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const { getInfoByKey } = useCovers();
@@ -17,7 +18,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
   const router = useRouter();
 
   if (!coverInfo) {
-    return null;
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });

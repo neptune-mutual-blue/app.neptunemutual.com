@@ -3,7 +3,11 @@ import { t } from "@lingui/macro";
 import { classNames } from "@/utils/classnames";
 
 export const Table = ({ children }) => {
-  return <table className="min-w-full">{children}</table>;
+  return (
+    <table className="min-w-full" role="table">
+      {children}
+    </table>
+  );
 };
 
 export const TableWrapper = ({ children }) => {
@@ -20,6 +24,7 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   return (
     <button
       disabled={isLoading}
+      data-testid="table-show-more"
       onClick={() => {
         onShowMore();
       }}
@@ -47,18 +52,18 @@ export const THead = ({ columns }) => {
 
 // RowWrapper can probably only be a "Context Provider"
 export const TBody = ({
-  columns,
-  data,
-  isLoading,
-  extraData,
+  columns = [],
+  data = [],
+  isLoading = false,
+  extraData = {},
   RowWrapper = Fragment,
 }) => {
   return (
-    <tbody className="divide-y divide-DAE2EB">
+    <tbody className="divide-y divide-DAE2EB" data-testid="app-table-body">
       {data.length === 0 && (
         <tr className="w-full text-center">
           <td className="p-6" colSpan={columns.length}>
-            {isLoading ? t`Loading...` : t`No data found`}
+            {isLoading ? t`loading...` : t`No data found`}
           </td>
         </tr>
       )}
@@ -67,7 +72,7 @@ export const TBody = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr>
+            <tr role="row">
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>

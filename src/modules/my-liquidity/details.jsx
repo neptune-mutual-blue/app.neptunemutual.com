@@ -40,6 +40,10 @@ export const MyLiquidityCoverPage = () => {
 
   const { myStake, podBalance } = useLiquidityFormsContext();
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
   function onClose() {
     setIsOpen(false);
   }
@@ -53,14 +57,6 @@ export const MyLiquidityCoverPage = () => {
   const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;
   const reassuranceAmount = info.totalReassurance;
-
-  if (!coverInfo) {
-    return (
-      <>
-        <Trans>loading...</Trans>
-      </>
-    );
-  }
 
   return (
     <div>

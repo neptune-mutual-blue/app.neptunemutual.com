@@ -150,6 +150,10 @@ const DetailsRenderer = ({ row }) => {
   const coverInfo = getInfoByKey(row.cover.id);
   const router = useRouter();
 
+  if (!coverInfo) {
+    return null;
+  }
+
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
