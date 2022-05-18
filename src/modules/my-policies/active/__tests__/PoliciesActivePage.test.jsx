@@ -1,8 +1,7 @@
-import { render, act, fireEvent } from "@/utils/unit-tests/test-utils";
+import { render, act, fireEvent, withProviders } from "@/utils/unit-tests/test-utils";
 import { PoliciesActivePage } from "../PoliciesActivePage";
 import { i18n } from '@lingui/core';
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
-import { RouterContext } from 'next/dist/shared/lib/router-context';
 
 describe("PoliciesActivePage", () => {
   describe("should render PoliciesActivePage", () => {
@@ -22,11 +21,8 @@ describe("PoliciesActivePage", () => {
 
     test('when Transaction List link is clicked', () => {
       const router = createMockRouter({});
-      const { getByText } = render(
-        <RouterContext.Provider value={router}>
-          <PoliciesActivePage />
-        </RouterContext.Provider>
-      );
+      const Component = withProviders(PoliciesActivePage, router);
+      const { getByText } = render(<Component />);
       const TransactionListLink = getByText("Transaction List");
 
       fireEvent.click(TransactionListLink);

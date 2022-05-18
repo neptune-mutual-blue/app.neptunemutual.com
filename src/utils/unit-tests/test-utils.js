@@ -25,6 +25,7 @@ i18n.load({
   ja: jaMessages,
   zh: zhMessages,
 });
+
 i18n.loadLocaleData({
   en: { plurals: en },
   fr: { plurals: fr },
@@ -66,7 +67,7 @@ export const withProviders = (Component, router = createMockRouter({})) => {
   };
 };
 
-const customRender = (ui, options = {}) =>
+const customRender = (ui, options) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from "@testing-library/react";
