@@ -13,7 +13,6 @@ const MOCKUP_API_URLS = {
 };
 
 async function mockFetch(url) {
-  console.log("fetch url", url);
   if (url.startsWith(MOCKUP_API_URLS.POOL_INFO_URL)) {
     return {
       ok: true,
@@ -44,7 +43,7 @@ async function mockFetch(url) {
 global.fetch = jest.fn(mockFetch);
 
 describe("Pool Staking", () => {
-  it("Should render 6 covers", async () => {
+  it("Should render Sort Dropdown", async () => {
     act(() => i18n.activate("en"));
 
     await act(async () => render(<StakingPage />));
