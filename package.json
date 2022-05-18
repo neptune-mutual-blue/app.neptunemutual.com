@@ -10,8 +10,7 @@
     "lang:extract": "cross-env NODE_ENV=development lingui extract --clean",
     "lang": "yarn lang:extract && lingui compile",
     "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "test:unit": "jest --testPathPattern=__tests__/modules"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
