@@ -10,8 +10,6 @@ const customJestConfig = {
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
-    "!**/__tests__/**/component/**",
-    "!**/__tests__/**/data/**",
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   verbose: true,

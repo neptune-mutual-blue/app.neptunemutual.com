@@ -18,7 +18,7 @@ import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
-import { createMockRouter } from '@/utils/unit-tests/createMockRouter';
+import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 
 export * from "@testing-library/react";
@@ -37,11 +37,10 @@ i18n.loadLocaleData({
   zh: { plurals: zh },
 });
 
-
 const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
     <RouterContext.Provider value={router}>
-      <I18nProvider i18n={i18n} >
+      <I18nProvider i18n={i18n}>
         <Web3ReactProvider getLibrary={getLibrary}>
           <NetworkProvider>
             <AppConstantsProvider>
