@@ -77,8 +77,6 @@ export const ReportingResolvedPage = () => {
     [filtered, sortType.name]
   );
 
-  console.log(resolvedCardInfoArray.map((x) => x.resolvedOn));
-
   const options = useMemo(() => {
     if (router.locale) {
       return [

@@ -20,6 +20,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     return isGreater(_now, incidentReport.resolutionDeadline);
   }, true);
 
+  if (!coverInfo) {
+    return null;
+  }
+
   const showResolvedSummary =
     incidentReport.resolved &&
     isGreater(now, incidentReport.resolutionDeadline);

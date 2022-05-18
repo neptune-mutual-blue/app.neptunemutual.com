@@ -36,6 +36,10 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
     return isGreater(DateLib.unix(), incidentReport.claimExpiresAt);
   }, true);
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
   function onClose() {
     setIsOpen(false);
   }

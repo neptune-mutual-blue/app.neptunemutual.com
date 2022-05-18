@@ -17,6 +17,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
   const { setStatsByKey } = useSortableStats();
@@ -41,6 +42,10 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
       utilization,
     });
   }, [id, liquidity, setStatsByKey, utilization]);
+
+  if (!coverInfo) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">

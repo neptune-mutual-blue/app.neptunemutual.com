@@ -1,9 +1,10 @@
-import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
-import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
-import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Trans } from "@lingui/macro";
+import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
+import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
+import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
@@ -45,7 +46,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   }, [activeReportings, cover_id, router]);
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <Trans>loading...</Trans>;
   }
 
   const handleAcceptRules = () => {

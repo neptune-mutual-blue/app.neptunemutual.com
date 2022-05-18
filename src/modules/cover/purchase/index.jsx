@@ -30,12 +30,9 @@ export const CoverPurchaseDetailsPage = () => {
 
   const { info } = useMyLiquidityInfo({ coverKey });
   const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
-  const availableLiquidity = convertFromUnits(
-    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
-  ).toString();
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <Trans>loading...</Trans>;
   }
 
   const handleAcceptRules = () => {
@@ -44,6 +41,9 @@ export const CoverPurchaseDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
+  const availableLiquidity = convertFromUnits(
+    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
+  ).toString();
 
   return (
     <main>
