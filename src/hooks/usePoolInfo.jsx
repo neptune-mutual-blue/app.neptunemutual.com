@@ -66,6 +66,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
       );
 
       const { data } = await response.json();
+
       return data;
     } catch (err) {
       handleError(err);
