@@ -69,6 +69,16 @@ const AllTheProviders = ({ children }) => {
   );
 };
 
+export const withProviders = (Component, router = createMockRouter({})) => {
+  return function Wrapper() {
+    return (
+      <AllTheProviders router={router}>
+        <Component />
+      </AllTheProviders>
+    );
+  };
+};
+
 const customRender = (ui, options) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 

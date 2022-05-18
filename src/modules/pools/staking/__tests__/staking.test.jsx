@@ -1,10 +1,10 @@
-import { screen } from "@testing-library/react";
-import { render } from "@/utils/unit-tests/test-utils";
+import { withProviders } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
 import { contracts, getCover, pricing, QUERY_RESULT } from "./mockUpdata.data";
 import { API_BASE_URL } from "@/src/config/constants";
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
+import ReactDOM from "react-dom";
 
 const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
@@ -72,6 +72,7 @@ async function mockFetch(url) {
 global.fetch = jest.fn(mockFetch);
 global.ethereum = {
   enable: jest.fn(() => {}),
+  eth_requestAccounts: () => {},
 };
 
 function delay(ms = 1000) {
@@ -83,28 +84,17 @@ function delay(ms = 1000) {
 }
 
 describe("Pool Staking", () => {
-  it("Should render 6 covers", async () => {
-    act(() => i18n.activate("en"));
+  beforeAll(() => act(() => i18n.activate("en")));
+  const Component = withProviders(StakingPage);
 
-    const container = await act(async () => {
-      const component = render(<StakingPage />);
-
-      await delay(1000);
-
-      console.log(component.container.outerHTML);
-      return component.container;
+  it("Staking card should be 6", async () => {
+    const container = document.createElement("div");
+    await act(() => {
+      ReactDOM.render(<Component />, container);
+      return delay(1000);
     });
+    const stakeCards = container.querySelectorAll("h4");
 
-    const sortEl = screen.getByText("Sort by: A-Z");
-
-    // const count = screen.querySelector("heading", {
-    //   // level: "h4",
-    // });
-    // console.log(screen.logTestingPlaygroundURL(sortEl));
-    console.log("count", container);
-
-    expect(sortEl).toBeInTheDocument();
+    expect(stakeCards.length).toEqual(6);
   });
 });
-
-// test staking card
