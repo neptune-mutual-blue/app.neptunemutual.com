@@ -3,8 +3,8 @@ import { render } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
 import { contracts, getCover, pricing, QUERY_RESULT } from "./mockUpdata.data";
 import { API_BASE_URL } from "@/src/config/constants";
-import { i18n } from "@lingui/core";
 import { StakingPage } from "@/modules/pools/staking";
+import { i18n } from "@lingui/core";
 
 const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
@@ -91,20 +91,25 @@ describe("Pool Staking", () => {
   it("Should render Sort Dropdown", async () => {
     act(() => i18n.activate("en"));
 
-    await act(async () => {
+    const container = await act(async () => {
       const component = render(<StakingPage />);
 
-      await delay(3000);
+      await delay(1000);
+
       console.log(component.container.outerHTML);
-      return component;
+      return component.container;
     });
 
     const sortEl = screen.getByText("Sort by: A-Z");
 
-    const count = screen.queryAllByRole("heading");
+    // const count = screen.querySelector("heading", {
+    //   // level: "h4",
+    // });
     // console.log(screen.logTestingPlaygroundURL(sortEl));
-    console.log("count", count);
+    console.log("count", container);
 
     expect(sortEl).toBeInTheDocument();
   });
 });
+
+// test staking card
