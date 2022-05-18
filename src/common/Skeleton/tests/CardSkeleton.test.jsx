@@ -3,12 +3,12 @@ import { render, screen } from "@/utils/unit-tests/test-utils";
 import "@testing-library/jest-dom";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
+const CARDS_PER_PAGE = 5;
+const LINE_CONTENT_PER_CARD = 4;
+
 describe("CardSkeleton", () => {
   describe("should render CardSkeleton properly", () => {
     test("has correct number of cards and line content", async () => {
-      const CARDS_PER_PAGE = 5;
-      const LINE_CONTENT_PER_CARD = 4;
-
       render(
         <CardSkeleton
           numberOfCards={CARDS_PER_PAGE}
@@ -23,14 +23,16 @@ describe("CardSkeleton", () => {
       expect(lineContent).toHaveLength(LINE_CONTENT_PER_CARD * CARDS_PER_PAGE);
     });
 
-    // test("hide status badge and subtitle", () => {
-    //   render(<CardSkeleton statusBadge={false} subTitle={false} />);
+    test("show status badge and subtitle", () => {
+      render(
+        <CardSkeleton statusBadge subTitle numberOfCards={CARDS_PER_PAGE} />
+      );
 
-    //   const subtitle = screen.findAllByTestId("card-subtitle");
-    //   const statusBadge = screen.findAllByTestId("card-status-badge");
+      const subtitle = screen.getAllByTestId("card-subtitle");
+      const statusBadge = screen.getAllByTestId("card-status-badge");
 
-    //   expect(subtitle).toHaveLength(0);
-    //   expect(statusBadge).toHaveLength(0);
-    // });
+      expect(subtitle).toHaveLength(CARDS_PER_PAGE);
+      expect(statusBadge).toHaveLength(CARDS_PER_PAGE);
+    });
   });
 });
