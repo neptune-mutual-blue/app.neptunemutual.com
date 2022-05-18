@@ -5,7 +5,6 @@ import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
@@ -14,18 +13,20 @@ import {
   renderDescriptionTranslation,
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
 
   if (!coverInfo) {
     return <>loading...</>;
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
   const title = coverInfo.coverName;
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">

@@ -4,16 +4,17 @@ import { useRouter } from "next/router";
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useCovers } from "@/src/context/Covers";
 
 export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
   const { setStatsByKey } = useSortableStats();
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const router = useRouter();
 

@@ -5,7 +5,6 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { classNames } from "@/lib/toast/utils";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -14,16 +13,18 @@ import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
+import { useCovers } from "@/src/context/Covers";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(incidentReport.key);
+  const logoSrc = getCoverImgSrc({ key: incidentReport.key });
   const { unstake, unstakeWithClaim, info, unstaking } =
     useUnstakeReportingStake({
       coverKey: incidentReport.key,
       incidentDate: incidentReport.incidentDate,
     });
-  const { coverInfo } = useCoverInfo(incidentReport.key);
-  const logoSrc = getCoverImgSrc(coverInfo);
 
   // Refreshes once claim begins
   useRetryUntilPassed(() => {

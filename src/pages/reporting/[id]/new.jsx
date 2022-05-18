@@ -1,4 +1,3 @@
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
 import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
@@ -10,6 +9,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export function getServerSideProps() {
   return {
@@ -20,15 +20,15 @@ export function getServerSideProps() {
 }
 
 export default function ReportingNewCoverPage({ disabled }) {
+  const [accepted, setAccepted] = useState(false);
   const router = useRouter();
   const { id: cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,
   });
-
-  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
