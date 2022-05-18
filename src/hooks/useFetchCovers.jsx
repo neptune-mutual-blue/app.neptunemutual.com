@@ -40,7 +40,7 @@ export const useFetchCovers = () => {
         try {
           JSON.parse(toUtf8String(_cover.ipfsBytes));
         } catch (err) {
-          console.log("Could not parse ipfs bytes", _cover.key);
+          console.log("[covers] Could not parse ipfs bytes", _cover.key);
           updateIpfsData(_cover.ipfsHash); // Fetch data from IPFS
         }
       });
@@ -72,14 +72,18 @@ export const useFetchCovers = () => {
 
   const getInfoByKey = useCallback(
     (coverKey) => {
-      const _cover = data.find((x) => x.key === coverKey) || {};
+      const _cover = data.find((x) => x.key === coverKey);
+
+      if (!_cover) {
+        return null;
+      }
 
       let ipfsData = _cover.ipfsData || getIpfsByHash(_cover.ipfsHash) || {};
 
       try {
         ipfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
       } catch (err) {
-        console.log("Could not parse ipfs bytes", _cover.key);
+        console.log("[info] Could not parse ipfs bytes", _cover.key);
       }
 
       return {

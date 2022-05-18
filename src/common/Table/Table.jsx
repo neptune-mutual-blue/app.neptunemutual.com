@@ -58,7 +58,7 @@ export const TBody = ({
       {data.length === 0 && (
         <tr className="w-full text-center">
           <td className="p-6" colSpan={columns.length}>
-            {isLoading ? t`Loading...` : t`No data found`}
+            {isLoading ? t`loading...` : t`No data found`}
           </td>
         </tr>
       )}

@@ -50,7 +50,7 @@ export default function MyLiquidity({ disabled }) {
           </HeroTitle>
           {account && (
             <HeroStat title={t`My Total Liquidity`}>
-              {loading && t`Loading...`}
+              {loading && t`loading...`}
               {!loading &&
                 `$ ${
                   formatCurrency(

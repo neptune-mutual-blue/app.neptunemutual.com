@@ -34,6 +34,14 @@ export default function DisputeFormPage({ disabled }) {
     incidentDate: timestamp,
   });
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
+  if (disabled) {
+    return <ComingSoon />;
+  }
+
   const now = DateLib.unix();
   const reportingEnded = data?.incidentReport
     ? isGreater(now, data.incidentReport.resolutionTimestamp)
@@ -41,10 +49,6 @@ export default function DisputeFormPage({ disabled }) {
 
   const canDispute =
     !reportingEnded && data?.incidentReport?.totalRefutedCount === "0";
-
-  if (disabled) {
-    return <ComingSoon />;
-  }
 
   return (
     <CoverStatsProvider coverKey={coverKey}>
@@ -70,7 +74,7 @@ export default function DisputeFormPage({ disabled }) {
 
         {loading && (
           <p className="text-center">
-            <Trans>Loading...</Trans>
+            <Trans>loading...</Trans>
           </p>
         )}
 
