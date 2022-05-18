@@ -24,6 +24,7 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   return (
     <button
       disabled={isLoading}
+      data-testid="table-show-more"
       onClick={() => {
         onShowMore();
       }}
