@@ -1,8 +1,10 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
@@ -12,15 +14,17 @@ import { convertFromUnits, toBN } from "@/utils/bn";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
-import { useRouter } from "next/router";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
-export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
-  const { coverInfo } = useCoverInfo(coverKey);
+export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
+  const { setStatsByKey } = useSortableStats();
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { commitment, status } = useFetchCoverInfo({
-    coverKey,
-  });
+  const { commitment, status } = useFetchCoverStats({ coverKey });
   const router = useRouter();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
@@ -30,6 +34,18 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+
+  // Used for sorting purpose only
+  useEffect(() => {
+    setStatsByKey(id, {
+      liquidity,
+      utilization,
+    });
+  }, [id, liquidity, setStatsByKey, utilization]);
+
+  if (!coverInfo) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -50,8 +66,8 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(coverInfo.ipfsData?.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(coverInfo.ipfsData?.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(coverInfo.pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(coverInfo.pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
@@ -72,10 +88,20 @@ export const ActiveReportingCard = ({ coverKey, incidentDate }) => {
       <div className="flex justify-between px-1 text-sm">
         <span
           className=""
-          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).short
+          }
         </span>
         <span
           className="text-right"

@@ -1,20 +1,15 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import {
-  en,
-  fr,
-  ja,
-  zh,
-} from "make-plural/plurals";
+import { en, fr, ja, zh } from "make-plural/plurals";
 import { useEffect, useState } from "react";
 
 import { useActiveLocale } from "./hooks/useActiveLocale";
 
 const plurals = {
-  "en": en,
-  "fr": fr,
-  "ja": ja,
-  "zh": zh,
+  en: en,
+  fr: fr,
+  ja: ja,
+  zh: zh,
 };
 
 /**
@@ -23,9 +18,9 @@ const plurals = {
  * many ways how to load messages — from REST API, from file, from cache, etc.
  */
 export const dynamicActivate = async (locale) => {
-  const isProduction = process.env.NODE_ENV === "production";
   let messages;
 
+  const isProduction = process.env.NODE_ENV === "production";
   if (isProduction) {
     messages = await import(`../locales/${locale}/messages`);
   } else {

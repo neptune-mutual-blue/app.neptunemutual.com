@@ -19,10 +19,10 @@ export function useCovers() {
 }
 
 export const CoversProvider = ({ children }) => {
-  const { data: covers, loading, getInfoByKey } = useFetchCovers();
+  const { data, loading, getInfoByKey } = useFetchCovers();
 
   return (
-    <CoversContext.Provider value={{ covers, getInfoByKey, loading }}>
+    <CoversContext.Provider value={{ covers: data, getInfoByKey, loading }}>
       {children}
     </CoversContext.Provider>
   );

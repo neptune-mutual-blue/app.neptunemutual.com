@@ -6,9 +6,7 @@ import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { HeroStat } from "@/common/HeroStat";
 import { ClaimCxTokensTable } from "@/src/modules/my-policies/ClaimCxTokensTable";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { convertFromUnits } from "@/utils/bn";
-import { toBytes32 } from "@/src/helpers/cover";
 import { useActivePoliciesByCover } from "@/src/hooks/useActivePoliciesByCover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
@@ -16,8 +14,10 @@ import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAnd
 import { Alert } from "@/common/Alert/Alert";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export function getServerSideProps() {
   return {
@@ -31,8 +31,9 @@ export default function ClaimPolicy({ disabled }) {
   const router = useRouter();
   const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
-  const coverKey = toBytes32(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const coverKey = safeFormatBytes32String(cover_id);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { data, hasMore } = useActivePoliciesByCover({
     coverKey,
     page,
@@ -44,14 +45,17 @@ export default function ClaimPolicy({ disabled }) {
       incidentDate: timestamp,
     });
 
-  const title = coverInfo?.projectName;
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
 
   if (disabled) {
     return <ComingSoon />;
   }
 
+  const title = coverInfo.projectName;
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -133,6 +137,6 @@ export default function ClaimPolicy({ disabled }) {
           />
         </Container>
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

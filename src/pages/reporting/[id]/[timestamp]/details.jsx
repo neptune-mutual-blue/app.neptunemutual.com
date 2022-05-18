@@ -2,11 +2,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { ReportingDetailsPage } from "@/src/modules/reporting/details";
-import { toBytes32 } from "@/src/helpers/cover";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {
@@ -20,7 +20,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
   const router = useRouter();
   const { id: cover_id, timestamp } = router.query;
 
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const { data, loading, refetch } = useFetchReport({
     coverKey: coverKey,
     incidentDate: timestamp,
@@ -31,7 +31,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
   }
 
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -43,7 +43,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
 
         {loading && (
           <p className="text-center">
-            <Trans>Loading...</Trans>
+            <Trans>loading...</Trans>
           </p>
         )}
 
@@ -60,6 +60,6 @@ export default function IncidentResolvedCoverPage({ disabled }) {
           />
         )}
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

@@ -1,4 +1,3 @@
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -9,14 +8,17 @@ import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
+import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
 
   const coverKey = cover.id;
-  const { coverInfo } = useCoverInfo(coverKey);
-  const { status: currentStatus } = useFetchCoverInfo({ coverKey });
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
+  const { status: currentStatus } = useFetchCoverStats({ coverKey });
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
@@ -28,6 +30,10 @@ export const PolicyCard = ({ policyInfo }) => {
     coverKey,
   });
   const { balance } = useERC20Balance(cxToken.id);
+
+  if (!coverInfo) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   const now = DateLib.unix();
   const imgSrc = getCoverImgSrc({ key: coverKey });

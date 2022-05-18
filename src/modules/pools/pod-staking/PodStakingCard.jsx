@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CollectRewardModal } from "@/src/modules/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
 import { SingleImage } from "@/common/SingleImage";
@@ -8,13 +8,12 @@ import { StakingCardCTA } from "@/src/modules/pools/staking/StakingCardCTA";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { PoolCardStat } from "@/src/modules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useNetwork } from "@/src/context/Network";
@@ -27,11 +26,14 @@ import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
+  const { setStatsByKey } = useSortableStats();
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
@@ -64,15 +66,15 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const poolKey = data.key;
   const stakedAmount = info.myStake;
   const rewardAmount = info.rewards;
+
   const hasStaked = isGreater(info.myStake, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
-
-  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks).multipliedBy(
+  const lockupPeriod = toBN(data.lockupPeriodInBlocks).multipliedBy(
     approxBlockTime
   );
 
-  const imgSrc = getTokenImgSrc(rewardTokenSymbol);
+  const rTokenImgSrc = getTokenImgSrc(rewardTokenSymbol);
   const poolName = info.name;
 
   const apr = getApr(networkId, {
@@ -80,6 +82,11 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardPerBlock: info.rewardPerBlock,
     rewardTokenPrice: getPriceByAddress(info.rewardToken),
   });
+
+  // Used for sorting purpose only
+  useEffect(() => {
+    setStatsByKey(poolKey, { apr });
+  }, [apr, poolKey, setStatsByKey]);
 
   const leftHalf = [];
 
@@ -103,8 +110,8 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
     },
   ];
 
@@ -114,14 +121,26 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   });
 
   if (info.name === "") {
-    return null;
+    return <CardSkeleton numberOfCards={1} />;
   }
+
+  const stakeModalTitle = (
+    <ModalTitle imgSrc={rTokenImgSrc}>
+      <Trans>Stake</Trans> {stakingTokenSymbol}
+    </ModalTitle>
+  );
+
+  const collectModalTitle = (
+    <ModalTitle imgSrc={rTokenImgSrc}>
+      <Trans>Earn</Trans> {rewardTokenSymbol}
+    </ModalTitle>
+  );
 
   return (
     <OutlinedCard className="px-6 pt-6 pb-10 bg-white">
       <div className="flex justify-between">
         <div>
-          <SingleImage src={imgSrc} alt={rewardTokenSymbol}></SingleImage>
+          <SingleImage src={rTokenImgSrc} alt={rewardTokenSymbol}></SingleImage>
           <StakingCardTitle text={poolName} />
           <StakingCardSubTitle text={t`Stake` + " " + stakingTokenName} />
         </div>
@@ -201,11 +220,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         isOpen={isStakeModalOpen}
         onClose={onStakeModalClose}
         stakingTokenSymbol={stakingTokenSymbol}
-        modalTitle={
-          <ModalTitle imgSrc={imgSrc}>
-            <Trans>Stake</Trans> {stakingTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={stakeModalTitle}
       />
       <CollectRewardModal
         poolKey={poolKey}
@@ -218,11 +233,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         stakingTokenSymbol={stakingTokenSymbol}
         isOpen={isCollectModalOpen}
         onClose={onCollectModalClose}
-        modalTitle={
-          <ModalTitle imgSrc={imgSrc}>
-            <Trans>Earn</Trans> {rewardTokenSymbol}
-          </ModalTitle>
-        }
+        modalTitle={collectModalTitle}
       />
     </OutlinedCard>
   );

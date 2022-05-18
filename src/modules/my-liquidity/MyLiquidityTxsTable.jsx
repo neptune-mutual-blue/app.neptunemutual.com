@@ -17,7 +17,6 @@ import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -25,6 +24,7 @@ import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
+import { useCovers } from "@/src/context/Covers";
 
 const renderHeader = (col) => (
   <th
@@ -141,8 +141,13 @@ const WhenRenderer = ({ row }) => {
 };
 
 const DetailsRenderer = ({ row }) => {
-  const { coverInfo } = useCoverInfo(row.cover.id);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(row.cover.id);
   const router = useRouter();
+
+  if (!coverInfo) {
+    return null;
+  }
 
   return (
     <td className="px-6 py-6">

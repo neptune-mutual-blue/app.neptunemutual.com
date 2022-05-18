@@ -20,6 +20,7 @@ export const UnStakeForm = ({
   refetchInfo,
   poolKey,
   setModalDisabled,
+  onUnstakeSuccess = () => {},
 }) => {
   const blockHeight = useBlockHeight();
 
@@ -94,7 +95,12 @@ export const UnStakeForm = ({
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-        onClick={handleWithdraw}
+        onClick={async () => {
+          await handleWithdraw(() => {
+            onUnstakeSuccess();
+            refetchInfo();
+          });
+        }}
       >
         {withdrawing ? t`withdrawing...` : t`Unstake`}
       </RegularButton>

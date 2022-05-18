@@ -13,17 +13,15 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
       const title =
         typeof error.data === "string" ? error.data : `Could not ${action}`;
 
-      console.warn(`Could not ${action}`);
       console.error(error);
 
-      toast?.pushError({
+      toast.pushError({
         title: title,
         message: getErrorMessage(error),
         lifetime: duration || ERROR_TOAST_TIME,
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [duration, toast?.pushError]
+    [duration, toast]
   );
 
   return { notifyError };

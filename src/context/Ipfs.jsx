@@ -1,13 +1,17 @@
+import { useDebounce } from "@/src/hooks/useDebounce";
 import { utils } from "@neptunemutual/sdk";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
-const initValue = {
-  data: [],
+const initialValue = {
   getIpfsByHash: (_hash) => {},
+  updateIpfsData: (_hash) => {},
 };
 
-const IpfsContext = React.createContext(initValue);
+const IpfsContext = React.createContext(initialValue);
 
+/**
+ * @description DO NOT use `getIpfsByHash` and `updateIpfsData` in the same effect (`useEffect`, `useCallback` or `useMemo`)
+ */
 export function useIpfs() {
   const context = React.useContext(IpfsContext);
   if (context === undefined) {
@@ -19,25 +23,24 @@ export function useIpfs() {
 export const IpfsProvider = ({ children }) => {
   const [data, setData] = useState({});
 
-  const updateState = (hash, _data) => {
-    setData((prev) => {
-      return {
-        ...prev,
-        [hash]: _data,
-      };
-    });
-  };
+  // Debounce data to avoid multiple re-renders due to `updateIpfsData`
+  const debounced = useDebounce(data, 2500);
 
-  const getIpfsByHash = (hash) => {
-    updateState(hash, {}); // to avoid recursive calls
+  const getIpfsByHash = useCallback((hash) => debounced[hash], [debounced]);
+
+  const updateIpfsData = useCallback((hash) => {
+    const updateState = (hash, _data) => {
+      setData((prev) => ({ ...prev, [hash]: _data || {} }));
+    };
+
     utils.ipfs
       .read(hash)
       .then((ipfsData) => updateState(hash, ipfsData))
-      .catch(() => updateState(hash, {})); // Provide fallback to stop infinite retries
-  };
+      .catch(() => updateState(hash, {})); // Fallback to empty obj, so tries only once
+  }, []);
 
   return (
-    <IpfsContext.Provider value={{ data, getIpfsByHash }}>
+    <IpfsContext.Provider value={{ getIpfsByHash, updateIpfsData }}>
       {children}
     </IpfsContext.Provider>
   );

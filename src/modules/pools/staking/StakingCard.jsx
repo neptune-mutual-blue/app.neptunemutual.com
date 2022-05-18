@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CollectRewardModal } from "@/src/modules/pools/staking/CollectRewardModal";
 import AddIcon from "@/icons/AddIcon";
 import { DoubleImage } from "@/common/DoubleImage";
@@ -7,13 +7,12 @@ import { StakingCardSubTitle } from "@/src/modules/pools/staking/StakingCardSubT
 import { StakingCardCTA } from "@/src/modules/pools/staking/StakingCardCTA";
 import { StakeModal } from "@/src/modules/pools/staking/StakeModal";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import BigNumber from "bignumber.js";
 import { mergeAlternatively } from "@/utils/arrays";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { PoolCardStat } from "@/src/modules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useNetwork } from "@/src/context/Network";
@@ -25,11 +24,14 @@ import { PoolTypes } from "@/src/config/constants";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
+  const { setStatsByKey } = useSortableStats();
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
@@ -65,11 +67,11 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const hasStaked = isGreater(info.myStake, "0");
   const approxBlockTime =
     config.networks.getChainConfig(networkId).approximateBlockTime;
-  const lockupPeriod = BigNumber(data.lockupPeriodInBlocks).multipliedBy(
+  const lockupPeriod = toBN(data.lockupPeriodInBlocks).multipliedBy(
     approxBlockTime
   );
-  const imgSrc = getTokenImgSrc(rewardTokenSymbol);
-  const npmImgSrc = getTokenImgSrc(stakingTokenSymbol);
+  const rTokenImgSrc = getTokenImgSrc(rewardTokenSymbol);
+  const sTokenImgSrc = getTokenImgSrc(stakingTokenSymbol);
   const poolName = info.name;
 
   const apr = getApr(networkId, {
@@ -77,6 +79,11 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardPerBlock: info.rewardPerBlock,
     rewardTokenPrice: getPriceByAddress(info.rewardToken),
   });
+
+  // Used for sorting purpose only
+  useEffect(() => {
+    setStatsByKey(poolKey, { apr });
+  }, [apr, poolKey, setStatsByKey]);
 
   const leftHalf = [];
 
@@ -100,8 +107,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale,"USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale,"USD").long,
+      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
+      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
     },
   ];
 
@@ -112,7 +119,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   });
 
   if (info.name === "") {
-    return null;
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const stakeModalTitle = (
@@ -120,8 +127,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className="mr-8">
         <DoubleImage
           images={[
-            { src: npmImgSrc, alt: "NPM" },
-            { src: imgSrc, alt: rewardTokenSymbol },
+            { src: sTokenImgSrc, alt: stakingTokenSymbol },
+            { src: rTokenImgSrc, alt: rewardTokenSymbol },
           ]}
         />
       </div>
@@ -137,8 +144,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className="mr-8">
         <DoubleImage
           images={[
-            { src: npmImgSrc, alt: "NPM" },
-            { src: imgSrc, alt: rewardTokenSymbol },
+            { src: sTokenImgSrc, alt: stakingTokenSymbol },
+            { src: rTokenImgSrc, alt: rewardTokenSymbol },
           ]}
         />
       </div>
@@ -153,8 +160,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         <div>
           <DoubleImage
             images={[
-              { src: npmImgSrc, alt: stakingTokenSymbol },
-              { src: imgSrc, alt: name },
+              { src: sTokenImgSrc, alt: stakingTokenSymbol },
+              { src: rTokenImgSrc, alt: rewardTokenSymbol },
             ]}
           />
         </div>

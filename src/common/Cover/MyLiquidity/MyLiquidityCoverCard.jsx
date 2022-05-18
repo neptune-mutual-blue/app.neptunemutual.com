@@ -1,4 +1,3 @@
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
@@ -9,14 +8,17 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useCovers } from "@/src/context/Covers";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
-  const { coverInfo } = useCoverInfo(coverKey);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
   const router = useRouter();
 
   if (!coverInfo) {
-    return null;
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
@@ -61,14 +63,23 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
       <div
         className="flex justify-between px-1 text-sm"
         title={
-          formatCurrency(convertFromUnits(totalPODs || "0"), router.locale,"POD", true).long
+          formatCurrency(
+            convertFromUnits(totalPODs || "0"),
+            router.locale,
+            "POD",
+            true
+          ).long
         }
       >
         <span className="">
           <Trans>My Liquidity:</Trans>{" "}
           {
-            formatCurrency(convertFromUnits(totalPODs || "0"), router.locale,"POD", true)
-              .short
+            formatCurrency(
+              convertFromUnits(totalPODs || "0"),
+              router.locale,
+              "POD",
+              true
+            ).short
           }
         </span>
       </div>

@@ -16,7 +16,6 @@ import {
   toBN,
 } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
-import { toBytes32 } from "@/src/helpers/cover";
 import { formatAmount } from "@/utils/formatter";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
@@ -25,6 +24,7 @@ import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const WithdrawLiquidityForm = ({
   info,
@@ -33,7 +33,7 @@ export const WithdrawLiquidityForm = ({
 }) => {
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
   const [podValue, setPodValue] = useState();
   const [npmValue, setNpmValue] = useState();
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
@@ -178,7 +178,10 @@ export const WithdrawLiquidityForm = ({
           <ReceiveAmountInput
             labelText={t`You Will Receive`}
             tokenSymbol={liquidityTokenSymbol}
-            inputValue={formatAmount(convertFromUnits(receiveAmount).toString(), router.locale)}
+            inputValue={formatAmount(
+              convertFromUnits(receiveAmount).toString(),
+              router.locale
+            )}
             inputId="my-liquidity-receive"
           />
         </div>
@@ -202,53 +205,53 @@ export const WithdrawLiquidityForm = ({
             {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
           </span>
         </div>
-    </div>
-    <div className="mt-4">
-    {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
-    <DataLoadingIndicator message={loadingMessage} />
-    {!canWithdraw ? (
-      <RegularButton
-        onClick={handleApprove}
-        className="w-full p-6 font-semibold uppercase text-h6"
-        disabled={
-          approving ||
-          npmErrorMsg ||
-          podErrorMsg ||
-          receiveAmountLoading ||
-          !npmValue ||
-          !podValue ||
-          loadingBalance ||
-          loadingAllowance ||
-          !isAccrualComplete
-        }
-      >
-        {approving ? t`Approving..` : t`Approve`}
-      </RegularButton>
-    ) : (
-      <RegularButton
-        onClick={() => {
-          handleWithdraw(() => {
-            setPodValue("");
-            setNpmValue("");
-          });
-        }}
-        className="w-full p-6 font-semibold uppercase text-h6"
-        disabled={
-          withdrawing ||
-          npmErrorMsg ||
-          podErrorMsg ||
-          receiveAmountLoading ||
-          !npmValue ||
-          !podValue ||
-          loadingBalance ||
-          loadingAllowance ||
-          !isAccrualComplete
-        }
-      >
-        {withdrawing ? t`Withdrawing..` : t`Withdraw`}
-      </RegularButton>
-    )}
-    </div>
-  </>
+      </div>
+      <div className="mt-4">
+        {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
+        <DataLoadingIndicator message={loadingMessage} />
+        {!canWithdraw ? (
+          <RegularButton
+            onClick={handleApprove}
+            className="w-full p-6 font-semibold uppercase text-h6"
+            disabled={
+              approving ||
+              npmErrorMsg ||
+              podErrorMsg ||
+              receiveAmountLoading ||
+              !npmValue ||
+              !podValue ||
+              loadingBalance ||
+              loadingAllowance ||
+              !isAccrualComplete
+            }
+          >
+            {approving ? t`Approving..` : t`Approve`}
+          </RegularButton>
+        ) : (
+          <RegularButton
+            onClick={() => {
+              handleWithdraw(() => {
+                setPodValue("");
+                setNpmValue("");
+              });
+            }}
+            className="w-full p-6 font-semibold uppercase text-h6"
+            disabled={
+              withdrawing ||
+              npmErrorMsg ||
+              podErrorMsg ||
+              receiveAmountLoading ||
+              !npmValue ||
+              !podValue ||
+              loadingBalance ||
+              loadingAllowance ||
+              !isAccrualComplete
+            }
+          >
+            {withdrawing ? t`Withdrawing..` : t`Withdraw`}
+          </RegularButton>
+        )}
+      </div>
+    </>
   );
 };

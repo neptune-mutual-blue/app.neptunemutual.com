@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { useWeb3React } from "@web3-react/core";
 
 export const usePodStakingPools = () => {
-  const [data, setData] = useState({
-    pools: [],
-  });
+  const [data, setData] = useState({ pools: [] });
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
@@ -17,9 +15,7 @@ export const usePodStakingPools = () => {
 
   useEffect(() => {
     setItemsToSkip(0);
-    setData({
-      pools: [],
-    });
+    setData({ pools: [] });
   }, [account]);
 
   useEffect(() => {
@@ -46,7 +42,7 @@ export const usePodStakingPools = () => {
         {
           pools(
             skip: ${itemsToSkip}
-            first: ${COVERS_PER_PAGE}
+            first: ${CARDS_PER_PAGE}
             where: {
               closed: false, 
               poolType: PODStaking
@@ -77,8 +73,7 @@ export const usePodStakingPools = () => {
         }
 
         const isLastPage =
-          res.data.pools.length === 0 ||
-          res.data.pools.length < COVERS_PER_PAGE;
+          res.data.pools.length === 0 || res.data.pools.length < CARDS_PER_PAGE;
 
         if (isLastPage) {
           setHasMore(false);
@@ -94,11 +89,11 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]);
+  }, [account, itemsToSkip, networkId]); // TODO: remove `account` and fix issue with first useEffect which clears current data when account changes but does not fetch the new data
 
-  const handleShowMore = () => {
-    setItemsToSkip((prev) => prev + COVERS_PER_PAGE);
-  };
+  const handleShowMore = useCallback(() => {
+    setItemsToSkip((prev) => prev + CARDS_PER_PAGE);
+  }, []);
 
   return {
     handleShowMore,

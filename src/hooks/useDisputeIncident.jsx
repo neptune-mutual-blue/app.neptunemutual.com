@@ -8,6 +8,7 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
+  toBN,
 } from "@/utils/bn";
 import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
@@ -20,10 +21,9 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
-import { getParsedKey } from "@/src/helpers/cover";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import BigNumber from "bignumber.js";
 import { t } from "@lingui/macro";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -136,7 +136,9 @@ export const useDisputeIncident = ({
           {
             onTxSuccess: () => {
               router.replace(
-                `/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`
+                `/reporting/${safeParseBytes32String(
+                  coverKey
+                )}/${incidentDate}/details`
               );
             },
           }
@@ -179,7 +181,7 @@ export const useDisputeIncident = ({
       _minStake = minStake && convertFromUnits(minStake);
     const _balance = convertFromUnits(balance);
     if (value) {
-      const _value = BigNumber(value);
+      const _value = toBN(value);
 
       err =
         !isValidNumber(value) ||

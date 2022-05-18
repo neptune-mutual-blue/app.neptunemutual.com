@@ -1,4 +1,4 @@
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
@@ -6,7 +6,7 @@ import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
 import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
 
 export const CoverProfileInfo = ({ imgSrc, projectName, links, coverKey }) => {
-  const { status, activeIncidentDate } = useCoverInfoContext();
+  const { status, activeIncidentDate } = useCoverStatsContext();
 
   return (
     <div className="flex">

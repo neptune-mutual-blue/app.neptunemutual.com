@@ -1,12 +1,11 @@
 import { Container } from "@/common/Container/Container";
 import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { getCoverImgSrc } from "@/src/helpers/cover";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -17,33 +16,34 @@ import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
-import BigNumber from "bignumber.js";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
-
-  const { totalPoolAmount, totalCommitment } = useCoverInfoContext();
-  const availableLiquidity = convertFromUnits(
-    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
-  ).toString();
+  const coverKey = safeFormatBytes32String(cover_id);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
 
   const { info } = useMyLiquidityInfo({ coverKey });
+  const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <Trans>loading...</Trans>;
   }
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
   };
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
+  const availableLiquidity = convertFromUnits(
+    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
+  ).toString();
 
   return (
     <main>

@@ -11,7 +11,7 @@ export const useNotifier = () => {
         const { error, ...rest } = notification;
 
         console.error(error);
-        toast?.pushError({
+        toast.pushError({
           title: rest.title,
           message: rest.message,
           lifetime: TOAST_DEFAULT_TIMEOUT,

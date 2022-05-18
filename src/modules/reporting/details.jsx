@@ -1,5 +1,4 @@
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { RecentVotesTable } from "@/src/modules/reporting/RecentVotesTable";
 import { Container } from "@/common/Container/Container";
 import { ResolvedReportSummary } from "@/src/modules/reporting/resolved/ResolvedReportSummary";
@@ -7,9 +6,11 @@ import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReportSummary";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
+import { useCovers } from "@/src/context/Covers";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
-  const { coverInfo } = useCoverInfo(incidentReport.key);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(incidentReport.key);
 
   const now = DateLib.unix();
 
@@ -18,6 +19,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     const _now = DateLib.unix();
     return isGreater(_now, incidentReport.resolutionDeadline);
   }, true);
+
+  if (!coverInfo) {
+    return null;
+  }
 
   const showResolvedSummary =
     incidentReport.resolved &&

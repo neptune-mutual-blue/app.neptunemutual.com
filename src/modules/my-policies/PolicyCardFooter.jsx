@@ -1,5 +1,3 @@
-import { getParsedKey } from "@/src/helpers/cover";
-
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import DateLib from "@/lib/date/DateLib";
@@ -8,6 +6,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -32,14 +31,20 @@ export const PolicyCardFooter = ({
   if (withinClaimPeriod) {
     stats.push({
       title: t`Claim Before`,
-      tooltipText: DateLib.toLongDateFormat(report.claimExpiresAt, router.locale),
+      tooltipText: DateLib.toLongDateFormat(
+        report.claimExpiresAt,
+        router.locale
+      ),
       value: fromNow(report.claimExpiresAt),
       variant: "error",
     });
   } else if (beforeResolutionDeadline) {
     stats.push({
       title: t`Resolution By`,
-      tooltipText: DateLib.toLongDateFormat(report.claimBeginsFrom, router.locale),
+      tooltipText: DateLib.toLongDateFormat(
+        report.claimBeginsFrom,
+        router.locale
+      ),
       value: fromNow(report.claimBeginsFrom),
     });
   } else if (isPolicyExpired) {
@@ -75,8 +80,12 @@ export const PolicyCardFooter = ({
 
         <Stat
           title={t`Purchased Policy`}
-          tooltip={formatCurrency(convertFromUnits(tokenBalance), router.locale).long}
-          value={formatCurrency(convertFromUnits(tokenBalance), router.locale).short}
+          tooltip={
+            formatCurrency(convertFromUnits(tokenBalance), router.locale).long
+          }
+          value={
+            formatCurrency(convertFromUnits(tokenBalance), router.locale).short
+          }
           right
         />
       </div>
@@ -84,7 +93,7 @@ export const PolicyCardFooter = ({
       {/* Link */}
       {withinClaimPeriod && (
         <Link
-          href={`/my-policies/${getParsedKey(coverKey)}/${
+          href={`/my-policies/${safeParseBytes32String(coverKey)}/${
             report.incidentDate
           }/claim`}
         >

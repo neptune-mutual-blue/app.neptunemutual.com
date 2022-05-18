@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
@@ -6,29 +9,37 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
-import { useFetchCoverInfo } from "@/src/hooks/useFetchCoverInfo";
+import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { useRouter } from "next/router";
+import { useSortableStats } from "@/src/context/SortableStatsContext";
 
 export const CoverCard = ({ details }) => {
-  const { projectName, key, ipfsData } = details;
-  const { coverInfo } = useCoverInfo(key);
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
-  const imgSrc = getCoverImgSrc(coverInfo);
   const router = useRouter();
+  const { setStatsByKey } = useSortableStats();
 
-  const { commitment, status } = useFetchCoverInfo({
+  const { projectName, key, pricingFloor, pricingCeiling } = details;
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
+  const { commitment, status } = useFetchCoverStats({
     coverKey: key,
   });
+
+  const imgSrc = getCoverImgSrc({ key });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = commitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+
+  // Used for sorting purpose only
+  useEffect(() => {
+    setStatsByKey(key, {
+      liquidity,
+      utilization,
+    });
+  }, [key, liquidity, setStatsByKey, utilization]);
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
@@ -50,8 +61,8 @@ export const CoverCard = ({ details }) => {
       </h4>
       <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(ipfsData.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(ipfsData.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(pricingFloor / MULTIPLIER, router.locale)}-
+        {formatPercent(pricingCeiling / MULTIPLIER, router.locale)}
       </div>
 
       {/* Divider */}
@@ -70,18 +81,38 @@ export const CoverCard = ({ details }) => {
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
           className="flex-1"
-          title={formatCurrency(convertFromUnits(commitment).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Protection:</Trans>{" "}
-          {formatCurrency(convertFromUnits(commitment).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(commitment).toString(),
+              router.locale
+            ).short
+          }
         </div>
 
         <div
           className="flex-1 text-right"
-          title={formatCurrency(convertFromUnits(liquidity).toString(), router.locale).long}
+          title={
+            formatCurrency(
+              convertFromUnits(liquidity).toString(),
+              router.locale
+            ).long
+          }
         >
           <Trans>Liquidity:</Trans>{" "}
-          {formatCurrency(convertFromUnits(liquidity).toString(), router.locale).short}
+          {
+            formatCurrency(
+              convertFromUnits(liquidity).toString(),
+              router.locale
+            ).short
+          }
         </div>
       </div>
     </OutlinedCard>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 import { useNetwork } from "@/src/context/Network";
@@ -34,9 +34,8 @@ const defaultInfo = {
 
 export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
   const [info, setInfo] = useState(defaultInfo);
-  const mountedRef = useRef(false);
 
-  const { account: userAccount } = useWeb3React();
+  const { account } = useWeb3React();
   const { networkId } = useNetwork();
   const { notifyError } = useErrorNotifier();
 
@@ -50,9 +49,13 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     };
 
     try {
-      const account = userAccount ? userAccount : ADDRESS_ONE;
       const response = await fetch(
-        getReplacedString(POOL_INFO_URL, { networkId, key, account, type }),
+        getReplacedString(POOL_INFO_URL, {
+          networkId,
+          key,
+          account: account || ADDRESS_ONE,
+          type,
+        }),
         {
           method: "GET",
           headers: {
@@ -63,18 +66,27 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
       );
 
       const { data } = await response.json();
-      setInfo(data);
+      return data;
     } catch (err) {
       handleError(err);
     }
-  }, [userAccount, key, networkId, notifyError, type]);
+  }, [account, key, networkId, notifyError, type]);
 
   useEffect(() => {
-    mountedRef.current = true;
-    fetchPoolInfo();
+    let ignore = false;
+
+    fetchPoolInfo()
+      .then((data) => {
+        if (ignore || !data) {
+          return;
+        }
+
+        setInfo(data);
+      })
+      .catch(console.error);
 
     return () => {
-      mountedRef.current = false;
+      ignore = true;
     };
   }, [fetchPoolInfo]);
 

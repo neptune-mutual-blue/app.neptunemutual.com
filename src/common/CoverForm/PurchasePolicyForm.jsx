@@ -8,7 +8,7 @@ import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndE
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { getMonthNames } from "@/lib/dates";
-import { convertFromUnits, isValidNumber } from "@/utils/bn";
+import { convertFromUnits, isValidNumber, toBN } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -17,14 +17,13 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
-import { getParsedKey } from "@/src/helpers/cover";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useToast } from "@/lib/toast/context";
 import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
-import { useCoverInfoContext } from "@/common/Cover/CoverInfoContext";
-import BigNumber from "bignumber.js";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -32,14 +31,14 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const { totalCommitment, totalPoolAmount } = useCoverInfoContext();
+  const { totalCommitment, totalPoolAmount } = useCoverStatsContext();
 
   const availableLiquidity = convertFromUnits(
-    BigNumber(totalPoolAmount.toString()).minus(totalCommitment.toString())
+    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
   ).toString();
 
   const toast = useToast();
-  const monthNames = getMonthNames(router.locale)
+  const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -65,7 +64,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   });
 
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
-    useCoverInfoContext();
+    useCoverStatsContext();
 
   const ViewToastPoliciesLink = () => (
     <Link href="/my-policies/active">
@@ -96,7 +95,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   };
 
   const handleSuccessViewPurchasedPolicies = () => {
-    toast?.pushSuccess({
+    toast.pushSuccess({
       title: t`Purchased Policy Successfully`,
       message: <ViewToastPoliciesLink />,
       lifetime: TOAST_DEFAULT_TIMEOUT,
@@ -130,7 +129,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${getParsedKey(
+          href={`/reporting/${safeParseBytes32String(
             coverKey
           )}/${activeIncidentDate}/details`}
         >

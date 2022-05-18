@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { Container } from "@/common/Container/Container";
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
@@ -10,7 +9,7 @@ import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, toBytes32 } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits, isGreater } from "@/utils/bn";
@@ -18,14 +17,17 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export const MyLiquidityCoverPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
   const { cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const coverKey = safeFormatBytes32String(cover_id);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
 
   const {
     info,
@@ -38,6 +40,10 @@ export const MyLiquidityCoverPage = () => {
 
   const { myStake, podBalance } = useLiquidityFormsContext();
 
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
+  }
+
   function onClose() {
     setIsOpen(false);
   }
@@ -46,19 +52,11 @@ export const MyLiquidityCoverPage = () => {
     setIsOpen(true);
   }
 
-  const imgSrc = getCoverImgSrc(coverInfo);
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;
   const reassuranceAmount = info.totalReassurance;
-
-  if (!coverInfo) {
-    return (
-      <>
-        <Trans>loading...</Trans>
-      </>
-    );
-  }
 
   return (
     <div>

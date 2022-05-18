@@ -4,11 +4,11 @@ import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 
 import { MyLiquidityCoverCard } from "@/common/Cover/MyLiquidity/MyLiquidityCoverCard";
-import { getParsedKey } from "@/src/helpers/cover";
 import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { COVERS_PER_PAGE } from "@/src/config/constants";
+import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const MyLiquidityPage = () => {
   const { data, loading } = useMyLiquidities();
@@ -23,7 +23,7 @@ export const MyLiquidityPage = () => {
           {myLiquidities.map((x) => {
             return (
               <Link
-                href={`/my-liquidity/${getParsedKey(x.cover.id)}`}
+                href={`/my-liquidity/${safeParseBytes32String(x.cover.id)}`}
                 key={x.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
@@ -58,7 +58,7 @@ export const MyLiquidityPage = () => {
     return (
       <Grid className="mb-24 mt-14">
         <CardSkeleton
-          numberOfCards={COVERS_PER_PAGE}
+          numberOfCards={CARDS_PER_PAGE}
           statusBadge={false}
           subTitle={false}
         />

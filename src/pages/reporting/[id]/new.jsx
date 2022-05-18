@@ -1,15 +1,16 @@
-import { useCoverInfo } from "@/src/hooks/useCoverInfo";
-import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
-import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
-import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
-import { toBytes32 } from "@/src/helpers/cover";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Trans } from "@lingui/macro";
+import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
+import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
+import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { CoverInfoProvider } from "@/common/Cover/CoverInfoContext";
+import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/context/Covers";
 
 export function getServerSideProps() {
   return {
@@ -20,15 +21,15 @@ export function getServerSideProps() {
 }
 
 export default function ReportingNewCoverPage({ disabled }) {
+  const [accepted, setAccepted] = useState(false);
   const router = useRouter();
   const { id: cover_id } = router.query;
-  const coverKey = toBytes32(cover_id);
-  const { coverInfo } = useCoverInfo(coverKey);
+  const coverKey = safeFormatBytes32String(cover_id);
+  const { getInfoByKey } = useCovers();
+  const coverInfo = getInfoByKey(coverKey);
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,
   });
-
-  const [accepted, setAccepted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -45,7 +46,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   }, [activeReportings, cover_id, router]);
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <Trans>loading...</Trans>;
   }
 
   const handleAcceptRules = () => {
@@ -57,7 +58,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   }
 
   return (
-    <CoverInfoProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -80,6 +81,6 @@ export default function ReportingNewCoverPage({ disabled }) {
           />
         )}
       </main>
-    </CoverInfoProvider>
+    </CoverStatsProvider>
   );
 }

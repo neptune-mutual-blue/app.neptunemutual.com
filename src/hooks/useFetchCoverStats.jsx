@@ -5,34 +5,34 @@ import { getReplacedString } from "@/utils/string";
 import {
   ADDRESS_ONE,
   CoverStatus,
-  COVER_INFO_URL,
+  COVER_STATS_URL,
 } from "@/src/config/constants";
 
-const defaultInfo = {
-  activeIncidentDate: "",
-  claimPlatformFee: "",
-  commitment: "",
+const defaultStats = {
+  activeIncidentDate: "0",
+  claimPlatformFee: "0",
+  commitment: "0",
   isUserWhitelisted: false,
-  reporterCommission: "",
-  reportingPeriod: "",
+  reporterCommission: "0",
+  reportingPeriod: "0",
   requiresWhitelist: false,
   status: "",
-  totalCommitment: "",
-  totalPoolAmount: "",
+  totalCommitment: "0",
+  totalPoolAmount: "0",
 };
 
-export const useFetchCoverInfo = ({ coverKey }) => {
-  const [info, setInfo] = useState(defaultInfo);
+export const useFetchCoverStats = ({ coverKey }) => {
+  const [info, setInfo] = useState(defaultStats);
   const { account } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    async function fetchCoverInfo() {
+    async function exec() {
       if (!networkId || !coverKey) return;
 
       try {
         const response = await fetch(
-          getReplacedString(COVER_INFO_URL, {
+          getReplacedString(COVER_STATS_URL, {
             networkId,
             coverKey,
             account: account || ADDRESS_ONE,
@@ -46,7 +46,16 @@ export const useFetchCoverInfo = ({ coverKey }) => {
           }
         );
 
+        if (!response.ok) {
+          return;
+        }
+
         const { data } = await response.json();
+
+        if (!data || Object.keys(data).length === 0) {
+          return;
+        }
+
         setInfo({
           activeIncidentDate: data.activeIncidentDate,
           claimPlatformFee: data.claimPlatformFee,
@@ -63,7 +72,8 @@ export const useFetchCoverInfo = ({ coverKey }) => {
         console.error(error);
       }
     }
-    fetchCoverInfo();
+
+    exec();
   }, [account, coverKey, networkId]);
 
   return info;

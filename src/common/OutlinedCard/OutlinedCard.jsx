@@ -10,6 +10,7 @@ import { classNames } from "@/utils/classnames";
 export const OutlinedCard = ({ children, className, type = "normal" }) => {
   return (
     <div
+      data-testid="card-skeleton"
       className={classNames(
         className,
         "border border-B0C4DB rounded-3xl",

@@ -3,11 +3,11 @@ import StatusFalseReportingIcon from "@/icons/StatusFalseReportingIcon";
 import StatusIncidentOccurredIcon from "@/icons/StatusIncidentOccurredIcon";
 import StatusNormalIcon from "@/icons/StatusNormalIcon";
 import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
-import { getParsedKey } from "@/src/helpers/cover";
 import { isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 import { renderStatusIndicatorTranslation } from "@/utils/translations";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 // Status => Variant
 const variants = {
@@ -53,7 +53,9 @@ export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
   if (isGreater(incidentDate, "0")) {
     return (
       <Link
-        href={`/reporting/${getParsedKey(coverKey)}/${incidentDate}/details`}
+        href={`/reporting/${safeParseBytes32String(
+          coverKey
+        )}/${incidentDate}/details`}
       >
         <a>{badge}</a>
       </Link>

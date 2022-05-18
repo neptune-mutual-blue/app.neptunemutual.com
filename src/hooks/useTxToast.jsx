@@ -12,7 +12,7 @@ export const useTxToast = () => {
    *
    * @param {*} tx
    * @param {{pending: string, success: string, failure: string}} titles
-   * @param {{onTxSuccess: function, onTxFailure: function}} options
+   * @param {{onTxSuccess?: function, onTxFailure?: function}} [options]
    */
   const push = async (tx, titles, options = {}) => {
     if (!tx) {
@@ -22,7 +22,7 @@ export const useTxToast = () => {
 
     const txLink = getTxLink(networkId, tx);
 
-    toast?.pushLoading({
+    toast.pushLoading({
       title: titles.pending,
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_DEFAULT_TIMEOUT,
@@ -32,7 +32,7 @@ export const useTxToast = () => {
     const type = receipt.status === 1 ? "Success" : "Error";
 
     if (type === "Success") {
-      toast?.pushSuccess({
+      toast.pushSuccess({
         title: titles.success,
         message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_DEFAULT_TIMEOUT,
@@ -42,7 +42,7 @@ export const useTxToast = () => {
       return;
     }
 
-    toast?.pushError({
+    toast.pushError({
       title: titles.failure,
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_DEFAULT_TIMEOUT,

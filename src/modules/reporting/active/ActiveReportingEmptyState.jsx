@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
-import { getCoverImgSrc, getParsedKey } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { t, Trans } from "@lingui/macro";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
@@ -21,7 +22,7 @@ export const ActiveReportingEmptyState = () => {
   }, [availableCovers]);
 
   const handleAddReport = () => {
-    const cover_id = getParsedKey(selected.key);
+    const cover_id = safeParseBytes32String(selected.key);
     router.push(actions.report.getHref(cover_id));
   };
 
