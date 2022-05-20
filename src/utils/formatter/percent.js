@@ -1,4 +1,3 @@
-
 export const formatPercent = (x, locale) => {
   if (!x) {
     return "";
