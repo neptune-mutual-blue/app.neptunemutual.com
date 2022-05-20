@@ -80,6 +80,16 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     rewardTokenPrice: getPriceByAddress(info.rewardToken),
   });
 
+  // console.log({
+  //   stakingTokenPrice: info.stakingToken,
+  //   rewardPerBlock: info.rewardPerBlock,
+  //   rewardTokenPrice: info.rewardToken,
+  //   networkId,
+  //   apr,
+  //   display: formatPercent(apr, router.locale),
+  //   locale: router.locale,
+  // });
+
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(poolKey, { apr });
