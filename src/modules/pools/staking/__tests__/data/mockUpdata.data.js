@@ -665,7 +665,7 @@ export const QUERY_RESULT = {
           lockupPeriodInBlocks: "1800",
           platformFee: "25",
         },
-      ],
+      ].slice(0, 1),
     },
   },
   IPFSHASH: {
