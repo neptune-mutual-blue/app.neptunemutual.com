@@ -38,6 +38,7 @@ const customJestConfig = {
     "^@/src/(.*)$": "<rootDir>/src/$1",
     "^uuid$": require.resolve("uuid"),
   },
+  modulePathIgnorePatterns: ["__tests__/data/"],
 };
 
 // createJestConfig is exported in this way to ensure that next/jest can load the Next.js config which is async

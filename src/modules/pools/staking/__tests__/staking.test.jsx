@@ -1,6 +1,11 @@
-import { withProviders } from "@/utils/unit-tests/test-utils";
+import { waitFor, withProviders } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
-import { contracts, getCover, pricing, QUERY_RESULT } from "./mockUpdata.data";
+import {
+  contracts,
+  getCover,
+  pricing,
+  QUERY_RESULT,
+} from "./data/mockUpdata.data";
 import { API_BASE_URL } from "@/src/config/constants";
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
@@ -23,7 +28,6 @@ async function mockFetch(url) {
   }
 
   if (url.startsWith(MOCKUP_API_URLS.GET_CONTRACTS_INFO_URL)) {
-    // console.log("return contracts");
     return {
       ok: true,
       status: 200,
@@ -32,7 +36,6 @@ async function mockFetch(url) {
   }
 
   if (url.startsWith(MOCKUP_API_URLS.FINANCING)) {
-    // console.log("return financing");
     return {
       ok: true,
       status: 200,
@@ -75,26 +78,27 @@ global.ethereum = {
   eth_requestAccounts: () => {},
 };
 
-function delay(ms = 1000) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}
-
 describe("Pool Staking", () => {
-  beforeAll(() => act(() => i18n.activate("en")));
   const Component = withProviders(StakingPage);
+  const container = document.createElement("div");
+  beforeAll(async () => {
+    act(() => {
+      i18n.activate("en");
+      ReactDOM.render(<Component />, container);
+    });
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(5));
+  });
 
   it("Staking card should be 6", async () => {
-    const container = document.createElement("div");
-    await act(() => {
-      ReactDOM.render(<Component />, container);
-      return delay(1000);
-    });
     const stakeCards = container.querySelectorAll("h4");
 
-    expect(stakeCards.length).toEqual(6);
+    // console.log(container.outerHTML);
+    expect(stakeCards.length).toEqual(1);
   });
+
+  // it("Staking card should be 6", async () => {
+  //   const stakeCards = container.querySelectorAll("h4");
+
+  //   expect(stakeCards.length).toEqual(6);
+  // });
 });

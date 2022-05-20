@@ -1,3 +1,4 @@
+/*  */
 export const getCover = (url) => {
   const [id] = url.split("/").slice(-2);
   const result = covers[id];
@@ -664,7 +665,7 @@ export const QUERY_RESULT = {
           lockupPeriodInBlocks: "1800",
           platformFee: "25",
         },
-      ],
+      ].slice(0, 1),
     },
   },
   IPFSHASH: {
