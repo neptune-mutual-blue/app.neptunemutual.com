@@ -8,10 +8,14 @@ import { act } from "react-dom/test-utils";
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
+import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 describe("Pool Staking", () => {
+  global.fetch = jest.fn(mockFetch);
+
   const Component = withProviders(withSorting(StakingPage));
   const container = document.createElement("div");
+
   beforeAll(async () => {
     act(() => {
       i18n.activate("en");

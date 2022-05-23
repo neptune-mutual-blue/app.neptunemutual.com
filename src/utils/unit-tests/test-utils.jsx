@@ -19,7 +19,6 @@ import { messages as zhMessages } from "@/locales/zh/messages";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { createRouter } from "next/router";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
-import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 import { ACTIVE_CONNECTOR_KEY } from "@/lib/connect-wallet/config/localstorage";
 
 export * from "@testing-library/react";
@@ -95,8 +94,6 @@ const customRender = (ui, options) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 export { customRender as render };
-
-global.fetch = jest.fn(mockFetch);
 
 const LocalStorage = (() => {
   let store = {
