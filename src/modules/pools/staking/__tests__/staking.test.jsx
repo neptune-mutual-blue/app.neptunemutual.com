@@ -1,4 +1,8 @@
-import { waitFor, withProviders } from "@/utils/unit-tests/test-utils";
+import {
+  fireEvent,
+  waitFor,
+  withProviders,
+} from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
 import {
   contracts,
@@ -15,6 +19,7 @@ const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
   GET_CONTRACTS_INFO_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/`,
   SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  FINANCING: `${process.env.NEXT_PUBLIC_API_URL}/pricing/`,
 };
 
 const QUERY = {
@@ -78,9 +83,59 @@ async function mockFetch(url, { body }) {
 }
 
 global.fetch = jest.fn(mockFetch);
+global.crypto = {
+  getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
+};
+
+const ETHEREUM_METHODS = {
+  eth_requestAccounts: () => [process.env.NEXT_PUBLIC_TEST_ACCOUNT],
+};
+
 global.ethereum = {
-  enable: jest.fn(() => {}),
-  eth_requestAccounts: () => {},
+  request: jest.fn(async ({ method }) => {
+    if (ETHEREUM_METHODS.hasOwnProperty(method)) {
+      return ETHEREUM_METHODS[method];
+    }
+
+    return "";
+  }),
+  on: jest.fn(() => {}),
+};
+
+const SELECTION = {
+  TITLE: "title",
+  TVL: "tvl",
+  APR: "apr",
+};
+
+const select = (container, type) => {
+  if (type === SELECTION.TITLE) {
+    return Array.from(container.querySelectorAll("h4"));
+  }
+
+  if (type === SELECTION.TVL) {
+    return Array.from(
+      container.querySelectorAll(".text-right[title] p.text-7398C0")
+    );
+  }
+
+  return Array.from(container.querySelectorAll(".text-21AD8C"));
+};
+
+const getValues = (container, type) => {
+  if (type === SELECTION.TITLE) {
+    return select(container, type).map((el) => el.textContent);
+  }
+
+  if (type === SELECTION.TVL) {
+    return select(container, type).map((el) =>
+      parseFloat(el.textContent.slice(1), 10)
+    );
+  }
+
+  return select(container, type).map((el) =>
+    parseFloat(el.textContent.slice("APR: ".length), 10)
+  );
 };
 
 describe("Pool Staking", () => {
@@ -91,19 +146,135 @@ describe("Pool Staking", () => {
       i18n.activate("en");
       ReactDOM.render(<Component />, container);
     });
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(5));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(11));
   });
 
-  it("Staking card should be 6", async () => {
-    const stakeCards = container.querySelectorAll("h4");
+  describe("Staking card", () => {
+    it("Card should be 6", () => {
+      const stakeCards = select(container, SELECTION.TITLE);
 
-    // console.log(container.outerHTML);
-    expect(stakeCards.length).toEqual(1);
+      expect(stakeCards.length).toEqual(6);
+    });
+
+    describe("TVL", () => {
+      it("should be 6", () => {
+        const tvlElements = select(container, SELECTION.TVL);
+        expect(tvlElements.length).toEqual(6);
+      });
+
+      it("no 0 value", () => {
+        const tvlValues = getValues(container, SELECTION.TVL);
+
+        const zeroValues = tvlValues.filter((value) => value === 0);
+
+        expect(zeroValues.length).toEqual(0);
+      });
+    });
+
+    describe("APR", () => {
+      it("should be 6", () => {
+        const aprElements = select(container, SELECTION.APR);
+        expect(aprElements.length).toEqual(6);
+      });
+
+      it("no 0 value", () => {
+        const aprValues = getValues(container, SELECTION.APR);
+        const zeroValues = aprValues.filter((value) => value === 0);
+
+        expect(zeroValues.length).toEqual(0);
+      });
+    });
+
+    describe("Sorting", () => {
+      it("Sorting is visible", () => {
+        const sortButton = container.querySelector("button");
+
+        act(() => {
+          fireEvent.click(sortButton);
+        });
+
+        const sortList = container.querySelector(
+          `[aria-labelledby='${sortButton.id}']`
+        );
+
+        expect(container).toContainElement(sortList);
+      });
+
+      it("Sort Alphabetically", () => {
+        const original = getValues(container, SELECTION.TITLE);
+
+        const sortButton = container.querySelector("button");
+
+        act(() => {
+          fireEvent.select(sortButton);
+        });
+
+        const sortList = container.querySelector(
+          `[aria-labelledby='${sortButton.id}']`
+        );
+
+        const [alphabet] = Array.from(sortList.querySelectorAll("li"));
+
+        act(() => {
+          fireEvent.click(alphabet);
+        });
+
+        const values = getValues(container, SELECTION.TITLE);
+
+        expect(original).toEqual(values);
+      });
+
+      it("Sort by TVL", () => {
+        const original = getValues(container, SELECTION.TVL);
+
+        const sortButton = container.querySelector("button");
+
+        const sortList = container.querySelector(
+          `[aria-labelledby='${sortButton.id}']`
+        );
+
+        const [_, tvl] = Array.from(sortList.querySelectorAll("li"));
+
+        act(() => {
+          fireEvent.select(tvl);
+        });
+
+        const values = getValues(container, SELECTION.TVL);
+
+        expect(original).not.toEqual(values);
+      });
+
+      it("Sort by APR", () => {
+        const original = getValues(container, SELECTION.APR);
+
+        const sortButton = container.querySelector("button");
+
+        const sortList = container.querySelector(
+          `[aria-labelledby='${sortButton.id}']`
+        );
+
+        const [_, _tvl, apr] = Array.from(sortList.querySelectorAll("li"));
+
+        act(() => {
+          // await fireEvent.click(apr);
+
+          // apr.pendingProps.onClick();
+          // .prop().onClick();
+
+          console.log(apr.outerHTML);
+        });
+        // console.log(container.outerHTML);
+
+        const values = getValues(container, SELECTION.APR);
+        console.log("APR", {
+          original,
+          values,
+          alphabet: getValues(container, SELECTION.TITLE),
+        });
+        // console.log(original, values);
+
+        expect(original).not.toEqual(values);
+      });
+    });
   });
-
-  // it("Staking card should be 6", async () => {
-  //   const stakeCards = container.querySelectorAll("h4");
-
-  //   expect(stakeCards.length).toEqual(6);
-  // });
 });
