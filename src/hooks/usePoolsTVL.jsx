@@ -44,7 +44,9 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     let ignore = false;
 
     async function updateTVL() {
-      if (!graphData || !NPMTokenAddress) return;
+      if (!graphData || !NPMTokenAddress) {
+        return;
+      }
 
       const bondsPayload = graphData.bondPools.map((bondPool) => {
         return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress);
@@ -63,6 +65,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
       ]);
 
       if (ignore) return;
+
       setPoolsTVL({
         items: result.items,
         tvl: result.total,
