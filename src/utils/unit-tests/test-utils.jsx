@@ -18,6 +18,7 @@ import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
+import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
 i18n.load({
   en: enMessages,
@@ -54,6 +55,16 @@ const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
       </I18nProvider>
     </RouterContext.Provider>
   );
+};
+
+export const withSorting = (Component) => {
+  return function Wrapper() {
+    return (
+      <SortableStatsProvider>
+        <Component />
+      </SortableStatsProvider>
+    );
+  };
 };
 
 export const withProviders = (Component, router = createMockRouter({})) => {
