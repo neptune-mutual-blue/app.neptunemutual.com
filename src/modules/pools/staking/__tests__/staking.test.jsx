@@ -9,7 +9,6 @@ import { act } from "react-dom/test-utils";
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
-import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 describe("Pool Staking", () => {
   const Component = withProviders(withSorting(StakingPage));
@@ -195,5 +194,3 @@ const sortFromHighest = (a, b) => {
 
   return a > b ? -1 : 1;
 };
-
-global.fetch = jest.fn(mockFetch);

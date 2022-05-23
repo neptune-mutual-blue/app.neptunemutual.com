@@ -17,9 +17,9 @@ import { messages as frMessages } from "@/locales/fr/messages";
 import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-import { LanguageProvider } from "@/src/i18n";
 import { createRouter } from "next/router";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
+import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 export * from "@testing-library/react";
 
@@ -50,23 +50,21 @@ const AllTheProviders = ({ children }) => {
   return (
     <RouterContext.Provider value={router}>
       <I18nProvider i18n={i18n}>
-        <LanguageProvider forceRenderOnLocaleChange={false}>
-          <Web3ReactProvider getLibrary={getLibrary}>
-            <NetworkProvider>
-              <AppConstantsProvider>
-                <IpfsProvider>
-                  <CoversProvider>
-                    <UnlimitedApprovalProvider>
-                      <ToastProvider>
-                        <TxPosterProvider>{children}</TxPosterProvider>
-                      </ToastProvider>
-                    </UnlimitedApprovalProvider>
-                  </CoversProvider>
-                </IpfsProvider>
-              </AppConstantsProvider>
-            </NetworkProvider>
-          </Web3ReactProvider>
-        </LanguageProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <NetworkProvider>
+            <AppConstantsProvider>
+              <IpfsProvider>
+                <CoversProvider>
+                  <UnlimitedApprovalProvider>
+                    <ToastProvider>
+                      <TxPosterProvider>{children}</TxPosterProvider>
+                    </ToastProvider>
+                  </UnlimitedApprovalProvider>
+                </CoversProvider>
+              </IpfsProvider>
+            </AppConstantsProvider>
+          </NetworkProvider>
+        </Web3ReactProvider>
       </I18nProvider>
     </RouterContext.Provider>
   );
@@ -82,10 +80,10 @@ export const withSorting = (Component) => {
   };
 };
 
-export const withProviders = (Component, router = createMockRouter({})) => {
+export const withProviders = (Component) => {
   return function Wrapper() {
     return (
-      <AllTheProviders router={router}>
+      <AllTheProviders>
         <Component />
       </AllTheProviders>
     );
@@ -96,6 +94,8 @@ const customRender = (ui, options) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 export { customRender as render };
+
+global.fetch = jest.fn(mockFetch);
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),

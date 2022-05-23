@@ -11,7 +11,7 @@
     "lang": "yarn lang:extract && lingui compile",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:unit": "jest --testPathPattern=__tests__/modules"
+    "test:unit": "jest --testPathPattern=src/modules/pools/staking"
   },
   "dependencies": {
     "@binance-chain/bsc-connector": "1.0.0",
