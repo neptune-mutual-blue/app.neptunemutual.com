@@ -132,7 +132,6 @@ const TotalLiquidityChart = () => {
       maskFill: "rgba(66, 137, 242, 0.3)",
       outlineWidth: 0,
       xAxis: {
-        startOnTick: true,
         tickInterval: 7 * 24 * 3600 * 1000,
         labels: {
           format:
@@ -142,6 +141,7 @@ const TotalLiquidityChart = () => {
             color: "#01052D",
           },
           y: 14,
+          x: -14,
         },
       },
     },
