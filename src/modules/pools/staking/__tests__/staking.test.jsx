@@ -2,6 +2,7 @@ import {
   fireEvent,
   waitFor,
   withProviders,
+  withSorting,
 } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
 import {
@@ -87,6 +88,18 @@ const ETHEREUM_METHODS = {
 };
 
 global.ethereum = {
+  enable: jest.fn(() => Promise.resolve(true)),
+  send: jest.fn((method) => {
+    if (method === "eth_chainId") {
+      return Promise.resolve(1);
+    }
+
+    if (method === "eth_requestAccounts") {
+      return Promise.resolve(process.env.NEXT_PUBLIC_TEST_ACCOUNT);
+    }
+
+    return Promise.resolve(true);
+  }),
   request: jest.fn(async ({ method }) => {
     if (ETHEREUM_METHODS.hasOwnProperty(method)) {
       return ETHEREUM_METHODS[method];
@@ -96,6 +109,8 @@ global.ethereum = {
   }),
   on: jest.fn(() => {}),
 };
+
+window.ethereum = global.ethereum;
 
 const SELECTION = {
   TITLE: "title",
@@ -133,8 +148,16 @@ const getValues = (container, type) => {
   );
 };
 
+const sortFromHighest = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
+
+  return a > b ? -1 : 1;
+};
+
 describe("Pool Staking", () => {
-  const Component = withProviders(StakingPage);
+  const Component = withProviders(withSorting(StakingPage));
   const container = document.createElement("div");
   beforeAll(async () => {
     act(() => {
@@ -224,6 +247,10 @@ describe("Pool Staking", () => {
 
         const sortButton = container.querySelector("button");
 
+        act(() => {
+          fireEvent.click(sortButton);
+        });
+
         const sortList = container.querySelector(
           `[aria-labelledby='${sortButton.id}']`
         );
@@ -231,18 +258,24 @@ describe("Pool Staking", () => {
         const [_, tvl] = Array.from(sortList.querySelectorAll("li"));
 
         act(() => {
-          fireEvent.select(tvl);
+          fireEvent.click(tvl);
         });
 
         const values = getValues(container, SELECTION.TVL);
+        const sortedOriginal = [...original].sort(sortFromHighest);
 
         expect(original).not.toEqual(values);
+        expect(sortedOriginal).toEqual(values);
       });
 
       it("Sort by APR", () => {
         const original = getValues(container, SELECTION.APR);
 
         const sortButton = container.querySelector("button");
+
+        act(() => {
+          fireEvent.click(sortButton);
+        });
 
         const sortList = container.querySelector(
           `[aria-labelledby='${sortButton.id}']`
@@ -251,24 +284,14 @@ describe("Pool Staking", () => {
         const [_, _tvl, apr] = Array.from(sortList.querySelectorAll("li"));
 
         act(() => {
-          // await fireEvent.click(apr);
-
-          // apr.pendingProps.onClick();
-          // .prop().onClick();
-
-          console.log(apr.outerHTML);
+          fireEvent.click(apr);
         });
-        // console.log(container.outerHTML);
 
         const values = getValues(container, SELECTION.APR);
-        console.log("APR", {
-          original,
-          values,
-          alphabet: getValues(container, SELECTION.TITLE),
-        });
-        // console.log(original, values);
+        const sortedOriginal = [...original].sort(sortFromHighest);
 
         expect(original).not.toEqual(values);
+        expect(sortedOriginal).toEqual(values);
       });
     });
   });

@@ -19,6 +19,7 @@ import { messages as zhMessages } from "@/locales/zh/messages";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { LanguageProvider } from "@/src/i18n";
 import { createRouter } from "next/router";
+import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
 i18n.load({
   en: enMessages,
@@ -67,6 +68,16 @@ const AllTheProviders = ({ children }) => {
       </I18nProvider>
     </RouterContext.Provider>
   );
+};
+
+export const withSorting = (Component) => {
+  return function Wrapper() {
+    return (
+      <SortableStatsProvider>
+        <Component />
+      </SortableStatsProvider>
+    );
+  };
 };
 
 export const withProviders = (Component, router = createMockRouter({})) => {
