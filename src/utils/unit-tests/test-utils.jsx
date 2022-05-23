@@ -20,6 +20,7 @@ import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
+import { ACTIVE_CONNECTOR_KEY } from "@/lib/connect-wallet/config/localstorage";
 
 export * from "@testing-library/react";
 
@@ -87,6 +88,28 @@ const customRender = (ui, options) =>
 export { customRender as render };
 
 global.fetch = jest.fn(mockFetch);
+
+const LocalStorage = (() => {
+  let store = {
+    [ACTIVE_CONNECTOR_KEY]: process.env.NEXT_PUBLIC_TEST_CONNECTOR,
+  };
+  return {
+    getItem: (key, defaultValue = "") => {
+      return store[key] || defaultValue;
+    },
+    setItem: (key, value) => {
+      store[key] = value;
+    },
+    clearn: () => {
+      store = {};
+    },
+    removeItem: (key) => {
+      delete store[key];
+    },
+  };
+})();
+
+Object.defineProperty(window, "localStorage", { value: LocalStorage });
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
