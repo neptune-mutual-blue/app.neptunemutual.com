@@ -8,13 +8,6 @@ export const getApr = (chainId, info) => {
   const blocksPerYear = toBN(getApproximateBlocksPerYear(chainId).toString());
   const rewardPerYear = rewardPerBlock.multipliedBy(blocksPerYear);
 
-  console.log({
-    stakingTokenPrice: stakingTokenPrice.toFixed(2),
-    rewardPerBlock: rewardPerBlock.toFixed(2),
-    rewardTokenPrice: rewardTokenPrice.toFixed(2),
-    blocksPerYear: blocksPerYear.toFixed(2),
-    rewardPerYear: rewardPerYear.toFixed(2),
-  });
   if (stakingTokenPrice.isEqualTo("0")) {
     return "0";
   }
