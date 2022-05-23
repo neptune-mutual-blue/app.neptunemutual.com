@@ -10,7 +10,7 @@ import "@testing-library/jest-dom";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { covers, pools, contracts, pricing } from "./mockup.data.js";
+import { covers, pools, contracts, pricing } from "./data/mockup.data.js.js";
 
 const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
