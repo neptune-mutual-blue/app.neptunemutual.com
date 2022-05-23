@@ -5,7 +5,6 @@ import {
   withSorting,
 } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
-
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
