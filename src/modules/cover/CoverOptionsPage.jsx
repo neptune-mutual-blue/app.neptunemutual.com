@@ -28,6 +28,7 @@ export const CoverOptionsPage = () => {
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const title = coverInfo?.coverName;
+
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">
       <div className="px-4 mx-auto max-w-7xl sm:px-5 md:px-4">

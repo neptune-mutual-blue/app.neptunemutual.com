@@ -51,7 +51,11 @@ const mockColumns = [
 ];
 
 describe("Table", () => {
-  beforeAll(() => act(() => i18n.activate("en")));
+  beforeAll(() => {
+    act(() => {
+      i18n.activate("en");
+    });
+  });
   describe("should render Table properly", () => {
     test("has correct number of rows and columns", async () => {
       const { getAllByRole, getByTestId } = render(
