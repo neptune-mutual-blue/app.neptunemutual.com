@@ -21,6 +21,8 @@ import { LanguageProvider } from "@/src/i18n";
 import { createRouter } from "next/router";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
+export * from "@testing-library/react";
+
 i18n.load({
   en: enMessages,
   fr: frMessages,
@@ -93,6 +95,35 @@ export const withProviders = (Component, router = createMockRouter({})) => {
 const customRender = (ui, options) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
-export * from "@testing-library/react";
-
 export { customRender as render };
+
+global.crypto = {
+  getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
+};
+
+const ETHEREUM_METHODS = {
+  eth_requestAccounts: () => [process.env.NEXT_PUBLIC_TEST_ACCOUNT],
+};
+
+global.ethereum = {
+  enable: jest.fn(() => Promise.resolve(true)),
+  send: jest.fn((method) => {
+    if (method === "eth_chainId") {
+      return Promise.resolve(1);
+    }
+
+    if (method === "eth_requestAccounts") {
+      return Promise.resolve(process.env.NEXT_PUBLIC_TEST_ACCOUNT);
+    }
+
+    return Promise.resolve(true);
+  }),
+  request: jest.fn(async ({ method }) => {
+    if (ETHEREUM_METHODS.hasOwnProperty(method)) {
+      return ETHEREUM_METHODS[method];
+    }
+
+    return "";
+  }),
+  on: jest.fn(() => {}),
+};

@@ -5,156 +5,11 @@ import {
   withSorting,
 } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
-import {
-  contracts,
-  getCover,
-  pricing,
-  QUERY_RESULT,
-} from "./data/mockUpdata.data";
-import { API_BASE_URL } from "@/src/config/constants";
+
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
-
-const MOCKUP_API_URLS = {
-  POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
-  GET_CONTRACTS_INFO_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/`,
-  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
-  FINANCING: `${process.env.NEXT_PUBLIC_API_URL}/pricing/`,
-};
-
-async function mockFetch(url) {
-  console.log("fetch url", url);
-  if (url.startsWith(MOCKUP_API_URLS.POOL_INFO_URL)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => getCover(url),
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.GET_CONTRACTS_INFO_URL)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => contracts,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.FINANCING)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => pricing,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.SUB_GRAPH)) {
-    if (body.includes(QUERY.PLATFORM_FEE)) {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => QUERY_RESULT.PLATFORM_FEE,
-      };
-    }
-
-    if (body.includes(QUERY.IPS_HASH)) {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => QUERY_RESULT.IPFSHASH,
-      };
-    }
-
-    if (body.includes(QUERY.TOTAL_ADDED_TO_BOND)) {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => QUERY_RESULT.TOTAL_ADDED_TO_BOND,
-      };
-    }
-  }
-
-  throw new Error(`Unhandled request: ${url}`);
-}
-
-global.fetch = jest.fn(mockFetch);
-global.crypto = {
-  getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
-};
-
-const ETHEREUM_METHODS = {
-  eth_requestAccounts: () => [process.env.NEXT_PUBLIC_TEST_ACCOUNT],
-};
-
-global.ethereum = {
-  enable: jest.fn(() => Promise.resolve(true)),
-  send: jest.fn((method) => {
-    if (method === "eth_chainId") {
-      return Promise.resolve(1);
-    }
-
-    if (method === "eth_requestAccounts") {
-      return Promise.resolve(process.env.NEXT_PUBLIC_TEST_ACCOUNT);
-    }
-
-    return Promise.resolve(true);
-  }),
-  request: jest.fn(async ({ method }) => {
-    if (ETHEREUM_METHODS.hasOwnProperty(method)) {
-      return ETHEREUM_METHODS[method];
-    }
-
-    return "";
-  }),
-  on: jest.fn(() => {}),
-};
-
-window.ethereum = global.ethereum;
-
-const SELECTION = {
-  TITLE: "title",
-  TVL: "tvl",
-  APR: "apr",
-};
-
-const select = (container, type) => {
-  if (type === SELECTION.TITLE) {
-    return Array.from(container.querySelectorAll("h4"));
-  }
-
-  if (type === SELECTION.TVL) {
-    return Array.from(
-      container.querySelectorAll(".text-right[title] p.text-7398C0")
-    );
-  }
-
-  return Array.from(container.querySelectorAll(".text-21AD8C"));
-};
-
-const getValues = (container, type) => {
-  if (type === SELECTION.TITLE) {
-    return select(container, type).map((el) => el.textContent);
-  }
-
-  if (type === SELECTION.TVL) {
-    return select(container, type).map((el) =>
-      parseFloat(el.textContent.slice(1), 10)
-    );
-  }
-
-  return select(container, type).map((el) =>
-    parseFloat(el.textContent.slice("APR: ".length), 10)
-  );
-};
-
-const sortFromHighest = (a, b) => {
-  if (a === b) {
-    return 0;
-  }
-
-  return a > b ? -1 : 1;
-};
+import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 describe("Pool Staking", () => {
   const Component = withProviders(withSorting(StakingPage));
@@ -296,3 +151,49 @@ describe("Pool Staking", () => {
     });
   });
 });
+
+const SELECTION = {
+  TITLE: "title",
+  TVL: "tvl",
+  APR: "apr",
+};
+
+const select = (container, type) => {
+  if (type === SELECTION.TITLE) {
+    return Array.from(container.querySelectorAll("h4"));
+  }
+
+  if (type === SELECTION.TVL) {
+    return Array.from(
+      container.querySelectorAll(".text-right[title] p.text-7398C0")
+    );
+  }
+
+  return Array.from(container.querySelectorAll(".text-21AD8C"));
+};
+
+const getValues = (container, type) => {
+  if (type === SELECTION.TITLE) {
+    return select(container, type).map((el) => el.textContent);
+  }
+
+  if (type === SELECTION.TVL) {
+    return select(container, type).map((el) =>
+      parseFloat(el.textContent.slice(1), 10)
+    );
+  }
+
+  return select(container, type).map((el) =>
+    parseFloat(el.textContent.slice("APR: ".length), 10)
+  );
+};
+
+const sortFromHighest = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
+
+  return a > b ? -1 : 1;
+};
+
+global.fetch = jest.fn(mockFetch);
