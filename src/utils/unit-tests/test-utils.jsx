@@ -16,10 +16,10 @@ import { messages as enMessages } from "@/locales/en/messages";
 import { messages as frMessages } from "@/locales/fr/messages";
 import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
-import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
+import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
 export * from "@testing-library/react";
 
