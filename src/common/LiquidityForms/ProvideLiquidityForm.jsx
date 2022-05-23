@@ -168,7 +168,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   return (
     <div className="max-w-md">
-      <div className="pb-12">
+      <div className="mb-16">
         <TokenAmountInput
           labelText={t`Enter your NPM stake`}
           onChange={handleNPMChange}
@@ -202,7 +202,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </TokenAmountInput>
       </div>
 
-      <div className="pb-12">
+      <div className="mb-16">
         <TokenAmountInput
           labelText={t`Enter Amount you wish to provide`}
           onChange={handleLqChange}
@@ -221,7 +221,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </TokenAmountInput>
       </div>
 
-      <div className="pb-12">
+      <div className="mb-16">
         <ReceiveAmountInput
           labelText={t`You Will Receive`}
           tokenSymbol={podSymbol}
@@ -229,7 +229,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         />
       </div>
 
-      <h5 className="block mb-1 font-semibold text-black uppercase text-h6">
+      <h5 className="block mb-3 font-semibold text-black uppercase text-h6">
         <Trans>NEXT UNLOCK CYCLE</Trans>
       </h5>
       <div>
@@ -249,7 +249,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
         </span>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-2">
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
           <RegularButton

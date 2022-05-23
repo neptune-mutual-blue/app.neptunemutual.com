@@ -178,7 +178,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className="flex flex-wrap justify-between px-1 text-sm">
         {stats.map((x, idx) => {
           return (
-            <div key={x.title} className="flex flex-col w-1/2 mt-5">
+            <div key={x.title} className="flex flex-col w-1/2 mt-8">
               <div
                 className={classNames(idx % 2 && "text-right")}
                 title={x.tooltip}
