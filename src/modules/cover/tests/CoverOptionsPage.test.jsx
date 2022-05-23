@@ -12,10 +12,22 @@ import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
 import { covers, pools, contracts, pricing } from "./mockup.data.js";
 
+const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
 
+const MOCKUP_API_URLS = {
+  GET_CONTRACTS_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/mumbai`,
+  GET_PRICING_URL: `${process.env.NEXT_PUBLIC_API_URL}/pricing/${NETWORKID}`,
+  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+};
+
+const QUERY = {
+  POOLS: "pools",
+  COVERS: "covers",
+};
+
 async function mockFetch(url, { body }) {
-  if (url.startsWith("https://api.npm.finance/protocol/contracts/mumbai")) {
+  if (url.startsWith(MOCKUP_API_URLS.GET_CONTRACTS_URL)) {
     return {
       ok: true,
       status: 200,
@@ -23,7 +35,7 @@ async function mockFetch(url, { body }) {
     };
   }
 
-  if (url.startsWith("https://api.npm.finance/pricing/80001")) {
+  if (url.startsWith(MOCKUP_API_URLS.GET_PRICING_URL)) {
     return {
       ok: true,
       status: 200,
@@ -31,8 +43,8 @@ async function mockFetch(url, { body }) {
     };
   }
 
-  if (url.startsWith("https://api2.neptunemutual.com/subgraph/mumbai")) {
-    if (body.includes("pools")) {
+  if (url.startsWith(MOCKUP_API_URLS.SUB_GRAPH)) {
+    if (body.includes(QUERY.POOLS)) {
       return {
         ok: true,
         status: 200,
@@ -40,7 +52,7 @@ async function mockFetch(url, { body }) {
       };
     }
 
-    if (body.includes("covers")) {
+    if (body.includes(QUERY.COVERS)) {
       return {
         ok: true,
         status: 200,
@@ -59,39 +71,23 @@ global.ethereum = {
 };
 
 describe("CoverOptionsPage", () => {
-  beforeAll(() => {
+  beforeAll(async () => {
     act(() => {
       i18n.activate("en");
     });
   });
-  describe("should render CoverOptionsPage", () => {
-    test("has correct number cover actions", async () => {
-      const router = createMockRouter({
-        query: { cover_id: "animated-brands" },
-      });
-      const Component = withProviders(CoverOptionsPage, router);
-      const { getAllByTestId } = render(<Component />);
 
-      await waitFor(() => getAllByTestId("cover-action-title"), {
-        timeout: 2000,
-      });
-      await waitFor(() => getAllByTestId("cover-action-description"), {
-        timeout: 2000,
-      });
-
-      // await waitFor(() =>
-      //   expect(getAllByTestId("cover-action-description")).toHaveLength(
-      //     NUMBER_OF_ACTIONS
-      //   )
-      // );
-
-      // const coverActionsTitle = getAllByTestId("cover-action-title");
-      // const coverActionsDescription = getAllByTestId(
-      //   "cover-action-description"
-      // );
-
-      // expect(coverActionsTitle).toHaveLength(NUMBER_OF_ACTIONS);
-      // expect(coverActionsDescription).toHaveLength(NUMBER_OF_ACTIONS);
+  it("has correct number cover actions", async () => {
+    const router = createMockRouter({
+      query: { cover_id: "animated-brands" },
     });
+    const Component = withProviders(CoverOptionsPage, router);
+    const { getAllByTestId, debug } = render(<Component />);
+
+    const CoverOptionActions = await waitFor(() =>
+      getAllByTestId("cover-option-actions")
+    );
+
+    expect(CoverOptionActions).toHaveLength(NUMBER_OF_ACTIONS);
   });
 });
