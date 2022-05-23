@@ -10,8 +10,6 @@ const customJestConfig = {
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
-    "!**/__tests__/**/component/**",
-    "!**/__tests__/**/data/**",
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   verbose: true,
@@ -24,7 +22,7 @@ const customJestConfig = {
     "/node_modules/",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
-  testEnvironment: "jsdom",
+  testEnvironment: "jest-environment-jsdom",
   moduleNameMapper: {
     "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
     "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i": "<rootDir>/__mocks__/fileMock.js",
@@ -38,7 +36,6 @@ const customJestConfig = {
     "^@/src/(.*)$": "<rootDir>/src/$1",
     "^uuid$": require.resolve("uuid"),
   },
-  modulePathIgnorePatterns: ["__tests__/data/"],
 };
 
 // createJestConfig is exported in this way to ensure that next/jest can load the Next.js config which is async
