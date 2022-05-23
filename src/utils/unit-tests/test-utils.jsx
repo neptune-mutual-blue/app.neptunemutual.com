@@ -87,8 +87,6 @@ const customRender = (ui, options) =>
 
 export { customRender as render };
 
-global.fetch = jest.fn(mockFetch);
-
 const LocalStorage = (() => {
   let store = {
     [ACTIVE_CONNECTOR_KEY]: process.env.NEXT_PUBLIC_TEST_CONNECTOR,

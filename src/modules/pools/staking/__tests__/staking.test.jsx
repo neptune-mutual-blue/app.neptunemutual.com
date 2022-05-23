@@ -15,6 +15,7 @@ import { API_BASE_URL } from "@/src/config/constants";
 import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
+import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
@@ -162,8 +163,11 @@ const sortFromHighest = (a, b) => {
 };
 
 describe("Pool Staking", () => {
+  global.fetch = jest.fn(mockFetch);
+
   const Component = withProviders(withSorting(StakingPage));
   const container = document.createElement("div");
+
   beforeAll(async () => {
     act(() => {
       i18n.activate("en");
