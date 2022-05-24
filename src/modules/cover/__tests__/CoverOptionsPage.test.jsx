@@ -82,7 +82,7 @@ describe("CoverOptionsPage", () => {
       query: { cover_id: "animated-brands" },
     });
     const Component = withProviders(CoverOptionsPage, router);
-    const { getAllByTestId, debug } = render(<Component />);
+    const { getAllByTestId } = render(<Component />);
 
     const CoverOptionActions = await waitFor(() =>
       getAllByTestId("cover-option-actions")
