@@ -2,7 +2,7 @@ export const ProjectWebsiteLink = ({ website = "" }) => {
   const text = website.replace(/(^\w+:|^)\/\//, "").replace(/\/$/, "");
 
   return (
-    <p>
+    <p data-testid="projectwebsitelink-container">
       <a
         href={website}
         target="_blank"

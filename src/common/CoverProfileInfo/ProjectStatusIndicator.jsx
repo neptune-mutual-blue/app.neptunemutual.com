@@ -44,6 +44,7 @@ export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
         variant === "green" && "bg-21AD8C",
         variant === "red" && "bg-FA5C2F"
       )}
+      data-testid="projectstatusindicator-container"
     >
       <Icon width="14" height="14" />{" "}
       <div className="ml-1">{renderStatusIndicatorTranslation(status)}</div>
@@ -57,7 +58,7 @@ export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
           coverKey
         )}/${incidentDate}/details`}
       >
-        <a>{badge}</a>
+        <a data-testid="badge-link">{badge}</a>
       </Link>
     );
   }
