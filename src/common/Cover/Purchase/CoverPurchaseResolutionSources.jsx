@@ -17,7 +17,7 @@ export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
 
   return (
     <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
-      <OutlinedCard className="flex flex-col flex-wrap justify-between p-10 bg-DEEAF6">
+      <OutlinedCard className="flex flex-col flex-wrap justify-between px-8 py-10 bg-DEEAF6">
         <div className="flex flex-wrap justify-between md:block">
           <div>
             <h3 className="font-semibold text-h4 font-sora">
