@@ -4,7 +4,7 @@ import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
 import { UnstakeYourAmount } from "@/src/modules/reporting/resolved/UnstakeYourAmount";
 import { Divider } from "@/common/Divider/Divider";
 import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
-import { truncateAddress } from "@/utils/address";
+import { truncateAddressParam } from "@/utils/address";
 import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
 import { formatCurrency } from "@/utils/formatter/currency";
 import DateLib from "@/lib/date/DateLib";
@@ -132,13 +132,13 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           </h3>
           <IncidentReporter
             variant={"success"}
-            account={truncateAddress(incidentReport.reporter)}
+            account={truncateAddressParam(incidentReport.reporter, 8, -6)}
             txHash={incidentReport.reportTransaction.id}
           />
           {incidentReport.disputer && (
             <IncidentReporter
               variant={"error"}
-              account={truncateAddress(incidentReport.disputer)}
+              account={truncateAddressParam(incidentReport.disputer, 8, -6)}
               txHash={incidentReport.disputeTransaction.id}
             />
           )}
