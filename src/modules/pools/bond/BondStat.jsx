@@ -8,27 +8,32 @@ export const BondStat = ({
   valueClasses,
   titleClasses,
 }) => {
+  console.log({ value });
   return (
     <div className="flex flex-col w-1/2">
-      <h6
-        className={classNames(
-          "uppercase font-semibold text-sm",
-          right && "text-right",
-          titleClasses
-        )}
-      >
-        {title}
-      </h6>
-      <p
-        title={tooltip}
-        className={classNames(
-          "text-lg font-normal font-numbers",
-          right && "text-right",
-          valueClasses
-        )}
-      >
-        {value}
-      </p>
+      {value !== "N/A" && (
+        <>
+          <h6
+            className={classNames(
+              "uppercase font-semibold text-sm",
+              right && "text-right",
+              titleClasses
+            )}
+          >
+            {title}
+          </h6>
+          <p
+            title={tooltip}
+            className={classNames(
+              "text-lg font-normal font-numbers",
+              right && "text-right",
+              valueClasses
+            )}
+          >
+            {value}
+          </p>
+        </>
+      )}
     </div>
   );
 };

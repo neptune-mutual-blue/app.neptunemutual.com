@@ -24,10 +24,7 @@ export const CoverReportingRules = ({
           <div className="col-span-3 row-start-3 md:col-span-2 md:row-start-auto">
             {/* Rules */}
             <CoverRules rules={coverInfo?.rules} />
-
-            <br className="mt-20" />
-
-            <div className="mt-16">
+            <div>
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className="mt-16">
                   <h2 className="mb-6 font-bold font-sora text-h2">
