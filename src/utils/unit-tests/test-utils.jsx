@@ -16,11 +16,10 @@ import { messages as enMessages } from "@/locales/en/messages";
 import { messages as frMessages } from "@/locales/fr/messages";
 import { messages as jaMessages } from "@/locales/ja/messages";
 import { messages as zhMessages } from "@/locales/zh/messages";
-import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { RouterContext } from "next/dist/shared/lib/router-context";
+import { createRouter } from "next/router";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
-import { ACTIVE_CONNECTOR_KEY } from "@/lib/connect-wallet/config/localstorage";
+import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 
 export * from "@testing-library/react";
 
@@ -30,7 +29,6 @@ i18n.load({
   ja: jaMessages,
   zh: zhMessages,
 });
-
 i18n.loadLocaleData({
   en: { plurals: en },
   fr: { plurals: fr },
@@ -38,7 +36,17 @@ i18n.loadLocaleData({
   zh: { plurals: zh },
 });
 
-const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
+const AllTheProviders = ({ children }) => {
+  const router = createRouter("", {}, "", {
+    subscription: jest.fn().mockImplementation(Promise.resolve),
+    initialProps: {},
+    pageLoader: jest.fn(),
+    Component: jest.fn(),
+    App: jest.fn(),
+    wrapApp: jest.fn(),
+    isFallback: false,
+  });
+
   return (
     <RouterContext.Provider value={router}>
       <I18nProvider i18n={i18n}>
@@ -87,27 +95,7 @@ const customRender = (ui, options) =>
 
 export { customRender as render };
 
-const LocalStorage = (() => {
-  let store = {
-    [ACTIVE_CONNECTOR_KEY]: process.env.NEXT_PUBLIC_TEST_CONNECTOR,
-  };
-  return {
-    getItem: (key, defaultValue = "") => {
-      return store[key] || defaultValue;
-    },
-    setItem: (key, value) => {
-      store[key] = value;
-    },
-    clearn: () => {
-      store = {};
-    },
-    removeItem: (key) => {
-      delete store[key];
-    },
-  };
-})();
-
-Object.defineProperty(window, "localStorage", { value: LocalStorage });
+global.fetch = jest.fn(mockFetch);
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
