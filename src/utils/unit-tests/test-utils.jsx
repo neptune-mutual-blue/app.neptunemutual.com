@@ -70,10 +70,10 @@ export const withSorting = (Component) => {
   };
 };
 
-export const withProviders = (Component) => {
+export const withProviders = (Component, router = createMockRouter({})) => {
   return function Wrapper() {
     return (
-      <AllTheProviders>
+      <AllTheProviders router={router}>
         <Component />
       </AllTheProviders>
     );
