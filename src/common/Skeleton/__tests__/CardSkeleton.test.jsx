@@ -1,9 +1,7 @@
 import React from "react";
 import { render, act } from "@/utils/unit-tests/test-utils";
-import "@testing-library/jest-dom";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { i18n } from "@lingui/core";
-import "@testing-library/jest-dom";
 
 const CARDS_PER_PAGE = 5;
 const LINE_CONTENT_PER_CARD = 4;

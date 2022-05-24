@@ -6,7 +6,6 @@ import {
   waitFor,
 } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
-import "@testing-library/jest-dom";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
