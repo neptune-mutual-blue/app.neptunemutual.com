@@ -8,7 +8,6 @@ export const BondStat = ({
   valueClasses,
   titleClasses,
 }) => {
-  console.log({ value });
   return (
     <div className="flex flex-col w-1/2">
       {value !== "N/A" && (

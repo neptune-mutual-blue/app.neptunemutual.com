@@ -127,12 +127,14 @@ export const useBondInfo = () => {
       setInfo(_info || defaultInfo);
     };
 
-    fetchBondInfo(onResult).catch(console.error);
+    if (account) {
+      fetchBondInfo(onResult).catch(console.error);
+    }
 
     return () => {
       ignore = true;
     };
-  }, [fetchBondInfo]);
+  }, [account, fetchBondInfo]);
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {
