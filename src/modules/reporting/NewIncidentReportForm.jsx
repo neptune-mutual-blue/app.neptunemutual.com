@@ -256,7 +256,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               <TokenAmountInput
                 inputId={"stake-amount"}
                 inputValue={value}
-                labelText={t`Enter your amount`}
+                labelText={t`Enter your stake`}
                 tokenBalance={balance}
                 tokenSymbol={tokenSymbol}
                 tokenAddress={tokenAddress}

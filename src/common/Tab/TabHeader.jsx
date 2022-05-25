@@ -1,11 +1,10 @@
-import { Container } from "@/common/Container/Container";
 import { Tab } from "@/common/Tab/Tab";
 import { classNames } from "@/utils/classnames";
 
 export const TabHeader = ({ activeTab, headers, onClick }) => {
   return (
-    <div className="border-b border-b-B0C4DB">
-      <Container className={"flex"}>
+    <div className="border-b border-b-B0C4DB px-10 sm:px-16">
+      <div className="max-w-7xl mx-auto flex">
         {headers.map((header) => (
           <Tab key={header.name} active={activeTab == header.name}>
             <button
@@ -19,7 +18,7 @@ export const TabHeader = ({ activeTab, headers, onClick }) => {
             </button>
           </Tab>
         ))}
-      </Container>
+      </div>
     </div>
   );
 };
