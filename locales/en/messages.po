@@ -72,7 +72,7 @@ msgid "Add Dispute"
 msgstr "Add Dispute"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:154
-#: src/modules/reporting/NewIncidentReportForm.jsx:227
+#: src/modules/reporting/NewIncidentReportForm.jsx:228
 msgid "Add new link"
 msgstr "Add new link"
 
@@ -119,7 +119,7 @@ msgstr "Amount you wish to withdraw"
 #: src/modules/pools/bond/index.jsx:190
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/NewDisputeReportForm.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:302
+#: src/modules/reporting/NewIncidentReportForm.jsx:303
 #: src/modules/reporting/active/CastYourVote.jsx:199
 msgid "Approve"
 msgstr "Approve"
@@ -217,7 +217,7 @@ msgstr "Approving.."
 #: src/modules/pools/bond/index.jsx:187
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/NewDisputeReportForm.jsx:224
-#: src/modules/reporting/NewIncidentReportForm.jsx:299
+#: src/modules/reporting/NewIncidentReportForm.jsx:300
 #: src/modules/reporting/active/CastYourVote.jsx:196
 msgid "Approving..."
 msgstr "Approving..."
@@ -255,6 +255,7 @@ msgid "Back"
 msgstr "Back"
 
 #: src/common/TokenBalance.jsx:54
+#: src/modules/pools/staking/UnStakeForm.jsx:78
 msgid "Balance:"
 msgstr "Balance:"
 
@@ -600,7 +601,7 @@ msgid "Decline"
 msgstr "Decline"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:160
-#: src/modules/reporting/NewIncidentReportForm.jsx:230
+#: src/modules/reporting/NewIncidentReportForm.jsx:231
 msgid "Description"
 msgstr "Description"
 
@@ -677,7 +678,7 @@ msgstr "Enter Amount"
 msgid "Enter Amount you wish to provide"
 msgstr "Enter Amount you wish to provide"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:143
+#: src/modules/reporting/NewIncidentReportForm.jsx:144
 msgid "Enter Incident Title"
 msgstr "Enter Incident Title"
 
@@ -689,7 +690,7 @@ msgstr "Enter Npm Amount"
 msgid "Enter a title of this dispute"
 msgstr "Enter a title of this dispute"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:150
+#: src/modules/reporting/NewIncidentReportForm.jsx:151
 msgid "Enter the incident title."
 msgstr "Enter the incident title."
 
@@ -703,7 +704,7 @@ msgstr "Enter your POD"
 
 #: src/modules/pools/bond/index.jsx:146
 #: src/modules/reporting/NewDisputeReportForm.jsx:187
-#: src/modules/reporting/NewIncidentReportForm.jsx:258
+#: src/modules/reporting/NewIncidentReportForm.jsx:259
 msgid "Enter your amount"
 msgstr "Enter your amount"
 
@@ -744,7 +745,7 @@ msgid "Expires In"
 msgstr "Expires In"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:166
-#: src/modules/reporting/NewIncidentReportForm.jsx:239
+#: src/modules/reporting/NewIncidentReportForm.jsx:240
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "Explain briefly about the incident if you want to add anything."
 
@@ -907,7 +908,7 @@ msgstr "Incident Occurred"
 msgid "Incident Reporters"
 msgstr "Incident Reporters"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:137
+#: src/modules/reporting/NewIncidentReportForm.jsx:138
 msgid "Incident Title"
 msgstr "Incident Title"
 
@@ -966,6 +967,10 @@ msgstr "Liquidity providers collectively own a liquidity pool. To become a liqui
 msgid "Liquidity:"
 msgstr "Liquidity:"
 
+#: src/common/Table/tests/Table.test.jsx:96
+msgid "Loading..."
+msgstr "Loading..."
+
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:105
 #: src/modules/pools/staking/StakeForm.jsx:115
 #: src/modules/pools/staking/StakingCard.jsx:102
@@ -995,7 +1000,7 @@ msgstr "Maximum protection available is {0}"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:187
 #: src/modules/my-liquidity/WithdrawLiquidityForm.jsx:158
 #: src/modules/reporting/NewDisputeReportForm.jsx:197
-#: src/modules/reporting/NewIncidentReportForm.jsx:267
+#: src/modules/reporting/NewIncidentReportForm.jsx:268
 #: src/modules/reporting/active/CastYourVote.jsx:170
 msgid "Minimum Stake:"
 msgstr "Minimum Stake:"
@@ -1061,7 +1066,7 @@ msgstr "No <0>staking pools found.</0>"
 msgid "No POD"
 msgstr "No POD"
 
-#: src/common/Table/Table.jsx:61
+#: src/common/Table/Table.jsx:66
 #: src/modules/reporting/resolved/resolved.jsx:175
 #: src/pages/reporting/[id]/[timestamp]/details.jsx:52
 #: src/pages/reporting/[id]/[timestamp]/dispute.jsx:83
@@ -1084,7 +1089,7 @@ msgstr "Normal"
 msgid "Not applicable for disputing"
 msgstr "Not applicable for disputing"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:155
+#: src/modules/reporting/NewIncidentReportForm.jsx:156
 msgid "Observed Date & Time"
 msgstr "Observed Date & Time"
 
@@ -1132,7 +1137,7 @@ msgstr "Pool"
 msgid "Proof of dispute"
 msgstr "Proof of dispute"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:180
+#: src/modules/reporting/NewIncidentReportForm.jsx:181
 msgid "Proof of incident"
 msgstr "Proof of incident"
 
@@ -1147,7 +1152,7 @@ msgstr "Protection:"
 msgid "Provide Liquidity"
 msgstr "Provide Liquidity"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:212
+#: src/modules/reporting/NewIncidentReportForm.jsx:213
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "Provide URL with a proximate proof of the incident."
 
@@ -1232,7 +1237,7 @@ msgstr "Removed Liquidity Successfully"
 msgid "Removing Liquidity"
 msgstr "Removing Liquidity"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:320
+#: src/modules/reporting/NewIncidentReportForm.jsx:321
 msgid "Report"
 msgstr "Report"
 
@@ -1244,6 +1249,10 @@ msgstr "Report Incident"
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:63
 msgid "Report Summary"
 msgstr "Report Summary"
+
+#: src/modules/reporting/NewIncidentReportForm.jsx:134
+msgid "Report an incident"
+msgstr "Report an incident"
 
 #: src/modules/reporting/active/ActiveReportingCard.jsx:110
 msgid "Reported On:"
@@ -1276,7 +1285,7 @@ msgstr "Reporting Period"
 msgid "Reporting incident"
 msgstr "Reporting incident"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:320
+#: src/modules/reporting/NewIncidentReportForm.jsx:321
 #: src/modules/reporting/active/CastYourVote.jsx:217
 msgid "Reporting..."
 msgstr "Reporting..."
@@ -1347,7 +1356,7 @@ msgstr "See more"
 msgid "Select Your Decision"
 msgstr "Select Your Decision"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:170
+#: src/modules/reporting/NewIncidentReportForm.jsx:171
 msgid "Select the incident observance date."
 msgstr "Select the incident observance date."
 
@@ -1355,7 +1364,7 @@ msgstr "Select the incident observance date."
 msgid "Select your coverage period"
 msgstr "Select your coverage period"
 
-#: src/common/Table/Table.jsx:31
+#: src/common/Table/Table.jsx:36
 #: src/modules/home/AvailableCovers.jsx:110
 #: src/modules/pools/pod-staking/index.jsx:133
 #: src/modules/pools/staking/index.jsx:132
@@ -1395,10 +1404,6 @@ msgstr "Stake:"
 #: src/hooks/useStakingPoolDeposit.jsx:136
 msgid "Staked {tokenSymbol} successfully"
 msgstr "Staked {tokenSymbol} successfully"
-
-#: src/modules/pools/staking/UnStakeForm.jsx:78
-msgid "Staked:"
-msgstr "Staked:"
 
 #: src/modules/pools/PoolsTabs.jsx:22
 msgid "Staking"
@@ -1790,12 +1795,12 @@ msgstr "get vault info"
 msgid "getting user whitelisted"
 msgstr "getting user whitelisted"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:191
+#: src/modules/reporting/NewIncidentReportForm.jsx:192
 msgid "https://"
 msgstr "https://"
 
-#: src/common/Table/Table.jsx:31
-#: src/common/Table/Table.jsx:61
+#: src/common/Table/Table.jsx:36
+#: src/common/Table/Table.jsx:66
 #: src/modules/cover/CoverOptionsPage.jsx:26
 #: src/modules/cover/add-liquidity/index.jsx:34
 #: src/modules/cover/purchase/index.jsx:35
