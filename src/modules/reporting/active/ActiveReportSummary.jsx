@@ -6,7 +6,7 @@ import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
 import { ResolveIncident } from "@/src/modules/reporting/resolved/ResolveIncident";
 import { VotesSummaryDoughnutChart } from "@/src/modules/reporting/VotesSummaryDoughnutCharts";
 import { HlCalendar } from "@/lib/hl-calendar";
-import { truncateAddress } from "@/utils/address";
+import { truncateAddress, truncateAddressParam } from "@/utils/address";
 import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -167,13 +167,13 @@ export const ActiveReportSummary = ({
           </h3>
           <IncidentReporter
             variant={"success"}
-            account={truncateAddress(incidentReport.reporter)}
+            account={truncateAddressParam(incidentReport.reporter, 8, -6)}
             txHash={incidentReport.reportTransaction.id}
           />
           {incidentReport.disputer && (
             <IncidentReporter
               variant={"error"}
-              account={truncateAddress(incidentReport.disputer)}
+              account={truncateAddressParam(incidentReport.disputer, 8, -6)}
               txHash={incidentReport.disputeTransaction.id}
             />
           )}
