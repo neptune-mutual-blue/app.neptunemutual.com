@@ -107,7 +107,6 @@ const BondPage = () => {
   ];
 
   if (account) {
-    console.log({ claimable: convertFromUnits(info.claimable).toNumber() });
     rightHalf.push({
       title: t`Your Bond`,
       value: convertFromUnits(info.claimable).toNumber(),
