@@ -73,12 +73,20 @@ const BondPage = () => {
     {
       title: t`Maximum Bond`,
       value: `${
-        formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
-          .short
+        formatCurrency(
+          convertFromUnits(info.maxBond).toString(),
+          router.locale,
+          "NPM",
+          true
+        ).short
       }`,
       tooltip: `${
-        formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
-          .long
+        formatCurrency(
+          convertFromUnits(info.maxBond).toString(),
+          router.locale,
+          "NPM",
+          true
+        ).long
       }`,
       valueClasses: "text-sm text-9B9B9B mt-1",
       titleClasses: "mt-7",
@@ -88,23 +96,28 @@ const BondPage = () => {
   const rightHalf = [
     {
       title: t`Market Price`,
-      value: formatCurrency(convertFromUnits(marketPrice).toString(), router.locale,"USD")
-        .short,
+      value: formatCurrency(
+        convertFromUnits(marketPrice).toString(),
+        router.locale,
+        "USD"
+      ).short,
       tooltip: convertFromUnits(marketPrice).toString(),
       valueClasses: "text-h3 text-9B9B9B mt-1",
     },
   ];
 
   if (account) {
+    console.log({ claimable: convertFromUnits(info.claimable).toNumber() });
     rightHalf.push({
       title: t`Your Bond`,
-      value: `${
-        formatCurrency(convertFromUnits(info.claimable).toString(), router.locale,"NPM", true)
-          .short
-      }`,
+      value: convertFromUnits(info.claimable).toNumber(),
       tooltip: `${
-        formatCurrency(convertFromUnits(info.claimable).toString(), router.locale,"NPM", true)
-          .long
+        formatCurrency(
+          convertFromUnits(info.claimable).toString(),
+          router.locale,
+          "NPM",
+          true
+        ).long
       }`,
       titleClasses: `mt-7`,
       valueClasses: `text-sm text-9B9B9B mt-1`,
