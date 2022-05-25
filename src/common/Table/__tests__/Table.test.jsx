@@ -1,10 +1,10 @@
 import React from "react";
-import { render, screen, fireEvent } from "@/utils/unit-tests/test-utils";
+import { render, fireEvent, act } from "@/utils/unit-tests/test-utils";
 import { createMockTableData } from "@/utils/unit-tests/createMockData";
 import { Table, TableShowMore, TBody, THead } from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { t } from "@lingui/macro";
-import "@testing-library/jest-dom";
+import { i18n } from "@lingui/core";
 
 const mockData = createMockTableData({
   count: 3,
@@ -50,30 +50,42 @@ const mockColumns = [
 ];
 
 describe("Table", () => {
-  describe("should render Table properly", () => {
-    render(
-      <Table>
-        <THead columns={mockColumns} />
-        <TBody columns={mockColumns} data={mockData} />
-      </Table>
-    );
-
-    const columnHeaders = screen.getAllByRole("columnheader");
-    const tableBody = screen.getByTestId("app-table-body");
-    const tableCells = screen.getAllByRole("cell");
-
-    test("has correct number of rows and columns", async () => {
-      expect(tableBody.children).toHaveLength(mockData.length);
-      expect(columnHeaders).toHaveLength(mockColumns.length);
+  beforeAll(() => {
+    act(() => {
+      i18n.activate("en");
     });
+  });
 
-    test("display correct data on each cell", async () => {
-      render(
+  describe("should render Table properly", () => {
+    test("has correct number of rows and columns", async () => {
+      const { getAllByRole, getByTestId } = render(
         <Table>
           <THead columns={mockColumns} />
           <TBody columns={mockColumns} data={mockData} />
         </Table>
       );
+
+      const columnHeaders = getAllByRole("columnheader");
+      const tableBody = getByTestId("app-table-body");
+
+      expect(tableBody.children).toHaveLength(mockData.length);
+      expect(columnHeaders).toHaveLength(mockColumns.length);
+    });
+
+    test("display correct data on each cell", async () => {
+      const { getAllByRole, getByTestId } = render(
+        <Table>
+          <THead columns={mockColumns} />
+          <TBody columns={mockColumns} data={mockData} />
+        </Table>
+      );
+
+      const columnHeaders = getAllByRole("columnheader");
+      const tableBody = getByTestId("app-table-body");
+      const tableCells = getAllByRole("cell");
+
+      expect(tableBody.children).toHaveLength(mockData.length);
+      expect(columnHeaders).toHaveLength(mockColumns.length);
 
       expect(columnHeaders[0]).toHaveTextContent(mockColumns[0].name);
       expect(columnHeaders[1]).toHaveTextContent(mockColumns[1].name);
@@ -86,14 +98,14 @@ describe("Table", () => {
 
   describe("Should render table loading", () => {
     test("show table loading message", async () => {
-      render(
+      const { getByText } = render(
         <Table>
           <THead columns={mockColumns} />
           <TBody columns={mockColumns} data={[]} isLoading />
         </Table>
       );
 
-      const loadingMessage = screen.getByText(t`Loading...`);
+      const loadingMessage = getByText(t`loading...`);
       expect(loadingMessage).toBeInTheDocument();
     });
   });
@@ -101,10 +113,11 @@ describe("Table", () => {
   describe("Should render show more button", () => {
     test("calls onShowMore prop when clicked", async () => {
       const handleShowMore = jest.fn();
+      const { getByTestId } = render(
+        <TableShowMore onShowMore={handleShowMore} />
+      );
 
-      render(<TableShowMore onShowMore={handleShowMore} />);
-
-      const button = screen.getByTestId("table-show-more");
+      const button = getByTestId("table-show-more");
 
       fireEvent.click(button);
 

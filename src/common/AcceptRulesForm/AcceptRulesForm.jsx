@@ -53,11 +53,13 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           name="checkinputname"
           checked={checked}
           onChange={handleChange}
+          data-testid="accept-rules-check-box"
         >
           {children}
         </Checkbox>
         <br />
         <button
+          data-testid="accept-rules-next-button"
           type="submit"
           disabled={!checked}
           className={classNames(
