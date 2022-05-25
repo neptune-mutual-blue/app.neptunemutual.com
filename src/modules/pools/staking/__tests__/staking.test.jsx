@@ -25,19 +25,19 @@ describe("Pool Staking", () => {
   });
 
   describe("Staking card", () => {
-    it("Card should be 6", () => {
+    test("Card should be 6", () => {
       const stakeCards = select(container, SELECTION.TITLE);
 
       expect(stakeCards.length).toEqual(6);
     });
 
     describe("TVL", () => {
-      it("should be 6", () => {
+      test("should be 6", () => {
         const tvlElements = select(container, SELECTION.TVL);
         expect(tvlElements.length).toEqual(6);
       });
 
-      it("no 0 value", () => {
+      test("no 0 value", () => {
         const tvlValues = getValues(container, SELECTION.TVL);
 
         const zeroValues = tvlValues.filter((value) => value === 0);
@@ -47,12 +47,12 @@ describe("Pool Staking", () => {
     });
 
     describe("APR", () => {
-      it("should be 6", () => {
+      test("should be 6", () => {
         const aprElements = select(container, SELECTION.APR);
         expect(aprElements.length).toEqual(6);
       });
 
-      it("no 0 value", () => {
+      test("no 0 value", () => {
         const aprValues = getValues(container, SELECTION.APR);
         const zeroValues = aprValues.filter((value) => value === 0);
 
@@ -61,7 +61,7 @@ describe("Pool Staking", () => {
     });
 
     describe("Sorting", () => {
-      it("Sorting is visible", () => {
+      test("Sorting is visible", () => {
         const sortButton = container.querySelector("button");
 
         act(() => {
@@ -75,7 +75,7 @@ describe("Pool Staking", () => {
         expect(container).toContainElement(sortList);
       });
 
-      it("Sort Alphabetically", () => {
+      test("Sort Alphabetically", () => {
         const original = getValues(container, SELECTION.TITLE);
 
         const sortButton = container.querySelector("button");
@@ -99,7 +99,7 @@ describe("Pool Staking", () => {
         expect(original).toEqual(values);
       });
 
-      it("Sort by TVL", () => {
+      test("Sort by TVL", () => {
         const original = getValues(container, SELECTION.TVL);
 
         const sortButton = container.querySelector("button");
@@ -125,7 +125,7 @@ describe("Pool Staking", () => {
         expect(sortedOriginal).toEqual(values);
       });
 
-      it("Sort by APR", () => {
+      test("Sort by APR", () => {
         const original = getValues(container, SELECTION.APR);
 
         const sortButton = container.querySelector("button");
