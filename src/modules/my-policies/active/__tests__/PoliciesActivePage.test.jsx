@@ -86,8 +86,10 @@ describe("PoliciesActivePage", () => {
     });
 
     test("it has Transaction List link", () => {
-      const { getByText } = render(<PoliciesActivePage />);
-      const TransactionListLink = getByText("Transaction List");
+      const { getByRole } = render(<PoliciesActivePage />);
+      const TransactionListLink = getByRole("link", {
+        name: /Transaction List/i,
+      });
 
       expect(TransactionListLink).toHaveAttribute(
         "href",
@@ -110,6 +112,31 @@ describe("PoliciesActivePage", () => {
         "/my-policies/transactions",
         { locale: undefined, scroll: undefined, shallow: undefined }
       );
+    });
+
+    test("fetch active policies and render policy card ", async () => {
+      const activePolicies = await getMockActivePolicies();
+
+      expect(activePolicies).toEqual(mockActivePolicies);
+    });
+
+    test("should placeholder when no active policies", () => {
+      const { getByText, getByAltText } = render(<PoliciesActivePage />);
+      const text =
+        "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen.";
+      const placeholderText = getByText((content, node) => {
+        const hasText = (node) => node.textContent === text;
+        const nodeHasText = hasText(node);
+        const childrenDontHaveText = Array.from(node.children).every(
+          (child) => !hasText(child)
+        );
+
+        return nodeHasText && childrenDontHaveText;
+      });
+      const placeholderImage = getByAltText("no data found");
+
+      expect(placeholderText).toBeInTheDocument();
+      expect(placeholderImage).toBeInTheDocument();
     });
   });
 });

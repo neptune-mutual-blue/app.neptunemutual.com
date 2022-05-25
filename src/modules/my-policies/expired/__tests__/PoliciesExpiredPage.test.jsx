@@ -86,8 +86,10 @@ describe("PoliciesExpiredPage", () => {
     });
 
     test("it has Transaction List link", () => {
-      const { getByText } = render(<PoliciesExpiredPage />);
-      const TransactionListLink = getByText("Transaction List");
+      const { getByRole } = render(<PoliciesExpiredPage />);
+      const TransactionListLink = getByRole("link", {
+        name: /Transaction List/i,
+      });
 
       expect(TransactionListLink).toHaveAttribute(
         "href",
@@ -110,6 +112,31 @@ describe("PoliciesExpiredPage", () => {
         "/my-policies/transactions",
         { locale: undefined, scroll: undefined, shallow: undefined }
       );
+    });
+
+    test("fetch expired policies and render policy card ", async () => {
+      const expiredPolicies = await getMockExpiredPolicies();
+
+      expect(expiredPolicies).toEqual(mockExpiredPolicies);
+    });
+
+    test("should placeholder when no expired policies", () => {
+      const { getByText, getByAltText } = render(<PoliciesExpiredPage />);
+      const text =
+        "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections.";
+      const placeholderText = getByText((content, node) => {
+        const hasText = (node) => node.textContent === text;
+        const nodeHasText = hasText(node);
+        const childrenDontHaveText = Array.from(node.children).every(
+          (child) => !hasText(child)
+        );
+
+        return nodeHasText && childrenDontHaveText;
+      });
+      const placeholderImage = getByAltText("no data found");
+
+      expect(placeholderText).toBeInTheDocument();
+      expect(placeholderImage).toBeInTheDocument();
     });
   });
 });
