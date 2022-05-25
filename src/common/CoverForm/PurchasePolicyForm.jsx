@@ -140,7 +140,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   }
 
   return (
-    <div className="max-w-md">
+    <div className="max-w-md" data-testid="purchase-policy-form">
       <TokenAmountInput
         labelText={t`Amount you wish to cover`}
         onChange={handleChange}

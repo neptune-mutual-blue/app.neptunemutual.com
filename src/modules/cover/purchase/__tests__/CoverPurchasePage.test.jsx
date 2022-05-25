@@ -3,19 +3,27 @@ import {
   render,
   act,
   withProviders,
+  fireEvent,
   waitFor,
 } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
-import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
-import { actions as coverActions } from "@/src/config/cover/actions";
-import { covers, pools, contracts, pricing } from "./data/mockup.data.js.js";
+import {
+  covers,
+  pools,
+  contracts,
+  pricing,
+  coverInfo,
+  vaultInfo,
+} from "./data/mockup.data.js.js";
+import { CoverPurchaseDetailsPage } from "@/modules/cover/purchase/index.jsx";
 
 const NETWORKID = 80001;
-const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
 
 const MOCKUP_API_URLS = {
   GET_CONTRACTS_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/mumbai`,
+  GET_COVER_INFO: `${process.env.NEXT_PUBLIC_API_URL}/protocol/cover/info/${NETWORKID}`,
+  GET_VAULT_INFO: `${process.env.NEXT_PUBLIC_API_URL}/protocol/vault/info/${NETWORKID}`,
   GET_PRICING_URL: `${process.env.NEXT_PUBLIC_API_URL}/pricing/${NETWORKID}`,
   SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
 };
@@ -42,6 +50,22 @@ async function mockFetch(url, { body }) {
     };
   }
 
+  if (url.startsWith(MOCKUP_API_URLS.GET_COVER_INFO)) {
+    return {
+      ok: true,
+      status: 200,
+      json: async () => coverInfo,
+    };
+  }
+
+  if (url.startsWith(MOCKUP_API_URLS.GET_VAULT_INFO)) {
+    return {
+      ok: true,
+      status: 200,
+      json: async () => vaultInfo,
+    };
+  }
+
   if (url.startsWith(MOCKUP_API_URLS.SUB_GRAPH)) {
     if (body.includes(QUERY.POOLS)) {
       return {
@@ -63,7 +87,7 @@ async function mockFetch(url, { body }) {
   throw new Error(`Unhandled request: ${url}`);
 }
 
-describe("CoverOptionsPage", () => {
+describe("CoverPurchasePage.test", () => {
   global.fetch = jest.fn(mockFetch);
 
   beforeAll(async () => {
@@ -72,17 +96,23 @@ describe("CoverOptionsPage", () => {
     });
   });
 
-  it("has correct number cover actions", async () => {
+  it("should show purchase policy form after accepting rules", async () => {
     const router = createMockRouter({
       query: { cover_id: "animated-brands" },
     });
-    const Component = withProviders(CoverOptionsPage, router);
-    const { getAllByTestId } = render(<Component />);
+    const Component = withProviders(CoverPurchaseDetailsPage, router);
+    const { getByTestId } = render(<Component />);
 
-    const CoverOptionActions = await waitFor(() =>
-      getAllByTestId("cover-option-actions")
-    );
+    await waitFor(() => {
+      expect(getByTestId("accept-rules-check-box")).toBeInTheDocument();
+    });
 
-    expect(CoverOptionActions).toHaveLength(NUMBER_OF_ACTIONS);
+    const acceptRulesCheckbox = getByTestId("accept-rules-check-box");
+    const acceptRulesNextButton = getByTestId("accept-rules-next-button");
+
+    fireEvent.click(acceptRulesCheckbox);
+    fireEvent.click(acceptRulesNextButton);
+
+    expect(getByTestId("purchase-policy-form")).toBeInTheDocument();
   });
 });
