@@ -27,7 +27,8 @@ export const CoverOptionsPage = () => {
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = coverInfo.coverName;
+  const title = coverInfo?.coverName;
+
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">
       <div className="px-4 mx-auto max-w-7xl sm:px-5 md:px-4">
@@ -50,6 +51,7 @@ export const CoverOptionsPage = () => {
                 href={coverActions[actionKey].getHref(cover_id)}
               >
                 <a
+                  data-testid="cover-option-actions"
                   className={classNames(
                     "rounded-2xl md:rounded-3xl group py-10 md:py-12 h-full w-full transition duration-300 ease-out",
                     "hover:border-B0C4DB hover:ease-in hover:border-0.5 hover:border-solid  hover:shadow-option  hover:box-border hover:rounded-3xl  hover:bg-white",

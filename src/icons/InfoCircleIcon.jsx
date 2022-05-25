@@ -1,9 +1,19 @@
 import * as React from "react";
 
 const InfoCircleIcon = (props) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
-    <path d="M0 0h24v24H0V0z" fill="none" />
-    <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <circle cx="6" cy="6" r="5.25" fill="#9B9B9B" />
+    <path
+      d="M5.34375 4.5784V3.375H6.65625V4.5784H5.34375ZM5.34375 9.28125V5.33883H6.65625V9.28125H5.34375Z"
+      fill="white"
+    />
   </svg>
 );
 
