@@ -9,7 +9,7 @@ import { i18n } from "@lingui/core";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { covers, pools, contracts, pricing } from "./data/mockup.data.js.js";
+import { covers, pools, contracts, pricing } from "@/utils/unit-tests/data/coverOptionsMockUpData";
 
 const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;

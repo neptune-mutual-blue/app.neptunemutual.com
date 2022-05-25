@@ -15,7 +15,7 @@ import {
   pricing,
   coverInfo,
   vaultInfo,
-} from "./data/mockup.data.js.js";
+} from "@/utils/unit-tests/data/coverPurchaseMockUpData";
 import { CoverPurchaseDetailsPage } from "@/modules/cover/purchase/index.jsx";
 
 const NETWORKID = 80001;
