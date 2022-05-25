@@ -1,13 +1,10 @@
 import React from "react";
-import { NetworkProvider } from "@/src/context/Network";
 import { Web3ReactProvider } from "@web3-react/core";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { IpfsProvider } from "@/src/context/Ipfs";
-import { CoversProvider } from "@/src/context/Covers";
 import { ToastProvider } from "@/lib/toast/provider";
 import { render } from "@testing-library/react";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
@@ -41,19 +38,13 @@ const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
     <RouterContext.Provider value={router}>
       <I18nProvider i18n={i18n}>
         <Web3ReactProvider getLibrary={getLibrary}>
-          <NetworkProvider>
-            <AppConstantsProvider>
-              <IpfsProvider>
-                <CoversProvider>
-                  <UnlimitedApprovalProvider>
-                    <ToastProvider>
-                      <TxPosterProvider>{children}</TxPosterProvider>
-                    </ToastProvider>
-                  </UnlimitedApprovalProvider>
-                </CoversProvider>
-              </IpfsProvider>
-            </AppConstantsProvider>
-          </NetworkProvider>
+          <IpfsProvider>
+              <UnlimitedApprovalProvider>
+                <ToastProvider>
+                  <TxPosterProvider>{children}</TxPosterProvider>
+                </ToastProvider>
+              </UnlimitedApprovalProvider>
+          </IpfsProvider>
         </Web3ReactProvider>
       </I18nProvider>
     </RouterContext.Provider>
@@ -70,7 +61,7 @@ export const withSorting = (Component) => {
   };
 };
 
-export const withProviders = (Component, router = createMockRouter({})) => {
+export const withProviders = (Component , router = createMockRouter({})) => {
   return function Wrapper() {
     return (
       <AllTheProviders router={router}>

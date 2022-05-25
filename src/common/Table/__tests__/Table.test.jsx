@@ -4,7 +4,7 @@ import { createMockTableData } from "@/utils/unit-tests/createMockData";
 import { Table, TableShowMore, TBody, THead } from "@/common/Table/Table";
 import { classNames } from "@/utils/classnames";
 import { t } from "@lingui/macro";
-import { i18n } from "@lingui/core";
+import { i18n } from '@lingui/core';
 
 const mockData = createMockTableData({
   count: 3,
@@ -55,7 +55,7 @@ describe("Table", () => {
       i18n.activate("en");
     });
   });
-
+  
   describe("should render Table properly", () => {
     test("has correct number of rows and columns", async () => {
       const { getAllByRole, getByTestId } = render(
@@ -67,7 +67,7 @@ describe("Table", () => {
 
       const columnHeaders = getAllByRole("columnheader");
       const tableBody = getByTestId("app-table-body");
-
+      
       expect(tableBody.children).toHaveLength(mockData.length);
       expect(columnHeaders).toHaveLength(mockColumns.length);
     });

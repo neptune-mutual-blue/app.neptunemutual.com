@@ -13,6 +13,13 @@ describe("CardSkeleton", () => {
     });
   });
   describe("should render CardSkeleton properly", () => {
+
+    beforeAll(() => {
+      act(() => {
+        i18n.activate('en');
+      });
+    });
+
     test("has correct number of cards and line content", async () => {
       const { getAllByTestId } = render(
         <CardSkeleton
