@@ -23,8 +23,7 @@ describe("TabNav test", () => {
     act(() => {
       i18n.activate("en");
     });
-    const c = render(<TabNav {...props} />);
-    c.debug();
+    render(<TabNav {...props} />);
   });
 
   test("should render the component correctly", () => {

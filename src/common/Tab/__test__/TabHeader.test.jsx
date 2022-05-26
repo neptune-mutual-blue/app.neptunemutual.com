@@ -23,8 +23,7 @@ describe("TabHeader test", () => {
     act(() => {
       i18n.activate("en");
     });
-    const c = render(<TabHeader {...props} />);
-    c.debug();
+    render(<TabHeader {...props} />);
   });
 
   test("should render the component correctly", () => {
