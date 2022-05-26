@@ -128,7 +128,10 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   return (
     <>
       {/* Content */}
-      <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+      <div
+        className="pt-12 pb-24 border-t border-t-B0C4DB"
+        data-testid="incident-report-form"
+      >
         <Container>
           <div className="max-w-3xl">
             <div className="text-h2 font-bold mb-4">{t`Report an incident`}</div>
