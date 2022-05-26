@@ -70,7 +70,7 @@ export const AvailableCovers = () => {
   };
 
   return (
-    <Container className="py-16">
+    <Container className="py-16" data-testid="available-covers-container">
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
           <Trans>Available Covers</Trans>
@@ -87,7 +87,9 @@ export const AvailableCovers = () => {
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
         {loading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
-        {!loading && availableCovers.length === 0 && <>No data found</>}
+        {!loading && availableCovers.length === 0 && (
+          <p data-testid="no-data">No data found</p>
+        )}
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
           return (
@@ -95,7 +97,10 @@ export const AvailableCovers = () => {
               href={`/cover/${safeParseBytes32String(c.key)}/options`}
               key={c.key}
             >
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+              <a
+                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+                data-testid="cover-link"
+              >
                 <CoverCard details={c} />
               </a>
             </Link>
@@ -106,6 +111,7 @@ export const AvailableCovers = () => {
         <NeutralButton
           className={"rounded-lg border-0.5"}
           onClick={handleShowMore}
+          data-testid="show-more-button"
         >
           <Trans>Show More</Trans>
         </NeutralButton>
