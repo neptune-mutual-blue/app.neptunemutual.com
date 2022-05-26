@@ -96,7 +96,7 @@ describe("CoverAddLiquidityPage.test", () => {
     });
   });
 
-  it("should show purchase policy form after accepting rules", async () => {
+  it("should show add liquidity form after accepting rules", async () => {
     const router = createMockRouter({
       query: { cover_id: "animated-brands" },
     });
