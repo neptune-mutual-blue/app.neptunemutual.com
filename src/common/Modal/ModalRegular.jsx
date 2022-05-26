@@ -7,6 +7,7 @@ export const ModalRegular = ({
   onClose,
   disabled = false,
   overlayClass = "",
+  ...rest
 }) => (
   <Root open={isOpen} onOpenChange={disabled ? () => {} : () => onClose()}>
     <Portal>
@@ -17,7 +18,10 @@ export const ModalRegular = ({
         )}
       />
 
-      <Content className="fixed z-50 max-w-full max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max">
+      <Content
+        className="fixed z-50 max-w-full max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max"
+        {...rest}
+      >
         {children}
       </Content>
     </Portal>
