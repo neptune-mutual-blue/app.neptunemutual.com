@@ -249,6 +249,7 @@ const BondPage = () => {
           </Link>
         </div>
         <BondInfoCard
+          account={account}
           info={info}
           details={details}
           roi={roi}
