@@ -13,7 +13,7 @@ describe("ProjectStatusIndicator test", () => {
     incidentDate: "0",
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });

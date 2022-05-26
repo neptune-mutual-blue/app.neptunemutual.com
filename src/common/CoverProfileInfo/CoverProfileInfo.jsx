@@ -7,7 +7,6 @@ import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
 
 export const CoverProfileInfo = ({ imgSrc, projectName, links, coverKey }) => {
   const { status, activeIncidentDate } = useCoverStatsContext();
-  console.log({ status, activeIncidentDate });
 
   return (
     <div className="flex" data-testid="coverprofileinfo-container">

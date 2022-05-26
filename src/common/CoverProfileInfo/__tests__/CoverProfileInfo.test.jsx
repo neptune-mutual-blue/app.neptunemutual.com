@@ -3,7 +3,7 @@ import { render, screen, act } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 
-const coverStatsContext = require("../../Cover/CoverStatsContext");
+import * as coverStatsContext from "../../Cover/CoverStatsContext";
 
 describe("CoverProfileInfo test", () => {
   const props = {
@@ -34,7 +34,7 @@ describe("CoverProfileInfo test", () => {
       totalPoolAmount: "0",
     }));
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });

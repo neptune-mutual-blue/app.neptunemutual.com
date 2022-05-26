@@ -14,7 +14,7 @@ describe("SocialIconLinks test", () => {
     },
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });

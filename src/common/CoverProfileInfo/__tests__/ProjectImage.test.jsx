@@ -10,7 +10,7 @@ describe("ProjectImage test", () => {
     name: "Animated Brands",
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });

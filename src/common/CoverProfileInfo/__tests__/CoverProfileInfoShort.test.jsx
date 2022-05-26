@@ -12,7 +12,7 @@ describe("CoverProfileInfoShort test", () => {
     fontSizeClass: "text-h7 md:text-h4",
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });

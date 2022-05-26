@@ -9,7 +9,7 @@ describe("ProjectWebsiteLink test", () => {
     website: "https://www.animatedbrands.com",
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });
