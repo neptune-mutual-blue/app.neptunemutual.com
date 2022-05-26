@@ -1,6 +1,4 @@
 import { classNames } from "@/utils/classnames";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { useRouter } from "next/router";
 
 export const BondStat = ({
   title,
@@ -10,8 +8,6 @@ export const BondStat = ({
   valueClasses,
   titleClasses,
 }) => {
-  const router = useRouter();
-
   return (
     <div className="flex flex-col w-1/2">
       {value && (
@@ -33,7 +29,7 @@ export const BondStat = ({
               valueClasses
             )}
           >
-            {formatCurrency(value, router.locale, "NPM", true).short}
+            {value}
           </p>
         </>
       )}

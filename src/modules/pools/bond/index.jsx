@@ -106,10 +106,14 @@ const BondPage = () => {
     },
   ];
 
+  const claimable = convertFromUnits(info.claimable).toNumber();
+
   if (account) {
     rightHalf.push({
       title: t`Your Bond`,
-      value: convertFromUnits(info.claimable).toNumber(),
+      value: claimable
+        ? `${formatCurrency(claimable, router.locale, "NPM", true).short}`
+        : "",
       tooltip: `${
         formatCurrency(
           convertFromUnits(info.claimable).toString(),
