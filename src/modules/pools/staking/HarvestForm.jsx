@@ -33,7 +33,7 @@ export const HarvestForm = ({
 
   return (
     <div className="px-12">
-      <div className="flex justify-between px-1 mt-6 text-sm font-semibold">
+      <div className="flex justify-between px-1 mt-6 mb-3 text-md font-semibold">
         <span className="capitalize">
           <Trans>Your Stake</Trans>
         </span>
@@ -41,7 +41,7 @@ export const HarvestForm = ({
           <Trans>You Earned</Trans>
         </span>
       </div>
-      <div className="flex justify-between px-1 pt-2 text-sm">
+      <div className="flex justify-between px-1 text-lg">
         <span className="uppercase text-7398C0">
           {
             formatCurrency(

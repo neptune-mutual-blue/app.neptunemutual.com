@@ -1,7 +1,7 @@
 import {
   fireEvent,
   waitFor,
-  withProviders,
+  withDataProviders,
   withSorting,
 } from "@/utils/unit-tests/test-utils";
 import { act } from "react-dom/test-utils";
@@ -13,7 +13,7 @@ import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
 describe("Pool Staking", () => {
   global.fetch = jest.fn(mockFetch);
 
-  const Component = withProviders(withSorting(StakingPage));
+  const Component = withDataProviders(withSorting(StakingPage));
   const container = document.createElement("div");
 
   beforeAll(async () => {
