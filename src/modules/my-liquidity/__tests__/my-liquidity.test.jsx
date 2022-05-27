@@ -54,6 +54,10 @@ const getValues = (container, type) => {
   );
 };
 
+jest.mock("next/link", () => {
+  return ({ children }) => children;
+});
+
 describe("My Liquidity", () => {
   global.fetch = jest.fn(mockFetch);
 

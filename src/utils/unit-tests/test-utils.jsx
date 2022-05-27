@@ -159,8 +159,3 @@ global.ethereum = {
   }),
   on: jest.fn(() => {}),
 };
-
-jest.mock("next/link", () => {
-  return ({ children, href }) => children;
-  // return React.cloneElement(children, { href });
-});
