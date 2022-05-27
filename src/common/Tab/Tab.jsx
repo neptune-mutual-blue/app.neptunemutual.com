@@ -3,6 +3,7 @@ import { classNames } from "@/utils/classnames";
 export const Tab = ({ children, active, className }) => {
   return (
     <div
+      data-testid="tab-container"
       className={classNames(
         `font-sora cursor-pointer mr-3 -mb-px overflow-auto `,
         active

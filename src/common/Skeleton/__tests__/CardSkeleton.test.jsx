@@ -13,10 +13,9 @@ describe("CardSkeleton", () => {
     });
   });
   describe("should render CardSkeleton properly", () => {
-
     beforeAll(() => {
       act(() => {
-        i18n.activate('en');
+        i18n.activate("en");
       });
     });
 
