@@ -18,5 +18,11 @@ describe("CoverRules", () => {
     expect(heading[0]).toHaveTextContent("Cover Rules");
   });
 
-  test("should render rules as list items", () => {});
+  test("should render rules as list items", () => {
+    const screen = render(<CoverRules rules={rules} />);
+    const olElement = screen.container.getElementsByTagName("ol");
+    const listElement = screen.container.getElementsByTagName("li");
+    expect(olElement.length).toEqual(1);
+    expect(listElement.length).toEqual(rules.split("\n").length);
+  });
 });
