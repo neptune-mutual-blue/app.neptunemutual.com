@@ -51,7 +51,10 @@ export const HomeHero = () => {
       <Container className="flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row">
         <div className="pt-10 md:flex md:gap-4 lg:block lg:mr-18 md:w-full lg:w-auto lg:pt-0">
           <div className="flex-1">
-            <div className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start">
+            <div
+              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start"
+              data-testid="tvl-homecard"
+            >
               <HomeCard
                 items={[
                   {
@@ -72,7 +75,10 @@ export const HomeHero = () => {
                 className="md:border-0.5 md:border-B0C4DB md:rounded-tl-xl md:rounded-tr-xl"
               />
             </div>
-            <div className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start">
+            <div
+              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start"
+              data-testid="cover-homecard"
+            >
               <HomeCard
                 items={[
                   {
@@ -94,7 +100,10 @@ export const HomeHero = () => {
               />
             </div>
           </div>
-          <div className="flex flex-1 md:justify-center lg:justify-start">
+          <div
+            className="flex flex-1 md:justify-center lg:justify-start"
+            data-testid="homemaincard"
+          >
             <HomeMainCard heroData={heroData} />
           </div>
         </div>
@@ -105,7 +114,10 @@ export const HomeHero = () => {
               <Trans>Total Liquidity</Trans>
             </h3>
             <div className="flex items-center">
-              <h2 className="pr-3 font-bold text-black text-h2 font-sora">
+              <h2
+                className="pr-3 font-bold text-black text-h2 font-sora"
+                data-testid="changedata-currency"
+              >
                 {
                   formatCurrency(
                     convertFromUnits(changeData?.last || "0").toString(),
@@ -119,6 +131,7 @@ export const HomeHero = () => {
                     "text-h6 font-sora font-bold flex items-center",
                     changeData.rise ? "text-21AD8C" : "text-DC2121"
                   )}
+                  data-testid="changedata-percent"
                 >
                   <span className="pr-1">
                     <span className="sr-only">Growth</span>
@@ -132,7 +145,10 @@ export const HomeHero = () => {
               )}
             </div>
           </div>
-          <div className="flex-1 min-h-360">
+          <div
+            className="flex-1 min-h-360"
+            data-testid="liquidity-chart-wrapper"
+          >
             <TotalLiquidityChart />
           </div>
         </div>

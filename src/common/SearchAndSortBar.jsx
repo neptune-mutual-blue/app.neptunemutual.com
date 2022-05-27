@@ -25,7 +25,10 @@ export const SearchAndSortBar = ({
   const [selected, setSelected] = useState(options[0]);
 
   return (
-    <div className={classNames("flex justify-between ", containerClass)}>
+    <div
+      className={classNames("flex justify-between ", containerClass)}
+      data-testid="search-and-sort-container"
+    >
       <div className={classNames("flex items-center ", searchClass)}>
         <input
           className={
