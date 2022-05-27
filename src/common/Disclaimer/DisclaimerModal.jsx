@@ -24,15 +24,24 @@ export const DisclaimerModal = () => {
   };
 
   return (
-    <ModalRegular isOpen={isOpen} onClose={() => setIsOpen(false)} disabled>
+    <ModalRegular
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      disabled
+      data-testid="disclaimer-container"
+    >
       <ModalWrapper className="max-w-5xl">
-        <Title className="flex items-center font-bold font-sora text-h4">
+        <Title
+          className="flex items-center font-bold font-sora text-h4"
+          data-testid="disclaimer-title"
+        >
           <Trans>Disclaimer and Warranty</Trans>
         </Title>
         <Description
           className={classNames(
             "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-30vh md:max-h-45vh overflow-y-auto pr-1"
           )}
+          data-testid="disclaimer-description"
         >
           <span>
             <Trans>
@@ -92,10 +101,12 @@ export const DisclaimerModal = () => {
             className="mt-1 cursor-pointer"
             checked={isAgreed}
             onChange={(e) => setIsAgreed(e.target.checked)}
+            data-testid="disclaimer-checkbox"
           />
           <label
             htmlFor="agreement-checkbox"
             className="text-sm leading-6 cursor-pointer text-404040"
+            data-testid="disclaimer-checkbox-label"
           >
             <Trans>
               By visiting this testnet environment, you acknowledge and agree
@@ -109,17 +120,18 @@ export const DisclaimerModal = () => {
           <button
             className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
             onClick={handleDecline}
+            data-testid="disclaimer-decline"
           >
             <Trans>Decline</Trans>
           </button>
           <button
             className={classNames(
-              "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9",
-              isAgreed
-                ? "bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9"
-                : "bg-opacity-75 cursor-not-allowed pointer-events-none border-0 border-transparent"
+              "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9",
+              "disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed"
             )}
+            disabled={!isAgreed}
             onClick={handleAccept}
+            data-testid="disclaimer-accept"
           >
             <Trans>Accept</Trans>
           </button>
