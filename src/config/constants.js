@@ -50,7 +50,7 @@ export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/
 export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
 export const BOND_INFO_URL = `${API_BASE_URL}protocol/bond/info/{networkId}/{account}`;
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;
-export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/info/{networkId}/{coverKey}/{account}`;
+export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/{coverKey}/{account}`;
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`;
 
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
