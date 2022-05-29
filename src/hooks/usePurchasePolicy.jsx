@@ -31,8 +31,8 @@ export const usePurchasePolicy = ({
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
-  const [approving, setApproving] = useState();
-  const [purchasing, setPurchasing] = useState();
+  const [approving, setApproving] = useState(false);
+  const [purchasing, setPurchasing] = useState(false);
   const [error, setError] = useState("");
 
   const txToast = useTxToast();
@@ -192,10 +192,11 @@ export const usePurchasePolicy = ({
       };
 
       const args = [
+        account, // onBehalfOf
         coverKey,
         parseInt(coverMonth, 10),
         convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
-        utils.keyUtil.toBytes32(""),
+        utils.keyUtil.toBytes32(""), // referral code
       ];
       invoke({
         instance: policyContract,
