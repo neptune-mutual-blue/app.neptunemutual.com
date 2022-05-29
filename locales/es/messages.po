@@ -1,17 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2022-04-06 18:35+0530\n"
+"POT-Creation-Date: 2022-05-29 20:14+0530\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: zh\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Language: es\n"
 
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:14
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:26
@@ -865,7 +859,7 @@ msgstr ""
 #: src/modules/reporting/ReportingHero.jsx:19
 #: src/modules/reporting/ReportingHero.jsx:34
 msgid "Home"
-msgstr "家"
+msgstr ""
 
 #: src/modules/cover/CoverOptionsPage.jsx:44
 msgid "I Want to"
@@ -1016,7 +1010,7 @@ msgstr ""
 #: src/pages/my-liquidity/index.jsx:49
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
-msgstr "我的流动性"
+msgstr ""
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:75
 msgid "My Liquidity:"
@@ -1028,7 +1022,7 @@ msgstr ""
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:88
 #: src/pages/my-policies/transactions.jsx:39
 msgid "My Policies"
-msgstr "我的政策"
+msgstr ""
 
 #: src/pages/my-liquidity/index.jsx:52
 msgid "My Total Liquidity"
@@ -1132,7 +1126,7 @@ msgstr ""
 #: src/common/Header/Header.jsx:38
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
-msgstr "水池"
+msgstr ""
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:117
 msgid "Proof of dispute"
@@ -1270,7 +1264,7 @@ msgstr ""
 #: src/modules/reporting/ReportingHero.jsx:40
 #: src/modules/reporting/ReportingTabs.jsx:26
 msgid "Reporting"
-msgstr "报告"
+msgstr ""
 
 #: src/modules/reporting/ReportingInfo.jsx:18
 msgid "Reporting Info"

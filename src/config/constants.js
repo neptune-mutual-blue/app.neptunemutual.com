@@ -29,6 +29,7 @@ export const PoolTypes = {
 export const languageKey = {
   zh: "Chinese - 中文",
   en: "English",
+  es: "Spanish",
   fr: "French - français",
   ja: "Japanese - 日本語",
 };
@@ -36,6 +37,7 @@ export const languageKey = {
 export const localesKey = {
   "Chinese - 中文": "zh",
   "English": "en",
+  "Spanish": "es",
   "French - français": "fr",
   "Japanese - 日本語": "ja",
 };
