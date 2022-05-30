@@ -69,4 +69,17 @@ describe("Disclaimer Modal test", () => {
     const button = screen.getByTestId("disclaimer-accept");
     expect(button).not.toBeDisabled();
   });
+
+  test("simulating clicking on `Accept` button", () => {
+    const checkbox = screen.getByTestId("disclaimer-checkbox");
+    fireEvent.click(checkbox);
+
+    const button = screen.getByTestId("disclaimer-accept");
+    fireEvent.click(button);
+  });
+
+  test("simulating clicking on `Decline` button", () => {
+    const button = screen.getByTestId("disclaimer-decline");
+    fireEvent.click(button);
+  });
 });
