@@ -66,35 +66,6 @@ describe("Class assignment", () => {
 
     expect(classList).toBe("test1 test2 test3");
   });
-
-  test("Conditional classname assignment", () => {
-    const dynamicClassname = `dynamic-${Math.floor(Math.random() * 10)}`;
-    const classList = classNames({
-      condition1: 1 == "1",
-      condition2: 1 === "1",
-      condition3: true,
-      condition4: false,
-      [dynamicClassname]: true,
-    });
-
-    expect(classList).toBe(`condition1 condition3 ${dynamicClassname}`);
-  });
-
-  test("Combination of string and conditional classname assignment", () => {
-    const dynamicClassname = `dynamic-${Math.floor(Math.random() * 10)}`;
-
-    const classList = classNames("string1", "  ", "string2", "", "string3", {
-      condition1: 1 == "1",
-      condition2: 1 === "1",
-      condition3: true,
-      condition4: false,
-      [dynamicClassname]: true,
-    });
-
-    expect(classList).toBe(
-      `string1 string2 string3 condition1 condition3 ${dynamicClassname}`
-    );
-  });
 });
 
 describe("getReplacedString", () => {
