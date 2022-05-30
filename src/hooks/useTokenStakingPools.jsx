@@ -57,8 +57,12 @@ export const useTokenStakingPools = () => {
             name
             poolType
             stakingToken
+            stakingTokenName
+            stakingTokenSymbol
             uniStakingTokenDollarPair
             rewardToken
+            rewardTokenName
+            rewardTokenSymbol
             uniRewardTokenDollarPair
             rewardTokenDeposit
             maxStake
