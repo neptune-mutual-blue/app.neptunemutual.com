@@ -4,7 +4,7 @@ const createJestConfig = nextJest();
 
 const customJestConfig = {
   collectCoverageFrom: [
-    "**/*.test.{js,jsx,ts,tsx}",
+    "**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
     "!**/.next/**",
