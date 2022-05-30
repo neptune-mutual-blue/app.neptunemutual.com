@@ -1,12 +1,13 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { en, fr, ja, zh } from "make-plural/plurals";
+import { en, es, fr, ja, zh } from "make-plural/plurals";
 import { useEffect, useState } from "react";
 
 import { useActiveLocale } from "./hooks/useActiveLocale";
 
 const plurals = {
   en: en,
+  es: es,
   fr: fr,
   ja: ja,
   zh: zh,
