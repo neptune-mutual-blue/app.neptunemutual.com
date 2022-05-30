@@ -49,6 +49,7 @@ export const CoverCard = ({ details }) => {
             src={imgSrc}
             alt={projectName}
             className="inline-block max-w-full w-14 lg:w-18"
+            data-testid="cover-img"
           />
         </div>
         <div>
@@ -56,10 +57,16 @@ export const CoverCard = ({ details }) => {
         </div>
       </div>
 
-      <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+      <h4
+        className="mt-4 font-semibold uppercase text-h4 font-sora"
+        data-testid="project-name"
+      >
         {projectName}
       </h4>
-      <div className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2">
+      <div
+        className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2"
+        data-testid="cover-fee"
+      >
         <Trans>Cover fee:</Trans>{" "}
         {formatPercent(pricingFloor / MULTIPLIER, router.locale)}-
         {formatPercent(pricingCeiling / MULTIPLIER, router.locale)}
@@ -71,7 +78,10 @@ export const CoverCard = ({ details }) => {
       {/* Stats */}
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
-        <span className="font-semibold text-right text-h7 lg:text-sm ">
+        <span
+          className="font-semibold text-right text-h7 lg:text-sm "
+          data-testid="util-ratio"
+        >
           {formatPercent(utilization, router.locale)}
         </span>
       </div>
@@ -87,6 +97,7 @@ export const CoverCard = ({ details }) => {
               router.locale
             ).long
           }
+          data-testid="protection"
         >
           <Trans>Protection:</Trans>{" "}
           {
@@ -105,6 +116,7 @@ export const CoverCard = ({ details }) => {
               router.locale
             ).long
           }
+          data-testid="liquidity"
         >
           <Trans>Liquidity:</Trans>{" "}
           {
