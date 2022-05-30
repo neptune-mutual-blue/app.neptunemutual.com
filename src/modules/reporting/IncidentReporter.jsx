@@ -11,7 +11,7 @@ export const IncidentReporter = ({ variant, account, txHash }) => {
       <div className="flex items-center mb-4 text-sm">
         <div
           className={classNames(
-            "w-3 h-3 mr-2 rounded rotate-45",
+            "w-3 h-3 mr-2 rotate-45",
             variant === "success" ? "bg-21AD8C" : "bg-FA5C2F"
           )}
         ></div>

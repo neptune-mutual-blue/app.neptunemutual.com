@@ -9,6 +9,7 @@ const IconLink = ({ href, iconText, icon }) => {
       className="inline-block mr-4 hover:text-4e7dd9"
       target="_blank"
       rel="noreferrer nofollow"
+      data-testid="icon-link"
     >
       <span className="sr-only">{iconText}</span>
       {icon}
@@ -20,7 +21,7 @@ export const SocialIconLinks = ({ links = {} }) => {
   const { facebook, linkedin, twitter } = links;
 
   return (
-    <div className="mt-4 sm:mt-5">
+    <div className="mt-4 sm:mt-5" data-testid="socialiconlinks-container">
       {facebook && (
         <IconLink
           href={facebook}

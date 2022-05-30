@@ -9,12 +9,12 @@ module.exports = {
       xl: "1200px",
     },
     boxShadow: {
-      card: "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
-      mainCard:
-        "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
-      toolTip: "0px 2px 6px rgba(0, 0, 0, 0.25)",
-      option: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      homeCard: "0px 4px 5px rgba(0, 0, 0, 0.05)",
+      "card": "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
+      "mainCard": "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
+      "toolTip": "0px 2px 6px rgba(0, 0, 0, 0.25)",
+      "option": "0px 4px 8px rgba(0, 0, 0, 0.1)",
+      "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
+      "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
     },
     colors: {
       transparent: "transparent",
@@ -38,6 +38,7 @@ module.exports = {
       ],
       h7: ["13px", "16px"],
       sm: ["14px", "16px"],
+      lg: "18px",
       xxs: ["10px", "8px"],
       xs: [
         "12px",
@@ -66,6 +67,7 @@ module.exports = {
         1: "4px",
         big: "0.625rem",
         mdlg: "7px",
+        tooltip: "10px",
       },
       borderWidth: {
         0.5: "0.5px",
@@ -129,7 +131,9 @@ module.exports = {
         "940000": "#940000",
         "E52E2E": "#E52E2E",
         "4289F2": "#4289F2",
-        "FEFEFF": "#FEFEFF"
+        "FEFEFF": "#FEFEFF",
+        "01052D": "#01052D",
+        "5C738F": "#5C738F",
       },
       minHeight: {
         360: "360px",

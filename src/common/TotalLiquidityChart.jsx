@@ -24,7 +24,8 @@ const TotalLiquidityChart = () => {
   const chartOptions = {
     xAxis: {
       labels: {
-        format: "<span class='font-poppins text-black'>{value:%b %e}</span>",
+        format:
+          "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
         useHTML: true,
       },
       crosshair: {
@@ -32,7 +33,9 @@ const TotalLiquidityChart = () => {
         dashStyle: "Dash",
       },
       ordinal: false,
-      minRange: 24 * 3600 * 1000,
+      minRange: 2 * 24 * 3600 * 1000,
+      lineWidth: 0.5,
+      lineColor: "#01052D",
     },
     yAxis: {
       opposite: false,
@@ -41,7 +44,7 @@ const TotalLiquidityChart = () => {
           const fo =
             this.value === 0
               ? { short: "0" }
-              : formatCurrency(this.value, router.locale,"", true);
+              : formatCurrency(this.value, router.locale, "", true);
           return `<span class='font-poppins text-black'>${fo.short}</span>`;
         },
         useHTML: true,
@@ -50,6 +53,8 @@ const TotalLiquidityChart = () => {
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
       min: yAxisMin,
+      lineWidth: 0.5,
+      lineColor: "#01052D",
     },
     series: [
       {
@@ -95,23 +100,20 @@ const TotalLiquidityChart = () => {
       animation: true,
       xDateFormat: false,
       useHTML: true,
+      padding: 0,
       formatter: function () {
-        return `<div class='px-2'><p class='font-bold font-poppins text-h6'>${
+        return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold font-poppins tracking-normal text-01052D text-h6'>${
           formatCurrency(this.y, router.locale).short
-        }</p><p class='text-xs font-poppins'>${Highcharts.dateFormat(
+        }</p><p class='text-xs leading-4.5 tracking-normal font-poppins font-semibold text-5C738F uppercase'>${Highcharts.dateFormat(
           "%b %e, %H:%S",
-          new Date(this.x)
+          new Date(this.x).getTime()
         )} UTC</p></div>`;
       },
-      backgroundColor: "rgba(255, 255, 255, 0.95)",
-      borderWidth: 1,
-      borderRadius: 15,
-      borderColor: "#B0C4DB",
-      shadow: {
-        offsetX: 1,
-        offsetY: 2,
-        opacity: 0.05,
-      },
+      backgroundColor: "rgba(255, 255, 255, 0)",
+      borderWidth: 0,
+      // borderRadius: 15,
+      // borderColor: "#B0C4DB",
+      shadow: false,
       shape: "rect",
       // split: true,
       hideDelay: 100,
@@ -127,8 +129,21 @@ const TotalLiquidityChart = () => {
         width: 20,
         height: 30,
       },
-      maskFill: "rgba(78, 125, 217, 0.2)",
+      maskFill: "rgba(66, 137, 242, 0.3)",
       outlineWidth: 0,
+      xAxis: {
+        tickInterval: 7 * 24 * 3600 * 1000,
+        labels: {
+          format:
+            "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
+          useHTML: true,
+          style: {
+            color: "#01052D",
+          },
+          y: 14,
+          x: -14,
+        },
+      },
     },
     scrollbar: {
       enabled: false,
@@ -136,8 +151,8 @@ const TotalLiquidityChart = () => {
   };
 
   useEffect(() => {
-    if (chartRef.current?.chart) {
-      chartRef.current.chart.showLoading();
+    if (chartRef.current && chartRef?.current?.chart) {
+      chartRef.current?.chart?.showLoading();
     }
   }, []);
 

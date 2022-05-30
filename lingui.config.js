@@ -1,17 +1,9 @@
 module.exports = {
-  locales: [
-    "en",
-    "fr",
-    "ja",
-    "zh",
-  ],
+  locales: ["en", "es", "fr", "ja", "zh"],
   catalogs: [
     {
       path: "<rootDir>/locales/{locale}/messages",
-      include: [
-        "<rootDir>/src",
-        "<rootDir>/lib",
-      ],
+      include: ["<rootDir>/src", "<rootDir>/lib"],
     },
   ],
   fallbackLocales: {

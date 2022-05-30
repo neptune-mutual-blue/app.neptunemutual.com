@@ -4,7 +4,7 @@ const createJestConfig = nextJest();
 
 const customJestConfig = {
   collectCoverageFrom: [
-    "**/*.{js,jsx,ts,tsx}",
+    "**/*.test.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
     "!**/.next/**",
@@ -22,7 +22,7 @@ const customJestConfig = {
     "/node_modules/",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "jsdom",
   moduleNameMapper: {
     "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
     "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i":

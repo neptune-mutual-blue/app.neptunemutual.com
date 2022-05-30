@@ -12,8 +12,9 @@ export const CoverProfileInfoShort = ({
         "container mx-auto flex items-center mb-12",
         className
       )}
+      data-testid="cover-profile-info-short"
     >
-      <div className="w-11 border border-B0C4DB mr-4 rounded-full">
+      <div className="mr-4 border rounded-full w-11 border-B0C4DB">
         <img src={imgSrc} alt={title} />
       </div>
       <div>

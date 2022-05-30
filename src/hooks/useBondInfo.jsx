@@ -49,21 +49,26 @@ const fetchBondInfoApi = async (networkId, account) => {
 
 export const useBondInfo = () => {
   const [info, setInfo] = useState(defaultInfo);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
+  useEffect(() => {
+    const fetchInitialInfo = async () => {
+      const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
+      setInfo(data);
+      setIsInitialized(true);
+    };
+
+    fetchInitialInfo();
+  }, [networkId]);
+
   const fetchBondInfo = useCallback(
     async (onResult) => {
       if (!networkId) {
-        return;
-      }
-
-      if (!account) {
-        const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
-        setInfo(data);
         return;
       }
 
@@ -127,12 +132,14 @@ export const useBondInfo = () => {
       setInfo(_info || defaultInfo);
     };
 
-    fetchBondInfo(onResult).catch(console.error);
+    if (isInitialized && account) {
+      fetchBondInfo(onResult).catch(console.error);
+    }
 
     return () => {
       ignore = true;
     };
-  }, [fetchBondInfo]);
+  }, [account, fetchBondInfo, isInitialized]);
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {

@@ -140,7 +140,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   }
 
   return (
-    <div className="max-w-md">
+    <div className="max-w-md" data-testid="purchase-policy-form">
       <TokenAmountInput
         labelText={t`Amount you wish to cover`}
         onChange={handleChange}
@@ -167,9 +167,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
       <div className="px-3 mt-12">
-        <div className="flex items-start gap-2">
+        <div className="flex gap-2 items-center mb-4">
           <h5
-            className="block mb-4 font-semibold text-black uppercase text-h6"
+            className="block font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
             <Trans>Select your coverage period</Trans>
@@ -178,7 +178,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
               <span className="sr-only">Info</span>
-              <InfoCircleIcon width={24} className="pr-1 fill-9B9B9B" />
+              <InfoCircleIcon
+                width={18}
+                height={18}
+                className="pr-1 fill-9B9B9B"
+              />
             </Tooltip.Trigger>
             <CovergaeInfoTooltipContent />
           </Tooltip.Root>
@@ -276,7 +280,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
 const CovergaeInfoTooltipContent = () => {
   return (
     <>
-      <Tooltip.Content side="right">
+      <Tooltip.Content side="right" sideOffset={7}>
         <div className="p-4 text-xs font-light leading-5 tracking-normal text-white bg-black rounded-xl max-w-15">
           <p className="">
             Coverage period will cover from date of purchase up to the month you

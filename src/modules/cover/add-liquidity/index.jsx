@@ -85,7 +85,6 @@ export const CoverAddLiquidityDetailsPage = () => {
             ) : (
               <>
                 <CoverRules rules={coverInfo?.rules} />
-                <br className="mt-20" />
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}

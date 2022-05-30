@@ -131,6 +131,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         <Container>
           <div className="max-w-3xl">
+            <div className="text-h2 font-bold mb-4">{t`Report an incident`}</div>
             <div className="flex flex-wrap justify-between w-full md:flex-nowrap">
               <div className="flex-grow mr-4">
                 <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
@@ -255,7 +256,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               <TokenAmountInput
                 inputId={"stake-amount"}
                 inputValue={value}
-                labelText={t`Enter your amount`}
+                labelText={t`Enter your stake`}
                 tokenBalance={balance}
                 tokenSymbol={tokenSymbol}
                 tokenAddress={tokenAddress}

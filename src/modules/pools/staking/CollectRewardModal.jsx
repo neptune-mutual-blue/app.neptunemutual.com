@@ -41,7 +41,7 @@ export const CollectRewardModal = ({
       disabled={isDisabled.w || isDisabled.wr}
     >
       <ModalWrapper className="sm:min-w-600">
-        <div className="px-12">
+        <div>
           <Dialog.Title className="flex font-bold font-sora text-h2">
             {modalTitle}
           </Dialog.Title>
@@ -52,7 +52,7 @@ export const CollectRewardModal = ({
           onClick={onClose}
         ></ModalCloseButton>
 
-        <div className="mt-6">
+        <div className="mt-6 sm:-mx-12 -mx-8">
           <TabHeader
             onClick={setActiveTab}
             headers={headers}

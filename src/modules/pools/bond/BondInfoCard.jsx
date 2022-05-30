@@ -14,7 +14,13 @@ import { useState } from "react";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
-export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
+export const BondInfoCard = ({
+  roi,
+  info,
+  details,
+  refetchBondInfo,
+  account,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -65,13 +71,15 @@ export const BondInfoCard = ({ roi, info, details, refetchBondInfo }) => {
 
       {isGreater(info.claimable, "0") && (
         <>
-          <OutlinedButton
-            type="button"
-            onClick={onOpen}
-            className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
-          >
-            <Trans>Claim My Bond</Trans>
-          </OutlinedButton>
+          {account && (
+            <OutlinedButton
+              type="button"
+              onClick={onOpen}
+              className={classNames(`block px-4 py-2 rounded-lg mt-10 mx-auto`)}
+            >
+              <Trans>Claim My Bond</Trans>
+            </OutlinedButton>
+          )}
 
           <ClaimBondModal
             isOpen={isOpen}

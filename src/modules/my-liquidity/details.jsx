@@ -153,7 +153,7 @@ export const MyLiquidityCoverPage = () => {
                 {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
                   <div className="flex justify-center px-7">
                     <OutlinedButton
-                      className="w-full rounded-big"
+                      className="text-sm font-medium leading-5 rounded-big"
                       onClick={onOpen}
                     >
                       <Trans>Withdraw Liquidity</Trans>

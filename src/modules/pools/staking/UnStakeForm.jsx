@@ -74,8 +74,8 @@ export const UnStakeForm = ({
         tokenAddress={stakingTokenAddress}
         disabled={withdrawing}
       >
-        <p>
-          <Trans>Staked:</Trans>{" "}
+        <p className="-ml-3">
+          <Trans>Balance:</Trans>{" "}
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
@@ -86,7 +86,7 @@ export const UnStakeForm = ({
           }
         </p>
         {!canWithdraw && (
-          <p className="flex items-center text-FA5C2F">
+          <p className="flex items-center text-FA5C2F -ml-3">
             <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
