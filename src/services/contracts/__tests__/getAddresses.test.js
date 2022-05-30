@@ -14,7 +14,7 @@ const { value: liquidityTokenAddress } = contracts.data.find(
 describe("Get Address", () => {
   global.fetch = jest.fn(mockFetch);
 
-  test("get address", async() => {
+  test("get address", async () => {
     const result = await getAddressesFromApi(
       process.env.NEXT_PUBLIC_FALLBACK_NETWORK
     );
