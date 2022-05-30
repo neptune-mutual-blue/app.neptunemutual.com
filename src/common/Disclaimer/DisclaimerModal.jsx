@@ -16,6 +16,11 @@ export const DisclaimerModal = () => {
 
   const handleAccept = () => {
     setDisclaimerApproval(true);
+    // setIsOpen(false);
+    handleClose();
+  };
+
+  const handleClose = () => {
     setIsOpen(false);
   };
 
@@ -26,7 +31,7 @@ export const DisclaimerModal = () => {
   return (
     <ModalRegular
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={handleClose}
       disabled
       data-testid="disclaimer-container"
     >
