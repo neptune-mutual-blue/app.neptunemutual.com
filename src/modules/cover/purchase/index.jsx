@@ -29,7 +29,7 @@ export const CoverPurchaseDetailsPage = () => {
   const coverInfo = getInfoByKey(coverKey);
 
   const { info } = useMyLiquidityInfo({ coverKey });
-  const { totalPoolAmount, totalCommitment } = useCoverStatsContext();
+  const { totalPoolAmount, activeCommitment } = useCoverStatsContext();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -42,7 +42,7 @@ export const CoverPurchaseDetailsPage = () => {
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
   const availableLiquidity = convertFromUnits(
-    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
+    toBN(totalPoolAmount.toString()).minus(activeCommitment.toString())
   ).toString();
 
   return (

@@ -24,13 +24,13 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { commitment, status } = useFetchCoverStats({ coverKey });
+  const { activeCommitment, status } = useFetchCoverStats({ coverKey });
   const router = useRouter();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
-  const protection = commitment;
+  const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
@@ -90,7 +90,7 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           className=""
           title={
             formatCurrency(
-              convertFromUnits(commitment).toString(),
+              convertFromUnits(activeCommitment).toString(),
               router.locale
             ).long
           }
@@ -98,7 +98,7 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           <Trans>Protection:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(commitment).toString(),
+              convertFromUnits(activeCommitment).toString(),
               router.locale
             ).short
           }
