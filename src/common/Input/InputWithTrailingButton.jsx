@@ -32,7 +32,7 @@ export const InputWithTrailingButton = ({
   }, []);
 
   useEffect(() => {
-    if (inputProps.value && inputProps.value.match(/^\d+(\.\d+)?$/))
+    if (!inputProps.value || inputProps.value.match(/^\d+(\.\d+)?$/))
       setInputValue(inputProps.value);
   }, [inputProps.value]);
 
