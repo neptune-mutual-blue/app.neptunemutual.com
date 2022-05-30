@@ -64,7 +64,7 @@ describe("Class assignment", () => {
   test("Normal list of classes", () => {
     const classList = classNames("test1 test2", "   ", "test3", " ");
 
-    expect(classList).toBe("test1 test2 test3");
+    expect(classList).toBe("test1 test2     test3  ");
   });
 });
 
