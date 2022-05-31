@@ -143,7 +143,7 @@ const DetailsRenderer = ({ row }) => {
               row.type === "BondCreated" ? row.lpTokenAmount : row.claimAmount
             }
             symbol={
-              row.type === "BondCreated" ? row.token1Symbol : row.token0Symbol
+              row.type === "BondCreated" ? row.lpTokenSymbol : row.token0Symbol
             }
           />
         </span>
