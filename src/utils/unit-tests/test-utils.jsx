@@ -159,3 +159,5 @@ global.ethereum = {
   }),
   on: jest.fn(() => {}),
 };
+
+global.scrollTo = jest.fn(() => {});
