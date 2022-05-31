@@ -150,6 +150,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
     const cleanup = () => {
       setVoting(false);
+      updateBalance();
+      updateAllowance(governanceAddress);
     };
     const handleError = (err) => {
       notifyError(err, t`refute`);
