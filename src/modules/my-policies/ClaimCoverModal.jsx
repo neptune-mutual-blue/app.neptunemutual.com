@@ -80,9 +80,13 @@ export const ClaimCoverModal = ({
       isOpen={isOpen}
       onClose={onClose}
       disabled={approving || claiming}
+      data-testid="claim-cover-modal"
     >
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-300 lg:min-w-600 max-h-90vh bg-f1f3f6 rounded-3xl">
-        <Dialog.Title className="flex items-center w-full font-bold font-sora text-h2">
+        <Dialog.Title
+          className="flex items-center w-full font-bold font-sora text-h2"
+          data-testid="dialog-title"
+        >
           <img src={imgSrc} alt={t`policy`} height={48} width={48} />
           <span className="pl-3">{modalTitle}</span>
         </Dialog.Title>
@@ -90,7 +94,7 @@ export const ClaimCoverModal = ({
           disabled={approving || claiming}
           onClick={onClose}
         ></ModalCloseButton>
-        <div className="mt-6">
+        <div className="mt-6" data-testid="token-input">
           <TokenAmountInput
             tokenAddress={cxTokenAddress}
             tokenSymbol={tokenSymbol}
@@ -103,10 +107,14 @@ export const ClaimCoverModal = ({
             onChange={handleChange}
             error={!!error}
           >
-            {error && <p className="text-FA5C2F">{error}</p>}
+            {error && (
+              <p className="text-FA5C2F" data-testid="error-text">
+                {error}
+              </p>
+            )}
           </TokenAmountInput>
         </div>
-        <div className="mt-8 modal-unlock">
+        <div className="mt-8 modal-unlock" data-testid="receive-info-container">
           <Label className="mb-4 font-semibold">
             <Trans>You will receive</Trans>
           </Label>
@@ -118,7 +126,8 @@ export const ClaimCoverModal = ({
             {isGreater(claimPlatformFee, "0") && (
               <>
                 <Trans>
-                  Fee: {formatPercent(claimPlatformFee / MULTIPLIER, router.locale)}
+                  Fee:{" "}
+                  {formatPercent(claimPlatformFee / MULTIPLIER, router.locale)}
                 </Trans>
               </>
             )}
@@ -132,6 +141,7 @@ export const ClaimCoverModal = ({
               className="w-full p-6 font-semibold uppercase text-h6"
               disabled={!value || approving || error || loadingMessage}
               onClick={handleApprove}
+              data-testid="approve-button"
             >
               {approving ? t`Approving...` : t`Approve`}
             </RegularButton>
@@ -144,6 +154,7 @@ export const ClaimCoverModal = ({
                   setValue("");
                 })
               }
+              data-testid="claim-button"
             >
               {claiming ? t`Claiming...` : t`Claim`}
             </RegularButton>

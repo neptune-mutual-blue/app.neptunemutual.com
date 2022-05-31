@@ -14,61 +14,61 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 const availableCovers = [
   {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000001",
     coverName: "Animated Brands",
     projectName: "Animated Brands",
     tags: ["Smart Contract", "NFT", "Gaming"],
   },
   {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+    key: "0x6262382d65786368616e67650000000000000000000000000000000000000002",
     coverName: "Bb8 Exchange Cover",
     projectName: "Bb8 Exchange",
     tags: ["Smart Contract", "DeFi", "Exchange"],
   },
   {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000003",
     coverName: "Animated Brands",
     projectName: "Animated Brands",
     tags: ["Smart Contract", "NFT", "Gaming"],
   },
   {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+    key: "0x6262382d65786368616e67650000000000000000000000000000000000000004",
     coverName: "Bb8 Exchange Cover",
     projectName: "Bb8 Exchange",
     tags: ["Smart Contract", "DeFi", "Exchange"],
   },
   {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000005",
     coverName: "Animated Brands",
     projectName: "Animated Brands",
     tags: ["Smart Contract", "NFT", "Gaming"],
   },
   {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+    key: "0x6262382d65786368616e67650000000000000000000000000000000000000006",
     coverName: "Bb8 Exchange Cover",
     projectName: "Bb8 Exchange",
     tags: ["Smart Contract", "DeFi", "Exchange"],
   },
   {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000007",
     coverName: "Animated Brands",
     projectName: "Animated Brands",
     tags: ["Smart Contract", "NFT", "Gaming"],
   },
   {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+    key: "0x6262382d65786368616e67650000000000000000000000000000000000000008",
     coverName: "Bb8 Exchange Cover",
     projectName: "Bb8 Exchange",
     tags: ["Smart Contract", "DeFi", "Exchange"],
   },
   {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000009",
     coverName: "Animated Brands",
     projectName: "Animated Brands",
     tags: ["Smart Contract", "NFT", "Gaming"],
   },
   {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+    key: "0x6262382d65786368616e67650000000000000000000000000000000000000010",
     coverName: "Bb8 Exchange Cover",
     projectName: "Bb8 Exchange",
     tags: ["Smart Contract", "DeFi", "Exchange"],
@@ -79,7 +79,7 @@ const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
 };
 
-describe("Hero test", () => {
+describe("AvailableCovers test", () => {
   beforeEach(() => {
     act(() => {
       i18n.activate("en");
@@ -147,5 +147,24 @@ describe("Hero test", () => {
         : availableCovers.length;
     const links = screen.getAllByTestId("cover-link");
     expect(links.length).toBe(coverNumbers);
+  });
+
+  test("testing by setting the `loading` state to true", () => {
+    mockFunction(Covers, "useCovers", {
+      covers: [],
+      loading: true,
+    });
+    cleanup();
+    render(<AvailableCovers />);
+    const noData = screen.queryByTestId("no-data");
+    expect(noData).not.toBeInTheDocument();
+    const links = screen.queryAllByTestId("cover-link");
+    expect(links.length).toBe(0);
+  });
+
+  test("simulating input search", () => {
+    const input = screen.getByTestId("search-input");
+    fireEvent.change(input, { target: { value: "Animated" } });
+    expect(input).toBeInTheDocument();
   });
 });
