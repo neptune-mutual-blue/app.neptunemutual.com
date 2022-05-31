@@ -9,9 +9,28 @@ import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
+import * as envConfig from "@/src/config/environment";
+import * as web3Core from "@web3-react/core";
 
 describe("Pool Staking", () => {
   global.fetch = jest.fn(mockFetch);
+
+  jest.spyOn(envConfig, "getNetworkId").mockImplementation(() => 80001);
+  jest
+    .spyOn(envConfig, "getGraphURL")
+    .mockImplementation(
+      () =>
+        "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai"
+    );
+
+  jest.spyOn(web3Core, "useWeb3React").mockImplementation(() => ({
+    activate: jest.fn(async () => {}),
+    deactivate: jest.fn(async () => {}),
+    active: true,
+    setError: jest.fn(async () => {}),
+    library: undefined,
+    account: "0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e",
+  }));
 
   const Component = withDataProviders(withSorting(StakingPage));
   const container = document.createElement("div");
@@ -181,12 +200,12 @@ const getValues = (container, type) => {
 
   if (type === SELECTION.TVL) {
     return select(container, type).map((el) =>
-      parseFloat(el.textContent.slice(1), 10)
+      parseFloat(el.textContent.slice(1))
     );
   }
 
   return select(container, type).map((el) =>
-    parseFloat(el.textContent.slice("APR: ".length), 10)
+    parseFloat(el.textContent.slice("APR: ".length))
   );
 };
 
