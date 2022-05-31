@@ -30,7 +30,7 @@ describe("CoverProfileInfo test", () => {
       reporterCommission: "0",
       reportingPeriod: "0",
       requiresWhitelist: false,
-      totalCommitment: "0",
+      activeCommitment: "0",
       totalPoolAmount: "0",
     }));
 
