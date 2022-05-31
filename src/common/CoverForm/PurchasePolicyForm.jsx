@@ -31,10 +31,10 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const { totalCommitment, totalPoolAmount } = useCoverStatsContext();
+  const { activeCommitment, totalPoolAmount } = useCoverStatsContext();
 
   const availableLiquidity = convertFromUnits(
-    toBN(totalPoolAmount.toString()).minus(totalCommitment.toString())
+    toBN(totalPoolAmount.toString()).minus(activeCommitment.toString())
   ).toString();
 
   const toast = useToast();

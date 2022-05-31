@@ -27,7 +27,7 @@ const mockLiquidityInfo = {
 const mockCoverStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "650",
-  commitment: "40169729265418543666668",
+  activeCommitment: "40169729265418543666668",
   isUserWhitelisted: false,
   reporterCommission: "1000",
   reportingPeriod: "1800",
@@ -60,9 +60,9 @@ const mockCoverDetails = {
   utilization: "0.01",
 };
 
-const getUtilizationRatio = (totalLiquidity, commitment) => {
+const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   const liquidity = totalLiquidity;
-  const protection = commitment;
+  const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
@@ -146,7 +146,7 @@ describe("CoverCard component", () => {
   test("should render correct utilization ratio", () => {
     const utilizationRatio = getUtilizationRatio(
       mockLiquidityInfo.totalLiquidity,
-      mockCoverStats.commitment
+      mockCoverStats.activeCommitment
     );
     const utilizationEl = screen.getByTestId("util-ratio");
     expect(utilizationEl).toHaveTextContent(utilizationRatio);
@@ -157,7 +157,7 @@ describe("CoverCard component", () => {
       const protectionEl = screen.getByTestId("protection");
       const liquidityText = `Protection: ${
         formatCurrency(
-          convertFromUnits(mockCoverStats.commitment).toString(),
+          convertFromUnits(mockCoverStats.activeCommitment).toString(),
           "en"
         ).short
       }`;
@@ -168,7 +168,7 @@ describe("CoverCard component", () => {
     test("should have correct title text", () => {
       const protectionEl = screen.getByTestId("protection");
       const titleText = formatCurrency(
-        convertFromUnits(mockCoverStats.commitment).toString(),
+        convertFromUnits(mockCoverStats.activeCommitment).toString(),
         "en"
       ).long;
       expect(protectionEl).toHaveAttribute("title", titleText);

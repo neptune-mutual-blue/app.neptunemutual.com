@@ -11,13 +11,12 @@ import {
 const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
-  commitment: "0",
+  activeCommitment: "0",
   isUserWhitelisted: false,
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
   status: "",
-  totalCommitment: "0",
   totalPoolAmount: "0",
 };
 
@@ -59,13 +58,12 @@ export const useFetchCoverStats = ({ coverKey }) => {
         setInfo({
           activeIncidentDate: data.activeIncidentDate,
           claimPlatformFee: data.claimPlatformFee,
-          commitment: data.commitment,
+          activeCommitment: data.activeCommitment,
           isUserWhitelisted: data.isUserWhitelisted,
           reporterCommission: data.reporterCommission,
           reportingPeriod: data.reportingPeriod,
           requiresWhitelist: data.requiresWhitelist,
           status: CoverStatus[data.status],
-          totalCommitment: data.totalCommitment,
           totalPoolAmount: data.totalPoolAmount,
         });
       } catch (error) {
