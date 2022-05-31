@@ -124,10 +124,17 @@ const LocalStorage = (() => {
     removeItem: (key) => {
       delete store[key];
     },
+    assign: jest.fn(() => {}),
   };
 })();
 
 Object.defineProperty(window, "localStorage", { value: LocalStorage });
+Object.defineProperty(window, "location", {
+  value: {
+    href: "",
+  },
+  writable: true,
+});
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
