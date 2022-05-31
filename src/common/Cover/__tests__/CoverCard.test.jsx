@@ -33,7 +33,6 @@ const mockCoverStats = {
   reportingPeriod: "1800",
   requiresWhitelist: false,
   status: "Normal",
-  totalCommitment: "40169729265418543666668",
   totalPoolAmount: "5685029588525899752492213",
 };
 

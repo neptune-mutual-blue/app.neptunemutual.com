@@ -18,6 +18,7 @@ const defaultStats = {
   requiresWhitelist: false,
   status: "",
   totalPoolAmount: "0",
+  availableLiquidity: "0",
 };
 
 export const useFetchCoverStats = ({ coverKey }) => {
@@ -65,6 +66,7 @@ export const useFetchCoverStats = ({ coverKey }) => {
           requiresWhitelist: data.requiresWhitelist,
           status: CoverStatus[data.status],
           totalPoolAmount: data.totalPoolAmount,
+          availableLiquidity: data.availableLiquidity,
         });
       } catch (error) {
         console.error(error);

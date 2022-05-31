@@ -5,6 +5,7 @@ const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
   activeCommitment: "0",
+  availableLiquidity: "0",
   isUserWhitelisted: false,
   reporterCommission: "0",
   reportingPeriod: "0",
@@ -26,6 +27,7 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
     requiresWhitelist,
     status,
     totalPoolAmount,
+    availableLiquidity,
   } = useFetchCoverStats({ coverKey });
 
   return (
@@ -38,6 +40,7 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
         reporterCommission,
         reportingPeriod,
         requiresWhitelist,
+        availableLiquidity,
         status,
         totalPoolAmount,
       }}

@@ -5,7 +5,7 @@ import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { convertFromUnits, toBN } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -29,7 +29,11 @@ export const CoverPurchaseDetailsPage = () => {
   const coverInfo = getInfoByKey(coverKey);
 
   const { info } = useMyLiquidityInfo({ coverKey });
-  const { totalPoolAmount, activeCommitment } = useCoverStatsContext();
+  const { availableLiquidity: availableLiquidityInWei } =
+    useCoverStatsContext();
+  const availableLiquidity = convertFromUnits(
+    availableLiquidityInWei
+  ).toString();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -41,9 +45,6 @@ export const CoverPurchaseDetailsPage = () => {
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
-  const availableLiquidity = convertFromUnits(
-    toBN(totalPoolAmount.toString()).minus(activeCommitment.toString())
-  ).toString();
 
   return (
     <main>

@@ -8,7 +8,7 @@ import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndE
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { getMonthNames } from "@/lib/dates";
-import { convertFromUnits, isValidNumber, toBN } from "@/utils/bn";
+import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -31,12 +31,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const [coverMonth, setCoverMonth] = useState();
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const { activeCommitment, totalPoolAmount } = useCoverStatsContext();
-
+  const { availableLiquidity: availableLiquidityInWei } =
+    useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    toBN(totalPoolAmount.toString()).minus(activeCommitment.toString())
+    availableLiquidityInWei
   ).toString();
-
   const toast = useToast();
   const monthNames = getMonthNames(router.locale);
 
@@ -167,7 +166,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
       <div className="px-3 mt-12">
-        <div className="flex gap-2 items-center mb-4">
+        <div className="flex items-center gap-2 mb-4">
           <h5
             className="block font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
