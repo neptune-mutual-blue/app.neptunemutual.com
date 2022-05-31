@@ -7,14 +7,17 @@ import {
   QUERY_RESULT,
 } from "@/utils/unit-tests/data/mockUpdata.data";
 
+const NETWORKID = 80001;
+
 const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
-  GET_CONTRACTS_INFO_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/`,
-  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
-  FINANCING: `${process.env.NEXT_PUBLIC_API_URL}/pricing/`,
+  GET_CONTRACTS_INFO_URL: `${API_BASE_URL}protocol/contracts/`,
+  SUB_GRAPH:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
+  FINANCING: `${API_BASE_URL}pricing/`,
 
   // liquidity
-  LIQUIDITY_INFO: `${process.env.NEXT_PUBLIC_API_URL}/protocol/vault/info/${process.env.NEXT_PUBLIC_FALLBACK_NETWORK}`,
+  LIQUIDITY_INFO: `${API_BASE_URL}protocol/vault/info/${NETWORKID}`,
 };
 
 const QUERY = {
