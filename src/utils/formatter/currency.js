@@ -22,7 +22,7 @@ const asCurrency = (sign, number, symbol, locale, currency, token = false) => {
 
 export const formatCurrency = (
   input,
-  locale,
+  locale = "en",
   currency = "USD",
   token = false
 ) => {
