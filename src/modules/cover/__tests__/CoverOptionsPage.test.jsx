@@ -9,7 +9,12 @@ import { i18n } from "@lingui/core";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { covers, pools, contracts, pricing } from "@/utils/unit-tests/data/coverOptionsMockUpData";
+import {
+  covers,
+  pools,
+  contracts,
+  pricing,
+} from "@/utils/unit-tests/data/coverOptionsMockUpData";
 
 const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
@@ -62,6 +67,12 @@ async function mockFetch(url, { body }) {
 
   throw new Error(`Unhandled request: ${url}`);
 }
+
+jest.mock("next/link", () => {
+  return ({ children }) => {
+    return children;
+  };
+});
 
 describe("CoverOptionsPage", () => {
   global.fetch = jest.fn(mockFetch);

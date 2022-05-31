@@ -87,6 +87,12 @@ async function mockFetch(url, { body }) {
   throw new Error(`Unhandled request: ${url}`);
 }
 
+jest.mock("next/link", () => {
+  return ({ children }) => {
+    return children;
+  };
+});
+
 describe("NewIncidentReportPage.test", () => {
   global.fetch = jest.fn(mockFetch);
 
