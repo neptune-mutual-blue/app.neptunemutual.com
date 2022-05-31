@@ -4,11 +4,20 @@ import { i18n } from "@lingui/core";
 import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
 
 describe("Disclaimer Modal test", () => {
-  beforeEach(() => {
+  const renderer = () => {
+    let assignMock = jest.fn();
+
+    delete window.location;
+    window.location = { assign: assignMock };
+
     act(() => {
       i18n.activate("en");
     });
     render(<DisclaimerModal />);
+  };
+
+  beforeEach(() => {
+    renderer();
   });
 
   test("should render the component correctly", () => {
@@ -68,5 +77,18 @@ describe("Disclaimer Modal test", () => {
 
     const button = screen.getByTestId("disclaimer-accept");
     expect(button).not.toBeDisabled();
+  });
+
+  test("simulating clicking on `Accept` button", () => {
+    const checkbox = screen.getByTestId("disclaimer-checkbox");
+    fireEvent.click(checkbox);
+
+    const button = screen.getByTestId("disclaimer-accept");
+    fireEvent.click(button);
+  });
+
+  test("simulating clicking on `Decline` button", () => {
+    const button = screen.getByTestId("disclaimer-decline");
+    fireEvent.click(button);
   });
 });
