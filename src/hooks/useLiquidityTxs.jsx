@@ -25,6 +25,7 @@ const getQuery = (account, limit, skip) => {
       podAmount
       vault{
         id
+        tokenSymbol
       }
       cover {
         id

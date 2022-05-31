@@ -16,7 +16,6 @@ import { useWeb3React } from "@web3-react/core";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -186,7 +185,7 @@ const DetailsRenderer = ({ row }) => {
 
 const CxDaiAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
-  const tokenSymbol = useTokenSymbol(row.cxToken);
+  const tokenSymbol = row.cxTokenData.tokenSymbol;
   const router = useRouter();
 
   return (
@@ -216,7 +215,7 @@ const CxDaiAmountRenderer = ({ row }) => {
         </span>
         <button
           className="p-1 ml-3"
-          onClick={() => register(row.cxToken, tokenSymbol)}
+          onClick={() => register(row.cxTokenData.id, tokenSymbol)}
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />

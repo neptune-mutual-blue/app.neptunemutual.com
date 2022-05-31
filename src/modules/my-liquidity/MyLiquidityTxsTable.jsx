@@ -16,7 +16,6 @@ import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -185,7 +184,7 @@ const DetailsRenderer = ({ row }) => {
 
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
-  const tokenSymbol = useTokenSymbol(row.vault.id);
+  const tokenSymbol = row.vault.tokenSymbol;
   const router = useRouter();
 
   return (
