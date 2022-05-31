@@ -603,8 +603,7 @@ export const coverInfo = {
   code: "NXK-D36GNR",
   data: {
     totalPoolAmount: "5898555498452773270885618",
-    totalCommitment: "152029988968320897214203",
-    commitment: "152029988968320897214203",
+    activeCommitment: "152029988968320897214203",
     reporterCommission: "1000",
     claimPlatformFee: "650",
     reportingPeriod: "1800",

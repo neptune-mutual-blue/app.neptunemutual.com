@@ -109,7 +109,7 @@ export { customRender as render };
 
 const LocalStorage = (() => {
   let store = {
-    [ACTIVE_CONNECTOR_KEY]: process.env.NEXT_PUBLIC_TEST_CONNECTOR,
+    [ACTIVE_CONNECTOR_KEY]: "injected",
   };
   return {
     getItem: (key, defaultValue = "") => {
@@ -134,7 +134,7 @@ global.crypto = {
 };
 
 const ETHEREUM_METHODS = {
-  eth_requestAccounts: () => [process.env.NEXT_PUBLIC_TEST_ACCOUNT],
+  eth_requestAccounts: () => ["0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e"],
 };
 
 global.ethereum = {
@@ -145,7 +145,7 @@ global.ethereum = {
     }
 
     if (method === "eth_requestAccounts") {
-      return Promise.resolve(process.env.NEXT_PUBLIC_TEST_ACCOUNT);
+      return Promise.resolve("0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e");
     }
 
     return Promise.resolve(true);

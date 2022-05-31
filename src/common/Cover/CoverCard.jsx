@@ -21,14 +21,14 @@ export const CoverCard = ({ details }) => {
 
   const { projectName, key, pricingFloor, pricingCeiling } = details;
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
-  const { commitment, status } = useFetchCoverStats({
+  const { activeCommitment, status } = useFetchCoverStats({
     coverKey: key,
   });
 
   const imgSrc = getCoverImgSrc({ key });
 
   const liquidity = liquidityInfo.totalLiquidity;
-  const protection = commitment;
+  const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
@@ -93,7 +93,7 @@ export const CoverCard = ({ details }) => {
           className="flex-1"
           title={
             formatCurrency(
-              convertFromUnits(commitment).toString(),
+              convertFromUnits(activeCommitment).toString(),
               router.locale
             ).long
           }
@@ -102,7 +102,7 @@ export const CoverCard = ({ details }) => {
           <Trans>Protection:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(commitment).toString(),
+              convertFromUnits(activeCommitment).toString(),
               router.locale
             ).short
           }

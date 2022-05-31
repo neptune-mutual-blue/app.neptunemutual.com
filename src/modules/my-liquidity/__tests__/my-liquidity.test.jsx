@@ -7,6 +7,8 @@ import { act } from "react-dom/test-utils";
 import { MyLiquidityPage } from "@/modules/my-liquidity";
 import { i18n } from "@lingui/core";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
+import * as envConfig from "@/src/config/environment";
+import * as web3Core from "@web3-react/core";
 import ReactDOM from "react-dom";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 
@@ -60,6 +62,23 @@ jest.mock("next/link", () => {
 
 describe("My Liquidity", () => {
   global.fetch = jest.fn(mockFetch);
+
+  jest.spyOn(envConfig, "getNetworkId").mockImplementation(() => 80001);
+  jest
+    .spyOn(envConfig, "getGraphURL")
+    .mockImplementation(
+      () =>
+        "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai"
+    );
+
+  jest.spyOn(web3Core, "useWeb3React").mockImplementation(() => ({
+    activate: jest.fn(async () => {}),
+    deactivate: jest.fn(async () => {}),
+    active: true,
+    setError: jest.fn(async () => {}),
+    library: undefined,
+    account: "0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e",
+  }));
 
   const router = createMockRouter({});
   const Component = withDataProviders(withSorting(MyLiquidityPage), router);
