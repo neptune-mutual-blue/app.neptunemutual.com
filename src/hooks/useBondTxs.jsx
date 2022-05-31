@@ -26,6 +26,10 @@ const getQuery = (account, limit, skip) => {
       npmToVestAmount
       claimAmount
       lpTokenAmount
+      token0
+      token0Symbol
+      token1
+      token1Symbol
       transaction {
         id
         timestamp
