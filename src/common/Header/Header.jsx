@@ -18,6 +18,8 @@ import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
+import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
+import * as Tooltip from "@radix-ui/react-tooltip";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -78,6 +80,8 @@ export const Header = () => {
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false);
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -113,6 +117,24 @@ export const Header = () => {
     </div>
   );
 
+  const TransactionOverviewTooltip = ({ children }) => (
+    <Tooltip.Root delayDuration={200}>
+      <Tooltip.Trigger>{children}</Tooltip.Trigger>
+      <Tooltip.Content
+        className="flex w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview"
+        side="bottom"
+        sideOffset={7}
+        alignOffset={15}
+      >
+        <Tooltip.Arrow className="" offset={8} fill="#01052D" height={7} />
+        <span className="text-xs font-light leading-4 font-poppins">
+          Your transaction statuses will be collected in this tray. Feel free to
+          navigate through the screens while you wait.
+        </span>
+      </Tooltip.Content>
+    </Tooltip.Root>
+  );
+
   return (
     <>
       <div className="bg-black text-EEEEEE">
@@ -122,11 +144,8 @@ export const Header = () => {
         </div>
       </div>
       <header className="sticky top-0 z-40 bg-black text-EEEEEE">
-        <nav
-          className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
-          aria-label="Top"
-        >
-          <div className="flex items-stretch justify-between xl:border-b border-B0C4DB xl:border-none">
+        <nav className="flex max-w-full mx-auto" aria-label="Top">
+          <div className="flex items-stretch justify-between flex-grow px-4 py-4 sm:px-6 xl:pl-8 xl:py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
                 <a>
@@ -208,6 +227,21 @@ export const Header = () => {
               </ConnectWallet>
             </div>
           </div>
+
+          <TransactionOverviewTooltip>
+            <button
+              className={classNames(
+                "items-center justify-center hidden px-4 xl:flex relative w-full h-full",
+                "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                isTxDetailsPopupOpen
+                  ? "bg-404A5C before:w-0"
+                  : "bg-transparent before:w-px"
+              )}
+              onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+            >
+              <TransactionOverviewIcon className="text-999BAB" />
+            </button>
+          </TransactionOverviewTooltip>
         </nav>
         <MenuModal
           isOpen={isOpen}
