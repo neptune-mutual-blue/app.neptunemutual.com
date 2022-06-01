@@ -15,14 +15,16 @@ import {
   contracts,
   pricing,
 } from "@/utils/unit-tests/data/coverOptionsMockUpData";
+import { API_BASE_URL } from "@/src/config/constants";
 
 const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
 
 const MOCKUP_API_URLS = {
-  GET_CONTRACTS_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/mumbai`,
-  GET_PRICING_URL: `${process.env.NEXT_PUBLIC_API_URL}/pricing/${NETWORKID}`,
-  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  GET_CONTRACTS_URL: `${API_BASE_URL}/protocol/contracts/mumbai`,
+  GET_PRICING_URL: `${API_BASE_URL}/pricing/${NETWORKID}`,
+  SUB_GRAPH:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
 };
 
 const QUERY = {
