@@ -11,7 +11,11 @@ import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
-export const MyLiquidityCoverCard = ({ coverKey, totalPODs, tokenSymbol }) => {
+export const MyLiquidityCoverCard = ({
+  coverKey,
+  totalPODs,
+  tokenSymbol = "POD",
+}) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
