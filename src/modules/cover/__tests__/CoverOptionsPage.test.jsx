@@ -21,8 +21,8 @@ const NETWORKID = 80001;
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
 
 const MOCKUP_API_URLS = {
-  GET_CONTRACTS_URL: `${API_BASE_URL}/protocol/contracts/mumbai`,
-  GET_PRICING_URL: `${API_BASE_URL}/pricing/${NETWORKID}`,
+  GET_CONTRACTS_URL: `${API_BASE_URL}protocol/contracts/mumbai`,
+  GET_PRICING_URL: `${API_BASE_URL}pricing/${NETWORKID}`,
   SUB_GRAPH:
     "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
 };
