@@ -26,13 +26,13 @@ const getQuery = (account, limit, skip) => {
       npmToVestAmount
       claimAmount
       lpTokenAmount
+      token0
+      token0Symbol
+      lpTokenSymbol
       transaction {
         id
         timestamp
       }
-    }
-    bondPools {
-      address0
     }
   }
   `;
