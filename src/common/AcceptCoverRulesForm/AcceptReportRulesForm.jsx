@@ -28,6 +28,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
           name="checkinputname"
           checked={checked}
           onChange={handleChange}
+          data-testid="accept-report-rules-check-box"
         >
           <Trans>
             I have read, understood, and agree to the terms of cover rules
@@ -36,6 +37,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
         <br />
         {children}
         <RegularButton
+          data-testid="accept-report-rules-next-button"
           disabled={!checked}
           className={classNames(
             !checked && "opacity-30 cursor-not-allowed",

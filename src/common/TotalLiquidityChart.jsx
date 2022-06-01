@@ -33,7 +33,7 @@ const TotalLiquidityChart = () => {
         dashStyle: "Dash",
       },
       ordinal: false,
-      minRange: 2 * 24 * 3600 * 1000,
+      minRange: 1 * 24 * 3600 * 1000,
       lineWidth: 0.5,
       lineColor: "#01052D",
     },
@@ -132,7 +132,7 @@ const TotalLiquidityChart = () => {
       maskFill: "rgba(66, 137, 242, 0.3)",
       outlineWidth: 0,
       xAxis: {
-        tickInterval: 7 * 24 * 3600 * 1000,
+        // tickInterval: 1 * 24 * 3600 * 1000,
         labels: {
           format:
             "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
@@ -140,8 +140,8 @@ const TotalLiquidityChart = () => {
           style: {
             color: "#01052D",
           },
+          align: "center",
           y: 14,
-          x: -14,
         },
       },
     },

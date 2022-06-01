@@ -37,6 +37,7 @@ export const SearchAndSortBar = ({
           placeholder={t`Search`}
           value={searchValue}
           onChange={onSearchChange}
+          data-testid="search-input"
         />
 
         <div className="flex items-center justify-center text-9B9B9B">

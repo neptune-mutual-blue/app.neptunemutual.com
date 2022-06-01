@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { useWeb3React } from "@web3-react/core";
 
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
@@ -13,14 +12,6 @@ export const useTokenStakingPools = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const { networkId } = useNetwork();
-  const { account } = useWeb3React();
-
-  useEffect(() => {
-    setItemsToSkip(0);
-    setData({
-      pools: [],
-    });
-  }, [account]);
 
   useEffect(() => {
     if (!networkId) {
@@ -57,8 +48,12 @@ export const useTokenStakingPools = () => {
             name
             poolType
             stakingToken
+            stakingTokenName
+            stakingTokenSymbol
             uniStakingTokenDollarPair
             rewardToken
+            rewardTokenName
+            rewardTokenSymbol
             uniRewardTokenDollarPair
             rewardTokenDeposit
             maxStake
@@ -93,7 +88,7 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, itemsToSkip, networkId]); // TODO: remove `account` and fix issue with first useEffect which clears current data when account changes but does not fetch the new data
+  }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + CARDS_PER_PAGE);

@@ -9,9 +9,28 @@ import { StakingPage } from "@/modules/pools/staking";
 import { i18n } from "@lingui/core";
 import ReactDOM from "react-dom";
 import { mockFetch } from "@/utils/unit-tests/mockApiRequest";
+import * as envConfig from "@/src/config/environment";
+import * as web3Core from "@web3-react/core";
 
 describe("Pool Staking", () => {
   global.fetch = jest.fn(mockFetch);
+
+  jest.spyOn(envConfig, "getNetworkId").mockImplementation(() => 80001);
+  jest
+    .spyOn(envConfig, "getGraphURL")
+    .mockImplementation(
+      () =>
+        "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai"
+    );
+
+  jest.spyOn(web3Core, "useWeb3React").mockImplementation(() => ({
+    activate: jest.fn(async () => {}),
+    deactivate: jest.fn(async () => {}),
+    active: true,
+    setError: jest.fn(async () => {}),
+    library: undefined,
+    account: "0xaC43b98FE7352897Cbc1551cdFDE231a1180CD9e",
+  }));
 
   const Component = withDataProviders(withSorting(StakingPage));
   const container = document.createElement("div");
@@ -25,19 +44,19 @@ describe("Pool Staking", () => {
   });
 
   describe("Staking card", () => {
-    it("Card should be 6", () => {
+    test("Card should be 6", () => {
       const stakeCards = select(container, SELECTION.TITLE);
 
       expect(stakeCards.length).toEqual(6);
     });
 
     describe("TVL", () => {
-      it("should be 6", () => {
+      test("should be 6", () => {
         const tvlElements = select(container, SELECTION.TVL);
         expect(tvlElements.length).toEqual(6);
       });
 
-      it("no 0 value", () => {
+      test("no 0 value", () => {
         const tvlValues = getValues(container, SELECTION.TVL);
 
         const zeroValues = tvlValues.filter((value) => value === 0);
@@ -47,12 +66,12 @@ describe("Pool Staking", () => {
     });
 
     describe("APR", () => {
-      it("should be 6", () => {
+      test("should be 6", () => {
         const aprElements = select(container, SELECTION.APR);
         expect(aprElements.length).toEqual(6);
       });
 
-      it("no 0 value", () => {
+      test("no 0 value", () => {
         const aprValues = getValues(container, SELECTION.APR);
         const zeroValues = aprValues.filter((value) => value === 0);
 
@@ -61,7 +80,7 @@ describe("Pool Staking", () => {
     });
 
     describe("Sorting", () => {
-      it("Sorting is visible", () => {
+      test("Sorting is visible", () => {
         const sortButton = container.querySelector("button");
 
         act(() => {
@@ -75,7 +94,7 @@ describe("Pool Staking", () => {
         expect(container).toContainElement(sortList);
       });
 
-      it("Sort Alphabetically", () => {
+      test("Sort Alphabetically", () => {
         const original = getValues(container, SELECTION.TITLE);
 
         const sortButton = container.querySelector("button");
@@ -99,7 +118,7 @@ describe("Pool Staking", () => {
         expect(original).toEqual(values);
       });
 
-      it("Sort by TVL", () => {
+      test("Sort by TVL", () => {
         const original = getValues(container, SELECTION.TVL);
 
         const sortButton = container.querySelector("button");
@@ -125,7 +144,7 @@ describe("Pool Staking", () => {
         expect(sortedOriginal).toEqual(values);
       });
 
-      it("Sort by APR", () => {
+      test("Sort by APR", () => {
         const original = getValues(container, SELECTION.APR);
 
         const sortButton = container.querySelector("button");
@@ -181,12 +200,12 @@ const getValues = (container, type) => {
 
   if (type === SELECTION.TVL) {
     return select(container, type).map((el) =>
-      parseFloat(el.textContent.slice(1), 10)
+      parseFloat(el.textContent.slice(1))
     );
   }
 
   return select(container, type).map((el) =>
-    parseFloat(el.textContent.slice("APR: ".length), 10)
+    parseFloat(el.textContent.slice("APR: ".length))
   );
 };
 

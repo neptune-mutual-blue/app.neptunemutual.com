@@ -4,13 +4,13 @@ import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
-  commitment: "0",
+  activeCommitment: "0",
+  availableLiquidity: "0",
   isUserWhitelisted: false,
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
   status: "",
-  totalCommitment: "0",
   totalPoolAmount: "0",
 };
 
@@ -20,14 +20,14 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
   const {
     activeIncidentDate,
     claimPlatformFee,
-    commitment,
+    activeCommitment,
     isUserWhitelisted,
     reporterCommission,
     reportingPeriod,
     requiresWhitelist,
     status,
-    totalCommitment,
     totalPoolAmount,
+    availableLiquidity,
   } = useFetchCoverStats({ coverKey });
 
   return (
@@ -35,13 +35,13 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
       value={{
         activeIncidentDate,
         claimPlatformFee,
-        commitment,
+        activeCommitment,
         isUserWhitelisted,
         reporterCommission,
         reportingPeriod,
         requiresWhitelist,
+        availableLiquidity,
         status,
-        totalCommitment,
         totalPoolAmount,
       }}
     >

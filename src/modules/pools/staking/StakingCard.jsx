@@ -13,7 +13,6 @@ import { PoolCardStat } from "@/src/modules/pools/staking/PoolCardStat";
 import { classNames } from "@/utils/classnames";
 import { usePoolInfo } from "@/src/hooks/usePoolInfo";
 import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { config } from "@neptunemutual/sdk";
 import { useNetwork } from "@/src/context/Network";
 import { explainInterval } from "@/utils/formatter/interval";
@@ -39,8 +38,8 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   });
 
   const rewardTokenAddress = info.rewardToken;
-  const stakingTokenSymbol = useTokenSymbol(info.stakingToken);
-  const rewardTokenSymbol = useTokenSymbol(info.rewardToken);
+  const stakingTokenSymbol = data.stakingTokenSymbol;
+  const rewardTokenSymbol = data.rewardTokenSymbol;
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false);
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false);

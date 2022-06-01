@@ -38,7 +38,10 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
               className="inline-block max-w-full"
             />
           </div>
-          <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+          <h4
+            className="mt-4 font-semibold uppercase text-h4 font-sora"
+            data-testid="title"
+          >
             {coverInfo.projectName}
           </h4>
         </div>
@@ -53,7 +56,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
         <span className="uppercase">
           <Trans>Reassurance Ratio</Trans>
         </span>
-        <span className="font-semibold text-right">
+        <span className="font-semibold text-right" data-testid="assurance">
           {formatPercent(reassurancePercent, router.locale)}
         </span>
       </div>
@@ -71,7 +74,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
           ).long
         }
       >
-        <span className="">
+        <span data-testid="liquidity">
           <Trans>My Liquidity:</Trans>{" "}
           {
             formatCurrency(

@@ -2,21 +2,29 @@ import { API_BASE_URL } from "@/src/config/constants";
 import {
   contracts,
   getCover,
+  getLiquidity,
   pricing,
   QUERY_RESULT,
 } from "@/utils/unit-tests/data/mockUpdata.data";
 
+const NETWORKID = 80001;
+
 const MOCKUP_API_URLS = {
   POOL_INFO_URL: `${API_BASE_URL}protocol/staking-pools/info/`,
-  GET_CONTRACTS_INFO_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/`,
-  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
-  FINANCING: `${process.env.NEXT_PUBLIC_API_URL}/pricing/`,
+  GET_CONTRACTS_INFO_URL: `${API_BASE_URL}protocol/contracts/`,
+  SUB_GRAPH:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
+  FINANCING: `${API_BASE_URL}pricing/`,
+
+  // liquidity
+  LIQUIDITY_INFO: `${API_BASE_URL}protocol/vault/info/${NETWORKID}`,
 };
 
 const QUERY = {
   PLATFORM_FEE: "platformFee",
   IPS_HASH: "ipfsHash",
   TOTAL_ADDED_TO_BOND: "totalLpAddedToBond",
+  TOTAL_LIQUIDITY: "totalLiquidity",
 };
 
 export async function mockFetch(url, { body }) {
@@ -24,7 +32,7 @@ export async function mockFetch(url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async() => getCover(url),
+      json: async () => getCover(url),
     };
   }
 
@@ -32,7 +40,7 @@ export async function mockFetch(url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async() => contracts,
+      json: async () => contracts,
     };
   }
 
@@ -40,7 +48,16 @@ export async function mockFetch(url, { body }) {
     return {
       ok: true,
       status: 200,
-      json: async() => pricing,
+      json: async () => pricing,
+    };
+  }
+
+  // LIQUIDITY
+  if (url.startsWith(MOCKUP_API_URLS.LIQUIDITY_INFO)) {
+    return {
+      ok: true,
+      status: 200,
+      json: async () => getLiquidity(url),
     };
   }
 
@@ -49,7 +66,7 @@ export async function mockFetch(url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async() => QUERY_RESULT.PLATFORM_FEE,
+        json: async () => QUERY_RESULT.PLATFORM_FEE,
       };
     }
 
@@ -57,7 +74,7 @@ export async function mockFetch(url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async() => QUERY_RESULT.IPFSHASH,
+        json: async () => QUERY_RESULT.IPFSHASH,
       };
     }
 
@@ -65,7 +82,15 @@ export async function mockFetch(url, { body }) {
       return {
         ok: true,
         status: 200,
-        json: async() => QUERY_RESULT.TOTAL_ADDED_TO_BOND,
+        json: async () => QUERY_RESULT.TOTAL_ADDED_TO_BOND,
+      };
+    }
+
+    if (body.includes(QUERY.TOTAL_LIQUIDITY)) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => QUERY_RESULT.TOTAL_LIQUIDITY,
       };
     }
   }

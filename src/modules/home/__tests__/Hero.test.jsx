@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, act } from "@/utils/unit-tests/test-utils";
+import { render, screen, act, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { HomeHero } from "@/modules/home/Hero";
 import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
@@ -7,6 +7,7 @@ import * as Router from "next/router";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
+import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
 
 const protocolDayData = [
   {
@@ -26,6 +27,15 @@ const protocolDayData = [
     totalLiquidity: "43019312813333333333333335",
   },
 ];
+
+const heroStats = {
+  availableCovers: 0,
+  reportingCovers: 0,
+  tvlCover: "0",
+  tvlPool: "0",
+  covered: "0",
+  coverFee: "0",
+};
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
@@ -61,11 +71,20 @@ describe("Hero test", () => {
 
   mockFunction(Router, "useRouter", { locale: "en" });
 
-  beforeEach(() => {
+  mockFunction(FetchHeroStats, "useFetchHeroStats", {
+    loading: false,
+    data: heroStats,
+  });
+
+  const renderer = () => {
     act(() => {
       i18n.activate("en");
     });
     render(<HomeHero />);
+  };
+
+  beforeEach(() => {
+    renderer();
   });
 
   test("should render the component correctly", () => {
@@ -116,5 +135,43 @@ describe("Hero test", () => {
   test("should render TotalLiquidityChart component", () => {
     const wrapper = screen.getByTestId("liquidity-chart-wrapper");
     expect(wrapper).toBeInTheDocument();
+  });
+
+  test("should have class `text-DC2121` and `transform-flip` if changedata.rise is false", () => {
+    cleanup();
+    mockFunction(ProtocolHook, "useProtocolDayData", {
+      data: [
+        {
+          date: 1649980800,
+          totalLiquidity: "42972266000000000000000000",
+        },
+        {
+          date: 1650067200,
+          totalLiquidity: "13002586813333333333333335",
+        },
+      ],
+      loading: false,
+    });
+    renderer();
+
+    const wrapper = screen.getByTestId("changedata-percent");
+    expect(wrapper).toHaveClass("text-DC2121");
+    expect(wrapper.querySelector("span>svg")).toHaveClass("transform-flip");
+  });
+
+  test("should not render the percent data if data lenght is 1", () => {
+    cleanup();
+    mockFunction(ProtocolHook, "useProtocolDayData", {
+      data: [
+        {
+          date: 1649980800,
+          totalLiquidity: "42972266000000000000000000",
+        },
+      ],
+      loading: false,
+    });
+    renderer();
+    const wrapper = screen.queryByTestId("changedata-percent");
+    expect(wrapper).toBeNull();
   });
 });
