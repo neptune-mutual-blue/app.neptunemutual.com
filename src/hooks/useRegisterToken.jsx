@@ -7,7 +7,7 @@ export const useRegisterToken = () => {
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const register = async (address, symbol) => {
+  const register = (address, symbol) => {
     if (!networkId || !account) return;
 
     const image = symbol
