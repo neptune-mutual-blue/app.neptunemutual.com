@@ -51,7 +51,11 @@ export const usePolicyTxs = ({ limit, page }) => {
           account
           cxTokenAmount
           daiAmount
-          cxToken
+          cxTokenData {
+            id
+            tokenSymbol
+            tokenName
+          }
           cover {
             id
           }

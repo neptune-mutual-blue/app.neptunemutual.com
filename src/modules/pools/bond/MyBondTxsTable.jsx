@@ -16,10 +16,7 @@ import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { useBondTxs } from "@/src/hooks/useBondTxs";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useNetwork } from "@/src/context/Network";
-import { useBondInfo } from "@/src/hooks/useBondInfo";
 import { TokenAmountSpan } from "@/common/TokenAmountSpan";
 import { t, Trans } from "@lingui/macro";
 import { usePagination } from "@/src/hooks/usePagination";
@@ -45,13 +42,9 @@ const renderWhen = (row) => (
   </td>
 );
 
-const renderDetails = (row, extraData) => (
-  <DetailsRenderer row={row} lpTokenSymbol={extraData.lpTokenSymbol} />
-);
+const renderDetails = (row) => <DetailsRenderer row={row} />;
 
-const renderAmount = (row, extraData) => (
-  <BondAmountRenderer row={row} npmTokenSymbol={extraData.npmTokenSymbol} />
-);
+const renderAmount = (row) => <BondAmountRenderer row={row} />;
 
 const renderActions = (row) => <ActionsRenderer row={row} />;
 
@@ -83,16 +76,11 @@ const columns = [
 ];
 
 export const MyBondTxsTable = () => {
-  const { info } = useBondInfo();
   const { page, limit, setPage } = usePagination();
   const { data, loading, hasMore } = useBondTxs({ page, limit });
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
-
-  const { NPMTokenAddress } = useAppConstants();
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-  const lpTokenSymbol = useTokenSymbol(info.lpTokenAddress);
 
   const { blockNumber, transactions } = data;
 
@@ -119,7 +107,6 @@ export const MyBondTxsTable = () => {
               isLoading={loading}
               columns={columns}
               data={transactions}
-              extraData={{ npmTokenSymbol, lpTokenSymbol }}
             ></TBody>
           ) : (
             <tbody>
@@ -144,7 +131,7 @@ export const MyBondTxsTable = () => {
   );
 };
 
-const DetailsRenderer = ({ row, lpTokenSymbol }) => {
+const DetailsRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
@@ -155,7 +142,9 @@ const DetailsRenderer = ({ row, lpTokenSymbol }) => {
             amountInUnits={
               row.type === "BondCreated" ? row.lpTokenAmount : row.claimAmount
             }
-            symbol={row.type === "BondCreated" ? lpTokenSymbol : "NPM"}
+            symbol={
+              row.type === "BondCreated" ? row.lpTokenSymbol : row.token0Symbol
+            }
           />
         </span>
       </div>
@@ -163,9 +152,8 @@ const DetailsRenderer = ({ row, lpTokenSymbol }) => {
   );
 };
 
-const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
+const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
-  const { NPMTokenAddress } = useAppConstants();
 
   return (
     <td className="px-6 py-6 text-right">
@@ -175,11 +163,11 @@ const BondAmountRenderer = ({ row, npmTokenSymbol }) => {
           amountInUnits={
             row.type == "BondCreated" ? row.npmToVestAmount : row.claimAmount
           }
-          symbol={npmTokenSymbol}
+          symbol={row.token0Symbol}
         />
         <button
           className="p-1 ml-3"
-          onClick={() => register(NPMTokenAddress, npmTokenSymbol)}
+          onClick={() => register(row.token0, row.token0Symbol)}
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />
