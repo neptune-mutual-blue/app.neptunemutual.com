@@ -18,6 +18,9 @@ const getQuery = (account) => {
     totalPODs
     cover {
       id
+      vaults{
+        tokenSymbol
+      }
     }
   }
 }

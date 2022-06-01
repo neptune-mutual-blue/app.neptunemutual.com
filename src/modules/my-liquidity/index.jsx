@@ -44,6 +44,7 @@ function MyLiquidities({ data, loading }) {
                 <MyLiquidityCoverCard
                   coverKey={x.cover.id}
                   totalPODs={x.totalPODs}
+                  tokenSymbol={x.cover.vaults[0].tokenSymbol}
                 />
               </a>
             </Link>
