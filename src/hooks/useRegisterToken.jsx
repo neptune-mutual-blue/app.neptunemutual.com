@@ -13,7 +13,7 @@ export const useRegisterToken = () => {
     if (!networkId || !account) return;
     symbol &&
       (await fetch(
-        `${API_BASE_URL}/images/tokens/${symbol.toLowerCase()}.svg`
+        `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       ).then((res) => {
         if (res.status != "404") {
           setIsImageAvailable(true);
