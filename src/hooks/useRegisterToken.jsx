@@ -14,7 +14,7 @@ export const useRegisterToken = () => {
         `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       );
       if (res.status != 404)
-        image = `${API_BASE_URL}/images/tokens/${symbol.toLowerCase()}.svg`;
+        image = `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`;
     }
     return image;
   };
