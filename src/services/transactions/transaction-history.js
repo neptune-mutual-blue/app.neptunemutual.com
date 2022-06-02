@@ -11,21 +11,20 @@ export class TransactionHistory {
 
   /**
    *
-   * @param {*} instance
+   * @param {*} provider
    * @param {{
    *  success: (item: ISTATE_VALUE) => unknown,
    *  failure: (item: ISTATE_VALUE) => unknown,
    * }} callback
    * @returns {(item: ISTATE_VALUE) => Promise<unknown>}
    */
-  static callback(instance, { success = noop, failure = noop }) {
+  static callback(provider, { success = noop, failure = noop }) {
     return (item) => {
-      console.log("fetching transaction", item.hash);
-      return instance
+      return provider
         .getTransactionReceipt(item.hash)
         .then((result) => {
           if (result === null) {
-            return instance.waitForTransaction(item.hash);
+            return provider.waitForTransaction(item.hash);
           }
         })
         .then(() => success(item))
@@ -74,9 +73,8 @@ export class TransactionHistory {
    * @returns {Promise<unknown>}
    */
   static process(methodName, callback) {
-    const arrayOfHash = LS.get(methodName);
-
-    return arrayOfHash.reduce((promise, item) => {
+    const items = LS.get(methodName);
+    return items.reduce((promise, item) => {
       return promise.then(() =>
         callback(item).finally(() => {
           LS.remove(methodName, item.hash);

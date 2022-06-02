@@ -2,8 +2,7 @@ import { useNetwork } from "@/src/context/Network";
 import { useWeb3React } from "@web3-react/core";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 /**
  * @callback INotify
  * @param {string} title
@@ -16,32 +15,35 @@ import { useEffect } from "react";
  */
 
 /**
- * @param {string} registryInstance
  * @param {(instance: any, txToast: ITxToast) => void} callback
  */
-export function useTransactionHistory(registryInstance, callback) {
+export function useTransactionHistory(callback) {
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const txToast = useTxToast();
 
+  const init = useRef(true);
+
   useEffect(() => {
     if (!networkId || !account || !library) return;
     (async () => {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      if (init.current) {
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
 
-      const instance = await registry[registryInstance].getInstance(
-        networkId,
-        signerOrProvider
-      );
-
-      if (instance) {
-        callback(instance, {
-          pushSuccess: txToast.pushSuccess,
-          pushError: txToast.pushError,
-        });
+        if (signerOrProvider && signerOrProvider.provider) {
+          init.current = false;
+          callback(signerOrProvider.provider, {
+            pushSuccess: txToast.pushSuccess,
+            pushError: txToast.pushError,
+          });
+        }
       }
     })();
-  }, [account, callback, library, networkId, registryInstance, txToast]);
+  }, [account, library, networkId, callback, txToast]);
 
   return null;
 }

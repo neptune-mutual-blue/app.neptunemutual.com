@@ -25,7 +25,6 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
 import { TransactionHistory } from "@/src/services/transactions/transaction-history";
-import { useTxToast } from "@/src/hooks/useTxToast";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -37,7 +36,6 @@ const BondPage = () => {
   const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
     useAppConstants();
   const router = useRouter();
-  const txToast = useTxToast();
 
   const {
     balance,
@@ -53,7 +51,7 @@ const BondPage = () => {
     handleBond,
   } = useCreateBond({ info, value, refetchBondInfo });
 
-  useTransactionHistory("BondPool", (instance, { pushError, pushSuccess }) => {
+  useTransactionHistory((instance, { pushError, pushSuccess }) => {
     TransactionHistory.process(
       TransactionHistory.METHODS.CREATE_BOND,
       TransactionHistory.callback(instance, {

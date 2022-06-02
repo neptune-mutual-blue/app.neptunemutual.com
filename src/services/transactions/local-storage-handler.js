@@ -28,6 +28,7 @@ function getInitialState() {
   /** @type {TSTATE_VALUE} */
   return {
     [METHODS.CREATE_BOND]: [],
+    [METHODS.STAKING_DEPOSIT]: [],
   };
 }
 
@@ -45,13 +46,16 @@ class LocalStorageHandler {
   state = getInitialState();
 
   init() {
-    this.state = safeParseString(
-      localStorage.getItem(LOCAL_STORAGE_ENTRY),
-      getInitialState()
+    Object.assign(
+      this.state,
+      safeParseString(
+        localStorage.getItem(LOCAL_STORAGE_ENTRY),
+        getInitialState()
+      )
     );
   }
 
-  #update() {
+  _update() {
     localStorage.setItem(LOCAL_STORAGE_ENTRY, JSON.stringify(this.state));
   }
 
@@ -61,7 +65,7 @@ class LocalStorageHandler {
    */
   get(methodName) {
     if (this.state.hasOwnProperty(methodName)) {
-      this.state[methodName];
+      return this.state[methodName];
     }
 
     return [];
@@ -77,7 +81,7 @@ class LocalStorageHandler {
       this.state[methodName].push(item);
     }
 
-    this.#update();
+    this._update();
   }
 
   /**
@@ -96,11 +100,12 @@ class LocalStorageHandler {
       }
     }
 
-    this.#update();
+    this._update();
   }
 
   clear() {
     this.state = getInitialState();
+    this._update();
   }
 }
 

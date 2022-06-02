@@ -46,22 +46,19 @@ export const StakingPage = () => {
   const { getStatsByKey } = useSortableStats();
   const { getTVLById } = useAppConstants();
 
-  useTransactionHistory(
-    "StakingPools",
-    (instance, { pushError, pushSuccess }) => {
-      TransactionHistory.process(
-        TransactionHistory.METHODS.STAKING_DEPOSIT,
-        TransactionHistory.callback(instance, {
-          success: ({ hash, data: tokenSymbol }) => {
-            pushSuccess(t`Approved ${tokenSymbol} Successfully`, hash);
-          },
-          failure: ({ hash, data: tokenSymbol }) => {
-            pushError(t`Could not approve ${tokenSymbol}`, hash);
-          },
-        })
-      );
-    }
-  );
+  useTransactionHistory((instance, { pushError, pushSuccess }) => {
+    TransactionHistory.process(
+      TransactionHistory.METHODS.STAKING_DEPOSIT,
+      TransactionHistory.callback(instance, {
+        success: ({ hash, data: tokenSymbol }) => {
+          pushSuccess(t`Approved ${tokenSymbol} Successfully`, hash);
+        },
+        failure: ({ hash, data: tokenSymbol }) => {
+          pushError(t`Could not approve ${tokenSymbol}`, hash);
+        },
+      })
+    );
+  });
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({
