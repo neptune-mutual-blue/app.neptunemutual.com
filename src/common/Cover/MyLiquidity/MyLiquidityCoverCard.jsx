@@ -11,7 +11,11 @@ import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
-export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
+export const MyLiquidityCoverCard = ({
+  coverKey,
+  totalPODs,
+  tokenSymbol = "POD",
+}) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
@@ -69,7 +73,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
           formatCurrency(
             convertFromUnits(totalPODs || "0"),
             router.locale,
-            "POD",
+            tokenSymbol,
             true
           ).long
         }
@@ -80,7 +84,7 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
             formatCurrency(
               convertFromUnits(totalPODs || "0"),
               router.locale,
-              "POD",
+              tokenSymbol,
               true
             ).short
           }
