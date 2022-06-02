@@ -11,7 +11,7 @@ export const useRegisterToken = () => {
     if (!networkId || !account) return;
 
     const image = symbol
-      ? `${API_BASE_URL}/images/tokens/${symbol.toLowerCase()}.svg`
+      ? `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       : undefined;
 
     registerToken(address, symbol, 18, image)
