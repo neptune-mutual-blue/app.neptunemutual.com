@@ -16,11 +16,12 @@ export const METHODS = {
  *
  */
 const safeParseString = (stringedValue, defaultValue = "") => {
-  try {
-    return JSON.parse(stringedValue);
-  } catch (e) {
-    return defaultValue;
+  if (stringedValue) {
+    try {
+      return JSON.parse(stringedValue);
+    } catch (e) {}
   }
+  return defaultValue;
 };
 
 function getInitialState() {
@@ -45,7 +46,7 @@ class LocalStorageHandler {
 
   init() {
     this.state = safeParseString(
-      localStorage?.getItem(LOCAL_STORAGE_ENTRY),
+      localStorage.getItem(LOCAL_STORAGE_ENTRY),
       getInitialState()
     );
   }
