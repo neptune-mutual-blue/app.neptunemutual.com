@@ -17,15 +17,17 @@ import {
   vaultInfo,
 } from "@/utils/unit-tests/data/coverPurchaseMockUpData";
 import { NewIncidentReportPage } from "@/modules/reporting/new";
+import { API_BASE_URL } from "@/src/config/constants";
 
 const NETWORKID = 80001;
 
 const MOCKUP_API_URLS = {
-  GET_CONTRACTS_URL: `${process.env.NEXT_PUBLIC_API_URL}/protocol/contracts/mumbai`,
-  GET_COVER_INFO: `${process.env.NEXT_PUBLIC_API_URL}/protocol/cover/info/${NETWORKID}`,
-  GET_VAULT_INFO: `${process.env.NEXT_PUBLIC_API_URL}/protocol/vault/info/${NETWORKID}`,
-  GET_PRICING_URL: `${process.env.NEXT_PUBLIC_API_URL}/pricing/${NETWORKID}`,
-  SUB_GRAPH: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  GET_CONTRACTS_URL: `${API_BASE_URL}protocol/contracts/mumbai`,
+  GET_COVER_INFO: `${API_BASE_URL}protocol/cover/info/${NETWORKID}`,
+  GET_VAULT_INFO: `${API_BASE_URL}protocol/vault/info/${NETWORKID}`,
+  GET_PRICING_URL: `${API_BASE_URL}pricing/${NETWORKID}`,
+  SUB_GRAPH:
+    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
 };
 
 const QUERY = {

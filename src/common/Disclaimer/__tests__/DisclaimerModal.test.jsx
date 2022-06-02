@@ -4,20 +4,11 @@ import { i18n } from "@lingui/core";
 import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
 
 describe("Disclaimer Modal test", () => {
-  const renderer = () => {
-    let assignMock = jest.fn();
-
-    delete window.location;
-    window.location = { assign: assignMock };
-
+  beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });
     render(<DisclaimerModal />);
-  };
-
-  beforeEach(() => {
-    renderer();
   });
 
   test("should render the component correctly", () => {
