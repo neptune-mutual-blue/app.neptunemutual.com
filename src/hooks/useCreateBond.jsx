@@ -195,11 +195,15 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         hash: tx.hash,
       });
 
-      await txToast.push(tx, {
-        pending: t`Approving LP tokens`,
-        success: t`Approved LP tokens Successfully`,
-        failure: t`Could not approve LP tokens`,
-      });
+      await txToast
+        .push(tx, {
+          pending: t`Approving LP tokens`,
+          success: t`Approved LP tokens Successfully`,
+          failure: t`Could not approve LP tokens`,
+        })
+        .catch((err) => {
+          handleError(err);
+        });
 
       cleanup();
 

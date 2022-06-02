@@ -135,17 +135,21 @@ export const useStakingPoolDeposit = ({
           data: tokenSymbol,
         });
 
-        await txToast.push(
-          tx,
-          {
-            pending: t`Staking ${tokenSymbol}`,
-            success: t`Staked ${tokenSymbol} successfully`,
-            failure: t`Could not stake ${tokenSymbol}`,
-          },
-          {
-            onTxSuccess: onDepositSuccess,
-          }
-        );
+        await txToast
+          .push(
+            tx,
+            {
+              pending: t`Staking ${tokenSymbol}`,
+              success: t`Staked ${tokenSymbol} successfully`,
+              failure: t`Could not stake ${tokenSymbol}`,
+            },
+            {
+              onTxSuccess: onDepositSuccess,
+            }
+          )
+          .catch((err) => {
+            handleError(err);
+          });
 
         cleanup();
 
