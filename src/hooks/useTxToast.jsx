@@ -51,5 +51,33 @@ export const useTxToast = () => {
     options?.onTxFailure && options.onTxFailure();
   };
 
-  return { push };
+  /**
+   * @param {string} title
+   * @param {string} hash
+   */
+  const pushSuccess = (title, hash) => {
+    const txLink = getTxLink(networkId, { hash });
+
+    toast.pushSuccess({
+      title,
+      message: <ViewTxLink txLink={txLink} />,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
+  };
+
+  /**
+   * @param {string} title
+   * @param {string} hash
+   */
+  const pushError = (title, hash) => {
+    const txLink = getTxLink(networkId, { hash });
+
+    toast.pushError({
+      title,
+      message: <ViewTxLink txLink={txLink} />,
+      lifetime: TOAST_DEFAULT_TIMEOUT,
+    });
+  };
+
+  return { push, pushSuccess, pushError };
 };

@@ -23,17 +23,21 @@ import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
+import { TransactionHistory } from "@/src/services/transactions/transaction-history";
+import { useTxToast } from "@/src/hooks/useTxToast";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
   const { info, refetch: refetchBondInfo } = useBondInfo();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
   const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
     useAppConstants();
   const router = useRouter();
+  const txToast = useTxToast();
 
   const {
     balance,
@@ -48,6 +52,21 @@ const BondPage = () => {
     handleApprove,
     handleBond,
   } = useCreateBond({ info, value, refetchBondInfo });
+
+  useTransactionHistory("BondPool", (instance, { pushError, pushSuccess }) => {
+    TransactionHistory.process(
+      TransactionHistory.METHODS.CREATE_BOND,
+      TransactionHistory.callback(instance, {
+        success: ({ hash }) => {
+          pushSuccess(t`Created bond successfully`, hash);
+        },
+        failure: ({ hash }) => {
+          pushError(t`Could not create bond`, hash);
+        },
+      })
+    );
+  });
+
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress)

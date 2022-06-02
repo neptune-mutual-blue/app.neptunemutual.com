@@ -20,7 +20,7 @@ export const StakeForm = ({
   setModalDisabled,
 }) => {
   const tokenAddress = info.stakingToken;
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState("");
 
   const {
     balance,

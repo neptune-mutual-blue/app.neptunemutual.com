@@ -22,6 +22,7 @@ import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { TransactionHistory } from "@/src/services/transactions/transaction-history";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -129,6 +130,11 @@ export const useStakingPoolDeposit = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.add(TransactionHistory.METHODS.STAKING_DEPOSIT, {
+          hash: tx.hash,
+          data: tokenSymbol,
+        });
+
         await txToast.push(
           tx,
           {
@@ -142,6 +148,11 @@ export const useStakingPoolDeposit = ({
         );
 
         cleanup();
+
+        TransactionHistory.remove(
+          TransactionHistory.METHODS.STAKING_DEPOSIT,
+          tx.hash
+        );
       };
 
       const onRetryCancel = () => {

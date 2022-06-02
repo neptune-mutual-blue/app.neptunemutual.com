@@ -9,6 +9,7 @@ import {
   getAddressesFromApi,
   getAddressesFromProvider,
 } from "@/src/services/contracts/getAddresses";
+import { LS } from "@/src/services/transactions/local-storage-handler";
 
 const initValue = {
   liquidityTokenAddress: "",
@@ -64,6 +65,10 @@ export const AppConstantsProvider = ({ children }) => {
       }));
     });
   }, [account, library, networkId]);
+
+  useEffect(() => {
+    LS.init();
+  }, []);
 
   return (
     <AppConstantsContext.Provider

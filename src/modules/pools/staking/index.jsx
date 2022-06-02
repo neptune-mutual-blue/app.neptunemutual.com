@@ -15,6 +15,8 @@ import { StakingCard } from "@/modules/pools/staking/StakingCard";
 import { useTokenStakingPools } from "@/src/hooks/useTokenStakingPools";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { toStringSafe } from "@/utils/string";
+import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
+import { TransactionHistory } from "@/src/services/transactions/transaction-history";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -43,6 +45,23 @@ export const StakingPage = () => {
   const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
   const { getStatsByKey } = useSortableStats();
   const { getTVLById } = useAppConstants();
+
+  useTransactionHistory(
+    "StakingPools",
+    (instance, { pushError, pushSuccess }) => {
+      TransactionHistory.process(
+        TransactionHistory.METHODS.STAKING_DEPOSIT,
+        TransactionHistory.callback(instance, {
+          success: ({ hash, data: tokenSymbol }) => {
+            pushSuccess(t`Approved ${tokenSymbol} Successfully`, hash);
+          },
+          failure: ({ hash, data: tokenSymbol }) => {
+            pushError(t`Could not approve ${tokenSymbol}`, hash);
+          },
+        })
+      );
+    }
+  );
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({

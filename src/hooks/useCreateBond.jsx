@@ -22,7 +22,7 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-
+import { TransactionHistory } from "@/src/services/transactions/transaction-history";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -163,8 +163,12 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (isGreater(receiveAmount, info.maxBond)) {
       setError(
         t`Exceeds maximum bond ${
-          formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
-            .long
+          formatCurrency(
+            convertFromUnits(info.maxBond).toString(),
+            router.locale,
+            "NPM",
+            true
+          ).long
         }`
       );
       return;
@@ -187,17 +191,22 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     };
 
     const onTransactionResult = async (tx) => {
-      try {
-        await txToast.push(tx, {
-          pending: t`Approving LP tokens`,
-          success: t`Approved LP tokens Successfully`,
-          failure: t`Could not approve LP tokens`,
-        });
-        cleanup();
-      } catch (err) {
-        handleError(err);
-        cleanup();
-      }
+      TransactionHistory.add(TransactionHistory.METHODS.CREATE_BOND, {
+        hash: tx.hash,
+      });
+
+      await txToast.push(tx, {
+        pending: t`Approving LP tokens`,
+        success: t`Approved LP tokens Successfully`,
+        failure: t`Could not approve LP tokens`,
+      });
+
+      cleanup();
+
+      TransactionHistory.remove(
+        TransactionHistory.METHODS.CREATE_BOND,
+        tx.hash
+      );
     };
 
     const onRetryCancel = () => {

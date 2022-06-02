@@ -159,9 +159,16 @@ export const useERC20Allowance = (tokenAddress) => {
       instance: tokenInstance,
       methodName: "approve",
       args,
-      onError,
-      onRetryCancel,
+      onError: (...args) => {
+        console.log("test onError", ...args);
+        onError(...args);
+      },
+      onRetryCancel: (...args) => {
+        console.log("test onRetryCancel", ...args);
+        onRetryCancel(...args);
+      },
       onTransactionResult: (tx) => {
+        console.log("test onTransactionResult", ...args);
         tx?.wait().then(() => {
           refetch(spender);
         });
