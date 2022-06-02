@@ -6,6 +6,7 @@ import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
 import { Divider } from "@/common/Divider/Divider";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { LSHistory } from "@/src/services/transactions/history";
 
 const initValue = {
   // prettier-ignore
@@ -80,6 +81,16 @@ export const TxPosterProvider = ({ children }) => {
         return;
       }
 
+      LSHistory.add({
+        hash: "",
+        methodName,
+        status: 2,
+        timestamp: Date.now(),
+        data: {
+          args,
+        },
+      });
+
       try {
         const tx = await instance[methodName](...args, {
           gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
@@ -87,8 +98,27 @@ export const TxPosterProvider = ({ children }) => {
         });
 
         onTransactionResult(tx);
+
+        LSHistory.add({
+          hash: tx.hash,
+          methodName,
+          status: 1,
+          timestamp: Date.now(),
+          data: {
+            args,
+          },
+        });
       } catch (err) {
         onError(err);
+        LSHistory.add({
+          hash: "",
+          methodName,
+          status: 0,
+          timestamp: Date.now(),
+          data: {
+            args,
+          },
+        });
       }
     },
     []

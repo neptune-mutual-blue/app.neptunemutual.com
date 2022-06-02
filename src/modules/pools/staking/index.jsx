@@ -49,14 +49,18 @@ export const StakingPage = () => {
   useTransactionHistory((instance, { pushError, pushSuccess }) => {
     TransactionHistory.process(
       TransactionHistory.METHODS.STAKING_DEPOSIT,
-      TransactionHistory.callback(instance, {
-        success: ({ hash, data: tokenSymbol }) => {
-          pushSuccess(t`Approved ${tokenSymbol} Successfully`, hash);
+      TransactionHistory.callback(
+        instance,
+        {
+          success: ({ hash, data: tokenSymbol }) => {
+            pushSuccess(t`Approved ${tokenSymbol} Successfully`, hash);
+          },
+          failure: ({ hash, data: tokenSymbol }) => {
+            pushError(t`Could not approve ${tokenSymbol}`, hash);
+          },
         },
-        failure: ({ hash, data: tokenSymbol }) => {
-          pushError(t`Could not approve ${tokenSymbol}`, hash);
-        },
-      })
+        TransactionHistory.METHODS.STAKING_DEPOSIT
+      )
     );
   });
 

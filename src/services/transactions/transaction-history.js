@@ -1,7 +1,9 @@
-import { LS, METHODS } from "@/src/services/transactions/local-storage-handler";
+import { METHODS } from "@/src/services/transactions/const";
+import { LSHistory } from "@/src/services/transactions/history";
+import { LSTransaction } from "@/src/services/transactions/transaction";
 
 /**
- * @typedef {import('./local-storage-handler').ISTATE_VALUE} ISTATE_VALUE
+ * @typedef {import('./transaction').ISTATE_VALUE} ISTATE_VALUE
  */
 
 const noop = () => {};
@@ -16,9 +18,10 @@ export class TransactionHistory {
    *  success: (item: ISTATE_VALUE) => unknown,
    *  failure: (item: ISTATE_VALUE) => unknown,
    * }} callback
+   * @param {METHODS} methodName
    * @returns {(item: ISTATE_VALUE) => Promise<unknown>}
    */
-  static callback(provider, { success = noop, failure = noop }) {
+  static callback(provider, { success = noop, failure = noop }, methodName) {
     return (item) => {
       return provider
         .getTransactionReceipt(item.hash)
@@ -27,8 +30,26 @@ export class TransactionHistory {
             return provider.waitForTransaction(item.hash);
           }
         })
-        .then(() => success(item))
-        .catch(() => failure(item));
+        .then(() => {
+          success(item);
+          LSHistory.add({
+            hash: item.hash,
+            methodName,
+            status: 1,
+            timestamp: Date.now(),
+            data: item.data,
+          });
+        })
+        .catch(() => {
+          failure(item);
+          LSHistory.add({
+            hash: item.hash,
+            methodName,
+            status: 0,
+            timestamp: Date.now(),
+            data: item.data,
+          });
+        });
     };
   }
 
@@ -73,11 +94,11 @@ export class TransactionHistory {
    * @returns {Promise<unknown>}
    */
   static process(methodName, callback) {
-    const items = LS.get(methodName);
+    const items = LSTransaction.get(methodName);
     return items.reduce((promise, item) => {
       return promise.then(() =>
         callback(item).finally(() => {
-          LS.remove(methodName, item.hash);
+          LSTransaction.remove(methodName, item.hash);
         })
       );
     }, Promise.resolve());
@@ -90,7 +111,7 @@ export class TransactionHistory {
    * @returns {void}
    */
   static add(methodName, item) {
-    return LS.add(methodName, item);
+    return LSTransaction.add(methodName, item);
   }
 
   /**
@@ -100,6 +121,6 @@ export class TransactionHistory {
    * @returns {void}
    */
   static remove(methodName, hash) {
-    return LS.remove(methodName, hash);
+    return LSTransaction.remove(methodName, hash);
   }
 }

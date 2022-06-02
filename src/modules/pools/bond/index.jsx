@@ -54,14 +54,18 @@ const BondPage = () => {
   useTransactionHistory((instance, { pushError, pushSuccess }) => {
     TransactionHistory.process(
       TransactionHistory.METHODS.CREATE_BOND,
-      TransactionHistory.callback(instance, {
-        success: ({ hash }) => {
-          pushSuccess(t`Created bond successfully`, hash);
+      TransactionHistory.callback(
+        instance,
+        {
+          success: ({ hash }) => {
+            pushSuccess(t`Created bond successfully`, hash);
+          },
+          failure: ({ hash }) => {
+            pushError(t`Could not create bond`, hash);
+          },
         },
-        failure: ({ hash }) => {
-          pushError(t`Could not create bond`, hash);
-        },
-      })
+        TransactionHistory.METHODS.CREATE_BOND
+      )
     );
   });
 
