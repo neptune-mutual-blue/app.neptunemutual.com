@@ -27,6 +27,8 @@ export const useFetchCoverStats = ({ coverKey }) => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     async function exec() {
       if (!networkId || !coverKey) return;
 
@@ -56,6 +58,8 @@ export const useFetchCoverStats = ({ coverKey }) => {
           return;
         }
 
+        if (ignore) return;
+
         setInfo({
           activeIncidentDate: data.activeIncidentDate,
           claimPlatformFee: data.claimPlatformFee,
@@ -74,6 +78,10 @@ export const useFetchCoverStats = ({ coverKey }) => {
     }
 
     exec();
+
+    return () => {
+      ignore = true;
+    };
   }, [account, coverKey, networkId]);
 
   return info;

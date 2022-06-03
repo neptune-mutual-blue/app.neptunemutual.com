@@ -10,7 +10,10 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const { networkId } = useNetwork();
+
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !coverKey || !incidentDate) {
       return;
     }
@@ -61,6 +64,8 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+        
         if (res.errors || !res.data) {
           return;
         }
@@ -83,6 +88,10 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [coverKey, incidentDate, limit, networkId, page]);
 
   return {

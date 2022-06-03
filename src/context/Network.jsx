@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useEagerConnect } from "@/lib/connect-wallet/hooks/useEagerConnect";
 import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListener";
@@ -15,7 +15,7 @@ export function useNetwork() {
 }
 
 export const NetworkProvider = ({ children }) => {
-  const [networkId] = useState(getNetworkId);
+  const networkId = getNetworkId();
 
   return (
     <NetworkContext.Provider value={{ networkId }}>
