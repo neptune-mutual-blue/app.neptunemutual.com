@@ -15,6 +15,7 @@ export const TokenAmountInput = ({
   error,
   disabled,
   children,
+  ...rest
 }) => {
   return (
     <>
@@ -38,6 +39,7 @@ export const TokenAmountInput = ({
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,
+          ...rest,
         }}
       />
       <TokenBalance

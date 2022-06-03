@@ -168,6 +168,7 @@ const BondPage = () => {
           onChange={handleChange}
           disabled={approving || bonding}
           handleChooseMax={handleChooseMax}
+          data-testid="bond-amount-input"
         />
         {error && <p className="px-3 text-FA5C2F">{error}</p>}
         <div className="mt-16 receive">
@@ -175,6 +176,7 @@ const BondPage = () => {
             labelText={t`You Will Receive`}
             tokenSymbol="NPM"
             inputValue={convertFromUnits(receiveAmount).toString()}
+            data-testid="receive-amount-input"
           />
         </div>
 
