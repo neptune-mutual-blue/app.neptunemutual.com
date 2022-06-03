@@ -10,11 +10,13 @@ module.exports = {
     },
     boxShadow: {
       "card": "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
-      "mainCard": "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
+      "mainCard":
+        "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
       "toolTip": "0px 2px 6px rgba(0, 0, 0, 0.25)",
       "option": "0px 4px 8px rgba(0, 0, 0, 0.1)",
       "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
       "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
+      "tx-overview": "0px 4px 11px rgba(1, 5, 45, 0.3)",
     },
     colors: {
       transparent: "transparent",
@@ -77,7 +79,8 @@ module.exports = {
       },
       spacing: {
         /* 72px */
-        18: "4.5rem",
+        "18": "4.5rem",
+        "22px": "22px",
       },
       lineHeight: {
         4.5: "18px",
@@ -134,6 +137,7 @@ module.exports = {
         "FEFEFF": "#FEFEFF",
         "01052D": "#01052D",
         "5C738F": "#5C738F",
+        "404A5C": "#404A5C",
       },
       minHeight: {
         360: "360px",
