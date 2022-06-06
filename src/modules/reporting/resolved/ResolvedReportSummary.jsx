@@ -12,9 +12,14 @@ import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummar
 import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize, finalizing } = useFinalizeIncident({
+    coverKey: incidentReport.key,
+    incidentDate: incidentReport.incidentDate,
+  });
+  const { capitalize, capitalizing } = useCapitalizePool({
     coverKey: incidentReport.key,
     incidentDate: incidentReport.incidentDate,
   });
@@ -178,16 +183,31 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           </p>
 
           {!incidentReport.finalized && (
-            <button
-              className="text-sm text-4e7dd9"
-              disabled={finalizing}
-              onClick={async () => {
-                await finalize();
-                setTimeout(refetchReport, 15000);
-              }}
-            >
-              {finalizing ? t`Finalizing...` : t`Finalize`}
-            </button>
+            <>
+              <button
+                className="text-sm text-4e7dd9"
+                disabled={finalizing}
+                onClick={async () => {
+                  await finalize();
+                  setTimeout(refetchReport, 15000);
+                }}
+              >
+                {finalizing ? t`Finalizing...` : t`Finalize`}
+              </button>
+
+              <br />
+
+              <button
+                className="mt-2 text-sm font-poppins text-4e7dd9"
+                disabled={capitalizing}
+                onClick={async () => {
+                  await capitalize();
+                  setTimeout(refetchReport, 15000);
+                }}
+              >
+                {capitalizing ? t`Capitalizing...` : t`Capitalize`}
+              </button>
+            </>
           )}
         </div>
 
