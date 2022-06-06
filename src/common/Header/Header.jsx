@@ -257,7 +257,7 @@ export const Header = () => {
             onClose={setIsTxDetailsPopupOpen}
             container={container}
           />
-        </nav>
+        </nav>{" "}
         <MenuModal
           isOpen={isOpen}
           onClose={onClose}
