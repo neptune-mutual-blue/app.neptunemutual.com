@@ -43,7 +43,7 @@ const renderActions = (row, extraData) => {
   return <ClaimActionsColumnRenderer row={row} extraData={extraData} />;
 };
 
-const columns = [
+export const columns = [
   {
     name: "cxToken Address",
     align: "left",
@@ -93,9 +93,9 @@ export const ClaimCxTokensTable = ({
   return (
     <>
       <ClaimTableContext.Provider value={{ report }}>
-        <TableWrapper>
+        <TableWrapper data-testid="table-wrapper">
           <Table>
-            <THead columns={columns}></THead>
+            <THead columns={columns} data-testid="table-header"></THead>
             <TBody
               columns={columns}
               data={activePolicies}
@@ -149,7 +149,7 @@ const CxTokenAmountRenderer = () => {
   );
 };
 
-const ClaimBeforeColumnRenderer = () => {
+export const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext();
   const claimExpiryDate = report?.claimExpiresAt || 0;
   const router = useRouter();
@@ -166,7 +166,7 @@ const ClaimBeforeColumnRenderer = () => {
   );
 };
 
-const ClaimActionsColumnRenderer = ({ row, extraData }) => {
+export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
