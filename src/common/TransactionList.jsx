@@ -52,7 +52,7 @@ export function TransactionList({
       isOpen={isOpen}
       onClose={onClose}
       rootProps={{ modal: true }}
-      className="px-4 py-1 w-96 max-w-96 rounded-3xl bg-3A4557 text-FEFEFF absolute top-96 -left-36"
+      className="px-4 py-1 w-96 max-w-96 max-h-fit rounded-3xl bg-3A4557 text-FEFEFF absolute top-96 left-[calc(100vw-14rem)]"
       container={container}
       {...rest}
     >

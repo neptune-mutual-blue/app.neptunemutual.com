@@ -23,16 +23,17 @@ export const ModalRegular = ({
           "fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-50",
           overlayClass
         )}
-      />
-      <Content
-        className={classNames(
-          "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
-          className
-        )}
-        {...rest}
       >
-        {children}
-      </Content>
+        <Content
+          className={classNames(
+            "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
+            className
+          )}
+          {...rest}
+        >
+          {children}
+        </Content>
+      </Overlay>
     </Portal>
   </Root>
 );
