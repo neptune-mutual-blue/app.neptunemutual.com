@@ -190,7 +190,7 @@ msgstr "正在核准cxDAI代币"
 #: src/hooks/useStakingPoolDeposit.jsx:78
 #: src/hooks/useStakingPoolDeposit.jsx:78
 msgid "Approving {tokenSymbol}"
-msgstr "正在核准{token Symbol}"
+msgstr "正在核准{tokenSymbol}"
 
 #: src/hooks/useDisputeIncident.jsx:72
 #: src/hooks/useDisputeIncident.jsx:72
@@ -199,12 +199,12 @@ msgstr "正在核准{token Symbol}"
 #: src/hooks/useVote.jsx:63
 #: src/hooks/useVote.jsx:63
 msgid "Approving {tokenSymbol} tokens"
-msgstr "正在核准{token Symbol}代币"
+msgstr "正在核准{tokenSymbol}代币"
 
 #: src/hooks/useRemoveLiquidity.jsx:63
 #: src/hooks/useRemoveLiquidity.jsx:63
 msgid "Approving {vaultTokenSymbol} tokens"
-msgstr "正在核准{vaultToken Symbol}"
+msgstr "正在核准{vaultTokenSymbol}"
 
 #: src/modules/my-liquidity/WithdrawLiquidityForm.jsx:228
 msgid "Approving.."

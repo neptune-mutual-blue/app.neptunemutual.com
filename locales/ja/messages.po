@@ -35,7 +35,7 @@ msgstr ""
 msgid "APR:"
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:136
+#: src/common/Disclaimer/DisclaimerModal.jsx:141
 msgid "Accept"
 msgstr ""
 
@@ -76,7 +76,7 @@ msgstr ""
 msgid "Add new link"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:163
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:162
 msgid "Added"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr ""
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:266
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:287
 #: src/modules/my-liquidity/WithdrawLiquidityForm.jsx:228
-#: src/modules/my-policies/ClaimCoverModal.jsx:136
+#: src/modules/my-policies/ClaimCoverModal.jsx:146
 #: src/modules/pools/bond/index.jsx:206
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/NewDisputeReportForm.jsx:227
@@ -213,7 +213,7 @@ msgstr ""
 #: src/common/CoverForm/PurchasePolicyForm.jsx:239
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:263
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:284
-#: src/modules/my-policies/ClaimCoverModal.jsx:136
+#: src/modules/my-policies/ClaimCoverModal.jsx:146
 #: src/modules/pools/bond/index.jsx:203
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/NewDisputeReportForm.jsx:224
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Bonding..."
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:111
+#: src/common/Disclaimer/DisclaimerModal.jsx:116
 msgid "By visiting this testnet environment, you acknowledge and agree the disclaimer as above and/or any changes made to this disclaimer."
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr ""
 msgid "Cast Your Vote"
 msgstr ""
 
-#: src/modules/my-policies/ClaimCoverModal.jsx:148
+#: src/modules/my-policies/ClaimCoverModal.jsx:159
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:82
 msgid "Claim"
 msgstr ""
@@ -368,7 +368,7 @@ msgstr ""
 msgid "Claimable"
 msgstr ""
 
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:168
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:167
 msgid "Claimed"
 msgstr ""
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "Claiming policy"
 msgstr ""
 
-#: src/modules/my-policies/ClaimCoverModal.jsx:148
+#: src/modules/my-policies/ClaimCoverModal.jsx:159
 #: src/modules/pools/bond/ClaimBondModal.jsx:69
 msgid "Claiming..."
 msgstr ""
@@ -524,8 +524,8 @@ msgstr ""
 msgid "Could not purchase policy"
 msgstr ""
 
-#: src/hooks/useVote.jsx:170
-#: src/hooks/useVote.jsx:170
+#: src/hooks/useVote.jsx:172
+#: src/hooks/useVote.jsx:172
 msgid "Could not refute"
 msgstr ""
 
@@ -596,7 +596,7 @@ msgstr ""
 msgid "Creating bond"
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:125
+#: src/common/Disclaimer/DisclaimerModal.jsx:130
 msgid "Decline"
 msgstr ""
 
@@ -609,7 +609,7 @@ msgstr ""
 msgid "Didn’t Find What You Were Looking For?"
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:38
+#: src/common/Disclaimer/DisclaimerModal.jsx:43
 msgid "Disclaimer and Warranty"
 msgstr ""
 
@@ -711,7 +711,7 @@ msgstr ""
 msgid "Enter your stake"
 msgstr ""
 
-#: src/modules/my-policies/ClaimCoverModal.jsx:98
+#: src/modules/my-policies/ClaimCoverModal.jsx:102
 msgid "Enter your {tokenSymbol}"
 msgstr ""
 
@@ -771,7 +771,7 @@ msgstr ""
 msgid "Feature is yet to be released. Our team’s getting it ready for you."
 msgstr ""
 
-#: src/modules/my-policies/ClaimCoverModal.jsx:120
+#: src/modules/my-policies/ClaimCoverModal.jsx:128
 msgid "Fee: {0}"
 msgstr ""
 
@@ -859,7 +859,7 @@ msgstr ""
 msgid "Get LP tokens"
 msgstr ""
 
-#: src/common/Header/Header.jsx:66
+#: src/common/Header/Header.jsx:68
 #: src/modules/cover/add-liquidity/index.jsx:52
 #: src/modules/cover/purchase/index.jsx:56
 #: src/modules/reporting/ReportingHero.jsx:19
@@ -953,9 +953,9 @@ msgstr ""
 msgid "Invalid amount to stake"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:91
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:92
-#: src/modules/pools/bond/MyBondTxsTable.jsx:103
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:90
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:91
+#: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
 msgstr ""
 
@@ -964,7 +964,7 @@ msgstr ""
 msgid "Liquidity"
 msgstr ""
 
-#: src/modules/my-liquidity/index.jsx:76
+#: src/modules/my-liquidity/index.jsx:77
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr ""
 
@@ -1010,7 +1010,7 @@ msgstr ""
 msgid "My Active Protection"
 msgstr ""
 
-#: src/common/Header/Header.jsx:48
+#: src/common/Header/Header.jsx:50
 #: src/modules/my-liquidity/details.jsx:70
 #: src/modules/my-liquidity/details.jsx:86
 #: src/pages/my-liquidity/index.jsx:49
@@ -1018,11 +1018,11 @@ msgstr ""
 msgid "My Liquidity"
 msgstr "私の流動性"
 
-#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:78
+#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:82
 msgid "My Liquidity:"
 msgstr ""
 
-#: src/common/Header/Header.jsx:43
+#: src/common/Header/Header.jsx:45
 #: src/modules/my-policies/PoliciesTabs.jsx:35
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:73
 #: src/pages/my-policies/[cover_id]/[timestamp]/claim.jsx:88
@@ -1051,7 +1051,7 @@ msgstr ""
 msgid "Neptune Mutual Reporters"
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:85
+#: src/common/Disclaimer/DisclaimerModal.jsx:90
 msgid "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
 msgstr ""
 
@@ -1113,9 +1113,9 @@ msgstr ""
 msgid "Please connect your wallet"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:111
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:116
-#: src/modules/pools/bond/MyBondTxsTable.jsx:128
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:110
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:115
+#: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
 msgstr ""
 
@@ -1129,7 +1129,7 @@ msgstr ""
 msgid "Please specify an amount"
 msgstr ""
 
-#: src/common/Header/Header.jsx:38
+#: src/common/Header/Header.jsx:40
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "プール"
@@ -1170,7 +1170,7 @@ msgstr ""
 msgid "Purchase policy"
 msgstr ""
 
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:168
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:167
 msgid "Purchased"
 msgstr ""
 
@@ -1202,7 +1202,7 @@ msgstr ""
 msgid "ROI:"
 msgstr ""
 
-#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:57
+#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:61
 msgid "Reassurance Ratio"
 msgstr ""
 
@@ -1214,17 +1214,17 @@ msgstr ""
 msgid "Recent Votes"
 msgstr ""
 
-#: src/hooks/useVote.jsx:169
-#: src/hooks/useVote.jsx:169
+#: src/hooks/useVote.jsx:171
+#: src/hooks/useVote.jsx:171
 msgid "Refuted successfully"
 msgstr ""
 
-#: src/hooks/useVote.jsx:168
-#: src/hooks/useVote.jsx:168
+#: src/hooks/useVote.jsx:170
+#: src/hooks/useVote.jsx:170
 msgid "Refuting"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:163
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:162
 msgid "Removed"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 msgid "Reported incident successfully"
 msgstr ""
 
-#: src/common/Header/Header.jsx:53
+#: src/common/Header/Header.jsx:55
 #: src/common/HomeCard/HomeMainCard.jsx:31
 #: src/modules/reporting/ReportingHero.jsx:21
 #: src/modules/reporting/ReportingHero.jsx:40
@@ -1378,7 +1378,7 @@ msgstr ""
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {commission}% of the platform fee instead of the incident reporter."
 msgstr ""
 
-#: src/common/SearchAndSortBar.jsx:50
+#: src/common/SearchAndSortBar.jsx:51
 msgid "Sort by:"
 msgstr ""
 
@@ -1448,11 +1448,11 @@ msgstr ""
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of"
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:73
+#: src/common/Disclaimer/DisclaimerModal.jsx:78
 msgid "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:54
+#: src/common/Disclaimer/DisclaimerModal.jsx:59
 msgid "The purpose of this testnet environment is to test and conduct experiment on Neptune Mutual protocol without imposing risk to any digital assets or the main chain. Hence, this testnet environment is furnished for testing and experimenting only, and is subject to continuous updating, changing, improving, and/or periodically shut down without notice. The testnet environment may be malfunctioned, include technical errors or typographical errors. Any content, information, data, logo, including but not limited to covers providers, liquidity, protection policy are fictitious and should not be construed as a commitment by Neptune, and without warranties implied or statutory including without limitation warranties of merchantability, fitness for a particular use and non-infringement. Neptune accepts no responsibility or liability from any visitors on the testnet with regard to any issue incurred as a result of using or visiting the testnet environment."
 msgstr ""
 
@@ -1460,11 +1460,11 @@ msgstr ""
 msgid "There are no known incidents of {0}."
 msgstr ""
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:47
+#: src/common/Disclaimer/DisclaimerModal.jsx:52
 msgid "This testnet environment is built by Neptune Mutual, i.e. its operating entity Neptune Tech Limited and/or its affiliated companies (collectively “Neptune”)."
 msgstr ""
 
-#: src/modules/pools/bond/MyBondTxsTable.jsx:202
+#: src/modules/pools/bond/MyBondTxsTable.jsx:190
 msgid "Timestamp"
 msgstr ""
 
@@ -1646,7 +1646,7 @@ msgstr ""
 msgid "You are not whitelisted"
 msgstr ""
 
-#: src/modules/my-policies/ClaimCoverModal.jsx:111
+#: src/modules/my-policies/ClaimCoverModal.jsx:119
 msgid "You will receive"
 msgstr ""
 
@@ -1685,9 +1685,9 @@ msgstr ""
 msgid "add liquidity"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:63
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:63
-#: src/modules/pools/bond/MyBondTxsTable.jsx:72
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:62
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:62
+#: src/modules/pools/bond/MyBondTxsTable.jsx:65
 msgid "amount"
 msgstr ""
 
@@ -1754,9 +1754,9 @@ msgstr ""
 msgid "create bond"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:57
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:57
-#: src/modules/pools/bond/MyBondTxsTable.jsx:66
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:56
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:56
+#: src/modules/pools/bond/MyBondTxsTable.jsx:59
 msgid "details"
 msgstr ""
 
@@ -1764,7 +1764,7 @@ msgstr ""
 msgid "dispute"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:179
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:178
 msgid "from"
 msgstr ""
 
@@ -1815,7 +1815,7 @@ msgstr ""
 msgid "loading..."
 msgstr ""
 
-#: src/modules/my-liquidity/index.jsx:72
+#: src/modules/my-liquidity/index.jsx:73
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:36
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:152
@@ -1824,10 +1824,10 @@ msgstr ""
 msgid "no data found"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:157
-#: src/modules/my-policies/ClaimCoverModal.jsx:86
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:162
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:180
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:156
+#: src/modules/my-policies/ClaimCoverModal.jsx:90
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:161
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:179
 msgid "policy"
 msgstr ""
 
@@ -1835,7 +1835,7 @@ msgstr ""
 msgid "purchase policy"
 msgstr ""
 
-#: src/hooks/useVote.jsx:155
+#: src/hooks/useVote.jsx:157
 msgid "refute"
 msgstr ""
 
@@ -1863,7 +1863,7 @@ msgstr ""
 msgid "staking pools found."
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:179
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:178
 msgid "to"
 msgstr ""
 
@@ -1899,9 +1899,9 @@ msgstr ""
 msgid "votes"
 msgstr ""
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:51
-#: src/modules/my-policies/MyPoliciesTxsTable.jsx:51
-#: src/modules/pools/bond/MyBondTxsTable.jsx:60
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:50
+#: src/modules/my-policies/MyPoliciesTxsTable.jsx:50
+#: src/modules/pools/bond/MyBondTxsTable.jsx:53
 #: src/modules/reporting/RecentVotesTable.jsx:47
 msgid "when"
 msgstr ""
