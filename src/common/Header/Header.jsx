@@ -117,11 +117,14 @@ export const Header = () => {
     </div>
   );
 
-  const TransactionOverviewTooltip = ({ children }) => (
+  const TransactionOverviewTooltip = ({ children, hide }) => (
     <Tooltip.Root delayDuration={200}>
-      <Tooltip.Trigger>{children}</Tooltip.Trigger>
+      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
       <Tooltip.Content
-        className="flex w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview"
+        className={classNames(
+          "w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview",
+          hide ? "hidden" : "flex"
+        )}
         side="bottom"
         sideOffset={7}
         alignOffset={15}
@@ -228,10 +231,10 @@ export const Header = () => {
             </div>
           </div>
 
-          <TransactionOverviewTooltip>
+          <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
             <button
               className={classNames(
-                "items-center justify-center hidden px-4 xl:flex relative w-full h-full",
+                "items-center justify-center hidden px-4 xl:flex relative self-stretch flex-shrink-0",
                 "before:absolute before:h-7 before:left-0 before:bg-999BAB",
                 isTxDetailsPopupOpen
                   ? "bg-404A5C before:w-0"
@@ -239,7 +242,11 @@ export const Header = () => {
               )}
               onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
             >
-              <TransactionOverviewIcon className="text-999BAB" />
+              <TransactionOverviewIcon
+                className={classNames(
+                  isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
+                )}
+              />
             </button>
           </TransactionOverviewTooltip>
         </nav>
