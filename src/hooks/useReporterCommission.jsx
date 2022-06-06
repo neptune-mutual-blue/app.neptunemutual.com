@@ -15,6 +15,8 @@ export const useReporterCommission = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId) return;
 
     const signerOrProvider = getProviderOrSigner(
@@ -25,6 +27,7 @@ export const useReporterCommission = () => {
 
     getReporterCommission(networkId, signerOrProvider.provider).then(
       (_commission) => {
+        if (ignore) return;
         setCommission(
           toBN(_commission.toString())
             .multipliedBy(100)
@@ -34,6 +37,10 @@ export const useReporterCommission = () => {
         );
       }
     );
+
+    return () => {
+      ignore = true;
+    };
   }, [library, networkId]);
 
   return {

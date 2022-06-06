@@ -14,6 +14,8 @@ export const usePolicyTxs = ({ limit, page }) => {
   const { account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !account) {
       return;
     }
@@ -70,6 +72,8 @@ export const usePolicyTxs = ({ limit, page }) => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+        
         if (res.errors || !res.data) {
           return;
         }
@@ -96,6 +100,10 @@ export const usePolicyTxs = ({ limit, page }) => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [account, limit, networkId, page]);
 
   return {

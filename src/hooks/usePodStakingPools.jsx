@@ -11,6 +11,8 @@ export const usePodStakingPools = () => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId) {
       setHasMore(false);
       return;
@@ -64,6 +66,8 @@ export const usePodStakingPools = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+        
         if (res.errors || !res.data) {
           return;
         }
@@ -85,6 +89,10 @@ export const usePodStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

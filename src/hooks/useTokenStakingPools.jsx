@@ -14,6 +14,8 @@ export const useTokenStakingPools = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId) {
       setHasMore(false);
       return;
@@ -67,6 +69,8 @@ export const useTokenStakingPools = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+        
         if (res.errors || !res.data) {
           return;
         }
@@ -88,6 +92,10 @@ export const useTokenStakingPools = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

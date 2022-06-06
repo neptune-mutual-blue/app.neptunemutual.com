@@ -58,6 +58,8 @@ export const useClaimPolicyInfo = ({
 
   // Fetching fees
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId) return;
 
     const signerOrProvider = getProviderOrSigner(
@@ -68,8 +70,15 @@ export const useClaimPolicyInfo = ({
 
     setLoadingFees(true);
     getClaimPlatformFee(networkId, signerOrProvider.provider)
-      .then((result) => setClaimPlatformFee(result))
+      .then((result) => {
+        if (ignore) return;
+        setClaimPlatformFee(result)
+      })
       .finally(() => setLoadingFees(false));
+
+    return () => {
+      ignore = true;
+    };
   }, [library, networkId, value]);
 
   // Update receive amount

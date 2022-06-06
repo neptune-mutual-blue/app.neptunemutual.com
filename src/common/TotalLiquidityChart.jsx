@@ -157,6 +157,9 @@ const TotalLiquidityChart = () => {
   }, []);
 
   useEffect(() => {
+    let ignore = false;
+    let chartDataTimeout;
+
     if (data) {
       const _chartData = [];
       data.map(({ date, totalLiquidity }) => {
@@ -170,7 +173,8 @@ const TotalLiquidityChart = () => {
         if (a.x < b.x) return -1;
         else return 0;
       });
-      setTimeout(
+      if (ignore) return;
+      chartDataTimeout = setTimeout(
         () => {
           setChartData(_chartData);
           if (chartRef.current?.chart) {
@@ -179,6 +183,11 @@ const TotalLiquidityChart = () => {
         },
         chartData.length ? 0 : 500
       );
+    }
+
+    return () => {
+      ignore = true;
+      clearTimeout(chartDataTimeout);
     }
   }, [data, chartData.length]);
 

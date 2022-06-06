@@ -45,7 +45,7 @@ const renderAmount = (row) => <CxDaiAmountRenderer row={row} />;
 
 const renderActions = (row) => <ActionsRenderer row={row} />;
 
-const columns = [
+export const columns = [
   {
     name: t`when`,
     align: "left",
@@ -87,7 +87,10 @@ export const MyPoliciesTxsTable = () => {
   return (
     <>
       {blockNumber && (
-        <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
+        <p
+          className="mb-8 text-xs font-semibold text-right text-9B9B9B"
+          data-testid="block-number"
+        >
           <Trans>LAST SYNCED:</Trans>{" "}
           <a
             href={getBlockLink(networkId, blockNumber)}
@@ -99,9 +102,12 @@ export const MyPoliciesTxsTable = () => {
           </a>
         </p>
       )}
-      <TableWrapper>
+      <TableWrapper data-testid="policy-txs-table-wrapper">
         <Table>
-          <THead columns={columns}></THead>
+          <THead
+            columns={columns}
+            data-testid="policy-txs-table-header"
+          ></THead>
           {account ? (
             <TBody
               isLoading={loading}
@@ -109,7 +115,7 @@ export const MyPoliciesTxsTable = () => {
               data={transactions}
             ></TBody>
           ) : (
-            <tbody>
+            <tbody data-testid="connect-wallet-tbody">
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
                   <Trans>Please connect your wallet...</Trans>
@@ -138,6 +144,7 @@ const WhenRenderer = ({ row }) => {
     <td
       className="px-6 py-6"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
+      data-testid="timestamp-col"
     >
       {fromNow(row.transaction.timestamp)}
     </td>
@@ -154,7 +161,7 @@ const DetailsRenderer = ({ row }) => {
   }
 
   return (
-    <td className="px-6 py-6">
+    <td className="px-6 py-6" data-testid="details-col">
       <div className="flex items-center">
         <img
           src={getCoverImgSrc({ key: row.cover.id })}
@@ -189,7 +196,7 @@ const CxDaiAmountRenderer = ({ row }) => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6 text-right">
+    <td className="px-6 py-6 text-right" data-testid="col-amount">
       <div className="flex items-center justify-end whitespace-nowrap">
         <span
           className={
@@ -230,7 +237,7 @@ const ActionsRenderer = ({ row }) => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6 min-w-120">
+    <td className="px-6 py-6 min-w-120" data-testid="col-actions">
       <div className="flex items-center justify-end">
         {/* Tooltip */}
         <Tooltip.Root>
