@@ -37,7 +37,7 @@ export const useCapitalizePool = ({ coverKey, incidentDate }) => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const instance = await registry.Resolution.getInstance(
+      const instance = await registry.Reassurance.getInstance(
         networkId,
         signerOrProvider
       );
