@@ -50,6 +50,8 @@ export const useBondTxs = ({ limit, page }) => {
   const { account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !account) {
       return;
     }
@@ -73,6 +75,8 @@ export const useBondTxs = ({ limit, page }) => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+
         if (res.errors || !res.data) {
           return;
         }
@@ -95,6 +99,10 @@ export const useBondTxs = ({ limit, page }) => {
       })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
+
+      return () => {
+        ignore = true;
+      };
   }, [account, limit, networkId, page]);
 
   return {

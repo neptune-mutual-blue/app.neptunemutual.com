@@ -57,13 +57,20 @@ export const useBondInfo = () => {
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
+    let ignore = false;
+
     const fetchInitialInfo = async () => {
       const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
+      if (ignore) return;
       setInfo(data);
       setIsInitialized(true);
     };
 
     fetchInitialInfo();
+
+    return () => {
+      ignore = true;
+    };
   }, [networkId]);
 
   const fetchBondInfo = useCallback(

@@ -14,6 +14,8 @@ export const useActiveReportings = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId) {
       return;
     }
@@ -58,6 +60,8 @@ export const useActiveReportings = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
+
         if (res.errors || !res.data) {
           return;
         }
@@ -83,6 +87,10 @@ export const useActiveReportings = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

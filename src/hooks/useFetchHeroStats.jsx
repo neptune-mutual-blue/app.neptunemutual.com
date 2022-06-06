@@ -51,6 +51,8 @@ export const useFetchHeroStats = () => {
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
+    let ignore = false;
+
     async function exec() {
       if (!graphData || !networkId) return;
 
@@ -75,6 +77,8 @@ export const useFetchHeroStats = () => {
         .plus(totalFlashLoanFees)
         .toString();
 
+      if (ignore) return;
+
       setData({
         availableCovers: graphData.covers.length,
         reportingCovers: graphData.reporting.length,
@@ -88,6 +92,10 @@ export const useFetchHeroStats = () => {
     exec()
       .catch(console.error)
       .finally(() => setLoading(false));
+
+      return () => {
+        ignore = true;
+      };
   }, [graphData, networkId]);
 
   useEffect(() => {

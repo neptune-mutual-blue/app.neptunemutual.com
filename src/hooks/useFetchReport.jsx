@@ -8,6 +8,8 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
   const { networkId } = useNetwork();
 
   const fetchApi = useCallback(async () => {
+    let ignore = false;
+
     if (!networkId || !coverKey || !incidentDate) {
       return;
     }
@@ -73,6 +75,7 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
         setData(res.data);
       })
       .catch((err) => {
@@ -81,6 +84,10 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [coverKey, incidentDate, networkId]);
 
   useEffect(() => {
