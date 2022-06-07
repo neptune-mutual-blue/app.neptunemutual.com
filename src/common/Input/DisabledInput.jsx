@@ -1,8 +1,11 @@
-export const DisabledInput = ({ value, unit }) => {
+export const DisabledInput = ({ value, unit, ...rest }) => {
   return (
     <div className="flex text-h4 text-9B9B9B">
       <div className="flex items-stretch flex-grow">
-        <span className="block w-full py-6 pl-6 border border-r-0 rounded-l-lg cursor-not-allowed border-B0C4DB">
+        <span
+          data-testid={rest["data-testid"]}
+          className="block w-full py-6 pl-6 border border-r-0 rounded-l-lg cursor-not-allowed border-B0C4DB"
+        >
           {value}
         </span>
       </div>

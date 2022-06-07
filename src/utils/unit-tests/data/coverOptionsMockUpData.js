@@ -597,3 +597,19 @@ export const pricing = {
     ],
   },
 };
+
+export const bondInfo = {
+  message: "OK",
+  code: "NXK-D36GNR",
+  data: {
+    lpToken: "0x40D135283d8aE7815F26c39D3980cA47B062e473",
+    discountRate: "75",
+    vestingTerm: "600",
+    maxBond: "10000000000000000000000",
+    totalNpmAllocated: "2000000000000000000000000",
+    totalNpmDistributed: "4346485618584753687",
+    bondContribution: "0",
+    claimable: "0",
+    unlockDate: "0",
+  },
+};

@@ -50,6 +50,7 @@ export const InputWithTrailingButton = ({
     },
     autoComplete: "off",
     decimalsLimit: 25,
+    ...inputProps,
   };
 
   return (
