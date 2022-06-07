@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import ErrorIcon from "./components/icons/ErrorIcon";
 import InfoIcon from "./components/icons/InfoIcon";
 import WarningIcon from "./components/icons/WarningIcon";
 import CloseIcon from "./components/icons/CloseIcon";
 import SuccessIcon from "./components/icons/SuccessIcon";
 import { classNames } from "./utils";
 import LoadingIcon from "@/lib/toast/components/icons/LoadingIcon";
+import MinimizeIcon from "@/lib/toast/components/icons/MinimizeIcon";
 
 export const VARIANTS = {
   Info: {
@@ -13,7 +13,7 @@ export const VARIANTS = {
     name: "Info",
   },
   Error: {
-    icon: <ErrorIcon className="w-6 h-6 text-FA5C2F" aria-hidden="true" />,
+    icon: <MinimizeIcon className="w-6 h-6 text-FA5C2F" aria-hidden="true" />,
     name: "Error",
   },
   Warning: {

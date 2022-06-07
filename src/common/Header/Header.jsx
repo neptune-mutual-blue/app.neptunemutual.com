@@ -20,6 +20,7 @@ import { t } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { TransactionList } from "@/common/TransactionList";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -81,6 +82,7 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false);
+  const [container, setContainer] = useState(null);
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
@@ -230,25 +232,31 @@ export const Header = () => {
               </ConnectWallet>
             </div>
           </div>
-
-          <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
-            <button
-              className={classNames(
-                "items-center justify-center hidden px-4 xl:flex relative self-stretch flex-shrink-0",
-                "before:absolute before:h-7 before:left-0 before:bg-999BAB",
-                isTxDetailsPopupOpen
-                  ? "bg-404A5C before:w-0"
-                  : "bg-transparent before:w-px"
-              )}
-              onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
-            >
-              <TransactionOverviewIcon
+          <div className="relative flex" ref={setContainer}>
+            <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
+              <button
                 className={classNames(
-                  isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
+                  "items-center justify-center hidden px-4 xl:flex relative self-stretch flex-shrink-0",
+                  "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                  isTxDetailsPopupOpen
+                    ? "bg-404A5C before:w-0"
+                    : "bg-transparent before:w-px"
                 )}
-              />
-            </button>
-          </TransactionOverviewTooltip>
+                onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+              >
+                <TransactionOverviewIcon
+                  className={classNames(
+                    isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
+                  )}
+                />
+              </button>
+            </TransactionOverviewTooltip>
+          </div>
+          <TransactionList
+            isOpen={isTxDetailsPopupOpen}
+            onClose={setIsTxDetailsPopupOpen}
+            container={container}
+          />
         </nav>
         <MenuModal
           isOpen={isOpen}
