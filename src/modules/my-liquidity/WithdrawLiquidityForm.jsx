@@ -103,7 +103,7 @@ export const WithdrawLiquidityForm = ({
     } else {
       setPodErrorMsg("");
     }
-  }, [balance, npmValue, podValue, unStakableAmount]);
+  }, [balance, npmValue, podValue, unStakableAmount, exitChecked]);
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(unStakableAmount).toString());
