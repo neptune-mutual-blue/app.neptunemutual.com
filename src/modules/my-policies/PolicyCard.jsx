@@ -59,7 +59,10 @@ export const PolicyCard = ({ policyInfo }) => {
   }
 
   return (
-    <div className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+    <div
+      className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+      data-testid="policy-card"
+    >
       <OutlinedCard className="p-6 bg-white" type="normal">
         <div>
           <div className="flex justify-between">
@@ -68,12 +71,18 @@ export const PolicyCard = ({ policyInfo }) => {
                 src={imgSrc}
                 alt={coverInfo.projectName}
                 className="inline-block max-w-full"
+                data-testid="cover-img"
               />
             </div>
 
-            <div>{showStatus && <CardStatusBadge status={status} />}</div>
+            <div data-testid="policy-card-status">
+              {showStatus && <CardStatusBadge status={status} />}
+            </div>
           </div>
-          <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+          <h4
+            className="mt-4 font-semibold uppercase text-h4 font-sora"
+            data-testid="policy-card-title"
+          >
             {coverInfo.projectName}
           </h4>
         </div>

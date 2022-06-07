@@ -248,6 +248,18 @@ describe("ClaimCoverModal test", () => {
       rerender(
         {},
         {
+          file: CxTokenRowContext,
+          method: "useCxTokenRowContext",
+          returnData: {
+            balance: "0",
+            loadingBalance: false,
+            tokenSymbol: "CX",
+          },
+        }
+      );
+      rerender(
+        {},
+        {
           file: ClaimPolicyHook,
           method: "useClaimPolicyInfo",
           returnData: {
