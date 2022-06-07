@@ -86,7 +86,11 @@ export const WithdrawLiquidityForm = ({
   }, [setModalDisabled, withdrawing]);
 
   useEffect(() => {
-    if (npmValue && isGreater(convertToUnits(npmValue), unStakableAmount)) {
+    if (
+      !exitChecked &&
+      npmValue &&
+      isGreater(convertToUnits(npmValue), unStakableAmount)
+    ) {
       setNpmErrorMsg(t`Cannot go below minimum stake`);
     } else {
       setNpmErrorMsg("");

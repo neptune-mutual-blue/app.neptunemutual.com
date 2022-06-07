@@ -116,9 +116,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleNPMChange = (val) => {
-    if (typeof val === "string") {
-      setNPMValue(val);
-    }
+    setNPMValue(val);
   };
 
   const handleMaxLq = () => {
@@ -129,9 +127,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleLqChange = (val) => {
-    if (typeof val === "string") {
-      setLqValue(val);
-    }
+    setLqValue(val);
   };
 
   const handleSuccessViewProvidedLiquidity = () => {
