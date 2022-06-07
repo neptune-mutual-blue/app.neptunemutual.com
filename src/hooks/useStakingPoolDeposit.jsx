@@ -22,6 +22,8 @@ import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { TransactionRegister } from "@/src/services/transactions/transaction-register";
+import { METHODS } from "@/src/services/transactions/const";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -129,19 +131,31 @@ export const useStakingPoolDeposit = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(
-          tx,
-          {
-            pending: t`Staking ${tokenSymbol}`,
-            success: t`Staked ${tokenSymbol} successfully`,
-            failure: t`Could not stake ${tokenSymbol}`,
-          },
-          {
-            onTxSuccess: onDepositSuccess,
-          }
-        );
+        TransactionRegister.add({
+          hash: tx.hash,
+          methodName: METHODS.STAKING_DEPOSIT,
+          data: { tokenSymbol },
+        });
+
+        await txToast
+          .push(
+            tx,
+            {
+              pending: t`Staking ${tokenSymbol}`,
+              success: t`Staked ${tokenSymbol} successfully`,
+              failure: t`Could not stake ${tokenSymbol}`,
+            },
+            {
+              onTxSuccess: onDepositSuccess,
+            }
+          )
+          .catch((err) => {
+            handleError(err);
+          });
 
         cleanup();
+
+        TransactionRegister.remove(tx.hash);
       };
 
       const onRetryCancel = () => {

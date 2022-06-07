@@ -8,7 +8,8 @@ export const ModalRegular = ({
   disabled = false,
   rootProps,
   overlayClass = "",
-  className,
+  defaultContentClassNames = "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
+  className = "",
   container,
   ...rest
 }) => (
@@ -25,10 +26,7 @@ export const ModalRegular = ({
         )}
       >
         <Content
-          className={classNames(
-            "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
-            className
-          )}
+          className={classNames(defaultContentClassNames, className)}
           {...rest}
         >
           {children}
