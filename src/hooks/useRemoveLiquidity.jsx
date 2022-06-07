@@ -87,7 +87,7 @@ export const useRemoveLiquidity = ({
     });
   };
 
-  const handleWithdraw = async (onTxSuccess) => {
+  const handleWithdraw = async (onTxSuccess, exit = false) => {
     if (!networkId || !account) return;
 
     setWithdrawing(true);
@@ -145,7 +145,7 @@ export const useRemoveLiquidity = ({
         coverKey,
         convertToUnits(value).toString(),
         convertToUnits(npmValue).toString(),
-        false,
+        exit,
       ];
       invoke({
         instance,
