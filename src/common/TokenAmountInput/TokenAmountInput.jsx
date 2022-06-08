@@ -39,7 +39,7 @@ export const TokenAmountInput = ({
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,
-          rest: { ...rest },
+          ...rest,
         }}
       />
       <TokenBalance
