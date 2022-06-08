@@ -87,7 +87,7 @@ export const useRemoveLiquidity = ({
     });
   };
 
-  const handleWithdraw = async (onTxSuccess, exit = false) => {
+  const handleWithdraw = async (onTxSuccess, exit) => {
     if (!networkId || !account) return;
 
     setWithdrawing(true);

@@ -39,7 +39,7 @@ export const WithdrawLiquidityForm = ({
   const [npmValue, setNpmValue] = useState();
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [podErrorMsg, setPodErrorMsg] = useState("");
-  const [exitChecked, setExitChecked] = useState(false);
+  const [isExit, setIsExit] = useState(false);
 
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
@@ -87,7 +87,7 @@ export const WithdrawLiquidityForm = ({
 
   useEffect(() => {
     if (
-      !exitChecked &&
+      !isExit &&
       npmValue &&
       isGreater(convertToUnits(npmValue), unStakableAmount)
     ) {
@@ -103,7 +103,7 @@ export const WithdrawLiquidityForm = ({
     } else {
       setPodErrorMsg("");
     }
-  }, [balance, npmValue, podValue, unStakableAmount, exitChecked]);
+  }, [balance, npmValue, podValue, unStakableAmount, isExit]);
 
   const handleChooseNpmMax = () => {
     setNpmValue(convertFromUnits(unStakableAmount).toString());
@@ -140,7 +140,7 @@ export const WithdrawLiquidityForm = ({
   }
 
   const handleExit = (ev) => {
-    setExitChecked(ev.target.checked);
+    setIsExit(ev.target.checked);
     console.log(ev);
     if (ev.target.checked) {
       setNpmValue(convertFromUnits(myStake).toString());
@@ -155,7 +155,7 @@ export const WithdrawLiquidityForm = ({
             <Checkbox
               id="exitCheckBox"
               name="checkexitliquidity"
-              checked={exitChecked}
+              checked={isExit}
               onChange={(ev) => handleExit(ev)}
             >
               Exit
@@ -163,7 +163,7 @@ export const WithdrawLiquidityForm = ({
           </div>
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
-            disabled={exitChecked}
+            disabled={isExit}
             tokenSymbol={npmTokenSymbol}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}
@@ -183,7 +183,7 @@ export const WithdrawLiquidityForm = ({
               prefix={t`Minimum Stake:` + " "}
               symbol={npmTokenSymbol}
             />
-            {!exitChecked && npmErrorMsg && (
+            {!isExit && npmErrorMsg && (
               <p className="text-FA5C2F">{npmErrorMsg}</p>
             )}
           </TokenAmountInput>
@@ -260,7 +260,7 @@ export const WithdrawLiquidityForm = ({
               handleWithdraw(() => {
                 setPodValue("");
                 setNpmValue("");
-              }, exitChecked);
+              }, isExit);
             }}
             className="w-full p-6 font-semibold uppercase text-h6"
             disabled={
