@@ -22,8 +22,11 @@ import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { TransactionRegister } from "@/src/services/transactions/transaction-register";
 import { METHODS } from "@/src/services/transactions/const";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -131,9 +134,10 @@ export const useStakingPoolDeposit = ({
       );
 
       const onTransactionResult = async (tx) => {
-        TransactionRegister.add({
+        TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.STAKING_DEPOSIT,
+          status: STATUS.PENDING,
           data: { tokenSymbol },
         });
 
@@ -146,7 +150,21 @@ export const useStakingPoolDeposit = ({
               failure: t`Could not stake ${tokenSymbol}`,
             },
             {
-              onTxSuccess: onDepositSuccess,
+              onTxSuccess: () => {
+                onDepositSuccess();
+                TransactionHistory.push({
+                  hash: tx.hash,
+                  methodName: METHODS.STAKING_DEPOSIT,
+                  status: STATUS.SUCCESS,
+                });
+              },
+              onTxFailure: () => {
+                TransactionHistory.push({
+                  hash: tx.hash,
+                  methodName: METHODS.STAKING_DEPOSIT,
+                  status: STATUS.SUCCESS,
+                });
+              },
             }
           )
           .catch((err) => {
@@ -154,8 +172,6 @@ export const useStakingPoolDeposit = ({
           });
 
         cleanup();
-
-        TransactionRegister.remove(tx.hash);
       };
 
       const onRetryCancel = () => {

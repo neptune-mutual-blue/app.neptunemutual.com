@@ -36,11 +36,8 @@ export class TransactionHistory {
     }
 
     LSHistory.add({
-      hash: item.hash,
-      methodName: item.methodName,
-      status: item.status,
+      ...item,
       timestamp: Date.now(),
-      data: item.data,
     });
   }
 
@@ -67,4 +64,65 @@ export class TransactionHistory {
       },
     };
   }
+
+  /**
+   * PENDING PROCESSING
+   * @typedef ISTATE_VALUE
+   * @prop {string} hash
+   * @prop {import('@/src/services/transactions/const').E_METHODS} methodName
+   * @prop {number} timestamp
+   * @prop {object|string|number} [data]
+   *
+   *
+   * @param {*} provider
+   * @param {{
+   *  success: (item: ISTATE_VALUE) => unknown,
+   *  failure: (item: ISTATE_VALUE) => unknown,
+   * }} callback
+   * @returns {(item: ISTATE_VALUE) => Promise<unknown>}
+   */
+  static callback(provider, { success = noop, failure = noop }) {
+    return (item) => {
+      return provider
+        .getTransactionReceipt(item.hash)
+        .then((result) => {
+          if (result === null) {
+            return provider.waitForTransaction(item.hash);
+          }
+
+          return result;
+        })
+        .then(() => {
+          success(item);
+          TransactionHistory.push({
+            hash: item.hash,
+            methodName: item.methodName,
+            status: STATUS.SUCCESS,
+            data: item.data,
+          });
+        })
+        .catch(() => {
+          failure(item);
+          TransactionHistory.push({
+            hash: item.hash,
+            methodName: item.methodName,
+            status: STATUS.FAILED,
+            data: item.data,
+          });
+        });
+    };
+  }
+
+  /**
+   * @param {(item: ISTATE_VALUE) => Promise<unknown>} callback
+   * @returns {Promise<unknown>}
+   */
+  static process(callback) {
+    const items = LSHistory.getAllPending();
+    return items.reduce((promise, item) => {
+      return promise.then(() => callback(item));
+    }, Promise.resolve());
+  }
 }
+
+const noop = () => {};

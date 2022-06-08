@@ -3,13 +3,12 @@ import { useWeb3React } from "@web3-react/core";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useEffect, useRef } from "react";
-import { LS } from "@/src/services/transactions/local-storage-handler";
-import { TransactionRegister } from "@/src/services/transactions/transaction-register";
 import {
   STATUS,
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { getActionMessage } from "@/src/helpers/notification";
+import { LSHistory } from "@/src/services/transactions/history";
 /**
  * @callback INotify
  * @param {string} title
@@ -29,9 +28,19 @@ export function useTransactionHistory() {
   const init = useRef(true);
 
   useEffect(() => {
+    LSHistory.init();
+  }, []);
+
+  useEffect(() => {
+    if (account && networkId) {
+      init.current = true;
+    }
+  }, [account, networkId]);
+
+  useEffect(() => {
     if (!networkId || !account || !library) return;
 
-    LS.setId(account, networkId);
+    LSHistory.setId(account, networkId);
 
     (async () => {
       if (init.current) {
@@ -44,28 +53,16 @@ export function useTransactionHistory() {
         if (signerOrProvider && signerOrProvider.provider) {
           init.current = false;
 
-          TransactionRegister.process(
-            TransactionRegister.callback(signerOrProvider.provider, {
+          TransactionHistory.process(
+            TransactionHistory.callback(signerOrProvider.provider, {
               success: ({ hash, methodName, data }) => {
-                TransactionHistory.push({
-                  hash,
-                  methodName,
-                  status: STATUS.SUCCESS,
-                });
-
-                return txToast.pushSuccess(
+                txToast.pushSuccess(
                   getActionMessage(methodName, STATUS.SUCCESS, data).title,
                   hash
                 );
               },
               failure: ({ hash, methodName, data }) => {
-                TransactionHistory.push({
-                  hash,
-                  methodName,
-                  status: STATUS.FAILED,
-                });
-
-                return txToast.pushSuccess(
+                txToast.pushSuccess(
                   getActionMessage(methodName, STATUS.FAILED, data).title,
                   hash
                 );
@@ -76,10 +73,6 @@ export function useTransactionHistory() {
       }
     })();
   }, [account, library, networkId, txToast]);
-
-  useEffect(() => {
-    LS.init();
-  }, []);
 
   return null;
 }

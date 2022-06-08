@@ -1,7 +1,4 @@
-import {
-  LocalStorageInstance,
-  LOCAL_STORAGE_ENTRY,
-} from "@/src/services/transactions/instance";
+import { STATUS } from "@/src/services/transactions/transaction-history";
 import { safeParseString } from "@/src/services/transactions/utils";
 
 /**
@@ -18,15 +15,38 @@ import { safeParseString } from "@/src/services/transactions/utils";
  */
 
 const MAX_TRANSACTION_HISTORY = 100;
-class LSHistoryClass extends LocalStorageInstance {
-  key = LOCAL_STORAGE_ENTRY.TRANSACTION_HISTORY;
+const LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY = "npmTransactionHistory";
+class LSHistoryClass {
   /** @type THistory */
   state = {};
 
   init() {
-    const result = safeParseString(localStorage.getItem(this.key), {});
+    this.state = safeParseString(
+      localStorage.getItem(LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY),
+      {}
+    );
+  }
 
-    this.state = result;
+  /**
+   *
+   * @param {string} account
+   * @param {string} networkId
+   */
+  setId(account, networkId) {
+    this.id = `${account}:${networkId}`;
+
+    if (!this.state.hasOwnProperty(this.id)) {
+      this.state[this.id] = [];
+    }
+
+    this._update();
+  }
+
+  _update() {
+    localStorage.setItem(
+      LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY,
+      JSON.stringify(this.state)
+    );
   }
 
   /**
@@ -36,9 +56,7 @@ class LSHistoryClass extends LocalStorageInstance {
    */
   isExisting(hash) {
     if (this.state.hasOwnProperty(this.id)) {
-      const item = this.state[this.id].find((item) => item.hash === hash);
-
-      return item;
+      return this.state[this.id].find((item) => item.hash === hash);
     }
 
     this.state[this.id] = [];
@@ -94,6 +112,16 @@ class LSHistoryClass extends LocalStorageInstance {
       data: [],
       maxPage: 1,
     };
+  }
+
+  getAllPending() {
+    if (this.state.hasOwnProperty(this.id)) {
+      return this.state[this.id].filter(
+        (item) => item.status === STATUS.PENDING
+      );
+    }
+
+    return [];
   }
 
   clear() {

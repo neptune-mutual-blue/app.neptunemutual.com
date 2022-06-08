@@ -39,20 +39,16 @@ export function TransactionList({
 
   useEffect(() => {
     if (isOpen) {
-      const getLatestHistory = () => {
-        const history = LSHistory.get(page);
-        setListOfTransactions((current) => {
-          const hashes = current.map(({ hash }) => hash);
+      const history = LSHistory.get(page);
+      setListOfTransactions((current) => {
+        const hashes = current.map(({ hash }) => hash);
 
-          return [
-            ...current,
-            ...history.data.filter((item) => !hashes.includes(item.hash)),
-          ];
-        });
-        setMaxPage(history.maxPage);
-      };
-
-      getLatestHistory();
+        return [
+          ...current,
+          ...history.data.filter((item) => !hashes.includes(item.hash)),
+        ];
+      });
+      setMaxPage(history.maxPage);
 
       const updateListener = TransactionHistory.on((item) => {
         setListOfTransactions((items) =>
@@ -115,7 +111,7 @@ function NotificationsList({ data, showMore, hasShowMore }) {
   if (data.length) {
     return (
       <>
-        <div className="mb-5 pt-2">
+        <div className="mb-5 pt-2 w-96">
           {data.map((transaction) => (
             <Notification
               {...transaction}

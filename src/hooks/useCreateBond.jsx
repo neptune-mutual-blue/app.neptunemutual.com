@@ -22,7 +22,6 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { TransactionRegister } from "@/src/services/transactions/transaction-register";
 import {
   STATUS,
   TransactionHistory,
@@ -197,9 +196,10 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     };
 
     const onTransactionResult = async (tx) => {
-      TransactionRegister.add({
+      TransactionHistory.push({
         hash: tx.hash,
-        methodName: TransactionRegister.METHODS.BOND_APPROVE,
+        methodName: METHODS.BOND_APPROVE,
+        status: STATUS.PENDING,
         data: {
           value,
           receiveAmount,
@@ -240,8 +240,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         });
 
       cleanup();
-
-      TransactionRegister.remove(tx.hash);
     };
 
     const onRetryCancel = () => {
@@ -282,9 +280,10 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        TransactionRegister.add({
+        TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.BOND_CREATE,
+          status: STATUS.PENDING,
           data: {
             value,
             receiveAmount,
@@ -321,8 +320,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         );
 
         cleanup();
-
-        TransactionRegister.remove(tx.hash);
       };
 
       const onRetryCancel = () => {
