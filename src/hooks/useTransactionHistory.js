@@ -62,7 +62,7 @@ export function useTransactionHistory() {
                 );
               },
               failure: ({ hash, methodName, data }) => {
-                txToast.pushSuccess(
+                txToast.pushError(
                   getActionMessage(methodName, STATUS.FAILED, data).title,
                   hash
                 );

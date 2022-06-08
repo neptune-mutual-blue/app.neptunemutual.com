@@ -5,6 +5,10 @@ export const STATUS = {
   SUCCESS: 1,
   FAILED: 0,
 };
+
+const ERRORS = {
+  TIMEOUT: "TIMEOUT",
+};
 export class TransactionHistory {
   static listener = [];
 
@@ -87,7 +91,9 @@ export class TransactionHistory {
         .getTransactionReceipt(item.hash)
         .then((result) => {
           if (result === null) {
-            return provider.waitForTransaction(item.hash);
+            return waitForTransactionWithTimeout(() =>
+              provider.waitForTransaction(item.hash)
+            );
           }
 
           return result;
@@ -101,7 +107,12 @@ export class TransactionHistory {
             data: item.data,
           });
         })
-        .catch(() => {
+        .catch((result) => {
+          if (result === ERRORS.TIMEOUT) {
+            // don't do anything when am error timeout
+            return;
+          }
+
           failure(item);
           TransactionHistory.push({
             hash: item.hash,
@@ -126,3 +137,28 @@ export class TransactionHistory {
 }
 
 const noop = () => {};
+
+/**
+ *
+ * @param {() => Promise<any>} callback
+ */
+function waitForTransactionWithTimeout(callback) {
+  return new Promise((resolve, reject) => {
+    const refTimeout = setTimeout(() => {
+      reject(ERRORS.TIMEOUT);
+
+      clearTimeout(refTimeout);
+    }, 30000);
+
+    callback()
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((result) => {
+        reject(result);
+      })
+      .finally(() => {
+        clearTimeout(refTimeout);
+      });
+  });
+}
