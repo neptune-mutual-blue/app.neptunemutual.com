@@ -3,7 +3,7 @@ import { ReportingInfo } from "./ReportingInfo";
 import { Alert } from "@/common/Alert/Alert";
 import { Container } from "@/common/Container/Container";
 import { AcceptReportRulesForm } from "@/common/AcceptCoverRulesForm/AcceptReportRulesForm";
-import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
+import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
 import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import Link from "next/link";
 import { Trans } from "@lingui/macro";
@@ -74,13 +74,13 @@ export const CoverReportingRules = ({
               </AcceptReportRulesForm>
             </div>
           </div>
-          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
+          <CoverResolutionSources coverInfo={coverInfo}>
             <Link href="#">
               <a className="block mt-3 text-4e7dd9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>
               </a>
             </Link>
-          </CoverPurchaseResolutionSources>
+          </CoverResolutionSources>
         </Container>
       </div>
     </>
