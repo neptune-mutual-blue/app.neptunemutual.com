@@ -10,6 +10,7 @@ describe("PolicyFeesAndExpiry component behaviour", () => {
     rate: "400",
   };
   const mockCoverPeriod = 2;
+  const mockExpiresAt = "1654746597";
 
   const rateToShow = convertUintToPercentage(mockdata.rate);
 
@@ -21,7 +22,11 @@ describe("PolicyFeesAndExpiry component behaviour", () => {
 
   it("should render PolicyFeesAndExpiry component", () => {
     render(
-      <PolicyFeesAndExpiry data={mockdata} coverPeriod={mockCoverPeriod} />
+      <PolicyFeesAndExpiry
+        data={mockdata}
+        coverPeriod={mockCoverPeriod}
+        expiresAt={mockExpiresAt}
+      />
     );
     const feesElement = screen.getByText(/Fees/i);
     const feesPercent = screen.getByText(formatPercent(rateToShow, "en"));
