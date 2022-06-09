@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
-export const CoverPurchaseResolutionSources = ({ children, coverInfo }) => {
+export const CoverResolutionSources = ({ children, coverInfo }) => {
   const projectName = coverInfo.projectName;
   const { reportingPeriod } = useCoverStatsContext();
 

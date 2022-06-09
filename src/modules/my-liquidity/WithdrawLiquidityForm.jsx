@@ -141,7 +141,7 @@ export const WithdrawLiquidityForm = ({
 
   const handleExit = (ev) => {
     setIsExit(ev.target.checked);
-    console.log(ev);
+
     if (ev.target.checked) {
       setNpmValue(convertFromUnits(myStake).toString());
     }
@@ -150,8 +150,8 @@ export const WithdrawLiquidityForm = ({
   return (
     <>
       <div className="overflow-y-auto max-h-[50vh] pr-2">
-        <div className="mt-6 flex flex-col">
-          <div className="flex justify-end items-center">
+        <div className="flex flex-col mt-6">
+          <div className="flex items-center justify-end">
             <Checkbox
               id="exitCheckBox"
               name="checkexitliquidity"
