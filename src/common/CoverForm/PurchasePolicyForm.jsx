@@ -24,6 +24,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { usePolicyExpiry } from "@/src/hooks/usePolicyExpiry";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -44,6 +45,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     coverMonth,
     coverKey,
   });
+
+  const { expiresAt, loading: fetchingExpiryDate } = usePolicyExpiry({
+    coverMonth,
+  });
+
   const {
     balance,
     approving,
@@ -114,6 +120,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     loadingMessage = t`Fetching Allowance...`;
   } else if (updatingBalance) {
     loadingMessage = t`Fetching Balance...`;
+  } else if (fetchingExpiryDate) {
+    loadingMessage = t`Fetching Expiry Date...`;
   }
 
   if (requiresWhitelist && !isUserWhitelisted) {
@@ -217,7 +225,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         </div>
       </div>
       {value && coverMonth && (
-        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
+        <PolicyFeesAndExpiry
+          data={feeData}
+          coverPeriod={coverMonth}
+          expiresAt={expiresAt}
+        />
       )}
 
       <div className="mt-4">
