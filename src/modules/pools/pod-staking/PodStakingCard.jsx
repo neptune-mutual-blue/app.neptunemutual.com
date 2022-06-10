@@ -135,7 +135,10 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   );
 
   return (
-    <OutlinedCard className="px-6 pt-6 pb-10 bg-white">
+    <OutlinedCard
+      className="px-6 pt-6 pb-10 bg-white"
+      data-testid="pod-staking-card"
+    >
       <div className="flex justify-between">
         <div>
           <SingleImage src={rTokenImgSrc} alt={rewardTokenSymbol}></SingleImage>
@@ -154,7 +157,11 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className="flex flex-wrap justify-between px-1 text-sm">
         {stats.map((x, idx) => {
           return (
-            <div key={x.title} className="flex flex-col w-1/2 mt-8">
+            <div
+              key={x.title}
+              className="flex flex-col w-1/2 mt-8"
+              data-testid="pod-staking-card-stat"
+            >
               <div
                 className={classNames(idx % 2 && "text-right")}
                 title={x.tooltip}
@@ -168,7 +175,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
       <div className="flex items-center mt-5">
         {hasStaked ? (
           <>
-            <div className="flex-1 text-sm">
+            <div className="flex-1 text-sm" data-testid="pool-card-stat">
               <PoolCardStat
                 title={t`You Earned`}
                 value={
@@ -189,16 +196,18 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
                 }
               />
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center" data-testid="staking-cards">
               <StakingCardCTA
                 className={"text-white px-2 mr-2"}
                 onClick={onStakeModalOpen}
+                data-testid="add-btn"
               >
                 <AddIcon width={16} fill="currentColor" />
               </StakingCardCTA>
               <StakingCardCTA
                 className={"font-semibold uppercase text-sm px-5 py-2"}
                 onClick={onCollectModalOpen}
+                data-testid="collect-btn"
               >
                 <Trans>Collect</Trans>
               </StakingCardCTA>
