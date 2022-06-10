@@ -2,7 +2,7 @@ import { Container } from "@/common/Container/Container";
 import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
-import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
+import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
@@ -115,7 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
           <span className="block col-span-3 row-start-1 md:hidden mb-11">
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
-          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
+          <CoverResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div
               className="flex justify-between pb-2"
@@ -128,7 +128,7 @@ export const CoverPurchaseDetailsPage = () => {
                 {formatCurrency(availableLiquidity, router.locale).short}
               </strong>
             </div>
-          </CoverPurchaseResolutionSources>
+          </CoverResolutionSources>
         </Container>
       </div>
 

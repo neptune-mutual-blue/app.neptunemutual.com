@@ -64,7 +64,10 @@ export const PolicyCardFooter = ({
   return (
     <>
       {/* Stats */}
-      <div className="flex flex-wrap justify-between px-1 text-sm">
+      <div
+        className="flex flex-wrap justify-between px-1 text-sm"
+        data-testid="policy-card-footer"
+      >
         {stats.map((stat, idx) => {
           return (
             <Stat
@@ -97,7 +100,10 @@ export const PolicyCardFooter = ({
             report.incidentDate
           }/claim`}
         >
-          <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4">
+          <a
+            className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"
+            data-testid="claim-link"
+          >
             <Trans>CLAIM</Trans>
           </a>
         </Link>
@@ -106,10 +112,11 @@ export const PolicyCardFooter = ({
   );
 };
 
-const Stat = ({ title, tooltip, value, right, variant }) => {
+export const Stat = ({ title, tooltip, value, right, variant }) => {
   return (
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}
+      data-testid="footer-stat"
     >
       <h5 className="mb-2 text-sm font-semibold text-black">{title}</h5>
       <p
