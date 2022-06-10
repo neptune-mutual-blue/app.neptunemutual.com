@@ -23,9 +23,6 @@ import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
@@ -40,8 +37,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-
-  const toast = useToast();
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
@@ -73,17 +68,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     coverKey,
     value: lqValue,
   });
-
-  const ViewToastLiquidityLink = () => (
-    <Link href="/my-liquidity">
-      <a className="flex items-center">
-        <span className="inline-block">
-          <Trans>View provided liquidity</Trans>
-        </span>
-        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
-      </a>
-    </Link>
-  );
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
@@ -132,14 +116,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     if (typeof val === "string") {
       setLqValue(val);
     }
-  };
-
-  const handleSuccessViewProvidedLiquidity = () => {
-    toast.pushSuccess({
-      title: t`Added Liquidity Successfully`,
-      message: <ViewToastLiquidityLink />,
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
@@ -308,7 +284,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handleProvide(() => {
-                handleSuccessViewProvidedLiquidity();
                 setNPMValue("");
                 setLqValue("");
               });

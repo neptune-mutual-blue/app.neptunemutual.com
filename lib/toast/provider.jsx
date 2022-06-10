@@ -15,64 +15,75 @@ const DEFAULT_INTERVAL = 30000; // 30 seconds
  */
 export const ToastProvider = ({ children, variant }) => {
   const [data, setData] = useState([]);
-  const Push = useCallback(
-    (message, type, lifetime, title) => {
-      if (message) {
+
+  const Push = useCallback((message, type, lifetime, title, id) => {
+    if (message) {
+      setData((prevState) => {
+        const index = prevState.findIndex((item) => item.id === id);
         const newItem = {
-          id: uuidv4(),
           message: message,
           type: type,
           lifetime: lifetime || DEFAULT_INTERVAL,
           title,
         };
-        setData((prevState) => [...prevState, newItem]);
 
-        return newItem.id;
-      }
-    },
-    [setData]
-  );
-  const PushCustom = useCallback(
-    ({ message, lifetime, icon, header }) => {
-      if (message) {
-        const newItem = {
-          id: uuidv4(),
-          message: message,
-          lifetime: lifetime || DEFAULT_INTERVAL,
-          icon: icon,
-          header: header,
-          type: undefined,
-        };
-        setData((prevState) => [...prevState, newItem]);
-      }
-    },
-    [setData]
-  );
+        if (index === -1) {
+          return [...prevState, { ...newItem, id: id || uuidv4() }];
+        }
+
+        const updatedData = prevState.map((item) =>
+          item.id === id ? { ...newItem, id } : item
+        );
+
+        return updatedData;
+      });
+    }
+  }, []);
+
+  const PushCustom = useCallback(({ message, lifetime, icon, header, id }) => {
+    if (message) {
+      const newItem = {
+        id: id || uuidv4(),
+        message: message,
+        lifetime: lifetime || DEFAULT_INTERVAL,
+        icon: icon,
+        header: header,
+        type: undefined,
+      };
+      setData((prevState) => [...prevState, newItem]);
+    }
+  }, []);
+
   const PushError = useCallback(
-    ({ message, title = "Error", lifetime }) =>
-      Push(message, "Error", lifetime, title),
+    ({ message, title = "Error", lifetime, id }) =>
+      Push(message, "Error", lifetime, title, id),
     [Push]
   );
+
   const PushWarning = useCallback(
-    ({ message, title = "Warning", lifetime }) =>
-      Push(message, "Warning", lifetime, title),
+    ({ message, title = "Warning", lifetime, id }) =>
+      Push(message, "Warning", lifetime, title, id),
     [Push]
   );
+
   const PushSuccess = useCallback(
     ({ message, title = "Success", lifetime }) =>
       Push(message, "Success", lifetime, title),
     [Push]
   );
+
   const PushInfo = useCallback(
-    ({ message, title = "Info", lifetime }) =>
-      Push(message, "Info", lifetime, title),
+    ({ message, title = "Info", lifetime, id }) =>
+      Push(message, "Info", lifetime, title, id),
     [Push]
   );
+
   const PushLoading = useCallback(
-    ({ message, title = "Loading", lifetime }) =>
-      Push(message, "Loading", lifetime, title),
+    ({ message, title = "Loading", lifetime, id }) =>
+      Push(message, "Loading", lifetime, title, id),
     [Push]
   );
+
   const remove = useCallback(async (id) => {
     setData((prevState) => prevState.filter((e) => e.id !== id));
   }, []);
