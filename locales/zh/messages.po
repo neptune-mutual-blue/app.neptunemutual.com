@@ -387,7 +387,7 @@ msgstr "请在认领截止日之前从以下地址认领您的{title}保单cxTok
 
 #: src/utils/translations.js:40
 msgid "Claimable"
-msgstr "可获理赔<<<<<<< HEAD"
+msgstr "可获理赔"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Claimed"
@@ -1194,7 +1194,7 @@ msgstr "购买保单"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:265
 msgid "Purchase policy"
-msgstr "购买保单<<<<<<< HEAD"
+msgstr "购买保单"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Purchased"

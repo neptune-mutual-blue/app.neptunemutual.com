@@ -387,7 +387,7 @@ msgstr ""
 
 #: src/utils/translations.js:40
 msgid "Claimable"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Claimed"
@@ -1194,7 +1194,7 @@ msgstr ""
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:265
 msgid "Purchase policy"
-msgstr "<<<<<<< HEAD"
+msgstr ""
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Purchased"
