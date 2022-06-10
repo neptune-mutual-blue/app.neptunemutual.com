@@ -23,6 +23,7 @@ import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
@@ -69,6 +70,17 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     value: lqValue,
   });
 
+  const ViewToastLiquidityLink = (
+    <Link href="/my-liquidity">
+      <a className="flex items-center">
+        <span className="inline-block">
+          <Trans>View provided liquidity</Trans>
+        </span>
+        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
+      </a>
+    </Link>
+  );
+
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
     if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
@@ -100,9 +112,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleNPMChange = (val) => {
-    if (typeof val === "string") {
-      setNPMValue(val);
-    }
+    setNPMValue(val);
   };
 
   const handleMaxLq = () => {
@@ -113,9 +123,12 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleLqChange = (val) => {
-    if (typeof val === "string") {
-      setLqValue(val);
-    }
+    setLqValue(val);
+  };
+
+  const handleSuccessViewProvidedLiquidity = () => {
+    setNPMValue("");
+    setLqValue("");
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
@@ -283,9 +296,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
-              handleProvide(() => {
-                setNPMValue("");
-                setLqValue("");
+              handleProvide({
+                onTxSuccess: handleSuccessViewProvidedLiquidity,
+                successToastMessage: ViewToastLiquidityLink,
               });
             }}
           >

@@ -18,6 +18,7 @@ import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
@@ -62,6 +63,17 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
     useCoverStatsContext();
 
+  const ViewToastPoliciesLink = (
+    <Link href="/my-policies/active">
+      <a className="flex items-center">
+        <span className="inline-block">
+          <Trans>View purchased policies</Trans>
+        </span>
+        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
+      </a>
+    </Link>
+  );
+
   const handleChange = (val) => {
     if (typeof val === "string") {
       setValue(val);
@@ -77,6 +89,11 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       return;
     }
     setValue(convertFromUnits(balance).toString());
+  };
+
+  const handleSuccessViewPurchasedPolicies = () => {
+    setValue("");
+    setCoverMonth();
   };
 
   const now = new Date();
@@ -231,9 +248,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
-              handlePurchase(() => {
-                setValue("");
-                setCoverMonth();
+              handlePurchase({
+                onTxSuccess: handleSuccessViewPurchasedPolicies,
+                successToastMessage: ViewToastPoliciesLink,
               });
             }}
           >
