@@ -67,8 +67,8 @@ export const ToastProvider = ({ children, variant }) => {
   );
 
   const PushSuccess = useCallback(
-    ({ message, title = "Success", lifetime }) =>
-      Push(message, "Success", lifetime, title),
+    ({ message, title = "Success", lifetime, id }) =>
+      Push(message, "Success", lifetime, title, id),
     [Push]
   );
 
