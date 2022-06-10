@@ -179,9 +179,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
             success: t`Added Liquidity Successfully`,
             failure: t`Could not add liquidity`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
+          { onTxSuccess: onTxSuccess, successToastMessage }
         );
         cleanup();
       };
