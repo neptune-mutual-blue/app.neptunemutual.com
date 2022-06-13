@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 const BondPage = () => {
   const { networkId } = useNetwork();
   const { info, refetch: refetchBondInfo } = useBondInfo();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
@@ -48,6 +48,7 @@ const BondPage = () => {
     handleApprove,
     handleBond,
   } = useCreateBond({ info, value, refetchBondInfo });
+
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress)
