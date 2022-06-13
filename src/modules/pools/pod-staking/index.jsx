@@ -83,7 +83,10 @@ export const PodStakingPage = () => {
   }, [router.locale]);
 
   return (
-    <Container className={"pt-16 pb-36"}>
+    <Container
+      className={"pt-16 pb-36"}
+      data-testid="pod-staking-page-container"
+    >
       <div className="flex justify-end">
         <SearchAndSortBar
           searchValue={searchValue}
@@ -115,7 +118,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
     return (
       <>
-        <Grid className="mb-24 mt-14">
+        <Grid className="mb-24 mt-14" data-testid="pools-grid">
           {data.map((poolData) => (
             <PodStakingCard
               key={poolData.id}
@@ -129,6 +132,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
           <NeutralButton
             className={"rounded-lg border-0.5"}
             onClick={handleShowMore}
+            data-testid="show-more-button"
           >
             <Trans>Show More</Trans>
           </NeutralButton>
@@ -139,14 +143,17 @@ function Content({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className="mb-24 mt-14">
+      <Grid className="mb-24 mt-14" data-testid="loading-grid">
         <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
       </Grid>
     );
   }
 
   return (
-    <div className="flex flex-col items-center w-full pt-20">
+    <div
+      className="flex flex-col items-center w-full pt-20"
+      data-testid="no-pools-container"
+    >
       <img
         src="/images/covers/empty-list-illustration.svg"
         alt={t`no data found`}

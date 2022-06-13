@@ -93,7 +93,7 @@ const initalMocks = () => {
   mockFunction(PoolInfo, "usePoolInfo", () => mockPoolInfoData);
 };
 
-describe("PoliciesTab test", () => {
+describe("PodStakingCard test", () => {
   const initialRender = (newProps = {}, rerender = false) => {
     if (!rerender) initalMocks();
     act(() => {
@@ -261,7 +261,7 @@ describe("PoliciesTab test", () => {
       expect(rewardModal).not.toBeInTheDocument();
     });
 
-    test("should render the stake modal when colleact button is clicked", () => {
+    test("should render the collect reward modal when collect button is clicked", () => {
       const collectBtn = screen.getByTestId("collect-btn");
       fireEvent.click(collectBtn);
 
