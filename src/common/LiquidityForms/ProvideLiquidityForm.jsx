@@ -23,7 +23,6 @@ import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
@@ -69,17 +68,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     coverKey,
     value: lqValue,
   });
-
-  const ViewToastLiquidityLink = (
-    <Link href="/my-liquidity">
-      <a className="flex items-center">
-        <span className="inline-block">
-          <Trans>View provided liquidity</Trans>
-        </span>
-        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
-      </a>
-    </Link>
-  );
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
