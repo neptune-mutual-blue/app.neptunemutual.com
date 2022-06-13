@@ -1,7 +1,7 @@
 import ExclamationCircleIcon from "@/icons/ExclamationCircleIcon";
 import { classNames } from "@/utils/classnames";
 
-export const Alert = ({ children, info, className }) => {
+export const Alert = ({ children, info = false, className = "" }) => {
   return (
     <div
       className={classNames(

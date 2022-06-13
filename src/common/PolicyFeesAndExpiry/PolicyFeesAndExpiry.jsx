@@ -5,15 +5,14 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
-export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
+export const PolicyFeesAndExpiry = ({ data }) => {
   const { fee, rate } = data;
   const router = useRouter();
 
   const rateConverted = convertUintToPercentage(rate);
   const coverFee = convertFromUnits(fee).toString();
 
-  const next = DateLib.addMonths(new Date(), coverPeriod - 1);
-  const expires = DateLib.getEomInUTC(next);
+  const expires = DateLib.fromUnix(data.expiryDate);
 
   return (
     <>
@@ -24,7 +23,9 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
             <th>
               <Trans>Fees</Trans>
             </th>
-            <td className="text-4e7dd9">{formatPercent(rateConverted, router.locale)}</td>
+            <td className="text-4e7dd9">
+              {formatPercent(rateConverted, router.locale)}
+            </td>
           </tr>
           <tr className="flex justify-between mt-3">
             <th>
@@ -32,9 +33,9 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
             </th>
             <td
               className="text-4e7dd9"
-              title={formatCurrency(coverFee, router.locale,"DAI", true).long}
+              title={formatCurrency(coverFee, router.locale, "DAI", true).long}
             >
-              {formatCurrency(coverFee, router.locale,"DAI", true).short}
+              {formatCurrency(coverFee, router.locale, "DAI", true).short}
             </td>
           </tr>
           <tr className="flex justify-between mt-3">
@@ -42,7 +43,7 @@ export const PolicyFeesAndExpiry = ({ data, coverPeriod }) => {
               <Trans>Claim Expiry</Trans>
             </th>
             <td className="text-4e7dd9" title={expires.toString()}>
-              {DateLib.toLongDateFormat(expires, router.locale,"UTC")}
+              {DateLib.toLongDateFormat(expires, router.locale, "UTC")}
             </td>
           </tr>
         </tbody>

@@ -27,8 +27,8 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
-  const [value, setValue] = useState();
-  const [coverMonth, setCoverMonth] = useState();
+  const [value, setValue] = useState("");
+  const [coverMonth, setCoverMonth] = useState(null);
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const { availableLiquidity: availableLiquidityInWei } =
@@ -167,12 +167,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </TokenAmountInput>
       <div className="px-3 mt-12">
         <div className="flex items-center gap-2 mb-4">
-          <h5
+          <label
             className="block font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
             <Trans>Select your coverage period</Trans>
-          </h5>
+          </label>
           {/* Tooltip */}
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
@@ -216,9 +216,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           />
         </div>
       </div>
-      {value && coverMonth && (
-        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
-      )}
+      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
 
       <div className="mt-4">
         <DataLoadingIndicator message={loadingMessage} />
