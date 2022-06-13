@@ -9,8 +9,8 @@ export const getNumberSeparators = (locale = "en") => {
 
 export const getPlainNumber = (formattedString, locale = "en") => {
   const sep = getNumberSeparators(locale);
-  return formattedString
-    .toString()
-    .replaceAll(sep.thousand, "")
-    .replace(sep.decimal, ".");
+
+  const reg = new RegExp(sep.thousand, "g");
+
+  return formattedString.toString().replace(reg, "").replace(sep.decimal, ".");
 };
