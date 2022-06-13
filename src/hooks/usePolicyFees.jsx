@@ -88,6 +88,7 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           await multiCallProvider.all([getCoverFeeInfoCall, getExpiryDateCall]);
 
         if (ignore) return;
+        cleanup();
         setData({
           fee: getCoverFeeInfoResult.fee.toString(),
           utilizationRatio: getCoverFeeInfoResult.utilizationRatio.toString(),
@@ -98,7 +99,6 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           rate: getCoverFeeInfoResult.rate.toString(),
           expiryDate: getExpiryDateResult.toString(),
         });
-        cleanup();
       } catch (err) {
         handleError(err);
         cleanup();
