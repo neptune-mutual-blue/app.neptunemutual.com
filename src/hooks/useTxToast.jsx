@@ -21,10 +21,8 @@ export const useTxToast = () => {
     }
 
     const txLink = getTxLink(networkId, tx);
-    const txHash = tx?.hash;
 
-    toast.pushLoading({
-      id: txHash,
+    const loadingToastId = toast.pushLoading({
       title: titles.pending,
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_NO_TIMEOUT,
@@ -33,9 +31,10 @@ export const useTxToast = () => {
     const receipt = await tx.wait(1);
     const type = receipt.status === 1 ? "Success" : "Error";
 
+    toast.remove(loadingToastId);
+
     if (type === "Success") {
       toast.pushSuccess({
-        id: txHash,
         title: titles.success,
         message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_NO_TIMEOUT,
@@ -46,7 +45,6 @@ export const useTxToast = () => {
     }
 
     toast.pushError({
-      id: txHash,
       title: titles.failure,
       message: <ViewTxLink txLink={txLink} />,
       lifetime: TOAST_NO_TIMEOUT,
