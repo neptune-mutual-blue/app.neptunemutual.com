@@ -29,8 +29,8 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
-  const [lqValue, setLqValue] = useState();
-  const [npmValue, setNPMValue] = useState();
+  const [lqValue, setLqValue] = useState("");
+  const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [lqErrorMsg, setLqErrorMsg] = useState("");
@@ -128,11 +128,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     if (typeof val === "string") {
       setLqValue(val);
     }
-  };
-
-  const handleSuccessViewProvidedLiquidity = () => {
-    setNPMValue("");
-    setLqValue("");
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
@@ -300,9 +295,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
-              handleProvide({
-                onTxSuccess: handleSuccessViewProvidedLiquidity,
-                successToastMessage: ViewToastLiquidityLink,
+              handleProvide(() => {
+                setNPMValue("");
+                setLqValue("");
               });
             }}
           >

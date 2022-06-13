@@ -26,7 +26,7 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
   const [value, setValue] = useState("");
-  const [coverMonth, setCoverMonth] = useState(null);
+  const [coverMonth, setCoverMonth] = useState("");
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const { availableLiquidity: availableLiquidityInWei } =
@@ -89,11 +89,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       return;
     }
     setValue(convertFromUnits(balance).toString());
-  };
-
-  const handleSuccessViewPurchasedPolicies = () => {
-    setValue("");
-    setCoverMonth();
   };
 
   const now = new Date();
@@ -248,9 +243,9 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
-              handlePurchase({
-                onTxSuccess: handleSuccessViewPurchasedPolicies,
-                successToastMessage: ViewToastPoliciesLink,
+              handlePurchase(() => {
+                setValue("");
+                setCoverMonth("");
               });
             }}
           >

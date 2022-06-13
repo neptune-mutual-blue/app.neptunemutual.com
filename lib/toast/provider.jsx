@@ -31,9 +31,8 @@ export const ToastProvider = ({ children, variant }) => {
           return [...prevState, { ...newItem, id: id || uuidv4() }];
         }
 
-        const updatedData = prevState.map((item) =>
-          item.id === id ? { ...newItem, id } : item
-        );
+        const updatedData = prevState.filter((item) => item.id !== id);
+        updatedData.push({ ...newItem, id });
 
         return updatedData;
       });

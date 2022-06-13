@@ -144,7 +144,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     });
   };
 
-  const handleProvide = async ({ onTxSuccess, successToastMessage = null }) => {
+  const handleProvide = async (onTxSuccess) => {
     setProviding(true);
 
     const cleanup = () => {
@@ -179,7 +179,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
             success: t`Added Liquidity Successfully`,
             failure: t`Could not add liquidity`,
           },
-          { onTxSuccess: onTxSuccess, successToastMessage }
+          { onTxSuccess: onTxSuccess }
         );
         cleanup();
       };

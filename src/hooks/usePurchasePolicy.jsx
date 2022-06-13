@@ -147,10 +147,7 @@ export const usePurchasePolicy = ({
     }
   };
 
-  const handlePurchase = async ({
-    onTxSuccess,
-    successToastMessage = null,
-  }) => {
+  const handlePurchase = async (onTxSuccess) => {
     setPurchasing(true);
 
     const cleanup = () => {
@@ -179,7 +176,7 @@ export const usePurchasePolicy = ({
             success: t`Purchased Policy Successfully`,
             failure: t`Could not purchase policy`,
           },
-          { onTxSuccess: onTxSuccess, successToastMessage }
+          { onTxSuccess: onTxSuccess }
         );
 
         cleanup();

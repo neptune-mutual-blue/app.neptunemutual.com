@@ -12,7 +12,7 @@ export const useTxToast = () => {
    *
    * @param {*} tx
    * @param {{pending: string, success: string, failure: string}} titles
-   * @param {{onTxSuccess?: function, onTxFailure?: function, successToastMessage?: Element}} [options]
+   * @param {{onTxSuccess?: function, onTxFailure?: function}} [options]
    */
   const push = async (tx, titles, options = {}) => {
     if (!tx) {
@@ -37,7 +37,7 @@ export const useTxToast = () => {
       toast.pushSuccess({
         id: txHash,
         title: titles.success,
-        message: options?.successToastMessage || <ViewTxLink txLink={txLink} />,
+        message: <ViewTxLink txLink={txLink} />,
         lifetime: TOAST_NO_TIMEOUT,
       });
 
