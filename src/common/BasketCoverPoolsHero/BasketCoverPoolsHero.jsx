@@ -15,7 +15,7 @@ import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useCovers } from "@/src/context/Covers";
 
 const GridComponent = ({ children }) => (
-  <div className="border-AABDCB/50 font-sora flex items-center">{children}</div>
+  <div className="flex items-center border-AABDCB/50 font-sora">{children}</div>
 );
 
 export const BasketCoverPoolsHero = () => {
@@ -62,9 +62,9 @@ export const BasketCoverPoolsHero = () => {
   const homeCardClassName = "bg-transparent border-none !shadow-0 !h-fit";
 
   return (
-    <div className="bg-EEF4FF">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <div className="py-10 grid grid-cols-1 md:grid-cols-3 divide-x items-stretch">
+    <div className="border-b bg-EEF4FF border-B0C4DB">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 md:px-8">
+        <div className="grid items-stretch grid-cols-1 py-10 divide-x md:grid-cols-3">
           <GridComponent>
             <HomeCard
               className={homeCardClassName}
@@ -113,7 +113,7 @@ export const BasketCoverPoolsHero = () => {
             <HomeMainCard className={homeCardClassName} heroData={heroData} />
           </GridComponent>
         </div>
-        <div className="py-14 border-t border-AABDCB/50">
+        <div className="border-t py-14 border-AABDCB/50">
           <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
             <h1 className="font-bold text-h3 lg:text-h2 font-sora">
               <Trans>Basket Cover Pools</Trans>

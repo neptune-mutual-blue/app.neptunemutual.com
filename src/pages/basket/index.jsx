@@ -1,3 +1,4 @@
+import { BasketCoverPoolsHero } from "@/common/BasketCoverPoolsHero";
 import { BasketCardGrids } from "@/modules/basket/grid";
 import Head from "next/head";
 
@@ -12,6 +13,7 @@ export default function BasketsCoverpool() {
         />
       </Head>
 
+      <BasketCoverPoolsHero />
       <BasketCardGrids />
     </main>
   );

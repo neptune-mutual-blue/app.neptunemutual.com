@@ -124,7 +124,7 @@ const NewCoverCard = ({
           }
         >
           <div>
-            <ProgressBar value={stats.utilization} fgClass="bg-4e7dd9" />
+            <ProgressBar value={utilization} fgClass="bg-4e7dd9" />
           </div>
         </InfoTooltip>
       </div>

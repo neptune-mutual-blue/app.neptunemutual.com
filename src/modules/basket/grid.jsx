@@ -1,10 +1,11 @@
+import { NeutralButton } from "@/common/Button/NeutralButton";
 import { Container } from "@/common/Container/Container";
 import { NewCoverCard } from "@/common/NewCoverCard/NewCoverCard";
 import { mockBasketData } from "@/modules/basket/__mock__";
 
 export const BasketCardGrids = () => {
   return (
-    <Container className={"py-16"}>
+    <Container className={"pt-14 pb-28"}>
       <div className="grid gap-8 md:grid-cols-2">
         {mockBasketData.map((item, index) => (
           <NewCoverCard
@@ -22,6 +23,13 @@ export const BasketCardGrids = () => {
           />
         ))}
       </div>
+
+      <NeutralButton
+        className={"mt-14 rounded-lg border-0.5"}
+        onClick={() => {}}
+      >
+        Show More
+      </NeutralButton>
     </Container>
   );
 };
