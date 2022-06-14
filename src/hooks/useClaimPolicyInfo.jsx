@@ -201,8 +201,11 @@ export const useClaimPolicyInfo = ({
         cleanup();
       };
 
+
+      const productKey = null;
       const args = [
         cxTokenAddress,
+        productKey,
         coverKey,
         incidentDate,
         convertToUnits(value).toString(),
