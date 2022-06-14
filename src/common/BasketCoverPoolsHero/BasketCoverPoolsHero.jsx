@@ -59,9 +59,11 @@ export const BasketCoverPoolsHero = () => {
     setSearchValue(ev.target.value);
   };
 
+  const homeCardClassName = "bg-transparent border-none shadow-0 !h-fit";
+
   return (
     <div className="bg-EEF4FF">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <div className={homeCardClassName}>
         <div className="py-10 grid grid-cols-1 md:grid-cols-3 divide-x items-stretch">
           <GridComponent>
             <HomeCard
@@ -87,7 +89,7 @@ export const BasketCoverPoolsHero = () => {
           </GridComponent>
           <GridComponent>
             <HomeCard
-              className="bg-transparent border-none shadow-0 !h-fit"
+              className={homeCardClassName}
               showDivider={false}
               items={[
                 {
@@ -108,10 +110,7 @@ export const BasketCoverPoolsHero = () => {
             />
           </GridComponent>
           <GridComponent>
-            <HomeMainCard
-              className="bg-transparent border-none shadow-0 !h-fit"
-              heroData={heroData}
-            />
+            <HomeMainCard className={homeCardClassName} heroData={heroData} />
           </GridComponent>
         </div>
         <div className="py-14 border-t border-AABDCB/50">
