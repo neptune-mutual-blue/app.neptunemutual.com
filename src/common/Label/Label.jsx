@@ -8,6 +8,7 @@ export const Label = ({ children, className, htmlFor }) => {
         className
       )}
       htmlFor={htmlFor}
+      data-testid='label-mock-component'
     >
       {children}
     </label>

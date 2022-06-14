@@ -10,6 +10,7 @@ import { t } from "@lingui/macro";
 import ChevronDownArrowIcon from "@/icons/ChevronDownArrowIcon";
 import { getBrowserLocale } from "@/utils/locale";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
+import GlobeLogo from "@/lib/connect-wallet/components/logos/Globe";
 
 const DEBOUNCE_TIMER = 200;
 
@@ -66,7 +67,8 @@ export const LanguageDropdown = () => {
   };
 
   return (
-    <div className="relative mt-1.5 cursor-pointer">
+    <div className="relative mt-1.5 cursor-pointer flex items-center">
+      <GlobeLogo className="mr-1.5" />
       <Listbox
         value={languageKey[router.locale]}
         onChange={handleOnChangeLanguage}

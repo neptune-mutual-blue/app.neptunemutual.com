@@ -44,6 +44,8 @@ export const ToastProvider = ({ children, variant }) => {
           type: undefined,
         };
         setData((prevState) => [...prevState, newItem]);
+
+        return newItem.id;
       }
     },
     [setData]

@@ -9,6 +9,7 @@ module.exports = {
       xl: "1200px",
     },
     boxShadow: {
+      "0": "0 0 #0000",
       "card": "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
       "mainCard":
         "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
