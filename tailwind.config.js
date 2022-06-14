@@ -147,11 +147,13 @@ module.exports = {
       maxHeight: {
         "144": "36rem",
         "90vh": "90vh",
+        "100vh": "100vh",
         "30vh": "30vh",
         "45vh": "45vh",
       },
       height: {
-        500: "500px",
+        "500": "500px",
+        "100vh": "100vh",
       },
       width: {
         800: "800px",
