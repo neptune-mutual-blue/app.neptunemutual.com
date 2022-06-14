@@ -6,6 +6,7 @@ import { getErrorMessage } from "@/src/helpers/tx";
 import { calculateGasMargin } from "@/utils/bn";
 import { Divider } from "@/common/Divider/Divider";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
 
 const initValue = {
   // prettier-ignore
@@ -29,6 +30,8 @@ export const TxPosterProvider = ({ children }) => {
     isError: false,
     pendingInvokeArgs: {},
   });
+
+  useTransactionHistory();
 
   const invoke = useCallback(
     async ({

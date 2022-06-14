@@ -22,7 +22,12 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -163,8 +168,12 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     if (isGreater(receiveAmount, info.maxBond)) {
       setError(
         t`Exceeds maximum bond ${
-          formatCurrency(convertFromUnits(info.maxBond).toString(), router.locale,"NPM", true)
-            .long
+          formatCurrency(
+            convertFromUnits(info.maxBond).toString(),
+            router.locale,
+            "NPM",
+            true
+          ).long
         }`
       );
       return;
@@ -187,17 +196,50 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     };
 
     const onTransactionResult = async (tx) => {
-      try {
-        await txToast.push(tx, {
-          pending: t`Approving LP tokens`,
-          success: t`Approved LP tokens Successfully`,
-          failure: t`Could not approve LP tokens`,
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.BOND_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          receiveAmount,
+          tokenSymbol: "LP",
+        },
+      });
+
+      await txToast
+        .push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.BOND_APPROVE, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.BOND_APPROVE, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.BOND_APPROVE, STATUS.FAILED)
+              .title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        )
+        .catch((err) => {
+          handleError(err);
         });
-        cleanup();
-      } catch (err) {
-        handleError(err);
-        cleanup();
-      }
+
+      cleanup();
     };
 
     const onRetryCancel = () => {
@@ -238,17 +280,45 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.BOND_CREATE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            receiveAmount,
+            tokenSymbol: "NPM",
+          },
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Creating bond`,
-            success: t`Created bond successfully`,
-            failure: t`Could not create bond`,
+            pending: getActionMessage(METHODS.BOND_CREATE, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.BOND_CREATE, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.BOND_CREATE, STATUS.FAILED).title,
           },
           {
-            onTxSuccess,
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_CREATE,
+                status: STATUS.SUCCESS,
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_CREATE,
+                status: STATUS.FAILED,
+              });
+            },
           }
         );
+
         cleanup();
       };
 
