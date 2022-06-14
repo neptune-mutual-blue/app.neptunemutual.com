@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { Radio } from "@/common/Radio/Radio";
 import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
@@ -24,6 +23,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { BackButton } from "@/common/BackButton/BackButton";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
@@ -267,12 +267,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </div>
 
       <div className="mt-20">
-        <OutlinedButton
-          className="rounded-big pt-1 pb-1 pl-5 pr-4 border border-solid border-4E7DD9 md:py-3 md:pl-6 md:pr-5"
-          onClick={() => router.back()}
-        >
-          &#x27F5;&nbsp;<Trans>Back</Trans>
-        </OutlinedButton>
+        <BackButton onClick={() => router.back()} />
       </div>
     </div>
   );
