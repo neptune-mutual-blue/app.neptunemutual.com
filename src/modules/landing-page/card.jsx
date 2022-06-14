@@ -11,7 +11,10 @@ function Card({ href, children }) {
   return (
     <Link href={href}>
       <a>
-        <div className="flex flex-col items-center max-w-xs text-center bg-FEFEFF rounded-xl px-6 py-14 text-black">
+        <div
+          className="flex flex-col items-center max-w-xs text-center bg-FEFEFF rounded-3xl px-6 py-14 text-black
+        border border-transparent hover:border-B0C4DB hover:shadow-card ease-out hover:ease-in transition delay-150"
+        >
           {children}
         </div>
       </a>
@@ -24,7 +27,11 @@ function Logo({ children }) {
 }
 
 function Title({ children }) {
-  return <h2 className="flex mt-10 mb-2 font-semibold text-h3 ">{children}</h2>;
+  return (
+    <h2 className="flex mt-10 mb-2 font-semibold text-h3 font-sora">
+      {children}
+    </h2>
+  );
 }
 
 function Description({ children }) {

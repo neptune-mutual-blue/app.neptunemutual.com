@@ -10,7 +10,7 @@ export default function LandingPage() {
       <Container className="h-full flex items-center flex-col justify-center">
         <NeptuneLogo className="mb-8" />
 
-        <h1 className="font-bold text-h1 mb-2">Select Product</h1>
+        <h1 className="font-bold text-h1 mb-2 font-sora">Select Product</h1>
         <p className="text-h5 font-normal">
           Lorem ipsum dolor sit amet, consectetur.
         </p>
