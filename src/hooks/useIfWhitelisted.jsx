@@ -47,10 +47,11 @@ export const useIfWhitelisted = ({ coverKey }) => {
         handleError(err);
       };
 
+      const productKey = null;
       invoke({
         instance,
         methodName: "checkIfWhitelistedUser",
-        args: [coverKey, account],
+        args: [coverKey, productKey, account],
         onTransactionResult,
         onRetryCancel,
         onError,

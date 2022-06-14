@@ -156,8 +156,10 @@ export const useDisputeIncident = ({
         handleError(err);
       };
 
+      const productKey = null;
       const args = [
         coverKey,
+        productKey,
         incidentDate,
         hashBytes32,
         convertToUnits(value).toString(),
