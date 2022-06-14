@@ -327,7 +327,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
       <div className="mt-16">
         <OutlinedButton
-          className="block m-auto rounded-big sm:m-0"
+          className="block m-auto rounded-big sm:m-0 pt-1 pb-1 pl-5 pr-4 border border-solid border-4E7DD9 md:py-3 md:pl-6 md:pr-5"
           onClick={() => router.back()}
         >
           &#x27F5;&nbsp;<Trans>Back</Trans>
