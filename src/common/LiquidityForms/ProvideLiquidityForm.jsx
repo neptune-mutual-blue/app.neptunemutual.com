@@ -8,7 +8,6 @@ import {
   isEqualTo,
   toBN,
 } from "@/utils/bn";
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
@@ -26,6 +25,7 @@ import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityForms
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { BackButton } from "@/common/BackButton/BackButton";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState("");
@@ -301,12 +301,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       </div>
 
       <div className="mt-16">
-        <OutlinedButton
-          className="block m-auto rounded-big sm:m-0"
-          onClick={() => router.back()}
-        >
-          &#x27F5;&nbsp;<Trans>Back</Trans>
-        </OutlinedButton>
+        <BackButton onClick={() => router.back()} />
       </div>
     </div>
   );
