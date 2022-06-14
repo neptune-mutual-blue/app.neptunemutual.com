@@ -2,7 +2,7 @@ import { Container } from "@/common/Container/Container";
 import BasketCP from "@/modules/landing-page/assets/BasketCP";
 import NeptuneLogo from "@/modules/landing-page/assets/NeptuneLogo";
 import StandAloneCP from "@/modules/landing-page/assets/StandAloneCP";
-import Card from "@/modules/landing-page/card.jsx";
+import Card from "@/modules/landing-page/card";
 
 export default function LandingPage() {
   return (
