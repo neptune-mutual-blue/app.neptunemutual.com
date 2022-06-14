@@ -77,18 +77,22 @@ module.exports = {
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
+        coverCard: "0px 6px 8px rgba(0, 0, 0, 0.1)",
       },
       spacing: {
         /* 72px */
         "18": "4.5rem",
         "22px": "22px",
+        "3px": "3px",
       },
       lineHeight: {
-        4.5: "18px",
+        "4.5": "18px",
+        "53px": "53px",
       },
       maxWidth: {
         180: "180px",
         15: "15rem",
+        52: "208px",
       },
       minWidth: {
         sm: "384px",
