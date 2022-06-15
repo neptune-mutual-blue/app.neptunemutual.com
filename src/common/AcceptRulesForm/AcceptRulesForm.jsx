@@ -70,7 +70,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
         >
           <Trans>Next</Trans>
 
-          <LeftArrow fill={"#fff"} variant={"right"} />
+          <LeftArrow variant={"right"} />
         </button>
       </form>
     </>
