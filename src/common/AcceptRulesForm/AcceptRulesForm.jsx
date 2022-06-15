@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import LeftArrow from "@/icons/LeftArrow";
 
 export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   const router = useRouter();
@@ -63,11 +64,13 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           type="submit"
           disabled={!checked}
           className={classNames(
-            !checked && "opacity-30 cursor-not-allowed",
-            "bg-4e7dd9 text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto"
+            !checked && "flex opacity-30 cursor-not-allowed",
+            "flex items-center bg-4e7dd9 text-EEEEEE py-3 pl-6 pr-5 mt-8 rounded-big w-full sm:w-auto"
           )}
         >
-          <Trans>Next</Trans>&nbsp;&#x27F6;
+          <Trans>Next</Trans>
+
+          <LeftArrow fill={"#fff"} variant={"right"} />
         </button>
       </form>
     </>
