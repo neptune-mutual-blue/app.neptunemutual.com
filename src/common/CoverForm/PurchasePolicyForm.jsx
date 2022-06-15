@@ -24,6 +24,7 @@ import { BackButton } from "@/common/BackButton/BackButton";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
+  
   const [value, setValue] = useState("");
   const [coverMonth, setCoverMonth] = useState("");
   const { liquidityTokenAddress } = useAppConstants();
@@ -34,11 +35,13 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     availableLiquidityInWei
   ).toString();
   const monthNames = getMonthNames(router.locale);
-
+  const productKey = null; // temporary init value, to be remove
+  
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
     coverMonth,
     coverKey,
+    productKey
   });
 
   const {
@@ -55,6 +58,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
+    productKey,
     feeAmount: feeData.fee,
     availableLiquidity,
   });

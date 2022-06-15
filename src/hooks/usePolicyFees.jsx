@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { config, registry } from "@neptunemutual/sdk";
+import { config, registry, utils } from "@neptunemutual/sdk";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -22,7 +22,7 @@ const defaultInfo = {
   expiryDate: "0",
 };
 
-export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
+export const usePolicyFees = ({ value, coverMonth, coverKey, productKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -74,10 +74,11 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           config.abis.IPolicy
         );
 
-        const productKey = null;
+        const productKeys = productKey || utils.keyUtil.toBytes32("");
+        
         const getCoverFeeInfoCall = instance.getCoverFeeInfo(
           coverKey,
-          productKey,
+          productKeys,
           parseInt(coverMonth, 10),
           convertToUnits(debouncedValue).toString()
         );

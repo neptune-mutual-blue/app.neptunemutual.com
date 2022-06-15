@@ -7,9 +7,15 @@ import { useIpfs } from "@/src/context/Ipfs";
 const getQuery = () => {
   return `
   {
-    covers {
+    covers (
+      where: {
+        supportsProducts: false
+      }
+    ) {
       id
-      key
+      coverKey
+      tokenName
+      tokenSymbol
       ipfsHash
       ipfsBytes
     }
@@ -40,7 +46,7 @@ export const useFetchCovers = () => {
         try {
           JSON.parse(toUtf8String(_cover.ipfsBytes));
         } catch (err) {
-          console.log("[covers] Could not parse ipfs bytes", _cover.key);
+          console.log("[covers] Could not parse ipfs bytes", _cover.coverKey);
           updateIpfsData(_cover.ipfsHash); // Fetch data from IPFS
         }
       });
@@ -72,7 +78,7 @@ export const useFetchCovers = () => {
 
   const getInfoByKey = useCallback(
     (coverKey) => {
-      const _cover = data.find((x) => x.key === coverKey);
+      const _cover = data.find((x) => x.coverKey === coverKey);
 
       if (!_cover) {
         return null;
@@ -83,11 +89,11 @@ export const useFetchCovers = () => {
       try {
         ipfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
       } catch (err) {
-        console.log("[info] Could not parse ipfs bytes", _cover.key);
+        console.log("[info] Could not parse ipfs bytes", _cover.coverKey);
       }
 
       return {
-        key: _cover.key || "",
+        key: _cover.coverKey || "",
         coverName: ipfsData.coverName || "",
         projectName: ipfsData.projectName || "",
         tags: ipfsData.tags || [],
@@ -110,7 +116,7 @@ export const useFetchCovers = () => {
 
   // TODO: remove this
   const finalData = useMemo(
-    () => data.map((x) => getInfoByKey(x.key)),
+    () => data.map((x) => getInfoByKey(x.coverKey)),
     [data, getInfoByKey]
   );
 
