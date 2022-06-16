@@ -12,7 +12,6 @@ import {
 import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
@@ -26,8 +25,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { NPMTokenAddress } = useAppConstants();
-  const tokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const { NPMTokenAddress, NPMTokenSymbol: tokenSymbol } = useAppConstants();
   const txToast = useTxToast();
   const governanceAddress = useGovernanceAddress();
   const { invoke } = useInvokeMethod();
@@ -131,7 +129,12 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       };
 
       const productKey = null;
-      const args = [coverKey, productKey, incidentDate, convertToUnits(value).toString()];
+      const args = [
+        coverKey,
+        productKey,
+        incidentDate,
+        convertToUnits(value).toString(),
+      ];
       invoke({
         instance,
         methodName: "attest",
@@ -185,7 +188,12 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       };
 
       const productKey = null;
-      const args = [coverKey, productKey, incidentDate, convertToUnits(value).toString()];
+      const args = [
+        coverKey,
+        productKey,
+        incidentDate,
+        convertToUnits(value).toString(),
+      ];
       invoke({
         instance,
         methodName: "refute",

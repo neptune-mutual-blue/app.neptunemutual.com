@@ -13,7 +13,6 @@ import {
 import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useRouter } from "next/router";
 // import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -39,8 +38,7 @@ export const useDisputeIncident = ({
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const governanceContractAddress = useGovernanceAddress();
-  const { NPMTokenAddress } = useAppConstants();
-  const tokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const { NPMTokenAddress, NPMTokenSymbol: tokenSymbol } = useAppConstants();
   const {
     allowance,
     refetch: updateAllowance,

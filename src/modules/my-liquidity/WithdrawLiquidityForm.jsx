@@ -18,7 +18,6 @@ import {
 import DateLib from "@/lib/date/DateLib";
 import { formatAmount } from "@/utils/formatter";
 import { fromNow } from "@/utils/formatter/relative-time";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCalculateLiquidity } from "@/src/hooks/useCalculateLiquidity";
 import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -41,14 +40,16 @@ export const WithdrawLiquidityForm = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
 
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
+  const {
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol: npmTokenSymbol,
+  } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
       podAmount: podValue || "0",
     });
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const { myStake, minStakeToAddLiquidity, isAccrualComplete } =
     useLiquidityFormsContext();
   const {

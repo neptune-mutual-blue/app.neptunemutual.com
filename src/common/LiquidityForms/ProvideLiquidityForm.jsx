@@ -14,7 +14,6 @@ import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInp
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
@@ -35,9 +34,12 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [lqErrorMsg, setLqErrorMsg] = useState("");
 
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const {
+    liquidityTokenAddress,
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol: npmTokenSymbol,
+  } = useAppConstants();
 
   const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
   const npmTokenDecimals = useTokenDecimals(NPMTokenAddress);
