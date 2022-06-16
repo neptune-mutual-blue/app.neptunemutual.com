@@ -2,6 +2,7 @@ import { ProductsGrid } from "@/common/ProductsGrid";
 import { HomeHero } from "@/modules/home/Hero";
 import { t } from "@lingui/macro";
 import Head from "next/head";
+import Router from "next/router";
 
 export default function BasketsCoverpool() {
   return (
@@ -14,6 +15,7 @@ export default function BasketsCoverpool() {
         />
       </Head>
       <HomeHero
+        title={`${Router.query.cover_id} mock title`}
         heroContainerClass="!pt-0"
         breadcrumbs={[
           { name: t`Baskets`, href: "/basket", current: false },
