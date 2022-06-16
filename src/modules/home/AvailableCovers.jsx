@@ -15,6 +15,7 @@ import { Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useRouter } from "next/router";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -34,9 +35,18 @@ const sorterData = {
   },
 };
 
+function getBasePath(array) {
+  return array.filter(Boolean).join("/");
+}
+
 export const AvailableCovers = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { getStatsByKey } = useSortableStats();
+  const {
+    query: { cover_id = "" },
+  } = useRouter();
+
+  const basePathArray = ["covers", cover_id];
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
@@ -94,7 +104,9 @@ export const AvailableCovers = () => {
           if (idx > showCount - 1) return;
           return (
             <Link
-              href={`/cover/${safeParseBytes32String(c.key)}/options`}
+              href={`/${getBasePath(basePathArray)}/${safeParseBytes32String(
+                c.key
+              )}/options`}
               key={c.key}
             >
               <a

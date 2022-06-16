@@ -1,8 +1,7 @@
 import Head from "next/head";
+import { CoverOptionsPage } from "@/src/modules/basket/CoverOptionsPage";
 
-import LandingPage from "@/modules/landing-page";
-
-export default function Home() {
+export default function Options() {
   return (
     <main>
       <Head>
@@ -12,15 +11,7 @@ export default function Home() {
           content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
         />
       </Head>
-      <LandingPage />
+      <CoverOptionsPage />
     </main>
   );
 }
-
-export const getStaticProps = () => {
-  return {
-    props: {
-      noWrappers: true,
-    },
-  };
-};

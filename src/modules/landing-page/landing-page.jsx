@@ -16,7 +16,7 @@ export default function LandingPage() {
         </p>
 
         <div className="flex space-x-8 mt-20">
-          <Card href="/">
+          <Card href="/cover">
             <Card.Logo>
               <StandAloneCP />
             </Card.Logo>
