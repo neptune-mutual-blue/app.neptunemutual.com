@@ -25,7 +25,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { NPMTokenAddress, NPMTokenSymbol: tokenSymbol } = useAppConstants();
+  const { NPMTokenAddress, NPMTokenSymbol } = useAppConstants();
   const txToast = useTxToast();
   const governanceAddress = useGovernanceAddress();
   const { invoke } = useInvokeMethod();
@@ -52,15 +52,15 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, t`approve ${tokenSymbol} tokens`);
+      notifyError(err, t`approve ${NPMTokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol} tokens`,
-          success: t`Approved ${tokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${tokenSymbol} tokens`,
+          pending: t`Approving ${NPMTokenSymbol} tokens`,
+          success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${NPMTokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -218,7 +218,7 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
 
   return {
     tokenAddress: NPMTokenAddress,
-    tokenSymbol,
+    tokenSymbol: NPMTokenSymbol,
 
     balance,
     approving,

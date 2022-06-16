@@ -40,11 +40,8 @@ export const WithdrawLiquidityForm = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
 
-  const {
-    NPMTokenAddress,
-    liquidityTokenSymbol,
-    NPMTokenSymbol: npmTokenSymbol,
-  } = useAppConstants();
+  const { NPMTokenAddress, liquidityTokenSymbol, NPMTokenSymbol } =
+    useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
@@ -165,7 +162,7 @@ export const WithdrawLiquidityForm = ({
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
             disabled={isExit}
-            tokenSymbol={npmTokenSymbol}
+            tokenSymbol={NPMTokenSymbol}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}
             id={"my-staked-amount"}
@@ -176,13 +173,13 @@ export const WithdrawLiquidityForm = ({
               <TokenAmountWithPrefix
                 amountInUnits={myStake}
                 prefix={t`Your Stake:` + " "}
-                symbol={npmTokenSymbol}
+                symbol={NPMTokenSymbol}
               />
             )}
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
             {!isExit && npmErrorMsg && (
               <p className="text-FA5C2F">{npmErrorMsg}</p>

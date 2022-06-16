@@ -17,6 +17,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const renderHeader = (col) => (
   <th
@@ -123,6 +124,7 @@ const WhenRenderer = ({ row }) => {
 
 const AmountRenderer = ({ row }) => {
   const router = useRouter();
+  const { NPMTokenSymbol } = useAppConstants();
 
   return (
     <td className="px-6 py-6">
@@ -138,7 +140,7 @@ const AmountRenderer = ({ row }) => {
             formatCurrency(
               convertFromUnits(row.stake),
               router.locale,
-              "NPM",
+              NPMTokenSymbol,
               true
             ).long
           }
@@ -147,7 +149,7 @@ const AmountRenderer = ({ row }) => {
             formatCurrency(
               convertFromUnits(row.stake),
               router.locale,
-              "NPM",
+              NPMTokenSymbol,
               true
             ).short
           }

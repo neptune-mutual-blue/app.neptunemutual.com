@@ -37,7 +37,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     liquidityTokenAddress,
     NPMTokenAddress,
     liquidityTokenSymbol,
-    NPMTokenSymbol: npmTokenSymbol,
+    NPMTokenSymbol,
     liquidityTokenDecimals,
     NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
@@ -172,7 +172,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } else if (lqBalanceLoading || npmBalanceLoading) {
     loadingMessage = t`Fetching balances...`;
   } else if (npmAllowanceLoading) {
-    loadingMessage = t`Fetching ${npmTokenSymbol} allowance...`;
+    loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`;
   } else if (lqAllowanceLoading) {
     loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
@@ -186,7 +186,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           handleChooseMax={handleMaxNPM}
           error={npmErrorMsg}
           tokenAddress={NPMTokenAddress}
-          tokenSymbol={npmTokenSymbol}
+          tokenSymbol={NPMTokenSymbol}
           tokenBalance={npmBalance || "0"}
           tokenDecimals={npmTokenDecimals}
           inputId={"npm-stake"}
@@ -197,14 +197,14 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
           )}
           {isGreater(myStake, "0") && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
               prefix={t`Your Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
           )}
 
@@ -297,7 +297,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               t`Approving...`
             ) : (
               <>
-                <Trans>Approve</Trans> {npmTokenSymbol || t`Stake`}
+                <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
               </>
             )}
           </RegularButton>

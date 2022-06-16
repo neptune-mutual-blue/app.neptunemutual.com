@@ -31,8 +31,12 @@ const BondPage = () => {
   const { account } = useWeb3React();
   const tokenAddress = info.lpTokenAddress;
   const tokenSymbol = useTokenSymbol(tokenAddress);
-  const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
-    useAppConstants();
+  const {
+    NPMTokenAddress,
+    liquidityTokenAddress,
+    NPMTokenSymbol,
+    getPriceByAddress,
+  } = useAppConstants();
   const router = useRouter();
 
   const {
@@ -77,7 +81,7 @@ const BondPage = () => {
         formatCurrency(
           convertFromUnits(info.maxBond).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).short
       }`,
@@ -85,7 +89,7 @@ const BondPage = () => {
         formatCurrency(
           convertFromUnits(info.maxBond).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).long
       }`,
@@ -113,13 +117,15 @@ const BondPage = () => {
     rightHalf.push({
       title: t`Your Bond`,
       value: claimable
-        ? `${formatCurrency(claimable, router.locale, "NPM", true).short}`
+        ? `${
+            formatCurrency(claimable, router.locale, NPMTokenSymbol, true).short
+          }`
         : "",
       tooltip: `${
         formatCurrency(
           convertFromUnits(info.claimable).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).long
       }`,
@@ -175,7 +181,7 @@ const BondPage = () => {
         <div className="mt-16 receive">
           <ReceiveAmountInput
             labelText={t`You Will Receive`}
-            tokenSymbol="NPM"
+            tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
             data-testid="receive-amount-input"
           />

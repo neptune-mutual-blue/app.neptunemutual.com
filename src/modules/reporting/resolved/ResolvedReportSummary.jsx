@@ -13,6 +13,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { finalize, finalizing } = useFinalizeIncident({
@@ -24,6 +25,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
   const router = useRouter();
+  const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -100,7 +102,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   true
                 ).short,
               },
@@ -124,7 +126,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   true
                 ).short,
               },
