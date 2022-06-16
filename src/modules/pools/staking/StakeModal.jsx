@@ -17,7 +17,12 @@ export const StakeModal = ({
 }) => {
   const [isDisabled, setIsDisabled] = useState(false);
   return (
-    <ModalRegular isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
+    <ModalRegular
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={isDisabled}
+      data-testid="staking-modal"
+    >
       <ModalWrapper>
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
