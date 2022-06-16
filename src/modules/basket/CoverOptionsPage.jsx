@@ -31,8 +31,6 @@ export const CoverOptionsPage = () => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
 
-  console.log("test", router.query, coverKey);
-
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }

@@ -11,7 +11,7 @@ export const BasketCardGrids = () => {
       <div className="grid gap-8 md:grid-cols-2">
         {mockBasketData.map((item) => {
           const coverKey = safeParseBytes32String(item.key);
-          console.log("test", item.name, coverKey);
+
           return (
             <Link href={`basket/${coverKey}`} key={item.id}>
               <a>
