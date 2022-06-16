@@ -15,7 +15,7 @@ import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 
-export const CoverCard = ({ details }) => {
+export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
   const router = useRouter();
   const { setStatsByKey } = useSortableStats();
 
@@ -86,7 +86,11 @@ export const CoverCard = ({ details }) => {
         </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={utilization} />
+        <ProgressBar
+          value={utilization}
+          bgClass={progressBgColor}
+          fgClass={progressFgColor}
+        />
       </div>
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <div
