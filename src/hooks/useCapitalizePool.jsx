@@ -60,7 +60,8 @@ export const useCapitalizePool = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate];
       invoke({
         instance,
         methodName: "capitalizePool",

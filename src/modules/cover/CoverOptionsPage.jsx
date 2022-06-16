@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
@@ -14,6 +13,7 @@ import {
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
+import { BackButton } from "@/common/BackButton/BackButton";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
@@ -74,13 +74,8 @@ export const CoverOptionsPage = () => {
             );
           })}
         </div>
-        <div className="text-center">
-          <OutlinedButton
-            className="pt-1 pb-1 pl-5 pr-4 border border-solid rounded-big border-4E7DD9 md:py-3 md:pl-6 md:pr-5 "
-            onClick={() => router.back()}
-          >
-            &#x27F5;&nbsp;<Trans>Back</Trans>
-          </OutlinedButton>
+        <div className="flex justify-center">
+          <BackButton onClick={() => router.back()} />
         </div>
       </Container>
     </div>

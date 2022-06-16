@@ -62,7 +62,8 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate];
       invoke({
         instance,
         methodName: "resolve",
@@ -119,7 +120,8 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate, decision];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate, decision];
       invoke({
         instance,
         methodName: "emergencyResolve",

@@ -39,6 +39,7 @@ export const CollectRewardModal = ({
       isOpen={isOpen}
       onClose={onClose}
       disabled={isDisabled.w || isDisabled.wr}
+      data-testid="collect-reward-modal"
     >
       <ModalWrapper className="sm:min-w-600">
         <div>
@@ -52,7 +53,7 @@ export const CollectRewardModal = ({
           onClick={onClose}
         ></ModalCloseButton>
 
-        <div className="mt-6 sm:-mx-12 -mx-8">
+        <div className="mt-6 -mx-8 sm:-mx-12">
           <TabHeader
             onClick={setActiveTab}
             headers={headers}

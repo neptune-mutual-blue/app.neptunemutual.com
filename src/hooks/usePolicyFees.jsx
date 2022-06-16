@@ -74,8 +74,10 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
           config.abis.IPolicy
         );
 
+        const productKey = null;
         const getCoverFeeInfoCall = instance.getCoverFeeInfo(
           coverKey,
+          productKey,
           parseInt(coverMonth, 10),
           convertToUnits(debouncedValue).toString()
         );

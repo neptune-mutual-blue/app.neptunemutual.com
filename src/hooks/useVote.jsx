@@ -130,7 +130,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "attest",
@@ -183,7 +184,8 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate, convertToUnits(value).toString()];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate, convertToUnits(value).toString()];
       invoke({
         instance,
         methodName: "refute",
