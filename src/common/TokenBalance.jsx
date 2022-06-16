@@ -12,7 +12,13 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
-export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
+export const TokenBalance = ({
+  tokenAddress,
+  tokenDecimals,
+  balance,
+  unit,
+  children,
+}) => {
   const { networkId } = useNetwork();
   const { register } = useRegisterToken();
   const { account } = useWeb3React();
@@ -44,7 +50,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
           <p
             title={
               formatCurrency(
-                convertFromUnits(balance),
+                convertFromUnits(balance, tokenDecimals),
                 router.locale,
                 unit,
                 true
@@ -54,7 +60,7 @@ export const TokenBalance = ({ tokenAddress, balance, unit, children }) => {
             <Trans>Balance:</Trans>{" "}
             {
               formatCurrency(
-                convertFromUnits(balance),
+                convertFromUnits(balance, tokenDecimals),
                 router.locale,
                 unit,
                 true

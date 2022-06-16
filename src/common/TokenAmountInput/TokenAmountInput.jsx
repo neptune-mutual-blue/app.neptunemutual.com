@@ -12,6 +12,7 @@ export const TokenAmountInput = ({
   inputId,
   onChange,
   tokenBalance,
+  tokenDecimals,
   error,
   disabled,
   children,
@@ -44,6 +45,7 @@ export const TokenAmountInput = ({
       />
       <TokenBalance
         tokenAddress={tokenAddress}
+        tokenDecimals={tokenDecimals}
         balance={tokenBalance}
         unit={tokenSymbol}
       >
