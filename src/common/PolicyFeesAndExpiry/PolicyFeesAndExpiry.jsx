@@ -1,4 +1,5 @@
 import DateLib from "@/lib/date/DateLib";
+import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
@@ -8,9 +9,10 @@ import { useRouter } from "next/router";
 export const PolicyFeesAndExpiry = ({ data }) => {
   const { fee, rate } = data;
   const router = useRouter();
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
 
   const rateConverted = convertUintToPercentage(rate);
-  const coverFee = convertFromUnits(fee).toString();
+  const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString();
 
   const expires = DateLib.fromUnix(data.expiryDate);
 
@@ -33,9 +35,23 @@ export const PolicyFeesAndExpiry = ({ data }) => {
             </th>
             <td
               className="text-4e7dd9"
-              title={formatCurrency(coverFee, router.locale, "DAI", true).long}
+              title={
+                formatCurrency(
+                  coverFee,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).long
+              }
             >
-              {formatCurrency(coverFee, router.locale, "DAI", true).short}
+              {
+                formatCurrency(
+                  coverFee,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short
+              }
             </td>
           </tr>
           <tr className="flex justify-between mt-3">

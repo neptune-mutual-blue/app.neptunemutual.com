@@ -6,19 +6,18 @@ import { useQuery } from "@/src/hooks/useQuery";
 const getQuery = (account) => {
   return `
 {
-  coverUsers(
+  userLiquidities(
     where: {
-      user: "${account}"
-      totalPODs_gt: "0"
+      account: "${account}"
+      totalPodsRemaining_gt: "0"
     }
   ) {
     id
-    user
-    totalLiquidity
-    totalPODs
+    account
+    totalPodsRemaining
     cover {
       id
-      vaults{
+      vaults {
         tokenSymbol
       }
     }
@@ -53,7 +52,7 @@ export const useMyLiquidities = () => {
       .finally(() => setLoading(false));
   }, [account, refetch]);
 
-  const myLiquidities = data?.coverUsers || [];
+  const myLiquidities = data?.userLiquidities || [];
   const totalLiquidityProvided = sumOf(
     ...myLiquidities.map((x) => x.totalLiquidity || "0"),
     "0"

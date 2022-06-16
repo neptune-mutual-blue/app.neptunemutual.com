@@ -21,9 +21,11 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
+  
   const [value, setValue] = useState("");
   const [coverMonth, setCoverMonth] = useState("");
   const { liquidityTokenAddress } = useAppConstants();
@@ -34,11 +36,14 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     availableLiquidityInWei
   ).toString();
   const monthNames = getMonthNames(router.locale);
-
+  const productKey = null; // temporary init value, to be remove
+  const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
+  
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
     coverMonth,
     coverKey,
+    productKey
   });
 
   const {
@@ -55,6 +60,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
+    productKey,
     feeAmount: feeData.fee,
     availableLiquidity,
   });
@@ -125,6 +131,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         handleChooseMax={handleChooseMax}
         tokenAddress={liquidityTokenAddress}
         tokenSymbol={liquidityTokenSymbol}
+        tokenDecimals={liquidityTokenDecimals}
         tokenBalance={balance}
         inputId={"cover-amount"}
         inputValue={value}

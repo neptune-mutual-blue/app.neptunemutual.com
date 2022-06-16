@@ -19,6 +19,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -27,6 +28,7 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
 
   const { info } = useMyLiquidityInfo({ coverKey });
   const { availableLiquidity: availableLiquidityInWei } =
@@ -74,9 +76,9 @@ export const CoverPurchaseDetailsPage = () => {
             <HeroStat title={t`Total Liquidity`}>
               {
                 formatCurrency(
-                  convertFromUnits(totalLiquidity),
+                  convertFromUnits(totalLiquidity, liquidityTokenDecimals),
                   router.locale,
-                  "DAI",
+                  liquidityTokenSymbol,
                   true
                 ).long
               }
