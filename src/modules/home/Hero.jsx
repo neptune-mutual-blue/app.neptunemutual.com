@@ -17,7 +17,11 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 
-export const HomeHero = ({ breadcrumbs = [], heroContainerClass = "" }) => {
+export const HomeHero = ({
+  breadcrumbs = [],
+  heroContainerClass = "",
+  title = "",
+}) => {
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl } = useAppConstants();
   const router = useRouter();
@@ -54,6 +58,12 @@ export const HomeHero = ({ breadcrumbs = [], heroContainerClass = "" }) => {
           <BreadCrumbs pages={breadcrumbs} />
         </Container>
       )}
+      <Container className="pt-0">
+        <h2 className="font-bold text-black text-h2 font-sora mb-14">
+          {router.query.cover_id} mock title
+        </h2>
+      </Container>
+
       <Container
         className={classNames(
           "flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row",
