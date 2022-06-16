@@ -25,7 +25,6 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState("");
@@ -39,10 +38,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     NPMTokenAddress,
     liquidityTokenSymbol,
     NPMTokenSymbol: npmTokenSymbol,
+    liquidityTokenDecimals,
+    NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
-
-  const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
-  const npmTokenDecimals = useTokenDecimals(NPMTokenAddress);
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
