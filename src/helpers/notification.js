@@ -25,7 +25,7 @@ const actionMessages = {
   },
   [METHODS.BOND_CREATE]: (status, data, locale) => {
     if (status === STATUS.SUCCESS) {
-      const symbol = data.tokenSymbol || "NPM";
+      const symbol = data.tokenSymbol;
       return {
         title: t`Created bond successfully`,
         description: formatCurrency(

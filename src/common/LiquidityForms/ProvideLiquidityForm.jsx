@@ -26,6 +26,7 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState("");
@@ -37,6 +38,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
+
+  const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
+  const npmTokenDecimals = useTokenDecimals(NPMTokenAddress);
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
@@ -61,6 +65,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     coverKey,
     lqValue,
     npmValue,
+    liquidityTokenDecimals,
+    npmTokenDecimals,
   });
   const { minStakeToAddLiquidity, myStake } = useLiquidityFormsContext();
 
@@ -71,32 +77,55 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
-    if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
+    if (
+      npmValue &&
+      isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
+    ) {
       setNpmErrorMsg(t`Insufficient Stake`);
-    } else if (npmValue && isEqualTo(convertToUnits(npmValue), "0")) {
+    } else if (
+      npmValue &&
+      isEqualTo(convertToUnits(npmValue, npmTokenDecimals), "0")
+    ) {
       // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
       // then user should be able to provide ZERO for this input.
       setNpmErrorMsg(t`Please specify an amount`);
-    } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
+    } else if (
+      npmValue &&
+      isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
+    ) {
       setNpmErrorMsg(t`Exceeds maximum balance`);
     } else {
       setNpmErrorMsg("");
     }
 
-    if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
+    if (
+      lqValue &&
+      isGreater(convertToUnits(lqValue, liquidityTokenDecimals), lqTokenBalance)
+    ) {
       setLqErrorMsg(t`Exceeds maximum balance`);
-    } else if (lqValue && isEqualTo(convertToUnits(lqValue), 0)) {
+    } else if (
+      lqValue &&
+      isEqualTo(convertToUnits(lqValue, liquidityTokenDecimals), 0)
+    ) {
       setLqErrorMsg(t`Please specify an amount`);
     } else {
       setLqErrorMsg("");
     }
-  }, [lqTokenBalance, lqValue, npmBalance, npmValue, requiredStake]);
+  }, [
+    liquidityTokenDecimals,
+    lqTokenBalance,
+    lqValue,
+    npmBalance,
+    npmTokenDecimals,
+    npmValue,
+    requiredStake,
+  ]);
 
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return;
     }
-    setNPMValue(convertFromUnits(npmBalance).toString());
+    setNPMValue(convertFromUnits(npmBalance, npmTokenDecimals).toString());
   };
 
   const handleNPMChange = (val) => {
@@ -109,7 +138,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     if (!lqTokenBalance) {
       return;
     }
-    setLqValue(convertFromUnits(lqTokenBalance).toString());
+    setLqValue(
+      convertFromUnits(lqTokenBalance, liquidityTokenDecimals).toString()
+    );
   };
 
   const handleLqChange = (val) => {
@@ -157,6 +188,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           tokenAddress={NPMTokenAddress}
           tokenSymbol={npmTokenSymbol}
           tokenBalance={npmBalance || "0"}
+          tokenDecimals={npmTokenDecimals}
           inputId={"npm-stake"}
           inputValue={npmValue}
           disabled={lqApproving || providing}
@@ -190,6 +222,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           error={isError}
           tokenAddress={liquidityTokenAddress}
           tokenSymbol={liquidityTokenSymbol}
+          tokenDecimals={liquidityTokenDecimals}
           tokenBalance={lqTokenBalance || "0"}
           inputId={"dai-amount"}
           inputValue={lqValue}
