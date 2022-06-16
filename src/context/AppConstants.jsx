@@ -11,10 +11,10 @@ import {
 } from "@/src/services/contracts/getAddresses";
 
 const initValue = {
-  liquidityTokenAddress: "",
   NPMTokenAddress: "",
   NPMTokenDecimals: 18,
   NPMTokenSymbol: "NPM",
+  liquidityTokenAddress: "",
   liquidityTokenDecimals: 6,
   liquidityTokenSymbol: "DAI",
   poolsTvl: "0",

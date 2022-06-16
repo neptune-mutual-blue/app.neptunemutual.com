@@ -11,7 +11,6 @@ import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
@@ -21,29 +20,32 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
-  
+
   const [value, setValue] = useState("");
   const [coverMonth, setCoverMonth] = useState("");
-  const { liquidityTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+  const {
+    liquidityTokenAddress,
+    liquidityTokenDecimals,
+    liquidityTokenSymbol,
+  } = useAppConstants();
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei
+    availableLiquidityInWei,
+    liquidityTokenDecimals
   ).toString();
   const monthNames = getMonthNames(router.locale);
   const productKey = null; // temporary init value, to be remove
-  const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
-  
+
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
+    liquidityTokenDecimals,
     coverMonth,
     coverKey,
-    productKey
+    productKey,
   });
 
   const {
@@ -82,7 +84,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     if (!balance) {
       return;
     }
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, liquidityTokenDecimals).toString());
   };
 
   const now = new Date();
