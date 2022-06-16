@@ -8,6 +8,7 @@ export const Grid = ({ children, className, ...rest }) => {
         className
       )}
       {...rest}
+      data-testid='grid-mock-component'
     >
       {children}
     </div>

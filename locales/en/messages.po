@@ -387,7 +387,7 @@ msgstr "Claim your {title} cover cxTokens from the following addresses before th
 
 #: src/utils/translations.js:40
 msgid "Claimable"
-msgstr "Claimable<<<<<<< HEAD"
+msgstr "Claimable"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Claimed"
@@ -1194,7 +1194,7 @@ msgstr "Purchase Policy"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:265
 msgid "Purchase policy"
-msgstr "Purchase policy<<<<<<< HEAD"
+msgstr "Purchase policy"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:174
 msgid "Purchased"

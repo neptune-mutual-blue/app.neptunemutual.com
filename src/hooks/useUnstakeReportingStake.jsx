@@ -126,7 +126,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstake",
@@ -188,7 +189,8 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate];
+      const productKey = null;
+      const args = [coverKey, productKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstakeWithClaim",

@@ -1,8 +1,19 @@
-export const ProgressBar = ({ value }) => {
+import { classNames } from "@/utils/classnames";
+
+export const ProgressBar = ({
+  value,
+  fgClass = "bg-21AD8C",
+  bgClass = "bg-CEEBED",
+}) => {
   return (
-    <div className="w-full my-2 rounded-full bg-CEEBED">
+    <div
+      className={classNames(
+        "w-full my-2 rounded-full",
+        bgClass ? bgClass : fgClass + " " + "bg-opacity-10"
+      )}
+    >
       <div
-        className="max-w-full py-1 rounded-full bg-21AD8C min-w-5"
+        className={classNames("max-w-full py-1 rounded-full min-w-5", fgClass)}
         style={{ width: `${value * 100}%` }}
       ></div>
     </div>

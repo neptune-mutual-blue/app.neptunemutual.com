@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { Radio } from "@/common/Radio/Radio";
 import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
@@ -18,17 +17,15 @@ import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { BackButton } from "@/common/BackButton/BackButton";
 
 export const PurchasePolicyForm = ({ coverKey }) => {
   const router = useRouter();
-  const [value, setValue] = useState();
-  const [coverMonth, setCoverMonth] = useState();
+  const [value, setValue] = useState("");
+  const [coverMonth, setCoverMonth] = useState("");
   const { liquidityTokenAddress } = useAppConstants();
   const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
   const { availableLiquidity: availableLiquidityInWei } =
@@ -36,7 +33,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const availableLiquidity = convertFromUnits(
     availableLiquidityInWei
   ).toString();
-  const toast = useToast();
   const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
@@ -44,6 +40,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     coverMonth,
     coverKey,
   });
+
   const {
     balance,
     approving,
@@ -65,17 +62,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
   const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
     useCoverStatsContext();
 
-  const ViewToastPoliciesLink = () => (
-    <Link href="/my-policies/active">
-      <a className="flex items-center">
-        <span className="inline-block">
-          <Trans>View purchased policies</Trans>
-        </span>
-        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
-      </a>
-    </Link>
-  );
-
   const handleChange = (val) => {
     if (typeof val === "string") {
       setValue(val);
@@ -91,14 +77,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       return;
     }
     setValue(convertFromUnits(balance).toString());
-  };
-
-  const handleSuccessViewPurchasedPolicies = () => {
-    toast.pushSuccess({
-      title: t`Purchased Policy Successfully`,
-      message: <ViewToastPoliciesLink />,
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
   };
 
   const now = new Date();
@@ -167,12 +145,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </TokenAmountInput>
       <div className="px-3 mt-12">
         <div className="flex items-center gap-2 mb-4">
-          <h5
+          <label
             className="block font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
             <Trans>Select your coverage period</Trans>
-          </h5>
+          </label>
           {/* Tooltip */}
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
@@ -216,9 +194,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           />
         </div>
       </div>
-      {value && coverMonth && (
-        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
-      )}
+      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
 
       <div className="mt-4">
         <DataLoadingIndicator message={loadingMessage} />
@@ -256,9 +232,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handlePurchase(() => {
-                handleSuccessViewPurchasedPolicies();
                 setValue("");
-                setCoverMonth();
+                setCoverMonth("");
               });
             }}
           >
@@ -268,9 +243,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </div>
 
       <div className="mt-20">
-        <OutlinedButton className="rounded-big" onClick={() => router.back()}>
-          &#x27F5;&nbsp;<Trans>Back</Trans>
-        </OutlinedButton>
+        <BackButton onClick={() => router.back()} />
       </div>
     </div>
   );

@@ -1,13 +1,15 @@
 import ReportIcon from "@/icons/ReportIcon";
 import ActiveSheildIcon from "@/icons/ActiveSheildIcon";
 import { Trans } from "@lingui/macro";
+import { classNames } from "@/utils/classnames";
 
-export const HomeMainCard = ({ heroData }) => {
+export const HomeMainCard = ({ heroData, className = "" }) => {
   return (
     <div
-      className={
-        "w-full max-w-96 py-5 lg:py-0 lg:h-36  bg-white rounded-2xl border-0.5 border-B0C4DB flex flex-col justify-center items-center px-12 shadow-homeCard"
-      }
+      className={classNames(
+        "w-full max-w-96 py-5 lg:py-0 lg:h-36  bg-white rounded-2xl border-0.5 border-B0C4DB flex flex-col justify-center items-center px-12 shadow-homeCard",
+        className
+      )}
     >
       <div className="flex items-center justify-between w-full font-sora">
         <div className="mr-3">

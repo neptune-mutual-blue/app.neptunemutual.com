@@ -191,9 +191,11 @@ export const usePurchasePolicy = ({
         cleanup();
       };
 
+      const productKey = null;
       const args = [
         account, // onBehalfOf
         coverKey,
+        productKey,
         parseInt(coverMonth, 10),
         convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
         utils.keyUtil.toBytes32(""), // referral code
