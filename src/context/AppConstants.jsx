@@ -13,6 +13,10 @@ import {
 const initValue = {
   liquidityTokenAddress: "",
   NPMTokenAddress: "",
+  NPMTokenDecimals: 18,
+  NPMTokenSymbol: "NPM",
+  liquidityTokenDecimals: 6,
+  liquidityTokenSymbol: "DAI",
   poolsTvl: "0",
   getTVLById: (_id) => "0",
   getPriceByAddress: (_address) => "0",
@@ -42,12 +46,23 @@ export const AppConstantsProvider = ({ children }) => {
     if (!networkId) return;
     if (!account) {
       getAddressesFromApi(networkId).then((result) => {
-        const { NPMTokenAddress, liquidityTokenAddress } = result;
+        const {
+          NPMTokenAddress,
+          liquidityTokenAddress,
+          NPMTokenDecimals,
+          NPMTokenSymbol,
+          liquidityTokenDecimals,
+          liquidityTokenSymbol,
+        } = result;
 
         setData((prev) => ({
           ...prev,
           NPMTokenAddress,
           liquidityTokenAddress,
+          NPMTokenDecimals,
+          NPMTokenSymbol,
+          liquidityTokenDecimals,
+          liquidityTokenSymbol,
         }));
       });
       return;
@@ -55,12 +70,23 @@ export const AppConstantsProvider = ({ children }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     getAddressesFromProvider(networkId, signerOrProvider).then((result) => {
-      const { NPMTokenAddress, liquidityTokenAddress } = result;
+      const {
+        NPMTokenAddress,
+        liquidityTokenAddress,
+        NPMTokenDecimals,
+        NPMTokenSymbol,
+        liquidityTokenDecimals,
+        liquidityTokenSymbol,
+      } = result;
 
       setData((prev) => ({
         ...prev,
         NPMTokenAddress,
         liquidityTokenAddress,
+        NPMTokenDecimals,
+        NPMTokenSymbol,
+        liquidityTokenDecimals,
+        liquidityTokenSymbol,
       }));
     });
   }, [account, library, networkId]);

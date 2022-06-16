@@ -16,6 +16,8 @@ export const MyLiquidityPage = () => {
     loading,
   } = useMyLiquidities();
 
+  console.log(myLiquidities);
+
   return (
     <Container className="py-16">
       <div className="flex justify-end">
@@ -43,7 +45,7 @@ function MyLiquidities({ data, loading }) {
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                 <MyLiquidityCoverCard
                   coverKey={x.cover.id}
-                  totalPODs={x.totalPODs}
+                  totalPODs={x.totalPodsRemaining}
                   tokenSymbol={x.cover.vaults[0].tokenSymbol}
                 />
               </a>
