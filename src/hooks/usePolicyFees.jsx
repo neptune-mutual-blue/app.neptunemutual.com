@@ -22,7 +22,13 @@ const defaultInfo = {
   expiryDate: "0",
 };
 
-export const usePolicyFees = ({ value, coverMonth, coverKey, productKey }) => {
+export const usePolicyFees = ({
+  value,
+  coverMonth,
+  coverKey,
+  productKey,
+  liquidityTokenDecimals,
+}) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -75,12 +81,12 @@ export const usePolicyFees = ({ value, coverMonth, coverKey, productKey }) => {
         );
 
         const productKeys = productKey || utils.keyUtil.toBytes32("");
-        
+
         const getCoverFeeInfoCall = instance.getCoverFeeInfo(
           coverKey,
           productKeys,
           parseInt(coverMonth, 10),
-          convertToUnits(debouncedValue).toString()
+          convertToUnits(debouncedValue, liquidityTokenDecimals).toString()
         );
         const getExpiryDateCall = instance.getExpiryDate(
           DateLib.unix(),
@@ -112,7 +118,18 @@ export const usePolicyFees = ({ value, coverMonth, coverKey, productKey }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, coverMonth, debouncedValue, invoke, library, networkId, notifyError, productKey]);
+  }, [
+    account,
+    coverKey,
+    coverMonth,
+    debouncedValue,
+    invoke,
+    library,
+    liquidityTokenDecimals,
+    networkId,
+    notifyError,
+    productKey,
+  ]);
 
   return {
     loading,

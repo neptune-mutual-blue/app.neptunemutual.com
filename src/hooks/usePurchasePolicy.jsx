@@ -38,7 +38,7 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
-  const { liquidityTokenAddress } = useAppConstants();
+  const { liquidityTokenAddress, liquidityTokenDecimals } = useAppConstants();
   const {
     balance,
     refetch: updateBalance,
@@ -198,7 +198,7 @@ export const usePurchasePolicy = ({
         coverKey,
         productKeys,
         parseInt(coverMonth, 10),
-        convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+        convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
         utils.keyUtil.toBytes32(""), // referral code
       ];
       invoke({
