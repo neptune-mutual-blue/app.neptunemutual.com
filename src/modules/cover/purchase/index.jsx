@@ -24,8 +24,8 @@ import { useAppConstants } from "@/src/context/AppConstants";
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
-  const { cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
+  const { cover_id, product_id } = router.query;
+  const coverKey = safeFormatBytes32String(product_id || cover_id);
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();

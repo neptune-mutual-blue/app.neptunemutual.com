@@ -4,7 +4,7 @@ import { AvailableCovers } from "@/modules/home/AvailableCovers";
 import { HomeHero } from "@/modules/home/Hero";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
-export const HomePage = () => {
+export default function HomePage() {
   return (
     <>
       <HomeHero />
@@ -14,4 +14,4 @@ export const HomePage = () => {
       </SortableStatsProvider>
     </>
   );
-};
+}

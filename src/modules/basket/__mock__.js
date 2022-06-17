@@ -1,5 +1,7 @@
 export const mockBasketData = [
   {
+    id: "111111111111111111",
+    key: "0x65786368616e6765732d64656669000000000000000000000000000000000000",
     name: "Exchanges Defi",
     utilization: "0.65",
     status: "Incident Happened",
@@ -29,6 +31,8 @@ export const mockBasketData = [
     totalProducts: 16,
   },
   {
+    id: "111111111111111112",
+    key: "0x6d65746176657273652d616e642d67616d657300000000000000000000000000",
     name: "Metaverse and Games",
     utilization: "0.65",
     status: "Incident Happened",
@@ -58,6 +62,8 @@ export const mockBasketData = [
     totalProducts: 16,
   },
   {
+    id: "111111111111111113",
+    key: "0x6c656e64696e672d70726f746f636f6c73000000000000000000000000000000",
     name: "Lending Protocols",
     utilization: "0.65",
     status: "Incident Happened",
@@ -87,7 +93,9 @@ export const mockBasketData = [
     totalProducts: 16,
   },
   {
-    name: "Metaverse and Games",
+    id: "111111111111111114",
+    key: "0x6d65746176657273652d616e642d67616d65732d320000000000000000000000",
+    name: "Metaverse and Games 2",
     utilization: "0.65",
     status: "Incident Happened",
     protection: "108800000000000000000008",
@@ -116,6 +124,8 @@ export const mockBasketData = [
     totalProducts: 16,
   },
   {
+    id: "111111111111111115",
+    key: "0x646566692d636f76657273000000000000000000000000000000000000000000",
     name: "Defi covers",
     utilization: "0.65",
     status: "Incident Happened",
@@ -145,7 +155,9 @@ export const mockBasketData = [
     totalProducts: 16,
   },
   {
-    name: "Metaverse and Games",
+    id: "111111111111111116",
+    key: "0x6d65746176657273652d616e642d67616d65732d330000000000000000000000",
+    name: "Metaverse and Games 3",
     utilization: "0.65",
     status: "Incident Happened",
     protection: "108800000000000000000008",
