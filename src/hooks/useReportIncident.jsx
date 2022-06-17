@@ -12,7 +12,6 @@ import {
 import { useNetwork } from "@/src/context/Network";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useRouter } from "next/router";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
@@ -29,8 +28,7 @@ export const useReportIncident = ({ coverKey, value }) => {
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const governanceContractAddress = useGovernanceAddress();
-  const { NPMTokenAddress } = useAppConstants();
-  const tokenSymbol = useTokenSymbol(NPMTokenAddress);
+  const { NPMTokenAddress, NPMTokenSymbol } = useAppConstants();
   const {
     allowance,
     loading: loadingAllowance,
@@ -58,15 +56,15 @@ export const useReportIncident = ({ coverKey, value }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${tokenSymbol} tokens`);
+      notifyError(err, t`approve ${NPMTokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
       try {
         await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol} tokens`,
-          success: t`Approved ${tokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${tokenSymbol} tokens`,
+          pending: t`Approving ${NPMTokenSymbol} tokens`,
+          success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${NPMTokenSymbol} tokens`,
         });
         cleanup();
       } catch (err) {
@@ -140,7 +138,7 @@ export const useReportIncident = ({ coverKey, value }) => {
 
   return {
     tokenAddress: NPMTokenAddress,
-    tokenSymbol,
+    tokenSymbol: NPMTokenSymbol,
 
     balance,
     loadingBalance,

@@ -15,6 +15,7 @@ import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummar
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -24,6 +25,7 @@ export const ActiveReportSummary = ({
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
+  const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -128,7 +130,7 @@ export const ActiveReportSummary = ({
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   truncateAddress
                 ).short,
               },
@@ -153,7 +155,7 @@ export const ActiveReportSummary = ({
                   formatCurrency(
                     convertFromUnits(incidentReport.totalRefutedStake),
                     router.locale,
-                    "NPM",
+                    NPMTokenSymbol,
                     true
                   ).short
                 }`,

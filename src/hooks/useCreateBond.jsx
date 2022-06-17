@@ -28,6 +28,7 @@ import {
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
 import { getActionMessage } from "@/src/helpers/notification";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, 200);
@@ -39,6 +40,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
+  const { NPMTokenSymbol } = useAppConstants();
   const bondContractAddress = useBondPoolAddress();
   const {
     allowance,
@@ -171,7 +173,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           formatCurrency(
             convertFromUnits(info.maxBond).toString(),
             router.locale,
-            "NPM",
+            NPMTokenSymbol,
             true
           ).long
         }`
@@ -183,7 +185,15 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setError("");
       return;
     }
-  }, [balance, error, info.maxBond, receiveAmount, router.locale, value]);
+  }, [
+    balance,
+    error,
+    info.maxBond,
+    receiveAmount,
+    router.locale,
+    value,
+    NPMTokenSymbol,
+  ]);
 
   const handleApprove = async () => {
     setApproving(true);
@@ -287,7 +297,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           data: {
             value,
             receiveAmount,
-            tokenSymbol: "NPM",
+            tokenSymbol: NPMTokenSymbol,
           },
         });
 

@@ -14,6 +14,7 @@ import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
 import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -121,6 +122,8 @@ const UnstakeModal = ({
   logoAlt,
   unstaking,
 }) => {
+  const { NPMTokenSymbol } = useAppConstants();
+
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
       <ModalWrapper className="min-w-300 sm:min-w-500 lg:min-w-600">
@@ -139,7 +142,7 @@ const UnstakeModal = ({
           <div className="mb-5 font-semibold">
             <Trans>YOU WILL RECEIVE</Trans>
           </div>
-          <DisabledInput value={reward} unit="NPM" />
+          <DisabledInput value={reward} unit={NPMTokenSymbol} />
         </div>
 
         <RegularButton
