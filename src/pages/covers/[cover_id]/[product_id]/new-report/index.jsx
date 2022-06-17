@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
 import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
+import { NewIncidentReportPage } from "@/modules/reporting/new";
+import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { NewIncidentReportPage } from "@/modules/reporting/new";
 
 export function getServerSideProps() {
   return {
     props: {
-      disabled: !isFeatureEnabled("reporting"),
+      disabled: !isV2BasketCoverEnabled(),
     },
   };
 }

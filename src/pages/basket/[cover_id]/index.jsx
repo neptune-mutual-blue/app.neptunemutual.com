@@ -1,10 +1,24 @@
-import { ProductsGrid } from "@/common/ProductsGrid";
-import { HomeHero } from "@/modules/home/Hero";
-import { t } from "@lingui/macro";
 import Head from "next/head";
 import Router from "next/router";
+import { t } from "@lingui/macro";
+import { HomeHero } from "@/modules/home/Hero";
+import { ComingSoon } from "@/common/ComingSoon";
+import { ProductsGrid } from "@/common/ProductsGrid";
+import { isV2BasketCoverEnabled } from "@/src/config/environment";
 
-export default function BasketsCoverpool() {
+export function getServerSideProps() {
+  return {
+    props: {
+      disabled: !isV2BasketCoverEnabled(),
+    },
+  };
+}
+
+export default function BasketsCoverpool({ disabled }) {
+  if (disabled) {
+    return <ComingSoon />;
+  }
+
   return (
     <main>
       <Head>
