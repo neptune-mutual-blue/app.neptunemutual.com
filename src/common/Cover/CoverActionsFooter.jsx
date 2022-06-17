@@ -39,7 +39,7 @@ export const CoverActionsFooter = ({ activeKey }) => {
                         title={coverActions[actionKey].title}
                         description={coverActions[actionKey].description}
                         imgSrc={coverActions[actionKey].footerImgSrc}
-                      ></CoverActionCard>
+                      />
                     </a>
                   </Link>
                 );

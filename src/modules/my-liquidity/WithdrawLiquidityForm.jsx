@@ -18,7 +18,6 @@ import {
 import DateLib from "@/lib/date/DateLib";
 import { formatAmount } from "@/utils/formatter";
 import { fromNow } from "@/utils/formatter/relative-time";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useCalculateLiquidity } from "@/src/hooks/useCalculateLiquidity";
 import { useRemoveLiquidity } from "@/src/hooks/useRemoveLiquidity";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -41,14 +40,13 @@ export const WithdrawLiquidityForm = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
 
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
+  const { NPMTokenAddress, liquidityTokenSymbol, NPMTokenSymbol } =
+    useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
       podAmount: podValue || "0",
     });
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
   const { myStake, minStakeToAddLiquidity, isAccrualComplete } =
     useLiquidityFormsContext();
   const {
@@ -164,7 +162,7 @@ export const WithdrawLiquidityForm = ({
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
             disabled={isExit}
-            tokenSymbol={npmTokenSymbol}
+            tokenSymbol={NPMTokenSymbol}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}
             id={"my-staked-amount"}
@@ -175,13 +173,13 @@ export const WithdrawLiquidityForm = ({
               <TokenAmountWithPrefix
                 amountInUnits={myStake}
                 prefix={t`Your Stake:` + " "}
-                symbol={npmTokenSymbol}
+                symbol={NPMTokenSymbol}
               />
             )}
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
             {!isExit && npmErrorMsg && (
               <p className="text-FA5C2F">{npmErrorMsg}</p>

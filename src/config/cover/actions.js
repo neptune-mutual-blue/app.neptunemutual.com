@@ -15,7 +15,8 @@ export const actions = {
     smImgSrc: <PurchasePolicySmall />,
     // mdImgSrc: `/options/purchase-md.png`,
     footerImgSrc: `/cover-actions/purchase.svg`,
-    getHref: (id) => `/cover/${id}/purchase`,
+    getHref: (cover_id) => `/covers/${cover_id}/purchase`,
+    action: "purchase",
   },
   "add-liquidity": {
     title: "Provide Liquidity",
@@ -24,7 +25,8 @@ export const actions = {
     smImgSrc: <ProvideLiquiditySmall />,
     // mdImgSrc: `/options/add-liquidity-md.png`,
     footerImgSrc: `/cover-actions/add-liquidity.svg`,
-    getHref: (id) => `/cover/${id}/add-liquidity`,
+    getHref: (cover_id) => `/covers/${cover_id}/add-liquidity`,
+    action: "add-liquidity",
   },
   "report": {
     title: "Report Incident",
@@ -33,7 +35,8 @@ export const actions = {
     smImgSrc: <ReportIncidentSmall />,
     // mdImgSrc: `/options/report-md.png`,
     footerImgSrc: `/cover-actions/report.svg`,
-    getHref: (id) => `/reporting/${id}/new`,
+    getHref: (cover_id) => `/covers/${cover_id}/new-report`,
+    action: "new-report",
   },
   "claim": {
     title: "Claim Cover",
@@ -43,5 +46,6 @@ export const actions = {
     // mdImgSrc: `/options/claim-md.png`,
     footerImgSrc: `/cover-actions/claim.svg`,
     getHref: (_id) => `/my-policies/active`,
+    action: "claim",
   },
 };

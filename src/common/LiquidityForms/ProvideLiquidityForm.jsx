@@ -14,7 +14,6 @@ import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInp
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
@@ -26,7 +25,6 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [lqValue, setLqValue] = useState("");
@@ -35,12 +33,14 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [lqErrorMsg, setLqErrorMsg] = useState("");
 
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-
-  const liquidityTokenDecimals = useTokenDecimals(liquidityTokenAddress);
-  const npmTokenDecimals = useTokenDecimals(NPMTokenAddress);
+  const {
+    liquidityTokenAddress,
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol,
+    liquidityTokenDecimals,
+    NPMTokenDecimals: npmTokenDecimals,
+  } = useAppConstants();
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
@@ -172,7 +172,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } else if (lqBalanceLoading || npmBalanceLoading) {
     loadingMessage = t`Fetching balances...`;
   } else if (npmAllowanceLoading) {
-    loadingMessage = t`Fetching ${npmTokenSymbol} allowance...`;
+    loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`;
   } else if (lqAllowanceLoading) {
     loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
@@ -186,7 +186,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           handleChooseMax={handleMaxNPM}
           error={npmErrorMsg}
           tokenAddress={NPMTokenAddress}
-          tokenSymbol={npmTokenSymbol}
+          tokenSymbol={NPMTokenSymbol}
           tokenBalance={npmBalance || "0"}
           tokenDecimals={npmTokenDecimals}
           inputId={"npm-stake"}
@@ -197,14 +197,14 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
           )}
           {isGreater(myStake, "0") && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
               prefix={t`Your Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
             />
           )}
 
@@ -297,7 +297,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               t`Approving...`
             ) : (
               <>
-                <Trans>Approve</Trans> {npmTokenSymbol || t`Stake`}
+                <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
               </>
             )}
           </RegularButton>

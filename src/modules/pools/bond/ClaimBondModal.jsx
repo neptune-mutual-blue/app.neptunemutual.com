@@ -12,6 +12,7 @@ import DateLib from "@/lib/date/DateLib";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -23,6 +24,7 @@ export const ClaimBondModal = ({
 }) => {
   const { handleClaim, claiming } = useClaimBond();
   const router = useRouter();
+  const { NPMTokenSymbol } = useAppConstants();
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
@@ -39,8 +41,11 @@ export const ClaimBondModal = ({
             <Trans>Amount Available To Claim</Trans>
           </Label>
           <DisabledInput
-            value={formatAmount(convertFromUnits(claimable).toString(), router.locale)}
-            unit="NPM"
+            value={formatAmount(
+              convertFromUnits(claimable).toString(),
+              router.locale
+            )}
+            unit={NPMTokenSymbol}
           />
         </div>
         <div className="mt-8 modal-unlock">
@@ -50,7 +55,7 @@ export const ClaimBondModal = ({
           <p
             id="modal-unlock-on"
             className="font-medium text-7398C0 text-h4"
-            title={DateLib.toLongDateFormat(unlockDate,router.locale)}
+            title={DateLib.toLongDateFormat(unlockDate, router.locale)}
           >
             {fromNow(unlockDate)}
           </p>
