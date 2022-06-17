@@ -14,6 +14,7 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
@@ -21,12 +22,13 @@ export const MyLiquidityCoverPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
+  const { liquidityTokenDecimals } = useAppConstants();
 
   const {
     info,
     refetch: refetchInfo,
     isWithdrawalWindowOpen,
-    accrueInterest
+    accrueInterest,
   } = useMyLiquidityInfo({
     coverKey,
   });
@@ -66,8 +68,10 @@ export const MyLiquidityCoverPage = () => {
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
                 {
-                  formatCurrency(convertFromUnits(myLiquidity), router.locale)
-                    .long
+                  formatCurrency(
+                    convertFromUnits(myLiquidity, liquidityTokenDecimals),
+                    router.locale
+                  ).long
                 }
               </HeroStat>
             </div>
@@ -86,13 +90,12 @@ export const MyLiquidityCoverPage = () => {
               </div>
             </div>
 
-            <LiquidityResolutionSources 
+            <LiquidityResolutionSources
               info={info}
               refetchInfo={refetchInfo}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}
               accrueInterest={accrueInterest}
             />
-            
           </Container>
         </div>
       </main>

@@ -19,6 +19,8 @@ const getQuery = (account) => {
       id
       vaults {
         tokenSymbol
+                tokenDecimals
+
       }
     }
   }
@@ -54,7 +56,7 @@ export const useMyLiquidities = () => {
 
   const myLiquidities = data?.userLiquidities || [];
   const totalLiquidityProvided = sumOf(
-    ...myLiquidities.map((x) => x.totalLiquidity || "0"),
+    ...myLiquidities.map((x) => x.totalPodsRemaining || "0"),
     "0"
   );
 
