@@ -51,7 +51,12 @@ export const useActivePolicies = () => {
             }
             totalAmountToCover
             expiresOn
+            coverKey
+            productKey
             cover {
+              id
+            }
+            product {
               id
             }
           }

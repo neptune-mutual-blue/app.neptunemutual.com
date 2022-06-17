@@ -7,6 +7,7 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -16,6 +17,9 @@ export const PolicyCardFooter = ({
 }) => {
   const now = DateLib.unix();
   const router = useRouter();
+  const {
+    liquidityTokenDecimals,
+  } = useAppConstants();
 
   const isClaimable = report ? report.status == "Claimable" : false;
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
@@ -84,10 +88,10 @@ export const PolicyCardFooter = ({
         <Stat
           title={t`Purchased Policy`}
           tooltip={
-            formatCurrency(convertFromUnits(tokenBalance), router.locale).long
+            formatCurrency(convertFromUnits(tokenBalance, liquidityTokenDecimals), router.locale).long
           }
           value={
-            formatCurrency(convertFromUnits(tokenBalance), router.locale).short
+            formatCurrency(convertFromUnits(tokenBalance, liquidityTokenDecimals), router.locale).short
           }
           right
         />

@@ -46,11 +46,12 @@ export const usePolicyTxs = ({ limit, page }) => {
           first: ${limit} 
           orderBy: createdAtTimestamp
           orderDirection: desc
-          where: {account: "${account}"}
+          where: {onBehalfOf: "${account}"}
         ) {
           type
-          key
-          account
+          coverKey
+          productKey
+          onBehalfOf
           cxTokenAmount
           daiAmount
           cxTokenData {
