@@ -32,6 +32,11 @@ const fetchBondInfoApi = async (networkId, account) => {
       },
     }
   );
+
+  if (!response.ok) {
+    return;
+  }
+
   const { data } = await response.json();
 
   return {
@@ -60,10 +65,14 @@ export const useBondInfo = () => {
     let ignore = false;
 
     const fetchInitialInfo = async () => {
-      const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
-      if (ignore) return;
-      setInfo(data);
-      setIsInitialized(true);
+      try {
+        const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
+        if (ignore || !data) return;
+        setInfo(data);
+        setIsInitialized(true);
+      } catch (error) {
+        console.log("Error getting bond info from API");
+      }
     };
 
     fetchInitialInfo();

@@ -20,7 +20,7 @@ const GridComponent = ({ children }) => (
 
 export const BasketCoverPoolsHero = () => {
   const { data: heroData } = useFetchHeroStats();
-  const { poolsTvl } = useAppConstants();
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
   const router = useRouter();
 
   const {
@@ -73,14 +73,20 @@ export const BasketCoverPoolsHero = () => {
                 {
                   name: t`TVL (Cover)`,
                   amount: formatCurrency(
-                    convertFromUnits(heroData.tvlCover).toString(),
+                    convertFromUnits(
+                      heroData.tvlCover,
+                      liquidityTokenDecimals
+                    ).toString(),
                     router.locale
                   ).short,
                 },
                 {
                   name: t`TVL (Pool)`,
                   amount: formatCurrency(
-                    convertFromUnits(poolsTvl).toString(),
+                    convertFromUnits(
+                      poolsTvl,
+                      liquidityTokenDecimals
+                    ).toString(),
                     router.locale
                   ).short,
                 },

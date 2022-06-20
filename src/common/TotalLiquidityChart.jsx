@@ -7,12 +7,15 @@ import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
 const TotalLiquidityChart = () => {
+  const { liquidityTokenDecimals } = useAppConstants();
+
   const [chartData, setChartData] = useState([]);
   const { data } = useProtocolDayData();
   const chartRef = useRef();
@@ -165,7 +168,9 @@ const TotalLiquidityChart = () => {
       data.map(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
-          y: parseFloat(convertFromUnits(totalLiquidity).toString()),
+          y: parseFloat(
+            convertFromUnits(totalLiquidity, liquidityTokenDecimals).toString()
+          ),
         });
       });
       _chartData.sort((a, b) => {
@@ -188,7 +193,7 @@ const TotalLiquidityChart = () => {
     return () => {
       ignore = true;
       clearTimeout(chartDataTimeout);
-    }
+    };
   }, [data, chartData.length]);
 
   return (

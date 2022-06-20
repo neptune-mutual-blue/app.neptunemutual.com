@@ -24,6 +24,7 @@ export const HomeHero = ({
 }) => {
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
+  console.log("liquidityTokenDecimals", liquidityTokenDecimals);
   const router = useRouter();
 
   const [changeData, setChangeData] = useState(null);

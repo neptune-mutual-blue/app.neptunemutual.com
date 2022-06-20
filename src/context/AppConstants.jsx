@@ -46,6 +46,10 @@ export const AppConstantsProvider = ({ children }) => {
     if (!networkId) return;
     if (!account) {
       getAddressesFromApi(networkId).then((result) => {
+        if (!result) {
+          return;
+        }
+
         const {
           NPMTokenAddress,
           liquidityTokenAddress,
@@ -70,6 +74,10 @@ export const AppConstantsProvider = ({ children }) => {
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     getAddressesFromProvider(networkId, signerOrProvider).then((result) => {
+      if (!result) {
+        return;
+      }
+
       const {
         NPMTokenAddress,
         liquidityTokenAddress,

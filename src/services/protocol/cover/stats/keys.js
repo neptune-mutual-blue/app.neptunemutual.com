@@ -21,7 +21,7 @@ export const getKeys = async (
     provider
   );
   const [totalPoolAmount, activeCommitment] =
-    await policyContract.getCoverPoolSummary(coverKey);
+    await policyContract.getCoverPoolSummary(coverKey, productKey);
 
   const availableLiquidity = totalPoolAmount.sub(activeCommitment);
 
@@ -89,7 +89,7 @@ export const getKeys = async (
       fn: "getAddressBoolean",
       args: [
         ethers.utils.solidityKeccak256(
-          ["bytes32", "bytes32"],
+          ["bytes32", "bytes32", "bytes32"],
           [
             sdk.utils.keyUtil.PROTOCOL.NS.COVER_USER_WHITELIST,
             coverKey,

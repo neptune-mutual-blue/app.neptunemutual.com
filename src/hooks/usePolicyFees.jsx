@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { config, registry, utils } from "@neptunemutual/sdk";
+import { config, registry, utils, multicall } from "@neptunemutual/sdk";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -9,8 +9,9 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
-import { Contract, Provider } from "ethers-multicall";
 import DateLib from "@/lib/date/DateLib";
+
+const { Contract, Provider } = multicall;
 
 const defaultInfo = {
   fee: "0",

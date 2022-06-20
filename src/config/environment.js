@@ -8,7 +8,7 @@ function getChainIdFromDNS() {
     case "mumbai":
       return "80001";
     case "fuji":
-      return "43114";
+      return "43113";
     case "ropsten":
       return "3";
     case "kovan":
@@ -39,7 +39,7 @@ export const isFeatureEnabled = (feature) => {
   return features.indexOf(feature) > -1;
 };
 
-export const testnetChainIds = [3, 97, 42, 80001, 43114];
+export const testnetChainIds = [3, 97, 42, 80001, 43113];
 
 export const isV2BasketCoverEnabled = () =>
   process.env.NEXT_PUBLIC_ENABLE_V2 == "true";

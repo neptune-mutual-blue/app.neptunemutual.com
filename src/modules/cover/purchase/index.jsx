@@ -35,7 +35,8 @@ export const CoverPurchaseDetailsPage = () => {
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei
+    availableLiquidityInWei,
+    liquidityTokenDecimals
   ).toString();
 
   if (!coverInfo) {

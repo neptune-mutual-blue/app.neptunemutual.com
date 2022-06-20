@@ -1,7 +1,9 @@
 import sdk from "@neptunemutual/sdk";
 import { ethers } from "ethers";
 import { registry } from "../../../store-keys";
-import { Contract, Provider } from "ethers-multicall";
+import { multicall } from "@neptunemutual/sdk";
+
+const { Contract, Provider } = multicall;
 
 export const getMetadataKeys = (coverKey) => {
   return [registry.vault(coverKey, "vault"), registry.stablecoin("stablecoin")];

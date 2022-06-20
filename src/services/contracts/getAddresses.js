@@ -1,12 +1,13 @@
-import { config, registry } from "@neptunemutual/sdk";
+import { config, registry, multicall } from "@neptunemutual/sdk";
 
 import {
   GET_CONTRACTS_INFO_URL,
   NetworkUrlParam,
 } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
-import { Contract, Provider } from "ethers-multicall";
 import { chunk } from "@/utils/arrays";
+
+const { Contract, Provider } = multicall;
 
 export const getTokenSymbolAndDecimals = async (
   addresses,
@@ -42,6 +43,11 @@ export const getAddressesFromApi = async (networkId) => {
         "Accept": "application/json",
       },
     });
+
+    if (!response.ok) {
+      return null;
+    }
+
     const { data } = await response.json();
     const npmAddr = data.find((item) => item.key === "NPM") || {};
     const daiAddr = data.find((item) => item.key === "Stablecoin") || {};
@@ -56,10 +62,10 @@ export const getAddressesFromApi = async (networkId) => {
       liquidityTokenDecimals: 6,
     };
   } catch (error) {
-    console.error(error);
+    console.error("could not get contract addresses from api", error);
   }
 
-  return {};
+  return null;
 };
 
 export const getAddressesFromProvider = async (networkId, signerOrProvider) => {
@@ -86,5 +92,5 @@ export const getAddressesFromProvider = async (networkId, signerOrProvider) => {
     console.error(error);
   }
 
-  return {};
+  return null;
 };
