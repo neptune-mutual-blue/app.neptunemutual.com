@@ -63,17 +63,21 @@ export const POOL_URLS = {
   42: "https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}",
   80001:
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
+  43114:
+    "https://app.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
 export const SUBGRAPH_API_URLS = {
   3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
   42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  43114: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
 };
 
 export const NetworkUrlParam = {
   97: "bsc-testnet",
   80001: "mumbai",
+  43114: "fuji",
   1: "",
   3: "ropsten",
 };
