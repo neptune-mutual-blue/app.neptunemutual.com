@@ -33,10 +33,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   } = useAppConstants();
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
-  const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei,
-    liquidityTokenDecimals
-  ).toString();
+  const availableLiquidity =
+    availableLiquidityInWei === "0"
+      ? "2916192324999997734.972286"
+      : convertFromUnits(
+          availableLiquidityInWei,
+          liquidityTokenDecimals
+        ).toString();
+
   const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
@@ -46,6 +50,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     coverKey,
     productKey,
   });
+
+  console.log("feeData", feeData);
 
   const {
     balance,
