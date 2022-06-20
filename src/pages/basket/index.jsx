@@ -4,7 +4,7 @@ import { BasketCardGrids } from "@/modules/basket/grid";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import Head from "next/head";
 
-export function getServerSideProps() {
+export function getStaticProps() {
   return {
     props: {
       disabled: !isV2BasketCoverEnabled(),

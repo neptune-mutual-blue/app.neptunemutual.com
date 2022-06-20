@@ -9,9 +9,9 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const router = useRouter();
-  const { id: cover_id } = router.query;
-
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const breadcrumbData = reportStatus

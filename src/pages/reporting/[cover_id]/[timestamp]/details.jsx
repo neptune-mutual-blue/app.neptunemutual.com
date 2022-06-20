@@ -18,9 +18,10 @@ export function getServerSideProps() {
 
 export default function IncidentResolvedCoverPage({ disabled }) {
   const router = useRouter();
-  const { id: cover_id, timestamp } = router.query;
-
+  const { cover_id, product_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
+
   const { data, loading, refetch } = useFetchReport({
     coverKey: coverKey,
     incidentDate: timestamp,

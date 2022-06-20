@@ -24,9 +24,10 @@ export function getServerSideProps() {
 
 export default function DisputeFormPage({ disabled }) {
   const router = useRouter();
-  const { id: cover_id, timestamp } = router.query;
-
+  const { cover_id, product_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
+
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { data, loading } = useFetchReport({

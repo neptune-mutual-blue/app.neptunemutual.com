@@ -17,8 +17,9 @@ import { BackButton } from "@/common/BackButton/BackButton";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
 
