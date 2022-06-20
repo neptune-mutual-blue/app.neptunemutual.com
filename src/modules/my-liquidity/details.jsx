@@ -14,12 +14,14 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const { getInfoByKey } = useCovers();
+  const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = getInfoByKey(coverKey);
 
   const {
@@ -66,8 +68,10 @@ export const MyLiquidityCoverPage = () => {
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
                 {
-                  formatCurrency(convertFromUnits(myLiquidity), router.locale)
-                    .long
+                  formatCurrency(
+                    convertFromUnits(myLiquidity, liquidityTokenDecimals),
+                    router.locale
+                  ).long
                 }
               </HeroStat>
             </div>
