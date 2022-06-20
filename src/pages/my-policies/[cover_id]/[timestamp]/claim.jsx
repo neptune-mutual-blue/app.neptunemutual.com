@@ -55,6 +55,8 @@ export default function ClaimPolicy({ disabled }) {
     return <ComingSoon />;
   }
 
+  console.log({ data });
+
   const title = coverInfo.projectName;
   return (
     <CoverStatsProvider coverKey={coverKey}>
@@ -95,7 +97,10 @@ export default function ClaimPolicy({ disabled }) {
                 <>
                   {
                     formatCurrency(
-                      convertFromUnits(data.totalActiveProtection, liquidityTokenDecimals),
+                      convertFromUnits(
+                        data.totalActiveProtection,
+                        liquidityTokenDecimals
+                      ),
                       router.locale,
                       "USD"
                     ).long

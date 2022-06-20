@@ -11,6 +11,7 @@ import { convertFromUnits, convertToUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { t, Trans } from "@lingui/macro";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const NewIncidentReportForm = ({ coverKey }) => {
   const [value, setValue] = useState();
@@ -35,11 +36,12 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [validationErrors, setValidationErrors] = useState({});
+  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   const maxDate = new Date().toISOString().slice(0, 16);
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, tokenDecimals).toString());
   };
 
   const handleTextArea = (e) => {
@@ -269,7 +271,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               >
                 <p className="text-9B9B9B">
                   <Trans>Minimum Stake:</Trans>{" "}
-                  {convertFromUnits(minStake).toString()} NPM
+                  {convertFromUnits(minStake, tokenDecimals).toString()} NPM
                 </p>
                 {validationErrors.balanceError && (
                   <p className="flex items-center text-FA5C2F">
