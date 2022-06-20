@@ -200,6 +200,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
               symbol={NPMTokenSymbol}
+              decimals={npmTokenDecimals}
             />
           )}
           {isGreater(myStake, "0") && (
@@ -207,6 +208,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               amountInUnits={myStake}
               prefix={t`Your Stake:` + " "}
               symbol={NPMTokenSymbol}
+              decimals={npmTokenDecimals}
             />
           )}
 

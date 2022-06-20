@@ -43,8 +43,9 @@ export const WithdrawLiquidityForm = ({
   const {
     NPMTokenAddress,
     liquidityTokenSymbol,
-    liquidityTokenDecimals,
     NPMTokenSymbol,
+    NPMTokenDecimals,
+    liquidityTokenDecimals,
   } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
@@ -178,12 +179,14 @@ export const WithdrawLiquidityForm = ({
                 amountInUnits={myStake}
                 prefix={t`Your Stake:` + " "}
                 symbol={NPMTokenSymbol}
+                decimals={NPMTokenDecimals}
               />
             )}
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
               symbol={NPMTokenSymbol}
+              decimals={NPMTokenDecimals}
             />
             {!isExit && npmErrorMsg && (
               <p className="text-FA5C2F">{npmErrorMsg}</p>
