@@ -17,9 +17,11 @@ const getQuery = (account) => {
     totalPodsRemaining
     cover {
       id
+      coverKey
       vaults {
         tokenSymbol
         tokenDecimals
+        address
       }
     }
   }
@@ -59,10 +61,6 @@ export const useMyLiquidities = () => {
     ...myLiquidities.map((x) => x.totalPodsRemaining || "0"),
     "0"
   );
-
-  /* async function getTotalLiquidity(c) {
-    useCalculatePods(c)
-  } */
 
   return {
     data: {
