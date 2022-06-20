@@ -2,7 +2,7 @@ import Head from "next/head";
 
 import { CoverAddLiquidityDetailsPage } from "@/src/modules/cover/add-liquidity";
 import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
+import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useRouter } from "next/router";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
@@ -11,7 +11,7 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 export function getServerSideProps() {
   return {
     props: {
-      disabled: !isFeatureEnabled("liquidity"),
+      disabled: !isV2BasketCoverEnabled(),
     },
   };
 }

@@ -1,7 +1,21 @@
 import Head from "next/head";
 import { CoverOptionsPage } from "@/src/modules/basket/CoverOptionsPage";
+import { isV2BasketCoverEnabled } from "@/src/config/environment";
+import { ComingSoon } from "@/common/ComingSoon";
 
-export default function Options() {
+export function getServerSideProps() {
+  return {
+    props: {
+      disabled: !isV2BasketCoverEnabled(),
+    },
+  };
+}
+
+export default function Options({ disabled }) {
+  if (disabled) {
+    return <ComingSoon />;
+  }
+
   return (
     <main>
       <Head>
