@@ -22,8 +22,29 @@ const getQuery = () => {
   }
 `;
 };
+const getBasketQuery = () => {
+  return `
+  {
+    covers (
+      where: {
+        supportsProducts: true
+      }
+    ) {
+      id
+      coverKey
+      tokenName
+      tokenSymbol
+      ipfsHash
+      ipfsBytes
+      products{
+        id
+      }
+    }
+  }
+`;
+};
 
-export const useFetchCovers = () => {
+export const useFetchCovers = (type = "basket") => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -64,17 +85,27 @@ export const useFetchCovers = () => {
 
     setLoading(true);
 
-    refetch(getQuery())
-      .catch(console.error)
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
+    if (type === "standalone") {
+      refetch(getQuery())
+        .catch(console.error)
+        .finally(() => {
+          if (ignore) return;
+          setLoading(false);
+        });
+    }
+    if (type === "basket") {
+      refetch(getBasketQuery())
+        .catch(console.error)
+        .finally(() => {
+          if (ignore) return;
+          setLoading(false);
+        });
+    }
 
     return () => {
       ignore = true;
     };
-  }, [refetch]);
+  }, [refetch, type]);
 
   const getInfoByKey = useCallback(
     (coverKey) => {

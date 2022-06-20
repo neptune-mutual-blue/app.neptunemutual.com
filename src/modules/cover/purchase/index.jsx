@@ -31,6 +31,9 @@ export const CoverPurchaseDetailsPage = () => {
   const coverInfo = getInfoByKey(coverKey);
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
 
+  console.log("coverKey", coverKey);
+  console.log("productKey", productKey);
+
   const { info } = useMyLiquidityInfo({ coverKey });
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
