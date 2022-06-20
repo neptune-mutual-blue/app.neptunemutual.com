@@ -264,6 +264,7 @@ export const useProvideLiquidity = ({
     isError,
     providing,
     podSymbol: vaultTokenSymbol,
+    podAddress: vaultTokenAddress,
 
     handleLqTokenApprove,
     handleNPMTokenApprove,

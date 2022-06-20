@@ -26,6 +26,7 @@ const getQuery = (account, limit, skip) => {
       vault{
         id
         tokenSymbol
+        tokenDecimals
       }
       cover {
         id
@@ -76,7 +77,7 @@ export const useLiquidityTxs = ({ limit, page }) => {
       .then((r) => r.json())
       .then((res) => {
         if (ignore) return;
-        
+
         if (res.errors || !res.data) {
           return;
         }
@@ -105,9 +106,9 @@ export const useLiquidityTxs = ({ limit, page }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [account, limit, networkId, page]);
 
   return {
