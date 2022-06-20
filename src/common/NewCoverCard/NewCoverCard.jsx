@@ -61,7 +61,7 @@ const NewCoverCard = ({
           </div>
         </InfoTooltip>
 
-        <InfoTooltip infoComponent={status} arrow={false} className="p-2">
+        <InfoTooltip infoComponent={status} className="p-2">
           <div>
             <StatusBadge status={status} />
           </div>
@@ -124,7 +124,7 @@ const NewCoverCard = ({
           }
         >
           <div>
-            <ProgressBar value={utilization} fgClass="bg-4e7dd9" />
+            <ProgressBar value={utilization} fgClass="bg-4e7dd9" bgClass="" />
           </div>
         </InfoTooltip>
       </div>
@@ -134,6 +134,7 @@ const NewCoverCard = ({
           infoComponent={`Protection: ${stats.protection.long}`}
           arrow={false}
           className="p-2"
+          align="start"
         >
           <div className="flex items-center gap-x-0.5">
             <ProtectionIcon />
@@ -145,6 +146,7 @@ const NewCoverCard = ({
           infoComponent={`Liquidity: ${stats.liquidity.long}`}
           arrow={false}
           className="p-2"
+          align="end"
         >
           <span>{stats.liquidity.short}</span>
         </InfoTooltip>
