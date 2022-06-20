@@ -112,7 +112,10 @@ export const CoverPurchaseDetailsPage = () => {
             </span>
             {acceptedRules ? (
               <div className="mt-12">
-                <PurchasePolicyForm coverKey={coverKey} />
+                <PurchasePolicyForm
+                  coverKey={coverKey}
+                  productKey={productKey}
+                />
               </div>
             ) : (
               <>

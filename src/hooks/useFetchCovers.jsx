@@ -47,7 +47,7 @@ const getBasketQuery = () => {
 `;
 };
 
-export const useFetchCovers = (type) => {
+export const useFetchCovers = (type = "standalone") => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
