@@ -24,6 +24,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
 import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const renderHeader = (col) => (
   <th
@@ -143,6 +144,7 @@ const DetailsRenderer = ({ row }) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(row.cover.id);
   const router = useRouter();
+  const { liquidityTokenDecimals } = useAppConstants();
 
   if (!coverInfo) {
     return null;
@@ -163,14 +165,14 @@ const DetailsRenderer = ({ row }) => {
           <span
             title={
               formatCurrency(
-                convertFromUnits(row.liquidityAmount),
+                convertFromUnits(row.liquidityAmount, liquidityTokenDecimals),
                 router.locale
               ).long
             }
           >
             {
               formatCurrency(
-                convertFromUnits(row.liquidityAmount),
+                convertFromUnits(row.liquidityAmount, liquidityTokenDecimals),
                 router.locale
               ).short
             }
@@ -185,6 +187,8 @@ const DetailsRenderer = ({ row }) => {
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = row.vault.tokenSymbol;
+  const tokenDecimals = row.vault.tokenDecimals;
+
   const router = useRouter();
 
   return (
@@ -194,7 +198,7 @@ const PodAmountRenderer = ({ row }) => {
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
             formatCurrency(
-              convertFromUnits(row.podAmount),
+              convertFromUnits(row.podAmount, tokenDecimals),
               router.locale,
               tokenSymbol,
               true
@@ -203,7 +207,7 @@ const PodAmountRenderer = ({ row }) => {
         >
           {
             formatCurrency(
-              convertFromUnits(row.podAmount),
+              convertFromUnits(row.podAmount, tokenDecimals),
               router.locale,
               tokenSymbol,
               true

@@ -15,6 +15,7 @@ export const MyLiquidityCoverCard = ({
   coverKey,
   totalPODs,
   tokenSymbol = "POD",
+  tokenDecimal,
 }) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
@@ -71,7 +72,7 @@ export const MyLiquidityCoverCard = ({
         className="flex justify-between px-1 text-sm"
         title={
           formatCurrency(
-            convertFromUnits(totalPODs || "0"),
+            convertFromUnits(totalPODs || "0", tokenDecimal),
             router.locale,
             tokenSymbol,
             true
@@ -82,7 +83,7 @@ export const MyLiquidityCoverCard = ({
           <Trans>My Liquidity:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(totalPODs || "0"),
+              convertFromUnits(totalPODs || "0", tokenDecimal),
               router.locale,
               tokenSymbol,
               true

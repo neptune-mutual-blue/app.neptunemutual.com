@@ -45,6 +45,7 @@ export const WithdrawLiquidityForm = ({
     liquidityTokenSymbol,
     NPMTokenSymbol,
     NPMTokenDecimals,
+    liquidityTokenDecimals,
   } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
@@ -210,7 +211,10 @@ export const WithdrawLiquidityForm = ({
             labelText={t`You Will Receive`}
             tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
-              convertFromUnits(receiveAmount).toString(),
+              convertFromUnits(
+                receiveAmount,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             )}
             inputId="my-liquidity-receive"

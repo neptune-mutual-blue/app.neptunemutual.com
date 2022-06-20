@@ -4,6 +4,7 @@ import { useNetwork } from "@/src/context/Network";
 import { getLiquidityInfoFromStore } from "@/src/helpers/store/getLiquidityInfoFromStore";
 import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { useWeb3React } from "@web3-react/core";
 import React, { useCallback, useEffect, useState } from "react";
@@ -15,6 +16,7 @@ const defaultValue = {
   updateMinStakeInfo: () => {},
   vaultTokenAddress: "",
   vaultTokenSymbol: "",
+  vaultTokenDecimals: "0",
   podBalance: "0",
   loadingPodBalance: false,
   updatePodBalance: async () => {},
@@ -36,6 +38,7 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
   });
   const vaultTokenAddress = useVaultAddress({ coverKey });
   const vaultTokenSymbol = useTokenSymbol(vaultTokenAddress);
+  const tokenDecimals = useTokenDecimals(vaultTokenAddress);
   const {
     balance: podBalance,
     loading: loadingPodBalance,
@@ -105,6 +108,7 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
         updateMinStakeInfo,
         vaultTokenAddress,
         vaultTokenSymbol,
+        vaultTokenDecimals: tokenDecimals,
         podBalance,
         loadingPodBalance,
         updatePodBalance,

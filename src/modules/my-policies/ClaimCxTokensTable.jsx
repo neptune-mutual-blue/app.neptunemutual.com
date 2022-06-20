@@ -18,6 +18,7 @@ import {
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
 import { useRouter } from "next/router";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 const renderHeader = (col) => (
   <th

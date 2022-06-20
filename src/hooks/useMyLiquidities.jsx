@@ -17,8 +17,11 @@ const getQuery = (account) => {
     totalPodsRemaining
     cover {
       id
+      coverKey
       vaults {
         tokenSymbol
+        tokenDecimals
+        address
       }
     }
   }
@@ -31,6 +34,7 @@ export const useMyLiquidities = () => {
   const [loading, setLoading] = useState(false);
 
   const { account } = useWeb3React();
+
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
@@ -54,7 +58,7 @@ export const useMyLiquidities = () => {
 
   const myLiquidities = data?.userLiquidities || [];
   const totalLiquidityProvided = sumOf(
-    ...myLiquidities.map((x) => x.totalLiquidity || "0"),
+    ...myLiquidities.map((x) => x.totalPodsRemaining || "0"),
     "0"
   );
 
