@@ -34,6 +34,7 @@ export const useProvideLiquidity = ({
   const {
     vaultTokenAddress,
     vaultTokenSymbol,
+    vaultTokenDecimals,
     lqTokenBalance,
     lqBalanceLoading,
     updateLqTokenBalance,
@@ -265,6 +266,7 @@ export const useProvideLiquidity = ({
     providing,
     podSymbol: vaultTokenSymbol,
     podAddress: vaultTokenAddress,
+    podDecimals: vaultTokenDecimals,
 
     handleLqTokenApprove,
     handleNPMTokenApprove,

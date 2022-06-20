@@ -32,6 +32,7 @@ export const useMyLiquidities = () => {
   const [loading, setLoading] = useState(false);
 
   const { account } = useWeb3React();
+
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
@@ -58,6 +59,10 @@ export const useMyLiquidities = () => {
     ...myLiquidities.map((x) => x.totalPodsRemaining || "0"),
     "0"
   );
+
+  /* async function getTotalLiquidity(c) {
+    useCalculatePods(c)
+  } */
 
   return {
     data: {

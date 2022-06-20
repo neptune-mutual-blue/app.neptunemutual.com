@@ -14,7 +14,9 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
-import { useAppConstants } from "@/src/context/AppConstants";
+import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import { useVaultAddress } from "@/src/hooks/contracts/useVaultAddress";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
@@ -22,7 +24,15 @@ export const MyLiquidityCoverPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
-  const { liquidityTokenDecimals } = useAppConstants();
+  const vaultTokenAddress = useVaultAddress({ coverKey });
+
+  const { podBalance, vaultTokenDecimals } = useLiquidityFormsContext();
+
+  const myLiquidity = useCalculatePods({
+    coverKey,
+    value: podBalance,
+    podAddress: vaultTokenAddress,
+  });
 
   const {
     info,
@@ -38,8 +48,6 @@ export const MyLiquidityCoverPage = () => {
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
-
-  const myLiquidity = info.myUnrealizedShare;
 
   return (
     <div>
@@ -69,7 +77,10 @@ export const MyLiquidityCoverPage = () => {
               <HeroStat title={t`My Liquidity`}>
                 {
                   formatCurrency(
-                    convertFromUnits(myLiquidity, liquidityTokenDecimals),
+                    convertFromUnits(
+                      myLiquidity.receiveAmount,
+                      vaultTokenDecimals
+                    ),
                     router.locale
                   ).long
                 }
