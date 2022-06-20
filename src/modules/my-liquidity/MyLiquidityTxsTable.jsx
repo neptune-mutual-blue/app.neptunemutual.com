@@ -187,7 +187,7 @@ const DetailsRenderer = ({ row }) => {
 const PodAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
   const tokenSymbol = row.vault.tokenSymbol;
-  const { liquidityTokenDecimals } = useAppConstants();
+  const tokenDecimals = row.vault.tokenDecimals;
 
   const router = useRouter();
 
@@ -198,7 +198,7 @@ const PodAmountRenderer = ({ row }) => {
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
             formatCurrency(
-              convertFromUnits(row.podAmount, liquidityTokenDecimals),
+              convertFromUnits(row.podAmount, tokenDecimals),
               router.locale,
               tokenSymbol,
               true
@@ -207,7 +207,7 @@ const PodAmountRenderer = ({ row }) => {
         >
           {
             formatCurrency(
-              convertFromUnits(row.podAmount, liquidityTokenDecimals),
+              convertFromUnits(row.podAmount, tokenDecimals),
               router.locale,
               tokenSymbol,
               true

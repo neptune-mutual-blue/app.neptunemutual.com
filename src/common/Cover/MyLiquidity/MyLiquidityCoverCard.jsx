@@ -10,18 +10,17 @@ import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { useAppConstants } from "@/src/context/AppConstants";
 
 export const MyLiquidityCoverCard = ({
   coverKey,
   totalPODs,
   tokenSymbol = "POD",
+  tokenDecimal,
 }) => {
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
   const router = useRouter();
-  const { liquidityTokenDecimals } = useAppConstants();
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
@@ -73,7 +72,7 @@ export const MyLiquidityCoverCard = ({
         className="flex justify-between px-1 text-sm"
         title={
           formatCurrency(
-            convertFromUnits(totalPODs || "0", liquidityTokenDecimals),
+            convertFromUnits(totalPODs || "0", tokenDecimal),
             router.locale,
             tokenSymbol,
             true
@@ -84,7 +83,7 @@ export const MyLiquidityCoverCard = ({
           <Trans>My Liquidity:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(totalPODs || "0", liquidityTokenDecimals),
+              convertFromUnits(totalPODs || "0", tokenDecimal),
               router.locale,
               tokenSymbol,
               true

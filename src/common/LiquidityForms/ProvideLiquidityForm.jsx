@@ -57,6 +57,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     isError,
     providing,
     podSymbol,
+    podAddress,
     lqBalanceLoading,
     npmBalanceLoading,
     lqAllowanceLoading,
@@ -73,6 +74,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
     coverKey,
     value: lqValue,
+    podAddress,
   });
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();

@@ -19,8 +19,7 @@ const getQuery = (account) => {
       id
       vaults {
         tokenSymbol
-                tokenDecimals
-
+        tokenDecimals
       }
     }
   }
