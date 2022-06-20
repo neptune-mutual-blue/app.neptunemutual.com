@@ -22,7 +22,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const { liquidityTokenDecimals } = useAppConstants();
-  const { tokenDecimals: podDecimals } = useTokenDecimals(podAddress);
+  const tokenDecimals = useTokenDecimals(podAddress);
 
   useEffect(() => {
     let ignore = false;
@@ -61,7 +61,9 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
           const podAmount = result;
 
           if (ignore) return;
-          setReceiveAmount(convertFromUnits(podAmount, podDecimals).toString());
+          setReceiveAmount(
+            convertFromUnits(podAmount, tokenDecimals).toString()
+          );
           cleanup();
         };
 
@@ -105,7 +107,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     liquidityTokenDecimals,
     networkId,
     notifyError,
-    podDecimals,
+    tokenDecimals,
     receiveAmount,
   ]);
 
