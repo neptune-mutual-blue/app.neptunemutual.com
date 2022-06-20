@@ -8,6 +8,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const headers = [
   {
@@ -26,6 +27,7 @@ export const PoliciesTabs = ({ active, children }) => {
   const { data } = useActivePolicies();
   const { totalActiveProtection } = data;
   const router = useRouter();
+  const { liquidityTokenDecimals } = useAppConstants();
 
   return (
     <>
@@ -39,7 +41,7 @@ export const PoliciesTabs = ({ active, children }) => {
           <HeroStat title="Total Active Protection">
             {
               formatCurrency(
-                convertFromUnits(totalActiveProtection),
+                convertFromUnits(totalActiveProtection, liquidityTokenDecimals),
                 router.locale
               ).long
             }

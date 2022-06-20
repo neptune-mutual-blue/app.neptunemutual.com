@@ -119,8 +119,9 @@ export const ClaimCxTokensTable = ({
 };
 
 const CxTokenAmountRenderer = () => {
-  const { balance, tokenSymbol } = useCxTokenRowContext();
+  const { balance, tokenSymbol, tokenAddress } = useCxTokenRowContext();
   const router = useRouter();
+  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   return (
     <>
@@ -128,7 +129,7 @@ const CxTokenAmountRenderer = () => {
         <span
           title={
             formatCurrency(
-              convertFromUnits(balance),
+              convertFromUnits(balance, tokenDecimals),
               router.locale,
               tokenSymbol,
               true
@@ -137,7 +138,7 @@ const CxTokenAmountRenderer = () => {
         >
           {
             formatCurrency(
-              convertFromUnits(balance),
+              convertFromUnits(balance, tokenDecimals),
               router.locale,
               tokenSymbol,
               true

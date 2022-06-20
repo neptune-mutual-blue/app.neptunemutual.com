@@ -19,7 +19,7 @@ export const CxTokenRowProvider = ({ row, _extraData, ...props }) => {
 
   return (
     <CxTokenRowContext.Provider
-      value={{ tokenSymbol, balance, loadingBalance, refetchBalance }}
+      value={{ tokenSymbol, tokenAddress, balance, loadingBalance, refetchBalance }}
       {...props}
     />
   );

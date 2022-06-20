@@ -18,6 +18,7 @@ import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export function getServerSideProps() {
   return {
@@ -44,6 +45,7 @@ export default function ClaimPolicy({ disabled }) {
       coverKey,
       incidentDate: timestamp,
     });
+  const { liquidityTokenDecimals } = useAppConstants();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -93,7 +95,7 @@ export default function ClaimPolicy({ disabled }) {
                 <>
                   {
                     formatCurrency(
-                      convertFromUnits(data.totalActiveProtection),
+                      convertFromUnits(data.totalActiveProtection, liquidityTokenDecimals),
                       router.locale,
                       "USD"
                     ).long
