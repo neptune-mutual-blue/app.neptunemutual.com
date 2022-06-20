@@ -15,8 +15,9 @@ export function getServerSideProps() {
 
 export default function ReportingNewCoverPage({ disabled }) {
   const router = useRouter();
-  const { product_id } = router.query;
-  const coverKey = safeFormatBytes32String(product_id);
+  const { product_id, cover_id } = router.query;
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
 
   if (disabled) {
     return <ComingSoon />;

@@ -19,15 +19,16 @@ import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
-  const { 
+  const {
     info,
     refetch: refetchInfo,
     isWithdrawalWindowOpen,
-    accrueInterest
+    accrueInterest,
   } = useMyLiquidityInfo({
     coverKey,
   });
@@ -101,13 +102,12 @@ export const CoverAddLiquidityDetailsPage = () => {
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
 
-          <LiquidityResolutionSources 
+          <LiquidityResolutionSources
             info={info}
             refetchInfo={refetchInfo}
             isWithdrawalWindowOpen={isWithdrawalWindowOpen}
             accrueInterest={accrueInterest}
           />
-
         </Container>
       </div>
 

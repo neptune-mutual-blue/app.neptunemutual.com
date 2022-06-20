@@ -27,7 +27,8 @@ const coverActions = {
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { product_id, cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(product_id);
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
 
@@ -52,7 +53,7 @@ export const CoverOptionsPage = () => {
         <h2 className="mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12">
           <Trans>I Want to</Trans>
         </h2>
-        <div className="container grid grid-cols-2 gap-4 lg:gap-12 mx-auto mb-6 justify-items-center md:mb-8 lg:mb-14">
+        <div className="container grid grid-cols-2 gap-4 mx-auto mb-6 lg:gap-12 justify-items-center md:mb-8 lg:mb-14">
           {Object.entries(coverActions).map(
             ([actionKey, { title, description, imgSrc, smImgSrc, action }]) => {
               return (

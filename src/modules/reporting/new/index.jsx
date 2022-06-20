@@ -13,7 +13,8 @@ export function NewIncidentReportPage() {
   const [accepted, setAccepted] = useState(false);
   const router = useRouter();
   const { product_id, cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(product_id || cover_id);
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { data: activeReportings } = useFetchCoverActiveReportings({
