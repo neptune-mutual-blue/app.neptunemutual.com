@@ -43,6 +43,8 @@ export const useExpiredPolicies = () => {
             }
           ) {
             id
+            coverKey
+            productKey
             cxToken {
               id
               creationDate

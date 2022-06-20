@@ -83,7 +83,7 @@ module.exports = {
         /* 72px */
         "18": "4.5rem",
         "22px": "22px",
-        "3px": "3px",
+        "2.5px": "2.5px",
       },
       lineHeight: {
         "4.5": "18px",

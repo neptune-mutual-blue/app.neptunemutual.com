@@ -56,7 +56,7 @@ export const useActivePolicies = () => {
             cover {
               id
             }
-            product{
+            product {
               id
             }
           }
