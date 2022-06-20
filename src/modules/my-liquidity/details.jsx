@@ -26,7 +26,7 @@ export const MyLiquidityCoverPage = () => {
     info,
     refetch: refetchInfo,
     isWithdrawalWindowOpen,
-    accrueInterest
+    accrueInterest,
   } = useMyLiquidityInfo({
     coverKey,
   });
@@ -86,13 +86,12 @@ export const MyLiquidityCoverPage = () => {
               </div>
             </div>
 
-            <LiquidityResolutionSources 
+            <LiquidityResolutionSources
               info={info}
               refetchInfo={refetchInfo}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}
               accrueInterest={accrueInterest}
             />
-            
           </Container>
         </div>
       </main>

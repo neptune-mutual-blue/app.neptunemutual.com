@@ -13,6 +13,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export function getStaticProps() {
   return {
@@ -28,6 +29,8 @@ export default function MyLiquidity({ disabled }) {
   const { totalLiquidityProvided } = data;
 
   const router = useRouter();
+
+  const { liquidityTokenDecimals } = useAppConstants();
 
   if (disabled) {
     return <ComingSoon />;
@@ -54,7 +57,10 @@ export default function MyLiquidity({ disabled }) {
               {!loading &&
                 `$ ${
                   formatCurrency(
-                    convertFromUnits(totalLiquidityProvided),
+                    convertFromUnits(
+                      totalLiquidityProvided,
+                      liquidityTokenDecimals
+                    ),
                     router.locale,
                     "USD",
                     true

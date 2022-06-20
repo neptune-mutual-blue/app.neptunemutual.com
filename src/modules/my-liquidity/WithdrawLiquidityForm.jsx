@@ -40,8 +40,12 @@ export const WithdrawLiquidityForm = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
 
-  const { NPMTokenAddress, liquidityTokenSymbol, NPMTokenSymbol } =
-    useAppConstants();
+  const {
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    liquidityTokenDecimals,
+    NPMTokenSymbol,
+  } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
@@ -204,7 +208,10 @@ export const WithdrawLiquidityForm = ({
             labelText={t`You Will Receive`}
             tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
-              convertFromUnits(receiveAmount).toString(),
+              convertFromUnits(
+                receiveAmount,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             )}
             inputId="my-liquidity-receive"

@@ -76,9 +76,9 @@ export const useActivePolicies = () => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [account, networkId]);
 
   const activePolicies = data?.userPolicies || [];
