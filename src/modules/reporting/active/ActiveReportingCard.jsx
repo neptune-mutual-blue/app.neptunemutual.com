@@ -18,13 +18,17 @@ import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
   const { setStatsByKey } = useSortableStats();
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { activeCommitment, status } = useFetchCoverStats({ coverKey });
+  const { activeCommitment, status } = useFetchCoverStats({
+    coverKey,
+    productKey: safeFormatBytes32String(""),
+  });
   const router = useRouter();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });

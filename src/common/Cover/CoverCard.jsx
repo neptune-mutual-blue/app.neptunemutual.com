@@ -14,15 +14,19 @@ import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
   const router = useRouter();
   const { setStatsByKey } = useSortableStats();
+  const { liquidityTokenDecimals } = useAppConstants();
 
   const { projectName, key, pricingFloor, pricingCeiling } = details;
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
   const { activeCommitment, status } = useFetchCoverStats({
     coverKey: key,
+    productKey: safeFormatBytes32String(""),
   });
 
   const imgSrc = getCoverImgSrc({ key });
@@ -116,7 +120,7 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
           className="flex-1 text-right"
           title={
             formatCurrency(
-              convertFromUnits(liquidity).toString(),
+              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
               router.locale
             ).long
           }
@@ -125,7 +129,7 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
           <Trans>Liquidity:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(liquidity).toString(),
+              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
               router.locale
             ).short
           }

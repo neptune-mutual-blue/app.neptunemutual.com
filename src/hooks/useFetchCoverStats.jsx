@@ -7,6 +7,8 @@ import {
   CoverStatus,
   COVER_STATS_URL,
 } from "@/src/config/constants";
+import { getStats } from "@/src/services/protocol/cover/stats";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 const defaultStats = {
   activeIncidentDate: "0",
@@ -21,9 +23,9 @@ const defaultStats = {
   availableLiquidity: "0",
 };
 
-export const useFetchCoverStats = ({ coverKey }) => {
+export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const [info, setInfo] = useState(defaultStats);
-  const { account } = useWeb3React();
+  const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
@@ -33,26 +35,45 @@ export const useFetchCoverStats = ({ coverKey }) => {
       if (!networkId || !coverKey) return;
 
       try {
-        const response = await fetch(
-          getReplacedString(COVER_STATS_URL, {
+        let data = null;
+
+        if (account) {
+          // Get data from provider if wallet's connected
+          const signerOrProvider = getProviderOrSigner(
+            library,
+            account,
+            networkId
+          );
+          data = await getStats(
             networkId,
             coverKey,
-            account: account || ADDRESS_ONE,
-          }),
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-            },
+            productKey,
+            account,
+            signerOrProvider.provider
+          );
+        } else {
+          // Get data from API if wallet's not connected
+          const response = await fetch(
+            getReplacedString(COVER_STATS_URL, {
+              networkId,
+              coverKey,
+              account: account || ADDRESS_ONE,
+            }),
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            return;
           }
-        );
 
-        if (!response.ok) {
-          return;
+          data = (await response.json()).data;
         }
-
-        const { data } = await response.json();
 
         if (!data || Object.keys(data).length === 0) {
           return;
@@ -82,7 +103,7 @@ export const useFetchCoverStats = ({ coverKey }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, networkId]);
+  }, [account, coverKey, library, networkId, productKey]);
 
   return info;
 };

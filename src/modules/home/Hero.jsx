@@ -23,7 +23,7 @@ export const HomeHero = ({
   title = "",
 }) => {
   const { data: heroData } = useFetchHeroStats();
-  const { poolsTvl } = useAppConstants();
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
   const router = useRouter();
 
   const [changeData, setChangeData] = useState(null);
@@ -82,7 +82,10 @@ export const HomeHero = ({
                   {
                     name: t`TVL (Cover)`,
                     amount: formatCurrency(
-                      convertFromUnits(heroData.tvlCover).toString(),
+                      convertFromUnits(
+                        heroData.tvlCover,
+                        liquidityTokenDecimals
+                      ).toString(),
                       router.locale
                     ).short,
                   },
@@ -142,7 +145,10 @@ export const HomeHero = ({
               >
                 {
                   formatCurrency(
-                    convertFromUnits(changeData?.last || "0").toString(),
+                    convertFromUnits(
+                      changeData?.last || "0",
+                      liquidityTokenDecimals
+                    ).toString(),
                     router.locale
                   ).short
                 }

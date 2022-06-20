@@ -11,6 +11,7 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cover, cxToken } = policyInfo;
@@ -18,7 +19,10 @@ export const PolicyCard = ({ policyInfo }) => {
   const coverKey = cover.id;
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
-  const { status: currentStatus } = useFetchCoverStats({ coverKey });
+  const { status: currentStatus } = useFetchCoverStats({
+    coverKey,
+    productKey: safeFormatBytes32String(""),
+  });
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
