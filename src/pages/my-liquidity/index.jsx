@@ -14,7 +14,6 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useCalculateTotalLiquidity } from "@/src/hooks/useCalculateTotalLiquidity";
 
 export function getStaticProps() {
   return {
@@ -32,9 +31,6 @@ export default function MyLiquidity({ disabled }) {
   const router = useRouter();
 
   const { liquidityTokenDecimals } = useAppConstants();
-
-  const totaltestResult = useCalculateTotalLiquidity();
-  console.log(totaltestResult);
 
   if (disabled) {
     return <ComingSoon />;
