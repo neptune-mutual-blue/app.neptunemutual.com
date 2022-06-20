@@ -38,19 +38,23 @@ const getBasketQuery = () => {
       ipfsBytes
       products{
         id
+        productKey
+        ipfsHash
+        ipfsBytes
       }
     }
   }
 `;
 };
 
-export const useFetchCovers = (type = "basket") => {
+export const useFetchCovers = (type) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const { networkId } = useNetwork();
   const { getIpfsByHash, updateIpfsData } = useIpfs();
   const { data: graphData, refetch } = useQuery();
+  console.log("type", type);
 
   useEffect(() => {
     let ignore = false;
@@ -144,16 +148,67 @@ export const useFetchCovers = (type = "basket") => {
     },
     [data, getIpfsByHash]
   );
+  const getBasketInfoByKey = useCallback(
+    (coverKey, productKey) => {
+      const _cover = data.find((x) => x.coverKey === coverKey);
+      const _product = _cover?.["products"].find(
+        (p) => p.productKey === productKey
+      );
 
-  // TODO: remove this
-  const finalData = useMemo(
-    () => data.map((x) => getInfoByKey(x.coverKey)),
-    [data, getInfoByKey]
+      if (!_cover && !_product) {
+        return null;
+      }
+
+      let coverIpfsData =
+        _cover.ipfsData || getIpfsByHash(_cover.ipfsHash) || {};
+
+      let productIpfsData =
+        _product.ipfsData || getIpfsByHash(_product.ipfsHash) || {};
+
+      try {
+        coverIpfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
+        productIpfsData = JSON.parse(toUtf8String(_product.ipfsBytes));
+      } catch (err) {
+        console.log("[info] Could not parse ipfs bytes", _product.productKey);
+      }
+
+      return {
+        key: _product.productKey || "",
+        coverName: productIpfsData.productName || "",
+        projectName: productIpfsData.productName || "",
+        tags: productIpfsData.tags || [],
+        about: productIpfsData.about || "",
+        rules: productIpfsData.rules || "",
+        links: productIpfsData.links || {},
+        pricingFloor: coverIpfsData.pricingFloor || "0",
+        pricingCeiling: coverIpfsData.pricingCeiling || "0",
+        reportingPeriod: coverIpfsData.reportingPeriod || 0,
+        cooldownPeriod: coverIpfsData.cooldownPeriod || 0,
+        claimPeriod: coverIpfsData.claimPeriod || 0,
+        minReportingStake: coverIpfsData.minReportingStake || "0",
+        resolutionSources: productIpfsData.resolutionSources || [],
+        stakeWithFees: coverIpfsData.stakeWithFees || "0",
+        reassurance: coverIpfsData.reassurance || "0",
+      };
+    },
+    [data, getIpfsByHash]
   );
+  // TODO: remove this
+  const finalData = useMemo(() => {
+    if (type === "standalone") {
+      return data.map((x) => getInfoByKey(x.coverKey));
+    }
+    if (type === "basket") {
+      return data.map((x) => {
+        x?.products.map((p) => getBasketInfoByKey(x.coverKey, p.productKey));
+      });
+    }
+  }, [type, data, getInfoByKey, getBasketInfoByKey]);
 
   return {
     data: finalData,
     getInfoByKey,
+    getBasketInfoByKey,
     loading,
   };
 };
