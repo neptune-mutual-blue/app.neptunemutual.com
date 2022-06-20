@@ -143,12 +143,14 @@ const DetailsRenderer = ({ row }) => {
               row.type === "BondCreated" ? row.lpTokenAmount : row.claimAmount
             }
             symbol={
-              row.type === "BondCreated" ? row.lpTokenSymbol : row.token0Symbol
+              row.type === "BondCreated"
+                ? row.bondPool.lpTokenSymbol
+                : row.bondPool.token0Symbol
             }
             decimals={
               row.type === "BondCreated"
                 ? row.lpTokenDecimals
-                : row.token0Decimals
+                : row.bondPool.token0Decimals
             }
           />
         </span>
@@ -168,12 +170,14 @@ const BondAmountRenderer = ({ row }) => {
           amountInUnits={
             row.type == "BondCreated" ? row.npmToVestAmount : row.claimAmount
           }
-          symbol={row.token0Symbol}
-          decimals={row.token0Decimals}
+          symbol={row.bondPool.token0Symbol}
+          decimals={row.bondPool.token0Decimals}
         />
         <button
           className="p-1 ml-3"
-          onClick={() => register(row.token0, row.token0Symbol)}
+          onClick={() =>
+            register(row.bondPool.token0, row.bondPool.token0Symbol)
+          }
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />
