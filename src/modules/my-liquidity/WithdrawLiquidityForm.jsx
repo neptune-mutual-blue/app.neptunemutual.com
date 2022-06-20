@@ -40,8 +40,12 @@ export const WithdrawLiquidityForm = ({
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
 
-  const { NPMTokenAddress, liquidityTokenSymbol, NPMTokenSymbol } =
-    useAppConstants();
+  const {
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol,
+    NPMTokenDecimals,
+  } = useAppConstants();
   const { receiveAmount, loading: receiveAmountLoading } =
     useCalculateLiquidity({
       coverKey,
@@ -174,12 +178,14 @@ export const WithdrawLiquidityForm = ({
                 amountInUnits={myStake}
                 prefix={t`Your Stake:` + " "}
                 symbol={NPMTokenSymbol}
+                decimals={NPMTokenDecimals}
               />
             )}
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
               symbol={NPMTokenSymbol}
+              decimals={NPMTokenDecimals}
             />
             {!isExit && npmErrorMsg && (
               <p className="text-FA5C2F">{npmErrorMsg}</p>

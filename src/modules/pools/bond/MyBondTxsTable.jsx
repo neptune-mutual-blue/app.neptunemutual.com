@@ -145,6 +145,11 @@ const DetailsRenderer = ({ row }) => {
             symbol={
               row.type === "BondCreated" ? row.lpTokenSymbol : row.token0Symbol
             }
+            decimals={
+              row.type === "BondCreated"
+                ? row.lpTokenDecimals
+                : row.token0Decimals
+            }
           />
         </span>
       </div>
@@ -164,6 +169,7 @@ const BondAmountRenderer = ({ row }) => {
             row.type == "BondCreated" ? row.npmToVestAmount : row.claimAmount
           }
           symbol={row.token0Symbol}
+          decimals={row.token0Decimals}
         />
         <button
           className="p-1 ml-3"

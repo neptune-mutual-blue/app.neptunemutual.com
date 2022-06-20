@@ -6,6 +6,7 @@ export const TokenAmountSpan = ({
   amountInUnits,
   symbol,
   className = null,
+  decimals,
 }) => {
   const router = useRouter();
 
@@ -14,7 +15,7 @@ export const TokenAmountSpan = ({
       className={className}
       title={`${
         formatCurrency(
-          convertFromUnits(amountInUnits).toString(),
+          convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
           true
@@ -23,7 +24,7 @@ export const TokenAmountSpan = ({
     >
       {
         formatCurrency(
-          convertFromUnits(amountInUnits).toString(),
+          convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
           true
