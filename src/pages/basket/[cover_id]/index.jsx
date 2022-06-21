@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { HomeHero } from "@/modules/home/Hero";
 import { ComingSoon } from "@/common/ComingSoon";
@@ -15,6 +15,9 @@ export function getServerSideProps() {
 }
 
 export default function BasketsCoverpool({ disabled }) {
+  const router = useRouter();
+  const { cover_id } = router.query;
+
   if (disabled) {
     return <ComingSoon />;
   }
@@ -29,13 +32,13 @@ export default function BasketsCoverpool({ disabled }) {
         />
       </Head>
       <HomeHero
-        title={`${Router.query.cover_id}`}
+        title={`${cover_id}`}
         heroContainerClass="!pt-0"
         breadcrumbs={[
           { name: t`Baskets`, href: "/basket", current: false },
           {
-            name: Router.query.cover_id,
-            href: `/basket/${Router.query.cover_id}`,
+            name: cover_id,
+            href: `/basket/${cover_id}`,
             current: true,
           },
         ]}

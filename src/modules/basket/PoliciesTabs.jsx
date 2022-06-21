@@ -13,10 +13,9 @@ import { useAppConstants } from "@/src/context/AppConstants";
 export const PoliciesTabs = ({ active, children }) => {
   const { data } = useActivePolicies();
   const { totalActiveProtection } = data;
-  const {
-    locale,
-    query: { cover_id, product_id },
-  } = useRouter();
+
+  const router = useRouter();
+  const { cover_id, product_id } = router.query;
   const { liquidityTokenDecimals } = useAppConstants();
 
   const headers = [
@@ -45,7 +44,7 @@ export const PoliciesTabs = ({ active, children }) => {
             {
               formatCurrency(
                 convertFromUnits(totalActiveProtection, liquidityTokenDecimals),
-                locale
+                router.locale
               ).long
             }
           </HeroStat>

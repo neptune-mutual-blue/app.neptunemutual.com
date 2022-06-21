@@ -2,7 +2,7 @@ import Head from "next/head";
 import { CoverOptionsPage } from "@/src/modules/basket/CoverOptionsPage";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -16,6 +16,9 @@ export function getServerSideProps() {
 }
 
 export default function Options({ disabled }) {
+  const router = useRouter();
+  const { cover_id, product_id } = router.query;
+
   if (disabled) {
     return <ComingSoon />;
   }
@@ -35,8 +38,8 @@ export default function Options({ disabled }) {
           pages={[
             { name: t`Home`, href: "/basket", current: false },
             {
-              name: Router.query.cover_id,
-              href: `/basket/${Router.query.cover_id}/${Router.query.product_id}`,
+              name: cover_id,
+              href: `/basket/${cover_id}/${product_id}`,
               current: true,
             },
           ]}
