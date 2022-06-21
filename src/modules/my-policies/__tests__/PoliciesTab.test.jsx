@@ -6,6 +6,7 @@ import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 
+const liquidityTokenDecimals = 6;
 const mockFunction = (file, method, returnFn) => {
   jest.spyOn(file, method).mockImplementation(returnFn);
 };
@@ -52,7 +53,7 @@ describe("PoliciesTab test", () => {
 
   test("should render the herostat value", () => {
     const value = formatCurrency(
-      convertFromUnits("200000000000000000000"),
+      convertFromUnits("200000000000000000000", liquidityTokenDecimals),
       "en"
     ).long;
     const heroStatVal = screen.getByText(value);
