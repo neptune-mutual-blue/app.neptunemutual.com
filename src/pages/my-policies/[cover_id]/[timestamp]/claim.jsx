@@ -58,6 +58,7 @@ export default function ClaimPolicy({ disabled }) {
   }
 
   const title = coverInfo.projectName;
+
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>

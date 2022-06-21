@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { Divider } from "@/common/Divider/Divider";
@@ -16,6 +16,9 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
+import { classNames } from "@/utils/classnames";
+import SheildIcon from "@/icons/SheildIcon";
+import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
 
 export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
   const router = useRouter();
@@ -29,6 +32,8 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
     productKey,
     pricingFloor,
     pricingCeiling,
+    products,
+    leverage,
   } = details;
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { activeCommitment, status } = useFetchCoverStats({
@@ -36,7 +41,9 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
     productKey: productKey || utils.keyUtil.toBytes32(""),
   });
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: productKey || coverKey });
+  const productsImg =
+    products?.map((item) => getCoverImgSrc({ key: item.productKey })) || [];
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -52,30 +59,91 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
     });
   }, [id, liquidity, setStatsByKey, utilization]);
 
+  const slicedProductsImg = productsImg.slice(0, 3);
+
+  const protectionLong = formatCurrency(
+    convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
+    router.locale
+  ).long;
+
+  const liquidityLong = formatCurrency(
+    convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+    router.locale
+  ).long;
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
-      <div className="flex items-start justify-between">
-        <div className="">
-          <img
-            src={imgSrc}
-            alt={projectName}
-            className="inline-block max-w-full w-14 lg:w-18"
-            data-testid="cover-img"
-          />
+      <div className="flex items-start">
+        <div className="relative flex grow items-center">
+          {slicedProductsImg.length ? (
+            slicedProductsImg.slice(0, 3).map((item, idx) => {
+              const more = productsImg.length - 3;
+              return (
+                <React.Fragment key={item}>
+                  <div
+                    className={classNames(
+                      "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18",
+                      idx !== 0 && "-ml-7 lg:-ml-9 p-0.5"
+                    )}
+                  >
+                    <img
+                      src={item}
+                      alt={products[idx].productName}
+                      className="bg-DEEAF6 rounded-full"
+                      data-testid="cover-img"
+                    />
+                  </div>
+
+                  {idx === slicedProductsImg.length - 1 && more > 0 && (
+                    <p className="ml-2 opacity-40 text-01052D text-xs">
+                      +{more} <Trans>MORE</Trans>
+                    </p>
+                  )}
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <div
+              className={classNames(
+                "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18"
+              )}
+            >
+              <img
+                src={imgSrc}
+                alt={projectName}
+                className="bg-DEEAF6 rounded-full"
+                data-testid="cover-img"
+              />
+            </div>
+          )}
         </div>
-        <div>
-          <CardStatusBadge status={status} />
-        </div>
+        <InfoTooltip
+          disabled={products?.length === 0}
+          infoComponent={
+            <div>
+              <p>
+                Leverage Ration: <b>{leverage}x</b>
+              </p>
+              <p>Determines available capital to underwrite</p>
+            </div>
+          }
+        >
+          <div>
+            <CardStatusBadge
+              status={products?.length ? "Diversified" : status}
+            />
+          </div>
+        </InfoTooltip>
       </div>
 
       <h4
-        className="mt-4 font-semibold uppercase text-h4 font-sora"
+        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
         data-testid="project-name"
       >
         {projectName}
       </h4>
       <div
-        className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2"
+        className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"
         data-testid="cover-fee"
       >
         <Trans>Cover fee:</Trans>{" "}
@@ -96,51 +164,68 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
           {formatPercent(utilization, router.locale)}
         </span>
       </div>
-      <div className="mt-2 mb-4">
-        <ProgressBar
-          value={utilization}
-          bgClass={progressBgColor}
-          fgClass={progressFgColor}
-        />
-      </div>
-      <div className="flex justify-between px-1 text-h7 lg:text-sm">
-        <div
-          className="flex-1"
-          title={
-            formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
-              router.locale
-            ).long
-          }
-          data-testid="protection"
-        >
-          <Trans>Protection:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
-              router.locale
-            ).short
-          }
+      <InfoTooltip
+        infoComponent={
+          <div>
+            <p>
+              <b>
+                UTILIZATION RATIO: {formatPercent(utilization, router.locale)}
+              </b>
+            </p>
+            <p>Protection: {protectionLong}</p>
+            <p>Liquidity: {liquidityLong}</p>
+          </div>
+        }
+      >
+        <div className="mt-2 mb-4">
+          <ProgressBar
+            value={utilization}
+            bgClass={progressBgColor}
+            fgClass={progressFgColor}
+          />
         </div>
-
-        <div
-          className="flex-1 text-right"
-          title={
-            formatCurrency(
-              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-              router.locale
-            ).long
-          }
-          data-testid="liquidity"
+      </InfoTooltip>
+      <div className="flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm">
+        <InfoTooltip
+          arrow={false}
+          infoComponent={<div>Protection: {protectionLong}</div>}
         >
-          <Trans>Liquidity:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-              router.locale
-            ).short
-          }
-        </div>
+          <div
+            className="flex flex-1"
+            title={protectionLong}
+            data-testid="protection"
+          >
+            <SheildIcon className="w-4 h-4 text-01052D" />
+            <p>
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).short
+              }
+            </p>
+          </div>
+        </InfoTooltip>
+        <InfoTooltip
+          arrow={false}
+          infoComponent={<div>Liquidity: {liquidityLong}</div>}
+        >
+          <div
+            className="flex-1 text-right"
+            title={liquidityLong}
+            data-testid="liquidity"
+          >
+            {
+              formatCurrency(
+                convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+                router.locale
+              ).short
+            }
+          </div>
+        </InfoTooltip>
       </div>
     </OutlinedCard>
   );
