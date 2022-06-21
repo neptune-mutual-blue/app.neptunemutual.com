@@ -14,6 +14,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useCalculateTotalLiquidity } from "@/src/hooks/useCalculateTotalLiquidity";
 
 export function getStaticProps() {
   return {
@@ -26,7 +27,8 @@ export function getStaticProps() {
 export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
   const { data, loading } = useMyLiquidities();
-  const { totalLiquidityProvided } = data;
+  const { liquidityList, myLiquidities } = data;
+  const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList });
 
   const router = useRouter();
 
@@ -73,7 +75,7 @@ export default function MyLiquidity({ disabled }) {
         <hr className="border-b border-B0C4DB" />
       </Hero>
 
-      <MyLiquidityPage />
+      <MyLiquidityPage myLiquidities={myLiquidities} loading={loading} />
     </main>
   );
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { sumOf } from "@/utils/bn";
 import { useQuery } from "@/src/hooks/useQuery";
 
 const getQuery = (account) => {
@@ -57,15 +56,15 @@ export const useMyLiquidities = () => {
   }, [account, refetch]);
 
   const myLiquidities = data?.userLiquidities || [];
-  const totalLiquidityProvided = sumOf(
-    ...myLiquidities.map((x) => x.totalPodsRemaining || "0"),
-    "0"
-  );
+  const liquidityList = myLiquidities.map((x) => ({
+    podAmount: x.totalPodsRemaining || "0",
+    podAddress: x.cover.vaults[0].address,
+  }));
 
   return {
     data: {
       myLiquidities,
-      totalLiquidityProvided,
+      liquidityList,
     },
     loading,
   };

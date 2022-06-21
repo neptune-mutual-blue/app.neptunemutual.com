@@ -21,7 +21,7 @@ export const CoverOptionsPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
   const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = getInfoByKey(product_id ? productKey : coverKey);
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;

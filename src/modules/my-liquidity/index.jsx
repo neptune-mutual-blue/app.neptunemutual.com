@@ -4,18 +4,12 @@ import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 
 import { MyLiquidityCoverCard } from "@/common/Cover/MyLiquidity/MyLiquidityCoverCard";
-import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
-export const MyLiquidityPage = () => {
-  const {
-    data: { myLiquidities },
-    loading,
-  } = useMyLiquidities();
-
+export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className="py-16">
       <div className="flex justify-end">
