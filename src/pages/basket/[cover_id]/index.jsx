@@ -29,11 +29,15 @@ export default function BasketsCoverpool({ disabled }) {
         />
       </Head>
       <HomeHero
-        title={`${Router.query.cover_id} mock title`}
+        title={`${Router.query.cover_id}`}
         heroContainerClass="!pt-0"
         breadcrumbs={[
           { name: t`Baskets`, href: "/basket", current: false },
-          { name: t`Foobar`, href: "/basket/foobar", current: true },
+          {
+            name: Router.query.cover_id,
+            href: `/basket/${Router.query.cover_id}`,
+            current: true,
+          },
         ]}
       />
       <ProductsGrid />

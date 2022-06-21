@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -11,56 +9,37 @@ import {
   renderDescriptionTranslation,
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { actions } from "@/src/config/cover/actions";
-
-const coverActions = {
-  purchase: {
-    ...actions.purchase,
-  },
-  report: {
-    ...actions.report,
-  },
-};
+import { actions as coverActions } from "@/src/config/cover/actions";
+import { useFetchProductInfo } from "@/src/hooks/useFetchProductInfo";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { product_id, cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
 
-  if (!coverInfo) {
+  const product = useFetchProductInfo(coverKey, productKey);
+
+  if (!product) {
     return <Trans>loading...</Trans>;
   }
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = coverInfo?.coverName;
-
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">
-      <div className="px-4 mx-auto max-w-7xl sm:px-5 md:px-4">
-        <CoverProfileInfoShort
-          imgSrc={imgSrc}
-          title={title}
-          className="mb-7 lg:mb-28"
-          fontSizeClass="text-h7 md:text-h4"
-        />
-      </div>
       <Container className="pb-16">
         <h2 className="mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12">
           <Trans>I Want to</Trans>
         </h2>
-        <div className="container grid grid-cols-2 gap-4 mx-auto mb-6 lg:gap-12 justify-items-center md:mb-8 lg:mb-14">
+        <div className="container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14">
           {Object.entries(coverActions).map(
             ([actionKey, { title, description, imgSrc, smImgSrc, action }]) => {
+              const href =
+                action === "active"
+                  ? "/my-policies/active"
+                  : `/covers/${cover_id}/${product_id}/${action}`;
               return (
-                <Link
-                  key={actionKey}
-                  href={`/covers/${cover_id}/${product_id}/${action}`}
-                >
+                <Link key={actionKey} href={href}>
                   <a
                     data-testid="cover-option-actions"
                     className={classNames(
