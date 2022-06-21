@@ -54,7 +54,6 @@ export const useFetchCovers = (type = "standalone") => {
   const { networkId } = useNetwork();
   const { getIpfsByHash, updateIpfsData } = useIpfs();
   const { data: graphData, refetch } = useQuery();
-  console.log("type", type);
 
   useEffect(() => {
     let ignore = false;
