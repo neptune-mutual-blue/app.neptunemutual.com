@@ -75,7 +75,7 @@ export const ActiveReportSummary = ({
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
         <div className="flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-h3 font-sora">
+          <h2 className="mb-6 font-bold text-center text-h3 font-sora lg:text-left">
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -105,14 +105,16 @@ export const ActiveReportSummary = ({
                 resolvableTill={resolvableTill}
                 refetchReport={refetchReport}
               />
-            ) : (
-              <CastYourVote incidentReport={incidentReport} />
+            ) : (// hidden in mobile
+              <div className="hidden md:block"> 
+                <CastYourVote incidentReport={incidentReport} />
+              </div>
             )}
           </>
         </div>
 
         {/* Right half */}
-        <div className="p-6 pt-0 lg:p-10 sn:pt-6">
+        <div className="p-6 pt-0 lg:p-10 sm:pt-6">
           <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
           <InsightsTable
             insights={[

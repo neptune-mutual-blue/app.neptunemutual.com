@@ -14,17 +14,22 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
+  const router = useRouter();
+  const { product_id } = router.query;
+  const productKey = safeFormatBytes32String(product_id || "");
   const { finalize, finalizing } = useFinalizeIncident({
-    coverKey: incidentReport.key,
+    coverKey: incidentReport.coverKey,
+    productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
   const { capitalize, capitalizing } = useCapitalizePool({
-    coverKey: incidentReport.key,
+    coverKey: incidentReport.coverKey,
+    productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const router = useRouter();
   const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
@@ -66,7 +71,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
         <div className="flex-1 p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-h3 font-sora">
+          <h2 className="mb-6 font-bold text-center text-h3 font-sora lg:text-left">
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -212,8 +217,6 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
             </>
           )}
         </div>
-
-        <></>
       </OutlinedCard>
     </>
   );

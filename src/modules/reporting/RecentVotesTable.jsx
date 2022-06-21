@@ -83,7 +83,7 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className="mb-6 font-bold text-h4 font-sora mt-14">
+      <h3 className="mb-6 font-bold text-center text-h4 font-sora mt-14 md:text-left">
         <Trans>Recent Votes</Trans>
       </h3>
 

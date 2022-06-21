@@ -19,7 +19,7 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { t } from "@lingui/macro";
 
-export const useReportIncident = ({ coverKey, value }) => {
+export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter();
 
   const [approving, setApproving] = useState(false);
@@ -104,6 +104,7 @@ export const useReportIncident = ({ coverKey, value }) => {
       const wrappedResult = await governance.report(
         networkId,
         coverKey,
+        productKey,
         payload,
         signerOrProvider
       );

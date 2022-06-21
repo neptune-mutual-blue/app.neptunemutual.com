@@ -46,7 +46,8 @@ export const useResolvedReportings = () => {
             }
           ) {
             id
-            key
+            coverKey
+            productKey
             incidentDate
             resolutionDeadline
             resolved

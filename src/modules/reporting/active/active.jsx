@@ -90,7 +90,7 @@ export const ReportingActivePage = () => {
 
   return (
     <Container className={"pt-16 pb-36"}>
-      <div className="flex justify-end">
+      <div className="flex sm:justify-end">
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={(event) => {
@@ -99,6 +99,8 @@ export const ReportingActivePage = () => {
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
+          containerClass='flex-col sm:flex-row w-full sm:w-auto'
+          searchClass='w-full sm:w-auto'
         />
       </div>
 
@@ -122,13 +124,13 @@ function Content({ data, loading, hasMore, handleShowMore }) {
               <Link
                 href={`/reporting/${safeParseBytes32String(
                   report.id.split("-")[0]
-                )}/${report.id.split("-")[1]}/details`}
+                )}/${report.incidentDate}/details`}
                 key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <ActiveReportingCard
                     id={report.id}
-                    coverKey={report.key}
+                    coverKey={report.coverKey}
                     incidentDate={report.incidentDate}
                   />
                 </a>
