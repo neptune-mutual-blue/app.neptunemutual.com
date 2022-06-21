@@ -192,11 +192,11 @@ export const usePurchasePolicy = ({
         cleanup();
       };
 
-      const productKeys = productKey || utils.keyUtil.toBytes32("");
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [
         account, // onBehalfOf
         coverKey,
-        productKeys,
+        productKeyArg,
         parseInt(coverMonth, 10),
         convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
         utils.keyUtil.toBytes32(""), // referral code

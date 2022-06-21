@@ -1,17 +1,57 @@
 import { MULTIPLIER } from "@/src/config/constants";
-import { ethers } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
 import { consensus } from "../../../store-keys";
 
-export const getKeys = async (key, account, incidentDate) => {
+export const getKeys = async (coverKey, productKey, account, incidentDate) => {
   return [
-    consensus.coverStatusOf(key, incidentDate, "decision"),
-    consensus.totalStakeIncidentOccurred(key, incidentDate, "yes"),
-    consensus.totalStakeFalseReporting(key, incidentDate, "no"),
-    consensus.myStakeIncidentOccurred(key, incidentDate, account, "myYes"),
-    consensus.myStakeFalseReporting(key, incidentDate, account, "myNo"),
-    consensus.myUnstakenAmount(key, incidentDate, account, "unstaken"),
-    consensus.myRewardsUnstaken(key, incidentDate, account, "rewardsUnstaken"),
-    consensus.latestIncidentDate(key, "latestIncidentDate"),
+    consensus.coverStatusOf(coverKey, incidentDate, "decision"),
+    consensus.coverProductStatusOf(
+      coverKey,
+      productKey,
+      incidentDate,
+      "decision"
+    ),
+    consensus.totalStakeIncidentOccurred(
+      coverKey,
+      productKey,
+      incidentDate,
+      "yes"
+    ),
+    consensus.totalStakeFalseReporting(
+      coverKey,
+      productKey,
+      incidentDate,
+      "no"
+    ),
+    consensus.myStakeIncidentOccurred(
+      coverKey,
+      productKey,
+      incidentDate,
+      account,
+      "myYes"
+    ),
+    consensus.myStakeFalseReporting(
+      coverKey,
+      productKey,
+      incidentDate,
+      account,
+      "myNo"
+    ),
+    consensus.myUnstakenAmount(
+      coverKey,
+      productKey,
+      incidentDate,
+      account,
+      "unstaken"
+    ),
+    consensus.myRewardsUnstaken(
+      coverKey,
+      productKey,
+      incidentDate,
+      account,
+      "rewardsUnstaken"
+    ),
+    consensus.latestIncidentDate(coverKey, productKey, "latestIncidentDate"),
     consensus.stakeForfeitBurnRate("burnRate"),
     consensus.stakeForfeitReporterComissionRate("reporterCommission"),
     {
@@ -77,7 +117,7 @@ export const getKeys = async (key, account, incidentDate) => {
         } = result;
 
         if (latestIncidentDate.toString() !== incidentDate.toString()) {
-          return ethers.BigNumber.from("0");
+          return BigNumber.from("0");
         }
 
         if (totalStakeInWinningCamp.eq("0")) {

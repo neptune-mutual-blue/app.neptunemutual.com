@@ -20,6 +20,7 @@ export default function CoverAddLiquidityDetails({ disabled }) {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String("");
 
   if (disabled) {
     return <ComingSoon />;
@@ -35,7 +36,7 @@ export default function CoverAddLiquidityDetails({ disabled }) {
         />
       </Head>
 
-      <CoverStatsProvider coverKey={coverKey}>
+      <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
         <LiquidityFormsProvider coverKey={coverKey}>
           <CoverAddLiquidityDetailsPage />
         </LiquidityFormsProvider>

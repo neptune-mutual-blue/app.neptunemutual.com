@@ -18,8 +18,8 @@ import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useFetchCovers } from "@/src/hooks/useFetchCovers";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -27,11 +27,18 @@ export const CoverPurchaseDetailsPage = () => {
   const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
-
   const { info } = useMyLiquidityInfo({ coverKey });
+
+  const isBasket = Boolean(product_id);
+  const { getInfoByKey, getBasketInfoByKey } = useFetchCovers(
+    isBasket ? "basket" : "standalone"
+  );
+
+  const coverInfo = !isBasket
+    ? getInfoByKey(coverKey)
+    : getBasketInfoByKey(coverKey, productKey);
+
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
@@ -60,7 +67,9 @@ export const CoverPurchaseDetailsPage = () => {
               { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.coverName,
-                href: `/cover/${cover_id}/options`,
+                href: !isBasket
+                  ? `/cover/${cover_id}/options`
+                  : `/cover/${cover_id}/${product_id}/options`,
                 current: false,
               },
               { name: t`Purchase Policy`, current: true },
@@ -98,7 +107,10 @@ export const CoverPurchaseDetailsPage = () => {
             </span>
             {acceptedRules ? (
               <div className="mt-12">
-                <PurchasePolicyForm coverKey={coverKey} />
+                <PurchasePolicyForm
+                  coverKey={coverKey}
+                  productKey={productKey}
+                />
               </div>
             ) : (
               <>
