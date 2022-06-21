@@ -22,6 +22,10 @@ const defaultInfo = {
 };
 
 const fetchBondInfoApi = async (networkId, account) => {
+  if (!networkId) {
+    return;
+  }
+
   const response = await fetch(
     getReplacedString(BOND_INFO_URL, { networkId, account }),
     {
@@ -54,33 +58,11 @@ const fetchBondInfoApi = async (networkId, account) => {
 
 export const useBondInfo = () => {
   const [info, setInfo] = useState(defaultInfo);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
-
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchInitialInfo = async () => {
-      try {
-        const data = await fetchBondInfoApi(networkId, ADDRESS_ONE);
-        if (ignore || !data) return;
-        setInfo(data);
-        setIsInitialized(true);
-      } catch (error) {
-        console.log("Error getting bond info from API");
-      }
-    };
-
-    fetchInitialInfo();
-
-    return () => {
-      ignore = true;
-    };
-  }, [networkId]);
 
   const fetchBondInfo = useCallback(
     async (onResult) => {
@@ -143,19 +125,29 @@ export const useBondInfo = () => {
   useEffect(() => {
     let ignore = false;
 
+    if (!account) {
+      // If wallet is not connected, get data from API
+      fetchBondInfoApi(networkId, ADDRESS_ONE)
+        .then((data) => {
+          if (ignore || !data) return;
+          setInfo(data);
+        })
+        .catch(console.error);
+      return;
+    }
+
+    // If wallet is connected, get data from provider
     const onResult = (_info) => {
-      if (ignore) return;
-      setInfo(_info || defaultInfo);
+      if (ignore || !_info) return;
+      setInfo(_info);
     };
 
-    if (isInitialized && account) {
-      fetchBondInfo(onResult).catch(console.error);
-    }
+    fetchBondInfo(onResult).catch(console.error);
 
     return () => {
       ignore = true;
     };
-  }, [account, fetchBondInfo, isInitialized]);
+  }, [account, fetchBondInfo, networkId]);
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {
