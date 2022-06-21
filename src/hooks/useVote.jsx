@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import {
   convertToUnits,
   isGreater,
@@ -19,7 +19,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 
-export const useVote = ({ coverKey, value, incidentDate }) => {
+export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
   const [approving, setApproving] = useState(false);
   const [voting, setVoting] = useState(false);
 
@@ -128,10 +128,10 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         cleanup();
       };
 
-      const productKey = null;
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [
         coverKey,
-        productKey,
+        productKeyArg,
         incidentDate,
         convertToUnits(value).toString(),
       ];
@@ -187,10 +187,10 @@ export const useVote = ({ coverKey, value, incidentDate }) => {
         cleanup();
       };
 
-      const productKey = null;
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [
         coverKey,
-        productKey,
+        productKeyArg,
         incidentDate,
         convertToUnits(value).toString(),
       ];

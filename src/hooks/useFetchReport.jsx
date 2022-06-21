@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 
-export const useFetchReport = ({ coverKey, incidentDate }) => {
+export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
@@ -14,7 +14,7 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
       return;
     }
 
-    const reportId = `${coverKey}-${incidentDate}`;
+    const reportId = `${coverKey}-${productKey}-${incidentDate}`;
     const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
@@ -32,10 +32,10 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
         query: `
         {
           incidentReport(
-            id: "${reportId}"
+              id: "${reportId}"
           ) {
             id
-            key
+            coverKey
             incidentDate
             resolutionDeadline
             resolved
@@ -88,7 +88,7 @@ export const useFetchReport = ({ coverKey, incidentDate }) => {
       return () => {
         ignore = true;
       };
-  }, [coverKey, incidentDate, networkId]);
+  }, [coverKey, incidentDate, networkId, productKey]);
 
   useEffect(() => {
     fetchApi();

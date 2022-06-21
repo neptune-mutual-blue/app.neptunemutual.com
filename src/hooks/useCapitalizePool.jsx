@@ -5,11 +5,11 @@ import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { t } from "@lingui/macro";
 
-export const useCapitalizePool = ({ coverKey, incidentDate }) => {
+export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
   const [capitalizing, setCapitalizing] = useState(false);
 
   const { account, library } = useWeb3React();
@@ -60,8 +60,8 @@ export const useCapitalizePool = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const productKey = null;
-      const args = [coverKey, productKey, incidentDate];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
+      const args = [coverKey, productKeyArg, incidentDate];
       invoke({
         instance,
         methodName: "capitalizePool",

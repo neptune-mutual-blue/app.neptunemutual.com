@@ -24,6 +24,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
 
   const { data, loading, refetch } = useFetchReport({
     coverKey: coverKey,
+    productKey: productKey,
     incidentDate: timestamp,
   });
 

@@ -56,7 +56,7 @@ export const ReportingResolvedPage = () => {
     list: incidentReports.map((report) => {
       return {
         ...report,
-        info: getInfoByKey(report.key),
+        info: getInfoByKey(report.coverKey),
         ...getStatsByKey(report.id),
       };
     }),
@@ -104,6 +104,8 @@ export const ReportingResolvedPage = () => {
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
+          containerClass='flex-col sm:flex-row w-full sm:w-auto'
+          searchClass='w-full sm:w-auto'
         />
       </div>
 
@@ -137,7 +139,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <ResolvedReportingCard
                     id={report.id}
-                    coverKey={report.key}
+                    coverKey={report.coverKey}
                     resolvedOn={resolvedOn}
                     status={ReportStatus[report.status]}
                   />
@@ -171,7 +173,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   }
 
   return (
-    <p className="text-center">
+    <p className="p-5 text-center">
       <Trans>No data found</Trans>
     </p>
   );
