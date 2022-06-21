@@ -51,7 +51,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
 
       invoke({
         instance,
-        methodName: "getFirstReportingStake(bytes32)",
+        methodName: "getFirstReportingStake",
         args: [coverKey],
         onTransactionResult,
         onRetryCancel,
