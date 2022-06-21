@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 
-import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
+import { CoverPurchaseDetailsPage } from "@/src/modules/basket/purchase";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";

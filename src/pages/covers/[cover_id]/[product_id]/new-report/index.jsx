@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ComingSoon } from "@/common/ComingSoon";
-import { NewIncidentReportPage } from "@/modules/reporting/new";
+import { NewIncidentReportPage } from "@/modules/basket/new";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";

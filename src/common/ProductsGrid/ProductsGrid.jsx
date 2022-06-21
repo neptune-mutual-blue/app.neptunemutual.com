@@ -6,17 +6,24 @@ import { Grid } from "@/common/Grid/Grid";
 import { CoverCard } from "@/common/Cover/CoverCard";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { NeutralButton } from "@/common/Button/NeutralButton";
-import { useCovers } from "@/src/context/Covers";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { Trans } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import {
+  safeFormatBytes32String,
+  safeParseBytes32String,
+} from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useRouter } from "next/router";
+import { useFetchBasketProducts } from "@/src/hooks/useFetchBasketProducts.js";
 
 /**
+ *
+ * @typedef {import('@/src/services/contracts/getBasketProducts').IProduct} IProduct
+ *
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
@@ -35,23 +42,32 @@ const sorterData = {
 };
 
 export const ProductsGrid = () => {
-  const { covers: availableCovers, loading } = useCovers();
   const { getStatsByKey } = useSortableStats();
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
 
+  const {
+    query: { cover_id },
+  } = useRouter();
+
+  const { products, loading } = useFetchBasketProducts(
+    safeFormatBytes32String(cover_id)
+  );
+
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: availableCovers.map((cover) => ({
+    list: products.map((cover) => ({
       ...cover,
-      ...getStatsByKey(cover.key),
+      ...getStatsByKey(cover.coverKey),
     })),
     filter: (item, term) => {
-      return toStringSafe(item.projectName).indexOf(toStringSafe(term)) > -1;
+      return (
+        toStringSafe(item.ipfsData.productName).indexOf(toStringSafe(term)) > -1
+      );
     },
   });
 
-  const sortedCovers = useMemo(
+  const sortedProducts = useMemo(
     () =>
       sorter({
         ...sorterData[sortType.name],
@@ -85,41 +101,79 @@ export const ProductsGrid = () => {
           setSortType={setSortType}
         />
       </div>
-      <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
-        {loading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
-        {!loading && availableCovers.length === 0 && (
-          <p data-testid="no-data">No data found</p>
-        )}
-        {sortedCovers.map((c, idx) => {
-          if (idx > showCount - 1) return;
-          return (
-            <Link
-              href={`/cover/${safeParseBytes32String(c.key)}/options`}
-              key={c.key}
-            >
-              <a
-                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-                data-testid="cover-link"
-              >
-                <CoverCard
-                  details={c}
-                  progressFgColor="bg-4e7dd9"
-                  progressBgColor="bg-4e7dd9/10"
-                />
-              </a>
-            </Link>
-          );
-        })}
-      </Grid>
-      {sortedCovers.length > showCount && (
-        <NeutralButton
-          className={"rounded-lg border-0.5"}
-          onClick={handleShowMore}
-          data-testid="show-more-button"
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
-      )}
+      <Content
+        data={sortedProducts.slice(0, showCount)}
+        loading={loading}
+        hasMore={false}
+        handleShowMore={handleShowMore}
+      />
     </Container>
   );
 };
+
+/**
+ *
+ * @param {{
+ * data: IProduct[];
+ * loading: boolean;
+ * hasMore: boolean;
+ * handleShowMore: function;
+ * }}
+ */
+function Content({ data, loading, hasMore, handleShowMore }) {
+  if (data.length) {
+    return (
+      <>
+        <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
+          {data.map(({ id, coverKey, productKey, ipfsData }) => {
+            const productName = safeParseBytes32String(productKey);
+            const details = {
+              projectName: ipfsData.productName,
+              key: productName,
+              pricingFloor: 0,
+              pricingCeiling: 0,
+            };
+            return (
+              <Link
+                href={`/covers/${safeParseBytes32String(
+                  coverKey
+                )}/${safeParseBytes32String(productName)}/options`}
+                key={id}
+              >
+                <a
+                  className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+                  data-testid="cover-link"
+                >
+                  <CoverCard
+                    details={details}
+                    progressFgColor="bg-4e7dd9"
+                    progressBgColor="bg-4e7dd9/10"
+                  />
+                </a>
+              </Link>
+            );
+          })}
+        </Grid>
+        {!loading && hasMore && (
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+            data-testid="show-more-button"
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
+        )}
+      </>
+    );
+  }
+
+  if (loading) {
+    return (
+      <Grid className="mb-24 mt-14" data-testid="loading-grid">
+        <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+      </Grid>
+    );
+  }
+
+  return <p data-testid="no-data">No data found</p>;
+}

@@ -1,7 +1,7 @@
 export const mockBasketData = [
   {
     id: "111111111111111111",
-    key: "0x65786368616e6765732d64656669000000000000000000000000000000000000",
+    key: "0x6465666900000000000000000000000000000000000000000000000000000000",
     name: "Exchanges Defi",
     utilization: "0.65",
     status: "Incident Happened",
@@ -32,7 +32,7 @@ export const mockBasketData = [
   },
   {
     id: "111111111111111112",
-    key: "0x6d65746176657273652d616e642d67616d657300000000000000000000000000",
+    key: "0x7072696d65000000000000000000000000000000000000000000000000000000",
     name: "Metaverse and Games",
     utilization: "0.65",
     status: "Incident Happened",

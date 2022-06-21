@@ -1,5 +1,13 @@
 import { useState } from "react";
 
+/**
+ * @template T
+ *
+ * @param  {{
+ * list: T[],
+ * filter: (item: T, search: string) => boolean
+ * }} param
+ */
 export const useSearchResults = ({ list, filter }) => {
   const [searchValue, setSearchValue] = useState("");
 

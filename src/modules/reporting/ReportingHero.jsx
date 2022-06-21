@@ -34,7 +34,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
         { name: t`Home`, href: "/", current: false },
         {
           name: coverInfo?.coverName,
-          href: `/cover/${cover_id}/options`,
+          href: product_id
+            ? `/covers/${cover_id}/${product_id}/options`
+            : `/covers/${cover_id}/options`,
           current: false,
         },
         { name: t`Reporting`, current: true },
