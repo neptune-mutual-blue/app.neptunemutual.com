@@ -35,7 +35,7 @@ export default function CoverPurchaseDetails({ disabled }) {
         />
       </Head>
 
-      <CoverStatsProvider coverKey={coverKey}>
+      <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
         <CoverPurchaseDetailsPage />
       </CoverStatsProvider>
     </>

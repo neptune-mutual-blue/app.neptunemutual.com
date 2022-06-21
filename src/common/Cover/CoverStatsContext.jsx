@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 const defaultStats = {
   activeIncidentDate: "0",
@@ -17,7 +16,7 @@ const defaultStats = {
 
 const CoverStatsContext = createContext(defaultStats);
 
-export const CoverStatsProvider = ({ coverKey, children }) => {
+export const CoverStatsProvider = ({ coverKey, productKey, children }) => {
   const {
     activeIncidentDate,
     claimPlatformFee,
@@ -29,7 +28,7 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
     status,
     totalPoolAmount,
     availableLiquidity,
-  } = useFetchCoverStats({ coverKey, productKey: safeFormatBytes32String("") });
+  } = useFetchCoverStats({ coverKey, productKey });
 
   return (
     <CoverStatsContext.Provider
