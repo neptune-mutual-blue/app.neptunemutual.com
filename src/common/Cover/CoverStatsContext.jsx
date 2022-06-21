@@ -36,20 +36,6 @@ export const CoverStatsProvider = ({ coverKey, productKey, children }) => {
     productKey: productKey || safeFormatBytes32String(""),
   });
 
-  console.log({
-    activeIncidentDate,
-    claimPlatformFee,
-    activeCommitment,
-    isUserWhitelisted,
-    reporterCommission,
-    reportingPeriod,
-    requiresWhitelist,
-    coverStatus,
-    productStatus,
-    totalPoolAmount,
-    availableLiquidity,
-  });
-
   return (
     <CoverStatsContext.Provider
       value={{

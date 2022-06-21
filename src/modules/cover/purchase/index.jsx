@@ -30,18 +30,14 @@ export const CoverPurchaseDetailsPage = () => {
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const { info } = useMyLiquidityInfo({ coverKey });
 
-  const isBasket = typeof product_id !== "undefined" ? true : false;
+  const isBasket = Boolean(product_id);
   const { getInfoByKey, getBasketInfoByKey } = useFetchCovers(
     isBasket ? "basket" : "standalone"
   );
 
-  let coverInfo;
-  if (!isBasket) {
-    coverInfo = getInfoByKey(coverKey);
-  }
-  if (isBasket) {
-    coverInfo = getBasketInfoByKey(coverKey, productKey);
-  }
+  const coverInfo = !isBasket
+    ? getInfoByKey(coverKey)
+    : getBasketInfoByKey(coverKey, productKey);
 
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
