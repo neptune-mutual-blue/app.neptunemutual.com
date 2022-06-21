@@ -22,6 +22,10 @@ describe("Get Address", () => {
     const expected = {
       NPMTokenAddress,
       liquidityTokenAddress,
+      NPMTokenDecimals: 18,
+      NPMTokenSymbol: "NPM",
+      liquidityTokenDecimals: 6,
+      liquidityTokenSymbol: "DAI",
     };
 
     expect(result).toStrictEqual(expected);

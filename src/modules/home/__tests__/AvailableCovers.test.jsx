@@ -125,7 +125,7 @@ describe("AvailableCovers test", () => {
   });
 
   test("should render correct cover link href", () => {
-    const href = `/cover/${safeParseBytes32String(
+    const href = `/covers/${safeParseBytes32String(
       availableCovers[0].key
     )}/options`;
     const link = screen.getAllByTestId("cover-link")[0];

@@ -89,14 +89,14 @@ describe("My Liquidity", () => {
       i18n.activate("en");
       ReactDOM.render(<Component />, container);
     });
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(9));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
   });
 
   describe("My Liquidity cards", () => {
-    test("Cards should be 4", () => {
+    test("Cards should be 2", () => {
       const liquidityCards = select(container, SELECTION.CARD);
 
-      expect(liquidityCards.length).toEqual(4);
+      expect(liquidityCards.length).toEqual(2);
     });
 
     test("No empty Title", () => {
@@ -104,7 +104,7 @@ describe("My Liquidity", () => {
 
       const emptyValues = titleValues.filter((title) => title.length === 0);
 
-      expect(titleValues.length).toEqual(4);
+      expect(titleValues.length).toEqual(2);
       expect(emptyValues.length).toEqual(0);
     });
 
@@ -115,7 +115,7 @@ describe("My Liquidity", () => {
         .map(Number)
         .filter((value) => value === 0);
 
-      expect(assuranceValues.length).toEqual(4);
+      expect(assuranceValues.length).toEqual(2);
       expect(zeroValues.length).toEqual(0);
     });
 
@@ -126,7 +126,7 @@ describe("My Liquidity", () => {
         .map(Number)
         .filter((value) => value === 0);
 
-      expect(liquidityValues.length).toEqual(4);
+      expect(liquidityValues.length).toEqual(2);
       expect(zeroValues.length).toEqual(0);
     });
   });

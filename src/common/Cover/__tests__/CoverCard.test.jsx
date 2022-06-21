@@ -69,6 +69,8 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   return formatPercent(utilization, "en");
 };
 
+const liquidityTokenDecimals = 6;
+
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
 };
@@ -179,7 +181,10 @@ describe("CoverCard component", () => {
       const liquidityEl = screen.getByTestId("liquidity");
       const liquidityText = `Liquidity: ${
         formatCurrency(
-          convertFromUnits(mockLiquidityInfo.totalLiquidity).toString(),
+          convertFromUnits(
+            mockLiquidityInfo.totalLiquidity,
+            liquidityTokenDecimals
+          ).toString(),
           "en"
         ).short
       }`;
@@ -190,7 +195,10 @@ describe("CoverCard component", () => {
     test("should have correct title text", () => {
       const liquidityEl = screen.getByTestId("liquidity");
       const titleText = formatCurrency(
-        convertFromUnits(mockLiquidityInfo.totalLiquidity).toString(),
+        convertFromUnits(
+          mockLiquidityInfo.totalLiquidity,
+          liquidityTokenDecimals
+        ).toString(),
         "en"
       ).long;
       expect(liquidityEl).toHaveAttribute("title", titleText);

@@ -9,6 +9,8 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
 
+const liquidityTokenDecimals = 6;
+
 const protocolDayData = [
   {
     date: 1649980800,
@@ -111,7 +113,10 @@ describe("Hero test", () => {
   test("should render correct total liquidity value", () => {
     const changeData = getChangeData(protocolDayData);
     const currencyText = formatCurrency(
-      convertFromUnits(changeData?.last || "0").toString(),
+      convertFromUnits(
+        changeData?.last || "0",
+        liquidityTokenDecimals
+      ).toString(),
       "en"
     ).short;
     const wrapper = screen.getByTestId("changedata-currency");
