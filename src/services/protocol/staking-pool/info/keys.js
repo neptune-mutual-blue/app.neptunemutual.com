@@ -1,4 +1,5 @@
-import { ethers } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { BigNumber } from "@ethersproject/bignumber";
 import { config } from "@neptunemutual/sdk";
 import { registry, stakingPools } from "../../../store-keys";
 
@@ -39,7 +40,7 @@ export const getKeys = async (chainId, poolKey, account, provider) => {
           return lastRewardHeight;
         }
 
-        return ethers.BigNumber.from(blockNumber).sub(lastRewardHeight);
+        return BigNumber.from(blockNumber).sub(lastRewardHeight);
       },
     },
     {
@@ -55,10 +56,10 @@ export const getKeys = async (chainId, poolKey, account, provider) => {
         } = result;
 
         if (totalBlockSinceLastReward.eq("0")) {
-          return ethers.BigNumber.from("0");
+          return BigNumber.from("0");
         }
 
-        const rewardTokenInstance = new ethers.Contract(
+        const rewardTokenInstance = new Contract(
           rewardToken,
           config.abis.IERC20,
           provider

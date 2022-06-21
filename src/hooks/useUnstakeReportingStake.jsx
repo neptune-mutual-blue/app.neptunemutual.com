@@ -1,3 +1,5 @@
+import { Contract } from "@ethersproject/contracts";
+
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
@@ -6,11 +8,11 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useState } from "react";
-import { ethers } from "ethers";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 import { getReplacedString } from "@/utils/string";
 import { UNSTAKE_INFO_URL } from "@/src/config/constants";
+import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
 
 const defaultInfo = {
   yes: "0",
@@ -31,7 +33,11 @@ const defaultInfo = {
   willReceive: "0",
 };
 
-export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
+export const useUnstakeReportingStake = ({
+  coverKey,
+  productKey,
+  incidentDate,
+}) => {
   const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
@@ -43,30 +49,49 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
   const [unstaking, setUnstaking] = useState(false);
 
   const fetchInfo = useCallback(async () => {
-    if (!networkId || !account) {
+    if (!networkId || !coverKey) {
       return;
     }
 
-    const response = await fetch(
-      getReplacedString(UNSTAKE_INFO_URL, {
+    let data;
+    if (account) {
+      // Get data from provider if wallet's connected
+      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      data = await getUnstakeInfoFor(
         networkId,
         coverKey,
+        productKey,
         account,
         incidentDate,
-      }),
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-      }
-    );
+        signerOrProvider.provider
+      );
+    } else {
+      // Get data from API if wallet's not connected
+      const response = await fetch(
+        getReplacedString(UNSTAKE_INFO_URL, {
+          networkId,
+          coverKey,
+          account,
+          incidentDate,
+        }),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+        }
+      );
 
-    const { data } = await response.json();
+      if (!response.ok) {
+        return;
+      }
+
+      data = (await response.json()).data;
+    }
 
     return data;
-  }, [account, coverKey, incidentDate, networkId]);
+  }, [networkId, coverKey, account, library, productKey, incidentDate]);
 
   useEffect(() => {
     let ignore = false;
@@ -165,7 +190,7 @@ export const useUnstakeReportingStake = ({ coverKey, incidentDate }) => {
         signerOrProvider
       );
 
-      const resolutionContract = new ethers.Contract(
+      const resolutionContract = new Contract(
         resolutionContractAddress,
         ["function unstakeWithClaim(bytes32, uint256)"],
         signerOrProvider

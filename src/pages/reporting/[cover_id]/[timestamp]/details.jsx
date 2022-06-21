@@ -32,7 +32,7 @@ export default function IncidentResolvedCoverPage({ disabled }) {
   }
 
   return (
-    <CoverStatsProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>

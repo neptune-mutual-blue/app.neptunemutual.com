@@ -1,5 +1,5 @@
 import sdk from "@neptunemutual/sdk";
-import { ethers } from "ethers";
+import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
 import { registry } from "../../../store-keys";
 
 export const getMetadataKeys = () => {
@@ -88,7 +88,7 @@ export const getKeys = async (
       returns: "bool",
       fn: "getAddressBoolean",
       args: [
-        ethers.utils.solidityKeccak256(
+        solidityKeccak256(
           ["bytes32", "bytes32", "bytes32"],
           [
             sdk.utils.keyUtil.PROTOCOL.NS.COVER_USER_WHITELIST,

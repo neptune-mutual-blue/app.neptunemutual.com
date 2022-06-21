@@ -102,18 +102,28 @@ export const AvailableCovers = () => {
         )}
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
+
+          const cover_id = safeParseBytes32String(c.key);
+
+          const details = {
+            id: c.id,
+            projectName: c.projectName,
+            coverKey: c.coverKey,
+            productKey: c.productKey,
+            pricingFloor: c.pricingFloor,
+            pricingCeiling: c.pricingCeiling,
+          };
+
           return (
             <Link
-              href={`/${getBasePath(basePathArray)}/${safeParseBytes32String(
-                c.key
-              )}/options`}
-              key={c.key}
+              href={`/${getBasePath(basePathArray)}/${cover_id}/options`}
+              key={c.id}
             >
               <a
                 className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
                 data-testid="cover-link"
               >
-                <CoverCard details={c} />
+                <CoverCard details={details} />
               </a>
             </Link>
           );

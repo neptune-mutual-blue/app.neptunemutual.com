@@ -21,7 +21,7 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
 
-export const PurchasePolicyForm = ({ coverKey }) => {
+export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
 
   const [value, setValue] = useState("");
@@ -38,7 +38,6 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     liquidityTokenDecimals
   ).toString();
   const monthNames = getMonthNames(router.locale);
-  const productKey = null; // temporary init value, to be remove
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,

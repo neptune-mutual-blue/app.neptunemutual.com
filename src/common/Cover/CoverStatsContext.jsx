@@ -11,13 +11,14 @@ const defaultStats = {
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
-  status: "",
+  coverStatus: "",
+  productStatus: "",
   totalPoolAmount: "0",
 };
 
 const CoverStatsContext = createContext(defaultStats);
 
-export const CoverStatsProvider = ({ coverKey, children }) => {
+export const CoverStatsProvider = ({ coverKey, productKey, children }) => {
   const {
     activeIncidentDate,
     claimPlatformFee,
@@ -26,10 +27,28 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
     reporterCommission,
     reportingPeriod,
     requiresWhitelist,
-    status,
+    coverStatus,
+    productStatus,
     totalPoolAmount,
     availableLiquidity,
-  } = useFetchCoverStats({ coverKey, productKey: safeFormatBytes32String("") });
+  } = useFetchCoverStats({
+    coverKey,
+    productKey: productKey || safeFormatBytes32String(""),
+  });
+
+  console.log({
+    activeIncidentDate,
+    claimPlatformFee,
+    activeCommitment,
+    isUserWhitelisted,
+    reporterCommission,
+    reportingPeriod,
+    requiresWhitelist,
+    coverStatus,
+    productStatus,
+    totalPoolAmount,
+    availableLiquidity,
+  });
 
   return (
     <CoverStatsContext.Provider
@@ -42,7 +61,8 @@ export const CoverStatsProvider = ({ coverKey, children }) => {
         reportingPeriod,
         requiresWhitelist,
         availableLiquidity,
-        status,
+        coverStatus,
+        productStatus,
         totalPoolAmount,
       }}
     >

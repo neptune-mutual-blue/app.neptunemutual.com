@@ -24,7 +24,7 @@ export default function ReportingNewCoverPage({ disabled }) {
   }
 
   return (
-    <CoverStatsProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <NewIncidentReportPage />
     </CoverStatsProvider>
   );

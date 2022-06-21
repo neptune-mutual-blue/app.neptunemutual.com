@@ -52,7 +52,7 @@ export default function DisputeFormPage({ disabled }) {
     !reportingEnded && data?.incidentReport?.totalRefutedCount === "0";
 
   return (
-    <CoverStatsProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>

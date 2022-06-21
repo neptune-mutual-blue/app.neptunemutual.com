@@ -14,22 +14,29 @@ import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { utils } from "@neptunemutual/sdk";
 
 export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
   const router = useRouter();
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const { projectName, key, pricingFloor, pricingCeiling } = details;
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: key });
+  const {
+    id,
+    projectName,
+    coverKey,
+    productKey,
+    pricingFloor,
+    pricingCeiling,
+  } = details;
+  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { activeCommitment, status } = useFetchCoverStats({
-    coverKey: key,
-    productKey: safeFormatBytes32String(""),
+    coverKey: coverKey,
+    productKey: productKey || utils.keyUtil.toBytes32(""),
   });
 
-  const imgSrc = getCoverImgSrc({ key });
+  const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -39,11 +46,11 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
 
   // Used for sorting purpose only
   useEffect(() => {
-    setStatsByKey(key, {
+    setStatsByKey(id, {
       liquidity,
       utilization,
     });
-  }, [key, liquidity, setStatsByKey, utilization]);
+  }, [id, liquidity, setStatsByKey, utilization]);
 
   return (
     <OutlinedCard className="p-6 bg-white" type="link">

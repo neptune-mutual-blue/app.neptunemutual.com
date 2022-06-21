@@ -18,7 +18,8 @@ const defaultStats = {
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
-  status: "",
+  coverStatus: "",
+  productStatus: "",
   totalPoolAmount: "0",
   availableLiquidity: "0",
 };
@@ -89,7 +90,8 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
           reporterCommission: data.reporterCommission,
           reportingPeriod: data.reportingPeriod,
           requiresWhitelist: data.requiresWhitelist,
-          status: CoverStatus[data.status],
+          coverStatus: CoverStatus[data.coverStatus],
+          productStatus: CoverStatus[data.productStatus],
           totalPoolAmount: data.totalPoolAmount,
           availableLiquidity: data.availableLiquidity,
         });

@@ -19,6 +19,7 @@ export default function CoverPurchaseDetails({ disabled }) {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String("");
 
   if (disabled) {
     return <ComingSoon />;
@@ -34,7 +35,7 @@ export default function CoverPurchaseDetails({ disabled }) {
         />
       </Head>
 
-      <CoverStatsProvider coverKey={coverKey}>
+      <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
         <CoverPurchaseDetailsPage />
       </CoverStatsProvider>
     </>

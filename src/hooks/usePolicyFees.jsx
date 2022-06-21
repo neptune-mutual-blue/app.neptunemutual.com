@@ -81,11 +81,11 @@ export const usePolicyFees = ({
           config.abis.IPolicy
         );
 
-        const productKeys = productKey || utils.keyUtil.toBytes32("");
+        const productKeyArg = productKey || utils.keyUtil.toBytes32("");
 
         const getCoverFeeInfoCall = instance.getCoverFeeInfo(
           coverKey,
-          productKeys,
+          productKeyArg,
           parseInt(coverMonth, 10),
           convertToUnits(debouncedValue, liquidityTokenDecimals).toString()
         );

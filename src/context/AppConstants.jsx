@@ -45,7 +45,38 @@ export const AppConstantsProvider = ({ children }) => {
   useEffect(() => {
     if (!networkId) return;
     if (!account) {
-      getAddressesFromApi(networkId).then((result) => {
+      getAddressesFromApi(networkId)
+        .then((result) => {
+          if (!result) {
+            return;
+          }
+
+          const {
+            NPMTokenAddress,
+            liquidityTokenAddress,
+            NPMTokenDecimals,
+            NPMTokenSymbol,
+            liquidityTokenDecimals,
+            liquidityTokenSymbol,
+          } = result;
+
+          setData((prev) => ({
+            ...prev,
+            NPMTokenAddress,
+            liquidityTokenAddress,
+            NPMTokenDecimals,
+            NPMTokenSymbol,
+            liquidityTokenDecimals,
+            liquidityTokenSymbol,
+          }));
+        })
+        .catch(console.error);
+      return;
+    }
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+    getAddressesFromProvider(networkId, signerOrProvider)
+      .then((result) => {
         if (!result) {
           return;
         }
@@ -68,35 +99,8 @@ export const AppConstantsProvider = ({ children }) => {
           liquidityTokenDecimals,
           liquidityTokenSymbol,
         }));
-      });
-      return;
-    }
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
-
-    getAddressesFromProvider(networkId, signerOrProvider).then((result) => {
-      if (!result) {
-        return;
-      }
-
-      const {
-        NPMTokenAddress,
-        liquidityTokenAddress,
-        NPMTokenDecimals,
-        NPMTokenSymbol,
-        liquidityTokenDecimals,
-        liquidityTokenSymbol,
-      } = result;
-
-      setData((prev) => ({
-        ...prev,
-        NPMTokenAddress,
-        liquidityTokenAddress,
-        NPMTokenDecimals,
-        NPMTokenSymbol,
-        liquidityTokenDecimals,
-        liquidityTokenSymbol,
-      }));
-    });
+      })
+      .catch(console.error);
   }, [account, library, networkId]);
 
   return (

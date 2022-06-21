@@ -33,6 +33,8 @@ export default function ClaimPolicy({ disabled }) {
   const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String("");
+
   const { getInfoByKey } = useCovers();
   const coverInfo = getInfoByKey(coverKey);
   const { data, hasMore } = useActivePoliciesByCover({
@@ -55,11 +57,9 @@ export default function ClaimPolicy({ disabled }) {
     return <ComingSoon />;
   }
 
-  console.log({ data });
-
   const title = coverInfo.projectName;
   return (
-    <CoverStatsProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>

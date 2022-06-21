@@ -49,10 +49,9 @@ export const ProductsGrid = () => {
 
   const router = useRouter();
   const { cover_id } = router.query;
+  const coverKey = safeFormatBytes32String(cover_id);
 
-  const { products, loading } = useFetchBasketProducts(
-    safeFormatBytes32String(cover_id)
-  );
+  const { products, loading } = useFetchBasketProducts(coverKey);
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: products.map((cover) => ({
@@ -117,7 +116,7 @@ export const ProductsGrid = () => {
  * loading: boolean;
  * hasMore: boolean;
  * handleShowMore: function;
- * }}
+ * }} ContentProps
  */
 function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
@@ -125,20 +124,18 @@ function Content({ data, loading, hasMore, handleShowMore }) {
       <>
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {data.map(({ id, coverKey, productKey, ipfsData }) => {
-            const productName = safeParseBytes32String(productKey);
+            const product_id = safeParseBytes32String(productKey);
+            const cover_id = safeParseBytes32String(coverKey);
             const details = {
+              id,
               projectName: ipfsData.productName,
-              key: productName,
+              coverKey: coverKey,
+              productKey: productKey,
               pricingFloor: 0,
               pricingCeiling: 0,
             };
             return (
-              <Link
-                href={`/covers/${safeParseBytes32String(
-                  coverKey
-                )}/${safeParseBytes32String(productName)}/options`}
-                key={id}
-              >
+              <Link href={`/covers/${cover_id}/${product_id}/options`} key={id}>
                 <a
                   className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
                   data-testid="cover-link"

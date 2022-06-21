@@ -1,5 +1,6 @@
 import sdk from "@neptunemutual/sdk";
-import { ethers } from "ethers";
+import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
+import { BigNumber } from "@ethersproject/bignumber";
 import { registry } from "../../../store-keys";
 import { multicall } from "@neptunemutual/sdk";
 
@@ -118,7 +119,7 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
       property: "amountLentInStrategies",
       fn: "getUint",
       args: [
-        ethers.utils.solidityKeccak256(
+        solidityKeccak256(
           ["bytes32", "bytes32", "address"],
           [
             sdk.utils.keyUtil.PROTOCOL.NS.VAULT_STRATEGY_OUT,
@@ -134,7 +135,7 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
       property: "minStakeToAddLiquidity",
       compute: async ({ value }) => {
         if (value.toString() === "0") {
-          return ethers.utils.parseEther("250");
+          return BigNumber.from("10").pow(18).mul("250");
         }
 
         return value;
@@ -145,6 +146,8 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
       property: "myShare",
       compute: async ({ result }) => {
         const { vaultStablecoinBalance, myPodBalance, podTotalSupply } = result;
+
+        if (podTotalSupply.toString() === "0") return "0";
         return vaultStablecoinBalance.mul(myPodBalance).div(podTotalSupply);
       },
     },
@@ -158,6 +161,7 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
           myPodBalance,
           podTotalSupply,
         } = result;
+        if (podTotalSupply.toString() === "0") return "0";
         return vaultStablecoinBalance
           .add(amountLentInStrategies)
           .mul(myPodBalance)

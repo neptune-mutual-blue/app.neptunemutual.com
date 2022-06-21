@@ -23,7 +23,32 @@ const getQuery = () => {
 `;
 };
 
-export const useFetchCovers = () => {
+const getBasketQuery = () => {
+  return `
+  {
+    covers (
+      where: {
+        supportsProducts: true
+      }
+    ) {
+      id
+      coverKey
+      tokenName
+      tokenSymbol
+      ipfsHash
+      ipfsBytes
+      products{
+        id
+        productKey
+        ipfsHash
+        ipfsBytes
+      }
+    }
+  }
+`;
+};
+
+export const useFetchCovers = (type = "standalone") => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -64,17 +89,27 @@ export const useFetchCovers = () => {
 
     setLoading(true);
 
-    refetch(getQuery())
-      .catch(console.error)
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
+    if (type === "standalone") {
+      refetch(getQuery())
+        .catch(console.error)
+        .finally(() => {
+          if (ignore) return;
+          setLoading(false);
+        });
+    }
+    if (type === "basket") {
+      refetch(getBasketQuery())
+        .catch(console.error)
+        .finally(() => {
+          if (ignore) return;
+          setLoading(false);
+        });
+    }
 
     return () => {
       ignore = true;
     };
-  }, [refetch]);
+  }, [refetch, type]);
 
   const getInfoByKey = useCallback(
     (coverKey) => {
@@ -114,15 +149,68 @@ export const useFetchCovers = () => {
     [data, getIpfsByHash]
   );
 
-  // TODO: remove this
-  const finalData = useMemo(
-    () => data.map((x) => getInfoByKey(x.coverKey)),
-    [data, getInfoByKey]
+  const getBasketInfoByKey = useCallback(
+    (coverKey, productKey) => {
+      const _cover = data.find((x) => x.coverKey === coverKey);
+      const _product = _cover?.["products"].find(
+        (p) => p.productKey === productKey
+      );
+
+      if (!_cover && !_product) {
+        return null;
+      }
+
+      let coverIpfsData =
+        _cover.ipfsData || getIpfsByHash(_cover.ipfsHash) || {};
+
+      let productIpfsData =
+        _product.ipfsData || getIpfsByHash(_product.ipfsHash) || {};
+
+      try {
+        coverIpfsData = JSON.parse(toUtf8String(_cover.ipfsBytes));
+        productIpfsData = JSON.parse(toUtf8String(_product.ipfsBytes));
+      } catch (err) {
+        console.log("[info] Could not parse ipfs bytes", _product.productKey);
+      }
+
+      return {
+        key: _product.productKey || "",
+        coverName: productIpfsData.productName || "",
+        projectName: productIpfsData.productName || "",
+        tags: productIpfsData.tags || [],
+        about: productIpfsData.about || "",
+        rules: productIpfsData.rules || "",
+        links: productIpfsData.links || {},
+        pricingFloor: coverIpfsData.pricingFloor || "0",
+        pricingCeiling: coverIpfsData.pricingCeiling || "0",
+        reportingPeriod: coverIpfsData.reportingPeriod || 0,
+        cooldownPeriod: coverIpfsData.cooldownPeriod || 0,
+        claimPeriod: coverIpfsData.claimPeriod || 0,
+        minReportingStake: coverIpfsData.minReportingStake || "0",
+        resolutionSources: productIpfsData.resolutionSources || [],
+        stakeWithFees: coverIpfsData.stakeWithFees || "0",
+        reassurance: coverIpfsData.reassurance || "0",
+      };
+    },
+    [data, getIpfsByHash]
   );
+
+  // TODO: remove this
+  const finalData = useMemo(() => {
+    if (type === "standalone") {
+      return data.map((x) => getInfoByKey(x.coverKey));
+    }
+    if (type === "basket") {
+      return data.map((x) => {
+        x?.products.map((p) => getBasketInfoByKey(x.coverKey, p.productKey));
+      });
+    }
+  }, [type, data, getInfoByKey, getBasketInfoByKey]);
 
   return {
     data: finalData,
     getInfoByKey,
+    getBasketInfoByKey,
     loading,
   };
 };

@@ -46,6 +46,6 @@ export const actions = {
     // mdImgSrc: `/options/claim-md.png`,
     footerImgSrc: `/cover-actions/claim.svg`,
     getHref: (_id) => `/my-policies/active`,
-    action: "active",
+    action: "claim",
   },
 };
