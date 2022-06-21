@@ -47,9 +47,8 @@ export const ProductsGrid = () => {
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
 
-  const {
-    query: { cover_id },
-  } = useRouter();
+  const router = useRouter();
+  const { cover_id } = router.query;
 
   const { products, loading } = useFetchBasketProducts(
     safeFormatBytes32String(cover_id)
