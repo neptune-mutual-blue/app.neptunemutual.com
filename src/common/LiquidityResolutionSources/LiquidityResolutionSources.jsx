@@ -22,7 +22,7 @@ export const LiquidityResolutionSources = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { cover_id = "animated-brands" } = router.query;
+  const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
 
   const { liquidityTokenDecimals } = useAppConstants();

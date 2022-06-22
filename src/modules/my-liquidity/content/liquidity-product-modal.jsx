@@ -1,9 +1,9 @@
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useMyLiquidityContext } from "@/modules/my-liquidity";
+import { useMyBasketLiquidityContext } from "@/modules/my-liquidity/basket-liquidity-page";
 
 export default function LiquidityProductModal() {
-  const { showModal, setShowModal } = useMyLiquidityContext();
+  const { showModal, setShowModal } = useMyBasketLiquidityContext();
   return (
     <ModalRegular isOpen={showModal} onClose={() => {}}>
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-f1f3f6 rounded-3xl">

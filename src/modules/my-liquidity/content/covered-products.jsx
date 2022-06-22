@@ -1,4 +1,4 @@
-import { useMyLiquidityContext } from "@/modules/my-liquidity";
+import { useMyBasketLiquidityContext } from "@/modules/my-liquidity/basket-liquidity-page";
 import ChainLink from "@/modules/my-liquidity/content/assets/chainlink";
 import { listOfProducts } from "@/modules/my-liquidity/content/listOfProducts";
 import { Trans } from "@lingui/macro";
@@ -8,7 +8,7 @@ import { Trans } from "@lingui/macro";
  */
 
 export default function CoveredProducts() {
-  const { setShowModal } = useMyLiquidityContext();
+  const { setShowModal } = useMyBasketLiquidityContext();
 
   return (
     <div className="flex flex-col">
