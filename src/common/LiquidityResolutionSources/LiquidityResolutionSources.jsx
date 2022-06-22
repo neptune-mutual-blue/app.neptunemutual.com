@@ -8,7 +8,7 @@ import { isGreater } from "@/utils/bn";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { Trans } from "@lingui/macro";
-import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
+import { WithdrawLiquidityModal } from "@/modules/my-liquidity/content/WithdrawLiquidityModal";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useAppConstants } from "@/src/context/AppConstants";

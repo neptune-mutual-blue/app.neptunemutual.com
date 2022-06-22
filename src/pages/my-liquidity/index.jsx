@@ -4,7 +4,7 @@ import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { HeroStat } from "@/common/HeroStat";
-import { MyLiquidityPage } from "@/src/modules/my-liquidity";
+import { MyLiquidityPage } from "@/modules/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useWeb3React } from "@web3-react/core";

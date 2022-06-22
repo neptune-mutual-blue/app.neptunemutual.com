@@ -19,7 +19,7 @@ export const BreadCrumbs = ({ pages }) => {
                   <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
                 </svg>
               )}
-              <Crumb page={page} isLast={idx + 1 === pages.length} />
+              <Crumb page={page} isLast={idx === pages.length - 1} />
             </div>
           </li>
         ))}
@@ -38,7 +38,7 @@ const Crumb = ({ page, isLast }) => {
       <a
         className={classNames(
           "ml-1 hover:underline capitalize",
-          isLast ? "text-4e7dd9" : ""
+          !isLast && "text-4e7dd9"
         )}
         aria-current={page.current ? "page" : undefined}
       >
