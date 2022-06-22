@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
@@ -36,7 +35,7 @@ export const ProductCard = ({
     productKey: productKey,
   });
 
-  const imgSrc = getCoverImgSrc({ key: productKey });
+  // const imgSrc = getCoverImgSrc({ key: productKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;

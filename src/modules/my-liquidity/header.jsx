@@ -4,10 +4,8 @@ import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
 import { HeroTitle } from "@/common/HeroTitle";
 import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
 
 export default function Header() {
-  const router = useRouter();
   // const { data } = useMyLiquidities();
   // const { liquidityList } = data;
   // const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList });
