@@ -51,6 +51,10 @@ export const CoverPurchaseDetailsPage = () => {
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
 
+  const projectName = !isDiversified
+    ? coverInfo?.infoObj?.coverName
+    : coverInfo?.infoObj?.productName;
+
   return (
     <main>
       {/* hero */}
@@ -60,7 +64,7 @@ export const CoverPurchaseDetailsPage = () => {
             pages={[
               { name: t`Home`, href: "/", current: false },
               {
-                name: coverInfo?.coverName,
+                name: projectName,
                 href: !isDiversified
                   ? `/cover/${cover_id}/options`
                   : `/cover/${cover_id}/${product_id}/options`,
@@ -72,9 +76,10 @@ export const CoverPurchaseDetailsPage = () => {
           <div className="flex flex-wrap">
             <CoverProfileInfo
               coverKey={coverKey}
+              productKey={productKey}
               imgSrc={imgSrc}
-              projectName={coverInfo?.coverName}
-              links={coverInfo?.links}
+              projectName={projectName}
+              links={coverInfo?.infoObj?.links}
             />
 
             {/* Total Liquidity */}
@@ -97,7 +102,9 @@ export const CoverPurchaseDetailsPage = () => {
         <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 md:col-span-2">
             <span className="hidden md:block">
-              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+              <SeeMoreParagraph
+                text={coverInfo.infoObj.about}
+              ></SeeMoreParagraph>
             </span>
             {acceptedRules ? (
               <div className="mt-12">
@@ -108,7 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
               </div>
             ) : (
               <>
-                <CoverRules rules={coverInfo?.rules} />
+                <CoverRules rules={coverInfo?.infoObj?.rules} />
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}
@@ -123,7 +130,9 @@ export const CoverPurchaseDetailsPage = () => {
           </div>
 
           <span className="block col-span-3 row-start-1 md:hidden mb-11">
-            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+            <SeeMoreParagraph
+              text={coverInfo?.infoObj?.about}
+            ></SeeMoreParagraph>
           </span>
           <CoverResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
