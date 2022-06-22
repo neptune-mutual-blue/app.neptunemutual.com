@@ -33,6 +33,7 @@ export const PolicyCard = ({ policyInfo }) => {
   const { balance } = useERC20Balance(cxToken.id);
 
   const isDiversified = isValidProduct(productKey);
+  console.log(isDiversified);
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;

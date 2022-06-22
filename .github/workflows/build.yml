@@ -33,5 +33,3 @@ jobs:
       - name: Lint
         run: yarn run lint --max-warnings=0
 
-      - name: Tests
-        run: yarn test

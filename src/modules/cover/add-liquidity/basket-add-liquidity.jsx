@@ -29,7 +29,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const router = useRouter();
   const { cover_id = "" } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String("");
+  // const productKey = safeFormatBytes32String("");
   // const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   const coverInfo = {
