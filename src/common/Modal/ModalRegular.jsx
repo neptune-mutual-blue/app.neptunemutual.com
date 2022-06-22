@@ -6,11 +6,11 @@ export const ModalRegular = ({
   children,
   onClose,
   disabled = false,
-  rootProps,
+  rootProps = {},
   overlayClass = "",
   defaultContentClassNames = "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
   className = "",
-  container,
+  container = document.body,
   ...rest
 }) => (
   <Root
@@ -18,7 +18,7 @@ export const ModalRegular = ({
     onOpenChange={disabled ? () => {} : () => onClose()}
     {...rootProps}
   >
-    <Portal container={container || document.body}>
+    <Portal container={container}>
       <Overlay
         className={classNames(
           "fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-50",

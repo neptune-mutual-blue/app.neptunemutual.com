@@ -194,7 +194,7 @@ const TotalLiquidityChart = () => {
       ignore = true;
       clearTimeout(chartDataTimeout);
     };
-  }, [data, chartData.length]);
+  }, [data, chartData.length, liquidityTokenDecimals]);
 
   return (
     <div>

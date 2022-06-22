@@ -14,9 +14,9 @@ import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
 import { ScrollToTopButton } from "@/common/ScrollToTop/ScrollToTopButton";
 import { TxPosterProvider } from "@/src/context/TxPoster";
-import { IpfsProvider } from "@/src/context/Ipfs";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
+import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
 
 function MyApp({ Component, pageProps }) {
   if (pageProps.noWrappers) {
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
       <Web3ReactProvider getLibrary={getLibrary}>
         <NetworkProvider>
           <AppConstantsProvider>
-            <IpfsProvider>
+            <CoversAndProductsProvider>
               <CoversProvider>
                 <UnlimitedApprovalProvider>
                   <ToastProvider variant={DEFAULT_VARIANT}>
@@ -47,7 +47,7 @@ function MyApp({ Component, pageProps }) {
                   </ToastProvider>
                 </UnlimitedApprovalProvider>
               </CoversProvider>
-            </IpfsProvider>
+            </CoversAndProductsProvider>
           </AppConstantsProvider>
         </NetworkProvider>
       </Web3ReactProvider>

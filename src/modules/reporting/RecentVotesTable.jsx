@@ -70,10 +70,11 @@ const columns = [
   },
 ];
 
-export const RecentVotesTable = ({ coverKey, incidentDate }) => {
+export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
   const { page, limit, setPage } = usePagination();
   const { data, loading, hasMore } = useRecentVotes({
     coverKey,
+    productKey,
     incidentDate,
     page,
     limit,

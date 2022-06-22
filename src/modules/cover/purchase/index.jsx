@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
@@ -19,7 +19,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useFetchCovers } from "@/src/hooks/useFetchCovers";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -29,15 +29,9 @@ export const CoverPurchaseDetailsPage = () => {
   const productKey = safeFormatBytes32String(product_id || "");
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const { info } = useMyLiquidityInfo({ coverKey });
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
-  const isBasket = Boolean(product_id);
-  const { getInfoByKey, getBasketInfoByKey } = useFetchCovers(
-    isBasket ? "basket" : "standalone"
-  );
-
-  const coverInfo = !isBasket
-    ? getInfoByKey(coverKey)
-    : getBasketInfoByKey(coverKey, productKey);
+  const isDiversified = isValidProduct(productKey);
 
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
@@ -67,7 +61,7 @@ export const CoverPurchaseDetailsPage = () => {
               { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.coverName,
-                href: !isBasket
+                href: !isDiversified
                   ? `/cover/${cover_id}/options`
                   : `/cover/${cover_id}/${product_id}/options`,
                 current: false,

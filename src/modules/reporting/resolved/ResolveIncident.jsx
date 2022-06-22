@@ -9,9 +9,9 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
-import { useCovers } from "@/src/context/Covers";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useRouter } from "next/router";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const ResolveIncident = ({
   refetchReport,
@@ -29,8 +29,10 @@ export const ResolveIncident = ({
       incidentDate: incidentReport.incidentDate,
     });
 
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(incidentReport.coverKey);
+  const coverInfo = useCoverOrProductData({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+  });
   const logoSource = getCoverImgSrc({ key: incidentReport.coverKey });
 
   if (!coverInfo) {

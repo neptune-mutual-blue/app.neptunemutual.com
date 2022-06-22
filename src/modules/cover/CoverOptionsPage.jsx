@@ -4,7 +4,7 @@ import { actions as coverActions } from "@/src/config/cover/actions";
 import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -12,23 +12,25 @@ import {
   renderDescriptionTranslation,
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }
 
+  const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = coverInfo?.coverName;
+  const title = isDiversified
+    ? coverInfo.infoObj.coverName
+    : coverInfo.infoObj.projectName;
 
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">
@@ -49,7 +51,11 @@ export const CoverOptionsPage = () => {
             return (
               <Link
                 key={actionKey}
-                href={coverActions[actionKey].getHref(cover_id)}
+                href={coverActions[actionKey].getHref(
+                  cover_id,
+                  product_id,
+                  isDiversified
+                )}
               >
                 <a
                   data-testid="cover-option-actions"

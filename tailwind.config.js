@@ -93,6 +93,8 @@ module.exports = {
         180: "180px",
         15: "15rem",
         52: "208px",
+        56: "224px",
+        60: "240px",
       },
       minWidth: {
         sm: "384px",
@@ -144,6 +146,7 @@ module.exports = {
         "5C738F": "#5C738F",
         "404A5C": "#404A5C",
         "EEF4FF": "#EEF4FF",
+        "F7E2BE": "#F7E2BE",
       },
       minHeight: {
         360: "360px",

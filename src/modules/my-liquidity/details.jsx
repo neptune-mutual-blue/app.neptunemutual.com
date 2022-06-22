@@ -12,17 +12,20 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
+  const productKey = safeFormatBytes32String("");
+
   const { liquidityTokenDecimals } = useAppConstants();
-  const coverInfo = getInfoByKey(coverKey);
+
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const isDiversified = coverInfo?.supportsProducts;
 
   const {
     info,
@@ -91,6 +94,7 @@ export const MyLiquidityCoverPage = () => {
             </div>
 
             <LiquidityResolutionSources
+              coverInfo={coverInfo}
               info={info}
               refetchInfo={refetchInfo}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}

@@ -1,6 +1,6 @@
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -9,19 +9,16 @@ import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const PolicyCard = ({ policyInfo }) => {
-  const { cover, cxToken } = policyInfo;
+  const { cxToken, coverKey, productKey } = policyInfo;
 
-  const coverKey = cover.id;
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { status: currentStatus } = useFetchCoverStats({
     coverKey,
-    productKey: safeFormatBytes32String(""),
+    productKey,
   });
 
   const validityStartsAt = cxToken.creationDate || "0";
@@ -34,6 +31,8 @@ export const PolicyCard = ({ policyInfo }) => {
     coverKey,
   });
   const { balance } = useERC20Balance(cxToken.id);
+
+  const isDiversified = isValidProduct(productKey);
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
@@ -96,6 +95,7 @@ export const PolicyCard = ({ policyInfo }) => {
 
         <PolicyCardFooter
           coverKey={coverKey}
+          cxToken={policyInfo.cxToken}
           report={report}
           tokenBalance={balance}
           validityEndsAt={validityEndsAt}

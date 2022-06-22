@@ -2,7 +2,13 @@ import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useState, useEffect } from "react";
 
-export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
+export const useRecentVotes = ({
+  coverKey,
+  productKey,
+  incidentDate,
+  limit,
+  page,
+}) => {
   const [data, setData] = useState({
     votes: [],
     blockNumber: null,
@@ -45,7 +51,8 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
             orderBy: createdAtTimestamp
             orderDirection: desc
             where: {
-              key:"${coverKey}"
+              coverKey:"${coverKey}"
+              productKey:"${productKey}"
               incidentDate: "${incidentDate}"
           }) {
             id
@@ -65,7 +72,7 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
       .then((r) => r.json())
       .then((res) => {
         if (ignore) return;
-        
+
         if (res.errors || !res.data) {
           return;
         }
@@ -89,10 +96,10 @@ export const useRecentVotes = ({ coverKey, incidentDate, limit, page }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
-  }, [coverKey, incidentDate, limit, networkId, page]);
+    return () => {
+      ignore = true;
+    };
+  }, [coverKey, incidentDate, limit, networkId, page, productKey]);
 
   return {
     data: {

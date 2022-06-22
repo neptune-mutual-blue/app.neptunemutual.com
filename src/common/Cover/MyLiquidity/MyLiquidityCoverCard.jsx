@@ -8,8 +8,9 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -17,10 +18,11 @@ export const MyLiquidityCoverCard = ({
   tokenSymbol = "POD",
   tokenDecimal,
 }) => {
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
   const { info } = useMyLiquidityInfo({ coverKey });
   const router = useRouter();
+
+  const productKey = safeFormatBytes32String("");
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;

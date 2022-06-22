@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { HomeHero } from "@/modules/home/Hero";
 import { ComingSoon } from "@/common/ComingSoon";
-import { ProductsGrid } from "@/common/ProductsGrid";
+import { ProductsGrid } from "@/common/ProductsGrid/ProductsGrid";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 
 export function getServerSideProps() {

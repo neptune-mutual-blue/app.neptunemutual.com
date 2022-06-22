@@ -6,12 +6,14 @@ import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReportSummary";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
-import { useCovers } from "@/src/context/Covers";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(incidentReport.coverKey);
+  const coverInfo = useCoverOrProductData({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+  });
 
   const now = DateLib.unix();
 
@@ -28,7 +30,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   const showResolvedSummary =
     incidentReport.resolved &&
     isGreater(now, incidentReport.resolutionDeadline);
-  
+
   const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
 
   return (
@@ -52,9 +54,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
           />
         )}
 
-        { // to be displayed in mobile only
+        {
+          // to be displayed in mobile only
           !reportingEnded && (
-            <div className="block my-16 md:hidden"> 
+            <div className="block my-16 md:hidden">
               <CastYourVote incidentReport={incidentReport} />
             </div>
           )
@@ -62,6 +65,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
 
         <RecentVotesTable
           coverKey={incidentReport.coverKey}
+          productKey={incidentReport.productKey}
           incidentDate={incidentReport.incidentDate}
         />
       </Container>

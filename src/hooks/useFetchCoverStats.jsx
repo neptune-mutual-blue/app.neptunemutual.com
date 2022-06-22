@@ -33,7 +33,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
     let ignore = false;
 
     async function exec() {
-      if (!networkId || !coverKey) return;
+      if (!networkId || !coverKey || !productKey) return;
 
       try {
         let data = null;
@@ -58,7 +58,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
             getReplacedString(COVER_STATS_URL, {
               networkId,
               coverKey,
-              account: account || ADDRESS_ONE,
+              account: ADDRESS_ONE,
             }),
             {
               method: "GET",

@@ -7,7 +7,7 @@ import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReport
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export function NewIncidentReportPage() {
   const [accepted, setAccepted] = useState(false);
@@ -15,8 +15,11 @@ export function NewIncidentReportPage() {
   const { product_id, cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+
+  const coverInfo = useCoverOrProductData({
+    coverKey: coverKey,
+    productKey: productKey,
+  });
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,
   });
