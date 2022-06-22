@@ -1,45 +1,91 @@
-import { useMyBasketLiquidityContext } from "@/modules/my-liquidity/basket-liquidity-page";
-import { listOfProducts } from "@/modules/my-liquidity/content/listOfProducts";
+import { Container } from "@/common/Container/Container";
+import LiquidityProductModal from "@/modules/my-liquidity/content/liquidity-product-modal";
 import { Trans } from "@lingui/macro";
+import { useState } from "react";
 
 /**
- * @typedef {import('@/modules/my-liquidity/content/listOfProducts').IBasketProduct} IBasketProduct
+ * @typedef IProductInfo
+ * @prop {string} about
+ * @prop {string} leverageName
+ * @prop {Object.<string, string> | undefined} links
+ * @prop {string} pricingCeiling
+ * @prop {string} pricingFloor
+ * @prop {string[] | undefined} resolutionSources
+ * @prop {string} rules
+ * @prop {string} tags
+ * @prop {string} exclusions
+ *
+ * @typedef IProductBase
+ * @prop {string} coverKey
+ * @prop {string} productKey
+ * @prop {string} ipsData
+ * @prop {string} ipsHash
+ * @prop {boolean} supportsProducts
+ * @prop {IProductInfo & {
+ *   productName: string
+ * }} infoObj
+ *
+ * @typedef {IProductBase & {
+ *   coverName: string
+ *   products: IProductBase[]
+ * }} ICoverProduct
  */
 
+/**
+ *
+ * @param {{
+ * coverInfo: ICoverProduct
+ * }} param0
+ * @returns
+ */
 export function CoveredProducts({ coverInfo }) {
-  const { setShowModal } = useMyBasketLiquidityContext();
+  const [showModal, setShowModal] = useState(false);
 
-  console.log(coverInfo);
+  /**
+   * @type {[IProductBase, (product: IProductBase) => void]}
+   */
+  const [productInfo, setProductInfo] = useState();
 
   return (
-    <div className="flex flex-col">
-      <h1 className="pb-24 font-bold text-h3">
-        <Trans>Products Covered Under This Pool</Trans>
-      </h1>
-      <div className="grid grid-cols-6">
-        {listOfProducts.map((product) => (
-          <Product
-            {...product}
-            key={product.name}
-            onClick={() => setShowModal(true)}
-          />
-        ))}
+    <Container className="flex flex-col py-9">
+      <div className="flex flex-col">
+        <h4 className="mb-24 font-bold text-h3">
+          <Trans>Products Covered Under This Pool</Trans>
+        </h4>
+        <div className="grid xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2 grid-cols-1">
+          {coverInfo.products.map((product) => (
+            <Product
+              {...product}
+              key={product.productKey}
+              onClick={() => {
+                setProductInfo(product);
+                setShowModal(true);
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      {showModal && (
+        <LiquidityProductModal
+          product={productInfo}
+          setShowModal={setShowModal}
+        />
+      )}
+    </Container>
   );
 }
 
 /**
- * @param {IBasketProduct & { onClick: () => void}} param0
+ * @param {IProductBase & { onClick: () => void}} param0
  */
-function Product({ name, onClick }) {
+function Product({ infoObj: { productName }, onClick }) {
   return (
-    <div className="flex flex-col items-center justify-start py-8">
+    <div className="flex flex-col items-center justify-start pb-8">
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
         <img src="/images/covers/empty.svg" alt="base image" />
       </div>
-      <h1 className="flex items-center pt-2 text-4e7dd9">
-        {name}
+      <h1 className="flex items-center pt-2 text-4e7dd9 font-sora">
+        {productName}
         <button onClick={onClick}>
           <svg
             className="ml-2"
