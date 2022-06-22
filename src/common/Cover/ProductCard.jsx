@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { Divider } from "@/common/Divider/Divider";
@@ -9,17 +9,20 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { classNames } from "@/utils/classnames";
+import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
+import SheildIcon from "@/icons/SheildIcon";
 
 export const ProductCard = ({
   coverKey,
   productKey,
-  coverInfo,
+  productInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
 }) => {
@@ -50,14 +53,28 @@ export const ProductCard = ({
     });
   }, [id, liquidity, setStatsByKey, utilization]);
 
+  const protectionLong = formatCurrency(
+    convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
+    router.locale
+  ).long;
+
+  const liquidityLong = formatCurrency(
+    convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+    router.locale
+  ).long;
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
-        <div className="">
+        <div
+          className={classNames(
+            "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18"
+          )}
+        >
           <img
-            src={imgSrc}
-            alt={coverInfo.infoObj.projectName}
-            className="inline-block max-w-full w-14 lg:w-18"
+            src="/images/covers/empty.svg"
+            alt={productInfo.infoObj?.projectName}
+            className="bg-DEEAF6 rounded-full"
             data-testid="cover-img"
           />
         </div>
@@ -65,26 +82,45 @@ export const ProductCard = ({
           <CardStatusBadge status={productStatus} />
         </div>
       </div>
-
       <h4
-        className="mt-4 font-semibold uppercase text-h4 font-sora"
+        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
         data-testid="project-name"
       >
-        {coverInfo.infoObj.productName}
+        {productInfo.infoObj?.productName}
       </h4>
-      <div
-        className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2"
-        data-testid="cover-fee"
-      >
-        <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(
-          coverInfo.infoObj.pricingFloor / MULTIPLIER,
-          router.locale
-        )}
-        -
-        {formatPercent(
-          coverInfo.infoObj.pricingCeiling / MULTIPLIER,
-          router.locale
+      <div className="flex justify-between items-center">
+        <div
+          className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"
+          data-testid="cover-fee"
+        >
+          <Trans>Cover fee:</Trans>{" "}
+          {formatPercent(
+            productInfo.cover?.infoObj?.pricingFloor / MULTIPLIER,
+            router.locale
+          )}
+          -
+          {formatPercent(
+            productInfo.cover?.infoObj?.pricingCeiling / MULTIPLIER,
+            router.locale
+          )}
+        </div>
+        {productInfo.cover?.infoObj?.leverage && (
+          <InfoTooltip
+            infoComponent={
+              <p>
+                <Trans>
+                  Diversified pool with {productInfo.cover.infoObj.leverage}x
+                  leverage factor and 50% capital efficiency
+                </Trans>
+              </p>
+            }
+          >
+            <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
+              <p className="opacity-60">
+                D{productInfo.cover?.infoObj?.leverage}x50
+              </p>
+            </div>
+          </InfoTooltip>
         )}
       </div>
 
@@ -93,7 +129,9 @@ export const ProductCard = ({
 
       {/* Stats */}
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
-        <span className="uppercase text-h7 lg:text-sm">utilization Ratio</span>
+        <span className="uppercase text-h7 lg:text-sm">
+          <Trans>utilization Ratio</Trans>
+        </span>
         <span
           className="font-semibold text-right text-h7 lg:text-sm "
           data-testid="util-ratio"
@@ -101,57 +139,83 @@ export const ProductCard = ({
           {formatPercent(utilization, router.locale)}
         </span>
       </div>
-      <div className="mt-2 mb-4">
-        <ProgressBar
-          value={utilization}
-          bgClass={progressBgColor}
-          fgClass={progressFgColor}
-        />
-      </div>
-      <div className="flex justify-between px-1 text-h7 lg:text-sm">
-        <div
-          className="flex-1"
-          title={
-            formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).long
-          }
-          data-testid="protection"
-        >
-          <Trans>Protection:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).short
-          }
-        </div>
 
-        <div
-          className="flex-1 text-right"
-          title={
-            formatCurrency(
-              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-              router.locale
-            ).long
-          }
-          data-testid="liquidity"
-        >
-          <Trans>Liquidity:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-              router.locale
-            ).short
-          }
+      <InfoTooltip
+        infoComponent={
+          <div>
+            <p>
+              <b>
+                <Trans>UTILIZATION RATIO:</Trans>{" "}
+                {formatPercent(utilization, router.locale)}
+              </b>
+            </p>
+            <p>
+              <Trans>Protection</Trans>: {protectionLong}
+            </p>
+            <p>
+              <Trans>Liquidity</Trans>: {protectionLong}
+            </p>
+          </div>
+        }
+      >
+        <div className="mt-2 mb-4">
+          <ProgressBar
+            value={utilization}
+            bgClass={progressBgColor}
+            fgClass={progressFgColor}
+          />
         </div>
+      </InfoTooltip>
+
+      <div className="flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm">
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Protection</Trans>: {protectionLong}
+            </div>
+          }
+        >
+          <div
+            className="flex flex-1"
+            title={protectionLong}
+            data-testid="protection"
+          >
+            <SheildIcon className="w-4 h-4 text-01052D" />
+            <p>
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).short
+              }
+            </p>
+          </div>
+        </InfoTooltip>
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Liquidity</Trans>: {liquidityLong}
+            </div>
+          }
+        >
+          <div
+            className="flex-1 text-right"
+            title={liquidityLong}
+            data-testid="liquidity"
+          >
+            {
+              formatCurrency(
+                convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+                router.locale
+              ).short
+            }
+          </div>
+        </InfoTooltip>
       </div>
     </OutlinedCard>
   );

@@ -53,6 +53,7 @@ export const ProductsGrid = () => {
 
   const productKey = safeFormatBytes32String("");
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  // const coverInfoParsed = getParsedCoverInfo(coverInfo);
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (coverInfo?.products || []).map((cover) => ({
@@ -92,7 +93,7 @@ export const ProductsGrid = () => {
     <Container className="py-16" data-testid="available-covers-container">
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
-          <Trans>Available Products</Trans>
+          <Trans>{coverInfo?.infoObj?.coverName}</Trans>
         </h1>
         <SearchAndSortBar
           searchValue={searchValue}
@@ -141,8 +142,6 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                   <ProductCardWrapper
                     coverKey={coverKey}
                     productKey={productKey}
-                    progressFgColor="bg-4e7dd9"
-                    progressBgColor="bg-4e7dd9/10"
                   />
                 </a>
               </Link>

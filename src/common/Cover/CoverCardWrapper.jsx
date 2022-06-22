@@ -3,6 +3,7 @@ import { utils } from "@neptunemutual/sdk";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoverCard } from "@/common/Cover/CoverCard";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const CoverCardWrapper = ({
   coverKey,
@@ -13,7 +14,7 @@ export const CoverCardWrapper = ({
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
-    return <>loading...</>;
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const cover_id = safeParseBytes32String(coverKey);

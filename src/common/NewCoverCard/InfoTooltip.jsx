@@ -14,6 +14,7 @@ import * as Tooltip from "@radix-ui/react-tooltip";
  * @param {boolean} [params.arrow]
  * @param {number} [params.arrowOffset]
  * @param {number} [params.delayDuration]
+ * @param {boolean} [params.disabled]
  * @returns
  */
 export const InfoTooltip = ({
@@ -27,12 +28,15 @@ export const InfoTooltip = ({
   arrow = true,
   arrowOffset = 4,
   delayDuration = 200,
+  disabled = false,
 }) => (
   <Tooltip.Root delayDuration={delayDuration}>
-    <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+    <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
+      {children}
+    </Tooltip.Trigger>
     <Tooltip.Content
       className={classNames(
-        "flex flex-col gap-y-1 text-xs leading-4 font-poppins max-w-52 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview",
+        "flex flex-col gap-y-1 text-xs leading-5 font-poppins max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview",
         className ? className : "p-4"
       )}
       side={position}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { ProductCard } from "@/common/Cover/ProductCard";
+import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 
 export const ProductCardWrapper = ({
   coverKey,
@@ -9,10 +10,10 @@ export const ProductCardWrapper = ({
   progressFgColor = undefined,
   progressBgColor = undefined,
 }) => {
-  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const productInfo = useCoverOrProductData({ coverKey, productKey });
 
-  if (!coverInfo) {
-    return <>loading...</>;
+  if (!productInfo) {
+    return <CardSkeleton numberOfCards={1} />;
   }
 
   const cover_id = safeParseBytes32String(coverKey);
@@ -27,7 +28,7 @@ export const ProductCardWrapper = ({
         <ProductCard
           coverKey={coverKey}
           productKey={productKey}
-          coverInfo={coverInfo}
+          productInfo={productInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
         />
