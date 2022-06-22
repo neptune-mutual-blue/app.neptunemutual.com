@@ -1,5 +1,4 @@
 import { useMyBasketLiquidityContext } from "@/modules/my-liquidity/basket-liquidity-page";
-import ChainLink from "@/modules/my-liquidity/content/assets/chainlink";
 import { listOfProducts } from "@/modules/my-liquidity/content/listOfProducts";
 import { Trans } from "@lingui/macro";
 
@@ -35,7 +34,7 @@ function Product({ name, onClick }) {
   return (
     <div className="flex flex-col items-center justify-start py-8">
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
-        <ChainLink className="" />
+        <img src="/images/covers/empty.svg" alt="base image" />
       </div>
       <h1 className="pt-2 text-4e7dd9 flex items-center">
         {name}
