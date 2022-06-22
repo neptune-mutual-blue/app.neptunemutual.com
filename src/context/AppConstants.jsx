@@ -43,11 +43,13 @@ export const AppConstantsProvider = ({ children }) => {
   const { library, account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
     if (!networkId) return;
+
     if (!account) {
       getAddressesFromApi(networkId)
         .then((result) => {
-          if (!result) {
+          if (!result || ignore) {
             return;
           }
 
@@ -77,7 +79,7 @@ export const AppConstantsProvider = ({ children }) => {
 
     getAddressesFromProvider(networkId, signerOrProvider)
       .then((result) => {
-        if (!result) {
+        if (!result || ignore) {
           return;
         }
 
@@ -101,6 +103,10 @@ export const AppConstantsProvider = ({ children }) => {
         }));
       })
       .catch(console.error);
+
+    return () => {
+      ignore = true;
+    };
   }, [account, library, networkId]);
 
   return (
