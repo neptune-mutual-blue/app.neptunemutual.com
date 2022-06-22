@@ -28,17 +28,14 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   };
 
   if (status && status !== "Normal") {
+    const cover_id = safeParseBytes32String(coverKey);
     return (
       <Alert>
         <Trans>
           Cannot {coverPurchasePage ? "purchase policy" : "add liquidity"},
           since the cover status is
         </Trans>{" "}
-        <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
-        >
+        <Link href={`/reporting/${cover_id}/${activeIncidentDate}/details`}>
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>

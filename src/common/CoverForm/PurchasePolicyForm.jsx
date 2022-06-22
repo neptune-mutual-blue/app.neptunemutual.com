@@ -117,6 +117,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
   }
 
+  const cover_id = safeParseBytes32String(coverKey);
+  const product_id = safeParseBytes32String(productKey);
   const status = !isDiversified ? coverStatus : productStatus;
   if (status && status !== "Normal") {
     return (
@@ -125,14 +127,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <Link
           href={
             !isDiversified
-              ? `/reporting/${safeParseBytes32String(
-                  coverKey
-                )}/${activeIncidentDate}/details`
-              : `/reporting/${safeParseBytes32String(
-                  coverKey
-                )}/${safeParseBytes32String(
-                  productKey
-                )}/${activeIncidentDate}/details`
+              ? `/reporting/${cover_id}/${activeIncidentDate}/details`
+              : `/reporting/${cover_id}/product/${product_id}/${activeIncidentDate}/details`
           }
         >
           <a className="font-medium underline hover:no-underline">{status}</a>

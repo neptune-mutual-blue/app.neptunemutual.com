@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { isValidProduct } from "@/src/helpers/cover";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -99,8 +100,8 @@ export const ReportingActivePage = () => {
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
-          containerClass='flex-col sm:flex-row w-full sm:w-auto'
-          searchClass='w-full sm:w-auto'
+          containerClass="flex-col sm:flex-row w-full sm:w-auto"
+          searchClass="w-full sm:w-auto"
         />
       </div>
 
@@ -120,11 +121,18 @@ function Content({ data, loading, hasMore, handleShowMore }) {
       <>
         <Grid className="mb-24 mt-14">
           {data.map((report) => {
+            const isDiversified = isValidProduct(report.productKey);
+
+            const cover_id = safeParseBytes32String(report.coverKey);
+            const product_id = safeParseBytes32String(report.productKey);
+
             return (
               <Link
-                href={`/reporting/${safeParseBytes32String(
-                  report.id.split("-")[0]
-                )}/${report.incidentDate}/details`}
+                href={
+                  isDiversified
+                    ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
+                    : `/reporting/${cover_id}/${report.incidentDate}/details`
+                }
                 key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
