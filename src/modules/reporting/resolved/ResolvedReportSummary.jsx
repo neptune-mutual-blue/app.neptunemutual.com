@@ -12,13 +12,25 @@ import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummar
 import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
+  const router = useRouter();
+  const { product_id } = router.query;
+  const productKey = safeFormatBytes32String(product_id || "");
   const { finalize, finalizing } = useFinalizeIncident({
-    coverKey: incidentReport.key,
+    coverKey: incidentReport.coverKey,
+    productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const router = useRouter();
+  const { capitalize, capitalizing } = useCapitalizePool({
+    coverKey: incidentReport.coverKey,
+    productKey: productKey,
+    incidentDate: incidentReport.incidentDate,
+  });
+  const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -59,7 +71,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
         <div className="flex-1 p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-h3 font-sora">
+          <h2 className="mb-6 font-bold text-center text-h3 font-sora lg:text-left">
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -95,7 +107,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   true
                 ).short,
               },
@@ -119,7 +131,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   true
                 ).short,
               },
@@ -178,20 +190,33 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           </p>
 
           {!incidentReport.finalized && (
-            <button
-              className="text-sm text-4e7dd9"
-              disabled={finalizing}
-              onClick={async () => {
-                await finalize();
-                setTimeout(refetchReport, 15000);
-              }}
-            >
-              {finalizing ? t`Finalizing...` : t`Finalize`}
-            </button>
+            <>
+              <button
+                className="text-sm text-4e7dd9"
+                disabled={finalizing}
+                onClick={async () => {
+                  await finalize();
+                  setTimeout(refetchReport, 15000);
+                }}
+              >
+                {finalizing ? t`Finalizing...` : t`Finalize`}
+              </button>
+
+              <br />
+
+              <button
+                className="mt-2 text-sm font-poppins text-4e7dd9"
+                disabled={capitalizing}
+                onClick={async () => {
+                  await capitalize();
+                  setTimeout(refetchReport, 15000);
+                }}
+              >
+                {capitalizing ? t`Capitalizing...` : t`Capitalize`}
+              </button>
+            </>
           )}
         </div>
-
-        <></>
       </OutlinedCard>
     </>
   );

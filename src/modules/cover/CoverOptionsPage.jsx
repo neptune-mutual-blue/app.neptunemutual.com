@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
-import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { isValidProduct } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -13,32 +11,24 @@ import {
   renderDescriptionTranslation,
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const productKey = safeFormatBytes32String(product_id || "");
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = coverInfo?.coverName;
+  const isDiversified = isValidProduct(productKey);
 
   return (
-    <div className="min-h-screen py-6 md:px-2 lg:px-8">
-      <div className="px-4 mx-auto max-w-7xl sm:px-5 md:px-4">
-        <CoverProfileInfoShort
-          imgSrc={imgSrc}
-          title={title}
-          className="mb-7 lg:mb-28"
-          fontSizeClass="text-h7 md:text-h4"
-        />
-      </div>
+    <div className="min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28">
       <Container className="pb-16">
         <h2 className="mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12">
           <Trans>I Want to</Trans>
@@ -48,7 +38,11 @@ export const CoverOptionsPage = () => {
             return (
               <Link
                 key={actionKey}
-                href={coverActions[actionKey].getHref(cover_id)}
+                href={coverActions[actionKey].getHref(
+                  cover_id,
+                  product_id,
+                  isDiversified
+                )}
               >
                 <a
                   data-testid="cover-option-actions"
@@ -74,13 +68,8 @@ export const CoverOptionsPage = () => {
             );
           })}
         </div>
-        <div className="text-center">
-          <OutlinedButton
-            className="pt-1 pb-1 pl-5 pr-4 border border-solid rounded-big border-4E7DD9 md:py-3 md:pl-6 md:pr-5 "
-            onClick={() => router.back()}
-          >
-            &#x27F5;&nbsp;<Trans>Back</Trans>
-          </OutlinedButton>
+        <div className="flex justify-center">
+          <BackButton onClick={() => router.back()} />
         </div>
       </Container>
     </div>

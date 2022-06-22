@@ -7,15 +7,18 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const PolicyCardFooter = ({
   coverKey,
   report,
   validityEndsAt,
+  cxToken,
   tokenBalance,
 }) => {
   const now = DateLib.unix();
   const router = useRouter();
+  const cxTokenDecimals = useTokenDecimals(cxToken.id);
 
   const isClaimable = report ? report.status == "Claimable" : false;
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
@@ -64,7 +67,10 @@ export const PolicyCardFooter = ({
   return (
     <>
       {/* Stats */}
-      <div className="flex flex-wrap justify-between px-1 text-sm">
+      <div
+        className="flex flex-wrap justify-between px-1 text-sm"
+        data-testid="policy-card-footer"
+      >
         {stats.map((stat, idx) => {
           return (
             <Stat
@@ -81,10 +87,16 @@ export const PolicyCardFooter = ({
         <Stat
           title={t`Purchased Policy`}
           tooltip={
-            formatCurrency(convertFromUnits(tokenBalance), router.locale).long
+            formatCurrency(
+              convertFromUnits(tokenBalance, cxTokenDecimals),
+              router.locale
+            ).long
           }
           value={
-            formatCurrency(convertFromUnits(tokenBalance), router.locale).short
+            formatCurrency(
+              convertFromUnits(tokenBalance, cxTokenDecimals),
+              router.locale
+            ).short
           }
           right
         />
@@ -97,7 +109,10 @@ export const PolicyCardFooter = ({
             report.incidentDate
           }/claim`}
         >
-          <a className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4">
+          <a
+            className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"
+            data-testid="claim-link"
+          >
             <Trans>CLAIM</Trans>
           </a>
         </Link>
@@ -106,10 +121,11 @@ export const PolicyCardFooter = ({
   );
 };
 
-const Stat = ({ title, tooltip, value, right, variant }) => {
+export const Stat = ({ title, tooltip, value, right, variant }) => {
   return (
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}
+      data-testid="footer-stat"
     >
       <h5 className="mb-2 text-sm font-semibold text-black">{title}</h5>
       <p

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
 
 const extractBignumber = (value) => {
   if (!value) {
@@ -9,7 +9,7 @@ const extractBignumber = (value) => {
     return value.toString();
   }
 
-  return ethers.BigNumber.from(value).toString();
+  return BigNumber.from(value).toString();
 };
 
 export const stringifyProps = (any) => {

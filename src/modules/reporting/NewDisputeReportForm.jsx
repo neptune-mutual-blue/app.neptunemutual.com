@@ -10,6 +10,7 @@ import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const [disputeTitle, setDisputeTitle] = useState("");
@@ -34,18 +35,20 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     incidentDate: incidentReport.incidentDate,
     minStake,
   });
+
+  const tokenDecimals = useTokenDecimals(tokenAddress);
   const [loading, setLoading] = useState("");
 
   useEffect(() => {
     if (minStake) {
-      const _minStake = convertFromUnits(minStake);
+      const _minStake = convertFromUnits(minStake, tokenDecimals);
 
       // When minStake is being fetched
       if (_minStake.isLessThanOrEqualTo(0))
         return setLoading(t`Fetching min-stake amount...`);
       else setLoading("");
     }
-  }, [minStake]);
+  }, [minStake, tokenDecimals]);
 
   const handleChange = (e, i) => {
     const { value } = e.target;
@@ -79,7 +82,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   };
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, tokenDecimals).toString());
   };
 
   const handleSubmit = () => {
@@ -195,7 +198,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           >
             <p className="text-9B9B9B">
               <Trans>Minimum Stake:</Trans>{" "}
-              {convertFromUnits(minStake).toString()} NPM
+              {convertFromUnits(minStake, tokenDecimals).toString()} NPM
             </p>
             <p
               className={classNames(

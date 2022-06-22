@@ -7,7 +7,12 @@ import { classNames } from "@/utils/classnames";
  * @param {string} props.className
  * @param {*} props.children
  */
-export const OutlinedCard = ({ children, className, type = "normal" }) => {
+export const OutlinedCard = ({
+  children,
+  className,
+  type = "normal",
+  ...rest
+}) => {
   return (
     <div
       data-testid="card-skeleton"
@@ -17,6 +22,7 @@ export const OutlinedCard = ({ children, className, type = "normal" }) => {
         type === "link" &&
           "transition duration-150 ease-out hover:ease-in hover:shadow-card"
       )}
+      {...rest}
     >
       {children}
     </div>

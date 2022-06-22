@@ -15,10 +15,15 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { formatPercent } from "@/utils/formatter/percent";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 
-export const HomeHero = () => {
+export const HomeHero = ({
+  breadcrumbs = [],
+  heroContainerClass = "",
+  title = "",
+}) => {
   const { data: heroData } = useFetchHeroStats();
-  const { poolsTvl } = useAppConstants();
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
   const router = useRouter();
 
   const [changeData, setChangeData] = useState(null);
@@ -48,7 +53,24 @@ export const HomeHero = () => {
 
   return (
     <Hero>
-      <Container className="flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row">
+      {Boolean(breadcrumbs.length) && (
+        <Container className="pt-9">
+          <BreadCrumbs pages={breadcrumbs} />
+        </Container>
+      )}
+      {title && (
+        <Container className="pt-0">
+          <h2 className="font-bold text-black text-h2 font-sora mb-14">
+            {title}
+          </h2>
+        </Container>
+      )}
+      <Container
+        className={classNames(
+          "flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row",
+          heroContainerClass
+        )}
+      >
         <div className="pt-10 md:flex md:gap-4 lg:block lg:mr-18 md:w-full lg:w-auto lg:pt-0">
           <div className="flex-1">
             <div
@@ -60,7 +82,10 @@ export const HomeHero = () => {
                   {
                     name: t`TVL (Cover)`,
                     amount: formatCurrency(
-                      convertFromUnits(heroData.tvlCover).toString(),
+                      convertFromUnits(
+                        heroData.tvlCover,
+                        liquidityTokenDecimals
+                      ).toString(),
                       router.locale
                     ).short,
                   },
@@ -120,7 +145,10 @@ export const HomeHero = () => {
               >
                 {
                   formatCurrency(
-                    convertFromUnits(changeData?.last || "0").toString(),
+                    convertFromUnits(
+                      changeData?.last || "0",
+                      liquidityTokenDecimals
+                    ).toString(),
                     router.locale
                   ).short
                 }

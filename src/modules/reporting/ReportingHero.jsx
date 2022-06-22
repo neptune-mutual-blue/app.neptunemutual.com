@@ -6,12 +6,14 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { isValidProduct } from "@/src/helpers/cover";
 
 export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const router = useRouter();
-  const { id: cover_id } = router.query;
-
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
+  const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const breadcrumbData = reportStatus
@@ -23,7 +25,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
           current: false,
         },
         {
-          name: coverInfo?.coverName,
+          name: coverInfo?.infoObj.coverName,
           current: !Boolean(reportStatus.dispute),
           href: reportStatus.dispute
             ? router.asPath.replace("/dispute", "/details")
@@ -33,8 +35,10 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
     : [
         { name: t`Home`, href: "/", current: false },
         {
-          name: coverInfo?.coverName,
-          href: `/cover/${cover_id}/options`,
+          name: isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName,
+          href: product_id
+            ? `/covers/${cover_id}/${product_id}/options`
+            : `/covers/${cover_id}/options`,
           current: false,
         },
         { name: t`Reporting`, current: true },
@@ -55,8 +59,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
           <CoverProfileInfo
             coverKey={coverKey}
             imgSrc={imgSrc}
-            links={coverInfo?.links}
-            projectName={coverInfo?.coverName}
+            links={coverInfo?.infoObj.links}
+            projectName={isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName}
+            isDiversified={isDiversified}
           />
         </div>
       </Container>

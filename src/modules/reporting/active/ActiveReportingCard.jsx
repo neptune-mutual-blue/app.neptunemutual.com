@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
@@ -16,17 +16,28 @@ import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
+export const ActiveReportingCard = ({
+  id,
+  coverKey,
+  productKey = safeFormatBytes32String(""),
+  incidentDate,
+}) => {
   const { setStatsByKey } = useSortableStats();
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const { liquidityTokenDecimals } = useAppConstants();
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { activeCommitment, status } = useFetchCoverStats({ coverKey });
+  const { activeCommitment, coverStatus, productStatus } = useFetchCoverStats({
+    coverKey,
+    productKey,
+  });
   const router = useRouter();
 
+  const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
@@ -53,21 +64,30 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
         <div className="rounded-full w-18 h-18 bg-DEEAF6">
           <img
             src={imgSrc}
-            alt={coverInfo.projectName}
+            alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
         <div>
-          <CardStatusBadge status={status} />
+          <CardStatusBadge
+            status={isDiversified ? productStatus : coverStatus}
+          />
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.projectName}
+        {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(coverInfo.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(coverInfo.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(
+          (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
+          router.locale
+        )}
+        -
+        {formatPercent(
+           (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
+          router.locale
+        )}
       </div>
 
       {/* Divider */}
@@ -90,7 +110,10 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           className=""
           title={
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).long
           }
@@ -98,7 +121,10 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           <Trans>Protection:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).short
           }

@@ -10,10 +10,13 @@ export const Table = ({ children }) => {
   );
 };
 
-export const TableWrapper = ({ children }) => {
+export const TableWrapper = ({ children, ...rest }) => {
   return (
     <>
-      <div className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden">
+      <div
+        className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden"
+        {...rest}
+      >
         {children}
       </div>
     </>
@@ -38,9 +41,9 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   );
 };
 
-export const THead = ({ columns }) => {
+export const THead = ({ columns, ...rest }) => {
   return (
-    <thead className="text-white bg-black rounded-sm">
+    <thead className="text-white bg-black rounded-sm" {...rest}>
       <tr>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;

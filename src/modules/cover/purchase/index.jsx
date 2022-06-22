@@ -2,9 +2,9 @@ import { Container } from "@/common/Container/Container";
 import { AcceptRulesForm } from "@/common/AcceptRulesForm/AcceptRulesForm";
 import { useRouter } from "next/router";
 import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
-import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
+import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { convertFromUnits } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
@@ -18,21 +18,26 @@ import { t, Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
-
+  const productKey = safeFormatBytes32String(product_id || "");
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const { info } = useMyLiquidityInfo({ coverKey });
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+
+  const isDiversified = isValidProduct(productKey);
+
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei
+    availableLiquidityInWei,
+    liquidityTokenDecimals
   ).toString();
 
   if (!coverInfo) {
@@ -46,6 +51,10 @@ export const CoverPurchaseDetailsPage = () => {
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const totalLiquidity = info.totalLiquidity;
 
+  const projectName = !isDiversified
+    ? coverInfo?.infoObj?.coverName
+    : coverInfo?.infoObj?.productName;
+
   return (
     <main>
       {/* hero */}
@@ -55,8 +64,10 @@ export const CoverPurchaseDetailsPage = () => {
             pages={[
               { name: t`Home`, href: "/", current: false },
               {
-                name: coverInfo?.coverName,
-                href: `/cover/${cover_id}/options`,
+                name: projectName,
+                href: !isDiversified
+                  ? `/cover/${cover_id}/options`
+                  : `/cover/${cover_id}/${product_id}/options`,
                 current: false,
               },
               { name: t`Purchase Policy`, current: true },
@@ -65,18 +76,19 @@ export const CoverPurchaseDetailsPage = () => {
           <div className="flex flex-wrap">
             <CoverProfileInfo
               coverKey={coverKey}
+              productKey={productKey}
               imgSrc={imgSrc}
-              projectName={coverInfo?.coverName}
-              links={coverInfo?.links}
+              projectName={projectName}
+              links={coverInfo?.infoObj?.links}
             />
 
             {/* Total Liquidity */}
             <HeroStat title={t`Total Liquidity`}>
               {
                 formatCurrency(
-                  convertFromUnits(totalLiquidity),
+                  convertFromUnits(totalLiquidity, liquidityTokenDecimals),
                   router.locale,
-                  "DAI",
+                  liquidityTokenSymbol,
                   true
                 ).long
               }
@@ -90,15 +102,20 @@ export const CoverPurchaseDetailsPage = () => {
         <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 md:col-span-2">
             <span className="hidden md:block">
-              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+              <SeeMoreParagraph
+                text={coverInfo.infoObj.about}
+              ></SeeMoreParagraph>
             </span>
             {acceptedRules ? (
               <div className="mt-12">
-                <PurchasePolicyForm coverKey={coverKey} />
+                <PurchasePolicyForm
+                  coverKey={coverKey}
+                  productKey={productKey}
+                />
               </div>
             ) : (
               <>
-                <CoverRules rules={coverInfo?.rules} />
+                <CoverRules rules={coverInfo?.infoObj?.rules} />
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}
@@ -113,9 +130,11 @@ export const CoverPurchaseDetailsPage = () => {
           </div>
 
           <span className="block col-span-3 row-start-1 md:hidden mb-11">
-            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+            <SeeMoreParagraph
+              text={coverInfo?.infoObj?.about}
+            ></SeeMoreParagraph>
           </span>
-          <CoverPurchaseResolutionSources coverInfo={coverInfo}>
+          <CoverResolutionSources coverInfo={coverInfo}>
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div
               className="flex justify-between pb-2"
@@ -128,7 +147,7 @@ export const CoverPurchaseDetailsPage = () => {
                 {formatCurrency(availableLiquidity, router.locale).short}
               </strong>
             </div>
-          </CoverPurchaseResolutionSources>
+          </CoverResolutionSources>
         </Container>
       </div>
 

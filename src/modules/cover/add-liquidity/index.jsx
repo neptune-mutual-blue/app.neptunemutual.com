@@ -10,23 +10,26 @@ import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
-import { convertFromUnits } from "@/utils/bn";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
-
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
-  const { info, isWithdrawalWindowOpen, accrueInterest } = useMyLiquidityInfo({
+  const productKey = safeFormatBytes32String("");
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+
+  const {
+    info,
+    refetch: refetchInfo,
+    isWithdrawalWindowOpen,
+    accrueInterest,
+  } = useMyLiquidityInfo({
     coverKey,
   });
 
@@ -35,9 +38,6 @@ export const CoverAddLiquidityDetailsPage = () => {
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
-
-  const totalLiquidity = info.totalLiquidity;
-  const reassuranceAmount = info.totalReassurance;
 
   const handleAcceptRules = () => {
     setAcceptedRules(true);
@@ -101,63 +101,14 @@ export const CoverAddLiquidityDetailsPage = () => {
           <span className="block col-span-3 row-start-1 md:hidden mb-11">
             <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
           </span>
-          <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
-            <CoverPurchaseResolutionSources coverInfo={coverInfo}>
-              <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-              <div
-                className="flex justify-between pb-2"
-                title={
-                  formatCurrency(
-                    convertFromUnits(totalLiquidity),
-                    router.locale
-                  ).long
-                }
-              >
-                <span className="">
-                  <Trans>Total Liquidity:</Trans>
-                </span>
-                <strong className="font-bold text-right">
-                  {
-                    formatCurrency(
-                      convertFromUnits(totalLiquidity),
-                      router.locale
-                    ).short
-                  }
-                </strong>
-              </div>
-              <div
-                className="flex justify-between"
-                title={
-                  formatCurrency(
-                    convertFromUnits(reassuranceAmount),
-                    router.locale
-                  ).long
-                }
-              >
-                <span className="">
-                  <Trans>Reassurance:</Trans>
-                </span>
-                <strong className="font-bold text-right">
-                  {
-                    formatCurrency(
-                      convertFromUnits(reassuranceAmount),
-                      router.locale
-                    ).short
-                  }
-                </strong>
-              </div>
-            </CoverPurchaseResolutionSources>
-            <div className="flex justify-end">
-              {isWithdrawalWindowOpen && (
-                <button
-                  className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
-                  onClick={accrueInterest}
-                >
-                  <Trans>Accrue</Trans>
-                </button>
-              )}
-            </div>
-          </div>
+
+          <LiquidityResolutionSources
+            info={info}
+            coverInfo={coverInfo}
+            refetchInfo={refetchInfo}
+            isWithdrawalWindowOpen={isWithdrawalWindowOpen}
+            accrueInterest={accrueInterest}
+          />
         </Container>
       </div>
 

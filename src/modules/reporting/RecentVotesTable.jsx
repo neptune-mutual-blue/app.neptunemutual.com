@@ -17,6 +17,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const renderHeader = (col) => (
   <th
@@ -69,10 +70,11 @@ const columns = [
   },
 ];
 
-export const RecentVotesTable = ({ coverKey, incidentDate }) => {
+export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
   const { page, limit, setPage } = usePagination();
   const { data, loading, hasMore } = useRecentVotes({
     coverKey,
+    productKey,
     incidentDate,
     page,
     limit,
@@ -82,7 +84,7 @@ export const RecentVotesTable = ({ coverKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className="mb-6 font-bold text-h4 font-sora mt-14">
+      <h3 className="mb-6 font-bold text-center text-h4 font-sora mt-14 md:text-left">
         <Trans>Recent Votes</Trans>
       </h3>
 
@@ -123,6 +125,7 @@ const WhenRenderer = ({ row }) => {
 
 const AmountRenderer = ({ row }) => {
   const router = useRouter();
+  const { NPMTokenSymbol } = useAppConstants();
 
   return (
     <td className="px-6 py-6">
@@ -138,7 +141,7 @@ const AmountRenderer = ({ row }) => {
             formatCurrency(
               convertFromUnits(row.stake),
               router.locale,
-              "NPM",
+              NPMTokenSymbol,
               true
             ).long
           }
@@ -147,7 +150,7 @@ const AmountRenderer = ({ row }) => {
             formatCurrency(
               convertFromUnits(row.stake),
               router.locale,
-              "NPM",
+              NPMTokenSymbol,
               true
             ).short
           }

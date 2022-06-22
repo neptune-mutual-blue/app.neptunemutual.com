@@ -9,23 +9,31 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
-import { useCovers } from "@/src/context/Covers";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useRouter } from "next/router";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const ResolveIncident = ({
   refetchReport,
   incidentReport,
   resolvableTill,
 }) => {
+  const router = useRouter();
+  const { product_id } = router.query;
   const [isOpen, setIsOpen] = useState(false);
+  const productKey = safeFormatBytes32String(product_id || "");
   const { resolve, emergencyResolve, resolving, emergencyResolving } =
     useResolveIncident({
-      coverKey: incidentReport.key,
+      coverKey: incidentReport.coverKey,
+      productKey: productKey,
       incidentDate: incidentReport.incidentDate,
     });
 
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(incidentReport.key);
-  const logoSource = getCoverImgSrc({ key: incidentReport.key });
+  const coverInfo = useCoverOrProductData({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+  });
+  const logoSource = getCoverImgSrc({ key: incidentReport.coverKey });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -41,7 +49,7 @@ export const ResolveIncident = ({
         <CountDownTimer title={t`Resolving in`} target={resolvableTill} />
       )}
 
-      <div className="flex flex-wrap w-auto gap-10 mb-16">
+      <div className="flex flex-wrap justify-center w-auto gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
             disabled={resolving}
@@ -98,7 +106,7 @@ const EmergencyResolveModal = ({
       onClose={onClose}
       disabled={emergencyResolving}
     >
-      <ModalWrapper>
+      <ModalWrapper className="max-w-sm sm:max-w-none">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
@@ -112,7 +120,7 @@ const EmergencyResolveModal = ({
         <div className="mt-8 mb-6 font-semibold uppercase">
           <Trans>Select Your Decision</Trans>
         </div>
-        <div className="flex gap-4 my-4">
+        <div className="flex flex-col gap-4 my-4 sm:flex-row">
           <Radio
             label={t`INCIDENT OCCURED`}
             id="decision-1"

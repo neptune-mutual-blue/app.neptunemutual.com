@@ -23,16 +23,24 @@ import { useNetwork } from "@/src/context/Network";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
   const { info, refetch: refetchBondInfo } = useBondInfo();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const { account } = useWeb3React();
-  const tokenAddress = info.lpTokenAddress;
-  const tokenSymbol = useTokenSymbol(tokenAddress);
-  const { NPMTokenAddress, liquidityTokenAddress, getPriceByAddress } =
-    useAppConstants();
+  const lpTokenAddress = info.lpTokenAddress;
+  const lpTokenSymbol = useTokenSymbol(lpTokenAddress);
+  const lpTokenDecimals = useTokenDecimals(lpTokenAddress);
+  const {
+    NPMTokenAddress,
+    liquidityTokenAddress,
+    liquidityTokenDecimals,
+    NPMTokenSymbol,
+    getPriceByAddress,
+    NPMTokenDecimals,
+  } = useAppConstants();
   const router = useRouter();
 
   const {
@@ -48,9 +56,11 @@ const BondPage = () => {
     handleApprove,
     handleBond,
   } = useCreateBond({ info, value, refetchBondInfo });
+
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
   const marketPrice = convertToUnits(
-    getPriceByAddress(NPMTokenAddress)
+    getPriceByAddress(NPMTokenAddress),
+    NPMTokenDecimals
   ).toString();
 
   const leftHalf = [
@@ -59,14 +69,14 @@ const BondPage = () => {
       value: formatCurrency(
         getDiscountedPrice(
           info.discountRate,
-          convertFromUnits(marketPrice).toString()
+          convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
         ),
         router.locale,
         "USD"
       ).short,
       tooltip: getDiscountedPrice(
         info.discountRate,
-        convertFromUnits(marketPrice).toString()
+        convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
       ),
       valueClasses: "text-h3 text-4e7dd9 mt-1",
     },
@@ -74,17 +84,17 @@ const BondPage = () => {
       title: t`Maximum Bond`,
       value: `${
         formatCurrency(
-          convertFromUnits(info.maxBond).toString(),
+          convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).short
       }`,
       tooltip: `${
         formatCurrency(
-          convertFromUnits(info.maxBond).toString(),
+          convertFromUnits(info.maxBond, NPMTokenDecimals).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).long
       }`,
@@ -97,28 +107,38 @@ const BondPage = () => {
     {
       title: t`Market Price`,
       value: formatCurrency(
-        convertFromUnits(marketPrice).toString(),
+        convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
         router.locale,
         "USD"
       ).short,
-      tooltip: convertFromUnits(marketPrice).toString(),
+      tooltip: convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
       valueClasses: "text-h3 text-9B9B9B mt-1",
     },
   ];
 
-  const claimable = convertFromUnits(info.claimable).toNumber();
+  const claimable = convertFromUnits(
+    info.claimable,
+    NPMTokenDecimals
+  ).isGreaterThan(0);
 
   if (account) {
     rightHalf.push({
       title: t`Your Bond`,
       value: claimable
-        ? `${formatCurrency(claimable, router.locale, "NPM", true).short}`
+        ? `${
+            formatCurrency(
+              convertFromUnits(info.claimable, NPMTokenDecimals).toString(),
+              router.locale,
+              NPMTokenSymbol,
+              true
+            ).short
+          }`
         : "",
       tooltip: `${
         formatCurrency(
-          convertFromUnits(info.claimable).toString(),
+          convertFromUnits(info.claimable, NPMTokenDecimals).toString(),
           router.locale,
-          "NPM",
+          NPMTokenSymbol,
           true
         ).long
       }`,
@@ -140,7 +160,7 @@ const BondPage = () => {
   };
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, lpTokenDecimals).toString());
   };
 
   const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || "0");
@@ -162,19 +182,22 @@ const BondPage = () => {
           labelText={t`Enter your amount`}
           inputValue={value}
           tokenBalance={balance}
-          tokenSymbol={tokenSymbol}
-          tokenAddress={tokenAddress}
+          tokenSymbol={lpTokenSymbol}
+          tokenAddress={lpTokenAddress}
+          tokenDecimals={lpTokenDecimals}
           inputId={"bond-amount"}
           onChange={handleChange}
           disabled={approving || bonding}
           handleChooseMax={handleChooseMax}
+          data-testid="bond-amount-input"
         />
         {error && <p className="px-3 text-FA5C2F">{error}</p>}
         <div className="mt-16 receive">
           <ReceiveAmountInput
             labelText={t`You Will Receive`}
-            tokenSymbol="NPM"
+            tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
+            data-testid="receive-amount-input"
           />
         </div>
 
@@ -203,7 +226,7 @@ const BondPage = () => {
                 t`Approving...`
               ) : (
                 <>
-                  <Trans>Approve</Trans> {tokenSymbol}
+                  <Trans>Approve</Trans> {lpTokenSymbol}
                 </>
               )}
             </RegularButton>
@@ -221,7 +244,7 @@ const BondPage = () => {
                 t`Bonding...`
               ) : (
                 <>
-                  <Trans>Bond</Trans> {tokenSymbol}
+                  <Trans>Bond</Trans> {lpTokenSymbol}
                 </>
               )}
             </RegularButton>

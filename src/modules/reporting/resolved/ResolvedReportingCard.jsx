@@ -9,13 +9,19 @@ import DateLib from "@/lib/date/DateLib";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
+export const ResolvedReportingCard = ({
+  id,
+  coverKey,
+  productKey = safeFormatBytes32String(""),
+  status,
+  resolvedOn,
+}) => {
   const { setStatsByKey } = useSortableStats();
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const imgSrc = getCoverImgSrc({ key: coverKey });
   const router = useRouter();
 
@@ -36,7 +42,7 @@ export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
         <div className="rounded-full w-18 h-18 bg-DEEAF6">
           <img
             src={imgSrc}
-            alt={coverInfo.projectName}
+            alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
@@ -45,7 +51,7 @@ export const ResolvedReportingCard = ({ id, coverKey, status, resolvedOn }) => {
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.projectName}
+        {coverInfo.infoObj.projectName}
       </h4>
 
       {/* Divider */}

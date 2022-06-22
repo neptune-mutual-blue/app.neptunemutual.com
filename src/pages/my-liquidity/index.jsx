@@ -4,7 +4,7 @@ import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { HeroStat } from "@/common/HeroStat";
-import { MyLiquidityPage } from "@/src/modules/my-liquidity";
+import { MyLiquidityPage } from "@/modules/my-liquidity";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useWeb3React } from "@web3-react/core";
@@ -13,6 +13,8 @@ import { convertFromUnits } from "@/utils/bn";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCalculateTotalLiquidity } from "@/src/hooks/useCalculateTotalLiquidity";
 
 export function getStaticProps() {
   return {
@@ -25,9 +27,12 @@ export function getStaticProps() {
 export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
   const { data, loading } = useMyLiquidities();
-  const { totalLiquidityProvided } = data;
+  const { liquidityList, myLiquidities } = data;
+  const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList });
 
   const router = useRouter();
+
+  const { liquidityTokenDecimals } = useAppConstants();
 
   if (disabled) {
     return <ComingSoon />;
@@ -54,7 +59,10 @@ export default function MyLiquidity({ disabled }) {
               {!loading &&
                 `$ ${
                   formatCurrency(
-                    convertFromUnits(totalLiquidityProvided),
+                    convertFromUnits(
+                      totalLiquidityProvided,
+                      liquidityTokenDecimals
+                    ),
                     router.locale,
                     "USD",
                     true
@@ -67,7 +75,7 @@ export default function MyLiquidity({ disabled }) {
         <hr className="border-b border-B0C4DB" />
       </Hero>
 
-      <MyLiquidityPage />
+      <MyLiquidityPage myLiquidities={myLiquidities} loading={loading} />
     </main>
   );
 }

@@ -9,8 +9,10 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
-export const useCalculatePods = ({ coverKey, value }) => {
+export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -19,6 +21,8 @@ export const useCalculatePods = ({ coverKey, value }) => {
   const [loading, setLoading] = useState(false);
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
+  const { liquidityTokenDecimals } = useAppConstants();
+  const tokenDecimals = useTokenDecimals(podAddress);
 
   useEffect(() => {
     let ignore = false;
@@ -57,7 +61,9 @@ export const useCalculatePods = ({ coverKey, value }) => {
           const podAmount = result;
 
           if (ignore) return;
-          setReceiveAmount(convertFromUnits(podAmount).toString());
+          setReceiveAmount(
+            convertFromUnits(podAmount, tokenDecimals).toString()
+          );
           cleanup();
         };
 
@@ -70,7 +76,9 @@ export const useCalculatePods = ({ coverKey, value }) => {
           cleanup();
         };
 
-        const args = [convertToUnits(debouncedValue).toString()];
+        const args = [
+          convertToUnits(debouncedValue, liquidityTokenDecimals).toString(),
+        ];
         invoke({
           instance,
           methodName: "calculatePods",
@@ -96,8 +104,10 @@ export const useCalculatePods = ({ coverKey, value }) => {
     debouncedValue,
     invoke,
     library,
+    liquidityTokenDecimals,
     networkId,
     notifyError,
+    tokenDecimals,
     receiveAmount,
   ]);
 

@@ -13,6 +13,8 @@ export const useActivePolicies = () => {
   const { account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !account) {
       return;
     }
@@ -49,7 +51,12 @@ export const useActivePolicies = () => {
             }
             totalAmountToCover
             expiresOn
+            coverKey
+            productKey
             cover {
+              id
+            }
+            product {
               id
             }
           }
@@ -59,6 +66,7 @@ export const useActivePolicies = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
         setData(res.data);
       })
       .catch((err) => {
@@ -67,6 +75,10 @@ export const useActivePolicies = () => {
       .finally(() => {
         setLoading(false);
       });
+
+    return () => {
+      ignore = true;
+    };
   }, [account, networkId]);
 
   const activePolicies = data?.userPolicies || [];

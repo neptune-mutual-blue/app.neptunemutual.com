@@ -8,14 +8,12 @@ import {
   isEqualTo,
   toBN,
 } from "@/utils/bn";
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
 import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { Alert } from "@/common/Alert/Alert";
@@ -23,25 +21,26 @@ import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { BackButton } from "@/common/BackButton/BackButton";
 
 export const ProvideLiquidityForm = ({ coverKey, info }) => {
-  const [lqValue, setLqValue] = useState();
-  const [npmValue, setNPMValue] = useState();
+  const [lqValue, setLqValue] = useState("");
+  const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [lqErrorMsg, setLqErrorMsg] = useState("");
 
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
-  const npmTokenSymbol = useTokenSymbol(NPMTokenAddress);
-
-  const toast = useToast();
+  const {
+    liquidityTokenAddress,
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol,
+    liquidityTokenDecimals,
+    NPMTokenDecimals: npmTokenDecimals,
+  } = useAppConstants();
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
@@ -58,6 +57,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     isError,
     providing,
     podSymbol,
+    podAddress,
     lqBalanceLoading,
     npmBalanceLoading,
     lqAllowanceLoading,
@@ -66,76 +66,89 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     coverKey,
     lqValue,
     npmValue,
+    liquidityTokenDecimals,
+    npmTokenDecimals,
   });
   const { minStakeToAddLiquidity, myStake } = useLiquidityFormsContext();
 
   const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
     coverKey,
     value: lqValue,
+    podAddress,
   });
-
-  const ViewToastLiquidityLink = () => (
-    <Link href="/my-liquidity">
-      <a className="flex items-center">
-        <span className="inline-block">
-          <Trans>View provided liquidity</Trans>
-        </span>
-        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
-      </a>
-    </Link>
-  );
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
   useEffect(() => {
-    if (npmValue && isGreater(requiredStake, convertToUnits(npmValue))) {
+    if (
+      npmValue &&
+      isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
+    ) {
       setNpmErrorMsg(t`Insufficient Stake`);
-    } else if (npmValue && isEqualTo(convertToUnits(npmValue), "0")) {
+    } else if (
+      npmValue &&
+      isEqualTo(convertToUnits(npmValue, npmTokenDecimals), "0")
+    ) {
       // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
       // then user should be able to provide ZERO for this input.
       setNpmErrorMsg(t`Please specify an amount`);
-    } else if (npmValue && isGreater(convertToUnits(npmValue), npmBalance)) {
+    } else if (
+      npmValue &&
+      isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
+    ) {
       setNpmErrorMsg(t`Exceeds maximum balance`);
     } else {
       setNpmErrorMsg("");
     }
 
-    if (lqValue && isGreater(convertToUnits(lqValue), lqTokenBalance)) {
+    if (
+      lqValue &&
+      isGreater(convertToUnits(lqValue, liquidityTokenDecimals), lqTokenBalance)
+    ) {
       setLqErrorMsg(t`Exceeds maximum balance`);
-    } else if (lqValue && isEqualTo(convertToUnits(lqValue), 0)) {
+    } else if (
+      lqValue &&
+      isEqualTo(convertToUnits(lqValue, liquidityTokenDecimals), 0)
+    ) {
       setLqErrorMsg(t`Please specify an amount`);
     } else {
       setLqErrorMsg("");
     }
-  }, [lqTokenBalance, lqValue, npmBalance, npmValue, requiredStake]);
+  }, [
+    liquidityTokenDecimals,
+    lqTokenBalance,
+    lqValue,
+    npmBalance,
+    npmTokenDecimals,
+    npmValue,
+    requiredStake,
+  ]);
 
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return;
     }
-    setNPMValue(convertFromUnits(npmBalance).toString());
+    setNPMValue(convertFromUnits(npmBalance, npmTokenDecimals).toString());
   };
 
   const handleNPMChange = (val) => {
-    setNPMValue(val);
+    if (typeof val === "string") {
+      setNPMValue(val);
+    }
   };
 
   const handleMaxLq = () => {
     if (!lqTokenBalance) {
       return;
     }
-    setLqValue(convertFromUnits(lqTokenBalance).toString());
+    setLqValue(
+      convertFromUnits(lqTokenBalance, liquidityTokenDecimals).toString()
+    );
   };
 
   const handleLqChange = (val) => {
-    setLqValue(val);
-  };
-
-  const handleSuccessViewProvidedLiquidity = () => {
-    toast.pushSuccess({
-      title: t`Added Liquidity Successfully`,
-      message: <ViewToastLiquidityLink />,
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
+    if (typeof val === "string") {
+      setLqValue(val);
+    }
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
@@ -161,7 +174,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } else if (lqBalanceLoading || npmBalanceLoading) {
     loadingMessage = t`Fetching balances...`;
   } else if (npmAllowanceLoading) {
-    loadingMessage = t`Fetching ${npmTokenSymbol} allowance...`;
+    loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`;
   } else if (lqAllowanceLoading) {
     loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
@@ -175,8 +188,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           handleChooseMax={handleMaxNPM}
           error={npmErrorMsg}
           tokenAddress={NPMTokenAddress}
-          tokenSymbol={npmTokenSymbol}
+          tokenSymbol={NPMTokenSymbol}
           tokenBalance={npmBalance || "0"}
+          tokenDecimals={npmTokenDecimals}
           inputId={"npm-stake"}
           inputValue={npmValue}
           disabled={lqApproving || providing}
@@ -185,14 +199,16 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             <TokenAmountWithPrefix
               amountInUnits={minStakeToAddLiquidity}
               prefix={t`Minimum Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
+              decimals={npmTokenDecimals}
             />
           )}
           {isGreater(myStake, "0") && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
               prefix={t`Your Stake:` + " "}
-              symbol={npmTokenSymbol}
+              symbol={NPMTokenSymbol}
+              decimals={npmTokenDecimals}
             />
           )}
 
@@ -210,6 +226,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           error={isError}
           tokenAddress={liquidityTokenAddress}
           tokenSymbol={liquidityTokenSymbol}
+          tokenDecimals={liquidityTokenDecimals}
           tokenBalance={lqTokenBalance || "0"}
           inputId={"dai-amount"}
           inputValue={lqValue}
@@ -284,7 +301,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               t`Approving...`
             ) : (
               <>
-                <Trans>Approve</Trans> {npmTokenSymbol || t`Stake`}
+                <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
               </>
             )}
           </RegularButton>
@@ -304,7 +321,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handleProvide(() => {
-                handleSuccessViewProvidedLiquidity();
                 setNPMValue("");
                 setLqValue("");
               });
@@ -322,12 +338,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       </div>
 
       <div className="mt-16">
-        <OutlinedButton
-          className="block m-auto rounded-big sm:m-0"
-          onClick={() => router.back()}
-        >
-          &#x27F5;&nbsp;<Trans>Back</Trans>
-        </OutlinedButton>
+        <BackButton onClick={() => router.back()} />
       </div>
     </div>
   );

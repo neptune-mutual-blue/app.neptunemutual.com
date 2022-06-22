@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { registry } from "@neptunemutual/sdk";
+import { config, registry, utils, multicall } from "@neptunemutual/sdk";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
@@ -9,6 +9,9 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
+import DateLib from "@/lib/date/DateLib";
+
+const { Contract, Provider } = multicall;
 
 const defaultInfo = {
   fee: "0",
@@ -17,9 +20,16 @@ const defaultInfo = {
   floor: "0",
   ceiling: "0",
   rate: "0",
+  expiryDate: "0",
 };
 
-export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
+export const usePolicyFees = ({
+  value,
+  coverMonth,
+  coverKey,
+  productKey,
+  liquidityTokenDecimals,
+}) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -57,56 +67,47 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
       };
 
       try {
-        const policyContract = await registry.PolicyContract.getInstance(
+        const policyContractAddress = await registry.PolicyContract.getAddress(
           networkId,
           signerOrProvider
         );
 
-        const args = [
+        const multiCallProvider = new Provider(signerOrProvider.provider);
+
+        await multiCallProvider.init(); // Only required when `chainId` is not provided in the `Provider` constructor
+
+        const instance = new Contract(
+          policyContractAddress,
+          config.abis.IPolicy
+        );
+
+        const productKeyArg = productKey || utils.keyUtil.toBytes32("");
+
+        const getCoverFeeInfoCall = instance.getCoverFeeInfo(
           coverKey,
+          productKeyArg,
           parseInt(coverMonth, 10),
-          convertToUnits(debouncedValue).toString(),
-        ];
+          convertToUnits(debouncedValue, liquidityTokenDecimals).toString()
+        );
+        const getExpiryDateCall = instance.getExpiryDate(
+          DateLib.unix(),
+          parseInt(coverMonth, 10)
+        );
 
-        const onTransactionResult = (result) => {
-          const [
-            fee,
-            utilizationRatio,
-            totalAvailableLiquidity,
-            floor,
-            ceiling,
-            rate,
-          ] = result;
+        const [getCoverFeeInfoResult, getExpiryDateResult] =
+          await multiCallProvider.all([getCoverFeeInfoCall, getExpiryDateCall]);
 
-          if (ignore) return;
-          cleanup();
-          setData({
-            fee: fee.toString(),
-            utilizationRatio: utilizationRatio.toString(),
-            totalAvailableLiquidity: totalAvailableLiquidity.toString(),
-            floor: floor.toString(),
-            ceiling: ceiling.toString(),
-            rate: rate.toString(),
-          });
-        };
-
-        const onRetryCancel = () => {
-          cleanup();
-        };
-
-        const onError = (err) => {
-          handleError(err);
-          cleanup();
-        };
-
-        invoke({
-          instance: policyContract,
-          methodName: "getCoverFeeInfo",
-          args,
-          retry: false,
-          onTransactionResult,
-          onRetryCancel,
-          onError,
+        if (ignore) return;
+        cleanup();
+        setData({
+          fee: getCoverFeeInfoResult.fee.toString(),
+          utilizationRatio: getCoverFeeInfoResult.utilizationRatio.toString(),
+          totalAvailableLiquidity:
+            getCoverFeeInfoResult.totalAvailableLiquidity.toString(),
+          floor: getCoverFeeInfoResult.floor.toString(),
+          ceiling: getCoverFeeInfoResult.ceiling.toString(),
+          rate: getCoverFeeInfoResult.rate.toString(),
+          expiryDate: getExpiryDateResult.toString(),
         });
       } catch (err) {
         handleError(err);
@@ -125,8 +126,10 @@ export const usePolicyFees = ({ value, coverMonth, coverKey }) => {
     debouncedValue,
     invoke,
     library,
+    liquidityTokenDecimals,
     networkId,
     notifyError,
+    productKey,
   ]);
 
   return {

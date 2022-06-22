@@ -5,12 +5,13 @@ import { stringifyProps } from "@/utils/props";
 export const getUnstakeInfoFor = async (
   chainId,
   coverKey,
+  productKey,
   account,
   incidentDate,
   provider
 ) => {
   try {
-    const all = await getKeys(coverKey, account, incidentDate);
+    const all = await getKeys(coverKey, productKey, account, incidentDate);
 
     const result = await utils.store.readStorage(chainId, all, provider);
 

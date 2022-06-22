@@ -12,6 +12,8 @@ export const useExpiredPolicies = () => {
   const { account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !account) {
       return;
     }
@@ -41,6 +43,8 @@ export const useExpiredPolicies = () => {
             }
           ) {
             id
+            coverKey
+            productKey
             cxToken {
               id
               creationDate
@@ -58,6 +62,7 @@ export const useExpiredPolicies = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
         setData(res.data);
       })
       .catch((err) => {
@@ -66,6 +71,10 @@ export const useExpiredPolicies = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [account, networkId]);
 
   return {

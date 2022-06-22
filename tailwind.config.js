@@ -9,12 +9,15 @@ module.exports = {
       xl: "1200px",
     },
     boxShadow: {
+      "0": "0 0 #0000",
       "card": "0px 6px 8px 0px rgba(0, 0, 0, 0.1)",
-      "mainCard": "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
+      "mainCard":
+        "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
       "toolTip": "0px 2px 6px rgba(0, 0, 0, 0.25)",
       "option": "0px 4px 8px rgba(0, 0, 0, 0.1)",
       "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
       "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
+      "tx-overview": "0px 4px 11px rgba(1, 5, 45, 0.3)",
     },
     colors: {
       transparent: "transparent",
@@ -74,17 +77,24 @@ module.exports = {
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
+        coverCard: "0px 6px 8px rgba(0, 0, 0, 0.1)",
       },
       spacing: {
         /* 72px */
-        18: "4.5rem",
+        "18": "4.5rem",
+        "22px": "22px",
+        "2.5px": "2.5px",
       },
       lineHeight: {
-        4.5: "18px",
+        "4.5": "18px",
+        "53px": "53px",
       },
       maxWidth: {
         180: "180px",
         15: "15rem",
+        52: "208px",
+        56: "224px",
+        60: "240px",
       },
       minWidth: {
         sm: "384px",
@@ -134,6 +144,9 @@ module.exports = {
         "FEFEFF": "#FEFEFF",
         "01052D": "#01052D",
         "5C738F": "#5C738F",
+        "404A5C": "#404A5C",
+        "EEF4FF": "#EEF4FF",
+        "F7E2BE": "#F7E2BE",
       },
       minHeight: {
         360: "360px",
@@ -141,11 +154,13 @@ module.exports = {
       maxHeight: {
         "144": "36rem",
         "90vh": "90vh",
+        "100vh": "100vh",
         "30vh": "30vh",
         "45vh": "45vh",
       },
       height: {
-        500: "500px",
+        "500": "500px",
+        "100vh": "100vh",
       },
       width: {
         800: "800px",

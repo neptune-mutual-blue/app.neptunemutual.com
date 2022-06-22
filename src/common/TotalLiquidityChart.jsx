@@ -7,12 +7,15 @@ import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
 const TotalLiquidityChart = () => {
+  const { liquidityTokenDecimals } = useAppConstants();
+
   const [chartData, setChartData] = useState([]);
   const { data } = useProtocolDayData();
   const chartRef = useRef();
@@ -157,12 +160,17 @@ const TotalLiquidityChart = () => {
   }, []);
 
   useEffect(() => {
+    let ignore = false;
+    let chartDataTimeout;
+
     if (data) {
       const _chartData = [];
       data.map(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
-          y: parseFloat(convertFromUnits(totalLiquidity).toString()),
+          y: parseFloat(
+            convertFromUnits(totalLiquidity, liquidityTokenDecimals).toString()
+          ),
         });
       });
       _chartData.sort((a, b) => {
@@ -170,7 +178,8 @@ const TotalLiquidityChart = () => {
         if (a.x < b.x) return -1;
         else return 0;
       });
-      setTimeout(
+      if (ignore) return;
+      chartDataTimeout = setTimeout(
         () => {
           setChartData(_chartData);
           if (chartRef.current?.chart) {
@@ -180,7 +189,12 @@ const TotalLiquidityChart = () => {
         chartData.length ? 0 : 500
       );
     }
-  }, [data, chartData.length]);
+
+    return () => {
+      ignore = true;
+      clearTimeout(chartDataTimeout);
+    };
+  }, [data, chartData.length, liquidityTokenDecimals]);
 
   return (
     <div>

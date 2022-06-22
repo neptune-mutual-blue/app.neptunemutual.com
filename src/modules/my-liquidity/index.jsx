@@ -4,18 +4,12 @@ import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 
 import { MyLiquidityCoverCard } from "@/common/Cover/MyLiquidity/MyLiquidityCoverCard";
-import { useMyLiquidities } from "@/src/hooks/useMyLiquidities";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
-export const MyLiquidityPage = () => {
-  const {
-    data: { myLiquidities },
-    loading,
-  } = useMyLiquidities();
-
+export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
     <Container className="py-16">
       <div className="flex justify-end">
@@ -43,7 +37,9 @@ function MyLiquidities({ data, loading }) {
               <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                 <MyLiquidityCoverCard
                   coverKey={x.cover.id}
-                  totalPODs={x.totalPODs}
+                  totalPODs={x.totalPodsRemaining}
+                  tokenSymbol={x.cover.vaults[0].tokenSymbol}
+                  tokenDecimal={x.cover.vaults[0].tokenDecimal}
                 />
               </a>
             </Link>

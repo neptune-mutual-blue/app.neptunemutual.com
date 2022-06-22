@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import { sumOf } from "@/utils/bn";
 import { useQuery } from "@/src/hooks/useQuery";
 
 const getQuery = (account) => {
   return `
 {
-  coverUsers(
+  userLiquidities(
     where: {
-      user: "${account}"
-      totalPODs_gt: "0"
+      account: "${account}"
+      totalPodsRemaining_gt: "0"
     }
   ) {
     id
-    user
-    totalLiquidity
-    totalPODs
+    account
+    totalPodsRemaining
     cover {
       id
+      coverKey
+      vaults {
+        tokenSymbol
+        tokenDecimals
+        address
+      }
     }
   }
 }
@@ -29,6 +33,7 @@ export const useMyLiquidities = () => {
   const [loading, setLoading] = useState(false);
 
   const { account } = useWeb3React();
+
   const { data: graphData, refetch } = useQuery();
 
   useEffect(() => {
@@ -50,16 +55,16 @@ export const useMyLiquidities = () => {
       .finally(() => setLoading(false));
   }, [account, refetch]);
 
-  const myLiquidities = data?.coverUsers || [];
-  const totalLiquidityProvided = sumOf(
-    ...myLiquidities.map((x) => x.totalLiquidity || "0"),
-    "0"
-  );
+  const myLiquidities = data?.userLiquidities || [];
+  const liquidityList = myLiquidities.map((x) => ({
+    podAmount: x.totalPodsRemaining || "0",
+    podAddress: x.cover.vaults[0].address,
+  }));
 
   return {
     data: {
       myLiquidities,
-      totalLiquidityProvided,
+      liquidityList,
     },
     loading,
   };

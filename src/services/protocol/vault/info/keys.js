@@ -1,71 +1,144 @@
 import sdk from "@neptunemutual/sdk";
-import { ethers } from "ethers";
+import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
+import { BigNumber } from "@ethersproject/bignumber";
 import { registry } from "../../../store-keys";
+import { multicall } from "@neptunemutual/sdk";
 
-export const getKeys = async (chainId, provider, key, account) => {
+const { Contract, Provider } = multicall;
+
+export const getMetadataKeys = (coverKey) => {
+  return [registry.vault(coverKey, "vault"), registry.stablecoin("stablecoin")];
+};
+
+export const getKeys = async (provider, coverKey, account, metadata) => {
+  const { stablecoin, vault } = metadata;
+
+  const ethcallProvider = new Provider(provider);
+  await ethcallProvider.init();
+
+  const vaultContract = new Contract(vault, sdk.config.abis.IERC20Detailed);
+  const stablecoinContract = new Contract(
+    stablecoin,
+    sdk.config.abis.IERC20Detailed
+  );
+
+  const vaultStablecoinBalanceCall = stablecoinContract.balanceOf(vault);
+  const myPodBalanceCall = vaultContract.balanceOf(account);
+  const podTotalSupplyCall = vaultContract.totalSupply();
+  const vaultTokenSymbolCall = vaultContract.symbol();
+  const stablecoinTokenSymbolCall = stablecoinContract.symbol();
+
+  const [
+    myPodBalance,
+    podTotalSupply,
+    vaultStablecoinBalance,
+    vaultTokenSymbol,
+    stablecoinTokenSymbol,
+  ] = await ethcallProvider.all([
+    myPodBalanceCall,
+    podTotalSupplyCall,
+    vaultStablecoinBalanceCall,
+    vaultTokenSymbolCall,
+    stablecoinTokenSymbolCall,
+  ]);
+
   return [
+    {
+      returns: "address",
+      property: "stablecoin",
+      compute: async () => stablecoin,
+    },
+    {
+      returns: "address",
+      property: "vault",
+      compute: async () => vault,
+    },
+    {
+      returns: "uint256",
+      property: "podTotalSupply",
+      compute: async () => podTotalSupply,
+    },
+    {
+      returns: "uint256",
+      property: "myPodBalance",
+      compute: async () => myPodBalance,
+    },
+    {
+      returns: "uint256",
+      property: "vaultStablecoinBalance",
+      compute: async () => vaultStablecoinBalance,
+    },
+    {
+      returns: "uint256",
+      property: "vaultTokenSymbol",
+      compute: async () => vaultTokenSymbol,
+    },
+    {
+      returns: "uint256",
+      property: "stablecoinTokenSymbol",
+      compute: async () => stablecoinTokenSymbol,
+    },
     {
       key: [
         sdk.utils.keyUtil.PROTOCOL.NS.LENDING_STRATEGY_WITHDRAWAL_START,
-        key,
+        coverKey,
       ],
       returns: "uint256",
       property: "withdrawalStarts",
     },
     {
-      key: [sdk.utils.keyUtil.PROTOCOL.NS.LENDING_STRATEGY_WITHDRAWAL_END, key],
+      key: [
+        sdk.utils.keyUtil.PROTOCOL.NS.LENDING_STRATEGY_WITHDRAWAL_END,
+        coverKey,
+      ],
       returns: "uint256",
       property: "withdrawalEnds",
     },
     {
-      key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_REASSURANCE, key],
+      key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_REASSURANCE, coverKey],
       returns: "uint256",
       property: "totalReassurance",
     },
-    registry.vault(key, "vault"),
-    registry.stablecoin("stablecoin"),
     {
+      key: [
+        sdk.utils.keyUtil.PROTOCOL.NS.COVER_LIQUIDITY_STAKE,
+        coverKey,
+        account,
+      ],
+      signature: ["bytes32", "bytes32", "address"],
       returns: "uint256",
-      property: "podTotalSupply",
-      compute: async ({ result }) => {
-        const { vault } = result;
-        const pod = await sdk.registry.IERC20.getInstance(vault, provider);
-        return pod.totalSupply();
-      },
+      property: "myStake",
     },
     {
-      returns: "uint256",
-      property: "myPodBalance",
-      compute: async ({ result }) => {
-        const { vault } = result;
-        const pod = await sdk.registry.IERC20.getInstance(vault, provider);
-        return pod.balanceOf(account);
-      },
-    },
-    {
-      returns: "uint256",
-      property: "vaultStablecoinBalance",
-      compute: async ({ result }) => {
-        const { vault, stablecoin } = result;
-        const token = await sdk.registry.IERC20.getInstance(
-          stablecoin,
-          provider
-        );
-        return token.balanceOf(vault);
-      },
+      key: [sdk.utils.keyUtil.PROTOCOL.NS.ACCRUAL_INVOCATION, coverKey],
+      returns: "bool",
+      property: "isAccrualComplete",
     },
     {
       returns: "uint256",
       property: "amountLentInStrategies",
-      compute: async ({ result }) => {
-        const { stablecoin } = result;
-        const store = sdk.registry.Store.getInstance(chainId, provider);
-        const k = ethers.utils.solidityKeccak256(
+      fn: "getUint",
+      args: [
+        solidityKeccak256(
           ["bytes32", "bytes32", "address"],
-          [sdk.utils.keyUtil.PROTOCOL.NS.VAULT_STRATEGY_OUT, key, stablecoin]
-        );
+          [
+            sdk.utils.keyUtil.PROTOCOL.NS.VAULT_STRATEGY_OUT,
+            coverKey,
+            stablecoin,
+          ]
+        ),
+      ],
+    },
+    {
+      key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_LIQUIDITY_MIN_STAKE],
+      returns: "uint256",
+      property: "minStakeToAddLiquidity",
+      compute: async ({ value }) => {
+        if (value.toString() === "0") {
+          return BigNumber.from("10").pow(18).mul("250");
+        }
 
-        return store.getUint(k);
+        return value;
       },
     },
     {
@@ -73,6 +146,8 @@ export const getKeys = async (chainId, provider, key, account) => {
       property: "myShare",
       compute: async ({ result }) => {
         const { vaultStablecoinBalance, myPodBalance, podTotalSupply } = result;
+
+        if (podTotalSupply.toString() === "0") return "0";
         return vaultStablecoinBalance.mul(myPodBalance).div(podTotalSupply);
       },
     },
@@ -86,6 +161,7 @@ export const getKeys = async (chainId, provider, key, account) => {
           myPodBalance,
           podTotalSupply,
         } = result;
+        if (podTotalSupply.toString() === "0") return "0";
         return vaultStablecoinBalance
           .add(amountLentInStrategies)
           .mul(myPodBalance)

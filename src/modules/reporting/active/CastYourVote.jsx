@@ -18,12 +18,17 @@ import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { classNames } from "@/utils/classnames";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.key });
+  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.coverKey });
   const [error, setError] = useState("");
+  const router = useRouter();
+  const { product_id } = router.query;
+  const productKey = safeFormatBytes32String(product_id || "");
   const {
     balance,
     tokenAddress,
@@ -39,12 +44,13 @@ export const CastYourVote = ({ incidentReport }) => {
     isError,
   } = useVote({
     value,
-    coverKey: incidentReport.key,
+    coverKey: incidentReport.coverKey,
+    productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
   const { commission } = useReporterCommission();
 
-  const router = useRouter();
+  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   useEffect(() => {
     if (!value && error) {
@@ -77,7 +83,7 @@ export const CastYourVote = ({ incidentReport }) => {
   };
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, tokenDecimals).toString());
   };
 
   const handleValueChange = (val) => {
@@ -168,7 +174,7 @@ export const CastYourVote = ({ incidentReport }) => {
                 {isFirstDispute && (
                   <p className="text-9B9B9B">
                     <Trans>Minimum Stake:</Trans>{" "}
-                    {convertFromUnits(minStake).toString()} NPM
+                    {convertFromUnits(minStake, tokenDecimals).toString()} NPM
                   </p>
                 )}
                 {error && (
@@ -228,8 +234,8 @@ export const CastYourVote = ({ incidentReport }) => {
             <Trans>
               Since you are the first person to dispute this incident reporting,
               you will need to stake atleast{" "}
-              {convertFromUnits(minStake).toString()} NPM tokens. If the
-              majority agree with you, you will earn {commission}% of the
+              {convertFromUnits(minStake, tokenDecimals).toString()} NPM tokens.
+              If the majority agree with you, you will earn {commission}% of the
               platform fee instead of the incident reporter.
             </Trans>
           </Alert>

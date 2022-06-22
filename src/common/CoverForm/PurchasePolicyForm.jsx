@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { Radio } from "@/common/Radio/Radio";
 import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
@@ -12,38 +11,45 @@ import { convertFromUnits, isValidNumber } from "@/utils/bn";
 import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import { formatCurrency } from "@/utils/formatter/currency";
 import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
-import { useToast } from "@/lib/toast/context";
-import { TOAST_DEFAULT_TIMEOUT } from "@/src/config/toast";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { BackButton } from "@/common/BackButton/BackButton";
+import { isValidProduct } from "@/src/helpers/cover";
 
-export const PurchasePolicyForm = ({ coverKey }) => {
+export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
-  const [value, setValue] = useState();
-  const [coverMonth, setCoverMonth] = useState();
-  const { liquidityTokenAddress } = useAppConstants();
-  const liquidityTokenSymbol = useTokenSymbol(liquidityTokenAddress);
+
+  const isDiversified = isValidProduct(productKey);
+
+  const [value, setValue] = useState("");
+  const [coverMonth, setCoverMonth] = useState("");
+  const {
+    liquidityTokenAddress,
+    liquidityTokenDecimals,
+    liquidityTokenSymbol,
+  } = useAppConstants();
   const { availableLiquidity: availableLiquidityInWei } =
     useCoverStatsContext();
   const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei
+    availableLiquidityInWei,
+    liquidityTokenDecimals
   ).toString();
-  const toast = useToast();
   const monthNames = getMonthNames(router.locale);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
+    liquidityTokenDecimals,
     coverMonth,
     coverKey,
+    productKey,
   });
+
   const {
     balance,
     approving,
@@ -58,23 +64,18 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     value,
     coverMonth,
     coverKey,
+    productKey,
     feeAmount: feeData.fee,
     availableLiquidity,
   });
 
-  const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
-    useCoverStatsContext();
-
-  const ViewToastPoliciesLink = () => (
-    <Link href="/my-policies/active">
-      <a className="flex items-center">
-        <span className="inline-block">
-          <Trans>View purchased policies</Trans>
-        </span>
-        <OpenInNewIcon className="w-4 h-4 ml-2" fill="currentColor" />
-      </a>
-    </Link>
-  );
+  const {
+    isUserWhitelisted,
+    requiresWhitelist,
+    activeIncidentDate,
+    coverStatus,
+    productStatus,
+  } = useCoverStatsContext();
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -90,15 +91,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
     if (!balance) {
       return;
     }
-    setValue(convertFromUnits(balance).toString());
-  };
-
-  const handleSuccessViewPurchasedPolicies = () => {
-    toast.pushSuccess({
-      title: t`Purchased Policy Successfully`,
-      message: <ViewToastPoliciesLink />,
-      lifetime: TOAST_DEFAULT_TIMEOUT,
-    });
+    setValue(convertFromUnits(balance, liquidityTokenDecimals).toString());
   };
 
   const now = new Date();
@@ -123,14 +116,20 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </Alert>
     );
   }
+
+  const cover_id = safeParseBytes32String(coverKey);
+  const product_id = safeParseBytes32String(productKey);
+  const status = !isDiversified ? coverStatus : productStatus;
   if (status && status !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
+          href={
+            !isDiversified
+              ? `/reporting/${cover_id}/${activeIncidentDate}/details`
+              : `/reporting/${cover_id}/product/${product_id}/${activeIncidentDate}/details`
+          }
         >
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
@@ -147,6 +146,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
         handleChooseMax={handleChooseMax}
         tokenAddress={liquidityTokenAddress}
         tokenSymbol={liquidityTokenSymbol}
+        tokenDecimals={liquidityTokenDecimals}
         tokenBalance={balance}
         inputId={"cover-amount"}
         inputValue={value}
@@ -167,12 +167,12 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </TokenAmountInput>
       <div className="px-3 mt-12">
         <div className="flex items-center gap-2 mb-4">
-          <h5
+          <label
             className="block font-semibold text-black uppercase text-h6"
             htmlFor="cover-period"
           >
             <Trans>Select your coverage period</Trans>
-          </h5>
+          </label>
           {/* Tooltip */}
           <Tooltip.Root>
             <Tooltip.Trigger className="block">
@@ -216,9 +216,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
           />
         </div>
       </div>
-      {value && coverMonth && (
-        <PolicyFeesAndExpiry data={feeData} coverPeriod={coverMonth} />
-      )}
+      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
 
       <div className="mt-4">
         <DataLoadingIndicator message={loadingMessage} />
@@ -256,9 +254,8 @@ export const PurchasePolicyForm = ({ coverKey }) => {
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handlePurchase(() => {
-                handleSuccessViewPurchasedPolicies();
                 setValue("");
-                setCoverMonth();
+                setCoverMonth("");
               });
             }}
           >
@@ -268,9 +265,7 @@ export const PurchasePolicyForm = ({ coverKey }) => {
       </div>
 
       <div className="mt-20">
-        <OutlinedButton className="rounded-big" onClick={() => router.back()}>
-          &#x27F5;&nbsp;<Trans>Back</Trans>
-        </OutlinedButton>
+        <BackButton onClick={() => router.back()} />
       </div>
     </div>
   );

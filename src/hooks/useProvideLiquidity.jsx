@@ -18,16 +18,23 @@ import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityForms
 import { useAppConstants } from "@/src/context/AppConstants";
 import { t } from "@lingui/macro";
 
-export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
-  const [lqApproving, setLqApproving] = useState();
-  const [npmApproving, setNPMApproving] = useState();
-  const [providing, setProviding] = useState();
+export const useProvideLiquidity = ({
+  coverKey,
+  lqValue,
+  npmValue,
+  liquidityTokenDecimals,
+  npmTokenDecimals,
+}) => {
+  const [lqApproving, setLqApproving] = useState(false);
+  const [npmApproving, setNPMApproving] = useState(false);
+  const [providing, setProviding] = useState(false);
 
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const {
     vaultTokenAddress,
     vaultTokenSymbol,
+    vaultTokenDecimals,
     lqTokenBalance,
     lqBalanceLoading,
     updateLqTokenBalance,
@@ -97,11 +104,15 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       cleanup();
     };
 
-    lqTokenApprove(vaultTokenAddress, convertToUnits(lqValue).toString(), {
-      onTransactionResult,
-      onRetryCancel,
-      onError,
-    });
+    lqTokenApprove(
+      vaultTokenAddress,
+      convertToUnits(lqValue, liquidityTokenDecimals).toString(),
+      {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      }
+    );
   };
 
   const handleNPMTokenApprove = async () => {
@@ -137,11 +148,15 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
       cleanup();
     };
 
-    stakeTokenApprove(vaultTokenAddress, convertToUnits(npmValue).toString(), {
-      onTransactionResult,
-      onRetryCancel,
-      onError,
-    });
+    stakeTokenApprove(
+      vaultTokenAddress,
+      convertToUnits(npmValue, npmTokenDecimals).toString(),
+      {
+        onTransactionResult,
+        onRetryCancel,
+        onError,
+      }
+    );
   };
 
   const handleProvide = async (onTxSuccess) => {
@@ -162,8 +177,11 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const lqAmount = convertToUnits(lqValue).toString();
-      const npmAmount = convertToUnits(npmValue).toString();
+      const lqAmount = convertToUnits(
+        lqValue,
+        liquidityTokenDecimals
+      ).toString();
+      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString();
 
       const vault = await registry.Vault.getInstance(
         networkId,
@@ -179,9 +197,7 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
             success: t`Added Liquidity Successfully`,
             failure: t`Could not add liquidity`,
           },
-          {
-            onTxSuccess: onTxSuccess,
-          }
+          { onTxSuccess: onTxSuccess }
         );
         cleanup();
       };
@@ -212,11 +228,11 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
 
   const hasLqTokenAllowance = isGreaterOrEqual(
     lqTokenAllowance || "0",
-    convertToUnits(lqValue || "0")
+    convertToUnits(lqValue || "0", liquidityTokenDecimals)
   );
   const hasNPMTokenAllowance = isGreaterOrEqual(
     stakeTokenAllowance || "0",
-    convertToUnits(npmValue || "0")
+    convertToUnits(npmValue || "0", npmTokenDecimals)
   );
 
   const canProvideLiquidity =
@@ -227,7 +243,10 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
   const isError =
     lqValue &&
     (!isValidNumber(lqValue) ||
-      isGreater(convertToUnits(lqValue || "0"), lqTokenBalance || "0"));
+      isGreater(
+        convertToUnits(lqValue || "0", liquidityTokenDecimals),
+        lqTokenBalance || "0"
+      ));
 
   return {
     npmApproving,
@@ -246,6 +265,8 @@ export const useProvideLiquidity = ({ coverKey, lqValue, npmValue }) => {
     isError,
     providing,
     podSymbol: vaultTokenSymbol,
+    podAddress: vaultTokenAddress,
+    podDecimals: vaultTokenDecimals,
 
     handleLqTokenApprove,
     handleNPMTokenApprove,

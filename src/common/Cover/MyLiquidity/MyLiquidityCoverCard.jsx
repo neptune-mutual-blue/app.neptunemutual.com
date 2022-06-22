@@ -8,14 +8,21 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+export const MyLiquidityCoverCard = ({
+  coverKey,
+  totalPODs,
+  tokenSymbol = "POD",
+  tokenDecimal,
+}) => {
   const { info } = useMyLiquidityInfo({ coverKey });
   const router = useRouter();
+
+  const productKey = safeFormatBytes32String("");
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
@@ -67,9 +74,9 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
         className="flex justify-between px-1 text-sm"
         title={
           formatCurrency(
-            convertFromUnits(totalPODs || "0"),
+            convertFromUnits(totalPODs || "0", tokenDecimal),
             router.locale,
-            "POD",
+            tokenSymbol,
             true
           ).long
         }
@@ -78,9 +85,9 @@ export const MyLiquidityCoverCard = ({ coverKey, totalPODs }) => {
           <Trans>My Liquidity:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(totalPODs || "0"),
+              convertFromUnits(totalPODs || "0", tokenDecimal),
               router.locale,
-              "POD",
+              tokenSymbol,
               true
             ).short
           }

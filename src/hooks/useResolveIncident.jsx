@@ -4,12 +4,12 @@ import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
 import { t } from "@lingui/macro";
 
-export const useResolveIncident = ({ coverKey, incidentDate }) => {
+export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { invoke } = useInvokeMethod();
@@ -62,7 +62,8 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
+      const args = [coverKey, productKeyArg, incidentDate];
       invoke({
         instance,
         methodName: "resolve",
@@ -119,7 +120,8 @@ export const useResolveIncident = ({ coverKey, incidentDate }) => {
         cleanup();
       };
 
-      const args = [coverKey, incidentDate, decision];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
+      const args = [coverKey, productKeyArg, incidentDate, decision];
       invoke({
         instance,
         methodName: "emergencyResolve",

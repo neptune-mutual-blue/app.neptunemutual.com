@@ -11,8 +11,9 @@ import { convertFromUnits, convertToUnits, isGreater } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { Fragment, useState, useEffect } from "react";
 import { t, Trans } from "@lingui/macro";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
-export const NewIncidentReportForm = ({ coverKey }) => {
+export const NewIncidentReportForm = ({ coverKey, productKey }) => {
   const [value, setValue] = useState();
   const { minStake, fetchingMinStake } = useFirstReportingStake({ coverKey });
   const {
@@ -27,7 +28,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
     reporting,
     canReport,
     isError,
-  } = useReportIncident({ coverKey, value });
+  } = useReportIncident({ coverKey, productKey, value });
 
   const [incidentTitle, setIncidentTitle] = useState("");
   const [incidentDate, setIncidentDate] = useState("");
@@ -35,11 +36,12 @@ export const NewIncidentReportForm = ({ coverKey }) => {
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [validationErrors, setValidationErrors] = useState({});
+  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   const maxDate = new Date().toISOString().slice(0, 16);
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, tokenDecimals).toString());
   };
 
   const handleTextArea = (e) => {
@@ -134,7 +136,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
       >
         <Container>
           <div className="max-w-3xl">
-            <div className="text-h2 font-bold mb-4">{t`Report an incident`}</div>
+            <div className="mb-4 font-bold text-h2">{t`Report an incident`}</div>
             <div className="flex flex-wrap justify-between w-full md:flex-nowrap">
               <div className="flex-grow mr-4">
                 <Label htmlFor={"incident_title"} className={"mb-2 mt-6"}>
@@ -269,7 +271,7 @@ export const NewIncidentReportForm = ({ coverKey }) => {
               >
                 <p className="text-9B9B9B">
                   <Trans>Minimum Stake:</Trans>{" "}
-                  {convertFromUnits(minStake).toString()} NPM
+                  {convertFromUnits(minStake, tokenDecimals).toString()} NPM
                 </p>
                 {validationErrors.balanceError && (
                   <p className="flex items-center text-FA5C2F">

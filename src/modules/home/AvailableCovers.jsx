@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
-import { CoverCard } from "@/common/Cover/CoverCard";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { useCovers } from "@/src/context/Covers";
@@ -12,9 +10,9 @@ import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { Trans } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -73,7 +71,7 @@ export const AvailableCovers = () => {
     <Container className="py-16" data-testid="available-covers-container">
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
-          <Trans>Available Covers</Trans>
+          <Trans>Cover Products</Trans>
         </h1>
         <SearchAndSortBar
           searchValue={searchValue}
@@ -92,19 +90,8 @@ export const AvailableCovers = () => {
         )}
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
-          return (
-            <Link
-              href={`/cover/${safeParseBytes32String(c.key)}/options`}
-              key={c.key}
-            >
-              <a
-                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-                data-testid="cover-link"
-              >
-                <CoverCard details={c} />
-              </a>
-            </Link>
-          );
+
+          return <CoverCardWrapper key={c.coverKey} coverKey={c.coverKey} />;
         })}
       </Grid>
       {sortedCovers.length > showCount && (

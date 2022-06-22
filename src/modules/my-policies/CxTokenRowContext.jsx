@@ -3,6 +3,7 @@ import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import React from "react";
 
 const CxTokenRowContext = React.createContext({
+  tokenAddress: "",
   tokenSymbol: "",
   balance: "0",
   refetchBalance: async () => {},
@@ -19,7 +20,13 @@ export const CxTokenRowProvider = ({ row, _extraData, ...props }) => {
 
   return (
     <CxTokenRowContext.Provider
-      value={{ tokenSymbol, balance, loadingBalance, refetchBalance }}
+      value={{
+        tokenSymbol,
+        tokenAddress,
+        balance,
+        loadingBalance,
+        refetchBalance,
+      }}
       {...props}
     />
   );

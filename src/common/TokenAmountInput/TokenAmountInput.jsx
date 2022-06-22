@@ -12,9 +12,11 @@ export const TokenAmountInput = ({
   inputId,
   onChange,
   tokenBalance,
+  tokenDecimals,
   error,
   disabled,
   children,
+  ...rest
 }) => {
   return (
     <>
@@ -38,10 +40,12 @@ export const TokenAmountInput = ({
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,
+          ...rest,
         }}
       />
       <TokenBalance
         tokenAddress={tokenAddress}
+        tokenDecimals={tokenDecimals}
         balance={tokenBalance}
         unit={tokenSymbol}
       >

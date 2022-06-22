@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 
-export const HomeCard = ({ items, className }) => {
+export const HomeCard = ({ items, className, showDivider = true }) => {
   return (
     <div
       className={classNames(
@@ -9,7 +9,8 @@ export const HomeCard = ({ items, className }) => {
       )}
     >
       {items?.map((item, index) => {
-        const firstBorder = index === 0 ? `border-r-0.5  border-AABDCB` : ``;
+        const firstBorder =
+          showDivider && index === 0 ? `border-r-0.5  border-AABDCB` : ``;
         return (
           <div
             key={`home-card-${index}`}

@@ -12,6 +12,7 @@ import { isGreater } from "@/utils/bn";
 import { t } from "@lingui/macro";
 import { ADDRESS_ONE, VAULT_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
+import { getInfo } from "@/src/services/protocol/vault/info";
 
 const defaultInfo = {
   withdrawalOpen: "0",
@@ -47,26 +48,44 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     };
 
     try {
-      const response = await fetch(
-        getReplacedString(VAULT_INFO_URL, {
+      let data;
+
+      if (account) {
+        // Get data from provider if wallet's connected
+        const signerOrProvider = getProviderOrSigner(
+          library,
+          account,
+          networkId
+        );
+        data = await getInfo(
           networkId,
           coverKey,
-          account: account || ADDRESS_ONE,
-        }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
+          account,
+          signerOrProvider.provider
+        );
+      } else {
+        // Get data from API if wallet's not connected
+        const response = await fetch(
+          getReplacedString(VAULT_INFO_URL, {
+            networkId,
+            coverKey,
+            account: ADDRESS_ONE,
+          }),
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          return;
         }
-      );
 
-      if (!response.ok) {
-        return;
+        data = (await response.json()).data;
       }
-
-      const { data } = await response.json();
 
       if (!data || Object.keys(data).length === 0) {
         return;
@@ -89,7 +108,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err);
     }
-  }, [account, coverKey, networkId, notifyError]);
+  }, [account, coverKey, library, networkId, notifyError]);
 
   useEffect(() => {
     let ignore = false;

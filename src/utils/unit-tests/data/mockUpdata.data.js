@@ -1008,6 +1008,7 @@ export const QUERY_RESULT = {
           totalPODs: "87992422938075279971",
           cover: {
             id: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+            vaults: [{ tokenSymbol: "nDai" }],
           },
         },
         {
@@ -1017,6 +1018,7 @@ export const QUERY_RESULT = {
           totalPODs: "149992488983914416057",
           cover: {
             id: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
+            vaults: [{ tokenSymbol: "nDai" }],
           },
         },
         {
@@ -1026,6 +1028,7 @@ export const QUERY_RESULT = {
           totalPODs: "34000614799997808208",
           cover: {
             id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+            vaults: [{ tokenSymbol: "nDai" }],
           },
         },
         {
@@ -1035,6 +1038,7 @@ export const QUERY_RESULT = {
           totalPODs: "160981642832075415035",
           cover: {
             id: "0x6f626b0000000000000000000000000000000000000000000000000000000000",
+            vaults: [{ tokenSymbol: "nDai" }],
           },
         },
       ],

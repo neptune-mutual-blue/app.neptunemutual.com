@@ -18,6 +18,9 @@ import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
+import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import { TransactionList } from "@/common/TransactionList";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -78,6 +81,9 @@ export const Header = () => {
   const [isAccountDetailsOpen, setIsAccountDetailsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false);
+  const [container, setContainer] = useState(null);
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -105,7 +111,7 @@ export const Header = () => {
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1];
 
   const network = (
-    <div className="inline-flex items-center justify-center w-6/12 px-4 py-2 mr-2 overflow-hidden text-sm font-medium leading-loose bg-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:mr-4 xl:w-auto xl:mr-0 text-9B9B9B">
+    <div className="inline-flex items-center justify-center w-6/12 px-4 py-2 mr-2 overflow-hidden text-sm font-normal leading-loose md:py-3 lg:py-4 xl:py-2 md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF">
       <ChainLogo width={24} height={24} />{" "}
       <p className="inline-block ml-2 overflow-hidden whitespace-nowrap text-ellipsis">
         {NetworkNames[networkId] || "Network"}
@@ -113,20 +119,38 @@ export const Header = () => {
     </div>
   );
 
+  const TransactionOverviewTooltip = ({ children, hide }) => (
+    <Tooltip.Root delayDuration={200}>
+      <Tooltip.Trigger asChild>{children}</Tooltip.Trigger>
+      <Tooltip.Content
+        className={classNames(
+          "w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview",
+          hide ? "hidden" : "flex"
+        )}
+        side="bottom"
+        sideOffset={7}
+        alignOffset={15}
+      >
+        <Tooltip.Arrow className="" offset={8} fill="#01052D" height={7} />
+        <span className="text-xs font-light leading-4 font-poppins">
+          Your transaction statuses will be collected in this tray. Feel free to
+          navigate through the screens while you wait.
+        </span>
+      </Tooltip.Content>
+    </Tooltip.Root>
+  );
+
   return (
     <>
       <div className="bg-black text-EEEEEE">
         <Banner />
-        <div className="flex justify-end max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0">
+        <div className="flex justify-end max-w-full pr-4 py-0 mx-auto sm:px-6 xl:px-20">
           <LanguageDropdown />
         </div>
       </div>
       <header className="sticky top-0 z-40 bg-black text-EEEEEE">
-        <nav
-          className="max-w-full px-4 py-4 mx-auto sm:px-6 xl:px-8 xl:py-0"
-          aria-label="Top"
-        >
-          <div className="flex items-stretch justify-between xl:border-b border-B0C4DB xl:border-none">
+        <nav className="flex max-w-full mx-auto" aria-label="Top">
+          <div className="flex items-stretch justify-between flex-grow px-4 py-4 sm:px-6 xl:pl-8 xl:py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
                 <a>
@@ -143,7 +167,7 @@ export const Header = () => {
                     >
                       <a
                         className={classNames(
-                          "text-sm border-b-4 border-t-4 border-t-transparent inline-flex items-center",
+                          "text-sm border-b-4 border-t-transparent inline-flex items-center",
                           link.active
                             ? "border-4e7dd9 text-4e7dd9 font-semibold"
                             : "border-transparent text-999BAB"
@@ -163,12 +187,12 @@ export const Header = () => {
               </div>
             )}
 
-            <div className="items-center hidden py-4 xl:flex">
+            <div className="items-center hidden pb-4 pt-2 xl:flex">
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   let button = (
                     <button
-                      className="inline-block px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
+                      className="inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
                       onClick={onOpen}
                     >
                       Connect Wallet
@@ -177,7 +201,7 @@ export const Header = () => {
                   if (active) {
                     button = (
                       <button
-                        className="relative flex items-center px-4 py-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
+                        className="relative flex items-center px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
                         onClick={handleToggleAccountPopup}
                       >
                         <AccountBalanceWalletIcon width="24" height="24" />
@@ -208,6 +232,31 @@ export const Header = () => {
               </ConnectWallet>
             </div>
           </div>
+          <div className="relative flex" ref={setContainer}>
+            <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
+              <button
+                className={classNames(
+                  "items-center justify-center hidden px-4 xl:flex relative self-stretch flex-shrink-0",
+                  "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                  isTxDetailsPopupOpen
+                    ? "bg-404A5C before:w-0"
+                    : "bg-transparent before:w-px"
+                )}
+                onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+              >
+                <TransactionOverviewIcon
+                  className={classNames(
+                    isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
+                  )}
+                />
+              </button>
+            </TransactionOverviewTooltip>
+          </div>
+          <TransactionList
+            isOpen={isTxDetailsPopupOpen}
+            onClose={setIsTxDetailsPopupOpen}
+            container={container}
+          />
         </nav>
         <MenuModal
           isOpen={isOpen}

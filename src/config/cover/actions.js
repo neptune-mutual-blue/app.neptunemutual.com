@@ -13,35 +13,44 @@ export const actions = {
     description: "to get protection from hacks & exploits",
     imgSrc: <PurchasePolicyIcon />,
     smImgSrc: <PurchasePolicySmall />,
-    // mdImgSrc: `/options/purchase-md.png`,
     footerImgSrc: `/cover-actions/purchase.svg`,
-    getHref: (id) => `/cover/${id}/purchase`,
+    getHref: (cover_id, product_id, isDiversified) =>
+      isDiversified
+        ? `/covers/${cover_id}/${product_id}/purchase`
+        : `/covers/${cover_id}/purchase`,
+    action: "purchase",
   },
   "add-liquidity": {
     title: "Provide Liquidity",
     description: "to pool risks and receive rewards",
     imgSrc: <ProvideLiquidityIcon />,
     smImgSrc: <ProvideLiquiditySmall />,
-    // mdImgSrc: `/options/add-liquidity-md.png`,
     footerImgSrc: `/cover-actions/add-liquidity.svg`,
-    getHref: (id) => `/cover/${id}/add-liquidity`,
+    getHref: (cover_id, product_id, isDiversified) =>
+      isDiversified
+        ? `/covers/${cover_id}/add-liquidity`
+        : `/covers/${cover_id}/add-liquidity`,
+    action: "add-liquidity",
   },
   "report": {
     title: "Report Incident",
     description: "to notify other users about the cover event",
     imgSrc: <ReportIncidentIcon />,
     smImgSrc: <ReportIncidentSmall />,
-    // mdImgSrc: `/options/report-md.png`,
     footerImgSrc: `/cover-actions/report.svg`,
-    getHref: (id) => `/reporting/${id}/new`,
+    getHref: (cover_id, product_id, isDiversified) =>
+      isDiversified
+        ? `/covers/${cover_id}/${product_id}/new-report`
+        : `/covers/${cover_id}/new-report`,
+    action: "new-report",
   },
   "claim": {
     title: "Claim Cover",
     description: "to receive payout by claiming cxTokens",
     imgSrc: <ClaimCoverIcon />,
     smImgSrc: <ClaimCoverSmall />,
-    // mdImgSrc: `/options/claim-md.png`,
     footerImgSrc: `/cover-actions/claim.svg`,
     getHref: (_id) => `/my-policies/active`,
+    action: "claim",
   },
 };

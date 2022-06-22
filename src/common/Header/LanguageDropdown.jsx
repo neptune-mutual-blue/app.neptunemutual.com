@@ -10,6 +10,7 @@ import { t } from "@lingui/macro";
 import ChevronDownArrowIcon from "@/icons/ChevronDownArrowIcon";
 import { getBrowserLocale } from "@/utils/locale";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
+import GlobeLogo from "@/lib/connect-wallet/components/logos/Globe";
 
 const DEBOUNCE_TIMER = 200;
 
@@ -66,7 +67,8 @@ export const LanguageDropdown = () => {
   };
 
   return (
-    <div className="relative mt-1.5 cursor-pointer">
+    <div className="relative mt-1.5 cursor-pointer flex items-center">
+      <GlobeLogo className="mr-1.5" />
       <Listbox
         value={languageKey[router.locale]}
         onChange={handleOnChangeLanguage}
@@ -85,22 +87,22 @@ export const LanguageDropdown = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-50 xl:right-0 py-[22px] px-4 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="flex items-center mb-3 text-sm">
+          <Listbox.Options className="absolute z-50 xl:right-0 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div className="flex items-center mb-1 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input
-                className="w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px]"
+                className="w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px] font-sora"
                 placeholder={t`Search Language`}
                 onChange={handleSearchLanguage}
               />
             </div>
 
             {languages.map((lang, i) => (
-              <Listbox.Option key={i} value={lang} className="px-1">
+              <Listbox.Option key={i} value={lang}>
                 {({ selected, active }) => (
                   <span
                     className={classNames(
-                      `truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal`,
+                      `truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal font-sora leading-4`,
                       selected && "bg-[#b0c4db]   bg-opacity-20 rounded",
                       active
                         ? "text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded"

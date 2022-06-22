@@ -31,6 +31,10 @@ export const useQuery = () => {
         }),
       });
 
+      if (!response.ok) {
+        return;
+      }
+
       const result = await response.json();
 
       if (result.errors) {

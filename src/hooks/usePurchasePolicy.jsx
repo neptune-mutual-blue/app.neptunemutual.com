@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 
 export const usePurchasePolicy = ({
   coverKey,
+  productKey,
   value,
   feeAmount,
   coverMonth,
@@ -37,7 +38,7 @@ export const usePurchasePolicy = ({
 
   const txToast = useTxToast();
   const policyContractAddress = usePolicyAddress();
-  const { liquidityTokenAddress } = useAppConstants();
+  const { liquidityTokenAddress, liquidityTokenDecimals } = useAppConstants();
   const {
     balance,
     refetch: updateBalance,
@@ -191,11 +192,13 @@ export const usePurchasePolicy = ({
         cleanup();
       };
 
+      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [
         account, // onBehalfOf
         coverKey,
+        productKeyArg,
         parseInt(coverMonth, 10),
-        convertToUnits(value).toString(), // <-- Amount to Cover (In DAI)
+        convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
         utils.keyUtil.toBytes32(""), // referral code
       ];
       invoke({

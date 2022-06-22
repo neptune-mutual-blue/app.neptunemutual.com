@@ -12,6 +12,8 @@ export const useValidReport = ({ start, end, coverKey }) => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     if (!networkId || !isValidTimestamp(start) || !isValidTimestamp(end)) {
       return;
     }
@@ -53,6 +55,7 @@ export const useValidReport = ({ start, end, coverKey }) => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
         setData(res.data);
       })
       .catch((err) => {
@@ -61,6 +64,10 @@ export const useValidReport = ({ start, end, coverKey }) => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [coverKey, end, networkId, start]);
 
   return {

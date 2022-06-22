@@ -1,6 +1,6 @@
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -9,16 +9,17 @@ import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const PolicyCard = ({ policyInfo }) => {
-  const { cover, cxToken } = policyInfo;
+  const { cxToken, coverKey, productKey } = policyInfo;
 
-  const coverKey = cover.id;
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
-  const { status: currentStatus } = useFetchCoverStats({ coverKey });
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const { status: currentStatus } = useFetchCoverStats({
+    coverKey,
+    productKey,
+  });
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
@@ -30,6 +31,8 @@ export const PolicyCard = ({ policyInfo }) => {
     coverKey,
   });
   const { balance } = useERC20Balance(cxToken.id);
+
+  const isDiversified = isValidProduct(productKey);
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
@@ -59,7 +62,10 @@ export const PolicyCard = ({ policyInfo }) => {
   }
 
   return (
-    <div className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+    <div
+      className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+      data-testid="policy-card"
+    >
       <OutlinedCard className="p-6 bg-white" type="normal">
         <div>
           <div className="flex justify-between">
@@ -68,12 +74,18 @@ export const PolicyCard = ({ policyInfo }) => {
                 src={imgSrc}
                 alt={coverInfo.projectName}
                 className="inline-block max-w-full"
+                data-testid="cover-img"
               />
             </div>
 
-            <div>{showStatus && <CardStatusBadge status={status} />}</div>
+            <div data-testid="policy-card-status">
+              {showStatus && <CardStatusBadge status={status} />}
+            </div>
           </div>
-          <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+          <h4
+            className="mt-4 font-semibold uppercase text-h4 font-sora"
+            data-testid="policy-card-title"
+          >
             {coverInfo.projectName}
           </h4>
         </div>
@@ -83,6 +95,7 @@ export const PolicyCard = ({ policyInfo }) => {
 
         <PolicyCardFooter
           coverKey={coverKey}
+          cxToken={policyInfo.cxToken}
           report={report}
           tokenBalance={balance}
           validityEndsAt={validityEndsAt}

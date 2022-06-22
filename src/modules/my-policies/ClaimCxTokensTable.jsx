@@ -18,6 +18,7 @@ import {
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
 import { useRouter } from "next/router";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 const renderHeader = (col) => (
   <th
@@ -43,7 +44,7 @@ const renderActions = (row, extraData) => {
   return <ClaimActionsColumnRenderer row={row} extraData={extraData} />;
 };
 
-const columns = [
+export const columns = [
   {
     name: "cxToken Address",
     align: "left",
@@ -93,9 +94,9 @@ export const ClaimCxTokensTable = ({
   return (
     <>
       <ClaimTableContext.Provider value={{ report }}>
-        <TableWrapper>
+        <TableWrapper data-testid="table-wrapper">
           <Table>
-            <THead columns={columns}></THead>
+            <THead columns={columns} data-testid="table-header"></THead>
             <TBody
               columns={columns}
               data={activePolicies}
@@ -119,8 +120,9 @@ export const ClaimCxTokensTable = ({
 };
 
 const CxTokenAmountRenderer = () => {
-  const { balance, tokenSymbol } = useCxTokenRowContext();
+  const { balance, tokenSymbol, tokenAddress } = useCxTokenRowContext();
   const router = useRouter();
+  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   return (
     <>
@@ -128,7 +130,7 @@ const CxTokenAmountRenderer = () => {
         <span
           title={
             formatCurrency(
-              convertFromUnits(balance),
+              convertFromUnits(balance, tokenDecimals),
               router.locale,
               tokenSymbol,
               true
@@ -137,7 +139,7 @@ const CxTokenAmountRenderer = () => {
         >
           {
             formatCurrency(
-              convertFromUnits(balance),
+              convertFromUnits(balance, tokenDecimals),
               router.locale,
               tokenSymbol,
               true
@@ -149,7 +151,7 @@ const CxTokenAmountRenderer = () => {
   );
 };
 
-const ClaimBeforeColumnRenderer = () => {
+export const ClaimBeforeColumnRenderer = () => {
   const { report } = useClaimTableContext();
   const claimExpiryDate = report?.claimExpiresAt || 0;
   const router = useRouter();
@@ -166,7 +168,7 @@ const ClaimBeforeColumnRenderer = () => {
   );
 };
 
-const ClaimActionsColumnRenderer = ({ row, extraData }) => {
+export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {

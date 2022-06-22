@@ -9,6 +9,8 @@ export const useProtocolDayData = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     const graphURL = getGraphURL(networkId);
 
     if (!graphURL) {
@@ -35,6 +37,7 @@ export const useProtocolDayData = () => {
     })
       .then((r) => r.json())
       .then((res) => {
+        if (ignore) return;
         setData(res.data);
       })
       .catch((err) => {
@@ -43,6 +46,10 @@ export const useProtocolDayData = () => {
       .finally(() => {
         setLoading(false);
       });
+
+      return () => {
+        ignore = true;
+      };
   }, [networkId]);
 
   return {

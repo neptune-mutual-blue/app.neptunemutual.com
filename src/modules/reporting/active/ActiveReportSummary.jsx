@@ -15,6 +15,7 @@ import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummar
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -24,6 +25,7 @@ export const ActiveReportSummary = ({
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
+  const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
     yes: convertFromUnits(incidentReport.totalAttestedStake)
@@ -73,7 +75,7 @@ export const ActiveReportSummary = ({
       <OutlinedCard className="bg-white md:flex">
         {/* Left half */}
         <div className="flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-h3 font-sora">
+          <h2 className="mb-6 font-bold text-center text-h3 font-sora lg:text-left">
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -103,14 +105,16 @@ export const ActiveReportSummary = ({
                 resolvableTill={resolvableTill}
                 refetchReport={refetchReport}
               />
-            ) : (
-              <CastYourVote incidentReport={incidentReport} />
+            ) : (// hidden in mobile
+              <div className="hidden md:block"> 
+                <CastYourVote incidentReport={incidentReport} />
+              </div>
             )}
           </>
         </div>
 
         {/* Right half */}
-        <div className="p-6 pt-0 lg:p-10 sn:pt-6">
+        <div className="p-6 pt-0 lg:p-10 sm:pt-6">
           <h3 className="mb-4 font-bold text-h4 font-sora">Insights</h3>
           <InsightsTable
             insights={[
@@ -128,7 +132,7 @@ export const ActiveReportSummary = ({
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
-                  "NPM",
+                  NPMTokenSymbol,
                   truncateAddress
                 ).short,
               },
@@ -153,7 +157,7 @@ export const ActiveReportSummary = ({
                   formatCurrency(
                     convertFromUnits(incidentReport.totalRefutedStake),
                     router.locale,
-                    "NPM",
+                    NPMTokenSymbol,
                     true
                   ).short
                 }`,

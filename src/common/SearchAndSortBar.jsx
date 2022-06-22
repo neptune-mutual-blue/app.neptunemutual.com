@@ -19,7 +19,7 @@ export const SearchAndSortBar = ({
   onSearchChange,
   sortType,
   setSortType,
-  searchAndSortOptions,
+  searchAndSortOptions = null,
 }) => {
   const options = searchAndSortOptions ?? defaultOptions;
   const [selected, setSelected] = useState(options[0]);

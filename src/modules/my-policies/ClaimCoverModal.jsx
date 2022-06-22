@@ -16,6 +16,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -28,6 +29,7 @@ export const ClaimCoverModal = ({
   const [value, setValue] = useState();
   const delayedValue = useDebounce(value, 200);
   const { balance, loadingBalance, tokenSymbol } = useCxTokenRowContext();
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const {
     canClaim,
     claiming,
@@ -119,8 +121,11 @@ export const ClaimCoverModal = ({
             <Trans>You will receive</Trans>
           </Label>
           <DisabledInput
-            value={convertFromUnits(receiveAmount).toString()}
-            unit="DAI"
+            value={convertFromUnits(
+              receiveAmount,
+              liquidityTokenDecimals
+            ).toString()}
+            unit={liquidityTokenSymbol}
           />
           <p className="px-3 pt-2 text-9B9B9B">
             {isGreater(claimPlatformFee, "0") && (

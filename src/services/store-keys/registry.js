@@ -10,6 +10,18 @@ export const stakingPools = (property = "stakingPools") => {
     property,
   };
 };
+
+export const policy = (property = "policy") => {
+  return {
+    key: [
+      utils.keyUtil.PROTOCOL.NS.CONTRACTS,
+      utils.keyUtil.PROTOCOL.CNS.COVER_POLICY,
+    ],
+    returns: "address",
+    property,
+  };
+};
+
 export const stablecoin = (property = "stablecoin") => {
   return {
     key: [utils.keyUtil.PROTOCOL.CNS.COVER_STABLECOIN],

@@ -10,6 +10,7 @@ export const CoverStatus = {
 
 export const totalStakeIncidentOccurred = (
   coverKey,
+  productKey,
   incidentDate,
   property = "yes"
 ) => {
@@ -17,9 +18,10 @@ export const totalStakeIncidentOccurred = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_WITNESS_YES,
       coverKey,
+      productKey,
       incidentDate,
     ],
-    signature: ["bytes32", "bytes32", "uint256"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
     returns: "uint256",
     property,
   };
@@ -38,8 +40,28 @@ export const coverStatusOf = (
   };
 };
 
+export const coverProductStatusOf = (
+  coverKey,
+  productKey,
+  incidentDate,
+  property = "coverProductStatus"
+) => {
+  return {
+    key: [
+      utils.keyUtil.PROTOCOL.NS.COVER_STATUS,
+      coverKey,
+      productKey,
+      incidentDate,
+    ],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
+    returns: "uint256",
+    property,
+  };
+};
+
 export const myStakeIncidentOccurred = (
   coverKey,
+  productKey,
   incidentDate,
   account,
   property = "myYes"
@@ -48,10 +70,11 @@ export const myStakeIncidentOccurred = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_STAKE_OWNED_YES,
       coverKey,
+      productKey,
       incidentDate,
       account,
     ],
-    signature: ["bytes32", "bytes32", "uint256", "address"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
     returns: "uint256",
     property,
   };
@@ -59,6 +82,7 @@ export const myStakeIncidentOccurred = (
 
 export const totalStakeFalseReporting = (
   coverKey,
+  productKey,
   incidentDate,
   property = "no"
 ) => {
@@ -66,9 +90,10 @@ export const totalStakeFalseReporting = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_WITNESS_NO,
       coverKey,
+      productKey,
       incidentDate,
     ],
-    signature: ["bytes32", "bytes32", "uint256"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
     returns: "uint256",
     property,
   };
@@ -76,6 +101,7 @@ export const totalStakeFalseReporting = (
 
 export const myStakeFalseReporting = (
   coverKey,
+  productKey,
   incidentDate,
   account,
   property = "myNo"
@@ -84,10 +110,11 @@ export const myStakeFalseReporting = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_STAKE_OWNED_NO,
       coverKey,
+      productKey,
       incidentDate,
       account,
     ],
-    signature: ["bytes32", "bytes32", "uint256", "address"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
     returns: "uint256",
     property,
   };
@@ -95,6 +122,7 @@ export const myStakeFalseReporting = (
 
 export const myUnstakenAmount = (
   coverKey,
+  productKey,
   incidentDate,
   account,
   property = "unstaken"
@@ -103,10 +131,11 @@ export const myUnstakenAmount = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_UNSTAKEN,
       coverKey,
+      productKey,
       incidentDate,
       account,
     ],
-    signature: ["bytes32", "bytes32", "uint256", "address"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
     returns: "uint256",
     property,
   };
@@ -114,6 +143,7 @@ export const myUnstakenAmount = (
 
 export const myRewardsUnstaken = (
   coverKey,
+  productKey,
   incidentDate,
   account,
   property = "rewardsUnstaken"
@@ -122,10 +152,11 @@ export const myRewardsUnstaken = (
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_UNSTAKE_REWARD,
       coverKey,
+      productKey,
       incidentDate,
       account,
     ],
-    signature: ["bytes32", "bytes32", "uint256", "address"],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
     returns: "uint256",
     property,
   };
@@ -133,12 +164,14 @@ export const myRewardsUnstaken = (
 
 export const latestIncidentDate = (
   coverKey,
+  productKey,
   property = "latestIncidentDate"
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_INCIDENT_DATE,
       coverKey,
+      productKey,
     ],
     returns: "uint256",
     property,

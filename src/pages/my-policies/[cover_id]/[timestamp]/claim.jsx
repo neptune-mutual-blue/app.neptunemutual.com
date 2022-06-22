@@ -17,7 +17,8 @@ import { t, Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export function getServerSideProps() {
   return {
@@ -32,8 +33,12 @@ export default function ClaimPolicy({ disabled }) {
   const { page, limit, setPage } = usePagination();
   const { cover_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const productKey = safeFormatBytes32String("");
+
+  const coverInfo = useCoverOrProductData({
+    coverKey: coverKey,
+    productKey: productKey,
+  });
   const { data, hasMore } = useActivePoliciesByCover({
     coverKey,
     page,
@@ -44,6 +49,7 @@ export default function ClaimPolicy({ disabled }) {
       coverKey,
       incidentDate: timestamp,
     });
+  const { liquidityTokenDecimals } = useAppConstants();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -55,7 +61,7 @@ export default function ClaimPolicy({ disabled }) {
 
   const title = coverInfo.projectName;
   return (
-    <CoverStatsProvider coverKey={coverKey}>
+    <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
         <Head>
           <title>Neptune Mutual Covers</title>
@@ -93,7 +99,10 @@ export default function ClaimPolicy({ disabled }) {
                 <>
                   {
                     formatCurrency(
-                      convertFromUnits(data.totalActiveProtection),
+                      convertFromUnits(
+                        data.totalActiveProtection,
+                        liquidityTokenDecimals
+                      ),
                       router.locale,
                       "USD"
                     ).long

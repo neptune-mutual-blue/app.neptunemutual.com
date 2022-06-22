@@ -11,8 +11,12 @@ import {
 } from "@/src/services/contracts/getAddresses";
 
 const initValue = {
-  liquidityTokenAddress: "",
   NPMTokenAddress: "",
+  NPMTokenDecimals: 18,
+  NPMTokenSymbol: "NPM",
+  liquidityTokenAddress: "",
+  liquidityTokenDecimals: 6,
+  liquidityTokenSymbol: "DAI",
   poolsTvl: "0",
   getTVLById: (_id) => "0",
   getPriceByAddress: (_address) => "0",
@@ -39,30 +43,70 @@ export const AppConstantsProvider = ({ children }) => {
   const { library, account } = useWeb3React();
 
   useEffect(() => {
+    let ignore = false;
     if (!networkId) return;
+
     if (!account) {
-      getAddressesFromApi(networkId).then((result) => {
-        const { NPMTokenAddress, liquidityTokenAddress } = result;
+      getAddressesFromApi(networkId)
+        .then((result) => {
+          if (!result || ignore) {
+            return;
+          }
+
+          const {
+            NPMTokenAddress,
+            liquidityTokenAddress,
+            NPMTokenDecimals,
+            NPMTokenSymbol,
+            liquidityTokenDecimals,
+            liquidityTokenSymbol,
+          } = result;
+
+          setData((prev) => ({
+            ...prev,
+            NPMTokenAddress,
+            liquidityTokenAddress,
+            NPMTokenDecimals,
+            NPMTokenSymbol,
+            liquidityTokenDecimals,
+            liquidityTokenSymbol,
+          }));
+        })
+        .catch(console.error);
+      return;
+    }
+    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+
+    getAddressesFromProvider(networkId, signerOrProvider)
+      .then((result) => {
+        if (!result || ignore) {
+          return;
+        }
+
+        const {
+          NPMTokenAddress,
+          liquidityTokenAddress,
+          NPMTokenDecimals,
+          NPMTokenSymbol,
+          liquidityTokenDecimals,
+          liquidityTokenSymbol,
+        } = result;
 
         setData((prev) => ({
           ...prev,
           NPMTokenAddress,
           liquidityTokenAddress,
+          NPMTokenDecimals,
+          NPMTokenSymbol,
+          liquidityTokenDecimals,
+          liquidityTokenSymbol,
         }));
-      });
-      return;
-    }
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      })
+      .catch(console.error);
 
-    getAddressesFromProvider(networkId, signerOrProvider).then((result) => {
-      const { NPMTokenAddress, liquidityTokenAddress } = result;
-
-      setData((prev) => ({
-        ...prev,
-        NPMTokenAddress,
-        liquidityTokenAddress,
-      }));
-    });
+    return () => {
+      ignore = true;
+    };
   }, [account, library, networkId]);
 
   return (

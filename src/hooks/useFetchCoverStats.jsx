@@ -7,6 +7,8 @@ import {
   CoverStatus,
   COVER_STATS_URL,
 } from "@/src/config/constants";
+import { getStats } from "@/src/services/protocol/cover/stats";
+import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 const defaultStats = {
   activeIncidentDate: "0",
@@ -16,45 +18,69 @@ const defaultStats = {
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
-  status: "",
+  coverStatus: "",
+  productStatus: "",
   totalPoolAmount: "0",
   availableLiquidity: "0",
 };
 
-export const useFetchCoverStats = ({ coverKey }) => {
+export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const [info, setInfo] = useState(defaultStats);
-  const { account } = useWeb3React();
+  const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     async function exec() {
-      if (!networkId || !coverKey) return;
+      if (!networkId || !coverKey || !productKey) return;
 
       try {
-        const response = await fetch(
-          getReplacedString(COVER_STATS_URL, {
+        let data = null;
+
+        if (account) {
+          // Get data from provider if wallet's connected
+          const signerOrProvider = getProviderOrSigner(
+            library,
+            account,
+            networkId
+          );
+          data = await getStats(
             networkId,
             coverKey,
-            account: account || ADDRESS_ONE,
-          }),
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-            },
+            productKey,
+            account,
+            signerOrProvider.provider
+          );
+        } else {
+          // Get data from API if wallet's not connected
+          const response = await fetch(
+            getReplacedString(COVER_STATS_URL, {
+              networkId,
+              coverKey,
+              account: ADDRESS_ONE,
+            }),
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            return;
           }
-        );
 
-        if (!response.ok) {
-          return;
+          data = (await response.json()).data;
         }
-
-        const { data } = await response.json();
 
         if (!data || Object.keys(data).length === 0) {
           return;
         }
+
+        if (ignore) return;
 
         setInfo({
           activeIncidentDate: data.activeIncidentDate,
@@ -64,7 +90,8 @@ export const useFetchCoverStats = ({ coverKey }) => {
           reporterCommission: data.reporterCommission,
           reportingPeriod: data.reportingPeriod,
           requiresWhitelist: data.requiresWhitelist,
-          status: CoverStatus[data.status],
+          coverStatus: CoverStatus[data.coverStatus],
+          productStatus: CoverStatus[data.productStatus],
           totalPoolAmount: data.totalPoolAmount,
           availableLiquidity: data.availableLiquidity,
         });
@@ -74,7 +101,11 @@ export const useFetchCoverStats = ({ coverKey }) => {
     }
 
     exec();
-  }, [account, coverKey, networkId]);
+
+    return () => {
+      ignore = true;
+    };
+  }, [account, coverKey, library, networkId, productKey]);
 
   return info;
 };

@@ -14,6 +14,7 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import * as CxTokenRowContext from "@/modules/my-policies/CxTokenRowContext";
+import * as AppConstants from "@/src/context/AppConstants";
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
@@ -42,8 +43,14 @@ const mockUseClaimPolicyInfo = {
   claimPlatformFee: "100000000000000000",
 };
 
+const mockAppConstants = {
+  liquidityTokenDecimals: 6,
+  liquidityTokenSymbol: "DAI",
+};
+
 describe("ClaimCoverModal test", () => {
   mockFunction(ClaimPolicyHook, "useClaimPolicyInfo", mockUseClaimPolicyInfo);
+  mockFunction(AppConstants, "useAppConstants", mockAppConstants);
 
   const initialRender = (newProps = {}) => {
     act(() => {
@@ -112,7 +119,8 @@ describe("ClaimCoverModal test", () => {
       .getByTestId("receive-info-container")
       .querySelector("span");
     const val = convertFromUnits(
-      mockUseClaimPolicyInfo.receiveAmount
+      mockUseClaimPolicyInfo.receiveAmount,
+      mockAppConstants.liquidityTokenDecimals
     ).toString();
     expect(wrapper).toHaveTextContent(val);
   });
@@ -245,6 +253,18 @@ describe("ClaimCoverModal test", () => {
     });
 
     test("providing loadingFees from hook", () => {
+      rerender(
+        {},
+        {
+          file: CxTokenRowContext,
+          method: "useCxTokenRowContext",
+          returnData: {
+            balance: "0",
+            loadingBalance: false,
+            tokenSymbol: "CX",
+          },
+        }
+      );
       rerender(
         {},
         {

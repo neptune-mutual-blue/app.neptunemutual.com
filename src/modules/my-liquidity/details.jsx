@@ -1,33 +1,32 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
 import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
-import { CoverPurchaseResolutionSources } from "@/common/Cover/Purchase/CoverPurchaseResolutionSources";
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
-import { WithdrawLiquidityModal } from "@/src/modules/my-liquidity/WithdrawLiquidityModal";
-import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
-import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 
 export const MyLiquidityCoverPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const productKey = safeFormatBytes32String("");
+
+  const { liquidityTokenDecimals } = useAppConstants();
+
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const isDiversified = coverInfo?.supportsProducts;
 
   const {
     info,
@@ -38,25 +37,17 @@ export const MyLiquidityCoverPage = () => {
     coverKey,
   });
 
-  const { myStake, podBalance } = useLiquidityFormsContext();
-
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }
 
-  function onClose() {
-    setIsOpen(false);
-  }
-
-  function onOpen() {
-    setIsOpen(true);
-  }
+  const projectName = !isDiversified
+    ? coverInfo?.infoObj.projectName
+    : coverInfo?.infoObj.coverName;
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
-  const totalLiquidity = info.totalLiquidity;
   const myLiquidity = info.myUnrealizedShare;
-  const reassuranceAmount = info.totalReassurance;
 
   return (
     <div>
@@ -71,22 +62,29 @@ export const MyLiquidityCoverPage = () => {
                   href: "/my-liquidity",
                   current: false,
                 },
-                { name: coverInfo.projectName, href: "#", current: true },
+                {
+                  name: projectName,
+                  href: "#",
+                  current: true,
+                },
               ]}
             />
             <div className="flex">
               <CoverProfileInfo
+                productKey={productKey}
                 coverKey={coverKey}
-                projectName={coverInfo?.coverName}
-                links={coverInfo?.links}
+                projectName={projectName}
+                links={coverInfo?.infoObj.links}
                 imgSrc={imgSrc}
               />
 
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
                 {
-                  formatCurrency(convertFromUnits(myLiquidity), router.locale)
-                    .long
+                  formatCurrency(
+                    convertFromUnits(myLiquidity, liquidityTokenDecimals),
+                    router.locale
+                  ).long
                 }
               </HeroStat>
             </div>
@@ -95,98 +93,30 @@ export const MyLiquidityCoverPage = () => {
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+          {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
+
           <Container className="grid grid-cols-3 gap-32">
             <div className="col-span-2">
               {/* Description */}
-              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+              <SeeMoreParagraph
+                text={coverInfo?.infoObj.about}
+              ></SeeMoreParagraph>
 
               <div className="mt-12">
                 <ProvideLiquidityForm coverKey={coverKey} info={info} />
               </div>
             </div>
 
-            <div>
-              <CoverPurchaseResolutionSources coverInfo={coverInfo}>
-                <div
-                  className="flex justify-between pt-4 pb-2"
-                  title={
-                    formatCurrency(
-                      convertFromUnits(totalLiquidity),
-                      router.locale
-                    ).long
-                  }
-                >
-                  <span className="">
-                    <Trans>Total Liquidity:</Trans>
-                  </span>
-                  <strong className="font-bold text-right">
-                    {
-                      formatCurrency(
-                        convertFromUnits(totalLiquidity),
-                        router.locale
-                      ).short
-                    }
-                  </strong>
-                </div>
-                <div
-                  className="flex justify-between pb-8"
-                  title={
-                    formatCurrency(
-                      convertFromUnits(reassuranceAmount).toString(),
-                      router.locale,
-                      "USD"
-                    ).long
-                  }
-                >
-                  <span className="">Reassurance:</span>
-                  <strong className="font-bold text-right">
-                    {
-                      formatCurrency(
-                        convertFromUnits(reassuranceAmount).toString(),
-                        router.locale,
-                        "USD"
-                      ).short
-                    }
-                  </strong>
-                </div>
-
-                {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
-                  <div className="flex justify-center px-7">
-                    <OutlinedButton
-                      className="text-sm font-medium leading-5 rounded-big"
-                      onClick={onOpen}
-                    >
-                      <Trans>Withdraw Liquidity</Trans>
-                    </OutlinedButton>
-                  </div>
-                )}
-              </CoverPurchaseResolutionSources>
-              <div className="flex justify-end">
-                {isWithdrawalWindowOpen && (
-                  <button
-                    className="mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline"
-                    onClick={accrueInterest}
-                  >
-                    <Trans>Accrue</Trans>
-                  </button>
-                )}
-              </div>
-            </div>
+            <LiquidityResolutionSources
+              coverInfo={coverInfo}
+              info={info}
+              refetchInfo={refetchInfo}
+              isWithdrawalWindowOpen={isWithdrawalWindowOpen}
+              accrueInterest={accrueInterest}
+            />
           </Container>
         </div>
       </main>
-
-      <WithdrawLiquidityModal
-        modalTitle={
-          <ModalTitle imgSrc={imgSrc}>
-            <Trans>Withdraw Liquidity</Trans>
-          </ModalTitle>
-        }
-        onClose={onClose}
-        isOpen={isOpen}
-        info={info}
-        refetchInfo={refetchInfo}
-      />
     </div>
   );
 };
