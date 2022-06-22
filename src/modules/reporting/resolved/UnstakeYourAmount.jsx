@@ -13,17 +13,20 @@ import { useState } from "react";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
-import { useCovers } from "@/src/context/Covers";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(incidentReport.key);
-  const logoSrc = getCoverImgSrc({ key: incidentReport.key });
+  const coverInfo = useCoverOrProductData({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+  });
+  const logoSrc = getCoverImgSrc({ key: incidentReport.coverKey });
   const { unstake, unstakeWithClaim, info, unstaking } =
     useUnstakeReportingStake({
-      coverKey: incidentReport.key,
+      coverKey: incidentReport.coverKey,
+      productKey: incidentReport.productKey,
       incidentDate: incidentReport.incidentDate,
     });
 

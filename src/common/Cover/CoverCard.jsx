@@ -16,24 +16,23 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
+export const CoverCard = ({
+  coverKey,
+  productKey = utils.keyUtil.toBytes32(""),
+  progressFgColor = undefined,
+  progressBgColor = undefined,
+}) => {
   const router = useRouter();
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const {
-    id,
-    projectName,
-    coverKey,
-    productKey,
-    pricingFloor,
-    pricingCeiling,
-  } = details;
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
-  const { activeCommitment, status } = useFetchCoverStats({
+  const { activeCommitment, coverStatus } = useFetchCoverStats({
     coverKey: coverKey,
-    productKey: productKey || utils.keyUtil.toBytes32(""),
+    productKey: productKey,
   });
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
@@ -44,6 +43,9 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
 
+  const isDiversified = coverInfo?.supportsProducts;
+
+  const id = `${coverKey}-${productKey}`;
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(id, {
@@ -52,19 +54,25 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
     });
   }, [id, liquidity, setStatsByKey, utilization]);
 
+  if (!coverInfo) {
+    return <>loading...</>;
+  }
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
         <div className="">
           <img
             src={imgSrc}
-            alt={projectName}
+            alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full w-14 lg:w-18"
             data-testid="cover-img"
           />
         </div>
         <div>
-          <CardStatusBadge status={status} />
+          <CardStatusBadge
+            status={isDiversified ? "Diversified" : coverStatus}
+          />
         </div>
       </div>
 
@@ -72,15 +80,22 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
         className="mt-4 font-semibold uppercase text-h4 font-sora"
         data-testid="project-name"
       >
-        {projectName}
+        {coverInfo.infoObj.projectName}
       </h4>
       <div
         className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2"
         data-testid="cover-fee"
       >
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(
+          coverInfo.infoObj.pricingFloor / MULTIPLIER,
+          router.locale
+        )}
+        -
+        {formatPercent(
+          coverInfo.infoObj.pricingCeiling / MULTIPLIER,
+          router.locale
+        )}
       </div>
 
       {/* Divider */}
@@ -108,7 +123,10 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
           className="flex-1"
           title={
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).long
           }
@@ -117,7 +135,10 @@ export const CoverCard = ({ details, progressFgColor, progressBgColor }) => {
           <Trans>Protection:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).short
           }

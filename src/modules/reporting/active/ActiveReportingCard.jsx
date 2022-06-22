@@ -16,18 +16,24 @@ import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { useCovers } from "@/src/context/Covers";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
+export const ActiveReportingCard = ({
+  id,
+  coverKey,
+  productKey = safeFormatBytes32String(""),
+  incidentDate,
+}) => {
   const { setStatsByKey } = useSortableStats();
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const { liquidityTokenDecimals } = useAppConstants();
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { activeCommitment, status } = useFetchCoverStats({
+  const { activeCommitment, coverStatus, productStatus } = useFetchCoverStats({
     coverKey,
-    productKey: safeFormatBytes32String(""),
+    productKey,
   });
   const router = useRouter();
 
@@ -62,7 +68,7 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           />
         </div>
         <div>
-          <CardStatusBadge status={status} />
+          <CardStatusBadge status={coverStatus} />
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
@@ -94,7 +100,10 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           className=""
           title={
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).long
           }
@@ -102,7 +111,10 @@ export const ActiveReportingCard = ({ id, coverKey, incidentDate }) => {
           <Trans>Protection:</Trans>{" "}
           {
             formatCurrency(
-              convertFromUnits(activeCommitment).toString(),
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
               router.locale
             ).short
           }

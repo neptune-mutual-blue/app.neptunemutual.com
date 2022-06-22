@@ -12,16 +12,15 @@ import {
   renderDescriptionTranslation,
 } from "@/utils/translations";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverOptionsPage = () => {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(product_id ? productKey : coverKey);
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;

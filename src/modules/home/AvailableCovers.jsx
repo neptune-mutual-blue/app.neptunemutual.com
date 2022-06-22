@@ -105,15 +105,6 @@ export const AvailableCovers = () => {
 
           const cover_id = safeParseBytes32String(c.key);
 
-          const details = {
-            id: c.id,
-            projectName: c.projectName,
-            coverKey: c.coverKey,
-            productKey: c.productKey,
-            pricingFloor: c.pricingFloor,
-            pricingCeiling: c.pricingCeiling,
-          };
-
           return (
             <Link
               href={`/${getBasePath(basePathArray)}/${cover_id}/options`}
@@ -123,7 +114,7 @@ export const AvailableCovers = () => {
                 className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
                 data-testid="cover-link"
               >
-                <CoverCard details={details} />
+                <CoverCard coverKey={c.coverKey} />
               </a>
             </Link>
           );

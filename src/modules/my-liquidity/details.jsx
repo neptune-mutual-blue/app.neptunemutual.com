@@ -4,7 +4,7 @@ import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
@@ -12,17 +12,21 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
+
   const { liquidityTokenDecimals } = useAppConstants();
-  const coverInfo = getInfoByKey(coverKey);
+
+  const productKey = safeFormatBytes32String("");
+
+  const isDiversified = isValidProduct(productKey);
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   const {
     info,
@@ -91,6 +95,7 @@ export const MyLiquidityCoverPage = () => {
             </div>
 
             <LiquidityResolutionSources
+              coverInfo={coverInfo}
               info={info}
               refetchInfo={refetchInfo}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}

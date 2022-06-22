@@ -17,7 +17,7 @@ export const BasketCardGrids = () => {
               <a>
                 <NewCoverCard
                   name={item.name}
-                  status={item.status}
+                  status={item.coverStatus}
                   utilization={item.utilization}
                   protection={item.protection}
                   liquidity={item.liquidity}

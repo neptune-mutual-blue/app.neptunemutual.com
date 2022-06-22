@@ -5,7 +5,6 @@ import { Grid } from "@/common/Grid/Grid";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { ResolvedReportingCard } from "@/src/modules/reporting/resolved/ResolvedReportingCard";
 import { ReportStatus } from "@/src/config/constants";
-import { useCovers } from "@/src/context/Covers";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import Link from "next/link";
@@ -48,15 +47,13 @@ export const ReportingResolvedPage = () => {
     name: t`${SORT_TYPES.RESOLVED_DATE}`,
   });
   const router = useRouter();
-
-  const { getInfoByKey } = useCovers();
   const { getStatsByKey } = useSortableStats();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: incidentReports.map((report) => {
       return {
         ...report,
-        info: getInfoByKey(report.coverKey),
+        info: { projectName: "" },
         ...getStatsByKey(report.id),
       };
     }),
@@ -104,8 +101,8 @@ export const ReportingResolvedPage = () => {
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
-          containerClass='flex-col sm:flex-row w-full sm:w-auto'
-          searchClass='w-full sm:w-auto'
+          containerClass="flex-col sm:flex-row w-full sm:w-auto"
+          searchClass="w-full sm:w-auto"
         />
       </div>
 

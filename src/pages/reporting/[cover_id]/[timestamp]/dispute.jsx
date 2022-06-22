@@ -12,7 +12,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export function getServerSideProps() {
   return {
@@ -28,10 +28,13 @@ export default function DisputeFormPage({ disabled }) {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
 
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = useCoverOrProductData({
+    coverKey: coverKey,
+    productKey: productKey,
+  });
   const { data, loading } = useFetchReport({
     coverKey: coverKey,
+    productKey: productKey,
     incidentDate: timestamp,
   });
 
