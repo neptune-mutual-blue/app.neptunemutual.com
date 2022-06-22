@@ -23,7 +23,7 @@ export const CoverReportingRules = ({
         <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 row-start-3 md:col-span-2 md:row-start-auto">
             {/* Rules */}
-            <CoverRules rules={coverInfo?.rules} />
+            <CoverRules rules={coverInfo?.infoObj.rules} />
             <div>
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className="mt-16">

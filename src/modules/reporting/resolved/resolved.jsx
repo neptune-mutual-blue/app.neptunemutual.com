@@ -130,7 +130,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
               <Link
                 href={`/reporting/${safeParseBytes32String(
                   report.id.split("-")[0]
-                )}/${report.id.split("-")[1]}/details`}
+                )}/${report.incidentDate}/details`}
                 key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
