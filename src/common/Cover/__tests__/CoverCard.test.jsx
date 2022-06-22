@@ -106,7 +106,7 @@ describe("CoverCard component", () => {
     });
 
     test("should have correct image src", () => {
-      const imgSrc = getCoverImgSrc({ key: mockCoverDetails.key });
+      const imgSrc = getCoverImgSrc({ coverKey: mockCoverDetails.key });
       const img = screen.getByTestId("cover-img");
       expect(img).toHaveAttribute("src", imgSrc);
     });

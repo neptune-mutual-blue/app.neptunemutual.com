@@ -30,7 +30,7 @@ const defaultValue = {
 
 const LiquidityFormsContext = React.createContext(defaultValue);
 
-export const LiquidityFormsProvider = ({ coverKey, children }) => {
+export const LiquidityFormsProvider = ({ coverKey, productKey, children }) => {
   const [liquidityInfoFromStore, setLiquidityInfoFromStore] = useState({
     minStakeToAddLiquidity: defaultValue.minStakeToAddLiquidity,
     myStake: defaultValue.myStake,

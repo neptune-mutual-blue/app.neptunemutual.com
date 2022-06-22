@@ -25,6 +25,7 @@ const QUERY = {
   IPS_HASH: "ipfsHash",
   TOTAL_ADDED_TO_BOND: "totalLpAddedToBond",
   TOTAL_LIQUIDITY: "totalLiquidity",
+  USER_LIQUIDITIES: "userLiquidities",
 };
 
 export async function mockFetch(url, { body }) {
@@ -62,11 +63,21 @@ export async function mockFetch(url, { body }) {
   }
 
   if (url.startsWith(MOCKUP_API_URLS.SUB_GRAPH)) {
+    console.log("includes", body.includes(QUERY.USER_LIQUIDITIES));
+
     if (body.includes(QUERY.PLATFORM_FEE)) {
       return {
         ok: true,
         status: 200,
         json: async () => QUERY_RESULT.PLATFORM_FEE,
+      };
+    }
+
+    if (body.includes(QUERY.USER_LIQUIDITIES)) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => QUERY_RESULT.USER_LIQUIDITIES,
       };
     }
 

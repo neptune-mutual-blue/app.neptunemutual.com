@@ -1044,4 +1044,44 @@ export const QUERY_RESULT = {
       ],
     },
   },
+  USER_LIQUIDITIES: {
+    data: {
+      userLiquidities: [
+        {
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          cover: {
+            id: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
+            coverKey:
+              "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
+            vaults: [
+              {
+                address: "0xe8c4cf846d143ef56ae5361a225563ef91327f91",
+                tokenDecimals: 18,
+                tokenSymbol: "HCF-nDAI",
+              },
+            ],
+          },
+          id: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306-0x68696369662d62616e6b00000000000000000000000000000000000000000000",
+          totalPodsRemaining: "250000000000000000000",
+        },
+        {
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          cover: {
+            id: "0x6f626b0000000000000000000000000000000000000000000000000000000000",
+            coverKey:
+              "0x6f626b0000000000000000000000000000000000000000000000000000000000",
+            vaults: [
+              {
+                address: "0x41c469c61ee826ab6bf7529eb8f1a454a5ee7c6c",
+                tokenDecimals: 18,
+                tokenSymbol: "OBX-nDAI",
+              },
+            ],
+          },
+          id: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306-0x6f626b0000000000000000000000000000000000000000000000000000000000",
+          totalPodsRemaining: "500000000000000000000",
+        },
+      ],
+    },
+  },
 };

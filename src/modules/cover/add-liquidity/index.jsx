@@ -13,16 +13,26 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
+import { useFetchCovers } from "@/src/hooks/useFetchCovers";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const productKey = safeFormatBytes32String(product_id || "");
+
+  const isBasket = Boolean(product_id);
+
+  const { getInfoByKey, getBasketInfoByKey } = useFetchCovers(
+    isBasket ? "basket" : "standalone"
+  );
+
+  const coverInfo = !isBasket
+    ? getInfoByKey(coverKey)
+    : getBasketInfoByKey(coverKey, productKey);
+
   const {
     info,
     refetch: refetchInfo,

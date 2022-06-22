@@ -106,7 +106,7 @@ describe("CoverPurchasePage.test", () => {
 
   it("should show purchase policy form after accepting rules", async () => {
     const router = createMockRouter({
-      query: { cover_id: "animated-brands" },
+      query: { cover_id: "animated-brands", product_id: "" },
     });
     const Component = withProviders(CoverPurchaseDetailsPage, router);
     const { getByTestId } = render(<Component />);
