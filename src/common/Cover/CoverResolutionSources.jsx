@@ -8,12 +8,8 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
   const projectName = coverInfo.projectName;
   const { reportingPeriod } = useCoverStatsContext();
 
-  if (!coverInfo.resolutionSources) {
-    return null;
-  }
-
-  const knowledgebase = coverInfo?.resolutionSources[1];
-  const twitter = coverInfo?.resolutionSources[0];
+  const knowledgebase = coverInfo?.resolutionSources?.[1] || "";
+  const twitter = coverInfo?.resolutionSources?.[0] || "";
 
   return (
     <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">

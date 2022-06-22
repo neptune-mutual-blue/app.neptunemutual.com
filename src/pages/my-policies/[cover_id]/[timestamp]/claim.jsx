@@ -17,8 +17,8 @@ import { t, Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/context/Covers";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export function getServerSideProps() {
   return {
@@ -35,8 +35,10 @@ export default function ClaimPolicy({ disabled }) {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String("");
 
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(coverKey);
+  const coverInfo = useCoverOrProductData({
+    coverKey: coverKey,
+    productKey: productKey,
+  });
   const { data, hasMore } = useActivePoliciesByCover({
     coverKey,
     page,

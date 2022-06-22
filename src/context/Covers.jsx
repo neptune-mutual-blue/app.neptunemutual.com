@@ -4,8 +4,6 @@ import { useFetchCovers } from "@/src/hooks/useFetchCovers";
 
 const initValue = {
   loading: false,
-  getInfoByKey: (_key) => ({}),
-  getBasketInfoByKey: (_coverKey, _productKey) => ({}),
   covers: [],
 };
 
@@ -20,12 +18,10 @@ export function useCovers() {
 }
 
 export const CoversProvider = ({ children }) => {
-  const { data, loading, getInfoByKey, getBasketInfoByKey } = useFetchCovers();
+  const { data, loading } = useFetchCovers();
 
   return (
-    <CoversContext.Provider
-      value={{ covers: data, getInfoByKey, getBasketInfoByKey, loading }}
-    >
+    <CoversContext.Provider value={{ covers: data, loading }}>
       {children}
     </CoversContext.Provider>
   );

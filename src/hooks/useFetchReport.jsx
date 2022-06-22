@@ -36,6 +36,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
           ) {
             id
             coverKey
+            productKey
             incidentDate
             resolutionDeadline
             resolved
@@ -85,9 +86,9 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [coverKey, incidentDate, networkId, productKey]);
 
   useEffect(() => {

@@ -23,7 +23,8 @@ import { useNetwork } from "@/src/context/Network";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
-import { useCovers } from "@/src/context/Covers";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 const renderHeader = (col) => (
   <th
@@ -152,8 +153,11 @@ const WhenRenderer = ({ row }) => {
 };
 
 const DetailsRenderer = ({ row }) => {
-  const { getInfoByKey } = useCovers();
-  const coverInfo = getInfoByKey(row.cover.id);
+  const productKey = safeFormatBytes32String("");
+  const coverInfo = useCoverOrProductData({
+    coverKey: row.cover.id,
+    productKey,
+  });
   const router = useRouter();
 
   if (!coverInfo) {

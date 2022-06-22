@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
-import { CoverCard } from "@/common/Cover/CoverCard";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { useCovers } from "@/src/context/Covers";
@@ -12,10 +10,9 @@ import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { Trans } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { useRouter } from "next/router";
+import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -35,18 +32,9 @@ const sorterData = {
   },
 };
 
-function getBasePath(array) {
-  return array.filter(Boolean).join("/");
-}
-
 export const AvailableCovers = () => {
   const { covers: availableCovers, loading } = useCovers();
   const { getStatsByKey } = useSortableStats();
-  const {
-    query: { cover_id = "" },
-  } = useRouter();
-
-  const basePathArray = ["covers", cover_id];
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
@@ -103,30 +91,7 @@ export const AvailableCovers = () => {
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
 
-          const cover_id = safeParseBytes32String(c.key);
-
-          const details = {
-            id: c.id,
-            projectName: c.projectName,
-            coverKey: c.coverKey,
-            productKey: c.productKey,
-            pricingFloor: c.pricingFloor,
-            pricingCeiling: c.pricingCeiling,
-          };
-
-          return (
-            <Link
-              href={`/${getBasePath(basePathArray)}/${cover_id}/options`}
-              key={c.id}
-            >
-              <a
-                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-                data-testid="cover-link"
-              >
-                <CoverCard details={details} />
-              </a>
-            </Link>
-          );
+          return <CoverCardWrapper key={c.coverKey} coverKey={c.coverKey} />;
         })}
       </Grid>
       {sortedCovers.length > showCount && (
