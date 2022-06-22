@@ -1,11 +1,24 @@
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useMyBasketLiquidityContext } from "@/modules/my-liquidity/basket-liquidity-page";
 
-export default function LiquidityProductModal() {
-  const { showModal, setShowModal } = useMyBasketLiquidityContext();
+/**
+ * @typedef {import('@/modules/my-liquidity/content/CoveredProducts').IProductBase} IProductBase
+ *
+ *
+ * @param {{
+ *   product: IProductBase
+ *   setShowModal: (_bool: boolean) => void
+ * }} param0
+ * @returns
+ */
+export default function LiquidityProductModal({ product, setShowModal }) {
   return (
-    <ModalRegular isOpen={showModal} onClose={() => {}}>
+    <ModalRegular
+      isOpen={true}
+      onClose={() => {
+        setShowModal(false);
+      }}
+    >
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title
           className="flex items-center w-full font-bold font-sora text-h2 border-b-B0C4DB border-b pb-3"
@@ -40,7 +53,9 @@ export default function LiquidityProductModal() {
             </defs>
           </svg>
 
-          <span className="pl-3 flex-grow">Bancor Cover Terms</span>
+          <span className="pl-3 flex-grow">
+            {product.infoObj.productName} Cover Terms
+          </span>
           <span className="pl-3 text-h4 text-9B9B9B">
             70% Capital Efficiency
           </span>
@@ -53,22 +68,20 @@ export default function LiquidityProductModal() {
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="text-md list-disc ml-8 mt-5">
-            <li>
-              You must have maintained at least 1 NPM tokens in your wallet
-              during your coverage period.
-            </li>
-            <li>
-              During your coverage period, the platform was exploited which
-              resulted in user assets being stolen and the project was also
-              unable to cover the loss themselves.
-            </li>
-            <li>This does not have to be your own loss.</li>
+          <ul className="text-md list-disc pl-8 mt-5 marker:text-xs">
+            {product.infoObj.rules.split("\n").map((x, i) => (
+              <li key={i}>
+                {x
+                  .trim()
+                  .replace(/^\d+\./g, "")
+                  .trim()}
+              </li>
+            ))}
           </ul>
 
           <p className="text-h5 font-bold py-6">Exclusions</p>
 
-          <p className="text-md">Exclusions added by the cover creator</p>
+          <p className="text-md">{product.infoObj.exclusions}</p>
         </div>
 
         <div className="flex justify-end pt-14">
