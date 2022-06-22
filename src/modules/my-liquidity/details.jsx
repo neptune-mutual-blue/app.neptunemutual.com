@@ -41,6 +41,10 @@ export const MyLiquidityCoverPage = () => {
     return <Trans>loading...</Trans>;
   }
 
+  const projectName = !isDiversified
+    ? coverInfo?.infoObj.projectName
+    : coverInfo?.infoObj.coverName;
+
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
   const myLiquidity = info.myUnrealizedShare;
@@ -58,14 +62,19 @@ export const MyLiquidityCoverPage = () => {
                   href: "/my-liquidity",
                   current: false,
                 },
-                { name: coverInfo.projectName, href: "#", current: true },
+                {
+                  name: projectName,
+                  href: "#",
+                  current: true,
+                },
               ]}
             />
             <div className="flex">
               <CoverProfileInfo
+                productKey={productKey}
                 coverKey={coverKey}
-                projectName={coverInfo?.coverName}
-                links={coverInfo?.links}
+                projectName={projectName}
+                links={coverInfo?.infoObj.links}
                 imgSrc={imgSrc}
               />
 
@@ -89,7 +98,9 @@ export const MyLiquidityCoverPage = () => {
           <Container className="grid grid-cols-3 gap-32">
             <div className="col-span-2">
               {/* Description */}
-              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+              <SeeMoreParagraph
+                text={coverInfo?.infoObj.about}
+              ></SeeMoreParagraph>
 
               <div className="mt-12">
                 <ProvideLiquidityForm coverKey={coverKey} info={info} />
