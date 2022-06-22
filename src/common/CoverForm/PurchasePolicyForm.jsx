@@ -20,9 +20,12 @@ import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { isValidProduct } from "@/src/helpers/cover";
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
+
+  const isDiversified = isValidProduct(productKey);
 
   const [value, setValue] = useState("");
   const [coverMonth, setCoverMonth] = useState("");
@@ -66,8 +69,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     availableLiquidity,
   });
 
-  const { isUserWhitelisted, requiresWhitelist, activeIncidentDate, status } =
-    useCoverStatsContext();
+  const {
+    isUserWhitelisted,
+    requiresWhitelist,
+    activeIncidentDate,
+    coverStatus,
+    productStatus,
+  } = useCoverStatsContext();
 
   const handleChange = (val) => {
     if (typeof val === "string") {
@@ -108,14 +116,24 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
       </Alert>
     );
   }
+
+  const status = !isDiversified ? coverStatus : productStatus;
   if (status && status !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
+          href={
+            !isDiversified
+              ? `/reporting/${safeParseBytes32String(
+                  coverKey
+                )}/${activeIncidentDate}/details`
+              : `/reporting/${safeParseBytes32String(
+                  coverKey
+                )}/${safeParseBytes32String(
+                  productKey
+                )}/${activeIncidentDate}/details`
+          }
         >
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>

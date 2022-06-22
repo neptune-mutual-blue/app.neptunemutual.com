@@ -8,6 +8,7 @@ import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 import { renderStatusIndicatorTranslation } from "@/utils/translations";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { isValidProduct } from "@/src/helpers/cover";
 
 // Status => Variant
 const variants = {
@@ -27,9 +28,16 @@ const icons = {
   "False Reporting": StatusFalseReportingIcon,
 };
 
-export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
+export const ProjectStatusIndicator = ({
+  coverKey,
+  productKey,
+  status,
+  incidentDate,
+}) => {
   const variant = variants[status] || "green";
   const Icon = icons[status] || StatusNormalIcon;
+
+  const isDiversified = isValidProduct(productKey);
 
   if (!status) {
     return null;
@@ -54,9 +62,15 @@ export const ProjectStatusIndicator = ({ coverKey, status, incidentDate }) => {
   if (isGreater(incidentDate, "0")) {
     return (
       <Link
-        href={`/reporting/${safeParseBytes32String(
-          coverKey
-        )}/${incidentDate}/details`}
+        href={
+          !isDiversified
+            ? `/reporting/${safeParseBytes32String(
+                coverKey
+              )}/${incidentDate}/details`
+            : `/reporting/${safeParseBytes32String(
+                productKey
+              )}/${incidentDate}/details`
+        }
       >
         <a data-testid="badge-link">{badge}</a>
       </Link>
