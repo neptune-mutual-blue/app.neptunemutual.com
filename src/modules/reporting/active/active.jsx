@@ -131,6 +131,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                   <ActiveReportingCard
                     id={report.id}
                     coverKey={report.coverKey}
+                    productKey={report.productKey}
                     incidentDate={report.incidentDate}
                   />
                 </a>

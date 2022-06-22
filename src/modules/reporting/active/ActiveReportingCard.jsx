@@ -80,12 +80,12 @@ export const ActiveReportingCard = ({
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
         {formatPercent(
-          coverInfo.infoObj.pricingFloor / MULTIPLIER,
+          (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
           router.locale
         )}
         -
         {formatPercent(
-          coverInfo.infoObj.pricingCeiling / MULTIPLIER,
+           (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
           router.locale
         )}
       </div>
