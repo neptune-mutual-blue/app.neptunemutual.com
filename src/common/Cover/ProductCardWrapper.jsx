@@ -1,15 +1,14 @@
 import Link from "next/link";
-import { utils } from "@neptunemutual/sdk";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { CoverCard } from "@/common/Cover/CoverCard";
+import { ProductCard } from "@/common/Cover/ProductCard";
 
-export const CoverCardWrapper = ({
+export const ProductCardWrapper = ({
   coverKey,
+  productKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
 }) => {
-  const productKey = utils.keyUtil.toBytes32("");
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (!coverInfo) {
@@ -17,22 +16,17 @@ export const CoverCardWrapper = ({
   }
 
   const cover_id = safeParseBytes32String(coverKey);
-
-  const isDiversified = coverInfo?.supportsProducts;
+  const product_id = safeParseBytes32String(productKey);
 
   return (
-    <Link
-      href={
-        isDiversified ? `/basket/${cover_id}` : `covers/${cover_id}/options`
-      }
-      key={coverKey}
-    >
+    <Link href={`covers/${cover_id}/${product_id}/options`} key={coverKey}>
       <a
         className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
         data-testid="cover-link"
       >
-        <CoverCard
+        <ProductCard
           coverKey={coverKey}
+          productKey={productKey}
           coverInfo={coverInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}

@@ -4,7 +4,7 @@ import { actions as coverActions } from "@/src/config/cover/actions";
 import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -26,8 +26,11 @@ export const CoverOptionsPage = () => {
     return <Trans>loading...</Trans>;
   }
 
+  const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = coverInfo?.coverName;
+  const title = isDiversified
+    ? coverInfo.infoObj.coverName
+    : coverInfo.infoObj.projectName;
 
   return (
     <div className="min-h-screen py-6 md:px-2 lg:px-8">
@@ -48,7 +51,11 @@ export const CoverOptionsPage = () => {
             return (
               <Link
                 key={actionKey}
-                href={coverActions[actionKey].getHref(cover_id)}
+                href={coverActions[actionKey].getHref(
+                  cover_id,
+                  product_id,
+                  isDiversified
+                )}
               >
                 <a
                   data-testid="cover-option-actions"

@@ -4,7 +4,7 @@ import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
-import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
@@ -20,13 +20,12 @@ export const MyLiquidityCoverPage = () => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String("");
 
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const productKey = safeFormatBytes32String("");
-
-  const isDiversified = isValidProduct(productKey);
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const isDiversified = coverInfo?.supportsProducts;
 
   const {
     info,

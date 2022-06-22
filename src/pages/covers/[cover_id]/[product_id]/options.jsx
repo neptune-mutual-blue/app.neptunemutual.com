@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { CoverOptionsPage } from "@/src/modules/basket/CoverOptionsPage";
+import { CoverOptionsPage } from "@/src/modules/cover/CoverOptionsPage";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useRouter } from "next/router";

@@ -17,8 +17,8 @@ import {
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useRouter } from "next/router";
-import { useFetchBasketProducts } from "@/src/hooks/useFetchBasketProducts.js";
-import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
+import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 /**
  *
@@ -51,10 +51,11 @@ export const ProductsGrid = () => {
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
 
-  const { products, loading } = useFetchBasketProducts(coverKey);
+  const productKey = safeFormatBytes32String("");
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: products.map((cover) => ({
+    list: (coverInfo?.products || []).map((cover) => ({
       ...cover,
       ...getStatsByKey(cover.coverKey),
     })),
@@ -83,6 +84,10 @@ export const ProductsGrid = () => {
     setShowCount((val) => val + CARDS_PER_PAGE);
   };
 
+  if (!coverInfo) {
+    null;
+  }
+
   return (
     <Container className="py-16" data-testid="available-covers-container">
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
@@ -101,7 +106,7 @@ export const ProductsGrid = () => {
       </div>
       <Content
         data={sortedProducts.slice(0, showCount)}
-        loading={loading}
+        loading={false}
         hasMore={false}
         handleShowMore={handleShowMore}
       />
@@ -133,7 +138,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                   className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
                   data-testid="cover-link"
                 >
-                  <CoverCardWrapper
+                  <ProductCardWrapper
                     coverKey={coverKey}
                     productKey={productKey}
                     progressFgColor="bg-4e7dd9"

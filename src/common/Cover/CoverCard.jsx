@@ -19,7 +19,6 @@ import { utils } from "@neptunemutual/sdk";
 
 export const CoverCard = ({
   coverKey,
-  productKey = utils.keyUtil.toBytes32(""),
   coverInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
@@ -28,6 +27,7 @@ export const CoverCard = ({
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
+  const productKey = utils.keyUtil.toBytes32("");
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { activeCommitment, coverStatus } = useFetchCoverStats({
     coverKey: coverKey,
