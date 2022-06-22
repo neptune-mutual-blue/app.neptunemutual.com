@@ -71,7 +71,7 @@ export const AvailableCovers = () => {
     <Container className="py-16" data-testid="available-covers-container">
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
-          <Trans>Available Covers</Trans>
+          <Trans>Cover Products</Trans>
         </h1>
         <SearchAndSortBar
           searchValue={searchValue}

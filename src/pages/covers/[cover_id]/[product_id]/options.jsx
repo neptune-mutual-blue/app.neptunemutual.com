@@ -36,10 +36,10 @@ export default function Options({ disabled }) {
       <Container className="pt-9">
         <BreadCrumbs
           pages={[
-            { name: t`Home`, href: "/basket", current: false },
+            { name: t`Home`, href: "/", current: false },
             {
               name: cover_id,
-              href: `/basket/${cover_id}/${product_id}`,
+              href: `/basket/${cover_id}/${product_id}/options`,
               current: true,
             },
           ]}

@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { CoverProfileInfoShort } from "@/common/CoverProfileInfo/CoverProfileInfoShort";
 import { OptionActionCard } from "@/common/Option/OptionActionCard";
 import { Container } from "@/common/Container/Container";
-import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
+import { isValidProduct } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 import {
@@ -27,21 +26,9 @@ export const CoverOptionsPage = () => {
   }
 
   const isDiversified = isValidProduct(productKey);
-  const imgSrc = getCoverImgSrc({ key: coverKey });
-  const title = isDiversified
-    ? coverInfo.infoObj.coverName
-    : coverInfo.infoObj.projectName;
 
   return (
-    <div className="min-h-screen py-6 md:px-2 lg:px-8">
-      <div className="px-4 mx-auto max-w-7xl sm:px-5 md:px-4">
-        <CoverProfileInfoShort
-          imgSrc={imgSrc}
-          title={title}
-          className="mb-7 lg:mb-28"
-          fontSizeClass="text-h7 md:text-h4"
-        />
-      </div>
+    <div className="min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28">
       <Container className="pb-16">
         <h2 className="mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12">
           <Trans>I Want to</Trans>
