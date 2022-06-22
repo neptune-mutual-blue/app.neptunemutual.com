@@ -13,7 +13,7 @@ export const BasketCardGrids = () => {
           const coverKey = safeParseBytes32String(item.key);
 
           return (
-            <Link href={`basket/${coverKey}`} key={item.id}>
+            <Link href={`/basket/${coverKey}`} key={item.id}>
               <a>
                 <NewCoverCard
                   name={item.name}
