@@ -3,14 +3,20 @@ import { explainInterval } from "@/utils/formatter/interval";
 import Link from "next/link";
 import { Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { isValidProduct } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useRouter } from "next/router";
 
 export const CoverResolutionSources = ({ children, coverInfo }) => {
-  const projectName =
-    coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName;
+  const router = useRouter();
+  const { product_id } = router.query;
+  const productKey = safeFormatBytes32String(product_id || "");
+  const isDiversified = isValidProduct(productKey);
+  const projectName = isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.projectName;
   const { reportingPeriod } = useCoverStatsContext();
 
-  const knowledgebase = coverInfo?.resolutionSources?.[1] || "";
-  const twitter = coverInfo?.resolutionSources?.[0] || "";
+  const knowledgebase = coverInfo?.infoObj.resolutionSources?.[1] || "";
+  const twitter = coverInfo?.infoObj.resolutionSources?.[0] || "";
 
   return (
     <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">

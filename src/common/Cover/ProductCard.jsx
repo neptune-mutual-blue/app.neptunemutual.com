@@ -74,7 +74,7 @@ export const ProductCard = ({
           <img
             src="/images/covers/empty.svg"
             alt={productInfo.infoObj?.projectName}
-            className="bg-DEEAF6 rounded-full"
+            className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
           />
         </div>
@@ -83,12 +83,12 @@ export const ProductCard = ({
         </div>
       </div>
       <h4
-        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
+        className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {productInfo.infoObj?.productName}
       </h4>
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div
           className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"
           data-testid="cover-fee"

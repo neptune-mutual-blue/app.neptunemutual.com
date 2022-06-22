@@ -75,7 +75,7 @@ export const ActiveReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.infoObj.projectName}
+        {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}

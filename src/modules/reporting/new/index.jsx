@@ -22,6 +22,7 @@ export function NewIncidentReportPage() {
   });
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,
+    productKey
   });
 
   useEffect(() => {

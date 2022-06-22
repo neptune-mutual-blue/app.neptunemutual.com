@@ -42,7 +42,7 @@ export const ResolvedReportingCard = ({
         <div className="rounded-full w-18 h-18 bg-DEEAF6">
           <img
             src={imgSrc}
-            alt={coverInfo.projectName}
+            alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
@@ -51,7 +51,7 @@ export const ResolvedReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.projectName}
+        {coverInfo.infoObj.projectName}
       </h4>
 
       {/* Divider */}

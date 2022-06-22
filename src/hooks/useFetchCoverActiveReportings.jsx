@@ -1,23 +1,25 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@/src/hooks/useQuery";
 
-const getQuery = (coverKey) => {
+const getQuery = (coverKey, productKey) => {
   return `
   {
-    incidentReports (where: {
-      key: "${coverKey}"
+    incidentReports(where: {
+      coverKey: "${coverKey}"
+      productKey: "${productKey}"
       finalized: false
     }) {
       id
       reporterInfo
-      key
+      coverKey
+      productKey
       incidentDate
     }
   }
   `;
 };
 
-export const useFetchCoverActiveReportings = ({ coverKey }) => {
+export const useFetchCoverActiveReportings = ({ coverKey, productKey }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -37,14 +39,14 @@ export const useFetchCoverActiveReportings = ({ coverKey }) => {
   useEffect(() => {
     setLoading(true);
 
-    refetch(getQuery(coverKey))
+    refetch(getQuery(coverKey, productKey))
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, refetch]);
+  }, [coverKey, productKey, refetch]);
 
   return {
     data,
