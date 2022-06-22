@@ -15,6 +15,7 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
@@ -83,6 +84,8 @@ export const MyLiquidityCoverPage = () => {
 
         {/* Content */}
         <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+          {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
+
           <Container className="grid grid-cols-3 gap-32">
             <div className="col-span-2">
               {/* Description */}

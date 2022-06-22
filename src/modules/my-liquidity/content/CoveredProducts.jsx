@@ -6,12 +6,14 @@ import { Trans } from "@lingui/macro";
  * @typedef {import('@/modules/my-liquidity/content/listOfProducts').IBasketProduct} IBasketProduct
  */
 
-export default function CoveredProducts() {
+export function CoveredProducts({ coverInfo }) {
   const { setShowModal } = useMyBasketLiquidityContext();
+
+  console.log(coverInfo);
 
   return (
     <div className="flex flex-col">
-      <h1 className="pb-24 text-h3 font-bold">
+      <h1 className="pb-24 font-bold text-h3">
         <Trans>Products Covered Under This Pool</Trans>
       </h1>
       <div className="grid grid-cols-6">
@@ -36,7 +38,7 @@ function Product({ name, onClick }) {
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
         <img src="/images/covers/empty.svg" alt="base image" />
       </div>
-      <h1 className="pt-2 text-4e7dd9 flex items-center">
+      <h1 className="flex items-center pt-2 text-4e7dd9">
         {name}
         <button onClick={onClick}>
           <svg

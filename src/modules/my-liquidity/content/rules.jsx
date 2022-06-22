@@ -1,4 +1,4 @@
-import AcceptTerms from "@/modules/my-liquidity/content/accept-form.tsx";
+import AcceptTerms from "@/modules/my-liquidity/content/AcceptForm";
 import { Trans } from "@lingui/macro";
 
 /**
@@ -23,7 +23,7 @@ function DownloadButton() {
   return (
     <div className="pb-14">
       <button
-        className="inline-flex flex-grow-0 items-center justify-center text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75 py-3 px-5"
+        className="inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
         onClick={() => {}}
       >
         <svg
@@ -47,7 +47,7 @@ function DownloadButton() {
 
 function WarningMessage() {
   return (
-    <div className="flex items-center justify-center bg-F7E2BE  py-4 px-11 text-sm">
+    <div className="flex items-center justify-center py-4 text-sm bg-F7E2BE px-11">
       <svg
         width="20"
         height="20"
@@ -106,7 +106,7 @@ function Notes({ setAcceptedRules }) {
         </Trans>
       </p>
 
-      <p className="text-h3 font-bold py-6">
+      <p className="py-6 font-bold text-h3">
         <Trans>Important Note</Trans>
       </p>
 
@@ -118,7 +118,7 @@ function Notes({ setAcceptedRules }) {
         </Trans>
       </p>
 
-      <p className="text-h3 font-bold py-6">
+      <p className="py-6 font-bold text-h3">
         <Trans>Standard Exclusions</Trans>
       </p>
 
@@ -127,7 +127,7 @@ function Notes({ setAcceptedRules }) {
         reserves the right to update the exclusion list periodically.
       </p>
 
-      <ul className="list-disc ml-6">
+      <ul className="ml-6 list-disc">
         <li>
           If we have reason to believe you are an attacker or are directly or
           indirectly associated with an attacker, we reserve the right to
@@ -154,7 +154,7 @@ function Notes({ setAcceptedRules }) {
         <li>
           {`Gross negligence or misconduct by a project's founders, employees,
           development team, or former employees are not coverable.`}
-          <ul className="list-disc ml-6">
+          <ul className="ml-6 list-disc">
             <li>Rug pull or theft of funds.</li>
             <li>Project team confiscating user funds. </li>
             <li>
@@ -174,7 +174,7 @@ function Notes({ setAcceptedRules }) {
         </li>
       </ul>
 
-      <p className="text-h3 font-bold py-6">
+      <p className="py-6 font-bold text-h3">
         <Trans>Risk Disclosure / Disclaimer</Trans>
       </p>
 

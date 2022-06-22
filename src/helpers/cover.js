@@ -24,8 +24,6 @@ export const isValidProduct = (productKey) => {
 };
 
 export const getParsedCoverInfo = (ipfsStr = "") => {
-  console.log("coverinfo", ipfsStr);
-
   try {
     const obj = JSON.parse(ipfsStr);
 
@@ -62,8 +60,6 @@ export const getParsedCoverInfo = (ipfsStr = "") => {
 };
 
 export const getParsedProductInfo = (ipfsStr = "") => {
-  console.log("productinfo", ipfsStr);
-
   try {
     const obj = JSON.parse(ipfsStr);
 

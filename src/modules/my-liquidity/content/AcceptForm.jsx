@@ -24,7 +24,7 @@ export default function AcceptTerms({ children, onAccept }) {
       <Checkbox
         name="checkinputname"
         checked={checked}
-        onChange={(event) => setChecked(event.target.checked)}
+        onChange={handleChange}
         data-testid="accept-rules-check-box"
       >
         {children}
