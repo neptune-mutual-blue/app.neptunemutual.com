@@ -63,7 +63,7 @@ export const ActiveReportingCard = ({
         <div className="rounded-full w-18 h-18 bg-DEEAF6">
           <img
             src={imgSrc}
-            alt={coverInfo.projectName}
+            alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
@@ -72,12 +72,19 @@ export const ActiveReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.projectName}
+        {coverInfo.infoObj.projectName}
       </h4>
       <div className="mt-2 text-sm uppercase text-7398C0">
         <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(coverInfo.pricingFloor / MULTIPLIER, router.locale)}-
-        {formatPercent(coverInfo.pricingCeiling / MULTIPLIER, router.locale)}
+        {formatPercent(
+          coverInfo.infoObj.pricingFloor / MULTIPLIER,
+          router.locale
+        )}
+        -
+        {formatPercent(
+          coverInfo.infoObj.pricingCeiling / MULTIPLIER,
+          router.locale
+        )}
       </div>
 
       {/* Divider */}

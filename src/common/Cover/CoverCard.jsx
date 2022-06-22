@@ -16,11 +16,11 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const CoverCard = ({
   coverKey,
   productKey = utils.keyUtil.toBytes32(""),
+  coverInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
 }) => {
@@ -28,7 +28,6 @@ export const CoverCard = ({
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { activeCommitment, coverStatus } = useFetchCoverStats({
     coverKey: coverKey,
@@ -54,10 +53,6 @@ export const CoverCard = ({
     });
   }, [id, liquidity, setStatsByKey, utilization]);
 
-  if (!coverInfo) {
-    return <>loading...</>;
-  }
-
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
@@ -80,7 +75,9 @@ export const CoverCard = ({
         className="mt-4 font-semibold uppercase text-h4 font-sora"
         data-testid="project-name"
       >
-        {coverInfo.infoObj.projectName}
+        {isDiversified
+          ? coverInfo.infoObj.coverName
+          : coverInfo.infoObj.projectName}
       </h4>
       <div
         className="mt-1 uppercase text-h7 lg:text-sm text-7398C0 lg:mt-2"
