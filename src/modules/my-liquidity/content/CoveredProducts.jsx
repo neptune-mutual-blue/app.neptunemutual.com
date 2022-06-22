@@ -49,10 +49,10 @@ export function CoveredProducts({ coverInfo }) {
   return (
     <Container className="flex flex-col py-9">
       <div className="flex flex-col">
-        <h4 className="pb-24 font-bold text-h3">
+        <h4 className="mb-24 font-bold text-h3">
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
-        <div className="grid lg:grid-cols-6 md:grid-cols-4 xs:grid-cols-2 grid-cols-1">
+        <div className="grid xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2 grid-cols-1">
           {coverInfo.products.map((product) => (
             <Product
               {...product}
@@ -80,7 +80,7 @@ export function CoveredProducts({ coverInfo }) {
  */
 function Product({ infoObj: { productName }, onClick }) {
   return (
-    <div className="flex flex-col items-center justify-start py-8">
+    <div className="flex flex-col items-center justify-start pb-8">
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
         <img src="/images/covers/empty.svg" alt="base image" />
       </div>
