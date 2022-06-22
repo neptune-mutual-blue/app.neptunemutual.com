@@ -31,6 +31,9 @@ export const MyLiquidityPage = () => {
 };
 
 function MyLiquidities({ data, loading }) {
+  if (loading) {
+    return <Trans>loading</Trans>;
+  }
   if (data.length) {
     return (
       <Grid className="mb-24 mt-14">
@@ -40,7 +43,10 @@ function MyLiquidities({ data, loading }) {
               href={`/my-liquidity/${safeParseBytes32String(x.cover.id)}`}
               key={x.id}
             >
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+              <a
+                data-testid="liquidity-card-link"
+                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+              >
                 <MyLiquidityCoverCard
                   coverKey={x.cover.id}
                   totalPODs={x.totalPodsRemaining}

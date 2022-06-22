@@ -26,7 +26,9 @@ const select = (container, type) => {
     );
   }
   if (type === SELECTION.TITLE) {
-    return Array.from(container.querySelectorAll("[data-testid='title']"));
+    return Array.from(
+      container.querySelectorAll("[data-testid='liquidity-card-link']")
+    );
   }
 
   if (type === SELECTION.ASSURANCE) {
@@ -67,8 +69,7 @@ describe("My Liquidity", () => {
   jest
     .spyOn(envConfig, "getGraphURL")
     .mockImplementation(
-      () =>
-        "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai"
+      () => "https://api.thegraph.com/subgraphs/name/flashburst/subgraph-mumbai"
     );
 
   jest.spyOn(web3Core, "useWeb3React").mockImplementation(() => ({
@@ -89,23 +90,20 @@ describe("My Liquidity", () => {
       i18n.activate("en");
       ReactDOM.render(<Component />, container);
     });
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(4));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(7));
   });
 
   describe("My Liquidity cards", () => {
-    test("Cards should be 2", () => {
+    test("Cards skeleton should be 2", () => {
       const liquidityCards = select(container, SELECTION.CARD);
 
       expect(liquidityCards.length).toEqual(2);
     });
 
-    test("No empty Title", () => {
+    test("Cards should be 2", () => {
       const titleValues = getValues(container, SELECTION.TITLE);
 
-      const emptyValues = titleValues.filter((title) => title.length === 0);
-
       expect(titleValues.length).toEqual(2);
-      expect(emptyValues.length).toEqual(0);
     });
 
     test("No Zero value Assurance", () => {

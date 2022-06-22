@@ -106,7 +106,7 @@ describe("NewIncidentReportPage.test", () => {
 
   it("should show incident report form after accepting rules", async () => {
     const router = createMockRouter({
-      query: { id: "animated-brands" },
+      query: { cover_id: "animated-brands", product_id: "" },
     });
     const Component = withProviders(NewIncidentReportPage, router);
     const { getByTestId } = render(<Component />);
