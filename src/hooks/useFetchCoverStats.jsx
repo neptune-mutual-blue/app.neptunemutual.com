@@ -58,6 +58,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
             getReplacedString(COVER_STATS_URL, {
               networkId,
               coverKey,
+              productKey,
               account: ADDRESS_ONE,
             }),
             {

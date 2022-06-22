@@ -11,7 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 import { getReplacedString } from "@/utils/string";
-import { UNSTAKE_INFO_URL } from "@/src/config/constants";
+import { ADDRESS_ONE, UNSTAKE_INFO_URL } from "@/src/config/constants";
 import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
 
 const defaultInfo = {
@@ -71,7 +71,8 @@ export const useUnstakeReportingStake = ({
         getReplacedString(UNSTAKE_INFO_URL, {
           networkId,
           coverKey,
-          account,
+          productKey,
+          account: ADDRESS_ONE,
           incidentDate,
         }),
         {

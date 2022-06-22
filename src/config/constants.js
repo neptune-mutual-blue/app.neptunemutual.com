@@ -49,10 +49,10 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`;
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`;
-export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{account}/{incidentDate}`;
+export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{productKey}/{account}/{incidentDate}`;
 export const BOND_INFO_URL = `${API_BASE_URL}protocol/bond/info/{networkId}/{account}`;
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;
-export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/{coverKey}/{account}`;
+export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/{coverKey}/{productKey}/{account}`;
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`;
 
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
