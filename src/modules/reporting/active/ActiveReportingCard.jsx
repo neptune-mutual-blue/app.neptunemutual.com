@@ -40,7 +40,7 @@ export const ActiveReportingCard = ({
   const router = useRouter();
 
   const isDiversified = isValidProduct(productKey);
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -77,39 +77,58 @@ export const ActiveReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
+        {isDiversified
+          ? coverInfo.infoObj.productName
+          : coverInfo.infoObj.projectName}
       </h4>
       <div className="flex items-center justify-between">
         <div className="mt-1 text-sm uppercase text-7398C0 lg:mt-2">
           <Trans>Cover fee:</Trans>{" "}
           {formatPercent(
-            (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
+            (isDiversified
+              ? coverInfo.cover.infoObj.pricingFloor
+              : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
             router.locale
           )}
           -
           {formatPercent(
-            (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
+            (isDiversified
+              ? coverInfo.cover.infoObj.pricingCeiling
+              : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
             router.locale
           )}
         </div>
-        {coverInfo.cover?.infoObj?.leverage && (
-            <InfoTooltip
-              infoComponent={
-                <p>
-                  <Trans>
-                    Diversified pool with {coverInfo.cover.infoObj.leverage}x
-                    leverage factor and 50% capital efficiency
-                  </Trans>
-                </p>
-              }
-            >
-              <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
-                <p className="opacity-60">
-                  D{coverInfo.cover?.infoObj?.leverage}x50
-                </p>
-              </div>
-            </InfoTooltip>
-          )}
+        {isDiversified && (
+          <InfoTooltip
+            infoComponent={
+              <p>
+                <Trans>
+                  Diversified pool with {coverInfo.cover.infoObj.leverage}x
+                  leverage factor and{" "}
+                  {formatPercent(
+                    toBN(coverInfo.infoObj.capitalEfficiency)
+                      .dividedBy(MULTIPLIER)
+                      .toString()
+                  )}{" "}
+                  capital efficiency
+                </Trans>
+              </p>
+            }
+          >
+            <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
+              <p className="opacity-60">
+                D{coverInfo.cover.infoObj.leverage}x
+                {formatPercent(
+                  toBN(coverInfo.infoObj.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString(),
+                  router.locale,
+                  false
+                )}
+              </p>
+            </div>
+          </InfoTooltip>
+        )}
       </div>
 
       {/* Divider */}
@@ -138,21 +157,22 @@ export const ActiveReportingCard = ({
               </b>
             </p>
             <p>
-              <Trans>Protection</Trans>: {formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).long}
+              <Trans>Protection</Trans>:{" "}
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).long
+              }
             </p>
           </div>
         }
       >
         <div className="mt-2 mb-4">
-          <ProgressBar
-            value={utilization}
-          />
+          <ProgressBar value={utilization} />
         </div>
       </InfoTooltip>
 
@@ -161,25 +181,30 @@ export const ActiveReportingCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>: {formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).long}
+              <Trans>Protection</Trans>:{" "}
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).long
+              }
             </div>
           }
         >
           <div
             className="flex flex-1"
-            title={formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).long}
+            title={
+              formatCurrency(
+                convertFromUnits(
+                  activeCommitment,
+                  liquidityTokenDecimals
+                ).toString(),
+                router.locale
+              ).long
+            }
             data-testid="protection"
           >
             <SheildIcon className="w-4 h-4 text-01052D" />
@@ -200,7 +225,8 @@ export const ActiveReportingCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Reported On:</Trans>: {DateLib.toLongDateFormat(incidentDate, router.locale)}
+              <Trans>Reported On:</Trans>:{" "}
+              {DateLib.toLongDateFormat(incidentDate, router.locale)}
             </div>
           }
         >

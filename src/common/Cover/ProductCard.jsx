@@ -104,20 +104,33 @@ export const ProductCard = ({
             router.locale
           )}
         </div>
-        {productInfo.cover?.infoObj?.leverage && (
+        {productInfo.cover.infoObj.leverage && (
           <InfoTooltip
             infoComponent={
               <p>
                 <Trans>
                   Diversified pool with {productInfo.cover.infoObj.leverage}x
-                  leverage factor and 50% capital efficiency
+                  leverage factor and{" "}
+                  {formatPercent(
+                    toBN(productInfo.infoObj.capitalEfficiency)
+                      .dividedBy(MULTIPLIER)
+                      .toString()
+                  )}{" "}
+                  capital efficiency
                 </Trans>
               </p>
             }
           >
             <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
               <p className="opacity-60">
-                D{productInfo.cover?.infoObj?.leverage}x50
+                D{productInfo.cover.infoObj.leverage}x
+                {formatPercent(
+                  toBN(productInfo.infoObj.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString(),
+                  router.locale,
+                  false
+                )}
               </p>
             </div>
           </InfoTooltip>

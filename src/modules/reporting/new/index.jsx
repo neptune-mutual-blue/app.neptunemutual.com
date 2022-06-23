@@ -23,7 +23,7 @@ export function NewIncidentReportPage() {
   });
   const { data: activeReportings } = useFetchCoverActiveReportings({
     coverKey,
-    productKey
+    productKey,
   });
 
   const isDiversified = isValidProduct(productKey);
@@ -37,9 +37,12 @@ export function NewIncidentReportPage() {
     const hasActiveReportings = activeReportings && activeReportings.length > 0;
 
     if (!hasActiveReportings) return;
-    if (hasActiveReportings && isDiversified) return router.replace(`/reporting/${cover_id}/product/${product_id}/${activeReportings[0].incidentDate}/details`);
-    if (hasActiveReportings) return router.replace(`/reporting/${cover_id}/${activeReportings[0].incidentDate}/details`);
 
+    router.replace(
+      isDiversified
+        ? `/reporting/${cover_id}/product/${product_id}/${activeReportings[0].incidentDate}/details`
+        : `/reporting/${cover_id}/${activeReportings[0].incidentDate}/details`
+    );
   }, [activeReportings, cover_id, isDiversified, product_id, router]);
 
   if (!coverInfo) {

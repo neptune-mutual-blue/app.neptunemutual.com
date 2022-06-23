@@ -8,15 +8,13 @@ import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
 
-export const ReportingHero = ({ coverInfo, reportStatus }) => {
+export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
   const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
-
-  console.log(reportStatus);
 
   const breadcrumbData = reportStatus
     ? [
@@ -27,7 +25,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
           current: false,
         },
         {
-          name: isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName,
+          name: isDiversified
+            ? coverInfo?.infoObj.productName
+            : coverInfo?.infoObj.coverName,
           current: !Boolean(reportStatus.dispute),
           href: reportStatus.dispute
             ? router.asPath.replace("/dispute", "/details")

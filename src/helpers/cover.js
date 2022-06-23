@@ -65,6 +65,7 @@ export const getParsedProductInfo = (ipfsStr = "") => {
 
     return {
       productName: obj.productName,
+      capitalEfficiency: obj.capitalEfficiency,
       tags: obj.tags,
       about: obj.about,
       rules: obj.rules,
