@@ -27,9 +27,7 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
           current: false,
         },
         {
-          name: !isDiversified
-            ? coverInfo?.infoObj.coverName
-            : coverInfo?.infoObj.productName,
+          name: isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName,
           current: !Boolean(reportStatus.dispute),
           href: reportStatus.dispute
             ? router.asPath.replace("/dispute", "/details")
