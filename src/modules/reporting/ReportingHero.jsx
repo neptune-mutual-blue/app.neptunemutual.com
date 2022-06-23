@@ -16,6 +16,8 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
   const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
+  console.log(reportStatus);
+
   const breadcrumbData = reportStatus
     ? [
         { name: t`Home`, href: "/", current: false },
@@ -25,7 +27,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
           current: false,
         },
         {
-          name: coverInfo?.infoObj.coverName,
+          name: !isDiversified
+            ? coverInfo?.infoObj.coverName
+            : coverInfo?.infoObj.productName,
           current: !Boolean(reportStatus.dispute),
           href: reportStatus.dispute
             ? router.asPath.replace("/dispute", "/details")
@@ -35,7 +39,9 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
     : [
         { name: t`Home`, href: "/", current: false },
         {
-          name: isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName,
+          name: isDiversified
+            ? coverInfo?.infoObj.productName
+            : coverInfo?.infoObj.coverName,
           href: product_id
             ? `/covers/${cover_id}/${product_id}/options`
             : `/covers/${cover_id}/options`,
@@ -60,8 +66,11 @@ export const ReportingHero = ({ coverInfo, reportStatus }) => {
             coverKey={coverKey}
             imgSrc={imgSrc}
             links={coverInfo?.infoObj.links}
-            projectName={isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.coverName}
-            isDiversified={isDiversified}
+            projectName={
+              isDiversified
+                ? coverInfo?.infoObj.productName
+                : coverInfo?.infoObj.coverName
+            }
           />
         </div>
       </Container>
