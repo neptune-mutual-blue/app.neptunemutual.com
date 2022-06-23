@@ -82,7 +82,7 @@ export default function ClaimPolicy({ disabled }) {
                 },
                 {
                   name: title,
-                  href: `/cover/${cover_id}/options`,
+                  href: `/covers/${cover_id}/options`,
                   current: false,
                 },
                 { name: t`Claim`, href: "#", current: true },
