@@ -1,17 +1,19 @@
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
 import React from "react";
 
 const CxTokenRowContext = React.createContext({
   tokenAddress: "",
   tokenSymbol: "",
+  tokenDecimals: 0,
+  loadingBalance: false,
   balance: "0",
   refetchBalance: async () => {},
 });
 
 export const CxTokenRowProvider = ({ row, _extraData, ...props }) => {
   const tokenAddress = row.cxToken.id;
-  const tokenSymbol = useTokenSymbol(tokenAddress);
+  const tokenSymbol = row.cxToken.tokenSymbol;
+  const tokenDecimals = row.cxToken.tokenDecimals;
   const {
     balance,
     loading: loadingBalance,
@@ -23,6 +25,7 @@ export const CxTokenRowProvider = ({ row, _extraData, ...props }) => {
       value={{
         tokenSymbol,
         tokenAddress,
+        tokenDecimals,
         balance,
         loadingBalance,
         refetchBalance,

@@ -54,9 +54,10 @@ export const usePolicyTxs = ({ limit, page }) => {
           onBehalfOf
           cxTokenAmount
           daiAmount
-          cxTokenData {
+          cxToken {
             id
             tokenSymbol
+            tokenDecimals
             tokenName
           }
           cover {
@@ -74,7 +75,7 @@ export const usePolicyTxs = ({ limit, page }) => {
       .then((r) => r.json())
       .then((res) => {
         if (ignore) return;
-        
+
         if (res.errors || !res.data) {
           return;
         }
@@ -102,9 +103,9 @@ export const usePolicyTxs = ({ limit, page }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [account, limit, networkId, page]);
 
   return {
