@@ -81,11 +81,7 @@ export const MyLiquidityCoverPage = () => {
                 />
               )}
               {isDiversified && (
-                <DiversifiedCoverProfileInfo
-                  productKey={productKey}
-                  coverKey={coverKey}
-                  projectName={projectName}
-                />
+                <DiversifiedCoverProfileInfo projectName={projectName} />
               )}
 
               {/* My Liquidity */}
