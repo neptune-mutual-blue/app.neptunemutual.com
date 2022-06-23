@@ -192,7 +192,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }
