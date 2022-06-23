@@ -14,7 +14,7 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
   const isDiversified = isValidProduct(productKey);
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
 
   const breadcrumbData = reportStatus
     ? [

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
@@ -22,7 +22,8 @@ export const ResolvedReportingCard = ({
 }) => {
   const { setStatsByKey } = useSortableStats();
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const isDiversified = isValidProduct(productKey);
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
   const router = useRouter();
 
   // Used for sorting purpose only
@@ -42,7 +43,7 @@ export const ResolvedReportingCard = ({
         <div className="rounded-full w-18 h-18 bg-DEEAF6">
           <img
             src={imgSrc}
-            alt={coverInfo.infoObj.projectName}
+            alt={isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
@@ -51,7 +52,7 @@ export const ResolvedReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {coverInfo.infoObj.projectName}
+        {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
       </h4>
 
       {/* Divider */}

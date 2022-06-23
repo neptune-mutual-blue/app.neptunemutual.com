@@ -89,8 +89,7 @@ export const CoverCard = ({
                     )}
                   >
                     <img
-                      // src={item}
-                      src="/images/covers/empty.svg"
+                      src={item}
                       alt={coverInfo.products[idx].productName}
                       className="rounded-full bg-DEEAF6"
                       data-testid="cover-img"
