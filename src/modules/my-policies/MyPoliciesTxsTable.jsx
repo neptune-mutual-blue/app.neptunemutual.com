@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 const renderHeader = (col) => (
   <th
@@ -154,6 +155,7 @@ const WhenRenderer = ({ row }) => {
 
 const DetailsRenderer = ({ row }) => {
   const productKey = safeFormatBytes32String("");
+  const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({
     coverKey: row.cover.id,
     productKey,
@@ -178,13 +180,17 @@ const DetailsRenderer = ({ row }) => {
           {row.type == "CoverPurchased" ? t`Purchased` : t`Claimed`}{" "}
           <span
             title={
-              formatCurrency(convertFromUnits(row.daiAmount), router.locale)
-                .long
+              formatCurrency(
+                convertFromUnits(row.daiAmount, liquidityTokenDecimals),
+                router.locale
+              ).long
             }
           >
             {
-              formatCurrency(convertFromUnits(row.daiAmount), router.locale)
-                .short
+              formatCurrency(
+                convertFromUnits(row.daiAmount, liquidityTokenDecimals),
+                router.locale
+              ).short
             }
           </span>{" "}
           {coverInfo.projectName} <Trans>policy</Trans>
@@ -196,8 +202,17 @@ const DetailsRenderer = ({ row }) => {
 
 const CxDaiAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
-  const tokenSymbol = row.cxTokenData.tokenSymbol;
   const router = useRouter();
+  const { liquidityTokenDecimals } = useAppConstants();
+
+  // @todo: cxTokenAmount will not be equal to daiAmount, if they don't have same decimals
+  const formattedCurrency = formatCurrency(
+    convertFromUnits(row.daiAmount, liquidityTokenDecimals),
+    // convertFromUnits(row.cxTokenAmount, row.cxToken.tokenDecimals),
+    router.locale,
+    row.cxToken.tokenSymbol,
+    true
+  );
 
   return (
     <td className="px-6 py-6 text-right" data-testid="col-amount">
@@ -206,27 +221,19 @@ const CxDaiAmountRenderer = ({ row }) => {
           className={
             row.type == "CoverPurchased" ? "text-404040" : "text-FA5C2F"
           }
-          title={
-            formatCurrency(
-              convertFromUnits(row.cxTokenAmount),
-              router.locale,
-              tokenSymbol,
-              true
-            ).long
-          }
+          title={formattedCurrency.long}
         >
-          {
-            formatCurrency(
-              convertFromUnits(row.cxTokenAmount),
-              router.locale,
-              tokenSymbol,
-              true
-            ).short
-          }
+          {formattedCurrency.short}
         </span>
         <button
           className="p-1 ml-3"
-          onClick={() => register(row.cxTokenData.id, tokenSymbol)}
+          onClick={() =>
+            register(
+              row.cxToken.id,
+              row.cxToken.tokenSymbol,
+              row.cxToken.tokenDecimals
+            )
+          }
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />

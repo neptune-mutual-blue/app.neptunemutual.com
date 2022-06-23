@@ -1,5 +1,4 @@
 import { Content } from "@/modules/my-liquidity/content";
-import LiquidityProductModal from "@/modules/my-liquidity/content/liquidity-product-modal";
 import Header from "@/modules/my-liquidity/header";
 import { createContext, useContext, useState } from "react";
 
@@ -11,7 +10,7 @@ const MyBasketLiquidityContext = createContext({
 export const useMyBasketLiquidityContext = () =>
   useContext(MyBasketLiquidityContext);
 
-export default function MyBasketLiquidityPage() {
+export function MyMockLiquidityPage() {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -24,7 +23,6 @@ export default function MyBasketLiquidityPage() {
       <main>
         <Header />
         <Content />
-        <LiquidityProductModal />
       </main>
     </MyBasketLiquidityContext.Provider>
   );

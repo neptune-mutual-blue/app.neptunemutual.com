@@ -15,7 +15,7 @@ import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
 
 export const ProductCard = ({

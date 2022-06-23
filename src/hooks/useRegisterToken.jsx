@@ -7,14 +7,14 @@ export const useRegisterToken = () => {
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
-  const register = (address, symbol) => {
+  const register = (address, symbol, decimals = 18) => {
     if (!networkId || !account) return;
 
     const image = symbol
       ? `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       : undefined;
 
-    registerToken(address, symbol, 18, image)
+    registerToken(address, symbol, decimals, image)
       .then(console.log)
       .catch(console.error);
   };

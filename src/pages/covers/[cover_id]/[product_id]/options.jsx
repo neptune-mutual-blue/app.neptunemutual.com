@@ -44,7 +44,7 @@ export default function Options({ disabled }) {
             },
             {
               name: product_id,
-              href: `/basket/${cover_id}/${product_id}/options`,
+              href: `/covers/${cover_id}/${product_id}/options`,
               current: true,
             },
           ]}
