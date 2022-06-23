@@ -1,5 +1,6 @@
 import { Container } from "@/common/Container/Container";
-import LiquidityProductModal from "@/modules/my-liquidity/content/liquidity-product-modal";
+import { LiquidityProductModal } from "@/modules/my-liquidity/content/LiquidityProductModal";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 import { Trans } from "@lingui/macro";
 import { useState } from "react";
 
@@ -52,7 +53,7 @@ export function CoveredProducts({ coverInfo }) {
         <h4 className="mb-24 font-bold text-h3">
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
-        <div className="grid xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2 grid-cols-1">
+        <div className="grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2">
           {coverInfo.products.map((product) => (
             <Product
               {...product}
@@ -78,15 +79,19 @@ export function CoveredProducts({ coverInfo }) {
 /**
  * @param {IProductBase & { onClick: () => void}} param0
  */
-function Product({ infoObj: { productName }, onClick }) {
+function Product({ productKey, infoObj, onClick }) {
+  const imgSrc = getCoverImgSrc({ key: productKey });
   return (
     <div className="flex flex-col items-center justify-start pb-8">
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
-        <img src="/images/covers/empty.svg" alt="base image" />
+        <img src={imgSrc} alt={infoObj.productName} />
       </div>
-      <h1 className="flex items-center pt-2 text-4e7dd9 font-sora">
-        {productName}
-        <button onClick={onClick}>
+      <button
+        className="flex items-center pt-2 text-4e7dd9 font-sora"
+        onClick={onClick}
+      >
+        {infoObj.productName}
+        <div>
           <svg
             className="ml-2"
             width="15"
@@ -109,8 +114,8 @@ function Product({ infoObj: { productName }, onClick }) {
               strokeWidth="1.33333"
             />
           </svg>
-        </button>
-      </h1>
+        </div>
+      </button>
     </div>
   );
 }

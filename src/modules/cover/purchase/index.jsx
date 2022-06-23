@@ -48,7 +48,7 @@ export const CoverPurchaseDetailsPage = () => {
     setAcceptedRules(true);
   };
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
   const totalLiquidity = info.totalLiquidity;
 
   const projectName = !isDiversified
@@ -66,8 +66,8 @@ export const CoverPurchaseDetailsPage = () => {
               {
                 name: projectName,
                 href: !isDiversified
-                  ? `/cover/${cover_id}/options`
-                  : `/cover/${cover_id}/${product_id}/options`,
+                  ? `/covers/${cover_id}/options`
+                  : `/covers/${cover_id}/${product_id}/options`,
                 current: false,
               },
               { name: t`Purchase Policy`, current: true },
@@ -115,7 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
               </div>
             ) : (
               <>
-                <CoverRules rules={coverInfo?.infoObj?.rules} />
+                <CoverRules rules={coverInfo.infoObj?.rules} />
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}

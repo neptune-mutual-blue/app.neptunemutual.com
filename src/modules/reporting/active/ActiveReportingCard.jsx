@@ -20,6 +20,8 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
+import SheildIcon from "@/icons/SheildIcon";
 
 export const ActiveReportingCard = ({
   id,
@@ -38,7 +40,7 @@ export const ActiveReportingCard = ({
   const router = useRouter();
 
   const isDiversified = isValidProduct(productKey);
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -75,18 +77,57 @@ export const ActiveReportingCard = ({
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
-        {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
+        {isDiversified
+          ? coverInfo.infoObj.productName
+          : coverInfo.infoObj.projectName}
       </h4>
-      <div className="mt-2 text-sm uppercase text-7398C0">
-        <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(
-          (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
-          router.locale
-        )}
-        -
-        {formatPercent(
-           (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
-          router.locale
+      <div className="flex items-center justify-between">
+        <div className="mt-1 text-sm uppercase text-7398C0 lg:mt-2">
+          <Trans>Cover fee:</Trans>{" "}
+          {formatPercent(
+            (isDiversified
+              ? coverInfo.cover.infoObj.pricingFloor
+              : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
+            router.locale
+          )}
+          -
+          {formatPercent(
+            (isDiversified
+              ? coverInfo.cover.infoObj.pricingCeiling
+              : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
+            router.locale
+          )}
+        </div>
+        {isDiversified && (
+          <InfoTooltip
+            infoComponent={
+              <p>
+                <Trans>
+                  Diversified pool with {coverInfo.cover.infoObj.leverage}x
+                  leverage factor and{" "}
+                  {formatPercent(
+                    toBN(coverInfo.infoObj.capitalEfficiency)
+                      .dividedBy(MULTIPLIER)
+                      .toString()
+                  )}{" "}
+                  capital efficiency
+                </Trans>
+              </p>
+            }
+          >
+            <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
+              <p className="opacity-60">
+                D{coverInfo.cover.infoObj.leverage}x
+                {formatPercent(
+                  toBN(coverInfo.infoObj.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString(),
+                  router.locale,
+                  false
+                )}
+              </p>
+            </div>
+          </InfoTooltip>
         )}
       </div>
 
@@ -94,50 +135,108 @@ export const ActiveReportingCard = ({
       <Divider />
 
       {/* Stats */}
-      <div className="flex justify-between px-1 text-sm">
-        <span className="uppercase">
+      <div className="flex justify-between px-1 text-h7 lg:text-sm">
+        <span className="uppercase text-h7 lg:text-sm">
           <Trans>utilization Ratio</Trans>
         </span>
-        <span className="font-semibold text-right">
+        <span
+          className="font-semibold text-right text-h7 lg:text-sm "
+          data-testid="util-ratio"
+        >
           {formatPercent(utilization, router.locale)}
         </span>
       </div>
-      <div className="mt-2 mb-4">
-        <ProgressBar value={utilization} />
-      </div>
-      <div className="flex justify-between px-1 text-sm">
-        <span
-          className=""
-          title={
-            formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).long
+
+      <InfoTooltip
+        infoComponent={
+          <div>
+            <p>
+              <b>
+                <Trans>UTILIZATION RATIO:</Trans>{" "}
+                {formatPercent(utilization, router.locale)}
+              </b>
+            </p>
+            <p>
+              <Trans>Protection</Trans>:{" "}
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).long
+              }
+            </p>
+          </div>
+        }
+      >
+        <div className="mt-2 mb-4">
+          <ProgressBar value={utilization} />
+        </div>
+      </InfoTooltip>
+
+      <div className="flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm">
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Protection</Trans>:{" "}
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).long
+              }
+            </div>
           }
         >
-          <Trans>Protection:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(
-                activeCommitment,
-                liquidityTokenDecimals
-              ).toString(),
-              router.locale
-            ).short
+          <div
+            className="flex flex-1"
+            title={
+              formatCurrency(
+                convertFromUnits(
+                  activeCommitment,
+                  liquidityTokenDecimals
+                ).toString(),
+                router.locale
+              ).long
+            }
+            data-testid="protection"
+          >
+            <SheildIcon className="w-4 h-4 text-01052D" />
+            <p>
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).short
+              }
+            </p>
+          </div>
+        </InfoTooltip>
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Reported On:</Trans>:{" "}
+              {DateLib.toLongDateFormat(incidentDate, router.locale)}
+            </div>
           }
-        </span>
-        <span
-          className="text-right"
-          title={DateLib.toLongDateFormat(incidentDate, router.locale)}
         >
-          <Trans>Reported On:</Trans>{" "}
-          <span title={DateLib.toLongDateFormat(incidentDate, router.locale)}>
+          <div
+            className="flex-1 text-right"
+            title={DateLib.toLongDateFormat(incidentDate, router.locale)}
+          >
             {fromNow(incidentDate)}
-          </span>
-        </span>
+          </div>
+        </InfoTooltip>
       </div>
     </OutlinedCard>
   );

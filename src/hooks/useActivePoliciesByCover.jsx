@@ -54,6 +54,8 @@ export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
               id
               creationDate
               expiryDate
+              tokenSymbol
+              tokenDecimals
             }
             totalAmountToCover
             expiresOn
@@ -92,9 +94,9 @@ export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [account, coverKey, limit, networkId, page]);
 
   const totalActiveProtection = useMemo(() => {

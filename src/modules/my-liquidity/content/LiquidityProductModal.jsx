@@ -11,7 +11,7 @@ import * as Dialog from "@radix-ui/react-dialog";
  * }} param0
  * @returns
  */
-export default function LiquidityProductModal({ product, setShowModal }) {
+export function LiquidityProductModal({ product, setShowModal }) {
   return (
     <ModalRegular
       isOpen={true}
@@ -21,7 +21,7 @@ export default function LiquidityProductModal({ product, setShowModal }) {
     >
       <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-f1f3f6 rounded-3xl">
         <Dialog.Title
-          className="flex items-center w-full font-bold font-sora text-h2 border-b-B0C4DB border-b pb-3"
+          className="flex items-center w-full pb-3 font-bold border-b font-sora text-h2 border-b-B0C4DB"
           data-testid="dialog-title"
         >
           <svg
@@ -53,7 +53,7 @@ export default function LiquidityProductModal({ product, setShowModal }) {
             </defs>
           </svg>
 
-          <span className="pl-3 flex-grow">
+          <span className="flex-grow pl-3">
             {product.infoObj.productName} Cover Terms
           </span>
           <span className="pl-3 text-h4 text-9B9B9B">
@@ -61,14 +61,14 @@ export default function LiquidityProductModal({ product, setShowModal }) {
           </span>
         </Dialog.Title>
         <div className="mt-6" data-testid="token-input">
-          <p className="text-h5 font-bold py-6">Cover Rules</p>
+          <p className="py-6 font-bold text-h5">Cover Rules</p>
 
           <p className="text-md">
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="text-md list-disc pl-8 mt-5 marker:text-xs">
+          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs">
             {product.infoObj.rules.split("\n").map((x, i) => (
               <li key={i}>
                 {x
@@ -79,7 +79,7 @@ export default function LiquidityProductModal({ product, setShowModal }) {
             ))}
           </ul>
 
-          <p className="text-h5 font-bold py-6">Exclusions</p>
+          <p className="py-6 font-bold text-h5">Exclusions</p>
 
           <p className="text-md">{product.infoObj.exclusions}</p>
         </div>
@@ -87,7 +87,7 @@ export default function LiquidityProductModal({ product, setShowModal }) {
         <div className="flex justify-end pt-14">
           <button
             onClick={() => setShowModal(false)}
-            className="border border-4e7dd9 text-4e7dd9 px-5 mr-6 rounded font-bold"
+            className="px-5 mr-6 font-bold border rounded border-4e7dd9 text-4e7dd9"
           >
             CLOSE
           </button>
@@ -101,7 +101,7 @@ export default function LiquidityProductModal({ product, setShowModal }) {
 function DownloadButton({ onClick }) {
   return (
     <button
-      className="inline-flex flex-grow-0 items-center justify-center text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75 py-3 px-5 capitalize"
+      className="inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white capitalize border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
       onClick={onClick}
     >
       <svg

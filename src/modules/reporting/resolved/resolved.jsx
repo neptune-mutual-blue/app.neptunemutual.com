@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { isValidProduct } from "@/src/helpers/cover";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -116,6 +117,21 @@ export const ReportingResolvedPage = () => {
   );
 };
 
+function getUrl(reportId) {
+  let keysArray = reportId.split("-");
+  let coverKey = keysArray[0];
+  let productKey = keysArray[1];
+  let timestamp = keysArray[2];
+  let isProductValid = isValidProduct(productKey);
+
+  if (isProductValid) {
+    return `/reporting/${safeParseBytes32String(
+      coverKey
+    )}/product/${safeParseBytes32String(productKey)}/${timestamp}/details`;
+  }
+  return `/reporting/${safeParseBytes32String(coverKey)}/${timestamp}/details`;
+}
+
 function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
     return (
@@ -125,18 +141,13 @@ function Content({ data, loading, hasMore, handleShowMore }) {
             const resolvedOn = report.emergencyResolved
               ? report.emergencyResolveTransaction?.timestamp
               : report.resolveTransaction?.timestamp;
-
             return (
-              <Link
-                href={`/reporting/${safeParseBytes32String(
-                  report.id.split("-")[0]
-                )}/${report.incidentDate}/details`}
-                key={report.id}
-              >
+              <Link href={getUrl(report.id)} key={report.id}>
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
                   <ResolvedReportingCard
                     id={report.id}
                     coverKey={report.coverKey}
+                    productKey={report.productKey}
                     resolvedOn={resolvedOn}
                     status={ReportStatus[report.status]}
                   />

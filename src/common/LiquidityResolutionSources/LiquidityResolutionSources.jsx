@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
-import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import { isGreater } from "@/utils/bn";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -11,9 +8,11 @@ import { Trans } from "@lingui/macro";
 import { WithdrawLiquidityModal } from "@/modules/my-liquidity/content/WithdrawLiquidityModal";
 import { ModalTitle } from "@/common/Modal/ModalTitle";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useAppConstants } from "@/src/context/AppConstants";
+import { DedicatedLiquidityResolutionSources } from "@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources";
+import { DiversifiedLiquidityResolutionSources } from "@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources";
 
 export const LiquidityResolutionSources = ({
+  isDiversified,
   coverInfo,
   info,
   refetchInfo,
@@ -25,11 +24,7 @@ export const LiquidityResolutionSources = ({
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
 
-  const { liquidityTokenDecimals } = useAppConstants();
   const { myStake, podBalance } = useLiquidityFormsContext();
-
-  const totalLiquidity = info.totalLiquidity;
-  const reassuranceAmount = info.totalReassurance;
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
@@ -43,62 +38,23 @@ export const LiquidityResolutionSources = ({
 
   return (
     <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
-      <CoverResolutionSources coverInfo={coverInfo}>
-        <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
-        <div
-          className="flex justify-between pb-2"
-          title={
-            formatCurrency(
-              convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-              router.locale
-            ).long
-          }
-        >
-          <span className="">
-            <Trans>Total Liquidity:</Trans>
-          </span>
-          <strong className="font-bold text-right">
-            {
-              formatCurrency(
-                convertFromUnits(totalLiquidity, liquidityTokenDecimals),
-                router.locale
-              ).short
-            }
-          </strong>
-        </div>
-        <div
-          className="flex justify-between pb-8"
-          title={
-            formatCurrency(
-              convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-              router.locale
-            ).long
-          }
-        >
-          <span className="">
-            <Trans>Reassurance:</Trans>
-          </span>
-          <strong className="font-bold text-right">
-            {
-              formatCurrency(
-                convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
-                router.locale
-              ).short
-            }
-          </strong>
-        </div>
-
-        {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
-          <div className="flex justify-center px-7">
-            <OutlinedButton
-              className="text-sm font-medium leading-5 rounded-big"
-              onClick={onOpen}
-            >
-              <Trans>Withdraw Liquidity</Trans>
-            </OutlinedButton>
-          </div>
-        )}
-      </CoverResolutionSources>
+      {isDiversified ? (
+        <DiversifiedLiquidityResolutionSources info={info}>
+          <WithdrawLiquidityButton
+            onOpen={onOpen}
+            myStake={myStake}
+            podBalance={podBalance}
+          />
+        </DiversifiedLiquidityResolutionSources>
+      ) : (
+        <DedicatedLiquidityResolutionSources coverInfo={coverInfo} info={info}>
+          <WithdrawLiquidityButton
+            onOpen={onOpen}
+            myStake={myStake}
+            podBalance={podBalance}
+          />
+        </DedicatedLiquidityResolutionSources>
+      )}
       <div className="flex justify-end">
         {isWithdrawalWindowOpen && (
           <button
@@ -112,7 +68,7 @@ export const LiquidityResolutionSources = ({
 
       <WithdrawLiquidityModal
         modalTitle={
-          <ModalTitle imgSrc={imgSrc}>
+          <ModalTitle imgSrc={isDiversified ? null : imgSrc}>
             <Trans>Withdraw Liquidity</Trans>
           </ModalTitle>
         }
@@ -122,5 +78,22 @@ export const LiquidityResolutionSources = ({
         refetchInfo={refetchInfo}
       />
     </div>
+  );
+};
+
+const WithdrawLiquidityButton = ({ onOpen, myStake, podBalance }) => {
+  return (
+    <>
+      {isGreater(myStake, "0") && isGreater(podBalance, "0") && (
+        <div className="flex justify-center mt-8 px-7">
+          <OutlinedButton
+            className="text-sm font-medium leading-5 rounded-big"
+            onClick={onOpen}
+          >
+            <Trans>Withdraw Liquidity</Trans>
+          </OutlinedButton>
+        </div>
+      )}
+    </>
   );
 };

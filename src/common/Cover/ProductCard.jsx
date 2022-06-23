@@ -15,8 +15,9 @@ import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const ProductCard = ({
   coverKey,
@@ -35,7 +36,7 @@ export const ProductCard = ({
     productKey: productKey,
   });
 
-  // const imgSrc = getCoverImgSrc({ key: productKey });
+  const imgSrc = getCoverImgSrc({ key: productKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -71,7 +72,7 @@ export const ProductCard = ({
           )}
         >
           <img
-            src="/images/covers/empty.svg"
+            src={imgSrc}
             alt={productInfo.infoObj?.projectName}
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
@@ -103,20 +104,33 @@ export const ProductCard = ({
             router.locale
           )}
         </div>
-        {productInfo.cover?.infoObj?.leverage && (
+        {productInfo.cover.infoObj.leverage && (
           <InfoTooltip
             infoComponent={
               <p>
                 <Trans>
                   Diversified pool with {productInfo.cover.infoObj.leverage}x
-                  leverage factor and 50% capital efficiency
+                  leverage factor and{" "}
+                  {formatPercent(
+                    toBN(productInfo.infoObj.capitalEfficiency)
+                      .dividedBy(MULTIPLIER)
+                      .toString()
+                  )}{" "}
+                  capital efficiency
                 </Trans>
               </p>
             }
           >
             <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
               <p className="opacity-60">
-                D{productInfo.cover?.infoObj?.leverage}x50
+                D{productInfo.cover.infoObj.leverage}x
+                {formatPercent(
+                  toBN(productInfo.infoObj.capitalEfficiency)
+                    .dividedBy(MULTIPLIER)
+                    .toString(),
+                  router.locale,
+                  false
+                )}
               </p>
             </div>
           </InfoTooltip>

@@ -18,7 +18,6 @@ import {
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
 import { useRouter } from "next/router";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 const renderHeader = (col) => (
   <th
@@ -36,9 +35,9 @@ const renderAddress = (row) => (
   <td className="px-6 py-6 text-404040">{row.cxToken.id}</td>
 );
 
-const renderClaimBefore = (row) => <ClaimBeforeColumnRenderer row={row} />;
+const renderClaimBefore = (_row) => <ClaimBeforeColumnRenderer />;
 
-const renderAmount = (row) => <CxTokenAmountRenderer row={row} />;
+const renderAmount = (_row) => <CxTokenAmountRenderer />;
 
 const renderActions = (row, extraData) => {
   return <ClaimActionsColumnRenderer row={row} extraData={extraData} />;
@@ -120,9 +119,8 @@ export const ClaimCxTokensTable = ({
 };
 
 const CxTokenAmountRenderer = () => {
-  const { balance, tokenSymbol, tokenAddress } = useCxTokenRowContext();
+  const { balance, tokenSymbol, tokenDecimals } = useCxTokenRowContext();
   const router = useRouter();
-  const tokenDecimals = useTokenDecimals(tokenAddress);
 
   return (
     <>
@@ -189,7 +187,6 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
       </button>
 
       <ClaimCoverModal
-        data={row}
         coverKey={row.cover.id}
         cxTokenAddress={row.cxToken.id}
         isOpen={isOpen}

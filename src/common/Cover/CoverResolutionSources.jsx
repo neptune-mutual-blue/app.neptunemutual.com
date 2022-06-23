@@ -1,4 +1,3 @@
-import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { explainInterval } from "@/utils/formatter/interval";
 import Link from "next/link";
 import { Trans } from "@lingui/macro";
@@ -6,13 +5,16 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { isValidProduct } from "@/src/helpers/cover";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useRouter } from "next/router";
+import { SecondaryCard } from "@/common/SecondaryCard/SecondaryCard";
 
 export const CoverResolutionSources = ({ children, coverInfo }) => {
   const router = useRouter();
   const { product_id } = router.query;
   const productKey = safeFormatBytes32String(product_id || "");
   const isDiversified = isValidProduct(productKey);
-  const projectName = isDiversified ? coverInfo?.infoObj.productName : coverInfo?.infoObj.projectName;
+  const projectName = isDiversified
+    ? coverInfo?.infoObj.productName
+    : coverInfo?.infoObj.projectName;
   const { reportingPeriod } = useCoverStatsContext();
 
   const knowledgebase = coverInfo?.infoObj.resolutionSources?.[1] || "";
@@ -20,7 +22,7 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
 
   return (
     <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
-      <OutlinedCard className="flex flex-col flex-wrap justify-between px-8 py-10 bg-DEEAF6">
+      <SecondaryCard>
         <div className="flex flex-wrap justify-between md:block">
           <div>
             <h3 className="font-semibold text-h4 font-sora">
@@ -53,7 +55,7 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
         </div>
 
         {children}
-      </OutlinedCard>
+      </SecondaryCard>
     </div>
   );
 };

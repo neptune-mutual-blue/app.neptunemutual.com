@@ -16,6 +16,7 @@ import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
+import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
@@ -70,13 +71,17 @@ export const MyLiquidityCoverPage = () => {
               ]}
             />
             <div className="flex">
-              <CoverProfileInfo
-                productKey={productKey}
-                coverKey={coverKey}
-                projectName={projectName}
-                links={coverInfo?.infoObj.links}
-                imgSrc={imgSrc}
-              />
+              {isDiversified ? (
+                <DiversifiedCoverProfileInfo projectName={projectName} />
+              ) : (
+                <CoverProfileInfo
+                  productKey={productKey}
+                  coverKey={coverKey}
+                  projectName={projectName}
+                  links={coverInfo?.infoObj.links}
+                  imgSrc={imgSrc}
+                />
+              )}
 
               {/* My Liquidity */}
               <HeroStat title={t`My Liquidity`}>
@@ -108,6 +113,7 @@ export const MyLiquidityCoverPage = () => {
             </div>
 
             <LiquidityResolutionSources
+              isDiversified={isDiversified}
               coverInfo={coverInfo}
               info={info}
               refetchInfo={refetchInfo}

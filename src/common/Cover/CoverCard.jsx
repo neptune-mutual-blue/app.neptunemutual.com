@@ -17,7 +17,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
 import { classNames } from "@/utils/classnames";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
 
 export const CoverCard = ({
@@ -76,7 +76,7 @@ export const CoverCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start">
-        <div className="relative flex grow items-center">
+        <div className="relative flex items-center grow">
           {slicedProductsImg.length ? (
             slicedProductsImg.slice(0, 3).map((item, idx) => {
               const more = productsImg.length - 3;
@@ -89,16 +89,15 @@ export const CoverCard = ({
                     )}
                   >
                     <img
-                      // src={item}
-                      src="/images/covers/empty.svg"
+                      src={item}
                       alt={coverInfo.products[idx].productName}
-                      className="bg-DEEAF6 rounded-full"
+                      className="rounded-full bg-DEEAF6"
                       data-testid="cover-img"
                     />
                   </div>
 
                   {idx === slicedProductsImg.length - 1 && more > 0 && (
-                    <p className="ml-2 opacity-40 text-01052D text-xs">
+                    <p className="ml-2 text-xs opacity-40 text-01052D">
                       +{more} <Trans>MORE</Trans>
                     </p>
                   )}
@@ -114,7 +113,7 @@ export const CoverCard = ({
               <img
                 src={imgSrc}
                 alt={coverInfo.infoObj.projectName}
-                className="bg-DEEAF6 rounded-full"
+                className="rounded-full bg-DEEAF6"
                 data-testid="cover-img"
               />
             </div>
@@ -140,7 +139,7 @@ export const CoverCard = ({
         </InfoTooltip>
       </div>
       <h4
-        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
+        className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {isDiversified
@@ -192,7 +191,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }

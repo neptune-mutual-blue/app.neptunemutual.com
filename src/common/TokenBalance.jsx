@@ -84,7 +84,10 @@ export const TokenBalance = ({
           <span className="sr-only">Open In Explorer</span>
           <OpenInNewIcon width={20} fill="currentColor" />
         </a>
-        <button className="ml-3" onClick={() => register(tokenAddress, unit)}>
+        <button
+          className="ml-3"
+          onClick={() => register(tokenAddress, unit, tokenDecimals)}
+        >
           <span className="sr-only">Add to Metamask</span>
           <AddCircleIcon width={20} fill="currentColor" />
         </button>

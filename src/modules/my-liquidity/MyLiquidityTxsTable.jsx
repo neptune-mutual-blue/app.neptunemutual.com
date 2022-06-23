@@ -220,7 +220,7 @@ const PodAmountRenderer = ({ row }) => {
         </span>
         <button
           className="p-1 ml-3"
-          onClick={() => register(row.vault.id, tokenSymbol)}
+          onClick={() => register(row.vault.id, tokenSymbol, tokenDecimals)}
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />
