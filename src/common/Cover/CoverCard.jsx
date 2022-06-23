@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
@@ -15,10 +14,10 @@ import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidity
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
-import { classNames } from "@/utils/classnames";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { InfoTooltip } from "@/common/Cover/InfoTooltip";
+import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
+import { CoverAvatar } from "@/common/CoverAvatar";
 
 export const CoverCard = ({
   coverKey,
@@ -37,8 +36,6 @@ export const CoverCard = ({
     productKey: productKey,
   });
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
-
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
@@ -56,13 +53,6 @@ export const CoverCard = ({
     });
   }, [id, liquidity, setStatsByKey, utilization]);
 
-  const productsImg = isDiversified
-    ? coverInfo.products?.map((item) =>
-        getCoverImgSrc({ key: item.productKey })
-      )
-    : [];
-  const slicedProductsImg = isDiversified ? productsImg.slice(0, 3) : [];
-
   const protectionLong = formatCurrency(
     convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
     router.locale
@@ -76,50 +66,7 @@ export const CoverCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start">
-        <div className="relative flex items-center grow">
-          {slicedProductsImg.length ? (
-            slicedProductsImg.slice(0, 3).map((item, idx) => {
-              const more = productsImg.length - 3;
-              return (
-                <React.Fragment key={item}>
-                  <div
-                    className={classNames(
-                      "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18",
-                      idx !== 0 && "-ml-7 lg:-ml-9 p-0.5"
-                    )}
-                  >
-                    <img
-                      src={item}
-                      alt={coverInfo.products[idx].productName}
-                      className="rounded-full bg-DEEAF6"
-                      data-testid="cover-img"
-                    />
-                  </div>
-
-                  {idx === slicedProductsImg.length - 1 && more > 0 && (
-                    <p className="ml-2 text-xs opacity-40 text-01052D">
-                      +{more} <Trans>MORE</Trans>
-                    </p>
-                  )}
-                </React.Fragment>
-              );
-            })
-          ) : (
-            <div
-              className={classNames(
-                "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18"
-              )}
-            >
-              <img
-                src={imgSrc}
-                alt={coverInfo.infoObj.projectName}
-                className="rounded-full bg-DEEAF6"
-                data-testid="cover-img"
-              />
-            </div>
-          )}
-        </div>
-
+        <CoverAvatar coverInfo={coverInfo} />
         <InfoTooltip
           disabled={coverInfo.products?.length === 0}
           infoComponent={
@@ -139,7 +86,7 @@ export const CoverCard = ({
         </InfoTooltip>
       </div>
       <h4
-        className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
+        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
         data-testid="project-name"
       >
         {isDiversified
@@ -191,7 +138,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {liquidityLong}
+              <Trans>Liquidity</Trans>: {protectionLong}
             </p>
           </div>
         }
