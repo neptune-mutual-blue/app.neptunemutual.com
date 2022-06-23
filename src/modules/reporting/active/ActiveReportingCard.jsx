@@ -79,17 +79,37 @@ export const ActiveReportingCard = ({
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
         {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.projectName}
       </h4>
-      <div className="mt-2 text-sm uppercase text-7398C0">
-        <Trans>Cover fee:</Trans>{" "}
-        {formatPercent(
-          (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
-          router.locale
-        )}
-        -
-        {formatPercent(
-           (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
-          router.locale
-        )}
+      <div className="flex items-center justify-between">
+        <div className="mt-1 text-sm uppercase text-7398C0 lg:mt-2">
+          <Trans>Cover fee:</Trans>{" "}
+          {formatPercent(
+            (isDiversified ? coverInfo.cover.infoObj.pricingFloor : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
+            router.locale
+          )}
+          -
+          {formatPercent(
+            (isDiversified ? coverInfo.cover.infoObj.pricingCeiling : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
+            router.locale
+          )}
+        </div>
+        {coverInfo.cover?.infoObj?.leverage && (
+            <InfoTooltip
+              infoComponent={
+                <p>
+                  <Trans>
+                    Diversified pool with {coverInfo.cover.infoObj.leverage}x
+                    leverage factor and 50% capital efficiency
+                  </Trans>
+                </p>
+              }
+            >
+              <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
+                <p className="opacity-60">
+                  D{coverInfo.cover?.infoObj?.leverage}x50
+                </p>
+              </div>
+            </InfoTooltip>
+          )}
       </div>
 
       {/* Divider */}
