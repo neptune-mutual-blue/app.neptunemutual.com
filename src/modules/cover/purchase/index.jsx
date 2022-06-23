@@ -48,7 +48,7 @@ export const CoverPurchaseDetailsPage = () => {
     setAcceptedRules(true);
   };
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
   const totalLiquidity = info.totalLiquidity;
 
   const projectName = !isDiversified

@@ -17,6 +17,7 @@ import { classNames } from "@/utils/classnames";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
+import { getCoverImgSrc } from "@/src/helpers/cover";
 
 export const ProductCard = ({
   coverKey,
@@ -35,7 +36,7 @@ export const ProductCard = ({
     productKey: productKey,
   });
 
-  // const imgSrc = getCoverImgSrc({ key: productKey });
+  const imgSrc = getCoverImgSrc({ key: productKey });
 
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
@@ -71,7 +72,7 @@ export const ProductCard = ({
           )}
         >
           <img
-            src="/images/covers/empty.svg"
+            src={imgSrc}
             alt={productInfo.infoObj?.projectName}
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
