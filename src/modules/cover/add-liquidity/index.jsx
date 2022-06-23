@@ -16,6 +16,8 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
+import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
+import { DiversifiedCoverRules } from "@/modules/my-liquidity/content/rules";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -55,28 +57,25 @@ export const CoverAddLiquidityDetailsPage = () => {
               { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.infoObj.coverName,
-                href: !isDiversified
-                  ? `/covers/${cover_id}/options`
-                  : `/diversified/${cover_id}`,
+                href: isDiversified
+                  ? `/diversified/${cover_id}`
+                  : `/covers/${cover_id}/options`,
                 current: false,
               },
               { name: t`Provide Liquidity`, current: true },
             ]}
           />
           <div className="flex">
-            {!isDiversified && (
+            {isDiversified ? (
+              <DiversifiedCoverProfileInfo
+                projectName={coverInfo?.infoObj.coverName}
+              />
+            ) : (
               <CoverProfileInfo
                 coverKey={coverKey}
                 imgSrc={imgSrc}
                 projectName={coverInfo?.infoObj.coverName}
                 links={coverInfo?.infoObj.links}
-              />
-            )}
-            {isDiversified && (
-              <DiversifiedCoverProfileInfo
-                coverKey={coverKey}
-                productKey={productKey}
-                projectName={coverInfo?.infoObj.coverName}
               />
             )}
           </div>
@@ -85,11 +84,13 @@ export const CoverAddLiquidityDetailsPage = () => {
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+        {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
+
         <Container className="grid grid-cols-3 md:gap-32">
           <div className="col-span-3 md:col-span-2">
             {/* Description */}
-            <span className="hidden md:block">
-              <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
+            <span className="">
+              <SeeMoreParagraph text={coverInfo.infoObj.about} />
             </span>
 
             {acceptedRules ? (
@@ -98,25 +99,40 @@ export const CoverAddLiquidityDetailsPage = () => {
               </div>
             ) : (
               <>
-                <CoverRules rules={coverInfo?.rules} />
-                <AcceptRulesForm
-                  onAccept={handleAcceptRules}
-                  coverKey={coverKey}
-                >
-                  <Trans>
-                    I have read, understood, and agree to the terms of cover
-                    rules
-                  </Trans>
-                </AcceptRulesForm>
+                {isDiversified ? (
+                  <>
+                    <DiversifiedCoverRules coverInfo={coverInfo} />
+                    <AcceptRulesForm
+                      onAccept={handleAcceptRules}
+                      coverKey={coverKey}
+                    >
+                      <Trans>
+                        I have read, evaluated, understood, agreed to, and
+                        accepted all risks, cover terms, exclusions, standard
+                        exclusions of this pool and the Neptune Mutual protocol.
+                      </Trans>
+                    </AcceptRulesForm>
+                  </>
+                ) : (
+                  <>
+                    <CoverRules rules={coverInfo.infoObj?.rules} />
+                    <AcceptRulesForm
+                      onAccept={handleAcceptRules}
+                      coverKey={coverKey}
+                    >
+                      <Trans>
+                        I have read, understood, and agree to the terms of cover
+                        rules
+                      </Trans>
+                    </AcceptRulesForm>
+                  </>
+                )}
               </>
             )}
           </div>
 
-          <span className="block col-span-3 row-start-1 md:hidden mb-11">
-            <SeeMoreParagraph text={coverInfo.about}></SeeMoreParagraph>
-          </span>
-
           <LiquidityResolutionSources
+            isDiversified={isDiversified}
             info={info}
             coverInfo={coverInfo}
             refetchInfo={refetchInfo}

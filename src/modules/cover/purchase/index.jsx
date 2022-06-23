@@ -115,7 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
               </div>
             ) : (
               <>
-                <CoverRules rules={coverInfo?.infoObj?.rules} />
+                <CoverRules rules={coverInfo.infoObj?.rules} />
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}

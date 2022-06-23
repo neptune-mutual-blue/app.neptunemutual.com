@@ -71,7 +71,9 @@ export const MyLiquidityCoverPage = () => {
               ]}
             />
             <div className="flex">
-              {!isDiversified && (
+              {isDiversified ? (
+                <DiversifiedCoverProfileInfo projectName={projectName} />
+              ) : (
                 <CoverProfileInfo
                   productKey={productKey}
                   coverKey={coverKey}
@@ -79,9 +81,6 @@ export const MyLiquidityCoverPage = () => {
                   links={coverInfo?.infoObj.links}
                   imgSrc={imgSrc}
                 />
-              )}
-              {isDiversified && (
-                <DiversifiedCoverProfileInfo projectName={projectName} />
               )}
 
               {/* My Liquidity */}
@@ -114,6 +113,7 @@ export const MyLiquidityCoverPage = () => {
             </div>
 
             <LiquidityResolutionSources
+              isDiversified={isDiversified}
               coverInfo={coverInfo}
               info={info}
               refetchInfo={refetchInfo}

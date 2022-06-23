@@ -3,9 +3,11 @@ import { classNames } from "@/utils/classnames";
 export const ModalTitle = ({ children, imgSrc }) => {
   return (
     <>
-      <div className="border bg-DEEAF6 border-black rounded-full w-10 h-10 flex justify-center items-center mr-3">
-        <img src={imgSrc} alt="logo" className={classNames("inline-block")} />
-      </div>
+      {imgSrc && (
+        <div className="flex items-center justify-center w-10 h-10 mr-3 border border-black rounded-full bg-DEEAF6">
+          <img src={imgSrc} alt="logo" className={classNames("inline-block")} />
+        </div>
+      )}
       {children}
     </>
   );
