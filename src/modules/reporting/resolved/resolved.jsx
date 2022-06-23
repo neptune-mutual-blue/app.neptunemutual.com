@@ -147,6 +147,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                   <ResolvedReportingCard
                     id={report.id}
                     coverKey={report.coverKey}
+                    productKey={report.productKey}
                     resolvedOn={resolvedOn}
                     status={ReportStatus[report.status]}
                   />
