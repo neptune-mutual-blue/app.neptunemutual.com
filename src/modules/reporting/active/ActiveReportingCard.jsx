@@ -20,6 +20,8 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
+import SheildIcon from "@/icons/SheildIcon";
 
 export const ActiveReportingCard = ({
   id,
@@ -94,50 +96,101 @@ export const ActiveReportingCard = ({
       <Divider />
 
       {/* Stats */}
-      <div className="flex justify-between px-1 text-sm">
-        <span className="uppercase">
+      <div className="flex justify-between px-1 text-h7 lg:text-sm">
+        <span className="uppercase text-h7 lg:text-sm">
           <Trans>utilization Ratio</Trans>
         </span>
-        <span className="font-semibold text-right">
+        <span
+          className="font-semibold text-right text-h7 lg:text-sm "
+          data-testid="util-ratio"
+        >
           {formatPercent(utilization, router.locale)}
         </span>
       </div>
-      <div className="mt-2 mb-4">
-        <ProgressBar value={utilization} />
-      </div>
-      <div className="flex justify-between px-1 text-sm">
-        <span
-          className=""
-          title={
-            formatCurrency(
+
+      <InfoTooltip
+        infoComponent={
+          <div>
+            <p>
+              <b>
+                <Trans>UTILIZATION RATIO:</Trans>{" "}
+                {formatPercent(utilization, router.locale)}
+              </b>
+            </p>
+            <p>
+              <Trans>Protection</Trans>: {formatCurrency(
               convertFromUnits(
                 activeCommitment,
                 liquidityTokenDecimals
               ).toString(),
               router.locale
-            ).long
-          }
-        >
-          <Trans>Protection:</Trans>{" "}
-          {
-            formatCurrency(
+            ).long}
+            </p>
+          </div>
+        }
+      >
+        <div className="mt-2 mb-4">
+          <ProgressBar
+            value={utilization}
+          />
+        </div>
+      </InfoTooltip>
+
+      <div className="flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm">
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Protection</Trans>: {formatCurrency(
               convertFromUnits(
                 activeCommitment,
                 liquidityTokenDecimals
               ).toString(),
               router.locale
-            ).short
+            ).long}
+            </div>
           }
-        </span>
-        <span
-          className="text-right"
-          title={DateLib.toLongDateFormat(incidentDate, router.locale)}
         >
-          <Trans>Reported On:</Trans>{" "}
-          <span title={DateLib.toLongDateFormat(incidentDate, router.locale)}>
+          <div
+            className="flex flex-1"
+            title={formatCurrency(
+              convertFromUnits(
+                activeCommitment,
+                liquidityTokenDecimals
+              ).toString(),
+              router.locale
+            ).long}
+            data-testid="protection"
+          >
+            <SheildIcon className="w-4 h-4 text-01052D" />
+            <p>
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    activeCommitment,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).short
+              }
+            </p>
+          </div>
+        </InfoTooltip>
+        <InfoTooltip
+          arrow={false}
+          infoComponent={
+            <div>
+              <Trans>Reported On:</Trans>: {DateLib.toLongDateFormat(incidentDate, router.locale)}
+            </div>
+          }
+        >
+          <div
+            className="flex-1 text-right"
+            title={DateLib.toLongDateFormat(incidentDate, router.locale)}
+          >
             {fromNow(incidentDate)}
-          </span>
-        </span>
+          </div>
+        </InfoTooltip>
       </div>
     </OutlinedCard>
   );
