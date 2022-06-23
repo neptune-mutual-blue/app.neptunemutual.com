@@ -37,7 +37,6 @@ export const MyLiquidityCoverCard = ({
     .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
     .decimalPlaces(2);
 
-  console.log({ coverInfo });
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex justify-between">
