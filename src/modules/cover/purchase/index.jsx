@@ -66,8 +66,8 @@ export const CoverPurchaseDetailsPage = () => {
               {
                 name: projectName,
                 href: !isDiversified
-                  ? `/cover/${cover_id}/options`
-                  : `/cover/${cover_id}/${product_id}/options`,
+                  ? `/covers/${cover_id}/options`
+                  : `/covers/${cover_id}/${product_id}/options`,
                 current: false,
               },
               { name: t`Purchase Policy`, current: true },

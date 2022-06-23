@@ -15,6 +15,7 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -23,6 +24,8 @@ export const CoverAddLiquidityDetailsPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String("");
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
+
+  const isDiversified = coverInfo?.supportsProducts;
 
   const {
     info,
@@ -51,20 +54,31 @@ export const CoverAddLiquidityDetailsPage = () => {
             pages={[
               { name: t`Home`, href: "/", current: false },
               {
-                name: coverInfo?.coverName,
-                href: `/cover/${cover_id}/options`,
+                name: coverInfo?.infoObj.coverName,
+                href: !isDiversified
+                  ? `/covers/${cover_id}/options`
+                  : `/diversified/${cover_id}`,
                 current: false,
               },
               { name: t`Provide Liquidity`, current: true },
             ]}
           />
           <div className="flex">
-            <CoverProfileInfo
-              coverKey={coverKey}
-              imgSrc={imgSrc}
-              projectName={coverInfo?.coverName}
-              links={coverInfo?.links}
-            />
+            {!isDiversified && (
+              <CoverProfileInfo
+                coverKey={coverKey}
+                imgSrc={imgSrc}
+                projectName={coverInfo?.infoObj.coverName}
+                links={coverInfo?.infoObj.links}
+              />
+            )}
+            {isDiversified && (
+              <DiversifiedCoverProfileInfo
+                coverKey={coverKey}
+                productKey={productKey}
+                projectName={coverInfo?.infoObj.coverName}
+              />
+            )}
           </div>
         </Container>
       </Hero>
