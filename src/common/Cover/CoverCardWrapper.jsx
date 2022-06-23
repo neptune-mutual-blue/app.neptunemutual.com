@@ -24,7 +24,9 @@ export const CoverCardWrapper = ({
   return (
     <Link
       href={
-        isDiversified ? `/basket/${cover_id}` : `covers/${cover_id}/options`
+        isDiversified
+          ? `/diversified/${cover_id}`
+          : `covers/${cover_id}/options`
       }
       key={coverKey}
     >

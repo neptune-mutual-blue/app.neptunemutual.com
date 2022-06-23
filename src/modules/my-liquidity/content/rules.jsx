@@ -8,7 +8,7 @@ import { Trans } from "@lingui/macro";
  * }} param0
  * @returns
  */
-export default function Rules({ setAcceptedRules }) {
+export function Rules({ setAcceptedRules }) {
   return (
     <>
       <DownloadButton />

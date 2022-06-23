@@ -1,5 +1,5 @@
 import { Container } from "@/common/Container/Container";
-import LiquidityProductModal from "@/modules/my-liquidity/content/liquidity-product-modal";
+import { LiquidityProductModal } from "@/modules/my-liquidity/content/LiquidityProductModal";
 import { Trans } from "@lingui/macro";
 import { useState } from "react";
 
@@ -52,7 +52,7 @@ export function CoveredProducts({ coverInfo }) {
         <h4 className="mb-24 font-bold text-h3">
           <Trans>Products Covered Under This Pool</Trans>
         </h4>
-        <div className="grid xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2 grid-cols-1">
+        <div className="grid grid-cols-1 xl:grid-cols-6 md:grid-cols-4 xs:grid-cols-2">
           {coverInfo.products.map((product) => (
             <Product
               {...product}

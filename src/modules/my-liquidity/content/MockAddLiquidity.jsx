@@ -4,7 +4,7 @@ import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { useRouter } from "next/router";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export default function AddLiquidity() {
+export function MockAddLiquidity() {
   const router = useRouter();
   const { cover_id = "animated-brands", product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
