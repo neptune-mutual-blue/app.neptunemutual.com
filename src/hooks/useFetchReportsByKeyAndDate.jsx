@@ -6,7 +6,7 @@ const getQuery = (coverKey, incidentDate) => {
   {
     incidentReports (
       where: {
-        key: "${coverKey}"
+        coverKey: "${coverKey}"
         incidentDate: "${incidentDate}"
         decision: true
         resolved: true

@@ -9,6 +9,6 @@ export function getServerSideProps() {
   };
 }
 
-export default function ClaimPolicyDedicatedCover({ disabled }) {
+export default function ClaimPolicyDiversifiedProduct({ disabled }) {
   return <ClaimDetailsPage disabled={disabled} />;
 }

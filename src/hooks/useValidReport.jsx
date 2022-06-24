@@ -4,7 +4,7 @@ import { useNetwork } from "@/src/context/Network";
 
 const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
 
-export const useValidReport = ({ start, end, coverKey }) => {
+export const useValidReport = ({ start, end, coverKey, productKey }) => {
   const [data, setData] = useState({
     incidentReports: [],
   });
@@ -38,7 +38,8 @@ export const useValidReport = ({ start, end, coverKey }) => {
             where: {
               incidentDate_gt: "${start}",
               incidentDate_lt: "${end}",
-              key: "${coverKey}"
+              coverKey: "${coverKey}"
+              productKey: "${productKey}"
             },
             orderBy: incidentDate,
             orderDirection: desc
@@ -65,9 +66,9 @@ export const useValidReport = ({ start, end, coverKey }) => {
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [coverKey, end, networkId, start]);
 
   return {

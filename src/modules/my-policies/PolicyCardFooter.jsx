@@ -11,6 +11,8 @@ import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const PolicyCardFooter = ({
   coverKey,
+  productKey,
+  isDiversified,
   report,
   validityEndsAt,
   cxToken,
@@ -105,9 +107,17 @@ export const PolicyCardFooter = ({
       {/* Link */}
       {withinClaimPeriod && (
         <Link
-          href={`/my-policies/${safeParseBytes32String(coverKey)}/${
-            report.incidentDate
-          }/claim`}
+          href={
+            isDiversified
+              ? `/my-policies/${safeParseBytes32String(
+                  coverKey
+                )}/product/${safeParseBytes32String(productKey)}/${
+                  report?.incidentDate || 1212
+                }/claim`
+              : `/my-policies/${safeParseBytes32String(coverKey)}/${
+                  report?.incidentDate || 1212
+                }/claim`
+          }
         >
           <a
             className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"

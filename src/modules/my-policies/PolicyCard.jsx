@@ -18,21 +18,21 @@ import { isValidProduct } from "@/src/helpers/cover";
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo;
 
+  console.log(policyInfo);
+
   const coverInfo = useCoverOrProductData({
-    coverKey: policyInfo?.coverKey,
-    productKey: policyInfo?.productKey,
+    coverKey: policyInfo.coverKey,
+    productKey: policyInfo.productKey,
   });
 
-  const { coverKey, productKey, infoObj = {}, products = [] } = coverInfo || {};
-  const { coverName, productName } = infoObj;
+  const isDiversified = isValidProduct(policyInfo.productKey);
+  const policyCoverKey = isDiversified
+    ? policyInfo.productKey
+    : policyInfo.coverKey;
 
-  const isDiversified = isValidProduct(productKey);
-  const policyCoverKey = isDiversified ? productKey : coverKey;
-  const policyCoverName = isDiversified ? productName : coverName;
-
-  const { status: currentStatus } = useFetchCoverStats({
-    coverKey,
-    productKey,
+  const { coverStatus, productStatus } = useFetchCoverStats({
+    coverKey: policyInfo.coverKey,
+    productKey: policyInfo.productKey,
   });
 
   const validityStartsAt = cxToken.creationDate || "0";
@@ -43,7 +43,8 @@ export const PolicyCard = ({ policyInfo }) => {
   } = useValidReport({
     start: validityStartsAt,
     end: validityEndsAt,
-    coverKey: policyCoverKey,
+    coverKey: policyInfo.coverKey,
+    productKey: policyInfo.productKey,
   });
 
   const { balance } = useERC20Balance(cxToken.id);
@@ -51,6 +52,11 @@ export const PolicyCard = ({ policyInfo }) => {
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
   }
+
+  const { infoObj } = coverInfo;
+  const { coverName, productName } = infoObj;
+
+  const policyCoverName = isDiversified ? productName : coverName;
 
   const now = DateLib.unix();
   const isPolicyExpired = isGreater(now, validityEndsAt);
@@ -64,7 +70,7 @@ export const PolicyCard = ({ policyInfo }) => {
   if (isPolicyExpired) {
     status = ReportStatus[report?.status];
   } else {
-    status = currentStatus;
+    status = isDiversified ? productStatus : coverStatus;
 
     const isClaimable = report ? report.status == "Claimable" : false;
     const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
@@ -85,7 +91,7 @@ export const PolicyCard = ({ policyInfo }) => {
             <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
             <div data-testid="policy-card-status">
               <InfoTooltip
-                disabled={products?.length === 0}
+                disabled={coverInfo.products?.length === 0}
                 infoComponent={
                   <div>
                     <p>
@@ -96,11 +102,7 @@ export const PolicyCard = ({ policyInfo }) => {
                 }
               >
                 <div>
-                  <CardStatusBadge
-                    status={
-                      isDiversified ? "Diversified" : showStatus ? status : null
-                    }
-                  />
+                  <CardStatusBadge status={showStatus ? status : null} />
                 </div>
               </InfoTooltip>
             </div>
@@ -115,7 +117,9 @@ export const PolicyCard = ({ policyInfo }) => {
         {/* Divider */}
         <Divider />
         <PolicyCardFooter
-          coverKey={policyCoverKey}
+          coverKey={policyInfo.coverKey}
+          productKey={policyInfo.productKey}
+          isDiversified={isDiversified}
           cxToken={policyInfo.cxToken}
           report={report}
           tokenBalance={balance}
