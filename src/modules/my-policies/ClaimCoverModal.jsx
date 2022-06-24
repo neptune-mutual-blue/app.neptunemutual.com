@@ -6,9 +6,9 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { useClaimPolicyInfo } from "@/src/hooks/useClaimPolicyInfo";
-import { convertFromUnits, isGreater } from "@/utils/bn";
+import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
@@ -23,12 +23,15 @@ export const ClaimCoverModal = ({
   isOpen,
   onClose,
   coverKey,
+  productKey,
   incidentDate,
   cxTokenAddress,
+  claimPlatformFee,
 }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const delayedValue = useDebounce(value, 200);
-  const { balance, loadingBalance, tokenSymbol } = useCxTokenRowContext();
+  const { balance, loadingBalance, tokenSymbol, tokenDecimals } =
+    useCxTokenRowContext();
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const {
     canClaim,
@@ -39,13 +42,14 @@ export const ClaimCoverModal = ({
     receiveAmount,
     error,
     loadingAllowance,
-    loadingFees,
-    claimPlatformFee,
   } = useClaimPolicyInfo({
     value: delayedValue,
     cxTokenAddress,
+    cxTokenDecimals: tokenDecimals,
     coverKey,
+    productKey,
     incidentDate,
+    claimPlatformFee,
   });
   const router = useRouter();
 
@@ -57,7 +61,7 @@ export const ClaimCoverModal = ({
   }, [isOpen]);
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance).toString());
+    setValue(convertFromUnits(balance, tokenDecimals).toString());
   };
 
   const handleChange = (val) => {
@@ -66,15 +70,15 @@ export const ClaimCoverModal = ({
     }
   };
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const isDiversified = isValidProduct(productKey);
+
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
 
   let loadingMessage = "";
   if (loadingBalance) {
     loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
     loadingMessage = t`Fetching allowance...`;
-  } else if (loadingFees) {
-    loadingMessage = t`Fetching fees...`;
   }
 
   return (
@@ -98,7 +102,9 @@ export const ClaimCoverModal = ({
         ></ModalCloseButton>
         <div className="mt-6" data-testid="token-input">
           <TokenAmountInput
+            inputId="cx-token"
             tokenAddress={cxTokenAddress}
+            tokenDecimals={tokenDecimals}
             tokenSymbol={tokenSymbol}
             tokenBalance={balance}
             labelText={t`Enter your ${tokenSymbol}`}
@@ -132,7 +138,10 @@ export const ClaimCoverModal = ({
               <>
                 <Trans>
                   Fee:{" "}
-                  {formatPercent(claimPlatformFee / MULTIPLIER, router.locale)}
+                  {formatPercent(
+                    toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
+                    router.locale
+                  )}
                 </Trans>
               </>
             )}

@@ -18,7 +18,11 @@ const defaultStats = {
 
 const CoverStatsContext = createContext(defaultStats);
 
-export const CoverStatsProvider = ({ coverKey, productKey, children }) => {
+export const CoverStatsProvider = ({
+  coverKey,
+  productKey = safeFormatBytes32String(""),
+  children,
+}) => {
   const {
     activeIncidentDate,
     claimPlatformFee,
@@ -33,7 +37,7 @@ export const CoverStatsProvider = ({ coverKey, productKey, children }) => {
     availableLiquidity,
   } = useFetchCoverStats({
     coverKey,
-    productKey: productKey || safeFormatBytes32String(""),
+    productKey,
   });
 
   return (

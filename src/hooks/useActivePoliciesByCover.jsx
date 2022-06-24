@@ -56,6 +56,8 @@ export const useActivePoliciesByCover = ({
             }
           ) {
             id
+            coverKey
+            productKey
             cxToken {
               id
               creationDate
