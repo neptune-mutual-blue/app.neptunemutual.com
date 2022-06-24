@@ -57,7 +57,7 @@ export const ClaimDetailsPage = ({ disabled }) => {
   const title = !isDiversified
     ? coverInfo?.infoObj?.coverName
     : coverInfo?.infoObj?.productName;
-  console.log(coverInfo);
+
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
