@@ -18,17 +18,10 @@ import { isValidProduct } from "@/src/helpers/cover";
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo;
 
-  console.log(policyInfo);
-
   const coverInfo = useCoverOrProductData({
     coverKey: policyInfo.coverKey,
     productKey: policyInfo.productKey,
   });
-
-  const isDiversified = isValidProduct(policyInfo.productKey);
-  const policyCoverKey = isDiversified
-    ? policyInfo.productKey
-    : policyInfo.coverKey;
 
   const { coverStatus, productStatus } = useFetchCoverStats({
     coverKey: policyInfo.coverKey,
@@ -56,6 +49,7 @@ export const PolicyCard = ({ policyInfo }) => {
   const { infoObj } = coverInfo;
   const { coverName, productName } = infoObj;
 
+  const isDiversified = isValidProduct(policyInfo.productKey);
   const policyCoverName = isDiversified ? productName : coverName;
 
   const now = DateLib.unix();

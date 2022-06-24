@@ -66,6 +66,9 @@ export const PolicyCardFooter = ({
     });
   }
 
+  const cover_id = safeParseBytes32String(coverKey);
+  const product_id = safeParseBytes32String(productKey);
+
   return (
     <>
       {/* Stats */}
@@ -105,18 +108,12 @@ export const PolicyCardFooter = ({
       </div>
 
       {/* Link */}
-      {withinClaimPeriod && (
+      {report && withinClaimPeriod && (
         <Link
           href={
             isDiversified
-              ? `/my-policies/${safeParseBytes32String(
-                  coverKey
-                )}/product/${safeParseBytes32String(productKey)}/${
-                  report?.incidentDate || 1212
-                }/claim`
-              : `/my-policies/${safeParseBytes32String(coverKey)}/${
-                  report?.incidentDate || 1212
-                }/claim`
+              ? `/my-policies/${cover_id}/product/${product_id}/${report.incidentDate}/claim`
+              : `/my-policies/${cover_id}/${report.incidentDate}/claim`
           }
         >
           <a
@@ -131,7 +128,7 @@ export const PolicyCardFooter = ({
   );
 };
 
-export const Stat = ({ title, tooltip, value, right, variant }) => {
+export const Stat = ({ title, tooltip, value, right, variant = "" }) => {
   return (
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}

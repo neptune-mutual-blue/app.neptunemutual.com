@@ -69,7 +69,7 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
     return () => {
       ignore = true;
     };
-  }, [coverKey, end, networkId, start]);
+  }, [coverKey, end, networkId, productKey, start]);
 
   return {
     data: {

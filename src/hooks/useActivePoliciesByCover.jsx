@@ -103,7 +103,7 @@ export const useActivePoliciesByCover = ({
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, limit, networkId, page]);
+  }, [account, coverKey, limit, networkId, page, productKey]);
 
   const totalActiveProtection = useMemo(() => {
     return sumOf(
