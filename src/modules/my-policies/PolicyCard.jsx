@@ -11,8 +11,8 @@ import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import React from "react";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
 import { CoverAvatar } from "@/common/CoverAvatar";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo;

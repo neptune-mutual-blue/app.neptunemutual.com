@@ -275,7 +275,7 @@ const BondPage = () => {
           account={account}
           info={info}
           details={details}
-          roi={roi / 100}
+          roi={roi}
           refetchBondInfo={refetchBondInfo}
         />
       </div>

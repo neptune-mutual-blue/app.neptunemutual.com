@@ -11,8 +11,8 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoverAvatar } from "@/common/CoverAvatar";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const MyLiquidityCoverCard = ({
   coverKey,

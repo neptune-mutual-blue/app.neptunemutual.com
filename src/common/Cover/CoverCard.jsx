@@ -15,9 +15,9 @@ import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
-import { InfoTooltip } from "@/common/NewCoverCard/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
 import { CoverAvatar } from "@/common/CoverAvatar";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const CoverCard = ({
   coverKey,
