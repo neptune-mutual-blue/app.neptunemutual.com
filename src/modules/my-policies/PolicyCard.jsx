@@ -13,6 +13,7 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import React from "react";
 import { CoverAvatar } from "@/common/CoverAvatar";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
+import { isValidProduct } from "@/src/helpers/cover";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo;
@@ -25,10 +26,9 @@ export const PolicyCard = ({ policyInfo }) => {
   const { coverKey, productKey, infoObj = {}, products = [] } = coverInfo || {};
   const { coverName, productName } = infoObj;
 
-  const isDiversified = products?.length > 0;
-  const isProduct = Boolean(productKey);
-  const policyCoverKey = isProduct ? productKey : coverKey;
-  const policyCoverName = isProduct ? productName : coverName;
+  const isDiversified = isValidProduct(productKey);
+  const policyCoverKey = isDiversified ? productKey : coverKey;
+  const policyCoverName = isDiversified ? productName : coverName;
 
   const { status: currentStatus } = useFetchCoverStats({
     coverKey,
@@ -82,7 +82,7 @@ export const PolicyCard = ({ policyInfo }) => {
       <OutlinedCard className="p-6 bg-white" type="normal">
         <div>
           <div className="flex justify-between">
-            <CoverAvatar coverInfo={coverInfo} />
+            <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
             <div data-testid="policy-card-status">
               <InfoTooltip
                 disabled={products?.length === 0}

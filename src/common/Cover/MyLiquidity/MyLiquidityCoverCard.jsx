@@ -30,8 +30,8 @@ export const MyLiquidityCoverCard = ({
     return <CardSkeleton numberOfCards={1} />;
   }
 
-  const { infoObj = {}, products = [] } = coverInfo || {};
-  const isDiversified = products?.length > 0;
+  const { infoObj, products } = coverInfo;
+  const isDiversified = coverInfo?.supportsProducts;
 
   const reassurancePercent = toBN(info.totalReassurance)
     .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
@@ -40,7 +40,7 @@ export const MyLiquidityCoverCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex justify-between">
-        <CoverAvatar coverInfo={coverInfo} />
+        <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
         <div>
           {/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}
           <InfoTooltip

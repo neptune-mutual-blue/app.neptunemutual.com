@@ -66,7 +66,7 @@ export const CoverCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start">
-        <CoverAvatar coverInfo={coverInfo} />
+        <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
         <InfoTooltip
           disabled={coverInfo.products?.length === 0}
           infoComponent={
@@ -86,7 +86,7 @@ export const CoverCard = ({
         </InfoTooltip>
       </div>
       <h4
-        className="mt-4 font-semibold uppercase text-h4 font-sora text-black"
+        className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {isDiversified

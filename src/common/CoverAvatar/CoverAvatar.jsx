@@ -3,53 +3,44 @@ import React from "react";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 
-export const CoverAvatar = ({ coverInfo }) => {
-  const { coverKey, productKey, infoObj = {}, products = [] } = coverInfo || {};
-  const { coverName, productName } = infoObj;
+export const CoverAvatar = ({ coverInfo, isDiversified }) => {
+  if (!coverInfo) {
+    return null;
+  }
 
-  const isDiversified = products?.length > 0;
-  const isProduct = Boolean(productKey);
-  const policyCoverKey = isProduct ? productKey : coverKey;
-  const policyCoverName = isProduct ? productName : coverName;
-
-  const imgSrc = isProduct
-    ? "/images/covers/empty.svg"
-    : getCoverImgSrc({ key: policyCoverKey });
-  const productsImg = isDiversified
-    ? products?.map((item) => getCoverImgSrc({ key: item.productKey }))
-    : [];
-  const slicedProductsImg = isDiversified ? productsImg.slice(0, 3) : [];
+  const { coverKey, productKey, products } = coverInfo;
+  const isCover = Array.isArray(coverInfo.products);
 
   return (
-    <div className="relative flex grow items-center">
-      {slicedProductsImg.length ? (
-        slicedProductsImg.slice(0, 3).map((item, idx) => {
-          const more = productsImg.length - 3;
-          return (
-            <React.Fragment key={item}>
+    <div className="relative flex items-center grow">
+      {isDiversified && isCover ? (
+        <React.Fragment>
+          {products.slice(0, 3).map((item, idx) => {
+            const imgSrc = getCoverImgSrc({ key: item.productKey });
+            return (
               <div
                 className={classNames(
                   "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18",
                   idx !== 0 && "-ml-7 lg:-ml-9 p-0.5"
                 )}
+                key={item}
               >
                 <img
-                  // src={item}
-                  src="/images/covers/empty.svg"
-                  alt={products[idx].productName}
-                  className="bg-DEEAF6 rounded-full"
+                  src={imgSrc}
+                  alt={item.productName}
+                  className="rounded-full bg-DEEAF6"
                   data-testid="cover-img"
                 />
               </div>
+            );
+          })}
 
-              {idx === slicedProductsImg.length - 1 && more > 0 && (
-                <p className="ml-2 opacity-40 text-01052D text-xs">
-                  +{more} <Trans>MORE</Trans>
-                </p>
-              )}
-            </React.Fragment>
-          );
-        })
+          {products.length > 3 && (
+            <p className="ml-2 text-xs opacity-40 text-01052D">
+              +{products.length - 3} <Trans>MORE</Trans>
+            </p>
+          )}
+        </React.Fragment>
       ) : (
         <div
           className={classNames(
@@ -57,9 +48,13 @@ export const CoverAvatar = ({ coverInfo }) => {
           )}
         >
           <img
-            src={imgSrc}
-            alt={policyCoverName}
-            className="bg-DEEAF6 rounded-full"
+            src={getCoverImgSrc({ key: isDiversified ? productKey : coverKey })}
+            alt={
+              isDiversified
+                ? coverInfo.infoObj.productName
+                : coverInfo.infoObj.coverName
+            }
+            className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
           />
         </div>
