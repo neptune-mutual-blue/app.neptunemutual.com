@@ -18,6 +18,7 @@ import { usePagination } from "@/src/hooks/usePagination";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { isValidProduct } from "@/src/helpers/cover";
 
 export const ClaimDetailsPage = ({ disabled }) => {
   const router = useRouter();
@@ -51,7 +52,12 @@ export const ClaimDetailsPage = ({ disabled }) => {
     return <ComingSoon />;
   }
 
-  const title = coverInfo.projectName;
+  const isDiversified = isValidProduct(productKey);
+
+  const title = !isDiversified
+    ? coverInfo?.infoObj?.coverName
+    : coverInfo?.infoObj?.productName;
+
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
@@ -74,7 +80,9 @@ export const ClaimDetailsPage = ({ disabled }) => {
                 },
                 {
                   name: title,
-                  href: `/covers/${cover_id}/options`,
+                  href: !isDiversified
+                    ? `/covers/${cover_id}/options`
+                    : `/covers/${cover_id}/${product_id}/options`,
                   current: false,
                 },
                 { name: t`Claim`, href: "#", current: true },
