@@ -27,39 +27,40 @@ module.exports = {
       skeleton: "rgb(226 232 240)",
     },
     fontSize: {
-      h1: ["33px", "48px"],
-      h2: ["28px", "40px"],
-      h3: ["23px", "32px"],
-      h4: ["19px", "24px"],
-      h5: ["16px", "24px"],
-      h6: [
+      "h1": ["33px", "48px"],
+      "h2": ["28px", "40px"],
+      "h3": ["23px", "32px"],
+      "h4": ["19px", "24px"],
+      "h5": ["16px", "24px"],
+      "h6": [
         "16px",
         {
           letterSpacing: "0.05em",
           lineHeight: "24px",
         },
       ],
-      h7: ["13px", "16px"],
-      sm: ["14px", "16px"],
-      lg: "18px",
-      xxs: ["10px", "8px"],
-      xs: [
+      "h7": ["13px", "16px"],
+      "sm": ["14px", "16px"],
+      "lg": "18px",
+      "xxs": ["10px", "8px"],
+      "xs": [
         "12px",
         {
           letterSpacing: "0.05em",
           lineHeight: "24px",
         },
       ],
-      para: ["16px", "28px"],
-      cta: [
+      "para": ["16px", "28px"],
+      "cta": [
         "15px",
         {
           letterSpacing: "0.05em",
           lineHeight: "16px",
         },
       ],
-      xxxl: "136px",
-      xxl: "40px",
+      "xxxl": "136px",
+      "xxl": "40px",
+      "receipt-info": ["24px", "36px"],
     },
     fontFamily: {
       poppins: "Poppins, sans-serif",
@@ -81,6 +82,10 @@ module.exports = {
       },
       spacing: {
         /* 72px */
+        "9.5": "38px",
+        "13": "52px",
+        "42": "168px",
+        "54": "216px",
         "18": "4.5rem",
         "22px": "22px",
         "2.5px": "2.5px",
