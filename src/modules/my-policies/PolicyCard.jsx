@@ -1,6 +1,5 @@
 import { Divider } from "@/common/Divider/Divider";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
 import { useValidReport } from "@/src/hooks/useValidReport";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
@@ -11,11 +10,26 @@ import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import React from "react";
+import { CoverAvatar } from "@/common/CoverAvatar";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const PolicyCard = ({ policyInfo }) => {
-  const { cxToken, coverKey, productKey } = policyInfo;
+  const { cxToken } = policyInfo;
 
-  const coverInfo = useCoverOrProductData({ coverKey, productKey });
+  const coverInfo = useCoverOrProductData({
+    coverKey: policyInfo?.coverKey,
+    productKey: policyInfo?.productKey,
+  });
+
+  const { coverKey, productKey, infoObj = {}, products = [] } = coverInfo || {};
+  const { coverName, productName } = infoObj;
+
+  const isDiversified = products?.length > 0;
+  const isProduct = Boolean(productKey);
+  const policyCoverKey = isProduct ? productKey : coverKey;
+  const policyCoverName = isProduct ? productName : coverName;
+
   const { status: currentStatus } = useFetchCoverStats({
     coverKey,
     productKey,
@@ -23,24 +37,22 @@ export const PolicyCard = ({ policyInfo }) => {
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
+
   const {
     data: { report },
   } = useValidReport({
     start: validityStartsAt,
     end: validityEndsAt,
-    coverKey,
+    coverKey: policyCoverKey,
   });
-  const { balance } = useERC20Balance(cxToken.id);
 
-  const isDiversified = isValidProduct(productKey);
-  console.log(isDiversified);
+  const { balance } = useERC20Balance(cxToken.id);
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
   }
 
   const now = DateLib.unix();
-  const imgSrc = getCoverImgSrc({ key: coverKey });
   const isPolicyExpired = isGreater(now, validityEndsAt);
 
   let status = null;
@@ -70,32 +82,40 @@ export const PolicyCard = ({ policyInfo }) => {
       <OutlinedCard className="p-6 bg-white" type="normal">
         <div>
           <div className="flex justify-between">
-            <div className="p-3 rounded-full w-18 h-18 bg-DEEAF6">
-              <img
-                src={imgSrc}
-                alt={coverInfo.projectName}
-                className="inline-block max-w-full"
-                data-testid="cover-img"
-              />
-            </div>
-
+            <CoverAvatar coverInfo={coverInfo} />
             <div data-testid="policy-card-status">
-              {showStatus && <CardStatusBadge status={status} />}
+              <InfoTooltip
+                disabled={products?.length === 0}
+                infoComponent={
+                  <div>
+                    <p>
+                      Leverage Ration: <b>{infoObj?.leverage}x</b>
+                    </p>
+                    <p>Determines available capital to underwrite</p>
+                  </div>
+                }
+              >
+                <div>
+                  <CardStatusBadge
+                    status={
+                      isDiversified ? "Diversified" : showStatus ? status : null
+                    }
+                  />
+                </div>
+              </InfoTooltip>
             </div>
           </div>
           <h4
             className="mt-4 font-semibold uppercase text-h4 font-sora"
             data-testid="policy-card-title"
           >
-            {coverInfo.projectName}
+            {policyCoverName}
           </h4>
         </div>
-
         {/* Divider */}
         <Divider />
-
         <PolicyCardFooter
-          coverKey={coverKey}
+          coverKey={policyCoverKey}
           cxToken={policyInfo.cxToken}
           report={report}
           tokenBalance={balance}

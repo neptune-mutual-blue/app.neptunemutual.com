@@ -1,7 +1,6 @@
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -11,6 +10,9 @@ import { useRouter } from "next/router";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { CoverAvatar } from "@/common/CoverAvatar";
+import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -28,7 +30,8 @@ export const MyLiquidityCoverCard = ({
     return <CardSkeleton numberOfCards={1} />;
   }
 
-  const imgSrc = getCoverImgSrc({ key: coverKey });
+  const { infoObj = {}, products = [] } = coverInfo || {};
+  const isDiversified = products?.length > 0;
 
   const reassurancePercent = toBN(info.totalReassurance)
     .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
@@ -37,27 +40,34 @@ export const MyLiquidityCoverCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex justify-between">
+        <CoverAvatar coverInfo={coverInfo} />
         <div>
-          <div className="p-3 rounded-full w-18 h-18 bg-DEEAF6">
-            <img
-              src={imgSrc}
-              alt={coverInfo.projectName}
-              className="inline-block max-w-full"
-            />
-          </div>
-          <h4
-            className="mt-4 font-semibold uppercase text-h4 font-sora"
-            data-testid="title"
+          {/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}
+          <InfoTooltip
+            disabled={products?.length === 0}
+            infoComponent={
+              <div>
+                <p>
+                  Leverage Ration: <b>{infoObj?.leverage}x</b>
+                </p>
+                <p>Determines available capital to underwrite</p>
+              </div>
+            }
           >
-            {coverInfo.projectName}
-          </h4>
+            <div>
+              <CardStatusBadge status={isDiversified ? "Diversified" : null} />
+            </div>
+          </InfoTooltip>
         </div>
-        <div>{/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}</div>
       </div>
-
+      <h4
+        className="mt-4 font-semibold uppercase text-h4 font-sora"
+        data-testid="title"
+      >
+        {infoObj?.coverName}
+      </h4>
       {/* Divider */}
       <Divider />
-
       {/* Stats */}
       <div className="flex justify-between px-1 text-sm">
         <span className="uppercase">
@@ -68,7 +78,7 @@ export const MyLiquidityCoverCard = ({
         </span>
       </div>
       <div className="mt-2 mb-4">
-        <ProgressBar value={reassurancePercent.toNumber()} />
+        <ProgressBar value={reassurancePercent?.toNumber()} />
       </div>
       <div
         className="flex justify-between px-1 text-sm"
