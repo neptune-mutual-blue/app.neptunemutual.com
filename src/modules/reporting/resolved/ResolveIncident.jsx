@@ -29,7 +29,7 @@ export const ResolveIncident = ({
       incidentDate: incidentReport.incidentDate,
     });
 
-  const isDiversified = isValidProduct(coverInfo.productKey);
+  const isDiversified = isValidProduct(incidentReport.productKey);
 
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
