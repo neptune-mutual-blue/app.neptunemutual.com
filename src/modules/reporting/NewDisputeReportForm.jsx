@@ -18,7 +18,9 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   const [description, setDescription] = useState("");
   const [textCounter, setTextCounter] = useState(0);
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.key });
+  const { minStake } = useFirstReportingStake({
+    coverKey: incidentReport.coverKey,
+  });
   const {
     balance,
     tokenAddress,
@@ -31,11 +33,11 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     error,
   } = useDisputeIncident({
     value,
-    coverKey: incidentReport.key,
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
     minStake,
   });
-
   const tokenDecimals = useTokenDecimals(tokenAddress);
   const [loading, setLoading] = useState("");
 
