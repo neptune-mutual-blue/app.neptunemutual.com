@@ -9,6 +9,35 @@ import { t } from "@lingui/macro";
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.POLICY_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "DAI";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not approve ${tokenSymbol}`, description: "" };
+    }
+
+    return { title: t`Approving ${tokenSymbol}`, description: "" };
+  },
+  [METHODS.POLICY_PURCHASE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Purchased Policy Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not purchase policy`, description: "" };
+    }
+
+    return { title: t`Purchasing Policy`, description: "" };
+  },
   [METHODS.BOND_APPROVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
