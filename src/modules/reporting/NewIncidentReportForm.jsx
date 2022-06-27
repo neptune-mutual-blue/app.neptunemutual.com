@@ -14,7 +14,7 @@ import { t, Trans } from "@lingui/macro";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const NewIncidentReportForm = ({ coverKey, productKey }) => {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const { minStake, fetchingMinStake } = useFirstReportingStake({ coverKey });
   const {
     balance,
