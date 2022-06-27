@@ -12,4 +12,6 @@ export const METHODS = {
   LIQUIDITY_STAKE_APPROVE: "liquidity.stake.approve",
   LIQUIDITY_PROVIDE_APPROVE: "liquidity.provide.approve",
   LIQUIDITY_PROVIDE: "liquidity.provide",
+  REPORT_INCIDENT_STAKE: "reportIncident.stake",
+  REPORT_INCIDENT: "reportIncident",
 };

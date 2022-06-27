@@ -103,7 +103,6 @@ const actionMessages = {
     return { title: t`Approving ${symbol} to stake`, description: "" };
   },
   [METHODS.LIQUIDITY_PROVIDE]: (status, _data) => {
-    const symbol = _data.tokenSymbol;
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Provided Liquidity Successfully`,
@@ -112,10 +111,39 @@ const actionMessages = {
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+      return { title: t`Could not provide liquidity`, description: "" };
     }
 
     return { title: t`Providing liquidity`, description: "" };
+  },
+  [METHODS.REPORT_INCIDENT_STAKE]: (status, _data) => {
+    const symbol = _data.tokenSymbol;
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approve ${symbol} Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+    }
+
+    return { title: t`Approving ${symbol}`, description: "" };
+  },
+  [METHODS.REPORT_INCIDENT]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Reported Incident Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not report incident`, description: "" };
+    }
+
+    return { title: t`Reporting incident`, description: "" };
   },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: "" };
