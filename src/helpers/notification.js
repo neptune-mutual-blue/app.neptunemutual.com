@@ -10,7 +10,7 @@ import { t } from "@lingui/macro";
  */
 const actionMessages = {
   [METHODS.POLICY_APPROVE]: (status, _data) => {
-    const tokenSymbol = _data.tokenSymbol || "DAI";
+    const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,

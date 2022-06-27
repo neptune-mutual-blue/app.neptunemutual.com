@@ -67,6 +67,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     productKey,
     feeAmount: feeData.fee,
     availableLiquidity,
+    liquidityTokenSymbol,
   });
 
   const {

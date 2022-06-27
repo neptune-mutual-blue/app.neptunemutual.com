@@ -33,6 +33,7 @@ export const usePurchasePolicy = ({
   feeAmount,
   coverMonth,
   availableLiquidity,
+  liquidityTokenSymbol,
 }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
@@ -120,7 +121,7 @@ export const usePurchasePolicy = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, t`approve DAI`);
+      notifyError(err, t`approve ${liquidityTokenSymbol}`);
     };
 
     try {
@@ -131,20 +132,19 @@ export const usePurchasePolicy = ({
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: "DAI",
+            tokenSymbol: liquidityTokenSymbol,
           },
         });
 
         await txToast.push(
           tx,
           {
-            pending: t`Approving DAI`,
-            success: t`Approved DAI Successfully`,
-            failure: t`Could not approve DAI`,
+            pending: t`Approving ${liquidityTokenSymbol}`,
+            success: t`Approved ${liquidityTokenSymbol} Successfully`,
+            failure: t`Could not approve ${liquidityTokenSymbol}`,
           },
           {
             onTxSuccess: () => {
-              console.log("onTransactionResult success");
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_APPROVE,
@@ -152,7 +152,6 @@ export const usePurchasePolicy = ({
               });
             },
             onTxFailure: () => {
-              console.log("onTransactionResult fail");
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_APPROVE,
@@ -212,7 +211,7 @@ export const usePurchasePolicy = ({
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: "DAI",
+            tokenSymbol: liquidityTokenSymbol,
           },
         });
 
@@ -225,7 +224,6 @@ export const usePurchasePolicy = ({
           },
           {
             onTxSuccess: () => {
-              console.log("onTransactionResult success");
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
@@ -235,7 +233,6 @@ export const usePurchasePolicy = ({
               onTxSuccess();
             },
             onTxFailure: () => {
-              console.log("onTransactionResult fail");
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
