@@ -175,6 +175,7 @@ const DetailsRenderer = ({ row }) => {
             key: !isDiversified ? row.cover.id : productKey,
           })}
           alt={t`policy`}
+          className={classNames(isDiversified && "bg-DEEAF6 rounded-full")}
           height={32}
           width={32}
         />
