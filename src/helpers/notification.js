@@ -72,6 +72,51 @@ const actionMessages = {
 
     return { title: t`Creating bond`, description: "" };
   },
+  [METHODS.LIQUIDITY_PROVIDE_APPROVE]: (status, _data) => {
+    const symbol = _data.tokenSymbol;
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approve ${symbol} Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+    }
+
+    return { title: t`Approving ${symbol} to provide`, description: "" };
+  },
+  [METHODS.LIQUIDITY_STAKE_APPROVE]: (status, _data) => {
+    const symbol = _data.tokenSymbol;
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approve ${symbol} Success`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+    }
+
+    return { title: t`Approving ${symbol} to stake`, description: "" };
+  },
+  [METHODS.LIQUIDITY_PROVIDE]: (status, _data) => {
+    const symbol = _data.tokenSymbol;
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Provided Liquidity Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+    }
+
+    return { title: t`Providing liquidity`, description: "" };
+  },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: "" };
   },
