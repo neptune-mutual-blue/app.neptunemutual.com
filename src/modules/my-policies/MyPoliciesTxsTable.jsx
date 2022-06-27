@@ -15,7 +15,7 @@ import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { convertFromUnits } from "@/utils/bn";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -24,7 +24,6 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 
 const renderHeader = (col) => (
@@ -154,13 +153,15 @@ const WhenRenderer = ({ row }) => {
 };
 
 const DetailsRenderer = ({ row }) => {
-  const productKey = safeFormatBytes32String("");
+  const router = useRouter();
+  const productKey = row.productKey;
   const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({
     coverKey: row.cover.id,
     productKey,
   });
-  const router = useRouter();
+
+  const isDiversified = isValidProduct(productKey);
 
   if (!coverInfo) {
     return null;
@@ -170,7 +171,9 @@ const DetailsRenderer = ({ row }) => {
     <td className="px-6 py-6" data-testid="details-col">
       <div className="flex items-center">
         <img
-          src={getCoverImgSrc({ key: row.cover.id })}
+          src={getCoverImgSrc({
+            key: !isDiversified ? row.cover.id : productKey,
+          })}
           alt={t`policy`}
           height={32}
           width={32}

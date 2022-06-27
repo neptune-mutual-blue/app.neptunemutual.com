@@ -5,7 +5,7 @@ import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
@@ -29,15 +29,23 @@ export const ResolveIncident = ({
       incidentDate: incidentReport.incidentDate,
     });
 
+  const isDiversified = isValidProduct(coverInfo.productKey);
+
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
-  const logoSource = getCoverImgSrc({ key: incidentReport.coverKey });
+  const logoSource = getCoverImgSrc({
+    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
+  });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }
+
+  const projectName = isDiversified
+    ? coverInfo?.infoObj.productName
+    : coverInfo?.infoObj.projectName;
 
   function onClose() {
     setIsOpen(false);
@@ -76,7 +84,7 @@ export const ResolveIncident = ({
           refetchReport={refetchReport}
           emergencyResolve={emergencyResolve}
           logoSource={logoSource}
-          logoAlt={coverInfo?.coverName}
+          logoAlt={projectName}
           emergencyResolving={emergencyResolving}
         />
       </div>
