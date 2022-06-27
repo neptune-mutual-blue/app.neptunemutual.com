@@ -1,22 +1,27 @@
-import { useMemo, useState } from "react";
-import { NeutralButton } from "@/common/Button/NeutralButton";
+import { Fragment, useMemo, useState } from "react";
 import { Container } from "@/common/Container/Container";
-import { Grid } from "@/common/Grid/Grid";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
-import { ResolvedReportingCard } from "@/src/modules/reporting/resolved/ResolvedReportingCard";
 import { ReportStatus } from "@/src/config/constants";
 import { useResolvedReportings } from "@/src/hooks/useResolvedReportings";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
-import Link from "next/link";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { isValidProduct } from "@/src/helpers/cover";
+import { classNames } from "@/utils/classnames";
+import {
+  Table,
+  TableWrapper,
+  THead,
+  TableShowMore
+} from "@/common/Table/Table";
+import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow";
+import { CardStatusBadge } from "@/common/CardStatusBadge";
+import DateLib from "@/lib/date/DateLib";
+import { fromNow } from "@/utils/formatter/relative-time";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -91,6 +96,121 @@ export const ReportingResolvedPage = () => {
     ];
   }, [router.locale]);
 
+  const renderHeader = (col) => {
+    return (
+      <th
+        scope="col"
+        className={classNames(
+          `pt-6 pb-2 font-bold text-xs uppercase`,
+          col.align === "right" ? "text-right" : "text-left"
+        )}
+      >
+      {col.name}
+    </th>
+    );
+  };
+
+  const renderCover = (row) => {
+    return (
+      <td className="px-0 py-2">
+        <span className="flex items-center">
+          <img
+            src={row.imgSrc}
+            alt={row.isDiversified ? row.coverInfo?.infoObj.productName : row.coverInfo?.infoObj.projectName}
+            className='rounded-full bg-DEEAF6'
+            width={48}
+            height={48}
+          />
+          <p className="ml-2 text-sm text-black font-poppins">{row.isDiversified ? row.coverInfo?.infoObj.productName : row.coverInfo?.infoObj.projectName}</p>
+        </span>
+      </td>
+    );
+  }
+
+  // const renderYourStakeColumnOne = (row) => {
+  //   return (
+  //     <td className="px-0 py-2">
+  //       N/A
+  //     </td>
+  //   );
+  // }
+
+  // const renderYourStakeColumnTwo = (row) => {
+  //   return (
+  //     <td className="px-0 py-2">
+  //       N/A
+  //     </td>
+  //   );
+  // }
+
+  const renderDateAndTime = (row) => {
+    return (
+      <td className="px-0 py-2">
+        <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
+          {
+            fromNow(row.resolvedOn)
+          }
+        </span>
+      </td>
+    );
+  }
+
+  const renderStatus = (row) => {
+    return (
+      <td className="px-0 py-2 text-right">
+        <CardStatusBadge status={row.status} />
+      </td>
+    );
+  }
+
+  const columns = [
+    {
+      name: t`cover`,
+      align: 'left',
+      renderHeader,
+      renderData: renderCover
+    },
+    // {
+    //   name: t`your stake`,
+    //   align: 'left',
+    //   renderHeader,
+    //   renderData: renderYourStakeColumnOne
+    // },
+    // {
+    //   name: t`your stake`,
+    //   align: 'left',
+    //   renderHeader,
+    //   renderData: renderYourStakeColumnTwo
+    // },
+    {
+      name: t`date and time`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDateAndTime
+    },
+    {
+      name: t`status`,
+      align: 'right',
+      renderHeader,
+      renderData: renderStatus
+    }
+  ];
+
+  const getUrl = (reportId) => {
+    let keysArray = reportId.split("-");
+    let coverKey = keysArray[0];
+    let productKey = keysArray[1];
+    let timestamp = keysArray[2];
+    let isProductValid = isValidProduct(productKey);
+  
+    if (isProductValid) {
+      return `/reporting/${safeParseBytes32String(
+        coverKey
+      )}/product/${safeParseBytes32String(productKey)}/${timestamp}/details`;
+    }
+    return `/reporting/${safeParseBytes32String(coverKey)}/${timestamp}/details`;
+  }
+
   return (
     <Container className={"pt-16 pb-36"}>
       <div className="flex justify-end">
@@ -107,82 +227,57 @@ export const ReportingResolvedPage = () => {
         />
       </div>
 
-      <Content
-        data={resolvedCardInfoArray}
-        loading={loading}
-        hasMore={hasMore}
-        handleShowMore={handleShowMore}
-      />
+      <div className="mt-6">
+        <TableWrapper tWrapperClass='px-6'>
+          <Table>
+            <THead theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]' columns={columns} />
+            <tbody className="divide-y divide-DAE2EB" data-testid="app-table-body">
+              {
+                resolvedCardInfoArray.length === 0 && (
+                  <tr className="text-center">
+                    <td className="px-0 py-2" colSpan={columns.length}>
+                      {loading ? t`loading...` : t`No data found`}
+                    </td>
+                  </tr>
+                )
+              }
+              {
+                resolvedCardInfoArray.map((report, i) => {
+                  const resolvedOn = report.emergencyResolved
+                  ? report.emergencyResolveTransaction?.timestamp
+                  : report.resolveTransaction?.timestamp;
+                  
+                  return (
+                    <Fragment key={i}>
+                      <tr 
+                        className="cursor-pointer hover:bg-F4F8FC"
+                        onClick={() => router.push(getUrl(report.id))}
+                      >
+                        <ResolvedTBodyRow
+                          columns={columns}
+                          id={report.id}
+                          coverKey={report.coverKey}
+                          productKey={report.productKey}
+                          resolvedOn={resolvedOn}
+                          status={ReportStatus[report.status]}
+                        />
+                      </tr>
+                    </Fragment>
+                  );
+                })
+              }
+            </tbody>
+          </Table>
+          {
+            hasMore && (
+              <TableShowMore
+                isLoading={loading}
+                onShowMore={handleShowMore}
+              />
+            )
+          }
+        </TableWrapper>
+      </div>
     </Container>
   );
 };
-
-function getUrl(reportId) {
-  let keysArray = reportId.split("-");
-  let coverKey = keysArray[0];
-  let productKey = keysArray[1];
-  let timestamp = keysArray[2];
-  let isProductValid = isValidProduct(productKey);
-
-  if (isProductValid) {
-    return `/reporting/${safeParseBytes32String(
-      coverKey
-    )}/product/${safeParseBytes32String(productKey)}/${timestamp}/details`;
-  }
-  return `/reporting/${safeParseBytes32String(coverKey)}/${timestamp}/details`;
-}
-
-function Content({ data, loading, hasMore, handleShowMore }) {
-  if (data.length) {
-    return (
-      <>
-        <Grid className="mb-24 mt-14">
-          {data.map((report) => {
-            const resolvedOn = report.emergencyResolved
-              ? report.emergencyResolveTransaction?.timestamp
-              : report.resolveTransaction?.timestamp;
-            return (
-              <Link href={getUrl(report.id)} key={report.id}>
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <ResolvedReportingCard
-                    id={report.id}
-                    coverKey={report.coverKey}
-                    productKey={report.productKey}
-                    resolvedOn={resolvedOn}
-                    status={ReportStatus[report.status]}
-                  />
-                </a>
-              </Link>
-            );
-          })}
-        </Grid>
-        {!loading && hasMore && (
-          <NeutralButton
-            className={"rounded-lg border-0.5"}
-            onClick={handleShowMore}
-          >
-            <Trans>Show More</Trans>
-          </NeutralButton>
-        )}
-      </>
-    );
-  }
-
-  if (loading) {
-    return (
-      <Grid className="mb-24 mt-14">
-        <CardSkeleton
-          numberOfCards={data.length || CARDS_PER_PAGE}
-          subTitle={false}
-          lineContent={1}
-        />
-      </Grid>
-    );
-  }
-
-  return (
-    <p className="p-5 text-center">
-      <Trans>No data found</Trans>
-    </p>
-  );
-}
