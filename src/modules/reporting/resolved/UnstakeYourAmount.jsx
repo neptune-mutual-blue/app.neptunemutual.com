@@ -4,7 +4,7 @@ import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { classNames } from "@/lib/toast/utils";
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
 import { convertFromUnits, isGreater } from "@/utils/bn";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -18,11 +18,15 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export const UnstakeYourAmount = ({ incidentReport }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const isDiversified = isValidProduct(incidentReport.productKey);
+
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
-  const logoSrc = getCoverImgSrc({ key: incidentReport.coverKey });
+  const logoSrc = getCoverImgSrc({
+    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
+  });
   const { unstake, unstakeWithClaim, info, unstaking } =
     useUnstakeReportingStake({
       coverKey: incidentReport.coverKey,
@@ -43,6 +47,10 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
   }
+
+  const projectName = isDiversified
+    ? coverInfo?.infoObj.productName
+    : coverInfo?.infoObj.projectName;
 
   function onClose() {
     setIsOpen(false);
@@ -109,7 +117,7 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         unstake={handleUnstake}
         reward={convertFromUnits(info.willReceive).decimalPlaces(2).toString()}
         logoSrc={logoSrc}
-        altName={coverInfo?.coverName}
+        altName={projectName}
         unstaking={unstaking}
       />
     </div>
