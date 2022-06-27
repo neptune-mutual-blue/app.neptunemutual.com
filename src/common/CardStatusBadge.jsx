@@ -12,6 +12,7 @@ export const CardStatusBadge = ({ status }) => {
   return (
     <Badge
       className={classNames(
+        "!rounded",
         isRed && "bg-FA5C2F",
         isGray && "bg-364253",
         !isGray && !isRed && "bg-21AD8C"

@@ -26,16 +26,12 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { Checkbox } from "@/common/Checkbox/Checkbox";
 
-export const WithdrawLiquidityForm = ({
-  info,
-  refetchInfo,
-  setModalDisabled,
-}) => {
+export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
-  const [podValue, setPodValue] = useState();
-  const [npmValue, setNpmValue] = useState();
+  const [podValue, setPodValue] = useState("");
+  const [npmValue, setNpmValue] = useState("");
   const [npmErrorMsg, setNpmErrorMsg] = useState("");
   const [podErrorMsg, setPodErrorMsg] = useState("");
   const [isExit, setIsExit] = useState(false);
@@ -52,24 +48,30 @@ export const WithdrawLiquidityForm = ({
       coverKey,
       podAmount: podValue || "0",
     });
-  const { myStake, minStakeToAddLiquidity, isAccrualComplete } =
-    useLiquidityFormsContext();
   const {
-    podBalance: balance,
+    info: {
+      myStake,
+      minStakeToAddLiquidity,
+      isAccrualComplete,
+      withdrawalOpen,
+      withdrawalClose,
+      vaultTokenDecimals,
+      vault: vaultTokenAddress,
+      vaultTokenSymbol,
+      myPodBalance: balance,
+    },
+  } = useLiquidityFormsContext();
+  const {
     allowance,
     approving,
     withdrawing,
     loadingAllowance,
-    loadingPodBalance: loadingBalance,
     handleApprove,
     handleWithdraw,
-    vaultTokenSymbol,
-    vaultTokenAddress,
   } = useRemoveLiquidity({
     coverKey,
     value: podValue || "0",
     npmValue: npmValue || "0",
-    refetchInfo,
   });
 
   const unStakableAmount = toBN(myStake)
@@ -79,8 +81,8 @@ export const WithdrawLiquidityForm = ({
   // Clear on modal close
   useEffect(() => {
     return () => {
-      setPodValue();
-      setNpmValue();
+      setPodValue("");
+      setNpmValue("");
     };
   }, []);
 
@@ -136,8 +138,6 @@ export const WithdrawLiquidityForm = ({
   let loadingMessage = "";
   if (receiveAmountLoading) {
     loadingMessage = t`Calculating tokens...`;
-  } else if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`;
   } else if (loadingAllowance) {
     loadingMessage = t`Fetching allowance...`;
   }
@@ -167,12 +167,13 @@ export const WithdrawLiquidityForm = ({
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
             disabled={isExit}
-            tokenSymbol={NPMTokenSymbol}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}
             id={"my-staked-amount"}
             onChange={handleNpmChange}
             tokenAddress={NPMTokenAddress}
+            tokenSymbol={NPMTokenSymbol}
+            tokenDecimals={NPMTokenDecimals}
           >
             {isGreater(myStake, "0") && (
               <TokenAmountWithPrefix
@@ -196,13 +197,14 @@ export const WithdrawLiquidityForm = ({
         <div className="mt-6">
           <TokenAmountInput
             labelText={t`Enter your POD`}
-            tokenSymbol={vaultTokenSymbol}
             handleChooseMax={handleChoosePodMax}
             inputValue={podValue}
             id={"my-liquidity-amount"}
             onChange={handlePodChange}
             tokenBalance={balance}
+            tokenSymbol={vaultTokenSymbol}
             tokenAddress={vaultTokenAddress}
+            tokenDecimals={vaultTokenDecimals}
           />
           {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
         </div>
@@ -217,7 +219,6 @@ export const WithdrawLiquidityForm = ({
               ).toString(),
               router.locale
             )}
-            inputId="my-liquidity-receive"
           />
         </div>
 
@@ -225,19 +226,19 @@ export const WithdrawLiquidityForm = ({
           <Trans>NEXT UNLOCK CYCLE</Trans>
         </h5>
         <div>
-          <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
+          <span className="text-7398C0" title={fromNow(withdrawalOpen)}>
             <strong>
               <Trans>Open:</Trans>{" "}
             </strong>
-            {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
+            {DateLib.toLongDateFormat(withdrawalOpen, router.locale)}
           </span>
         </div>
         <div>
-          <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
+          <span className="text-7398C0" title={fromNow(withdrawalClose)}>
             <strong>
               <Trans>Close:</Trans>{" "}
             </strong>
-            {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
+            {DateLib.toLongDateFormat(withdrawalClose, router.locale)}
           </span>
         </div>
       </div>
@@ -255,7 +256,6 @@ export const WithdrawLiquidityForm = ({
               receiveAmountLoading ||
               !npmValue ||
               !podValue ||
-              loadingBalance ||
               loadingAllowance ||
               !isAccrualComplete
             }
@@ -278,7 +278,6 @@ export const WithdrawLiquidityForm = ({
               receiveAmountLoading ||
               !npmValue ||
               !podValue ||
-              loadingBalance ||
               loadingAllowance ||
               !isAccrualComplete
             }

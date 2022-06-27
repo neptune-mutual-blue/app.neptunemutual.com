@@ -11,6 +11,8 @@ import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const PolicyCardFooter = ({
   coverKey,
+  productKey,
+  isDiversified,
   report,
   validityEndsAt,
   cxToken,
@@ -64,6 +66,9 @@ export const PolicyCardFooter = ({
     });
   }
 
+  const cover_id = safeParseBytes32String(coverKey);
+  const product_id = safeParseBytes32String(productKey);
+
   return (
     <>
       {/* Stats */}
@@ -103,11 +108,13 @@ export const PolicyCardFooter = ({
       </div>
 
       {/* Link */}
-      {withinClaimPeriod && (
+      {report && withinClaimPeriod && (
         <Link
-          href={`/my-policies/${safeParseBytes32String(coverKey)}/${
-            report.incidentDate
-          }/claim`}
+          href={
+            isDiversified
+              ? `/my-policies/${cover_id}/product/${product_id}/${report.incidentDate}/claim`
+              : `/my-policies/${cover_id}/${report.incidentDate}/claim`
+          }
         >
           <a
             className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"
@@ -121,7 +128,7 @@ export const PolicyCardFooter = ({
   );
 };
 
-export const Stat = ({ title, tooltip, value, right, variant }) => {
+export const Stat = ({ title, tooltip, value, right, variant = "" }) => {
   return (
     <div
       className={classNames("flex flex-col basis-1/2", right && "items-end")}

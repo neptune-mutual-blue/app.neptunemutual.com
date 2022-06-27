@@ -5,7 +5,12 @@ import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
 
-export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
+export const useActivePoliciesByCover = ({
+  coverKey,
+  productKey,
+  limit,
+  page,
+}) => {
   const [data, setData] = useState({
     userPolicies: [],
   });
@@ -46,10 +51,13 @@ export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
             where: {
               expiresOn_gt: "${startOfMonth}"
               account: "${account}"
-              key: "${coverKey}"
+              coverKey: "${coverKey}"
+              productKey: "${productKey}"
             }
           ) {
             id
+            coverKey
+            productKey
             cxToken {
               id
               creationDate
@@ -97,7 +105,7 @@ export const useActivePoliciesByCover = ({ coverKey, limit, page }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, limit, networkId, page]);
+  }, [account, coverKey, limit, networkId, page, productKey]);
 
   const totalActiveProtection = useMemo(() => {
     return sumOf(

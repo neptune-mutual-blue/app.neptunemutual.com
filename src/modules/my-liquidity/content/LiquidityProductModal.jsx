@@ -87,7 +87,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
         <div className="flex justify-end pt-14">
           <button
             onClick={() => setShowModal(false)}
-            className="px-5 mr-6 font-bold border rounded border-4e7dd9 text-4e7dd9"
+            className="p-3 mr-6 font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
           >
             CLOSE
           </button>
@@ -101,7 +101,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
 function DownloadButton({ onClick }) {
   return (
     <button
-      className="inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white capitalize border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
+      className="inline-flex items-center justify-center flex-grow-0 px-4 py-3 text-h6 font-semibold leading-6 text-white uppercase border border-transparent rounded bg-4e7dd9 hover:bg-opacity-75"
       onClick={onClick}
     >
       <svg
@@ -110,7 +110,7 @@ function DownloadButton({ onClick }) {
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mr-3"
+        className="mr-3 scale-75"
       >
         <path
           d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"

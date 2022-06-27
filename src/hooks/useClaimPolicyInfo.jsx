@@ -4,6 +4,7 @@ import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import {
+  convertFromUnits,
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
@@ -11,7 +12,6 @@ import {
   toBN,
 } from "@/utils/bn";
 import { registry } from "@neptunemutual/sdk";
-import { AddressZero } from "@ethersproject/constants";
 
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
@@ -19,23 +19,25 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
-import { getClaimPlatformFee } from "@/src/helpers/store/getClaimPlatformFee";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t } from "@lingui/macro";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const useClaimPolicyInfo = ({
   value,
   cxTokenAddress,
+  cxTokenDecimals,
   coverKey,
+  productKey,
   incidentDate,
+  claimPlatformFee,
 }) => {
   const [approving, setApproving] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [receiveAmount, setReceiveAmount] = useState("0");
-  const [loadingFees, setLoadingFees] = useState(false);
-  const [claimPlatformFee, setClaimPlatformFee] = useState("0");
   const [error, setError] = useState("");
 
+  const { liquidityTokenDecimals } = useAppConstants();
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const claimsProcessorAddress = useClaimsProcessorAddress();
@@ -56,31 +58,6 @@ export const useClaimPolicyInfo = ({
     updateAllowance(claimsProcessorAddress);
   }, [claimsProcessorAddress, updateAllowance]);
 
-  // Fetching fees
-  useEffect(() => {
-    let ignore = false;
-
-    if (!networkId) return;
-
-    const signerOrProvider = getProviderOrSigner(
-      library,
-      AddressZero,
-      networkId
-    );
-
-    setLoadingFees(true);
-    getClaimPlatformFee(networkId, signerOrProvider.provider)
-      .then((result) => {
-        if (ignore) return;
-        setClaimPlatformFee(result)
-      })
-      .finally(() => setLoadingFees(false));
-
-    return () => {
-      ignore = true;
-    };
-  }, [library, networkId, value]);
-
   // Update receive amount
   useEffect(() => {
     if (!value) return;
@@ -93,10 +70,16 @@ export const useClaimPolicyInfo = ({
       .dividedBy(MULTIPLIER);
 
     // cxTokenAmount - platformFeeAmount
-    const claimAmount = toBN(cxTokenAmount).minus(platformFeeAmount).toString();
+    const claimAmount = convertToUnits(
+      convertFromUnits(
+        toBN(cxTokenAmount).minus(platformFeeAmount),
+        cxTokenDecimals
+      ),
+      liquidityTokenDecimals
+    ).toString();
 
     setReceiveAmount(claimAmount);
-  }, [claimPlatformFee, value]);
+  }, [claimPlatformFee, cxTokenDecimals, liquidityTokenDecimals, value]);
 
   // RESET STATE
   useEffect(() => {
@@ -201,12 +184,10 @@ export const useClaimPolicyInfo = ({
         cleanup();
       };
 
-
-      const productKey = null;
       const args = [
         cxTokenAddress,
-        productKey,
         coverKey,
+        productKey,
         incidentDate,
         convertToUnits(value).toString(),
       ];
@@ -269,7 +250,6 @@ export const useClaimPolicyInfo = ({
     handleApprove,
     error,
     receiveAmount,
-    loadingFees,
     claimPlatformFee,
   };
 };

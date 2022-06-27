@@ -44,7 +44,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const { status, activeIncidentDate } = useCoverStatsContext();
   const {
-    lqTokenBalance,
     npmBalance,
     lqApproving,
     npmApproving,
@@ -56,9 +55,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     handleProvide,
     isError,
     providing,
-    podSymbol,
-    podAddress,
-    lqBalanceLoading,
     npmBalanceLoading,
     lqAllowanceLoading,
     npmAllowanceLoading,
@@ -69,12 +65,20 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     liquidityTokenDecimals,
     npmTokenDecimals,
   });
-  const { minStakeToAddLiquidity, myStake } = useLiquidityFormsContext();
+  const {
+    info: {
+      minStakeToAddLiquidity,
+      myStake,
+      myStablecoinBalance,
+      vaultTokenSymbol,
+      vault: vaultTokenAddress,
+    },
+  } = useLiquidityFormsContext();
 
   const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
     coverKey,
     value: lqValue,
-    podAddress,
+    podAddress: vaultTokenAddress,
   });
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
@@ -102,7 +106,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
     if (
       lqValue &&
-      isGreater(convertToUnits(lqValue, liquidityTokenDecimals), lqTokenBalance)
+      isGreater(
+        convertToUnits(lqValue, liquidityTokenDecimals),
+        myStablecoinBalance
+      )
     ) {
       setLqErrorMsg(t`Exceeds maximum balance`);
     } else if (
@@ -115,8 +122,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     }
   }, [
     liquidityTokenDecimals,
-    lqTokenBalance,
     lqValue,
+    myStablecoinBalance,
     npmBalance,
     npmTokenDecimals,
     npmValue,
@@ -137,11 +144,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const handleMaxLq = () => {
-    if (!lqTokenBalance) {
-      return;
-    }
     setLqValue(
-      convertFromUnits(lqTokenBalance, liquidityTokenDecimals).toString()
+      convertFromUnits(myStablecoinBalance, liquidityTokenDecimals).toString()
     );
   };
 
@@ -171,7 +175,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   let loadingMessage = "";
   if (receiveAmountLoading) {
     loadingMessage = t`Calculating tokens...`;
-  } else if (lqBalanceLoading || npmBalanceLoading) {
+  } else if (npmBalanceLoading) {
     loadingMessage = t`Fetching balances...`;
   } else if (npmAllowanceLoading) {
     loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`;
@@ -227,7 +231,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
           tokenAddress={liquidityTokenAddress}
           tokenSymbol={liquidityTokenSymbol}
           tokenDecimals={liquidityTokenDecimals}
-          tokenBalance={lqTokenBalance || "0"}
+          tokenBalance={myStablecoinBalance || "0"}
           inputId={"dai-amount"}
           inputValue={lqValue}
           disabled={lqApproving || providing}
@@ -241,7 +245,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       <div className="mb-16">
         <ReceiveAmountInput
           labelText={t`You Will Receive`}
-          tokenSymbol={podSymbol}
+          tokenSymbol={vaultTokenSymbol}
           inputValue={receiveAmount}
         />
       </div>

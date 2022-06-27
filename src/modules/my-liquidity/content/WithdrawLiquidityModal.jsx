@@ -3,17 +3,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
-
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { WithdrawLiquidityForm } from "@/src/modules/my-liquidity/content/WithdrawLiquidityForm";
 
-export const WithdrawLiquidityModal = ({
-  modalTitle,
-  isOpen,
-  onClose,
-  info,
-  refetchInfo,
-}) => {
+export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   return (
@@ -27,11 +20,7 @@ export const WithdrawLiquidityModal = ({
           disabled={isDisabled}
           onClick={onClose}
         ></ModalCloseButton>
-        <WithdrawLiquidityForm
-          info={info}
-          refetchInfo={refetchInfo}
-          setModalDisabled={setIsDisabled}
-        />
+        <WithdrawLiquidityForm setModalDisabled={setIsDisabled} />
       </ModalWrapper>
     </ModalRegular>
   );

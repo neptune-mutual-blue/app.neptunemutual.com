@@ -20,6 +20,11 @@ import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -28,6 +33,7 @@ export const usePurchasePolicy = ({
   feeAmount,
   coverMonth,
   availableLiquidity,
+  liquidityTokenSymbol,
 }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
@@ -115,16 +121,45 @@ export const usePurchasePolicy = ({
     };
 
     const handleError = (err) => {
-      notifyError(err, t`approve DAI`);
+      notifyError(err, t`approve ${liquidityTokenSymbol}`);
     };
 
     try {
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Approving DAI`,
-          success: t`Approved DAI Successfully`,
-          failure: t`Could not approve DAI`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.POLICY_APPROVE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: liquidityTokenSymbol,
+          },
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: t`Approving ${liquidityTokenSymbol}`,
+            success: t`Approved ${liquidityTokenSymbol} Successfully`,
+            failure: t`Could not approve ${liquidityTokenSymbol}`,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.POLICY_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.POLICY_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       };
 
@@ -170,6 +205,16 @@ export const usePurchasePolicy = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.POLICY_PURCHASE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: liquidityTokenSymbol,
+          },
+        });
+
         await txToast.push(
           tx,
           {
@@ -177,7 +222,24 @@ export const usePurchasePolicy = ({
             success: t`Purchased Policy Successfully`,
             failure: t`Could not purchase policy`,
           },
-          { onTxSuccess: onTxSuccess }
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.POLICY_PURCHASE,
+                status: STATUS.SUCCESS,
+              });
+
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.POLICY_PURCHASE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
         );
 
         cleanup();

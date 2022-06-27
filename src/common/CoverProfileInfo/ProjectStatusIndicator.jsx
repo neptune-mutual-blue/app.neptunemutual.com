@@ -68,6 +68,8 @@ export const ProjectStatusIndicator = ({
                 coverKey
               )}/${incidentDate}/details`
             : `/reporting/${safeParseBytes32String(
+                coverKey
+              )}/product/${safeParseBytes32String(
                 productKey
               )}/${incidentDate}/details`
         }

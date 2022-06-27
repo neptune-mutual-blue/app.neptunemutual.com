@@ -19,6 +19,8 @@ export const PoliciesActivePage = () => {
       return (
         <Grid className="mb-24 mt-14">
           {activePolicies.map((policyInfo) => {
+            if (!policyInfo) return null;
+
             return (
               <PolicyCard
                 key={policyInfo.id}

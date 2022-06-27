@@ -18,6 +18,7 @@ import {
   useCxTokenRowContext,
 } from "@/src/modules/my-policies/CxTokenRowContext";
 import { useRouter } from "next/router";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
 const renderHeader = (col) => (
   <th
@@ -167,6 +168,7 @@ export const ClaimBeforeColumnRenderer = () => {
 };
 
 export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
+  const { claimPlatformFee } = useCoverStatsContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => {
@@ -187,7 +189,9 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
       </button>
 
       <ClaimCoverModal
-        coverKey={row.cover.id}
+        claimPlatformFee={claimPlatformFee}
+        coverKey={row.coverKey}
+        productKey={row.productKey}
         cxTokenAddress={row.cxToken.id}
         isOpen={isOpen}
         onClose={onClose}

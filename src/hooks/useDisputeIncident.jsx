@@ -26,6 +26,7 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const useDisputeIncident = ({
   coverKey,
+  productKey,
   value,
   incidentDate,
   minStake,
@@ -154,7 +155,6 @@ export const useDisputeIncident = ({
         handleError(err);
       };
 
-      const productKey = null;
       const args = [
         coverKey,
         productKey,

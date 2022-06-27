@@ -152,7 +152,6 @@ export const useUnstakeReportingStake = ({
         cleanup();
       };
 
-      const productKey = null;
       const args = [coverKey, productKey, incidentDate];
       invoke({
         instance: resolutionContract,

@@ -15,7 +15,6 @@ export const LiquidityResolutionSources = ({
   isDiversified,
   coverInfo,
   info,
-  refetchInfo,
   isWithdrawalWindowOpen,
   accrueInterest,
 }) => {
@@ -24,7 +23,9 @@ export const LiquidityResolutionSources = ({
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
 
-  const { myStake, podBalance } = useLiquidityFormsContext();
+  const {
+    info: { myStake, myPodBalance },
+  } = useLiquidityFormsContext();
 
   const imgSrc = getCoverImgSrc({ key: coverKey });
 
@@ -43,7 +44,7 @@ export const LiquidityResolutionSources = ({
           <WithdrawLiquidityButton
             onOpen={onOpen}
             myStake={myStake}
-            podBalance={podBalance}
+            podBalance={myPodBalance}
           />
         </DiversifiedLiquidityResolutionSources>
       ) : (
@@ -51,7 +52,7 @@ export const LiquidityResolutionSources = ({
           <WithdrawLiquidityButton
             onOpen={onOpen}
             myStake={myStake}
-            podBalance={podBalance}
+            podBalance={myPodBalance}
           />
         </DedicatedLiquidityResolutionSources>
       )}
@@ -74,8 +75,6 @@ export const LiquidityResolutionSources = ({
         }
         onClose={onClose}
         isOpen={isOpen}
-        info={info}
-        refetchInfo={refetchInfo}
       />
     </div>
   );
