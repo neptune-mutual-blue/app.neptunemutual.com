@@ -9,97 +9,66 @@ import { OutlinedButton } from "@/common/Button/OutlinedButton";
 import DownloadIcon from "@/icons/DownloadIcon";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { DescriptionComponent } from "@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent";
+import { useRouter } from "next/router";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { formatCurrency } from "@/utils/formatter/currency";
+import { usePolicyFees } from "@/src/hooks/usePolicyFees";
+import { formatPercent } from "@/utils/formatter/percent";
+import { Fragment } from "react";
+import {
+  getAddressLink,
+  getTokenLink,
+  getTxLink,
+} from "@/lib/connect-wallet/utils/explorer";
+import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 
 export const PurchasePolicyReceipt = () => {
-  const purchaser = "0xBF2096BAC289aA0581148955427397B522F9e5D4";
+  const router = useRouter();
 
-  const policyName = "Uniswap";
-  const date = 1654858586326;
-  const receiptNo = "3247";
+  const txHash = router.query?.tx?.toString();
 
-  const policyInfo =
-    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus molestias suscipit assumenda consequatur harum molestiae minus autem iure et, eveniet nam esse facilis quaerat possimus temporibus amet? Recusandae porro consectetur iusto magni.";
+  const event = JSON.parse(localStorage.getItem(txHash));
 
-  const cxDaiAddress = "0x278Ff5154249786b0Dfe9Ef4433fAb3DF7fcd786";
+  const coverInfo = useCoverOrProductData({
+    coverKey: event?.args[0] ?? "",
+    productKey: event?.args[1] ?? "",
+  });
 
-  const txHash =
-    "0x63ef5603e38996de2d810aaf1193ef19168ca2807a4f8557568653772740235b";
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
+  // const { networkId } = useNetwork();
 
-  const coverRules = [
-    "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.",
-    [
-      "You must have maintained at least 1 NPM tokens in your wallet during your coverage period.",
-      "During your coverage period, the platform was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.",
-      "This does not have to be your own loss.",
-    ],
-  ];
+  const { register } = useRegisterToken();
 
-  const exclusions = "Exclusions added by the cover creator";
+  const {
+    data: { rate },
+  } = usePolicyFees({
+    value: event?.args[6] ?? "0",
+    liquidityTokenDecimals,
+    coverMonth: event?.args[10] ?? "0",
+    coverKey: event?.args[0] ?? "",
+    productKey: event?.args[1] ?? "",
+  });
 
-  const standardExclusions = [
-    "The standard exclusions are enforced on all covers. Neptune Mutual reserves the right to update the exclusion list periodically.",
-    [
-      "If we have reason to believe you are an attacker or are directly or indirectly associated with an attacker, we reserve the right to blacklist you or deny your claims.",
-      <>
-        In addition to{" "}
-        <a href="#" className="text-4e7dd9">
-          coverage lag
-        </a>
-        , we may also blacklist you or deny your claims if you purchased
-        coverage just before, on, or the same day of the attack.
-      </>,
-      "Minimum total loss should exceed $1 million.",
-      "Any loss in which the protocol continues to function as intended is not covered.",
-      "Any type of 51 percent attack or consensus attack on the parent blockchain is not covered.",
-      "Consensus attack on the protocol is not covered.",
-      "Financial risk can not be covered.",
-      "Bridge-related losses not coverable.",
-      "Backend exploits are not coverable.",
-      "Gross negligence or misconduct by a project's founders, employees, development team, or former employees are not coverable.",
-      [
-        "Rug pull or theft of funds.",
-        "Project team confiscating user funds. ",
-        "Attacks by team members or former team members on their protocol.",
-        "Compromised private key.",
-        "Compromised API access keys.",
-        "Utilization of obsolete or vulnerable dependencies in the application or DApp before the coverage period began",
-        "Developers or insiders creating backdoors to later exploit their own protocol.",
-      ],
-    ],
-  ];
+  if (!txHash || !event) return <></>;
 
-  const riskDisclosure = [
-    "In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:",
-    <a
-      href="https://docs.neptunemutual.com/usage/risk-factors"
-      key={"1235"}
-      className="text-4e7dd9"
-    >
-      https://docs.neptunemutual.com/usage/risk-factors
-    </a>,
-  ];
+  const purchaser = event?.args[2];
 
-  const socials = [
-    {
-      Icon: TwitterIcon,
-    },
-    {
-      Icon: RedditIcon,
-    },
-    {
-      Icon: TelegramIcon,
-    },
-    {
-      Icon: LinkedinIcon,
-    },
-  ];
+  const policyName =
+    (coverInfo?.infoObj?.productName || coverInfo?.infoObj?.coverName) ??
+    safeParseBytes32String(event?.args[0]);
+  const cxDaiAddress = event?.args[3];
+  const date = new Date(parseInt(event?.args[11]) * 1000).toUTCString();
+  const receiptNo = "1234";
 
   const data = [
     {
       label: "On Behalf of",
       value: (
         <p className="flex items-center gap-2 text-lg leading-6">
-          0xBF2096BAC289aA0581148955427397B522F9e5D4
+          {purchaser}
           <a href="#">
             <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
           </a>
@@ -108,37 +77,122 @@ export const PurchasePolicyReceipt = () => {
     },
     {
       label: "Protection",
-      value: "29,500 DAI",
+      value: formatCurrency(
+        convertFromUnits(event?.args[6], liquidityTokenDecimals).toString(),
+        router.locale,
+        liquidityTokenSymbol,
+        true
+      ).long,
     },
     {
       label: "Premium Rate",
-      value: "8.5%",
+      value: formatPercent(convertUintToPercentage(rate), router.locale),
     },
     {
       label: "Duration",
-      value: "2 months",
+      value: `${event.args[10]} months`,
     },
     {
       label: "Start Date",
-      value: "Sat, 18 Jun 2022 11:55:33 GMT",
+      value: new Date(parseInt(event?.args[11]) * 1000).toUTCString(),
     },
     {
       label: "End Date",
-      value: "Sat, 18 Aug 2022 11:55:33 GMT",
+      value: new Date(parseInt(event?.args[7]) * 1000).toUTCString(),
     },
     {
       label: "Referral",
-      value: "0093UE-00X-REF-001",
+      value: safeParseBytes32String(event?.args[8]) || "---",
     },
   ];
 
-  const premuimPaid = "532.3422 DAI";
+  const premuimPaid = formatCurrency(
+    convertFromUnits(event?.args[6], liquidityTokenDecimals).toString(),
+    router.locale,
+    liquidityTokenSymbol,
+    true
+  ).long;
+
+  const text = {
+    policyInfo:
+      coverInfo?.infoObj?.about ??
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus molestias suscipit assumenda consequatur harum molestiae minus autem iure et, eveniet nam esse facilis quaerat possimus temporibus amet? Recusandae porro consectetur iusto magni.",
+    coverRules: [
+      "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.",
+      [
+        "You must have maintained at least 1 NPM tokens in your wallet during your coverage period.",
+        "During your coverage period, the platform was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.",
+        "This does not have to be your own loss.",
+      ],
+    ],
+    exclusions: "Exclusions added by the cover creator",
+    standardExclusions: [
+      "The standard exclusions are enforced on all covers. Neptune Mutual reserves the right to update the exclusion list periodically.",
+      [
+        "If we have reason to believe you are an attacker or are directly or indirectly associated with an attacker, we reserve the right to blacklist you or deny your claims.",
+        <>
+          In addition to{" "}
+          <a href="#" className="text-4e7dd9">
+            coverage lag
+          </a>
+          , we may also blacklist you or deny your claims if you purchased
+          coverage just before, on, or the same day of the attack.
+        </>,
+        "Minimum total loss should exceed $1 million.",
+        "Any loss in which the protocol continues to function as intended is not covered.",
+        "Any type of 51 percent attack or consensus attack on the parent blockchain is not covered.",
+        "Consensus attack on the protocol is not covered.",
+        "Financial risk can not be covered.",
+        "Bridge-related losses not coverable.",
+        "Backend exploits are not coverable.",
+        "Gross negligence or misconduct by a project's founders, employees, development team, or former employees are not coverable.",
+        [
+          "Rug pull or theft of funds.",
+          "Project team confiscating user funds. ",
+          "Attacks by team members or former team members on their protocol.",
+          "Compromised private key.",
+          "Compromised API access keys.",
+          "Utilization of obsolete or vulnerable dependencies in the application or DApp before the coverage period began",
+          "Developers or insiders creating backdoors to later exploit their own protocol.",
+        ],
+      ],
+    ],
+    riskDisclosure: [
+      "In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:",
+      <a
+        href="https://docs.neptunemutual.com/usage/risk-factors"
+        key={"1235"}
+        className="text-4e7dd9"
+      >
+        https://docs.neptunemutual.com/usage/risk-factors
+      </a>,
+    ],
+  };
+
+  const socials = [
+    {
+      Icon: TwitterIcon,
+      href: coverInfo?.infoObj?.links.twitter ?? "",
+    },
+    {
+      Icon: RedditIcon,
+      href: coverInfo?.infoObj?.links.reddit ?? "",
+    },
+    {
+      Icon: TelegramIcon,
+      href: coverInfo?.infoObj?.links.telegram ?? "",
+    },
+    {
+      Icon: LinkedinIcon,
+      href: coverInfo?.infoObj?.links.linkedin ?? "",
+    },
+  ];
 
   return (
     <div>
       <div className="py-9.5 px-13 bg-black text-white">
         <BackButton
-          onClick={() => {}}
+          onClick={() => router.back()}
           className="!px-4 !py-2 border-white !text-white hover:bg-transparent hover:text-white"
         />
 
@@ -152,9 +206,14 @@ export const PurchasePolicyReceipt = () => {
           </a>
 
           <p className="mt-5 text-sm font-semibold leading-6">Purchaser:</p>
-          <p className="flex items-center gap-2 text-lg leading-6">
-            {purchaser}
-            <a href="#">
+          <p className="flex items-center gap-2 overflow-hidden text-lg leading-6">
+            <span className="overflow-hidden text-ellipsis">{purchaser}</span>
+            <a
+              href={getAddressLink(80001, purchaser)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span className="sr-only">Open in Explorer</span>
               <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
             </a>
           </p>
@@ -176,15 +235,19 @@ export const PurchasePolicyReceipt = () => {
           <p>{receiptNo}</p>
         </div>
 
-        <p className="mt-8">{policyInfo}</p>
+        <p className="mt-8">{text.policyInfo}</p>
 
         <div className="mt-6">
           <p>Share it with your friends for surprise gift!</p>
           <div className="flex gap-4 mt-4">
-            {socials.map(({ Icon }, idx) => (
-              <a key={idx} href="#">
-                <Icon className="w-6 h-6 text-black" />
-              </a>
+            {socials.map(({ Icon, href }, idx) => (
+              <Fragment key={idx}>
+                {href && (
+                  <a href={href} target="_blank" rel="noreferrer">
+                    <Icon className="w-6 h-6 text-black" />
+                  </a>
+                )}
+              </Fragment>
             ))}
           </div>
         </div>
@@ -217,20 +280,37 @@ export const PurchasePolicyReceipt = () => {
 
           <div className="py-8 !border-t-0 !border-b-2 !border-y-404040 text-lg leading-6">
             <p className="font-semibold font-sora">Your cx DAI Address</p>
-            <div className="flex items-center gap-3 mt-1.5">
-              {cxDaiAddress}
-              <a href="#">
+            <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
+              <span className="overflow-hidden text-ellipsis">
+                {cxDaiAddress}
+              </span>
+              <a
+                href={getTokenLink(80001, cxDaiAddress)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="sr-only">Open in Explorer</span>
                 <OpenInNewIcon className="w-4 h-4" fill="#AAAAAA" />
               </a>
-              <button>
+              <button
+                onClick={() =>
+                  register(cxDaiAddress, "cxDAI", liquidityTokenDecimals)
+                }
+              >
+                <span className="sr-only">Add to Metamask</span>
                 <AddCircleIcon className="w-4 h-4" fill="#AAAAAA" />
               </button>
             </div>
 
             <p className="mt-6 font-semibold font-sora">View Transaction</p>
-            <div className="flex items-center gap-3 mt-1.5">
-              {txHash}
-              <a href="#">
+            <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
+              <span className="overflow-hidden text-ellipsis">{txHash}</span>
+              <a
+                href={getTxLink(80001, { hash: txHash })}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="sr-only">Open in Explorer</span>
                 <OpenInNewIcon className="w-4 h-4" fill="#AAAAAA" />
               </a>
             </div>
@@ -239,26 +319,26 @@ export const PurchasePolicyReceipt = () => {
 
         <DescriptionComponent
           title={"Cover Rules"}
-          text={coverRules}
+          text={text.coverRules}
           className="mt-14"
         />
 
         <DescriptionComponent
           title={"Exclusions"}
-          text={exclusions}
+          text={text.exclusions}
           className="mt-8"
         />
 
         <DescriptionComponent
           title={"Standard Exclusions"}
-          text={standardExclusions}
+          text={text.standardExclusions}
           className="mt-8"
         />
 
         <DescriptionComponent
           title={"Risk Disclosure / Disclaimer"}
           titleClassName="!text-lg"
-          text={riskDisclosure}
+          text={text.riskDisclosure}
           className="mt-8"
         />
       </div>

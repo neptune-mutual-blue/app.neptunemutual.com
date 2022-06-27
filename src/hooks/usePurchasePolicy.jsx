@@ -113,6 +113,24 @@ export const usePurchasePolicy = ({
     value,
   ]);
 
+  const storePurchaseEvent = (event) => {
+    const key = event.transactionHash;
+    const args = event.args.map((arg) => arg.toString());
+    args.push(parseInt(coverMonth, 10).toString());
+    args.push((new Date().getTime() / 1000).toString());
+    const value = JSON.stringify({
+      ...event,
+      args,
+    });
+    localStorage.setItem(key, value);
+    router.push({
+      pathname: `/my-policies/receipt`,
+      query: {
+        tx: key,
+      },
+    });
+  };
+
   const handleApprove = async () => {
     setApproving(true);
 
@@ -230,6 +248,11 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS,
               });
 
+              tx.wait().then((receipt) => {
+                const events = receipt.events;
+                const event = events.find((x) => x.event === "CoverPurchased");
+                storePurchaseEvent(event);
+              });
               onTxSuccess();
             },
             onTxFailure: () => {
