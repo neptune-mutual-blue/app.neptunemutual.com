@@ -85,7 +85,7 @@ const actionMessages = {
       return { title: t`Could not approve ${symbol} tokens`, description: "" };
     }
 
-    return { title: t`Approving ${symbol} to provide`, description: "" };
+    return { title: t`Approving ${symbol}`, description: "" };
   },
   [METHODS.LIQUIDITY_STAKE_APPROVE]: (status, _data) => {
     const symbol = _data.tokenSymbol;
