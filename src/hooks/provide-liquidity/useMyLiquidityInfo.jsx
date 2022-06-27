@@ -27,6 +27,13 @@ const defaultInfo = {
   myShare: "0",
   myUnrealizedShare: "0",
   totalLiquidity: "0",
+  myStablecoinBalance: "0",
+  stablecoinTokenSymbol: "",
+  vaultTokenDecimals: "0",
+  vaultTokenSymbol: "",
+  minStakeToAddLiquidity: "0",
+  myStake: "0",
+  isAccrualComplete: true,
 };
 
 export const useMyLiquidityInfo = ({ coverKey }) => {
@@ -104,6 +111,13 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         myShare: data.myShare,
         myUnrealizedShare: data.myUnrealizedShare,
         totalLiquidity: data.totalLiquidity,
+        myStablecoinBalance: data.myStablecoinBalance,
+        stablecoinTokenSymbol: data.stablecoinTokenSymbol,
+        vaultTokenDecimals: data.vaultTokenDecimals,
+        vaultTokenSymbol: data.vaultTokenSymbol,
+        minStakeToAddLiquidity: data.minStakeToAddLiquidity,
+        myStake: data.myStake,
+        isAccrualComplete: data.isAccrualComplete,
       };
     } catch (err) {
       handleError(err);

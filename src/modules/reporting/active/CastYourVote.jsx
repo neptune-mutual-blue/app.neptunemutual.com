@@ -11,7 +11,6 @@ import {
   isEqualTo,
   convertToUnits,
 } from "@/utils/bn";
-import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
@@ -20,11 +19,14 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.coverKey });
+  const { minStake } = useFirstReportingStake({
+    coverKey: incidentReport.coverKey,
+  });
   const [error, setError] = useState("");
   const router = useRouter();
   const { product_id } = router.query;
@@ -48,7 +50,7 @@ export const CastYourVote = ({ incidentReport }) => {
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const { commission } = useReporterCommission();
+  const { reporterCommission: commission } = useCoverStatsContext();
 
   const tokenDecimals = useTokenDecimals(tokenAddress);
 

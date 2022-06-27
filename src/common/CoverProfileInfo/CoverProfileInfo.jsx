@@ -1,6 +1,7 @@
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
 import { isValidProduct } from "@/src/helpers/cover";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
 import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
@@ -11,7 +12,7 @@ export const CoverProfileInfo = ({
   projectName,
   links,
   coverKey,
-  productKey,
+  productKey = safeFormatBytes32String(""),
 }) => {
   const { coverStatus, productStatus, activeIncidentDate } =
     useCoverStatsContext();

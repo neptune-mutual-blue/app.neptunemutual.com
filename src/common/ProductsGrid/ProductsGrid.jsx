@@ -22,7 +22,6 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 /**
  *
- * @typedef {import('@/src/services/contracts/getBasketProducts').IProduct} IProduct
  *
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */

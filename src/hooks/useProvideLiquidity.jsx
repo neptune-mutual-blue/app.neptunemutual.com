@@ -32,17 +32,16 @@ export const useProvideLiquidity = ({
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const {
-    vaultTokenAddress,
-    vaultTokenSymbol,
-    vaultTokenDecimals,
-    lqTokenBalance,
-    lqBalanceLoading,
-    updateLqTokenBalance,
+    info: {
+      vault: vaultTokenAddress,
+      vaultTokenSymbol,
+      vaultTokenDecimals,
+      myStablecoinBalance,
+    },
     stakingTokenBalance,
     stakingTokenBalanceLoading,
     updateStakingTokenBalance,
-    updateMinStakeInfo,
-    updatePodBalance,
+    refetchInfo,
   } = useLiquidityFormsContext();
   const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
   const {
@@ -164,10 +163,8 @@ export const useProvideLiquidity = ({
 
     const cleanup = () => {
       setProviding(false);
-      updateMinStakeInfo();
-      updateLqTokenBalance();
       updateStakingTokenBalance();
-      updatePodBalance();
+      refetchInfo();
       updateLqAllowance(vaultTokenAddress);
       updateStakeAllowance(vaultTokenAddress);
     };
@@ -245,7 +242,7 @@ export const useProvideLiquidity = ({
     (!isValidNumber(lqValue) ||
       isGreater(
         convertToUnits(lqValue || "0", liquidityTokenDecimals),
-        lqTokenBalance || "0"
+        myStablecoinBalance || "0"
       ));
 
   return {
@@ -257,8 +254,7 @@ export const useProvideLiquidity = ({
 
     hasLqTokenAllowance,
     lqApproving,
-    lqTokenBalance,
-    lqBalanceLoading,
+    myStablecoinBalance,
     lqAllowanceLoading,
 
     canProvideLiquidity,
