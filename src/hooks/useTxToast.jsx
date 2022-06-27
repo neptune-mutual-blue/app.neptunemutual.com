@@ -1,7 +1,7 @@
 import { ViewTxLink } from "@/common/ViewTxLink";
 import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useToast } from "@/lib/toast/context";
-import { TOAST_NO_TIMEOUT } from "@/src/config/toast";
+import { TOAST_DEFAULT_TIMEOUT, TOAST_NO_TIMEOUT } from "@/src/config/toast";
 import { useNetwork } from "@/src/context/Network";
 
 export const useTxToast = () => {
