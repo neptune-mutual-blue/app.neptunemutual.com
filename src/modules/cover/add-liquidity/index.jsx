@@ -10,7 +10,6 @@ import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
@@ -18,6 +17,7 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
 import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 import { DiversifiedCoverRules } from "@/modules/my-liquidity/content/rules";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -29,14 +29,8 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const isDiversified = coverInfo?.supportsProducts;
 
-  const {
-    info,
-    refetch: refetchInfo,
-    isWithdrawalWindowOpen,
-    accrueInterest,
-  } = useMyLiquidityInfo({
-    coverKey,
-  });
+  const { info, isWithdrawalWindowOpen, accrueInterest } =
+    useLiquidityFormsContext();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -135,7 +129,6 @@ export const CoverAddLiquidityDetailsPage = () => {
             isDiversified={isDiversified}
             info={info}
             coverInfo={coverInfo}
-            refetchInfo={refetchInfo}
             isWithdrawalWindowOpen={isWithdrawalWindowOpen}
             accrueInterest={accrueInterest}
           />

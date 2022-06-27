@@ -26,6 +26,8 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
   const myPodBalanceCall = vaultContract.balanceOf(account);
   const podTotalSupplyCall = vaultContract.totalSupply();
   const vaultTokenSymbolCall = vaultContract.symbol();
+  const vaultTokenDecimalsCall = vaultContract.decimals();
+  const myStablecoinBalanceCall = stablecoinContract.balanceOf(account);
   const stablecoinTokenSymbolCall = stablecoinContract.symbol();
 
   const [
@@ -33,13 +35,17 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
     podTotalSupply,
     vaultStablecoinBalance,
     vaultTokenSymbol,
+    vaultTokenDecimals,
     stablecoinTokenSymbol,
+    myStablecoinBalance,
   ] = await ethcallProvider.all([
     myPodBalanceCall,
     podTotalSupplyCall,
     vaultStablecoinBalanceCall,
     vaultTokenSymbolCall,
+    vaultTokenDecimalsCall,
     stablecoinTokenSymbolCall,
+    myStablecoinBalanceCall,
   ]);
 
   return [
@@ -72,6 +78,16 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
       returns: "uint256",
       property: "vaultTokenSymbol",
       compute: async () => vaultTokenSymbol,
+    },
+    {
+      returns: "uint256",
+      property: "vaultTokenDecimals",
+      compute: async () => vaultTokenDecimals,
+    },
+    {
+      returns: "uint256",
+      property: "myStablecoinBalance",
+      compute: async () => myStablecoinBalance,
     },
     {
       returns: "uint256",

@@ -12,25 +12,14 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t } from "@lingui/macro";
 
-export const useRemoveLiquidity = ({
-  coverKey,
-  value,
-  npmValue,
-  refetchInfo,
-}) => {
+export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false);
   const [withdrawing, setWithdrawing] = useState(false);
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
   const {
-    updateMinStakeInfo,
-    vaultTokenAddress,
-    vaultTokenSymbol,
-    podBalance,
-    loadingPodBalance,
-    updatePodBalance,
-    // Both NPM and DAI should be updated after withdrawal is successful
-    updateLqTokenBalance,
+    info: { vault: vaultTokenAddress, vaultTokenSymbol },
+    refetchInfo,
     updateStakingTokenBalance,
   } = useLiquidityFormsContext();
   const {
@@ -92,16 +81,12 @@ export const useRemoveLiquidity = ({
 
     setWithdrawing(true);
     const cleanup = () => {
-      refetchInfo();
       setWithdrawing(false);
-
-      updatePodBalance();
       updateAllowance(vaultTokenAddress);
-      updateMinStakeInfo();
 
       // Both NPM and DAI should be updated after withdrawal is successful
       // Will be reflected in provide liquidity form
-      updateLqTokenBalance();
+      refetchInfo();
       updateStakingTokenBalance();
     };
 
@@ -162,13 +147,8 @@ export const useRemoveLiquidity = ({
   };
 
   return {
-    podBalance,
     allowance,
-    vaultTokenAddress,
-    vaultTokenSymbol,
-
     loadingAllowance,
-    loadingPodBalance,
 
     approving,
     withdrawing,

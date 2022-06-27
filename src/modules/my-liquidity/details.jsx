@@ -5,7 +5,6 @@ import { Hero } from "@/common/Hero";
 import { HeroStat } from "@/common/HeroStat";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -17,6 +16,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
+import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 
 export const MyLiquidityCoverPage = () => {
   const router = useRouter();
@@ -29,14 +29,8 @@ export const MyLiquidityCoverPage = () => {
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const isDiversified = coverInfo?.supportsProducts;
 
-  const {
-    info,
-    refetch: refetchInfo,
-    isWithdrawalWindowOpen,
-    accrueInterest,
-  } = useMyLiquidityInfo({
-    coverKey,
-  });
+  const { accrueInterest, isWithdrawalWindowOpen, info } =
+    useLiquidityFormsContext();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -116,7 +110,6 @@ export const MyLiquidityCoverPage = () => {
               isDiversified={isDiversified}
               coverInfo={coverInfo}
               info={info}
-              refetchInfo={refetchInfo}
               isWithdrawalWindowOpen={isWithdrawalWindowOpen}
               accrueInterest={accrueInterest}
             />

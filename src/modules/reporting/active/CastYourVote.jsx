@@ -10,8 +10,8 @@ import {
   isGreater,
   isEqualTo,
   convertToUnits,
+  toBN,
 } from "@/utils/bn";
-import { useReporterCommission } from "@/src/hooks/useReporterCommission";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
@@ -20,11 +20,15 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { MULTIPLIER } from "@/src/config/constants";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
-  const [value, setValue] = useState();
-  const { minStake } = useFirstReportingStake({ coverKey: incidentReport.coverKey });
+  const [value, setValue] = useState("");
+  const { minStake } = useFirstReportingStake({
+    coverKey: incidentReport.coverKey,
+  });
   const [error, setError] = useState("");
   const router = useRouter();
   const { product_id } = router.query;
@@ -48,7 +52,7 @@ export const CastYourVote = ({ incidentReport }) => {
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const { commission } = useReporterCommission();
+  const { reporterCommission } = useCoverStatsContext();
 
   const tokenDecimals = useTokenDecimals(tokenAddress);
 
@@ -235,8 +239,12 @@ export const CastYourVote = ({ incidentReport }) => {
               Since you are the first person to dispute this incident reporting,
               you will need to stake atleast{" "}
               {convertFromUnits(minStake, tokenDecimals).toString()} NPM tokens.
-              If the majority agree with you, you will earn {commission}% of the
-              platform fee instead of the incident reporter.
+              If the majority agree with you, you will earn{" "}
+              {toBN(reporterCommission)
+                .multipliedBy(100)
+                .dividedBy(MULTIPLIER)
+                .toString()}
+              % of the platform fee instead of the incident reporter.
             </Trans>
           </Alert>
           <Link href={disputeUrl} passHref>
