@@ -19,7 +19,7 @@ import {
   TableShowMore
 } from "@/common/Table/Table";
 import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { ResolvedStatusBadge } from "@/modules/reporting/resolved/ResolvedStatusBadge";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 
@@ -101,7 +101,7 @@ export const ReportingResolvedPage = () => {
       <th
         scope="col"
         className={classNames(
-          `pt-6 pb-2 font-bold text-xs uppercase`,
+          `px-6 pt-6 pb-2 font-bold text-xs uppercase`,
           col.align === "right" ? "text-right" : "text-left"
         )}
       >
@@ -112,7 +112,7 @@ export const ReportingResolvedPage = () => {
 
   const renderCover = (row) => {
     return (
-      <td className="px-0 py-2">
+      <td className="px-6 py-2">
         <span className="flex items-center">
           <img
             src={row.imgSrc}
@@ -129,7 +129,7 @@ export const ReportingResolvedPage = () => {
 
   // const renderYourStakeColumnOne = (row) => {
   //   return (
-  //     <td className="px-0 py-2">
+  //     <td className="px-6 py-2">
   //       N/A
   //     </td>
   //   );
@@ -137,7 +137,7 @@ export const ReportingResolvedPage = () => {
 
   // const renderYourStakeColumnTwo = (row) => {
   //   return (
-  //     <td className="px-0 py-2">
+  //     <td className="px-6 py-2">
   //       N/A
   //     </td>
   //   );
@@ -145,7 +145,7 @@ export const ReportingResolvedPage = () => {
 
   const renderDateAndTime = (row) => {
     return (
-      <td className="px-0 py-2">
+      <td className="px-6 py-2">
         <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
           {
             fromNow(row.resolvedOn)
@@ -157,8 +157,8 @@ export const ReportingResolvedPage = () => {
 
   const renderStatus = (row) => {
     return (
-      <td className="px-0 py-2 text-right">
-        <CardStatusBadge status={row.status} />
+      <td className="px-6 py-2 text-right">
+        <ResolvedStatusBadge status={row.status} />
       </td>
     );
   }
@@ -222,13 +222,13 @@ export const ReportingResolvedPage = () => {
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
-          containerClass="flex-col sm:flex-row w-full sm:w-auto"
-          searchClass="w-full sm:w-auto"
+          containerClass="flex-col sm:flex-row w-full p-8 bg-DAE2EB/[0.3] rounded-2xl z-10"
+          searchClass="w-full"
         />
       </div>
 
       <div className="mt-6">
-        <TableWrapper tWrapperClass='px-6'>
+        <TableWrapper>
           <Table>
             <THead theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]' columns={columns} />
             <tbody className="divide-y divide-DAE2EB" data-testid="app-table-body">

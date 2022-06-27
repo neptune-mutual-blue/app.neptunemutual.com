@@ -10,14 +10,11 @@ export const Table = ({ children }) => {
   );
 };
 
-export const TableWrapper = ({ children, tWrapperClass, ...rest }) => {
+export const TableWrapper = ({ children, ...rest }) => {
   return (
     <>
       <div
-        className={classNames(
-          "relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden",
-          tWrapperClass
-        )}
+        className="relative overflow-x-scroll bg-white text-404040 rounded-3xl lg:overflow-hidden"
         {...rest}
       >
         {children}
