@@ -92,7 +92,10 @@ export const HomeHero = ({
                   {
                     name: t`TVL (Pool)`,
                     amount: formatCurrency(
-                      convertFromUnits(poolsTvl).toString(),
+                      convertFromUnits(
+                        poolsTvl,
+                        liquidityTokenDecimals
+                      ).toString(),
                       router.locale
                     ).short,
                   },
@@ -109,14 +112,20 @@ export const HomeHero = ({
                   {
                     name: t`Covered`,
                     amount: formatCurrency(
-                      convertFromUnits(heroData.covered).toString(),
+                      convertFromUnits(
+                        heroData.covered,
+                        liquidityTokenDecimals
+                      ).toString(),
                       router.locale
                     ).short,
                   },
                   {
                     name: t`Cover Fee`,
                     amount: formatCurrency(
-                      convertFromUnits(heroData.coverFee).toString(),
+                      convertFromUnits(
+                        heroData.coverFee,
+                        liquidityTokenDecimals
+                      ).toString(),
                       router.locale
                     ).short,
                   },
