@@ -93,9 +93,30 @@ export const useStakingPoolDeposit = ({
         await txToast.push(
           tx,
           {
-            pending: t`Approving ${tokenSymbol}`,
-            success: t`Approved ${tokenSymbol} Successfully`,
-            failure: t`Could not approve ${tokenSymbol}`,
+            pending: getActionMessage(
+              METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
           },
           {
             onTxSuccess: () => {

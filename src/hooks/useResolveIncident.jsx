@@ -13,6 +13,7 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React();
@@ -144,9 +145,18 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
         await txToast.push(
           tx,
           {
-            pending: t`Emergency Resolving Incident`,
-            success: t`Emergency Resolved Incident Successfully`,
-            failure: t`Could not Emergency Resolve Incident`,
+            pending: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.FAILED
+            ).title,
           },
 
           {

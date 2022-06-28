@@ -28,6 +28,7 @@ import {
   STATUS,
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -174,9 +175,18 @@ export const useDisputeIncident = ({
         await txToast.push(
           tx,
           {
-            pending: t`Disputing`,
-            success: t`Disputed successfully`,
-            failure: t`Could not dispute`,
+            pending: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.FAILED
+            ).title,
           },
           {
             onTxSuccess: () => {

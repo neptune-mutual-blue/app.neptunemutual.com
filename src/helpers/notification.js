@@ -9,6 +9,24 @@ import { t } from "@lingui/macro";
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.UNSTAKING_DEPOSIT_COMPLETE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Unstaked ${tokenSymbol} successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not unstake ${tokenSymbol}`,
+        description: "",
+      };
+    }
+
+    return { title: t`Unstaking ${tokenSymbol}`, description: "" };
+  },
   [METHODS.STAKING_DEPOSIT_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
