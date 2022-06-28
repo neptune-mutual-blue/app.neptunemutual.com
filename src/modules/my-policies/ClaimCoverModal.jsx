@@ -50,6 +50,7 @@ export const ClaimCoverModal = ({
     productKey,
     incidentDate,
     claimPlatformFee,
+    tokenSymbol,
   });
   const router = useRouter();
 

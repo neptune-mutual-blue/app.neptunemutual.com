@@ -9,6 +9,76 @@ import { t } from "@lingui/macro";
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.CLAIM_COVER_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+  },
+  [METHODS.CLAIM_COVER_COMPLETE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Claimed policy Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not Claim policy`,
+        description: "",
+      };
+    }
+
+    return { title: t`Claiming policy`, description: "" };
+  },
+  [METHODS.REPORT_INCIDENT_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+  },
+  [METHODS.REPORT_INCIDENT_COMPLETE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Reported incident successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not report incident`,
+        description: "",
+      };
+    }
+
+    return { title: t`Reporting incident`, description: "" };
+  },
   [METHODS.POLICY_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
