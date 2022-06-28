@@ -23,6 +23,11 @@ import { registry, utils } from "@neptunemutual/sdk";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { METHODS } from "@/src/services/transactions/const";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -66,12 +71,42 @@ export const useDisputeIncident = ({
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          tokenSymbol: NPMTokenSymbol,
+          date: incidentDate,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${NPMTokenSymbol} tokens`,
-          success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${NPMTokenSymbol} tokens`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: t`Approving ${NPMTokenSymbol} tokens`,
+            success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
+            failure: t`Could not approve ${NPMTokenSymbol} tokens`,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
@@ -125,6 +160,17 @@ export const useDisputeIncident = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.REPORT_DISPUTE_COMPLETE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: NPMTokenSymbol,
+            date: incidentDate,
+          },
+        });
+
         await txToast.push(
           tx,
           {
@@ -134,11 +180,24 @@ export const useDisputeIncident = ({
           },
           {
             onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+
               router.replace(
                 `/reporting/${safeParseBytes32String(
                   coverKey
                 )}/${incidentDate}/details`
               );
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.FAILED,
+              });
             },
           }
         );

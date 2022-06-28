@@ -79,12 +79,41 @@ export const useStakingPoolDeposit = ({
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          tokenSymbol,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${tokenSymbol}`,
-          success: t`Approved ${tokenSymbol} Successfully`,
-          failure: t`Could not approve ${tokenSymbol}`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: t`Approving ${tokenSymbol}`,
+            success: t`Approved ${tokenSymbol} Successfully`,
+            failure: t`Could not approve ${tokenSymbol}`,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
