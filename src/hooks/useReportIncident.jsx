@@ -18,11 +18,6 @@ import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { t } from "@lingui/macro";
-import {
-  STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter();
@@ -65,47 +60,12 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     };
 
     const onTransactionResult = async (tx) => {
-      TransactionHistory.push({
-        hash: tx.hash,
-        methodName: METHODS.REPORT_INCIDENT_STAKE,
-        status: STATUS.PENDING,
-        data: {
-          value,
-          tokenSymbol: NPMTokenSymbol,
-        },
-      });
-
       try {
-        await txToast.push(
-          tx,
-          {
-            pending: t`Approving ${NPMTokenSymbol} tokens`,
-            success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
-            failure: t`Could not approve ${NPMTokenSymbol} tokens`,
-          },
-          {
-            onTxSuccess: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.REPORT_INCIDENT_STAKE,
-                status: STATUS.SUCCESS,
-                data: {
-                  tokenSymbol: NPMTokenSymbol,
-                },
-              });
-            },
-            onTxFailure: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.REPORT_INCIDENT_STAKE,
-                status: STATUS.FAILED,
-                data: {
-                  tokenSymbol: NPMTokenSymbol,
-                },
-              });
-            },
-          }
-        );
+        await txToast.push(tx, {
+          pending: t`Approving ${NPMTokenSymbol} tokens`,
+          success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
+          failure: t`Could not approve ${NPMTokenSymbol} tokens`,
+        });
         cleanup();
       } catch (err) {
         handleError(err);
@@ -151,16 +111,6 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
 
       const tx = wrappedResult.result.tx;
 
-      TransactionHistory.push({
-        hash: tx.hash,
-        methodName: METHODS.REPORT_INCIDENT,
-        status: STATUS.PENDING,
-        data: {
-          value,
-          tokenSymbol: NPMTokenSymbol,
-        },
-      });
-
       await txToast.push(
         tx,
         {
@@ -169,27 +119,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
           failure: t`Could not report incident`,
         },
         {
-          onTxSuccess: async () => {
-            await TransactionHistory.push({
-              hash: tx.hash,
-              methodName: METHODS.REPORT_INCIDENT,
-              status: STATUS.SUCCESS,
-              data: {
-                tokenSymbol: NPMTokenSymbol,
-              },
-            });
-            await router.replace(`/reporting/active`);
-          },
-          onTxFailure: () => {
-            TransactionHistory.push({
-              hash: tx.hash,
-              methodName: METHODS.REPORT_INCIDENT,
-              status: STATUS.FAILED,
-              data: {
-                tokenSymbol: NPMTokenSymbol,
-              },
-            });
-          },
+          onTxSuccess: () => router.replace(`/reporting/active`),
         }
       );
     } catch (err) {
