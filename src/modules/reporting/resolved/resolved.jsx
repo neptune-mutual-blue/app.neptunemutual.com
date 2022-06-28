@@ -112,7 +112,7 @@ export const ReportingResolvedPage = () => {
 
   const renderCover = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-sm">
         <span className="flex items-center">
           <img
             src={row.imgSrc}
@@ -129,7 +129,7 @@ export const ReportingResolvedPage = () => {
 
   // const renderYourStakeColumnOne = (row) => {
   //   return (
-  //     <td className="px-6 py-2">
+  //     <td className="px-6 py-2 text-sm">
   //       N/A
   //     </td>
   //   );
@@ -137,7 +137,7 @@ export const ReportingResolvedPage = () => {
 
   // const renderYourStakeColumnTwo = (row) => {
   //   return (
-  //     <td className="px-6 py-2">
+  //     <td className="px-6 py-2 text-sm">
   //       N/A
   //     </td>
   //   );
@@ -145,7 +145,7 @@ export const ReportingResolvedPage = () => {
 
   const renderDateAndTime = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-sm">
         <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
           {
             fromNow(row.resolvedOn)
