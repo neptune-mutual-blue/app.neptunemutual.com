@@ -23,6 +23,7 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter();
@@ -158,9 +159,18 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
       await txToast.push(
         tx,
         {
-          pending: t`Reporting incident`,
-          success: t`Reported incident successfully`,
-          failure: t`Could not report incident`,
+          pending: getActionMessage(
+            METHODS.REPORT_INCIDENT_COMPLETE,
+            STATUS.PENDING
+          ).title,
+          success: getActionMessage(
+            METHODS.REPORT_INCIDENT_COMPLETE,
+            STATUS.SUCCESS
+          ).title,
+          failure: getActionMessage(
+            METHODS.REPORT_INCIDENT_COMPLETE,
+            STATUS.FAILED
+          ).title,
         },
         {
           onTxSuccess: () => {

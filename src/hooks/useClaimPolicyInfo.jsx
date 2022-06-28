@@ -27,6 +27,7 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -124,9 +125,30 @@ export const useClaimPolicyInfo = ({
         await txToast.push(
           tx,
           {
-            pending: t`Approving ${tokenSymbol} tokens`,
-            success: t`Approved ${tokenSymbol} tokens Successfully`,
-            failure: t`Could not approve ${tokenSymbol} tokens`,
+            pending: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
           },
           {
             onTxSuccess: () => {
