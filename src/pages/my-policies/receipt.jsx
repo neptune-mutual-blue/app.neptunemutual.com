@@ -20,7 +20,7 @@ export default function PurchasePolicyReceiptPage() {
 export const getStaticProps = async () => {
   return {
     props: {
-      noWrappers: true,
+      noHeader: true,
     },
   };
 };

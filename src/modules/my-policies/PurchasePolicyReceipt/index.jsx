@@ -24,6 +24,7 @@ import {
   getTxLink,
 } from "@/lib/connect-wallet/utils/explorer";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
+import { useNetwork } from "@/src/context/Network";
 
 export const PurchasePolicyReceipt = () => {
   const router = useRouter();
@@ -36,9 +37,9 @@ export const PurchasePolicyReceipt = () => {
     coverKey: event?.args[0] ?? "",
     productKey: event?.args[1] ?? "",
   });
-
+  console.log({ coverInfo });
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
-  // const { networkId } = useNetwork();
+  const { networkId } = useNetwork();
 
   const { register } = useRegisterToken();
 
@@ -57,8 +58,7 @@ export const PurchasePolicyReceipt = () => {
   const purchaser = event?.args[2];
 
   const policyName =
-    (coverInfo?.infoObj?.productName || coverInfo?.infoObj?.coverName) ??
-    safeParseBytes32String(event?.args[0]);
+    coverInfo?.infoObj?.productName || coverInfo?.infoObj?.coverName;
   const cxDaiAddress = event?.args[3];
   const date = new Date(parseInt(event?.args[11]) * 1000).toUTCString();
   const receiptNo = "1234";
@@ -67,9 +67,13 @@ export const PurchasePolicyReceipt = () => {
     {
       label: "On Behalf of",
       value: (
-        <p className="flex items-center gap-2 text-lg leading-6">
-          {purchaser}
-          <a href="#">
+        <p className="flex items-center gap-2 overflow-hidden text-lg leading-6">
+          <span className="overflow-hidden text-ellipsis">{purchaser}</span>
+          <a
+            href={getAddressLink(networkId, purchaser)}
+            target="_blank"
+            rel="noreferrer"
+          >
             <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
           </a>
         </p>
@@ -114,18 +118,12 @@ export const PurchasePolicyReceipt = () => {
   ).long;
 
   const text = {
-    policyInfo:
-      coverInfo?.infoObj?.about ??
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus molestias suscipit assumenda consequatur harum molestiae minus autem iure et, eveniet nam esse facilis quaerat possimus temporibus amet? Recusandae porro consectetur iusto magni.",
+    policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
       "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.",
-      [
-        "You must have maintained at least 1 NPM tokens in your wallet during your coverage period.",
-        "During your coverage period, the platform was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.",
-        "This does not have to be your own loss.",
-      ],
+      [coverInfo?.infoObj?.rules?.split("\n")],
     ],
-    exclusions: "Exclusions added by the cover creator",
+    exclusions: coverInfo?.infoObj?.exclusions,
     standardExclusions: [
       "The standard exclusions are enforced on all covers. Neptune Mutual reserves the right to update the exclusion list periodically.",
       [
@@ -209,7 +207,7 @@ export const PurchasePolicyReceipt = () => {
           <p className="flex items-center gap-2 overflow-hidden text-lg leading-6">
             <span className="overflow-hidden text-ellipsis">{purchaser}</span>
             <a
-              href={getAddressLink(80001, purchaser)}
+              href={getAddressLink(networkId, purchaser)}
               target="_blank"
               rel="noreferrer"
             >
@@ -266,10 +264,10 @@ export const PurchasePolicyReceipt = () => {
           {data.map(({ label, value }, i) => (
             <div
               key={i}
-              className="flex justify-between pt-6 pb-4 text-lg leading-6"
+              className="flex justify-between gap-2 pt-6 pb-4 text-lg leading-6"
             >
-              <p className="font-semibold font-sora">{label}</p>
-              <p className="font-poppins">{value}</p>
+              <p className="flex-shrink-0 font-semibold font-sora">{label}</p>
+              <p className="overflow-hidden font-poppins">{value}</p>
             </div>
           ))}
 
@@ -285,7 +283,7 @@ export const PurchasePolicyReceipt = () => {
                 {cxDaiAddress}
               </span>
               <a
-                href={getTokenLink(80001, cxDaiAddress)}
+                href={getTokenLink(networkId, cxDaiAddress)}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -306,7 +304,7 @@ export const PurchasePolicyReceipt = () => {
             <div className="flex items-center gap-3 mt-1.5 overflow-hidden">
               <span className="overflow-hidden text-ellipsis">{txHash}</span>
               <a
-                href={getTxLink(80001, { hash: txHash })}
+                href={getTxLink(networkId, { hash: txHash })}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -321,24 +319,12 @@ export const PurchasePolicyReceipt = () => {
           title={"Cover Rules"}
           text={text.coverRules}
           className="mt-14"
+          bullets={false}
         />
 
         <DescriptionComponent
           title={"Exclusions"}
           text={text.exclusions}
-          className="mt-8"
-        />
-
-        <DescriptionComponent
-          title={"Standard Exclusions"}
-          text={text.standardExclusions}
-          className="mt-8"
-        />
-
-        <DescriptionComponent
-          title={"Risk Disclosure / Disclaimer"}
-          titleClassName="!text-lg"
-          text={text.riskDisclosure}
           className="mt-8"
         />
       </div>

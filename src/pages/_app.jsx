@@ -37,7 +37,7 @@ function MyApp({ Component, pageProps }) {
                 <UnlimitedApprovalProvider>
                   <ToastProvider variant={DEFAULT_VARIANT}>
                     <TxPosterProvider>
-                      <Header></Header>
+                      {!pageProps.noHeader && <Header></Header>}
                       <div className="relative sm:static">
                         <Component {...pageProps} />
                         <DisclaimerModal />
