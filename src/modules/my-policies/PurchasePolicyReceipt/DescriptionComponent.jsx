@@ -33,6 +33,7 @@ export const DescriptionComponent = ({
                   {t.map((item, idx) =>
                     Array.isArray(item) ? (
                       <ul
+                        key={idx}
                         className={classNames(
                           bullets ? "list-disc pl-6" : "list-none pl-3"
                         )}

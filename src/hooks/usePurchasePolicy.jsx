@@ -119,8 +119,22 @@ export const usePurchasePolicy = ({
     args.push(parseInt(coverMonth, 10).toString());
     args.push((new Date().getTime() / 1000).toString());
     const value = JSON.stringify({
-      ...event,
-      args,
+      value: {
+        args: {
+          amountToCover: args[6],
+          coverKey: args[0],
+          onBehalfOf: args[2],
+          cxToken: args[3],
+          expiresOn: args[7],
+          productKey: args[1],
+          fee: args[4],
+          platformFee: args[5],
+          policyId: args[9],
+          referralCode: args[8],
+          createdAtTimestamp: (new Date().getTime() / 1000).toString(),
+        },
+      },
+      expiry: new Date().getTime() + 5 * 60 * 1000,
     });
     localStorage.setItem(key, value);
     router.push({

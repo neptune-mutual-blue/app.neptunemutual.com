@@ -15,7 +15,6 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Fragment } from "react";
 import {
@@ -25,49 +24,62 @@ import {
 } from "@/lib/connect-wallet/utils/explorer";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useNetwork } from "@/src/context/Network";
+import { useFetchCoverPurchasedEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
 
 export const PurchasePolicyReceipt = () => {
   const router = useRouter();
 
   const txHash = router.query?.tx?.toString();
 
-  const event = JSON.parse(localStorage.getItem(txHash));
+  const { data: eventData } = useFetchCoverPurchasedEvent({ txHash });
+
+  let event = null;
+  const storageData = JSON.parse(localStorage.getItem(txHash));
+  if (storageData) {
+    event = storageData.value.args;
+    if (storageData.expiry < Date.now()) {
+      localStorage.removeItem(txHash);
+    }
+  } else if (eventData) {
+    event = eventData;
+  }
 
   const coverInfo = useCoverOrProductData({
-    coverKey: event?.args[0] ?? "",
-    productKey: event?.args[1] ?? "",
+    coverKey: event?.coverKey ?? "",
+    productKey: event?.productKey ?? "",
   });
-  console.log({ coverInfo });
+
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
   const { networkId } = useNetwork();
 
   const { register } = useRegisterToken();
 
-  const {
-    data: { rate },
-  } = usePolicyFees({
-    value: event?.args[6] ?? "0",
-    liquidityTokenDecimals,
-    coverMonth: event?.args[10] ?? "0",
-    coverKey: event?.args[0] ?? "",
-    productKey: event?.args[1] ?? "",
-  });
+  if (!txHash || !event || !Object.keys(event).length) return <></>;
 
-  if (!txHash || !event) return <></>;
+  const rate = "0";
 
-  const purchaser = event?.args[2];
+  const purchaser = event?.onBehalfOf;
 
   const policyName =
     coverInfo?.infoObj?.productName || coverInfo?.infoObj?.coverName;
-  const cxDaiAddress = event?.args[3];
-  const date = new Date(parseInt(event?.args[11]) * 1000).toUTCString();
-  const receiptNo = "1234";
+  const cxDaiAddress = event?.cxToken;
+  const date = new Date(
+    parseInt(event?.createdAtTimestamp) * 1000
+  ).toUTCString();
+  const receiptNo = event?.policyId;
+  const duration = parseInt(
+    (
+      (parseInt(event?.expiresOn) - parseInt(event?.createdAtTimestamp)) /
+      (30 * 24 * 60 * 60)
+    ).toString(),
+    10
+  );
 
   const data = [
     {
       label: "On Behalf of",
       value: (
-        <p className="flex items-center gap-2 overflow-hidden text-lg leading-6">
+        <div className="flex items-center gap-2 overflow-hidden text-lg leading-6">
           <span className="overflow-hidden text-ellipsis">{purchaser}</span>
           <a
             href={getAddressLink(networkId, purchaser)}
@@ -76,13 +88,16 @@ export const PurchasePolicyReceipt = () => {
           >
             <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
           </a>
-        </p>
+        </div>
       ),
     },
     {
       label: "Protection",
       value: formatCurrency(
-        convertFromUnits(event?.args[6], liquidityTokenDecimals).toString(),
+        convertFromUnits(
+          event?.amountToCover,
+          liquidityTokenDecimals
+        ).toString(),
         router.locale,
         liquidityTokenSymbol,
         true
@@ -94,24 +109,24 @@ export const PurchasePolicyReceipt = () => {
     },
     {
       label: "Duration",
-      value: `${event.args[10]} months`,
+      value: `${duration} months`,
     },
     {
       label: "Start Date",
-      value: new Date(parseInt(event?.args[11]) * 1000).toUTCString(),
+      value: new Date(parseInt(event?.createdAtTimestamp) * 1000).toUTCString(),
     },
     {
       label: "End Date",
-      value: new Date(parseInt(event?.args[7]) * 1000).toUTCString(),
+      value: new Date(parseInt(event?.expiresOn) * 1000).toUTCString(),
     },
     {
       label: "Referral",
-      value: safeParseBytes32String(event?.args[8]) || "---",
+      value: safeParseBytes32String(event?.referralCode) || "---",
     },
   ];
 
   const premuimPaid = formatCurrency(
-    convertFromUnits(event?.args[6], liquidityTokenDecimals).toString(),
+    convertFromUnits(event?.fee, liquidityTokenDecimals).toString(),
     router.locale,
     liquidityTokenSymbol,
     true
@@ -167,22 +182,25 @@ export const PurchasePolicyReceipt = () => {
     ],
   };
 
+  const shareUrl = window.location.href;
+  const shareText = encodeURI("Purchase a Policy in Neptune Mutual");
+
   const socials = [
     {
       Icon: TwitterIcon,
-      href: coverInfo?.infoObj?.links.twitter ?? "",
+      href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}&via=`,
     },
     {
       Icon: RedditIcon,
-      href: coverInfo?.infoObj?.links.reddit ?? "",
+      href: `https://reddit.com/submit?url=${shareUrl}&title=${shareText}`,
     },
     {
       Icon: TelegramIcon,
-      href: coverInfo?.infoObj?.links.telegram ?? "",
+      href: `https://telegram.me/share/url?url=${shareUrl}&text=${shareText}`,
     },
     {
       Icon: LinkedinIcon,
-      href: coverInfo?.infoObj?.links.linkedin ?? "",
+      href: `https://www.linkedin.com/shareArticle?url=${shareUrl}&title=${shareText}`,
     },
   ];
 
@@ -194,7 +212,7 @@ export const PurchasePolicyReceipt = () => {
           className="!px-4 !py-2 border-white !text-white hover:bg-transparent hover:text-white"
         />
 
-        <div className="mt-9 px-42 font-sora">
+        <div className="mt-9 lg:px-42 font-sora">
           <HeaderLogo />
           <a
             href="https://neptunemutual.com"
@@ -218,7 +236,7 @@ export const PurchasePolicyReceipt = () => {
         </div>
       </div>
 
-      <div className="bg-white px-54 pt-14 pb-52">
+      <div className="bg-white px-13 lg:px-54 pt-14 pb-52">
         <h1 className="font-semibold leading-8 text-receipt-info font-sora">
           {policyName} Policy Receipt
         </h1>
@@ -267,7 +285,7 @@ export const PurchasePolicyReceipt = () => {
               className="flex justify-between gap-2 pt-6 pb-4 text-lg leading-6"
             >
               <p className="flex-shrink-0 font-semibold font-sora">{label}</p>
-              <p className="overflow-hidden font-poppins">{value}</p>
+              <div className="overflow-hidden font-poppins">{value}</div>
             </div>
           ))}
 
