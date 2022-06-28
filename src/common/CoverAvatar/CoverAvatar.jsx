@@ -23,7 +23,7 @@ export const CoverAvatar = ({ coverInfo, isDiversified }) => {
                   "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18",
                   idx !== 0 && "-ml-7 lg:-ml-9 p-0.5"
                 )}
-                key={item}
+                key={item.id}
               >
                 <img
                   src={imgSrc}
