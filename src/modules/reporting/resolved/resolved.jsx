@@ -242,13 +242,13 @@ export const ReportingResolvedPage = () => {
                 )
               }
               {
-                resolvedCardInfoArray.map((report, i) => {
+                resolvedCardInfoArray.map((report) => {
                   const resolvedOn = report.emergencyResolved
                   ? report.emergencyResolveTransaction?.timestamp
                   : report.resolveTransaction?.timestamp;
                   
                   return (
-                    <Fragment key={i}>
+                    <Fragment key={report.id}>
                       <tr 
                         className="cursor-pointer hover:bg-F4F8FC"
                         onClick={() => router.push(getUrl(report.id))}
