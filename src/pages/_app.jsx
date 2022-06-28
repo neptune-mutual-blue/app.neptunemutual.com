@@ -17,8 +17,25 @@ import { TxPosterProvider } from "@/src/context/TxPoster";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
 import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
+import { useLocalStorage } from "@/src/hooks/useLocalStorage";
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
+  const [localStorageVersion, setLocalStorageVersion] = useLocalStorage(
+    "localStorageVersion"
+  );
+
+  useEffect(() => {
+    if (typeof localStorageVersion === "undefined") {
+      setLocalStorageVersion(process.env.NEXT_PUBLIC_APP_VERSION);
+    }
+
+    if (localStorageVersion !== process.env.NEXT_PUBLIC_APP_VERSION) {
+      localStorage.clear();
+      setLocalStorageVersion(process.env.NEXT_PUBLIC_APP_VERSION);
+    }
+  }, [localStorageVersion, setLocalStorageVersion]);
+
   if (pageProps.noWrappers) {
     return (
       <LanguageProvider>
