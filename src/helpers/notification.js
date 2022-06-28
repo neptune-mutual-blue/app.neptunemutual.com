@@ -9,6 +9,108 @@ import { t } from "@lingui/macro";
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
+  [METHODS.STAKING_DEPOSIT_TOKEN_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol}`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol}`, description: "" };
+  },
+  [METHODS.STAKING_DEPOSIT_COMPLETE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Staked ${tokenSymbol} successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not stake ${tokenSymbol}`,
+        description: "",
+      };
+    }
+
+    return { title: t`Staking ${tokenSymbol}`, description: "" };
+  },
+  [METHODS.RESOLVE_INCIDENT_APPROVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Resolved Incident Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not Resolve Incident`,
+        description: "",
+      };
+    }
+
+    return { title: t`Resolving Incident`, description: "" };
+  },
+  [METHODS.RESOLVE_INCIDENT_COMPLETE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Emergency Resolved Incident Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not Emergency Resolve Incident`,
+        description: "",
+      };
+    }
+
+    return { title: t`Emergency Resolving Incident`, description: "" };
+  },
+  [METHODS.REPORT_DISPUTE_TOKEN_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+  },
+  [METHODS.REPORT_DISPUTE_COMPLETE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Disputed successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not dispute`, description: "" };
+    }
+
+    return { title: t`Disputing`, description: "" };
+  },
   [METHODS.CLAIM_COVER_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {

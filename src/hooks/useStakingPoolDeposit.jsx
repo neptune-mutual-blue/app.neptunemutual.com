@@ -27,6 +27,7 @@ import {
   STATUS,
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useStakingPoolDeposit = ({
   value,
@@ -136,7 +137,7 @@ export const useStakingPoolDeposit = ({
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
-          methodName: METHODS.STAKING_DEPOSIT,
+          methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
           status: STATUS.PENDING,
           data: { tokenSymbol },
         });
@@ -145,23 +146,44 @@ export const useStakingPoolDeposit = ({
           .push(
             tx,
             {
-              pending: t`Staking ${tokenSymbol}`,
-              success: t`Staked ${tokenSymbol} successfully`,
-              failure: t`Could not stake ${tokenSymbol}`,
+              pending: getActionMessage(
+                METHODS.STAKING_DEPOSIT_COMPLETE,
+                STATUS.PENDING,
+                {
+                  value,
+                  tokenSymbol,
+                }
+              ).title,
+              success: getActionMessage(
+                METHODS.STAKING_DEPOSIT_COMPLETE,
+                STATUS.SUCCESS,
+                {
+                  value,
+                  tokenSymbol,
+                }
+              ).title,
+              failure: getActionMessage(
+                METHODS.STAKING_DEPOSIT_COMPLETE,
+                STATUS.FAILED,
+                {
+                  value,
+                  tokenSymbol,
+                }
+              ).title,
             },
             {
               onTxSuccess: () => {
                 onDepositSuccess();
                 TransactionHistory.push({
                   hash: tx.hash,
-                  methodName: METHODS.STAKING_DEPOSIT,
+                  methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS,
                 });
               },
               onTxFailure: () => {
                 TransactionHistory.push({
                   hash: tx.hash,
-                  methodName: METHODS.STAKING_DEPOSIT,
+                  methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS,
                 });
               },
