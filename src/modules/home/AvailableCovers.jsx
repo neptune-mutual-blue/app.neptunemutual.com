@@ -13,9 +13,7 @@ import { Trans } from "@lingui/macro";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
-import SmallGridIcon from "@/icons/SmallGridIcon";
-import LargeGridIcon from "@/icons/LargeGridIcon";
-import { classNames } from "@/utils/classnames";
+import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -87,36 +85,7 @@ export const AvailableCovers = () => {
             sortType={sortType}
             setSortType={setSortType}
           />
-          <div className="flex ml-4">
-            <div
-              onClick={
-                coverView !== "products"
-                  ? () => setCoverView("products")
-                  : () => {}
-              }
-              className={classNames(
-                "w-8 h-8 flex justify-center items-center border rounded cursor-pointer mr-1",
-                coverView === "products" ? "border-4e7dd9" : "border-9B9B9B"
-              )}
-            >
-              <SmallGridIcon
-                color={coverView === "products" ? "#4e7dd9" : "#9B9B9B"}
-              />
-            </div>
-            <div
-              onClick={
-                coverView !== "covers" ? () => setCoverView("covers") : () => {}
-              }
-              className={classNames(
-                "w-8 h-8 flex justify-center items-center border rounded cursor-pointer",
-                coverView === "covers" ? "border-4e7dd9" : "border-9B9B9B"
-              )}
-            >
-              <LargeGridIcon
-                color={coverView === "covers" ? "#4e7dd9" : "#9B9B9B"}
-              />
-            </div>
-          </div>
+          <LayoutButtons coverView={coverView} setCoverView={setCoverView} />
         </div>
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
