@@ -1,6 +1,6 @@
 import { RegularButton } from "@/common/Button/RegularButton";
 import { Label } from "@/common/Label/Label";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
@@ -8,18 +8,46 @@ import { getCoverImgSrc } from "@/src/helpers/cover";
 import { useCovers } from "@/src/context/Covers";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoversData } from "@/src/hooks/useCoversData";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
   const { covers: availableCovers, loading } = useCovers();
-  const [selected, setSelected] = useState();
+
+  const coverInfo = useCoversData({ coverList: availableCovers });
+  const covers = useMemo(() => {
+    return coverInfo.reduce((acc, cover) => {
+      if (!cover.supportsProducts) {
+        acc.push({
+          key: cover.coverKey,
+          projectName: cover.infoObj.projectName,
+          coverName: cover.infoObj.coverName,
+        });
+      } else {
+        // cover.products.forEach((product) => {
+        //   acc.push({
+        //     key: product.productKey,
+        //     productKey: product.productKey,
+        //     projectName: product.infoObj.productName,
+        //     coverName: product.infoObj.productName,
+        //   });
+        // });
+      }
+      return acc.sort((x, y) => {
+        if (x.projectName < y.projectName) return -1;
+        else if (x.projectName > y.projectName) return 1;
+        return 0;
+      });
+    }, []);
+  }, [coverInfo]);
+  const [selected, setSelected] = useState({});
 
   useEffect(() => {
-    if (availableCovers && availableCovers.length > 0) {
-      setSelected(availableCovers[0]);
+    if (covers && covers.length > 0) {
+      setSelected(covers[0]);
     }
-  }, [availableCovers]);
+  }, [covers]);
 
   const handleAddReport = () => {
     const cover_id = safeParseBytes32String(selected.key);
@@ -52,7 +80,7 @@ export const ActiveReportingEmptyState = () => {
           <Trans>select a cover</Trans>
         </Label>
         <ReportingDropdown
-          options={availableCovers}
+          options={covers}
           selected={selected}
           setSelected={setSelected}
           prefix={
