@@ -26,6 +26,7 @@ import { usePagination } from "@/src/hooks/usePagination";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { Fragment } from "react";
 
 const renderHeader = (col) => (
   <th
@@ -149,6 +150,8 @@ const DetailsRenderer = ({ row }) => {
   });
   const router = useRouter();
   const { liquidityTokenDecimals } = useAppConstants();
+  const isDiversified = coverInfo?.supportsProducts;
+  const isCover = Array.isArray(coverInfo?.products);
 
   if (!coverInfo) {
     return null;
@@ -157,13 +160,50 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
-        <img
-          src={getCoverImgSrc({ key: row.cover.id })}
-          alt={t`policy`}
-          height={32}
-          width={32}
-        />
+        {
+          isDiversified && isCover ? (
+            <Fragment>
+              {
+                coverInfo.products.slice(0, 3).map((item, i) => {
+                  const imgSrc = getCoverImgSrc({ key: item.productKey });
 
+                  return (
+                    <div
+                      className={classNames(
+                        "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-auto",
+                        i !== 0 && "-ml-7 lg:-ml-4 p-0.5"
+                      )}
+                      key={item.id}
+                    >
+                      <img
+                        src={imgSrc}
+                        alt={item.productName}
+                        className="rounded-full bg-DEEAF6"
+                        data-testid="cover-img"
+                        height={32}
+                        width={32}
+                      />
+                    </div>
+                  );
+                })
+              }
+              {
+                coverInfo.products.length > 3 && (
+                  <p className="ml-2 text-xs opacity-40 text-01052D w-14">
+                    +{coverInfo?.products.length - 3} <Trans>MORE</Trans>
+                  </p>
+                )
+              }
+            </Fragment>
+          ) : (
+              <img
+                src={getCoverImgSrc({ key:  row.cover.id })}
+                alt={t`${coverInfo.infoObj.coverName}`}
+                height={32}
+                width={32}
+              />
+          )
+        }
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
