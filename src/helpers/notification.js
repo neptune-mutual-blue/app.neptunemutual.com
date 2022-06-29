@@ -323,6 +323,34 @@ const actionMessages = {
 
     return { title: t`Providing liquidity`, description: "" };
   },
+  [METHODS.REPORTING_UNSTAKE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Unstaked NPM Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not unstake NPM`, description: "" };
+    }
+
+    return { title: t`Unstaking NPM`, description: "" };
+  },
+  [METHODS.REPORTING_UNSTAKE_CLAIM]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Unstaked & claimed NPM Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not unstake & claim NPM`, description: "" };
+    }
+
+    return { title: t`Unstaking & claiming NPM`, description: "" };
+  },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: "" };
   },
