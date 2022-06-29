@@ -3,16 +3,15 @@ import SmallGridIcon from "@/icons/SmallGridIcon";
 import { classNames } from "@/utils/classnames";
 
 export const LayoutButtons = ({ coverView, setCoverView }) => (
-  <div className="flex ml-4">
+  <div className="flex ml-4 relative">
     <input
       type={"radio"}
       name="choose_layout"
-      id="choose_product"
-      hidden={true}
       onChange={
         coverView !== "products" ? () => setCoverView("products") : () => {}
       }
-      className="hidden"
+      id="choose_product"
+      className="opacity-0 absolute"
     />
     <label
       htmlFor="choose_product"
@@ -30,7 +29,7 @@ export const LayoutButtons = ({ coverView, setCoverView }) => (
       onChange={
         coverView !== "covers" ? () => setCoverView("covers") : () => {}
       }
-      className="hidden"
+      className="opacity-0 absolute"
     />
     <label
       htmlFor="choose_covers"
