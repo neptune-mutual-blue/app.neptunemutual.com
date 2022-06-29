@@ -9,7 +9,24 @@ import { t } from "@lingui/macro";
  * @type {Object.<string, (status: number, data: any, locale: string) => ({ title: string, description: string })>}
  */
 const actionMessages = {
-  [METHODS.UNSTAKING_DEPOSIT_COMPLETE]: (status, _data) => {
+  [METHODS.UNSTAKING_WITHDRAW]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Withdrawn rewards successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not withdraw rewards`,
+        description: "",
+      };
+    }
+
+    return { title: t`Withdrawing rewards`, description: "" };
+  },
+  [METHODS.UNSTAKING_DEPOSIT]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {

@@ -87,9 +87,30 @@ export const useDisputeIncident = ({
         await txToast.push(
           tx,
           {
-            pending: t`Approving ${NPMTokenSymbol} tokens`,
-            success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
-            failure: t`Could not approve ${NPMTokenSymbol} tokens`,
+            pending: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
           },
           {
             onTxSuccess: () => {

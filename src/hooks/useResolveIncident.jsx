@@ -61,9 +61,18 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
         await txToast.push(
           tx,
           {
-            pending: t`Resolving Incident`,
-            success: t`Resolved Incident Successfully`,
-            failure: t`Could not Resolve Incident`,
+            pending: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.FAILED
+            ).title,
           },
           {
             onTxSuccess: () => {
