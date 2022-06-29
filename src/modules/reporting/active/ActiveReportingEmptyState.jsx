@@ -1,47 +1,21 @@
 import { RegularButton } from "@/common/Button/RegularButton";
 import { Label } from "@/common/Label/Label";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-import { useCoversData } from "@/src/hooks/useCoversData";
 import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { utils } from "@neptunemutual/sdk";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
-  // const { covers: availableCovers, loading } = useCovers();
-  const { data: flattenedCovers } = useFlattenedCoverProducts();
+  const { data: covers, loading } = useFlattenedCoverProducts();
 
-  const coverInfo = useCoversData({ coverList: flattenedCovers });
-  const covers = useMemo(() => {
-    return coverInfo.reduce((acc, cover) => {
-      if (!cover.supportsProducts) {
-        acc.push({
-          key: cover.coverKey,
-          projectName: cover.infoObj.projectName,
-          coverName: cover.infoObj.coverName,
-        });
-      } else {
-        // cover.products.forEach((product) => {
-        //   acc.push({
-        //     key: product.productKey,
-        //     productKey: product.productKey,
-        //     projectName: product.infoObj.productName,
-        //     coverName: product.infoObj.productName,
-        //   });
-        // });
-      }
-      return acc.sort((x, y) => {
-        if (x.projectName < y.projectName) return -1;
-        else if (x.projectName > y.projectName) return 1;
-        return 0;
-      });
-    }, []);
-  }, [coverInfo]);
   const [selected, setSelected] = useState({});
 
   useEffect(() => {
@@ -50,9 +24,19 @@ export const ActiveReportingEmptyState = () => {
     }
   }, [covers]);
 
+  const selectedCover = useCoverOrProductData({
+    coverKey: selected?.coverKey,
+    productKey: selected?.productKey || utils.keyUtil.toBytes32(""),
+  });
+
   const handleAddReport = () => {
-    const cover_id = safeParseBytes32String(selected.key);
-    router.push(actions.report.getHref(cover_id));
+    const cover_id = safeParseBytes32String(selectedCover.coverKey);
+    if (selectedCover.productKey) {
+      const prod_id = safeParseBytes32String(selectedCover.productKey);
+      router.push(actions.report.getHref(cover_id, prod_id, true));
+    } else {
+      router.push(actions.report.getHref(cover_id));
+    }
   };
 
   if (loading) {
@@ -84,9 +68,21 @@ export const ActiveReportingEmptyState = () => {
           options={covers}
           selected={selected}
           setSelected={setSelected}
+          selectedName={
+            selectedCover?.infoObj?.projectName ||
+            selectedCover?.infoObj?.productName
+          }
           prefix={
             <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
-              <img src={getCoverImgSrc(selected)} alt={selected?.coverName} />
+              <img
+                src={getCoverImgSrc({
+                  key: selectedCover?.productKey || selectedCover?.coverKey,
+                })}
+                alt={
+                  selectedCover?.infoObj.coverName ||
+                  selectedCover?.infoObj.productName
+                }
+              />
             </div>
           }
         />
