@@ -4,7 +4,6 @@ import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 import { SearchAndSortBar } from "@/common/SearchAndSortBar";
 import { NeutralButton } from "@/common/Button/NeutralButton";
-import { useCovers } from "@/src/context/Covers";
 import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
@@ -14,6 +13,9 @@ import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
 import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
+import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
+import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
+import { useCovers } from "@/src/hooks/useCovers";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -34,12 +36,24 @@ const sorterData = {
 };
 
 export const AvailableCovers = () => {
-  const { covers: availableCovers, loading } = useCovers();
+  const { data: groupCovers, loading: groupCoversLoading } = useCovers();
+  const { data: flattenedCovers, loading: flattenedCoversLoading } =
+    useFlattenedCoverProducts();
   const { getStatsByKey } = useSortableStats();
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
   const [coverView, setCoverView] = useState("products");
+
+  const coversLoading =
+    coverView == "products" ? flattenedCoversLoading : groupCoversLoading;
+  const availableCovers =
+    coverView == "products" ? flattenedCovers : groupCovers;
+
+  console.log({
+    groupCovers,
+    flattenedCovers,
+  });
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => ({
@@ -89,14 +103,24 @@ export const AvailableCovers = () => {
         </div>
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
-        {loading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
-        {!loading && availableCovers.length === 0 && (
+        {coversLoading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
+        {!coversLoading && availableCovers.length === 0 && (
           <p data-testid="no-data">No data found</p>
         )}
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
 
-          return <CoverCardWrapper key={c.coverKey} coverKey={c.coverKey} />;
+          if (coverView == "products" && c.productKey !== null) {
+            return (
+              <ProductCardWrapper
+                key={c.id}
+                coverKey={c.coverKey}
+                productKey={c.productKey}
+              />
+            );
+          }
+
+          return <CoverCardWrapper key={c.id} coverKey={c.coverKey} />;
         })}
       </Grid>
       {sortedCovers.length > showCount && (

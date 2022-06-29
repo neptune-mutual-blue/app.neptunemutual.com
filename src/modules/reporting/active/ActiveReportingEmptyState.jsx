@@ -5,14 +5,14 @@ import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCovers } from "@/src/context/Covers";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { useCovers } from "@/src/hooks/useCovers";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
-  const { covers: availableCovers, loading } = useCovers();
+  const { data: availableCovers, loading } = useCovers();
   const [selected, setSelected] = useState();
 
   useEffect(() => {

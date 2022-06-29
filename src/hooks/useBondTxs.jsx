@@ -27,10 +27,10 @@ const getQuery = (account, limit, skip) => {
       claimAmount
       lpTokenAmount
       bondPool {
-        token0
-        token0Symbol
+        token1
+        token1Symbol
+        token1Decimals
         lpTokenSymbol
-        token0Decimals
         lpTokenDecimals
       }
       transaction {

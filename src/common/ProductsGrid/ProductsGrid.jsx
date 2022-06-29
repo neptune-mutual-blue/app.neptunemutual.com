@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import Link from "next/link";
 
 import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
@@ -10,10 +9,7 @@ import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { Trans } from "@lingui/macro";
-import {
-  safeFormatBytes32String,
-  safeParseBytes32String,
-} from "@/utils/formatter/bytes32String";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useRouter } from "next/router";
@@ -117,7 +113,7 @@ export const ProductsGrid = () => {
 /**
  *
  * @param {{
- * data: IProduct[];
+ * data: any[];
  * loading: boolean;
  * hasMore: boolean;
  * handleShowMore: function;
@@ -129,21 +125,12 @@ function Content({ data, loading, hasMore, handleShowMore }) {
       <>
         <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
           {data.map(({ id, coverKey, productKey }) => {
-            const product_id = safeParseBytes32String(productKey);
-            const cover_id = safeParseBytes32String(coverKey);
-
             return (
-              <Link href={`/covers/${cover_id}/${product_id}/options`} key={id}>
-                <a
-                  className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-                  data-testid="cover-link"
-                >
-                  <ProductCardWrapper
-                    coverKey={coverKey}
-                    productKey={productKey}
-                  />
-                </a>
-              </Link>
+              <ProductCardWrapper
+                key={id}
+                coverKey={coverKey}
+                productKey={productKey}
+              />
             );
           })}
         </Grid>
