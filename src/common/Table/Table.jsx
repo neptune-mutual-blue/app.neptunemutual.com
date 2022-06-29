@@ -41,9 +41,15 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   );
 };
 
-export const THead = ({ columns, ...rest }) => {
+export const THead = ({ 
+  columns, 
+  theadClass = 'bg-black text-white', 
+  ...rest }) => {
   return (
-    <thead className="text-white bg-black rounded-sm" {...rest}>
+    <thead className={classNames(
+      "rounded-sm",
+      theadClass
+    )} {...rest}>
       <tr>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>;
