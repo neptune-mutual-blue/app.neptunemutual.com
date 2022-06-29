@@ -25,7 +25,6 @@ export const useFlattenedCoverProducts = () => {
     setLoading(true);
     getSubgraphData(networkId, getQuery())
       .then((data) => {
-        console.log({ data });
         if (!data || ignore) return;
         setData(data.coverProducts);
         setLoading(false);
