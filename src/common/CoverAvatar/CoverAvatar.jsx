@@ -19,7 +19,7 @@ export const CoverAvatar = ({
 
   return (
     <div className={classNames(
-      "relative flex items-center",
+      "flex items-center",
       containerClass
     )}>
       {isDiversified && isCover ? (
