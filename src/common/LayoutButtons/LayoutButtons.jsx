@@ -3,7 +3,7 @@ import SmallGridIcon from "@/icons/SmallGridIcon";
 import { classNames } from "@/utils/classnames";
 
 export const LayoutButtons = ({ coverView, setCoverView }) => (
-  <div className="flex ml-4 relative">
+  <div className="flex ml-4 relative mt-7 sm:mt-0">
     <input
       type={"radio"}
       name="choose_layout"

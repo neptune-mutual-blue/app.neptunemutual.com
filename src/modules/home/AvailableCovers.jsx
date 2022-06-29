@@ -89,7 +89,7 @@ export const AvailableCovers = () => {
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
           <Trans>Cover Products</Trans>
         </h1>
-        <div className="flex items-center">
+        <div className="flex flex-wrap justify-center items-center">
           <SearchAndSortBar
             searchValue={searchValue}
             onSearchChange={searchHandler}
