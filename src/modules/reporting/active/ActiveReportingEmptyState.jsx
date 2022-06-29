@@ -5,17 +5,18 @@ import { ReportingDropdown } from "@/src/modules/reporting/reporting-dropdown";
 import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { useCovers } from "@/src/context/Covers";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoversData } from "@/src/hooks/useCoversData";
+import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
-  const { covers: availableCovers, loading } = useCovers();
+  // const { covers: availableCovers, loading } = useCovers();
+  const { data: flattenedCovers } = useFlattenedCoverProducts();
 
-  const coverInfo = useCoversData({ coverList: availableCovers });
+  const coverInfo = useCoversData({ coverList: flattenedCovers });
   const covers = useMemo(() => {
     return coverInfo.reduce((acc, cover) => {
       if (!cover.supportsProducts) {
