@@ -48,7 +48,6 @@ export const ProductsGrid = () => {
 
   const productKey = safeFormatBytes32String("");
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
-  // const coverInfoParsed = getParsedCoverInfo(coverInfo);
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (coverInfo?.products || []).map((cover) => ({
@@ -71,6 +70,9 @@ export const ProductsGrid = () => {
 
     [filtered, sortType.name]
   );
+
+  const isLastPage =
+    sortedProducts.length === 0 || sortedProducts.length <= showCount;
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value);
@@ -102,8 +104,7 @@ export const ProductsGrid = () => {
       </div>
       <Content
         data={sortedProducts.slice(0, showCount)}
-        loading={false}
-        hasMore={false}
+        hasMore={!isLastPage}
         handleShowMore={handleShowMore}
       />
     </Container>
@@ -114,12 +115,17 @@ export const ProductsGrid = () => {
  *
  * @param {{
  * data: any[];
- * loading: boolean;
+ * loading?: boolean;
  * hasMore: boolean;
  * handleShowMore: function;
  * }} ContentProps
  */
-function Content({ data, loading, hasMore, handleShowMore }) {
+function Content({
+  data,
+  loading = false,
+  hasMore = false,
+  handleShowMore = () => {},
+}) {
   if (data.length) {
     return (
       <>
