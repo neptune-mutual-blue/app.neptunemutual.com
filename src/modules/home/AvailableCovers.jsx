@@ -13,6 +13,7 @@ import { Trans } from "@lingui/macro";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
+import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -38,6 +39,7 @@ export const AvailableCovers = () => {
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
+  const [coverView, setCoverView] = useState("products");
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => ({
@@ -73,15 +75,18 @@ export const AvailableCovers = () => {
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
           <Trans>Cover Products</Trans>
         </h1>
-        <SearchAndSortBar
-          searchValue={searchValue}
-          onSearchChange={searchHandler}
-          sortClass="w-full md:w-48 lg:w-64 rounded-lg"
-          containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
-          searchClass="w-full md:w-64 rounded-lg"
-          sortType={sortType}
-          setSortType={setSortType}
-        />
+        <div className="flex items-center">
+          <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={searchHandler}
+            sortClass="w-full md:w-48 lg:w-64 rounded-lg"
+            containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
+            searchClass="w-full md:w-64 rounded-lg"
+            sortType={sortType}
+            setSortType={setSortType}
+          />
+          <LayoutButtons coverView={coverView} setCoverView={setCoverView} />
+        </div>
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
         {loading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
