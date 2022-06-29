@@ -13,4 +13,7 @@ export const METHODS = {
   BOND_APPROVE: "bond.approve",
   BOND_CREATE: "bond.createBond",
   STAKING_DEPOSIT: "deposit",
+  LIQUIDITY_STAKE_APPROVE: "liquidity.stake.approve",
+  LIQUIDITY_PROVIDE_APPROVE: "liquidity.provide.approve",
+  LIQUIDITY_PROVIDE: "liquidity.provide",
 };

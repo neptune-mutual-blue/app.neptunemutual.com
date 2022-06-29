@@ -65,6 +65,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     liquidityTokenDecimals,
     npmTokenDecimals,
   });
+
   const {
     info: {
       minStakeToAddLiquidity,
@@ -82,6 +83,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   });
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
+
   useEffect(() => {
     if (
       npmValue &&
