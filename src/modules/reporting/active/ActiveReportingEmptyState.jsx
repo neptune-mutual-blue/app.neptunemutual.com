@@ -7,23 +7,36 @@ import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-import { useCovers } from "@/src/hooks/useCovers";
+import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { utils } from "@neptunemutual/sdk";
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter();
 
-  const { data: availableCovers, loading } = useCovers();
-  const [selected, setSelected] = useState();
+  const { data: covers, loading } = useFlattenedCoverProducts();
+
+  const [selected, setSelected] = useState({});
 
   useEffect(() => {
-    if (availableCovers && availableCovers.length > 0) {
-      setSelected(availableCovers[0]);
+    if (covers && covers.length > 0) {
+      setSelected(covers[0]);
     }
-  }, [availableCovers]);
+  }, [covers]);
+
+  const selectedCover = useCoverOrProductData({
+    coverKey: selected?.coverKey,
+    productKey: selected?.productKey || utils.keyUtil.toBytes32(""),
+  });
 
   const handleAddReport = () => {
-    const cover_id = safeParseBytes32String(selected.key);
-    router.push(actions.report.getHref(cover_id));
+    const cover_id = safeParseBytes32String(selectedCover.coverKey);
+    if (selectedCover.productKey) {
+      const prod_id = safeParseBytes32String(selectedCover.productKey);
+      router.push(actions.report.getHref(cover_id, prod_id, true));
+    } else {
+      router.push(actions.report.getHref(cover_id));
+    }
   };
 
   if (loading) {
@@ -52,12 +65,24 @@ export const ActiveReportingEmptyState = () => {
           <Trans>select a cover</Trans>
         </Label>
         <ReportingDropdown
-          options={availableCovers}
+          options={covers}
           selected={selected}
           setSelected={setSelected}
+          selectedName={
+            selectedCover?.infoObj?.projectName ||
+            selectedCover?.infoObj?.productName
+          }
           prefix={
             <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
-              <img src={getCoverImgSrc(selected)} alt={selected?.coverName} />
+              <img
+                src={getCoverImgSrc({
+                  key: selectedCover?.productKey || selectedCover?.coverKey,
+                })}
+                alt={
+                  selectedCover?.infoObj.coverName ||
+                  selectedCover?.infoObj.productName
+                }
+              />
             </div>
           }
         />
