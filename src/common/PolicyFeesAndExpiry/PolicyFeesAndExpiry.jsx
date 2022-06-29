@@ -1,6 +1,7 @@
 import DateLib from "@/lib/date/DateLib";
+import { MULTIPLIER } from "@/src/config/constants";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { convertFromUnits, convertUintToPercentage } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
@@ -11,7 +12,7 @@ export const PolicyFeesAndExpiry = ({ data }) => {
   const router = useRouter();
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
 
-  const rateConverted = convertUintToPercentage(rate);
+  const rateConverted = toBN(rate).dividedBy(MULTIPLIER).toString();
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString();
 
   const expires = DateLib.fromUnix(data.expiryDate);
