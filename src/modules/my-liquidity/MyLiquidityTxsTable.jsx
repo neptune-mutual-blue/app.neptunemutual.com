@@ -221,7 +221,7 @@ const DetailsRenderer = ({ row }) => {
               ).short
             }
           </span>{" "}
-          {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
+          {row.type == "PodsIssued" ? t`to` : t`from`} {isDiversified ? coverInfo.infoObj.coverName : coverInfo.infoObj.projectName}
         </span>
       </div>
     </td>
