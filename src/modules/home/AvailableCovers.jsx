@@ -50,11 +50,6 @@ export const AvailableCovers = () => {
   const availableCovers =
     coverView == "products" ? flattenedCovers : groupCovers;
 
-  console.log({
-    groupCovers,
-    flattenedCovers,
-  });
-
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => ({
       ...cover,
@@ -89,12 +84,12 @@ export const AvailableCovers = () => {
         <h1 className="font-bold text-h3 lg:text-h2 font-sora">
           <Trans>Cover Products</Trans>
         </h1>
-        <div className="flex flex-wrap justify-center items-center">
+        <div className="flex flex-wrap items-center justify-center w-full sm:flex-nowrap sm:w-auto">
           <SearchAndSortBar
             searchValue={searchValue}
             onSearchChange={searchHandler}
             sortClass="w-full md:w-48 lg:w-64 rounded-lg"
-            containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
+            containerClass="flex-col md:flex-row min-w-full md:min-w-sm z-10"
             searchClass="w-full md:w-64 rounded-lg"
             sortType={sortType}
             setSortType={setSortType}
