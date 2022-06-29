@@ -23,6 +23,12 @@ import { registry, utils } from "@neptunemutual/sdk";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { METHODS } from "@/src/services/transactions/const";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -66,12 +72,63 @@ export const useDisputeIncident = ({
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          tokenSymbol: NPMTokenSymbol,
+          date: incidentDate,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving ${NPMTokenSymbol} tokens`,
-          success: t`Approved ${NPMTokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${NPMTokenSymbol} tokens`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
@@ -125,20 +182,53 @@ export const useDisputeIncident = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.REPORT_DISPUTE_COMPLETE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: NPMTokenSymbol,
+            date: incidentDate,
+          },
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Disputing`,
-            success: t`Disputed successfully`,
-            failure: t`Could not dispute`,
+            pending: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORT_DISPUTE_COMPLETE,
+              STATUS.FAILED
+            ).title,
           },
           {
             onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+
               router.replace(
                 `/reporting/${safeParseBytes32String(
                   coverKey
                 )}/${incidentDate}/details`
               );
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+                status: STATUS.FAILED,
+              });
             },
           }
         );

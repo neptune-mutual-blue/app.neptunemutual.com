@@ -8,6 +8,12 @@ import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React();
@@ -45,11 +51,46 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Resolving Incident`,
-          success: t`Resolved Incident Successfully`,
-          failure: t`Could not Resolve Incident`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
+          status: STATUS.PENDING,
+          data: {},
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_APPROVE,
+              STATUS.FAILED
+            ).title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       };
 
@@ -103,11 +144,47 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Emergency Resolving Incident`,
-          success: t`Emergency Resolved Incident Successfully`,
-          failure: t`Could not Emergency Resolve Incident`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
+          status: STATUS.PENDING,
+          data: {},
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(
+              METHODS.RESOLVE_INCIDENT_COMPLETE,
+              STATUS.FAILED
+            ).title,
+          },
+
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       };
 

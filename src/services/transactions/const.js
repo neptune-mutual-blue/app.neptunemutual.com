@@ -4,6 +4,14 @@
  * @enum {E_METHODS}
  */
 export const METHODS = {
+  UNSTAKING_WITHDRAW: "deposit.withdraw",
+  UNSTAKING_DEPOSIT: "deposit.unstaking",
+  STAKING_DEPOSIT_TOKEN_APPROVE: "staking_deposit.token_approve",
+  STAKING_DEPOSIT_COMPLETE: "staking_deposit.complete",
+  RESOLVE_INCIDENT_APPROVE: "report_dispute.token_approve",
+  RESOLVE_INCIDENT_COMPLETE: "report_dispute.complete",
+  REPORT_DISPUTE_TOKEN_APPROVE: "report_dispute.token_approve",
+  REPORT_DISPUTE_COMPLETE: "report_dispute.complete",
   CLAIM_COVER_APPROVE: "claim_cover.approve",
   CLAIM_COVER_COMPLETE: "claim_cover.complete",
   REPORT_INCIDENT_APPROVE: "report_incident.approve",
