@@ -25,6 +25,7 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
+import { storePurchaseEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -230,6 +231,13 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS,
               });
 
+              tx.wait().then((receipt) => {
+                const events = receipt.events;
+                const event = events.find((x) => x.event === "CoverPurchased");
+                const txHash = storePurchaseEvent(event, receipt.from);
+
+                router.push(`/my-policies/receipt/${txHash}`);
+              });
               onTxSuccess();
             },
             onTxFailure: () => {
