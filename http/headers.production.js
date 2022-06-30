@@ -1,11 +1,20 @@
+const connectSources = [
+  process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
+  process.env.NEXT_PUBLIC_API_URL,
+  "https://api.thegraph.com/ipfs/",
+  "https://ipfs.infura.io:5001/",
+]
+  .map((x) => (x || "").trim())
+  .filter((x) => !!x)
+  .join(" ");
+
 module.exports = [
   {
     key: "Content-Security-Policy",
     values: [
       "script-src 'self'",
-      `connect-src 'self' https://*.neptunemutual.com/ https://rpc-mumbai.maticvigil.com/ https://ipfs.infura.io:5001/ https://kovan.infura.io/ https://ropsten.infura.io/ https://*.binance.org:8545/ https://api.thegraph.com/ ${
-        process.env.NEXT_PUBLIC_API_URL || ""
-      }`,
+      `connect-src 'self' https://*.neptunemutual.com/ ${connectSources || ""}`,
       "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
