@@ -13,6 +13,13 @@ import { t } from "@lingui/macro";
 import { getReplacedString } from "@/utils/string";
 import { ADDRESS_ONE, UNSTAKE_INFO_URL } from "@/src/config/constants";
 import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { getActionMessage } from "@/src/helpers/notification";
 
 const defaultInfo = {
   yes: "0",
@@ -47,6 +54,8 @@ export const useUnstakeReportingStake = ({
   const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const [unstaking, setUnstaking] = useState(false);
+
+  const { NPMTokenSymbol } = useAppConstants();
 
   const fetchInfo = useCallback(async () => {
     if (!networkId || !coverKey) {
@@ -135,11 +144,63 @@ export const useUnstakeReportingStake = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Unstaking NPM`,
-          success: t`Unstaked NPM Successfully`,
-          failure: t`Could not unstake NPM`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.REPORTING_UNSTAKE,
+          status: STATUS.PENDING,
+          data: {
+            tokenSymbol: NPMTokenSymbol,
+          },
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.REPORTING_UNSTAKE,
+              STATUS.PENDING,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORTING_UNSTAKE,
+              STATUS.SUCCESS,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORTING_UNSTAKE,
+              STATUS.FAILED,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORTING_UNSTAKE,
+                status: STATUS.SUCCESS,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORTING_UNSTAKE,
+                status: STATUS.FAILED,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+          }
+        );
         cleanup();
       };
 
@@ -197,11 +258,63 @@ export const useUnstakeReportingStake = ({
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Unstaking & claiming NPM`,
-          success: t`Unstaked & claimed NPM Successfully`,
-          failure: t`Could not unstake & claim NPM`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.REPORTING_UNSTAKE_CLAIM,
+          status: STATUS.PENDING,
+          data: {
+            tokenSymbol: NPMTokenSymbol,
+          },
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.REPORTING_UNSTAKE_CLAIM,
+              STATUS.PENDING,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.REPORTING_UNSTAKE_CLAIM,
+              STATUS.SUCCESS,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.REPORTING_UNSTAKE_CLAIM,
+              STATUS.FAILED,
+              {
+                tokenSymbol: NPMTokenSymbol,
+              }
+            ).title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORTING_UNSTAKE_CLAIM,
+                status: STATUS.SUCCESS,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.REPORTING_UNSTAKE_CLAIM,
+                status: STATUS.FAILED,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+          }
+        );
         cleanup();
       };
 

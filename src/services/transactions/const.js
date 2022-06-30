@@ -24,4 +24,6 @@ export const METHODS = {
   LIQUIDITY_STAKE_APPROVE: "liquidity.stake.approve",
   LIQUIDITY_PROVIDE_APPROVE: "liquidity.provide.approve",
   LIQUIDITY_PROVIDE: "liquidity.provide",
+  REPORTING_UNSTAKE: "report_dispute.unstake",
+  REPORTING_UNSTAKE_CLAIM: "report_dispute.unstake_claim",
 };
