@@ -351,6 +351,154 @@ const actionMessages = {
 
     return { title: t`Unstaking & claiming NPM`, description: "" };
   },
+  [METHODS.POOL_CAPITALIZE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Capitalized Pool Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not Capitalize Pool`, description: "" };
+    }
+
+    return { title: t`Capitalizing Pool`, description: "" };
+  },
+  [METHODS.BOND_CLAIM]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Claimed ${tokenSymbol} Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Claimed ${tokenSymbol} Successfully`, description: "" };
+    }
+
+    return { title: t`Claiming ${tokenSymbol}`, description: "" };
+  },
+  [METHODS.INCIDENT_FINALIZE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Finalized Incident Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return { title: t`Could not Finalize Incident`, description: "" };
+    }
+
+    return { title: t`Finalizing Incident`, description: "" };
+  },
+  [METHODS.LIQUIDITY_TOKEN_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+  },
+  [METHODS.LIQUIDITY_REMOVE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Removed Liquidity Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not remove liquidity`,
+        description: "",
+      };
+    }
+
+    return { title: t`Could not remove liquidity`, description: "" };
+  },
+  [METHODS.LIQUIDITY_INFO]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Accrued intrest successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not accrue interest`,
+        description: "",
+      };
+    }
+
+    return { title: t`Accruing interest`, description: "" };
+  },
+  [METHODS.VOTE_APPROVE]: (status, _data) => {
+    const tokenSymbol = _data.tokenSymbol || "";
+
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
+    }
+
+    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+  },
+  [METHODS.VOTE_ATTEST]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: t`Attested successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not attest`,
+        description: "",
+      };
+    }
+
+    return { title: t`Attesting`, description: "" };
+  },
+  [METHODS.VOTE_REFUTE]: (status, _data) => {
+    if (status === STATUS.SUCCESS) {
+      return {
+        title: `Refuted successfully`,
+        description: "",
+      };
+    }
+
+    if (status === STATUS.FAILED) {
+      return {
+        title: t`Could not refute`,
+        description: "",
+      };
+    }
+
+    return { title: t`Refuting`, description: "" };
+  },
   generic: (_status, _data) => {
     return { title: t`Notification`, description: "" };
   },
