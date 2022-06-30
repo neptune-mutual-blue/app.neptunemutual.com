@@ -8,7 +8,7 @@ export const ModalRegular = ({
   disabled = false,
   rootProps = {},
   overlayClass = "",
-  defaultContentClassNames = "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max",
+  defaultContentClassNames = "fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max max-w-90vw",
   className = "",
   container = document.body,
   ...rest
