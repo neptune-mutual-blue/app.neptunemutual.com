@@ -1,11 +1,9 @@
-import { Contract } from "@ethersproject/contracts";
-
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { registry } from "@neptunemutual/sdk";
+import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useCallback, useEffect, useState } from "react";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
@@ -213,7 +211,8 @@ export const useUnstakeReportingStake = ({
         cleanup();
       };
 
-      const args = [coverKey, productKey, incidentDate];
+      const _productKey = productKey ?? utils.keyUtil.toBytes32("");
+      const args = [coverKey, _productKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstake",
@@ -246,14 +245,8 @@ export const useUnstakeReportingStake = ({
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      const resolutionContractAddress = await registry.Resolution.getAddress(
+      const resolutionContract = await registry.Resolution.getInstance(
         networkId,
-        signerOrProvider
-      );
-
-      const resolutionContract = new Contract(
-        resolutionContractAddress,
-        ["function unstakeWithClaim(bytes32, uint256)"],
         signerOrProvider
       );
 
@@ -327,8 +320,8 @@ export const useUnstakeReportingStake = ({
         cleanup();
       };
 
-      const productKey = null;
-      const args = [coverKey, productKey, incidentDate];
+      const _productKey = productKey ?? utils.keyUtil.toBytes32("");
+      const args = [coverKey, _productKey, incidentDate];
       invoke({
         instance: resolutionContract,
         methodName: "unstakeWithClaim",
