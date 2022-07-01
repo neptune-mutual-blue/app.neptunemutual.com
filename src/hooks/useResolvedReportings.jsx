@@ -61,6 +61,8 @@ export const useResolvedReportings = () => {
             finalized
             status
             resolutionTimestamp
+            totalAttestedStake
+            totalRefutedStake
           }
         }
         `,

@@ -13,6 +13,8 @@ export const ResolvedTBodyRow = ({
   productKey = safeFormatBytes32String(""),
   status,
   resolvedOn,
+  totalAttestedStake,
+  totalRefutedStake
 }) => {
   const { setStatsByKey } = useSortableStats();
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
@@ -40,7 +42,9 @@ export const ResolvedTBodyRow = ({
                   imgSrc, 
                   locale: router.locale, 
                   status, 
-                  resolvedOn 
+                  resolvedOn,
+                  totalAttestedStake,
+                  totalRefutedStake
                 })
               }
             </Fragment>
