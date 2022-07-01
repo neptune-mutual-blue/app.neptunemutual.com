@@ -29,7 +29,7 @@ const headers = [
 ].filter(Boolean);
 
 export const PoolsTabs = ({ active, children }) => {
-  const { poolsTvl: tvl } = useAppConstants();
+  const { poolsTvl: tvl, liquidityTokenDecimals } = useAppConstants();
   const router = useRouter();
 
   return (
@@ -42,7 +42,12 @@ export const PoolsTabs = ({ active, children }) => {
 
           {/* Total Value Locked */}
           <HeroStat title="Total Value Locked">
-            {formatCurrency(convertFromUnits(tvl), router.locale).long}
+            {
+              formatCurrency(
+                convertFromUnits(tvl, liquidityTokenDecimals),
+                router.locale
+              ).long
+            }
           </HeroStat>
         </Container>
 

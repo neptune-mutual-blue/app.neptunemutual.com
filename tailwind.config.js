@@ -95,11 +95,12 @@ module.exports = {
         "53px": "53px",
       },
       maxWidth: {
-        180: "180px",
-        15: "15rem",
-        52: "208px",
-        56: "224px",
-        60: "240px",
+        "180": "180px",
+        "15": "15rem",
+        "52": "208px",
+        "56": "224px",
+        "60": "240px",
+        "90vw": "90vw",
       },
       minWidth: {
         sm: "384px",
@@ -152,6 +153,8 @@ module.exports = {
         "404A5C": "#404A5C",
         "EEF4FF": "#EEF4FF",
         "F7E2BE": "#F7E2BE",
+        "E5F4F5": "#E5F4F5",
+        "FEEBE6": "#FEEBE6",
       },
       minHeight: {
         360: "360px",

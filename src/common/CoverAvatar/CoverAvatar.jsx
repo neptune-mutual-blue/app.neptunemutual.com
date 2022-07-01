@@ -3,7 +3,13 @@ import React from "react";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 
-export const CoverAvatar = ({ coverInfo, isDiversified }) => {
+export const CoverAvatar = ({ 
+  coverInfo,
+   isDiversified,
+   containerClass='grow',
+   diversifiedContainerClass='lg:w-18',
+   liquidityTxTable=false
+  }) => {
   if (!coverInfo) {
     return null;
   }
@@ -12,7 +18,10 @@ export const CoverAvatar = ({ coverInfo, isDiversified }) => {
   const isCover = Array.isArray(coverInfo.products);
 
   return (
-    <div className="relative flex items-center grow">
+    <div className={classNames(
+      "flex items-center",
+      containerClass
+    )}>
       {isDiversified && isCover ? (
         <React.Fragment>
           {products.slice(0, 3).map((item, idx) => {
@@ -20,10 +29,12 @@ export const CoverAvatar = ({ coverInfo, isDiversified }) => {
             return (
               <div
                 className={classNames(
-                  "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18",
-                  idx !== 0 && "-ml-7 lg:-ml-9 p-0.5"
+                  "inline-block max-w-full bg-FEFEFF rounded-full w-14",
+                  idx !== 0 && "-ml-7 lg:-ml-9 p-0.5",
+                  idx !== 0 && liquidityTxTable && "lg:-ml-4",
+                  diversifiedContainerClass
                 )}
-                key={item}
+                key={item.id}
               >
                 <img
                   src={imgSrc}
@@ -44,7 +55,8 @@ export const CoverAvatar = ({ coverInfo, isDiversified }) => {
       ) : (
         <div
           className={classNames(
-            "inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18"
+            "inline-block max-w-full bg-FEFEFF rounded-full w-14",
+            diversifiedContainerClass
           )}
         >
           <img

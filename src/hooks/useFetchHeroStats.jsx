@@ -31,8 +31,6 @@ const getQuery = () => {
       totalCoverLiquidityAdded
       totalCoverLiquidityRemoved
       totalCoverFee
-      
-      
     }
     cxTokens(where: {
       expiryDate_gt: "${startOfMonth}"
@@ -85,6 +83,7 @@ export const useFetchHeroStats = () => {
         coverFee: totalCoverFee.toString(),
         covered: totalCoveredAmount.toString(),
         tvlCover: tvlCover,
+        tvlPool: "0",
       });
     }
 
@@ -93,9 +92,9 @@ export const useFetchHeroStats = () => {
       .catch(console.error)
       .finally(() => setLoading(false));
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [graphData, networkId]);
 
   useEffect(() => {

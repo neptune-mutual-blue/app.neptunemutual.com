@@ -11,6 +11,12 @@ import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false);
@@ -47,11 +53,38 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.LIQUIDITY_TOKEN_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          tokenSymbol: vaultTokenSymbol,
+        },
+      });
+
       try {
         await txToast.push(tx, {
-          pending: t`Approving ${vaultTokenSymbol} tokens`,
-          success: t`Approved ${vaultTokenSymbol} tokens Successfully`,
-          failure: t`Could not approve ${vaultTokenSymbol} tokens`,
+          pending: getActionMessage(
+            METHODS.LIQUIDITY_TOKEN_APPROVE,
+            STATUS.PENDING,
+            {
+              tokenSymbol: vaultTokenSymbol,
+            }
+          ).title,
+          success: getActionMessage(
+            METHODS.LIQUIDITY_TOKEN_APPROVE,
+            STATUS.SUCCESS,
+            {
+              tokenSymbol: vaultTokenSymbol,
+            }
+          ).title,
+          failure: getActionMessage(
+            METHODS.LIQUIDITY_TOKEN_APPROVE,
+            STATUS.FAILED,
+            {
+              tokenSymbol: vaultTokenSymbol,
+            }
+          ).title,
         });
         cleanup();
       } catch (err) {
@@ -103,15 +136,38 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.LIQUIDITY_REMOVE,
+          status: STATUS.PENDING,
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Removing Liquidity`,
-            success: t`Removed Liquidity Successfully`,
-            failure: t`Could not remove liquidity`,
+            pending: getActionMessage(METHODS.LIQUIDITY_REMOVE, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.LIQUIDITY_REMOVE, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.LIQUIDITY_REMOVE, STATUS.FAILED)
+              .title,
           },
           {
-            onTxSuccess: onTxSuccess,
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_REMOVE,
+                status: STATUS.SUCCESS,
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_REMOVE,
+                status: STATUS.FAILED,
+              });
+            },
           }
         );
         cleanup();

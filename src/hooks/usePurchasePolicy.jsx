@@ -25,6 +25,8 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
+import { storePurchaseEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -139,9 +141,18 @@ export const usePurchasePolicy = ({
         await txToast.push(
           tx,
           {
-            pending: t`Approving ${liquidityTokenSymbol}`,
-            success: t`Approved ${liquidityTokenSymbol} Successfully`,
-            failure: t`Could not approve ${liquidityTokenSymbol}`,
+            pending: getActionMessage(METHODS.POLICY_APPROVE, STATUS.PENDING, {
+              value,
+              tokenSymbol: liquidityTokenSymbol,
+            }).title,
+            success: getActionMessage(METHODS.POLICY_APPROVE, STATUS.SUCCESS, {
+              value,
+              tokenSymbol: liquidityTokenSymbol,
+            }).title,
+            failure: getActionMessage(METHODS.POLICY_APPROVE, STATUS.FAILED, {
+              value,
+              tokenSymbol: liquidityTokenSymbol,
+            }).title,
           },
           {
             onTxSuccess: () => {
@@ -230,6 +241,13 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS,
               });
 
+              tx.wait().then((receipt) => {
+                const events = receipt.events;
+                const event = events.find((x) => x.event === "CoverPurchased");
+                const txHash = storePurchaseEvent(event, receipt.from);
+
+                router.push(`/my-policies/receipt/${txHash}`);
+              });
               onTxSuccess();
             },
             onTxFailure: () => {

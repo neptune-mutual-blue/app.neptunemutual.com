@@ -9,6 +9,12 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -49,15 +55,60 @@ export const useStakingPoolWithdraw = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.UNSTAKING_DEPOSIT,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol,
+          },
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Unstaking ${tokenSymbol}`,
-            success: t`Unstaked ${tokenSymbol} successfully`,
-            failure: t`Could not unstake ${tokenSymbol}`,
+            pending: getActionMessage(
+              METHODS.UNSTAKING_DEPOSIT,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.UNSTAKING_DEPOSIT,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.UNSTAKING_DEPOSIT,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
           },
           {
-            onTxSuccess: onTxSuccess,
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UNSTAKING_DEPOSIT,
+                status: STATUS.SUCCESS,
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UNSTAKING_DEPOSIT,
+                status: STATUS.FAILED,
+              });
+            },
           }
         );
 
@@ -128,15 +179,42 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.UNSTAKING_WITHDRAW,
+          status: STATUS.PENDING,
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Withdrawing rewards`,
-            success: t`Withdrawn rewards successfully`,
-            failure: t`Could not withdraw rewards`,
+            pending: getActionMessage(
+              METHODS.UNSTAKING_WITHDRAW,
+              STATUS.PENDING
+            ).title,
+            success: getActionMessage(
+              METHODS.UNSTAKING_WITHDRAW,
+              STATUS.SUCCESS
+            ).title,
+            failure: getActionMessage(METHODS.UNSTAKING_WITHDRAW, STATUS.FAILED)
+              .title,
           },
           {
-            onTxSuccess: onTxSuccess,
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UNSTAKING_WITHDRAW,
+                status: STATUS.SUCCESS,
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.UNSTAKING_WITHDRAW,
+                status: STATUS.FAILED,
+              });
+            },
           }
         );
 

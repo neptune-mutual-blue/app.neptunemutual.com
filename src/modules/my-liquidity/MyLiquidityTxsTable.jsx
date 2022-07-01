@@ -15,7 +15,6 @@ import { convertFromUnits } from "@/utils/bn";
 import { classNames } from "@/utils/classnames";
 import { useWeb3React } from "@web3-react/core";
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { getCoverImgSrc } from "@/src/helpers/cover";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -26,6 +25,8 @@ import { usePagination } from "@/src/hooks/usePagination";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { Fragment } from "react";
+import { CoverAvatar } from "@/common/CoverAvatar";
 
 const renderHeader = (col) => (
   <th
@@ -149,6 +150,7 @@ const DetailsRenderer = ({ row }) => {
   });
   const router = useRouter();
   const { liquidityTokenDecimals } = useAppConstants();
+  const isDiversified = coverInfo?.supportsProducts;
 
   if (!coverInfo) {
     return null;
@@ -157,13 +159,13 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
-        <img
-          src={getCoverImgSrc({ key: row.cover.id })}
-          alt={t`policy`}
-          height={32}
-          width={32}
+        <CoverAvatar 
+          coverInfo={coverInfo} 
+          isDiversified={isDiversified}
+          containerClass='grow-0'
+          diversifiedContainerClass='lg:w-8'
+          liquidityTxTable={true}
         />
-
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
           <span
@@ -181,7 +183,7 @@ const DetailsRenderer = ({ row }) => {
               ).short
             }
           </span>{" "}
-          {row.type == "PodsIssued" ? t`to` : t`from`} {coverInfo.projectName}
+          {row.type == "PodsIssued" ? t`to` : t`from`} {isDiversified ? coverInfo.infoObj.coverName : coverInfo.infoObj.projectName}
         </span>
       </div>
     </td>

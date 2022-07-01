@@ -17,6 +17,11 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -43,7 +48,12 @@ export const useProvideLiquidity = ({
     updateStakingTokenBalance,
     refetchInfo,
   } = useLiquidityFormsContext();
-  const { liquidityTokenAddress, NPMTokenAddress } = useAppConstants();
+  const {
+    liquidityTokenAddress,
+    NPMTokenAddress,
+    liquidityTokenSymbol,
+    NPMTokenSymbol,
+  } = useAppConstants();
   const {
     allowance: lqTokenAllowance,
     approve: lqTokenApprove,
@@ -81,12 +91,46 @@ export const useProvideLiquidity = ({
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          tokenSymbol: liquidityTokenSymbol,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving DAI`,
-          success: t`Approved DAI Successfully`,
-          failure: t`Could not approve DAI`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: t`Approving DAI`,
+            success: t`Approved DAI Successfully`,
+            failure: t`Could not approve DAI`,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
+                status: STATUS.SUCCESS,
+                data: {
+                  tokenSymbol: liquidityTokenSymbol,
+                },
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
+                status: STATUS.FAILED,
+                data: {
+                  tokenSymbol: liquidityTokenSymbol,
+                },
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
@@ -125,12 +169,47 @@ export const useProvideLiquidity = ({
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value: npmValue,
+          tokenSymbol: NPMTokenSymbol,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving NPM`,
-          success: t`Approved NPM Successfully`,
-          failure: t`Could not approve NPM`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: t`Approving NPM`,
+            success: t`Approved NPM Successfully`,
+            failure: t`Could not approve NPM`,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
+                status: STATUS.SUCCESS,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
+                status: STATUS.FAILED,
+                data: {
+                  tokenSymbol: NPMTokenSymbol,
+                },
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
@@ -179,7 +258,6 @@ export const useProvideLiquidity = ({
         liquidityTokenDecimals
       ).toString();
       const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString();
-
       const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -187,6 +265,14 @@ export const useProvideLiquidity = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.LIQUIDITY_PROVIDE,
+          status: STATUS.PENDING,
+          data: {
+            tokenSymbol: vaultTokenSymbol,
+          },
+        });
         await txToast.push(
           tx,
           {
@@ -194,7 +280,29 @@ export const useProvideLiquidity = ({
             success: t`Added Liquidity Successfully`,
             failure: t`Could not add liquidity`,
           },
-          { onTxSuccess: onTxSuccess }
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_PROVIDE,
+                status: STATUS.SUCCESS,
+                data: {
+                  tokenSymbol: vaultTokenSymbol,
+                },
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_PROVIDE,
+                status: STATUS.FAILED,
+                data: {
+                  tokenSymbol: vaultTokenSymbol,
+                },
+              });
+            },
+          }
         );
         cleanup();
       };
@@ -227,6 +335,7 @@ export const useProvideLiquidity = ({
     lqTokenAllowance || "0",
     convertToUnits(lqValue || "0", liquidityTokenDecimals)
   );
+
   const hasNPMTokenAllowance = isGreaterOrEqual(
     stakeTokenAllowance || "0",
     convertToUnits(npmValue || "0", npmTokenDecimals)
@@ -237,6 +346,7 @@ export const useProvideLiquidity = ({
     isValidNumber(lqValue) &&
     hasLqTokenAllowance &&
     hasNPMTokenAllowance;
+
   const isError =
     lqValue &&
     (!isValidNumber(lqValue) ||

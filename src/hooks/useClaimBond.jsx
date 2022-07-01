@@ -8,10 +8,18 @@ import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { useAppConstants } from "@/src/context/AppConstants";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState();
 
+  const { NPMTokenSymbol } = useAppConstants();
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
   const txToast = useTxToast();
@@ -40,17 +48,47 @@ export const useClaimBond = () => {
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.BOND_CLAIM,
+          status: STATUS.PENDING,
+          data: {
+            tokenSymbol: NPMTokenSymbol,
+          },
+        });
+
         await txToast.push(
           tx,
           {
-            pending: t`Claiming NPM`,
-            success: t`Claimed NPM Successfully`,
-            failure: t`Could not claim bond`,
+            pending: getActionMessage(METHODS.BOND_CLAIM, STATUS.PENDING, {
+              tokenSymbol: NPMTokenSymbol,
+            }).title,
+            success: getActionMessage(METHODS.BOND_CLAIM, STATUS.SUCCESS, {
+              tokenSymbol: NPMTokenSymbol,
+            }).title,
+            failure: getActionMessage(METHODS.BOND_CLAIM, STATUS.FAILED, {
+              tokenSymbol: NPMTokenSymbol,
+            }).title,
           },
           {
-            onTxSuccess: onTxSuccess,
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_CLAIM,
+                status: STATUS.SUCCESS,
+              });
+              onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.BOND_CLAIM,
+                status: STATUS.FAILED,
+              });
+            },
           }
         );
+
         cleanup();
       };
 

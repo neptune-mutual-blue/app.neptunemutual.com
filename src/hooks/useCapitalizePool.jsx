@@ -8,6 +8,12 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
   const [capitalizing, setCapitalizing] = useState(false);
@@ -43,11 +49,39 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Capitalizing Pool`,
-          success: t`Capitalized Pool Successfully`,
-          failure: t`Could not Capitalize Pool`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.POOL_CAPITALIZE,
+          status: STATUS.PENDING,
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.POOL_CAPITALIZE, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.POOL_CAPITALIZE, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.POOL_CAPITALIZE, STATUS.FAILED)
+              .title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       };
 

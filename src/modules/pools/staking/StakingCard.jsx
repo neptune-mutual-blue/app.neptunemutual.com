@@ -25,12 +25,14 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 // data from subgraph
 // info from `getInfo` on smart contract
 // Both data and info may contain common data
 export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const { setStatsByKey } = useSortableStats();
+  const { liquidityTokenDecimals } = useAppConstants();
   const { networkId } = useNetwork();
   const { info, refetch: refetchInfo } = usePoolInfo({
     key: data.key,
@@ -106,8 +108,16 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rightHalf = [
     {
       title: t`TVL`,
-      value: formatCurrency(convertFromUnits(tvl), router.locale, "USD").short,
-      tooltip: formatCurrency(convertFromUnits(tvl), router.locale, "USD").long,
+      value: formatCurrency(
+        convertFromUnits(tvl, liquidityTokenDecimals),
+        router.locale,
+        "USD"
+      ).short,
+      tooltip: formatCurrency(
+        convertFromUnits(tvl, liquidityTokenDecimals),
+        router.locale,
+        "USD"
+      ).long,
     },
   ];
 

@@ -22,6 +22,12 @@ import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContex
 import { MULTIPLIER } from "@/src/config/constants";
 import { t } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useClaimPolicyInfo = ({
   value,
@@ -31,6 +37,7 @@ export const useClaimPolicyInfo = ({
   productKey,
   incidentDate,
   claimPlatformFee,
+  tokenSymbol,
 }) => {
   const [approving, setApproving] = useState(false);
   const [claiming, setClaiming] = useState(false);
@@ -99,16 +106,67 @@ export const useClaimPolicyInfo = ({
       setApproving(false);
     };
     const handleError = (err) => {
-      notifyError(err, t`approve cxDAI tokens`);
+      notifyError(err, t`approve ${tokenSymbol} tokens`);
     };
 
     const onTransactionResult = async (tx) => {
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.CLAIM_COVER_APPROVE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          receiveAmount,
+          tokenSymbol,
+        },
+      });
+
       try {
-        await txToast.push(tx, {
-          pending: t`Approving cxDAI tokens`,
-          success: t`Approved cxDAI tokens Successfully`,
-          failure: t`Could not approve cxDAI tokens`,
-        });
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.PENDING,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            success: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.SUCCESS,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+            failure: getActionMessage(
+              METHODS.CLAIM_COVER_APPROVE,
+              STATUS.FAILED,
+              {
+                value,
+                tokenSymbol,
+              }
+            ).title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_APPROVE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_APPROVE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
         cleanup();
       } catch (err) {
         handleError(err);
@@ -158,6 +216,17 @@ export const useClaimPolicyInfo = ({
       );
 
       const onTransactionResult = async (tx) => {
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.CLAIM_COVER_COMPLETE,
+          status: STATUS.PENDING,
+          data: {
+            value,
+            receiveAmount,
+            tokenSymbol,
+          },
+        });
+
         await txToast.push(
           tx,
           {
@@ -167,8 +236,21 @@ export const useClaimPolicyInfo = ({
           },
           {
             onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_COMPLETE,
+                status: STATUS.SUCCESS,
+              });
+
               refetchBalance();
               onTxSuccess();
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.CLAIM_COVER_COMPLETE,
+                status: STATUS.FAILED,
+              });
             },
           }
         );

@@ -1,4 +1,4 @@
-import { GAS_MARGIN_MULTIPLIER, MULTIPLIER } from "@/src/config/constants";
+import { GAS_MARGIN_MULTIPLIER } from "@/src/config/constants";
 import BigNumber from "bignumber.js";
 
 BigNumber.config({
@@ -33,10 +33,6 @@ export const isValidNumber = (x) => {
 
   const y = new BigNumber(x);
   return BigNumber.isBigNumber(y);
-};
-
-export const convertUintToPercentage = (value) => {
-  return new BigNumber(value.toString()).dividedBy(MULTIPLIER).toString();
 };
 
 export const convertFromUnits = (value, decimals = 18) => {

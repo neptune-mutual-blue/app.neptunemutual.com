@@ -9,7 +9,6 @@ import { Header } from "@/common/Header/Header";
 import { NetworkProvider } from "@/src/context/Network";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
-import { CoversProvider } from "@/src/context/Covers";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
 import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
 import { ScrollToTopButton } from "@/common/ScrollToTop/ScrollToTopButton";
@@ -33,20 +32,18 @@ function MyApp({ Component, pageProps }) {
         <NetworkProvider>
           <AppConstantsProvider>
             <CoversAndProductsProvider>
-              <CoversProvider>
-                <UnlimitedApprovalProvider>
-                  <ToastProvider variant={DEFAULT_VARIANT}>
-                    <TxPosterProvider>
-                      <Header></Header>
-                      <div className="relative sm:static">
-                        <Component {...pageProps} />
-                        <DisclaimerModal />
-                        <ScrollToTopButton />
-                      </div>
-                    </TxPosterProvider>
-                  </ToastProvider>
-                </UnlimitedApprovalProvider>
-              </CoversProvider>
+              <UnlimitedApprovalProvider>
+                <ToastProvider variant={DEFAULT_VARIANT}>
+                  <TxPosterProvider>
+                    {!pageProps.noHeader && <Header></Header>}
+                    <div className="relative sm:static">
+                      <Component {...pageProps} />
+                      <DisclaimerModal />
+                      <ScrollToTopButton />
+                    </div>
+                  </TxPosterProvider>
+                </ToastProvider>
+              </UnlimitedApprovalProvider>
             </CoversAndProductsProvider>
           </AppConstantsProvider>
         </NetworkProvider>

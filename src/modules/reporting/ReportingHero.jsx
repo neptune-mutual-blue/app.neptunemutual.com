@@ -62,6 +62,7 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
         <div className="flex">
           <CoverProfileInfo
             coverKey={coverKey}
+            productKey={productKey}
             imgSrc={imgSrc}
             links={coverInfo?.infoObj.links}
             projectName={
