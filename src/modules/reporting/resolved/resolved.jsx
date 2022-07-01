@@ -22,6 +22,7 @@ import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow"
 import { ResolvedStatusBadge } from "@/modules/reporting/resolved/ResolvedStatusBadge";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
+import { convertFromUnits } from "@/utils/bn";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -155,6 +156,26 @@ export const ReportingResolvedPage = () => {
     );
   }
 
+  const renderTotalAttestedStake = (row) => {
+    return (
+      <td className="px-6 py-2">
+        {
+          convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()
+        }
+      </td>
+    );
+  }
+
+  const renderTotalRefutedStake = (row) => {
+    return (
+      <td className="px-6 py-2">
+        {
+          convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()
+        }
+      </td>
+    );
+  }
+
   const renderStatus = (row) => {
     return (
       <td className="px-6 py-2 text-right">
@@ -187,6 +208,18 @@ export const ReportingResolvedPage = () => {
       align: 'left',
       renderHeader,
       renderData: renderDateAndTime
+    },
+    {
+      name: t`total attested stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalAttestedStake
+    },
+    {
+      name: t`total refuted stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalRefutedStake
     },
     {
       name: t`status`,
@@ -255,9 +288,7 @@ export const ReportingResolvedPage = () => {
                       >
                         <ResolvedTBodyRow
                           columns={columns}
-                          id={report.id}
-                          coverKey={report.coverKey}
-                          productKey={report.productKey}
+                          {...report}
                           resolvedOn={resolvedOn}
                           status={ReportStatus[report.status]}
                         />
