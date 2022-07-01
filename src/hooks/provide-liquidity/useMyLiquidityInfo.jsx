@@ -13,6 +13,12 @@ import { t } from "@lingui/macro";
 import { ADDRESS_ONE, VAULT_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
 import { getInfo } from "@/src/services/protocol/vault/info";
+import { METHODS } from "@/src/services/transactions/const";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { getActionMessage } from "@/src/helpers/notification";
 
 const defaultInfo = {
   withdrawalOpen: "0",
@@ -163,11 +169,39 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Accruing intrest`,
-          success: t`Accrued intrest successfully`,
-          failure: t`Could not accrue interest`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.LIQUIDITY_INFO,
+          status: STATUS.PENDING,
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.LIQUIDITY_INFO, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.LIQUIDITY_INFO, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.LIQUIDITY_INFO, STATUS.FAILED)
+              .title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_INFO,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.LIQUIDITY_INFO,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
       };
 
       const onRetryCancel = () => {};

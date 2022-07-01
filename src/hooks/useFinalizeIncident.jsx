@@ -8,6 +8,12 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { t } from "@lingui/macro";
+import {
+  STATUS,
+  TransactionHistory,
+} from "@/src/services/transactions/transaction-history";
+import { METHODS } from "@/src/services/transactions/const";
+import { getActionMessage } from "@/src/helpers/notification";
 
 export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const [finalizing, setFinalizing] = useState(false);
@@ -43,11 +49,40 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
       );
 
       const onTransactionResult = async (tx) => {
-        await txToast.push(tx, {
-          pending: t`Finalizing Incident`,
-          success: t`Finalized Incident Successfully`,
-          failure: t`Could not Finalize Incident`,
+        TransactionHistory.push({
+          hash: tx.hash,
+          methodName: METHODS.INCIDENT_FINALIZE,
+          status: STATUS.PENDING,
         });
+
+        await txToast.push(
+          tx,
+          {
+            pending: getActionMessage(METHODS.INCIDENT_FINALIZE, STATUS.PENDING)
+              .title,
+            success: getActionMessage(METHODS.INCIDENT_FINALIZE, STATUS.SUCCESS)
+              .title,
+            failure: getActionMessage(METHODS.INCIDENT_FINALIZE, STATUS.FAILED)
+              .title,
+          },
+          {
+            onTxSuccess: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.INCIDENT_FINALIZE,
+                status: STATUS.SUCCESS,
+              });
+            },
+            onTxFailure: () => {
+              TransactionHistory.push({
+                hash: tx.hash,
+                methodName: METHODS.INCIDENT_FINALIZE,
+                status: STATUS.FAILED,
+              });
+            },
+          }
+        );
+
         cleanup();
       };
 
