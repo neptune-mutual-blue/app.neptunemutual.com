@@ -3,6 +3,8 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { ProductCard } from "@/common/Cover/ProductCard";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
+import { useEffect, useState } from "react";
+import { utils } from "@neptunemutual/sdk";
 
 export const ProductCardWrapper = ({
   coverKey,
@@ -12,12 +14,38 @@ export const ProductCardWrapper = ({
 }) => {
   const productInfo = useCoverOrProductData({ coverKey, productKey });
 
-  if (!productInfo) {
-    return <CardSkeleton numberOfCards={1} />;
-  }
-
   const cover_id = safeParseBytes32String(coverKey);
   const product_id = safeParseBytes32String(productKey);
+
+  const [productInfoState, setProductInfoState] = useState(null);
+
+  useEffect(() => {
+    let ignore = false;
+
+    if (!productInfo?.ipfsData && productInfo?.ipfsHash) {
+      utils.ipfs
+        .read(productInfo?.ipfsHash)
+        .then((info) => {
+          if (ignore) return;
+          setProductInfoState({
+            ...productInfo,
+            ipfsData: JSON.stringify(info),
+            infoObj: info,
+          });
+        })
+        .catch(console.log);
+    } else if (productInfo) {
+      setProductInfoState(productInfo);
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [productInfo]);
+
+  if (!productInfoState) {
+    return <CardSkeleton numberOfCards={1} />;
+  }
 
   return (
     <Link href={`/covers/${cover_id}/${product_id}/options`} key={coverKey}>
@@ -28,7 +56,7 @@ export const ProductCardWrapper = ({
         <ProductCard
           coverKey={coverKey}
           productKey={productKey}
-          productInfo={productInfo}
+          productInfo={productInfoState}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
         />
