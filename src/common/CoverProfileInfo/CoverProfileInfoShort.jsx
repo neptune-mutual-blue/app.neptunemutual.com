@@ -15,7 +15,11 @@ export const CoverProfileInfoShort = ({
       data-testid="cover-profile-info-short"
     >
       <div className="mr-4 border rounded-full w-11 border-B0C4DB">
-        <img src={imgSrc} alt={title} />
+        <img
+          src={imgSrc}
+          alt={title}
+          onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
+        />
       </div>
       <div>
         <h4 className={classNames("font-sora font-bold", fontSizeClass)}>
