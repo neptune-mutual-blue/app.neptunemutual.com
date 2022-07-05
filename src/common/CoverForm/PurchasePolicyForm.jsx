@@ -74,7 +74,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     isUserWhitelisted,
     requiresWhitelist,
     activeIncidentDate,
-    coverStatus,
     productStatus,
   } = useCoverStatsContext();
 
@@ -120,7 +119,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   const cover_id = safeParseBytes32String(coverKey);
   const product_id = safeParseBytes32String(productKey);
-  const status = !isDiversified ? coverStatus : productStatus;
+  const status = productStatus;
   if (status && status !== "Normal") {
     return (
       <Alert>

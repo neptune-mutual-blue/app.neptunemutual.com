@@ -4,7 +4,6 @@ import { consensus } from "../../../store-keys";
 
 export const getKeys = async (coverKey, productKey, account, incidentDate) => {
   return [
-    consensus.coverStatusOf(coverKey, incidentDate, "decision"),
     consensus.coverProductStatusOf(
       coverKey,
       productKey,
