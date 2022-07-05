@@ -104,7 +104,7 @@ export const ProductCard = ({
             router.locale
           )}
         </div>
-        {productInfo.cover.infoObj.leverage && (
+        {productInfo.cover?.infoObj.leverage && (
           <InfoTooltip
             infoComponent={
               <p>
