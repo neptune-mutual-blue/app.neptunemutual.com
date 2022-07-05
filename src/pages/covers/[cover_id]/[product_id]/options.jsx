@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 export function getServerSideProps() {
   return {
@@ -18,6 +20,11 @@ export function getServerSideProps() {
 export default function Options({ disabled }) {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
+
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
+
+  const productInfo = useCoverOrProductData({ coverKey, productKey });
 
   if (disabled) {
     return <ComingSoon />;
@@ -38,12 +45,12 @@ export default function Options({ disabled }) {
           pages={[
             { name: t`Home`, href: "/", current: false },
             {
-              name: cover_id,
+              name: productInfo?.cover?.infoObj?.coverName || t`loading..`,
               href: `/covers/${cover_id}/options`,
               current: true,
             },
             {
-              name: product_id,
+              name: productInfo?.infoObj?.productName || t`loading..`,
               href: `/covers/${cover_id}/${product_id}/options`,
               current: true,
             },

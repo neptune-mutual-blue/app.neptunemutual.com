@@ -3,13 +3,13 @@ import React from "react";
 import { classNames } from "@/utils/classnames";
 import { Trans } from "@lingui/macro";
 
-export const CoverAvatar = ({ 
+export const CoverAvatar = ({
   coverInfo,
-   isDiversified,
-   containerClass='grow',
-   diversifiedContainerClass='lg:w-18',
-   liquidityTxTable=false
-  }) => {
+  isDiversified,
+  containerClass = "grow",
+  diversifiedContainerClass = "lg:w-18",
+  liquidityTxTable = false,
+}) => {
   if (!coverInfo) {
     return null;
   }
@@ -18,10 +18,7 @@ export const CoverAvatar = ({
   const isCover = Array.isArray(coverInfo.products);
 
   return (
-    <div className={classNames(
-      "flex items-center",
-      containerClass
-    )}>
+    <div className={classNames("flex items-center", containerClass)}>
       {isDiversified && isCover ? (
         <React.Fragment>
           {products.slice(0, 3).map((item, idx) => {
@@ -41,6 +38,7 @@ export const CoverAvatar = ({
                   alt={item.productName}
                   className="rounded-full bg-DEEAF6"
                   data-testid="cover-img"
+                  onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
                 />
               </div>
             );
@@ -68,6 +66,7 @@ export const CoverAvatar = ({
             }
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
+            onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
           />
         </div>
       )}
