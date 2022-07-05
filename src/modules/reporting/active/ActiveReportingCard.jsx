@@ -33,7 +33,7 @@ export const ActiveReportingCard = ({
   const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { activeCommitment, coverStatus, productStatus } = useFetchCoverStats({
+  const { activeCommitment, productStatus } = useFetchCoverStats({
     coverKey,
     productKey,
   });
@@ -71,9 +71,7 @@ export const ActiveReportingCard = ({
           />
         </div>
         <div>
-          <CardStatusBadge
-            status={isDiversified ? productStatus : coverStatus}
-          />
+          <CardStatusBadge status={productStatus} />
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">

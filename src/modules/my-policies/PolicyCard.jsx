@@ -23,7 +23,7 @@ export const PolicyCard = ({ policyInfo }) => {
     productKey: policyInfo.productKey,
   });
 
-  const { coverStatus, productStatus } = useFetchCoverStats({
+  const { productStatus } = useFetchCoverStats({
     coverKey: policyInfo.coverKey,
     productKey: policyInfo.productKey,
   });
@@ -64,7 +64,7 @@ export const PolicyCard = ({ policyInfo }) => {
   if (isPolicyExpired) {
     status = ReportStatus[report?.status];
   } else {
-    status = isDiversified ? productStatus : coverStatus;
+    status = productStatus;
 
     const isClaimable = report ? report.status == "Claimable" : false;
     const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);

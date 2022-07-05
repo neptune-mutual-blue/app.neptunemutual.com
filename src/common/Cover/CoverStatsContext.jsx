@@ -11,7 +11,6 @@ const defaultStats = {
   reporterCommission: "0",
   reportingPeriod: "0",
   requiresWhitelist: false,
-  coverStatus: "",
   productStatus: "",
   totalPoolAmount: "0",
 };
@@ -31,7 +30,6 @@ export const CoverStatsProvider = ({
     reporterCommission,
     reportingPeriod,
     requiresWhitelist,
-    coverStatus,
     productStatus,
     totalPoolAmount,
     availableLiquidity,
@@ -51,7 +49,6 @@ export const CoverStatsProvider = ({
         reportingPeriod,
         requiresWhitelist,
         availableLiquidity,
-        coverStatus,
         productStatus,
         totalPoolAmount,
       }}
