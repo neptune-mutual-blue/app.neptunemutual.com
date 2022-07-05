@@ -60,11 +60,6 @@ export const getKeys = async (
       property: "reportingPeriod",
     },
     {
-      key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_STATUS, coverKey],
-      returns: "uint256",
-      property: "coverStatus",
-    },
-    {
       key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_STATUS, coverKey, productKey],
       returns: "uint256",
       property: "productStatus",

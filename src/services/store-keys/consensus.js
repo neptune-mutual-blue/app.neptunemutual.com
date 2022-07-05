@@ -27,19 +27,6 @@ export const totalStakeIncidentOccurred = (
   };
 };
 
-export const coverStatusOf = (
-  coverKey,
-  incidentDate,
-  property = "coverStatus"
-) => {
-  return {
-    key: [utils.keyUtil.PROTOCOL.NS.COVER_STATUS, coverKey, incidentDate],
-    signature: ["bytes32", "bytes32", "uint256"],
-    returns: "uint256",
-    property,
-  };
-};
-
 export const coverProductStatusOf = (
   coverKey,
   productKey,

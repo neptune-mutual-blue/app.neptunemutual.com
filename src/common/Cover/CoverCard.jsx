@@ -31,7 +31,7 @@ export const CoverCard = ({
 
   const productKey = utils.keyUtil.toBytes32("");
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
-  const { activeCommitment, coverStatus } = useFetchCoverStats({
+  const { activeCommitment, productStatus } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
@@ -80,7 +80,7 @@ export const CoverCard = ({
         >
           <div>
             <CardStatusBadge
-              status={isDiversified ? "Diversified" : coverStatus}
+              status={isDiversified ? "Diversified" : productStatus}
             />
           </div>
         </InfoTooltip>

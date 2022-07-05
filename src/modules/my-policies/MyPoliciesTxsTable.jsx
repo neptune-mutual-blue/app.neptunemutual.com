@@ -197,7 +197,10 @@ const DetailsRenderer = ({ row }) => {
               ).short
             }
           </span>{" "}
-          {coverInfo.projectName} <Trans>policy</Trans>
+          {isDiversified
+            ? coverInfo.infoObj.productName
+            : coverInfo.infoObj.projectName}{" "}
+          <Trans>policy</Trans>
         </span>
       </div>
     </td>

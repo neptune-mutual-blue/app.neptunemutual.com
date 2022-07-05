@@ -1,6 +1,5 @@
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
-import { isValidProduct } from "@/src/helpers/cover";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
 import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
@@ -13,10 +12,7 @@ export const CoverProfileInfo = ({
   coverKey,
   productKey,
 }) => {
-  const { coverStatus, productStatus, activeIncidentDate } =
-    useCoverStatsContext();
-
-  const isDiversified = isValidProduct(productKey);
+  const { productStatus, activeIncidentDate } = useCoverStatsContext();
 
   return (
     <div className="flex" data-testid="coverprofileinfo-container">
@@ -30,7 +26,7 @@ export const CoverProfileInfo = ({
           <ProjectStatusIndicator
             coverKey={coverKey}
             productKey={productKey}
-            status={!isDiversified ? coverStatus : productStatus}
+            status={productStatus}
             incidentDate={activeIncidentDate}
           />
         </div>

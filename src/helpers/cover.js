@@ -23,9 +23,15 @@ export const isValidProduct = (productKey) => {
   );
 };
 
-export const getParsedCoverInfo = (ipfsStr = "") => {
+export const getParsedCoverInfo = async (ipfsStr = "", ipfsHash) => {
   try {
-    const obj = JSON.parse(ipfsStr);
+    let obj;
+
+    if (!ipfsStr) {
+      obj = await utils.ipfs.read(ipfsHash);
+    } else {
+      obj = JSON.parse(ipfsStr);
+    }
 
     return {
       coverName: obj.coverName,
@@ -59,9 +65,15 @@ export const getParsedCoverInfo = (ipfsStr = "") => {
   };
 };
 
-export const getParsedProductInfo = (ipfsStr = "") => {
+export const getParsedProductInfo = async (ipfsStr = "", ipfsHash) => {
   try {
-    const obj = JSON.parse(ipfsStr);
+    let obj;
+
+    if (!ipfsStr) {
+      obj = await utils.ipfs.read(ipfsHash);
+    } else {
+      obj = JSON.parse(ipfsStr);
+    }
 
     return {
       productName: obj.productName,
