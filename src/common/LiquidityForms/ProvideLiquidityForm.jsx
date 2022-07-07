@@ -274,42 +274,45 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       <div className="mt-2">
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
-          <RegularButton
-            disabled={
-              hasLqTokenAllowance || lqApproving || lqErrorMsg || loadingMessage
-            }
-            className="w-full p-6 font-semibold uppercase text-h6"
-            onClick={handleLqTokenApprove}
-          >
-            {lqApproving ? (
-              t`Approving...`
-            ) : (
-              <>
-                <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
-              </>
-            )}
-          </RegularButton>
-        )}
+          <div className="flex items-center gap-x-10">
+            <RegularButton
+              disabled={
+                hasLqTokenAllowance ||
+                lqApproving ||
+                lqErrorMsg ||
+                loadingMessage
+              }
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleLqTokenApprove}
+            >
+              {lqApproving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
+                </>
+              )}
+            </RegularButton>
 
-        {!hasBothAllowances && (
-          <RegularButton
-            disabled={
-              hasNPMTokenAllowance ||
-              npmApproving ||
-              npmErrorMsg ||
-              loadingMessage
-            }
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            onClick={handleNPMTokenApprove}
-          >
-            {npmApproving ? (
-              t`Approving...`
-            ) : (
-              <>
-                <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
-              </>
-            )}
-          </RegularButton>
+            <RegularButton
+              disabled={
+                hasNPMTokenAllowance ||
+                npmApproving ||
+                npmErrorMsg ||
+                loadingMessage
+              }
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleNPMTokenApprove}
+            >
+              {npmApproving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
+                </>
+              )}
+            </RegularButton>
+          </div>
         )}
 
         {hasBothAllowances && (
