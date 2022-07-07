@@ -4,10 +4,17 @@ import { useRouter } from "next/router";
 import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { t } from "@lingui/macro";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
 export default function Options() {
   const router = useRouter();
-  const { cover_id } = router.query;
+  const { cover_id, product_id } = router.query;
+
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
+
+  const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
   return (
     <main>
@@ -24,7 +31,7 @@ export default function Options() {
           pages={[
             { name: t`Home`, href: "/", current: false },
             {
-              name: cover_id,
+              name: coverInfo?.infoObj?.coverName || t`loading..`,
               href: `/covers/${cover_id}/options`,
               current: true,
             },

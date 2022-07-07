@@ -16,6 +16,7 @@ import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
 import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
 import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
 import { useCovers } from "@/src/hooks/useCovers";
+import { isValidProduct } from "@/src/helpers/cover";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -105,7 +106,7 @@ export const AvailableCovers = () => {
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
 
-          if (coverView == "products" && c.productKey !== null) {
+          if (coverView == "products" && isValidProduct(c.productKey)) {
             return (
               <ProductCardWrapper
                 key={c.id}
