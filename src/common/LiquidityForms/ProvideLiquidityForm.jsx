@@ -85,6 +85,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
 
   useEffect(() => {
+    isEqualTo(requiredStake, "0") && setNPMValue("0");
     if (
       npmValue &&
       isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
