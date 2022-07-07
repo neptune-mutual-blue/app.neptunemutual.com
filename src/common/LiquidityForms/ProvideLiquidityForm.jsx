@@ -92,12 +92,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       setNpmErrorMsg(t`Insufficient Stake`);
     } else if (
       npmValue &&
-      !isEqualTo(requiredStake, "0") &&
-      isEqualTo(convertToUnits(npmValue, npmTokenDecimals), "0")
-    ) {
-      setNpmErrorMsg(t`Please specify an amount`);
-    } else if (
-      npmValue &&
       isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
     ) {
       setNpmErrorMsg(t`Exceeds maximum balance`);
@@ -183,6 +177,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } else if (lqAllowanceLoading) {
     loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
+
+  const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false;
 
   return (
     <div className="max-w-md" data-testid="add-liquidity-form">
@@ -321,7 +317,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               isError ||
               providing ||
               !lqValue ||
-              !npmValue ||
+              isInvalidNpm ||
               npmErrorMsg ||
               lqErrorMsg ||
               loadingMessage
