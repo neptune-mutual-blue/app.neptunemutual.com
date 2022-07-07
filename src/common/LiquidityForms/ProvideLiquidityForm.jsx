@@ -22,11 +22,15 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
-import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
 
-export const ProvideLiquidityForm = ({ coverKey, info }) => {
+export const ProvideLiquidityForm = ({
+  coverKey,
+  info,
+  latestIncident,
+  isDiversified,
+}) => {
   const [lqValue, setLqValue] = useState("");
   const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
@@ -42,7 +46,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
 
-  const { productStatus, activeIncidentDate } = useCoverStatsContext();
   const {
     npmBalance,
     lqApproving,
@@ -151,16 +154,20 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
-  const status = productStatus;
-  if (status && status !== "Normal") {
+  const status = latestIncident.status;
+  const incidentLink = isDiversified
+    ? `/reporting/${safeParseBytes32String(coverKey)}/product/${
+        latestIncident?.productKey
+      }/${latestIncident?.incidentDate}/details`
+    : `/reporting/${safeParseBytes32String(coverKey)}/${
+        latestIncident?.incidentDate
+      }/details`;
+
+  if (latestIncident?.status !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
-        <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
-        >
+        <Link href={incidentLink}>
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>
