@@ -174,7 +174,7 @@ export const useProvideLiquidity = ({
         methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
         status: STATUS.PENDING,
         data: {
-          value: npmValue,
+          value: npmValue || 0,
           tokenSymbol: NPMTokenSymbol,
         },
       });
@@ -228,7 +228,7 @@ export const useProvideLiquidity = ({
 
     stakeTokenApprove(
       vaultTokenAddress,
-      convertToUnits(npmValue, npmTokenDecimals).toString(),
+      convertToUnits(npmValue || 0, npmTokenDecimals).toString(),
       {
         onTransactionResult,
         onRetryCancel,
@@ -257,7 +257,10 @@ export const useProvideLiquidity = ({
         lqValue,
         liquidityTokenDecimals
       ).toString();
-      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString();
+      const npmAmount = convertToUnits(
+        npmValue || 0,
+        npmTokenDecimals
+      ).toString();
       const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,

@@ -43,6 +43,19 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } = useAppConstants();
 
   const { status, activeIncidentDate } = useCoverStatsContext();
+
+  const {
+    info: {
+      minStakeToAddLiquidity,
+      myStake,
+      myStablecoinBalance,
+      vaultTokenSymbol,
+      vault: vaultTokenAddress,
+    },
+  } = useLiquidityFormsContext();
+
+  const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
+
   const {
     npmBalance,
     lqApproving,
@@ -61,20 +74,10 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } = useProvideLiquidity({
     coverKey,
     lqValue,
-    npmValue,
+    npmValue: !npmValue && isEqualTo(requiredStake, "0") ? 0 : npmValue,
     liquidityTokenDecimals,
     npmTokenDecimals,
   });
-
-  const {
-    info: {
-      minStakeToAddLiquidity,
-      myStake,
-      myStablecoinBalance,
-      vaultTokenSymbol,
-      vault: vaultTokenAddress,
-    },
-  } = useLiquidityFormsContext();
 
   const { receiveAmount, loading: receiveAmountLoading } = useCalculatePods({
     coverKey,
@@ -82,10 +85,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     podAddress: vaultTokenAddress,
   });
 
-  const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
-
   useEffect(() => {
-    isEqualTo(requiredStake, "0") && setNPMValue("0");
     if (
       npmValue &&
       isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
@@ -319,7 +319,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               isError ||
               providing ||
               !lqValue ||
-              !npmValue ||
+              (!npmValue && !isEqualTo(requiredStake, "0")) ||
               npmErrorMsg ||
               lqErrorMsg ||
               loadingMessage
