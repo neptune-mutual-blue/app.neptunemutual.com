@@ -42,7 +42,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
 
-  const { status, activeIncidentDate } = useCoverStatsContext();
+  const { productStatus, activeIncidentDate } = useCoverStatsContext();
   const {
     npmBalance,
     lqApproving,
@@ -157,7 +157,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
-
+  const status = productStatus;
   if (status && status !== "Normal") {
     return (
       <Alert>
