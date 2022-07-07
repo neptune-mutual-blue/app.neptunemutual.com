@@ -92,10 +92,9 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       setNpmErrorMsg(t`Insufficient Stake`);
     } else if (
       npmValue &&
+      !isEqualTo(requiredStake, "0") &&
       isEqualTo(convertToUnits(npmValue, npmTokenDecimals), "0")
     ) {
-      // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
-      // then user should be able to provide ZERO for this input.
       setNpmErrorMsg(t`Please specify an amount`);
     } else if (
       npmValue &&
