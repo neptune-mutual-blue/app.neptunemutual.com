@@ -5,12 +5,9 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
-import { getReplacedString } from "@/utils/string";
-import { ADDRESS_ONE, UNSTAKE_INFO_URL } from "@/src/config/constants";
-import { getUnstakeInfoFor } from "@/src/services/protocol/consensus/info";
 import {
   STATUS,
   TransactionHistory,
@@ -19,31 +16,11 @@ import { METHODS } from "@/src/services/transactions/const";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { getActionMessage } from "@/src/helpers/notification";
 
-const defaultInfo = {
-  yes: "0",
-  no: "0",
-  myYes: "0",
-  myNo: "0",
-  totalStakeInWinningCamp: "0",
-  totalStakeInLosingCamp: "0",
-  myStakeInWinningCamp: "0",
-  unstaken: "0",
-  latestIncidentDate: "0",
-  burnRate: "0",
-  reporterCommission: "0",
-  allocatedReward: "0",
-  toBurn: "0",
-  toReporter: "0",
-  myReward: "0",
-  willReceive: "0",
-};
-
 export const useUnstakeReportingStake = ({
   coverKey,
   productKey,
   incidentDate,
 }) => {
-  const [info, setInfo] = useState(defaultInfo);
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -55,70 +32,6 @@ export const useUnstakeReportingStake = ({
 
   const { NPMTokenSymbol } = useAppConstants();
 
-  const fetchInfo = useCallback(async () => {
-    if (!networkId || !coverKey) {
-      return;
-    }
-
-    let data;
-    if (account) {
-      // Get data from provider if wallet's connected
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      data = await getUnstakeInfoFor(
-        networkId,
-        coverKey,
-        productKey,
-        account,
-        incidentDate,
-        signerOrProvider.provider
-      );
-    } else {
-      // Get data from API if wallet's not connected
-      const response = await fetch(
-        getReplacedString(UNSTAKE_INFO_URL, {
-          networkId,
-          coverKey,
-          productKey,
-          account: ADDRESS_ONE,
-          incidentDate,
-        }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        return;
-      }
-
-      data = (await response.json()).data;
-    }
-
-    return data;
-  }, [networkId, coverKey, account, library, productKey, incidentDate]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    fetchInfo()
-      .then((data) => {
-        if (ignore || !data) {
-          return;
-        }
-
-        setInfo(data);
-      })
-      .catch(console.error);
-
-    return () => {
-      ignore = true;
-    };
-  }, [fetchInfo]);
-
   const unstake = async () => {
     if (!networkId || !account) {
       requiresAuth();
@@ -127,7 +40,6 @@ export const useUnstakeReportingStake = ({
 
     setUnstaking(true);
     const cleanup = () => {
-      fetchInfo().catch(console.error);
       setUnstaking(false);
     };
     const handleError = (err) => {
@@ -235,7 +147,6 @@ export const useUnstakeReportingStake = ({
 
     setUnstaking(true);
     const cleanup = () => {
-      fetchInfo().catch(console.error);
       setUnstaking(false);
     };
 
@@ -337,7 +248,6 @@ export const useUnstakeReportingStake = ({
   };
 
   return {
-    info,
     unstake,
     unstakeWithClaim,
     unstaking,
