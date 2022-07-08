@@ -13,7 +13,7 @@ const VARIANTS = {
     style: "top-0 left-0",
   },
   top_right: {
-    style: "top-24 right-0",
+    style: "top-15% max-h-80% right-0",
   },
   bottom_right: {
     style: "bottom-0 right-0",
@@ -44,7 +44,7 @@ const ToastContainer = ({ variant = "top_right", data }) => {
       className={classNames(
         Var.style,
         "fixed z-60 w-full md:max-w-sm",
-        "p-4 md:p-4 max-h-screen overflow-hidden pointer-events-none"
+        "px-4 mr-2 overflow-x-hidden overflow-y-auto"
       )}
     >
       <div
