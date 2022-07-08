@@ -19,17 +19,22 @@ export async function getCoverData(networkId, coverKey) {
       ipfsHash
       ipfsData
     }
-    incidentReports (first: 1) {
+    incidentReports (
+      first: 1
+      orderBy: "finalized"
+    ) {
       id
       status
       incidentDate
       productKey
+      finalized
     }
   }
 }`
   );
 
   if (!data) return null;
+
   const latestIncident = data?.cover?.incidentReports?.[0];
   const products = await Promise.all(
     data.cover.products.map(async (product) => ({
@@ -50,12 +55,12 @@ export async function getCoverData(networkId, coverKey) {
     ipfsData: data.cover.ipfsData,
     infoObj: await getParsedCoverInfo(data.cover.ipfsData, data.cover.ipfsHash),
     products: products,
-    latestIncident: latestIncident
-      ? {
-          ...latestIncident,
-          status: ReportStatus[latestIncident.status],
-        }
-      : null,
+    latestIncident: {
+      ...(latestIncident || {}),
+      status: latestIncident?.finalized
+        ? "Normal"
+        : ReportStatus[latestIncident.status],
+    },
   };
 }
 
@@ -75,11 +80,15 @@ export async function getCoverProductData(networkId, coverKey, productKey) {
       coverKey
       ipfsHash
       ipfsData
-      incidentReports (first: 1) {
+      incidentReports (
+        first: 1
+        orderBy: "finalized"
+      ) {
         id
         status
         incidentDate
         productKey
+        finalized
       }
     }
   }
@@ -87,6 +96,7 @@ export async function getCoverProductData(networkId, coverKey, productKey) {
   );
 
   if (!data) return null;
+
   const latestIncident = data?.product?.cover?.incidentReports?.[0];
   return {
     id: data.product.id,
@@ -108,12 +118,12 @@ export async function getCoverProductData(networkId, coverKey, productKey) {
         data.product.cover.ipfsData,
         data.product.cover.ipfsHash
       ),
-      latestIncident: latestIncident
-        ? {
-            ...latestIncident,
-            status: ReportStatus[latestIncident.status],
-          }
-        : null,
+      latestIncident: {
+        ...(latestIncident || {}),
+        status: latestIncident?.finalized
+          ? "Normal"
+          : ReportStatus[latestIncident.status],
+      },
     },
   };
 }

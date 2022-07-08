@@ -154,7 +154,7 @@ export const ProvideLiquidityForm = ({
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
-  const status = latestIncident.status;
+  const status = latestIncident?.status;
   const incidentLink = isDiversified
     ? `/reporting/${safeParseBytes32String(coverKey)}/product/${
         latestIncident?.productKey

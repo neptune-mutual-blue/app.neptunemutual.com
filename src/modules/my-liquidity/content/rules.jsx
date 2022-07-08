@@ -81,7 +81,6 @@ function WarningMessage() {
 }
 
 function Notes({ coverInfo }) {
-  console.log(coverInfo);
   return (
     <div className="flex flex-col pt-6">
       <p>
