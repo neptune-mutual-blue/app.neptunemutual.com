@@ -8,11 +8,17 @@ import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReport
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { useUnstakeReportingInfo } from "@/src/hooks/useUnstakeReportingInfo";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
+  });
+  const { info } = useUnstakeReportingInfo({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+    incidentDate: incidentReport.incidentDate,
   });
 
   const now = DateLib.unix();
@@ -45,12 +51,17 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
           <ResolvedReportSummary
             refetchReport={refetchReport}
             incidentReport={incidentReport}
+            yes={info.yes}
+            no={info.no}
+            willReceive={info.willReceive}
           />
         ) : (
           <ActiveReportSummary
             refetchReport={refetchReport}
             incidentReport={incidentReport}
             resolvableTill={incidentReport.resolutionDeadline}
+            yes={info.yes}
+            no={info.no}
           />
         )}
 

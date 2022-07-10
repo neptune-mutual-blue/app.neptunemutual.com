@@ -21,6 +21,8 @@ export const ActiveReportSummary = ({
   refetchReport,
   incidentReport,
   resolvableTill,
+  yes,
+  no
 }) => {
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
@@ -28,10 +30,10 @@ export const ActiveReportSummary = ({
   const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
-    yes: convertFromUnits(incidentReport.totalAttestedStake)
+    yes: convertFromUnits(yes)
       .decimalPlaces(0)
       .toNumber(),
-    no: convertFromUnits(incidentReport.totalRefutedStake)
+    no: convertFromUnits(no)
       .decimalPlaces(0)
       .toNumber(),
   };

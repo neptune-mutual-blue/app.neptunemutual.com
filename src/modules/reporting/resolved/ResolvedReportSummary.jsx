@@ -16,7 +16,13 @@ import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
+export const ResolvedReportSummary = ({ 
+  incidentReport, 
+  refetchReport,   
+  yes,
+  no,
+  willReceive 
+}) => {
   const router = useRouter();
   const { product_id } = router.query;
   const productKey = safeFormatBytes32String(product_id || "");
@@ -33,10 +39,10 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
   const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
-    yes: convertFromUnits(incidentReport.totalAttestedStake)
+    yes: convertFromUnits(yes)
       .decimalPlaces(0)
       .toNumber(),
-    no: convertFromUnits(incidentReport.totalRefutedStake)
+    no: convertFromUnits(no)
       .decimalPlaces(0)
       .toNumber(),
   };
@@ -83,7 +89,7 @@ export const ResolvedReportSummary = ({ incidentReport, refetchReport }) => {
           />
           <Divider />
 
-          <UnstakeYourAmount incidentReport={incidentReport} />
+          <UnstakeYourAmount incidentReport={incidentReport} willReceive={willReceive} />
         </div>
 
         {/* Right half */}
