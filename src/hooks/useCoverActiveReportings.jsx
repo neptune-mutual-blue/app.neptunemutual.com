@@ -17,6 +17,7 @@ const getQuery = (coverKey) => {
   `;
 };
 
+// TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
 export const useCoverActiveReportings = ({ coverKey }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
