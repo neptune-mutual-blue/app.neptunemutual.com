@@ -75,7 +75,7 @@ export const UnStakeForm = ({
         disabled={withdrawing}
       >
         <p className="-ml-3">
-          <Trans>Balance:</Trans>{" "}
+          <Trans>Staked:</Trans>{" "}
           {
             formatCurrency(
               convertFromUnits(stakedAmount),
