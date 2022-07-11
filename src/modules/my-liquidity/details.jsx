@@ -106,7 +106,6 @@ export const MyLiquidityCoverPage = () => {
                   coverKey={coverKey}
                   info={info}
                   isDiversified={isDiversified}
-                  latestIncident={coverInfo?.latestIncident}
                 />
               </div>
             </div>

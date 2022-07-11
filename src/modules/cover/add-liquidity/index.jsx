@@ -67,6 +67,7 @@ export const CoverAddLiquidityDetailsPage = () => {
             ) : (
               <CoverProfileInfo
                 coverKey={coverKey}
+                productKey={productKey}
                 imgSrc={imgSrc}
                 projectName={coverInfo?.infoObj.coverName}
                 links={coverInfo?.infoObj.links}
@@ -93,7 +94,6 @@ export const CoverAddLiquidityDetailsPage = () => {
                   coverKey={coverKey}
                   info={info}
                   isDiversified={isDiversified}
-                  latestIncident={coverInfo?.latestIncident}
                 />
               </div>
             ) : (
