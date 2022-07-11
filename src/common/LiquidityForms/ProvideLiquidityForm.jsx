@@ -24,13 +24,9 @@ import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityForms
 import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverActiveReportings } from "@/src/hooks/useCoverActiveReportings";
 
-export const ProvideLiquidityForm = ({
-  coverKey,
-  info,
-  latestIncident,
-  isDiversified,
-}) => {
+export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   const [lqValue, setLqValue] = useState("");
   const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
@@ -84,6 +80,8 @@ export const ProvideLiquidityForm = ({
     value: lqValue,
     podAddress: vaultTokenAddress,
   });
+
+  const { data: activeReportings } = useCoverActiveReportings({ coverKey });
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
 
@@ -154,17 +152,22 @@ export const ProvideLiquidityForm = ({
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
-  const status = latestIncident?.status;
-  const incidentLink = isDiversified
-    ? `/reporting/${safeParseBytes32String(coverKey)}/product/${
-        latestIncident?.productKey
-      }/${latestIncident?.incidentDate}/details`
-    : `/reporting/${safeParseBytes32String(coverKey)}/${
-        latestIncident?.incidentDate
-      }/details`;
 
-  if (latestIncident?.status !== "Normal") {
-    return (
+  if (activeReportings.length > 0) {
+    const status = activeReportings[0].status;
+    const incidentDate = activeReportings[0].incidentDate;
+    const cover_id = safeParseBytes32String(coverKey);
+
+    const incidentLink = `/reporting/${cover_id}/${incidentDate}/details`;
+
+    return isDiversified ? (
+      <Alert>
+        <Trans>
+          Cannot add liquidity, as one of the product&apos;s status is not
+          normal
+        </Trans>
+      </Alert>
+    ) : (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
         <Link href={incidentLink}>

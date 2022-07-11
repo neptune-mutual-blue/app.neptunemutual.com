@@ -19,7 +19,10 @@ const getQuery = (coverKey, productKey) => {
   `;
 };
 
-export const useFetchCoverActiveReportings = ({ coverKey, productKey }) => {
+export const useFetchCoverProductActiveReportings = ({
+  coverKey,
+  productKey,
+}) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
