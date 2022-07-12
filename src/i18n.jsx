@@ -39,11 +39,20 @@ export function LanguageProvider({ children }) {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
+    let ignore = false;
+
     dynamicActivate(locale)
-      .then(() => setLoaded(true))
+      .then(() => {
+        if (ignore) return;
+        setLoaded(true);
+      })
       .catch((error) =>
         console.error("Failed to activate locale", locale, error)
       );
+
+    return () => {
+      ignore = true;
+    };
   }, [locale]);
 
   useEffect(() => {

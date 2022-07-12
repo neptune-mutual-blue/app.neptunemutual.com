@@ -63,6 +63,7 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 

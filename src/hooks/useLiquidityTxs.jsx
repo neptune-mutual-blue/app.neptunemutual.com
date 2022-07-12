@@ -103,6 +103,7 @@ export const useLiquidityTxs = ({ limit, page }) => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 

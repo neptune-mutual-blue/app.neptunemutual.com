@@ -86,12 +86,13 @@ export const useActiveReportings = () => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

@@ -90,7 +90,10 @@ export const useFetchHeroStats = () => {
     setLoading(true);
     exec()
       .catch(console.error)
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (ignore) return;
+        setLoading(false);
+      });
 
     return () => {
       ignore = true;

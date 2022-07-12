@@ -6,10 +6,18 @@ export const ReportingInfo = ({ ipfsBytes }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
+    let ignore = false;
     utils.ipfs
       .readBytes32(ipfsBytes)
-      .then((x) => setData(x))
+      .then((x) => {
+        if (ignore) return;
+        setData(x);
+      })
       .catch(console.error);
+
+    return () => {
+      ignore = true;
+    };
   }, [ipfsBytes]);
 
   return (

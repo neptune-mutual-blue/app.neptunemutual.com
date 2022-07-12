@@ -73,6 +73,7 @@ export const useActivePolicies = () => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
