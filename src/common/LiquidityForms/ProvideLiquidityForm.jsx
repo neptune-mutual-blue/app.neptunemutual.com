@@ -22,11 +22,11 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
-import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverActiveReportings } from "@/src/hooks/useCoverActiveReportings";
 
-export const ProvideLiquidityForm = ({ coverKey, info }) => {
+export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   const [lqValue, setLqValue] = useState("");
   const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
@@ -42,7 +42,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
 
-  const { productStatus, activeIncidentDate } = useCoverStatsContext();
   const {
     npmBalance,
     lqApproving,
@@ -81,6 +80,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     value: lqValue,
     podAddress: vaultTokenAddress,
   });
+
+  const { data: activeReportings } = useCoverActiveReportings({ coverKey });
 
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
 
@@ -151,16 +152,25 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   };
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
-  const status = productStatus;
-  if (status && status !== "Normal") {
-    return (
+
+  if (activeReportings.length > 0) {
+    const status = activeReportings[0].status;
+    const incidentDate = activeReportings[0].incidentDate;
+    const cover_id = safeParseBytes32String(coverKey);
+
+    const incidentLink = `/reporting/${cover_id}/${incidentDate}/details`;
+
+    return isDiversified ? (
+      <Alert>
+        <Trans>
+          Cannot add liquidity, as one of the product&apos;s status is not
+          normal
+        </Trans>
+      </Alert>
+    ) : (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
-        <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
-        >
+        <Link href={incidentLink}>
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>

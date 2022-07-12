@@ -1,17 +1,15 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@/src/hooks/useQuery";
 
-const getQuery = (coverKey, productKey) => {
+const getQuery = (coverKey) => {
   return `
   {
     incidentReports(where: {
       coverKey: "${coverKey}"
-      productKey: "${productKey}"
       finalized: false
     }) {
       id
-      reporterInfo
-      coverKey
+      status
       productKey
       incidentDate
     }
@@ -19,7 +17,8 @@ const getQuery = (coverKey, productKey) => {
   `;
 };
 
-export const useFetchCoverActiveReportings = ({ coverKey, productKey }) => {
+// TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
+export const useCoverActiveReportings = ({ coverKey }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -39,14 +38,14 @@ export const useFetchCoverActiveReportings = ({ coverKey, productKey }) => {
   useEffect(() => {
     setLoading(true);
 
-    refetch(getQuery(coverKey, productKey))
+    refetch(getQuery(coverKey))
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, productKey, refetch]);
+  }, [coverKey, refetch]);
 
   return {
     data,

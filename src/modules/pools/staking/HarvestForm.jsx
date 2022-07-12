@@ -33,7 +33,7 @@ export const HarvestForm = ({
 
   return (
     <div className="px-12">
-      <div className="flex justify-between px-1 mt-6 mb-3 text-md font-semibold">
+      <div className="flex justify-between px-1 mt-6 mb-3 font-semibold text-md">
         <span className="capitalize">
           <Trans>Your Stake</Trans>
         </span>
@@ -74,8 +74,8 @@ export const HarvestForm = ({
       <RegularButton
         disabled={withdrawingRewards}
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-        onClick={async () => {
-          await handleWithdrawRewards(() => {
+        onClick={() => {
+          handleWithdrawRewards(() => {
             onHarvestSuccess();
             refetchInfo();
           });

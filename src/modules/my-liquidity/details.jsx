@@ -102,7 +102,11 @@ export const MyLiquidityCoverPage = () => {
               ></SeeMoreParagraph>
 
               <div className="mt-12">
-                <ProvideLiquidityForm coverKey={coverKey} info={info} />
+                <ProvideLiquidityForm
+                  coverKey={coverKey}
+                  info={info}
+                  isDiversified={isDiversified}
+                />
               </div>
             </div>
 

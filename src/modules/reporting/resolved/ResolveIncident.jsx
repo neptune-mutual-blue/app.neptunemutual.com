@@ -12,8 +12,10 @@ import { t, Trans } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useRouter } from "next/router";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
 export const ResolveIncident = ({
+  refetchInfo,
   refetchReport,
   incidentReport,
   resolvableTill,
@@ -31,6 +33,7 @@ export const ResolveIncident = ({
 
   const isDiversified = isValidProduct(incidentReport.productKey);
 
+  const { refetch: refetchCoverStats } = useCoverStatsContext();
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
@@ -62,9 +65,12 @@ export const ResolveIncident = ({
           <RegularButton
             disabled={resolving}
             className="w-full px-10 py-4 font-semibold uppercase md:w-80"
-            onClick={async () => {
-              await resolve();
-              setTimeout(refetchReport, 15000);
+            onClick={() => {
+              resolve(() => {
+                refetchInfo();
+                refetchCoverStats();
+                setTimeout(refetchReport, 10000);
+              });
             }}
           >
             {resolving ? t`Resolving...` : t`Resolve`}
@@ -81,6 +87,8 @@ export const ResolveIncident = ({
         <EmergencyResolveModal
           isOpen={isOpen}
           onClose={onClose}
+          refetchCoverStats={refetchCoverStats}
+          refetchInfo={refetchInfo}
           refetchReport={refetchReport}
           emergencyResolve={emergencyResolve}
           logoSource={logoSource}
@@ -95,6 +103,8 @@ export const ResolveIncident = ({
 const EmergencyResolveModal = ({
   isOpen,
   onClose,
+  refetchCoverStats,
+  refetchInfo,
   refetchReport,
   emergencyResolve,
   logoSource,
@@ -150,9 +160,13 @@ const EmergencyResolveModal = ({
         <RegularButton
           disabled={emergencyResolving}
           className="w-full px-10 py-4 mt-12 font-semibold uppercase"
-          onClick={async () => {
-            await emergencyResolve(decision === "true");
-            setTimeout(refetchReport, 15000);
+          onClick={() => {
+            emergencyResolve(decision === "true", () => {
+              refetchInfo();
+              refetchCoverStats();
+              setTimeout(refetchReport, 10000);
+              onClose();
+            });
           }}
         >
           {emergencyResolving

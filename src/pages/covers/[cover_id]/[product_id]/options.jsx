@@ -46,7 +46,7 @@ export default function Options({ disabled }) {
             { name: t`Home`, href: "/", current: false },
             {
               name: productInfo?.cover?.infoObj?.coverName || t`loading..`,
-              href: `/covers/${cover_id}/options`,
+              href: `/diversified/${cover_id}`,
               current: true,
             },
             {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 import { convertToUnits, isValidNumber } from "@/utils/bn";
@@ -9,9 +9,10 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
+import { useMountedState } from "@/src/hooks/useMountedState";
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
-  const mountedRef = useRef(false);
+  const isMounted = useMountedState();
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
@@ -53,7 +54,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
       const onTransactionResult = (result) => {
         const liquidityAmount = result;
 
-        if (!mountedRef.current) return;
+        if (!isMounted()) return;
         setReceiveAmount(liquidityAmount);
         cleanup();
       };
@@ -86,19 +87,14 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     coverKey,
     debouncedValue,
     invoke,
+    isMounted,
     library,
     networkId,
     notifyError,
   ]);
 
   useEffect(() => {
-    mountedRef.current = true;
-
     calculateLiquidity();
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, [calculateLiquidity]);
 
   return {

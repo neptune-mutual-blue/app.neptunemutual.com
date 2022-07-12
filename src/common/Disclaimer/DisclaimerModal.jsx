@@ -34,8 +34,9 @@ export const DisclaimerModal = () => {
       onClose={handleClose}
       disabled
       data-testid="disclaimer-container"
+      className="px-0 h-5/6 sm:h-auto"
     >
-      <ModalWrapper className="max-w-5xl">
+      <ModalWrapper className="max-w-5xl !rounded-xl sm:!rounded-3xl h-full flex flex-col !bg-FEFEFF">
         <Title
           className="flex items-center font-bold font-sora text-h4"
           data-testid="disclaimer-title"
@@ -44,7 +45,7 @@ export const DisclaimerModal = () => {
         </Title>
         <Description
           className={classNames(
-            "mt-6 text-sm leading-5 text-404040 flex flex-col gap-4 max-h-30vh md:max-h-45vh overflow-y-auto pr-1"
+            "mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f1f3f6"
           )}
           data-testid="disclaimer-description"
         >
@@ -97,8 +98,6 @@ export const DisclaimerModal = () => {
           </span>
         </Description>
 
-        <div className="my-2 border-t border-f1f3f6"></div>
-
         <div className="flex items-start gap-2 mt-3">
           <input
             type={"checkbox"}
@@ -110,7 +109,7 @@ export const DisclaimerModal = () => {
           />
           <label
             htmlFor="agreement-checkbox"
-            className="text-sm leading-6 cursor-pointer text-404040"
+            className="text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040"
             data-testid="disclaimer-checkbox-label"
           >
             <Trans>
@@ -121,7 +120,7 @@ export const DisclaimerModal = () => {
           </label>
         </div>
 
-        <div className="flex justify-end w-full gap-6 mt-6">
+        <div className="flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6">
           <button
             className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
             onClick={handleDecline}

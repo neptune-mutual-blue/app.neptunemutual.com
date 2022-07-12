@@ -31,11 +31,12 @@ export const CoverCard = ({
 
   const productKey = utils.keyUtil.toBytes32("");
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
-  const { activeCommitment, productStatus } = useFetchCoverStats({
+  const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
+  const { activeCommitment, productStatus } = coverStats;
   const liquidity = liquidityInfo.totalLiquidity;
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)

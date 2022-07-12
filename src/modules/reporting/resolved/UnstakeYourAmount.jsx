@@ -16,7 +16,7 @@ import { t, Trans } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export const UnstakeYourAmount = ({ incidentReport }) => {
+export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isDiversified = isValidProduct(incidentReport.productKey);
 
@@ -27,12 +27,11 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
   const logoSrc = getCoverImgSrc({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });
-  const { unstake, unstakeWithClaim, info, unstaking } =
-    useUnstakeReportingStake({
-      coverKey: incidentReport.coverKey,
-      productKey: incidentReport.productKey,
-      incidentDate: incidentReport.incidentDate,
-    });
+  const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   // Refreshes once claim begins
   useRetryUntilPassed(() => {
@@ -115,9 +114,9 @@ export const UnstakeYourAmount = ({ incidentReport }) => {
         isOpen={isOpen}
         onClose={onClose}
         unstake={handleUnstake}
-        reward={convertFromUnits(info.willReceive).decimalPlaces(2).toString()}
+        reward={convertFromUnits(willReceive).decimalPlaces(2).toString()}
         logoSrc={logoSrc}
-        altName={projectName}
+        logoAlt={projectName}
         unstaking={unstaking}
       />
     </div>

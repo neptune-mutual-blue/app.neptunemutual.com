@@ -26,7 +26,7 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
-  const capitalize = async () => {
+  const capitalize = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
       requiresAuth();
       return;
@@ -67,6 +67,7 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
           },
           {
             onTxSuccess: () => {
+              onSuccess();
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.CLAIM_COVER_APPROVE,

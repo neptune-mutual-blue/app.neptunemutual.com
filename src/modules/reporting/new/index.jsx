@@ -5,7 +5,7 @@ import { Trans } from "@lingui/macro";
 import { CoverReportingRules } from "@/src/modules/reporting/CoverReportingRules";
 import { NewIncidentReportForm } from "@/src/modules/reporting/NewIncidentReportForm";
 import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
-import { useFetchCoverActiveReportings } from "@/src/hooks/useFetchCoverActiveReportings";
+import { useFetchCoverProductActiveReportings } from "@/src/hooks/useFetchCoverProductActiveReportings";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { isValidProduct } from "@/src/helpers/cover";
@@ -21,7 +21,7 @@ export function NewIncidentReportPage() {
     coverKey: coverKey,
     productKey: productKey,
   });
-  const { data: activeReportings } = useFetchCoverActiveReportings({
+  const { data: activeReportings } = useFetchCoverProductActiveReportings({
     coverKey,
     productKey,
   });

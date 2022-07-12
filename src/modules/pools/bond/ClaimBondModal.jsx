@@ -63,8 +63,8 @@ export const ClaimBondModal = ({
         {/* left to add click handler */}
         <RegularButton
           disabled={claiming}
-          onClick={async () => {
-            await handleClaim(() => {
+          onClick={() => {
+            handleClaim(() => {
               onClose();
               refetchBondInfo();
             });

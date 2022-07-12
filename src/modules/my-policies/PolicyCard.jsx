@@ -23,10 +23,12 @@ export const PolicyCard = ({ policyInfo }) => {
     productKey: policyInfo.productKey,
   });
 
-  const { productStatus } = useFetchCoverStats({
+  const { info: coverStats } = useFetchCoverStats({
     coverKey: policyInfo.coverKey,
     productKey: policyInfo.productKey,
   });
+
+  const { productStatus } = coverStats;
 
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";

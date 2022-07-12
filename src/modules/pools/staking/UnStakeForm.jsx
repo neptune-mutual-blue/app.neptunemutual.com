@@ -86,7 +86,7 @@ export const UnStakeForm = ({
           }
         </p>
         {!canWithdraw && (
-          <p className="flex items-center text-FA5C2F -ml-3">
+          <p className="flex items-center -ml-3 text-FA5C2F">
             <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
@@ -95,8 +95,8 @@ export const UnStakeForm = ({
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-        onClick={async () => {
-          await handleWithdraw(() => {
+        onClick={() => {
+          handleWithdraw(() => {
             onUnstakeSuccess();
             refetchInfo();
           });
