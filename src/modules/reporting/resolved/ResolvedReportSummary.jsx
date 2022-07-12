@@ -15,13 +15,15 @@ import { useRouter } from "next/router";
 import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
-export const ResolvedReportSummary = ({ 
-  incidentReport, 
-  refetchReport,   
+export const ResolvedReportSummary = ({
+  incidentReport,
+  refetchInfo,
+  refetchReport,
   yes,
   no,
-  willReceive 
+  willReceive,
 }) => {
   const router = useRouter();
   const { product_id } = router.query;
@@ -37,14 +39,11 @@ export const ResolvedReportSummary = ({
     incidentDate: incidentReport.incidentDate,
   });
   const { NPMTokenSymbol } = useAppConstants();
+  const { refetch: refetchCoverStats } = useCoverStatsContext();
 
   const votes = {
-    yes: convertFromUnits(yes)
-      .decimalPlaces(0)
-      .toNumber(),
-    no: convertFromUnits(no)
-      .decimalPlaces(0)
-      .toNumber(),
+    yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
+    no: convertFromUnits(no).decimalPlaces(0).toNumber(),
   };
 
   const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
@@ -89,7 +88,10 @@ export const ResolvedReportSummary = ({
           />
           <Divider />
 
-          <UnstakeYourAmount incidentReport={incidentReport} willReceive={willReceive} />
+          <UnstakeYourAmount
+            incidentReport={incidentReport}
+            willReceive={willReceive}
+          />
         </div>
 
         {/* Right half */}
@@ -200,9 +202,12 @@ export const ResolvedReportSummary = ({
               <button
                 className="text-sm text-4e7dd9"
                 disabled={finalizing}
-                onClick={async () => {
-                  await finalize();
-                  setTimeout(refetchReport, 15000);
+                onClick={() => {
+                  finalize(() => {
+                    refetchInfo();
+                    refetchCoverStats();
+                    setTimeout(refetchReport, 10000);
+                  });
                 }}
               >
                 {finalizing ? t`Finalizing...` : t`Finalize`}
@@ -213,9 +218,10 @@ export const ResolvedReportSummary = ({
               <button
                 className="mt-2 text-sm font-poppins text-4e7dd9"
                 disabled={capitalizing}
-                onClick={async () => {
-                  await capitalize();
-                  setTimeout(refetchReport, 15000);
+                onClick={() => {
+                  capitalize(() => {
+                    setTimeout(refetchReport, 10000);
+                  });
                 }}
               >
                 {capitalizing ? t`Capitalizing...` : t`Capitalize`}

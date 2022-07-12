@@ -6,7 +6,7 @@ import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
 import { ResolveIncident } from "@/src/modules/reporting/resolved/ResolveIncident";
 import { VotesSummaryDoughnutChart } from "@/src/modules/reporting/VotesSummaryDoughnutCharts";
 import { HlCalendar } from "@/lib/hl-calendar";
-import { truncateAddress, truncateAddressParam } from "@/utils/address";
+import { truncateAddressParam } from "@/utils/address";
 import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -19,10 +19,11 @@ import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ActiveReportSummary = ({
   refetchReport,
+  refetchInfo,
   incidentReport,
   resolvableTill,
   yes,
-  no
+  no,
 }) => {
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
@@ -30,12 +31,8 @@ export const ActiveReportSummary = ({
   const { NPMTokenSymbol } = useAppConstants();
 
   const votes = {
-    yes: convertFromUnits(yes)
-      .decimalPlaces(0)
-      .toNumber(),
-    no: convertFromUnits(no)
-      .decimalPlaces(0)
-      .toNumber(),
+    yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
+    no: convertFromUnits(no).decimalPlaces(0).toNumber(),
   };
 
   const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
@@ -106,9 +103,11 @@ export const ActiveReportSummary = ({
                 incidentReport={incidentReport}
                 resolvableTill={resolvableTill}
                 refetchReport={refetchReport}
+                refetchInfo={refetchInfo}
               />
-            ) : (// hidden in mobile
-              <div className="hidden md:block"> 
+            ) : (
+              // hidden in mobile
+              <div className="hidden md:block">
                 <CastYourVote incidentReport={incidentReport} />
               </div>
             )}
@@ -135,7 +134,7 @@ export const ActiveReportSummary = ({
                   convertFromUnits(incidentReport.totalAttestedStake),
                   router.locale,
                   NPMTokenSymbol,
-                  truncateAddress
+                  true
                 ).short,
               },
             ]}

@@ -5,7 +5,7 @@ import OpenInNewIcon from "@/icons/OpenInNewIcon";
 import { wallets } from "@/lib/connect-wallet/config/wallets";
 import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
 import Identicon from "@/common/Header/Identicon";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckCircleIcon from "@/icons/CheckCircleIcon";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { Toggle } from "@/common/Toggle";
@@ -14,28 +14,30 @@ import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { Trans } from "@lingui/macro";
 
 const CopyAddressComponent = ({ account }) => {
-  const [copyAddress, setCopyAddress] = useState(false);
-
-  const timeOut = () =>
-    setTimeout(() => {
-      setCopyAddress(false);
-    }, [1000]);
+  const [isCopied, setIsCopied] = useState(false);
+  const timeoutIdRef = useRef(null);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(account);
-    setCopyAddress(true);
-    timeOut();
+
+    setIsCopied(true);
+    timeoutIdRef.current = setTimeout(() => {
+      setIsCopied(false);
+    }, 1500);
   };
 
   useEffect(() => {
     return () => {
-      clearTimeout(timeOut());
+      if (!timeoutIdRef.current) {
+        return;
+      }
+      clearTimeout(timeoutIdRef.current);
     };
   }, []);
 
   return (
     <div className="flex items-center cursor-pointer" onClick={handleCopy}>
-      {!copyAddress ? (
+      {!isCopied ? (
         <>
           <CopyIcon className="w-4 h-4 text-999BAB" />
           <span className="text-21AD8C text-xs tracking-normal ml-2.5">

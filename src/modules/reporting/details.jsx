@@ -8,20 +8,20 @@ import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReport
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { useUnstakeReportingInfo } from "@/src/hooks/useUnstakeReportingInfo";
+import { useConsensusReportingInfo } from "@/src/hooks/useConsensusReportingInfo";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
-  const { info } = useUnstakeReportingInfo({
+  const { info, refetch: refetchInfo } = useConsensusReportingInfo({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
   });
 
-  const now = DateLib.unix();
+  console.log(info);
 
   // Refreshes when resolution deadline passed (when reporting becomes unresolvable)
   useRetryUntilPassed(() => {
@@ -33,6 +33,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     return null;
   }
 
+  const now = DateLib.unix();
   const showResolvedSummary =
     incidentReport.resolved &&
     isGreater(now, incidentReport.resolutionDeadline);
@@ -49,6 +50,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
       <Container className="py-16">
         {showResolvedSummary ? (
           <ResolvedReportSummary
+            refetchInfo={refetchInfo}
             refetchReport={refetchReport}
             incidentReport={incidentReport}
             yes={info.yes}
@@ -57,6 +59,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
           />
         ) : (
           <ActiveReportSummary
+            refetchInfo={refetchInfo}
             refetchReport={refetchReport}
             incidentReport={incidentReport}
             resolvableTill={incidentReport.resolutionDeadline}
