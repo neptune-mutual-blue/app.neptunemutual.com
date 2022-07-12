@@ -62,6 +62,7 @@ export const CollectRewardModal = ({
 
           {activeTab == "harvest" ? (
             <HarvestForm
+              info={info}
               stakedAmount={stakedAmount}
               rewardAmount={rewardAmount}
               rewardTokenAddress={rewardTokenAddress}

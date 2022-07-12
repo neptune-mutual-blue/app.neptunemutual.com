@@ -3,12 +3,12 @@ import { RegularButton } from "@/common/Button/RegularButton";
 import AddCircleIcon from "@/icons/AddCircleIcon";
 import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
-import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { Trans, t } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { TokenAmountSpan } from "@/common/TokenAmountSpan";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const HarvestForm = ({
+  info,
   stakingTokenSymbol,
   stakedAmount,
   rewardAmount,
@@ -25,7 +25,10 @@ export const HarvestForm = ({
       refetchInfo,
     });
   const { register } = useRegisterToken();
-  const router = useRouter();
+
+  const rewardTokenDecimals = useTokenDecimals(rewardTokenAddress);
+  const stakingTokenAddress = info.stakingToken;
+  const stakingDecimals = useTokenDecimals(stakingTokenAddress);
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));
@@ -33,7 +36,7 @@ export const HarvestForm = ({
 
   return (
     <div className="px-12">
-      <div className="flex justify-between px-1 mt-6 mb-3 text-md font-semibold">
+      <div className="flex justify-between px-1 mt-6 mb-3 font-semibold text-md">
         <span className="capitalize">
           <Trans>Your Stake</Trans>
         </span>
@@ -42,25 +45,18 @@ export const HarvestForm = ({
         </span>
       </div>
       <div className="flex justify-between px-1 text-lg">
-        <span className="uppercase text-7398C0">
-          {
-            formatCurrency(
-              convertFromUnits(stakedAmount),
-              router.locale,
-              stakingTokenSymbol,
-              true
-            ).long
-          }
-        </span>
+        <TokenAmountSpan
+          amountInUnits={stakedAmount}
+          symbol={stakingTokenSymbol}
+          decimals={stakingDecimals}
+          className="uppercase text-7398C0"
+        />
         <span className="inline-flex items-center text-right uppercase text-7398C0">
-          {
-            formatCurrency(
-              convertFromUnits(rewardAmount),
-              router.locale,
-              rewardTokenSymbol,
-              true
-            ).long
-          }
+          <TokenAmountSpan
+            amountInUnits={rewardAmount}
+            symbol={rewardTokenSymbol}
+            decimals={rewardTokenDecimals}
+          />
           <button
             className="ml-1"
             onClick={() => register(rewardTokenAddress, rewardTokenSymbol)}
