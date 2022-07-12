@@ -27,12 +27,11 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const logoSrc = getCoverImgSrc({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });
-  const { unstake, unstakeWithClaim, unstaking } =
-    useUnstakeReportingStake({
-      coverKey: incidentReport.coverKey,
-      productKey: incidentReport.productKey,
-      incidentDate: incidentReport.incidentDate,
-    });
+  const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   // Refreshes once claim begins
   useRetryUntilPassed(() => {
@@ -117,7 +116,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
         unstake={handleUnstake}
         reward={convertFromUnits(willReceive).decimalPlaces(2).toString()}
         logoSrc={logoSrc}
-        altName={projectName}
+        logoAlt={projectName}
         unstaking={unstaking}
       />
     </div>

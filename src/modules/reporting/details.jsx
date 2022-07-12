@@ -21,8 +21,6 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
 
-  console.log(info);
-
   // Refreshes when resolution deadline passed (when reporting becomes unresolvable)
   useRetryUntilPassed(() => {
     const _now = DateLib.unix();
