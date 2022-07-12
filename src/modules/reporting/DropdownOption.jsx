@@ -19,7 +19,10 @@ export const DropdownOption = ({ option, selected, active }) => {
       <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
         <img
           src={getCoverImgSrc({
-            key: option.productKey || option.coverKey,
+            key:
+              option.productKey !== "0x00000000"
+                ? option.productKey
+                : option.coverKey,
           })}
           alt={
             coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName
