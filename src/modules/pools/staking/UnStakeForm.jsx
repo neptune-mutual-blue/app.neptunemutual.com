@@ -9,9 +9,9 @@ import {
   isGreater,
   isValidNumber,
 } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { TokenAmountSpan } from "@/common/TokenAmountSpan";
+import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const UnStakeForm = ({
   info,
@@ -25,7 +25,6 @@ export const UnStakeForm = ({
   const blockHeight = useBlockHeight();
 
   const [inputValue, setInputValue] = useState();
-  const router = useRouter();
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
@@ -47,6 +46,7 @@ export const UnStakeForm = ({
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;
+  const stakingDecimals = useTokenDecimals(stakingTokenAddress);
   const isError =
     inputValue &&
     (!isValidNumber(inputValue) ||
@@ -75,15 +75,12 @@ export const UnStakeForm = ({
         disabled={withdrawing}
       >
         <p className="-ml-3">
-          <Trans>Staked:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(stakedAmount),
-              router.locale,
-              stakingTokenSymbol,
-              true
-            ).long
-          }
+          <Trans>Your Stake:</Trans>{" "}
+          <TokenAmountSpan
+            amountInUnits={stakedAmount}
+            symbol={stakingTokenSymbol}
+            decimals={stakingDecimals}
+          />
         </p>
         {!canWithdraw && (
           <p className="flex items-center -ml-3 text-FA5C2F">
