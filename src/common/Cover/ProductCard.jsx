@@ -31,11 +31,12 @@ export const ProductCard = ({
   const { liquidityTokenDecimals } = useAppConstants();
 
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
-  const { activeCommitment, productStatus } = useFetchCoverStats({
+  const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
+  const { activeCommitment, productStatus } = coverStats;
   const imgSrc = getCoverImgSrc({ key: productKey });
 
   const liquidity = liquidityInfo.totalLiquidity;

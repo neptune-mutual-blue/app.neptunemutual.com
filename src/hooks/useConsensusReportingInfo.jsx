@@ -25,7 +25,7 @@ const defaultInfo = {
   willReceive: "0",
 };
 
-export const useUnstakeReportingInfo = ({
+export const useConsensusReportingInfo = ({
   coverKey,
   productKey,
   incidentDate,
@@ -100,15 +100,15 @@ export const useUnstakeReportingInfo = ({
 
   const updateFetchInfo = useCallback(() => {
     fetchInfo()
-    .then((_info) => {
-      if (!_info) return;
-      setInfo(_info);
-    })
-    .catch(console.error);
+      .then((_info) => {
+        if (!_info) return;
+        setInfo(_info);
+      })
+      .catch(console.error);
   }, [fetchInfo]);
 
   return {
     info,
-    refetch: updateFetchInfo
+    refetch: updateFetchInfo,
   };
 };

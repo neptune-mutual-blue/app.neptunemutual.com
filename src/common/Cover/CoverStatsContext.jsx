@@ -13,6 +13,7 @@ const defaultStats = {
   requiresWhitelist: false,
   productStatus: "",
   totalPoolAmount: "0",
+  refetch: async (f) => f,
 };
 
 const CoverStatsContext = createContext(defaultStats);
@@ -22,6 +23,11 @@ export const CoverStatsProvider = ({
   productKey = safeFormatBytes32String(""),
   children,
 }) => {
+  const { info, refetch } = useFetchCoverStats({
+    coverKey,
+    productKey,
+  });
+
   const {
     activeIncidentDate,
     claimPlatformFee,
@@ -33,10 +39,7 @@ export const CoverStatsProvider = ({
     productStatus,
     totalPoolAmount,
     availableLiquidity,
-  } = useFetchCoverStats({
-    coverKey,
-    productKey,
-  });
+  } = info;
 
   return (
     <CoverStatsContext.Provider
@@ -51,6 +54,7 @@ export const CoverStatsProvider = ({
         availableLiquidity,
         productStatus,
         totalPoolAmount,
+        refetch,
       }}
     >
       {children}

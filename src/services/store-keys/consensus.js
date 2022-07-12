@@ -46,6 +46,25 @@ export const coverProductStatusOf = (
   };
 };
 
+export const claimPayoutsOf = (
+  coverKey,
+  productKey,
+  incidentDate,
+  property = "claimPayoutsOf"
+) => {
+  return {
+    key: [
+      utils.keyUtil.PROTOCOL.NS.CLAIM_PAYOUTS,
+      coverKey,
+      productKey,
+      incidentDate,
+    ],
+    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
+    returns: "uint256",
+    property,
+  };
+};
+
 export const myStakeIncidentOccurred = (
   coverKey,
   productKey,
