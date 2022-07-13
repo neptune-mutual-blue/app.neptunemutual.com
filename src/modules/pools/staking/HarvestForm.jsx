@@ -26,7 +26,7 @@ export const HarvestForm = ({
   const { register } = useRegisterToken();
 
   const rewardTokenDecimals = info.rewardTokenDecimals;
-  const stakingDecimals = info.stakingTokenDecimals;
+  const stakingTokenDecimals = info.stakingTokenDecimals;
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));
@@ -46,7 +46,7 @@ export const HarvestForm = ({
         <TokenAmountSpan
           amountInUnits={stakedAmount}
           symbol={stakingTokenSymbol}
-          decimals={stakingDecimals}
+          decimals={stakingTokenDecimals}
           className="uppercase text-7398C0"
         />
         <span className="inline-flex items-center text-right uppercase text-7398C0">
