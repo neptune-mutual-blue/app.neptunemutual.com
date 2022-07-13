@@ -100,6 +100,7 @@ export const usePolicyTxs = ({ limit, page }) => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 

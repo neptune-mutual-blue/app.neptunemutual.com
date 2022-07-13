@@ -8,13 +8,21 @@ export function useCoverOrProductData({ coverKey, productKey }) {
   const { getCoverOrProductData } = useCoversAndProducts();
 
   useEffect(() => {
+    let ignore = false;
     if (!coverKey || !productKey || !networkId) {
       return;
     }
 
     getCoverOrProductData({ coverKey, productKey, networkId })
-      .then(setCoverInfo)
+      .then((data) => {
+        if (ignore) return;
+        setCoverInfo(data);
+      })
       .catch(console.error);
+
+    return () => {
+      ignore = true;
+    };
   }, [coverKey, getCoverOrProductData, networkId, productKey]);
 
   return coverInfo;

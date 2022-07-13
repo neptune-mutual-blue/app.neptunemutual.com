@@ -44,12 +44,13 @@ export const useProtocolDayData = () => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [networkId]);
 
   return {
