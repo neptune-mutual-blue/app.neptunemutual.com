@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
@@ -38,9 +38,7 @@ export const TxPosterProvider = ({ children }) => {
       instance,
       methodName,
       overrides = {},
-
       args = [],
-      retry = true,
       onTransactionResult = (_tx) => {},
       onRetryCancel = () => {},
       onError = console.error,
@@ -51,47 +49,42 @@ export const TxPosterProvider = ({ children }) => {
       }
 
       let estimatedGas = null;
+      
       try {
         estimatedGas = await instance.estimateGas[methodName](...args);
-      } catch (err) {
-        console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
-        if (retry) {
-          onError(err);
-          setData({
-            description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
-              args
-            )}`,
-            message: getErrorMessage(err),
-            isError: true,
-            pendingInvokeArgs: {
-              instance,
-              methodName,
-              overrides,
-              args,
-              onTransactionResult,
-              onRetryCancel,
-              onError,
-            },
-          });
-        }
-      }
+        if (!estimatedGas) return;
 
-      if (!estimatedGas && retry) {
-        // Could not estimate gas, therefore could not proceed
-        // Shows popup and wait for confirmation
-        return;
-      }
-
-      try {
         const tx = await instance[methodName](...args, {
-          gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+          gasLimit: calculateGasMargin(estimatedGas),
           ...overrides,
         });
 
         onTransactionResult(tx);
       } catch (err) {
+        console.log(`Could not estimate gas for "${methodName}", args: `, args);
+
         onError(err);
+        setData({
+          description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
+            args
+          )}`,
+          message: getErrorMessage(err),
+          isError: true,
+          pendingInvokeArgs: {
+            instance,
+            methodName,
+            overrides,
+            args,
+            onTransactionResult,
+            onRetryCancel,
+            onError,
+          },
+        });
+
+        // Could not estimate gas, therefore could not proceed
+        // Shows popup and wait for confirmation
+        return;
       }
     },
     []
@@ -141,10 +134,10 @@ export const TxPosterProvider = ({ children }) => {
     });
   };
 
-  const contextValue = {
+  const contextValue = useMemo(() => ({
     ...data,
     invoke,
-  };
+  }), [data, invoke]);
 
   return (
     <TxPosterContext.Provider value={contextValue}>
