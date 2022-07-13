@@ -78,11 +78,11 @@ export function TransactionList({
       onClose={onClose}
       rootProps={{ modal: true }}
       overlayClass="flex justify-end w-full h-full"
-      defaultContentClassNames="absolute z-50 transform my-12 mr-4 py-1 px-4 py-1 rounded-3xl"
+      defaultContentClassNames="content-class absolute z-50 transform my-12 mr-8 py-1 rounded-3xl"
       container={container}
       {...rest}
     >
-      <div className="font-poppins bg-3A4557 text-FEFEFF px-4 rounded-3xl mb-8">
+      <div className="font-poppins bg-3A4557 text-FEFEFF px-4 rounded-3xl">
         <div>
           <NotificationsList
             data={listOfTransactions}
@@ -111,7 +111,7 @@ function NotificationsList({ data, showMore, hasShowMore }) {
   if (data.length) {
     return (
       <>
-        <div className="mb-5 pt-2 w-96">
+        <div className="pt-2 w-96">
           {data.map((transaction) => (
             <Notification
               {...transaction}
