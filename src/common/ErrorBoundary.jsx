@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 class ErrorBoundary extends React.Component {
@@ -18,6 +19,7 @@ class ErrorBoundary extends React.Component {
           >
             Reload
           </button>
+          <Link href={"/"}>Back To Home</Link>
         </div>
       </div>
     ),
