@@ -1,4 +1,4 @@
-import { getCoverImgSrc } from "@/src/helpers/cover";
+import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { classNames } from "@/utils/classnames";
 import { utils } from "@neptunemutual/sdk";
@@ -8,6 +8,9 @@ export const DropdownOption = ({ option, selected, active }) => {
     coverKey: option?.coverKey,
     productKey: option?.productKey || utils.keyUtil.toBytes32(""),
   });
+
+  const isProductValid = isValidProduct(option?.productKey);
+
   return (
     <span
       className={classNames(
@@ -19,10 +22,7 @@ export const DropdownOption = ({ option, selected, active }) => {
       <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
         <img
           src={getCoverImgSrc({
-            key:
-              option.productKey !== "0x00000000"
-                ? option.productKey
-                : option.coverKey,
+            key: isProductValid ? option.productKey : option.coverKey,
           })}
           alt={
             coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName

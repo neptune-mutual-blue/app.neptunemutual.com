@@ -5,7 +5,6 @@ import { useRegisterToken } from "@/src/hooks/useRegisterToken";
 import { useStakingPoolWithdrawRewards } from "@/src/hooks/useStakingPoolWithdraw";
 import { Trans, t } from "@lingui/macro";
 import { TokenAmountSpan } from "@/common/TokenAmountSpan";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const HarvestForm = ({
   info,
@@ -26,9 +25,8 @@ export const HarvestForm = ({
     });
   const { register } = useRegisterToken();
 
-  const rewardTokenDecimals = useTokenDecimals(rewardTokenAddress);
-  const stakingTokenAddress = info.stakingToken;
-  const stakingDecimals = useTokenDecimals(stakingTokenAddress);
+  const rewardTokenDecimals = info.rewardTokenDecimals;
+  const stakingDecimals = info.stakingTokenDecimals;
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }));

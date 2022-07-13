@@ -11,7 +11,6 @@ import {
 } from "@/utils/bn";
 import { t, Trans } from "@lingui/macro";
 import { TokenAmountSpan } from "@/common/TokenAmountSpan";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 
 export const UnStakeForm = ({
   info,
@@ -46,14 +45,14 @@ export const UnStakeForm = ({
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;
-  const stakingDecimals = useTokenDecimals(stakingTokenAddress);
+  const stakingDecimals = info.stakingTokenDecimals;
   const isError =
     inputValue &&
     (!isValidNumber(inputValue) ||
       isGreater(convertToUnits(inputValue || "0"), stakedAmount));
 
   const handleChooseMax = () => {
-    setInputValue(convertFromUnits(stakedAmount).toString());
+    setInputValue(convertFromUnits(stakedAmount, stakingDecimals).toString());
   };
 
   const handleChange = (val) => {
