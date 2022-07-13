@@ -66,7 +66,6 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
       );
 
       const { data } = await response.json();
-      setInfo(data);
       return data;
     } catch (err) {
       handleError(err);
@@ -91,5 +90,15 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     };
   }, [fetchPoolInfo]);
 
-  return { info, refetch: fetchPoolInfo };
+  const refetch = useCallback(() => {
+    fetchPoolInfo()
+      .then((data) => {
+        if (!data) return;
+
+        setInfo(data);
+      })
+      .catch(console.error);
+  }, [fetchPoolInfo]);
+
+  return { info, refetch };
 };
