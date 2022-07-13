@@ -133,7 +133,10 @@ export const useBondInfo = () => {
           setInfo(data);
         })
         .catch(console.error);
-      return;
+
+      return () => {
+        ignore = true;
+      };
     }
 
     // If wallet is connected, get data from provider
