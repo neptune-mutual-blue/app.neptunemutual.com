@@ -78,7 +78,7 @@ export function TransactionList({
       onClose={onClose}
       rootProps={{ modal: true }}
       overlayClass="flex justify-end w-full h-full"
-      defaultContentClassNames="content-class absolute z-50 transform my-12 mr-8 py-1 rounded-3xl"
+      defaultContentClassNames="absolute z-50 transform my-12 mr-8 py-1 rounded-3xl"
       container={container}
       {...rest}
     >
