@@ -49,10 +49,12 @@ export const usePodStakingPools = () => {
             stakingToken
             stakingTokenName
             stakingTokenSymbol
+            stakingTokenDecimals
             uniStakingTokenDollarPair
             rewardToken
             rewardTokenName
             rewardTokenSymbol
+            rewardTokenDecimals
             uniRewardTokenDollarPair
             rewardTokenDeposit
             maxStake

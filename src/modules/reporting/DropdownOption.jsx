@@ -8,6 +8,9 @@ export const DropdownOption = ({ option, selected, active }) => {
     coverKey: option?.coverKey,
     productKey: option?.productKey || utils.keyUtil.toBytes32(""),
   });
+
+  const isValidProduct = isValidProduct(option?.productKey);
+
   return (
     <span
       className={classNames(
@@ -19,7 +22,7 @@ export const DropdownOption = ({ option, selected, active }) => {
       <div className="w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6">
         <img
           src={getCoverImgSrc({
-            key: option.productKey || option.coverKey,
+            key: isValidProduct ? option.productKey : option.coverKey,
           })}
           alt={
             coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName

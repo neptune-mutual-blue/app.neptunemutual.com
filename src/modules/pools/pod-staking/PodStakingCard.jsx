@@ -99,6 +99,12 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         stakingTokenSymbol,
         true
       ).long,
+      tooltip: formatCurrency(
+        convertFromUnits(stakedAmount),
+        router.locale,
+        stakingTokenSymbol,
+        true
+      ).long,
     });
   } else {
     leftHalf.push({
