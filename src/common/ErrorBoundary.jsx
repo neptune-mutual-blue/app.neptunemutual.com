@@ -10,16 +10,22 @@ class ErrorBoundary extends React.Component {
 
   static defaultProps = {
     fallback: (
-      <div className="w-full min-h-screen bg-232323 text-white flex flex-col items-center justify-center">
-        <h4 className="text-center">Something went wrong.</h4>
-        <div className="flex gap-2">
+      <div className="w-full min-h-screen text-black flex flex-col items-center justify-center">
+        <h4 className="text-center text-h3 text-4e7dd9 mb-4">
+          Something went wrong.
+        </h4>
+        <div className="flex gap-2 items-center">
           <button
-            className="btn btn-primary p-2 bg-303030 m-2"
+            className="rounded-lg p-2 bg-4e7dd9 m-2 text-white"
             onClick={() => window.location.reload()}
           >
             Reload
           </button>
-          <Link href={"/"}>Back To Home</Link>
+          <Link href={"/"}>
+            <a className="rounded-lg border border-4e7dd9 p-2 bg-white">
+              Back To Home
+            </a>
+          </Link>
         </div>
       </div>
     ),
