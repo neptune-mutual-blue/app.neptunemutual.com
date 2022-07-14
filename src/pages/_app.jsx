@@ -16,12 +16,15 @@ import { TxPosterProvider } from "@/src/context/TxPoster";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
 import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
+import ErrorBoundary from "@/common/ErrorBoundary";
 
 function MyApp({ Component, pageProps }) {
   if (pageProps.noWrappers) {
     return (
       <LanguageProvider>
-        <Component {...pageProps} />
+        <ErrorBoundary>
+          <Component {...pageProps} />
+        </ErrorBoundary>
       </LanguageProvider>
     );
   }
@@ -37,7 +40,9 @@ function MyApp({ Component, pageProps }) {
                   <TxPosterProvider>
                     {!pageProps.noHeader && <Header></Header>}
                     <div className="relative sm:static">
-                      <Component {...pageProps} />
+                      <ErrorBoundary>
+                        <Component {...pageProps} />
+                      </ErrorBoundary>
                       <DisclaimerModal />
                       <ScrollToTopButton />
                     </div>
