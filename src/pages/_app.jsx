@@ -21,39 +21,39 @@ import ErrorBoundary from "@/common/ErrorBoundary";
 function MyApp({ Component, pageProps }) {
   if (pageProps.noWrappers) {
     return (
-      <LanguageProvider>
-        <ErrorBoundary>
+      <ErrorBoundary>
+        <LanguageProvider>
           <Component {...pageProps} />
-        </ErrorBoundary>
-      </LanguageProvider>
+        </LanguageProvider>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <LanguageProvider>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>
-          <AppConstantsProvider>
-            <CoversAndProductsProvider>
-              <UnlimitedApprovalProvider>
-                <ToastProvider variant={DEFAULT_VARIANT}>
-                  <TxPosterProvider>
-                    {!pageProps.noHeader && <Header></Header>}
-                    <div className="relative sm:static">
-                      <ErrorBoundary>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <NetworkProvider>
+            <AppConstantsProvider>
+              <CoversAndProductsProvider>
+                <UnlimitedApprovalProvider>
+                  <ToastProvider variant={DEFAULT_VARIANT}>
+                    <TxPosterProvider>
+                      {!pageProps.noHeader && <Header></Header>}
+                      <div className="relative sm:static">
                         <Component {...pageProps} />
-                      </ErrorBoundary>
-                      <DisclaimerModal />
-                      <ScrollToTopButton />
-                    </div>
-                  </TxPosterProvider>
-                </ToastProvider>
-              </UnlimitedApprovalProvider>
-            </CoversAndProductsProvider>
-          </AppConstantsProvider>
-        </NetworkProvider>
-      </Web3ReactProvider>
-    </LanguageProvider>
+                        <DisclaimerModal />
+                        <ScrollToTopButton />
+                      </div>
+                    </TxPosterProvider>
+                  </ToastProvider>
+                </UnlimitedApprovalProvider>
+              </CoversAndProductsProvider>
+            </AppConstantsProvider>
+          </NetworkProvider>
+        </Web3ReactProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 
