@@ -10,11 +10,11 @@ import { convertFromUnits, isGreater } from "@/utils/bn";
 import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { useInterval } from "@/src/hooks/useInterval";
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,24 +24,39 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
+
   const logoSrc = getCoverImgSrc({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });
+
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
   });
 
-  // Refreshes once claim begins
-  useRetryUntilPassed(() => {
-    return isGreater(incidentReport.claimBeginsFrom, DateLib.unix());
-  }, false);
+  const [isPassedClaimStart, setPassedClaimStart] = useState(false);
+  const [isPassedClaimExpire, setPassedClaimExpire] = useState(false);
 
-  // Refreshes once claim ends
-  useRetryUntilPassed(() => {
-    return isGreater(DateLib.unix(), incidentReport.claimExpiresAt);
-  }, true);
+  useInterval(
+    () => {
+      const _now = DateLib.unix();
+      if (isGreater(incidentReport.claimBeginsFrom, _now)) {
+        setPassedClaimStart(true);
+      }
+    },
+    isPassedClaimStart ? null : 1000
+  );
+
+  useInterval(
+    () => {
+      const _now = DateLib.unix();
+      if (isGreater(_now, incidentReport.claimExpiresAt)) {
+        setPassedClaimExpire(true);
+      }
+    },
+    isPassedClaimExpire ? null : 1000
+  );
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -60,9 +75,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const isIncidentOccured = incidentReport.decision;
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
-    isIncidentOccured &&
-    isGreater(incidentReport.claimExpiresAt, now) &&
-    isGreater(now, incidentReport.claimBeginsFrom);
+    isIncidentOccured && isPassedClaimExpire && isPassedClaimStart;
 
   const handleUnstake = async () => {
     // For incident occured, during claim period

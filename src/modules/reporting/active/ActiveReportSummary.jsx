@@ -12,10 +12,11 @@ import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { useState } from "react";
+import { useInterval } from "@/src/hooks/useInterval";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -29,6 +30,8 @@ export const ActiveReportSummary = ({
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
   const { NPMTokenSymbol } = useAppConstants();
+
+  const [isAfterResolution, setIsAfterResolution] = useState(false);
 
   const votes = {
     yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
@@ -60,14 +63,15 @@ export const ActiveReportSummary = ({
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  const now = DateLib.unix();
-  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
-
-  // Refreshes when reporting period ends
-  useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.resolutionTimestamp);
-  }, true);
+  useInterval(
+    () => {
+      const _now = DateLib.unix();
+      if (isGreater(_now, incidentReport.resolutionTimestamp)) {
+        setIsAfterResolution(true);
+      }
+    },
+    isAfterResolution ? null : 1000
+  );
 
   return (
     <>
@@ -78,7 +82,7 @@ export const ActiveReportSummary = ({
             <Trans>Report Summary</Trans>
           </h2>
 
-          {!reportingEnded && (
+          {!isAfterResolution && (
             <>
               <VotesSummaryDoughnutChart
                 votes={votes}
@@ -92,13 +96,13 @@ export const ActiveReportSummary = ({
           <VotesSummaryHorizontalChart
             yesPercent={yesPercent}
             noPercent={noPercent}
-            showTooltip={reportingEnded}
+            showTooltip={isAfterResolution}
             majority={majority}
           />
           <Divider />
 
           <>
-            {reportingEnded ? (
+            {isAfterResolution ? (
               <ResolveIncident
                 incidentReport={incidentReport}
                 resolvableTill={resolvableTill}
@@ -216,7 +220,7 @@ export const ActiveReportSummary = ({
               )}
             </span>
           </p>
-          {!reportingEnded && (
+          {!isAfterResolution && (
             <HlCalendar startDate={startDate} endDate={endDate} />
           )}
         </div>

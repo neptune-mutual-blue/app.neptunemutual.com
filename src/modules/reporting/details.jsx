@@ -5,38 +5,45 @@ import { ResolvedReportSummary } from "@/src/modules/reporting/resolved/Resolved
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReportSummary";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useConsensusReportingInfo } from "@/src/hooks/useConsensusReportingInfo";
+import { useState } from "react";
+import { useInterval } from "@/src/hooks/useInterval";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
+  const [isAfterResolveDeadline, setIsAfterResolveDeadline] = useState(false);
+
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
+
   const { info, refetch: refetchInfo } = useConsensusReportingInfo({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
   });
 
-  // Refreshes when resolution deadline passed (when reporting becomes unresolvable)
-  useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.resolutionDeadline);
-  }, true);
+  useInterval(
+    () => {
+      const _now = DateLib.unix();
+      if (isGreater(_now, incidentReport.resolutionDeadline)) {
+        setIsAfterResolveDeadline(true);
+      }
+    },
+    isAfterResolveDeadline ? null : 1000
+  );
 
   if (!coverInfo) {
     return null;
   }
 
-  const now = DateLib.unix();
-  const showResolvedSummary =
-    incidentReport.resolved &&
-    isGreater(now, incidentReport.resolutionDeadline);
-
-  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
+  const showResolvedSummary = incidentReport.resolved && isAfterResolveDeadline;
+  const reportingEnded = isGreater(
+    DateLib.unix(),
+    incidentReport.resolutionTimestamp
+  );
 
   return (
     <>

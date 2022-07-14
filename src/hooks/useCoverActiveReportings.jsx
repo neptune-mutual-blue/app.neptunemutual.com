@@ -36,6 +36,8 @@ export const useCoverActiveReportings = ({ coverKey }) => {
   }, [graphData]);
 
   useEffect(() => {
+    let ignore = false;
+
     setLoading(true);
 
     refetch(getQuery(coverKey))
@@ -43,8 +45,13 @@ export const useCoverActiveReportings = ({ coverKey }) => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
+
+    return () => {
+      ignore = true;
+    };
   }, [coverKey, refetch]);
 
   return {
