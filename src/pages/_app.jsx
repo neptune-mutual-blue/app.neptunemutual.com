@@ -16,9 +16,15 @@ import { TxPosterProvider } from "@/src/context/TxPoster";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
 import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
+import { useEffect } from "react";
+import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    setupMetamaskForFirefox();
+  }, []);
+
   if (pageProps.noWrappers) {
     return (
       <ErrorBoundary>
