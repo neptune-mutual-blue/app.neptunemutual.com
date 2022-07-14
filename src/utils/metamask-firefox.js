@@ -1,11 +1,9 @@
 import { initializeProvider } from "@metamask/providers";
-// import LocalMessageDuplexStream from "post-message-stream";
 import { WindowPostMessageStream as LocalMessageDuplexStream } from "@metamask/post-message-stream";
 
 function setupMetamaskForFirefox() {
   if (navigator.userAgent.includes("Firefox") && !window.ethereum) {
     // Create a stream to a remote provider:
-
     const metamaskStream = new LocalMessageDuplexStream({
       name: "metamask-inpage",
       target: "metamask-contentscript",

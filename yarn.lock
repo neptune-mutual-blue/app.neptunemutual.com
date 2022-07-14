@@ -1336,7 +1336,7 @@
     once "^1.4.0"
     readable-stream "^2.3.3"
 
-"@metamask/post-message-stream@^6.0.0":
+"@metamask/post-message-stream@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@metamask/post-message-stream/-/post-message-stream-6.0.0.tgz#e8c26b1ef41452b2f1862004651ae3970b944868"
   integrity sha512-z0l6UMW3z6W4qIhKSh48/6n2Q9AG1oOh9tus+Ncs9w6dAbkElKke+mXZ7tT6oAyE3T4JZLnDfGKbPWYoq+nrsA==
@@ -1344,7 +1344,7 @@
     "@metamask/utils" "^2.0.0"
     readable-stream "2.3.3"
 
-"@metamask/providers@^9.0.0":
+"@metamask/providers@9.0.0":
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/@metamask/providers/-/providers-9.0.0.tgz#644684f9eceb952138e80afb9103c7e39d8350fe"
   integrity sha512-9qUkaFafZUROK0CAUBqjsut+7mqKOXFhBCpAhAPVRBqj5TfUTdPI4t8S7GYzPVaDbC7M6kH/YLNCgcfaFWAS+w==
