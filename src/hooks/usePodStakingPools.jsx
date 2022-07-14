@@ -49,10 +49,12 @@ export const usePodStakingPools = () => {
             stakingToken
             stakingTokenName
             stakingTokenSymbol
+            stakingTokenDecimals
             uniStakingTokenDollarPair
             rewardToken
             rewardTokenName
             rewardTokenSymbol
+            rewardTokenDecimals
             uniRewardTokenDollarPair
             rewardTokenDeposit
             maxStake
@@ -67,7 +69,7 @@ export const usePodStakingPools = () => {
       .then((r) => r.json())
       .then((res) => {
         if (ignore) return;
-        
+
         if (res.errors || !res.data) {
           return;
         }
@@ -87,12 +89,13 @@ export const usePodStakingPools = () => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

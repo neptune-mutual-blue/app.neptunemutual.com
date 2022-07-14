@@ -93,6 +93,7 @@ export const useRecentVotes = ({
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 

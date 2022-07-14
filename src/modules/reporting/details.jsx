@@ -8,14 +8,18 @@ import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReport
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { useConsensusReportingInfo } from "@/src/hooks/useConsensusReportingInfo";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
-
-  const now = DateLib.unix();
+  const { info, refetch: refetchInfo } = useConsensusReportingInfo({
+    coverKey: incidentReport.coverKey,
+    productKey: incidentReport.productKey,
+    incidentDate: incidentReport.incidentDate,
+  });
 
   // Refreshes when resolution deadline passed (when reporting becomes unresolvable)
   useRetryUntilPassed(() => {
@@ -27,6 +31,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     return null;
   }
 
+  const now = DateLib.unix();
   const showResolvedSummary =
     incidentReport.resolved &&
     isGreater(now, incidentReport.resolutionDeadline);
@@ -43,14 +48,21 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
       <Container className="py-16">
         {showResolvedSummary ? (
           <ResolvedReportSummary
+            refetchInfo={refetchInfo}
             refetchReport={refetchReport}
             incidentReport={incidentReport}
+            yes={info.yes}
+            no={info.no}
+            willReceive={info.willReceive}
           />
         ) : (
           <ActiveReportSummary
+            refetchInfo={refetchInfo}
             refetchReport={refetchReport}
             incidentReport={incidentReport}
             resolvableTill={incidentReport.resolutionDeadline}
+            yes={info.yes}
+            no={info.no}
           />
         )}
 

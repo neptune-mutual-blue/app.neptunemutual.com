@@ -102,7 +102,10 @@ export const useBondTxs = ({ limit, page }) => {
         }));
       })
       .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (ignore) return;
+        setLoading(false);
+      });
 
     return () => {
       ignore = true;

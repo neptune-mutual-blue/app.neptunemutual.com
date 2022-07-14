@@ -48,11 +48,16 @@ export const useMyLiquidities = () => {
   }, [graphData]);
 
   useEffect(() => {
+    let ignore = false;
+
     setLoading(true);
 
     refetch(getQuery(account))
       .catch((err) => console.error(err))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (ignore) return;
+        setLoading(false);
+      });
   }, [account, refetch]);
 
   const myLiquidities = data?.userLiquidities || [];

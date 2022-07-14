@@ -10,6 +10,12 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       incidentDate,
       "decision"
     ),
+    consensus.claimPayoutsOf(
+      coverKey,
+      productKey,
+      incidentDate,
+      "claimPayouts"
+    ),
     consensus.totalStakeIncidentOccurred(
       coverKey,
       productKey,

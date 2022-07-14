@@ -42,6 +42,10 @@ export const localesKey = {
   "Japanese - 日本語": "ja",
 };
 
+export const GITHUB_REPONAME = "app.neptunemutual.com";
+export const GITHUB_USERNAME = "neptune-mutual-blue";
+export const DISCORD_LINK = "https://discord.gg/2qMGTtJtnW";
+
 // Will end with `/`
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   ? new URL(process.env.NEXT_PUBLIC_API_URL).toString()
@@ -64,7 +68,7 @@ export const POOL_URLS = {
   80001:
     "https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
   43113:
-    "https://app.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
+    "https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}",
 };
 
 export const SUBGRAPH_API_URLS = {

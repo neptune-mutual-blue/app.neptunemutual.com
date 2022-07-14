@@ -33,11 +33,13 @@ export const ActiveReportingCard = ({
   const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
   const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
-  const { activeCommitment, productStatus } = useFetchCoverStats({
+  const { info: coverStats } = useFetchCoverStats({
     coverKey,
     productKey,
   });
   const router = useRouter();
+
+  const { activeCommitment, productStatus } = coverStats;
 
   const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });

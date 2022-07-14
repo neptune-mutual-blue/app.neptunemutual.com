@@ -27,7 +27,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const [resolving, setResolving] = useState(false);
   const [emergencyResolving, setEmergencyResolving] = useState(false);
 
-  const resolve = async () => {
+  const resolve = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
       requiresAuth();
       return;
@@ -76,6 +76,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
           },
           {
             onTxSuccess: () => {
+              onSuccess();
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
@@ -119,7 +120,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
   };
 
-  const emergencyResolve = async (decision) => {
+  const emergencyResolve = async (decision, onSuccess = (f) => f) => {
     if (!networkId || !account) {
       requiresAuth();
       return;
@@ -170,6 +171,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
 
           {
             onTxSuccess: () => {
+              onSuccess();
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,

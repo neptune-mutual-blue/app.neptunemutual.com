@@ -26,7 +26,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
   const { notifyError } = useErrorNotifier();
   const { invoke } = useInvokeMethod();
 
-  const finalize = async () => {
+  const finalize = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
       requiresAuth();
       return;
@@ -67,6 +67,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
           },
           {
             onTxSuccess: () => {
+              onSuccess();
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.INCIDENT_FINALIZE,

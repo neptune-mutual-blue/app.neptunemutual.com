@@ -9,9 +9,8 @@ import {
   isGreater,
   isValidNumber,
 } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { TokenAmountSpan } from "@/common/TokenAmountSpan";
 
 export const UnStakeForm = ({
   info,
@@ -25,7 +24,6 @@ export const UnStakeForm = ({
   const blockHeight = useBlockHeight();
 
   const [inputValue, setInputValue] = useState();
-  const router = useRouter();
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
@@ -47,13 +45,14 @@ export const UnStakeForm = ({
 
   const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
   const stakingTokenAddress = info.stakingToken;
+  const stakingDecimals = info.stakingTokenDecimals;
   const isError =
     inputValue &&
     (!isValidNumber(inputValue) ||
       isGreater(convertToUnits(inputValue || "0"), stakedAmount));
 
   const handleChooseMax = () => {
-    setInputValue(convertFromUnits(stakedAmount).toString());
+    setInputValue(convertFromUnits(stakedAmount, stakingDecimals).toString());
   };
 
   const handleChange = (val) => {
@@ -75,18 +74,15 @@ export const UnStakeForm = ({
         disabled={withdrawing}
       >
         <p className="-ml-3">
-          <Trans>Balance:</Trans>{" "}
-          {
-            formatCurrency(
-              convertFromUnits(stakedAmount),
-              router.locale,
-              stakingTokenSymbol,
-              true
-            ).long
-          }
+          <Trans>Your Stake:</Trans>{" "}
+          <TokenAmountSpan
+            amountInUnits={stakedAmount}
+            symbol={stakingTokenSymbol}
+            decimals={stakingDecimals}
+          />
         </p>
         {!canWithdraw && (
-          <p className="flex items-center text-FA5C2F -ml-3">
+          <p className="flex items-center -ml-3 text-FA5C2F">
             <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
@@ -95,8 +91,8 @@ export const UnStakeForm = ({
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
         className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-        onClick={async () => {
-          await handleWithdraw(() => {
+        onClick={() => {
+          handleWithdraw(() => {
             onUnstakeSuccess();
             refetchInfo();
           });

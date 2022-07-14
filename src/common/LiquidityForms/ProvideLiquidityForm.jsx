@@ -22,11 +22,11 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
-import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { useCoverActiveReportings } from "@/src/hooks/useCoverActiveReportings";
 
-export const ProvideLiquidityForm = ({ coverKey, info }) => {
+export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   const [lqValue, setLqValue] = useState("");
   const [npmValue, setNPMValue] = useState("");
   const router = useRouter();
@@ -42,7 +42,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     NPMTokenDecimals: npmTokenDecimals,
   } = useAppConstants();
 
-  const { status, activeIncidentDate } = useCoverStatsContext();
   const {
     npmBalance,
     lqApproving,
@@ -82,6 +81,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
     podAddress: vaultTokenAddress,
   });
 
+  const { data: activeReportings } = useCoverActiveReportings({ coverKey });
+
   const requiredStake = toBN(minStakeToAddLiquidity).minus(myStake).toString();
 
   useEffect(() => {
@@ -90,13 +91,6 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       isGreater(requiredStake, convertToUnits(npmValue, npmTokenDecimals))
     ) {
       setNpmErrorMsg(t`Insufficient Stake`);
-    } else if (
-      npmValue &&
-      isEqualTo(convertToUnits(npmValue, npmTokenDecimals), "0")
-    ) {
-      // TODO: Remove once protocol is fixed, if user already staked the `minStakeToAddLiquidity`,
-      // then user should be able to provide ZERO for this input.
-      setNpmErrorMsg(t`Please specify an amount`);
     } else if (
       npmValue &&
       isGreater(convertToUnits(npmValue, npmTokenDecimals), npmBalance)
@@ -159,15 +153,24 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
 
   const hasBothAllowances = hasLqTokenAllowance && hasNPMTokenAllowance;
 
-  if (status && status !== "Normal") {
-    return (
+  if (activeReportings.length > 0) {
+    const status = activeReportings[0].status;
+    const incidentDate = activeReportings[0].incidentDate;
+    const cover_id = safeParseBytes32String(coverKey);
+
+    const incidentLink = `/reporting/${cover_id}/${incidentDate}/details`;
+
+    return isDiversified ? (
+      <Alert>
+        <Trans>
+          Cannot add liquidity, as one of the product&apos;s status is not
+          normal
+        </Trans>
+      </Alert>
+    ) : (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
-        <Link
-          href={`/reporting/${safeParseBytes32String(
-            coverKey
-          )}/${activeIncidentDate}/details`}
-        >
+        <Link href={incidentLink}>
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>
@@ -184,6 +187,8 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
   } else if (lqAllowanceLoading) {
     loadingMessage = t`Fetching ${liquidityTokenSymbol} allowance...`;
   }
+
+  const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false;
 
   return (
     <div className="max-w-md" data-testid="add-liquidity-form">
@@ -275,42 +280,45 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
       <div className="mt-2">
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
-          <RegularButton
-            disabled={
-              hasLqTokenAllowance || lqApproving || lqErrorMsg || loadingMessage
-            }
-            className="w-full p-6 font-semibold uppercase text-h6"
-            onClick={handleLqTokenApprove}
-          >
-            {lqApproving ? (
-              t`Approving...`
-            ) : (
-              <>
-                <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
-              </>
-            )}
-          </RegularButton>
-        )}
+          <div className="flex items-center gap-x-10">
+            <RegularButton
+              disabled={
+                hasLqTokenAllowance ||
+                lqApproving ||
+                lqErrorMsg ||
+                loadingMessage
+              }
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleLqTokenApprove}
+            >
+              {lqApproving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {liquidityTokenSymbol || t`Liquidity`}
+                </>
+              )}
+            </RegularButton>
 
-        {!hasBothAllowances && (
-          <RegularButton
-            disabled={
-              hasNPMTokenAllowance ||
-              npmApproving ||
-              npmErrorMsg ||
-              loadingMessage
-            }
-            className="w-full p-6 mt-8 font-semibold uppercase text-h6"
-            onClick={handleNPMTokenApprove}
-          >
-            {npmApproving ? (
-              t`Approving...`
-            ) : (
-              <>
-                <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
-              </>
-            )}
-          </RegularButton>
+            <RegularButton
+              disabled={
+                hasNPMTokenAllowance ||
+                npmApproving ||
+                npmErrorMsg ||
+                loadingMessage
+              }
+              className="w-full p-6 font-semibold uppercase text-h6"
+              onClick={handleNPMTokenApprove}
+            >
+              {npmApproving ? (
+                t`Approving...`
+              ) : (
+                <>
+                  <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
+                </>
+              )}
+            </RegularButton>
+          </div>
         )}
 
         {hasBothAllowances && (
@@ -319,7 +327,7 @@ export const ProvideLiquidityForm = ({ coverKey, info }) => {
               isError ||
               providing ||
               !lqValue ||
-              !npmValue ||
+              isInvalidNpm ||
               npmErrorMsg ||
               lqErrorMsg ||
               loadingMessage

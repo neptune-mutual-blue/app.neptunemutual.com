@@ -14,6 +14,8 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
+    let ignore = false;
+
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 
     async function exec() {
@@ -29,6 +31,8 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
       });
 
       const amountsInDai = await multiCallProvider.all(calls);
+
+      if (ignore) return;
       setMyTotalLiquidity(
         sumOf(...amountsInDai.map((x) => x.toString())).toString()
       );
@@ -37,6 +41,10 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
     if (liquidityList.length > 0) {
       exec();
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [account, library, liquidityList, networkId]);
 
   return myTotalLiquidity;
