@@ -40,8 +40,8 @@ export class TransactionHistory {
     }
 
     LSHistory.add({
-      ...item,
       timestamp: Date.now(),
+      ...item,
     });
   }
 
