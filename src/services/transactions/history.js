@@ -58,7 +58,7 @@ class LSHistoryClass {
         throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE);
       },
       // when an error is detected, we will set this default value
-      {}
+      JSON.stringify({})
     );
   }
 
