@@ -22,14 +22,18 @@ const MAX_TRANSACTION_HISTORY = 100;
  */
 function verifyShapeIntegrity(object) {
   return Object.values(object).every((entries) => {
-    return entries.every((item) => {
-      return (
-        item.hasOwnProperty("hash") &&
-        item.hasOwnProperty("methodName") &&
-        item.hasOwnProperty("status") &&
-        item.hasOwnProperty("timestamp")
-      );
-    });
+    if (Array.isArray(entries)) {
+      return entries.every((item) => {
+        return (
+          item.hasOwnProperty("hash") &&
+          item.hasOwnProperty("methodName") &&
+          item.hasOwnProperty("status") &&
+          item.hasOwnProperty("timestamp")
+        );
+      });
+    }
+
+    return false;
   });
 }
 
@@ -43,14 +47,18 @@ class LSHistoryClass {
       (value) => {
         const val = JSON.parse(value);
 
-        if (!Array.isArray(val) && verifyShapeIntegrity(val)) {
+        if (
+          typeof val === "object" &&
+          !Array.isArray(val) &&
+          verifyShapeIntegrity(val)
+        ) {
           return val;
         }
 
         throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE);
       },
       // when an error is detected, we will set this default value
-      {}
+      JSON.stringify({})
     );
   }
 
