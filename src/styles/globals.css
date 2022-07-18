@@ -16,13 +16,3 @@ input:checked + div svg {
 .transform-flip {
   transform: scale(1, -1);
 }
-
-.scroll-bar-white::-webkit-scrollbar {
-  width: 5px;
-  background-color: transparent;
-}
-
-.scroll-bar-white::-webkit-scrollbar-thumb {
-  background-color: #f1f3f6;
-  border-radius: 46px;
-}

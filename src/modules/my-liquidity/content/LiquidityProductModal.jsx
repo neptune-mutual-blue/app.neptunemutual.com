@@ -62,7 +62,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
           </span>
         </Dialog.Title>
         <div
-          className="py-2 pr-7 -mr-7 overflow-y-auto flex-grow scroll-bar-white max-h-50vh font-sora"
+          className="py-2 pr-7 -mr-7 overflow-y-auto flex-grow max-h-50vh font-sora"
           data-testid="token-input"
         >
           <p className="py-6 font-bold text-h5">Cover Rules</p>
