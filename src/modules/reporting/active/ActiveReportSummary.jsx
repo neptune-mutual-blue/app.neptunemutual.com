@@ -15,8 +15,7 @@ import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummar
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useState } from "react";
-import { useInterval } from "@/src/hooks/useInterval";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -30,8 +29,6 @@ export const ActiveReportSummary = ({
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
   const { NPMTokenSymbol } = useAppConstants();
-
-  const [isAfterResolution, setIsAfterResolution] = useState(false);
 
   const votes = {
     yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
@@ -63,15 +60,10 @@ export const ActiveReportSummary = ({
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  useInterval(
-    () => {
-      const _now = DateLib.unix();
-      if (isGreater(_now, incidentReport.resolutionTimestamp)) {
-        setIsAfterResolution(true);
-      }
-    },
-    isAfterResolution ? null : 1000
-  );
+  const isAfterResolution = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.resolutionTimestamp);
+  }, true);
 
   return (
     <>

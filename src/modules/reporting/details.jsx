@@ -8,12 +8,9 @@ import { ActiveReportSummary } from "@/src/modules/reporting/active/ActiveReport
 import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useConsensusReportingInfo } from "@/src/hooks/useConsensusReportingInfo";
-import { useState } from "react";
-import { useInterval } from "@/src/hooks/useInterval";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
-  const [isAfterResolveDeadline, setIsAfterResolveDeadline] = useState(false);
-
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
@@ -25,25 +22,27 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
     incidentDate: incidentReport.incidentDate,
   });
 
-  useInterval(
-    () => {
-      const _now = DateLib.unix();
-      if (isGreater(_now, incidentReport.resolutionDeadline)) {
-        setIsAfterResolveDeadline(true);
-      }
-    },
-    isAfterResolveDeadline ? null : 1000
-  );
+  const isPassedResolutionDeadline = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+
+    if (
+      incidentReport?.resolutionDeadline === "0" ||
+      !Number(incidentReport?.resolutionDeadline)
+    ) {
+      return false;
+    } else {
+      return isGreater(_now, incidentReport.resolutionDeadline);
+    }
+  }, true);
 
   if (!coverInfo) {
     return null;
   }
 
-  const showResolvedSummary = incidentReport.resolved && isAfterResolveDeadline;
-  const reportingEnded = isGreater(
-    DateLib.unix(),
-    incidentReport.resolutionTimestamp
-  );
+  const now = DateLib.unix();
+  const showResolvedSummary =
+    incidentReport.resolved && isPassedResolutionDeadline;
+  const reportingEnded = isGreater(now, incidentReport.resolutionTimestamp);
 
   return (
     <>

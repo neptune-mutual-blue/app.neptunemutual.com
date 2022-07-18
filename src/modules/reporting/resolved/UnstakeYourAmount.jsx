@@ -14,7 +14,7 @@ import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { useInterval } from "@/src/hooks/useInterval";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,28 +35,15 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     incidentDate: incidentReport.incidentDate,
   });
 
-  const [isPassedClaimStart, setPassedClaimStart] = useState(false);
-  const [isPassedClaimExpire, setPassedClaimExpire] = useState(false);
+  const isBeforeClaimExpire = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(incidentReport.claimExpiresAt, _now);
+  }, true);
 
-  useInterval(
-    () => {
-      const _now = DateLib.unix();
-      if (isGreater(incidentReport.claimBeginsFrom, _now)) {
-        setPassedClaimStart(true);
-      }
-    },
-    isPassedClaimStart ? null : 1000
-  );
-
-  useInterval(
-    () => {
-      const _now = DateLib.unix();
-      if (isGreater(_now, incidentReport.claimExpiresAt)) {
-        setPassedClaimExpire(true);
-      }
-    },
-    isPassedClaimExpire ? null : 1000
-  );
+  const isAfterClaimStart = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.claimBeginsFrom);
+  }, true);
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -72,20 +59,20 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
 
   const now = DateLib.unix();
 
-  const isIncidentOccured = incidentReport.decision;
+  const isIncidentOccurred = incidentReport.decision;
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
-    isIncidentOccured && isPassedClaimExpire && isPassedClaimStart;
+    isIncidentOccurred && isBeforeClaimExpire && isAfterClaimStart;
 
   const handleUnstake = async () => {
-    // For incident occured, during claim period
-    if (isIncidentOccured && isClaimableNow) {
+    // For incident occurred, during claim period
+    if (isIncidentOccurred && isClaimableNow) {
       await unstakeWithClaim();
       return;
     }
 
     // For false reporting, Before finalization
-    if (!isIncidentOccured && !incidentReport.finalized) {
+    if (!isIncidentOccurred && !incidentReport.finalized) {
       await unstakeWithClaim();
       return;
     }
@@ -98,7 +85,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
         <Trans>Result:</Trans>{" "}
-        {incidentReport.decision ? t`Incident Occured` : t`False Reporting`}{" "}
+        {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`}{" "}
         {incidentReport.emergencyResolved && t`(Emergency Resolved)`}
       </span>
 
