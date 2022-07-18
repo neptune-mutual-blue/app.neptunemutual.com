@@ -18,6 +18,7 @@ module.exports = {
       "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
       "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
       "tx-overview": "0px 4px 11px rgba(1, 5, 45, 0.3)",
+      "tx-list": "0px 4px 12px rgba(0, 0, 0, 0.4)",
     },
     colors: {
       transparent: "transparent",
@@ -167,6 +168,7 @@ module.exports = {
         "100vh": "100vh",
         "30vh": "30vh",
         "45vh": "45vh",
+        "tx-list": "min(calc(100vh - 170px), 34rem)",
       },
       height: {
         "500": "500px",
