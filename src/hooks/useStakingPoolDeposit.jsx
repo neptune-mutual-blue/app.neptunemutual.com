@@ -189,7 +189,7 @@ export const useStakingPoolDeposit = ({
           hash: tx.hash,
           methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
           status: STATUS.PENDING,
-          data: { tokenSymbol },
+          data: { value, tokenSymbol },
         });
 
         await txToast
