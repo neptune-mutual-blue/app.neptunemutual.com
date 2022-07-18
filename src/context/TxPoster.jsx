@@ -171,12 +171,12 @@ const ForceTxModal = ({
     <ModalRegular isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className="max-w-xs sm:max-w-2xl bg-FEFEFF">
         <Dialog.Title className="flex items-center">
-          <div className="font-semibold text-black font-sora text-h4">
+          <div className="font-semibold text-black font-sora text-h4 mb-1">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
-        <div className="overflow-y-auto max-h-56">
+        <div className="overflow-y-auto max-h-54">
           <div className="my-5">
             <p className="text-sm leading-5 text-404040 font-poppins">
               We attempted to submit your transaction but ran into an unexpected
