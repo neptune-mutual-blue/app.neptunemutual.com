@@ -169,7 +169,7 @@ const ForceTxModal = ({
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <ModalWrapper className="max-w-xs sm:max-w-2xl bg-FEFEFF">
+      <ModalWrapper className="max-w-xs sm:max-w-lg md:max-w-2xl bg-FEFEFF">
         <Dialog.Title className="flex items-center">
           <div className="font-semibold text-black font-sora text-h4 mb-1">
             EVM Error Occurred While Processing Your Request
