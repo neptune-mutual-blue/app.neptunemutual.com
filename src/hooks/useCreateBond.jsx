@@ -55,7 +55,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   } = useERC20Balance(info.lpTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { invoke, contractRead } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
 
@@ -102,33 +102,22 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           signerOrProvider
         );
 
-        const onTransactionResult = async (tx) => {
-          const result = tx;
-
-          if (ignore) return;
-          setReceiveAmount(result.toString());
-          cleanup();
-        };
-
-        const onRetryCancel = () => {
-          cleanup();
-        };
-
         const onError = (err) => {
           handleError(err);
           cleanup();
         };
 
         const args = [convertToUnits(debouncedValue).toString()];
-        invoke({
+        const result = await contractRead({
           instance,
           methodName: "calculateTokensForLp",
           args,
-          retry: false,
-          onTransactionResult,
-          onRetryCancel,
           onError,
         });
+
+        if (ignore) return;
+        setReceiveAmount(result.toString());
+        cleanup();
       } catch (err) {
         handleError(err);
         cleanup();
@@ -140,7 +129,15 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     return () => {
       ignore = true;
     };
-  }, [networkId, debouncedValue, invoke, notifyError, account, library]);
+  }, [
+    networkId,
+    debouncedValue,
+    invoke,
+    notifyError,
+    account,
+    library,
+    contractRead,
+  ]);
 
   useEffect(() => {
     if (!value && error) {

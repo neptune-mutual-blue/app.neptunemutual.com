@@ -11,10 +11,10 @@ export const useERC20Balance = (tokenAddress) => {
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
-  const { invoke } = useInvokeMethod();
+  const { contractRead } = useInvokeMethod();
 
   const fetchBalance = useCallback(
-    async ({ onTransactionResult, onRetryCancel, onError }) => {
+    async ({ onTransactionResult, onError }) => {
       if (!networkId || !account || !tokenAddress) {
         return;
       }
@@ -36,20 +36,18 @@ export const useERC20Balance = (tokenAddress) => {
           return;
         }
 
-        invoke({
+        const result = await contractRead({
           args: [account],
           instance: tokenInstance,
           methodName: "balanceOf",
-          onTransactionResult,
-          onRetryCancel,
           onError,
-          retry: false,
         });
+        onTransactionResult(result);
       } catch (e) {
         console.error(e);
       }
     },
-    [account, invoke, library, networkId, tokenAddress]
+    [account, contractRead, library, networkId, tokenAddress]
   );
 
   useEffect(() => {
@@ -67,15 +65,11 @@ export const useERC20Balance = (tokenAddress) => {
       cleanup();
     };
 
-    const onRetryCancel = () => {
-      cleanup();
-    };
-
     const onError = () => {
       cleanup();
     };
 
-    fetchBalance({ onTransactionResult, onRetryCancel, onError });
+    fetchBalance({ onTransactionResult, onError });
 
     return () => {
       ignore = true;
@@ -111,16 +105,12 @@ export const useERC20Balance = (tokenAddress) => {
       }
     };
 
-    const onRetryCancel = () => {
-      cleanup();
-    };
-
     const onError = (err) => {
       cleanup();
       console.error(err);
     };
 
-    fetchBalance({ onTransactionResult, onRetryCancel, onError });
+    fetchBalance({ onTransactionResult, onError });
   }, [fetchBalance]);
 
   return { balance, loading, refetch };
