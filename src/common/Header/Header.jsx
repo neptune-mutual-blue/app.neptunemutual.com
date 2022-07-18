@@ -144,7 +144,7 @@ export const Header = () => {
     <>
       <div className="bg-black text-EEEEEE">
         <Banner />
-        <div className="flex justify-end max-w-full pr-4 py-0 mx-auto sm:px-6 xl:px-20">
+        <div className="flex justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20">
           <LanguageDropdown />
         </div>
       </div>
@@ -187,7 +187,7 @@ export const Header = () => {
               </div>
             )}
 
-            <div className="items-center hidden pb-4 pt-2 xl:flex">
+            <div className="items-center hidden pt-3 pb-3 xl:flex">
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   let button = (

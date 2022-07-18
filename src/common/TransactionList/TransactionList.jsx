@@ -77,13 +77,13 @@ export function TransactionList({
       isOpen={isOpen}
       onClose={onClose}
       rootProps={{ modal: true }}
-      overlayClass="flex justify-end w-full h-full"
-      defaultContentClassNames="absolute z-50 transform my-12 mr-8 py-1 rounded-3xl"
+      overlayClass="flex justify-end w-full h-full bg-transparent"
+      defaultContentClassNames="absolute z-50 transform top-full right-5 pt-3 rounded-3xl"
       container={container}
       {...rest}
     >
-      <div className="font-poppins bg-3A4557 text-FEFEFF px-4 rounded-3xl">
-        <div>
+      <div className="pl-4 font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list">
+        <div className="pr-4 overflow-y-auto max-h-tx-list">
           <NotificationsList
             data={listOfTransactions}
             hasShowMore={page >= maxPage}
@@ -121,7 +121,9 @@ function NotificationsList({ data, showMore, hasShowMore }) {
             />
           ))}
         </div>
-        <div className={`text-center pb-3 mt-5 ${hasShowMore ? "hidden" : ""}`}>
+        <div
+          className={`text-center pb-3 mt-10 ${hasShowMore ? "hidden" : ""}`}
+        >
           <a href="#" className="underline" onClick={showMore}>
             {t`View More`}
           </a>
@@ -130,7 +132,9 @@ function NotificationsList({ data, showMore, hasShowMore }) {
     );
   }
 
-  return <div className="p-4 block">{t`No transaction history to show`}</div>;
+  return (
+    <div className="block p-4 whitespace-nowrap">{t`No transaction history to show`}</div>
+  );
 }
 
 /**
@@ -155,17 +159,17 @@ function Notification({
   );
 
   return (
-    <div className="py-4 flex border-b border-B0C4DB/40" key={hash}>
+    <div className="flex py-4 border-b border-B0C4DB/40" key={hash}>
       <div className="mr-4">{convertToIconVariant(status)}</div>
       <div className="mr-4 grow">
         <p className="text-sm font-bold font-sora">{title}</p>
         <p>{description}</p>
-        <p className="text-xs text-999BAB font-sora">
+        <p className="mt-2 text-xs leading-4 tracking-normal text-999BAB">
           {fromNow(timestamp / 1000)}
         </p>
       </div>
       <a
-        className="flex items-center self-end whitespace-nowrap text-4289F2 text-xs"
+        className="flex items-center self-end text-xs whitespace-nowrap text-4289F2"
         href={txLink}
         target="_blank"
         rel="noreferrer"
