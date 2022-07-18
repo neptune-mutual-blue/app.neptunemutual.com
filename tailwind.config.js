@@ -185,6 +185,9 @@ module.exports = {
       zIndex: {
         60: "60",
       },
+      opacity: {
+        15: ".15",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

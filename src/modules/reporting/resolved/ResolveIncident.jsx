@@ -124,7 +124,7 @@ const EmergencyResolveModal = ({
       onClose={onClose}
       disabled={emergencyResolving}
     >
-      <ModalWrapper className="max-w-sm sm:max-w-none">
+      <ModalWrapper className="max-w-sm sm:max-w-none bg-f1f3f6">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
