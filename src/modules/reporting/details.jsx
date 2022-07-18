@@ -24,14 +24,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
 
   const isPassedResolutionDeadline = useRetryUntilPassed(() => {
     const _now = DateLib.unix();
-
-    if (
-      incidentReport?.resolutionDeadline === "0" ||
-      !Number(incidentReport?.resolutionDeadline)
-    ) {
-      return false;
-    } else {
+    if (incidentReport?.resolved) {
       return isGreater(_now, incidentReport.resolutionDeadline);
+    } else {
+      return false;
     }
   }, true);
 
