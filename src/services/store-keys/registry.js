@@ -22,6 +22,17 @@ export const policy = (property = "policy") => {
   };
 };
 
+export const governance = (property = "governance") => {
+  return {
+    key: [
+      utils.keyUtil.PROTOCOL.NS.CONTRACTS,
+      utils.keyUtil.PROTOCOL.CNS.GOVERNANCE,
+    ],
+    returns: "address",
+    property,
+  };
+};
+
 export const stablecoin = (property = "stablecoin") => {
   return {
     key: [utils.keyUtil.PROTOCOL.CNS.COVER_STABLECOIN],
