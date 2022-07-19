@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 
-export const useRetryUntilPassed = (callback, expected, interval = 1000) => {
-  const [passed, setPassed] = useState(false);
+export const useRetryUntilPassed = (callback, interval = 1000) => {
+  // Reduce unnecessary re-renders by setting the initial state correctly
+  const [passed, setPassed] = useState(() => callback());
 
   useEffect(() => {
     let ignore = false;
 
     const intervalId = setInterval(() => {
-      const result = callback();
-      if (!ignore && result === expected) {
+      if (ignore) return;
+
+      if (callback() === true) {
         setPassed(true);
         clearInterval(intervalId);
       }
@@ -18,7 +20,7 @@ export const useRetryUntilPassed = (callback, expected, interval = 1000) => {
       ignore = true;
       clearInterval(intervalId);
     };
-  }, [callback, expected, interval]);
+  }, [callback, interval]);
 
   return passed;
 };
