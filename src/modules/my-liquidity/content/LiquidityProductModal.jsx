@@ -19,12 +19,13 @@ export function LiquidityProductModal({ product, setShowModal }) {
         setShowModal(false);
       }}
     >
-      <div className="border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-f1f3f6 rounded-3xl">
+      <div className="border-1.5 border-B0C4DB relative inline-block w-full max-w-lg p-11 pb-9 text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-FEFEFF rounded-3xl">
         <Dialog.Title
-          className="flex items-center w-full pb-3 font-bold border-b font-sora text-h2 border-b-B0C4DB"
+          className="flex items-center w-full pb-3 font-bold border-b font-sora  border-b-B0C4DB"
           data-testid="dialog-title"
         >
           <svg
+            className="w-10"
             width="40"
             height="40"
             viewBox="0 0 40 40"
@@ -53,22 +54,27 @@ export function LiquidityProductModal({ product, setShowModal }) {
             </defs>
           </svg>
 
-          <span className="flex-grow pl-3">
+          <span className="flex-grow pl-3 text-h3 whitespace-nowrap text-ellipsis overflow-hidden">
             {product.infoObj.productName} Cover Terms
           </span>
-          <span className="pl-3 text-h4 text-9B9B9B">
+          <span className="pl-3 text-h4 font-semibold text-9B9B9B whitespace-nowrap font-poppins">
             70% Capital Efficiency
           </span>
         </Dialog.Title>
-        <div className="mt-6" data-testid="token-input">
-          <p className="py-6 font-bold text-h5">Cover Rules</p>
+        <div
+          className="py-2 pr-7 -mr-7 overflow-y-auto flex-grow max-h-50vh font-sora"
+          data-testid="token-input"
+        >
+          <p className="py-6 text-000000 font-bold text-sm leading-5">
+            Cover Rules
+          </p>
 
-          <p className="text-md">
+          <p className="text-md font-poppins text-404040 text-sm">
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs">
+          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 text-sm leading-5">
             {product.infoObj.rules.split("\n").map((x, i) => (
               <li key={i}>
                 {x
@@ -79,12 +85,16 @@ export function LiquidityProductModal({ product, setShowModal }) {
             ))}
           </ul>
 
-          <p className="py-6 font-bold text-h5">Exclusions</p>
+          <p className="py-6 text-000000 font-bold text-sm leading-5">
+            Exclusions
+          </p>
 
-          <p className="text-md">{product.infoObj.exclusions}</p>
+          <p className="font-poppins text-404040 text-sm">
+            {product.infoObj.exclusions}
+          </p>
         </div>
 
-        <div className="flex justify-end pt-14">
+        <div className="flex justify-end pt-6 border-t border-t-B0C4DB">
           <button
             onClick={() => setShowModal(false)}
             className="p-3 mr-6 font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
