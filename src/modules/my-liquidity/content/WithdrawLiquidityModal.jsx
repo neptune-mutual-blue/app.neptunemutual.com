@@ -11,7 +11,7 @@ export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
-      <ModalWrapper className="max-w-2xl">
+      <ModalWrapper className="max-w-2xl bg-f1f3f6">
         <Dialog.Title className="flex font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>

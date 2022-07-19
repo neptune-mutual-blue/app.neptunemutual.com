@@ -21,7 +21,7 @@ export const ModalRegular = ({
     <Portal container={container}>
       <Overlay
         className={classNames(
-          "fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-50",
+          "fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-15",
           overlayClass
         )}
       />
