@@ -159,6 +159,7 @@ module.exports = {
         "F7E2BE": "#F7E2BE",
         "E5F4F5": "#E5F4F5",
         "FEEBE6": "#FEEBE6",
+        "000000": "#000000",
       },
       minHeight: {
         360: "360px",

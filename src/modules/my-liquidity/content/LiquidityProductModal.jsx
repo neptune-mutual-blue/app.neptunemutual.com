@@ -65,14 +65,16 @@ export function LiquidityProductModal({ product, setShowModal }) {
           className="py-2 pr-7 -mr-7 overflow-y-auto flex-grow max-h-50vh font-sora"
           data-testid="token-input"
         >
-          <p className="py-6 font-bold text-h5">Cover Rules</p>
+          <p className="py-6 text-000000 font-bold text-sm leading-5">
+            Cover Rules
+          </p>
 
-          <p className="text-md">
+          <p className="text-md font-poppins text-404040 text-sm">
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs">
+          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 text-sm leading-5">
             {product.infoObj.rules.split("\n").map((x, i) => (
               <li key={i}>
                 {x
@@ -83,9 +85,13 @@ export function LiquidityProductModal({ product, setShowModal }) {
             ))}
           </ul>
 
-          <p className="py-6 font-bold text-h5">Exclusions</p>
+          <p className="py-6 text-000000 font-bold text-sm leading-5">
+            Exclusions
+          </p>
 
-          <p className="text-md">{product.infoObj.exclusions}</p>
+          <p className="font-poppins text-404040 text-sm">
+            {product.infoObj.exclusions}
+          </p>
         </div>
 
         <div className="flex justify-end pt-6 border-t border-t-B0C4DB">
