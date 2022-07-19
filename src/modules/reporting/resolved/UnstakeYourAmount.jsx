@@ -35,15 +35,21 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     incidentDate: incidentReport.incidentDate,
   });
 
-  const isBeforeClaimExpire = useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    return isGreater(incidentReport.claimExpiresAt, _now);
-  }, true);
+  const isClaimExpired = useRetryUntilPassed(() => {
+    // If false reporting, we don't care about the claim period
+    if (!incidentReport.decision) return true;
 
-  const isAfterClaimStart = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.claimExpiresAt);
+  });
+
+  const isClaimStarted = useRetryUntilPassed(() => {
+    // If false reporting, we don't care about the claim period
+    if (!incidentReport.decision) return true;
+
     const _now = DateLib.unix();
     return isGreater(_now, incidentReport.claimBeginsFrom);
-  }, true);
+  });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -53,16 +59,16 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     ? coverInfo?.infoObj.productName
     : coverInfo?.infoObj.projectName;
 
-  function onClose() {
-    setIsOpen(false);
-  }
-
   const now = DateLib.unix();
 
   const isIncidentOccurred = incidentReport.decision;
   const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
   const isClaimableNow =
-    isIncidentOccurred && isBeforeClaimExpire && isAfterClaimStart;
+    isIncidentOccurred && !isClaimExpired && isClaimStarted;
+
+  function onClose() {
+    setIsOpen(false);
+  }
 
   const handleUnstake = async () => {
     // For incident occurred, during claim period

@@ -30,6 +30,11 @@ export const ActiveReportSummary = ({
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
   const { NPMTokenSymbol } = useAppConstants();
 
+  const isAfterResolution = useRetryUntilPassed(() => {
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.resolutionTimestamp);
+  });
+
   const votes = {
     yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
     no: convertFromUnits(no).decimalPlaces(0).toNumber(),
@@ -59,11 +64,6 @@ export const ActiveReportSummary = ({
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? "success" : "failure",
   };
-
-  const isAfterResolution = useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.resolutionTimestamp);
-  }, true);
 
   return (
     <>

@@ -23,13 +23,13 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   });
 
   const isPassedResolutionDeadline = useRetryUntilPassed(() => {
-    const _now = DateLib.unix();
-    if (incidentReport?.resolved) {
-      return isGreater(_now, incidentReport.resolutionDeadline);
-    } else {
+    if (!incidentReport?.resolved) {
       return false;
     }
-  }, true);
+
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.resolutionDeadline);
+  });
 
   if (!coverInfo) {
     return null;
