@@ -23,7 +23,7 @@ import { isValidProduct } from "@/src/helpers/cover";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.info.projectName,
+    selector: (report) => report.isDiversified ? report.infoObj?.productName : report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
@@ -58,7 +58,7 @@ export const ReportingActivePage = () => {
     })),
     filter: (cover, term) => {
       return (
-        toStringSafe(cover.info.projectName).indexOf(toStringSafe(term)) > -1
+        toStringSafe(cover.isDiversified ? cover.infoObj.productName : cover.infoObj.projectName).indexOf(toStringSafe(term)) > -1
       );
     },
   });

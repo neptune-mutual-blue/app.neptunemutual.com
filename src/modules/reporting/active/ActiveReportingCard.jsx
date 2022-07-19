@@ -55,8 +55,10 @@ export const ActiveReportingCard = ({
     setStatsByKey(id, {
       liquidity,
       utilization,
+      infoObj: coverInfo?.infoObj,
+      isDiversified
     });
-  }, [id, liquidity, setStatsByKey, utilization]);
+  }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization]);
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />;
