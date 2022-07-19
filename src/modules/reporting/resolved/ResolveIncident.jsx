@@ -124,7 +124,7 @@ const EmergencyResolveModal = ({
       onClose={onClose}
       disabled={emergencyResolving}
     >
-      <ModalWrapper className="max-w-sm sm:max-w-none">
+      <ModalWrapper className="max-w-sm sm:max-w-none bg-f1f3f6">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"
@@ -140,7 +140,7 @@ const EmergencyResolveModal = ({
         </div>
         <div className="flex flex-col gap-4 my-4 sm:flex-row">
           <Radio
-            label={t`INCIDENT OCCURED`}
+            label={t`INCIDENT OCCURRED`}
             id="decision-1"
             value="true"
             name="decision"

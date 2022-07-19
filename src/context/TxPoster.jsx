@@ -169,16 +169,16 @@ const ForceTxModal = ({
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <ModalWrapper className="max-w-xs sm:max-w-2xl bg-FEFEFF">
+      <ModalWrapper className="max-w-xs sm:max-w-lg md:max-w-2xl bg-FEFEFF">
         <Dialog.Title className="flex items-center">
-          <div className="font-semibold text-black font-sora text-h4">
+          <div className="font-semibold text-black font-sora text-h4 mb-4">
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
-        <div className="overflow-y-auto max-h-56">
-          <div className="my-5">
-            <p className="text-sm leading-5 text-404040 font-poppins">
+        <div className="overflow-y-auto max-h-54 text-sm">
+          <div className="mb-5">
+            <p className="leading-5 text-404040 font-poppins">
               We attempted to submit your transaction but ran into an unexpected
               error. The smart contract sent the following error message:
             </p>
@@ -204,13 +204,13 @@ const ForceTxModal = ({
 
         <div className="flex flex-col justify-end sm:flex-row">
           <button
-            className="w-full p-3 mb-4 border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
+            className="w-full p-3 mb-4 border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10 font-medium"
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="w-full p-3 border rounded sm:w-auto border-E52E2E text-E52E2E hover:bg-E52E2E hover:text-white"
+            className="w-full p-3 rounded sm:w-auto bg-E52E2E text-white font-medium"
             onClick={handleContinue}
           >
             Send Transaction Ignoring This Error

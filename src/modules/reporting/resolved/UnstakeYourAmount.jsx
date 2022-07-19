@@ -10,11 +10,11 @@ import { convertFromUnits, isGreater } from "@/utils/bn";
 import * as Dialog from "@radix-ui/react-dialog";
 import DateLib from "@/lib/date/DateLib";
 import { useState } from "react";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
 import { t, Trans } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,24 +24,32 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
+
   const logoSrc = getCoverImgSrc({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });
+
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
   });
 
-  // Refreshes once claim begins
-  useRetryUntilPassed(() => {
-    return isGreater(incidentReport.claimBeginsFrom, DateLib.unix());
-  }, false);
+  const isClaimExpired = useRetryUntilPassed(() => {
+    // If false reporting, we don't care about the claim period
+    if (!incidentReport.decision) return true;
 
-  // Refreshes once claim ends
-  useRetryUntilPassed(() => {
-    return isGreater(DateLib.unix(), incidentReport.claimExpiresAt);
-  }, true);
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.claimExpiresAt);
+  });
+
+  const isClaimStarted = useRetryUntilPassed(() => {
+    // If false reporting, we don't care about the claim period
+    if (!incidentReport.decision) return true;
+
+    const _now = DateLib.unix();
+    return isGreater(_now, incidentReport.claimBeginsFrom);
+  });
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -51,28 +59,26 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     ? coverInfo?.infoObj.productName
     : coverInfo?.infoObj.projectName;
 
+  const now = DateLib.unix();
+
+  const isIncidentOccurred = incidentReport.decision;
+  const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
+  const isClaimableNow =
+    isIncidentOccurred && !isClaimExpired && isClaimStarted;
+
   function onClose() {
     setIsOpen(false);
   }
 
-  const now = DateLib.unix();
-
-  const isIncidentOccured = incidentReport.decision;
-  const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
-  const isClaimableNow =
-    isIncidentOccured &&
-    isGreater(incidentReport.claimExpiresAt, now) &&
-    isGreater(now, incidentReport.claimBeginsFrom);
-
   const handleUnstake = async () => {
-    // For incident occured, during claim period
-    if (isIncidentOccured && isClaimableNow) {
+    // For incident occurred, during claim period
+    if (isIncidentOccurred && isClaimableNow) {
       await unstakeWithClaim();
       return;
     }
 
     // For false reporting, Before finalization
-    if (!isIncidentOccured && !incidentReport.finalized) {
+    if (!isIncidentOccurred && !incidentReport.finalized) {
       await unstakeWithClaim();
       return;
     }
@@ -85,7 +91,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
         <Trans>Result:</Trans>{" "}
-        {incidentReport.decision ? t`Incident Occured` : t`False Reporting`}{" "}
+        {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`}{" "}
         {incidentReport.emergencyResolved && t`(Emergency Resolved)`}
       </span>
 
@@ -136,7 +142,7 @@ const UnstakeModal = ({
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <ModalWrapper className="min-w-300 sm:min-w-500 lg:min-w-600">
+      <ModalWrapper className="min-w-300 sm:min-w-500 lg:min-w-600 bg-f1f3f6">
         <Dialog.Title className="flex items-center">
           <img
             className="w-10 h-10 mr-3 border rounded-full"

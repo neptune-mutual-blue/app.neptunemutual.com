@@ -18,6 +18,7 @@ module.exports = {
       "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
       "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
       "tx-overview": "0px 4px 11px rgba(1, 5, 45, 0.3)",
+      "tx-list": "0px 4px 12px rgba(0, 0, 0, 0.4)",
     },
     colors: {
       transparent: "transparent",
@@ -75,6 +76,7 @@ module.exports = {
       },
       borderWidth: {
         0.5: "0.5px",
+        1.5: "1.5px",
       },
       boxShadow: {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
@@ -157,6 +159,7 @@ module.exports = {
         "F7E2BE": "#F7E2BE",
         "E5F4F5": "#E5F4F5",
         "FEEBE6": "#FEEBE6",
+        "000000": "#000000",
       },
       minHeight: {
         360: "360px",
@@ -167,6 +170,8 @@ module.exports = {
         "100vh": "100vh",
         "30vh": "30vh",
         "45vh": "45vh",
+        "tx-list": "min(calc(100vh - 170px), 34rem)",
+        "50vh": "50vh",
       },
       height: {
         "500": "500px",
@@ -184,6 +189,9 @@ module.exports = {
       },
       zIndex: {
         60: "60",
+      },
+      opacity: {
+        15: ".15",
       },
     },
   },

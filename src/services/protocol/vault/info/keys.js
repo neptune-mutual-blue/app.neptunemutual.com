@@ -1,8 +1,7 @@
-import sdk from "@neptunemutual/sdk";
+import sdk, { multicall } from "@neptunemutual/sdk";
 import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
 import { BigNumber } from "@ethersproject/bignumber";
 import { registry } from "../../../store-keys";
-import { multicall } from "@neptunemutual/sdk";
 
 const { Contract, Provider } = multicall;
 

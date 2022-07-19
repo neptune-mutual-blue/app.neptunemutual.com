@@ -72,7 +72,7 @@ export const AccountDetailsModal = ({
       onClose={onClose}
       overlayClass="backdrop-blur-sm"
     >
-      <ModalWrapper className="max-w-lg transition-all">
+      <ModalWrapper className="max-w-lg transition-all bg-f1f3f6">
         <Dialog.Title
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"

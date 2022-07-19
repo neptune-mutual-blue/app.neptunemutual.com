@@ -73,7 +73,10 @@ export const AppConstantsProvider = ({ children }) => {
           }));
         })
         .catch(console.error);
-      return;
+
+      return () => {
+        ignore = true;
+      };
     }
     const signerOrProvider = getProviderOrSigner(library, account, networkId);
 

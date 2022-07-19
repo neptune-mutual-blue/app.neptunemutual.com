@@ -1,9 +1,11 @@
-import sdk from "@neptunemutual/sdk";
+import sdk, { multicall } from "@neptunemutual/sdk";
 import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
 import { registry } from "../../../store-keys";
 
+const { Contract, Provider } = multicall;
+
 export const getMetadataKeys = () => {
-  return [registry.policy("policy")];
+  return [registry.policy("policy"), registry.governance("governance")];
 };
 
 export const getKeys = async (
@@ -13,15 +15,34 @@ export const getKeys = async (
   account,
   metadata
 ) => {
-  const { policy } = metadata;
+  const { policy, governance } = metadata;
 
-  const policyContract = sdk.utils.contract.getContract(
-    policy,
-    sdk.config.abis.IPolicy,
-    provider
+  const ethcallProvider = new Provider(provider);
+  await ethcallProvider.init();
+
+  const policyContract = new Contract(policy, sdk.config.abis.IPolicy);
+
+  const governanceContract = new Contract(
+    governance,
+    sdk.config.abis.IGovernance
   );
-  const [totalPoolAmount, activeCommitment] =
-    await policyContract.getCoverPoolSummary(coverKey, productKey);
+
+  const getCoverPoolSummaryCall = await policyContract.getCoverPoolSummary(
+    coverKey,
+    productKey
+  );
+
+  const getStatusCall = await governanceContract.getStatus(
+    coverKey,
+    productKey
+  );
+
+  const [getCoverPoolSummaryResult, status] = await ethcallProvider.all([
+    getCoverPoolSummaryCall,
+    getStatusCall,
+  ]);
+
+  const [totalPoolAmount, activeCommitment] = getCoverPoolSummaryResult;
 
   const availableLiquidity = totalPoolAmount.sub(activeCommitment);
 
@@ -60,9 +81,9 @@ export const getKeys = async (
       property: "reportingPeriod",
     },
     {
-      key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_STATUS, coverKey, productKey],
       returns: "uint256",
       property: "productStatus",
+      compute: async () => status,
     },
     {
       key: [

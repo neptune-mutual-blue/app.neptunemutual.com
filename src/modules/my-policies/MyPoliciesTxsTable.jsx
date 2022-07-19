@@ -213,8 +213,11 @@ const CxDaiAmountRenderer = ({ row }) => {
   const { liquidityTokenDecimals } = useAppConstants();
 
   // @todo: cxTokenAmount will not be equal to daiAmount, if they don't have same decimals
+  const amount = row.type === "Claimed" ? row.cxTokenAmount : row.daiAmount;
+  const decimals =
+    row.type === "Claimed" ? row.cxToken.tokenDecimals : liquidityTokenDecimals;
   const formattedCurrency = formatCurrency(
-    convertFromUnits(row.daiAmount, liquidityTokenDecimals),
+    convertFromUnits(amount, decimals),
     // convertFromUnits(row.cxTokenAmount, row.cxToken.tokenDecimals),
     router.locale,
     row.cxToken.tokenSymbol,

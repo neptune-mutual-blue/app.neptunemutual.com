@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
   const router = useRouter();
-  
+
   const yesData = {
     // labels: ["Red", "Blue"],
     datasets: [

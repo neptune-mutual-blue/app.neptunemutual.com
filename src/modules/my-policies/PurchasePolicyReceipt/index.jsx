@@ -60,7 +60,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     .dividedBy(24 * 60 * 60)
     .toString();
 
-  const duration = Math.floor(
+  const duration = Math.ceil(
     parseFloat(toBN(daysCovered).dividedBy(30).toString())
   );
 

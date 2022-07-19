@@ -69,12 +69,13 @@ export const useExpiredPolicies = () => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
-      return () => {
-        ignore = true;
-      };
+    return () => {
+      ignore = true;
+    };
   }, [account, networkId]);
 
   return {

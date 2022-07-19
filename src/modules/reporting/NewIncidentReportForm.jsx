@@ -38,6 +38,33 @@ export const NewIncidentReportForm = ({ coverKey, productKey }) => {
   const [validationErrors, setValidationErrors] = useState({});
   const tokenDecimals = useTokenDecimals(tokenAddress);
 
+  useEffect(() => {
+    let ignore = false;
+
+    if (ignore) return;
+
+    if (value && isGreater(minStake, convertToUnits(value))) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: t`Insufficient Stake`,
+      }));
+    } else if (value && isGreater(convertToUnits(value), balance)) {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: t`Insufficient Balance`,
+      }));
+    } else {
+      setValidationErrors((prev) => ({
+        ...prev,
+        balanceError: "",
+      }));
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [value, minStake, balance]);
+
   const maxDate = new Date().toISOString().slice(0, 16);
 
   const handleChooseMax = () => {
@@ -107,25 +134,6 @@ export const NewIncidentReportForm = ({ coverKey, productKey }) => {
   } else if (fetchingMinStake) {
     loadingMessage = t`Fetching min stake...`;
   }
-
-  useEffect(() => {
-    if (value && isGreater(minStake, convertToUnits(value))) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        balanceError: t`Insufficient Stake`,
-      }));
-    } else if (value && isGreater(convertToUnits(value), balance)) {
-      setValidationErrors((prev) => ({
-        ...prev,
-        balanceError: t`Insufficient Balance`,
-      }));
-    } else {
-      setValidationErrors((prev) => ({
-        ...prev,
-        balanceError: "",
-      }));
-    }
-  }, [value, minStake, balance]);
 
   return (
     <>

@@ -41,7 +41,7 @@ export const CollectRewardModal = ({
       disabled={isDisabled.w || isDisabled.wr}
       data-testid="collect-reward-modal"
     >
-      <ModalWrapper className="sm:min-w-600">
+      <ModalWrapper className="sm:min-w-600 bg-f1f3f6">
         <div>
           <Dialog.Title className="flex font-bold font-sora text-h2">
             {modalTitle}
@@ -62,6 +62,7 @@ export const CollectRewardModal = ({
 
           {activeTab == "harvest" ? (
             <HarvestForm
+              info={info}
               stakedAmount={stakedAmount}
               rewardAmount={rewardAmount}
               rewardTokenAddress={rewardTokenAddress}

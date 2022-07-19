@@ -40,6 +40,8 @@ export const useFetchCoverProductActiveReportings = ({
   }, [graphData]);
 
   useEffect(() => {
+    let ignore = false;
+
     setLoading(true);
 
     refetch(getQuery(coverKey, productKey))
@@ -47,8 +49,13 @@ export const useFetchCoverProductActiveReportings = ({
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
+
+    return () => {
+      ignore = true;
+    };
   }, [coverKey, productKey, refetch]);
 
   return {

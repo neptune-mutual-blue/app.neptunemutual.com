@@ -99,6 +99,7 @@ export const useActivePoliciesByCover = ({
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 

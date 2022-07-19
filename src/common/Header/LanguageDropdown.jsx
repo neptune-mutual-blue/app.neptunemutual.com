@@ -87,7 +87,7 @@ export const LanguageDropdown = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-50 xl:right-0 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Listbox.Options className="fixed z-50 top-8 xl:top-20 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="flex items-center mb-1 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input

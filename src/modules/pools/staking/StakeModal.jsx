@@ -23,7 +23,7 @@ export const StakeModal = ({
       disabled={isDisabled}
       data-testid="staking-modal"
     >
-      <ModalWrapper>
+      <ModalWrapper className="bg-f1f3f6">
         <Dialog.Title className="flex items-center font-bold font-sora text-h2">
           {modalTitle}
         </Dialog.Title>

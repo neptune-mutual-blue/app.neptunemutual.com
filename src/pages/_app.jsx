@@ -16,39 +16,50 @@ import { TxPosterProvider } from "@/src/context/TxPoster";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
 import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
+import { useEffect } from "react";
+import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
+import ErrorBoundary from "@/common/ErrorBoundary";
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    setupMetamaskForFirefox();
+  }, []);
+
   if (pageProps.noWrappers) {
     return (
-      <LanguageProvider>
-        <Component {...pageProps} />
-      </LanguageProvider>
+      <ErrorBoundary>
+        <LanguageProvider>
+          <Component {...pageProps} />
+        </LanguageProvider>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <LanguageProvider>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>
-          <AppConstantsProvider>
-            <CoversAndProductsProvider>
-              <UnlimitedApprovalProvider>
-                <ToastProvider variant={DEFAULT_VARIANT}>
-                  <TxPosterProvider>
-                    {!pageProps.noHeader && <Header></Header>}
-                    <div className="relative sm:static">
-                      <Component {...pageProps} />
-                      <DisclaimerModal />
-                      <ScrollToTopButton />
-                    </div>
-                  </TxPosterProvider>
-                </ToastProvider>
-              </UnlimitedApprovalProvider>
-            </CoversAndProductsProvider>
-          </AppConstantsProvider>
-        </NetworkProvider>
-      </Web3ReactProvider>
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <NetworkProvider>
+            <AppConstantsProvider>
+              <CoversAndProductsProvider>
+                <UnlimitedApprovalProvider>
+                  <ToastProvider variant={DEFAULT_VARIANT}>
+                    <TxPosterProvider>
+                      {!pageProps.noHeader && <Header></Header>}
+                      <div className="relative sm:static">
+                        <Component {...pageProps} />
+                        <DisclaimerModal />
+                        <ScrollToTopButton />
+                      </div>
+                    </TxPosterProvider>
+                  </ToastProvider>
+                </UnlimitedApprovalProvider>
+              </CoversAndProductsProvider>
+            </AppConstantsProvider>
+          </NetworkProvider>
+        </Web3ReactProvider>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }
 

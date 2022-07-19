@@ -144,7 +144,7 @@ export const Header = () => {
     <>
       <div className="bg-black text-EEEEEE">
         <Banner />
-        <div className="flex justify-end max-w-full pr-4 py-0 mx-auto sm:px-6 xl:px-20">
+        <div className="flex justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20">
           <LanguageDropdown />
         </div>
       </div>
@@ -187,7 +187,7 @@ export const Header = () => {
               </div>
             )}
 
-            <div className="items-center hidden pb-4 pt-2 xl:flex">
+            <div className="items-center hidden pt-3 pb-3 xl:flex">
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
                   let button = (
@@ -309,7 +309,7 @@ export const MenuModal = ({
         <Portal>
           <Overlay className="fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl" />
 
-          <Content className="fixed z-50 max-h-screen min-w-full px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
+          <Content className="fixed z-50 max-h-screen w-full px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
             <div className="flex flex-col items-end justify-between min-h-screen px-4 text-center">
               <div className="flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
                 <BurgerMenu isOpen={isOpen} onToggle={onClose} />

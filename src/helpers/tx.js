@@ -2,7 +2,7 @@ export const getErrorMessage = (_error) => {
   try {
     let error = _error.error || _error;
     if (!error || !error.message) {
-      return "Unexpected Error Occured";
+      return "Unexpected Error Occurred";
     }
 
     if (error?.data?.message) {

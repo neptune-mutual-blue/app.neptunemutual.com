@@ -1,5 +1,5 @@
 import { STATUS } from "@/src/services/transactions/transaction-history";
-import { safeParseString } from "@/src/services/transactions/utils";
+import { LocalStorage } from "@/utils/localstorage";
 
 /**
  *
@@ -15,15 +15,50 @@ import { safeParseString } from "@/src/services/transactions/utils";
  */
 
 const MAX_TRANSACTION_HISTORY = 100;
-const LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY = "npmTransactionHistory";
+
+/**
+ *
+ * @param {THistory} object
+ */
+function verifyShapeIntegrity(object) {
+  return Object.values(object).every((entries) => {
+    if (Array.isArray(entries)) {
+      return entries.every((item) => {
+        return (
+          item.hasOwnProperty("hash") &&
+          item.hasOwnProperty("methodName") &&
+          item.hasOwnProperty("status") &&
+          item.hasOwnProperty("timestamp")
+        );
+      });
+    }
+
+    return false;
+  });
+}
+
 class LSHistoryClass {
   /** @type THistory */
   state = {};
 
   init() {
-    this.state = safeParseString(
-      localStorage.getItem(LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY),
-      {}
+    this.state = LocalStorage.get(
+      LocalStorage.KEYS.TRANSACTION_HISTORY,
+      (value) => {
+        const val = JSON.parse(value);
+
+        if (
+          typeof val === "object" &&
+          !Array.isArray(val) &&
+          verifyShapeIntegrity(val)
+        ) {
+          return val;
+        }
+
+        throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE);
+      },
+      // when an error is detected, we will set this default value
+      JSON.stringify({})
     );
   }
 
@@ -43,8 +78,8 @@ class LSHistoryClass {
   }
 
   _update() {
-    localStorage.setItem(
-      LOCAL_STORAGE_ENTRY_TRANSACTION_HISTORY,
+    LocalStorage.set(
+      LocalStorage.KEYS.TRANSACTION_HISTORY,
       JSON.stringify(this.state)
     );
   }
