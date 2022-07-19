@@ -8,10 +8,9 @@ export const useRetryUntilPassed = (callback, expected, interval = 1000) => {
 
     const intervalId = setInterval(() => {
       const result = callback();
-
       if (!ignore && result === expected) {
-        clearInterval(intervalId);
         setPassed(true);
+        clearInterval(intervalId);
       }
     }, interval);
 

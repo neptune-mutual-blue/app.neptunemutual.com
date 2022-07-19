@@ -140,7 +140,7 @@ const EmergencyResolveModal = ({
         </div>
         <div className="flex flex-col gap-4 my-4 sm:flex-row">
           <Radio
-            label={t`INCIDENT OCCURED`}
+            label={t`INCIDENT OCCURRED`}
             id="decision-1"
             value="true"
             name="decision"

@@ -83,6 +83,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
         console.error(err);
       })
       .finally(() => {
+        if (ignore) return;
         setLoading(false);
       });
 
