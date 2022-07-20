@@ -15,16 +15,28 @@ export const LOCAL_STORAGE_ERRORS = {
   NO_VALUE: "NO_VALUE",
 };
 
+/**
+ *
+ * @param {any} data
+ */
+function toString(data) {
+  if (typeof data === "object") {
+    return JSON.stringify(data);
+  }
+
+  return data;
+}
+
 export class LocalStorage {
   static KEYS = KEYS;
   static LOCAL_STORAGE_ERRORS = LOCAL_STORAGE_ERRORS;
   /**
    *
    * @param {string} key
-   * @param {string} value
+   * @param {any} value
    */
   static set(key, value) {
-    localStorage.setItem(key, value);
+    localStorage.setItem(key, toString(value));
   }
 
   /**
