@@ -29,7 +29,7 @@ import { convertFromUnits } from "@/utils/bn";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.info.projectName,
+    selector: (report) => report.isDiversified ? report.infoObj?.productName : report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.INCIDENT_DATE]: {
@@ -60,13 +60,12 @@ export const ReportingResolvedPage = () => {
     list: incidentReports.map((report) => {
       return {
         ...report,
-        info: { projectName: "" },
         ...getStatsByKey(report.id),
       };
     }),
     filter: (item, term) => {
       return (
-        toStringSafe(item.info.projectName).indexOf(toStringSafe(term)) > -1
+        toStringSafe(item.isDiversified ? item.infoObj.productName : item.infoObj.projectName).indexOf(toStringSafe(term)) > -1
       );
     },
   });

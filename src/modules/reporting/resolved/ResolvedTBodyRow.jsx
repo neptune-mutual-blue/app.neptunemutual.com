@@ -26,8 +26,10 @@ export const ResolvedTBodyRow = ({
   useEffect(() => {
     setStatsByKey(id, {
       resolvedOn,
+      infoObj: coverInfo?.infoObj,
+      isDiversified
     });
-  }, [id, resolvedOn, setStatsByKey]);
+  }, [coverInfo?.infoObj, id, isDiversified, resolvedOn, setStatsByKey]);
 
   return (
     <Fragment>
