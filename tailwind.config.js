@@ -104,7 +104,6 @@ module.exports = {
         "52": "208px",
         "56": "224px",
         "60": "240px",
-        "910px": "910px",
         "90vw": "90vw",
       },
       minWidth: {
@@ -118,7 +117,8 @@ module.exports = {
         "550": "550px",
         "600": "600px",
         "700": "700px",
-        "910px": "910px",
+        "910": "910px",
+        "40vh": "40vh",
       },
       colors: {
         "999BAB": "#999BAB",
@@ -195,6 +195,9 @@ module.exports = {
       },
       opacity: {
         15: ".15",
+      },
+      gridTemplateRows: {
+        "basket-modal": "auto 1fr auto",
       },
     },
   },

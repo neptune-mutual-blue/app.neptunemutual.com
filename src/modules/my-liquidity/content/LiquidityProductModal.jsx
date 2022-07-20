@@ -1,4 +1,5 @@
 import { ModalRegular } from "@/common/Modal/ModalRegular";
+import CloseIcon from "@/icons/CloseIcon";
 import * as Dialog from "@radix-ui/react-dialog";
 
 /**
@@ -12,6 +13,7 @@ import * as Dialog from "@radix-ui/react-dialog";
  * @returns
  */
 export function LiquidityProductModal({ product, setShowModal }) {
+  const onClose = () => setShowModal(false);
   return (
     <ModalRegular
       isOpen={true}
@@ -19,11 +21,17 @@ export function LiquidityProductModal({ product, setShowModal }) {
         setShowModal(false);
       }}
     >
-      <div className="border-1.5 border-B0C4DB relative inline-block w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910px max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden">
+      <div className="grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden">
         <Dialog.Title
           className="flex items-center flex-col md:flex-row w-full pb-3 font-bold border-b font-sora border-b-B0C4DB"
           data-testid="dialog-title"
         >
+          <CloseIcon
+            onClick={onClose}
+            className="absolute right-5 top-5 cursor-pointer md:hidden"
+            width={24}
+            height={24}
+          />
           <svg
             className="w-10"
             width="40"
@@ -61,10 +69,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
             70% Capital Efficiency
           </span>
         </Dialog.Title>
-        <div
-          className="py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto flex-grow max-h-50vh font-sora"
-          data-testid="token-input"
-        >
+        <div className="py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-sora min-h-[0] h-full">
           <p className="py-2 md:py-6 text-000000 font-bold text-sm leading-5">
             Cover Rules
           </p>
@@ -96,12 +101,12 @@ export function LiquidityProductModal({ product, setShowModal }) {
 
         <div className="flex justify-end pt-6 border-t border-t-B0C4DB">
           <button
-            onClick={() => setShowModal(false)}
+            onClick={onClose}
             className="text-sm md:text-h7 lg:text-h6 font-medium hidden md:inline-block p-3 mr-6 md:font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
           >
             CLOSE
           </button>
-          <DownloadButton onClick={() => setShowModal(false)} />
+          <DownloadButton onClick={onClose} />
         </div>
       </div>
     </ModalRegular>
