@@ -19,7 +19,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [loading, setLoading] = useState(false);
-  const { invoke } = useInvokeMethod();
+  const { invoke, contractRead } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
   const { liquidityTokenDecimals } = useAppConstants();
   const tokenDecimals = useTokenDecimals(podAddress);
@@ -57,20 +57,6 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
           signerOrProvider
         );
 
-        const onTransactionResult = (result) => {
-          const podAmount = result;
-
-          if (ignore) return;
-          setReceiveAmount(
-            convertFromUnits(podAmount, tokenDecimals).toString()
-          );
-          cleanup();
-        };
-
-        const onRetryCancel = () => {
-          cleanup();
-        };
-
         const onError = (err) => {
           handleError(err);
           cleanup();
@@ -79,15 +65,17 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
         const args = [
           convertToUnits(debouncedValue, liquidityTokenDecimals).toString(),
         ];
-        invoke({
+        const podAmount = await contractRead({
           instance,
           methodName: "calculatePods",
-          onTransactionResult,
-          onRetryCancel,
+
           onError,
           args,
-          retry: false,
         });
+
+        if (ignore) return;
+        setReceiveAmount(convertFromUnits(podAmount, tokenDecimals).toString());
+        cleanup();
       } catch (err) {
         handleError(err);
         cleanup();
@@ -109,6 +97,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     notifyError,
     tokenDecimals,
     receiveAmount,
+    contractRead,
   ]);
 
   return {

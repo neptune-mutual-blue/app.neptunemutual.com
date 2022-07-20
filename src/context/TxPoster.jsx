@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
@@ -10,7 +10,9 @@ import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
 
 const initValue = {
   // prettier-ignore
-  invoke: async ({instance, methodName, overrides = {},  args = [], retry = true, onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
+  invoke: async ({instance, methodName, overrides = {},  args = [],  onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
+  // prettier-ignore
+  contractRead: async ({instance, methodName, overrides = {}, args = [], onError = console.error}) => null, // eslint-disable-line
 };
 
 const TxPosterContext = React.createContext(initValue);
@@ -38,9 +40,7 @@ export const TxPosterProvider = ({ children }) => {
       instance,
       methodName,
       overrides = {},
-
       args = [],
-      retry = true,
       onTransactionResult = (_tx) => {},
       onRetryCancel = () => {},
       onError = console.error,
@@ -51,50 +51,81 @@ export const TxPosterProvider = ({ children }) => {
       }
 
       let estimatedGas = null;
+
       try {
         estimatedGas = await instance.estimateGas[methodName](...args);
-      } catch (err) {
-        console.log(`Could not estimate gas for "${methodName}", args: `, args);
 
-        if (retry) {
-          onError(err);
-          setData({
-            description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
-              args
-            )}`,
-            message: getErrorMessage(err),
-            isError: true,
-            pendingInvokeArgs: {
-              instance,
-              methodName,
-              overrides,
-              args,
-              onTransactionResult,
-              onRetryCancel,
-              onError,
-            },
-          });
-        }
-      }
-
-      if (!estimatedGas && retry) {
-        // Could not estimate gas, therefore could not proceed
-        // Shows popup and wait for confirmation
-        return;
-      }
-
-      try {
         const tx = await instance[methodName](...args, {
-          gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+          gasLimit: calculateGasMargin(estimatedGas),
           ...overrides,
         });
 
         onTransactionResult(tx);
       } catch (err) {
+        console.log(`Could not estimate gas for "${methodName}", args: `, args);
+
+        onError(err);
+        setData({
+          description: `Could not estimate gas for "${methodName}", args: ${JSON.stringify(
+            args
+          )}`,
+          message: getErrorMessage(err),
+          isError: true,
+          pendingInvokeArgs: {
+            instance,
+            methodName,
+            overrides,
+            args,
+            onTransactionResult,
+            onRetryCancel,
+            onError,
+          },
+        });
+
+        // Could not estimate gas, therefore could not proceed
+        // Shows popup and wait for confirmation
+        return;
+      }
+    },
+    []
+  );
+
+  const contractRead = useCallback(
+    async ({
+      instance,
+      methodName,
+      overrides = {},
+      args = [],
+      onError = console.error,
+    }) => {
+      if (!instance) {
+        onError(new Error("Instance not found"));
+        return;
+      }
+
+      let estimatedGas = null;
+      
+      try {
+        estimatedGas = await instance.estimateGas[methodName](...args);
+
+        const result = await instance[methodName](...args, {
+          gasLimit: estimatedGas ? calculateGasMargin(estimatedGas) : undefined,
+          ...overrides,
+        });
+
+        return result;
+      } catch (err) {
+        console.log(`Could not estimate gas for "${methodName}", args: `, args);
+
         onError(err);
       }
     },
     []
+  );
+
+  const contextValue = useMemo(
+    () => ({ invoke, contractRead }),
+    [contractRead, invoke]
   );
 
   const handleContinue = async () => {
@@ -139,11 +170,6 @@ export const TxPosterProvider = ({ children }) => {
         pendingInvokeArgs: {},
       };
     });
-  };
-
-  const contextValue = {
-    ...data,
-    invoke,
   };
 
   return (
