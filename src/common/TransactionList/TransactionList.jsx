@@ -162,8 +162,8 @@ function Notification({
     <div className="flex py-4 border-b border-B0C4DB/40" key={hash}>
       <div className="mr-4">{convertToIconVariant(status)}</div>
       <div className="mr-4 grow">
-        <p className="text-sm font-bold font-sora">{title}</p>
-        <p>{description}</p>
+        <p className="text-sm font-bold font-sora mb-1">{title}</p>
+        <p className="text-sm">{description}</p>
         <p className="mt-2 text-xs leading-4 tracking-normal text-999BAB">
           {fromNow(timestamp / 1000)}
         </p>
