@@ -17,6 +17,7 @@ import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts
 import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
 import { useCovers } from "@/src/hooks/useCovers";
 import { isValidProduct } from "@/src/helpers/cover";
+import { utils } from "@neptunemutual/sdk";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -52,12 +53,26 @@ export const AvailableCovers = () => {
     coverView == "products" ? flattenedCovers : groupCovers;
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: availableCovers.map((cover) => ({
-      ...cover,
-      ...getStatsByKey(cover.key),
-    })),
+    list: availableCovers.map((cover) => {
+      const _productKey =
+        cover?.productKey &&
+        cover.productKey !== utils.keyUtil.toBytes32("").substring(0, 10)
+          ? cover.productKey
+          : null;
+      const id = _productKey ? cover.productKey : cover?.coverKey;
+      const stats = getStatsByKey(id);
+
+      return {
+        ...cover,
+        ...stats,
+      };
+    }),
     filter: (item, term) => {
-      return toStringSafe(item.projectName).indexOf(toStringSafe(term)) > -1;
+      return (
+        toStringSafe(
+          item.infoObj?.productName || item.infoObj?.coverName
+        ).indexOf(toStringSafe(term)) > -1
+      );
     },
   });
 

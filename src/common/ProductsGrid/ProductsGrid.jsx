@@ -53,11 +53,11 @@ export const ProductsGrid = () => {
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (coverInfo?.products || []).map((cover) => ({
       ...cover,
-      ...getStatsByKey(cover.coverKey),
+      ...getStatsByKey(cover.productKey),
     })),
     filter: (item, term) => {
       return (
-        toStringSafe(item.ipfsData.productName).indexOf(toStringSafe(term)) > -1
+        toStringSafe(item.infoObj.productName).indexOf(toStringSafe(term)) > -1
       );
     },
   });
