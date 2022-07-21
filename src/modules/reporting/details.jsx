@@ -55,6 +55,8 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
             incidentReport={incidentReport}
             yes={info.yes}
             no={info.no}
+            myYes={info.myYes}
+            myNo={info.myNo}
             willReceive={info.willReceive}
           />
         ) : (
@@ -65,6 +67,8 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
             resolvableTill={incidentReport.resolutionDeadline}
             yes={info.yes}
             no={info.no}
+            myYes={info.myYes}
+            myNo={info.myNo}
           />
         )}
 

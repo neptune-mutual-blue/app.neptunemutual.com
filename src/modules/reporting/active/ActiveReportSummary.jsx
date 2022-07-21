@@ -24,6 +24,8 @@ export const ActiveReportSummary = ({
   resolvableTill,
   yes,
   no,
+  myYes,
+  myNo,
 }) => {
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
@@ -133,6 +135,15 @@ export const ActiveReportSummary = ({
                   true
                 ).short,
               },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myYes),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+              },
             ]}
           />
 
@@ -158,6 +169,15 @@ export const ActiveReportSummary = ({
                     true
                   ).short
                 }`,
+              },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myNo),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
               },
             ]}
           />
