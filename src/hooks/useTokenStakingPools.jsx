@@ -3,6 +3,39 @@ import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { getSubgraphData } from "@/src/services/subgraph";
 
+const getQuery = (itemsToSkip) => {
+  return `
+  {
+    pools(
+      skip: ${itemsToSkip}
+      first: ${CARDS_PER_PAGE}
+      where: {
+        closed: false, 
+        poolType: TokenStaking
+      }
+    ) {
+      id
+      key
+      name
+      poolType
+      stakingToken
+      stakingTokenName
+      stakingTokenSymbol
+      uniStakingTokenDollarPair
+      rewardToken
+      rewardTokenName
+      rewardTokenSymbol
+      uniRewardTokenDollarPair
+      rewardTokenDeposit
+      maxStake
+      rewardPerBlock
+      lockupPeriodInBlocks
+      platformFee
+    }
+  }
+  `;
+};
+
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
     pools: [],
@@ -19,43 +52,11 @@ export const useTokenStakingPools = () => {
     if (!networkId) {
       setHasMore(false);
     }
-    const query = `
-    {
-      pools(
-        skip: ${itemsToSkip}
-        first: ${CARDS_PER_PAGE}
-        where: {
-          closed: false, 
-          poolType: TokenStaking
-        }
-      ) {
-        id
-        key
-        name
-        poolType
-        stakingToken
-        stakingTokenName
-        stakingTokenSymbol
-        uniStakingTokenDollarPair
-        rewardToken
-        rewardTokenName
-        rewardTokenSymbol
-        uniRewardTokenDollarPair
-        rewardTokenDeposit
-        maxStake
-        rewardPerBlock
-        lockupPeriodInBlocks
-        platformFee
-      }
-    }
-    `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore) return;
-
-        if (!_data) return;
+        if (ignore || !_data) return;
 
         const isLastPage =
           _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE;

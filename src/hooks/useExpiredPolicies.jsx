@@ -4,6 +4,33 @@ import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { getSubgraphData } from "@/src/services/subgraph";
 
+const getQuery = (startOfMonth, account) => {
+  return `
+  {
+    userPolicies(
+      where: {
+        expiresOn_lt: "${startOfMonth}"
+        account: "${account}"
+      }
+    ) {
+      id
+      coverKey
+      productKey
+      cxToken {
+        id
+        creationDate
+        expiryDate
+      }
+      totalAmountToCover
+      expiresOn
+      cover {
+        id
+      }
+    }
+  }
+  `;
+};
+
 export const useExpiredPolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -19,35 +46,11 @@ export const useExpiredPolicies = () => {
     }
 
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
-    const query = `
-    {
-      userPolicies(
-        where: {
-          expiresOn_lt: "${startOfMonth}"
-          account: "${account}"
-        }
-      ) {
-        id
-        coverKey
-        productKey
-        cxToken {
-          id
-          creationDate
-          expiryDate
-        }
-        totalAmountToCover
-        expiresOn
-        cover {
-          id
-        }
-      }
-    }
-    `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (ignore) return;
+        if (ignore || !_data) return;
         setData(_data);
       })
       .catch((err) => {

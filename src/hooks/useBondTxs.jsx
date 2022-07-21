@@ -64,9 +64,7 @@ export const useBondTxs = ({ limit, page }) => {
     setLoading(true);
     getSubgraphData(networkId, query)
       .then((_data) => {
-        if (ignore) return;
-
-        if (!_data) return;
+        if (ignore || !_data) return;
 
         const isLastPage =
           _data.bondTransactions.length === 0 ||

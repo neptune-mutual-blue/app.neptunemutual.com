@@ -3,6 +3,45 @@ import { getSubgraphData } from "@/src/services/subgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
+const getQuery = (limit, page, account) => {
+  return `
+  {
+    _meta {
+      block {
+        number
+      }
+    }
+    policyTransactions(
+      skip: ${limit * (page - 1)}
+      first: ${limit} 
+      orderBy: createdAtTimestamp
+      orderDirection: desc
+      where: {onBehalfOf: "${account}"}
+    ) {
+      type
+      coverKey
+      productKey
+      onBehalfOf
+      cxTokenAmount
+      daiAmount
+      cxToken {
+        id
+        tokenSymbol
+        tokenDecimals
+        tokenName
+      }
+      cover {
+        id
+      }
+      transaction {
+        id
+        timestamp
+      }
+    }
+  }
+  `;
+};
+
 export const usePolicyTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     policyTransactions: [],
@@ -20,49 +59,10 @@ export const usePolicyTxs = ({ limit, page }) => {
       return;
     }
 
-    const query = `
-    {
-      _meta {
-        block {
-          number
-        }
-      }
-      policyTransactions(
-        skip: ${limit * (page - 1)}
-        first: ${limit} 
-        orderBy: createdAtTimestamp
-        orderDirection: desc
-        where: {onBehalfOf: "${account}"}
-      ) {
-        type
-        coverKey
-        productKey
-        onBehalfOf
-        cxTokenAmount
-        daiAmount
-        cxToken {
-          id
-          tokenSymbol
-          tokenDecimals
-          tokenName
-        }
-        cover {
-          id
-        }
-        transaction {
-          id
-          timestamp
-        }
-      }
-    }
-    `;
-
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(limit, page, account))
       .then((_data) => {
-        if (ignore) return;
-
-        if (!_data) return;
+        if (ignore || !_data) return;
 
         const isLastPage =
           _data.policyTransactions.length === 0 ||

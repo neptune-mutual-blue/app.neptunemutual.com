@@ -3,6 +3,32 @@ import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { getSubgraphData } from "@/src/services/subgraph";
 
+const getQuery = (itemsToSkip) => {
+  return `
+  {
+    incidentReports(
+      skip: ${itemsToSkip}
+      first: ${CARDS_PER_PAGE}
+      orderBy: incidentDate
+      orderDirection: desc
+      where:{
+        finalized: false
+      }
+    ) {
+      id
+      coverKey
+      productKey
+      incidentDate
+      resolutionDeadline
+      resolved
+      finalized
+      status
+      resolutionTimestamp
+    }
+  }
+  `;
+};
+
 export const useActiveReportings = () => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -15,36 +41,12 @@ export const useActiveReportings = () => {
 
   useEffect(() => {
     let ignore = false;
-    const query = `
-    {
-      incidentReports(
-        skip: ${itemsToSkip}
-        first: ${CARDS_PER_PAGE}
-        orderBy: incidentDate
-        orderDirection: desc
-        where:{
-          finalized: false
-        }
-      ) {
-        id
-        coverKey
-        productKey
-        incidentDate
-        resolutionDeadline
-        resolved
-        finalized
-        status
-        resolutionTimestamp
-      }
-    }
-    `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore) return;
+        if (ignore || !_data) return;
 
-        if (!_data) return;
         const isLastPage =
           _data.incidentReports.length === 0 ||
           _data.incidentReports.length < CARDS_PER_PAGE;

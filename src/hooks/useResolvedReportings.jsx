@@ -3,6 +3,41 @@ import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { getSubgraphData } from "@/src/services/subgraph";
 
+const getQuery = (itemsToSkip) => {
+  return `
+  {
+    incidentReports(
+      skip: ${itemsToSkip}
+      first: ${CARDS_PER_PAGE}
+      orderBy: incidentDate
+      orderDirection: desc
+      where:{
+        resolved: true
+      }
+    ) {
+      id
+      coverKey
+      productKey
+      incidentDate
+      resolutionDeadline
+      resolved
+      emergencyResolved
+      emergencyResolveTransaction{
+        timestamp
+      }
+      resolveTransaction{
+        timestamp
+      }
+      finalized
+      status
+      resolutionTimestamp
+      totalAttestedStake
+      totalRefutedStake
+    }
+  }
+  `;
+};
+
 export const useResolvedReportings = () => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -15,45 +50,11 @@ export const useResolvedReportings = () => {
 
   useEffect(() => {
     let ignore = false;
-    const query = `
-    {
-      incidentReports(
-        skip: ${itemsToSkip}
-        first: ${CARDS_PER_PAGE}
-        orderBy: incidentDate
-        orderDirection: desc
-        where:{
-          resolved: true
-        }
-      ) {
-        id
-        coverKey
-        productKey
-        incidentDate
-        resolutionDeadline
-        resolved
-        emergencyResolved
-        emergencyResolveTransaction{
-          timestamp
-        }
-        resolveTransaction{
-          timestamp
-        }
-        finalized
-        status
-        resolutionTimestamp
-        totalAttestedStake
-        totalRefutedStake
-      }
-    }
-    `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore) return;
-
-        if (!_data) return;
+        if (ignore || !_data) return;
 
         const isLastPage =
           _data.incidentReports.length === 0 ||

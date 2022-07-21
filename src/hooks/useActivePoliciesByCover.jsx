@@ -6,6 +6,39 @@ import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { getSubgraphData } from "@/src/services/subgraph";
 
+const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
+  return `
+  {
+    userPolicies(
+      skip: ${limit * (page - 1)}
+      first: ${limit}
+      where: {
+        expiresOn_gt: "${startOfMonth}"
+        account: "${account}"
+        coverKey: "${coverKey}"
+        productKey: "${productKey}"
+      }
+    ) {
+      id
+      coverKey
+      productKey
+      cxToken {
+        id
+        creationDate
+        expiryDate
+        tokenSymbol
+        tokenDecimals
+      }
+      totalAmountToCover
+      expiresOn
+      cover {
+        id
+      }
+    }
+  }
+  `;
+};
+
 export const useActivePoliciesByCover = ({
   coverKey,
   productKey,
@@ -35,43 +68,15 @@ export const useActivePoliciesByCover = ({
     }
 
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
-    const query = `
-    {
-      userPolicies(
-        skip: ${limit * (page - 1)}
-        first: ${limit}
-        where: {
-          expiresOn_gt: "${startOfMonth}"
-          account: "${account}"
-          coverKey: "${coverKey}"
-          productKey: "${productKey}"
-        }
-      ) {
-        id
-        coverKey
-        productKey
-        cxToken {
-          id
-          creationDate
-          expiryDate
-          tokenSymbol
-          tokenDecimals
-        }
-        totalAmountToCover
-        expiresOn
-        cover {
-          id
-        }
-      }
-    }
-    `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(
+      networkId,
+      getQuery(limit, page, startOfMonth, account, coverKey, productKey)
+    )
       .then((_data) => {
-        if (ignore) return;
+        if (ignore || !_data) return;
 
-        if (!_data) return;
         const isLastPage =
           _data.userPolicies.length === 0 || _data.userPolicies.length < limit;
 

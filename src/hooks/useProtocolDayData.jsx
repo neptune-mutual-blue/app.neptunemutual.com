@@ -2,6 +2,17 @@ import { useNetwork } from "@/src/context/Network";
 import { getSubgraphData } from "@/src/services/subgraph";
 import { useState, useEffect } from "react";
 
+const getQuery = () => {
+  return `
+  {
+    protocolDayDatas {
+      date
+      totalLiquidity
+    }
+  }              
+`;
+};
+
 export const useProtocolDayData = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -10,19 +21,11 @@ export const useProtocolDayData = () => {
 
   useEffect(() => {
     let ignore = false;
-    const query = `
-    {
-      protocolDayDatas {
-        date
-        totalLiquidity
-      }
-    }              
-  `;
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery())
       .then((_data) => {
-        if (ignore) return;
+        if (ignore || !_data) return;
         setData(_data);
       })
       .catch((err) => {

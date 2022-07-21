@@ -4,6 +4,29 @@ import { getSubgraphData } from "@/src/services/subgraph";
 
 const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
 
+const getQuery = (start, end, coverKey, productKey) => {
+  return `
+  {
+    incidentReports(
+      where: {
+        incidentDate_gt: "${start}",
+        incidentDate_lt: "${end}",
+        coverKey: "${coverKey}"
+        productKey: "${productKey}"
+      },
+      orderBy: incidentDate,
+      orderDirection: desc
+    ) {
+      incidentDate
+      resolutionDeadline
+      status
+      claimBeginsFrom
+      claimExpiresAt
+    }
+  }
+  `;
+};
+
 export const useValidReport = ({ start, end, coverKey, productKey }) => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -18,31 +41,10 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
       return;
     }
 
-    const query = `
-    {
-      incidentReports(
-        where: {
-          incidentDate_gt: "${start}",
-          incidentDate_lt: "${end}",
-          coverKey: "${coverKey}"
-          productKey: "${productKey}"
-        },
-        orderBy: incidentDate,
-        orderDirection: desc
-      ) {
-        incidentDate
-        resolutionDeadline
-        status
-        claimBeginsFrom
-        claimExpiresAt
-      }
-    }
-    `;
-
     setLoading(true);
-    getSubgraphData(networkId, query)
+    getSubgraphData(networkId, getQuery(start, end, coverKey, productKey))
       .then((_data) => {
-        if (ignore) return;
+        if (ignore || !_data) return;
         setData(_data);
       })
       .catch((err) => {
