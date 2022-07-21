@@ -17,7 +17,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useNetwork } from "@/src/context/Network";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
@@ -57,7 +57,7 @@ export const useStakingPoolDeposit = ({
   } = useERC20Balance(tokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
 
@@ -256,7 +256,7 @@ export const useStakingPoolDeposit = ({
       };
 
       const args = [poolKey, convertToUnits(value).toString()];
-      invoke({
+      writeContract({
         instance,
         methodName: "deposit",
         onTransactionResult,

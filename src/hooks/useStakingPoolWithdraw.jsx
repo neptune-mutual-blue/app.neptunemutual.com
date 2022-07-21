@@ -6,7 +6,7 @@ import { registry } from "@neptunemutual/sdk";
 import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
 import {
@@ -28,7 +28,7 @@ export const useStakingPoolWithdraw = ({
   const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdraw = async (onTxSuccess) => {
@@ -125,7 +125,7 @@ export const useStakingPoolWithdraw = ({
       };
 
       const args = [poolKey, convertToUnits(value).toString()];
-      invoke({
+      writeContract({
         instance,
         methodName: "withdraw",
         onTransactionResult,
@@ -152,7 +152,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
   const { account, library } = useWeb3React();
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const handleWithdrawRewards = async (onTxSuccess) => {
@@ -231,7 +231,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       };
 
       const args = [poolKey];
-      invoke({
+      writeContract({
         instance,
         methodName: "withdrawRewards",
         onTransactionResult,

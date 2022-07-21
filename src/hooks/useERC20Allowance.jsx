@@ -5,7 +5,7 @@ import { registry } from "@neptunemutual/sdk";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { t } from "@lingui/macro";
@@ -16,7 +16,7 @@ export const useERC20Allowance = (tokenAddress) => {
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { notifyError } = useErrorNotifier();
-  const { invoke, contractRead } = useInvokeMethod();
+  const { writeContract, contractRead } = useTxPoster();
   const { getApprovalAmount } = useApprovalAmount();
   const { requiresAuth } = useAuthValidation();
 
@@ -147,7 +147,7 @@ export const useERC20Allowance = (tokenAddress) => {
     }
 
     const args = [spender, getApprovalAmount(amount)];
-    invoke({
+    writeContract({
       instance: tokenInstance,
       methodName: "approve",
       args,

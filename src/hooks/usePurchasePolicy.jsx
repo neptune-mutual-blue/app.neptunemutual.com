@@ -12,7 +12,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
@@ -58,7 +58,7 @@ export const usePurchasePolicy = ({
     refetch: updateAllowance,
     loading: updatingAllowance,
   } = useERC20Allowance(liquidityTokenAddress);
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
 
@@ -281,7 +281,7 @@ export const usePurchasePolicy = ({
         convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
         utils.keyUtil.toBytes32(""), // referral code
       ];
-      invoke({
+      writeContract({
         instance: policyContract,
         methodName: "purchaseCover",
         args,

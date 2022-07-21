@@ -17,7 +17,7 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useClaimsProcessorAddress } from "@/src/hooks/contracts/useClaimsProcessorAddress";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
 import { MULTIPLIER } from "@/src/config/constants";
 import { t } from "@lingui/macro";
@@ -57,7 +57,7 @@ export const useClaimPolicyInfo = ({
   } = useERC20Allowance(cxTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { requiresAuth } = useAuthValidation();
   const { notifyError } = useErrorNotifier();
 
@@ -273,7 +273,7 @@ export const useClaimPolicyInfo = ({
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      invoke({
+      writeContract({
         instance,
         methodName: "claim",
         args,

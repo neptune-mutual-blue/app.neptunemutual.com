@@ -4,14 +4,14 @@ import { registry } from "@neptunemutual/sdk";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 
 export const useERC20Balance = (tokenAddress) => {
   const [balance, setBalance] = useState("0");
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
-  const { contractRead } = useInvokeMethod();
+  const { contractRead } = useTxPoster();
 
   const fetchBalance = useCallback(
     async ({ onTransactionResult, onError }) => {

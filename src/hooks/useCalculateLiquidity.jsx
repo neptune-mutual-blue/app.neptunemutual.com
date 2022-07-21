@@ -6,7 +6,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { registry } from "@neptunemutual/sdk";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
 import { useMountedState } from "@/src/hooks/useMountedState";
@@ -19,7 +19,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const debouncedValue = useDebounce(podAmount, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [loading, setLoading] = useState(false);
-  const { contractRead } = useInvokeMethod();
+  const { contractRead } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const calculateLiquidity = useCallback(async () => {

@@ -17,7 +17,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t } from "@lingui/macro";
@@ -55,7 +55,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   } = useERC20Balance(info.lpTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke, contractRead } = useInvokeMethod();
+  const { writeContract, contractRead } = useTxPoster();
   const { notifyError } = useErrorNotifier();
   const router = useRouter();
 
@@ -129,15 +129,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     return () => {
       ignore = true;
     };
-  }, [
-    networkId,
-    debouncedValue,
-    invoke,
-    notifyError,
-    account,
-    library,
-    contractRead,
-  ]);
+  }, [networkId, debouncedValue, notifyError, account, library, contractRead]);
 
   useEffect(() => {
     if (!value && error) {
@@ -339,7 +331,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       };
 
       const args = [convertToUnits(value).toString(), receiveAmount];
-      invoke({
+      writeContract({
         instance,
         methodName: "createBond",
         args,

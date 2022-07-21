@@ -6,7 +6,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { t } from "@lingui/macro";
 
 export const useFirstReportingStake = ({ coverKey }) => {
@@ -15,7 +15,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
         handleError(err);
       };
 
-      invoke({
+      writeContract({
         instance,
         methodName: "getFirstReportingStake",
         args: [coverKey],
@@ -66,7 +66,7 @@ export const useFirstReportingStake = ({ coverKey }) => {
     return () => {
       ignore = true;
     };
-  }, [account, coverKey, invoke, library, networkId, notifyError]);
+  }, [account, coverKey, writeContract, library, networkId, notifyError]);
 
   return {
     minStake,
