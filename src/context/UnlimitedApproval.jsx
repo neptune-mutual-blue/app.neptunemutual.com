@@ -30,18 +30,38 @@ export function useUnlimitedApproval() {
 }
 
 export const UnlimitedApprovalProvider = ({ children }) => {
-  const [unlimitedApproval, setUnlimitedApproval] = useState(() =>
+  const [
+    unlimitedApproval,
+    /**
+     * @param {(value: boolean) => void}
+     */
+    setUnlimitedApproval,
+  ] = useState(() =>
     LocalStorage.get(
       KEYS.UNLIMITED_APPROVAL,
       (value) => {
-        try {
-          return JSON.parse(value);
-        } catch (e) {
-          throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE);
+        const result = JSON.parse(value);
+
+        if (typeof result === "boolean") {
+          return result;
         }
+
+        throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE);
       },
       false
     )
+  );
+
+  const _setUnlimitedApproval = useCallback(
+    /**
+     * @param {boolean} value
+     */
+    (value) => {
+      LocalStorage.set(KEYS.UNLIMITED_APPROVAL, value);
+      // @ts-ignore
+      setUnlimitedApproval(value);
+    },
+    []
   );
 
   const getApprovalAmount = useCallback(
@@ -61,7 +81,11 @@ export const UnlimitedApprovalProvider = ({ children }) => {
 
   return (
     <UnlimitedApprovalContext.Provider
-      value={{ unlimitedApproval, setUnlimitedApproval, getApprovalAmount }}
+      value={{
+        unlimitedApproval,
+        setUnlimitedApproval: _setUnlimitedApproval,
+        getApprovalAmount,
+      }}
     >
       {children}
     </UnlimitedApprovalContext.Provider>
