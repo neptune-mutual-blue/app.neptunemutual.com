@@ -17,7 +17,9 @@ export const InsightsTable = ({ insights = [] }) => {
                 >
                   {insight.title}
                 </InsightsTh>
-                <InsightsTd>{insight.value}</InsightsTd>
+                <InsightsTd htmlTooltip={insight.htmlTooltip}>
+                  {insight.value}
+                </InsightsTd>
               </tr>
             );
           })}
@@ -41,13 +43,14 @@ const InsightsTh = ({ children, className }) => {
   );
 };
 
-const InsightsTd = ({ children, className }) => {
+const InsightsTd = ({ children, className = "", htmlTooltip = "" }) => {
   return (
     <td
       className={classNames(
         "text-right py-1 text-404040 whitespace-nowrap",
         className
       )}
+      title={htmlTooltip}
     >
       {children}
     </td>

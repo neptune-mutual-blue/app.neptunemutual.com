@@ -134,6 +134,12 @@ export const ActiveReportSummary = ({
                   NPMTokenSymbol,
                   true
                 ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(incidentReport.totalAttestedStake),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
               },
               {
                 title: t`Your Stake`,
@@ -143,6 +149,12 @@ export const ActiveReportSummary = ({
                   NPMTokenSymbol,
                   true
                 ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(myYes),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
               },
             ]}
           />
@@ -169,6 +181,14 @@ export const ActiveReportSummary = ({
                     true
                   ).short
                 }`,
+                htmlTooltip: `${
+                  formatCurrency(
+                    convertFromUnits(incidentReport.totalRefutedStake),
+                    router.locale,
+                    NPMTokenSymbol,
+                    true
+                  ).long
+                }`,
               },
               {
                 title: t`Your Stake`,
@@ -178,6 +198,12 @@ export const ActiveReportSummary = ({
                   NPMTokenSymbol,
                   true
                 ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(myNo),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
               },
             ]}
           />
