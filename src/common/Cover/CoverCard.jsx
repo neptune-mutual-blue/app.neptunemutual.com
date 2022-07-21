@@ -45,14 +45,14 @@ export const CoverCard = ({
 
   const isDiversified = coverInfo?.supportsProducts;
 
-  const id = `${coverKey}-${productKey}`;
   // Used for sorting purpose only
   useEffect(() => {
-    setStatsByKey(id, {
+    setStatsByKey(coverKey, {
       liquidity,
       utilization,
+      infoObj: coverInfo?.infoObj,
     });
-  }, [id, liquidity, setStatsByKey, utilization]);
+  }, [coverInfo?.infoObj, coverKey, liquidity, setStatsByKey, utilization]);
 
   const protectionLong = formatCurrency(
     convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
