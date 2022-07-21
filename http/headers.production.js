@@ -15,7 +15,7 @@ module.exports = [
     values: [
       "script-src 'self'",
       `connect-src 'self' https://*.neptunemutual.com/ ${connectSources || ""}`,
-      "style-src 'self'",
+      "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
       "default-src 'none'",
