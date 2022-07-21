@@ -4,6 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 
 export const useActivePoliciesByCover = ({
   coverKey,
@@ -34,65 +35,52 @@ export const useActivePoliciesByCover = ({
     }
 
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const query = `
+    {
+      userPolicies(
+        skip: ${limit * (page - 1)}
+        first: ${limit}
+        where: {
+          expiresOn_gt: "${startOfMonth}"
+          account: "${account}"
+          coverKey: "${coverKey}"
+          productKey: "${productKey}"
+        }
+      ) {
+        id
+        coverKey
+        productKey
+        cxToken {
+          id
+          creationDate
+          expiryDate
+          tokenSymbol
+          tokenDecimals
+        }
+        totalAmountToCover
+        expiresOn
+        cover {
+          id
+        }
+      }
+    }
+    `;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          userPolicies(
-            skip: ${limit * (page - 1)}
-            first: ${limit}
-            where: {
-              expiresOn_gt: "${startOfMonth}"
-              account: "${account}"
-              coverKey: "${coverKey}"
-              productKey: "${productKey}"
-            }
-          ) {
-            id
-            coverKey
-            productKey
-            cxToken {
-              id
-              creationDate
-              expiryDate
-              tokenSymbol
-              tokenDecimals
-            }
-            totalAmountToCover
-            expiresOn
-            cover {
-              id
-            }
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
 
-        if (res.errors || !res.data) {
-          return;
-        }
-
+        if (!_data) return;
         const isLastPage =
-          res.data.userPolicies.length === 0 ||
-          res.data.userPolicies.length < limit;
+          _data.userPolicies.length === 0 || _data.userPolicies.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          userPolicies: [...prev.userPolicies, ...res.data.userPolicies],
+          userPolicies: [...prev.userPolicies, ..._data.userPolicies],
         }));
       })
       .catch((err) => {

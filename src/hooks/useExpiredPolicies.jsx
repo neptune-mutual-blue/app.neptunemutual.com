@@ -1,8 +1,8 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 
 export const useExpiredPolicies = () => {
   const [data, setData] = useState({});
@@ -14,56 +14,41 @@ export const useExpiredPolicies = () => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !account) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
+    if (!account) {
       return;
     }
 
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const query = `
+    {
+      userPolicies(
+        where: {
+          expiresOn_lt: "${startOfMonth}"
+          account: "${account}"
+        }
+      ) {
+        id
+        coverKey
+        productKey
+        cxToken {
+          id
+          creationDate
+          expiryDate
+        }
+        totalAmountToCover
+        expiresOn
+        cover {
+          id
+        }
+      }
+    }
+    `;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          userPolicies(
-            where: {
-              expiresOn_lt: "${startOfMonth}"
-              account: "${account}"
-            }
-          ) {
-            id
-            coverKey
-            productKey
-            cxToken {
-              id
-              creationDate
-              expiryDate
-            }
-            totalAmountToCover
-            expiresOn
-            cover {
-              id
-            }
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
-        setData(res.data);
+        setData(_data);
       })
       .catch((err) => {
         console.error(err);
@@ -80,7 +65,7 @@ export const useExpiredPolicies = () => {
 
   return {
     data: {
-      expiredPolicies: data?.userPolicies || [],
+      expiredPolicies: data["userPolicies"] || [],
     },
     loading,
   };

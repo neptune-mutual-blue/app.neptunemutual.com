@@ -1,5 +1,5 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -53,49 +53,32 @@ export const useLiquidityTxs = ({ limit, page }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !account) {
+    if (!account) {
       return;
     }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
-    }
+    const query = getQuery(account, limit, limit * (page - 1));
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: getQuery(account, limit, limit * (page - 1)),
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
 
-        if (res.errors || !res.data) {
-          return;
-        }
+        if (!_data) return;
 
         const isLastPage =
-          res.data.liquidityTransactions.length === 0 ||
-          res.data.liquidityTransactions.length < limit;
+          _data.liquidityTransactions.length === 0 ||
+          _data.liquidityTransactions.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
-        //setData(res.data);
+        //setData(_data);
         setData((prev) => ({
-          blockNumber: res.data._meta.block.number,
+          blockNumber: _data._meta.block.number,
           liquidityTransactions: [
             ...prev.liquidityTransactions,
-            ...res.data.liquidityTransactions,
+            ..._data.liquidityTransactions,
           ],
         }));
       })

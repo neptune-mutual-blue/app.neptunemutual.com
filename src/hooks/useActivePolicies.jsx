@@ -1,9 +1,9 @@
-import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 
 export const useActivePolicies = () => {
   const [data, setData] = useState({});
@@ -15,59 +15,44 @@ export const useActivePolicies = () => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !account) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
+    if (!account) {
       return;
     }
 
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const query = `
+    {
+      userPolicies(
+        where: {
+          expiresOn_gt: "${startOfMonth}"
+          account: "${account}"
+        }
+      ) {
+        id
+        cxToken {
+          id
+          creationDate
+          expiryDate
+        }
+        totalAmountToCover
+        expiresOn
+        coverKey
+        productKey
+        cover {
+          id
+        }
+        product {
+          id
+        }
+      }
+    }
+    `;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          userPolicies(
-            where: {
-              expiresOn_gt: "${startOfMonth}"
-              account: "${account}"
-            }
-          ) {
-            id
-            cxToken {
-              id
-              creationDate
-              expiryDate
-            }
-            totalAmountToCover
-            expiresOn
-            coverKey
-            productKey
-            cover {
-              id
-            }
-            product {
-              id
-            }
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
-        setData(res.data);
+        setData(_data);
       })
       .catch((err) => {
         console.error(err);
@@ -82,7 +67,7 @@ export const useActivePolicies = () => {
     };
   }, [account, networkId]);
 
-  const activePolicies = data?.userPolicies || [];
+  const activePolicies = data["userPolicies"] || [];
   const totalActiveProtection = sumOf(
     "0",
     ...activePolicies.map((x) => x.totalAmountToCover || "0")

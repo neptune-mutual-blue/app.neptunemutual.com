@@ -1,5 +1,5 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 import { useState, useEffect } from "react";
 
 export const useProtocolDayData = () => {
@@ -10,35 +10,20 @@ export const useProtocolDayData = () => {
 
   useEffect(() => {
     let ignore = false;
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
-    }
+    const query = `
+    {
+      protocolDayDatas {
+        date
+        totalLiquidity
+      }
+    }              
+  `;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          protocolDayDatas {
-            date
-            totalLiquidity
-          }
-        }              
-      `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
-        setData(res.data);
+        setData(_data);
       })
       .catch((err) => {
         console.error(err);
@@ -54,7 +39,7 @@ export const useProtocolDayData = () => {
   }, [networkId]);
 
   return {
-    data: data?.protocolDayDatas,
+    data: data["protocolDayDatas"],
     loading,
   };
 };

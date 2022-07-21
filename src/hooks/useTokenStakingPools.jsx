@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
+import { getSubgraphData } from "@/src/services/subgraph";
 
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
@@ -18,72 +18,54 @@ export const useTokenStakingPools = () => {
 
     if (!networkId) {
       setHasMore(false);
-      return;
     }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
+    const query = `
+    {
+      pools(
+        skip: ${itemsToSkip}
+        first: ${CARDS_PER_PAGE}
+        where: {
+          closed: false, 
+          poolType: TokenStaking
+        }
+      ) {
+        id
+        key
+        name
+        poolType
+        stakingToken
+        stakingTokenName
+        stakingTokenSymbol
+        uniStakingTokenDollarPair
+        rewardToken
+        rewardTokenName
+        rewardTokenSymbol
+        uniRewardTokenDollarPair
+        rewardTokenDeposit
+        maxStake
+        rewardPerBlock
+        lockupPeriodInBlocks
+        platformFee
+      }
     }
+    `;
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          pools(
-            skip: ${itemsToSkip}
-            first: ${CARDS_PER_PAGE}
-            where: {
-              closed: false, 
-              poolType: TokenStaking
-            }
-          ) {
-            id
-            key
-            name
-            poolType
-            stakingToken
-            stakingTokenName
-            stakingTokenSymbol
-            uniStakingTokenDollarPair
-            rewardToken
-            rewardTokenName
-            rewardTokenSymbol
-            uniRewardTokenDollarPair
-            rewardTokenDeposit
-            maxStake
-            rewardPerBlock
-            lockupPeriodInBlocks
-            platformFee
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
+    getSubgraphData(networkId, query)
+      .then((_data) => {
         if (ignore) return;
 
-        if (res.errors || !res.data) {
-          return;
-        }
+        if (!_data) return;
 
         const isLastPage =
-          res.data.pools.length === 0 || res.data.pools.length < CARDS_PER_PAGE;
+          _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          pools: [...prev.pools, ...res.data.pools],
+          pools: [...prev.pools, ..._data.pools],
         }));
       })
       .catch((err) => {
