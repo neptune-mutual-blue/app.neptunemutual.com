@@ -71,7 +71,11 @@ export const TokenBalance = ({
         {children}
       </div>
       <div className="flex items-center">
-        <button onClick={handleCopy} className="ml-3">
+        <button
+          title="Copy token address"
+          onClick={handleCopy}
+          className="ml-3"
+        >
           <span className="sr-only">Copy token address</span>
           <CopyIcon width={18} fill="currentColor" />
         </button>
@@ -80,6 +84,7 @@ export const TokenBalance = ({
           target="_blank"
           className="ml-3"
           rel="noreferrer nofollow"
+          title="Open In Explorer"
         >
           <span className="sr-only">Open In Explorer</span>
           <OpenInNewIcon width={20} fill="currentColor" />
@@ -87,6 +92,7 @@ export const TokenBalance = ({
         <button
           className="ml-3"
           onClick={() => register(tokenAddress, unit, tokenDecimals)}
+          title={"Add to Metamask"}
         >
           <span className="sr-only">Add to Metamask</span>
           <AddCircleIcon width={20} fill="currentColor" />
