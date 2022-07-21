@@ -6,7 +6,7 @@ import { convertToUnits } from "@/utils/bn";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useEffect, useState } from "react";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -37,7 +37,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
 
   useEffect(() => {
     updateAllowance(vaultTokenAddress);
@@ -188,7 +188,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         convertToUnits(npmValue).toString(),
         exit,
       ];
-      invoke({
+      writeContract({
         instance,
         methodName: "removeLiquidity",
         onTransactionResult,

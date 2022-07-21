@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
@@ -61,7 +61,7 @@ export const useBondInfo = () => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { contractRead } = useInvokeMethod();
+  const { contractRead } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(

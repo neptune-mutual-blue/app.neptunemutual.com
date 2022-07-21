@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
@@ -11,7 +11,7 @@ import { contractRead } from "@/src/services/readContract";
 
 const initValue = {
   // prettier-ignore
-  invoke: async ({instance, methodName, overrides = {},  args = [],  onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
+  writeContract: async ({instance, methodName, overrides = {},  args = [],  onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
   // prettier-ignore
   contractRead: async ({instance, methodName, overrides = {}, args = [], onError = console.error}) => null, // eslint-disable-line
 };
@@ -36,7 +36,7 @@ export const TxPosterProvider = ({ children }) => {
 
   useTransactionHistory();
 
-  const invoke = useCallback(
+  const writeContract = useCallback(
     async ({
       instance,
       methodName,
@@ -92,8 +92,6 @@ export const TxPosterProvider = ({ children }) => {
     []
   );
 
-  const contextValue = useMemo(() => ({ invoke, contractRead }), [invoke]);
-
   const handleContinue = async () => {
     const {
       instance,
@@ -139,7 +137,12 @@ export const TxPosterProvider = ({ children }) => {
   };
 
   return (
-    <TxPosterContext.Provider value={contextValue}>
+    <TxPosterContext.Provider
+      value={{
+        writeContract,
+        contractRead,
+      }}
+    >
       {children}
       <ForceTxModal
         isOpen={data.isError}

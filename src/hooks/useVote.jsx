@@ -16,7 +16,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { t } from "@lingui/macro";
 import {
   STATUS,
@@ -34,7 +34,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
   const { NPMTokenAddress, NPMTokenSymbol } = useAppConstants();
   const txToast = useTxToast();
   const governanceAddress = useGovernanceAddress();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const {
     allowance,
     approve,
@@ -198,7 +198,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      invoke({
+      writeContract({
         instance,
         methodName: "attest",
         onTransactionResult,
@@ -284,7 +284,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
         incidentDate,
         convertToUnits(value).toString(),
       ];
-      invoke({
+      writeContract({
         instance,
         methodName: "refute",
         onTransactionResult,
