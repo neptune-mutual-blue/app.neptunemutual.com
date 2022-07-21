@@ -1,5 +1,5 @@
 import { useAppConstants } from "@/src/context/AppConstants";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import React from "react";
 

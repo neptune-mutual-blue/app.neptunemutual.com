@@ -1,7 +1,7 @@
 import { CoverCard } from "@/common/Cover/CoverCard";
 import { MULTIPLIER } from "@/src/config/constants";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import * as LiquidityInfoHook from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
 import * as FetchCoverHook from "@/src/hooks/useFetchCoverStats";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";

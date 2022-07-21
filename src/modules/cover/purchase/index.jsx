@@ -15,7 +15,7 @@ import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";

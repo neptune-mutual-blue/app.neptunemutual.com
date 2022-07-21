@@ -13,7 +13,7 @@ import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { CardStatusBadge } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
@@ -56,7 +56,7 @@ export const ActiveReportingCard = ({
       liquidity,
       utilization,
       infoObj: coverInfo?.infoObj,
-      isDiversified
+      isDiversified,
     });
   }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization]);
 

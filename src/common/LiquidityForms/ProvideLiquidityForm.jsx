@@ -12,7 +12,7 @@ import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
-import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
+import { useCalculatePods } from "@/src/hooks/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
