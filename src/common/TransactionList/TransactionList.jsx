@@ -78,7 +78,7 @@ export function TransactionList({
       onClose={onClose}
       rootProps={{ modal: true }}
       overlayClass="flex justify-end w-full h-full bg-transparent"
-      defaultContentClassNames="absolute z-50 transform top-full right-5 pt-3 rounded-3xl"
+      defaultContentClassNames="w-screen lg:w-auto absolute z-50 transform top-full right-0 lg:right-5 px-2 lg:px-0 pt-3 rounded-3xl"
       container={container}
       {...rest}
     >
@@ -111,7 +111,7 @@ function NotificationsList({ data, showMore, hasShowMore }) {
   if (data.length) {
     return (
       <>
-        <div className="pt-2 w-96">
+        <div className="pt-2 lg:w-96">
           {data.map((transaction) => (
             <Notification
               {...transaction}
