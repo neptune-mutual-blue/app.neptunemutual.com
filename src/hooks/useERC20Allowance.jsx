@@ -6,7 +6,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxPoster } from "@/src/context/TxPoster";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { t } from "@lingui/macro";
 
@@ -17,7 +17,7 @@ export const useERC20Allowance = (tokenAddress) => {
   const { library, account } = useWeb3React();
   const { notifyError } = useErrorNotifier();
   const { writeContract, contractRead } = useTxPoster();
-  const { getApprovalAmount } = useApprovalAmount();
+  const { getApprovalAmount } = useUnlimitedApproval();
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
