@@ -3,7 +3,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
@@ -24,7 +24,7 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
 
   const txToast = useTxToast();
   const { notifyError } = useErrorNotifier();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
 
   const capitalize = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
@@ -97,7 +97,7 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
 
       const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [coverKey, productKeyArg, incidentDate];
-      invoke({
+      writeContract({
         instance,
         methodName: "capitalizePool",
         args,

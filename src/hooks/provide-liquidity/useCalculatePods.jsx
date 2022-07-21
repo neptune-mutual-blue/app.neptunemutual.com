@@ -6,7 +6,7 @@ import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -19,7 +19,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const debouncedValue = useDebounce(value, 200);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [loading, setLoading] = useState(false);
-  const { invoke, contractRead } = useInvokeMethod();
+  const { contractRead } = useTxPoster();
   const { notifyError } = useErrorNotifier();
   const { liquidityTokenDecimals } = useAppConstants();
   const tokenDecimals = useTokenDecimals(podAddress);
@@ -90,7 +90,6 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     account,
     coverKey,
     debouncedValue,
-    invoke,
     library,
     liquidityTokenDecimals,
     networkId,
