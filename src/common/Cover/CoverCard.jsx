@@ -10,7 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
