@@ -351,7 +351,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
         )}
       </div>
 
-      <div className="mt-16">
+      <div className="flex justify-center mt-16 md:justify-start">
         <BackButton onClick={() => router.back()} />
       </div>
     </div>

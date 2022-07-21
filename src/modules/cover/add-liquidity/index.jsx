@@ -43,7 +43,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   };
 
   return (
-    <>
+    <main>
       <Hero>
         <Container className="px-2 py-20">
           <BreadCrumbs
@@ -81,11 +81,11 @@ export const CoverAddLiquidityDetailsPage = () => {
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
         {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
 
-        <Container className="grid grid-cols-3 md:gap-32">
+        <Container className="grid grid-cols-3 lg:gap-32">
           <div className="col-span-3 md:col-span-2">
             {/* Description */}
-            <span className="">
-              <SeeMoreParagraph text={coverInfo.infoObj.about} />
+            <span className="hidden lg:block">
+              <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
             </span>
 
             {acceptedRules ? (
@@ -130,6 +130,10 @@ export const CoverAddLiquidityDetailsPage = () => {
             )}
           </div>
 
+          <span className="block col-span-3 row-start-1 lg:hidden mb-11">
+            <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
+          </span>
+
           <LiquidityResolutionSources
             isDiversified={isDiversified}
             info={info}
@@ -141,6 +145,6 @@ export const CoverAddLiquidityDetailsPage = () => {
       </div>
 
       <CoverActionsFooter activeKey="add-liquidity" />
-    </>
+    </main>
   );
 };

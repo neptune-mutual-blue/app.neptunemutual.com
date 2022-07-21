@@ -62,7 +62,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           disabled={!checked}
           className={classNames(
             !checked && "flex opacity-30 cursor-not-allowed",
-            "flex items-center bg-4e7dd9 text-EEEEEE py-3 pl-6 pr-5 mt-8 rounded-big w-full sm:w-auto"
+            "flex items-center bg-4e7dd9 text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center"
           )}
         >
           <Trans>Next</Trans>
