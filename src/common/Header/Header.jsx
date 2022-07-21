@@ -182,7 +182,23 @@ export const Header = () => {
             </div>
 
             {!isOpen && (
-              <div className="flex xl:hidden">
+              <div className="flex items-center xl:hidden">
+                <button
+                  className={classNames(
+                    "items-center justify-center px-4 mr-1 flex relative self-stretch flex-shrink-0",
+                    "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                    isTxDetailsPopupOpen
+                      ? "bg-404A5C before:w-0"
+                      : "bg-transparent before:w-px"
+                  )}
+                  onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
+                >
+                  <TransactionOverviewIcon
+                    className={classNames(
+                      isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
+                    )}
+                  />
+                </button>
                 <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
               </div>
             )}
