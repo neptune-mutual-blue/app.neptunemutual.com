@@ -24,7 +24,7 @@ import LeftArrow from "@/icons/LeftArrow";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (cover) => cover.projectName,
+    selector: (cover) => cover.infoObj.productName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.LIQUIDITY]: {

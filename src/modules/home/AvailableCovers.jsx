@@ -24,7 +24,7 @@ import { utils } from "@neptunemutual/sdk";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (cover) => cover.projectName,
+    selector: (cover) => cover.infoObj?.productName || cover.infoObj?.coverName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.LIQUIDITY]: {
