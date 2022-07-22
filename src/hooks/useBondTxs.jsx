@@ -1,5 +1,5 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -56,48 +56,29 @@ export const useBondTxs = ({ limit, page }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !account) {
+    if (!account) {
       return;
     }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
-      return;
-    }
+    const query = getQuery(account, limit, limit * (page - 1));
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: getQuery(account, limit, limit * (page - 1)),
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (ignore) return;
-
-        if (res.errors || !res.data) {
-          return;
-        }
+    getSubgraphData(networkId, query)
+      .then((_data) => {
+        if (ignore || !_data) return;
 
         const isLastPage =
-          res.data.bondTransactions.length === 0 ||
-          res.data.bondTransactions.length < limit;
+          _data.bondTransactions.length === 0 ||
+          _data.bondTransactions.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          blockNumber: res.data._meta.block.number,
+          blockNumber: _data._meta.block.number,
           bondTransactions: [
             ...prev.bondTransactions,
-            ...res.data.bondTransactions,
+            ..._data.bondTransactions,
           ],
         }));
       })
