@@ -150,7 +150,7 @@ export const Header = () => {
       </div>
       <header className="sticky top-0 z-40 bg-black text-EEEEEE">
         <nav className="flex max-w-full mx-auto" aria-label="Top">
-          <div className="h-14 lg:h-16 flex items-stretch justify-between flex-grow px-4 sm:px-6 xl:pl-8 py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
+          <div className="h-14 lg:h-20 flex items-stretch justify-between flex-grow pl-4 sm:px-6 xl:pl-8 py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
                 <a>
@@ -185,7 +185,7 @@ export const Header = () => {
               <div className="flex items-center xl:hidden">
                 <button
                   className={classNames(
-                    "items-center justify-center px-4 mr-4 flex relative self-stretch flex-shrink-0",
+                    "items-center justify-center px-4 flex relative self-stretch flex-shrink-0",
                     "before:absolute before:h-7 before:right-0 before:bg-999BAB",
                     isTxDetailsPopupOpen
                       ? "bg-404A5C before:w-0"
@@ -199,7 +199,11 @@ export const Header = () => {
                     )}
                   />
                 </button>
-                <BurgerMenu isOpen={isOpen} onToggle={toggleMenu} />
+                <BurgerMenu
+                  isOpen={isOpen}
+                  onToggle={toggleMenu}
+                  className="px-4 h-full"
+                />
               </div>
             )}
 
@@ -252,7 +256,7 @@ export const Header = () => {
             <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
               <button
                 className={classNames(
-                  "items-center justify-center hidden px-4 xl:flex relative self-stretch flex-shrink-0",
+                  "items-center justify-center hidden px-5 xl:flex relative self-stretch flex-shrink-0",
                   "before:absolute before:h-7 before:left-0 before:bg-999BAB",
                   isTxDetailsPopupOpen
                     ? "bg-404A5C before:w-0"
@@ -328,7 +332,7 @@ export const MenuModal = ({
           <Content className="fixed z-50 w-full max-h-screen px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2">
             <div className="flex flex-col items-end justify-between min-h-screen px-4 text-center">
               <div className="flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0">
-                <BurgerMenu isOpen={isOpen} onToggle={onClose} />
+                <BurgerMenu isOpen onToggle={onClose} />
               </div>
               <div className="w-full sm:px-16">
                 <LanguageDropdown />
