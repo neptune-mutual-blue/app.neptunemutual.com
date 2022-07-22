@@ -150,7 +150,7 @@ export const Header = () => {
       </div>
       <header className="sticky top-0 z-40 bg-black text-EEEEEE">
         <nav className="flex max-w-full mx-auto" aria-label="Top">
-          <div className="flex items-stretch justify-between flex-grow px-4 py-4 sm:px-6 xl:pl-8 xl:py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
+          <div className="h-14 lg:h-16 flex items-stretch justify-between flex-grow px-4 sm:px-6 xl:pl-8 py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
                 <a>
@@ -185,8 +185,8 @@ export const Header = () => {
               <div className="flex items-center xl:hidden">
                 <button
                   className={classNames(
-                    "items-center justify-center px-4 mr-1 flex relative self-stretch flex-shrink-0",
-                    "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                    "items-center justify-center px-4 mr-4 flex relative self-stretch flex-shrink-0",
+                    "before:absolute before:h-7 before:right-0 before:bg-999BAB",
                     isTxDetailsPopupOpen
                       ? "bg-404A5C before:w-0"
                       : "bg-transparent before:w-px"

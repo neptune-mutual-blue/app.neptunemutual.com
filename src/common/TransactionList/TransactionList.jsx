@@ -82,13 +82,14 @@ export function TransactionList({
       container={container}
       {...rest}
     >
-      <div className="pl-4 font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list">
-        <div className="pr-4 overflow-y-auto max-h-tx-list">
-          <NotificationsList
-            data={listOfTransactions}
-            hasShowMore={page >= maxPage}
-            showMore={showMore}
-          />
+      <div className="relative overflow-hidden pl-4 font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list">
+        <div className="pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list">
+          <NotificationsList data={listOfTransactions} />
+        </div>
+        <div className={`text-center py-8 ${page >= maxPage ? "hidden" : ""}`}>
+          <a href="#" className="underline" onClick={showMore}>
+            {t`View More`}
+          </a>
         </div>
       </div>
     </ModalRegular>
@@ -99,36 +100,25 @@ export function TransactionList({
  *
  * @param {{
  *  data: import('@/src/services/transactions/history').IHistoryEntry[],
- *  showMore: (event: any) => void,
- *  hasShowMore: boolean
  * }} prop
  * @returns
  */
-function NotificationsList({ data, showMore, hasShowMore }) {
+function NotificationsList({ data }) {
   const { networkId } = useNetwork();
   const { locale } = useRouter();
 
   if (data.length) {
     return (
-      <>
-        <div className="pt-2 lg:w-96">
-          {data.map((transaction) => (
-            <Notification
-              {...transaction}
-              networkId={networkId}
-              locale={locale}
-              key={transaction.hash}
-            />
-          ))}
-        </div>
-        <div
-          className={`text-center pb-3 mt-10 ${hasShowMore ? "hidden" : ""}`}
-        >
-          <a href="#" className="underline" onClick={showMore}>
-            {t`View More`}
-          </a>
-        </div>
-      </>
+      <div className="pt-2 lg:w-96">
+        {data.map((transaction) => (
+          <Notification
+            {...transaction}
+            networkId={networkId}
+            locale={locale}
+            key={transaction.hash}
+          />
+        ))}
+      </div>
     );
   }
 
