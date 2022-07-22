@@ -46,7 +46,7 @@ export const ProjectStatusIndicator = ({
   const badge = (
     <div
       className={classNames(
-        "ml-4 flex items-center rounded-1 py-0.5 px-1.5 text-xs leading-4.5 text-white",
+        "ml-2 xs:ml-4 flex items-center rounded-1 py-0.5 px-1.5 text-xs leading-4.5 text-white",
         variant === "blue" && "bg-4289F2",
         variant === "gray" && "bg-9B9B9B",
         variant === "green" && "bg-21AD8C",

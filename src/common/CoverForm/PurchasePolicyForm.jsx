@@ -264,7 +264,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
       </div>
 
-      <div className="mt-20">
+      <div className="flex justify-center mt-20 md:justify-start">
         <BackButton onClick={() => router.back()} />
       </div>
     </div>
