@@ -12,7 +12,7 @@ export const TokenAmountInput = ({
   inputId,
   onChange,
   tokenBalance,
-  tokenDecimals,
+  tokenDecimals = 12,
   error,
   disabled,
   children,
@@ -26,6 +26,7 @@ export const TokenAmountInput = ({
         </Label>
       )}
       <InputWithTrailingButton
+        decimalLimit={typeof tokenDecimals === "number" ? tokenDecimals : 12}
         error={error}
         buttonProps={{
           children: t`Max`,

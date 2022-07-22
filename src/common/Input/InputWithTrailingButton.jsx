@@ -1,5 +1,5 @@
 import { classNames } from "@/utils/classnames";
-import { getPlainNumber } from "@/utils/formatter/input";
+import { getPlainNumber, limitNumberToDecimal } from "@/utils/formatter/input";
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import CurrencyInput from "@/lib/react-currency-input-field";
@@ -9,6 +9,7 @@ export const InputWithTrailingButton = ({
   unit,
   buttonProps,
   error,
+  decimalLimit,
 }) => {
   const ref = useRef(null);
   const [width, setWidth] = useState();
@@ -42,7 +43,8 @@ export const InputWithTrailingButton = ({
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
     onValueChange: (val) => {
-      inputProps.onChange(getPlainNumber(val ?? "", locale));
+      const numberValue = getPlainNumber(val ?? "", locale);
+      inputProps.onChange(limitNumberToDecimal(numberValue, decimalLimit));
       setInputValue(val ?? "");
     },
     intlConfig: {
