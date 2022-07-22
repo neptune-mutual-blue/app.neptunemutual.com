@@ -44,7 +44,11 @@ export const InputWithTrailingButton = ({
     disabled: inputProps.disabled,
     onValueChange: (val) => {
       const numberValue = getPlainNumber(val ?? "", locale);
-      inputProps.onChange(limitNumberToDecimal(numberValue, decimalLimit));
+      inputProps.onChange(
+        typeof decimalLimit === "number"
+          ? limitNumberToDecimal(numberValue, decimalLimit)
+          : numberValue
+      );
       setInputValue(val ?? "");
     },
     intlConfig: {
