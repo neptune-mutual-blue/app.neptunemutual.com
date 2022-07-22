@@ -45,81 +45,83 @@ export const MyLiquidityCoverPage = () => {
   const myLiquidity = info.myUnrealizedShare;
 
   return (
-    <div>
-      <main className="bg-f1f3f6">
-        {/* hero */}
-        <Hero>
-          <Container className="px-2 py-20">
-            <BreadCrumbs
-              pages={[
-                {
-                  name: t`My Liquidity`,
-                  href: "/my-liquidity",
-                  current: false,
-                },
-                {
-                  name: projectName,
-                  href: "#",
-                  current: true,
-                },
-              ]}
-            />
-            <div className="flex">
-              {isDiversified ? (
-                <DiversifiedCoverProfileInfo projectName={projectName} />
-              ) : (
-                <CoverProfileInfo
-                  productKey={productKey}
-                  coverKey={coverKey}
-                  projectName={projectName}
-                  links={coverInfo?.infoObj.links}
-                  imgSrc={imgSrc}
-                />
-              )}
+    <div className="bg-f1f3f6">
+      {/* hero */}
+      <Hero>
+        <Container className="px-2 py-20">
+          <BreadCrumbs
+            pages={[
+              {
+                name: t`My Liquidity`,
+                href: "/my-liquidity",
+                current: false,
+              },
+              {
+                name: projectName,
+                href: "#",
+                current: true,
+              },
+            ]}
+          />
+          <div className="flex flex-wrap md:flex-nowrap">
+            {isDiversified ? (
+              <DiversifiedCoverProfileInfo projectName={projectName} />
+            ) : (
+              <CoverProfileInfo
+                productKey={productKey}
+                coverKey={coverKey}
+                projectName={projectName}
+                links={coverInfo?.infoObj.links}
+                imgSrc={imgSrc}
+              />
+            )}
 
-              {/* My Liquidity */}
-              <HeroStat title={t`My Liquidity`}>
-                {
-                  formatCurrency(
-                    convertFromUnits(myLiquidity, liquidityTokenDecimals),
-                    router.locale
-                  ).long
-                }
-              </HeroStat>
+            {/* My Liquidity */}
+            <HeroStat title={t`My Liquidity`}>
+              {
+                formatCurrency(
+                  convertFromUnits(myLiquidity, liquidityTokenDecimals),
+                  router.locale
+                ).long
+              }
+            </HeroStat>
+          </div>
+        </Container>
+      </Hero>
+
+      {/* Content */}
+      <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+        {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
+
+        <Container className="grid grid-cols-3 lg:gap-32">
+          <div className="col-span-3 md:col-span-2">
+            {/* Description */}
+            <span className="hidden lg:block">
+              <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
+            </span>
+
+            <div className="mt-12">
+              <ProvideLiquidityForm
+                coverKey={coverKey}
+                info={info}
+                isDiversified={isDiversified}
+              />
             </div>
-          </Container>
-        </Hero>
+          </div>
 
-        {/* Content */}
-        <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-          {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
+          <span className="block col-span-3 row-start-1 lg:hidden mb-11">
+            <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
+          </span>
 
-          <Container className="grid grid-cols-3 gap-32">
-            <div className="col-span-2">
-              {/* Description */}
-              <SeeMoreParagraph
-                text={coverInfo?.infoObj.about}
-              ></SeeMoreParagraph>
-
-              <div className="mt-12">
-                <ProvideLiquidityForm
-                  coverKey={coverKey}
-                  info={info}
-                  isDiversified={isDiversified}
-                />
-              </div>
-            </div>
-
-            <LiquidityResolutionSources
-              isDiversified={isDiversified}
-              coverInfo={coverInfo}
-              info={info}
-              isWithdrawalWindowOpen={isWithdrawalWindowOpen}
-              accrueInterest={accrueInterest}
-            />
-          </Container>
-        </div>
-      </main>
+          <LiquidityResolutionSources
+            isDiversified={isDiversified}
+            coverInfo={coverInfo}
+            info={info}
+            isWithdrawalWindowOpen={isWithdrawalWindowOpen}
+            accrueInterest={accrueInterest}
+          />
+        </Container>
+      </div>
     </div>
   );
 };

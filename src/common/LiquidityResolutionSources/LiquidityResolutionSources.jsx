@@ -38,7 +38,7 @@ export const LiquidityResolutionSources = ({
   };
 
   return (
-    <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
+    <div className="col-span-3 row-start-2 lg:col-auto lg:row-start-auto">
       {isDiversified ? (
         <DiversifiedLiquidityResolutionSources info={info}>
           <WithdrawLiquidityButton

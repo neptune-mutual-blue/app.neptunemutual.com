@@ -2,7 +2,7 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
@@ -18,7 +18,7 @@ import { getActionMessage } from "@/src/helpers/notification";
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { requiresAuth } = useAuthValidation();
 
   const txToast = useTxToast();
@@ -106,7 +106,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
 
       const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [coverKey, productKeyArg, incidentDate];
-      invoke({
+      writeContract({
         instance,
         methodName: "resolve",
         args,
@@ -201,7 +201,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
 
       const productKeyArg = productKey || utils.keyUtil.toBytes32("");
       const args = [coverKey, productKeyArg, incidentDate, decision];
-      invoke({
+      writeContract({
         instance,
         methodName: "emergencyResolve",
         onTransactionResult,

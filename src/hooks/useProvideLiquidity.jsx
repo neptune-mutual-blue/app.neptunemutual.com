@@ -13,7 +13,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { t } from "@lingui/macro";
@@ -68,7 +68,7 @@ export const useProvideLiquidity = ({
   } = useERC20Allowance(NPMTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -317,7 +317,7 @@ export const useProvideLiquidity = ({
       };
 
       const args = [coverKey, lqAmount, npmAmount, utils.keyUtil.toBytes32("")];
-      invoke({
+      writeContract({
         instance: vault,
         methodName: "addLiquidity",
         onTransactionResult,

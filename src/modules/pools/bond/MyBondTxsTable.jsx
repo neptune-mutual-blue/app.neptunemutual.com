@@ -182,6 +182,7 @@ const BondAmountRenderer = ({ row }) => {
               row.bondPool.token1Decimals
             )
           }
+          title="Add to Metamask"
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />
@@ -221,6 +222,7 @@ const ActionsRenderer = ({ row }) => {
           target="_blank"
           rel="noreferrer noopener nofollow"
           className="p-1 text-black"
+          title="Open in explorer"
         >
           <span className="sr-only">Open in explorer</span>
           <OpenInNewIcon className="w-4 h-4" />

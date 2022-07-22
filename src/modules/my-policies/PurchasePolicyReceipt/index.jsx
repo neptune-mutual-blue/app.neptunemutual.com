@@ -204,7 +204,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
   return (
     <div>
-      <div className="py-9.5 px-13 bg-black text-white">
+      <div className="py-9.5 px-4 md:px-10 lg:px-13 bg-black text-white">
         <BackButton
           onClick={() => router.back()}
           className="!px-4 !py-2 border-white !text-white hover:bg-transparent hover:text-white"
@@ -234,7 +234,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         </div>
       </div>
 
-      <div className="bg-white px-13 lg:px-54 pt-14 pb-52">
+      <div className="px-4 bg-white md:px-10 lg:px-54 pt-14 pb-52">
         <h1 className="font-semibold leading-8 text-receipt-info font-sora">
           {policyName} Policy Receipt
         </h1>

@@ -15,7 +15,7 @@ import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -73,7 +73,7 @@ export const CoverPurchaseDetailsPage = () => {
               { name: t`Purchase Policy`, current: true },
             ]}
           />
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap md:flex-nowrap">
             <CoverProfileInfo
               coverKey={coverKey}
               productKey={productKey}
@@ -99,9 +99,9 @@ export const CoverPurchaseDetailsPage = () => {
 
       {/* Content */}
       <div className="pt-12 pb-24 border-t border-t-B0C4DB">
-        <Container className="grid grid-cols-3 md:gap-32">
+        <Container className="grid grid-cols-3 lg:gap-32">
           <div className="col-span-3 md:col-span-2">
-            <span className="hidden md:block">
+            <span className="hidden lg:block">
               <SeeMoreParagraph
                 text={coverInfo.infoObj.about}
               ></SeeMoreParagraph>
@@ -129,7 +129,7 @@ export const CoverPurchaseDetailsPage = () => {
             )}
           </div>
 
-          <span className="block col-span-3 row-start-1 md:hidden mb-11">
+          <span className="block col-span-3 row-start-1 lg:hidden mb-11">
             <SeeMoreParagraph
               text={coverInfo?.infoObj?.about}
             ></SeeMoreParagraph>

@@ -6,7 +6,7 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { registry, utils } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 import { useState } from "react";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { t } from "@lingui/macro";
 import {
   STATUS,
@@ -26,7 +26,7 @@ export const useUnstakeReportingStake = ({
 
   const txToast = useTxToast();
   const { requiresAuth } = useAuthValidation();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
   const [unstaking, setUnstaking] = useState(false);
 
@@ -125,7 +125,7 @@ export const useUnstakeReportingStake = ({
 
       const _productKey = productKey ?? utils.keyUtil.toBytes32("");
       const args = [coverKey, _productKey, incidentDate];
-      invoke({
+      writeContract({
         instance: resolutionContract,
         methodName: "unstake",
         onError,
@@ -233,7 +233,7 @@ export const useUnstakeReportingStake = ({
 
       const _productKey = productKey ?? utils.keyUtil.toBytes32("");
       const args = [coverKey, _productKey, incidentDate];
-      invoke({
+      writeContract({
         instance: resolutionContract,
         methodName: "unstakeWithClaim",
         onTransactionResult,

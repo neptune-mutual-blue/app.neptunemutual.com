@@ -1,4 +1,5 @@
 import { ModalRegular } from "@/common/Modal/ModalRegular";
+import CloseIcon from "@/icons/CloseIcon";
 import * as Dialog from "@radix-ui/react-dialog";
 
 /**
@@ -12,6 +13,7 @@ import * as Dialog from "@radix-ui/react-dialog";
  * @returns
  */
 export function LiquidityProductModal({ product, setShowModal }) {
+  const onClose = () => setShowModal(false);
   return (
     <ModalRegular
       isOpen={true}
@@ -19,11 +21,17 @@ export function LiquidityProductModal({ product, setShowModal }) {
         setShowModal(false);
       }}
     >
-      <div className="border-1.5 border-B0C4DB relative inline-block w-full max-w-lg p-11 pb-9 text-left align-middle min-w-500 lg:min-w-[907px] max-h-90vh bg-FEFEFF rounded-3xl">
+      <div className="grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden">
         <Dialog.Title
-          className="flex items-center w-full pb-3 font-bold border-b font-sora  border-b-B0C4DB"
+          className="flex items-center flex-col md:flex-row w-full pb-3 font-bold border-b font-sora border-b-B0C4DB"
           data-testid="dialog-title"
         >
+          <CloseIcon
+            onClick={onClose}
+            className="absolute right-5 top-5 cursor-pointer md:hidden"
+            width={24}
+            height={24}
+          />
           <svg
             className="w-10"
             width="40"
@@ -54,29 +62,26 @@ export function LiquidityProductModal({ product, setShowModal }) {
             </defs>
           </svg>
 
-          <span className="flex-grow pl-3 text-h3 whitespace-nowrap text-ellipsis overflow-hidden">
+          <span className="flex-grow text-h4 font-bold md:pl-3 md:text-h3 whitespace-nowrap text-ellipsis overflow-hidden">
             {product.infoObj.productName} Cover Terms
           </span>
-          <span className="pl-3 text-h4 font-semibold text-9B9B9B whitespace-nowrap font-poppins">
+          <span className="text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-poppins">
             70% Capital Efficiency
           </span>
         </Dialog.Title>
-        <div
-          className="py-2 pr-7 -mr-7 overflow-y-auto flex-grow max-h-50vh font-sora"
-          data-testid="token-input"
-        >
-          <p className="py-6 text-000000 font-bold text-sm leading-5">
+        <div className="py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-sora min-h-[0] h-full">
+          <p className="py-2 md:py-6 text-000000 font-bold text-sm leading-5">
             Cover Rules
           </p>
 
-          <p className="text-md font-poppins text-404040 text-sm">
+          <p className="font-poppins text-404040 text-md md:text-sm">
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 text-sm leading-5">
+          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm">
             {product.infoObj.rules.split("\n").map((x, i) => (
-              <li key={i}>
+              <li key={i} className="pb-4 leading-5 md:pb-1">
                 {x
                   .trim()
                   .replace(/^\d+\./g, "")
@@ -85,23 +90,23 @@ export function LiquidityProductModal({ product, setShowModal }) {
             ))}
           </ul>
 
-          <p className="py-6 text-000000 font-bold text-sm leading-5">
+          <p className="py-2 md:py-6 text-000000 font-bold text-sm leading-5">
             Exclusions
           </p>
 
-          <p className="font-poppins text-404040 text-sm">
+          <p className="font-poppins text-404040 text-md md:text-sm">
             {product.infoObj.exclusions}
           </p>
         </div>
 
         <div className="flex justify-end pt-6 border-t border-t-B0C4DB">
           <button
-            onClick={() => setShowModal(false)}
-            className="p-3 mr-6 font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
+            onClick={onClose}
+            className="text-sm md:text-h7 lg:text-h6 font-medium hidden md:inline-block p-3 mr-6 md:font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
           >
             CLOSE
           </button>
-          <DownloadButton onClick={() => setShowModal(false)} />
+          <DownloadButton onClick={onClose} />
         </div>
       </div>
     </ModalRegular>
@@ -111,7 +116,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
 function DownloadButton({ onClick }) {
   return (
     <button
-      className="inline-flex items-center justify-center flex-grow-0 px-4 py-3 text-h6 font-semibold leading-6 text-white uppercase border border-transparent rounded bg-4e7dd9 hover:bg-opacity-75"
+      className="inline-flex w-full md:w-auto items-center justify-center flex-grow-0 px-4 py-3 text-white uppercase border border-transparent rounded bg-4e7dd9 hover:bg-opacity-75"
       onClick={onClick}
     >
       <svg
@@ -120,14 +125,19 @@ function DownloadButton({ onClick }) {
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mr-3 scale-75"
+        className="mr-3 scale-75 hidden md:inline"
       >
         <path
           d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
           fill="#FEFEFF"
         />
       </svg>
-      Download Product Cover Terms
+      <span className="md:text-h7 lg:text-h6 font-semibold leading-6 hidden md:inline-block">
+        Download Product Cover Terms
+      </span>
+      <span className="text-sm font-medium md:hidden">
+        Download Cover Terms
+      </span>
     </button>
   );
 }

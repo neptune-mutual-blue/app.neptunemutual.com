@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 const defaultValue = {
   setStatsByKey: (_key, _obj) => {},
@@ -39,7 +39,12 @@ export const SortableStatsProvider = ({ children }) => {
   const getStatsByKey = useCallback((key) => state[key] || {}, [state]);
 
   return (
-    <SortableStatsContext.Provider value={{ getStatsByKey, setStatsByKey }}>
+    <SortableStatsContext.Provider
+      value={useMemo(
+        () => ({ getStatsByKey, setStatsByKey }),
+        [getStatsByKey, setStatsByKey]
+      )}
+    >
       {children}
     </SortableStatsContext.Provider>
   );

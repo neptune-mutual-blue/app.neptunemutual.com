@@ -3,7 +3,7 @@ import { registry } from "@neptunemutual/sdk";
 import { useWeb3React } from "@web3-react/core";
 
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
@@ -61,7 +61,7 @@ export const useBondInfo = () => {
 
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
-  const { invoke } = useInvokeMethod();
+  const { contractRead } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const fetchBondInfo = useCallback(
@@ -77,49 +77,42 @@ export const useBondInfo = () => {
         signerOrProvider
       );
 
-      const onTransactionResult = (result) => {
-        const [addresses, values] = result;
-
-        const [lpToken] = addresses;
-        const [
-          _marketPrice,
-          discountRate,
-          vestingTerm,
-          maxBond,
-          totalNpmAllocated,
-          totalNpmDistributed,
-          _npmAvailable,
-          bondContribution,
-          claimable,
-          unlockDate,
-        ] = values;
-
-        onResult({
-          lpTokenAddress: lpToken,
-          discountRate: discountRate.toString(),
-          vestingTerm: vestingTerm.toString(),
-          maxBond: maxBond.toString(),
-          totalNpmAllocated: totalNpmAllocated.toString(),
-          totalNpmDistributed: totalNpmDistributed.toString(),
-          bondContribution: bondContribution.toString(),
-          claimable: claimable.toString(),
-          unlockDate: unlockDate.toString(),
-        });
-      };
-
-      const onRetryCancel = () => {};
-
-      invoke({
+      const result = await contractRead({
         instance,
         methodName: "getInfo",
         args: [account],
-        retry: false,
-        onTransactionResult,
         onError: notifyError,
-        onRetryCancel,
+      });
+
+      const [addresses, values] = result;
+
+      const [lpToken] = addresses;
+      const [
+        _marketPrice,
+        discountRate,
+        vestingTerm,
+        maxBond,
+        totalNpmAllocated,
+        totalNpmDistributed,
+        _npmAvailable,
+        bondContribution,
+        claimable,
+        unlockDate,
+      ] = values;
+
+      onResult({
+        lpTokenAddress: lpToken,
+        discountRate: discountRate.toString(),
+        vestingTerm: vestingTerm.toString(),
+        maxBond: maxBond.toString(),
+        totalNpmAllocated: totalNpmAllocated.toString(),
+        totalNpmDistributed: totalNpmDistributed.toString(),
+        bondContribution: bondContribution.toString(),
+        claimable: claimable.toString(),
+        unlockDate: unlockDate.toString(),
       });
     },
-    [account, invoke, library, networkId, notifyError]
+    [account, contractRead, library, networkId, notifyError]
   );
 
   useEffect(() => {
@@ -133,10 +126,7 @@ export const useBondInfo = () => {
           setInfo(data);
         })
         .catch(console.error);
-
-      return () => {
-        ignore = true;
-      };
+      return;
     }
 
     // If wallet is connected, get data from provider

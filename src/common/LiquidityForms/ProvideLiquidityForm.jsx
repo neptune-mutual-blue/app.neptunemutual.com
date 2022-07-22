@@ -12,7 +12,7 @@ import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
-import { useCalculatePods } from "@/src/hooks/provide-liquidity/useCalculatePods";
+import { useCalculatePods } from "@/src/hooks/useCalculatePods";
 import { useAppConstants } from "@/src/context/AppConstants";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -351,7 +351,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
         )}
       </div>
 
-      <div className="mt-16">
+      <div className="flex justify-center mt-16 md:justify-start">
         <BackButton onClick={() => router.back()} />
       </div>
     </div>

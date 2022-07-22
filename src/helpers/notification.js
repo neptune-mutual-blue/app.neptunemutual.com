@@ -31,54 +31,63 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Unstaked ${tokenSymbol} successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not unstake ${tokenSymbol}`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Unstaking ${tokenSymbol}`, description: "" };
+    return {
+      title: t`Unstaking ${tokenSymbol}`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.STAKING_DEPOSIT_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol}`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Approving ${tokenSymbol}`, description: "" };
+    return {
+      title: t`Approving ${tokenSymbol}`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.STAKING_DEPOSIT_COMPLETE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Staked ${tokenSymbol} successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not stake ${tokenSymbol}`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Staking ${tokenSymbol}`, description: "" };
+    return {
+      title: t`Staking ${tokenSymbol}`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.RESOLVE_INCIDENT_APPROVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
@@ -119,153 +128,175 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} tokens Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+    return {
+      title: t`Approving ${tokenSymbol} tokens`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.REPORT_DISPUTE_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Disputed successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not dispute`, description: "" };
+      return { title: t`Could not dispute`, description: displayValue(_data) };
     }
 
-    return { title: t`Disputing`, description: "" };
+    return { title: t`Disputing`, description: displayValue(_data) };
   },
   [METHODS.CLAIM_COVER_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} tokens Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+    return {
+      title: t`Approving ${tokenSymbol} tokens`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.CLAIM_COVER_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Claimed policy Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not Claim policy`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Claiming policy`, description: "" };
+    return { title: t`Claiming policy`, description: displayValue(_data) };
   },
   [METHODS.REPORT_INCIDENT_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} tokens Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Approving ${tokenSymbol} tokens`, description: "" };
+    return {
+      title: t`Approving ${tokenSymbol} tokens`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.REPORT_INCIDENT_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Reported incident successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not report incident`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
-    return { title: t`Reporting incident`, description: "" };
+    return { title: t`Reporting incident`, description: displayValue(_data) };
   },
   [METHODS.POLICY_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not approve ${tokenSymbol}`, description: "" };
+      return {
+        title: t`Could not approve ${tokenSymbol}`,
+        description: displayValue(_data),
+      };
     }
 
-    return { title: t`Approving ${tokenSymbol}`, description: "" };
+    return {
+      title: t`Approving ${tokenSymbol}`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.POLICY_PURCHASE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Purchased Policy Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not purchase policy`, description: "" };
+      return {
+        title: t`Could not purchase policy`,
+        description: displayValue(_data),
+      };
     }
 
-    return { title: t`Purchasing Policy`, description: "" };
+    return { title: t`Purchasing Policy`, description: displayValue(_data) };
   },
   [METHODS.BOND_APPROVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved LP tokens Successfully`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not approve LP tokens`, description: "" };
+      return {
+        title: t`Could not approve LP tokens`,
+        description: displayValue(_data),
+      };
     }
 
-    return { title: t`Approving LP tokens`, description: "" };
+    return { title: t`Approving LP tokens`, description: displayValue(_data) };
   },
   [METHODS.BOND_CREATE]: (status, data, locale) => {
+    const value = data.receiveAmount || data.value || "";
+    const symbol = data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
-      const symbol = data.tokenSymbol;
       return {
         title: t`Created bond successfully`,
         description: formatCurrency(
-          convertFromUnits(data.receiveAmount || "").toString(),
+          convertFromUnits(value).toString(),
           locale,
           symbol,
           true
@@ -274,10 +305,26 @@ const actionMessages = {
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not create bond`, description: "" };
+      return {
+        title: t`Could not create bond`,
+        description: formatCurrency(
+          convertFromUnits(value).toString(),
+          locale,
+          symbol,
+          true
+        ).long,
+      };
     }
 
-    return { title: t`Creating bond`, description: "" };
+    return {
+      title: t`Creating bond`,
+      description: formatCurrency(
+        convertFromUnits(value).toString(),
+        locale,
+        symbol,
+        true
+      ).long,
+    };
   },
   [METHODS.LIQUIDITY_PROVIDE_APPROVE]: (status, _data) => {
     const symbol = _data.tokenSymbol;
@@ -299,15 +346,21 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approve ${symbol} Success`,
-        description: "",
+        description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+      return {
+        title: t`Could not approve ${symbol} tokens`,
+        description: displayValue(_data),
+      };
     }
 
-    return { title: t`Approving ${symbol} to stake`, description: "" };
+    return {
+      title: t`Approving ${symbol} to stake`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.LIQUIDITY_PROVIDE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
@@ -324,32 +377,35 @@ const actionMessages = {
     return { title: t`Providing liquidity`, description: "" };
   },
   [METHODS.REPORTING_UNSTAKE]: (status, _data) => {
+    const symbol = _data.tokenSymbol || "NPM";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Unstaked NPM Successfully`,
+        title: t`Unstaked ${symbol} Successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not unstake NPM`, description: "" };
+      return { title: t`Could not unstake ${symbol}`, description: "" };
     }
 
-    return { title: t`Unstaking NPM`, description: "" };
+    return { title: t`Unstaking ${symbol}`, description: "" };
   },
   [METHODS.REPORTING_UNSTAKE_CLAIM]: (status, _data) => {
+    const symbol = _data.tokenSymbol || "NPM";
+
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Unstaked & claimed NPM Successfully`,
+        title: t`Unstaked & claimed ${symbol} Successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not unstake & claim NPM`, description: "" };
+      return { title: t`Could not unstake & claim ${symbol}`, description: "" };
     }
 
-    return { title: t`Unstaking & claiming NPM`, description: "" };
+    return { title: t`Unstaking & claiming ${symbol}`, description: "" };
   },
   [METHODS.POOL_CAPITALIZE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
@@ -517,4 +573,12 @@ export function getActionMessage(methodName, status, data = {}, locale = "en") {
   }
 
   return actionMessages.generic(status, data, locale);
+}
+
+function displayValue({ value = "", tokenSymbol = "" }) {
+  if (value && tokenSymbol) {
+    return `${value} ${tokenSymbol}`;
+  }
+
+  return "";
 }

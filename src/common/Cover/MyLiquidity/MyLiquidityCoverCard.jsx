@@ -1,7 +1,7 @@
 import { Divider } from "@/common/Divider/Divider";
 import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { convertFromUnits, sumOf, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";

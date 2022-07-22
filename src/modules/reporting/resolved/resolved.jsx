@@ -16,7 +16,7 @@ import {
   Table,
   TableWrapper,
   THead,
-  TableShowMore
+  TableShowMore,
 } from "@/common/Table/Table";
 import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow";
 import { ResolvedStatusBadge } from "@/modules/reporting/resolved/ResolvedStatusBadge";
@@ -29,7 +29,10 @@ import { convertFromUnits } from "@/utils/bn";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.info.projectName,
+    selector: (report) =>
+      report.isDiversified
+        ? report.infoObj?.productName
+        : report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.INCIDENT_DATE]: {
@@ -60,13 +63,16 @@ export const ReportingResolvedPage = () => {
     list: incidentReports.map((report) => {
       return {
         ...report,
-        info: { projectName: "" },
         ...getStatsByKey(report.id),
       };
     }),
     filter: (item, term) => {
       return (
-        toStringSafe(item.info.projectName).indexOf(toStringSafe(term)) > -1
+        toStringSafe(
+          item.isDiversified
+            ? item.infoObj.productName
+            : item.infoObj.projectName
+        ).indexOf(toStringSafe(term)) > -1
       );
     },
   });
@@ -106,8 +112,8 @@ export const ReportingResolvedPage = () => {
           col.align === "right" ? "text-right" : "text-left"
         )}
       >
-      {col.name}
-    </th>
+        {col.name}
+      </th>
     );
   };
 
@@ -117,64 +123,50 @@ export const ReportingResolvedPage = () => {
         <span className="flex items-center">
           <img
             src={row.imgSrc}
-            alt={row.isDiversified ? row.coverInfo?.infoObj.productName : row.coverInfo?.infoObj.projectName}
-            className='rounded-full bg-DEEAF6'
+            alt={
+              row.isDiversified
+                ? row.coverInfo?.infoObj.productName
+                : row.coverInfo?.infoObj.projectName
+            }
+            className="rounded-full bg-DEEAF6"
             width={48}
             height={48}
           />
-          <p className="ml-2 text-sm text-black font-poppins">{row.isDiversified ? row.coverInfo?.infoObj.productName : row.coverInfo?.infoObj.projectName}</p>
+          <p className="ml-2 text-sm text-black font-poppins">
+            {row.isDiversified
+              ? row.coverInfo?.infoObj.productName
+              : row.coverInfo?.infoObj.projectName}
+          </p>
         </span>
       </td>
     );
-  }
-
-  // const renderYourStakeColumnOne = (row) => {
-  //   return (
-  //     <td className="px-6 py-2 text-sm">
-  //       N/A
-  //     </td>
-  //   );
-  // }
-
-  // const renderYourStakeColumnTwo = (row) => {
-  //   return (
-  //     <td className="px-6 py-2 text-sm">
-  //       N/A
-  //     </td>
-  //   );
-  // }
+  };
 
   const renderDateAndTime = (row) => {
     return (
       <td className="px-6 py-2 text-sm">
         <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
-          {
-            fromNow(row.resolvedOn)
-          }
+          {fromNow(row.resolvedOn)}
         </span>
       </td>
     );
-  }
+  };
 
   const renderTotalAttestedStake = (row) => {
     return (
       <td className="px-6 py-2">
-        {
-          convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()
-        }
+        {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
       </td>
     );
-  }
+  };
 
   const renderTotalRefutedStake = (row) => {
     return (
       <td className="px-6 py-2">
-        {
-          convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()
-        }
+        {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
       </td>
     );
-  }
+  };
 
   const renderStatus = (row) => {
     return (
@@ -182,51 +174,39 @@ export const ReportingResolvedPage = () => {
         <ResolvedStatusBadge status={row.status} />
       </td>
     );
-  }
+  };
 
   const columns = [
     {
       name: t`cover`,
-      align: 'left',
+      align: "left",
       renderHeader,
-      renderData: renderCover
+      renderData: renderCover,
     },
-    // {
-    //   name: t`your stake`,
-    //   align: 'left',
-    //   renderHeader,
-    //   renderData: renderYourStakeColumnOne
-    // },
-    // {
-    //   name: t`your stake`,
-    //   align: 'left',
-    //   renderHeader,
-    //   renderData: renderYourStakeColumnTwo
-    // },
     {
       name: t`date and time`,
-      align: 'left',
+      align: "left",
       renderHeader,
-      renderData: renderDateAndTime
+      renderData: renderDateAndTime,
     },
     {
       name: t`total attested stake`,
-      align: 'left',
+      align: "left",
       renderHeader,
-      renderData: renderTotalAttestedStake
+      renderData: renderTotalAttestedStake,
     },
     {
       name: t`total refuted stake`,
-      align: 'left',
+      align: "left",
       renderHeader,
-      renderData: renderTotalRefutedStake
+      renderData: renderTotalRefutedStake,
     },
     {
       name: t`status`,
-      align: 'right',
+      align: "right",
       renderHeader,
-      renderData: renderStatus
-    }
+      renderData: renderStatus,
+    },
   ];
 
   const getUrl = (reportId) => {
@@ -234,15 +214,16 @@ export const ReportingResolvedPage = () => {
     let coverKey = keysArray[0];
     let productKey = keysArray[1];
     let timestamp = keysArray[2];
-    let isProductValid = isValidProduct(productKey);
-  
-    if (isProductValid) {
-      return `/reporting/${safeParseBytes32String(
-        coverKey
-      )}/product/${safeParseBytes32String(productKey)}/${timestamp}/details`;
+    const isDiversified = isValidProduct(productKey);
+
+    const cover_id = safeParseBytes32String(coverKey);
+    const product_id = safeParseBytes32String(productKey);
+
+    if (isDiversified) {
+      return `/reporting/${cover_id}/product/${product_id}/${timestamp}/details`;
     }
-    return `/reporting/${safeParseBytes32String(coverKey)}/${timestamp}/details`;
-  }
+    return `/reporting/${cover_id}/${timestamp}/details`;
+  };
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -263,50 +244,47 @@ export const ReportingResolvedPage = () => {
       <div className="mt-6">
         <TableWrapper>
           <Table>
-            <THead theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]' columns={columns} />
-            <tbody className="divide-y divide-DAE2EB" data-testid="app-table-body">
-              {
-                resolvedCardInfoArray.length === 0 && (
-                  <tr className="text-center">
-                    <td className="px-0 py-2" colSpan={columns.length}>
-                      {loading ? t`loading...` : t`No data found`}
-                    </td>
-                  </tr>
-                )
-              }
-              {
-                resolvedCardInfoArray.map((report) => {
-                  const resolvedOn = report.emergencyResolved
+            <THead
+              theadClass="bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]"
+              columns={columns}
+            />
+            <tbody
+              className="divide-y divide-DAE2EB"
+              data-testid="app-table-body"
+            >
+              {resolvedCardInfoArray.length === 0 && (
+                <tr className="text-center">
+                  <td className="px-0 py-2" colSpan={columns.length}>
+                    {loading ? t`loading...` : t`No data found`}
+                  </td>
+                </tr>
+              )}
+              {resolvedCardInfoArray.map((report) => {
+                const resolvedOn = report.emergencyResolved
                   ? report.emergencyResolveTransaction?.timestamp
                   : report.resolveTransaction?.timestamp;
-                  
-                  return (
-                    <Fragment key={report.id}>
-                      <tr 
-                        className="cursor-pointer hover:bg-F4F8FC"
-                        onClick={() => router.push(getUrl(report.id))}
-                      >
-                        <ResolvedTBodyRow
-                          columns={columns}
-                          {...report}
-                          resolvedOn={resolvedOn}
-                          status={ReportStatus[report.status]}
-                        />
-                      </tr>
-                    </Fragment>
-                  );
-                })
-              }
+
+                return (
+                  <Fragment key={report.id}>
+                    <tr
+                      className="cursor-pointer hover:bg-F4F8FC"
+                      onClick={() => router.push(getUrl(report.id))}
+                    >
+                      <ResolvedTBodyRow
+                        columns={columns}
+                        {...report}
+                        resolvedOn={resolvedOn}
+                        status={ReportStatus[report.status]}
+                      />
+                    </tr>
+                  </Fragment>
+                );
+              })}
             </tbody>
           </Table>
-          {
-            hasMore && (
-              <TableShowMore
-                isLoading={loading}
-                onShowMore={handleShowMore}
-              />
-            )
-          }
+          {hasMore && (
+            <TableShowMore isLoading={loading} onShowMore={handleShowMore} />
+          )}
         </TableWrapper>
       </div>
     </Container>

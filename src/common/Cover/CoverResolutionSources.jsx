@@ -21,7 +21,7 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
   const twitter = coverInfo?.infoObj.resolutionSources?.[0] || "";
 
   return (
-    <div className="col-span-3 row-start-2 md:col-auto md:row-start-auto">
+    <div className="col-span-3 row-start-2 lg:col-auto lg:row-start-auto">
       <SecondaryCard>
         <div className="flex flex-wrap justify-between md:block">
           <div>

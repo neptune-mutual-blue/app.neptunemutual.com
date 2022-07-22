@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { registry } from "@neptunemutual/sdk";
 import { useTxToast } from "@/src/hooks/useTxToast";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useNetwork } from "@/src/context/Network";
 import { t } from "@lingui/macro";
@@ -17,13 +17,13 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { getActionMessage } from "@/src/helpers/notification";
 
 export const useClaimBond = () => {
-  const [claiming, setClaiming] = useState();
+  const [claiming, setClaiming] = useState(false);
 
   const { NPMTokenSymbol } = useAppConstants();
   const { networkId } = useNetwork();
   const { account, library } = useWeb3React();
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const handleClaim = async (onTxSuccess) => {
@@ -101,7 +101,7 @@ export const useClaimBond = () => {
         cleanup();
       };
 
-      invoke({
+      writeContract({
         instance,
         methodName: "claimBond",
         onError,

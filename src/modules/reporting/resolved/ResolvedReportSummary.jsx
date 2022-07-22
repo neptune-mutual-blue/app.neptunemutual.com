@@ -23,6 +23,8 @@ export const ResolvedReportSummary = ({
   refetchReport,
   yes,
   no,
+  myYes,
+  myNo,
   willReceive,
 }) => {
   const router = useRouter();
@@ -119,6 +121,15 @@ export const ResolvedReportSummary = ({
                   true
                 ).short,
               },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myYes),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+              },
             ]}
           />
 
@@ -138,6 +149,15 @@ export const ResolvedReportSummary = ({
                 title: t`Stake:`,
                 value: formatCurrency(
                   convertFromUnits(incidentReport.totalRefutedStake),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+              },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myNo),
                   router.locale,
                   NPMTokenSymbol,
                   true

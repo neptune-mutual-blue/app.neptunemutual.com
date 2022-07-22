@@ -5,7 +5,6 @@ import { config, registry, utils, multicall } from "@neptunemutual/sdk";
 import { convertToUnits, isValidNumber } from "@/utils/bn";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
@@ -36,7 +35,6 @@ export const usePolicyFees = ({
   const debouncedValue = useDebounce(value, 200);
   const [data, setData] = useState(defaultInfo);
   const [loading, setLoading] = useState(false);
-  const { invoke } = useInvokeMethod();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -124,7 +122,6 @@ export const usePolicyFees = ({
     coverKey,
     coverMonth,
     debouncedValue,
-    invoke,
     library,
     liquidityTokenDecimals,
     networkId,

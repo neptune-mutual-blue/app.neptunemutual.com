@@ -159,11 +159,11 @@ const DetailsRenderer = ({ row }) => {
   return (
     <td className="px-6 py-6">
       <div className="flex items-center">
-        <CoverAvatar 
-          coverInfo={coverInfo} 
+        <CoverAvatar
+          coverInfo={coverInfo}
           isDiversified={isDiversified}
-          containerClass='grow-0'
-          diversifiedContainerClass='lg:w-8'
+          containerClass="grow-0"
+          diversifiedContainerClass="lg:w-8"
           liquidityTxTable={true}
         />
         <span className="pl-4 text-left whitespace-nowrap">
@@ -183,7 +183,10 @@ const DetailsRenderer = ({ row }) => {
               ).short
             }
           </span>{" "}
-          {row.type == "PodsIssued" ? t`to` : t`from`} {isDiversified ? coverInfo.infoObj.coverName : coverInfo.infoObj.projectName}
+          {row.type == "PodsIssued" ? t`to` : t`from`}{" "}
+          {isDiversified
+            ? coverInfo.infoObj.coverName
+            : coverInfo.infoObj.projectName}
         </span>
       </div>
     </td>
@@ -223,6 +226,7 @@ const PodAmountRenderer = ({ row }) => {
         <button
           className="p-1 ml-3"
           onClick={() => register(row.vault.id, tokenSymbol, tokenDecimals)}
+          title="Add to Metamask"
         >
           <span className="sr-only">Add to metamask</span>
           <AddCircleIcon className="w-4 h-4" />
@@ -265,6 +269,7 @@ const ActionsRenderer = ({ row }) => {
           target="_blank"
           rel="noreferrer noopener nofollow"
           className="p-1 text-black"
+          title="Open in Explorer"
         >
           <span className="sr-only">Open in explorer</span>
           <OpenInNewIcon className="w-4 h-4" />
