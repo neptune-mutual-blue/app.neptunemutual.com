@@ -14,9 +14,3 @@ export const getPlainNumber = (formattedString, locale = "en") => {
 
   return formattedString.toString().replace(reg, "").replace(sep.decimal, ".");
 };
-
-export const limitNumberToDecimal = (value = "", limit = 12) =>
-  value.indexOf(".") >= 0
-    ? value.substr(0, value.indexOf(".")) +
-      value.substr(value.indexOf("."), limit + 1)
-    : value;
