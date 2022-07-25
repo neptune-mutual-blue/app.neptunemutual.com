@@ -9,6 +9,7 @@ export const InputWithTrailingButton = ({
   unit,
   buttonProps,
   error,
+  decimalLimit,
 }) => {
   const ref = useRef(null);
   const [width, setWidth] = useState();
@@ -49,7 +50,7 @@ export const InputWithTrailingButton = ({
       locale: locale,
     },
     autoComplete: "off",
-    decimalsLimit: 25,
+    decimalsLimit: typeof decimalLimit === "number" ? decimalLimit : 25,
     ...inputProps,
   };
 
