@@ -15,12 +15,11 @@ import { useTxToast } from "@/src/hooks/useTxToast";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useRouter } from "next/router";
-// import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
 import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
 import { t } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { METHODS } from "@/src/services/transactions/const";
@@ -54,7 +53,7 @@ export const useDisputeIncident = ({
   const { balance } = useERC20Balance(NPMTokenAddress);
 
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   useEffect(() => {
@@ -252,7 +251,7 @@ export const useDisputeIncident = ({
         hashBytes32,
         convertToUnits(value).toString(),
       ];
-      invoke({
+      writeContract({
         instance,
         methodName: "dispute",
         args,

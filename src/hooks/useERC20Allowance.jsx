@@ -5,8 +5,8 @@ import { registry } from "@neptunemutual/sdk";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
-import { useApprovalAmount } from "@/src/hooks/useApprovalAmount";
+import { useTxPoster } from "@/src/context/TxPoster";
+import { useUnlimitedApproval } from "@/src/context/UnlimitedApproval";
 import { useAuthValidation } from "@/src/hooks/useAuthValidation";
 import { t } from "@lingui/macro";
 
@@ -16,15 +16,12 @@ export const useERC20Allowance = (tokenAddress) => {
   const { networkId } = useNetwork();
   const { library, account } = useWeb3React();
   const { notifyError } = useErrorNotifier();
-  const { invoke } = useInvokeMethod();
-  const { getApprovalAmount } = useApprovalAmount();
+  const { writeContract, contractRead } = useTxPoster();
+  const { getApprovalAmount } = useUnlimitedApproval();
   const { requiresAuth } = useAuthValidation();
 
   const fetchAllowance = useCallback(
-    async (
-      spender,
-      { onTransactionResult, onRetryCancel, onError, cleanup }
-    ) => {
+    async (spender, { onTransactionResult, onError, cleanup }) => {
       if (!networkId || !account || !tokenAddress) {
         cleanup();
         return;
@@ -57,20 +54,19 @@ export const useERC20Allowance = (tokenAddress) => {
         }
 
         const args = [account, spender];
-        invoke({
+        const result = await contractRead({
           instance: tokenInstance,
           methodName: "allowance",
           args,
-          retry: false,
-          onTransactionResult,
-          onRetryCancel,
           onError,
         });
+
+        onTransactionResult(result);
       } catch (err) {
         onError(err);
       }
     },
-    [account, invoke, library, networkId, tokenAddress]
+    [account, contractRead, library, networkId, tokenAddress]
   );
 
   // Resets loading and other states which are modified in the above hook
@@ -106,10 +102,6 @@ export const useERC20Allowance = (tokenAddress) => {
         cleanup();
       };
 
-      const onRetryCancel = () => {
-        cleanup();
-      };
-
       const onError = (err) => {
         handleError(err);
         cleanup();
@@ -117,7 +109,7 @@ export const useERC20Allowance = (tokenAddress) => {
 
       fetchAllowance(spender, {
         onTransactionResult,
-        onRetryCancel,
+
         onError,
         cleanup,
       });
@@ -155,7 +147,7 @@ export const useERC20Allowance = (tokenAddress) => {
     }
 
     const args = [spender, getApprovalAmount(amount)];
-    invoke({
+    writeContract({
       instance: tokenInstance,
       methodName: "approve",
       args,

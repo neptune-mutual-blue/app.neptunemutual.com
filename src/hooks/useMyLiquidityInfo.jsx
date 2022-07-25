@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
-import { useInvokeMethod } from "@/src/hooks/useInvokeMethod";
+import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useTxToast } from "@/src/hooks/useTxToast";
 import DateLib from "@/lib/date/DateLib";
@@ -48,7 +48,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
   const txToast = useTxToast();
-  const { invoke } = useInvokeMethod();
+  const { writeContract } = useTxPoster();
   const { notifyError } = useErrorNotifier();
 
   const fetchInfo = useCallback(async () => {
@@ -209,7 +209,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
         handleError(err);
       };
 
-      invoke({
+      writeContract({
         instance,
         methodName: "accrueInterest",
         onTransactionResult,

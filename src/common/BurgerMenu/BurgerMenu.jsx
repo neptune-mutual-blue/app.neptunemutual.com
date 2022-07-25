@@ -1,31 +1,32 @@
 import { classNames } from "@/utils/classnames";
 
-export const BurgerMenu = ({ isOpen, onToggle }) => {
+export const BurgerMenu = ({ isOpen, onToggle, ...rest }) => {
   return (
     <button
       onClick={onToggle}
       className={classNames(
-        "relative w-7 h-7 pb-1 xl:hidden",
-        isOpen && "z-20"
+        "h-5 relative xl:hidden",
+        isOpen && "z-20",
+        rest.className || ""
       )}
       aria-label="Open or Close the Sidebar"
     >
       <div
         className={classNames(
-          "w-7 h-1 my-1 bg-white transition-all duration-500 ease-menu",
+          "w-5 h-0.75 bg-white transition-all duration-500 ease-menu",
           isOpen && "translate-y-1.5 rotate-45 bg-white my-px"
         )}
       ></div>
       <div
         className={classNames(
-          "w-7 h-1 my-1 bg-white transition duration-500 ease-menu",
-          isOpen && "opacity-0"
+          "w-5 h-0.75 mt-1 bg-white transition duration-500 ease-menu",
+          isOpen && "mt-0.25 opacity-0"
         )}
       ></div>
       <div
         className={classNames(
-          "w-7 h-1 my-1 bg-white transition-all duration-500 ease-menu",
-          isOpen && "-translate-y-1.5 -rotate-45 bg-white -my-1"
+          "w-5 h-0.75 mt-1 bg-white transition-all duration-500 ease-menu",
+          isOpen && "mt-0.5 -translate-y-1.5 -rotate-45 bg-white -my-1"
         )}
       ></div>
     </button>

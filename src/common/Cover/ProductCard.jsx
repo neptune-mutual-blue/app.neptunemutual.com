@@ -10,7 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
@@ -45,14 +45,14 @@ export const ProductCard = ({
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
 
-  const id = `${coverKey}-${productKey}`;
   // Used for sorting purpose only
   useEffect(() => {
-    setStatsByKey(id, {
+    setStatsByKey(productKey, {
       liquidity,
       utilization,
+      infoObj: productInfo?.infoObj,
     });
-  }, [id, liquidity, setStatsByKey, utilization]);
+  }, [liquidity, productInfo?.infoObj, productKey, setStatsByKey, utilization]);
 
   const protectionLong = formatCurrency(
     convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),

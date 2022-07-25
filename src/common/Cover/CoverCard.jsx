@@ -10,7 +10,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/provide-liquidity/useMyLiquidityInfo";
+import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
@@ -45,14 +45,14 @@ export const CoverCard = ({
 
   const isDiversified = coverInfo?.supportsProducts;
 
-  const id = `${coverKey}-${productKey}`;
   // Used for sorting purpose only
   useEffect(() => {
-    setStatsByKey(id, {
+    setStatsByKey(coverKey, {
       liquidity,
       utilization,
+      infoObj: coverInfo?.infoObj,
     });
-  }, [id, liquidity, setStatsByKey, utilization]);
+  }, [coverInfo?.infoObj, coverKey, liquidity, setStatsByKey, utilization]);
 
   const protectionLong = formatCurrency(
     convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),

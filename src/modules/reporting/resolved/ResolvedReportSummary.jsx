@@ -23,6 +23,8 @@ export const ResolvedReportSummary = ({
   refetchReport,
   yes,
   no,
+  myYes,
+  myNo,
   willReceive,
 }) => {
   const router = useRouter();
@@ -118,6 +120,27 @@ export const ResolvedReportSummary = ({
                   NPMTokenSymbol,
                   true
                 ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(incidentReport.totalAttestedStake),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
+              },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myYes),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(myYes),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
               },
             ]}
           />
@@ -142,6 +165,27 @@ export const ResolvedReportSummary = ({
                   NPMTokenSymbol,
                   true
                 ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(incidentReport.totalRefutedStake),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
+              },
+              {
+                title: t`Your Stake`,
+                value: formatCurrency(
+                  convertFromUnits(myNo),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+                htmlTooltip: formatCurrency(
+                  convertFromUnits(myNo),
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).long,
               },
             ]}
           />

@@ -1,7 +1,46 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
+
+const getQuery = (limit, page, account) => {
+  return `
+  {
+    _meta {
+      block {
+        number
+      }
+    }
+    policyTransactions(
+      skip: ${limit * (page - 1)}
+      first: ${limit} 
+      orderBy: createdAtTimestamp
+      orderDirection: desc
+      where: {onBehalfOf: "${account}"}
+    ) {
+      type
+      coverKey
+      productKey
+      onBehalfOf
+      cxTokenAmount
+      daiAmount
+      cxToken {
+        id
+        tokenSymbol
+        tokenDecimals
+        tokenName
+      }
+      cover {
+        id
+      }
+      transaction {
+        id
+        timestamp
+      }
+    }
+  }
+  `;
+};
 
 export const usePolicyTxs = ({ limit, page }) => {
   const [data, setData] = useState({
@@ -16,83 +55,28 @@ export const usePolicyTxs = ({ limit, page }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !account) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
+    if (!account) {
       return;
     }
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-      {
-        _meta {
-          block {
-            number
-          }
-        }
-        policyTransactions(
-          skip: ${limit * (page - 1)}
-          first: ${limit} 
-          orderBy: createdAtTimestamp
-          orderDirection: desc
-          where: {onBehalfOf: "${account}"}
-        ) {
-          type
-          coverKey
-          productKey
-          onBehalfOf
-          cxTokenAmount
-          daiAmount
-          cxToken {
-            id
-            tokenSymbol
-            tokenDecimals
-            tokenName
-          }
-          cover {
-            id
-          }
-          transaction {
-            id
-            timestamp
-          }
-        }
-      }
-      `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (ignore) return;
-
-        if (res.errors || !res.data) {
-          return;
-        }
+    getSubgraphData(networkId, getQuery(limit, page, account))
+      .then((_data) => {
+        if (ignore || !_data) return;
 
         const isLastPage =
-          res.data.policyTransactions.length === 0 ||
-          res.data.policyTransactions.length < limit;
+          _data.policyTransactions.length === 0 ||
+          _data.policyTransactions.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          blockNumber: res.data._meta.block.number,
+          blockNumber: _data._meta.block.number,
           policyTransactions: [
             ...prev.policyTransactions,
-            ...res.data.policyTransactions,
+            ..._data.policyTransactions,
           ],
         }));
       })
