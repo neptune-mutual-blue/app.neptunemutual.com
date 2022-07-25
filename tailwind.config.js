@@ -93,6 +93,7 @@ module.exports = {
         "2.5px": "2.5px",
         "15%": "15%",
         "80%": "80%",
+        "0.75": "0.175rem",
       },
       lineHeight: {
         "4.5": "18px",
@@ -174,11 +175,13 @@ module.exports = {
         "30vh": "30vh",
         "45vh": "45vh",
         "tx-list": "min(calc(100vh - 170px), 34rem)",
+        "tx-list-mobile": "calc(100vh - 262px)",
         "50vh": "50vh",
       },
       height: {
         "500": "500px",
         "100vh": "100vh",
+        "0.75": "0.175rem",
       },
       width: {
         800: "800px",
