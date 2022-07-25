@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen, act } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
-import { ProjectStatusIndicator } from "@/common/CoverProfileInfo/ProjectStatusIndicator";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { Card } from "@/common/CoverProfileInfo/CoverProfileInfo";
 
 describe("ProjectStatusIndicator test", () => {
   let props = {
@@ -18,11 +18,11 @@ describe("ProjectStatusIndicator test", () => {
     act(() => {
       i18n.activate("en");
     });
-    render(<ProjectStatusIndicator {...props} />);
+    render(<Card {...props} />);
   });
 
   test("should not render the badge if no status is provided", () => {
-    render(<ProjectStatusIndicator {...props} status="" />);
+    render(<Card {...props} status="" />);
     const wrapper = screen.queryAllByTestId(
       "projectstatusindicator-container"
     )[1];
@@ -38,15 +38,15 @@ describe("ProjectStatusIndicator test", () => {
     let wrapper = screen.getByTestId("projectstatusindicator-container");
     expect(wrapper).toHaveClass("bg-21AD8C"); // when status is "Normal"
 
-    render(<ProjectStatusIndicator {...props} status="Stopped" />);
+    render(<Card {...props} status="Stopped" />);
     wrapper = screen.getAllByTestId("projectstatusindicator-container")[1];
     expect(wrapper).toHaveClass("bg-9B9B9B"); // when status is "Stopped"
 
-    render(<ProjectStatusIndicator {...props} status="Claimable" />);
+    render(<Card {...props} status="Claimable" />);
     wrapper = screen.getAllByTestId("projectstatusindicator-container")[2];
     expect(wrapper).toHaveClass("bg-4289F2"); // when status is "Claimable"
 
-    render(<ProjectStatusIndicator {...props} status="Incident Happened" />);
+    render(<Card {...props} status="Incident Happened" />);
     wrapper = screen.getAllByTestId("projectstatusindicator-container")[3];
     expect(wrapper).toHaveClass("bg-FA5C2F"); // when status is "Incident Happened"
   });
@@ -59,7 +59,7 @@ describe("ProjectStatusIndicator test", () => {
   });
 
   test("should be link when incidentreport is valid", () => {
-    render(<ProjectStatusIndicator {...props} incidentDate="123124324" />);
+    render(<Card {...props} incidentDate="123124324" />);
     const wrapper = screen.getByTestId("badge-link");
     expect(wrapper).toBeInTheDocument();
   });
@@ -69,7 +69,8 @@ describe("ProjectStatusIndicator test", () => {
     const href = `/reporting/${safeParseBytes32String(
       props.coverKey
     )}/product/${props.productKey}/${incidentDate}/details`;
-    render(<ProjectStatusIndicator {...props} incidentDate={incidentDate} />);
+    render(<Card {...props} incidentDate={incidentDate} />);
+
     const wrapper = screen.getByTestId("badge-link");
 
     expect(wrapper).toHaveAttribute("href", href);

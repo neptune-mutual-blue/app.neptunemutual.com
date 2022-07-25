@@ -11,7 +11,11 @@ import DateLib from "@/lib/date/DateLib";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import {
+  CardBadge,
+  E_CARD_STATUS,
+  identifyStatus,
+} from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
@@ -64,6 +68,8 @@ export const ActiveReportingCard = ({
     return <CardSkeleton numberOfCards={1} />;
   }
 
+  const status = identifyStatus(productStatus);
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
@@ -75,7 +81,9 @@ export const ActiveReportingCard = ({
           />
         </div>
         <div>
-          <CardStatusBadge status={productStatus} />
+          {status !== E_CARD_STATUS.NORMAL && (
+            <CardBadge status={status} className="rounded" />
+          )}
         </div>
       </div>
       <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
