@@ -106,7 +106,7 @@ const CARD_LIGHT_VARIANT = {
  * @param {boolean} [param.icon]
  * @returns
  */
-export const CardBadge = ({
+export const Badge = ({
   status,
   className,
   defaultValue = CARD_STATUS.NORMAL,

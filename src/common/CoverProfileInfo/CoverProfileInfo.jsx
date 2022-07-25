@@ -1,8 +1,4 @@
-import {
-  CardBadge,
-  E_CARD_STATUS,
-  identifyStatus,
-} from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
 import { isValidProduct } from "@/src/helpers/cover";
@@ -32,7 +28,7 @@ const override = {
  */
 export function Card({ status, incidentDate = "0", coverKey, productKey }) {
   const badge = (
-    <CardBadge
+    <Badge
       status={status}
       className="ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white"
       icon

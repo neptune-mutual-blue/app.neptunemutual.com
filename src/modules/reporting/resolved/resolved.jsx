@@ -22,11 +22,7 @@ import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow"
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { convertFromUnits } from "@/utils/bn";
-import {
-  CardBadge,
-  E_CARD_STATUS,
-  identifyStatus,
-} from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -180,7 +176,7 @@ export const ReportingResolvedPage = () => {
     return (
       <td className="px-6 py-2 text-right">
         {status !== E_CARD_STATUS.NORMAL && (
-          <CardBadge
+          <Badge
             className="rounded-lg p-2 leading-4 border-0 font-semibold tracking-normal inline-block !text-sm"
             status={status}
           />

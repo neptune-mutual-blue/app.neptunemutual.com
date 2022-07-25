@@ -14,11 +14,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
-import {
-  CardBadge,
-  E_CARD_STATUS,
-  identifyStatus,
-} from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import SheildIcon from "@/icons/SheildIcon";
 import { CoverAvatar } from "@/common/CoverAvatar";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
@@ -89,7 +85,7 @@ export const CoverCard = ({
         >
           <div>
             {status !== E_CARD_STATUS.NORMAL && (
-              <CardBadge status={status} className="rounded" />
+              <Badge status={status} className="rounded" />
             )}
           </div>
         </InfoTooltip>

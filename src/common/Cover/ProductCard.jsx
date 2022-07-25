@@ -14,11 +14,7 @@ import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
-import {
-  CardBadge,
-  E_CARD_STATUS,
-  identifyStatus,
-} from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -88,7 +84,7 @@ export const ProductCard = ({
         </div>
         <div>
           {status !== E_CARD_STATUS.NORMAL && (
-            <CardBadge status={status} className="rounded" />
+            <Badge status={status} className="rounded" />
           )}
         </div>
       </div>

@@ -11,11 +11,7 @@ import DateLib from "@/lib/date/DateLib";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
-import {
-  CardBadge,
-  E_CARD_STATUS,
-  identifyStatus,
-} from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
 import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
@@ -82,7 +78,7 @@ export const ActiveReportingCard = ({
         </div>
         <div>
           {status !== E_CARD_STATUS.NORMAL && (
-            <CardBadge status={status} className="rounded" />
+            <Badge status={status} className="rounded" />
           )}
         </div>
       </div>
