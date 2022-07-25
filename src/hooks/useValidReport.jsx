@@ -1,8 +1,31 @@
 import { useState, useEffect } from "react";
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 
 const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
+
+const getQuery = (start, end, coverKey, productKey) => {
+  return `
+  {
+    incidentReports(
+      where: {
+        incidentDate_gt: "${start}",
+        incidentDate_lt: "${end}",
+        coverKey: "${coverKey}"
+        productKey: "${productKey}"
+      },
+      orderBy: incidentDate,
+      orderDirection: desc
+    ) {
+      incidentDate
+      resolutionDeadline
+      status
+      claimBeginsFrom
+      claimExpiresAt
+    }
+  }
+  `;
+};
 
 export const useValidReport = ({ start, end, coverKey, productKey }) => {
   const [data, setData] = useState({
@@ -14,50 +37,15 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !isValidTimestamp(start) || !isValidTimestamp(end)) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
+    if (!isValidTimestamp(start) || !isValidTimestamp(end)) {
       return;
     }
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          incidentReports(
-            where: {
-              incidentDate_gt: "${start}",
-              incidentDate_lt: "${end}",
-              coverKey: "${coverKey}"
-              productKey: "${productKey}"
-            },
-            orderBy: incidentDate,
-            orderDirection: desc
-          ) {
-            incidentDate
-            resolutionDeadline
-            status
-            claimBeginsFrom
-            claimExpiresAt
-          }
-        }
-        `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (ignore) return;
-        setData(res.data);
+    getSubgraphData(networkId, getQuery(start, end, coverKey, productKey))
+      .then((_data) => {
+        if (ignore || !_data) return;
+        setData(_data);
       })
       .catch((err) => {
         console.error(err);

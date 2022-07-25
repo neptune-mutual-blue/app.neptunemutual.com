@@ -1,6 +1,38 @@
-import { getGraphURL } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
+import { getSubgraphData } from "@/src/services/subgraph";
 import { useState, useEffect } from "react";
+
+const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
+  return `
+  {
+    _meta {
+      block {
+        number
+      }
+    }
+    votes(
+      skip: ${limit * (page - 1)}
+      first: ${limit} 
+      orderBy: createdAtTimestamp
+      orderDirection: desc
+      where: {
+        coverKey:"${coverKey}"
+        productKey:"${productKey}"
+        incidentDate: "${incidentDate}"
+    }) {
+      id
+      createdAtTimestamp
+      voteType
+      witness
+      stake
+      transaction {
+        id
+        timestamp
+      }
+    }
+  }        
+  `;
+};
 
 export const useRecentVotes = ({
   coverKey,
@@ -20,73 +52,28 @@ export const useRecentVotes = ({
   useEffect(() => {
     let ignore = false;
 
-    if (!networkId || !coverKey || !incidentDate) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
+    if (!coverKey || !incidentDate) {
       return;
     }
 
     setLoading(true);
-    fetch(graphURL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify({
-        query: `
-        {
-          _meta {
-            block {
-              number
-            }
-          }
-          votes(
-            skip: ${limit * (page - 1)}
-            first: ${limit} 
-            orderBy: createdAtTimestamp
-            orderDirection: desc
-            where: {
-              coverKey:"${coverKey}"
-              productKey:"${productKey}"
-              incidentDate: "${incidentDate}"
-          }) {
-            id
-            createdAtTimestamp
-            voteType
-            witness
-            stake
-            transaction {
-              id
-              timestamp
-            }
-          }
-        }        
-      `,
-      }),
-    })
-      .then((r) => r.json())
-      .then((res) => {
-        if (ignore) return;
-
-        if (res.errors || !res.data) {
-          return;
-        }
+    getSubgraphData(
+      networkId,
+      getQuery(limit, page, coverKey, productKey, incidentDate)
+    )
+      .then((_data) => {
+        if (ignore || !_data) return;
 
         const isLastPage =
-          res.data.votes.length === 0 || res.data.votes.length < limit;
+          _data.votes.length === 0 || _data.votes.length < limit;
 
         if (isLastPage) {
           setHasMore(false);
         }
 
         setData((prev) => ({
-          blockNumber: res.data._meta.block.number,
-          votes: [...prev.votes, ...res.data.votes],
+          blockNumber: _data._meta.block.number,
+          votes: [...prev.votes, ..._data.votes],
         }));
       })
       .catch((err) => {
