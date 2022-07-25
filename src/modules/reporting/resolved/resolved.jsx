@@ -179,6 +179,7 @@ export const ReportingResolvedPage = () => {
           <Badge
             className="rounded-lg p-2 leading-4 border-0 font-semibold tracking-normal inline-block !text-sm"
             status={status}
+            variant="light"
           />
         )}
       </td>
