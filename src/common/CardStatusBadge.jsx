@@ -78,11 +78,30 @@ const CARD_STATUS = {
     icon: () => null,
   },
 };
+
+const CARD_LIGHT_VARIANT = {
+  [E_CARD_STATUS.FALSE_REPORTING]: {
+    label: "False Reporting",
+    className: "bg-E5F4F5 text-21AD8C",
+    icon: StatusFalseReportingIcon,
+  },
+  [E_CARD_STATUS.INCIDENT]: {
+    label: "Incident Happened",
+    className: "bg-FEEBE6 text-FA5C2F",
+    icon: StatusIncidentOccurredIcon,
+  },
+  [E_CARD_STATUS.CLAIMABLE]: {
+    label: "Claimable",
+    className: "bg-FEEBE6 text-FA5C2F",
+    icon: StatusClaimableIcon,
+  },
+};
 /**
  * @param {object} param
  * @param {E_CARD_STATUS} param.status
  * @param {string} [param.className]
  * @param {E_CARD_STATUS} [param.defaultValue]
+ * @param {'normal' | 'light'} [param.variant]
  * @param {Object.<string, { label: string, className: string}>} [param.override]
  * @param {boolean} [param.icon]
  * @returns
@@ -91,11 +110,15 @@ export const CardBadge = ({
   status,
   className,
   defaultValue = CARD_STATUS.NORMAL,
-  override = {},
+  variant = "normal",
   icon = false,
   ...props
 }) => {
-  const STATUS_LIST = Object.assign({}, CARD_STATUS, override);
+  const STATUS_LIST =
+    variant === "normal"
+      ? CARD_STATUS
+      : Object.assign({}, CARD_STATUS, CARD_LIGHT_VARIANT);
+
   const info = STATUS_LIST[status] || defaultValue;
 
   if (info === false) {

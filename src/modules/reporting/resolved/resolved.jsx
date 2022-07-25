@@ -176,7 +176,6 @@ export const ReportingResolvedPage = () => {
   };
 
   const renderStatus = (row) => {
-    console.log("test row", row.status);
     const status = identifyStatus(row.status);
     return (
       <td className="px-6 py-2 text-right">
@@ -184,20 +183,6 @@ export const ReportingResolvedPage = () => {
           <CardBadge
             className="rounded-lg p-2 leading-4 border-0 font-semibold tracking-normal inline-block !text-sm"
             status={status}
-            override={{
-              [E_CARD_STATUS.FALSE_REPORTING]: {
-                label: "False Reporting",
-                className: "bg-E5F4F5 text-21AD8C",
-              },
-              [E_CARD_STATUS.INCIDENT]: {
-                label: "Incident Happened",
-                className: "bg-FEEBE6 text-FA5C2F",
-              },
-              [E_CARD_STATUS.CLAIMABLE]: {
-                label: "Claimable",
-                className: "bg-FEEBE6 text-FA5C2F",
-              },
-            }}
           />
         )}
       </td>
