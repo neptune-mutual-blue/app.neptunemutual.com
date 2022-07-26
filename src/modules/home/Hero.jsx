@@ -163,7 +163,7 @@ export const HomeHero = ({
                 }
               </h2>
               {changeData && changeData.diff && (
-                <h6
+                <p
                   className={classNames(
                     "text-h6 font-sora font-bold flex items-center",
                     changeData.rise ? "text-21AD8C" : "text-DC2121"
@@ -178,7 +178,7 @@ export const HomeHero = ({
                     />
                   </span>
                   <span>{formatPercent(changeData.diff, router.locale)}</span>
-                </h6>
+                </p>
               )}
             </div>
           </div>

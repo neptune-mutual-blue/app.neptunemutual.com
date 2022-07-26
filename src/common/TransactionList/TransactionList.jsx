@@ -82,7 +82,7 @@ export function TransactionList({
       container={container}
       {...rest}
     >
-      <div className="relative overflow-hidden pl-4 font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list">
+      <div className="relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list">
         <div className="pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list">
           <NotificationsList data={listOfTransactions} />
         </div>
@@ -152,7 +152,7 @@ function Notification({
     <div className="flex py-4 border-b border-B0C4DB/40" key={hash}>
       <div className="mr-4">{convertToIconVariant(status)}</div>
       <div className="mr-4 grow">
-        <p className="text-sm font-bold font-sora mb-1">{title}</p>
+        <p className="mb-1 text-sm font-bold font-sora">{title}</p>
         <p className="text-sm">{description}</p>
         <p className="mt-2 text-xs leading-4 tracking-normal text-999BAB">
           {fromNow(timestamp / 1000)}

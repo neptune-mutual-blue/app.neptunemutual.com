@@ -51,6 +51,7 @@ export const Banner = () => {
           </p>
         </div>
         <button onClick={handleClose} className="block p-1 ml-auto">
+          <span className="sr-only">Close Banner</span>
           <CloseIcon className="w-5 h-5" />
         </button>
       </div>

@@ -74,7 +74,7 @@ export const ProductCard = ({
         >
           <img
             src={imgSrc}
-            alt={productInfo.infoObj?.projectName}
+            alt={productInfo.infoObj?.productName}
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
             onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
@@ -84,12 +84,12 @@ export const ProductCard = ({
           <CardStatusBadge status={productStatus} />
         </div>
       </div>
-      <h4
+      <p
         className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {productInfo.infoObj?.productName}
-      </h4>
+      </p>
       <div className="flex items-center justify-between">
         <div
           className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"

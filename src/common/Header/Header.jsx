@@ -150,7 +150,7 @@ export const Header = () => {
       </div>
       <header className="sticky top-0 z-40 bg-black text-EEEEEE">
         <nav className="flex max-w-full mx-auto" aria-label="Top">
-          <div className="h-14 lg:h-20 flex items-stretch justify-between flex-grow pl-4 sm:px-6 xl:pl-8 py-0 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
+          <div className="flex items-stretch justify-between flex-grow py-0 pl-4 h-14 lg:h-20 sm:px-6 xl:pl-8 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
                 <a>
@@ -193,6 +193,7 @@ export const Header = () => {
                   )}
                   onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
                 >
+                  <span className="sr-only">transaction overview button</span>
                   <TransactionOverviewIcon
                     className={classNames(
                       isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
@@ -202,7 +203,7 @@ export const Header = () => {
                 <BurgerMenu
                   isOpen={isOpen}
                   onToggle={toggleMenu}
-                  className="px-4 h-full"
+                  className="h-full px-4"
                 />
               </div>
             )}
@@ -215,6 +216,7 @@ export const Header = () => {
                       className="inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md whitespace-nowrap bg-4e7dd9 hover:bg-opacity-75"
                       onClick={onOpen}
                     >
+                      <span className="sr-only">connect wallet button</span>
                       Connect Wallet
                     </button>
                   );
@@ -224,6 +226,7 @@ export const Header = () => {
                         className="relative flex items-center px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
                         onClick={handleToggleAccountPopup}
                       >
+                        <span className="sr-only">account details button</span>
                         <AccountBalanceWalletIcon width="24" height="24" />
                         <span className="pl-2">{truncateAddress(account)}</span>
                       </button>
@@ -264,6 +267,7 @@ export const Header = () => {
                 )}
                 onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
               >
+                <span className="sr-only">transaction overview button</span>
                 <TransactionOverviewIcon
                   className={classNames(
                     isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
@@ -368,6 +372,7 @@ export const MenuModal = ({
                           className="justify-center inline-block w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
                           onClick={onOpen}
                         >
+                          <span className="sr-only">Connect wallet button</span>
                           Connect Wallet
                         </button>
                       );
@@ -377,6 +382,9 @@ export const MenuModal = ({
                             className="relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
                             onClick={handleToggleAccountPopup}
                           >
+                            <span className="sr-only">
+                              account details button
+                            </span>
                             <AccountBalanceWalletIcon width="24" height="24" />
                             <span className="pl-2">
                               {truncateAddress(account)}
