@@ -121,10 +121,6 @@ export const Badge = ({
 
   const info = STATUS_LIST[status] || defaultValue;
 
-  if (info === false) {
-    return null;
-  }
-
   return (
     <div className="text-FEFEFF" {...props}>
       <div
