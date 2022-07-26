@@ -125,7 +125,7 @@ export const Header = () => {
       <Tooltip.Content
         className={classNames(
           "w-56 px-4 py-5 text-white bg-black z-60 rounded-1 shadow-tx-overview",
-          hide ? "hidden" : "flex"
+          hide ? "hidden" : "hidden xl:flex"
         )}
         side="bottom"
         sideOffset={7}
@@ -181,33 +181,6 @@ export const Header = () => {
               </div>
             </div>
 
-            {!isOpen && (
-              <div className="flex items-center xl:hidden">
-                <button
-                  className={classNames(
-                    "items-center justify-center px-4 flex relative self-stretch flex-shrink-0",
-                    "before:absolute before:h-7 before:right-0 before:bg-999BAB",
-                    isTxDetailsPopupOpen
-                      ? "bg-404A5C before:w-0"
-                      : "bg-transparent before:w-px"
-                  )}
-                  onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
-                >
-                  <span className="sr-only">transaction overview button</span>
-                  <TransactionOverviewIcon
-                    className={classNames(
-                      isTxDetailsPopupOpen ? "text-white" : "text-999BAB"
-                    )}
-                  />
-                </button>
-                <BurgerMenu
-                  isOpen={isOpen}
-                  onToggle={toggleMenu}
-                  className="h-full px-4"
-                />
-              </div>
-            )}
-
             <div className="items-center hidden pt-3 pb-3 xl:flex">
               <ConnectWallet networkId={networkId} notifier={notifier}>
                 {({ onOpen }) => {
@@ -255,12 +228,13 @@ export const Header = () => {
               </ConnectWallet>
             </div>
           </div>
+
           <div className="relative flex" ref={setContainer}>
             <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
               <button
                 className={classNames(
-                  "items-center justify-center hidden px-5 xl:flex relative self-stretch flex-shrink-0",
-                  "before:absolute before:h-7 before:left-0 before:bg-999BAB",
+                  "items-center justify-center px-4 flex relative self-stretch flex-shrink-0",
+                  "before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB",
                   isTxDetailsPopupOpen
                     ? "bg-404A5C before:w-0"
                     : "bg-transparent before:w-px"
@@ -276,6 +250,17 @@ export const Header = () => {
               </button>
             </TransactionOverviewTooltip>
           </div>
+
+          {!isOpen && (
+            <div className="flex items-center pr-6 xl:hidden">
+              <BurgerMenu
+                isOpen={isOpen}
+                onToggle={toggleMenu}
+                className="h-full px-4"
+              />
+            </div>
+          )}
+
           <TransactionList
             isOpen={isTxDetailsPopupOpen}
             onClose={setIsTxDetailsPopupOpen}
