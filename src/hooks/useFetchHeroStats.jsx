@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
-import { useQuery } from "@/src/hooks/useQuery";
-import { useNetwork } from "@/src/context/Network";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const defaultData = {
   availableCovers: 0,
@@ -41,68 +40,49 @@ const getQuery = () => {
   `;
 };
 
+const fetchHeroStats = fetchSubgraph("useFetchHeroStats");
+
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
 
-  const { networkId } = useNetwork();
-  const { data: graphData, refetch } = useQuery();
-
   useEffect(() => {
-    let ignore = false;
-
-    async function exec() {
-      if (!graphData || !networkId) return;
-
-      const totalCoverLiquidityAdded = sumOf(
-        ...graphData.protocols.map((x) => x.totalCoverLiquidityAdded)
-      );
-      const totalCoverLiquidityRemoved = sumOf(
-        ...graphData.protocols.map((x) => x.totalCoverLiquidityRemoved)
-      );
-      const totalFlashLoanFees = sumOf(
-        ...graphData.protocols.map((x) => x.totalFlashLoanFees)
-      );
-      const totalCoverFee = sumOf(
-        ...graphData.protocols.map((x) => x.totalCoverFee)
-      );
-      const totalCoveredAmount = sumOf(
-        ...graphData.cxTokens.map((x) => x.totalCoveredAmount)
-      );
-
-      const tvlCover = totalCoverLiquidityAdded
-        .minus(totalCoverLiquidityRemoved)
-        .plus(totalFlashLoanFees)
-        .toString();
-
-      if (ignore) return;
-
-      setData({
-        availableCovers: graphData.covers.length,
-        reportingCovers: graphData.reporting.length,
-        coverFee: totalCoverFee.toString(),
-        covered: totalCoveredAmount.toString(),
-        tvlCover: tvlCover,
-        tvlPool: "0",
-      });
-    }
-
     setLoading(true);
-    exec()
-      .catch(console.error)
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
+    fetchHeroStats(getQuery())
+      .then((data) => {
+        const totalCoverLiquidityAdded = sumOf(
+          ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
+        );
+        const totalCoverLiquidityRemoved = sumOf(
+          ...data.protocols.map((x) => x.totalCoverLiquidityRemoved)
+        );
+        const totalFlashLoanFees = sumOf(
+          ...data.protocols.map((x) => x.totalFlashLoanFees)
+        );
+        const totalCoverFee = sumOf(
+          ...data.protocols.map((x) => x.totalCoverFee)
+        );
+        const totalCoveredAmount = sumOf(
+          ...data.cxTokens.map((x) => x.totalCoveredAmount)
+        );
 
-    return () => {
-      ignore = true;
-    };
-  }, [graphData, networkId]);
+        const tvlCover = totalCoverLiquidityAdded
+          .minus(totalCoverLiquidityRemoved)
+          .plus(totalFlashLoanFees)
+          .toString();
 
-  useEffect(() => {
-    refetch(getQuery());
-  }, [refetch]);
+        setData({
+          availableCovers: data.covers.length,
+          reportingCovers: data.reporting.length,
+          coverFee: totalCoverFee.toString(),
+          covered: totalCoveredAmount.toString(),
+          tvlCover: tvlCover,
+          tvlPool: "0",
+        });
+      })
+      .catch((e) => console.error(`Error: ${e.message}`))
+      .finally(() => setLoading(false));
+  }, []);
 
   return {
     data,
