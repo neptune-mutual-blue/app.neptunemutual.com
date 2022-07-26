@@ -58,7 +58,7 @@ const columns = [
   },
   {
     name: t`Weight`,
-    align: "left",
+    align: "right",
     renderHeader,
     renderData: renderAmount,
   },
@@ -115,7 +115,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className="px-6 py-6"
+      className="px-6 py-6 max-w-xs w-max whitespace-nowrap"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -128,8 +128,8 @@ const AmountRenderer = ({ row }) => {
   const { NPMTokenSymbol } = useAppConstants();
 
   return (
-    <td className="px-6 py-6">
-      <div className="flex items-center whitespace-nowrap">
+    <td className="px-6 py-6 max-w-sm">
+      <div className="flex items-center whitespace-nowrap w-max">
         <div
           className={classNames(
             "w-4 h-4 mr-4 rounded",
@@ -137,6 +137,7 @@ const AmountRenderer = ({ row }) => {
           )}
         ></div>
         <div
+          className="grow text-right"
           title={
             formatCurrency(
               convertFromUnits(row.stake),

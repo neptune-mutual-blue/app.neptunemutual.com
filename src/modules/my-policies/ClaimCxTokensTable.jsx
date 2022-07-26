@@ -24,7 +24,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `px-6 py-6 font-bold text-sm uppercase`,
+      `px-6 py-6 font-bold text-sm uppercase whitespace-nowrap`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -33,7 +33,9 @@ const renderHeader = (col) => (
 );
 
 const renderAddress = (row) => (
-  <td className="px-6 py-6 text-404040">{row.cxToken.id}</td>
+  <td className="px-6 py-6 text-404040 max-w-sm whitespace-nowrap">
+    {row.cxToken.id}
+  </td>
 );
 
 const renderClaimBefore = (_row) => <ClaimBeforeColumnRenderer />;
@@ -125,8 +127,9 @@ const CxTokenAmountRenderer = () => {
 
   return (
     <>
-      <td className="px-6 py-6 text-right">
+      <td className="px-6 py-6 text-right max-w-sm">
         <span
+          className="whitespace-nowrap w-max"
           title={
             formatCurrency(
               convertFromUnits(balance, tokenDecimals),
@@ -156,9 +159,9 @@ export const ClaimBeforeColumnRenderer = () => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6">
+    <td className="px-6 py-6 max-w-sm">
       <span
-        className="text-left whitespace-nowrap"
+        className="text-left whitespace-nowrap w-max"
         title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
       >
         {fromNow(claimExpiryDate)}

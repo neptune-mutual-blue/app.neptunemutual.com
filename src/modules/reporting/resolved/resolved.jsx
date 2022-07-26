@@ -108,7 +108,7 @@ export const ReportingResolvedPage = () => {
       <th
         scope="col"
         className={classNames(
-          `px-6 pt-6 pb-2 font-bold text-xs uppercase`,
+          `px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap`,
           col.align === "right" ? "text-right" : "text-left"
         )}
       >
@@ -119,8 +119,8 @@ export const ReportingResolvedPage = () => {
 
   const renderCover = (row) => {
     return (
-      <td className="px-6 py-2 text-sm">
-        <span className="flex items-center">
+      <td className="px-6 py-2 text-sm max-w-xs">
+        <span className="flex items-center w-max">
           <img
             src={row.imgSrc}
             alt={
@@ -132,7 +132,7 @@ export const ReportingResolvedPage = () => {
             width={48}
             height={48}
           />
-          <p className="ml-2 text-sm text-black font-poppins">
+          <p className="ml-2 text-sm text-black font-poppins grow">
             {row.isDiversified
               ? row.coverInfo?.infoObj.productName
               : row.coverInfo?.infoObj.projectName}
@@ -144,8 +144,11 @@ export const ReportingResolvedPage = () => {
 
   const renderDateAndTime = (row) => {
     return (
-      <td className="px-6 py-2 text-sm">
-        <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
+      <td className="px-6 py-2 text-sm max-w-180">
+        <span
+          className="w-max"
+          title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}
+        >
           {fromNow(row.resolvedOn)}
         </span>
       </td>
@@ -154,7 +157,7 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalAttestedStake = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-right">
         {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
       </td>
     );
@@ -162,7 +165,7 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalRefutedStake = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-right">
         {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
       </td>
     );
@@ -191,13 +194,13 @@ export const ReportingResolvedPage = () => {
     },
     {
       name: t`total attested stake`,
-      align: "left",
+      align: "right",
       renderHeader,
       renderData: renderTotalAttestedStake,
     },
     {
       name: t`total refuted stake`,
-      align: "left",
+      align: "right",
       renderHeader,
       renderData: renderTotalRefutedStake,
     },

@@ -30,7 +30,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `px-6 py-6 font-bold text-sm uppercase`,
+      `px-6 py-6 font-bold text-sm uppercase whitespace-nowrap`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -143,7 +143,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className="px-6 py-6"
+      className="px-6 py-6 max-w-xs whitespace-nowrap"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
       data-testid="timestamp-col"
     >
@@ -168,8 +168,8 @@ const DetailsRenderer = ({ row }) => {
   }
 
   return (
-    <td className="px-6 py-6" data-testid="details-col">
-      <div className="flex items-center">
+    <td className="px-6 py-6 max-w-sm" data-testid="details-col">
+      <div className="flex items-center whitespace-nowrap">
         <img
           src={getCoverImgSrc({
             key: !isDiversified ? row.cover.id : productKey,
@@ -225,7 +225,7 @@ const CxDaiAmountRenderer = ({ row }) => {
   );
 
   return (
-    <td className="px-6 py-6 text-right" data-testid="col-amount">
+    <td className="px-6 py-6 text-right max-w-sm" data-testid="col-amount">
       <div className="flex items-center justify-end whitespace-nowrap">
         <span
           className={
