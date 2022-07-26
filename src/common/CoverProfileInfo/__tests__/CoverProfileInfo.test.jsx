@@ -22,7 +22,7 @@ describe("CoverProfileInfo test", () => {
   jest
     .spyOn(coverStatsContext, "useCoverStatsContext")
     .mockImplementation(() => ({
-      status: "active",
+      productStatus: "active",
       activeIncidentDate: "12232323",
       claimPlatformFee: "0",
       commitment: "0",

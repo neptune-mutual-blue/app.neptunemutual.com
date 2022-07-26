@@ -10,53 +10,67 @@ import { screen, act, render, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
 const mockLiquidityInfo = {
-  withdrawalOpen: "1653599608",
-  withdrawalClose: "1653603208",
-  totalReassurance: "4699071000000000000000000",
-  vault: "0x1584bAD9c569d596332eDe934CC46f160b5B0841",
-  stablecoin: "0x76061C192fBBBF210d2dA25D4B8aaA34b798ccaB",
-  podTotalSupply: "5684166862063574187077743",
-  myPodBalance: "250961717477153143329",
-  vaultStablecoinBalance: "5401448480506781942050936",
-  amountLentInStrategies: "283581108019117810441277",
-  myShare: "238479414912922028921",
-  myUnrealizedShare: "250999807723261719090",
-  totalLiquidity: "5685029588525899752492213",
+  amountLentInStrategies: "0",
+  isAccrualComplete: "",
+  minStakeToAddLiquidity: "250000000000000000000",
+  myPodBalance: "1329999988533739826355",
+  myShare: "1330000909",
+  myStablecoinBalance: "176464876715",
+  myStake: "250000000000000000000",
+  myUnrealizedShare: "1330000909",
+  podTotalSupply: "8044300999575311406559026",
+  stablecoin: "0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468",
+  stablecoinTokenSymbol: "DAI",
+  totalLiquidity: "8044306569013",
+  totalReassurance: "332485000000",
+  vault: "0x972B237c2E585b940bf814CDCF521053F0a66Fe1",
+  vaultStablecoinBalance: "8044306569013",
+  vaultTokenDecimals: "18",
+  vaultTokenSymbol: "BEC-nDAI",
+  withdrawalClose: "1658213413",
+  withdrawalOpen: "1658209813",
 };
 
-const mockCoverStats = {
-  activeIncidentDate: "0",
+const coverStats = {
+  activeCommitment: "29495000000",
+  activeIncidentDate: "1658133009",
+  availableLiquidity: "11164267175300",
   claimPlatformFee: "650",
-  activeCommitment: "40169729265418543666668",
-  isUserWhitelisted: false,
+  isUserWhitelisted: "",
+  productStatus: "Incident Happened",
   reporterCommission: "1000",
   reportingPeriod: "1800",
-  requiresWhitelist: false,
-  status: "Normal",
-  totalPoolAmount: "5685029588525899752492213",
+  requiresWhitelist: "",
+  totalPoolAmount: "11193762175300",
 };
 
 const mockCoverDetails = {
-  key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-  coverName: "Bb8 Exchange Cover",
-  projectName: "Bb8 Exchange",
-  tags: '["Smart Contract", "DeFi", "Exchange"]',
-  about:
-    "BB8 Exchange is a global cryptocurrency exchange that lets users from over 140 countries buy and sell over 1200 different digital currencies and tokens. BB8 Exchange offers a simple buy/sell crypto function for beginners as well as a variety of crypto-earning options, in addition to expert cryptocurrency spot and futures trading platforms. On this platform, both novice and expert traders may find what they're looking for.",
-  rules:
-    "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the exchange was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
-  links: '{blog: "https://bb8-exchange.medium.com", documenta…}',
-  pricingFloor: 200,
-  pricingCeiling: 1400,
+  coverKey:
+    "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+  infoObj: {
+    about:
+      "BB8 Exchange is a global cryptocurrency exchange that lets users from over 140 countries buy and sell over 1200 different digital currencies and tokens. BB8 Exchange offers a simple buy/sell crypto function for beginners as well as a variety of crypto-earning options, in addition to expert cryptocurrency spot and futures trading platforms. On this platform, both novice and expert traders may find what they're looking for.",
+    coverName: "Bb8 Exchange Cover",
+    links: '{blog: "https://bb8-exchange.medium.com", documenta…}',
+    leverage: "1",
+    projectName: "Bb8 Exchange",
+    tags: '["Smart Contract", "DeFi", "Exchange"]',
+    rules:
+      "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the exchange was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+    pricingFloor: 200,
+    pricingCeiling: 1400,
+    resolutionSources: '["https://twitter.com/BB8Exchange", "https://twitte…]',
+  },
   reportingPeriod: 1800,
   cooldownPeriod: 300,
   claimPeriod: 1800,
   minReportingStake: "5000000000000000000000",
-  resolutionSources: '["https://twitter.com/BB8Exchange", "https://twitte…]',
   stakeWithFees: "50000000000000000000000",
   reassurance: "20000000000000000000000",
   liquidity: "5685029588525899752492213",
   utilization: "0.01",
+  products: [],
+  supportsProducts: false,
 };
 
 const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
@@ -80,7 +94,7 @@ describe("CoverCard component", () => {
     info: mockLiquidityInfo,
   });
 
-  mockFunction(FetchCoverHook, "useFetchCoverStats", mockCoverStats);
+  mockFunction(FetchCoverHook, "useFetchCoverStats", coverStats);
 
   beforeEach(() => {
     act(() => {
@@ -89,7 +103,7 @@ describe("CoverCard component", () => {
     render(<CoverCard details={mockCoverDetails} />);
   });
 
-  test("should render the outer OutlineCard", () => {
+  test("should render the outer OutlinedCard", () => {
     const wrapper = screen.getByTestId("card-skeleton");
     expect(wrapper).toBeInTheDocument();
   });
@@ -114,14 +128,14 @@ describe("CoverCard component", () => {
 
   describe("cover badge", () => {
     test("should not render card status badge if status is 'Normal'", () => {
-      const badgeText = screen.queryByText(mockCoverStats.status);
+      const badgeText = screen.queryByText(coverStats.productStatus);
       expect(badgeText).not.toBeInTheDocument();
     });
 
     test("should render card status badge if status is not 'Normal'", () => {
       cleanup();
       mockFunction(FetchCoverHook, "useFetchCoverStats", {
-        ...mockCoverStats,
+        ...coverStats,
         status: "Fraud",
       });
       render(<CoverCard details={mockCoverDetails} />);
@@ -147,7 +161,7 @@ describe("CoverCard component", () => {
   test("should render correct utilization ratio", () => {
     const utilizationRatio = getUtilizationRatio(
       mockLiquidityInfo.totalLiquidity,
-      mockCoverStats.activeCommitment
+      coverStats.activeCommitment
     );
     const utilizationEl = screen.getByTestId("util-ratio");
     expect(utilizationEl).toHaveTextContent(utilizationRatio);
@@ -158,7 +172,7 @@ describe("CoverCard component", () => {
       const protectionEl = screen.getByTestId("protection");
       const liquidityText = `Protection: ${
         formatCurrency(
-          convertFromUnits(mockCoverStats.activeCommitment).toString(),
+          convertFromUnits(coverStats.activeCommitment).toString(),
           "en"
         ).short
       }`;
@@ -169,7 +183,7 @@ describe("CoverCard component", () => {
     test("should have correct title text", () => {
       const protectionEl = screen.getByTestId("protection");
       const titleText = formatCurrency(
-        convertFromUnits(mockCoverStats.activeCommitment).toString(),
+        convertFromUnits(coverStats.activeCommitment).toString(),
         "en"
       ).long;
       expect(protectionEl).toHaveAttribute("title", titleText);
