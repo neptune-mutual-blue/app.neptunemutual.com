@@ -25,7 +25,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `px-6 py-6 font-bold text-sm uppercase`,
+      `px-6 py-6 font-bold text-sm uppercase whitespace-nowrap`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -133,8 +133,8 @@ export const MyBondTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   return (
-    <td className="px-6 py-6">
-      <div className="flex items-center">
+    <td className="px-6 py-6 max-w-sm">
+      <div className="flex items-center w-max">
         <img src="/images/tokens/npm.svg" alt="npm" height={32} width={32} />
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type === "BondCreated" ? "Bonded " : "Claimed "}
@@ -163,8 +163,8 @@ const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken();
 
   return (
-    <td className="px-6 py-6 text-right">
-      <div className="flex items-center justify-end whitespace-nowrap">
+    <td className="px-6 py-6 text-right max-w-sm">
+      <div className="flex items-center justify-end w-max whitespace-nowrap">
         <TokenAmountSpan
           className={row.type == "BondCreated" ? "text-404040" : "text-FA5C2F"}
           amountInUnits={

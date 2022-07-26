@@ -32,7 +32,7 @@ const renderHeader = (col) => (
   <th
     scope="col"
     className={classNames(
-      `px-6 py-6 font-bold text-sm uppercase`,
+      `px-6 py-6 font-bold text-sm uppercase whitespace-nowrap`,
       col.align === "right" ? "text-right" : "text-left"
     )}
   >
@@ -134,7 +134,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className="px-6 py-6"
+      className="px-6 py-6 max-w-xs whitespace-nowrap"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -157,8 +157,8 @@ const DetailsRenderer = ({ row }) => {
   }
 
   return (
-    <td className="px-6 py-6">
-      <div className="flex items-center">
+    <td className="px-6 py-6 max-w-sm">
+      <div className="flex items-center w-max">
         <CoverAvatar
           coverInfo={coverInfo}
           isDiversified={isDiversified}
@@ -201,8 +201,8 @@ const PodAmountRenderer = ({ row }) => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6 text-right">
-      <div className="flex items-center justify-end whitespace-nowrap">
+    <td className="px-6 py-6 text-right max-w-sm">
+      <div className="flex items-center justify-end whitespace-nowrap w-max">
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
           title={
