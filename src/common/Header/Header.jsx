@@ -234,6 +234,7 @@ export const Header = () => {
           <div className="relative flex" ref={setContainer}>
             <TransactionOverviewTooltip hide={isTxDetailsPopupOpen}>
               <button
+                aria-label="Transactions"
                 className={classNames(
                   "items-center justify-center px-4 flex relative self-stretch flex-shrink-0",
                   "before:absolute before:h-7 before:right-0 xl:before:left-0 before:bg-999BAB",
@@ -367,6 +368,7 @@ export const MenuModal = ({
                       if (active) {
                         button = (
                           <button
+                            aria-label="Account Details"
                             className="relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}

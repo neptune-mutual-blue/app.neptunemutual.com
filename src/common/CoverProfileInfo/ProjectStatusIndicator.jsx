@@ -54,7 +54,9 @@ export const ProjectStatusIndicator = ({
       )}
       data-testid="projectstatusindicator-container"
     >
-      <Icon width="14" height="14" />{" "}
+      <span aria-label="Status">
+        <Icon width="14" height="14" />
+      </span>{" "}
       <div className="ml-1">{renderStatusIndicatorTranslation(status)}</div>
     </div>
   );

@@ -217,6 +217,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
                 className={"text-white px-2 mr-2"}
                 onClick={onStakeModalOpen}
                 data-testid="add-btn"
+                aria-label="Add POD Stake"
               >
                 <AddIcon width={16} fill="currentColor" />
               </StakingCardCTA>

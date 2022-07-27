@@ -226,6 +226,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
               <StakingCardCTA
                 className={"text-white px-2 mr-2"}
                 onClick={onStakeModalOpen}
+                aria-label="Add Stake"
               >
                 <AddIcon width={16} fill="currentColor" />
               </StakingCardCTA>

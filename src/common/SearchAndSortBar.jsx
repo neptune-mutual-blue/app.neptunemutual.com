@@ -40,7 +40,10 @@ export const SearchAndSortBar = ({
           data-testid="search-input"
         />
 
-        <div className="flex items-center justify-center text-9B9B9B">
+        <div
+          aria-label="Search"
+          className="flex items-center justify-center text-9B9B9B"
+        >
           <SearchIcon width={24} height={24} />
         </div>
       </div>

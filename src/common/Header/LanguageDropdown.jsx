@@ -109,7 +109,12 @@ export const LanguageDropdown = () => {
                         : "text-black"
                     )}
                   >
-                    {lang} {selected && <SelectedCircleIcon className="pl-2" />}
+                    {lang}{" "}
+                    {selected && (
+                      <span aria-label="Selected">
+                        <SelectedCircleIcon className="pl-2" />
+                      </span>
+                    )}
                   </span>
                 )}
               </Listbox.Option>
