@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { useQuery } from "@/src/hooks/useQuery";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (account) => {
   return `
@@ -28,49 +28,42 @@ const getQuery = (account) => {
 `;
 };
 
-export const useMyLiquidities = () => {
-  const [data, setData] = useState({});
+const fetchMyLiquidities = fetchSubgraph("useMyLiquidities");
+/**
+ *
+ * @param {string} account
+ * @returns
+ */
+export const useMyLiquidities = (account) => {
+  const [data, setData] = useState({
+    myLiquidities: [],
+    liquidityList: [],
+  });
   const [loading, setLoading] = useState(false);
 
-  const { account } = useWeb3React();
-
-  const { data: graphData, refetch } = useQuery();
-
   useEffect(() => {
-    let ignore = false;
-
-    if (!graphData || ignore) return;
-    setData(graphData);
-
-    return () => {
-      ignore = true;
-    };
-  }, [graphData]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    setLoading(true);
-
-    refetch(getQuery(account))
-      .catch((err) => console.error(err))
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
-  }, [account, refetch]);
-
-  const myLiquidities = data?.userLiquidities || [];
-  const liquidityList = myLiquidities.map((x) => ({
-    podAmount: x.totalPodsRemaining || "0",
-    podAddress: x.cover.vaults[0].address,
-  }));
+    if (account) {
+      setLoading(true);
+      fetchMyLiquidities(getNetworkId(), getQuery(account))
+        .then(({ userLiquidities }) => {
+          const myLiquidities = userLiquidities || [];
+          setData({
+            myLiquidities,
+            liquidityList: myLiquidities.map(
+              ({ totalPodsRemaining, cover }) => ({
+                podAmount: totalPodsRemaining || "0",
+                podAddress: cover.vaults[0].address,
+              })
+            ),
+          });
+        })
+        .catch((e) => console.error(`Error: ${e.message}`))
+        .finally(() => setLoading(false));
+    }
+  }, [account]);
 
   return {
-    data: {
-      myLiquidities,
-      liquidityList,
-    },
+    data,
     loading,
   };
 };

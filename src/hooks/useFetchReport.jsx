@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useQuery } from "@/src/hooks/useQuery";
+import { useState, useEffect, useCallback } from "react";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (reportId) => {
   return `
@@ -47,63 +48,38 @@ const getQuery = (reportId) => {
   `;
 };
 
+const fetchReport = fetchSubgraph("useFetchReport");
+/**
+ *
+ * @param {object} param
+ * @param {string} param.coverKey
+ * @param {string} param.productKey
+ * @param {string | string[]} param.incidentDate
+ * @returns
+ */
 export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const { data: graphData, refetch } = useQuery();
+  const reportId = `${coverKey}-${productKey}-${incidentDate}`;
+
+  const getData = useCallback(() => {
+    setLoading(true);
+    return fetchReport(getNetworkId(), getQuery(reportId))
+      .then(({ incidentReport }) => {
+        setData(incidentReport);
+      })
+      .catch((e) => console.error(`Error: ${e.message}`))
+      .finally(() => setLoading(false));
+  }, [reportId]);
 
   useEffect(() => {
-    let ignore = false;
-
-    if (!graphData || ignore) return;
-    setData(graphData.incidentReport);
-
-    return () => {
-      ignore = true;
-    };
-  }, [graphData]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    if (!coverKey || !incidentDate) {
-      return;
-    }
-
-    const reportId = `${coverKey}-${productKey}-${incidentDate}`;
-
-    setLoading(true);
-    refetch(getQuery(reportId))
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [coverKey, incidentDate, productKey, refetch]);
-
-  const refetchData = async () => {
-    const reportId = `${coverKey}-${productKey}-${incidentDate}`;
-
-    setLoading(true);
-    refetch(getQuery(reportId))
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+    getData();
+  }, [getData]);
 
   return {
     data: { incidentReport: data },
     loading,
-    refetch: refetchData,
+    refetch: getData,
   };
 };

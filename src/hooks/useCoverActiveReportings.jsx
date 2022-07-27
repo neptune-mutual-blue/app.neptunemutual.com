@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@/src/hooks/useQuery";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (coverKey) => {
   return `
@@ -17,42 +18,28 @@ const getQuery = (coverKey) => {
   `;
 };
 
+const fetchCoverActiveReportings = fetchSubgraph("useCoverActiveReportings");
+
 // TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
+/**
+ *
+ * @param {object} param
+ * @param {string} param.coverKey
+ * @returns
+ */
 export const useCoverActiveReportings = ({ coverKey }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { data: graphData, refetch } = useQuery();
-
   useEffect(() => {
-    let ignore = false;
-
-    if (!graphData || ignore) return;
-    setData(graphData.incidentReports);
-
-    return () => {
-      ignore = true;
-    };
-  }, [graphData]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    setLoading(true);
-
-    refetch(getQuery(coverKey))
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [coverKey, refetch]);
+    if (coverKey) {
+      setLoading(true);
+      fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
+        .then(({ incidentReports }) => setData(incidentReports))
+        .catch((e) => console.error(`Error: ${e.message}`))
+        .finally(() => setLoading(false));
+    }
+  }, [coverKey]);
 
   return {
     data,
