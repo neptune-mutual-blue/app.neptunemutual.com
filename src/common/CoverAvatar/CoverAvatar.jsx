@@ -35,7 +35,7 @@ export const CoverAvatar = ({
               >
                 <img
                   src={imgSrc}
-                  alt={item.productName}
+                  alt={item.infoObj.productName}
                   className="rounded-full bg-DEEAF6"
                   data-testid="cover-img"
                   onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}

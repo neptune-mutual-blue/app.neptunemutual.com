@@ -4,7 +4,7 @@ import { FAUCET_URL, LEADERBOARD_URL } from "@/src/config/constants";
 import { testnetChainIds } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useState } from "react";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 export const Banner = () => {
   const { networkId } = useNetwork();
@@ -50,7 +50,12 @@ export const Banner = () => {
             </Trans>
           </p>
         </div>
-        <button onClick={handleClose} className="block p-1 ml-auto">
+        <button
+          onClick={handleClose}
+          className="block p-1 ml-auto"
+          title={t`Close Banner`}
+        >
+          <span className="sr-only">{t`Close Banner`}</span>
           <CloseIcon className="w-5 h-5" />
         </button>
       </div>
