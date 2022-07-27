@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (reportId) => {
   return `
@@ -64,7 +65,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
 
   const getData = useCallback(() => {
     setLoading(true);
-    return fetchReport(getQuery(reportId))
+    return fetchReport(getNetworkId(), getQuery(reportId))
       .then(({ incidentReport }) => {
         setData(incidentReport);
       })

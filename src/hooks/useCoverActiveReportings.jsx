@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (coverKey) => {
   return `
@@ -33,7 +34,7 @@ export const useCoverActiveReportings = ({ coverKey }) => {
   useEffect(() => {
     if (coverKey) {
       setLoading(true);
-      fetchCoverActiveReportings(getQuery(coverKey))
+      fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
         .then(({ incidentReports }) => setData(incidentReports))
         .catch((e) => console.error(`Error: ${e.message}`))
         .finally(() => setLoading(false));

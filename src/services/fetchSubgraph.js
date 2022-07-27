@@ -1,4 +1,4 @@
-import { getGraphURL, getNetworkId } from "@/src/config/environment";
+import { getGraphURL } from "@/src/config/environment";
 
 const ERRORS_SUBGRAPH = {
   UNKNOWN_SUBGRAPH_URL: "UNKNOWN_SUBGRAPH_URL",
@@ -8,13 +8,12 @@ const ERRORS_SUBGRAPH = {
 
 /**
  * @param {string} label
- * @returns {(query: string) => Promise<any>}
+ * @returns {(networkId: number, query: string) => Promise<any>}
  */
 export function fetchSubgraph(label) {
   let controller;
 
-  return (query) => {
-    const networkId = getNetworkId();
+  return (networkId, query) => {
     const graphURL = getGraphURL(networkId);
 
     if (graphURL) {

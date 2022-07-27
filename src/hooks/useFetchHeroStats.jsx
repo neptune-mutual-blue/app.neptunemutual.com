@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const defaultData = {
   availableCovers: 0,
@@ -48,7 +49,7 @@ export const useFetchHeroStats = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetchHeroStats(getQuery())
+    fetchHeroStats(getNetworkId(), getQuery())
       .then((data) => {
         const totalCoverLiquidityAdded = sumOf(
           ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
