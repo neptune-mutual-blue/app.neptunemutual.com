@@ -17,6 +17,7 @@ export const CardStatusBadge = ({ status }) => {
         isGray && "bg-364253",
         !isGray && !isRed && "bg-21AD8C"
       )}
+      data-testid="card-badge"
     >
       {status}
     </Badge>

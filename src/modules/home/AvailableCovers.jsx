@@ -113,7 +113,7 @@ export const AvailableCovers = () => {
           <LayoutButtons coverView={coverView} setCoverView={setCoverView} />
         </div>
       </div>
-      <Grid className="gap-4 mt-14 lg:mb-24 mb-14">
+      <Grid className="gap-4 mt-14 lg:mb-24 mb-14" data-testid="body">
         {coversLoading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
         {!coversLoading && availableCovers.length === 0 && (
           <p data-testid="no-data">No data found</p>

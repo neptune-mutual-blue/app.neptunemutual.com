@@ -17,6 +17,7 @@ describe("CoverProfileInfo test", () => {
     },
     coverKey:
       "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    productKey: "0",
   };
 
   jest
@@ -32,6 +33,8 @@ describe("CoverProfileInfo test", () => {
       requiresWhitelist: false,
       activeCommitment: "0",
       totalPoolAmount: "0",
+      availableLiquidity: "0",
+      refetch: () => Promise.resolve(1),
     }));
 
   beforeEach(() => {

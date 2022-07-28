@@ -9,6 +9,7 @@ describe("ProjectStatusIndicator test", () => {
   let props = {
     coverKey:
       "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    productKey: "0",
     status: "Normal",
     incidentDate: "0",
   };
