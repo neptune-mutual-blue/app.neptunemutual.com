@@ -10,6 +10,7 @@ const IconLink = ({ href, iconText, icon }) => {
       target="_blank"
       rel="noreferrer nofollow"
       data-testid="icon-link"
+      title={`${iconText} link`}
     >
       <span className="sr-only">{iconText}</span>
       {icon}

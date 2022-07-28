@@ -219,6 +219,7 @@ export const NewIncidentReportForm = ({ coverKey, productKey }) => {
                           "p-2 ml-4 border rounded-md cursor-pointer border-CEEBED",
                           (approving || reporting) && "cursor-not-allowed"
                         )}
+                        title={`Delete`}
                       >
                         <DeleteIcon width={14} height={16} />
                       </span>

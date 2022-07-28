@@ -23,13 +23,14 @@ export function LiquidityProductModal({ product, setShowModal }) {
     >
       <div className="grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden">
         <Dialog.Title
-          className="flex items-center flex-col md:flex-row w-full pb-3 font-bold border-b font-sora border-b-B0C4DB"
+          className="flex flex-col items-center w-full pb-3 font-bold border-b md:flex-row font-sora border-b-B0C4DB"
           data-testid="dialog-title"
         >
           <button
             aria-label="Close"
             onClick={onClose}
-            className="absolute right-5 top-5 cursor-pointer md:hidden"
+            className="absolute cursor-pointer right-5 top-5 md:hidden"
+            title="close"
           >
             <CloseIcon width={24} height={24} />
           </button>
@@ -63,7 +64,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
             </defs>
           </svg>
 
-          <span className="flex-grow text-h4 font-bold md:pl-3 md:text-h3 whitespace-nowrap text-ellipsis overflow-hidden">
+          <span className="flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 whitespace-nowrap text-ellipsis">
             {product.infoObj.productName} Cover Terms
           </span>
           <span className="text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-poppins">
@@ -71,7 +72,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
           </span>
         </Dialog.Title>
         <div className="py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-sora min-h-[0] h-full">
-          <p className="py-2 md:py-6 text-000000 font-bold text-sm leading-5">
+          <p className="py-2 text-sm font-bold leading-5 md:py-6 text-000000">
             Cover Rules
           </p>
 
@@ -91,7 +92,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
             ))}
           </ul>
 
-          <p className="py-2 md:py-6 text-000000 font-bold text-sm leading-5">
+          <p className="py-2 text-sm font-bold leading-5 md:py-6 text-000000">
             Exclusions
           </p>
 
@@ -103,7 +104,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
         <div className="flex justify-end pt-6 border-t border-t-B0C4DB">
           <button
             onClick={onClose}
-            className="text-sm md:text-h7 lg:text-h6 font-medium hidden md:inline-block p-3 mr-6 md:font-semibold border rounded border-4e7dd9 text-4e7dd9 leading-6"
+            className="hidden p-3 mr-6 text-sm font-medium leading-6 border rounded md:text-h7 lg:text-h6 md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9"
           >
             CLOSE
           </button>
@@ -117,7 +118,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
 function DownloadButton({ onClick }) {
   return (
     <button
-      className="inline-flex w-full md:w-auto items-center justify-center flex-grow-0 px-4 py-3 text-white uppercase border border-transparent rounded bg-4e7dd9 hover:bg-opacity-75"
+      className="inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto bg-4e7dd9 hover:bg-opacity-75"
       onClick={onClick}
     >
       <svg
@@ -126,14 +127,14 @@ function DownloadButton({ onClick }) {
         viewBox="0 0 16 16"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mr-3 scale-75 hidden md:inline"
+        className="hidden mr-3 scale-75 md:inline"
       >
         <path
           d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
           fill="#FEFEFF"
         />
       </svg>
-      <span className="md:text-h7 lg:text-h6 font-semibold leading-6 hidden md:inline-block">
+      <span className="hidden font-semibold leading-6 md:text-h7 lg:text-h6 md:inline-block">
         Download Product Cover Terms
       </span>
       <span className="text-sm font-medium md:hidden">

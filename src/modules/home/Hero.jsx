@@ -170,7 +170,10 @@ export const HomeHero = ({
                   )}
                   data-testid="changedata-percent"
                 >
-                  <span className="pr-1">
+                  <span
+                    className="pr-1"
+                    title={changeData.rise ? `Growth` : `Decline`}
+                  >
                     <span className="sr-only">Growth</span>
                     <IncreaseIcon
                       width={19}

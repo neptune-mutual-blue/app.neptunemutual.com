@@ -148,7 +148,7 @@ export const Header = () => {
           <LanguageDropdown />
         </div>
       </div>
-      <header className="sticky top-0 z-40 bg-black text-EEEEEE">
+      <header className="sticky z-40 bg-black -top-px text-EEEEEE">
         <nav className="flex max-w-full mx-auto" aria-label="Top">
           <div className="flex items-stretch justify-between flex-grow py-0 pl-4 h-14 lg:h-20 sm:px-6 xl:pl-8 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
