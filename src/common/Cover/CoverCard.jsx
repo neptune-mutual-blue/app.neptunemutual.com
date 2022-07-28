@@ -167,7 +167,7 @@ export const CoverCard = ({
             title={protectionLong}
             data-testid="protection"
           >
-            <span aria-label="Protection">
+            <span role="tooltip" aria-label="Protection">
               <SheildIcon className="w-4 h-4 text-01052D" />
             </span>
             <p>
