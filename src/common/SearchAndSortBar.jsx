@@ -45,7 +45,6 @@ export const SearchAndSortBar = ({
 
         <div
           aria-label="Search"
-          role=""
           className="flex items-center justify-center text-9B9B9B"
         >
           <SearchIcon width={24} height={24} />
