@@ -68,9 +68,10 @@ describe("ProjectStatusIndicator test", () => {
     const incidentDate = "123124324";
     const href = `/reporting/${safeParseBytes32String(
       props.coverKey
-    )}/${incidentDate}/details`;
+    )}/product/${props.productKey}/${incidentDate}/details`;
     render(<ProjectStatusIndicator {...props} incidentDate={incidentDate} />);
     const wrapper = screen.getByTestId("badge-link");
+
     expect(wrapper).toHaveAttribute("href", href);
   });
 });
