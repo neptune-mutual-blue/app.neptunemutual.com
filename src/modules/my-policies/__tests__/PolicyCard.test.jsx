@@ -7,6 +7,7 @@ import * as ValidReportHook from "@/src/hooks/useValidReport";
 import * as ERC20BalanceHook from "@/src/hooks/useERC20Balance";
 import * as FetchCoverStatsHook from "@/src/hooks/useFetchCoverStats";
 import * as CoverOrProductDataHook from "@/src/hooks/useCoverOrProductData";
+import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 
 const mockFunction = (file, method, returnFn) => {
@@ -59,19 +60,46 @@ const mockValidReport = {
   },
 };
 
-const mockCoverStats = {
-  info: {
-    activeIncidentDate: "0",
-    claimPlatformFee: "650",
-    activeCommitment: "900000000",
-    isUserWhitelisted: "",
-    reporterCommission: "1000",
-    reportingPeriod: "1800",
-    requiresWhitelist: "",
-    productStatus: "Normal",
-    totalPoolAmount: "7762051028549",
-    availableLiquidity: "7761151028549",
+const coverStats = {
+  activeCommitment: "29495000000",
+  activeIncidentDate: "1658133009",
+  availableLiquidity: "11164267175300",
+  claimPlatformFee: "650",
+  isUserWhitelisted: "",
+  productStatus: "Normal",
+  reporterCommission: "1000",
+  reportingPeriod: "1800",
+  requiresWhitelist: "",
+  totalPoolAmount: "11193762175300",
+};
+
+const mockCoverDetails = {
+  coverKey:
+    "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+  infoObj: {
+    about:
+      "BB8 Exchange is a global cryptocurrency exchange that lets users from over 140 countries buy and sell over 1200 different digital currencies and tokens. BB8 Exchange offers a simple buy/sell crypto function for beginners as well as a variety of crypto-earning options, in addition to expert cryptocurrency spot and futures trading platforms. On this platform, both novice and expert traders may find what they're looking for.",
+    coverName: "Bb8 Exchange Cover",
+    links: '{blog: "https://bb8-exchange.medium.com", documenta…}',
+    leverage: "1",
+    projectName: "Animated Brands",
+    tags: '["Smart Contract", "DeFi", "Exchange"]',
+    rules:
+      "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the exchange was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+    pricingFloor: 200,
+    pricingCeiling: 1400,
+    resolutionSources: '["https://twitter.com/BB8Exchange", "https://twitte…]',
   },
+  reportingPeriod: 1800,
+  cooldownPeriod: 300,
+  claimPeriod: 1800,
+  minReportingStake: "5000000000000000000000",
+  stakeWithFees: "50000000000000000000000",
+  reassurance: "20000000000000000000000",
+  liquidity: "5685029588525899752492213",
+  utilization: "0.01",
+  products: [],
+  supportsProducts: false,
 };
 
 const mocks = () => {
@@ -81,7 +109,16 @@ const mocks = () => {
     () => mockCoverInfo
   );
 
-  mockFunction(FetchCoverStatsHook, "useFetchCoverStats", () => mockCoverStats);
+  mockFunction(FetchCoverStatsHook, "useFetchCoverStats", () => ({
+    info: coverStats,
+    refetch: () => Promise.resolve(coverStats),
+  }));
+
+  mockFunction(
+    CoverOrProductData,
+    "useCoverOrProductData",
+    () => mockCoverDetails
+  );
 
   mockFunction(
     ValidReportHook,
@@ -106,11 +143,11 @@ describe("PolicyCard test", () => {
       totalAmountToCover: "1000000000",
       expiresOn: "1664582399",
       coverKey:
-        "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+        "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
       productKey:
         "0x0000000000000000000000000000000000000000000000000000000000000000",
       cover: {
-        id: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+        id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
       },
       product: null,
     },
@@ -124,17 +161,6 @@ describe("PolicyCard test", () => {
     render(<PolicyCard {...props} {...newProps} />);
   };
 
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
-
-    cleanup();
-    initialRender(newProps, false);
-  };
-
   beforeEach(() => {
     cleanup();
     initialRender();
@@ -146,13 +172,10 @@ describe("PolicyCard test", () => {
   });
 
   test("should not render the main container if coveInfo is not available", () => {
-    rerender({}, [
-      {
-        file: CoverOrProductDataHook,
-        method: "useCoverOrProductData",
-        returnFn: () => null,
-      },
-    ]);
+    cleanup();
+    mockFunction(CoverOrProductData, "useCoverOrProductData", () => null);
+
+    render(<PolicyCard {...props} />);
 
     const hero = screen.queryByTestId("policy-card");
     expect(hero).not.toBeInTheDocument();
@@ -166,7 +189,9 @@ describe("PolicyCard test", () => {
 
     test("cover image should have correct src", () => {
       const coverImage = screen.getByTestId("cover-img");
-      const src = getCoverImgSrc({ key: mockCoverInfo.coverKey });
+      const src = getCoverImgSrc({
+        key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+      });
       expect(coverImage).toHaveAttribute("src", src);
     });
 
@@ -179,35 +204,36 @@ describe("PolicyCard test", () => {
 
   describe("Status badge", () => {
     test("should not display anything if status is 'Normal'", () => {
+      cleanup();
+      mockFunction(ValidReportHook, "useValidReport", () => ({
+        ...mockValidReport,
+        data: {
+          ...mockValidReport.data,
+          report: {
+            ...mockValidReport.data.report,
+            status: "Normal",
+          },
+        },
+      }));
+
+      render(<PolicyCard {...props} />);
+
       const status = screen.getByTestId("policy-card-status");
       expect(status).toHaveTextContent("");
     });
 
     test("should display status badge if status is not 'Normal'", () => {
-      rerender({}, [
-        {
-          file: FetchCoverStatsHook,
-          method: "useFetchCoverStats",
-          returnFn: () => ({
-            info: {
-              ...mockCoverStats.info,
-              productStatus: "Claimable",
-            },
-          }),
-        },
-        {
-          file: ValidReportHook,
-          method: "useValidReport",
-          returnFn: () => ({
-            data: {
-              report: {
-                ...mockValidReport.data.report,
-                status: "Claimable",
-              },
-            },
-          }),
-        },
-      ]);
+      cleanup();
+      const claimableCoverState = Object.assign({}, coverStats, {
+        productStatus: "Claimable",
+      });
+      mockFunction(FetchCoverStatsHook, "useFetchCoverStats", () => ({
+        info: claimableCoverState,
+        refetch: () => Promise.resolve(claimableCoverState),
+      }));
+      mockFunction(ValidReportHook, "useValidReport", () => mockValidReport);
+      render(<PolicyCard {...props} />);
+
       const status = screen.getByTestId("policy-card-status");
       expect(status).toHaveTextContent("Claimable");
     });
