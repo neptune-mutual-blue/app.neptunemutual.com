@@ -210,6 +210,8 @@ export const NewIncidentReportForm = ({ coverKey, productKey }) => {
                     />
                     {i !== 0 && (
                       <span
+                        role="button"
+                        aria-label="Remove"
                         onClick={() =>
                           approving || reporting ? {} : handleDeleteLink(i)
                         }

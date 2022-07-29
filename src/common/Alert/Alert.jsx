@@ -11,7 +11,7 @@ export const Alert = ({ children, info = undefined, className = "" }) => {
       )}
     >
       <div className="flex items-start">
-        <div className="flex-shrink-0 pt-0.5">
+        <div aria-label="Alert" className="flex-shrink-0 pt-0.5">
           <ExclamationCircleIcon
             className={classNames(
               `h-6 w-6`,

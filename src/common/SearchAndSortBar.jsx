@@ -29,7 +29,10 @@ export const SearchAndSortBar = ({
       className={classNames("flex justify-between ", containerClass)}
       data-testid="search-and-sort-container"
     >
-      <div className={classNames("flex items-center ", searchClass)}>
+      <div
+        role="search"
+        className={classNames("flex items-center ", searchClass)}
+      >
         <input
           className={
             "w-full -mr-11 pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"

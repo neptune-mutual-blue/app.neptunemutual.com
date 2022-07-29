@@ -26,12 +26,13 @@ export function LiquidityProductModal({ product, setShowModal }) {
           className="flex items-center flex-col md:flex-row w-full pb-3 font-bold border-b font-sora border-b-B0C4DB"
           data-testid="dialog-title"
         >
-          <CloseIcon
+          <button
+            aria-label="Close"
             onClick={onClose}
             className="absolute right-5 top-5 cursor-pointer md:hidden"
-            width={24}
-            height={24}
-          />
+          >
+            <CloseIcon width={24} height={24} />
+          </button>
           <svg
             className="w-10"
             width="40"

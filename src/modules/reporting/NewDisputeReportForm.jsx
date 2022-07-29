@@ -141,6 +141,8 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
                   />
                   {i !== 0 && (
                     <span
+                      role="button"
+                      aria-label="Remove"
                       onClick={() => handleDeleteLink(i)}
                       className="p-2 ml-4 border rounded-md cursor-pointer border-CEEBED"
                     >
