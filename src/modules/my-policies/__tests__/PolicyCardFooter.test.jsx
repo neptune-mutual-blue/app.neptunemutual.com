@@ -9,19 +9,27 @@ const mockFunction = (file, method, returnFn) => {
   jest.spyOn(file, method).mockImplementation(returnFn);
 };
 
-describe("PoliciesTab test", () => {
+describe("PolicyCardFooter test", () => {
   const props = {
     coverKey:
-      "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-    report: {
-      incidentDate: "1654263563",
-      resolutionDeadline: "1654265793",
-      status: "Claimable",
-      claimBeginsFrom: "1654265794",
-      claimExpiresAt: "1654267594",
+      "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+    productKey:
+      "0x0000000000000000000000000000000000000000000000000000000000000000",
+    isDiversified: false,
+    cxToken: {
+      id: "0x0fdc3e2afd39a4370f5d493d5d2576b8ab3c5258",
+      creationDate: "1658995606",
+      expiryDate: "1667260799",
     },
-    tokenBalance: "1400000000000000000000",
-    validityEndsAt: "1656633599",
+    report: {
+      incidentDate: "1658995751",
+      resolutionDeadline: "1659004881",
+      status: "Claimable",
+      claimBeginsFrom: "1659004882",
+      claimExpiresAt: "1659006682",
+    },
+    tokenBalance: "1000000000000000000000",
+    validityEndsAt: "1667260799",
   };
 
   const initialRender = (newProps = {}) => {
