@@ -1,115 +1,120 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2022-07-27 16:01+0800\n"
+"POT-Creation-Date: 2022-04-06 18:35+0530\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
-"Project-Id-Version: \n"
+"Project-Id-Version: neptune-mutual-translations\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2022-07-30 09:08\n"
 "Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Language-Team: Vietnamese\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Crowdin-Project: neptune-mutual-translations\n"
+"X-Crowdin-Project-ID: 529256\n"
+"X-Crowdin-Language: vi\n"
+"X-Crowdin-File: messages.po\n"
+"X-Crowdin-File-ID: 46\n"
 
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:14
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:26
 msgid "# of Votes"
-msgstr ""
+msgstr "Số phiếu bầu"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:95
 msgid "(Emergency Resolved)"
-msgstr ""
+msgstr "(Khẩn cấp đã giải quyết)"
 
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:42
 msgid "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
-msgstr ""
+msgstr "Chính sách bảo hiểm cho phép bạn yêu cầu và nhận khoản thanh toán khi sự cố xảy ra. Để mua một chính sách, hãy chọn một bìa từ màn hình chính."
 
 #: src/common/SearchAndSortBar.jsx:8
 msgid "A-Z"
-msgstr ""
+msgstr "A-Z"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:166
 #: src/modules/pools/staking/StakingCard.jsx:179
 msgid "APR:"
-msgstr ""
+msgstr "APR:"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:140
 msgid "Accept"
-msgstr ""
+msgstr "Chấp nhận"
 
 #: src/common/Header/AccountDetailsModal.jsx:80
 msgid "Account"
-msgstr ""
+msgstr "Tài khoản"
 
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
 msgid "Accrue"
-msgstr ""
+msgstr "Tích lũy"
 
 #: src/helpers/notification.js:491
 msgid "Accrued intrest successfully"
-msgstr ""
+msgstr "Lãi tích lũy thành công"
 
 #: src/helpers/notification.js:503
 msgid "Accruing interest"
-msgstr ""
+msgstr "Tích lũy lãi suất"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:17
 #: src/modules/reporting/ReportingTabs.jsx:11
 msgid "Active"
-msgstr ""
+msgstr "Tích cực"
 
 #: src/modules/reporting/CoverReportingRules.jsx:33
 msgid "Active Reporting"
-msgstr ""
+msgstr "Báo cáo Hoạt động"
 
 #: src/modules/reporting/active/CastYourVote.jsx:256
 msgid "Add Dispute"
-msgstr ""
+msgstr "Thêm tranh chấp"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:159
 #: src/modules/reporting/NewIncidentReportForm.jsx:241
 msgid "Add new link"
-msgstr ""
+msgstr "Thêm liên kết mới"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
 msgid "Added"
-msgstr ""
+msgstr "Thêm"
 
 #: src/hooks/useProvideLiquidity.jsx:280
 #: src/hooks/useProvideLiquidity.jsx:280
 msgid "Added Liquidity Successfully"
-msgstr ""
+msgstr "Đã thêm thanh khoản thành công"
 
 #: src/hooks/useProvideLiquidity.jsx:279
 #: src/hooks/useProvideLiquidity.jsx:279
 msgid "Adding Liquidity"
-msgstr ""
+msgstr "Thêm thanh khoản"
 
 #: src/modules/my-liquidity/content/rules.jsx:102
 msgid "All rules of individual \"{0}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
-msgstr ""
+msgstr "Tất cả các quy tắc của từng sản phẩm \"{0}\" đều có thể áp dụng cho nhóm này. Nếu sự kiện kích hoạt của sản phẩm có kết quả giải quyết, thanh khoản từ nhóm này sẽ được sử dụng để thanh toán các yêu cầu."
 
 #: src/modules/pools/bond/ClaimBondModal.jsx:41
 msgid "Amount Available To Claim"
-msgstr ""
+msgstr "Số tiền có sẵn để yêu cầu"
 
 #: src/modules/pools/staking/StakeForm.jsx:76
 msgid "Amount You Wish To Stake"
-msgstr ""
+msgstr "Số tiền bạn muốn đặt cọc"
 
 #: src/hooks/useDisputeIncident.jsx:284
 msgid "Amount less than minimum stake!"
-msgstr ""
+msgstr "Số tiền ít hơn số tiền đặt cược tối thiểu!"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:143
 msgid "Amount you wish to cover"
-msgstr ""
+msgstr "Số tiền bạn muốn trang trải"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:70
 msgid "Amount you wish to withdraw"
-msgstr ""
+msgstr "Số tiền bạn muốn rút"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:240
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
@@ -118,38 +123,38 @@ msgstr ""
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
-#: src/modules/reporting/active/CastYourVote.jsx:209
 #: src/modules/reporting/NewDisputeReportForm.jsx:232
 #: src/modules/reporting/NewIncidentReportForm.jsx:316
+#: src/modules/reporting/active/CastYourVote.jsx:209
 msgid "Approve"
-msgstr ""
+msgstr "Chấp thuận"
 
 #: src/helpers/notification.js:348
 msgid "Approve {symbol} Success"
-msgstr ""
+msgstr "Phê duyệt {symbol} Thành công"
 
 #: src/helpers/notification.js:333
 msgid "Approve {symbol} Successfully"
-msgstr ""
+msgstr "Phê duyệt {symbol} thành công"
 
 #: src/hooks/useProvideLiquidity.jsx:108
 #: src/hooks/useProvideLiquidity.jsx:108
 msgid "Approved DAI Successfully"
-msgstr ""
+msgstr "Đã phê duyệt DAI thành công"
 
 #: src/helpers/notification.js:278
 msgid "Approved LP tokens Successfully"
-msgstr ""
+msgstr "Mã thông báo LP được chấp thuận thành công"
 
 #: src/hooks/useProvideLiquidity.jsx:187
 #: src/hooks/useProvideLiquidity.jsx:187
 msgid "Approved NPM Successfully"
-msgstr ""
+msgstr "NPM được chấp thuận thành công"
 
 #: src/helpers/notification.js:54
 #: src/helpers/notification.js:241
 msgid "Approved {tokenSymbol} Successfully"
-msgstr ""
+msgstr "Đã phê duyệt {tokenSymbol} thành công"
 
 #: src/helpers/notification.js:130
 #: src/helpers/notification.js:165
@@ -157,34 +162,34 @@ msgstr ""
 #: src/helpers/notification.js:457
 #: src/helpers/notification.js:510
 msgid "Approved {tokenSymbol} tokens Successfully"
-msgstr ""
+msgstr "Đã phê duyệt thành công mã thông báo {tokenSymbol}"
 
 #: src/hooks/useProvideLiquidity.jsx:107
 #: src/hooks/useProvideLiquidity.jsx:107
 msgid "Approving DAI"
-msgstr ""
+msgstr "Phê duyệt DAI"
 
 #: src/helpers/notification.js:290
 msgid "Approving LP tokens"
-msgstr ""
+msgstr "Phê duyệt mã thông báo LP"
 
 #: src/hooks/useProvideLiquidity.jsx:186
 #: src/hooks/useProvideLiquidity.jsx:186
 msgid "Approving NPM"
-msgstr ""
+msgstr "Phê duyệt NPM"
 
 #: src/helpers/notification.js:342
 msgid "Approving {symbol}"
-msgstr ""
+msgstr "Phê duyệt {symbol}"
 
 #: src/helpers/notification.js:361
 msgid "Approving {symbol} to stake"
-msgstr ""
+msgstr "Chấp thuận cho {symbol} đặt cược"
 
 #: src/helpers/notification.js:67
 #: src/helpers/notification.js:254
 msgid "Approving {tokenSymbol}"
-msgstr ""
+msgstr "Phê duyệt {tokenSymbol}"
 
 #: src/helpers/notification.js:143
 #: src/helpers/notification.js:178
@@ -192,11 +197,11 @@ msgstr ""
 #: src/helpers/notification.js:469
 #: src/helpers/notification.js:522
 msgid "Approving {tokenSymbol} tokens"
-msgstr ""
+msgstr "Phê duyệt mã thông báo {tokenSymbol}"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:263
 msgid "Approving.."
-msgstr ""
+msgstr "Đang phê duyệt.."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:237
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
@@ -204,308 +209,293 @@ msgstr ""
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
-#: src/modules/reporting/active/CastYourVote.jsx:206
 #: src/modules/reporting/NewDisputeReportForm.jsx:229
 #: src/modules/reporting/NewIncidentReportForm.jsx:313
+#: src/modules/reporting/active/CastYourVote.jsx:206
 msgid "Approving..."
-msgstr ""
+msgstr "Đang phê duyệt..."
 
 #: src/helpers/notification.js:527
 msgid "Attested successfully"
-msgstr ""
+msgstr "Đã chứng thực thành công"
 
 #: src/helpers/notification.js:539
 msgid "Attesting"
-msgstr ""
+msgstr "Ghi nhận"
 
 #: src/common/HomeCard/HomeMainCard.jsx:20
 msgid "Available"
-msgstr ""
+msgstr "Có sẵn"
 
 #: src/modules/cover/purchase/index.jsx:144
 msgid "Available Liquidity:"
-msgstr ""
+msgstr "Thanh khoản khả dụng:"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:120
 msgid "Available cxTokens for {title} to Claim"
-msgstr ""
+msgstr "Có sẵn cxTokens cho {title} để Yêu cầu"
 
 #: src/common/BackButton/BackButton.jsx:15
 #: src/common/ProductsGrid/ProductsGrid.jsx:101
 msgid "Back"
-msgstr ""
+msgstr "Mặt sau"
 
 #: src/common/TokenBalance.jsx:60
 msgid "Balance:"
-msgstr ""
+msgstr "Thăng Bằằng:"
 
 #: src/modules/my-liquidity/content/rules.jsx:87
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{0}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
-msgstr ""
+msgstr "Trước khi cung cấp tính thanh khoản hoặc chính sách mua sản phẩm từ nhóm này, vui lòng đánh giá kỹ tất cả các thông số sản phẩm. Vốn bảo lãnh phát hành tập trung trong nhóm \"{0}\" bao gồm các sản phẩm riêng lẻ. Mặc dù các nhóm che phủ đa dạng mang lại lợi nhuận LP cao hơn nhiều, nhưng về bản chất, chúng có rủi ro cao hơn so với các nhóm bảo hiểm chuyên dụng."
 
-#: src/modules/pools/bond/index.jsx:247
 #: src/modules/pools/PoolsTabs.jsx:17
+#: src/modules/pools/bond/index.jsx:247
 #: src/pages/pools/bond/transactions.jsx:40
 msgid "Bond"
-msgstr ""
+msgstr "Liên kết"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:46
 msgid "Bond Info"
-msgstr ""
+msgstr "Thông tin trái phiếu"
 
 #: src/modules/pools/bond/index.jsx:68
 msgid "Bond Price"
-msgstr ""
+msgstr "Giá trái phiếu"
 
 #: src/modules/pools/PoolsTabs.jsx:40
 msgid "Bond and Staking Pools"
-msgstr ""
+msgstr "Bond và Staking Pools"
 
 #: src/modules/pools/bond/index.jsx:244
 msgid "Bonding..."
-msgstr ""
+msgstr "Liên kết..."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:115
 msgid "By visiting this testnet environment, you acknowledge and agree the disclaimer as above and/or any changes made to this disclaimer."
-msgstr ""
+msgstr "Bằng cách truy cập môi trường testnet này, bạn thừa nhận và đồng ý với tuyên bố từ chối trách nhiệm như trên và / hoặc bất kỳ thay đổi nào được thực hiện đối với tuyên bố từ chối trách nhiệm này."
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:123
 msgid "CLAIM"
-msgstr ""
+msgstr "YÊU CẦU"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:107
 msgid "CLAIM BEGINS IN"
-msgstr ""
+msgstr "KHIẾU NẠI BẮT ĐẦU"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:100
 msgid "CLAIM ENDS IN"
-msgstr ""
+msgstr "YÊU CẦU KẾT THÚC VÀO"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:182
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:140
 #: src/modules/pools/bond/index.jsx:169
 msgid "Calculating tokens..."
-msgstr ""
+msgstr "Đang tính toán mã thông báo..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:165
 msgid "Cannot add liquidity, as one of the product's status is not normal"
-msgstr ""
+msgstr "Không thể thêm thanh khoản, vì một trong những trạng thái của sản phẩm không bình thường"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:172
 msgid "Cannot add liquidity, since the cover status is"
-msgstr ""
+msgstr "Không thể thêm thanh khoản, vì trạng thái trang bìa là"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:99
 msgid "Cannot go below minimum stake"
-msgstr ""
+msgstr "Không thể xuống dưới mức đặt cược tối thiểu"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:126
 msgid "Cannot purchase policy, since the cover status is"
-msgstr ""
+msgstr "Không thể mua chính sách, vì trạng thái bìa là"
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
 msgid "Cannot stake more than {0}"
-msgstr ""
+msgstr "Không thể đặt cược nhiều hơn {0}"
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:34
 msgid "Cannot {0}, since the cover status is"
-msgstr ""
+msgstr "Không thể {0}, vì trạng thái bìa là"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
 msgid "Capitalize"
-msgstr ""
+msgstr "Viết hoa"
 
 #: src/hooks/useCapitalizePool.jsx:41
 msgid "Capitalize Pool"
-msgstr ""
+msgstr "Viết hoa nhóm"
 
 #: src/helpers/notification.js:413
 msgid "Capitalized Pool Successfully"
-msgstr ""
+msgstr "Nhóm viết hoa thành công"
 
 #: src/helpers/notification.js:422
 msgid "Capitalizing Pool"
-msgstr ""
+msgstr "Nhóm viết hoa"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
 msgid "Capitalizing..."
-msgstr ""
+msgstr "Viết hoa..."
 
 #: src/common/CoverRules/CoverRules.jsx:10
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
-msgstr ""
+msgstr "Đọc kỹ các điều khoản và điều kiện sau đây. Để thanh toán cho yêu cầu thành công, tất cả các điểm sau đây phải đúng."
 
 #: src/modules/reporting/active/CastYourVote.jsx:123
 msgid "Cast Your Vote"
-msgstr ""
+msgstr "Hãy bình chọn"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:174
 #: src/modules/my-policies/ClaimDetailsPage.jsx:88
 msgid "Claim"
-msgstr ""
+msgstr "Yêu cầu"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:38
 msgid "Claim Before"
-msgstr ""
+msgstr "Yêu cầu trước"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:87
 msgid "Claim Bond"
-msgstr ""
+msgstr "Yêu cầu trái phiếu"
 
 #: src/utils/translations.js:12
 msgid "Claim Cover"
-msgstr ""
+msgstr "Yêu cầu bồi thường"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:60
 msgid "Claim Expiry"
-msgstr ""
+msgstr "Yêu cầu hết hạn"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:80
 msgid "Claim My Bond"
-msgstr ""
+msgstr "Yêu cầu trái phiếu của tôi"
 
 #: src/modules/pools/bond/ClaimBondModal.jsx:74
 msgid "Claim Now"
-msgstr ""
+msgstr "Yêu cầu ngay bây giờ"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:123
 msgid "Claim your {title} cover cxTokens from the following addresses before the given claim date. Also indicated is the amount of cxTokens you will receive per claim."
-msgstr ""
+msgstr "Yêu cầu bìa {title} cxTokens của bạn từ các địa chỉ sau đây trước ngày yêu cầu nhất định. Cũng được chỉ ra là số lượng cxTokens bạn sẽ nhận được cho mỗi yêu cầu."
 
 #: src/utils/translations.js:40
 msgid "Claimable"
-msgstr ""
+msgstr "Có thể yêu cầu"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:184
 msgid "Claimed"
-msgstr ""
+msgstr "Đã yêu cầu bồi thường"
 
 #: src/helpers/notification.js:185
 #: src/hooks/useClaimPolicyInfo.jsx:234
 #: src/hooks/useClaimPolicyInfo.jsx:234
 msgid "Claimed policy Successfully"
-msgstr ""
+msgstr "Đã xác nhận chính sách thành công"
 
 #: src/helpers/notification.js:428
 #: src/helpers/notification.js:434
 msgid "Claimed {tokenSymbol} Successfully"
-msgstr ""
+msgstr "Đã xác nhận {tokenSymbol} thành công"
 
 #: src/helpers/notification.js:197
 #: src/hooks/useClaimPolicyInfo.jsx:233
 #: src/hooks/useClaimPolicyInfo.jsx:233
 msgid "Claiming policy"
-msgstr ""
+msgstr "Chính sách xác nhận quyền sở hữu"
 
 #: src/helpers/notification.js:437
 msgid "Claiming {tokenSymbol}"
-msgstr ""
+msgstr "Đang xác nhận quyền sở hữu {tokenSymbol}"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:174
 #: src/modules/pools/bond/ClaimBondModal.jsx:74
 msgid "Claiming..."
-msgstr ""
-
-#: src/common/Banner.jsx:56
-#: src/common/Banner.jsx:58
-msgid "Close Banner"
-msgstr ""
+msgstr "Đang yêu cầu..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:274
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:239
 msgid "Close:"
-msgstr ""
+msgstr "Đóng:"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:228
 #: src/modules/pools/staking/HarvestForm.jsx:78
 #: src/modules/pools/staking/StakingCard.jsx:236
 msgid "Collect"
-msgstr ""
+msgstr "Sưu tầm"
 
 #: src/modules/pools/staking/HarvestForm.jsx:78
 msgid "Collecting..."
-msgstr ""
+msgstr "Sưu tập..."
 
 #: src/common/ComingSoon.jsx:11
 msgid "Coming soon!"
-msgstr ""
-
-#: src/common/Header/Header.jsx:191
-#: src/common/Header/Header.jsx:193
-#: src/common/Header/Header.jsx:361
-msgid "Connect Wallet"
-msgstr ""
-
-#: src/common/Header/Header.jsx:363
-msgid "Connect wallet"
-msgstr ""
+msgstr "Sắp có!"
 
 #: src/common/Header/AccountDetailsModal.jsx:95
 msgid "Connected With"
-msgstr ""
+msgstr "Kết nối với"
 
 #: src/common/Header/AccountDetailsModal.jsx:51
 msgid "Copied"
-msgstr ""
+msgstr "Đã sao chép"
 
 #: src/common/Header/AccountDetailsModal.jsx:44
 msgid "Copy Address"
-msgstr ""
+msgstr "Sao chép địa chỉ"
 
 #: src/helpers/notification.js:419
 msgid "Could not Capitalize Pool"
-msgstr ""
+msgstr "Không thể viết hoa nhóm"
 
 #: src/helpers/notification.js:192
 #: src/hooks/useClaimPolicyInfo.jsx:235
 #: src/hooks/useClaimPolicyInfo.jsx:235
 msgid "Could not Claim policy"
-msgstr ""
+msgstr "Không thể xác nhận chính sách"
 
 #: src/helpers/notification.js:119
 msgid "Could not Emergency Resolve Incident"
-msgstr ""
+msgstr "Không thể giải quyết sự cố khẩn cấp"
 
 #: src/helpers/notification.js:448
 msgid "Could not Finalize Incident"
-msgstr ""
+msgstr "Không thể hoàn thành sự cố"
 
 #: src/helpers/notification.js:102
 msgid "Could not Resolve Incident"
-msgstr ""
+msgstr "Không thể giải quyết sự cố"
 
 #: src/helpers/notification.js:498
 msgid "Could not accrue interest"
-msgstr ""
+msgstr "Không thể tích lũy lãi suất"
 
 #: src/hooks/useProvideLiquidity.jsx:281
 #: src/hooks/useProvideLiquidity.jsx:281
 msgid "Could not add liquidity"
-msgstr ""
+msgstr "Không thể thêm thanh khoản"
 
 #: src/hooks/useProvideLiquidity.jsx:109
 #: src/hooks/useProvideLiquidity.jsx:109
 msgid "Could not approve DAI"
-msgstr ""
+msgstr "Không thể phê duyệt DAI"
 
 #: src/helpers/notification.js:285
 msgid "Could not approve LP tokens"
-msgstr ""
+msgstr "Không thể phê duyệt mã thông báo LP"
 
 #: src/hooks/useProvideLiquidity.jsx:188
 #: src/hooks/useProvideLiquidity.jsx:188
 msgid "Could not approve NPM"
-msgstr ""
+msgstr "Không thể phê duyệt NPM"
 
 #: src/helpers/notification.js:339
 #: src/helpers/notification.js:355
 msgid "Could not approve {symbol} tokens"
-msgstr ""
+msgstr "Không thể phê duyệt mã thông báo {symbol}"
 
 #: src/helpers/notification.js:61
 #: src/helpers/notification.js:248
 msgid "Could not approve {tokenSymbol}"
-msgstr ""
+msgstr "Không thể phê duyệt {tokenSymbol}"
 
 #: src/helpers/notification.js:137
 #: src/helpers/notification.js:172
@@ -513,376 +503,376 @@ msgstr ""
 #: src/helpers/notification.js:464
 #: src/helpers/notification.js:517
 msgid "Could not approve {tokenSymbol} tokens"
-msgstr ""
+msgstr "Không thể phê duyệt mã thông báo {tokenSymbol}"
 
 #: src/helpers/notification.js:534
 msgid "Could not attest"
-msgstr ""
+msgstr "Không thể chứng thực"
 
 #: src/helpers/notification.js:309
 msgid "Could not create bond"
-msgstr ""
+msgstr "Không thể tạo liên kết"
 
 #: src/helpers/notification.js:156
 msgid "Could not dispute"
-msgstr ""
+msgstr "Không thể tranh chấp"
 
 #: src/helpers/notification.js:374
 msgid "Could not provide liquidity"
-msgstr ""
+msgstr "Không thể cung cấp thanh khoản"
 
 #: src/helpers/notification.js:268
 #: src/hooks/usePurchasePolicy.jsx:234
 #: src/hooks/usePurchasePolicy.jsx:234
 msgid "Could not purchase policy"
-msgstr ""
+msgstr "Không thể mua chính sách"
 
 #: src/helpers/notification.js:551
 msgid "Could not refute"
-msgstr ""
+msgstr "Không thể bác bỏ"
 
 #: src/helpers/notification.js:481
 #: src/helpers/notification.js:486
 msgid "Could not remove liquidity"
-msgstr ""
+msgstr "Không thể loại bỏ thanh khoản"
 
 #: src/helpers/notification.js:230
 msgid "Could not report incident"
-msgstr ""
+msgstr "Không thể báo cáo sự cố"
 
 #: src/helpers/notification.js:82
 msgid "Could not stake {tokenSymbol}"
-msgstr ""
+msgstr "Không thể đặt cược {tokenSymbol}"
 
 #: src/helpers/notification.js:405
 msgid "Could not unstake & claim {symbol}"
-msgstr ""
+msgstr "Không thể hủy bỏ và xác nhận quyền sở hữu {symbol}"
 
 #: src/helpers/notification.js:389
 msgid "Could not unstake {symbol}"
-msgstr ""
+msgstr "Không thể hủy bỏ {symbol}"
 
 #: src/helpers/notification.js:40
 msgid "Could not unstake {tokenSymbol}"
-msgstr ""
+msgstr "Không thể hủy bỏ {tokenSymbol}"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:86
 msgid "Could not withdraw during lockup period"
-msgstr ""
+msgstr "Không thể rút tiền trong thời gian khóa"
 
 #: src/helpers/notification.js:22
 msgid "Could not withdraw rewards"
-msgstr ""
+msgstr "Không thể rút phần thưởng"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:35
 #: src/modules/home/Hero.jsx:123
 msgid "Cover Fee"
-msgstr ""
+msgstr "Phí bảo hiểm"
 
 #: src/modules/home/AvailableCovers.jsx:101
 msgid "Cover Products"
-msgstr ""
+msgstr "Sản phẩm bao gồm"
 
 #: src/common/CoverRules/CoverRules.jsx:7
 msgid "Cover Rules"
-msgstr ""
+msgstr "Quy tắc trang bìa"
 
 #: src/common/Cover/CoverCard.jsx:101
 #: src/common/Cover/ProductCard.jsx:98
 #: src/modules/reporting/active/ActiveReportingCard.jsx:88
 msgid "Cover fee:"
-msgstr ""
+msgstr "Phí bảo hiểm:"
 
 #: src/modules/home/Hero.jsx:113
 msgid "Covered"
-msgstr ""
+msgstr "Đề cập"
 
 #: src/helpers/notification.js:297
 msgid "Created bond successfully"
-msgstr ""
+msgstr "Đã tạo trái phiếu thành công"
 
 #: src/helpers/notification.js:320
 msgid "Creating bond"
-msgstr ""
+msgstr "Tạo mối liên kết"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:129
 msgid "Decline"
-msgstr ""
+msgstr "Từ chối"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:165
 #: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Description"
-msgstr ""
+msgstr "Sự mô tả"
 
 #: src/common/Cover/CoverActionsFooter.jsx:23
 msgid "Didn’t Find What You Were Looking For?"
-msgstr ""
+msgstr "Không tìm thấy những gì bạn đang tìm kiếm?"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:44
 msgid "Disclaimer and Warranty"
-msgstr ""
+msgstr "Tuyên bố từ chối trách nhiệm và bảo hành"
 
 #: src/common/Header/AccountDetailsModal.jsx:105
 msgid "Disconnect"
-msgstr ""
+msgstr "Ngắt kết nối"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:242
 msgid "Dispute"
-msgstr ""
+msgstr "Tranh chấp"
 
 #: src/helpers/notification.js:150
 msgid "Disputed successfully"
-msgstr ""
+msgstr "Tranh chấp thành công"
 
 #: src/helpers/notification.js:159
 msgid "Disputing"
-msgstr ""
+msgstr "Tranh chấp"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:242
 msgid "Disputing..."
-msgstr ""
+msgstr "Tranh chấp..."
 
 #: src/common/Cover/ProductCard.jsx:113
 #: src/modules/reporting/active/ActiveReportingCard.jsx:107
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
-msgstr ""
+msgstr "Nhóm đa dạng với {0} x hệ số đòn bẩy và {1} hiệu quả sử dụng vốn"
 
 #: src/modules/my-liquidity/content/rules.jsx:33
 msgid "Download LP Cover Terms"
-msgstr ""
+msgstr "Tải xuống Điều khoản bìa LP"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:174
 msgid "EMERGENCY RESOLVE"
-msgstr ""
+msgstr "GIẢI QUYẾT KHẨN CẤP"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:149
 #: src/modules/pools/staking/StakingCard.jsx:146
 msgid "Earn"
-msgstr ""
+msgstr "Kiếm"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:135
 msgid "Emergency Resolution"
-msgstr ""
+msgstr "Giải pháp khẩn cấp"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:84
 msgid "Emergency Resolve"
-msgstr ""
+msgstr "Giải quyết tình huống khẩn cấp"
 
 #: src/hooks/useResolveIncident.jsx:136
 msgid "Emergency Resolve Incident"
-msgstr ""
+msgstr "Giải quyết sự cố khẩn cấp"
 
 #: src/helpers/notification.js:112
 msgid "Emergency Resolved Incident Successfully"
-msgstr ""
+msgstr "Sự cố khẩn cấp được giải quyết thành công"
 
 #: src/helpers/notification.js:124
 msgid "Emergency Resolving Incident"
-msgstr ""
+msgstr "Giải quyết sự cố khẩn cấp"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:173
 msgid "Emergency Resolving..."
-msgstr ""
+msgstr "Giải quyết Khẩn cấp..."
 
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:40
 msgid "Enter Amount"
-msgstr ""
+msgstr "Nhập số tiền"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:234
 msgid "Enter Amount you wish to provide"
-msgstr ""
+msgstr "Nhập số tiền bạn muốn cung cấp"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:157
 msgid "Enter Incident Title"
-msgstr ""
+msgstr "Nhập tiêu đề sự cố"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:168
 msgid "Enter Npm Amount"
-msgstr ""
+msgstr "Nhập số tiền Npm"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:112
 msgid "Enter a title of this dispute"
-msgstr ""
+msgstr "Nhập tiêu đề của tranh chấp này"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:164
 msgid "Enter the incident title."
-msgstr ""
+msgstr "Nhập tiêu đề sự cố."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:197
 msgid "Enter your NPM stake"
-msgstr ""
+msgstr "Nhập tiền cược NPM của bạn"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:199
 msgid "Enter your POD"
-msgstr ""
+msgstr "Nhập POD của bạn"
 
 #: src/modules/pools/bond/index.jsx:182
 #: src/modules/reporting/NewDisputeReportForm.jsx:192
 msgid "Enter your amount"
-msgstr ""
+msgstr "Nhập số tiền của bạn"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:272
 msgid "Enter your stake"
-msgstr ""
+msgstr "Nhập tiền cược của bạn"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:111
 msgid "Enter your {tokenSymbol}"
-msgstr ""
+msgstr "Nhập {tokenSymbol} của bạn"
 
 #: src/common/TokenBalance.jsx:39
 #: src/hooks/useDisputeIncident.jsx:278
 msgid "Error"
-msgstr ""
+msgstr "Lỗi"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:211
 msgid "Error!!!"
-msgstr ""
+msgstr "Lỗi!!!"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:98
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:110
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:105
 #: src/modules/reporting/active/CastYourVote.jsx:70
 msgid "Exceeds maximum balance"
-msgstr ""
+msgstr "Vượt quá số dư tối đa"
 
 #: src/hooks/useCreateBond.jsx:161
 msgid "Exceeds maximum bond {0}"
-msgstr ""
+msgstr "Vượt quá trái phiếu tối đa {0}"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:22
 msgid "Expired"
-msgstr ""
+msgstr "Hết hạn"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:57
 msgid "Expired On"
-msgstr ""
+msgstr "Hết hạn vào ngày"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:63
 msgid "Expires In"
-msgstr ""
+msgstr "Hết hạn sau"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:171
 #: src/modules/reporting/NewIncidentReportForm.jsx:253
 msgid "Explain briefly about the incident if you want to add anything."
-msgstr ""
+msgstr "Giải thích ngắn gọn về sự cố nếu bạn muốn thêm bất cứ điều gì."
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:151
 msgid "FALSE REPORTING"
-msgstr ""
+msgstr "BÁO CÁO SAI"
 
-#: src/modules/reporting/active/ActiveReportSummary.jsx:166
-#: src/modules/reporting/active/CastYourVote.jsx:148
 #: src/modules/reporting/HorizontalChartLegend.jsx:11
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:50
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:72
+#: src/modules/reporting/active/ActiveReportSummary.jsx:166
+#: src/modules/reporting/active/CastYourVote.jsx:148
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 #: src/utils/translations.js:44
 msgid "False Reporting"
-msgstr ""
+msgstr "Báo cáo Sai"
 
 #: src/common/ComingSoon.jsx:14
 msgid "Feature is yet to be released. Our team’s getting it ready for you."
-msgstr ""
+msgstr "Tính năng vẫn chưa được phát hành. Nhóm của chúng tôi đang chuẩn bị nó sẵn sàng cho bạn."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:140
 msgid "Fee: {0}"
-msgstr ""
+msgstr "Phí: {0}"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:27
 msgid "Fees"
-msgstr ""
+msgstr "Phí"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:107
 msgid "Fetching Allowance..."
-msgstr ""
+msgstr "Phụ cấp Tìm nạp..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:109
 msgid "Fetching Balance..."
-msgstr ""
+msgstr "Đang tìm nạp số dư..."
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:142
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
 #: src/modules/pools/bond/index.jsx:173
 #: src/modules/pools/staking/StakeForm.jsx:69
-#: src/modules/reporting/active/CastYourVote.jsx:117
 #: src/modules/reporting/NewIncidentReportForm.jsx:131
+#: src/modules/reporting/active/CastYourVote.jsx:117
 msgid "Fetching allowance..."
-msgstr ""
+msgstr "Phụ cấp tìm nạp..."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:171
 #: src/modules/pools/staking/StakeForm.jsx:67
-#: src/modules/reporting/active/CastYourVote.jsx:115
 #: src/modules/reporting/NewIncidentReportForm.jsx:133
+#: src/modules/reporting/active/CastYourVote.jsx:115
 msgid "Fetching balance..."
-msgstr ""
+msgstr "Đang tìm nạp số dư..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:184
 msgid "Fetching balances..."
-msgstr ""
+msgstr "Đang tìm nạp số dư..."
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:135
 msgid "Fetching min stake..."
-msgstr ""
+msgstr "Đang tìm nạp số tiền cược tối thiểu..."
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:50
 msgid "Fetching min-stake amount..."
-msgstr ""
+msgstr "Đang tìm nạp số tiền đặt cược tối thiểu..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:186
 msgid "Fetching {NPMTokenSymbol} allowance..."
-msgstr ""
+msgstr "Đang tìm nạp phụ cấp {NPMTokenSymbol}..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:188
 msgid "Fetching {liquidityTokenSymbol} allowance..."
-msgstr ""
+msgstr "Đang tìm nạp phụ cấp {liquidityTokenSymbol}..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:105
 msgid "Fetching..."
-msgstr ""
+msgstr "Đang tìm nạp..."
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
 msgid "Finalize"
-msgstr ""
+msgstr "Hoàn thiện"
 
 #: src/hooks/useFinalizeIncident.jsx:41
 msgid "Finalize Incident"
-msgstr ""
+msgstr "Kết thúc sự cố"
 
 #: src/helpers/notification.js:442
 msgid "Finalized Incident Successfully"
-msgstr ""
+msgstr "Xử lý sự cố thành công"
 
 #: src/helpers/notification.js:451
 msgid "Finalizing Incident"
-msgstr ""
+msgstr "Kết thúc sự cố"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
 msgid "Finalizing..."
-msgstr ""
+msgstr "Đang hoàn thiện..."
 
 #: src/modules/pools/bond/index.jsx:265
 msgid "Get LP tokens"
-msgstr ""
+msgstr "Nhận mã thông báo LP"
 
 #: src/common/Header/Header.jsx:69
 #: src/modules/cover/add-liquidity/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
 #: src/modules/reporting/ReportingHero.jsx:38
-#: src/pages/covers/[cover_id]/options.jsx:32
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:46
+#: src/pages/covers/[cover_id]/options.jsx:32
 msgid "Home"
-msgstr ""
+msgstr "Nhà"
 
 #: src/modules/cover/CoverOptionsPage.jsx:34
 msgid "I Want to"
-msgstr ""
+msgstr "Tôi muốn"
 
 #: src/modules/cover/add-liquidity/index.jsx:108
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
-msgstr ""
+msgstr "Tôi đã đọc, đánh giá, hiểu, đồng ý và chấp nhận mọi rủi ro, bao gồm các điều khoản, loại trừ, loại trừ tiêu chuẩn của nhóm này và giao thức Neptune Mutual."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
@@ -890,50 +880,50 @@ msgstr ""
 #: src/modules/cover/add-liquidity/index.jsx:122
 #: src/modules/cover/purchase/index.jsx:123
 msgid "I have read, understood, and agree to the terms of cover rules"
-msgstr ""
+msgstr "Tôi đã đọc, hiểu và đồng ý với các điều khoản của quy tắc trang bìa"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:143
 msgid "INCIDENT OCCURRED"
-msgstr ""
+msgstr "SỰ CỐ ĐÃ THÀNH CÔNG"
 
 #: src/common/Header/AccountDetailsModal.jsx:143
 msgid "If you do not want to keep approving for each transaction, enable this box."
-msgstr ""
+msgstr "Nếu bạn không muốn tiếp tục phê duyệt cho mỗi giao dịch, hãy bật hộp này."
 
 #: src/modules/reporting/CoverReportingRules.jsx:58
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of total dishonest stakes if you are the first person to report this incident. In addition to NPM rewards, you may also earn a percentage commission on individual claims payout.<0/><1/><2>Note: Dishonest reporters get 100% of their stakes forfeited which is distributed to honest reporters. You may lose all of your stakes if resolution is not in your favor.</2>"
-msgstr ""
+msgstr "Nếu bạn vừa mới biết về một sự cố gần đây của {0}, hãy đọc kỹ các quy tắc trang bìa ở trên. Bạn có thể kiếm được {1}% tổng số tiền đặt cược không trung thực nếu bạn là người đầu tiên báo cáo sự việc này. Ngoài phần thưởng NPM, bạn cũng có thể kiếm được phần trăm hoa hồng trên các khoản thanh toán cho các yêu cầu cá nhân. <0 /> <1 /> <2> Lưu ý: Những người báo cáo không trung thực sẽ bị mất 100% số tiền đặt cọc được phân phối cho những người báo cáo trung thực. Bạn có thể mất tất cả cổ phần của mình nếu giải pháp không có lợi cho bạn. </2>"
 
 #: src/modules/my-liquidity/content/rules.jsx:98
 msgid "Important Note"
-msgstr ""
+msgstr "Lưu ý quan trọng"
 
 #: src/utils/translations.js:42
 msgid "Incident Happened"
-msgstr ""
+msgstr "Sự cố đã xảy ra"
 
-#: src/modules/reporting/active/ActiveReportSummary.jsx:121
-#: src/modules/reporting/active/CastYourVote.jsx:133
 #: src/modules/reporting/HorizontalChartLegend.jsx:8
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:40
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:71
+#: src/modules/reporting/active/ActiveReportSummary.jsx:121
+#: src/modules/reporting/active/CastYourVote.jsx:133
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 msgid "Incident Occurred"
-msgstr ""
+msgstr "Sự cố đã xảy ra"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:213
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:195
 msgid "Incident Reporters"
-msgstr ""
+msgstr "Người báo sự cố"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:151
 msgid "Incident Title"
-msgstr ""
+msgstr "Tiêu đề sự cố"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:102
 msgid "Insights"
-msgstr ""
+msgstr "Thông tin chi tiết"
 
 #: src/hooks/useClaimPolicyInfo.jsx:311
 #: src/hooks/useCreateBond.jsx:150
@@ -941,37 +931,37 @@ msgstr ""
 #: src/hooks/usePurchasePolicy.jsx:90
 #: src/hooks/useStakingPoolDeposit.jsx:299
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:107
-#: src/modules/reporting/active/CastYourVote.jsx:75
 #: src/modules/reporting/NewIncidentReportForm.jsx:54
+#: src/modules/reporting/active/CastYourVote.jsx:75
 msgid "Insufficient Balance"
-msgstr ""
+msgstr "Thiếu cân bằng"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:93
 #: src/modules/reporting/NewIncidentReportForm.jsx:49
 msgid "Insufficient Stake"
-msgstr ""
+msgstr "Không đủ tiền đặt cọc"
 
 #: src/hooks/useCreateBond.jsx:145
 msgid "Invalid amount to bond"
-msgstr ""
+msgstr "Số tiền trái phiếu không hợp lệ"
 
 #: src/hooks/useClaimPolicyInfo.jsx:306
 msgid "Invalid amount to claim"
-msgstr ""
+msgstr "Số tiền không hợp lệ để yêu cầu"
 
 #: src/hooks/usePurchasePolicy.jsx:85
 msgid "Invalid amount to cover"
-msgstr ""
+msgstr "Số tiền không hợp lệ để chi trả"
 
 #: src/hooks/useStakingPoolDeposit.jsx:284
 msgid "Invalid amount to stake"
-msgstr ""
+msgstr "Số tiền đặt cược không hợp lệ"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
-msgstr ""
+msgstr "ĐỒNG BỘ CUỐI CÙNG:"
 
 #: src/common/Cover/CoverCard.jsx:142
 #: src/common/Cover/CoverCard.jsx:188
@@ -980,53 +970,53 @@ msgstr ""
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
-msgstr ""
+msgstr "Tính thanh khoản"
 
 #: src/modules/my-liquidity/index.jsx:72
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
-msgstr ""
+msgstr "Các nhà cung cấp thanh khoản chung sở hữu một nhóm thanh khoản. Để trở thành nhà cung cấp thanh khoản, hãy chọn một bìa từ màn hình chính."
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:111
 #: src/modules/pools/staking/StakeForm.jsx:115
 #: src/modules/pools/staking/StakingCard.jsx:103
 msgid "Lockup Period"
-msgstr ""
+msgstr "Thời gian khóa máy"
 
 #: src/common/CoverAvatar/CoverAvatar.jsx:49
 msgid "MORE"
-msgstr ""
+msgstr "HƠN"
 
 #: src/modules/pools/bond/index.jsx:108
 msgid "Market Price"
-msgstr ""
+msgstr "Giá thị trường"
 
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:32
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 #: src/modules/pools/bond/index.jsx:84
 msgid "Maximum Bond"
-msgstr ""
+msgstr "Trái phiếu tối đa"
 
 #: src/modules/pools/staking/StakeForm.jsx:87
 msgid "Maximum Limit:"
-msgstr ""
+msgstr "Giới hạn tối đa:"
 
 #: src/hooks/usePurchasePolicy.jsx:96
 msgid "Maximum protection available is {0}"
-msgstr ""
+msgstr "Bảo vệ tối đa hiện có là {0}"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
-#: src/modules/reporting/active/CastYourVote.jsx:180
 #: src/modules/reporting/NewDisputeReportForm.jsx:202
 #: src/modules/reporting/NewIncidentReportForm.jsx:281
+#: src/modules/reporting/active/CastYourVote.jsx:180
 msgid "Minimum Stake:"
-msgstr ""
+msgstr "Cổ phần tối thiểu:"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:98
 msgid "My Active Protection"
-msgstr ""
+msgstr "Bảo vệ tích cực của tôi"
 
 #: src/common/Header/Header.jsx:51
 #: src/modules/my-liquidity/details.jsx:55
@@ -1034,11 +1024,11 @@ msgstr ""
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
-msgstr ""
+msgstr "Tích cực bảo vệ của tôi"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:95
 msgid "My Liquidity:"
-msgstr ""
+msgstr "Thanh khoản của tôi:"
 
 #: src/common/Header/Header.jsx:46
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
@@ -1046,133 +1036,133 @@ msgstr ""
 #: src/modules/my-policies/PoliciesTabs.jsx:37
 #: src/pages/my-policies/transactions.jsx:39
 msgid "My Policies"
-msgstr ""
+msgstr "Chính sách của tôi"
 
 #: src/pages/my-liquidity/index.jsx:57
 msgid "My Total Liquidity"
-msgstr ""
+msgstr "Tổng thanh khoản của tôi"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:261
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:226
 msgid "NEXT UNLOCK CYCLE"
-msgstr ""
+msgstr "CHU KỲ MỞ KHÓA TIẾP THEO"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:41
 msgid "NPM Logo"
-msgstr ""
+msgstr "Biểu trưng NPM"
 
 #: src/common/HeaderLogo.jsx:8
 msgid "Neptune Mutual"
-msgstr ""
+msgstr "Sao Hải Vương tương hỗ"
 
 #: src/modules/reporting/CoverReportingRules.jsx:87
 msgid "Neptune Mutual Reporters"
-msgstr ""
+msgstr "Các phóng viên tương hỗ của sao Hải Vương"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:91
 msgid "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
-msgstr ""
+msgstr "Neptune có thể thay đổi tuyên bố từ chối trách nhiệm này bất kỳ lúc nào mà không cần thông báo cho bạn và không có trách nhiệm pháp lý đối với bạn hoặc bất kỳ bên nào khác. Bạn có trách nhiệm kiểm tra định kỳ tuyên bố từ chối trách nhiệm này để biết các thay đổi. Nếu bạn không đồng ý với bất kỳ thay đổi nào được thực hiện đối với tuyên bố từ chối trách nhiệm này, bạn nên ngừng sử dụng testnet này."
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:68
 msgid "Next"
-msgstr ""
+msgstr "Tiếp theo"
 
 #: src/modules/pools/staking/index.jsx:155
 msgid "No <0>staking pools found.</0>"
-msgstr ""
+msgstr "Không tìm thấy <0> nhóm đặt cược. </0>"
 
 #: src/modules/pools/pod-staking/index.jsx:163
 msgid "No POD"
-msgstr ""
+msgstr "Không có POD"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:261
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:54
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:87
 #: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:54
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:87
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:54
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:87
 msgid "No data found"
-msgstr ""
+msgstr "Không tìm thấy dữ liệu nào"
 
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:58
 msgid "No known incident found for any cover product. If you believe a cover incident has occurred, earn rewards by reporting the incident."
-msgstr ""
+msgstr "Không có sự cố đã biết nào được tìm thấy cho bất kỳ sản phẩm bìa nào. Nếu bạn tin rằng đã xảy ra sự cố bao che, hãy kiếm phần thưởng bằng cách báo cáo sự việc."
 
 #: src/common/TransactionList/TransactionList.jsx:126
 msgid "No transaction history to show"
-msgstr ""
+msgstr "Không có lịch sử giao dịch để hiển thị"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:132
 msgid "No valid incidents are reported with the given timestamp"
-msgstr ""
+msgstr "Không có sự cố hợp lệ nào được báo cáo với dấu thời gian nhất định"
 
 #: src/utils/translations.js:38
 msgid "Normal"
-msgstr ""
+msgstr "Bình thường"
 
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:98
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:98
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:98
 msgid "Not applicable for disputing"
-msgstr ""
+msgstr "Không áp dụng cho tranh chấp"
 
 #: src/helpers/notification.js:559
 msgid "Notification"
-msgstr ""
+msgstr "Thông báo"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:169
 msgid "Observed Date & Time"
-msgstr ""
+msgstr "Ngày và giờ quan sát"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:266
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:231
 msgid "Open:"
-msgstr ""
+msgstr "Mở:"
 
 #: src/modules/pools/PoolsTabs.jsx:27
 msgid "POD Staking"
-msgstr ""
+msgstr "Đặt cược POD"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:124
 msgid "Please choose date from the past"
-msgstr ""
+msgstr "Vui lòng chọn ngày trong quá khứ"
 
 #: src/hooks/useClaimPolicyInfo.jsx:301
 #: src/hooks/usePurchasePolicy.jsx:80
 #: src/hooks/useStakingPoolDeposit.jsx:289
 msgid "Please connect your wallet"
-msgstr ""
+msgstr "Vui lòng kết nối ví của bạn"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
-msgstr ""
+msgstr "Vui lòng kết nối ví của bạn..."
 
 #: src/hooks/useCreateBond.jsx:155
 msgid "Please specify a value"
-msgstr ""
+msgstr "Vui lòng chỉ định một giá trị"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:115
 #: src/hooks/useStakingPoolDeposit.jsx:294
 msgid "Please specify an amount"
-msgstr ""
+msgstr "Vui lòng chỉ định số tiền"
 
 #: src/common/Header/Header.jsx:41
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
-msgstr ""
+msgstr "Hồ bơi"
 
 #: src/modules/my-liquidity/content/CoveredProducts.jsx:54
 msgid "Products Covered Under This Pool"
-msgstr ""
+msgstr "Các sản phẩm được bao gồm trong nhóm này"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:122
 msgid "Proof of dispute"
-msgstr ""
+msgstr "Bằng chứng tranh chấp"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:194
 msgid "Proof of incident"
-msgstr ""
+msgstr "Bằng chứng về sự cố"
 
 #: src/common/Cover/CoverCard.jsx:139
 #: src/common/Cover/CoverCard.jsx:161
@@ -1181,121 +1171,121 @@ msgstr ""
 #: src/modules/reporting/active/ActiveReportingCard.jsx:162
 #: src/modules/reporting/active/ActiveReportingCard.jsx:186
 msgid "Protection"
-msgstr ""
+msgstr "Sự bảo vệ"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:347
 #: src/modules/cover/add-liquidity/index.jsx:59
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
-msgstr ""
+msgstr "Cung cấp tính thanh khoản"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:226
 msgid "Provide URL with a proximate proof of the incident."
-msgstr ""
+msgstr "Cung cấp URL với bằng chứng gần đúng về sự cố."
 
 #: src/helpers/notification.js:368
 msgid "Provided Liquidity Successfully"
-msgstr ""
+msgstr "Đã cung cấp tính thanh khoản thành công"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:344
 msgid "Providing Liquidity..."
-msgstr ""
+msgstr "Cung cấp tính thanh khoản..."
 
 #: src/helpers/notification.js:377
 msgid "Providing liquidity"
-msgstr ""
+msgstr "Cung cấp thanh khoản"
 
 #: src/modules/cover/purchase/index.jsx:73
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
-msgstr ""
+msgstr "Chính sách mua hàng"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:262
 msgid "Purchase policy"
-msgstr ""
+msgstr "Chính sách mua hàng"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:184
 msgid "Purchased"
-msgstr ""
+msgstr "Đã mua"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:93
 msgid "Purchased Policy"
-msgstr ""
+msgstr "Chính sách đã mua"
 
 #: src/helpers/notification.js:261
 #: src/hooks/usePurchasePolicy.jsx:233
 #: src/hooks/usePurchasePolicy.jsx:233
 msgid "Purchased Policy Successfully"
-msgstr ""
+msgstr "Chính sách đã mua thành công"
 
 #: src/helpers/notification.js:273
 #: src/hooks/usePurchasePolicy.jsx:232
 #: src/hooks/usePurchasePolicy.jsx:232
 msgid "Purchasing Policy"
-msgstr ""
+msgstr "Chính sách mua hàng"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:262
 msgid "Purchasing..."
-msgstr ""
+msgstr "Thu mua..."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:93
 msgid "REPORT AN INCIDENT"
-msgstr ""
+msgstr "BÁO CÁO MỘT SỰ CỐ"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:62
 msgid "ROI:"
-msgstr ""
+msgstr "ROI:"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:74
 msgid "Reassurance Ratio"
-msgstr ""
+msgstr "Tỷ lệ tái đảm bảo"
 
 #: src/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources.jsx:54
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:64
 msgid "Reassurance:"
-msgstr ""
+msgstr "Tái đảm bảo:"
 
 #: src/modules/reporting/RecentVotesTable.jsx:88
 msgid "Recent Votes"
-msgstr ""
+msgstr "Phiếu bầu gần đây"
 
 #: src/helpers/notification.js:556
 msgid "Refuting"
-msgstr ""
+msgstr "Bác bỏ"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
 msgid "Removed"
-msgstr ""
+msgstr "Loại bỏ"
 
 #: src/helpers/notification.js:474
 msgid "Removed Liquidity Successfully"
-msgstr ""
+msgstr "Đã xóa thanh khoản thành công"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:334
 msgid "Report"
-msgstr ""
+msgstr "Báo cáo"
 
 #: src/utils/translations.js:10
 msgid "Report Incident"
-msgstr ""
+msgstr "Báo cáo sự cố"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:76
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:82
 msgid "Report Summary"
-msgstr ""
+msgstr "Báo cáo tóm tắt"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:147
 msgid "Report an incident"
-msgstr ""
+msgstr "Báo cáo sự cố"
 
 #: src/modules/reporting/active/ActiveReportingCard.jsx:230
 msgid "Reported On:"
-msgstr ""
+msgstr "Đã báo cáo vào:"
 
 #: src/helpers/notification.js:223
 msgid "Reported incident successfully"
-msgstr ""
+msgstr "Đã báo cáo sự cố thành công"
 
 #: src/common/Header/Header.jsx:56
 #: src/common/HomeCard/HomeMainCard.jsx:33
@@ -1303,101 +1293,101 @@ msgstr ""
 #: src/modules/reporting/ReportingHero.jsx:48
 #: src/modules/reporting/ReportingTabs.jsx:26
 msgid "Reporting"
-msgstr ""
+msgstr "Báo cáo"
 
 #: src/modules/reporting/ReportingInfo.jsx:26
 msgid "Reporting Info"
-msgstr ""
+msgstr "Thông tin báo cáo"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:230
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:212
 msgid "Reporting Period"
-msgstr ""
+msgstr "Kỳ báo cáo"
 
 #: src/helpers/notification.js:235
 msgid "Reporting incident"
-msgstr ""
+msgstr "Báo cáo sự cố"
 
-#: src/modules/reporting/active/CastYourVote.jsx:227
 #: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/active/CastYourVote.jsx:227
 msgid "Reporting..."
-msgstr ""
+msgstr "Báo cáo..."
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:48
 msgid "Resolution By"
-msgstr ""
+msgstr "Phân giải bởi"
 
 #: src/common/Cover/CoverResolutionSources.jsx:29
 msgid "Resolution Sources"
-msgstr ""
+msgstr "Nguồn phân giải"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:76
 msgid "Resolve"
-msgstr ""
+msgstr "Giải quyết"
 
 #: src/hooks/useResolveIncident.jsx:42
 msgid "Resolve Incident"
-msgstr ""
+msgstr "Giải quyết sự cố"
 
 #: src/modules/reporting/ReportingTabs.jsx:16
 msgid "Resolved"
-msgstr ""
+msgstr "Đã giải quyết"
 
 #: src/helpers/notification.js:95
 msgid "Resolved Incident Successfully"
-msgstr ""
+msgstr "Đã giải quyết sự cố thành công"
 
 #: src/modules/reporting/resolved/ResolvedReportingCard.jsx:67
 msgid "Resolved On:"
-msgstr ""
+msgstr "Đã giải quyết trên:"
 
 #: src/helpers/notification.js:107
 msgid "Resolving Incident"
-msgstr ""
+msgstr "Giải quyết sự cố"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:60
 msgid "Resolving in"
-msgstr ""
+msgstr "Đang giải quyết trong"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:76
 msgid "Resolving..."
-msgstr ""
+msgstr "Đang giải quyết..."
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:93
 msgid "Result:"
-msgstr ""
+msgstr "Kết quả:"
 
 #: src/modules/my-liquidity/content/rules.jsx:167
 msgid "Risk Disclosure / Disclaimer"
-msgstr ""
+msgstr "Tiết lộ rủi ro / Tuyên bố từ chối trách nhiệm"
 
 #: src/common/SearchAndSortBar.jsx:37
 msgid "Search"
-msgstr ""
+msgstr "Tìm kiếm"
 
 #: src/common/Header/LanguageDropdown.jsx:95
 msgid "Search Language"
-msgstr ""
+msgstr "Ngôn ngữ tìm kiếm"
 
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See less"
-msgstr ""
+msgstr "Thấy ít"
 
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See more"
-msgstr ""
+msgstr "Xem thêm"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:139
 msgid "Select Your Decision"
-msgstr ""
+msgstr "Chọn quyết định của bạn"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:184
 msgid "Select the incident observance date."
-msgstr ""
+msgstr "Chọn ngày quan sát sự cố."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:174
 msgid "Select your coverage period"
-msgstr ""
+msgstr "Chọn thời gian bảo hiểm của bạn"
 
 #: src/common/ProductsGrid/ProductsGrid.jsx:162
 #: src/common/Table/Table.jsx:39
@@ -1406,15 +1396,15 @@ msgstr ""
 #: src/modules/pools/staking/index.jsx:132
 #: src/modules/reporting/active/active.jsx:155
 msgid "Show More"
-msgstr ""
+msgstr "Cho xem nhiều hơn"
 
 #: src/modules/reporting/active/CastYourVote.jsx:238
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
-msgstr ""
+msgstr "Vì bạn là người đầu tiên phản đối báo cáo sự cố này, bạn sẽ cần phải đặt cược ít nhất {0} mã thông báo NPM. Nếu đa số đồng ý với bạn, bạn sẽ kiếm được {1}% phí nền tảng thay vì người báo cáo sự cố."
 
 #: src/common/SearchAndSortBar.jsx:51
 msgid "Sort by:"
-msgstr ""
+msgstr "Sắp xếp theo:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
@@ -1425,106 +1415,106 @@ msgstr ""
 #: src/modules/pools/staking/StakingCard.jsx:242
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
-msgstr ""
+msgstr "Cổ phần"
 
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 #: src/modules/reporting/active/ActiveReportSummary.jsx:130
 #: src/modules/reporting/active/ActiveReportSummary.jsx:175
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:116
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:161
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 msgid "Stake:"
-msgstr ""
+msgstr "Cổ phần:"
 
 #: src/helpers/notification.js:75
 msgid "Staked {tokenSymbol} successfully"
-msgstr ""
+msgstr "Đã đặt cọc {tokenSymbol} thành công"
 
 #: src/modules/pools/PoolsTabs.jsx:22
 msgid "Staking"
-msgstr ""
+msgstr "Đánh cược"
 
 #: src/helpers/notification.js:88
 msgid "Staking {tokenSymbol}"
-msgstr ""
+msgstr "Đặt cọc {tokenSymbol}"
 
 #: src/modules/pools/staking/StakeForm.jsx:144
 msgid "Staking..."
-msgstr ""
+msgstr "Kẹt..."
 
 #: src/modules/my-liquidity/content/rules.jsx:111
 msgid "Standard Exclusions"
-msgstr ""
+msgstr "Loại trừ tiêu chuẩn"
 
 #: src/utils/translations.js:36
 msgid "Stopped"
-msgstr ""
+msgstr "Đã dừng lại"
 
 #: src/common/TokenBalance.jsx:32
 msgid "Success"
-msgstr ""
+msgstr "Thành công"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:118
 #: src/modules/pools/staking/StakingCard.jsx:110
 msgid "TVL"
-msgstr ""
+msgstr "TVL"
 
 #: src/modules/home/Hero.jsx:83
 msgid "TVL (Cover)"
-msgstr ""
+msgstr "TVL (Bìa)"
 
 #: src/modules/home/Hero.jsx:93
 msgid "TVL (Pool)"
-msgstr ""
+msgstr "TVL (Hồ bơi)"
 
 #: src/common/ComingSoon.jsx:25
 msgid "Take me back to homepage"
-msgstr ""
+msgstr "Đưa tôi trở lại trang chủ"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:106
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
-msgstr ""
+msgstr "Tính năng trái phiếu cung cấp cho bạn mã thông báo NPM với giá trị chiết khấu trong khoảng thời gian kiểm tra {vestingPeriodInterval}."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:79
 msgid "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
-msgstr ""
+msgstr "Người tạo cover, cover, cover có sẵn, khối lượng thanh khoản, số tiền bảo vệ, tỷ lệ sử dụng, cũng như bất kỳ nội dung nào khác trong testnet đều là hư cấu và chỉ nhằm mục đích kiểm tra và thử nghiệm. Neptune không đảm bảo hoặc bảo đảm những thông tin hoặc nội dung đó sẽ giống hoặc gần với môi trường thực tế khi mainnet triển khai. Biểu trưng và người tạo bìa được đặt trên testnet không nhằm ngụ ý bất kỳ sự chứng thực hoặc cam kết chính thức nào của những người sáng tạo đó."
 
 #: src/modules/my-liquidity/content/rules.jsx:58
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
-msgstr ""
+msgstr "(Các) sản phẩm được liệt kê ở trên là một phần của nhóm vật liệu che phủ đa dạng. Khoản thanh toán cho một sản phẩm bìa đa dạng không được đảm bảo, vì vậy nó sẽ được cấp trên cơ sở ai đến trước được hưởng trước."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:60
 msgid "The purpose of this testnet environment is to test and conduct experiment on Neptune Mutual protocol without imposing risk to any digital assets or the main chain. Hence, this testnet environment is furnished for testing and experimenting only, and is subject to continuous updating, changing, improving, and/or periodically shut down without notice. The testnet environment may be malfunctioned, include technical errors or typographical errors. Any content, information, data, logo, including but not limited to covers providers, liquidity, protection policy are fictitious and should not be construed as a commitment by Neptune, and without warranties implied or statutory including without limitation warranties of merchantability, fitness for a particular use and non-infringement. Neptune accepts no responsibility or liability from any visitors on the testnet with regard to any issue incurred as a result of using or visiting the testnet environment."
-msgstr ""
+msgstr "Mục đích của môi trường testnet này là để kiểm tra và tiến hành thử nghiệm trên giao thức Neptune Mutual mà không gây rủi ro cho bất kỳ tài sản kỹ thuật số nào hoặc chuỗi chính. Do đó, môi trường testnet này chỉ được cung cấp để kiểm tra và thử nghiệm và có thể liên tục cập nhật, thay đổi, cải tiến và / hoặc định kỳ đóng cửa mà không cần thông báo. Môi trường testnet có thể bị trục trặc, bao gồm lỗi kỹ thuật hoặc lỗi đánh máy. Bất kỳ nội dung, thông tin, dữ liệu, biểu tượng nào, bao gồm nhưng không giới hạn đối với các nhà cung cấp, tính thanh khoản, chính sách bảo vệ đều là hư cấu và không được coi là cam kết của Neptune và không có bảo đảm ngụ ý hoặc theo luật định, bao gồm nhưng không giới hạn các bảo đảm về khả năng bán được, tính phù hợp đối với sử dụng cụ thể và không vi phạm. Neptune không chịu bất kỳ trách nhiệm hoặc nghĩa vụ nào từ bất kỳ khách truy cập nào trên testnet liên quan đến bất kỳ vấn đề nào phát sinh do việc sử dụng hoặc truy cập vào môi trường testnet."
 
 #: src/modules/reporting/CoverReportingRules.jsx:38
 msgid "There are no known incidents of {0}."
-msgstr ""
+msgstr "Không có sự cố nào đã biết về {0}."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:53
 msgid "This testnet environment is built by Neptune Mutual, i.e. its operating entity Neptune Tech Limited and/or its affiliated companies (collectively “Neptune”)."
-msgstr ""
+msgstr "Môi trường testnet này được xây dựng bởi Neptune Mutual, tức là đơn vị điều hành Neptune Tech Limited và / hoặc các công ty liên kết của nó (gọi chung là “Neptune”)."
 
 #: src/modules/pools/bond/MyBondTxsTable.jsx:205
 msgid "Timestamp"
-msgstr ""
+msgstr "Dấu thời gian"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:106
 msgid "Title"
-msgstr ""
+msgstr "Tiêu đề"
 
 #: src/common/TokenBalance.jsx:33
 msgid "Token address copied Successfully"
-msgstr ""
+msgstr "Đã sao chép thành công địa chỉ mã thông báo"
 
 #: src/modules/cover/purchase/index.jsx:86
 #: src/modules/home/Hero.jsx:148
 msgid "Total Liquidity"
-msgstr ""
+msgstr "Tổng thanh khoản"
 
 #: src/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources.jsx:33
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:43
 msgid "Total Liquidity:"
-msgstr ""
+msgstr "Tổng thanh khoản:"
 
 #: src/modules/my-liquidity/index.jsx:18
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:68
@@ -1537,168 +1527,168 @@ msgstr ""
 #: src/pages/pools/bond/transactions.jsx:44
 #: src/pages/pools/bond/transactions.jsx:51
 msgid "Transaction List"
-msgstr ""
+msgstr "Danh sách giao dịch"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:116
 msgid "UNSTAKE"
-msgstr ""
+msgstr "BẤT NGỜ"
 
 #: src/common/Cover/CoverCard.jsx:134
 #: src/common/Cover/ProductCard.jsx:163
 #: src/modules/reporting/active/ActiveReportingCard.jsx:157
 msgid "UTILIZATION RATIO:"
-msgstr ""
+msgstr "TỶ LỆ SỬ DỤNG:"
 
 #: src/common/TokenBalance.jsx:40
 msgid "Unable to copy token address"
-msgstr ""
+msgstr "Không thể sao chép địa chỉ mã thông báo"
 
 #: src/common/Header/AccountDetailsModal.jsx:135
 msgid "Unlimited Approvals"
-msgstr ""
+msgstr "Phê duyệt không giới hạn"
 
 #: src/common/UnlockDate.jsx:8
 #: src/modules/pools/bond/ClaimBondModal.jsx:53
 msgid "Unlock Date"
-msgstr ""
+msgstr "Ngày mở khóa"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:153
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:169
 msgid "Unstake"
-msgstr ""
+msgstr "Không bắt đầu"
 
 #: src/hooks/useUnstakeReportingStake.jsx:154
 msgid "Unstake & claim NPM"
-msgstr ""
+msgstr "Bỏ chạy và yêu cầu NPM"
 
 #: src/hooks/useUnstakeReportingStake.jsx:46
 msgid "Unstake NPM"
-msgstr ""
+msgstr "Không bắt đầu NPM"
 
 #: src/helpers/notification.js:399
 msgid "Unstaked & claimed {symbol} Successfully"
-msgstr ""
+msgstr "Chưa gắn dấu sao và đã xác nhận {symbol} thành công"
 
 #: src/helpers/notification.js:383
 msgid "Unstaked {symbol} Successfully"
-msgstr ""
+msgstr "Đã bỏ gắn dấu {symbol} thành công"
 
 #: src/helpers/notification.js:33
 msgid "Unstaked {tokenSymbol} successfully"
-msgstr ""
+msgstr "Đã bỏ gắn dấu sao {tokenSymbol} thành công"
 
 #: src/helpers/notification.js:408
 msgid "Unstaking & claiming {symbol}"
-msgstr ""
+msgstr "Không cam kết và khẳng định {symbol}"
 
 #: src/helpers/notification.js:392
 msgid "Unstaking {symbol}"
-msgstr ""
+msgstr "Không hấp dẫn {symbol}"
 
 #: src/helpers/notification.js:46
 msgid "Unstaking {tokenSymbol}"
-msgstr ""
+msgstr "Không thực hiện được {tokenSymbol}"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:169
 msgid "Unstaking..."
-msgstr ""
+msgstr "Thật khó..."
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:126
 #: src/modules/reporting/active/ActiveReportSummary.jsx:171
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:112
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:157
 msgid "User Votes:"
-msgstr ""
+msgstr "Bình chọn của Người dùng:"
 
 #: src/common/SearchAndSortBar.jsx:9
 msgid "Utilization Ratio"
-msgstr ""
+msgstr "Tỷ lệ sử dụng"
 
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:25
 msgid "Vault Info"
-msgstr ""
+msgstr "Thông tin về Vault"
 
 #: src/common/TransactionList/TransactionList.jsx:91
 msgid "View More"
-msgstr ""
+msgstr "Xem thêm"
 
 #: src/common/TransactionList/TransactionList.jsx:167
 msgid "View Tx"
-msgstr ""
+msgstr "Xem Tx"
 
 #: src/common/Header/AccountDetailsModal.jsx:126
 msgid "View on Explorer"
-msgstr ""
+msgstr "Xem trên Explorer"
 
 #: src/common/ViewTxLink.jsx:13
 msgid "View transaction"
-msgstr ""
+msgstr "Xem giao dịch"
 
 #: src/modules/reporting/RecentVotesTable.jsx:60
 msgid "Weight"
-msgstr ""
+msgstr "Trọng lượng"
 
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:40
 msgid "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections."
-msgstr ""
+msgstr "Khi thời hạn của chính sách kết thúc, chính sách đó sẽ tự động chuyển sang phần này. Khám phá các sản phẩm trên màn hình chính để xem các biện pháp bảo vệ hiện có."
 
 #: src/modules/pools/bond/index.jsx:206
 msgid "Will Unlock On"
-msgstr ""
+msgstr "Sẽ mở khóa"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:285
 msgid "Withdraw"
-msgstr ""
+msgstr "Rút"
 
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
 msgid "Withdraw Liquidity"
-msgstr ""
+msgstr "Rút tiền thanh khoản"
 
 #: src/helpers/notification.js:27
 msgid "Withdrawing rewards"
-msgstr ""
+msgstr "Rút phần thưởng"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:285
 msgid "Withdrawing.."
-msgstr ""
+msgstr "Đang rút tiền.."
 
 #: src/helpers/notification.js:15
 msgid "Withdrawn rewards successfully"
-msgstr ""
+msgstr "Rút phần thưởng thành công"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:159
 msgid "YOU WILL RECEIVE"
-msgstr ""
+msgstr "BẠN SẼ NHẬN"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:196
 #: src/modules/pools/staking/HarvestForm.jsx:42
 #: src/modules/pools/staking/StakingCard.jsx:206
 msgid "You Earned"
-msgstr ""
+msgstr "Bạn đã kiếm được"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:254
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:213
 #: src/modules/pools/bond/index.jsx:197
 msgid "You Will Receive"
-msgstr ""
+msgstr "Bạn sẽ nhận"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:115
 msgid "You are not whitelisted"
-msgstr ""
+msgstr "Bạn không có trong danh sách trắng"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:128
 msgid "You will receive"
-msgstr ""
+msgstr "Bạn sẽ nhận"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "You will receive:"
-msgstr ""
+msgstr "Bạn sẽ nhận:"
 
 #: src/modules/pools/bond/index.jsx:126
 msgid "Your Bond"
-msgstr ""
+msgstr "Trái phiếu của bạn"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:95
 #: src/modules/pools/staking/HarvestForm.jsx:39
@@ -1708,187 +1698,180 @@ msgstr ""
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:131
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:176
 msgid "Your Stake"
-msgstr ""
+msgstr "Cổ phần của bạn"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:220
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:181
 #: src/modules/pools/staking/UnStakeForm.jsx:77
 msgid "Your Stake:"
-msgstr ""
+msgstr "Cổ phần của bạn:"
 
 #: src/common/Banner.jsx:30
 msgid "You’re on {0} Network. Get <0>Test Tokens</0> or <1>View Leaderboard</1>."
-msgstr ""
+msgstr "Bạn đang ở trên Mạng {0}. Nhận <0> Mã thông báo kiểm tra </0> hoặc <1> Xem bảng xếp hạng </1>."
 
 #: src/modules/reporting/RecentVotesTable.jsx:54
 msgid "account"
-msgstr ""
-
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:372
-#: src/common/Header/Header.jsx:375
-msgid "account details"
-msgstr ""
+msgstr "tài khoản"
 
 #: src/hooks/useMyLiquidityInfo.jsx:159
 msgid "accrue interest"
-msgstr ""
+msgstr "cộng dồn lãi suất"
 
 #: src/hooks/useProvideLiquidity.jsx:251
 msgid "add liquidity"
-msgstr ""
+msgstr "thêm thanh khoản"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:65
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:63
 #: src/modules/pools/bond/MyBondTxsTable.jsx:65
 msgid "amount"
-msgstr ""
+msgstr "số lượng"
 
 #: src/hooks/useProvideLiquidity.jsx:90
 msgid "approve DAI"
-msgstr ""
+msgstr "phê duyệt DAI"
 
 #: src/hooks/useCreateBond.jsx:194
 msgid "approve LP tokens"
-msgstr ""
+msgstr "phê duyệt mã thông báo LP"
 
 #: src/hooks/useProvideLiquidity.jsx:168
 msgid "approve NPM"
-msgstr ""
+msgstr "phê duyệt NPM"
 
 #: src/hooks/useDisputeIncident.jsx:70
 #: src/hooks/useReportIncident.jsx:65
 #: src/hooks/useVote.jsx:61
 msgid "approve {NPMTokenSymbol} tokens"
-msgstr ""
+msgstr "phê duyệt mã thông báo {NPMTokenSymbol}"
 
 #: src/hooks/usePurchasePolicy.jsx:126
 msgid "approve {liquidityTokenSymbol}"
-msgstr ""
+msgstr "phê duyệt {liquidityTokenSymbol}"
 
 #: src/hooks/useStakingPoolDeposit.jsx:78
 msgid "approve {tokenSymbol}"
-msgstr ""
+msgstr "phê duyệt {tokenSymbol}"
 
 #: src/hooks/useClaimPolicyInfo.jsx:109
 msgid "approve {tokenSymbol} tokens"
-msgstr ""
+msgstr "phê duyệt mã thông báo {tokenSymbol}"
 
 #: src/hooks/useRemoveLiquidity.jsx:52
 msgid "approve {vaultTokenSymbol} tokens"
-msgstr ""
+msgstr "phê duyệt mã thông báo {vaultTokenSymbol}"
 
 #: src/hooks/useVote.jsx:136
 msgid "attest"
-msgstr ""
+msgstr "chứng thực"
 
 #: src/hooks/useCalculateLiquidity.jsx:36
 msgid "calculate liquidity"
-msgstr ""
+msgstr "tính toán thanh khoản"
 
 #: src/hooks/useCalculatePods.jsx:41
 msgid "calculate pods"
-msgstr ""
+msgstr "tính toán vỏ"
 
 #: src/hooks/useCreateBond.jsx:91
 msgid "calculate tokens"
-msgstr ""
+msgstr "tính toán mã thông báo"
 
 #: src/hooks/useClaimBond.jsx:39
 msgid "claim bond"
-msgstr ""
+msgstr "yêu cầu trái phiếu"
 
 #: src/hooks/useClaimPolicyInfo.jsx:207
 msgid "claim policy"
-msgstr ""
+msgstr "yêu cầu chính sách"
 
 #: src/common/TagsInput/TagsInput.jsx:44
 msgid "close"
-msgstr ""
+msgstr "gần"
 
 #: src/modules/reporting/resolved/resolved.jsx:184
 msgid "cover"
-msgstr ""
+msgstr "trải ra"
 
 #: src/hooks/useCreateBond.jsx:270
 msgid "create bond"
-msgstr ""
+msgstr "tạo mối liên kết"
 
 #: src/modules/reporting/resolved/resolved.jsx:190
 msgid "date and time"
-msgstr ""
+msgstr "ngày và giờ"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:59
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:57
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
 msgid "details"
-msgstr ""
+msgstr "thông tin chi tiết"
 
 #: src/hooks/useDisputeIncident.jsx:164
 msgid "dispute"
-msgstr ""
+msgstr "tranh chấp"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "from"
-msgstr ""
+msgstr "từ"
 
 #: src/hooks/useERC20Allowance.jsx:95
 msgid "get allowance"
-msgstr ""
+msgstr "được trợ cấp"
 
 #: src/hooks/usePolicyFees.jsx:64
 msgid "get fees"
-msgstr ""
+msgstr "nhận phí"
 
 #: src/hooks/useFirstReportingStake.jsx:27
 msgid "get first reporting stake"
-msgstr ""
+msgstr "nhận tiền đặt cọc báo cáo đầu tiên"
 
 #: src/hooks/usePoolInfo.jsx:48
 msgid "get pool info"
-msgstr ""
+msgstr "nhận thông tin hồ bơi"
 
 #: src/hooks/useMyLiquidityInfo.jsx:60
 msgid "get vault info"
-msgstr ""
+msgstr "lấy thông tin kho tiền"
 
 #: src/hooks/useIfWhitelisted.jsx:26
 msgid "getting user whitelisted"
-msgstr ""
+msgstr "đưa người dùng vào danh sách trắng"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:205
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
-#: src/pages/covers/[cover_id]/options.jsx:34
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:48
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:53
+#: src/pages/covers/[cover_id]/options.jsx:34
 msgid "loading.."
-msgstr ""
+msgstr "đang tải.."
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:75
 #: src/common/Table/__tests__/Table.test.jsx:108
-#: src/modules/cover/add-liquidity/index.jsx:36
 #: src/modules/cover/CoverOptionsPage.jsx:25
+#: src/modules/cover/add-liquidity/index.jsx:36
 #: src/modules/cover/purchase/index.jsx:44
 #: src/modules/my-liquidity/details.jsx:36
 #: src/modules/my-policies/ClaimDetailsPage.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:45
 #: src/modules/reporting/new/index.jsx:49
-#: src/modules/reporting/resolved/resolved.jsx:261
 #: src/modules/reporting/resolved/ResolveIncident.jsx:46
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
+#: src/modules/reporting/resolved/resolved.jsx:261
 #: src/pages/my-liquidity/index.jsx:58
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:48
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:42
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:81
 #: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:42
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:48
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:42
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:81
 msgid "loading..."
-msgstr ""
+msgstr "đang tải..."
 
 #: src/modules/my-liquidity/index.jsx:68
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
@@ -1897,115 +1880,111 @@ msgstr ""
 #: src/modules/pools/staking/index.jsx:151
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:54
 msgid "no data found"
-msgstr ""
+msgstr "không tìm thấy dữ liệu nào"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:97
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:177
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:203
 msgid "policy"
-msgstr ""
+msgstr "chính sách"
 
 #: src/hooks/usePurchasePolicy.jsx:207
 msgid "purchase policy"
-msgstr ""
+msgstr "chính sách mua hàng"
 
 #: src/hooks/useVote.jsx:224
 msgid "refute"
-msgstr ""
+msgstr "bác bỏ"
 
 #: src/hooks/useRemoveLiquidity.jsx:127
 msgid "remove liquidity"
-msgstr ""
+msgstr "loại bỏ thanh khoản"
 
 #: src/hooks/useReportIncident.jsx:216
 msgid "report incident"
-msgstr ""
+msgstr "báo cáo sự cố"
 
 #: src/common/Cover/CoverResolutionSources.jsx:32
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:28
 msgid "reporting period"
-msgstr ""
+msgstr "kỳ báo cáo"
 
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:65
 msgid "select a cover"
-msgstr ""
+msgstr "chọn một trang bìa"
 
 #: src/hooks/useStakingPoolDeposit.jsx:176
 msgid "stake {tokenSymbol}"
-msgstr ""
+msgstr "cổ phần {tokenSymbol}"
 
 #: src/modules/pools/pod-staking/index.jsx:165
 msgid "staking pools found."
-msgstr ""
+msgstr "tìm thấy hồ bơi khoanh vùng."
 
 #: src/modules/reporting/resolved/resolved.jsx:208
 msgid "status"
-msgstr ""
+msgstr "trạng thái"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "to"
-msgstr ""
+msgstr "đến"
 
 #: src/utils/translations.js:21
 msgid "to get protection from hacks & exploits"
-msgstr ""
+msgstr "để được bảo vệ khỏi tấn công và lợi dụng"
 
 #: src/utils/translations.js:25
 msgid "to notify other users about the cover event"
-msgstr ""
+msgstr "để thông báo cho những người dùng khác về sự kiện trang bìa"
 
 #: src/utils/translations.js:23
 msgid "to pool risks and receive rewards"
-msgstr ""
+msgstr "gộp rủi ro và nhận phần thưởng"
 
 #: src/utils/translations.js:27
 msgid "to receive payout by claiming cxTokens"
-msgstr ""
+msgstr "để nhận khoản thanh toán bằng cách yêu cầu cxTokens"
 
 #: src/modules/reporting/resolved/resolved.jsx:196
 msgid "total attested stake"
-msgstr ""
+msgstr "tổng số tiền cược đã được chứng thực"
 
 #: src/modules/reporting/resolved/resolved.jsx:202
 msgid "total refuted stake"
-msgstr ""
-
-#: src/common/Header/Header.jsx:246
-msgid "transaction overview button"
-msgstr ""
+msgstr "tổng số tiền bị từ chối"
 
 #: src/hooks/useStakingPoolWithdraw.jsx:46
 msgid "unstake {tokenSymbol}"
-msgstr ""
+msgstr "gỡ bỏ {tokenSymbol}"
 
 #: src/common/Cover/CoverCard.jsx:119
 #: src/common/Cover/ProductCard.jsx:148
 #: src/modules/reporting/active/ActiveReportingCard.jsx:142
 msgid "utilization Ratio"
-msgstr ""
+msgstr "tỷ lệ sử dụng"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:67
 msgid "vesting term"
-msgstr ""
+msgstr "kỳ hạn"
 
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:16
 msgid "votes"
-msgstr ""
+msgstr "phiếu bầu"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:53
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:51
 #: src/modules/pools/bond/MyBondTxsTable.jsx:53
 #: src/modules/reporting/RecentVotesTable.jsx:48
 msgid "when"
-msgstr ""
+msgstr "khi nào"
 
 #: src/hooks/useStakingPoolWithdraw.jsx:170
 msgid "withdraw rewards"
-msgstr ""
+msgstr "rút phần thưởng"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "withdrawing..."
-msgstr ""
+msgstr "rút..."
 
 #: src/common/ProductsGrid/ProductsGrid.jsx:104
 #: src/modules/pools/pod-staking/index.jsx:39
@@ -2025,4 +2004,5 @@ msgstr ""
 #: src/modules/reporting/resolved/resolved.jsx:94
 #: src/modules/reporting/resolved/resolved.jsx:95
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
+
