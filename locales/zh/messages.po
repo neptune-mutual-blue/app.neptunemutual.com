@@ -2006,23 +2006,3 @@ msgstr "提取奖励"
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "withdrawing..."
 msgstr "提取中"
-
-#: src/common/ProductsGrid/ProductsGrid.jsx:104
-#: src/modules/pools/pod-staking/index.jsx:39
-#: src/modules/pools/pod-staking/index.jsx:72
-#: src/modules/pools/pod-staking/index.jsx:73
-#: src/modules/pools/pod-staking/index.jsx:74
-#: src/modules/pools/staking/index.jsx:39
-#: src/modules/pools/staking/index.jsx:71
-#: src/modules/pools/staking/index.jsx:72
-#: src/modules/pools/staking/index.jsx:73
-#: src/modules/reporting/active/active.jsx:48
-#: src/modules/reporting/active/active.jsx:79
-#: src/modules/reporting/active/active.jsx:80
-#: src/modules/reporting/active/active.jsx:81
-#: src/modules/reporting/resolved/resolved.jsx:57
-#: src/modules/reporting/resolved/resolved.jsx:93
-#: src/modules/reporting/resolved/resolved.jsx:94
-#: src/modules/reporting/resolved/resolved.jsx:95
-msgid "{0}"
-msgstr "{0}"

@@ -54,7 +54,7 @@ export const ReportingResolvedPage = () => {
   } = useResolvedReportings();
 
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.RESOLVED_DATE}`,
+    name: SORT_TYPES.RESOLVED_DATE,
   });
   const router = useRouter();
   const { getStatsByKey } = useSortableStats();
@@ -90,9 +90,9 @@ export const ReportingResolvedPage = () => {
   const options = useMemo(() => {
     if (router.locale) {
       return [
-        { name: t`${SORT_TYPES.ALPHABETIC}` },
-        { name: t`${SORT_TYPES.INCIDENT_DATE}` },
-        { name: t`${SORT_TYPES.RESOLVED_DATE}` },
+        { name: SORT_TYPES.ALPHABETIC },
+        { name: SORT_TYPES.INCIDENT_DATE },
+        { name: SORT_TYPES.RESOLVED_DATE },
       ];
     }
 
@@ -119,7 +119,7 @@ export const ReportingResolvedPage = () => {
 
   const renderCover = (row) => {
     return (
-      <td className="px-6 py-2 text-sm max-w-xs">
+      <td className="max-w-xs px-6 py-2 text-sm">
         <span className="flex items-center w-max">
           <img
             src={row.imgSrc}

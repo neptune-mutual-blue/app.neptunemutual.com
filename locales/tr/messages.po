@@ -123,9 +123,9 @@ msgstr "Çekmek istediğiniz tutar"
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
+#: src/modules/reporting/active/CastYourVote.jsx:209
 #: src/modules/reporting/NewDisputeReportForm.jsx:232
 #: src/modules/reporting/NewIncidentReportForm.jsx:316
-#: src/modules/reporting/active/CastYourVote.jsx:209
 msgid "Approve"
 msgstr "Onaylamak"
 
@@ -209,9 +209,9 @@ msgstr "Onaylıyor.."
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
+#: src/modules/reporting/active/CastYourVote.jsx:206
 #: src/modules/reporting/NewDisputeReportForm.jsx:229
 #: src/modules/reporting/NewIncidentReportForm.jsx:313
-#: src/modules/reporting/active/CastYourVote.jsx:206
 msgid "Approving..."
 msgstr "Onaylanıyor..."
 
@@ -248,8 +248,8 @@ msgstr "Denge:"
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{0}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "Bu havuza likidite sağlamadan veya bu havuzdan bir ürün politikası satın almadan önce lütfen tüm ürün parametrelerini iyi değerlendirin. Yüklenici sermayesi, bireysel ürünleri kapsayan \"{0}\" havuzunda yoğunlaşmıştır. Çeşitlendirilmiş teminat havuzları LP'lere çok daha yüksek getiri sağlasa da, doğası gereği tahsisli teminat havuzlarından daha risklidir."
 
-#: src/modules/pools/PoolsTabs.jsx:17
 #: src/modules/pools/bond/index.jsx:247
+#: src/modules/pools/PoolsTabs.jsx:17
 #: src/pages/pools/bond/transactions.jsx:40
 msgid "Bond"
 msgstr "Bağlamak"
@@ -411,6 +411,11 @@ msgstr "{tokenSymbol} talep ediliyor"
 msgid "Claiming..."
 msgstr "Iddia..."
 
+#: src/common/Banner.jsx:56
+#: src/common/Banner.jsx:58
+msgid "Close Banner"
+msgstr ""
+
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:274
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:239
 msgid "Close:"
@@ -429,6 +434,16 @@ msgstr "Toplama..."
 #: src/common/ComingSoon.jsx:11
 msgid "Coming soon!"
 msgstr "Çok yakında!"
+
+#: src/common/Header/Header.jsx:191
+#: src/common/Header/Header.jsx:193
+#: src/common/Header/Header.jsx:361
+msgid "Connect Wallet"
+msgstr ""
+
+#: src/common/Header/Header.jsx:363
+msgid "Connect wallet"
+msgstr ""
 
 #: src/common/Header/AccountDetailsModal.jsx:95
 msgid "Connected With"
@@ -760,13 +775,13 @@ msgstr "Eklemek istediğiniz bir şey varsa olayı kısaca açıklayın."
 msgid "FALSE REPORTING"
 msgstr "YANLIŞ RAPORLAMA"
 
-#: src/modules/reporting/HorizontalChartLegend.jsx:11
-#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:50
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:72
 #: src/modules/reporting/active/ActiveReportSummary.jsx:166
 #: src/modules/reporting/active/CastYourVote.jsx:148
+#: src/modules/reporting/HorizontalChartLegend.jsx:11
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:50
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:72
 #: src/utils/translations.js:44
 msgid "False Reporting"
 msgstr "Yanlış Raporlama"
@@ -795,16 +810,16 @@ msgstr "Bakiye alınıyor..."
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
 #: src/modules/pools/bond/index.jsx:173
 #: src/modules/pools/staking/StakeForm.jsx:69
-#: src/modules/reporting/NewIncidentReportForm.jsx:131
 #: src/modules/reporting/active/CastYourVote.jsx:117
+#: src/modules/reporting/NewIncidentReportForm.jsx:131
 msgid "Fetching allowance..."
 msgstr "Ödenek alınıyor..."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:171
 #: src/modules/pools/staking/StakeForm.jsx:67
-#: src/modules/reporting/NewIncidentReportForm.jsx:133
 #: src/modules/reporting/active/CastYourVote.jsx:115
+#: src/modules/reporting/NewIncidentReportForm.jsx:133
 msgid "Fetching balance..."
 msgstr "Bakiye alınıyor..."
 
@@ -861,8 +876,8 @@ msgstr "LP jetonları alın"
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
 #: src/modules/reporting/ReportingHero.jsx:38
-#: src/pages/covers/[cover_id]/[product_id]/options.jsx:46
 #: src/pages/covers/[cover_id]/options.jsx:32
+#: src/pages/covers/[cover_id]/[product_id]/options.jsx:46
 msgid "Home"
 msgstr "Ev"
 
@@ -902,13 +917,13 @@ msgstr "Önemli Not"
 msgid "Incident Happened"
 msgstr "Olay Oldu"
 
-#: src/modules/reporting/HorizontalChartLegend.jsx:8
-#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:40
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:71
 #: src/modules/reporting/active/ActiveReportSummary.jsx:121
 #: src/modules/reporting/active/CastYourVote.jsx:133
+#: src/modules/reporting/HorizontalChartLegend.jsx:8
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:40
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:71
 msgid "Incident Occurred"
 msgstr "Olay Meydana Geldi"
 
@@ -931,8 +946,8 @@ msgstr "Içgörüler"
 #: src/hooks/usePurchasePolicy.jsx:90
 #: src/hooks/useStakingPoolDeposit.jsx:299
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:107
-#: src/modules/reporting/NewIncidentReportForm.jsx:54
 #: src/modules/reporting/active/CastYourVote.jsx:75
+#: src/modules/reporting/NewIncidentReportForm.jsx:54
 msgid "Insufficient Balance"
 msgstr "Yetersiz bakiye"
 
@@ -1008,9 +1023,9 @@ msgstr "Mevcut maksimum koruma: {0}"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
+#: src/modules/reporting/active/CastYourVote.jsx:180
 #: src/modules/reporting/NewDisputeReportForm.jsx:202
 #: src/modules/reporting/NewIncidentReportForm.jsx:281
-#: src/modules/reporting/active/CastYourVote.jsx:180
 msgid "Minimum Stake:"
 msgstr "Minimum Bahis:"
 
@@ -1077,10 +1092,10 @@ msgstr "POD yok"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:261
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:54
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:87
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:54
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:87
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:54
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:87
 msgid "No data found"
 msgstr "Veri bulunamadı"
 
@@ -1100,8 +1115,8 @@ msgstr "Verilen zaman damgasıyla geçerli hiçbir olay raporlanmadı"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:98
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:98
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:98
 msgid "Not applicable for disputing"
 msgstr "Tartışmak için geçerli değil"
 
@@ -1308,8 +1323,8 @@ msgstr "Raporlama Dönemi"
 msgid "Reporting incident"
 msgstr "Olay bildirme"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
 #: src/modules/reporting/active/CastYourVote.jsx:227
+#: src/modules/reporting/NewIncidentReportForm.jsx:334
 msgid "Reporting..."
 msgstr "Raporlanıyor..."
 
@@ -1417,11 +1432,11 @@ msgstr "Göre sırala:"
 msgid "Stake"
 msgstr "Bahis"
 
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 #: src/modules/reporting/active/ActiveReportSummary.jsx:130
 #: src/modules/reporting/active/ActiveReportSummary.jsx:175
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:116
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:161
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 msgid "Stake:"
 msgstr "Bahis:"
 
@@ -1714,6 +1729,13 @@ msgstr "{0} Ağındasınız. <0>Test Jetonları</0> veya <1>Skor Tablosunu Gör�
 msgid "account"
 msgstr "hesap"
 
+#: src/common/Header/Header.jsx:202
+#: src/common/Header/Header.jsx:204
+#: src/common/Header/Header.jsx:372
+#: src/common/Header/Header.jsx:375
+msgid "account details"
+msgstr ""
+
 #: src/hooks/useMyLiquidityInfo.jsx:159
 msgid "accrue interest"
 msgstr "faiz tahakkuk etmek"
@@ -1844,32 +1866,32 @@ msgstr "kullanıcının beyaz listeye alınması"
 msgid "https://"
 msgstr "https://"
 
+#: src/pages/covers/[cover_id]/options.jsx:34
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:48
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:53
-#: src/pages/covers/[cover_id]/options.jsx:34
 msgid "loading.."
 msgstr "yükleniyor.."
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:75
 #: src/common/Table/__tests__/Table.test.jsx:108
-#: src/modules/cover/CoverOptionsPage.jsx:25
 #: src/modules/cover/add-liquidity/index.jsx:36
+#: src/modules/cover/CoverOptionsPage.jsx:25
 #: src/modules/cover/purchase/index.jsx:44
 #: src/modules/my-liquidity/details.jsx:36
 #: src/modules/my-policies/ClaimDetailsPage.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:45
 #: src/modules/reporting/new/index.jsx:49
+#: src/modules/reporting/resolved/resolved.jsx:261
 #: src/modules/reporting/resolved/ResolveIncident.jsx:46
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
-#: src/modules/reporting/resolved/resolved.jsx:261
 #: src/pages/my-liquidity/index.jsx:58
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:42
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:48
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:42
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:81
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:42
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
 msgid "loading..."
 msgstr "yükleniyor..."
 
@@ -1953,6 +1975,10 @@ msgstr "toplam onaylanmış hisse"
 msgid "total refuted stake"
 msgstr "toplam reddedilen hisse"
 
+#: src/common/Header/Header.jsx:246
+msgid "transaction overview button"
+msgstr ""
+
 #: src/hooks/useStakingPoolWithdraw.jsx:46
 msgid "unstake {tokenSymbol}"
 msgstr "{tokenSymbol}"
@@ -1985,24 +2011,3 @@ msgstr "ödülleri geri çekmek"
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "withdrawing..."
 msgstr "geri çekilmek..."
-
-#: src/common/ProductsGrid/ProductsGrid.jsx:104
-#: src/modules/pools/pod-staking/index.jsx:39
-#: src/modules/pools/pod-staking/index.jsx:72
-#: src/modules/pools/pod-staking/index.jsx:73
-#: src/modules/pools/pod-staking/index.jsx:74
-#: src/modules/pools/staking/index.jsx:39
-#: src/modules/pools/staking/index.jsx:71
-#: src/modules/pools/staking/index.jsx:72
-#: src/modules/pools/staking/index.jsx:73
-#: src/modules/reporting/active/active.jsx:48
-#: src/modules/reporting/active/active.jsx:79
-#: src/modules/reporting/active/active.jsx:80
-#: src/modules/reporting/active/active.jsx:81
-#: src/modules/reporting/resolved/resolved.jsx:57
-#: src/modules/reporting/resolved/resolved.jsx:93
-#: src/modules/reporting/resolved/resolved.jsx:94
-#: src/modules/reporting/resolved/resolved.jsx:95
-msgid "{0}"
-msgstr "{0}"
-
