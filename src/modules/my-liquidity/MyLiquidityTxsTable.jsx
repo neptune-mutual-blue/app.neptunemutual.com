@@ -48,7 +48,7 @@ const renderAmount = (row) => <PodAmountRenderer row={row} />;
 
 const renderActions = (row) => <ActionsRenderer row={row} />;
 
-const columns = [
+export const columns = [
   {
     name: t`when`,
     align: "left",
@@ -89,7 +89,10 @@ export const MyLiquidityTxsTable = () => {
   return (
     <>
       {blockNumber && (
-        <p className="mb-8 text-xs font-semibold text-right text-9B9B9B">
+        <p
+          className="mb-8 text-xs font-semibold text-right text-9B9B9B"
+          data-testid="block-number"
+        >
           <Trans>LAST SYNCED:</Trans>{" "}
           <a
             href={getBlockLink(networkId, blockNumber)}
@@ -101,13 +104,13 @@ export const MyLiquidityTxsTable = () => {
           </a>
         </p>
       )}
-      <TableWrapper>
+      <TableWrapper data-testid="table-wrapper">
         <Table>
-          <THead columns={columns} />
+          <THead columns={columns} data-testid="table-head" />
           {account ? (
             <TBody isLoading={loading} columns={columns} data={transactions} />
           ) : (
-            <tbody>
+            <tbody data-testid="no-account-message">
               <tr className="w-full text-center">
                 <td className="p-6" colSpan={columns.length}>
                   <Trans>Please connect your wallet...</Trans>
@@ -134,7 +137,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className="px-6 py-6 max-w-xs whitespace-nowrap"
+      className="max-w-xs px-6 py-6 whitespace-nowrap"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -157,7 +160,7 @@ const DetailsRenderer = ({ row }) => {
   }
 
   return (
-    <td className="px-6 py-6 max-w-sm">
+    <td className="max-w-sm px-6 py-6">
       <div className="flex items-center w-max">
         <CoverAvatar
           coverInfo={coverInfo}
@@ -201,7 +204,7 @@ const PodAmountRenderer = ({ row }) => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6 text-right max-w-sm">
+    <td className="max-w-sm px-6 py-6 text-right">
       <div className="flex items-center justify-end whitespace-nowrap w-max">
         <span
           className={row.type == "PodsIssued" ? "text-404040" : "text-FA5C2F"}
