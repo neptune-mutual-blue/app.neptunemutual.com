@@ -94,13 +94,21 @@ describe("CoverCard component", () => {
     info: mockLiquidityInfo,
   });
 
-  mockFunction(FetchCoverHook, "useFetchCoverStats", coverStats);
+  mockFunction(FetchCoverHook, "useFetchCoverStats", {
+    info: coverStats,
+    refetch: () => Promise.resolve(coverStats),
+  });
 
   beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });
-    render(<CoverCard details={mockCoverDetails} />);
+    render(
+      <CoverCard
+        coverKey={mockCoverDetails.coverKey}
+        coverInfo={mockCoverDetails}
+      />
+    );
   });
 
   test("should render the outer OutlinedCard", () => {
@@ -120,41 +128,51 @@ describe("CoverCard component", () => {
     });
 
     test("should have correct image src", () => {
-      const imgSrc = getCoverImgSrc({ key: mockCoverDetails.key });
+      const imgSrc = getCoverImgSrc({ key: mockCoverDetails.coverKey });
       const img = screen.getByTestId("cover-img");
       expect(img).toHaveAttribute("src", imgSrc);
     });
   });
 
   describe("cover badge", () => {
-    test("should not render card status badge if status is 'Normal'", () => {
+    test("should render card status badge 'Incident Happened'", () => {
       const badgeText = screen.queryByText(coverStats.productStatus);
-      expect(badgeText).not.toBeInTheDocument();
+      expect(badgeText).toBeInTheDocument();
     });
 
-    test("should render card status badge if status is not 'Normal'", () => {
+    test("should not render card status badge for 'Normal' status", () => {
       cleanup();
       mockFunction(FetchCoverHook, "useFetchCoverStats", {
-        ...coverStats,
-        status: "Fraud",
+        info: { ...coverStats, productStatus: "Normal" },
+        refetch: () => Promise.resolve(coverStats),
       });
-      render(<CoverCard details={mockCoverDetails} />);
-      const badgeText = screen.getByText("Fraud");
-      expect(badgeText).toBeInTheDocument();
+
+      render(
+        <CoverCard
+          coverKey={mockCoverDetails.coverKey}
+          coverInfo={mockCoverDetails}
+        />
+      );
+
+      expect(screen.queryByTestId("card-badge")).not.toBeInTheDocument();
     });
   });
 
   test("should render correct project name", () => {
-    const projectName = screen.getByTestId("project-name");
-    expect(projectName).toHaveTextContent(mockCoverDetails.projectName);
+    const projectName = screen.getByTestId("project-name").textContent;
+    expect(`${projectName} Cover`).toEqual(mockCoverDetails.infoObj.coverName);
   });
 
   test("should render correct cover fee text", () => {
     const coverFeeEl = screen.getByTestId("cover-fee");
     const coverFee = `Cover fee: ${formatPercent(
-      mockCoverDetails.pricingFloor / MULTIPLIER,
+      mockCoverDetails.infoObj.pricingFloor / MULTIPLIER,
       "en"
-    )}-${formatPercent(mockCoverDetails.pricingCeiling / MULTIPLIER, "en")}`;
+    )}-${formatPercent(
+      mockCoverDetails.infoObj.pricingCeiling / MULTIPLIER,
+      "en"
+    )}`;
+
     expect(coverFeeEl).toHaveTextContent(coverFee);
   });
 
@@ -170,20 +188,23 @@ describe("CoverCard component", () => {
   describe("Protection", () => {
     test("should render correct protection text", () => {
       const protectionEl = screen.getByTestId("protection");
-      const liquidityText = `Protection: ${
-        formatCurrency(
-          convertFromUnits(coverStats.activeCommitment).toString(),
-          "en"
-        ).short
-      }`;
-
+      const liquidityText = formatCurrency(
+        convertFromUnits(
+          coverStats.activeCommitment,
+          liquidityTokenDecimals
+        ).toString(),
+        "en"
+      ).short;
       expect(protectionEl).toHaveTextContent(liquidityText);
     });
 
     test("should have correct title text", () => {
       const protectionEl = screen.getByTestId("protection");
       const titleText = formatCurrency(
-        convertFromUnits(coverStats.activeCommitment).toString(),
+        convertFromUnits(
+          coverStats.activeCommitment,
+          liquidityTokenDecimals
+        ).toString(),
         "en"
       ).long;
       expect(protectionEl).toHaveAttribute("title", titleText);
@@ -193,15 +214,13 @@ describe("CoverCard component", () => {
   describe("Liquidity", () => {
     test("should render correct liquidity text", () => {
       const liquidityEl = screen.getByTestId("liquidity");
-      const liquidityText = `Liquidity: ${
-        formatCurrency(
-          convertFromUnits(
-            mockLiquidityInfo.totalLiquidity,
-            liquidityTokenDecimals
-          ).toString(),
-          "en"
-        ).short
-      }`;
+      const liquidityText = formatCurrency(
+        convertFromUnits(
+          mockLiquidityInfo.totalLiquidity,
+          liquidityTokenDecimals
+        ).toString(),
+        "en"
+      ).short;
 
       expect(liquidityEl).toHaveTextContent(liquidityText);
     });
@@ -215,6 +234,7 @@ describe("CoverCard component", () => {
         ).toString(),
         "en"
       ).long;
+
       expect(liquidityEl).toHaveAttribute("title", titleText);
     });
   });

@@ -1,93 +1,9 @@
 import React from "react";
-import {
-  render,
-  act,
-  withProviders,
-  fireEvent,
-  waitFor,
-} from "@/utils/unit-tests/test-utils";
+import { render, act, fireEvent, waitFor } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
-import {
-  covers,
-  pools,
-  contracts,
-  pricing,
-  coverInfo,
-  vaultInfo,
-} from "@/utils/unit-tests/data/coverPurchaseMockUpData";
+
 import { CoverAddLiquidityDetailsPage } from "@/modules/cover/add-liquidity";
-import { API_BASE_URL } from "@/src/config/constants";
-
-const NETWORKID = 80001;
-
-const MOCKUP_API_URLS = {
-  GET_CONTRACTS_URL: `${API_BASE_URL}protocol/contracts/mumbai`,
-  GET_COVER_INFO: `${API_BASE_URL}protocol/cover/info/${NETWORKID}`,
-  GET_VAULT_INFO: `${API_BASE_URL}protocol/vault/info/${NETWORKID}`,
-  GET_PRICING_URL: `${API_BASE_URL}pricing/${NETWORKID}`,
-  SUB_GRAPH:
-    "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
-};
-
-const QUERY = {
-  POOLS: "pools",
-  COVERS: "covers",
-};
-
-async function mockFetch(url, { body }) {
-  if (url.startsWith(MOCKUP_API_URLS.GET_CONTRACTS_URL)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => contracts,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.GET_PRICING_URL)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => pricing,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.GET_COVER_INFO)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => coverInfo,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.GET_VAULT_INFO)) {
-    return {
-      ok: true,
-      status: 200,
-      json: async () => vaultInfo,
-    };
-  }
-
-  if (url.startsWith(MOCKUP_API_URLS.SUB_GRAPH)) {
-    if (body.includes(QUERY.POOLS)) {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => pools,
-      };
-    }
-
-    if (body.includes(QUERY.COVERS)) {
-      return {
-        ok: true,
-        status: 200,
-        json: async () => covers,
-      };
-    }
-  }
-
-  throw new Error(`Unhandled request: ${url}`);
-}
+import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 
 jest.mock("next/link", () => {
   return ({ children }) => {
@@ -95,8 +11,39 @@ jest.mock("next/link", () => {
   };
 });
 
+const mockCoverDetails = {
+  coverKey:
+    "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+  infoObj: {
+    about:
+      "BB8 Exchange is a global cryptocurrency exchange that lets users from over 140 countries buy and sell over 1200 different digital currencies and tokens. BB8 Exchange offers a simple buy/sell crypto function for beginners as well as a variety of crypto-earning options, in addition to expert cryptocurrency spot and futures trading platforms. On this platform, both novice and expert traders may find what they're looking for.",
+    coverName: "Bb8 Exchange Cover",
+    links: '{blog: "https://bb8-exchange.medium.com", documenta…}',
+    leverage: "1",
+    projectName: "Bb8 Exchange",
+    tags: '["Smart Contract", "DeFi", "Exchange"]',
+    rules:
+      "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the exchange was exploited which resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+    pricingFloor: 200,
+    pricingCeiling: 1400,
+    resolutionSources: '["https://twitter.com/BB8Exchange", "https://twitte…]',
+  },
+  reportingPeriod: 1800,
+  cooldownPeriod: 300,
+  claimPeriod: 1800,
+  minReportingStake: "5000000000000000000000",
+  stakeWithFees: "50000000000000000000000",
+  reassurance: "20000000000000000000000",
+  liquidity: "5685029588525899752492213",
+  utilization: "0.01",
+  products: [],
+  supportsProducts: false,
+};
+
 describe("CoverAddLiquidityPage.test", () => {
-  global.fetch = jest.fn(mockFetch);
+  jest
+    .spyOn(CoverOrProductData, "useCoverOrProductData")
+    .mockImplementation(() => mockCoverDetails);
 
   beforeAll(async () => {
     act(() => {
@@ -105,11 +52,7 @@ describe("CoverAddLiquidityPage.test", () => {
   });
 
   it("should show add liquidity form after accepting rules", async () => {
-    const router = createMockRouter({
-      query: { cover_id: "animated-brands" },
-    });
-    const Component = withProviders(CoverAddLiquidityDetailsPage, router);
-    const { getByTestId } = render(<Component />);
+    const { getByTestId } = render(<CoverAddLiquidityDetailsPage />);
 
     await waitFor(() => {
       expect(getByTestId("accept-rules-check-box")).toBeInTheDocument();

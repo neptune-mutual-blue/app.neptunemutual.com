@@ -20,7 +20,9 @@ describe("CardStatusBadge component behaviour", () => {
   test("should render claimable with red color", () => {
     const screen = render(<CardStatusBadge status={"Claimable"} />);
     const divElement = screen.getByText(/Claimable/i);
-    const cardBadge = screen.container.getElementsByClassName("text-FA5C2F");
+    const cardBadge = screen.container.getElementsByClassName("bg-FA5C2F");
+
+    console.log(divElement.outerHTML);
     expect(divElement).toBeInTheDocument();
     expect(cardBadge.length).toBe(1);
   });

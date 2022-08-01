@@ -13,7 +13,7 @@ import * as Network from "@/src/context/Network";
 const Web3React = require("@web3-react/core");
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import DateLib from "@/lib/date/DateLib";
-import * as UseCoverHook from "@/src/context/Covers";
+import * as UseCoverHook from "@/src/hooks/useCovers";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -30,7 +30,7 @@ const mockPolicyTxData = {
         account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
         cxTokenAmount: "1000000000000000000000",
         daiAmount: "1000000000000000000000",
-        cxTokenData: {
+        cxToken: {
           id: "0x4a1801c51b1acb083cc198fc3022d08eac0b583d",
           tokenSymbol: "cxUSD",
           tokenName: "bb8-exchange-cxtoken",
@@ -49,7 +49,7 @@ const mockPolicyTxData = {
         account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
         cxTokenAmount: "100000000000000000000",
         daiAmount: "100000000000000000000",
-        cxTokenData: {
+        cxToken: {
           id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
           tokenSymbol: "cxUSD",
           tokenName: "animated-brands-cxtoken",
@@ -68,7 +68,7 @@ const mockPolicyTxData = {
         account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
         cxTokenAmount: "100000000000000000000",
         daiAmount: "100000000000000000000",
-        cxTokenData: {
+        cxToken: {
           id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
           tokenSymbol: "cxUSD",
           tokenName: "animated-brands-cxtoken",
@@ -132,8 +132,8 @@ describe("MyPoliciesTxsTable test", () => {
     initialRender();
   });
 
-  describe("Block number", () => {
-    test("should render block number element if blockNumber is available", () => {
+  describe.only("Block number", () => {
+    test.only("should render block number element if blockNumber is available", () => {
       const blockP = screen.getByTestId("block-number");
       expect(blockP).toBeInTheDocument();
     });
@@ -251,7 +251,8 @@ describe("MyPoliciesTxsTable test", () => {
             file: UseCoverHook,
             method: "useCovers",
             returnFn: () => ({
-              getInfoByKey: () => null,
+              data: mockCoverData,
+              loading: false,
             }),
           }
         );
