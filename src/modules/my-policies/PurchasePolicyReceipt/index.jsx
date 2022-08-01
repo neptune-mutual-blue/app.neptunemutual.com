@@ -83,6 +83,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
             href={getAddressLink(networkId, onBehalfOf)}
             target="_blank"
             rel="noreferrer"
+            title="Open In Explorer"
           >
             <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
           </a>
@@ -187,18 +188,22 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     {
       Icon: TwitterIcon,
       href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}&via=`,
+      label: "Twitter",
     },
     {
       Icon: RedditIcon,
       href: `https://reddit.com/submit?url=${shareUrl}&title=${shareText}`,
+      label: "Reddit",
     },
     {
       Icon: TelegramIcon,
       href: `https://telegram.me/share/url?url=${shareUrl}&text=${shareText}`,
+      label: "Telegram",
     },
     {
       Icon: LinkedinIcon,
       href: `https://www.linkedin.com/shareArticle?url=${shareUrl}&title=${shareText}`,
+      label: "Linkedin",
     },
   ];
 
@@ -226,6 +231,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
               href={getAddressLink(networkId, purchaser)}
               target="_blank"
               rel="noreferrer"
+              title="Open In Explorer"
             >
               <span className="sr-only">Open in Explorer</span>
               <OpenInNewIcon className="w-4 h-4" fill="#DADADA" />
@@ -254,10 +260,15 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         <div className="mt-6">
           <p>Share it with your friends for surprise gift!</p>
           <div className="flex gap-4 mt-4">
-            {socials.map(({ Icon, href }, idx) => (
+            {socials.map(({ Icon, href, label }, idx) => (
               <Fragment key={idx}>
                 {href && (
-                  <a href={href} target="_blank" rel="noreferrer">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    title={`Share on ${label}`}
+                  >
                     <Icon className="w-6 h-6 text-black" />
                   </a>
                 )}
@@ -302,6 +313,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
                 href={getTokenLink(networkId, event.cxToken)}
                 target="_blank"
                 rel="noreferrer"
+                title="Open In Explorer"
               >
                 <span className="sr-only">Open in Explorer</span>
                 <OpenInNewIcon className="w-4 h-4" fill="#AAAAAA" />
@@ -310,6 +322,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
                 onClick={() =>
                   register(event.cxToken, cxTokenSymbol, cxTokenDecimals)
                 }
+                title="Add to Metamask"
               >
                 <span className="sr-only">Add to Metamask</span>
                 <AddCircleIcon className="w-4 h-4" fill="#AAAAAA" />
@@ -323,6 +336,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
                 href={getTxLink(networkId, { hash: txHash })}
                 target="_blank"
                 rel="noreferrer"
+                title="Open In Explorer"
               >
                 <span className="sr-only">Open in Explorer</span>
                 <OpenInNewIcon className="w-4 h-4" fill="#AAAAAA" />

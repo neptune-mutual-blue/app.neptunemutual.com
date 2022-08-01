@@ -58,6 +58,7 @@ export const HarvestForm = ({
           <button
             className="ml-1"
             onClick={() => register(rewardTokenAddress, rewardTokenSymbol)}
+            title="Add to Metamask"
           >
             <span className="sr-only">Add to Metamask</span>
             <AddCircleIcon width={16} fill="currentColor" />

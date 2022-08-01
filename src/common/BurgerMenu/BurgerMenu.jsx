@@ -10,6 +10,7 @@ export const BurgerMenu = ({ isOpen, onToggle, ...rest }) => {
         rest.className || ""
       )}
       aria-label="Open or Close the Sidebar"
+      title={isOpen ? "Close Sidebar" : "Open Sidebar"}
     >
       <div
         className={classNames(

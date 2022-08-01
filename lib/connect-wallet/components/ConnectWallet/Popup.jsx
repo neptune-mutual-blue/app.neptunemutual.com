@@ -35,7 +35,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalWrapper className="min-w-345 md:min-w-400 max-w-md my-2 transition-all bg-f1f3f6">
+      <ModalWrapper className="max-w-md my-2 transition-all min-w-345 md:min-w-400 bg-f1f3f6">
         <Dialog.Title
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
@@ -46,6 +46,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
         <button
           onClick={onClose}
           className="absolute flex items-center justify-center text-black rounded-md top-5 md:top-7 right-8 md:right-12 hover:text-4e7dd9 focus:text-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-transparent"
+          title="Close"
         >
           <span className="sr-only">Close</span>
           <CloseIcon width={24} height={24} />

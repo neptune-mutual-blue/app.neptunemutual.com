@@ -145,6 +145,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
                       aria-label="Remove"
                       onClick={() => handleDeleteLink(i)}
                       className="p-2 ml-4 border rounded-md cursor-pointer border-CEEBED"
+                      title="Delete"
                     >
                       <DeleteIcon width={14} height={16} />
                     </span>
