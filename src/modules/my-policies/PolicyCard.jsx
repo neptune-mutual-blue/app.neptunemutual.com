@@ -85,7 +85,7 @@ export const PolicyCard = ({ policyInfo }) => {
         <div>
           <div className="flex justify-between">
             <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
-            <div data-testid="policy-card-status">
+            <div>
               <InfoTooltip
                 disabled={coverInfo.products?.length === 0}
                 infoComponent={
@@ -97,7 +97,7 @@ export const PolicyCard = ({ policyInfo }) => {
                   </div>
                 }
               >
-                <div>
+                <div data-testid="policy-card-status">
                   <CardStatusBadge status={showStatus ? status : null} />
                 </div>
               </InfoTooltip>

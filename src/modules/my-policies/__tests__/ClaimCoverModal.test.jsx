@@ -10,7 +10,7 @@ import { i18n } from "@lingui/core";
 import { ClaimCoverModal } from "@/modules/my-policies/ClaimCoverModal";
 import * as ClaimPolicyHook from "@/src/hooks/useClaimPolicyInfo";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import * as CxTokenRowContext from "@/modules/my-policies/CxTokenRowContext";
@@ -21,13 +21,16 @@ const mockFunction = (file, method, returnData) => {
 };
 
 const props = {
-  modalTitle: "Claim Cover",
+  claimPlatformFee: "650",
+  coverKey:
+    "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+  productKey:
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+  cxTokenAddress: "0x0fdc3e2afd39a4370f5d493d5d2576b8ab3c5258",
   isOpen: true,
   onClose: jest.fn(),
-  coverKey:
-    "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
-  incidentDate: "1653982637",
-  cxTokenAddress: "0xa363182843ccd48ec068f88a2ec932fa04b5dd7c",
+  modalTitle: "Claim Cover",
+  incidentDate: "1658995751",
 };
 
 const mockUseClaimPolicyInfo = {
@@ -130,7 +133,7 @@ describe("ClaimCoverModal test", () => {
       .getByTestId("receive-info-container")
       .querySelector("p");
     const val = `Fee: ${formatPercent(
-      mockUseClaimPolicyInfo.claimPlatformFee / MULTIPLIER,
+      toBN(props.claimPlatformFee).dividedBy(MULTIPLIER).toString(),
       "en"
     )}`;
     expect(wrapper).toHaveTextContent(val);

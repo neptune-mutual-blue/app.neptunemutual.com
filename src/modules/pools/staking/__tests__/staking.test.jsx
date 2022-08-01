@@ -40,7 +40,7 @@ describe("Pool Staking", () => {
       i18n.activate("en");
       ReactDOM.render(<Component />, container);
     });
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(11));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(10));
   });
 
   describe("Staking card", () => {
