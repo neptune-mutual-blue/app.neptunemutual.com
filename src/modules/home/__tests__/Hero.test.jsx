@@ -3,11 +3,10 @@ import { render, screen, act, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { HomeHero } from "@/modules/home/Hero";
 import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
-import * as Router from "next/router";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
-import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 const liquidityTokenDecimals = 6;
 
@@ -29,15 +28,6 @@ const protocolDayData = [
     totalLiquidity: "43019312813333333333333335",
   },
 ];
-
-const heroStats = {
-  availableCovers: 0,
-  reportingCovers: 0,
-  tvlCover: "0",
-  tvlPool: "0",
-  covered: "0",
-  coverFee: "0",
-};
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
@@ -66,18 +56,6 @@ const getChangeData = (data) => {
 };
 
 describe("Hero test", () => {
-  mockFunction(ProtocolHook, "useProtocolDayData", {
-    data: protocolDayData,
-    loading: false,
-  });
-
-  mockFunction(Router, "useRouter", { locale: "en" });
-
-  mockFunction(FetchHeroStats, "useFetchHeroStats", {
-    loading: false,
-    data: heroStats,
-  });
-
   const renderer = () => {
     act(() => {
       i18n.activate("en");
@@ -86,7 +64,13 @@ describe("Hero test", () => {
   };
 
   beforeEach(() => {
-    renderer();
+    i18n.activate("en");
+
+    mockFn.useProtocolDayData();
+    mockFn.useRouter();
+    mockFn.useFetchHeroStats();
+
+    render(<HomeHero />);
   });
 
   test("should render the component correctly", () => {
@@ -176,6 +160,7 @@ describe("Hero test", () => {
       loading: false,
     });
     renderer();
+
     const wrapper = screen.queryByTestId("changedata-percent");
     expect(wrapper).toBeNull();
   });
