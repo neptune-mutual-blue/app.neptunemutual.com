@@ -223,4 +223,30 @@ export const testData = {
   network: { networkId: 80001 },
   account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
   tokenDecimal: { liquidityTokenDecimals: 6 },
+  protocolData: [
+    {
+      date: 1649980800,
+      totalLiquidity: "42972266000000000000000000",
+    },
+    {
+      date: 1650067200,
+      totalLiquidity: "43002586813333333333333335",
+    },
+    {
+      date: 1650153600,
+      totalLiquidity: "43005074813333333333333335",
+    },
+    {
+      date: 1650240000,
+      totalLiquidity: "43019312813333333333333335",
+    },
+  ],
+  heroStats: {
+    availableCovers: 0,
+    reportingCovers: 0,
+    tvlCover: "0",
+    tvlPool: "0",
+    covered: "0",
+    coverFee: "0",
+  },
 };

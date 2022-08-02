@@ -12,6 +12,8 @@ import * as UseRegisterTokenHook from "@/src/hooks/useRegisterToken";
 import * as PolicyTxs from "@/src/hooks/usePolicyTxs";
 import * as Network from "@/src/context/Network";
 import * as AppConstants from "@/src/context/AppConstants";
+import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
+import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
 const Web3React = require("@web3-react/core");
 
 export const mockFn = {
@@ -77,4 +79,11 @@ export const mockFn = {
     jest.spyOn(Web3React, "useWeb3React").mockImplementation(cb),
   useAppConstants: (cb = () => testData.tokenDecimal) =>
     jest.spyOn(AppConstants, "useAppConstants").mockImplementation(cb),
+  useProtocolDayData: (
+    cb = () => ({ data: testData.protocolData, loading: false })
+  ) => jest.spyOn(ProtocolHook, "useProtocolDayData").mockImplementation(cb),
+
+  useFetchHeroStats: (
+    cb = () => ({ data: testData.heroStats, loading: false })
+  ) => jest.spyOn(FetchHeroStats, "useFetchHeroStats").mockImplementation(cb),
 };
