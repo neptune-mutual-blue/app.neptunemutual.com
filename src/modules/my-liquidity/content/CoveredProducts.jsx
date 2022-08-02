@@ -48,7 +48,10 @@ export function CoveredProducts({ coverInfo }) {
   const [productInfo, setProductInfo] = useState();
 
   return (
-    <Container className="flex flex-col py-9">
+    <Container
+      className="flex flex-col py-9"
+      data-testid="cover-product-container"
+    >
       <div className="flex flex-col">
         <h4 className="mb-24 font-bold text-h3">
           <Trans>Products Covered Under This Pool</Trans>

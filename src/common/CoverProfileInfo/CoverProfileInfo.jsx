@@ -15,7 +15,7 @@ export const CoverProfileInfo = ({
   const { productStatus, activeIncidentDate } = useCoverStatsContext();
 
   return (
-    <div className="flex" data-testid="coverprofileinfo-container">
+    <div className="flex" data-testid="dedicated-coverprofileinfo-container">
       <div>
         <ProjectImage imgSrc={imgSrc} name={projectName} />
       </div>

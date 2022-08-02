@@ -45,11 +45,12 @@ export const MyLiquidityCoverPage = () => {
   const myLiquidity = info.myUnrealizedShare;
 
   return (
-    <div className="bg-f1f3f6">
+    <div className="bg-f1f3f6" data-testid="main-container">
       {/* hero */}
       <Hero>
         <Container className="px-2 py-20">
           <BreadCrumbs
+            data-testid="breadcrumbs"
             pages={[
               {
                 name: t`My Liquidity`,
@@ -77,7 +78,7 @@ export const MyLiquidityCoverPage = () => {
             )}
 
             {/* My Liquidity */}
-            <HeroStat title={t`My Liquidity`}>
+            <HeroStat title={t`My Liquidity`} data-testid="herostat">
               {
                 formatCurrency(
                   convertFromUnits(myLiquidity, liquidityTokenDecimals),
@@ -96,11 +97,11 @@ export const MyLiquidityCoverPage = () => {
         <Container className="grid grid-cols-3 lg:gap-32">
           <div className="col-span-3 md:col-span-2">
             {/* Description */}
-            <span className="hidden lg:block">
+            <span className="hidden lg:block" data-testid="see-more-container">
               <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
             </span>
 
-            <div className="mt-12">
+            <div className="mt-12" data-testid="provide-liquidity-container">
               <ProvideLiquidityForm
                 coverKey={coverKey}
                 info={info}
