@@ -36,7 +36,7 @@ const mockData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x7Bdae2a084ec653528b78e90b38d1a67c79f6caml",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -55,7 +55,7 @@ const mockData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x7Bdae2a084ec653528b78e90b38d1a67c79f6caml",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -81,7 +81,7 @@ const mockData = {
     networkId: 43113,
   },
   web3react: {
-    account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6",
+    account: "0x7BDAE2a084EC653528B78e90b38d1A67c79F6Caml",
   },
   appconstants: { liquidityTokenDecimals: 6 },
   coverInfo: {
