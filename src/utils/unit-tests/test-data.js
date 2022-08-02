@@ -114,7 +114,6 @@ export const testData = {
     },
     products: [],
   },
-
   coverStats: {
     info: {
       activeIncidentDate: "0",
@@ -154,4 +153,74 @@ export const testData = {
       },
     },
   },
+  policies: {
+    data: {
+      blockNumber: 26582383,
+      transactions: [
+        {
+          type: "CoverPurchased",
+          key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          cxTokenAmount: "1000000000000000000000",
+          daiAmount: "1000000000000000000000",
+          cxToken: {
+            id: "0x4a1801c51b1acb083cc198fc3022d08eac0b583d",
+            tokenSymbol: "cxUSD",
+            tokenName: "bb8-exchange-cxtoken",
+          },
+          cover: {
+            id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          },
+          transaction: {
+            id: "0x90d468cb0bdd9bd02e5167a7017688072c56e58f5e68de649aec13f3c3d92654",
+            timestamp: "1654238241",
+          },
+        },
+        {
+          type: "Claimed",
+          key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          cxTokenAmount: "100000000000000000000",
+          daiAmount: "100000000000000000000",
+          cxToken: {
+            id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
+            tokenSymbol: "cxUSD",
+            tokenName: "animated-brands-cxtoken",
+          },
+          cover: {
+            id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+          },
+          transaction: {
+            id: "0x67cf26b73121410b9019fba892a2a70a5ab48bc8defc562b1044377c48bcd46b",
+            timestamp: "1654167774",
+          },
+        },
+        {
+          type: "CoverPurchased",
+          key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          cxTokenAmount: "100000000000000000000",
+          daiAmount: "100000000000000000000",
+          cxToken: {
+            id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
+            tokenSymbol: "cxUSD",
+            tokenName: "animated-brands-cxtoken",
+          },
+          cover: {
+            id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+          },
+          transaction: {
+            id: "0xc9bb4fe739341103c8939ef61dc853b9ff04aa59ae7bec468b21c3648d8d19ce",
+            timestamp: "1654167673",
+          },
+        },
+      ],
+      totalCount: 3,
+    },
+    loading: false,
+    hasMore: false,
+  },
+  network: { networkId: 80001 },
+  account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
+  tokenDecimal: { liquidityTokenDecimals: 6 },
 };
