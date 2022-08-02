@@ -10,7 +10,6 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
@@ -30,14 +29,13 @@ export const CoverCard = ({
   const { liquidityTokenDecimals } = useAppConstants();
 
   const productKey = utils.keyUtil.toBytes32("");
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
-  const { activeCommitment, productStatus } = coverStats;
-  const liquidity = liquidityInfo.totalLiquidity;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -139,7 +137,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }

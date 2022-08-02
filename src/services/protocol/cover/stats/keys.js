@@ -1,6 +1,7 @@
 import sdk, { multicall } from "@neptunemutual/sdk";
 import { keccak256 as solidityKeccak256 } from "@ethersproject/solidity";
 import { registry } from "../../../store-keys";
+import { MULTIPLIER } from "@/src/config/constants";
 
 const { Contract, Provider } = multicall;
 
@@ -42,9 +43,26 @@ export const getKeys = async (
     getStatusCall,
   ]);
 
-  const [totalPoolAmount, activeCommitment] = getCoverPoolSummaryResult;
+  const [
+    totalPoolAmount,
+    activeCommitment,
+    _reassurance,
+    _reassurancePoolWeight,
+    productsCount,
+    leverage,
+    capitalEfficiency,
+  ] = getCoverPoolSummaryResult;
 
-  const availableLiquidity = totalPoolAmount.sub(activeCommitment);
+  let availableLiquidity = totalPoolAmount;
+
+  // @todo: Fetch these from smart contract
+  if (productsCount.toString() !== "0") {
+    availableLiquidity = totalPoolAmount
+      .mul(leverage)
+      .mul(capitalEfficiency)
+      .div(productsCount.mul(MULTIPLIER))
+      .sub(activeCommitment);
+  }
 
   return [
     {
