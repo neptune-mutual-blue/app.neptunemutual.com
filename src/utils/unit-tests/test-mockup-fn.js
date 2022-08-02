@@ -14,6 +14,11 @@ import * as Network from "@/src/context/Network";
 import * as AppConstants from "@/src/context/AppConstants";
 import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
 import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
+import * as RouterHook from "next/router";
+import * as LiquidityFormsContextHook from "@/common/LiquidityForms/LiquidityFormsContext";
+import * as CoverActiveReportingsHook from "@/src/hooks/useCoverActiveReportings";
+import * as PaginationHook from "@/src/hooks/usePagination";
+import * as LiquidityTxsHook from "@/src/hooks/useLiquidityTxs";
 const Web3React = require("@web3-react/core");
 
 export const mockFn = {
@@ -75,8 +80,8 @@ export const mockFn = {
     jest.spyOn(Network, "useNetwork").mockImplementation(cb),
   useWeb3React: (cb = () => testData.account) =>
     jest.spyOn(Web3React, "useWeb3React").mockImplementation(cb),
-  useRouter: (cb = () => ({ locale: "en" })) =>
-    jest.spyOn(Web3React, "useWeb3React").mockImplementation(cb),
+  useRouter: (cb = () => testData.router) =>
+    jest.spyOn(RouterHook, "useRouter").mockImplementation(cb),
   useAppConstants: (cb = () => testData.tokenDecimal) =>
     jest.spyOn(AppConstants, "useAppConstants").mockImplementation(cb),
   useProtocolDayData: (
@@ -86,4 +91,16 @@ export const mockFn = {
   useFetchHeroStats: (
     cb = () => ({ data: testData.heroStats, loading: false })
   ) => jest.spyOn(FetchHeroStats, "useFetchHeroStats").mockImplementation(cb),
+  useLiquidityFormsContext: (cb = () => testData.liquidityFormsContext) =>
+    jest
+      .spyOn(LiquidityFormsContextHook, "useLiquidityFormsContext")
+      .mockImplementation(cb),
+  useCoverActiveReportings: (cb = () => testData.coverActiveReportings) =>
+    jest
+      .spyOn(CoverActiveReportingsHook, "useCoverActiveReportings")
+      .mockImplementation(cb),
+  usePagination: (cb = () => testData.pagination) =>
+    jest.spyOn(PaginationHook, "usePagination").mockImplementation(cb),
+  useLiquidityTxs: (cb = () => testData.liquidityTxs) =>
+    jest.spyOn(LiquidityTxsHook, "useLiquidityTxs").mockImplementation(cb),
 };

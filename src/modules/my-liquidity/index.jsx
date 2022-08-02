@@ -10,6 +10,7 @@ import { t, Trans } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
+  console.log({ myLiquidities });
   return (
     <Container className="py-16" data-testid="page-container">
       <div className="flex justify-end">

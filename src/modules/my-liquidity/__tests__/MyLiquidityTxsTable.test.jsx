@@ -7,111 +7,20 @@ import {
   MyLiquidityTxsTable,
 } from "@/modules/my-liquidity/MyLiquidityTxsTable";
 
-import * as LiquidityTxsHook from "@/src/hooks/useLiquidityTxs";
-import * as PaginationHook from "@/src/hooks/usePagination";
-import * as NetworkHook from "@/src/context/Network";
-const Web3ReactHook = require("@web3-react/core");
-import * as AppConstantsHook from "@/src/context/AppConstants";
-import * as CoverOrProductDataHook from "@/src/hooks/useCoverOrProductData";
-
 import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
-
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
-};
-
-const mockData = {
-  pagination: {
-    page: 1,
-    limit: 50,
-    setPage: jest.fn(),
-  },
-  liquiditytxs: {
-    data: {
-      blockNumber: 12130964,
-      transactions: [
-        {
-          type: "PodsIssued",
-          key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x7Bdae2a084ec653528b78e90b38d1a67c79f6caml",
-          liquidityAmount: "500000000",
-          podAmount: "500000000000000000000",
-          vault: {
-            id: "0x98e7786fff366aeff1a55131c92c4aa7edd68ad1",
-            tokenSymbol: "HCF-nDAI",
-            tokenDecimals: 18,
-          },
-          cover: {
-            id: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          },
-          transaction: {
-            id: "0x3639c211b26d20c598fe4bde46295912f3edcc3d6ca6ae03aac7eebeac450f31",
-            timestamp: "1659078165",
-          },
-        },
-        {
-          type: "PodsIssued",
-          key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x7Bdae2a084ec653528b78e90b38d1a67c79f6caml",
-          liquidityAmount: "500000000",
-          podAmount: "500000000000000000000",
-          vault: {
-            id: "0x98e7786fff366aeff1a55131c92c4aa7edd68ad1",
-            tokenSymbol: "HCF-nDAI",
-            tokenDecimals: 18,
-          },
-          cover: {
-            id: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          },
-          transaction: {
-            id: "0x3639c211b26d20c598fe4bde46295912f3edcc3d6ca6ae03aac7eebeac450f31",
-            timestamp: "1659078165",
-          },
-        },
-      ],
-      totalCount: 4,
-    },
-    loading: false,
-    hasMore: true,
-  },
-  network: {
-    networkId: 43113,
-  },
-  web3react: {
-    account: "0x7BDAE2a084EC653528B78e90b38d1A67c79F6Caml",
-  },
-  appconstants: { liquidityTokenDecimals: 6 },
-  coverInfo: {
-    supportsProducts: false,
-    infoObj: {
-      coverName: "Hicif Bank OTC Cover",
-      projectName: "Hicif Bank",
-    },
-  },
-};
+import { testData } from "@/utils/unit-tests/test-data";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 const initalMocks = () => {
-  mockFunction(PaginationHook, "usePagination", () => mockData.pagination);
-  mockFunction(
-    LiquidityTxsHook,
-    "useLiquidityTxs",
-    () => mockData.liquiditytxs
-  );
-  mockFunction(NetworkHook, "useNetwork", () => mockData.network);
-  mockFunction(Web3ReactHook, "useWeb3React", () => mockData.web3react);
-  mockFunction(
-    AppConstantsHook,
-    "useAppConstants",
-    () => mockData.appconstants
-  );
-  mockFunction(
-    CoverOrProductDataHook,
-    "useCoverOrProductData",
-    () => mockData.coverInfo
-  );
+  mockFn.usePagination();
+  mockFn.useLiquidityTxs();
+  mockFn.useNetwork();
+  mockFn.useWeb3React();
+  mockFn.useAppConstants();
+  mockFn.useCoverOrProductData();
 };
 
 describe("MyLiquidityTxsTable test", () => {
@@ -123,12 +32,8 @@ describe("MyLiquidityTxsTable test", () => {
     render(<MyLiquidityTxsTable {...newProps} />);
   };
 
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
+  const rerender = (newProps = {}, mocks = () => {}) => {
+    mocks();
 
     cleanup();
     initialRender(newProps, true);
@@ -148,7 +53,7 @@ describe("MyLiquidityTxsTable test", () => {
     test("correct blocknumber data should be displayed", () => {
       const card = screen.getByTestId("block-number");
       const blockNumber = card.querySelector("a").textContent;
-      expect(blockNumber).toBe(`#${mockData.liquiditytxs.data.blockNumber}`);
+      expect(blockNumber).toBe(`#${testData.liquidityTxs.data.blockNumber}`);
     });
 
     test("should render correct block url", () => {
@@ -156,26 +61,22 @@ describe("MyLiquidityTxsTable test", () => {
       const blockNumber = card.querySelector("a").getAttribute("href");
       expect(blockNumber).toBe(
         getBlockLink(
-          mockData.network.networkId,
-          mockData.liquiditytxs.data.blockNumber
+          testData.network.networkId,
+          testData.liquidityTxs.data.blockNumber
         )
       );
     });
 
     test("should not render blocknumber element if blocknumber data not present", () => {
-      rerender({}, [
-        {
-          file: LiquidityTxsHook,
-          method: "useLiquidityTxs",
-          returnFn: () => ({
-            ...mockData.liquiditytxs,
-            data: {
-              ...mockData.liquiditytxs.data,
-              blockNumber: null,
-            },
-          }),
-        },
-      ]);
+      rerender({}, () => {
+        mockFn.useLiquidityTxs(() => ({
+          ...testData.liquidityTxs,
+          data: {
+            ...testData.liquidityTxs.data,
+            blockNumber: null,
+          },
+        }));
+      });
       const card = screen.queryByTestId("block-number");
       expect(card).not.toBeInTheDocument();
     });
@@ -202,7 +103,7 @@ describe("MyLiquidityTxsTable test", () => {
       const tableWrapper = screen.getByTestId("app-table-body");
       const tableRows = tableWrapper.querySelectorAll("tr");
       expect(tableRows.length).toBe(
-        mockData.liquiditytxs.data.transactions.length
+        testData.liquidityTxs.data.transactions.length
       );
     });
 
@@ -213,7 +114,7 @@ describe("MyLiquidityTxsTable test", () => {
         const renderedTime = row.querySelectorAll("td")[0].textContent;
         expect(renderedTime).toBe(
           fromNow(
-            mockData.liquiditytxs.data.transactions[0].transaction.timestamp
+            testData.liquidityTxs.data.transactions[0].transaction.timestamp
           )
         );
       });
@@ -223,21 +124,21 @@ describe("MyLiquidityTxsTable test", () => {
         const row = tableWrapper.querySelectorAll("tr")[0];
         const renderedDetails = row.querySelectorAll("td")[1].textContent;
 
-        const dataRow = mockData.liquiditytxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0];
         const expectedDetails = `${
           dataRow.type == "PodsIssued" ? "Added" : "Removed"
         } ${
           formatCurrency(
             convertFromUnits(
               dataRow.liquidityAmount,
-              mockData.appconstants.liquidityTokenDecimals
+              testData.appConstants.liquidityTokenDecimals
             ),
             "en"
           ).short
         } ${dataRow.type == "PodsIssued" ? "to" : "from"} ${
-          mockData.coverInfo.supportsProducts
-            ? mockData.coverInfo.infoObj.coverName
-            : mockData.coverInfo.infoObj.projectName
+          testData.coverInfo.supportsProducts
+            ? testData.coverInfo.infoObj.coverName
+            : testData.coverInfo.infoObj.projectName
         }`;
         expect(renderedDetails).toBe(expectedDetails);
       });
@@ -249,7 +150,7 @@ describe("MyLiquidityTxsTable test", () => {
           "td:nth-child(3)>div>span"
         ).textContent;
 
-        const dataRow = mockData.liquiditytxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0];
         const expectedAmount = formatCurrency(
           convertFromUnits(dataRow.podAmount, dataRow.vault.tokenDecimals),
           "en",
@@ -271,9 +172,9 @@ describe("MyLiquidityTxsTable test", () => {
           .querySelector("td:nth-child(4)>div>a")
           .getAttribute("href");
 
-        const dataRow = mockData.liquiditytxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0];
         expect(explorerLink).toBe(
-          getTxLink(mockData.network.networkId, {
+          getTxLink(testData.network.networkId, {
             hash: dataRow.transaction.id,
           })
         );
@@ -281,15 +182,11 @@ describe("MyLiquidityTxsTable test", () => {
     });
 
     test("should render no account message if no account connected", () => {
-      rerender({}, [
-        {
-          file: Web3ReactHook,
-          method: "useWeb3React",
-          returnFn: () => ({
-            account: null,
-          }),
-        },
-      ]);
+      rerender({}, () => {
+        mockFn.useWeb3React(() => ({
+          account: null,
+        }));
+      });
       const card = screen.getByTestId("no-account-message");
       const tableWrapper = screen.queryByTestId("app-table-body");
 
