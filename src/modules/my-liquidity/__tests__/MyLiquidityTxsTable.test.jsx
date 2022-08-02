@@ -1,6 +1,4 @@
-import React from "react";
-import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen } from "@/utils/unit-tests/test-utils";
 
 import {
   columns,
@@ -12,9 +10,9 @@ import { fromNow } from "@/utils/formatter/relative-time";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { testData } from "@/utils/unit-tests/test-data";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
-const initalMocks = () => {
+const initialMocks = () => {
   mockFn.usePagination();
   mockFn.useLiquidityTxs();
   mockFn.useNetwork();
@@ -24,23 +22,13 @@ const initalMocks = () => {
 };
 
 describe("MyLiquidityTxsTable test", () => {
-  const initialRender = (newProps = {}, rerender = false) => {
-    if (!rerender) initalMocks();
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<MyLiquidityTxsTable {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mocks = () => {}) => {
-    mocks();
-
-    cleanup();
-    initialRender(newProps, true);
-  };
+  const { initialRender, rerenderFn } = initiateTest(
+    MyLiquidityTxsTable,
+    {},
+    initialMocks
+  );
 
   beforeEach(() => {
-    cleanup();
     initialRender();
   });
 
@@ -68,7 +56,7 @@ describe("MyLiquidityTxsTable test", () => {
     });
 
     test("should not render blocknumber element if blocknumber data not present", () => {
-      rerender({}, () => {
+      rerenderFn({}, () => {
         mockFn.useLiquidityTxs(() => ({
           ...testData.liquidityTxs,
           data: {
@@ -182,7 +170,7 @@ describe("MyLiquidityTxsTable test", () => {
     });
 
     test("should render no account message if no account connected", () => {
-      rerender({}, () => {
+      rerenderFn({}, () => {
         mockFn.useWeb3React(() => ({
           account: null,
         }));

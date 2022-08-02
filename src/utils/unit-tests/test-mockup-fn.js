@@ -19,7 +19,17 @@ import * as LiquidityFormsContextHook from "@/common/LiquidityForms/LiquidityFor
 import * as CoverActiveReportingsHook from "@/src/hooks/useCoverActiveReportings";
 import * as PaginationHook from "@/src/hooks/usePagination";
 import * as LiquidityTxsHook from "@/src/hooks/useLiquidityTxs";
+import * as ClaimPolicyHook from "@/src/hooks/useClaimPolicyInfo";
+import * as CxTokenRowContextHook from "@/modules/my-policies/CxTokenRowContext";
+import * as ClaimTableContextHook from "@/modules/my-policies/ClaimCxTokensTable";
+import * as PodStakingPoolsHook from "@/src/hooks/usePodStakingPools";
+import * as PoolInfoHook from "@/src/hooks/usePoolInfo";
+import * as SortableStatsHook from "@/src/context/SortableStatsContext";
+import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
 const Web3React = require("@web3-react/core");
+
+import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
+import { i18n } from "@lingui/core";
 
 export const mockFn = {
   useCoverOrProductData: (cb = () => testData.coverInfo) =>
@@ -82,7 +92,7 @@ export const mockFn = {
     jest.spyOn(Web3React, "useWeb3React").mockImplementation(cb),
   useRouter: (cb = () => testData.router) =>
     jest.spyOn(RouterHook, "useRouter").mockImplementation(cb),
-  useAppConstants: (cb = () => testData.tokenDecimal) =>
+  useAppConstants: (cb = () => testData.appConstants) =>
     jest.spyOn(AppConstants, "useAppConstants").mockImplementation(cb),
   useProtocolDayData: (
     cb = () => ({ data: testData.protocolData, loading: false })
@@ -103,4 +113,49 @@ export const mockFn = {
     jest.spyOn(PaginationHook, "usePagination").mockImplementation(cb),
   useLiquidityTxs: (cb = () => testData.liquidityTxs) =>
     jest.spyOn(LiquidityTxsHook, "useLiquidityTxs").mockImplementation(cb),
+  useClaimPolicyInfo: (cb = () => testData.claimPolicyInfo) =>
+    jest.spyOn(ClaimPolicyHook, "useClaimPolicyInfo").mockImplementation(cb),
+  useCxTokenRowContext: (cb = () => testData.cxTokenRowContext) =>
+    jest
+      .spyOn(CxTokenRowContextHook, "useCxTokenRowContext")
+      .mockImplementation(cb),
+  useClaimTableContext: (cb = () => testData.claimTableContext) =>
+    jest
+      .spyOn(ClaimTableContextHook, "useClaimTableContext")
+      .mockImplementation(cb),
+  usePodStakingPools: (cb = () => testData.podStakingPools) =>
+    jest
+      .spyOn(PodStakingPoolsHook, "usePodStakingPools")
+      .mockImplementation(cb),
+  usePoolInfo: (cb = () => testData.poolInfo) =>
+    jest.spyOn(PoolInfoHook, "usePoolInfo").mockImplementation(cb),
+  useSortableStats: (cb = () => testData.sortableStats) =>
+    jest.spyOn(SortableStatsHook, "useSortableStats").mockImplementation(cb),
+  useActivePolicies: (cb = () => testData.activePolicies) =>
+    jest.spyOn(ActivePoliciesHook, "useActivePolicies").mockImplementation(cb),
+};
+
+export const initiateTest = (
+  Component,
+  props = {},
+  initialMocks = () => {}
+) => {
+  const initialRender = (newProps = {}, rerender = false) => {
+    cleanup();
+    if (!rerender) initialMocks();
+    act(() => {
+      i18n.activate("en");
+    });
+    render(<Component {...props} {...newProps} />);
+  };
+
+  const rerenderFn = (newProps = {}, mocks = () => {}) => {
+    mocks();
+    initialRender(newProps, true);
+  };
+
+  return {
+    initialRender,
+    rerenderFn,
+  };
 };

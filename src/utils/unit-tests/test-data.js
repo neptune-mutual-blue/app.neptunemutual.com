@@ -222,7 +222,6 @@ export const testData = {
   },
   network: { networkId: 80001 },
   account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
-  tokenDecimal: { liquidityTokenDecimals: 6 },
   protocolData: [
     {
       date: 1649980800,
@@ -297,7 +296,17 @@ export const testData = {
     hasMore: false,
     loading: false,
   },
-  appConstants: { liquidityTokenDecimals: 6 },
+  appConstants: {
+    liquidityTokenDecimals: 6,
+    NPMTokenAddress: "",
+    NPMTokenDecimals: 18,
+    NPMTokenSymbol: "NPM",
+    liquidityTokenAddress: "",
+    liquidityTokenSymbol: "DAI",
+    poolsTvl: "0",
+    getTVLById: (_id) => "0",
+    getPriceByAddress: (_address) => "0",
+  },
   pagination: {
     page: 1,
     limit: 50,
@@ -368,6 +377,110 @@ export const testData = {
   },
   coverActiveReportings: {
     data: [],
+    loading: false,
+  },
+  claimPolicyInfo: {
+    canClaim: true,
+    claiming: false,
+    handleClaim: jest.fn(),
+    approving: false,
+    handleApprove: jest.fn(),
+    receiveAmount: "123124343",
+    error: null,
+    loadingAllowance: false,
+    loadingFees: false,
+    claimPlatformFee: "100000000000000000",
+  },
+  cxTokenRowContext: {
+    tokenAddress: "",
+    tokenSymbol: "",
+    tokenDecimals: 0,
+    loadingBalance: false,
+    balance: "0",
+    refetchBalance: jest.fn(),
+  },
+  claimTableContext: {
+    report: {
+      claimExpiresAt: "1659311999",
+    },
+  },
+  podStakingPools: {
+    data: {
+      pools: [
+        {
+          id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          name: "Earn BEC",
+        },
+        {
+          id: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+          key: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+          name: "Earn CRPOOL",
+        },
+        {
+          id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          key: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          name: "Earn HWT",
+        },
+        {
+          id: "0x6f626b0000000000000000000000000000000000000000000000000000000000",
+          key: "0x6f626b0000000000000000000000000000000000000000000000000000000000",
+          name: "Earn OBK",
+        },
+        {
+          id: "0x73616272652d6f7261636c657300000000000000000000000000000000000000",
+          key: "0x73616272652d6f7261636c657300000000000000000000000000000000000000",
+          name: "Earn SABRE",
+        },
+        {
+          id: "0x7832643200000000000000000000000000000000000000000000000000000000",
+          key: "0x7832643200000000000000000000000000000000000000000000000000000000",
+          name: "Earn XD",
+        },
+      ],
+    },
+    loading: false,
+    hasMore: false,
+    handleShowMore: jest.fn(),
+  },
+  poolInfo: {
+    info: {
+      stakingPoolsContractAddress: "0x0ff47939639D6213D27b5217f317665008aCdE3E",
+      name: "Earn XD",
+      stakingToken: "0x90BB63b9C01b1cf1EF4Fd834Ddd25d6AE3BB3e56",
+      stakingTokenStablecoinPair: "0x0000000000000000000000000000000000000000",
+      rewardToken: "0xfE580ca5A2876e85489AbA1FdfCe172186302a9e",
+      rewardTokenStablecoinPair: "0x9123f59C472f8186CBa11833975c08494FAB450E",
+      totalStaked: "61100000000000000000000",
+      target: "800000000000000000000000",
+      maximumStake: "20000000000000000000000",
+      stakeBalance: "21100000000000000000000",
+      cumulativeDeposits: "61100000000000000000000",
+      rewardPerBlock: "6400000000",
+      platformFee: "25",
+      lockupPeriodInBlocks: "1200",
+      rewardTokenBalance: "34999983560448000000000000",
+      lastRewardHeight: "0",
+      lastDepositHeight: "0",
+      myStake: "0",
+      totalBlockSinceLastReward: "0",
+      rewards: "0",
+      canWithdrawFromBlockHeight: "1200",
+      stakingTokenPrice: "1000000000000000000",
+      rewardTokenPrice: "1930279026536796441",
+      apr: "0.12996182629866943",
+    },
+    refetch: jest.fn(),
+  },
+  sortableStats: {
+    setStatsByKey: jest.fn(),
+    getStatsByKey: jest.fn(),
+  },
+  activePolicies: {
+    data: {
+      activePolicies: [],
+      totalActiveProtection: "200000000000000000000",
+    },
     loading: false,
   },
 };

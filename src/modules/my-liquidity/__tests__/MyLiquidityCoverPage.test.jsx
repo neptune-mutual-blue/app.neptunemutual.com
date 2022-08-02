@@ -1,15 +1,13 @@
-import React from "react";
-import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen } from "@/utils/unit-tests/test-utils";
 
 import { MyLiquidityCoverPage } from "@/modules/my-liquidity/details";
 
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
 import { testData } from "@/utils/unit-tests/test-data";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
-const initalMocks = () => {
+const initialMocks = () => {
   mockFn.useRouter();
   mockFn.useAppConstants();
   mockFn.useCoverOrProductData();
@@ -18,28 +16,18 @@ const initalMocks = () => {
 };
 
 describe("MyLiquidityTxsTable test", () => {
-  const initialRender = (newProps = {}, rerender = false) => {
-    if (!rerender) initalMocks();
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<MyLiquidityCoverPage {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mocks = () => {}) => {
-    mocks();
-
-    cleanup();
-    initialRender(newProps, true);
-  };
+  const { initialRender, rerenderFn } = initiateTest(
+    MyLiquidityCoverPage,
+    {},
+    initialMocks
+  );
 
   beforeEach(() => {
-    cleanup();
     initialRender();
   });
 
   test("should render only `loading...` text if coverinfo not loaded", () => {
-    rerender({}, () => {
+    rerenderFn({}, () => {
       mockFn.useCoverOrProductData(() => null);
     });
     expect(screen.getByText("loading...")).toBeInTheDocument();

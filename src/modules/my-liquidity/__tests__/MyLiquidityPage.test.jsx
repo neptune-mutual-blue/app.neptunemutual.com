@@ -1,13 +1,8 @@
-import React from "react";
-import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { cleanup, screen } from "@/utils/unit-tests/test-utils";
 
 import { MyLiquidityPage } from "@/modules/my-liquidity";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
-};
+import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 
 const props = {
   myLiquidities: [
@@ -33,23 +28,7 @@ const props = {
 };
 
 describe("MyLiquidityPage test", () => {
-  const initialRender = (newProps = {}) => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<MyLiquidityPage {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
-
-    cleanup();
-    initialRender(newProps);
-  };
+  const { initialRender, rerenderFn } = initiateTest(MyLiquidityPage, props);
 
   beforeEach(() => {
     cleanup();
@@ -90,7 +69,7 @@ describe("MyLiquidityPage test", () => {
 
   describe("Liquidities loading", () => {
     test("should render the loading grid when loading & no liquidity data present", () => {
-      rerender({ loading: true, myLiquidities: [] });
+      rerenderFn({ loading: true, myLiquidities: [] });
       const wrapper = screen.getByTestId("loading-grid");
       expect(wrapper).toBeInTheDocument();
     });
@@ -98,13 +77,13 @@ describe("MyLiquidityPage test", () => {
 
   describe("Liquidities not present", () => {
     test("should render the no liquidities grid if no liquidities are present", () => {
-      rerender({ myLiquidities: [] });
+      rerenderFn({ myLiquidities: [] });
       const wrapper = screen.getByTestId("no-liquidities-grid");
       expect(wrapper).toBeInTheDocument();
     });
 
     test("should render the empty list illustration", () => {
-      rerender({ myLiquidities: [] });
+      rerenderFn({ myLiquidities: [] });
       const wrapper = screen.getByTestId("no-liquidities-grid");
       const img = wrapper.querySelector("img");
 
