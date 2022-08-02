@@ -5,31 +5,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: fr\n"
+"Language: id\n"
 "Project-Id-Version: neptune-mutual-translations\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-07-28 08:22\n"
+"PO-Revision-Date: 2022-07-28 10:09\n"
 "Last-Translator: \n"
-"Language-Team: French\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language-Team: Indonesian\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Crowdin-Project: neptune-mutual-translations\n"
 "X-Crowdin-Project-ID: 529256\n"
-"X-Crowdin-Language: fr\n"
+"X-Crowdin-Language: id\n"
 "X-Crowdin-File: messages.po\n"
 "X-Crowdin-File-ID: 46\n"
 
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:14
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:26
 msgid "# of Votes"
-msgstr "# de votes"
+msgstr "# Suara"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:95
 msgid "(Emergency Resolved)"
-msgstr "(Résolution de la fusion)"
+msgstr "(Darurat Terselesaikan)"
 
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:42
 msgid "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
-msgstr "Une police de couverture vous permet de réclamer et de recevoir des paiements lorsqu'un incident se produit. Pour acheter une police, sélectionnez une couverture à partir de l'écran d'accueil."
+msgstr "Polis pertanggungan memungkinkan Anda untuk mengklaim dan menerima pembayaran saat terjadi insiden. Untuk membeli polis, pilih sampul dari layar beranda."
 
 #: src/common/SearchAndSortBar.jsx:8
 msgid "A-Z"
@@ -42,79 +42,79 @@ msgstr "APR:"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:140
 msgid "Accept"
-msgstr "Accepter"
+msgstr "Menerima"
 
 #: src/common/Header/AccountDetailsModal.jsx:80
 msgid "Account"
-msgstr "Compte"
+msgstr "Akun"
 
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
 msgid "Accrue"
-msgstr "Accumuler"
+msgstr "Bertambah"
 
 #: src/helpers/notification.js:491
 msgid "Accrued intrest successfully"
-msgstr "Intensité accumulée avec succès"
+msgstr "Bunga yang diperoleh berhasil"
 
 #: src/helpers/notification.js:503
 msgid "Accruing interest"
-msgstr "Intérêts courus"
+msgstr "Bunga yang diperoleh"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:17
 #: src/modules/reporting/ReportingTabs.jsx:11
 msgid "Active"
-msgstr "Actif"
+msgstr "Aktif"
 
 #: src/modules/reporting/CoverReportingRules.jsx:33
 msgid "Active Reporting"
-msgstr "Rapports actifs"
+msgstr "Pelaporan Aktif"
 
 #: src/modules/reporting/active/CastYourVote.jsx:256
 msgid "Add Dispute"
-msgstr "Ajouter un litige"
+msgstr "Tambahkan Sengketa"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:159
 #: src/modules/reporting/NewIncidentReportForm.jsx:241
 msgid "Add new link"
-msgstr "Ajouter un nouveau lien"
+msgstr "Tambahkan tautan baru"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
 msgid "Added"
-msgstr "Ajouté"
+msgstr "Ditambahkan"
 
 #: src/hooks/useProvideLiquidity.jsx:280
 #: src/hooks/useProvideLiquidity.jsx:280
 msgid "Added Liquidity Successfully"
-msgstr "Liquidité ajoutée avec succès"
+msgstr "Menambahkan Likuiditas Berhasil"
 
 #: src/hooks/useProvideLiquidity.jsx:279
 #: src/hooks/useProvideLiquidity.jsx:279
 msgid "Adding Liquidity"
-msgstr "Ajouter de la liquidité"
+msgstr "Menambah Likuiditas"
 
 #: src/modules/my-liquidity/content/rules.jsx:102
 msgid "All rules of individual \"{0}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
-msgstr "Toutes les règles des produits \"{0}\" sont applicables à ce groupe. Si l'événement de déclenchement d'un produit résulte la résolution, la liquidité de ce pool sera utilisée pour payer les réclamations."
+msgstr "Semua aturan masing-masing produk \"{0}\" berlaku untuk kumpulan ini. Jika peristiwa pemicu produk menghasilkan resolusi, likuiditas dari kumpulan ini akan digunakan untuk membayar klaim."
 
 #: src/modules/pools/bond/ClaimBondModal.jsx:41
 msgid "Amount Available To Claim"
-msgstr "Montant disponible à réclamer"
+msgstr "Jumlah yang Tersedia Untuk Diklaim"
 
 #: src/modules/pools/staking/StakeForm.jsx:76
 msgid "Amount You Wish To Stake"
-msgstr "Montant que vous avez souhaité prendre"
+msgstr "Jumlah yang Anda Ingin Taruh"
 
 #: src/hooks/useDisputeIncident.jsx:284
 msgid "Amount less than minimum stake!"
-msgstr "Montant inférieur à la quantité minimale de parties !"
+msgstr "Jumlah kurang dari taruhan minimum!"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:143
 msgid "Amount you wish to cover"
-msgstr "Montant que vous souhaitez couvrir"
+msgstr "Jumlah yang ingin Anda tanggung"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:70
 msgid "Amount you wish to withdraw"
-msgstr "Montant que vous souhaitez retirer"
+msgstr "Jumlah yang ingin Anda tarik"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:240
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
@@ -127,34 +127,34 @@ msgstr "Montant que vous souhaitez retirer"
 #: src/modules/reporting/NewDisputeReportForm.jsx:232
 #: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approve"
-msgstr "Approuver"
+msgstr "Menyetujui"
 
 #: src/helpers/notification.js:348
 msgid "Approve {symbol} Success"
-msgstr "Approuver {symbol} avec succès"
+msgstr "Setujui {symbol} Sukses"
 
 #: src/helpers/notification.js:333
 msgid "Approve {symbol} Successfully"
-msgstr "Approuver {symbol} avec succès"
+msgstr "Setujui {symbol} Berhasil"
 
 #: src/hooks/useProvideLiquidity.jsx:108
 #: src/hooks/useProvideLiquidity.jsx:108
 msgid "Approved DAI Successfully"
-msgstr "Approuvé DAI avec succès"
+msgstr "Disetujui DAI Berhasil"
 
 #: src/helpers/notification.js:278
 msgid "Approved LP tokens Successfully"
-msgstr "Jetons LP approuvés avec succès"
+msgstr "Token LP yang Disetujui Berhasil"
 
 #: src/hooks/useProvideLiquidity.jsx:187
 #: src/hooks/useProvideLiquidity.jsx:187
 msgid "Approved NPM Successfully"
-msgstr "Le NPM a été approuvé avec succès"
+msgstr "Disetujui NPM Berhasil"
 
 #: src/helpers/notification.js:54
 #: src/helpers/notification.js:241
 msgid "Approved {tokenSymbol} Successfully"
-msgstr "Approuvé {tokenSymbol} avec succès"
+msgstr "Disetujui {tokenSymbol} Berhasil"
 
 #: src/helpers/notification.js:130
 #: src/helpers/notification.js:165
@@ -162,34 +162,34 @@ msgstr "Approuvé {tokenSymbol} avec succès"
 #: src/helpers/notification.js:457
 #: src/helpers/notification.js:510
 msgid "Approved {tokenSymbol} tokens Successfully"
-msgstr "Approuvé avec succès {tokenSymbol} jetons"
+msgstr "Disetujui token {tokenSymbol} Berhasil"
 
 #: src/hooks/useProvideLiquidity.jsx:107
 #: src/hooks/useProvideLiquidity.jsx:107
 msgid "Approving DAI"
-msgstr "Approbation de DAI"
+msgstr "Menyetujui DAI"
 
 #: src/helpers/notification.js:290
 msgid "Approving LP tokens"
-msgstr "Approbation des jetons LP"
+msgstr "Menyetujui token LP"
 
 #: src/hooks/useProvideLiquidity.jsx:186
 #: src/hooks/useProvideLiquidity.jsx:186
 msgid "Approving NPM"
-msgstr "Approbation du NPM"
+msgstr "Menyetujui NPM"
 
 #: src/helpers/notification.js:342
 msgid "Approving {symbol}"
-msgstr "Approbation de {symbol}"
+msgstr "Menyetujui {symbol}"
 
 #: src/helpers/notification.js:361
 msgid "Approving {symbol} to stake"
-msgstr "Approbation de {symbol} à l'enjeu"
+msgstr "Menyetujui {symbol} untuk dipertaruhkan"
 
 #: src/helpers/notification.js:67
 #: src/helpers/notification.js:254
 msgid "Approving {tokenSymbol}"
-msgstr "Approbation de {tokenSymbol}"
+msgstr "Menyetujui {tokenSymbol}"
 
 #: src/helpers/notification.js:143
 #: src/helpers/notification.js:178
@@ -197,11 +197,11 @@ msgstr "Approbation de {tokenSymbol}"
 #: src/helpers/notification.js:469
 #: src/helpers/notification.js:522
 msgid "Approving {tokenSymbol} tokens"
-msgstr "Approbation de {tokenSymbol} jetons"
+msgstr "Menyetujui token {tokenSymbol}"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:263
 msgid "Approving.."
-msgstr "Approbation.."
+msgstr "Menyetujui.."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:237
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
@@ -213,203 +213,203 @@ msgstr "Approbation.."
 #: src/modules/reporting/NewDisputeReportForm.jsx:229
 #: src/modules/reporting/NewIncidentReportForm.jsx:313
 msgid "Approving..."
-msgstr "Approbation..."
+msgstr "Menyetujui..."
 
 #: src/helpers/notification.js:527
 msgid "Attested successfully"
-msgstr "Attesté avec succès"
+msgstr "Terbukti berhasil"
 
 #: src/helpers/notification.js:539
 msgid "Attesting"
-msgstr "Attestation"
+msgstr "Membuktikan"
 
 #: src/common/HomeCard/HomeMainCard.jsx:20
 msgid "Available"
-msgstr "Disponible"
+msgstr "Tersedia"
 
 #: src/modules/cover/purchase/index.jsx:144
 msgid "Available Liquidity:"
-msgstr "Liquidité disponible:"
+msgstr "Likuiditas yang Tersedia:"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:120
 msgid "Available cxTokens for {title} to Claim"
-msgstr "CxTokens disponibles pour {title} à réclamer"
+msgstr "CxToken yang tersedia untuk {title} untuk Diklaim"
 
 #: src/common/BackButton/BackButton.jsx:15
 #: src/common/ProductsGrid/ProductsGrid.jsx:101
 msgid "Back"
-msgstr "Précédent"
+msgstr "Kembali"
 
 #: src/common/TokenBalance.jsx:60
 msgid "Balance:"
-msgstr "Solde:"
+msgstr "Keseimbangan:"
 
 #: src/modules/my-liquidity/content/rules.jsx:87
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{0}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
-msgstr "Avant de fournir de la liquidité ou d'acheter une politique de produits auprès de ce groupe, veuillez évaluer tous les paramètres du produit. Le capital de souscription est concentré dans le bassin \"{0}\" qui couvre les produits individuels. Bien que les piscines de couverture diversifiées donnent aux PSL des rendements beaucoup plus élevés, elles sont plus risquées par nature que les piscines de couverture dédiées."
+msgstr "Sebelum memberikan likuiditas ke atau membeli kebijakan produk dari kumpulan ini, harap evaluasi semua parameter produk secara menyeluruh. Modal underwriting terkonsentrasi di kumpulan \"{0}\" yang mencakup produk individual. Meskipun cover pool yang terdiversifikasi memberikan LP pengembalian yang jauh lebih tinggi, mereka pada dasarnya lebih berisiko daripada cover pool khusus."
 
 #: src/modules/pools/bond/index.jsx:247
 #: src/modules/pools/PoolsTabs.jsx:17
 #: src/pages/pools/bond/transactions.jsx:40
 msgid "Bond"
-msgstr "Obligation"
+msgstr "Menjalin kedekatan"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:46
 msgid "Bond Info"
-msgstr "Infos sur les obligations"
+msgstr "Info Obligasi"
 
 #: src/modules/pools/bond/index.jsx:68
 msgid "Bond Price"
-msgstr "Prix des obligations"
+msgstr "Harga Obligasi"
 
 #: src/modules/pools/PoolsTabs.jsx:40
 msgid "Bond and Staking Pools"
-msgstr "Groupes de liens et de prises de vues"
+msgstr "Bond dan Staking Pool"
 
 #: src/modules/pools/bond/index.jsx:244
 msgid "Bonding..."
-msgstr "Liaison en cours..."
+msgstr "Ikatan..."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:115
 msgid "By visiting this testnet environment, you acknowledge and agree the disclaimer as above and/or any changes made to this disclaimer."
-msgstr "En visitant cet environnement testnet, vous reconnaissez et acceptez l'avertissement ci-dessus et/ou toute modification apportée à cet avis de non-responsabilité."
+msgstr "Dengan mengunjungi lingkungan testnet ini, Anda mengakui dan menyetujui penafian seperti di atas dan/atau perubahan apa pun yang dilakukan pada penafian ini."
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:123
 msgid "CLAIM"
-msgstr "CLAIM"
+msgstr "MENGEKLAIM"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:107
 msgid "CLAIM BEGINS IN"
-msgstr "DÉBUT DE LA RÉCLAMATION DANS"
+msgstr "KLAIM DIMULAI DI"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:100
 msgid "CLAIM ENDS IN"
-msgstr "LA RÉCLAMATION SE TERMINera DANS"
+msgstr "KLAIM BERAKHIR DI"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:182
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:140
 #: src/modules/pools/bond/index.jsx:169
 msgid "Calculating tokens..."
-msgstr "Calcul des jetons..."
+msgstr "Menghitung token..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:165
 msgid "Cannot add liquidity, as one of the product's status is not normal"
-msgstr "Impossible d'ajouter de la liquidité, car un des statuts du produit n'est pas normal"
+msgstr "Tidak dapat menambah likuiditas, karena salah satu status produk tidak normal"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:172
 msgid "Cannot add liquidity, since the cover status is"
-msgstr "Impossible d'ajouter de la liquidité, car le statut de la couverture est"
+msgstr "Tidak dapat menambah likuiditas, karena status pertanggungan adalah"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:99
 msgid "Cannot go below minimum stake"
-msgstr "Ne peut pas aller en dessous de la mise en jeu minimale"
+msgstr "Tidak bisa di bawah taruhan minimum"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:126
 msgid "Cannot purchase policy, since the cover status is"
-msgstr "Impossible d'acheter la politique, car l'état de la couverture est"
+msgstr "Tidak dapat membeli polis, karena status pertanggungan adalah"
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
 msgid "Cannot stake more than {0}"
-msgstr "Impossible de mettre en jeu plus de {0}"
+msgstr "Tidak dapat mempertaruhkan lebih dari {0}"
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:34
 msgid "Cannot {0}, since the cover status is"
-msgstr "Impossible de {0}, car l'état de la couverture est"
+msgstr "Tidak dapat {0}, karena status sampul adalah"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
 msgid "Capitalize"
-msgstr "Mettre en majuscule"
+msgstr "Kapitalisasi"
 
 #: src/hooks/useCapitalizePool.jsx:41
 msgid "Capitalize Pool"
-msgstr "Mettre en majuscule le pool"
+msgstr "Kapitalisasi Pool"
 
 #: src/helpers/notification.js:413
 msgid "Capitalized Pool Successfully"
-msgstr "Pool en majuscule réussi"
+msgstr "Pool Berkapitalisasi Berhasil"
 
 #: src/helpers/notification.js:422
 msgid "Capitalizing Pool"
-msgstr "Pool en majuscule"
+msgstr "Kapitalisasi Pool"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
 msgid "Capitalizing..."
-msgstr "Mise en majuscule..."
+msgstr "Mengkapitalisasi..."
 
 #: src/common/CoverRules/CoverRules.jsx:10
 msgid "Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true."
-msgstr "Lisez attentivement les modalités et conditions suivantes pour un paiement réussi, tous les points suivants doivent être vérifiés."
+msgstr "Baca baik-baik syarat dan ketentuan berikut. Agar pembayaran klaim berhasil, semua poin berikut harus benar."
 
 #: src/modules/reporting/active/CastYourVote.jsx:123
 msgid "Cast Your Vote"
-msgstr "Votez"
+msgstr "Berikan Suara Anda"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:174
 #: src/modules/my-policies/ClaimDetailsPage.jsx:88
 msgid "Claim"
-msgstr "Claim"
+msgstr "Mengeklaim"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:38
 msgid "Claim Before"
-msgstr "Revendiquer avant"
+msgstr "Klaim Sebelumnya"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:87
 msgid "Claim Bond"
-msgstr "Revendiquer le lien"
+msgstr "Klaim Obligasi"
 
 #: src/utils/translations.js:12
 msgid "Claim Cover"
-msgstr "Revendiquer la couverture"
+msgstr "Klaim Penutup"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:60
 msgid "Claim Expiry"
-msgstr "Claim Expiry"
+msgstr "Klaim Kedaluwarsa"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:80
 msgid "Claim My Bond"
-msgstr "Réclamer mon lien"
+msgstr "Klaim Ikatan Saya"
 
 #: src/modules/pools/bond/ClaimBondModal.jsx:74
 msgid "Claim Now"
-msgstr "Revendiquer maintenant"
+msgstr "Klaim Sekarang"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:123
 msgid "Claim your {title} cover cxTokens from the following addresses before the given claim date. Also indicated is the amount of cxTokens you will receive per claim."
-msgstr "Réclamez votre {title} couverture cxTokens à partir des adresses suivantes avant la date de réclamation donnée. Le montant de cxTokens que vous recevrez par réclamation est également indiqué."
+msgstr "Klaim {title} cover cxTokens Anda dari alamat berikut sebelum tanggal klaim yang diberikan. Juga ditunjukkan jumlah cxToken yang akan Anda terima per klaim."
 
 #: src/utils/translations.js:40
 msgid "Claimable"
-msgstr "Réclamable"
+msgstr "Bisa di klaim"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:184
 msgid "Claimed"
-msgstr "Réclamé"
+msgstr "Diklaim"
 
 #: src/helpers/notification.js:185
 #: src/hooks/useClaimPolicyInfo.jsx:234
 #: src/hooks/useClaimPolicyInfo.jsx:234
 msgid "Claimed policy Successfully"
-msgstr "Politique réclamée avec succès"
+msgstr "Kebijakan yang diklaim Berhasil"
 
 #: src/helpers/notification.js:428
 #: src/helpers/notification.js:434
 msgid "Claimed {tokenSymbol} Successfully"
-msgstr "Récupération de {tokenSymbol} réussie"
+msgstr "Diklaim {tokenSymbol} Berhasil"
 
 #: src/helpers/notification.js:197
 #: src/hooks/useClaimPolicyInfo.jsx:233
 #: src/hooks/useClaimPolicyInfo.jsx:233
 msgid "Claiming policy"
-msgstr "Politique de réclamation"
+msgstr "Kebijakan klaim"
 
 #: src/helpers/notification.js:437
 msgid "Claiming {tokenSymbol}"
-msgstr "Réclamation de {tokenSymbol}"
+msgstr "Mengklaim {tokenSymbol}"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:174
 #: src/modules/pools/bond/ClaimBondModal.jsx:74
 msgid "Claiming..."
-msgstr "Revendication..."
+msgstr "Mengklaim..."
 
 #: src/common/Banner.jsx:56
 #: src/common/Banner.jsx:58
@@ -419,21 +419,21 @@ msgstr ""
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:274
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:239
 msgid "Close:"
-msgstr "Fermer:"
+msgstr "Menutup:"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:228
 #: src/modules/pools/staking/HarvestForm.jsx:78
 #: src/modules/pools/staking/StakingCard.jsx:236
 msgid "Collect"
-msgstr "Collecter"
+msgstr "Mengumpulkan"
 
 #: src/modules/pools/staking/HarvestForm.jsx:78
 msgid "Collecting..."
-msgstr "Collecte en cours..."
+msgstr "Mengumpulkan..."
 
 #: src/common/ComingSoon.jsx:11
 msgid "Coming soon!"
-msgstr "Prochainement!"
+msgstr "Segera!"
 
 #: src/common/Header/Header.jsx:191
 #: src/common/Header/Header.jsx:193
@@ -447,70 +447,70 @@ msgstr ""
 
 #: src/common/Header/AccountDetailsModal.jsx:95
 msgid "Connected With"
-msgstr "Connecté avec"
+msgstr "Terhubung dengan"
 
 #: src/common/Header/AccountDetailsModal.jsx:51
 msgid "Copied"
-msgstr "Copié"
+msgstr "Disalin"
 
 #: src/common/Header/AccountDetailsModal.jsx:44
 msgid "Copy Address"
-msgstr "Copier l'adresse"
+msgstr "Salin Alamat"
 
 #: src/helpers/notification.js:419
 msgid "Could not Capitalize Pool"
-msgstr "Impossible de mettre en majuscule le pool"
+msgstr "Tidak Dapat Memanfaatkan Pool"
 
 #: src/helpers/notification.js:192
 #: src/hooks/useClaimPolicyInfo.jsx:235
 #: src/hooks/useClaimPolicyInfo.jsx:235
 msgid "Could not Claim policy"
-msgstr "Impossible de revendiquer la politique"
+msgstr "Tidak dapat Mengklaim kebijakan"
 
 #: src/helpers/notification.js:119
 msgid "Could not Emergency Resolve Incident"
-msgstr "Impossible de résoudre le ticket d'urgence"
+msgstr "Tidak Dapat Menyelesaikan Insiden Darurat"
 
 #: src/helpers/notification.js:448
 msgid "Could not Finalize Incident"
-msgstr "Impossible de finaliser l'incident"
+msgstr "Tidak Dapat Menyelesaikan Insiden"
 
 #: src/helpers/notification.js:102
 msgid "Could not Resolve Incident"
-msgstr "Impossible de résoudre l'incident"
+msgstr "Tidak Dapat Menyelesaikan Insiden"
 
 #: src/helpers/notification.js:498
 msgid "Could not accrue interest"
-msgstr "Impossible d'accumuler un intérêt"
+msgstr "Tidak dapat memperoleh bunga"
 
 #: src/hooks/useProvideLiquidity.jsx:281
 #: src/hooks/useProvideLiquidity.jsx:281
 msgid "Could not add liquidity"
-msgstr "Impossible d'ajouter des liquidités"
+msgstr "Tidak dapat memperoleh bunga"
 
 #: src/hooks/useProvideLiquidity.jsx:109
 #: src/hooks/useProvideLiquidity.jsx:109
 msgid "Could not approve DAI"
-msgstr "Impossible d'approuver DAI"
+msgstr "Tidak dapat menyetujui DAI"
 
 #: src/helpers/notification.js:285
 msgid "Could not approve LP tokens"
-msgstr "Impossible d'approuver les jetons LP"
+msgstr "Tidak dapat menyetujui token LP"
 
 #: src/hooks/useProvideLiquidity.jsx:188
 #: src/hooks/useProvideLiquidity.jsx:188
 msgid "Could not approve NPM"
-msgstr "Impossible d'approuver le NPM"
+msgstr "Tidak dapat menyetujui NPM"
 
 #: src/helpers/notification.js:339
 #: src/helpers/notification.js:355
 msgid "Could not approve {symbol} tokens"
-msgstr "Impossible d'approuver {symbol} jetons"
+msgstr "Tidak dapat menyetujui token {symbol}"
 
 #: src/helpers/notification.js:61
 #: src/helpers/notification.js:248
 msgid "Could not approve {tokenSymbol}"
-msgstr "Impossible d'approuver {tokenSymbol}"
+msgstr "Tidak dapat menyetujui {tokenSymbol}"
 
 #: src/helpers/notification.js:137
 #: src/helpers/notification.js:172
@@ -518,262 +518,262 @@ msgstr "Impossible d'approuver {tokenSymbol}"
 #: src/helpers/notification.js:464
 #: src/helpers/notification.js:517
 msgid "Could not approve {tokenSymbol} tokens"
-msgstr "Impossible d'approuver {tokenSymbol} jetons"
+msgstr "Tidak dapat menyetujui token {tokenSymbol}"
 
 #: src/helpers/notification.js:534
 msgid "Could not attest"
-msgstr "Impossible d'attester"
+msgstr "Tidak bisa membuktikan"
 
 #: src/helpers/notification.js:309
 msgid "Could not create bond"
-msgstr "Impossible de créer le lien"
+msgstr "Tidak dapat membuat ikatan"
 
 #: src/helpers/notification.js:156
 msgid "Could not dispute"
-msgstr "Impossible de contester"
+msgstr "Tidak dapat membantah"
 
 #: src/helpers/notification.js:374
 msgid "Could not provide liquidity"
-msgstr "Impossible de fournir des liquidités"
+msgstr "Tidak dapat menyediakan likuiditas"
 
 #: src/helpers/notification.js:268
 #: src/hooks/usePurchasePolicy.jsx:234
 #: src/hooks/usePurchasePolicy.jsx:234
 msgid "Could not purchase policy"
-msgstr "Impossible d'acheter la politique"
+msgstr "Tidak dapat membeli kebijakan"
 
 #: src/helpers/notification.js:551
 msgid "Could not refute"
-msgstr "Impossible de réfuter"
+msgstr "Tidak bisa membantah"
 
 #: src/helpers/notification.js:481
 #: src/helpers/notification.js:486
 msgid "Could not remove liquidity"
-msgstr "Impossible de supprimer la liquidité"
+msgstr "Tidak dapat menghapus likuiditas"
 
 #: src/helpers/notification.js:230
 msgid "Could not report incident"
-msgstr "Impossible de signaler l'incident"
+msgstr "Tidak dapat melaporkan insiden"
 
 #: src/helpers/notification.js:82
 msgid "Could not stake {tokenSymbol}"
-msgstr "Impossible de mettre en jeu {tokenSymbol}"
+msgstr "Tidak dapat mempertaruhkan {tokenSymbol}"
 
 #: src/helpers/notification.js:405
 msgid "Could not unstake & claim {symbol}"
-msgstr "Impossible de se détacher & de réclamer {symbol}"
+msgstr "Tidak dapat membatalkan pemasangan dan mengklaim {symbol}"
 
 #: src/helpers/notification.js:389
 msgid "Could not unstake {symbol}"
-msgstr "Impossible de retirer {symbol}"
+msgstr "Tidak dapat membatalkan pemasangan {symbol}"
 
 #: src/helpers/notification.js:40
 msgid "Could not unstake {tokenSymbol}"
-msgstr "Impossible de retirer {tokenSymbol}"
+msgstr "Tidak dapat membatalkan pemasangan {tokenSymbol}"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:86
 msgid "Could not withdraw during lockup period"
-msgstr "Impossible de retirer pendant la période de verrouillage"
+msgstr "Tidak dapat menarik selama periode penguncian"
 
 #: src/helpers/notification.js:22
 msgid "Could not withdraw rewards"
-msgstr "Impossible de retirer les récompenses"
+msgstr "Tidak dapat menarik hadiah"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:35
 #: src/modules/home/Hero.jsx:123
 msgid "Cover Fee"
-msgstr "Frais de couverture"
+msgstr "Biaya Pertanggungan"
 
 #: src/modules/home/AvailableCovers.jsx:101
 msgid "Cover Products"
-msgstr "Produits de couverture"
+msgstr "Produk Sampul"
 
 #: src/common/CoverRules/CoverRules.jsx:7
 msgid "Cover Rules"
-msgstr "Règles de couverture"
+msgstr "Aturan Penutup"
 
 #: src/common/Cover/CoverCard.jsx:101
 #: src/common/Cover/ProductCard.jsx:98
 #: src/modules/reporting/active/ActiveReportingCard.jsx:88
 msgid "Cover fee:"
-msgstr "Frais de couverture:"
+msgstr "Biaya pertanggungan:"
 
 #: src/modules/home/Hero.jsx:113
 msgid "Covered"
-msgstr "Couvert"
+msgstr "Tertutupi"
 
 #: src/helpers/notification.js:297
 msgid "Created bond successfully"
-msgstr "Lien créé avec succès"
+msgstr "Membuat ikatan berhasil"
 
 #: src/helpers/notification.js:320
 msgid "Creating bond"
-msgstr "Création de la liaison"
+msgstr "Menciptakan ikatan"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:129
 msgid "Decline"
-msgstr "Refuser"
+msgstr "Menolak"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:165
 #: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Description"
-msgstr "Libellé"
+msgstr "Keterangan"
 
 #: src/common/Cover/CoverActionsFooter.jsx:23
 msgid "Didn’t Find What You Were Looking For?"
-msgstr "Vous n'avez pas trouvé ce que vous cherchiez ?"
+msgstr "Tidak Menemukan Yang Anda Cari?"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:44
 msgid "Disclaimer and Warranty"
-msgstr "Avertissement et garantie"
+msgstr "Penafian dan Garansi"
 
 #: src/common/Header/AccountDetailsModal.jsx:105
 msgid "Disconnect"
-msgstr "Déconnecter"
+msgstr "Memutuskan"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:242
 msgid "Dispute"
-msgstr "Contestation"
+msgstr "Perselisihan"
 
 #: src/helpers/notification.js:150
 msgid "Disputed successfully"
-msgstr "Contesté avec succès"
+msgstr "Disengketakan dengan sukses"
 
 #: src/helpers/notification.js:159
 msgid "Disputing"
-msgstr "Contestation"
+msgstr "Berselisih"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:242
 msgid "Disputing..."
-msgstr "Contestation..."
+msgstr "Berselisih..."
 
 #: src/common/Cover/ProductCard.jsx:113
 #: src/modules/reporting/active/ActiveReportingCard.jsx:107
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
-msgstr "Pool diversifié avec {0}x facteur d’effet de levier et {1} efficacité du capital"
+msgstr "Kumpulan yang beragam dengan {0}x faktor leverage dan {1} efisiensi modal"
 
 #: src/modules/my-liquidity/content/rules.jsx:33
 msgid "Download LP Cover Terms"
-msgstr "Télécharger les Termes de Couverture LP"
+msgstr "Unduh Persyaratan Sampul LP"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:174
 msgid "EMERGENCY RESOLVE"
-msgstr "RÉSOLU DE L'URGENCE"
+msgstr "PEMECAHAN MASALAH DARURAT"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:149
 #: src/modules/pools/staking/StakingCard.jsx:146
 msgid "Earn"
-msgstr "Gagner"
+msgstr "Menghasilkan"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:135
 msgid "Emergency Resolution"
-msgstr "Résolution d'urgence"
+msgstr "Resolusi Darurat"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:84
 msgid "Emergency Resolve"
-msgstr "Résolution d'urgence"
+msgstr "Penyelesaian Darurat"
 
 #: src/hooks/useResolveIncident.jsx:136
 msgid "Emergency Resolve Incident"
-msgstr "Ticket de résolution d'urgence"
+msgstr "Insiden Penyelesaian Darurat"
 
 #: src/helpers/notification.js:112
 msgid "Emergency Resolved Incident Successfully"
-msgstr "Ticket résolu d'urgence avec succès"
+msgstr "Insiden Darurat Terselesaikan Berhasil"
 
 #: src/helpers/notification.js:124
 msgid "Emergency Resolving Incident"
-msgstr "Ticket de résolution d'urgence"
+msgstr "Insiden Penyelesaian Darurat"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:173
 msgid "Emergency Resolving..."
-msgstr "Résolution d'urgence..."
+msgstr "Penyelesaian Darurat..."
 
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:40
 msgid "Enter Amount"
-msgstr "Entrez le montant"
+msgstr "Masukan jumlah"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:234
 msgid "Enter Amount you wish to provide"
-msgstr "Entrez le montant que vous souhaitez fournir"
+msgstr "Masukkan Jumlah yang ingin Anda berikan"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:157
 msgid "Enter Incident Title"
-msgstr "Entrez le titre de l'incident"
+msgstr "Masukkan Judul Insiden"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:168
 msgid "Enter Npm Amount"
-msgstr "Entrez le montant du Npm"
+msgstr "Masukkan Jumlah Npm"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:112
 msgid "Enter a title of this dispute"
-msgstr "Entrez un titre de ce litige"
+msgstr "Masukkan judul sengketa ini"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:164
 msgid "Enter the incident title."
-msgstr "Entrez le titre de l'incident."
+msgstr "Masukkan judul insiden."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:197
 msgid "Enter your NPM stake"
-msgstr "Entrez votre enjeu NPM"
+msgstr "Masukkan saham NPM Anda"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:199
 msgid "Enter your POD"
-msgstr "Entrez votre POD"
+msgstr "Masukkan POD Anda"
 
 #: src/modules/pools/bond/index.jsx:182
 #: src/modules/reporting/NewDisputeReportForm.jsx:192
 msgid "Enter your amount"
-msgstr "Entrez votre montant"
+msgstr "Masukkan jumlah Anda"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:272
 msgid "Enter your stake"
-msgstr "Entrez votre enjeu"
+msgstr "Masukkan taruhan Anda"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:111
 msgid "Enter your {tokenSymbol}"
-msgstr "Entrez votre {tokenSymbol}"
+msgstr "Masukkan {tokenSymbol} Anda"
 
 #: src/common/TokenBalance.jsx:39
 #: src/hooks/useDisputeIncident.jsx:278
 msgid "Error"
-msgstr "Erreur"
+msgstr "Kesalahan"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:211
 msgid "Error!!!"
-msgstr "Erreur!!!"
+msgstr "Kesalahan!!!"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:98
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:110
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:105
 #: src/modules/reporting/active/CastYourVote.jsx:70
 msgid "Exceeds maximum balance"
-msgstr "Dépassement du solde maximum"
+msgstr "Melebihi saldo maksimum"
 
 #: src/hooks/useCreateBond.jsx:161
 msgid "Exceeds maximum bond {0}"
-msgstr "Obligation maximale de {0}"
+msgstr "Melebihi ikatan maksimum {0}"
 
 #: src/modules/my-policies/PoliciesTabs.jsx:22
 msgid "Expired"
-msgstr "Expiré"
+msgstr "Kedaluwarsa"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:57
 msgid "Expired On"
-msgstr "Expiré le"
+msgstr "Kadaluwarsa Pada"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:63
 msgid "Expires In"
-msgstr "Expiré le"
+msgstr "Kadaluarsa dalam"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:171
 #: src/modules/reporting/NewIncidentReportForm.jsx:253
 msgid "Explain briefly about the incident if you want to add anything."
-msgstr "Expliquez brièvement l'incident si vous voulez ajouter quelque chose."
+msgstr "Jelaskan secara singkat tentang kejadian tersebut jika Anda ingin menambahkan sesuatu."
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:151
 msgid "FALSE REPORTING"
-msgstr "RAPPORT DE FALSE"
+msgstr "LAPORAN SALAH"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:166
 #: src/modules/reporting/active/CastYourVote.jsx:148
@@ -784,27 +784,27 @@ msgstr "RAPPORT DE FALSE"
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:72
 #: src/utils/translations.js:44
 msgid "False Reporting"
-msgstr "Faux Rapports"
+msgstr "Pelaporan Palsu"
 
 #: src/common/ComingSoon.jsx:14
 msgid "Feature is yet to be released. Our team’s getting it ready for you."
-msgstr "La fonctionnalité doit encore être publiée. Notre équipe est prête à vous préparer."
+msgstr "Fitur belum dirilis. Tim kami sedang menyiapkannya untuk Anda."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:140
 msgid "Fee: {0}"
-msgstr "Frais : {0}"
+msgstr "Biaya: {0}"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:27
 msgid "Fees"
-msgstr "Frais"
+msgstr "Biaya"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:107
 msgid "Fetching Allowance..."
-msgstr "Récupération de l'autorisation..."
+msgstr "Mengambil Tunjangan..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:109
 msgid "Fetching Balance..."
-msgstr "Récupération de l'équilibre..."
+msgstr "Mengambil Saldo..."
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:142
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
@@ -813,7 +813,7 @@ msgstr "Récupération de l'équilibre..."
 #: src/modules/reporting/active/CastYourVote.jsx:117
 #: src/modules/reporting/NewIncidentReportForm.jsx:131
 msgid "Fetching allowance..."
-msgstr "Récupération de l'autorisation..."
+msgstr "Mengambil tunjangan..."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:171
@@ -821,55 +821,55 @@ msgstr "Récupération de l'autorisation..."
 #: src/modules/reporting/active/CastYourVote.jsx:115
 #: src/modules/reporting/NewIncidentReportForm.jsx:133
 msgid "Fetching balance..."
-msgstr "Récupération de l'équilibre..."
+msgstr "Mengambil saldo..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:184
 msgid "Fetching balances..."
-msgstr "Récupération de l'équilibre..."
+msgstr "Mengambil saldo..."
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:135
 msgid "Fetching min stake..."
-msgstr "Récupération du minin de jeu..."
+msgstr "Ambil saldo..."
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:50
 msgid "Fetching min-stake amount..."
-msgstr "Récupération du montant de min-enjeux..."
+msgstr "Mengambil jumlah minimal taruhan..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:186
 msgid "Fetching {NPMTokenSymbol} allowance..."
-msgstr "Récupération de l'allocation de {NPMTokenSymbol}..."
+msgstr "Mengambil tunjangan {NPMTokenSymbol}..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:188
 msgid "Fetching {liquidityTokenSymbol} allowance..."
-msgstr "Récupération de l'allocation de {liquidityTokenSymbol}..."
+msgstr "Mengambil tunjangan {liquidityTokenSymbol}..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:105
 msgid "Fetching..."
-msgstr "Récupération en cours..."
+msgstr "Mengambil..."
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
 msgid "Finalize"
-msgstr "Finaliser"
+msgstr "Menyelesaikan"
 
 #: src/hooks/useFinalizeIncident.jsx:41
 msgid "Finalize Incident"
-msgstr "Finaliser l'incident"
+msgstr "Selesaikan Insiden"
 
 #: src/helpers/notification.js:442
 msgid "Finalized Incident Successfully"
-msgstr "Incident finalisé avec succès"
+msgstr "Insiden Selesai Berhasil"
 
 #: src/helpers/notification.js:451
 msgid "Finalizing Incident"
-msgstr "Finaliser l'incident"
+msgstr "Menyelesaikan Insiden"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
 msgid "Finalizing..."
-msgstr "Finaliser..."
+msgstr "Menyelesaikan..."
 
 #: src/modules/pools/bond/index.jsx:265
 msgid "Get LP tokens"
-msgstr "Obtenir des jetons LP"
+msgstr "Dapatkan token LP"
 
 #: src/common/Header/Header.jsx:69
 #: src/modules/cover/add-liquidity/index.jsx:51
@@ -879,15 +879,15 @@ msgstr "Obtenir des jetons LP"
 #: src/pages/covers/[cover_id]/options.jsx:32
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:46
 msgid "Home"
-msgstr "Maison"
+msgstr "Rumah"
 
 #: src/modules/cover/CoverOptionsPage.jsx:34
 msgid "I Want to"
-msgstr "Je veux"
+msgstr "Aku ingin"
 
 #: src/modules/cover/add-liquidity/index.jsx:108
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
-msgstr "J'ai lu, évalué, compris, convenu et accepté tous les risques, les termes de couverture, les exclusions, les exclusions standard de ce pool et le protocole mutuel de Neptune."
+msgstr "Saya telah membaca, mengevaluasi, memahami, menyetujui, dan menerima semua risiko, mencakup persyaratan, pengecualian, pengecualian standar kumpulan ini dan protokol Neptunus Kebersamaan."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
@@ -895,27 +895,27 @@ msgstr "J'ai lu, évalué, compris, convenu et accepté tous les risques, les te
 #: src/modules/cover/add-liquidity/index.jsx:122
 #: src/modules/cover/purchase/index.jsx:123
 msgid "I have read, understood, and agree to the terms of cover rules"
-msgstr "J'ai lu, compris et j'accepte les termes des règles de couverture"
+msgstr "Saya telah membaca, memahami, dan menyetujui ketentuan peraturan sampul"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:143
 msgid "INCIDENT OCCURRED"
-msgstr "INCIDENT OCCURÉ"
+msgstr "INSIDEN TERJADI"
 
 #: src/common/Header/AccountDetailsModal.jsx:143
 msgid "If you do not want to keep approving for each transaction, enable this box."
-msgstr "Si vous ne voulez pas continuer à approuver pour chaque transaction, activez cette case."
+msgstr "Jika Anda tidak ingin terus menyetujui setiap transaksi, aktifkan kotak ini."
 
 #: src/modules/reporting/CoverReportingRules.jsx:58
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of total dishonest stakes if you are the first person to report this incident. In addition to NPM rewards, you may also earn a percentage commission on individual claims payout.<0/><1/><2>Note: Dishonest reporters get 100% of their stakes forfeited which is distributed to honest reporters. You may lose all of your stakes if resolution is not in your favor.</2>"
-msgstr "Si vous venez de prendre connaissance d'un incident récent de {0}, lisez attentivement les règles de couverture ci-dessus. Si vous êtes la première personne à signaler cet incident, vous pouvez gagner à plat {1}% de l'enjeu total malhonnête. En plus des récompenses du Musée national du Palais, vous pouvez également gagner une commission en pourcentage sur le paiement des demandes de règlement individuelles. 0/><1/><2>Note : Les reporters Dishonest ont perdu 100% de leurs enjeux, ce qui est distribué aux journalistes honnêtes. Vous pouvez perdre tout votre enjeu si la résolution n'est pas en votre faveur.</2>"
+msgstr "Jika Anda baru mengetahui tentang insiden {0} baru-baru ini, baca dengan cermat aturan sampul di atas. Anda bisa mendapatkan {1}% tetap dari total taruhan tidak jujur jika Anda adalah orang pertama yang melaporkan insiden ini. Selain hadiah NPM, Anda juga dapat memperoleh persentase komisi atas pembayaran klaim individu.<0/><1/><2>Catatan: Wartawan yang tidak jujur mendapatkan 100% dari taruhan mereka hangus yang dibagikan kepada wartawan yang jujur. Anda dapat kehilangan semua taruhan Anda jika resolusi tidak menguntungkan Anda.</2>"
 
 #: src/modules/my-liquidity/content/rules.jsx:98
 msgid "Important Note"
-msgstr "Note importante"
+msgstr "Catatan penting"
 
 #: src/utils/translations.js:42
 msgid "Incident Happened"
-msgstr "Incident arrivé"
+msgstr "Insiden Terjadi"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:121
 #: src/modules/reporting/active/CastYourVote.jsx:133
@@ -925,20 +925,20 @@ msgstr "Incident arrivé"
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:40
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:71
 msgid "Incident Occurred"
-msgstr "L'incident s'est produit"
+msgstr "Insiden Terjadi"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:213
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:195
 msgid "Incident Reporters"
-msgstr "Rapporteurs d'incidents"
+msgstr "Reporter Insiden"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:151
 msgid "Incident Title"
-msgstr "Entrez le titre de l'incident"
+msgstr "Judul Insiden"
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:102
 msgid "Insights"
-msgstr "Aperçus"
+msgstr "Wawasan"
 
 #: src/hooks/useClaimPolicyInfo.jsx:311
 #: src/hooks/useCreateBond.jsx:150
@@ -949,34 +949,34 @@ msgstr "Aperçus"
 #: src/modules/reporting/active/CastYourVote.jsx:75
 #: src/modules/reporting/NewIncidentReportForm.jsx:54
 msgid "Insufficient Balance"
-msgstr "Solde insuffisant"
+msgstr "Saldo tidak mencukupi"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:93
 #: src/modules/reporting/NewIncidentReportForm.jsx:49
 msgid "Insufficient Stake"
-msgstr "Pas assez de prise"
+msgstr "Taruhan Tidak Cukup"
 
 #: src/hooks/useCreateBond.jsx:145
 msgid "Invalid amount to bond"
-msgstr "Montant de la liaison invalide"
+msgstr "Jumlah obligasi yang tidak valid"
 
 #: src/hooks/useClaimPolicyInfo.jsx:306
 msgid "Invalid amount to claim"
-msgstr "Montant non valide à réclamer"
+msgstr "Jumlah yang tidak valid untuk diklaim"
 
 #: src/hooks/usePurchasePolicy.jsx:85
 msgid "Invalid amount to cover"
-msgstr "Montant à couvrir non valide"
+msgstr "Jumlah yang tidak valid untuk ditanggung"
 
 #: src/hooks/useStakingPoolDeposit.jsx:284
 msgid "Invalid amount to stake"
-msgstr "Montant de mise en jeu non valide"
+msgstr "Jumlah yang tidak valid untuk dipertaruhkan"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
-msgstr "DERNIÈRE SYNCHRONE:"
+msgstr "TERAKHIR DISINKRONKAN:"
 
 #: src/common/Cover/CoverCard.jsx:142
 #: src/common/Cover/CoverCard.jsx:188
@@ -985,41 +985,41 @@ msgstr "DERNIÈRE SYNCHRONE:"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
-msgstr "Liquidité"
+msgstr "Likuiditas"
 
 #: src/modules/my-liquidity/index.jsx:72
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
-msgstr "Les fournisseurs de liquidités possèdent collectivement un bassin de liquidités. Pour devenir un fournisseur de liquidités, sélectionnez une couverture à partir de l'écran d'accueil."
+msgstr "Penyedia likuiditas secara kolektif memiliki kumpulan likuiditas. Untuk menjadi penyedia likuiditas, pilih sampul dari layar beranda."
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:111
 #: src/modules/pools/staking/StakeForm.jsx:115
 #: src/modules/pools/staking/StakingCard.jsx:103
 msgid "Lockup Period"
-msgstr "Période de verrouillage"
+msgstr "Periode Penguncian"
 
 #: src/common/CoverAvatar/CoverAvatar.jsx:49
 msgid "MORE"
-msgstr "PLUS"
+msgstr "LAGI"
 
 #: src/modules/pools/bond/index.jsx:108
 msgid "Market Price"
-msgstr "Prix du marché"
+msgstr "Harga Pasar"
 
 #: src/common/TokenAmountInput/TokenAmountInput.jsx:32
 msgid "Max"
-msgstr "Max"
+msgstr "Maks"
 
 #: src/modules/pools/bond/index.jsx:84
 msgid "Maximum Bond"
-msgstr "Obligation maximale"
+msgstr "Ikatan Maksimum"
 
 #: src/modules/pools/staking/StakeForm.jsx:87
 msgid "Maximum Limit:"
-msgstr "Limite maximale:"
+msgstr "Batas Maksimum:"
 
 #: src/hooks/usePurchasePolicy.jsx:96
 msgid "Maximum protection available is {0}"
-msgstr "La protection maximale disponible est {0}"
+msgstr "Perlindungan maksimum yang tersedia adalah {0}"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
@@ -1027,11 +1027,11 @@ msgstr "La protection maximale disponible est {0}"
 #: src/modules/reporting/NewDisputeReportForm.jsx:202
 #: src/modules/reporting/NewIncidentReportForm.jsx:281
 msgid "Minimum Stake:"
-msgstr "Stake minimum:"
+msgstr "Taruhan Minimum:"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:98
 msgid "My Active Protection"
-msgstr "Ma protection active"
+msgstr "Perlindungan Aktif Saya"
 
 #: src/common/Header/Header.jsx:51
 #: src/modules/my-liquidity/details.jsx:55
@@ -1039,11 +1039,11 @@ msgstr "Ma protection active"
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
-msgstr "Ma liquidité"
+msgstr "Likuiditas Saya"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:95
 msgid "My Liquidity:"
-msgstr "Ma liquidité:"
+msgstr "Likuiditas Saya:"
 
 #: src/common/Header/Header.jsx:46
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
@@ -1051,44 +1051,44 @@ msgstr "Ma liquidité:"
 #: src/modules/my-policies/PoliciesTabs.jsx:37
 #: src/pages/my-policies/transactions.jsx:39
 msgid "My Policies"
-msgstr "Mes Politiques"
+msgstr "Kebijakan Saya"
 
 #: src/pages/my-liquidity/index.jsx:57
 msgid "My Total Liquidity"
-msgstr "Ma liquidité totale"
+msgstr "Likuiditas Total Saya"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:261
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:226
 msgid "NEXT UNLOCK CYCLE"
-msgstr "PROCHAINE DÉBLOQUER LE CYCLE"
+msgstr "SIKLUS BUKA BERIKUTNYA"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:41
 msgid "NPM Logo"
-msgstr "Logo du NPM"
+msgstr "Logo NPM"
 
 #: src/common/HeaderLogo.jsx:8
 msgid "Neptune Mutual"
-msgstr "Neptune Mutuelle"
+msgstr "Neptunus Kebersamaan"
 
 #: src/modules/reporting/CoverReportingRules.jsx:87
 msgid "Neptune Mutual Reporters"
-msgstr "Reporteurs mutuels de Neptune"
+msgstr "Neptunus Reksa Wartawan"
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:91
 msgid "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
-msgstr "Neptune peut modifier cette clause de non-responsabilité à tout moment sans préavis et sans responsabilité envers vous ou toute autre partie. Il est de votre responsabilité de vérifier périodiquement cette clause de non-responsabilité pour les changements. Si vous n'acceptez pas les modifications apportées à cette clause de non-responsabilité, vous devriez cesser d'utiliser ce réseau de test."
+msgstr "Neptune dapat mengubah penafian ini setiap saat tanpa pemberitahuan kepada Anda dan tanpa kewajiban kepada Anda atau pihak lain mana pun. Merupakan tanggung jawab Anda untuk secara berkala memeriksa penafian ini untuk perubahan. Jika Anda tidak setuju dengan perubahan apa pun yang dilakukan pada penafian ini, Anda harus menghentikan penggunaan testnet ini."
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:68
 msgid "Next"
-msgstr "Suivant"
+msgstr "Lanjut"
 
 #: src/modules/pools/staking/index.jsx:155
 msgid "No <0>staking pools found.</0>"
-msgstr "Aucun <0>pools de staking trouvé.</0>"
+msgstr "<0>kolam taruhan tidak ditemukan.</0>"
 
 #: src/modules/pools/pod-staking/index.jsx:163
 msgid "No POD"
-msgstr "Aucun POD"
+msgstr "Tidak ada POD"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:261
@@ -1097,87 +1097,87 @@ msgstr "Aucun POD"
 #: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:54
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:87
 msgid "No data found"
-msgstr "Aucune donnée trouvée"
+msgstr "Tidak ada data ditemukan"
 
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:58
 msgid "No known incident found for any cover product. If you believe a cover incident has occurred, earn rewards by reporting the incident."
-msgstr "Aucun incident connu trouvé pour un produit de couverture. Si vous pensez qu'un incident de couverture est survenu, gagnez des récompenses en signalant l'incident."
+msgstr "Tidak ada insiden yang diketahui ditemukan untuk produk sampul apa pun. Jika Anda yakin telah terjadi insiden perlindungan, dapatkan hadiah dengan melaporkan insiden tersebut."
 
 #: src/common/TransactionList/TransactionList.jsx:126
 msgid "No transaction history to show"
-msgstr "Aucun historique de transaction à afficher"
+msgstr "Tidak ada riwayat transaksi untuk ditampilkan"
 
 #: src/modules/my-policies/ClaimDetailsPage.jsx:132
 msgid "No valid incidents are reported with the given timestamp"
-msgstr "Aucun incident valide n'a été signalé avec l'horodatage donné"
+msgstr "Tidak ada insiden valid yang dilaporkan dengan stempel waktu yang diberikan"
 
 #: src/utils/translations.js:38
 msgid "Normal"
-msgstr "Normale"
+msgstr "Normal"
 
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:98
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:98
 msgid "Not applicable for disputing"
-msgstr "Non applicable pour le litige"
+msgstr "Tidak berlaku untuk disengketakan"
 
 #: src/helpers/notification.js:559
 msgid "Notification"
-msgstr "Notification"
+msgstr "Pemberitahuan"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:169
 msgid "Observed Date & Time"
-msgstr "Date et heure observées"
+msgstr "Tanggal & Waktu Pengamatan"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:266
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:231
 msgid "Open:"
-msgstr "Ouvrir:"
+msgstr "Membuka:"
 
 #: src/modules/pools/PoolsTabs.jsx:27
 msgid "POD Staking"
-msgstr "Staking POD"
+msgstr "Taruhan POD"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:124
 msgid "Please choose date from the past"
-msgstr "Veuillez choisir une date dans le passé"
+msgstr "Silakan pilih tanggal dari masa lalu"
 
 #: src/hooks/useClaimPolicyInfo.jsx:301
 #: src/hooks/usePurchasePolicy.jsx:80
 #: src/hooks/useStakingPoolDeposit.jsx:289
 msgid "Please connect your wallet"
-msgstr "Veuillez connecter votre portefeuille"
+msgstr "Silakan hubungkan dompet Anda"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
-msgstr "Veuillez connecter votre portefeuille..."
+msgstr "Silakan hubungkan dompet Anda..."
 
 #: src/hooks/useCreateBond.jsx:155
 msgid "Please specify a value"
-msgstr "Veuillez spécifier une valeur"
+msgstr "Harap tentukan nilai"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:115
 #: src/hooks/useStakingPoolDeposit.jsx:294
 msgid "Please specify an amount"
-msgstr "Veuillez spécifier un montant"
+msgstr "Harap tentukan jumlahnya"
 
 #: src/common/Header/Header.jsx:41
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
-msgstr "Piscine"
+msgstr "Kolam"
 
 #: src/modules/my-liquidity/content/CoveredProducts.jsx:54
 msgid "Products Covered Under This Pool"
-msgstr "Produits couverts sous ce bassin"
+msgstr "Produk Tercakup Di Bawah Kolam Ini"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:122
 msgid "Proof of dispute"
-msgstr "Preuve de litige"
+msgstr "Bukti perselisihan"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:194
 msgid "Proof of incident"
-msgstr "Preuve d'incident"
+msgstr "Bukti kejadian"
 
 #: src/common/Cover/CoverCard.jsx:139
 #: src/common/Cover/CoverCard.jsx:161
@@ -1186,67 +1186,67 @@ msgstr "Preuve d'incident"
 #: src/modules/reporting/active/ActiveReportingCard.jsx:162
 #: src/modules/reporting/active/ActiveReportingCard.jsx:186
 msgid "Protection"
-msgstr "Protection"
+msgstr "Perlindungan"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:347
 #: src/modules/cover/add-liquidity/index.jsx:59
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
-msgstr "Fournir de la liquidité"
+msgstr "Memberikan Likuiditas"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:226
 msgid "Provide URL with a proximate proof of the incident."
-msgstr "Indiquez l'URL avec une preuve proche de l'incident."
+msgstr "Berikan URL dengan bukti langsung dari insiden tersebut."
 
 #: src/helpers/notification.js:368
 msgid "Provided Liquidity Successfully"
-msgstr "Liquidité fournie avec succès"
+msgstr "Diberikan Likuiditas Berhasil"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:344
 msgid "Providing Liquidity..."
-msgstr "Approvisionnement de liquidités..."
+msgstr "Memberikan Likuiditas..."
 
 #: src/helpers/notification.js:377
 msgid "Providing liquidity"
-msgstr "Approvisionnement de liquidités"
+msgstr "Menyediakan likuiditas"
 
 #: src/modules/cover/purchase/index.jsx:73
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
-msgstr "Politique d'achat"
+msgstr "Kebijakan Pembelian"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:262
 msgid "Purchase policy"
-msgstr "Politique d'achat"
+msgstr "Kebijakan pembelian"
 
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:184
 msgid "Purchased"
-msgstr "Acheté"
+msgstr "Dibeli"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:93
 msgid "Purchased Policy"
-msgstr "Politique d'achat"
+msgstr "Kebijakan yang Dibeli"
 
 #: src/helpers/notification.js:261
 #: src/hooks/usePurchasePolicy.jsx:233
 #: src/hooks/usePurchasePolicy.jsx:233
 msgid "Purchased Policy Successfully"
-msgstr "Politique réclamée avec succès"
+msgstr "Kebijakan yang Dibeli Berhasil"
 
 #: src/helpers/notification.js:273
 #: src/hooks/usePurchasePolicy.jsx:232
 #: src/hooks/usePurchasePolicy.jsx:232
 msgid "Purchasing Policy"
-msgstr "Politique d'achat"
+msgstr "Kebijakan Pembelian"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:262
 msgid "Purchasing..."
-msgstr "Acheté..."
+msgstr "Membeli..."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:93
 msgid "REPORT AN INCIDENT"
-msgstr "RAPPORTER UN INCIDENT"
+msgstr "LAPORAN INSIDEN"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:62
 msgid "ROI:"
@@ -1254,53 +1254,53 @@ msgstr "ROI:"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:74
 msgid "Reassurance Ratio"
-msgstr "Ratio de Réassurance"
+msgstr "Rasio Jaminan"
 
 #: src/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources.jsx:54
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:64
 msgid "Reassurance:"
-msgstr "Réassurance:"
+msgstr "Jaminan:"
 
 #: src/modules/reporting/RecentVotesTable.jsx:88
 msgid "Recent Votes"
-msgstr "Votes récents"
+msgstr "Suara Terbaru"
 
 #: src/helpers/notification.js:556
 msgid "Refuting"
-msgstr "Refus"
+msgstr "Menyanggah"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
 msgid "Removed"
-msgstr "Supprimé"
+msgstr "Dihapus"
 
 #: src/helpers/notification.js:474
 msgid "Removed Liquidity Successfully"
-msgstr "Liquidité supprimée avec succès"
+msgstr "Likuiditas Berhasil Dihapus"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:334
 msgid "Report"
-msgstr "Rapporter"
+msgstr "Laporan"
 
 #: src/utils/translations.js:10
 msgid "Report Incident"
-msgstr "Signaler un incident"
+msgstr "Laporkan Insiden"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:76
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:82
 msgid "Report Summary"
-msgstr "Résumé du rapport"
+msgstr "Ringkasan Laporan"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:147
 msgid "Report an incident"
-msgstr "Signaler un incident"
+msgstr "Laporkan insiden"
 
 #: src/modules/reporting/active/ActiveReportingCard.jsx:230
 msgid "Reported On:"
-msgstr "Signalé le :"
+msgstr "Dilaporkan Pada:"
 
 #: src/helpers/notification.js:223
 msgid "Reported incident successfully"
-msgstr "Ticket signalé avec succès"
+msgstr "Melaporkan insiden dengan sukses"
 
 #: src/common/Header/Header.jsx:56
 #: src/common/HomeCard/HomeMainCard.jsx:33
@@ -1308,101 +1308,101 @@ msgstr "Ticket signalé avec succès"
 #: src/modules/reporting/ReportingHero.jsx:48
 #: src/modules/reporting/ReportingTabs.jsx:26
 msgid "Reporting"
-msgstr "Rapports"
+msgstr "Pelaporan"
 
 #: src/modules/reporting/ReportingInfo.jsx:26
 msgid "Reporting Info"
-msgstr "Infos sur les rapports"
+msgstr "Info Pelaporan"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:230
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:212
 msgid "Reporting Period"
-msgstr "Période de rapport"
+msgstr "Periode Pelaporan"
 
 #: src/helpers/notification.js:235
 msgid "Reporting incident"
-msgstr "Signaler un incident"
+msgstr "Melaporkan insiden"
 
 #: src/modules/reporting/active/CastYourVote.jsx:227
 #: src/modules/reporting/NewIncidentReportForm.jsx:334
 msgid "Reporting..."
-msgstr "Rapports..."
+msgstr "Pelaporan..."
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:48
 msgid "Resolution By"
-msgstr "Résolution par"
+msgstr "Resolusi Oleh"
 
 #: src/common/Cover/CoverResolutionSources.jsx:29
 msgid "Resolution Sources"
-msgstr "Sources de résolution"
+msgstr "Sumber Resolusi"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:76
 msgid "Resolve"
-msgstr "Résoudre"
+msgstr "Menyelesaikan"
 
 #: src/hooks/useResolveIncident.jsx:42
 msgid "Resolve Incident"
-msgstr "Résoudre le Ticket"
+msgstr "Selesaikan Insiden"
 
 #: src/modules/reporting/ReportingTabs.jsx:16
 msgid "Resolved"
-msgstr "Résoudre"
+msgstr "Terselesaikan"
 
 #: src/helpers/notification.js:95
 msgid "Resolved Incident Successfully"
-msgstr "Ticket signalé avec succès"
+msgstr "Insiden Berhasil Diselesaikan"
 
 #: src/modules/reporting/resolved/ResolvedReportingCard.jsx:67
 msgid "Resolved On:"
-msgstr "Résoudre:"
+msgstr "Diselesaikan Pada:"
 
 #: src/helpers/notification.js:107
 msgid "Resolving Incident"
-msgstr "Résolution du Ticket"
+msgstr "Menyelesaikan Insiden"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:60
 msgid "Resolving in"
-msgstr "Résolution dans"
+msgstr "Menyelesaikan dalam"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:76
 msgid "Resolving..."
-msgstr "Résolution dans..."
+msgstr "Menyelesaikan..."
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:93
 msgid "Result:"
-msgstr "Résultat:"
+msgstr "Hasil:"
 
 #: src/modules/my-liquidity/content/rules.jsx:167
 msgid "Risk Disclosure / Disclaimer"
-msgstr "Divulgation des risques / Avertissement"
+msgstr "Pengungkapan Risiko / Penafian"
 
 #: src/common/SearchAndSortBar.jsx:37
 msgid "Search"
-msgstr "Chercher"
+msgstr "Mencari"
 
 #: src/common/Header/LanguageDropdown.jsx:95
 msgid "Search Language"
-msgstr "Langue de recherche"
+msgstr "Cari Bahasa"
 
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See less"
-msgstr "En voir moins"
+msgstr "Lihat lebih sedikit"
 
 #: src/common/SeeMoreParagraph.jsx:38
 msgid "See more"
-msgstr "En savoir plus"
+msgstr "Lihat lainnya"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:139
 msgid "Select Your Decision"
-msgstr "Sélectionnez votre décision"
+msgstr "Pilih Keputusan Anda"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:184
 msgid "Select the incident observance date."
-msgstr "Sélectionnez la date d'observation de l'incident."
+msgstr "Pilih tanggal peringatan insiden."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:174
 msgid "Select your coverage period"
-msgstr "Sélectionnez votre période de couverture"
+msgstr "Pilih periode pertanggungan Anda"
 
 #: src/common/ProductsGrid/ProductsGrid.jsx:162
 #: src/common/Table/Table.jsx:39
@@ -1411,15 +1411,15 @@ msgstr "Sélectionnez votre période de couverture"
 #: src/modules/pools/staking/index.jsx:132
 #: src/modules/reporting/active/active.jsx:155
 msgid "Show More"
-msgstr "Afficher plus"
+msgstr "Menampilkan lebih banyak"
 
 #: src/modules/reporting/active/CastYourVote.jsx:238
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
-msgstr "Puisque vous êtes la première personne à contester ce signalement d'incident, vous devrez mettre en jeu au moins {0} jetons du NPM. Si la majorité est d'accord avec vous, vous gagnerez {1}% des frais de la plateforme au lieu du rapporteur d'incident."
+msgstr "Karena Anda adalah orang pertama yang menyengketakan pelaporan insiden ini, Anda harus mempertaruhkan setidaknya {0} token NPM. Jika mayoritas setuju dengan Anda, Anda akan mendapatkan {1}% dari biaya platform alih-alih pelapor insiden."
 
 #: src/common/SearchAndSortBar.jsx:51
 msgid "Sort by:"
-msgstr "Trier par:"
+msgstr "Sortir dengan:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
@@ -1430,7 +1430,7 @@ msgstr "Trier par:"
 #: src/modules/pools/staking/StakingCard.jsx:242
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
-msgstr "Stake"
+msgstr "Mempertaruhkan"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:130
 #: src/modules/reporting/active/ActiveReportSummary.jsx:175
@@ -1438,35 +1438,35 @@ msgstr "Stake"
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:161
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 msgid "Stake:"
-msgstr "Enjeu:"
+msgstr "Mempertaruhkan:"
 
 #: src/helpers/notification.js:75
 msgid "Staked {tokenSymbol} successfully"
-msgstr "{tokenSymbol} abonné avec succès"
+msgstr "Berhasil mempertaruhkan {tokenSymbol}"
 
 #: src/modules/pools/PoolsTabs.jsx:22
 msgid "Staking"
-msgstr "Staking"
+msgstr "Mempertaruhkan"
 
 #: src/helpers/notification.js:88
 msgid "Staking {tokenSymbol}"
-msgstr "Staking {tokenSymbol}"
+msgstr "Mempertaruhkan {tokenSymbol}"
 
 #: src/modules/pools/staking/StakeForm.jsx:144
 msgid "Staking..."
-msgstr "Prise en cours..."
+msgstr "Mempertaruhkan..."
 
 #: src/modules/my-liquidity/content/rules.jsx:111
 msgid "Standard Exclusions"
-msgstr "Exclusions standard"
+msgstr "Pengecualian Standar"
 
 #: src/utils/translations.js:36
 msgid "Stopped"
-msgstr "Arrêté"
+msgstr "Berhenti"
 
 #: src/common/TokenBalance.jsx:32
 msgid "Success"
-msgstr "Succès"
+msgstr "Kesuksesan"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:118
 #: src/modules/pools/staking/StakingCard.jsx:110
@@ -1475,61 +1475,61 @@ msgstr "TVL"
 
 #: src/modules/home/Hero.jsx:83
 msgid "TVL (Cover)"
-msgstr "TVL (couverture)"
+msgstr "TVL (Cover)"
 
 #: src/modules/home/Hero.jsx:93
 msgid "TVL (Pool)"
-msgstr "TVL (Groupe)"
+msgstr "TVL (Pool)"
 
 #: src/common/ComingSoon.jsx:25
 msgid "Take me back to homepage"
-msgstr "Revenir à la page d'accueil"
+msgstr "Bawa saya kembali ke beranda"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:106
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
-msgstr "La fonction obligataire vous fournit des jetons à valeur réduit sur une période de rachat de {vestingPeriodInterval}."
+msgstr "Fitur obligasi memberi Anda token NPM dengan nilai diskon untuk periode vesting {vestingPeriodInterval}."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:79
 msgid "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
-msgstr "Les créateurs de couvertures, les couvertures, couvre la disponibilité, le volume de liquidité, le montant de protection, le rapport d'utilisation, ainsi que tout autre contenu dans le réseau de test sont fictifs et uniquement à des fins de test et d'expérimentation. Neptune ne garantit pas ou ne garantit pas que ces informations ou contenus seront similaires ou proches de l'environnement réel lors du déploiement du réseau principal. Les logos et les créateurs de couvertures placés sur le réseau de test ne sont pas destinés à impliquer une approbation ou un engagement officiel de la part de ces créateurs."
+msgstr "Pembuat sampul, sampul, sampul, ketersediaan, volume likuiditas, jumlah perlindungan, rasio pemanfaatan, serta konten lainnya di testnet adalah fiktif dan semata-mata untuk tujuan pengujian dan eksperimen. Neptune tidak menjamin atau menjamin informasi atau konten tersebut akan serupa atau dekat dengan lingkungan sebenarnya ketika mainnet disebarkan. Logo dan pembuat sampul yang ditempatkan di testnet tidak dimaksudkan untuk menyiratkan dukungan atau komitmen resmi apa pun dari pembuat tersebut."
 
 #: src/modules/my-liquidity/content/rules.jsx:58
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
-msgstr "Le ou les produit(s) énumérés ci-dessus font partie d'un bassin de couverture diversifié. Le paiement d'un produit de couverture diversifiée n'est pas garanti, il sera donc accordé sur la base du premier arrivé, premier servi."
+msgstr "Produk yang tercantum di atas adalah bagian dari kumpulan penutup yang beragam. Pembayaran untuk produk sampul yang beragam tidak dijamin, sehingga akan diberikan berdasarkan siapa cepat dia dapat."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:60
 msgid "The purpose of this testnet environment is to test and conduct experiment on Neptune Mutual protocol without imposing risk to any digital assets or the main chain. Hence, this testnet environment is furnished for testing and experimenting only, and is subject to continuous updating, changing, improving, and/or periodically shut down without notice. The testnet environment may be malfunctioned, include technical errors or typographical errors. Any content, information, data, logo, including but not limited to covers providers, liquidity, protection policy are fictitious and should not be construed as a commitment by Neptune, and without warranties implied or statutory including without limitation warranties of merchantability, fitness for a particular use and non-infringement. Neptune accepts no responsibility or liability from any visitors on the testnet with regard to any issue incurred as a result of using or visiting the testnet environment."
-msgstr "Le but de cet environnement testnet est de tester et de mener des expériences sur le protocole mutuel de Neptune sans imposer de risque à aucun actif numérique ou à toute chaîne principale. Par conséquent, cet environnement testnet n'est fourni qu'à des fins de test et d'expérimentation et est sujet à des mises à jour, des changements, des améliorations et/ou à des fermetures périodiques sans préavis. L'environnement testnet peut être défectueux, y compris des erreurs techniques ou typographiques. Tout contenu, information, données, logo, y compris, mais sans s'y limiter, couvre les fournisseurs, les liquidités, la politique de protection est fictive et ne doit pas être interprétée comme un engagement de Neptune, et sans garantie implicite ou légale y compris, sans limitation, des garanties de qualité marchande, d'adaptation à une utilisation particulière et de non-contrefaçon. Neptune décline toute responsabilité ou responsabilité de la part des visiteurs du réseau testnet à l'égard de tout problème encouru par suite de l'utilisation ou de la visite de l'environnement testnet."
+msgstr "Tujuan dari lingkungan testnet ini adalah untuk menguji dan melakukan eksperimen pada protokol Neptunus Mutual tanpa menimbulkan risiko pada aset digital atau rantai utama apa pun. Oleh karena itu, lingkungan testnet ini dilengkapi untuk pengujian dan eksperimen saja, dan dapat terus diperbarui, diubah, ditingkatkan, dan/atau ditutup secara berkala tanpa pemberitahuan. Lingkungan testnet mungkin tidak berfungsi, termasuk kesalahan teknis atau kesalahan ketik. Setiap konten, informasi, data, logo, termasuk namun tidak terbatas pada mencakup penyedia, likuiditas, kebijakan perlindungan adalah fiktif dan tidak boleh ditafsirkan sebagai komitmen oleh Neptunus, dan tanpa jaminan tersirat atau undang-undang termasuk namun tidak terbatas pada jaminan dapat diperjualbelikan, kesesuaian untuk penggunaan tertentu dan non-pelanggaran. Neptune tidak bertanggung jawab atau berkewajiban dari pengunjung mana pun di testnet sehubungan dengan masalah apa pun yang terjadi sebagai akibat dari penggunaan atau mengunjungi lingkungan testnet."
 
 #: src/modules/reporting/CoverReportingRules.jsx:38
 msgid "There are no known incidents of {0}."
-msgstr "Il n'y a aucun incident connu de {0}."
+msgstr "Tidak ada insiden yang diketahui dari {0}."
 
 #: src/common/Disclaimer/DisclaimerModal.jsx:53
 msgid "This testnet environment is built by Neptune Mutual, i.e. its operating entity Neptune Tech Limited and/or its affiliated companies (collectively “Neptune”)."
-msgstr "Cet environnement testnet est construit par Neptune Mutual, c'est-à-dire son entité opérationnelle Neptune Tech Limited et/ou ses sociétés affiliées (collectivement « Neptune »)."
+msgstr "Lingkungan testnet ini dibangun oleh Neptune Mutual, yaitu entitas operasinya Neptune Tech Limited dan/atau perusahaan afiliasinya (secara kolektif disebut \"Neptune\")."
 
 #: src/modules/pools/bond/MyBondTxsTable.jsx:205
 msgid "Timestamp"
-msgstr "Horodatage"
+msgstr "Stempel waktu"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:106
 msgid "Title"
-msgstr "Titre de la page"
+msgstr "Judul"
 
 #: src/common/TokenBalance.jsx:33
 msgid "Token address copied Successfully"
-msgstr "Adresse jeton copiée avec succès"
+msgstr "Alamat token berhasil disalin"
 
 #: src/modules/cover/purchase/index.jsx:86
 #: src/modules/home/Hero.jsx:148
 msgid "Total Liquidity"
-msgstr "Liquidité totale"
+msgstr "Likuiditas Total"
 
 #: src/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources.jsx:33
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:43
 msgid "Total Liquidity:"
-msgstr "Liquidité totale:"
+msgstr "Total Likuiditas:"
 
 #: src/modules/my-liquidity/index.jsx:18
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:68
@@ -1542,168 +1542,168 @@ msgstr "Liquidité totale:"
 #: src/pages/pools/bond/transactions.jsx:44
 #: src/pages/pools/bond/transactions.jsx:51
 msgid "Transaction List"
-msgstr "Liste des transactions"
+msgstr "Daftar Transaksi"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:116
 msgid "UNSTAKE"
-msgstr "DÉSACTIVER"
+msgstr "UNSTAKE"
 
 #: src/common/Cover/CoverCard.jsx:134
 #: src/common/Cover/ProductCard.jsx:163
 #: src/modules/reporting/active/ActiveReportingCard.jsx:157
 msgid "UTILIZATION RATIO:"
-msgstr "RATIO D'UTILIZATION :"
+msgstr "RASIO PEMANFAATAN:"
 
 #: src/common/TokenBalance.jsx:40
 msgid "Unable to copy token address"
-msgstr "Impossible de copier l'adresse du jeton"
+msgstr "Tidak dapat menyalin alamat token"
 
 #: src/common/Header/AccountDetailsModal.jsx:135
 msgid "Unlimited Approvals"
-msgstr "Approbations illimitées"
+msgstr "Persetujuan Tanpa Batas"
 
 #: src/common/UnlockDate.jsx:8
 #: src/modules/pools/bond/ClaimBondModal.jsx:53
 msgid "Unlock Date"
-msgstr "Date de déblocage"
+msgstr "Buka Tanggal"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:153
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:169
 msgid "Unstake"
-msgstr "Retirer"
+msgstr "Batalkan taruhan"
 
 #: src/hooks/useUnstakeReportingStake.jsx:154
 msgid "Unstake & claim NPM"
-msgstr "Détacher et revendiquer le NPM"
+msgstr "Unstake dan klaim NPM"
 
 #: src/hooks/useUnstakeReportingStake.jsx:46
 msgid "Unstake NPM"
-msgstr "Unstake NPM"
+msgstr "Lepaskan NPM"
 
 #: src/helpers/notification.js:399
 msgid "Unstaked & claimed {symbol} Successfully"
-msgstr "Non misé et récupéré {symbol} avec succès"
+msgstr "Unstaked & diklaim {symbol} Berhasil"
 
 #: src/helpers/notification.js:383
 msgid "Unstaked {symbol} Successfully"
-msgstr "{symbol} débloqué avec succès"
+msgstr "{symbol} yang tidak dipertaruhkan Berhasil"
 
 #: src/helpers/notification.js:33
 msgid "Unstaked {tokenSymbol} successfully"
-msgstr "{tokenSymbol} débloqué avec succès"
+msgstr "{tokenSymbol} berhasil dibatalkan"
 
 #: src/helpers/notification.js:408
 msgid "Unstaking & claiming {symbol}"
-msgstr "Retirer et réclamer {symbol}"
+msgstr "Unstaking & mengklaim {symbol}"
 
 #: src/helpers/notification.js:392
 msgid "Unstaking {symbol}"
-msgstr "Désactivation de {symbol}"
+msgstr "Melepaskan {symbol}"
 
 #: src/helpers/notification.js:46
 msgid "Unstaking {tokenSymbol}"
-msgstr "Désactivation de {tokenSymbol}"
+msgstr "Melepaskan {tokenSymbol}"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:169
 msgid "Unstaking..."
-msgstr "Désactivation..."
+msgstr "Unstaking..."
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:126
 #: src/modules/reporting/active/ActiveReportSummary.jsx:171
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:112
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:157
 msgid "User Votes:"
-msgstr "Votes de l'utilisateur :"
+msgstr "Suara Pengguna:"
 
 #: src/common/SearchAndSortBar.jsx:9
 msgid "Utilization Ratio"
-msgstr "Ratio d'utilisation"
+msgstr "Rasio Pemanfaatan"
 
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:25
 msgid "Vault Info"
-msgstr "Infos du coffre"
+msgstr "Info Gudang"
 
 #: src/common/TransactionList/TransactionList.jsx:91
 msgid "View More"
-msgstr "Voir plus"
+msgstr "Lihat Selengkapnya"
 
 #: src/common/TransactionList/TransactionList.jsx:167
 msgid "View Tx"
-msgstr "Voir Tx"
+msgstr "Lihat Tx"
 
 #: src/common/Header/AccountDetailsModal.jsx:126
 msgid "View on Explorer"
-msgstr "Voir sur l'explorateur"
+msgstr "Lihat di Explorer"
 
 #: src/common/ViewTxLink.jsx:13
 msgid "View transaction"
-msgstr "Voir la transaction"
+msgstr "Lihat transaksi"
 
 #: src/modules/reporting/RecentVotesTable.jsx:60
 msgid "Weight"
-msgstr "Poids"
+msgstr "Bobot"
 
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:40
 msgid "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections."
-msgstr "Quand la durée d'une politique se termine, elle se déplace automatiquement dans cette section. Explorer les produits sur l'écran d'accueil pour voir les protections disponibles."
+msgstr "Saat durasi kebijakan berakhir, kebijakan tersebut secara otomatis berpindah ke bagian ini. Jelajahi produk di layar beranda untuk melihat perlindungan yang tersedia."
 
 #: src/modules/pools/bond/index.jsx:206
 msgid "Will Unlock On"
-msgstr "Débloquer le"
+msgstr "Akan Membuka Nyala"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:285
 msgid "Withdraw"
-msgstr "Retirer"
+msgstr "Menarik"
 
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
 #: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
 msgid "Withdraw Liquidity"
-msgstr "Retirer de la liquidité"
+msgstr "Tarik Likuiditas"
 
 #: src/helpers/notification.js:27
 msgid "Withdrawing rewards"
-msgstr "Retirer les récompenses"
+msgstr "Menarik hadiah"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:285
 msgid "Withdrawing.."
-msgstr "Retirer.."
+msgstr "Penarikan.."
 
 #: src/helpers/notification.js:15
 msgid "Withdrawn rewards successfully"
-msgstr "Récompenses retirées avec succès"
+msgstr "Hadiah yang ditarik berhasil"
 
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:159
 msgid "YOU WILL RECEIVE"
-msgstr "VOUS RECEVEZ"
+msgstr "ANDA AKAN MENERIMA"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:196
 #: src/modules/pools/staking/HarvestForm.jsx:42
 #: src/modules/pools/staking/StakingCard.jsx:206
 msgid "You Earned"
-msgstr "Vous avez gagné"
+msgstr "Anda mendapatkan"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:254
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:213
 #: src/modules/pools/bond/index.jsx:197
 msgid "You Will Receive"
-msgstr "Vous allez recevoir"
+msgstr "Anda akan menerima"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:115
 msgid "You are not whitelisted"
-msgstr "Vous n'êtes pas dans la liste blanche"
+msgstr "Anda tidak masuk daftar putih"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:128
 msgid "You will receive"
-msgstr "Vous allez recevoir"
+msgstr "Anda akan menerima"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "You will receive:"
-msgstr "Vous allez recevoir:"
+msgstr "Anda akan menerima:"
 
 #: src/modules/pools/bond/index.jsx:126
 msgid "Your Bond"
-msgstr "Votre obligation"
+msgstr "Ikatan Anda"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:95
 #: src/modules/pools/staking/HarvestForm.jsx:39
@@ -1713,21 +1713,21 @@ msgstr "Votre obligation"
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:131
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:176
 msgid "Your Stake"
-msgstr "Votre prise"
+msgstr "Taruhan Anda"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:220
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:181
 #: src/modules/pools/staking/UnStakeForm.jsx:77
 msgid "Your Stake:"
-msgstr "Votre prise:"
+msgstr "Taruhan Anda:"
 
 #: src/common/Banner.jsx:30
 msgid "You’re on {0} Network. Get <0>Test Tokens</0> or <1>View Leaderboard</1>."
-msgstr "Vous êtes sur {0} Réseau. Obtenez <0>Jetons de test</0> ou <1>Voir le Classement</1>."
+msgstr "Anda berada di {0} Jaringan. Dapatkan <0>Token Uji</0> atau <1>Lihat Papan Peringkat</1>."
 
 #: src/modules/reporting/RecentVotesTable.jsx:54
 msgid "account"
-msgstr "compte"
+msgstr "akun"
 
 #: src/common/Header/Header.jsx:202
 #: src/common/Header/Header.jsx:204
@@ -1738,129 +1738,129 @@ msgstr ""
 
 #: src/hooks/useMyLiquidityInfo.jsx:159
 msgid "accrue interest"
-msgstr "intérêts courus"
+msgstr "memperoleh bunga"
 
 #: src/hooks/useProvideLiquidity.jsx:251
 msgid "add liquidity"
-msgstr "ajouter de la liquidité"
+msgstr "menambah likuiditas"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:65
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:63
 #: src/modules/pools/bond/MyBondTxsTable.jsx:65
 msgid "amount"
-msgstr "montant"
+msgstr "jumlah"
 
 #: src/hooks/useProvideLiquidity.jsx:90
 msgid "approve DAI"
-msgstr "approbation de DAI"
+msgstr "setujui DAI"
 
 #: src/hooks/useCreateBond.jsx:194
 msgid "approve LP tokens"
-msgstr "approbation des jetons LP"
+msgstr "setujui token LP"
 
 #: src/hooks/useProvideLiquidity.jsx:168
 msgid "approve NPM"
-msgstr "approbation du NPM"
+msgstr "setujui NPM"
 
 #: src/hooks/useDisputeIncident.jsx:70
 #: src/hooks/useReportIncident.jsx:65
 #: src/hooks/useVote.jsx:61
 msgid "approve {NPMTokenSymbol} tokens"
-msgstr "approbation de {NPMTokenSymbol} jetons"
+msgstr "setujui token {NPMTokenSymbol}"
 
 #: src/hooks/usePurchasePolicy.jsx:126
 msgid "approve {liquidityTokenSymbol}"
-msgstr "approuver {liquidityTokenSymbol}"
+msgstr "setujui {liquidityTokenSymbol}"
 
 #: src/hooks/useStakingPoolDeposit.jsx:78
 msgid "approve {tokenSymbol}"
-msgstr "approuver {tokenSymbol}"
+msgstr "setujui {tokenSymbol}"
 
 #: src/hooks/useClaimPolicyInfo.jsx:109
 msgid "approve {tokenSymbol} tokens"
-msgstr "approbation de {tokenSymbol} jetons"
+msgstr "setujui token {tokenSymbol}"
 
 #: src/hooks/useRemoveLiquidity.jsx:52
 msgid "approve {vaultTokenSymbol} tokens"
-msgstr "approbation de {vaultTokenSymbol} jetons"
+msgstr "setujui token {vaultTokenSymbol}"
 
 #: src/hooks/useVote.jsx:136
 msgid "attest"
-msgstr "attester"
+msgstr "membuktikan"
 
 #: src/hooks/useCalculateLiquidity.jsx:36
 msgid "calculate liquidity"
-msgstr "calculer la liquidité"
+msgstr "menghitung likuiditas"
 
 #: src/hooks/useCalculatePods.jsx:41
 msgid "calculate pods"
-msgstr "calculer les pods"
+msgstr "menghitung polong"
 
 #: src/hooks/useCreateBond.jsx:91
 msgid "calculate tokens"
-msgstr "calcul des jetons"
+msgstr "menghitung token"
 
 #: src/hooks/useClaimBond.jsx:39
 msgid "claim bond"
-msgstr "revendiquer le lien"
+msgstr "klaim obligasi"
 
 #: src/hooks/useClaimPolicyInfo.jsx:207
 msgid "claim policy"
-msgstr "politique de réclamation"
+msgstr "kebijakan klaim"
 
 #: src/common/TagsInput/TagsInput.jsx:44
 msgid "close"
-msgstr "fermer"
+msgstr "menutup"
 
 #: src/modules/reporting/resolved/resolved.jsx:184
 msgid "cover"
-msgstr "couvert"
+msgstr "menutupi"
 
 #: src/hooks/useCreateBond.jsx:270
 msgid "create bond"
-msgstr "création de la liaison"
+msgstr "menciptakan ikatan"
 
 #: src/modules/reporting/resolved/resolved.jsx:190
 msgid "date and time"
-msgstr "date et heure"
+msgstr "tanggal dan waktu"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:59
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:57
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
 msgid "details"
-msgstr "détails"
+msgstr "details"
 
 #: src/hooks/useDisputeIncident.jsx:164
 msgid "dispute"
-msgstr "contestation"
+msgstr "perselisihan"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "from"
-msgstr "de"
+msgstr "dari"
 
 #: src/hooks/useERC20Allowance.jsx:95
 msgid "get allowance"
-msgstr "obtenir une allocation"
+msgstr "mendapatkan tunjangan"
 
 #: src/hooks/usePolicyFees.jsx:64
 msgid "get fees"
-msgstr "obtenir des frais"
+msgstr "dapatkan biaya"
 
 #: src/hooks/useFirstReportingStake.jsx:27
 msgid "get first reporting stake"
-msgstr "obtenir le premier rapport de mise en jeu"
+msgstr "dapatkan saham pelaporan pertama"
 
 #: src/hooks/usePoolInfo.jsx:48
 msgid "get pool info"
-msgstr "obtenir les infos du pool"
+msgstr "dapatkan info kolam renang"
 
 #: src/hooks/useMyLiquidityInfo.jsx:60
 msgid "get vault info"
-msgstr "obtenir les infos du pool"
+msgstr "dapatkan info brankas"
 
 #: src/hooks/useIfWhitelisted.jsx:26
 msgid "getting user whitelisted"
-msgstr "obtention de la liste blanche des utilisateurs"
+msgstr "membuat pengguna masuk daftar putih"
 
 #: src/modules/reporting/NewIncidentReportForm.jsx:205
 msgid "https://"
@@ -1870,7 +1870,7 @@ msgstr "https://"
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:48
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:53
 msgid "loading.."
-msgstr "chargement en cours.."
+msgstr "memuat.."
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:75
@@ -1893,7 +1893,7 @@ msgstr "chargement en cours.."
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:42
 #: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
 msgid "loading..."
-msgstr "chargement en cours..."
+msgstr "memuat..."
 
 #: src/modules/my-liquidity/index.jsx:68
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
@@ -1902,78 +1902,78 @@ msgstr "chargement en cours..."
 #: src/modules/pools/staking/index.jsx:151
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:54
 msgid "no data found"
-msgstr "aucune donnée trouvée"
+msgstr "tidak ada data ditemukan"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:97
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:177
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:203
 msgid "policy"
-msgstr "politique"
+msgstr "aturan"
 
 #: src/hooks/usePurchasePolicy.jsx:207
 msgid "purchase policy"
-msgstr "politique d'achat"
+msgstr "kebijakan pembelian"
 
 #: src/hooks/useVote.jsx:224
 msgid "refute"
-msgstr "réfuter"
+msgstr "menyangkal"
 
 #: src/hooks/useRemoveLiquidity.jsx:127
 msgid "remove liquidity"
-msgstr "retirer de la liquidité"
+msgstr "menghilangkan likuiditas"
 
 #: src/hooks/useReportIncident.jsx:216
 msgid "report incident"
-msgstr "signaler un incident"
+msgstr "laporkan kejadian"
 
 #: src/common/Cover/CoverResolutionSources.jsx:32
 #: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:28
 msgid "reporting period"
-msgstr "période de rapport"
+msgstr "periode pelaporan"
 
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:65
 msgid "select a cover"
-msgstr "sélectionner une couverture"
+msgstr "pilih penutup"
 
 #: src/hooks/useStakingPoolDeposit.jsx:176
 msgid "stake {tokenSymbol}"
-msgstr "mise en jeu {tokenSymbol}"
+msgstr "mempertaruhkan {tokenSymbol}"
 
 #: src/modules/pools/pod-staking/index.jsx:165
 msgid "staking pools found."
-msgstr "piscines de staking trouvées."
+msgstr "kolam pertaruhan ditemukan."
 
 #: src/modules/reporting/resolved/resolved.jsx:208
 msgid "status"
-msgstr "statuts"
+msgstr "status"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "to"
-msgstr "à"
+msgstr "ke"
 
 #: src/utils/translations.js:21
 msgid "to get protection from hacks & exploits"
-msgstr "pour obtenir une protection contre les hacks et les exploits"
+msgstr "untuk mendapatkan perlindungan dari peretasan dan eksploitasi"
 
 #: src/utils/translations.js:25
 msgid "to notify other users about the cover event"
-msgstr "pour informer les autres utilisateurs de l'événement de couverture"
+msgstr "untuk memberi tahu pengguna lain tentang acara sampul"
 
 #: src/utils/translations.js:23
 msgid "to pool risks and receive rewards"
-msgstr "pour mettre en commun les risques et recevoir des récompenses"
+msgstr "untuk mengumpulkan risiko dan menerima imbalan"
 
 #: src/utils/translations.js:27
 msgid "to receive payout by claiming cxTokens"
-msgstr "pour recevoir le paiement en réclamant cxTokens"
+msgstr "untuk menerima pembayaran dengan mengklaim cxTokens"
 
 #: src/modules/reporting/resolved/resolved.jsx:196
 msgid "total attested stake"
-msgstr "total de mise en jeu attestée"
+msgstr "total saham yang dibuktikan"
 
 #: src/modules/reporting/resolved/resolved.jsx:202
 msgid "total refuted stake"
-msgstr "total de la mise en jeu réfutée"
+msgstr "total taruhan yang disangkal"
 
 #: src/common/Header/Header.jsx:246
 msgid "transaction overview button"
@@ -1981,33 +1981,33 @@ msgstr ""
 
 #: src/hooks/useStakingPoolWithdraw.jsx:46
 msgid "unstake {tokenSymbol}"
-msgstr "unstake {tokenSymbol}"
+msgstr "batalkan taruhan {tokenSymbol}"
 
 #: src/common/Cover/CoverCard.jsx:119
 #: src/common/Cover/ProductCard.jsx:148
 #: src/modules/reporting/active/ActiveReportingCard.jsx:142
 msgid "utilization Ratio"
-msgstr "ratio d'utilisation"
+msgstr "rasio pemanfaatan"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:67
 msgid "vesting term"
-msgstr "période d'acquisition"
+msgstr "istilah vesting"
 
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:16
 msgid "votes"
-msgstr "votes"
+msgstr "suara"
 
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:53
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:51
 #: src/modules/pools/bond/MyBondTxsTable.jsx:53
 #: src/modules/reporting/RecentVotesTable.jsx:48
 msgid "when"
-msgstr "quand"
+msgstr "kapan"
 
 #: src/hooks/useStakingPoolWithdraw.jsx:170
 msgid "withdraw rewards"
-msgstr "retirer les récompenses"
+msgstr "menarik hadiah"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "withdrawing..."
-msgstr "retirer..."
+msgstr "menarik..."

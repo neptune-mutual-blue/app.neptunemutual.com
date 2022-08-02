@@ -101,7 +101,7 @@ export const ProductsGrid = () => {
             <Trans>Back</Trans>
           </button>
           <h1 className="font-bold text-h3 lg:text-h2 font-sora">
-            <Trans>{coverInfo?.infoObj?.coverName}</Trans>
+            {coverInfo?.infoObj?.coverName}
           </h1>
         </div>
 
