@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -60,7 +60,8 @@ export const usePolicyTxs = ({ limit, page }) => {
     }
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(limit, page, account))
+
+    fetchSubgraph("usePolicyTxs")(networkId, getQuery(limit, page, account))
       .then((_data) => {
         if (ignore || !_data) return;
 

@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { useState, useEffect } from "react";
 
 const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
@@ -57,7 +57,8 @@ export const useRecentVotes = ({
     }
 
     setLoading(true);
-    getSubgraphData(
+
+    fetchSubgraph("useRecentVotes")(
       networkId,
       getQuery(limit, page, coverKey, productKey, incidentDate)
     )

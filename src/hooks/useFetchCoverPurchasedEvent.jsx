@@ -1,6 +1,6 @@
 import DateLib from "@/lib/date/DateLib";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { useEffect, useState } from "react";
 
 export const storePurchaseEvent = (event, from) => {
@@ -73,7 +73,10 @@ const getQuery = (id) => {
 };
 
 const getEventFromSubgraph = async (networkId, txHash) => {
-  const data = await getSubgraphData(networkId, getQuery(txHash));
+  const data = await fetchSubgraph("useCoverPurchasedEvent")(
+    networkId,
+    getQuery(txHash)
+  );
   return data.coverPurchasedEvent;
 };
 

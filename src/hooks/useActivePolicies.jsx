@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -52,7 +52,11 @@ export const useActivePolicies = () => {
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(startOfMonth, account))
+
+    fetchSubgraph("useActivePolicies")(
+      networkId,
+      getQuery(startOfMonth, account)
+    )
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

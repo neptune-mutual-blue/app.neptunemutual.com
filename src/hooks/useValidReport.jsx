@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const isValidTimestamp = (_unix) => !!_unix && _unix != "0";
 
@@ -42,7 +42,11 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
     }
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(start, end, coverKey, productKey))
+
+    fetchSubgraph("useValidReport")(
+      networkId,
+      getQuery(start, end, coverKey, productKey)
+    )
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

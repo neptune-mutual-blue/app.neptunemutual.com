@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -62,7 +62,8 @@ export const useBondTxs = ({ limit, page }) => {
     const query = getQuery(account, limit, limit * (page - 1));
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+
+    fetchSubgraph("useBondTxs")(networkId, query)
       .then((_data) => {
         if (ignore || !_data) return;
 

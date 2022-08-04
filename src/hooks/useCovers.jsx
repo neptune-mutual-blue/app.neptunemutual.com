@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const getQuery = () => {
   return `
@@ -22,7 +22,8 @@ export const useCovers = () => {
     let ignore = false;
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery())
+
+    fetchSubgraph("useCovers")(networkId, getQuery())
       .then((data) => {
         if (!data || ignore) return;
         setData(data.covers);

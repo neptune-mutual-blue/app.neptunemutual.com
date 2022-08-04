@@ -28,7 +28,6 @@ const getQuery = (account) => {
 `;
 };
 
-const fetchMyLiquidities = fetchSubgraph("useMyLiquidities");
 /**
  *
  * @param {string} account
@@ -44,7 +43,7 @@ export const useMyLiquidities = (account) => {
   useEffect(() => {
     if (account) {
       setLoading(true);
-      fetchMyLiquidities(getNetworkId(), getQuery(account))
+      fetchSubgraph("useMyLiquidities")(getNetworkId(), getQuery(account))
         .then(({ userLiquidities }) => {
           const myLiquidities = userLiquidities || [];
           setData({

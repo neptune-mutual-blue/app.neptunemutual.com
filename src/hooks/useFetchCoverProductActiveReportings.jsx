@@ -20,9 +20,6 @@ const getQuery = (coverKey, productKey) => {
   `;
 };
 
-const fetchCoverProductActiveReportings = fetchSubgraph(
-  "useFetchCoverProductActiveReportings"
-);
 /**
  *
  * @param {object} param
@@ -40,7 +37,7 @@ export const useFetchCoverProductActiveReportings = ({
   useEffect(() => {
     if (productKey && coverKey) {
       setLoading(true);
-      fetchCoverProductActiveReportings(
+      fetchSubgraph("useFetchCoverProductActiveReportings")(
         getNetworkId(),
         getQuery(coverKey, productKey)
       )

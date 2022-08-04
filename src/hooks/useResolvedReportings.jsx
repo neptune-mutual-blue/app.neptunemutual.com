@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const getQuery = (itemsToSkip) => {
   return `
@@ -52,7 +52,8 @@ export const useResolvedReportings = () => {
     let ignore = false;
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(itemsToSkip))
+
+    fetchSubgraph("useResolvedReportings")(networkId, getQuery(itemsToSkip))
       .then((_data) => {
         if (ignore || !_data) return;
 
