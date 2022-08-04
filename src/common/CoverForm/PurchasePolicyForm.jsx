@@ -21,6 +21,9 @@ import { RegularInput } from "@/common/Input/RegularInput";
 import { BackButton } from "@/common/BackButton/BackButton";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
+import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
+
+const MAX_CHAR_LENGTH = 32;
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
 
@@ -28,6 +31,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   const [value, setValue] = useState("");
   const [referralCode, setReferralCode] = useState("");
+  const [isValidReferralCode, setIsValidReferralCode] = useState(false);
   const [coverMonth, setCoverMonth] = useState("");
   const {
     liquidityTokenAddress,
@@ -68,7 +72,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     feeAmount: feeData.fee,
     availableLiquidity,
     liquidityTokenSymbol,
-    referralCode,
+    referralCode: referralCode.trim(),
   });
 
   const {
@@ -211,16 +215,30 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <Label htmlFor={"incident_title"} className={"mb-2"}>
           <Trans>Referral Code</Trans>
         </Label>
-        <RegularInput
-          className="leading-none disabled:cursor-not-allowed !text-h5"
-          inputProps={{
-            id: "referral_code",
-            placeholder: t`Enter Referral Code`,
-            value: referralCode,
-            onChange: (e) => setReferralCode(e.target.value),
-            disabled: approving,
-          }}
-        />
+
+        <div className="relative">
+          <RegularInput
+            className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14"
+            inputProps={{
+              id: "referral_code",
+              placeholder: t`Enter Referral Code`,
+              value: referralCode,
+              onChange: (e) => {
+                const value = e.target.value;
+                setReferralCode(value);
+                setIsValidReferralCode(value.trim().length < MAX_CHAR_LENGTH);
+              },
+              disabled: approving,
+            }}
+          />
+
+          {!!referralCode.trim().length && isValidReferralCode && (
+            <SuccessIcon
+              className="w-6 h-6 text-21AD8C absolute right-6 top-6"
+              aria-hidden="true"
+            />
+          )}
+        </div>
       </div>
 
       {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
@@ -235,7 +253,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !value ||
               !coverMonth ||
               updatingFee ||
-              updatingBalance
+              updatingBalance ||
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
@@ -256,7 +275,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !value ||
               !coverMonth ||
               updatingFee ||
-              updatingBalance
+              updatingBalance ||
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
