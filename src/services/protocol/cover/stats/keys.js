@@ -53,7 +53,7 @@ export const getKeys = async (
     capitalEfficiency,
   ] = getCoverPoolSummaryResult;
 
-  let availableLiquidity = totalPoolAmount;
+  let availableLiquidity = totalPoolAmount.sub(activeCommitment);
 
   // @todo: Fetch these from smart contract
   if (productsCount.toString() !== "0") {
