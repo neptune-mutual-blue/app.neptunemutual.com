@@ -36,6 +36,7 @@ export const usePurchasePolicy = ({
   coverMonth,
   availableLiquidity,
   liquidityTokenSymbol,
+  referralCode,
 }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
@@ -279,7 +280,7 @@ export const usePurchasePolicy = ({
         productKeyArg,
         parseInt(coverMonth, 10),
         convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
-        utils.keyUtil.toBytes32(""), // referral code
+        utils.keyUtil.toBytes32(referralCode), // referral code
       ];
       writeContract({
         instance: policyContract,
