@@ -33,7 +33,7 @@ const renderHeader = (col) => (
 );
 
 const renderAddress = (row) => (
-  <td className="px-6 py-6 text-404040 max-w-sm whitespace-nowrap">
+  <td className="max-w-sm px-6 py-6 text-404040 whitespace-nowrap">
     {row.cxToken.id}
   </td>
 );
@@ -74,7 +74,7 @@ export const columns = [
 ];
 
 const ClaimTableContext = React.createContext({ report: null });
-function useClaimTableContext() {
+export function useClaimTableContext() {
   const context = React.useContext(ClaimTableContext);
   if (context === undefined) {
     throw new Error(
@@ -127,7 +127,7 @@ const CxTokenAmountRenderer = () => {
 
   return (
     <>
-      <td className="px-6 py-6 text-right max-w-sm">
+      <td className="max-w-sm px-6 py-6 text-right">
         <span
           className="whitespace-nowrap w-max"
           title={
@@ -159,7 +159,7 @@ export const ClaimBeforeColumnRenderer = () => {
   const router = useRouter();
 
   return (
-    <td className="px-6 py-6 max-w-sm">
+    <td className="max-w-sm px-6 py-6">
       <span
         className="text-left whitespace-nowrap w-max"
         title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}

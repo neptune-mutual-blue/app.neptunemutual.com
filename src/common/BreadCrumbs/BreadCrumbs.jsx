@@ -1,9 +1,9 @@
 import { classNames } from "@/utils/classnames";
 import Link from "next/link";
 
-export const BreadCrumbs = ({ pages }) => {
+export const BreadCrumbs = ({ pages, ...rest }) => {
   return (
-    <nav className="flex mb-11" aria-label="Breadcrumb">
+    <nav className="flex mb-11" aria-label="Breadcrumb" {...rest}>
       <ol className="flex items-center space-x-1 text-xs leading-5 sm:text-sm text-5F5F5F">
         {pages.map((page, idx) => (
           <li key={page.name + idx}>

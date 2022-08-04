@@ -11,7 +11,7 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 
 export const MyLiquidityPage = ({ myLiquidities, loading }) => {
   return (
-    <Container className="py-16">
+    <Container className="py-16" data-testid="page-container">
       <div className="flex justify-end">
         <Link href="/my-liquidity/transactions">
           <a className="font-medium text-h4 text-4e7dd9 hover:underline">
@@ -27,14 +27,17 @@ export const MyLiquidityPage = ({ myLiquidities, loading }) => {
 function MyLiquidities({ data, loading }) {
   if (data.length) {
     return (
-      <Grid className="mb-24 mt-14">
+      <Grid className="mb-24 mt-14" data-testid="liquidities-grid">
         {data.map((x) => {
           return (
             <Link
               href={`/my-liquidity/${safeParseBytes32String(x.cover.id)}`}
               key={x.id}
             >
-              <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+              <a
+                className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
+                data-testid="liquidity-cover-card"
+              >
                 <MyLiquidityCoverCard
                   coverKey={x.cover.id}
                   totalPODs={x.totalPodsRemaining}
@@ -51,7 +54,7 @@ function MyLiquidities({ data, loading }) {
 
   if (loading) {
     return (
-      <Grid className="mb-24 mt-14">
+      <Grid className="mb-24 mt-14" data-testid="loading-grid">
         <CardSkeleton
           numberOfCards={CARDS_PER_PAGE}
           statusBadge={false}
@@ -62,7 +65,10 @@ function MyLiquidities({ data, loading }) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full pt-20">
+    <div
+      className="flex flex-col items-center w-full pt-20"
+      data-testid="no-liquidities-grid"
+    >
       <img
         src="/images/covers/empty-list-illustration.svg"
         alt={t`no data found`}

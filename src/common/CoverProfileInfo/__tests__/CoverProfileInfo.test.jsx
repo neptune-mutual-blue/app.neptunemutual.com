@@ -45,7 +45,7 @@ describe("CoverProfileInfo test", () => {
   });
 
   test("should render the component correctly", () => {
-    const wrapper = screen.getByTestId("coverprofileinfo-container");
+    const wrapper = screen.getByTestId("dedicated-coverprofileinfo-container");
     expect(wrapper).toBeInTheDocument();
   });
 

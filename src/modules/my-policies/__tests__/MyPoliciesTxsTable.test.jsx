@@ -203,7 +203,7 @@ describe("MyPoliciesTxsTable test", () => {
         const text = formatCurrency(
           convertFromUnits(
             testData.policies.data.transactions[0].daiAmount,
-            testData.tokenDecimal.liquidityTokenDecimals
+            testData.appConstants.liquidityTokenDecimals
           ),
           "en"
         ).long;
@@ -243,7 +243,7 @@ describe("MyPoliciesTxsTable test", () => {
         const text = formatCurrency(
           convertFromUnits(
             testData.policies.data.transactions[0].cxTokenAmount,
-            testData.tokenDecimal.liquidityTokenDecimals
+            testData.appConstants.liquidityTokenDecimals
           ),
           "en",
           testData.policies.data.transactions[0].cxToken.tokenSymbol,
@@ -261,7 +261,7 @@ describe("MyPoliciesTxsTable test", () => {
         const text = formatCurrency(
           convertFromUnits(
             testData.policies.data.transactions[0].cxTokenAmount,
-            testData.tokenDecimal.liquidityTokenDecimals
+            testData.appConstants.liquidityTokenDecimals
           ),
           "en",
           testData.policies.data.transactions[0].cxToken.tokenSymbol,
