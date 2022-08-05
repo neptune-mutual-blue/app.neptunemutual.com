@@ -28,6 +28,20 @@ import { METHODS } from "@/src/services/transactions/const";
 import { getActionMessage } from "@/src/helpers/notification";
 import { storePurchaseEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
 
+/**
+ *
+ * @param {string} referralCode
+ * @returns {boolean}
+ */
+export function isValidReferralCode(referralCode) {
+  try {
+    utils.keyUtil.toBytes32(referralCode);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export const usePurchasePolicy = ({
   coverKey,
   productKey,
