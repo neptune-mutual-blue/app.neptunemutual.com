@@ -177,9 +177,8 @@ export const ReportingResolvedPage = () => {
       <td className="px-6 py-2 text-right">
         {status !== E_CARD_STATUS.NORMAL && (
           <Badge
-            className="rounded-lg p-2 leading-4 border-0 font-semibold tracking-normal inline-block !text-sm"
+            className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
             status={status}
-            variant="light"
           />
         )}
       </td>
