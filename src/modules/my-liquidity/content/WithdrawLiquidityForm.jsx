@@ -144,26 +144,16 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
   const handleExit = (ev) => {
     setIsExit(ev.target.checked);
-
     if (ev.target.checked) {
       setNpmValue(convertFromUnits(myStake).toString());
+      setPodValue(convertFromUnits(balance).toString());
     }
   };
 
   return (
     <>
-      <div className="overflow-y-auto max-h-[50vh] pr-2">
+      <div className="overflow-y-auto max-h-[50vh] px-8 sm:px-12">
         <div className="flex flex-col mt-6">
-          <div className="flex items-center justify-end">
-            <Checkbox
-              id="exitCheckBox"
-              name="checkexitliquidity"
-              checked={isExit}
-              onChange={(ev) => handleExit(ev)}
-            >
-              Exit
-            </Checkbox>
-          </div>
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
             disabled={isExit}
@@ -194,9 +184,11 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             )}
           </TokenAmountInput>
         </div>
+
         <div className="mt-6">
           <TokenAmountInput
             labelText={t`Enter your POD`}
+            disabled={isExit}
             handleChooseMax={handleChoosePodMax}
             inputValue={podValue}
             id={"my-liquidity-amount"}
@@ -208,6 +200,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
           />
           {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
         </div>
+
         <div className="mt-6 modal-unlock">
           <ReceiveAmountInput
             labelText={t`You Will Receive`}
@@ -225,6 +218,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         <h5 className="block mt-6 mb-1 font-semibold text-black uppercase text-h6">
           <Trans>NEXT UNLOCK CYCLE</Trans>
         </h5>
+
         <div>
           <span className="text-7398C0" title={fromNow(withdrawalOpen)}>
             <strong>
@@ -233,6 +227,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             {DateLib.toLongDateFormat(withdrawalOpen, router.locale)}
           </span>
         </div>
+
         <div>
           <span className="text-7398C0" title={fromNow(withdrawalClose)}>
             <strong>
@@ -241,8 +236,20 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             {DateLib.toLongDateFormat(withdrawalClose, router.locale)}
           </span>
         </div>
+
+        <div className="flex items-center mt-8">
+          <Checkbox
+            id="exitCheckBox"
+            name="checkexitliquidity"
+            checked={isExit}
+            onChange={(ev) => handleExit(ev)}
+          >
+            Withdraw Full Liquidity
+          </Checkbox>
+        </div>
       </div>
-      <div className="mt-4">
+
+      <div className="px-8 mt-4 sm:px-12">
         {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
         <DataLoadingIndicator message={loadingMessage} />
         {!canWithdraw ? (

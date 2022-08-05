@@ -11,12 +11,14 @@ import { SHORT_TOAST_TIME } from "@/src/config/toast";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import { classNames } from "@/utils/classnames";
 
 export const TokenBalance = ({
   tokenAddress,
   tokenDecimals,
   balance,
   unit,
+  disabled,
   children,
 }) => {
   const { networkId } = useNetwork();
@@ -78,7 +80,10 @@ export const TokenBalance = ({
         <button
           title="Copy token address"
           onClick={handleCopy}
-          className="ml-3"
+          className={classNames(
+            "ml-3",
+            disabled && "pointer-events-none cursor-not-allowed"
+          )}
           data-testid="copy-button"
         >
           <span className="sr-only">Copy token address</span>
@@ -87,7 +92,10 @@ export const TokenBalance = ({
         <a
           href={getTokenLink(networkId, tokenAddress, account)}
           target="_blank"
-          className="ml-3"
+          className={classNames(
+            "ml-3",
+            disabled && "pointer-events-none cursor-not-allowed"
+          )}
           rel="noreferrer nofollow"
           title="Open In Explorer"
           data-testid="explorer-link"
@@ -96,7 +104,10 @@ export const TokenBalance = ({
           <OpenInNewIcon width={20} fill="currentColor" />
         </a>
         <button
-          className="ml-3"
+          className={classNames(
+            "ml-3",
+            disabled && "pointer-events-none cursor-not-allowed"
+          )}
           onClick={() => register(tokenAddress, unit, tokenDecimals)}
           title={"Add to Metamask"}
           data-testid="add-button"
