@@ -31,7 +31,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   const [value, setValue] = useState("");
   const [referralCode, setReferralCode] = useState("");
-  const [isValidReferralCode, setIsValidReferralCode] = useState(false);
   const [coverMonth, setCoverMonth] = useState("");
   const {
     liquidityTokenAddress,
@@ -125,6 +124,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const cover_id = safeParseBytes32String(coverKey);
   const product_id = safeParseBytes32String(productKey);
   const status = productStatus;
+
   if (status && status !== "Normal") {
     return (
       <Alert>
@@ -141,6 +141,10 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
       </Alert>
     );
   }
+
+  const isValidReferralCode = !!referralCode.trim().length
+    ? referralCode.trim().length < MAX_CHAR_LENGTH
+    : true;
 
   return (
     <div className="max-w-lg" data-testid="purchase-policy-form">
@@ -224,9 +228,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               placeholder: t`Enter Referral Code`,
               value: referralCode,
               onChange: (e) => {
-                const value = e.target.value;
-                setReferralCode(value);
-                setIsValidReferralCode(value.trim().length < MAX_CHAR_LENGTH);
+                setReferralCode(e.target.value);
               },
               disabled: approving,
             }}
