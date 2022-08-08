@@ -2,13 +2,12 @@ import { Select } from "@/common/Select";
 import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 const defaultOptions = [
-  { name: t`A-Z` },
-  { name: t`Utilization Ratio` },
-  { name: t`Liquidity` },
-  // { name: "APR" },
+  { name: <Trans>A-Z</Trans> },
+  { name: <Trans>Utilization Ratio</Trans> },
+  { name: <Trans>Liquidity</Trans> },
 ];
 
 export const SearchAndSortBar = ({

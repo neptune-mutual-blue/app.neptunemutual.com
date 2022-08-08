@@ -7,24 +7,24 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 
 const headers = [
   isFeatureEnabled("bond") && {
     name: "bond",
     href: "/pools/bond",
-    displayAs: t`Bond`,
+    displayAs: <Trans>Bond</Trans>,
   },
   isFeatureEnabled("staking-pool") && {
     name: "staking",
     href: "/pools/staking",
-    displayAs: t`Staking`,
+    displayAs: <Trans>Staking</Trans>,
   },
   isFeatureEnabled("pod-staking-pool") && {
     name: "pod-staking",
     href: "/pools/pod-staking",
-    displayAs: t`POD Staking`,
+    displayAs: <Trans>POD Staking</Trans>,
   },
 ].filter(Boolean);
 

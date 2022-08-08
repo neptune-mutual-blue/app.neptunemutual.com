@@ -48,7 +48,7 @@ msgstr "Αποδοχή"
 msgid "Account"
 msgstr "Λογαριασμός"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:68
 msgid "Accrue"
 msgstr "Accrue"
 
@@ -73,12 +73,12 @@ msgstr "Ενεργή Αναφορά"
 msgid "Add Dispute"
 msgstr "Προσθήκη Διαφοράς"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:159
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewDisputeReportForm.jsx:162
+#: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Add new link"
 msgstr "Προσθήκη νέου συνδέσμου"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Added"
 msgstr "Προστέθηκε"
 
@@ -124,8 +124,8 @@ msgstr "Ποσό που επιθυμείτε να αποσύρετε"
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/active/CastYourVote.jsx:209
-#: src/modules/reporting/NewDisputeReportForm.jsx:232
-#: src/modules/reporting/NewIncidentReportForm.jsx:316
+#: src/modules/reporting/NewDisputeReportForm.jsx:235
+#: src/modules/reporting/NewIncidentReportForm.jsx:319
 msgid "Approve"
 msgstr "Έγκριση"
 
@@ -210,8 +210,8 @@ msgstr "Έγκριση.."
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/active/CastYourVote.jsx:206
-#: src/modules/reporting/NewDisputeReportForm.jsx:229
-#: src/modules/reporting/NewIncidentReportForm.jsx:313
+#: src/modules/reporting/NewDisputeReportForm.jsx:232
+#: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approving..."
 msgstr "Έγκριση..."
 
@@ -411,8 +411,7 @@ msgstr "Διεκδικώντας {tokenSymbol}"
 msgid "Claiming..."
 msgstr "Διεκδικώνεται..."
 
-#: src/common/Banner.jsx:56
-#: src/common/Banner.jsx:58
+#: src/common/Banner.jsx:57
 msgid "Close Banner"
 msgstr ""
 
@@ -421,13 +420,13 @@ msgstr ""
 msgid "Close:"
 msgstr "Κλείσιμο:"
 
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:228
-#: src/modules/pools/staking/HarvestForm.jsx:78
-#: src/modules/pools/staking/StakingCard.jsx:236
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:230
+#: src/modules/pools/staking/HarvestForm.jsx:79
+#: src/modules/pools/staking/StakingCard.jsx:238
 msgid "Collect"
 msgstr "Συλλογή"
 
-#: src/modules/pools/staking/HarvestForm.jsx:78
+#: src/modules/pools/staking/HarvestForm.jsx:79
 msgid "Collecting..."
 msgstr "Συλλογή..."
 
@@ -435,13 +434,13 @@ msgstr "Συλλογή..."
 msgid "Coming soon!"
 msgstr "Έρχεται σύντομα!"
 
-#: src/common/Header/Header.jsx:191
-#: src/common/Header/Header.jsx:193
-#: src/common/Header/Header.jsx:361
+#: src/common/Header/Header.jsx:201
+#: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
 msgstr ""
 
-#: src/common/Header/Header.jsx:363
+#: src/common/Header/Header.jsx:374
 msgid "Connect wallet"
 msgstr ""
 
@@ -614,8 +613,8 @@ msgstr "Δημιουργία δεσμού"
 msgid "Decline"
 msgstr "Άρνηση"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:165
-#: src/modules/reporting/NewIncidentReportForm.jsx:244
+#: src/modules/reporting/NewDisputeReportForm.jsx:168
+#: src/modules/reporting/NewIncidentReportForm.jsx:247
 msgid "Description"
 msgstr "Περιγραφή"
 
@@ -631,7 +630,7 @@ msgstr "Αποποίηση ευθύνης και εγγύηση"
 msgid "Disconnect"
 msgstr "Αποσύνδεση"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Dispute"
 msgstr "Διαφορά"
 
@@ -643,7 +642,7 @@ msgstr "Επιτυχής διαφωνία"
 msgid "Disputing"
 msgstr "Αμφισβήτηση"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Disputing..."
 msgstr "Αποβολή..."
 
@@ -722,11 +721,11 @@ msgid "Enter your POD"
 msgstr "Εισάγετε το POD σας"
 
 #: src/modules/pools/bond/index.jsx:182
-#: src/modules/reporting/NewDisputeReportForm.jsx:192
+#: src/modules/reporting/NewDisputeReportForm.jsx:195
 msgid "Enter your amount"
 msgstr "Εισάγετε το ποσό σας"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:272
+#: src/modules/reporting/NewIncidentReportForm.jsx:275
 msgid "Enter your stake"
 msgstr "Εισάγετε το ποντάρισμά σας"
 
@@ -739,7 +738,7 @@ msgstr "Εισάγετε το {tokenSymbol} σας"
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:211
+#: src/modules/reporting/NewDisputeReportForm.jsx:214
 msgid "Error!!!"
 msgstr "Σφάλμα!!!"
 
@@ -766,8 +765,8 @@ msgstr "Έληξε Στις"
 msgid "Expires In"
 msgstr "Λήγει Στις"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:171
-#: src/modules/reporting/NewIncidentReportForm.jsx:253
+#: src/modules/reporting/NewDisputeReportForm.jsx:174
+#: src/modules/reporting/NewIncidentReportForm.jsx:256
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "Εξηγήστε εν συντομία για το περιστατικό αν θέλετε να προσθέσετε οτιδήποτε."
 
@@ -871,7 +870,7 @@ msgstr "Ολοκλήρωση..."
 msgid "Get LP tokens"
 msgstr "Λήψη διακριτικών LP"
 
-#: src/common/Header/Header.jsx:69
+#: src/common/Header/Header.jsx:70
 #: src/modules/cover/add-liquidity/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
@@ -972,22 +971,22 @@ msgstr "Μη έγκυρο ποσό για κάλυψη"
 msgid "Invalid amount to stake"
 msgstr "Μη έγκυρο ποσό για ποντάρισμα"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:96
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
 msgstr "ΣΥΣΤΗΜΑ ΠΑΡΟΥΣΙΑΣ:"
 
 #: src/common/Cover/CoverCard.jsx:142
-#: src/common/Cover/CoverCard.jsx:188
+#: src/common/Cover/CoverCard.jsx:190
 #: src/common/Cover/ProductCard.jsx:171
-#: src/common/Cover/ProductCard.jsx:217
+#: src/common/Cover/ProductCard.jsx:219
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
 msgstr "Ταχύτητα"
 
-#: src/modules/my-liquidity/index.jsx:72
+#: src/modules/my-liquidity/index.jsx:78
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "Οι πάροχοι ρευστότητας κατέχουν συλλογικά μια ομάδα ρευστότητας. Για να γίνετε πάροχος ρευστότητας, επιλέξτε ένα εξώφυλλο από την αρχική οθόνη."
 
@@ -1024,8 +1023,8 @@ msgstr "Η μέγιστη διαθέσιμη προστασία είναι {0}"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
 #: src/modules/reporting/active/CastYourVote.jsx:180
-#: src/modules/reporting/NewDisputeReportForm.jsx:202
-#: src/modules/reporting/NewIncidentReportForm.jsx:281
+#: src/modules/reporting/NewDisputeReportForm.jsx:205
+#: src/modules/reporting/NewIncidentReportForm.jsx:284
 msgid "Minimum Stake:"
 msgstr "Ελάχιστο Μέλος:"
 
@@ -1033,9 +1032,9 @@ msgstr "Ελάχιστο Μέλος:"
 msgid "My Active Protection"
 msgstr "Η Ενεργή Προστασία Μου"
 
-#: src/common/Header/Header.jsx:51
-#: src/modules/my-liquidity/details.jsx:55
-#: src/modules/my-liquidity/details.jsx:80
+#: src/common/Header/Header.jsx:52
+#: src/modules/my-liquidity/details.jsx:56
+#: src/modules/my-liquidity/details.jsx:81
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
@@ -1045,7 +1044,7 @@ msgstr "Η Ρευστότητά Μου"
 msgid "My Liquidity:"
 msgstr "Η Ρευστότητα μου:"
 
-#: src/common/Header/Header.jsx:46
+#: src/common/Header/Header.jsx:47
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
 #: src/modules/my-policies/ClaimDetailsPage.jsx:94
 #: src/modules/my-policies/PoliciesTabs.jsx:37
@@ -1147,7 +1146,7 @@ msgstr "Παρακαλώ επιλέξτε ημερομηνία από το πα�
 msgid "Please connect your wallet"
 msgstr "Παρακαλώ συνδέστε το πορτοφόλι σας"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:116
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
@@ -1162,12 +1161,12 @@ msgstr "Παρακαλείστε να προσδιορίσετε μια τιμή
 msgid "Please specify an amount"
 msgstr "Παρακαλούμε προσδιορίστε ένα ποσό"
 
-#: src/common/Header/Header.jsx:41
+#: src/common/Header/Header.jsx:42
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "Πισίνα"
 
-#: src/modules/my-liquidity/content/CoveredProducts.jsx:54
+#: src/modules/my-liquidity/content/CoveredProducts.jsx:57
 msgid "Products Covered Under This Pool"
 msgstr "Προϊόντα Που Καλύπτονται Κάτω Από Αυτή Τη Λίμνη"
 
@@ -1194,7 +1193,7 @@ msgstr "Προστασία"
 msgid "Provide Liquidity"
 msgstr "Παροχή Ρευστότητας"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:226
+#: src/modules/reporting/NewIncidentReportForm.jsx:229
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "Δώστε URL με μια άμεση απόδειξη του περιστατικού."
 
@@ -1269,7 +1268,7 @@ msgstr "Πρόσφατες Ψηφοφορίες"
 msgid "Refuting"
 msgstr "Ανεφοδιασμός"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Removed"
 msgstr "Αφαιρέθηκε"
 
@@ -1277,7 +1276,7 @@ msgstr "Αφαιρέθηκε"
 msgid "Removed Liquidity Successfully"
 msgstr "Επιτυχής Αφαίρεση Ρευστότητας"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -1294,7 +1293,7 @@ msgstr "Περίληψη Αναφοράς"
 msgid "Report an incident"
 msgstr "Αναφορά συμβάντος"
 
-#: src/modules/reporting/active/ActiveReportingCard.jsx:230
+#: src/modules/reporting/active/ActiveReportingCard.jsx:232
 msgid "Reported On:"
 msgstr "Αναφέρθηκε Σε:"
 
@@ -1302,7 +1301,7 @@ msgstr "Αναφέρθηκε Σε:"
 msgid "Reported incident successfully"
 msgstr "Επιτυχής αναφορά περιστατικού"
 
-#: src/common/Header/Header.jsx:56
+#: src/common/Header/Header.jsx:57
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:23
 #: src/modules/reporting/ReportingHero.jsx:48
@@ -1324,7 +1323,7 @@ msgid "Reporting incident"
 msgstr "Αναφορά συμβάντος"
 
 #: src/modules/reporting/active/CastYourVote.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Reporting..."
 msgstr "Αναφορά..."
 
@@ -1376,7 +1375,7 @@ msgstr "Αποτέλεσμα:"
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Γνωστοποίηση Κινδύνου / Αποποίηση Ευθύνης"
 
-#: src/common/SearchAndSortBar.jsx:37
+#: src/common/SearchAndSortBar.jsx:39
 msgid "Search"
 msgstr "Αναζήτηση"
 
@@ -1417,17 +1416,17 @@ msgstr "Εμφάνιση Περισσότερων"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "Δεδομένου ότι είστε το πρώτο άτομο που αμφισβητεί αυτή την αναφορά περιστατικού, θα πρέπει να στοιχηματίσετε τουλάχιστον {0} NPM tokens. Αν η πλειοψηφία συμφωνήσει μαζί σας, θα κερδίσετε {1}% της αμοιβής της πλατφόρμας αντί της αναφοράς περιστατικού."
 
-#: src/common/SearchAndSortBar.jsx:51
+#: src/common/SearchAndSortBar.jsx:53
 msgid "Sort by:"
 msgstr "Ταξινόμηση κατά:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:162
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:234
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:144
 #: src/modules/pools/staking/StakingCard.jsx:183
-#: src/modules/pools/staking/StakingCard.jsx:242
+#: src/modules/pools/staking/StakingCard.jsx:244
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
 msgstr "Σπαθί"
@@ -1656,8 +1655,8 @@ msgstr "Θα Ξεκλειδώσει Ενεργό"
 msgid "Withdraw"
 msgstr "Ανάληψη"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:76
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:95
 msgid "Withdraw Liquidity"
 msgstr "Ανάληψη Ρευστότητας"
 
@@ -1729,10 +1728,10 @@ msgstr "Είστε σε {0} Δίκτυο. Αποκτήστε <0>Test Tokens</0> 
 msgid "account"
 msgstr "λογαριασμός"
 
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:372
-#: src/common/Header/Header.jsx:375
+#: src/common/Header/Header.jsx:212
+#: src/common/Header/Header.jsx:214
+#: src/common/Header/Header.jsx:384
+#: src/common/Header/Header.jsx:387
 msgid "account details"
 msgstr ""
 
@@ -1834,7 +1833,7 @@ msgstr "λεπτομέρειες"
 msgid "dispute"
 msgstr "διαφορά"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "from"
 msgstr "από"
 
@@ -1895,7 +1894,7 @@ msgstr "φόρτωση.."
 msgid "loading..."
 msgstr "φόρτωση..."
 
-#: src/modules/my-liquidity/index.jsx:68
+#: src/modules/my-liquidity/index.jsx:74
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:159
@@ -1947,7 +1946,7 @@ msgstr "βρέθηκαν πισίνες πονταρίσματος."
 msgid "status"
 msgstr "κατάσταση"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "to"
 msgstr "προς"
 
@@ -1975,7 +1974,7 @@ msgstr "το συνολικό επιβεβαιωμένο ποντάρισμα"
 msgid "total refuted stake"
 msgstr "συνολικό αντικρουόμενο ποντάρισμα"
 
-#: src/common/Header/Header.jsx:246
+#: src/common/Header/Header.jsx:257
 msgid "transaction overview button"
 msgstr ""
 

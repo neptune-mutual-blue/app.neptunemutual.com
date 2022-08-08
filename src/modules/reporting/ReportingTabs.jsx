@@ -2,18 +2,18 @@ import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { TabNav } from "@/common/Tab/TabNav";
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 
 const headers = [
   {
     name: "active",
     href: "/reporting/active",
-    displayAs: t`Active`,
+    displayAs: <Trans>Active</Trans>,
   },
   {
     name: "resolved",
     href: "/reporting/resolved",
-    displayAs: t`Resolved`,
+    displayAs: <Trans>Resolved</Trans>,
   },
 ];
 

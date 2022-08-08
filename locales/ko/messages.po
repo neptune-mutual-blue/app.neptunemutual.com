@@ -48,7 +48,7 @@ msgstr "수용하다"
 msgid "Account"
 msgstr "계정"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:68
 msgid "Accrue"
 msgstr "생기다"
 
@@ -73,12 +73,12 @@ msgstr "활성 보고"
 msgid "Add Dispute"
 msgstr "분쟁 추가"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:159
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewDisputeReportForm.jsx:162
+#: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Add new link"
 msgstr "새 링크 추가"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Added"
 msgstr "추가됨"
 
@@ -124,8 +124,8 @@ msgstr "출금하고자 하는 금액"
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/active/CastYourVote.jsx:209
-#: src/modules/reporting/NewDisputeReportForm.jsx:232
-#: src/modules/reporting/NewIncidentReportForm.jsx:316
+#: src/modules/reporting/NewDisputeReportForm.jsx:235
+#: src/modules/reporting/NewIncidentReportForm.jsx:319
 msgid "Approve"
 msgstr "승인하다"
 
@@ -210,8 +210,8 @@ msgstr "승인.."
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/active/CastYourVote.jsx:206
-#: src/modules/reporting/NewDisputeReportForm.jsx:229
-#: src/modules/reporting/NewIncidentReportForm.jsx:313
+#: src/modules/reporting/NewDisputeReportForm.jsx:232
+#: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approving..."
 msgstr "승인..."
 
@@ -411,8 +411,7 @@ msgstr "{tokenSymbol} 소유권 주장"
 msgid "Claiming..."
 msgstr "소유권 주장..."
 
-#: src/common/Banner.jsx:56
-#: src/common/Banner.jsx:58
+#: src/common/Banner.jsx:57
 msgid "Close Banner"
 msgstr ""
 
@@ -421,13 +420,13 @@ msgstr ""
 msgid "Close:"
 msgstr "닫다:"
 
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:228
-#: src/modules/pools/staking/HarvestForm.jsx:78
-#: src/modules/pools/staking/StakingCard.jsx:236
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:230
+#: src/modules/pools/staking/HarvestForm.jsx:79
+#: src/modules/pools/staking/StakingCard.jsx:238
 msgid "Collect"
 msgstr "수집"
 
-#: src/modules/pools/staking/HarvestForm.jsx:78
+#: src/modules/pools/staking/HarvestForm.jsx:79
 msgid "Collecting..."
 msgstr "수집 중..."
 
@@ -435,13 +434,13 @@ msgstr "수집 중..."
 msgid "Coming soon!"
 msgstr "곧!"
 
-#: src/common/Header/Header.jsx:191
-#: src/common/Header/Header.jsx:193
-#: src/common/Header/Header.jsx:361
+#: src/common/Header/Header.jsx:201
+#: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
 msgstr ""
 
-#: src/common/Header/Header.jsx:363
+#: src/common/Header/Header.jsx:374
 msgid "Connect wallet"
 msgstr ""
 
@@ -614,8 +613,8 @@ msgstr "유대 만들기"
 msgid "Decline"
 msgstr "감소"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:165
-#: src/modules/reporting/NewIncidentReportForm.jsx:244
+#: src/modules/reporting/NewDisputeReportForm.jsx:168
+#: src/modules/reporting/NewIncidentReportForm.jsx:247
 msgid "Description"
 msgstr "설명"
 
@@ -631,7 +630,7 @@ msgstr "부인 및 보증"
 msgid "Disconnect"
 msgstr "연결 해제"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Dispute"
 msgstr "논쟁"
 
@@ -643,7 +642,7 @@ msgstr "성공적으로 이의 제기됨"
 msgid "Disputing"
 msgstr "논쟁"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Disputing..."
 msgstr "논쟁 중..."
 
@@ -722,11 +721,11 @@ msgid "Enter your POD"
 msgstr "POD 입력"
 
 #: src/modules/pools/bond/index.jsx:182
-#: src/modules/reporting/NewDisputeReportForm.jsx:192
+#: src/modules/reporting/NewDisputeReportForm.jsx:195
 msgid "Enter your amount"
 msgstr "금액을 입력하세요"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:272
+#: src/modules/reporting/NewIncidentReportForm.jsx:275
 msgid "Enter your stake"
 msgstr "지분을 입력하세요"
 
@@ -739,7 +738,7 @@ msgstr "{tokenSymbol} 입력"
 msgid "Error"
 msgstr "오류"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:211
+#: src/modules/reporting/NewDisputeReportForm.jsx:214
 msgid "Error!!!"
 msgstr "오류!!!"
 
@@ -766,8 +765,8 @@ msgstr "만료일"
 msgid "Expires In"
 msgstr "만료"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:171
-#: src/modules/reporting/NewIncidentReportForm.jsx:253
+#: src/modules/reporting/NewDisputeReportForm.jsx:174
+#: src/modules/reporting/NewIncidentReportForm.jsx:256
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "추가하고 싶은 것이 있으면 사건에 대해 간략하게 설명하십시오."
 
@@ -871,7 +870,7 @@ msgstr "마무리 중..."
 msgid "Get LP tokens"
 msgstr "LP 토큰 받기"
 
-#: src/common/Header/Header.jsx:69
+#: src/common/Header/Header.jsx:70
 #: src/modules/cover/add-liquidity/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
@@ -972,22 +971,22 @@ msgstr "적용할 수 있는 유효하지 않은 금액"
 msgid "Invalid amount to stake"
 msgstr "유효하지 않은 스테이킹 금액"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:96
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
 msgstr "마지막 동기화:"
 
 #: src/common/Cover/CoverCard.jsx:142
-#: src/common/Cover/CoverCard.jsx:188
+#: src/common/Cover/CoverCard.jsx:190
 #: src/common/Cover/ProductCard.jsx:171
-#: src/common/Cover/ProductCard.jsx:217
+#: src/common/Cover/ProductCard.jsx:219
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
 msgstr "유동성"
 
-#: src/modules/my-liquidity/index.jsx:72
+#: src/modules/my-liquidity/index.jsx:78
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "유동성 공급자는 집합적으로 유동성 풀을 소유합니다. 유동성 공급자가 되려면 홈 화면에서 커버를 선택하세요."
 
@@ -1024,8 +1023,8 @@ msgstr "사용 가능한 최대 보호는 {0} 입니다."
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
 #: src/modules/reporting/active/CastYourVote.jsx:180
-#: src/modules/reporting/NewDisputeReportForm.jsx:202
-#: src/modules/reporting/NewIncidentReportForm.jsx:281
+#: src/modules/reporting/NewDisputeReportForm.jsx:205
+#: src/modules/reporting/NewIncidentReportForm.jsx:284
 msgid "Minimum Stake:"
 msgstr "최소 지분:"
 
@@ -1033,9 +1032,9 @@ msgstr "최소 지분:"
 msgid "My Active Protection"
 msgstr "내 활성 보호"
 
-#: src/common/Header/Header.jsx:51
-#: src/modules/my-liquidity/details.jsx:55
-#: src/modules/my-liquidity/details.jsx:80
+#: src/common/Header/Header.jsx:52
+#: src/modules/my-liquidity/details.jsx:56
+#: src/modules/my-liquidity/details.jsx:81
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
@@ -1045,7 +1044,7 @@ msgstr "나의 유동성"
 msgid "My Liquidity:"
 msgstr "나의 유동성:"
 
-#: src/common/Header/Header.jsx:46
+#: src/common/Header/Header.jsx:47
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
 #: src/modules/my-policies/ClaimDetailsPage.jsx:94
 #: src/modules/my-policies/PoliciesTabs.jsx:37
@@ -1147,7 +1146,7 @@ msgstr "과거 날짜를 선택하세요."
 msgid "Please connect your wallet"
 msgstr "지갑을 연결해주세요"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:116
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
@@ -1162,12 +1161,12 @@ msgstr "값을 지정하십시오"
 msgid "Please specify an amount"
 msgstr "금액을 지정하십시오"
 
-#: src/common/Header/Header.jsx:41
+#: src/common/Header/Header.jsx:42
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "수영장"
 
-#: src/modules/my-liquidity/content/CoveredProducts.jsx:54
+#: src/modules/my-liquidity/content/CoveredProducts.jsx:57
 msgid "Products Covered Under This Pool"
 msgstr "이 풀에서 다루는 제품"
 
@@ -1194,7 +1193,7 @@ msgstr "보호"
 msgid "Provide Liquidity"
 msgstr "유동성 제공"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:226
+#: src/modules/reporting/NewIncidentReportForm.jsx:229
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "사건의 대략적인 증거가 있는 URL을 제공하십시오."
 
@@ -1269,7 +1268,7 @@ msgstr "최근 투표"
 msgid "Refuting"
 msgstr "반박하다"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Removed"
 msgstr "제거됨"
 
@@ -1277,7 +1276,7 @@ msgstr "제거됨"
 msgid "Removed Liquidity Successfully"
 msgstr "유동성 제거 성공"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Report"
 msgstr "보고서"
 
@@ -1294,7 +1293,7 @@ msgstr "보고서 요약"
 msgid "Report an incident"
 msgstr "사건 보고"
 
-#: src/modules/reporting/active/ActiveReportingCard.jsx:230
+#: src/modules/reporting/active/ActiveReportingCard.jsx:232
 msgid "Reported On:"
 msgstr "보고된 날짜:"
 
@@ -1302,7 +1301,7 @@ msgstr "보고된 날짜:"
 msgid "Reported incident successfully"
 msgstr "사건이 성공적으로 보고됨"
 
-#: src/common/Header/Header.jsx:56
+#: src/common/Header/Header.jsx:57
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:23
 #: src/modules/reporting/ReportingHero.jsx:48
@@ -1324,7 +1323,7 @@ msgid "Reporting incident"
 msgstr "사건 보고"
 
 #: src/modules/reporting/active/CastYourVote.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Reporting..."
 msgstr "보고 중..."
 
@@ -1376,7 +1375,7 @@ msgstr "결과:"
 msgid "Risk Disclosure / Disclaimer"
 msgstr "위험 공개/면책 조항"
 
-#: src/common/SearchAndSortBar.jsx:37
+#: src/common/SearchAndSortBar.jsx:39
 msgid "Search"
 msgstr "검색"
 
@@ -1417,17 +1416,17 @@ msgstr "자세히보기"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "이 사건 보고에 대해 이의를 제기하는 첫 번째 사람이므로 최소 {0} 개의 NPM 토큰을 스테이킹해야 합니다. 다수가 동의하면 사건 보고자 대신 플랫폼 수수료의 {1}%를 받게 됩니다."
 
-#: src/common/SearchAndSortBar.jsx:51
+#: src/common/SearchAndSortBar.jsx:53
 msgid "Sort by:"
 msgstr "정렬 기준:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:162
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:234
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:144
 #: src/modules/pools/staking/StakingCard.jsx:183
-#: src/modules/pools/staking/StakingCard.jsx:242
+#: src/modules/pools/staking/StakingCard.jsx:244
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
 msgstr "말뚝"
@@ -1656,8 +1655,8 @@ msgstr "잠금 해제 켜짐"
 msgid "Withdraw"
 msgstr "철회하다"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:76
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:95
 msgid "Withdraw Liquidity"
 msgstr "유동성 인출"
 
@@ -1729,10 +1728,10 @@ msgstr "{0} 네트워크에 있습니다. <0>테스트 토큰</0> 또는 <1>리�
 msgid "account"
 msgstr "계정"
 
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:372
-#: src/common/Header/Header.jsx:375
+#: src/common/Header/Header.jsx:212
+#: src/common/Header/Header.jsx:214
+#: src/common/Header/Header.jsx:384
+#: src/common/Header/Header.jsx:387
 msgid "account details"
 msgstr ""
 
@@ -1834,7 +1833,7 @@ msgstr "세부"
 msgid "dispute"
 msgstr "논쟁"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "from"
 msgstr "~에서"
 
@@ -1895,7 +1894,7 @@ msgstr "로딩중.."
 msgid "loading..."
 msgstr "로딩중..."
 
-#: src/modules/my-liquidity/index.jsx:68
+#: src/modules/my-liquidity/index.jsx:74
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:159
@@ -1947,7 +1946,7 @@ msgstr "스테이킹 풀을 찾았습니다."
 msgid "status"
 msgstr "상태"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "to"
 msgstr "에게"
 
@@ -1975,7 +1974,7 @@ msgstr "총 증명 지분"
 msgid "total refuted stake"
 msgstr "총 반박 지분"
 
-#: src/common/Header/Header.jsx:246
+#: src/common/Header/Header.jsx:257
 msgid "transaction overview button"
 msgstr ""
 

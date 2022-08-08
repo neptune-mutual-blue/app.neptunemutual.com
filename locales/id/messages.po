@@ -48,7 +48,7 @@ msgstr "Menerima"
 msgid "Account"
 msgstr "Akun"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:68
 msgid "Accrue"
 msgstr "Bertambah"
 
@@ -73,12 +73,12 @@ msgstr "Pelaporan Aktif"
 msgid "Add Dispute"
 msgstr "Tambahkan Sengketa"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:159
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewDisputeReportForm.jsx:162
+#: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Add new link"
 msgstr "Tambahkan tautan baru"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Added"
 msgstr "Ditambahkan"
 
@@ -124,8 +124,8 @@ msgstr "Jumlah yang ingin Anda tarik"
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/active/CastYourVote.jsx:209
-#: src/modules/reporting/NewDisputeReportForm.jsx:232
-#: src/modules/reporting/NewIncidentReportForm.jsx:316
+#: src/modules/reporting/NewDisputeReportForm.jsx:235
+#: src/modules/reporting/NewIncidentReportForm.jsx:319
 msgid "Approve"
 msgstr "Menyetujui"
 
@@ -210,8 +210,8 @@ msgstr "Menyetujui.."
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/active/CastYourVote.jsx:206
-#: src/modules/reporting/NewDisputeReportForm.jsx:229
-#: src/modules/reporting/NewIncidentReportForm.jsx:313
+#: src/modules/reporting/NewDisputeReportForm.jsx:232
+#: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approving..."
 msgstr "Menyetujui..."
 
@@ -411,8 +411,7 @@ msgstr "Mengklaim {tokenSymbol}"
 msgid "Claiming..."
 msgstr "Mengklaim..."
 
-#: src/common/Banner.jsx:56
-#: src/common/Banner.jsx:58
+#: src/common/Banner.jsx:57
 msgid "Close Banner"
 msgstr ""
 
@@ -421,13 +420,13 @@ msgstr ""
 msgid "Close:"
 msgstr "Menutup:"
 
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:228
-#: src/modules/pools/staking/HarvestForm.jsx:78
-#: src/modules/pools/staking/StakingCard.jsx:236
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:230
+#: src/modules/pools/staking/HarvestForm.jsx:79
+#: src/modules/pools/staking/StakingCard.jsx:238
 msgid "Collect"
 msgstr "Mengumpulkan"
 
-#: src/modules/pools/staking/HarvestForm.jsx:78
+#: src/modules/pools/staking/HarvestForm.jsx:79
 msgid "Collecting..."
 msgstr "Mengumpulkan..."
 
@@ -435,13 +434,13 @@ msgstr "Mengumpulkan..."
 msgid "Coming soon!"
 msgstr "Segera!"
 
-#: src/common/Header/Header.jsx:191
-#: src/common/Header/Header.jsx:193
-#: src/common/Header/Header.jsx:361
+#: src/common/Header/Header.jsx:201
+#: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
 msgstr ""
 
-#: src/common/Header/Header.jsx:363
+#: src/common/Header/Header.jsx:374
 msgid "Connect wallet"
 msgstr ""
 
@@ -614,8 +613,8 @@ msgstr "Menciptakan ikatan"
 msgid "Decline"
 msgstr "Menolak"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:165
-#: src/modules/reporting/NewIncidentReportForm.jsx:244
+#: src/modules/reporting/NewDisputeReportForm.jsx:168
+#: src/modules/reporting/NewIncidentReportForm.jsx:247
 msgid "Description"
 msgstr "Keterangan"
 
@@ -631,7 +630,7 @@ msgstr "Penafian dan Garansi"
 msgid "Disconnect"
 msgstr "Memutuskan"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Dispute"
 msgstr "Perselisihan"
 
@@ -643,7 +642,7 @@ msgstr "Disengketakan dengan sukses"
 msgid "Disputing"
 msgstr "Berselisih"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Disputing..."
 msgstr "Berselisih..."
 
@@ -722,11 +721,11 @@ msgid "Enter your POD"
 msgstr "Masukkan POD Anda"
 
 #: src/modules/pools/bond/index.jsx:182
-#: src/modules/reporting/NewDisputeReportForm.jsx:192
+#: src/modules/reporting/NewDisputeReportForm.jsx:195
 msgid "Enter your amount"
 msgstr "Masukkan jumlah Anda"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:272
+#: src/modules/reporting/NewIncidentReportForm.jsx:275
 msgid "Enter your stake"
 msgstr "Masukkan taruhan Anda"
 
@@ -739,7 +738,7 @@ msgstr "Masukkan {tokenSymbol} Anda"
 msgid "Error"
 msgstr "Kesalahan"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:211
+#: src/modules/reporting/NewDisputeReportForm.jsx:214
 msgid "Error!!!"
 msgstr "Kesalahan!!!"
 
@@ -766,8 +765,8 @@ msgstr "Kadaluwarsa Pada"
 msgid "Expires In"
 msgstr "Kadaluarsa dalam"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:171
-#: src/modules/reporting/NewIncidentReportForm.jsx:253
+#: src/modules/reporting/NewDisputeReportForm.jsx:174
+#: src/modules/reporting/NewIncidentReportForm.jsx:256
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "Jelaskan secara singkat tentang kejadian tersebut jika Anda ingin menambahkan sesuatu."
 
@@ -871,7 +870,7 @@ msgstr "Menyelesaikan..."
 msgid "Get LP tokens"
 msgstr "Dapatkan token LP"
 
-#: src/common/Header/Header.jsx:69
+#: src/common/Header/Header.jsx:70
 #: src/modules/cover/add-liquidity/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
@@ -972,22 +971,22 @@ msgstr "Jumlah yang tidak valid untuk ditanggung"
 msgid "Invalid amount to stake"
 msgstr "Jumlah yang tidak valid untuk dipertaruhkan"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:96
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
 msgstr "TERAKHIR DISINKRONKAN:"
 
 #: src/common/Cover/CoverCard.jsx:142
-#: src/common/Cover/CoverCard.jsx:188
+#: src/common/Cover/CoverCard.jsx:190
 #: src/common/Cover/ProductCard.jsx:171
-#: src/common/Cover/ProductCard.jsx:217
+#: src/common/Cover/ProductCard.jsx:219
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
 msgstr "Likuiditas"
 
-#: src/modules/my-liquidity/index.jsx:72
+#: src/modules/my-liquidity/index.jsx:78
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "Penyedia likuiditas secara kolektif memiliki kumpulan likuiditas. Untuk menjadi penyedia likuiditas, pilih sampul dari layar beranda."
 
@@ -1024,8 +1023,8 @@ msgstr "Perlindungan maksimum yang tersedia adalah {0}"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
 #: src/modules/reporting/active/CastYourVote.jsx:180
-#: src/modules/reporting/NewDisputeReportForm.jsx:202
-#: src/modules/reporting/NewIncidentReportForm.jsx:281
+#: src/modules/reporting/NewDisputeReportForm.jsx:205
+#: src/modules/reporting/NewIncidentReportForm.jsx:284
 msgid "Minimum Stake:"
 msgstr "Taruhan Minimum:"
 
@@ -1033,9 +1032,9 @@ msgstr "Taruhan Minimum:"
 msgid "My Active Protection"
 msgstr "Perlindungan Aktif Saya"
 
-#: src/common/Header/Header.jsx:51
-#: src/modules/my-liquidity/details.jsx:55
-#: src/modules/my-liquidity/details.jsx:80
+#: src/common/Header/Header.jsx:52
+#: src/modules/my-liquidity/details.jsx:56
+#: src/modules/my-liquidity/details.jsx:81
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
@@ -1045,7 +1044,7 @@ msgstr "Likuiditas Saya"
 msgid "My Liquidity:"
 msgstr "Likuiditas Saya:"
 
-#: src/common/Header/Header.jsx:46
+#: src/common/Header/Header.jsx:47
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
 #: src/modules/my-policies/ClaimDetailsPage.jsx:94
 #: src/modules/my-policies/PoliciesTabs.jsx:37
@@ -1147,7 +1146,7 @@ msgstr "Silakan pilih tanggal dari masa lalu"
 msgid "Please connect your wallet"
 msgstr "Silakan hubungkan dompet Anda"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:116
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
@@ -1162,12 +1161,12 @@ msgstr "Harap tentukan nilai"
 msgid "Please specify an amount"
 msgstr "Harap tentukan jumlahnya"
 
-#: src/common/Header/Header.jsx:41
+#: src/common/Header/Header.jsx:42
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "Kolam"
 
-#: src/modules/my-liquidity/content/CoveredProducts.jsx:54
+#: src/modules/my-liquidity/content/CoveredProducts.jsx:57
 msgid "Products Covered Under This Pool"
 msgstr "Produk Tercakup Di Bawah Kolam Ini"
 
@@ -1194,7 +1193,7 @@ msgstr "Perlindungan"
 msgid "Provide Liquidity"
 msgstr "Memberikan Likuiditas"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:226
+#: src/modules/reporting/NewIncidentReportForm.jsx:229
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "Berikan URL dengan bukti langsung dari insiden tersebut."
 
@@ -1269,7 +1268,7 @@ msgstr "Suara Terbaru"
 msgid "Refuting"
 msgstr "Menyanggah"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Removed"
 msgstr "Dihapus"
 
@@ -1277,7 +1276,7 @@ msgstr "Dihapus"
 msgid "Removed Liquidity Successfully"
 msgstr "Likuiditas Berhasil Dihapus"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Report"
 msgstr "Laporan"
 
@@ -1294,7 +1293,7 @@ msgstr "Ringkasan Laporan"
 msgid "Report an incident"
 msgstr "Laporkan insiden"
 
-#: src/modules/reporting/active/ActiveReportingCard.jsx:230
+#: src/modules/reporting/active/ActiveReportingCard.jsx:232
 msgid "Reported On:"
 msgstr "Dilaporkan Pada:"
 
@@ -1302,7 +1301,7 @@ msgstr "Dilaporkan Pada:"
 msgid "Reported incident successfully"
 msgstr "Melaporkan insiden dengan sukses"
 
-#: src/common/Header/Header.jsx:56
+#: src/common/Header/Header.jsx:57
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:23
 #: src/modules/reporting/ReportingHero.jsx:48
@@ -1324,7 +1323,7 @@ msgid "Reporting incident"
 msgstr "Melaporkan insiden"
 
 #: src/modules/reporting/active/CastYourVote.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Reporting..."
 msgstr "Pelaporan..."
 
@@ -1376,7 +1375,7 @@ msgstr "Hasil:"
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Pengungkapan Risiko / Penafian"
 
-#: src/common/SearchAndSortBar.jsx:37
+#: src/common/SearchAndSortBar.jsx:39
 msgid "Search"
 msgstr "Mencari"
 
@@ -1417,17 +1416,17 @@ msgstr "Menampilkan lebih banyak"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "Karena Anda adalah orang pertama yang menyengketakan pelaporan insiden ini, Anda harus mempertaruhkan setidaknya {0} token NPM. Jika mayoritas setuju dengan Anda, Anda akan mendapatkan {1}% dari biaya platform alih-alih pelapor insiden."
 
-#: src/common/SearchAndSortBar.jsx:51
+#: src/common/SearchAndSortBar.jsx:53
 msgid "Sort by:"
 msgstr "Sortir dengan:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:162
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:234
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:144
 #: src/modules/pools/staking/StakingCard.jsx:183
-#: src/modules/pools/staking/StakingCard.jsx:242
+#: src/modules/pools/staking/StakingCard.jsx:244
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
 msgstr "Mempertaruhkan"
@@ -1656,8 +1655,8 @@ msgstr "Akan Membuka Nyala"
 msgid "Withdraw"
 msgstr "Menarik"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:76
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:95
 msgid "Withdraw Liquidity"
 msgstr "Tarik Likuiditas"
 
@@ -1729,10 +1728,10 @@ msgstr "Anda berada di {0} Jaringan. Dapatkan <0>Token Uji</0> atau <1>Lihat Pap
 msgid "account"
 msgstr "akun"
 
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:372
-#: src/common/Header/Header.jsx:375
+#: src/common/Header/Header.jsx:212
+#: src/common/Header/Header.jsx:214
+#: src/common/Header/Header.jsx:384
+#: src/common/Header/Header.jsx:387
 msgid "account details"
 msgstr ""
 
@@ -1834,7 +1833,7 @@ msgstr "details"
 msgid "dispute"
 msgstr "perselisihan"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "from"
 msgstr "dari"
 
@@ -1895,7 +1894,7 @@ msgstr "memuat.."
 msgid "loading..."
 msgstr "memuat..."
 
-#: src/modules/my-liquidity/index.jsx:68
+#: src/modules/my-liquidity/index.jsx:74
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:159
@@ -1947,7 +1946,7 @@ msgstr "kolam pertaruhan ditemukan."
 msgid "status"
 msgstr "status"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "to"
 msgstr "ke"
 
@@ -1975,7 +1974,7 @@ msgstr "total saham yang dibuktikan"
 msgid "total refuted stake"
 msgstr "total taruhan yang disangkal"
 
-#: src/common/Header/Header.jsx:246
+#: src/common/Header/Header.jsx:257
 msgid "transaction overview button"
 msgstr ""
 

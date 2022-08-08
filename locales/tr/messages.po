@@ -48,7 +48,7 @@ msgstr "Kabul"
 msgid "Account"
 msgstr "Hesap"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:65
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:68
 msgid "Accrue"
 msgstr "Tahakkuk etmek"
 
@@ -73,12 +73,12 @@ msgstr "Aktif Raporlama"
 msgid "Add Dispute"
 msgstr "Anlaşmazlık Ekle"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:159
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewDisputeReportForm.jsx:162
+#: src/modules/reporting/NewIncidentReportForm.jsx:244
 msgid "Add new link"
 msgstr "Yeni bağlantı ekle"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Added"
 msgstr "Katma"
 
@@ -124,8 +124,8 @@ msgstr "Çekmek istediğiniz tutar"
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
 #: src/modules/reporting/active/CastYourVote.jsx:209
-#: src/modules/reporting/NewDisputeReportForm.jsx:232
-#: src/modules/reporting/NewIncidentReportForm.jsx:316
+#: src/modules/reporting/NewDisputeReportForm.jsx:235
+#: src/modules/reporting/NewIncidentReportForm.jsx:319
 msgid "Approve"
 msgstr "Onaylamak"
 
@@ -210,8 +210,8 @@ msgstr "Onaylıyor.."
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
 #: src/modules/reporting/active/CastYourVote.jsx:206
-#: src/modules/reporting/NewDisputeReportForm.jsx:229
-#: src/modules/reporting/NewIncidentReportForm.jsx:313
+#: src/modules/reporting/NewDisputeReportForm.jsx:232
+#: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approving..."
 msgstr "Onaylanıyor..."
 
@@ -411,8 +411,7 @@ msgstr "{tokenSymbol} talep ediliyor"
 msgid "Claiming..."
 msgstr "Iddia..."
 
-#: src/common/Banner.jsx:56
-#: src/common/Banner.jsx:58
+#: src/common/Banner.jsx:57
 msgid "Close Banner"
 msgstr ""
 
@@ -421,13 +420,13 @@ msgstr ""
 msgid "Close:"
 msgstr "Kapat:"
 
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:228
-#: src/modules/pools/staking/HarvestForm.jsx:78
-#: src/modules/pools/staking/StakingCard.jsx:236
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:230
+#: src/modules/pools/staking/HarvestForm.jsx:79
+#: src/modules/pools/staking/StakingCard.jsx:238
 msgid "Collect"
 msgstr "Toplamak"
 
-#: src/modules/pools/staking/HarvestForm.jsx:78
+#: src/modules/pools/staking/HarvestForm.jsx:79
 msgid "Collecting..."
 msgstr "Toplama..."
 
@@ -435,13 +434,13 @@ msgstr "Toplama..."
 msgid "Coming soon!"
 msgstr "Çok yakında!"
 
-#: src/common/Header/Header.jsx:191
-#: src/common/Header/Header.jsx:193
-#: src/common/Header/Header.jsx:361
+#: src/common/Header/Header.jsx:201
+#: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
 msgstr ""
 
-#: src/common/Header/Header.jsx:363
+#: src/common/Header/Header.jsx:374
 msgid "Connect wallet"
 msgstr ""
 
@@ -614,8 +613,8 @@ msgstr "Bağ oluşturma"
 msgid "Decline"
 msgstr "Reddetmek"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:165
-#: src/modules/reporting/NewIncidentReportForm.jsx:244
+#: src/modules/reporting/NewDisputeReportForm.jsx:168
+#: src/modules/reporting/NewIncidentReportForm.jsx:247
 msgid "Description"
 msgstr "Tanım"
 
@@ -631,7 +630,7 @@ msgstr "Sorumluluk Reddi ve Garanti"
 msgid "Disconnect"
 msgstr "Bağlantıyı kes"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Dispute"
 msgstr "Anlaşmazlık"
 
@@ -643,7 +642,7 @@ msgstr "Başarılı bir şekilde itiraz edildi"
 msgid "Disputing"
 msgstr "Itiraz"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:245
 msgid "Disputing..."
 msgstr "Tartışıyor..."
 
@@ -722,11 +721,11 @@ msgid "Enter your POD"
 msgstr "POD'unuzu girin"
 
 #: src/modules/pools/bond/index.jsx:182
-#: src/modules/reporting/NewDisputeReportForm.jsx:192
+#: src/modules/reporting/NewDisputeReportForm.jsx:195
 msgid "Enter your amount"
 msgstr "Tutarınızı girin"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:272
+#: src/modules/reporting/NewIncidentReportForm.jsx:275
 msgid "Enter your stake"
 msgstr "Enter your stake"
 
@@ -739,7 +738,7 @@ msgstr "{tokenSymbol} bilgilerinizi girin"
 msgid "Error"
 msgstr "Hata"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:211
+#: src/modules/reporting/NewDisputeReportForm.jsx:214
 msgid "Error!!!"
 msgstr "Hata!!!"
 
@@ -766,8 +765,8 @@ msgstr "Süresi Doldu"
 msgid "Expires In"
 msgstr "İçinde sona eriyor"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:171
-#: src/modules/reporting/NewIncidentReportForm.jsx:253
+#: src/modules/reporting/NewDisputeReportForm.jsx:174
+#: src/modules/reporting/NewIncidentReportForm.jsx:256
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "Eklemek istediğiniz bir şey varsa olayı kısaca açıklayın."
 
@@ -871,7 +870,7 @@ msgstr "Sonuçlandırılıyor..."
 msgid "Get LP tokens"
 msgstr "LP jetonları alın"
 
-#: src/common/Header/Header.jsx:69
+#: src/common/Header/Header.jsx:70
 #: src/modules/cover/add-liquidity/index.jsx:51
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
@@ -972,22 +971,22 @@ msgstr "Geçersiz tutar"
 msgid "Invalid amount to stake"
 msgstr "Stake için geçersiz miktar"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:93
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:96
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:95
 #: src/modules/pools/bond/MyBondTxsTable.jsx:91
 msgid "LAST SYNCED:"
 msgstr "SON SENKRONİZE:"
 
 #: src/common/Cover/CoverCard.jsx:142
-#: src/common/Cover/CoverCard.jsx:188
+#: src/common/Cover/CoverCard.jsx:190
 #: src/common/Cover/ProductCard.jsx:171
-#: src/common/Cover/ProductCard.jsx:217
+#: src/common/Cover/ProductCard.jsx:219
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/SearchAndSortBar.jsx:10
 msgid "Liquidity"
 msgstr "Likidite"
 
-#: src/modules/my-liquidity/index.jsx:72
+#: src/modules/my-liquidity/index.jsx:78
 msgid "Liquidity providers collectively own a liquidity pool. To become a liquidity provider, select a cover from the home screen."
 msgstr "Likidite sağlayıcıları toplu olarak bir likidite havuzuna sahiptir. Likidite sağlayıcısı olmak için ana ekrandan bir kapak seçin."
 
@@ -1024,8 +1023,8 @@ msgstr "Mevcut maksimum koruma: {0}"
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:188
 #: src/modules/reporting/active/CastYourVote.jsx:180
-#: src/modules/reporting/NewDisputeReportForm.jsx:202
-#: src/modules/reporting/NewIncidentReportForm.jsx:281
+#: src/modules/reporting/NewDisputeReportForm.jsx:205
+#: src/modules/reporting/NewIncidentReportForm.jsx:284
 msgid "Minimum Stake:"
 msgstr "Minimum Bahis:"
 
@@ -1033,9 +1032,9 @@ msgstr "Minimum Bahis:"
 msgid "My Active Protection"
 msgstr "Aktif Korumam"
 
-#: src/common/Header/Header.jsx:51
-#: src/modules/my-liquidity/details.jsx:55
-#: src/modules/my-liquidity/details.jsx:80
+#: src/common/Header/Header.jsx:52
+#: src/modules/my-liquidity/details.jsx:56
+#: src/modules/my-liquidity/details.jsx:81
 #: src/pages/my-liquidity/index.jsx:54
 #: src/pages/my-liquidity/transactions.jsx:38
 msgid "My Liquidity"
@@ -1045,7 +1044,7 @@ msgstr "Likiditem"
 msgid "My Liquidity:"
 msgstr "Benim Likidite:"
 
-#: src/common/Header/Header.jsx:46
+#: src/common/Header/Header.jsx:47
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
 #: src/modules/my-policies/ClaimDetailsPage.jsx:94
 #: src/modules/my-policies/PoliciesTabs.jsx:37
@@ -1147,7 +1146,7 @@ msgstr "Lütfen geçmişten bir tarih seçin"
 msgid "Please connect your wallet"
 msgstr "Lütfen cüzdanınızı bağlayın"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:113
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:116
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:122
 #: src/modules/pools/bond/MyBondTxsTable.jsx:115
 msgid "Please connect your wallet..."
@@ -1162,12 +1161,12 @@ msgstr "Lütfen bir değer belirtin"
 msgid "Please specify an amount"
 msgstr "Lütfen bir miktar belirtin"
 
-#: src/common/Header/Header.jsx:41
+#: src/common/Header/Header.jsx:42
 #: src/pages/pools/bond/transactions.jsx:38
 msgid "Pool"
 msgstr "Havuz"
 
-#: src/modules/my-liquidity/content/CoveredProducts.jsx:54
+#: src/modules/my-liquidity/content/CoveredProducts.jsx:57
 msgid "Products Covered Under This Pool"
 msgstr "Bu Havuz Kapsamındaki Ürünler"
 
@@ -1194,7 +1193,7 @@ msgstr "Koruma"
 msgid "Provide Liquidity"
 msgstr "Likidite Sağlayın"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:226
+#: src/modules/reporting/NewIncidentReportForm.jsx:229
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "URL'yi olayın yakın bir kanıtı ile sağlayın."
 
@@ -1269,7 +1268,7 @@ msgstr "Son Oylar"
 msgid "Refuting"
 msgstr "Çürütme"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:170
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:173
 msgid "Removed"
 msgstr "Kaldırıldı"
 
@@ -1277,7 +1276,7 @@ msgstr "Kaldırıldı"
 msgid "Removed Liquidity Successfully"
 msgstr "Likidite Başarıyla Kaldırıldı"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Report"
 msgstr "Bildiri"
 
@@ -1294,7 +1293,7 @@ msgstr "Rapor özeti"
 msgid "Report an incident"
 msgstr "Olay bildir"
 
-#: src/modules/reporting/active/ActiveReportingCard.jsx:230
+#: src/modules/reporting/active/ActiveReportingCard.jsx:232
 msgid "Reported On:"
 msgstr "Rapor Tarihi:"
 
@@ -1302,7 +1301,7 @@ msgstr "Rapor Tarihi:"
 msgid "Reported incident successfully"
 msgstr "Olay başarıyla bildirildi"
 
-#: src/common/Header/Header.jsx:56
+#: src/common/Header/Header.jsx:57
 #: src/common/HomeCard/HomeMainCard.jsx:33
 #: src/modules/reporting/ReportingHero.jsx:23
 #: src/modules/reporting/ReportingHero.jsx:48
@@ -1324,7 +1323,7 @@ msgid "Reporting incident"
 msgstr "Olay bildirme"
 
 #: src/modules/reporting/active/CastYourVote.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:334
+#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Reporting..."
 msgstr "Raporlanıyor..."
 
@@ -1376,7 +1375,7 @@ msgstr "Sonuç:"
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Risk Açıklaması / Sorumluluk Reddi"
 
-#: src/common/SearchAndSortBar.jsx:37
+#: src/common/SearchAndSortBar.jsx:39
 msgid "Search"
 msgstr "Arama"
 
@@ -1417,17 +1416,17 @@ msgstr "Daha fazla göster"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "Bu olay bildirimine itiraz eden ilk kişi olduğunuzdan, en az {0} NPM jetonunu stake etmeniz gerekecek. Çoğunluk sizinle aynı fikirdeyse, olay muhabiri yerine platform ücretinin %{1}'ini kazanırsınız."
 
-#: src/common/SearchAndSortBar.jsx:51
+#: src/common/SearchAndSortBar.jsx:53
 msgid "Sort by:"
 msgstr "Göre sırala:"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:143
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:162
-#: src/modules/pools/pod-staking/PodStakingCard.jsx:234
+#: src/modules/pools/pod-staking/PodStakingCard.jsx:236
 #: src/modules/pools/staking/StakeForm.jsx:144
 #: src/modules/pools/staking/StakingCard.jsx:183
-#: src/modules/pools/staking/StakingCard.jsx:242
+#: src/modules/pools/staking/StakingCard.jsx:244
 #: src/modules/reporting/active/CastYourVote.jsx:163
 msgid "Stake"
 msgstr "Bahis"
@@ -1656,8 +1655,8 @@ msgstr "Kilidi Açılacak"
 msgid "Withdraw"
 msgstr "Geri çekilmek"
 
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:73
-#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:92
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:76
+#: src/common/LiquidityResolutionSources/LiquidityResolutionSources.jsx:95
 msgid "Withdraw Liquidity"
 msgstr "Likidite Çekme"
 
@@ -1729,10 +1728,10 @@ msgstr "{0} Ağındasınız. <0>Test Jetonları</0> veya <1>Skor Tablosunu Gör�
 msgid "account"
 msgstr "hesap"
 
-#: src/common/Header/Header.jsx:202
-#: src/common/Header/Header.jsx:204
-#: src/common/Header/Header.jsx:372
-#: src/common/Header/Header.jsx:375
+#: src/common/Header/Header.jsx:212
+#: src/common/Header/Header.jsx:214
+#: src/common/Header/Header.jsx:384
+#: src/common/Header/Header.jsx:387
 msgid "account details"
 msgstr ""
 
@@ -1834,7 +1833,7 @@ msgstr "detaylar"
 msgid "dispute"
 msgstr "anlaşmazlık"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "from"
 msgstr "itibaren"
 
@@ -1895,7 +1894,7 @@ msgstr "yükleniyor.."
 msgid "loading..."
 msgstr "yükleniyor..."
 
-#: src/modules/my-liquidity/index.jsx:68
+#: src/modules/my-liquidity/index.jsx:74
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
 #: src/modules/pools/pod-staking/index.jsx:159
@@ -1947,7 +1946,7 @@ msgstr "kazık havuzları bulundu."
 msgid "status"
 msgstr "durum"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:189
 msgid "to"
 msgstr "ile"
 
@@ -1975,7 +1974,7 @@ msgstr "toplam onaylanmış hisse"
 msgid "total refuted stake"
 msgstr "toplam reddedilen hisse"
 
-#: src/common/Header/Header.jsx:246
+#: src/common/Header/Header.jsx:257
 msgid "transaction overview button"
 msgstr ""
 
