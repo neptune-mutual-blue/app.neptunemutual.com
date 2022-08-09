@@ -265,7 +265,7 @@ export const Header = () => {
           </div>
 
           {!isOpen && (
-            <div className="flex items-center pr-6 xl:hidden">
+            <div className="flex items-center xl:pr-6 xl:hidden">
               <BurgerMenu
                 isOpen={isOpen}
                 onToggle={toggleMenu}
