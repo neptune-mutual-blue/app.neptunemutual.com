@@ -1,6 +1,6 @@
 import { act, render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS } from "@/common/CardStatusBadge";
 
 describe("CardStatusBadge component behaviour", () => {
   beforeAll(() => {
@@ -10,7 +10,7 @@ describe("CardStatusBadge component behaviour", () => {
   });
 
   test("should render normal without red color", () => {
-    const screen = render(<CardStatusBadge status={"normal"} />);
+    const screen = render(<Badge status={E_CARD_STATUS.NORMAL} />);
     const divElement = screen.getByText(/normal/i);
     const cardBadge = screen.container.getElementsByClassName("text-FA5C2F");
     expect(divElement).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe("CardStatusBadge component behaviour", () => {
   });
 
   test("should render claimable with red color", () => {
-    const screen = render(<CardStatusBadge status={"Claimable"} />);
+    const screen = render(<Badge status={E_CARD_STATUS.CLAIMABLE} />);
     const divElement = screen.getByText(/Claimable/i);
     const cardBadge = screen.container.getElementsByClassName("bg-FA5C2F");
 

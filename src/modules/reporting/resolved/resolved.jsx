@@ -19,10 +19,10 @@ import {
   TableShowMore,
 } from "@/common/Table/Table";
 import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow";
-import { ResolvedStatusBadge } from "@/modules/reporting/resolved/ResolvedStatusBadge";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { convertFromUnits } from "@/utils/bn";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -172,9 +172,15 @@ export const ReportingResolvedPage = () => {
   };
 
   const renderStatus = (row) => {
+    const status = identifyStatus(row.status);
     return (
       <td className="px-6 py-2 text-right">
-        <ResolvedStatusBadge status={row.status} />
+        {status !== E_CARD_STATUS.NORMAL && (
+          <Badge
+            className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
+            status={status}
+          />
+        )}
       </td>
     );
   };

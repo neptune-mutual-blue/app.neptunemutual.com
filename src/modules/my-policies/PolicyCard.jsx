@@ -6,7 +6,7 @@ import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import DateLib from "@/lib/date/DateLib";
 import { isGreater } from "@/utils/bn";
 import { ReportStatus } from "@/src/config/constants";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
@@ -76,6 +76,8 @@ export const PolicyCard = ({ policyInfo }) => {
     showStatus = isClaimable ? isClaimStarted && !isClaimExpired : true;
   }
 
+  const _status = identifyStatus(status);
+
   return (
     <div
       className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
@@ -97,8 +99,10 @@ export const PolicyCard = ({ policyInfo }) => {
                   </div>
                 }
               >
-                <div data-testid="policy-card-status">
-                  <CardStatusBadge status={showStatus ? status : null} />
+                <div>
+                  {showStatus && _status !== E_CARD_STATUS.NORMAL && (
+                    <Badge status={_status} className="rounded" />
+                  )}
                 </div>
               </InfoTooltip>
             </div>

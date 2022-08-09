@@ -13,7 +13,7 @@ import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import SheildIcon from "@/icons/SheildIcon";
 import { CoverAvatar } from "@/common/CoverAvatar";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
@@ -62,6 +62,10 @@ export const CoverCard = ({
     router.locale
   ).long;
 
+  const status = isDiversified
+    ? E_CARD_STATUS.DIVERSIFIED
+    : identifyStatus(productStatus);
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start">
@@ -78,9 +82,9 @@ export const CoverCard = ({
           }
         >
           <div>
-            <CardStatusBadge
-              status={isDiversified ? "Diversified" : productStatus}
-            />
+            {status !== E_CARD_STATUS.NORMAL && (
+              <Badge status={status} className="rounded" />
+            )}
           </div>
         </InfoTooltip>
       </div>

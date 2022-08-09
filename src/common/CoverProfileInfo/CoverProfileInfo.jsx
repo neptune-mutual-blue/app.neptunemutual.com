@@ -1,9 +1,65 @@
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
+import { isValidProduct } from "@/src/helpers/cover";
+import { isGreater } from "@/utils/bn";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import Link from "next/link";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
-import { ProjectStatusIndicator } from "./ProjectStatusIndicator";
 import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
+import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
+
+const override = {
+  [E_CARD_STATUS.STOPPED]: {
+    label: "Stopped",
+    className: "bg-9B9B9B",
+    icon: StatusStoppedIcon,
+  },
+};
+/**
+ *
+ * @param {object} param
+ * @param {string} param.status
+ * @param {string} [param.incidentDate]
+ * @param {string} [param.coverKey]
+ * @param {string} [param.productKey]
+ * @returns
+ */
+export function Card({ status, incidentDate = "0", coverKey, productKey }) {
+  const badge = (
+    <Badge
+      status={status}
+      className="ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white"
+      icon
+      data-testid="projectstatusindicator-container"
+      override={override}
+    />
+  );
+
+  if (isGreater(incidentDate, "0")) {
+    const isDiversified = isValidProduct(productKey);
+    return (
+      <Link
+        href={
+          !isDiversified
+            ? `/reporting/${safeParseBytes32String(
+                coverKey
+              )}/${incidentDate}/details`
+            : `/reporting/${safeParseBytes32String(
+                coverKey
+              )}/product/${safeParseBytes32String(
+                productKey
+              )}/${incidentDate}/details`
+        }
+      >
+        <a data-testid="badge-link">{badge}</a>
+      </Link>
+    );
+  }
+
+  return badge;
+}
 
 export const CoverProfileInfo = ({
   imgSrc,
@@ -23,10 +79,10 @@ export const CoverProfileInfo = ({
       <div>
         <div className="flex items-center">
           <ProjectName name={projectName} />
-          <ProjectStatusIndicator
+          <Card
             coverKey={coverKey}
             productKey={productKey}
-            status={productStatus}
+            status={identifyStatus(productStatus)}
             incidentDate={activeIncidentDate}
           />
         </div>
