@@ -10,7 +10,6 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
@@ -30,16 +29,15 @@ export const ProductCard = ({
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
-  const { activeCommitment, productStatus } = coverStats;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
   const imgSrc = getCoverImgSrc({ key: productKey });
 
-  const liquidity = liquidityInfo.totalLiquidity;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -168,7 +166,7 @@ export const ProductCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }
