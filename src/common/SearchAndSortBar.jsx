@@ -44,7 +44,7 @@ export const SearchAndSortBar = ({
         />
 
         <div className="flex items-center justify-center text-9B9B9B">
-          <SearchIcon width={24} height={24} />
+          <SearchIcon width={24} height={24} data-testid="search-icon" />
         </div>
       </div>
 

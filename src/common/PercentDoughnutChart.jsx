@@ -19,6 +19,7 @@ export const PercentDoughnutChart = ({ data }) => {
               tooltip: false,
             },
           }}
+          data-testid="percent-doughnut-chart"
         />
       </div>
     </>

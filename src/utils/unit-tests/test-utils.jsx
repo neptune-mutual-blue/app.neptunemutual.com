@@ -36,6 +36,8 @@ i18n.loadLocaleData({
   zh: { plurals: zh },
 });
 
+const NoProviders = ({ children }) => <>{children}</>;
+
 const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
     <RouterContext.Provider value={router}>
@@ -98,8 +100,11 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
   };
 };
 
-const customRender = (ui, options) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (ui, options = {}) =>
+  render(ui, {
+    wrapper: options?.noProviders ? NoProviders : AllTheProviders,
+    ...options,
+  });
 
 export { customRender as render };
 

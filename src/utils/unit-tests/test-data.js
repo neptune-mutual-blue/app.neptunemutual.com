@@ -222,24 +222,6 @@ export const testData = {
   },
   network: { networkId: 80001 },
   account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
-  protocolData: [
-    {
-      date: 1649980800,
-      totalLiquidity: "42972266000000000000000000",
-    },
-    {
-      date: 1650067200,
-      totalLiquidity: "43002586813333333333333335",
-    },
-    {
-      date: 1650153600,
-      totalLiquidity: "43005074813333333333333335",
-    },
-    {
-      date: 1650240000,
-      totalLiquidity: "43019312813333333333333335",
-    },
-  ],
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
@@ -481,6 +463,197 @@ export const testData = {
       activePolicies: [],
       totalActiveProtection: "200000000000000000000",
     },
+    loading: false,
+  },
+  doughnutChart: {
+    data: {
+      datasets: [
+        {
+          label: "# of Votes",
+          data: [0, 1],
+          backgroundColor: ["#FA5C2F", "#DEEAF6"],
+          borderColor: ["#FA5C2F", "#DEEAF6"],
+          borderWidth: 1,
+        },
+      ],
+    },
+  },
+  percentXStackedChart: {
+    data: {
+      labels: ["votes"],
+      datasets: [
+        {
+          data: [1],
+          barThickness: 32,
+          backgroundColor: "#0FB88F",
+          hoverBackgroundColor: "#0FB88F",
+        },
+        {
+          data: [0],
+          barThickness: 32,
+          backgroundColor: "#FA5C2F",
+          hoverBackgroundColor: "#FA5C2F",
+        },
+      ],
+    },
+  },
+  searchAndSortProps: {
+    searchValue: "",
+    onSearchChange: jest.fn(),
+    sortClass: "w-full md:w-48 lg:w-64 rounded-lg",
+    containerClass: "flex-col md:flex-row min-w-full md:min-w-sm",
+    searchClass: "w-full md:w-48 lg:w-64 rounded-lg",
+    sortType: {
+      name: "A-Z",
+    },
+    setSortType: jest.fn(),
+  },
+  selectProps: {
+    prefix: "Sort by: ",
+    options: [
+      {
+        name: "A-Z",
+      },
+      {
+        name: "Utilization Ratio",
+      },
+      {
+        name: "Liquidity",
+      },
+    ],
+    selected: {
+      name: "A-Z",
+    },
+    setSelected: jest.fn(),
+    className: "w-full md:w-48 lg:w-64 rounded-lg",
+  },
+  tokenAmountSpanProps: {
+    amountInUnits: "250000000000000000000",
+    symbol: "NPM",
+    className: null,
+    decimals: 18,
+  },
+  tokenAmountWithPrefixProps: {
+    amountInUnits: "250000000000000000000",
+    symbol: "NPM",
+    prefix: "Minimum Stake: ",
+    decimals: 18,
+  },
+  tokenBalanceProps: {
+    tokenAddress: "0x98e7786ffF366AEff1A55131C92C4Aa7EDd68aD1",
+    tokenDecimals: 18,
+    balance: "500000000000000000000",
+    unit: "HCF-nDAI",
+  },
+  toast: {
+    push: jest.fn(),
+    pushCustom: jest.fn(),
+    pushError: jest.fn(),
+    pushInfo: jest.fn(),
+    pushLoading: jest.fn(),
+    pushSuccess: jest.fn(),
+    pushWarning: jest.fn(),
+    remove: jest.fn(),
+  },
+  registerToken: {
+    register: jest.fn(),
+  },
+  protocolDayData: {
+    data: [
+      {
+        date: 1658188800,
+        totalLiquidity: "61432804000000",
+      },
+      {
+        date: 1658361600,
+        totalLiquidity: "61442554000000",
+      },
+      {
+        date: 1658448000,
+        totalLiquidity: "61447554000000",
+      },
+      {
+        date: 1658275200,
+        totalLiquidity: "61434054000000",
+      },
+
+      {
+        date: 1658534400,
+        totalLiquidity: "61447554000000",
+      },
+      {
+        date: 1658620800,
+        totalLiquidity: "61447554000000",
+      },
+      {
+        date: 1658793600,
+        totalLiquidity: "61469047602741",
+      },
+      {
+        date: 1658880000,
+        totalLiquidity: "61483097602741",
+      },
+      {
+        date: 1658880000,
+        totalLiquidity: "61449554000000",
+      },
+      {
+        date: 1658102400,
+        totalLiquidity: "61432804000000",
+      },
+      {
+        date: 1658966400,
+        totalLiquidity: "61483097602741",
+      },
+      {
+        date: 1659052800,
+        totalLiquidity: "61483597602741",
+      },
+      {
+        date: 1659139200,
+        totalLiquidity: "61483597602741",
+      },
+      {
+        date: 1659225600,
+        totalLiquidity: "61483697602741",
+      },
+      {
+        date: 1659312000,
+        totalLiquidity: "61483697602741",
+      },
+      {
+        date: 1659398400,
+        totalLiquidity: "61483697602741",
+      },
+      {
+        date: 1659484800,
+        totalLiquidity: "61483697602741",
+      },
+      {
+        date: 1659571200,
+        totalLiquidity: "61488419602741",
+      },
+      {
+        date: 1659657600,
+        totalLiquidity: "61489419602741",
+      },
+      {
+        date: 1659744000,
+        totalLiquidity: "61489419602741",
+      },
+      {
+        date: 1659830400,
+        totalLiquidity: "61489419602741",
+      },
+      {
+        date: 1659916800,
+        totalLiquidity: "61489519602741",
+      },
+      {
+        date: 1660003200,
+        totalLiquidity: "61489519602741",
+      },
+    ],
     loading: false,
   },
 };

@@ -7,27 +7,9 @@ import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const liquidityTokenDecimals = 6;
-
-const protocolDayData = [
-  {
-    date: 1649980800,
-    totalLiquidity: "42972266000000000000000000",
-  },
-  {
-    date: 1650067200,
-    totalLiquidity: "43002586813333333333333335",
-  },
-  {
-    date: 1650153600,
-    totalLiquidity: "43005074813333333333333335",
-  },
-  {
-    date: 1650240000,
-    totalLiquidity: "43019312813333333333333335",
-  },
-];
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
@@ -95,7 +77,7 @@ describe("Hero test", () => {
   });
 
   test("should render correct total liquidity value", () => {
-    const changeData = getChangeData(protocolDayData);
+    const changeData = getChangeData(testData.protocolDayData.data);
     const currencyText = formatCurrency(
       convertFromUnits(
         changeData?.last || "0",
@@ -113,7 +95,7 @@ describe("Hero test", () => {
   });
 
   test("should render correct change percentage", () => {
-    const changeData = getChangeData(protocolDayData);
+    const changeData = getChangeData(testData.protocolDayData.data);
     const percentText = formatPercent(changeData.diff, "en");
     const wrapper = screen
       .getByTestId("changedata-percent")

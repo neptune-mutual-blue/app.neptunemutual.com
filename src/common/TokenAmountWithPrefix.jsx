@@ -7,7 +7,7 @@ export const TokenAmountWithPrefix = ({
   decimals,
 }) => {
   return (
-    <p>
+    <p data-testid="token-amount-with-prefix">
       {prefix}{" "}
       <TokenAmountSpan
         amountInUnits={amountInUnits}

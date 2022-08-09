@@ -21,6 +21,7 @@ export const TokenAmountSpan = ({
           true
         ).long
       }`}
+      data-testid="token-amount-span"
     >
       {
         formatCurrency(
