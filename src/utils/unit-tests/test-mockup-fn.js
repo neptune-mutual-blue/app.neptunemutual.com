@@ -29,6 +29,8 @@ import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
 import * as ToastHook from "@/lib/toast/context";
 import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
+import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
+
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -39,7 +41,12 @@ export const mockFn = {
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
       .mockImplementation(cb),
-  useFetchCoverStats: (cb = () => testData.coverStats) =>
+  useFetchCoverStats: (
+    cb = () => ({
+      ...testData.coverStats,
+      refetch: () => Promise.resolve(testData.coverStats),
+    })
+  ) =>
     jest
       .spyOn(FetchCoverStatsHook, "useFetchCoverStats")
       .mockImplementation(cb),
@@ -146,6 +153,8 @@ export const mockFn = {
       .mockImplementation(cb),
   useSearchResults: (cb = () => testData.searchResults) =>
     jest.spyOn(SearchResultsHook, "useSearchResults").mockImplementation(cb),
+  useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
+    jest.spyOn(LiquidityInfoHook, "useMyLiquidityInfo").mockImplementation(cb),
 };
 
 export const initiateTest = (

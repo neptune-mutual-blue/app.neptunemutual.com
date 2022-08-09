@@ -1,4 +1,4 @@
-import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
+import { Badge, identifyStatus } from "@/common/CardStatusBadge";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
 import { isValidProduct } from "@/src/helpers/cover";
@@ -8,15 +8,7 @@ import Link from "next/link";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
 import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
-import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
 
-const override = {
-  [E_CARD_STATUS.STOPPED]: {
-    label: "Stopped",
-    className: "bg-9B9B9B",
-    icon: StatusStoppedIcon,
-  },
-};
 /**
  *
  * @param {object} param
@@ -33,7 +25,6 @@ export function Card({ status, incidentDate = "0", coverKey, productKey }) {
       className="ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white"
       icon
       data-testid="projectstatusindicator-container"
-      override={override}
     />
   );
 
