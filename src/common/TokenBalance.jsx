@@ -34,7 +34,7 @@ export const TokenBalance = ({
         lifetime: SHORT_TOAST_TIME,
       });
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       toast.pushError({
         title: t`Error`,
         message: t`Unable to copy token address`,
@@ -44,7 +44,10 @@ export const TokenBalance = ({
   };
 
   return (
-    <div className="flex items-start justify-between px-3 mt-2 text-9B9B9B">
+    <div
+      className="flex items-start justify-between px-3 mt-2 text-9B9B9B"
+      data-testid="token-balance-container"
+    >
       <div>
         {balance && (
           <p
@@ -56,6 +59,7 @@ export const TokenBalance = ({
                 true
               ).long
             }
+            data-testid="balance"
           >
             <Trans>Balance:</Trans>{" "}
             {
@@ -75,6 +79,7 @@ export const TokenBalance = ({
           title="Copy token address"
           onClick={handleCopy}
           className="ml-3"
+          data-testid="copy-button"
         >
           <span className="sr-only">Copy token address</span>
           <CopyIcon width={18} fill="currentColor" />
@@ -85,6 +90,7 @@ export const TokenBalance = ({
           className="ml-3"
           rel="noreferrer nofollow"
           title="Open In Explorer"
+          data-testid="explorer-link"
         >
           <span className="sr-only">Open In Explorer</span>
           <OpenInNewIcon width={20} fill="currentColor" />
@@ -93,6 +99,7 @@ export const TokenBalance = ({
           className="ml-3"
           onClick={() => register(tokenAddress, unit, tokenDecimals)}
           title={"Add to Metamask"}
+          data-testid="add-button"
         >
           <span className="sr-only">Add to Metamask</span>
           <AddCircleIcon width={20} fill="currentColor" />

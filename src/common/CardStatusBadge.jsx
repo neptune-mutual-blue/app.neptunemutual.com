@@ -46,7 +46,7 @@ export const E_CARD_STATUS = {
  * @typedef {Object.<E_CARD_STATUS, I_CARD>} E_CARD_STATUS
  *
  */
-const CARD_STATUS = {
+export const CARD_STATUS = {
   [E_CARD_STATUS.NORMAL]: {
     label: "Normal",
     className: "bg-21AD8C",
@@ -105,6 +105,7 @@ export const Badge = ({
           className,
           info.className
         )}
+        data-testid="card-badge"
       >
         {icon && <info.icon width="14" height="14" className="mr-1" />}
         {info.label}

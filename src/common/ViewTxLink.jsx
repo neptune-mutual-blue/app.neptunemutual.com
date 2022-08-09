@@ -8,6 +8,7 @@ export const ViewTxLink = ({ txLink }) => {
       target="_blank"
       rel="noopener noreferrer nofollow"
       href={txLink}
+      data-testid="view-tx-link"
     >
       <span className="inline-block">
         <Trans>View transaction</Trans>

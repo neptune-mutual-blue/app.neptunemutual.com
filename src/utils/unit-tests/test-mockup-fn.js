@@ -12,7 +12,7 @@ import * as UseRegisterTokenHook from "@/src/hooks/useRegisterToken";
 import * as PolicyTxs from "@/src/hooks/usePolicyTxs";
 import * as Network from "@/src/context/Network";
 import * as AppConstants from "@/src/context/AppConstants";
-import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
+import * as ProtocolDayDataHook from "@/src/hooks/useProtocolDayData";
 import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
 import * as RouterHook from "next/router";
 import * as LiquidityFormsContextHook from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -26,6 +26,7 @@ import * as PodStakingPoolsHook from "@/src/hooks/usePodStakingPools";
 import * as PoolInfoHook from "@/src/hooks/usePoolInfo";
 import * as SortableStatsHook from "@/src/context/SortableStatsContext";
 import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
+import * as ToastHook from "@/lib/toast/context";
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -82,7 +83,7 @@ export const mockFn = {
     cb = () => ({ data: testData.covers, loading: false })
   ) =>
     jest.spyOn(Diversified, "useFlattenedCoverProducts").mockImplementation(cb),
-  useRegisterToken: (cb = () => ({ register: jest.fn() })) =>
+  useRegisterToken: (cb = () => testData.registerToken) =>
     jest.spyOn(UseRegisterTokenHook, "useRegisterToken").mockImplementation(cb),
   usePolicyTxs: (cb = () => testData.policies) =>
     jest.spyOn(PolicyTxs, "usePolicyTxs").mockImplementation(cb),
@@ -94,9 +95,10 @@ export const mockFn = {
     jest.spyOn(RouterHook, "useRouter").mockImplementation(cb),
   useAppConstants: (cb = () => testData.appConstants) =>
     jest.spyOn(AppConstants, "useAppConstants").mockImplementation(cb),
-  useProtocolDayData: (
-    cb = () => ({ data: testData.protocolData, loading: false })
-  ) => jest.spyOn(ProtocolHook, "useProtocolDayData").mockImplementation(cb),
+  useProtocolDayData: (cb = () => testData.protocolDayData) =>
+    jest
+      .spyOn(ProtocolDayDataHook, "useProtocolDayData")
+      .mockImplementation(cb),
 
   useFetchHeroStats: (
     cb = () => ({ data: testData.heroStats, loading: false })
@@ -133,12 +135,16 @@ export const mockFn = {
     jest.spyOn(SortableStatsHook, "useSortableStats").mockImplementation(cb),
   useActivePolicies: (cb = () => testData.activePolicies) =>
     jest.spyOn(ActivePoliciesHook, "useActivePolicies").mockImplementation(cb),
+  chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
+  useToast: (cb = () => testData.toast) =>
+    jest.spyOn(ToastHook, "useToast").mockImplementation(cb),
 };
 
 export const initiateTest = (
   Component,
   props = {},
-  initialMocks = () => {}
+  initialMocks = () => {},
+  options = {}
 ) => {
   const initialRender = (newProps = {}, rerender = false) => {
     cleanup();
@@ -146,7 +152,7 @@ export const initiateTest = (
     act(() => {
       i18n.activate("en");
     });
-    render(<Component {...props} {...newProps} />);
+    render(<Component {...props} {...newProps} />, options);
   };
 
   const rerenderFn = (newProps = {}, mocks = () => {}) => {

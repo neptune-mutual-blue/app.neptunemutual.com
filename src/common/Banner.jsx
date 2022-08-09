@@ -23,7 +23,7 @@ export const Banner = () => {
   if (!show) return <></>;
 
   return (
-    <div className="relative bg-4e7dd9">
+    <div className="relative bg-4e7dd9" data-testid="banner-container">
       <div className="flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7">
         <div className="flex items-center justify-center flex-auto min-w-0">
           <p>
@@ -34,6 +34,7 @@ export const Banner = () => {
                 href={FAUCET_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="faucet-link"
               >
                 Test Tokens
               </a>{" "}
@@ -43,6 +44,7 @@ export const Banner = () => {
                 href={LEADERBOARD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="leaderboard-link"
               >
                 View Leaderboard
               </a>
@@ -55,6 +57,7 @@ export const Banner = () => {
           onClick={handleClose}
           className="block p-1 ml-auto"
           title={t`Close Banner`}
+          data-testid="close-banner"
         >
           <CloseIcon className="w-5 h-5" />
         </button>
