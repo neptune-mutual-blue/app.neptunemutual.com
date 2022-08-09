@@ -1,6 +1,6 @@
 import React from "react";
-import { render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
+import { render } from "@/utils/unit-tests/test-utils";
 
 import PodStaking from "@/pages/pools/pod-staking";
 

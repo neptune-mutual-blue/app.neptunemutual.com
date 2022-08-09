@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor, screen } from "@/utils/unit-tests/test-utils";
+import { render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import Bond from "@/pages/pools/bond";
 
@@ -9,14 +9,10 @@ describe("Bond page", () => {
   });
 
   describe("if feature disabled", () => {
-    beforeEach(() => {
-      render(<Bond disabled={"true"} />);
-    });
-
     test("should display coming soon message", () => {
-      waitFor(() => {
-        expect(screen.getByText(/Coming Soon/i)).toBeInTheDocument();
-      });
+      const screen = render(<Bond disabled={"true"} />);
+
+      expect(screen.getByText(/Coming Soon/i)).toBeInTheDocument();
     });
   });
 

@@ -1,7 +1,7 @@
 import React from "react";
-import { render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import Staking from "@/pages/pools/staking";
+import { render } from "@/utils/unit-tests/test-utils";
 
 describe("Staking page", () => {
   beforeEach(() => {
