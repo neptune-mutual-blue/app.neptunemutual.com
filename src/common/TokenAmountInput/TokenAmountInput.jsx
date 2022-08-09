@@ -2,6 +2,7 @@ import { Label } from "@/common/Label/Label";
 import { InputWithTrailingButton } from "@/common/Input/InputWithTrailingButton";
 import { TokenBalance } from "@/common/TokenBalance";
 import { t } from "@lingui/macro";
+import { classNames } from "@/utils/classnames";
 
 export const TokenAmountInput = ({
   tokenAddress,
@@ -19,7 +20,7 @@ export const TokenAmountInput = ({
   ...rest
 }) => {
   return (
-    <>
+    <div className={classNames(disabled && "opacity-40 cursor-not-allowed")}>
       {labelText && (
         <Label htmlFor={inputId} className="mb-4 font-semibold uppercase">
           {labelText}
@@ -49,9 +50,10 @@ export const TokenAmountInput = ({
         tokenDecimals={tokenDecimals}
         balance={tokenBalance}
         unit={tokenSymbol}
+        disabled={disabled}
       >
         {children}
       </TokenBalance>
-    </>
+    </div>
   );
 };

@@ -656,4 +656,58 @@ export const testData = {
     ],
     loading: false,
   },
+  resolvedReportings: {
+    data: {
+      incidentReports: [
+        {
+          id: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1659524216",
+          coverKey:
+            "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          incidentDate: "1659524216",
+          resolutionDeadline: "1659597364",
+          resolved: true,
+          emergencyResolved: false,
+          emergencyResolveTransaction: null,
+          resolveTransaction: {
+            timestamp: "1659597064",
+          },
+          finalized: true,
+          status: "Claimable",
+          resolutionTimestamp: "1659524516",
+          totalAttestedStake: "2000000000000000000000",
+          totalRefutedStake: "0",
+        },
+        {
+          id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658995751",
+          coverKey:
+            "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          incidentDate: "1658995751",
+          resolutionDeadline: "1659004881",
+          resolved: true,
+          emergencyResolved: false,
+          emergencyResolveTransaction: null,
+          resolveTransaction: {
+            timestamp: "1659004581",
+          },
+          finalized: true,
+          status: "Claimable",
+          resolutionTimestamp: "1658997551",
+          totalAttestedStake: "4634000000000000000000",
+          totalRefutedStake: "3400000000000000000000",
+        },
+      ],
+    },
+    loading: false,
+    hasMore: true,
+    handleShowMore: jest.fn(),
+  },
+  searchResults: {
+    searchValue: "",
+    filtered: [],
+    setSearchValue: jest.fn(),
+  },
 };

@@ -27,6 +27,8 @@ import * as PoolInfoHook from "@/src/hooks/usePoolInfo";
 import * as SortableStatsHook from "@/src/context/SortableStatsContext";
 import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
 import * as ToastHook from "@/lib/toast/context";
+import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
+import * as SearchResultsHook from "@/src/hooks/useSearchResults";
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -138,6 +140,12 @@ export const mockFn = {
   chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
   useToast: (cb = () => testData.toast) =>
     jest.spyOn(ToastHook, "useToast").mockImplementation(cb),
+  useResolvedReportings: (cb = () => testData.resolvedReportings) =>
+    jest
+      .spyOn(ResolvedReportingsHook, "useResolvedReportings")
+      .mockImplementation(cb),
+  useSearchResults: (cb = () => testData.searchResults) =>
+    jest.spyOn(SearchResultsHook, "useSearchResults").mockImplementation(cb),
 };
 
 export const initiateTest = (

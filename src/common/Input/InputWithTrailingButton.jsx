@@ -75,8 +75,8 @@ export const InputWithTrailingButton = ({
         )}
         <button
           className={classNames(
-            "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
-            buttonProps.disabled && "cursor-not-allowed"
+            "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
+            buttonProps.disabled ? "cursor-not-allowed" : "hover:bg-DEEAF6"
           )}
           {...buttonProps}
         ></button>
