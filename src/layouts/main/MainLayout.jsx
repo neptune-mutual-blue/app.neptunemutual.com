@@ -19,13 +19,13 @@ export const PageLoader = () => {
     };
   }, []);
 
-  if (!showLoader) {
-    return null;
-  }
+  // if (!showLoader) {
+  //   return null;
+  // }
 
   return (
-    <div className="relative w-full w-full bg-gray-200 fixed top-0 z-10">
-      <div className="w-full absolute top-0 h-2 shim-progress"></div>
+    <div className="w-full w-full bg-gray-200 fixed top-0 z-50">
+      <div className="w-full h-2 shim-progress"></div>
     </div>
   );
 };
