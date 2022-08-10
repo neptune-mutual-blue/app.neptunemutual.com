@@ -88,7 +88,7 @@ describe("PolicyCard test", () => {
       mockFn.useFetchCoverStats(() => ({
         info: {
           ...testData.coverStats.info,
-          productStatus: "Claimable",
+          productStatus: "Normal",
         },
       }));
 

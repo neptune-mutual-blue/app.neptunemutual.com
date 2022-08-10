@@ -119,7 +119,7 @@ const LocalStorage = (() => {
     setItem: (key, value) => {
       store[key] = value;
     },
-    clearn: () => {
+    clear: () => {
       store = {};
     },
     removeItem: (key) => {

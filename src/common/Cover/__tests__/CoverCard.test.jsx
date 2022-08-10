@@ -1,48 +1,12 @@
 import { CoverCard } from "@/common/Cover/CoverCard";
 import { MULTIPLIER } from "@/src/config/constants";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
-import * as FetchCoverHook from "@/src/hooks/useFetchCoverStats";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
-import { screen, act, render, cleanup } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
-
-const mockLiquidityInfo = {
-  amountLentInStrategies: "0",
-  isAccrualComplete: "",
-  minStakeToAddLiquidity: "250000000000000000000",
-  myPodBalance: "1329999988533739826355",
-  myShare: "1330000909",
-  myStablecoinBalance: "176464876715",
-  myStake: "250000000000000000000",
-  myUnrealizedShare: "1330000909",
-  podTotalSupply: "8044300999575311406559026",
-  stablecoin: "0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468",
-  stablecoinTokenSymbol: "DAI",
-  totalLiquidity: "8044306569013",
-  totalReassurance: "332485000000",
-  vault: "0x972B237c2E585b940bf814CDCF521053F0a66Fe1",
-  vaultStablecoinBalance: "8044306569013",
-  vaultTokenDecimals: "18",
-  vaultTokenSymbol: "BEC-nDAI",
-  withdrawalClose: "1658213413",
-  withdrawalOpen: "1658209813",
-};
-
-const coverStats = {
-  activeCommitment: "29495000000",
-  activeIncidentDate: "1658133009",
-  availableLiquidity: "11164267175300",
-  claimPlatformFee: "650",
-  isUserWhitelisted: "",
-  productStatus: "Incident Happened",
-  reporterCommission: "1000",
-  reportingPeriod: "1800",
-  requiresWhitelist: "",
-  totalPoolAmount: "11193762175300",
-};
+import { screen, render, cleanup } from "@/utils/unit-tests/test-utils";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const mockCoverDetails = {
   coverKey:
@@ -83,32 +47,19 @@ const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   return formatPercent(utilization, "en");
 };
 
-const liquidityTokenDecimals = 6;
-
-const mockFunction = (file, method, returnData) => {
-  jest.spyOn(file, method).mockImplementation(() => returnData);
-};
-
 describe("CoverCard component", () => {
-  mockFunction(LiquidityInfoHook, "useMyLiquidityInfo", {
-    info: mockLiquidityInfo,
-  });
-
-  mockFunction(FetchCoverHook, "useFetchCoverStats", {
-    info: coverStats,
-    refetch: () => Promise.resolve(coverStats),
-  });
-
   beforeEach(() => {
-    act(() => {
-      i18n.activate("en");
+    mockFn.useAppConstants();
+    mockFn.useRouter();
+    mockFn.useMyLiquidityInfo();
+    mockFn.useFetchCoverStats();
+
+    const { initialRender } = initiateTest(CoverCard, {
+      coverKey: mockCoverDetails.coverKey,
+      coverInfo: mockCoverDetails,
     });
-    render(
-      <CoverCard
-        coverKey={mockCoverDetails.coverKey}
-        coverInfo={mockCoverDetails}
-      />
-    );
+
+    initialRender();
   });
 
   test("should render the outer OutlinedCard", () => {
@@ -135,17 +86,32 @@ describe("CoverCard component", () => {
   });
 
   describe("cover badge", () => {
-    test("should render card status badge 'Incident Happened'", () => {
-      const badgeText = screen.queryByText(coverStats.productStatus);
+    test("should render card status badge 'Incident Occurred'", () => {
+      mockFn.useMyLiquidityInfo();
+
+      mockFn.useFetchCoverStats(() => ({
+        info: {
+          ...testData.coverStats.info,
+          productStatus: "Incident Occurred",
+        },
+        refetch: () => Promise.resolve(testData.coverStats),
+      }));
+
+      const { initialRender } = initiateTest(CoverCard, {
+        coverKey: mockCoverDetails.coverKey,
+        coverInfo: mockCoverDetails,
+      });
+
+      initialRender();
+
+      const badgeText = screen.queryByText("Incident Occured");
+
       expect(badgeText).toBeInTheDocument();
     });
 
     test("should not render card status badge for 'Normal' status", () => {
       cleanup();
-      mockFunction(FetchCoverHook, "useFetchCoverStats", {
-        info: { ...coverStats, productStatus: "Normal" },
-        refetch: () => Promise.resolve(coverStats),
-      });
+      mockFn.useFetchCoverStats();
 
       render(
         <CoverCard
@@ -178,8 +144,8 @@ describe("CoverCard component", () => {
 
   test("should render correct utilization ratio", () => {
     const utilizationRatio = getUtilizationRatio(
-      mockLiquidityInfo.totalLiquidity,
-      coverStats.activeCommitment
+      testData.liquidityFormsContext.info.totalLiquidity,
+      testData.coverStats.info.activeCommitment
     );
     const utilizationEl = screen.getByTestId("util-ratio");
     expect(utilizationEl).toHaveTextContent(utilizationRatio);
@@ -190,8 +156,8 @@ describe("CoverCard component", () => {
       const protectionEl = screen.getByTestId("protection");
       const liquidityText = formatCurrency(
         convertFromUnits(
-          coverStats.activeCommitment,
-          liquidityTokenDecimals
+          testData.coverStats.info.activeCommitment,
+          testData.appConstants.liquidityTokenDecimals
         ).toString(),
         "en"
       ).short;
@@ -202,8 +168,8 @@ describe("CoverCard component", () => {
       const protectionEl = screen.getByTestId("protection");
       const titleText = formatCurrency(
         convertFromUnits(
-          coverStats.activeCommitment,
-          liquidityTokenDecimals
+          testData.coverStats.info.activeCommitment,
+          testData.appConstants.liquidityTokenDecimals
         ).toString(),
         "en"
       ).long;
@@ -216,8 +182,8 @@ describe("CoverCard component", () => {
       const liquidityEl = screen.getByTestId("liquidity");
       const liquidityText = formatCurrency(
         convertFromUnits(
-          mockLiquidityInfo.totalLiquidity,
-          liquidityTokenDecimals
+          testData.coverStats.info.availableLiquidity,
+          testData.appConstants.liquidityTokenDecimals
         ).toString(),
         "en"
       ).short;
@@ -227,10 +193,15 @@ describe("CoverCard component", () => {
 
     test("should have correct title text", () => {
       const liquidityEl = screen.getByTestId("liquidity");
+
+      const liquidity = toBN(testData.coverStats.info.availableLiquidity)
+        .plus(testData.coverStats.info.activeCommitment)
+        .toString();
+
       const titleText = formatCurrency(
         convertFromUnits(
-          mockLiquidityInfo.totalLiquidity,
-          liquidityTokenDecimals
+          liquidity,
+          testData.appConstants.liquidityTokenDecimals
         ).toString(),
         "en"
       ).long;

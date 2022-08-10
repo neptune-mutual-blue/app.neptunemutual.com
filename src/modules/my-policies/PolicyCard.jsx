@@ -99,7 +99,7 @@ export const PolicyCard = ({ policyInfo }) => {
                   </div>
                 }
               >
-                <div>
+                <div data-testid="policy-card-status">
                   {showStatus && _status !== E_CARD_STATUS.NORMAL && (
                     <Badge status={_status} className="rounded" />
                   )}

@@ -11,6 +11,10 @@ import StatusStoppedIcon from "@/icons/StatusStoppedIcon";
  * @param {E_CARD_STATUS} [defaultValue]
  */
 export function identifyStatus(status, defaultValue = E_CARD_STATUS.NORMAL) {
+  if (!status) {
+    return defaultValue;
+  }
+
   switch (status.toLowerCase()) {
     case "incident happened":
     case "incident occurred":
@@ -64,7 +68,7 @@ export const CARD_STATUS = {
   },
   [E_CARD_STATUS.STOPPED]: {
     label: "Stopped",
-    className: "bg-364253",
+    className: "bg-9B9B9B",
     icon: StatusStoppedIcon,
   },
   [E_CARD_STATUS.FALSE_REPORTING]: {
@@ -84,7 +88,6 @@ export const CARD_STATUS = {
  * @param {E_CARD_STATUS} param.status
  * @param {string} [param.className]
  * @param {E_CARD_STATUS} [param.defaultValue]
- * @param {Object.<string, { label: string, className: string}>} [param.override]
  * @param {boolean} [param.icon]
  * @returns
  */
