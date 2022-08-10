@@ -2,7 +2,7 @@ import React from "react";
 import { i18n } from "@lingui/core";
 import { render } from "@/utils/unit-tests/test-utils";
 
-import PodStaking from "@/pages/pools/pod-staking";
+import PodStaking from "@/pages/pools/pod-staking.page";
 
 describe("POD Staking page", () => {
   beforeEach(() => {

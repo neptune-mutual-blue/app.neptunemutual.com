@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
-import Bond from "@/pages/pools/bond";
+import Bond from "@/pages/pools/bond/index.page";
 
 describe("Bond page", () => {
   beforeEach(() => {

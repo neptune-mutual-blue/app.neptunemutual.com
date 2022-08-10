@@ -1,6 +1,6 @@
 import React from "react";
 import { i18n } from "@lingui/core";
-import Staking from "@/pages/pools/staking";
+import Staking from "@/pages/pools/staking.page";
 import { render } from "@/utils/unit-tests/test-utils";
 
 describe("Staking page", () => {

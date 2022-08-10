@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
-import ReportingResolved from "@/pages/reporting/resolved";
+import ReportingResolved from "@/pages/reporting/resolved.page";
 
 describe("Active Reporting Page", () => {
   beforeEach(async () => {

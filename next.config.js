@@ -30,5 +30,6 @@ module.exports = (phase, { _c }) => {
 
       return config;
     },
+    pageExtensions: ["page.jsx", "page.js"],
   };
 };

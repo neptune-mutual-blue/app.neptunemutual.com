@@ -2,7 +2,7 @@ import React from "react";
 import { render, waitFor } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
-import ReportingNewCoverPage from "@/pages/reporting/[cover_id]/new";
+import ReportingNewCoverPage from "@/pages/reporting/[cover_id]/new.page";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
