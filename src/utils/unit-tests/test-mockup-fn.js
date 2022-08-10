@@ -31,16 +31,28 @@ import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
 import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
 
+import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
+import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
+/**
+ *
+ * @param {Array | Object | Function} d
+ * @returns
+ */
+const returnFunction = (d) => {
+  if (typeof d === "function") return d;
+  return () => d;
+};
+
 export const mockFn = {
   useCoverOrProductData: (cb = () => testData.coverInfo) =>
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useFetchCoverStats: (
     cb = () => ({
       ...testData.coverStats,
@@ -49,14 +61,19 @@ export const mockFn = {
   ) =>
     jest
       .spyOn(FetchCoverStatsHook, "useFetchCoverStats")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useValidReport: (cb = () => testData.reporting.validReport) =>
-    jest.spyOn(ValidReportHook, "useValidReport").mockImplementation(cb),
+    jest
+      .spyOn(ValidReportHook, "useValidReport")
+      .mockImplementation(returnFunction(cb)),
   useERC20Balance: (
     cb = () => ({
       balance: "1400000000000000000000",
     })
-  ) => jest.spyOn(ERC20BalanceHook, "useERC20Balance").mockImplementation(cb),
+  ) =>
+    jest
+      .spyOn(ERC20BalanceHook, "useERC20Balance")
+      .mockImplementation(returnFunction(cb)),
 
   useCoverStatsContext: (
     cb = () => ({
@@ -76,7 +93,7 @@ export const mockFn = {
   ) =>
     jest
       .spyOn(CoverStatsContext, "useCoverStatsContext")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useCovers: (
     cb = () => ({
       data: {
@@ -87,74 +104,111 @@ export const mockFn = {
       },
       loading: false,
     })
-  ) => jest.spyOn(Covers, "useCovers").mockImplementation(cb),
+  ) => jest.spyOn(Covers, "useCovers").mockImplementation(returnFunction(cb)),
   useFlattenedCoverProducts: (
     cb = () => ({ data: testData.covers, loading: false })
   ) =>
-    jest.spyOn(Diversified, "useFlattenedCoverProducts").mockImplementation(cb),
+    jest
+      .spyOn(Diversified, "useFlattenedCoverProducts")
+      .mockImplementation(returnFunction(cb)),
   useRegisterToken: (cb = () => testData.registerToken) =>
-    jest.spyOn(UseRegisterTokenHook, "useRegisterToken").mockImplementation(cb),
+    jest
+      .spyOn(UseRegisterTokenHook, "useRegisterToken")
+      .mockImplementation(returnFunction(cb)),
   usePolicyTxs: (cb = () => testData.policies) =>
-    jest.spyOn(PolicyTxs, "usePolicyTxs").mockImplementation(cb),
+    jest
+      .spyOn(PolicyTxs, "usePolicyTxs")
+      .mockImplementation(returnFunction(cb)),
   useNetwork: (cb = () => testData.network) =>
-    jest.spyOn(Network, "useNetwork").mockImplementation(cb),
+    jest.spyOn(Network, "useNetwork").mockImplementation(returnFunction(cb)),
   useWeb3React: (cb = () => testData.account) =>
-    jest.spyOn(Web3React, "useWeb3React").mockImplementation(cb),
+    jest
+      .spyOn(Web3React, "useWeb3React")
+      .mockImplementation(returnFunction(cb)),
   useRouter: (cb = () => testData.router) =>
-    jest.spyOn(RouterHook, "useRouter").mockImplementation(cb),
+    jest.spyOn(RouterHook, "useRouter").mockImplementation(returnFunction(cb)),
   useAppConstants: (cb = () => testData.appConstants) =>
-    jest.spyOn(AppConstants, "useAppConstants").mockImplementation(cb),
+    jest
+      .spyOn(AppConstants, "useAppConstants")
+      .mockImplementation(returnFunction(cb)),
   useProtocolDayData: (cb = () => testData.protocolDayData) =>
     jest
       .spyOn(ProtocolDayDataHook, "useProtocolDayData")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
 
   useFetchHeroStats: (
     cb = () => ({ data: testData.heroStats, loading: false })
-  ) => jest.spyOn(FetchHeroStats, "useFetchHeroStats").mockImplementation(cb),
+  ) =>
+    jest
+      .spyOn(FetchHeroStats, "useFetchHeroStats")
+      .mockImplementation(returnFunction(cb)),
   useLiquidityFormsContext: (cb = () => testData.liquidityFormsContext) =>
     jest
       .spyOn(LiquidityFormsContextHook, "useLiquidityFormsContext")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useCoverActiveReportings: (cb = () => testData.coverActiveReportings) =>
     jest
       .spyOn(CoverActiveReportingsHook, "useCoverActiveReportings")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   usePagination: (cb = () => testData.pagination) =>
-    jest.spyOn(PaginationHook, "usePagination").mockImplementation(cb),
+    jest
+      .spyOn(PaginationHook, "usePagination")
+      .mockImplementation(returnFunction(cb)),
   useLiquidityTxs: (cb = () => testData.liquidityTxs) =>
-    jest.spyOn(LiquidityTxsHook, "useLiquidityTxs").mockImplementation(cb),
+    jest
+      .spyOn(LiquidityTxsHook, "useLiquidityTxs")
+      .mockImplementation(returnFunction(cb)),
   useClaimPolicyInfo: (cb = () => testData.claimPolicyInfo) =>
-    jest.spyOn(ClaimPolicyHook, "useClaimPolicyInfo").mockImplementation(cb),
+    jest
+      .spyOn(ClaimPolicyHook, "useClaimPolicyInfo")
+      .mockImplementation(returnFunction(cb)),
   useCxTokenRowContext: (cb = () => testData.cxTokenRowContext) =>
     jest
       .spyOn(CxTokenRowContextHook, "useCxTokenRowContext")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useClaimTableContext: (cb = () => testData.claimTableContext) =>
     jest
       .spyOn(ClaimTableContextHook, "useClaimTableContext")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   usePodStakingPools: (cb = () => testData.podStakingPools) =>
     jest
       .spyOn(PodStakingPoolsHook, "usePodStakingPools")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   usePoolInfo: (cb = () => testData.poolInfo) =>
-    jest.spyOn(PoolInfoHook, "usePoolInfo").mockImplementation(cb),
+    jest
+      .spyOn(PoolInfoHook, "usePoolInfo")
+      .mockImplementation(returnFunction(cb)),
   useSortableStats: (cb = () => testData.sortableStats) =>
-    jest.spyOn(SortableStatsHook, "useSortableStats").mockImplementation(cb),
+    jest
+      .spyOn(SortableStatsHook, "useSortableStats")
+      .mockImplementation(returnFunction(cb)),
   useActivePolicies: (cb = () => testData.activePolicies) =>
-    jest.spyOn(ActivePoliciesHook, "useActivePolicies").mockImplementation(cb),
+    jest
+      .spyOn(ActivePoliciesHook, "useActivePolicies")
+      .mockImplementation(returnFunction(cb)),
   chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
   useToast: (cb = () => testData.toast) =>
-    jest.spyOn(ToastHook, "useToast").mockImplementation(cb),
+    jest.spyOn(ToastHook, "useToast").mockImplementation(returnFunction(cb)),
   useResolvedReportings: (cb = () => testData.resolvedReportings) =>
     jest
       .spyOn(ResolvedReportingsHook, "useResolvedReportings")
-      .mockImplementation(cb),
+      .mockImplementation(returnFunction(cb)),
   useSearchResults: (cb = () => testData.searchResults) =>
-    jest.spyOn(SearchResultsHook, "useSearchResults").mockImplementation(cb),
+    jest
+      .spyOn(SearchResultsHook, "useSearchResults")
+      .mockImplementation(returnFunction(cb)),
+  useCalculateLiquidity: (cb = () => testData.calculateLiquidity) =>
+    jest
+      .spyOn(CalculateLiquidityHook, "useCalculateLiquidity")
+      .mockImplementation(returnFunction(cb)),
+  useRemoveLiquidity: (cb = () => testData.removeLiquidity) =>
+    jest
+      .spyOn(RemoveLiquidityHook, "useRemoveLiquidity")
+      .mockImplementation(returnFunction(cb)),
   useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
-    jest.spyOn(LiquidityInfoHook, "useMyLiquidityInfo").mockImplementation(cb),
+    jest
+      .spyOn(LiquidityInfoHook, "useMyLiquidityInfo")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const initiateTest = (
@@ -163,9 +217,10 @@ export const initiateTest = (
   initialMocks = () => {},
   options = {}
 ) => {
-  const initialRender = (newProps = {}, rerender = false) => {
+  const initialRender = (newProps = {}, newMocks = () => {}) => {
     cleanup();
-    if (!rerender) initialMocks();
+    initialMocks();
+    newMocks();
     act(() => {
       i18n.activate("en");
     });
@@ -173,8 +228,7 @@ export const initiateTest = (
   };
 
   const rerenderFn = (newProps = {}, mocks = () => {}) => {
-    mocks();
-    initialRender(newProps, true);
+    initialRender(newProps, mocks);
   };
 
   return {

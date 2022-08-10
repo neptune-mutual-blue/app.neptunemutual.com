@@ -10,7 +10,12 @@ export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
   const [isDisabled, setIsDisabled] = useState(false);
 
   return (
-    <ModalRegular isOpen={isOpen} onClose={onClose} disabled={isDisabled}>
+    <ModalRegular
+      isOpen={isOpen}
+      onClose={onClose}
+      disabled={isDisabled}
+      data-testid="withdraw-liquidity-modal"
+    >
       <ModalWrapper className="max-w-2xl !px-0 bg-f1f3f6">
         <div className="px-8 sm:px-12">
           <Dialog.Title className="flex font-bold font-sora text-h2">

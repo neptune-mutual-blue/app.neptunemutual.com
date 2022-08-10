@@ -20,6 +20,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
       onClose={() => {
         setShowModal(false);
       }}
+      data-testid="liquidity-product-modal"
     >
       <div className="grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden">
         <Dialog.Title
@@ -81,7 +82,10 @@ export function LiquidityProductModal({ product, setShowModal }) {
             claim payout, all of the following points must be true.
           </p>
 
-          <ul className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm">
+          <ul
+            className="pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm"
+            data-testid="cover-rules"
+          >
             {product.infoObj.rules.split("\n").map((x, i) => (
               <li key={i} className="pb-4 leading-5 md:pb-1">
                 {x
@@ -96,7 +100,10 @@ export function LiquidityProductModal({ product, setShowModal }) {
             Exclusions
           </p>
 
-          <p className="font-poppins text-404040 text-md md:text-sm">
+          <p
+            className="font-poppins text-404040 text-md md:text-sm"
+            data-testid="cover-exclusions"
+          >
             {product.infoObj.exclusions}
           </p>
         </div>
@@ -105,6 +112,7 @@ export function LiquidityProductModal({ product, setShowModal }) {
           <button
             onClick={onClose}
             className="hidden p-3 mr-6 text-sm font-medium leading-6 border rounded md:text-h7 lg:text-h6 md:inline-block md:font-semibold border-4e7dd9 text-4e7dd9"
+            data-testid="close-button"
           >
             CLOSE
           </button>
@@ -120,6 +128,7 @@ function DownloadButton({ onClick }) {
     <button
       className="inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto bg-4e7dd9 hover:bg-opacity-75"
       onClick={onClick}
+      data-testid="download-button"
     >
       <svg
         width="16"

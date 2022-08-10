@@ -114,6 +114,119 @@ export const testData = {
     },
     products: [],
   },
+  coverInfoWithProducts: {
+    id: "0x7072696d65000000000000000000000000000000000000000000000000000000",
+    coverKey:
+      "0x7072696d65000000000000000000000000000000000000000000000000000000",
+    supportsProducts: true,
+    ipfsHash: "QmVFtqx2J5VgFXsJ1K23XzyMAGy9NNWP6LTiWhavPz5KFD",
+    ipfsData:
+      '{\n  "key": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "coverName": "Prime DApps",\n  "projectName": null,\n  "vault": {\n    "name": "Prime DApps Locked DAI",\n    "symbol": "DAI-P"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": true,\n  "leverage": "10",\n  "tags": [\n    "Smart Contract",\n    "DEX",\n    "Liquidity",\n    "Lending",\n    "Borrowing"\n  ],\n  "about": "Decentralized Exchanges",\n  "blockchains": [\n    {\n      "chainId": 1,\n      "name": "Main Ethereum Network"\n    }\n  ],\n  "rules": "1. Rule 1\\n            2. Rule 2\\n            3. Rule 3",\n  "exclusions": "1. Exclusion 1\\n                 2. Exclusion 1\\n                 3. Exclusion 3",\n  "pricingFloor": "600",\n  "pricingCeiling": "2400",\n  "reportingPeriod": 300,\n  "cooldownPeriod": 300,\n  "claimPeriod": 300,\n  "minReportingStake": "2000000000000000000000",\n  "stakeWithFees": "50000000000000000000000",\n  "reassurance": "50000000000",\n  "reassuranceRate": "2500"\n}',
+    infoObj: {
+      coverName: "Prime DApps",
+      projectName: null,
+      leverage: "10",
+      tags: ["Smart Contract", "DEX", "Liquidity", "Lending", "Borrowing"],
+      about: "Decentralized Exchanges",
+      blockchains: [
+        {
+          chainId: 1,
+          name: "Main Ethereum Network",
+        },
+      ],
+      rules: "1. Rule 1\n            2. Rule 2\n            3. Rule 3",
+      exclusions:
+        "1. Exclusion 1\n                 2. Exclusion 1\n                 3. Exclusion 3",
+      pricingFloor: "600",
+      pricingCeiling: "2400",
+    },
+    products: [
+      {
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x6161766500000000000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x6161766500000000000000000000000000000000000000000000000000000000",
+        coverKey:
+          "0x7072696d65000000000000000000000000000000000000000000000000000000",
+        ipfsHash: "QmTz7b9upviKHtATQtxobsAru22WkAGCgrPkyM7tLg8UhR",
+        ipfsData:
+          '{\n  "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x6161766500000000000000000000000000000000000000000000000000000000",\n  "productName": "Aave Protocol",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Ehereum",\n    "DApp",\n    "Prime",\n    "Smart Contract",\n    "Lending",\n    "Flash Loan",\n    "Interest Bearing Tokens",\n    "aToken"\n  ],\n  "about": "Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://aave.com/",\n    "documentation": "https://docs.aave.com/",\n    "twitter": "https://twitter.com/aaveaave",\n    "github": "https://github.com/aave",\n    "discord": "https://discord.com/invite/CvKUrqM",\n    "telegram": "https://t.me/Aavesome",\n    "blog": "https://medium.com/aave",\n    "linkedin": ""\n  },\n  "resolutionSources": [\n    "https://twitter.com/aaveaave",\n    "https://medium.com/aave",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+        infoObj: {
+          productName: "Aave Protocol",
+          capitalEfficiency: "9000",
+          tags: [
+            "Ehereum",
+            "DApp",
+            "Prime",
+            "Smart Contract",
+            "Lending",
+            "Flash Loan",
+            "Interest Bearing Tokens",
+            "aToken",
+          ],
+          about:
+            "Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.",
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+          exclusions: "",
+          links: {
+            website: "https://aave.com/",
+            documentation: "https://docs.aave.com/",
+            twitter: "https://twitter.com/aaveaave",
+            github: "https://github.com/aave",
+            discord: "https://discord.com/invite/CvKUrqM",
+            telegram: "https://t.me/Aavesome",
+            blog: "https://medium.com/aave",
+            linkedin: "",
+          },
+          resolutionSources: [
+            "https://twitter.com/aaveaave",
+            "https://medium.com/aave",
+            "https://twitter.com/neptunemutual",
+          ],
+        },
+      },
+      {
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x62616c616e636572000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x62616c616e636572000000000000000000000000000000000000000000000000",
+        coverKey:
+          "0x7072696d65000000000000000000000000000000000000000000000000000000",
+        ipfsHash: "QmaS9SsfVurGEnTs7afgRfuJC9emPCom48NFNMJoruhtGY",
+        ipfsData:
+          '{\n  "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x62616c616e636572000000000000000000000000000000000000000000000000",\n  "productName": "Balancer",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "8000",\n  "tags": [\n    "Ethereum",\n    "Smart Contract",\n    "Portfolio Management",\n    "Fundraising",\n    "Liquidity"\n  ],\n  "about": "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://balancer.fi/",\n    "twitter": "https://twitter.com/BalancerLabs",\n    "discord": "https://discord.balancer.fi/",\n    "blog": "https://medium.com/balancer-protocol",\n    "linkedin": "https://www.linkedin.com/company/balancer-labs/",\n    "youtube": "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",\n    "github": "https://github.com/balancer-labs/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/BalancerLabs",\n    "https://medium.com/balancer-protocol",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+        infoObj: {
+          productName: "Balancer",
+          capitalEfficiency: "8000",
+          tags: [
+            "Ethereum",
+            "Smart Contract",
+            "Portfolio Management",
+            "Fundraising",
+            "Liquidity",
+          ],
+          about:
+            "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+          exclusions: "",
+          links: {
+            website: "https://balancer.fi/",
+            twitter: "https://twitter.com/BalancerLabs",
+            discord: "https://discord.balancer.fi/",
+            blog: "https://medium.com/balancer-protocol",
+            linkedin: "https://www.linkedin.com/company/balancer-labs/",
+            youtube: "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",
+            github: "https://github.com/balancer-labs/",
+          },
+          resolutionSources: [
+            "https://twitter.com/BalancerLabs",
+            "https://medium.com/balancer-protocol",
+            "https://twitter.com/neptunemutual",
+          ],
+        },
+      },
+    ],
+  },
   coverStats: {
     info: {
       activeIncidentDate: "0",
@@ -709,5 +822,17 @@ export const testData = {
     searchValue: "",
     filtered: [],
     setSearchValue: jest.fn(),
+  },
+  calculateLiquidity: {
+    loading: false,
+    receiveAmount: "1000000000000000000",
+  },
+  removeLiquidity: {
+    allowance: "0",
+    approving: false,
+    handleApprove: jest.fn(),
+    handleWithdraw: jest.fn(),
+    loadingAllowance: true,
+    withdrawing: false,
   },
 };

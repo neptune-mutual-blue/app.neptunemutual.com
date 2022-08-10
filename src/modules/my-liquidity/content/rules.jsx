@@ -16,6 +16,7 @@ function DownloadButton() {
       <button
         className="inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75"
         onClick={() => {}}
+        data-testid="download-button"
       >
         <svg
           width="16"
@@ -38,7 +39,10 @@ function DownloadButton() {
 
 function WarningMessage() {
   return (
-    <div className="flex items-center justify-center px-10 py-4 text-sm bg-F7E2BE">
+    <div
+      className="flex items-center justify-center px-10 py-4 text-sm bg-F7E2BE"
+      data-testid="warning-message"
+    >
       <div>
         <svg
           width="20"
@@ -82,7 +86,7 @@ function WarningMessage() {
 
 function Notes({ coverInfo }) {
   return (
-    <div className="flex flex-col pt-6">
+    <div className="flex flex-col pt-6" data-testid="notes">
       <p>
         <Trans>
           Before providing liquidity to or purchasing a product policy from this
