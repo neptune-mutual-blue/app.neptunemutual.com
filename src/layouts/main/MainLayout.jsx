@@ -19,9 +19,9 @@ export const PageLoader = () => {
     };
   }, []);
 
-  // if (!showLoader) {
-  //   return null;
-  // }
+  if (!showLoader) {
+    return null;
+  }
 
   return (
     <div className="w-full w-full bg-gray-200 fixed top-0 z-50">
