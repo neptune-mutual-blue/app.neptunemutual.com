@@ -5,13 +5,10 @@ import "../styles/globals.css";
 
 import { Web3ReactProvider } from "@web3-react/core";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { Header } from "@/common/Header/Header";
 import { NetworkProvider } from "@/src/context/Network";
 import { ToastProvider } from "@/lib/toast/provider";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
 import { UnlimitedApprovalProvider } from "@/src/context/UnlimitedApproval";
-import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
-import { ScrollToTopButton } from "@/common/ScrollToTop/ScrollToTopButton";
 import { TxPosterProvider } from "@/src/context/TxPoster";
 import { LanguageProvider } from "../i18n";
 import { DEFAULT_VARIANT } from "@/src/config/toast";
@@ -19,6 +16,7 @@ import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
 import { useEffect } from "react";
 import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
+import { MainLayout } from "@/src/layouts/main/MainLayout";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -45,12 +43,9 @@ function MyApp({ Component, pageProps }) {
                 <UnlimitedApprovalProvider>
                   <ToastProvider variant={DEFAULT_VARIANT}>
                     <TxPosterProvider>
-                      {!pageProps.noHeader && <Header></Header>}
-                      <div className="relative sm:static">
+                      <MainLayout noHeader={pageProps.noHeader}>
                         <Component {...pageProps} />
-                        <DisclaimerModal />
-                        <ScrollToTopButton />
-                      </div>
+                      </MainLayout>
                     </TxPosterProvider>
                   </ToastProvider>
                 </UnlimitedApprovalProvider>
