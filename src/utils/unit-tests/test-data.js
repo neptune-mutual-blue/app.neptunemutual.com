@@ -441,9 +441,9 @@ export const testData = {
     pathname: "/my-liquidity/[cover_id]",
     route: "/my-liquidity/[cover_id]",
     query: {
-      cover_id: "hicif-bank",
+      cover_id: "animated-brands",
     },
-    asPath: "/my-liquidity/hicif-bank",
+    asPath: "/my-liquidity/animated-brands",
     components: {
       "/my-liquidity/[cover_id]": {
         initial: true,
@@ -834,5 +834,27 @@ export const testData = {
     handleWithdraw: jest.fn(),
     loadingAllowance: true,
     withdrawing: false,
+  },
+  purchasePolicy: {
+    balance: "47902471811",
+    allowance: "594740",
+    approving: true,
+    updatingAllowance: true,
+    purchasing: true,
+    canPurchase: "",
+    error: "",
+    updatingBalance: true,
+  },
+  policyFees: {
+    loading: false,
+    data: {
+      fee: "0",
+      utilizationRatio: "0",
+      totalAvailableLiquidity: "0",
+      floor: "0",
+      ceiling: "0",
+      rate: "0",
+      expiryDate: "0",
+    },
   },
 };

@@ -4,10 +4,20 @@ import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import CurrencyInput from "@/lib/react-currency-input-field";
 
+/**
+ *
+ * @param {object} param
+ * @param {HTMLInputElement} param.inputProps
+ * @param {HTMLButtonElement & { buttonClassName?: string }} param.buttonProps
+ * @param {string} param.unit
+ * @param {any} param.error
+ * @param {string} param.decimalLimit
+ * @returns
+ */
 export const InputWithTrailingButton = ({
   inputProps,
   unit,
-  buttonProps,
+  buttonProps: { buttonClassName, ...buttonProps },
   error,
   decimalLimit,
 }) => {
@@ -75,7 +85,8 @@ export const InputWithTrailingButton = ({
         )}
         <button
           className={classNames(
-            "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
+            "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
+            buttonClassName,
             buttonProps.disabled ? "cursor-not-allowed" : "hover:bg-DEEAF6"
           )}
           {...buttonProps}

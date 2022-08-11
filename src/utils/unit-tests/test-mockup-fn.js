@@ -30,6 +30,9 @@ import * as ToastHook from "@/lib/toast/context";
 import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
 import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
+// import * as ValidateReferralCode from "@/src/hooks/useValidateReferralCode";
+import * as PolicyFees from "@/src/hooks/usePolicyFees";
+import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
 
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
@@ -77,17 +80,7 @@ export const mockFn = {
 
   useCoverStatsContext: (
     cb = () => ({
-      productStatus: "active",
-      activeIncidentDate: "12232323",
-      claimPlatformFee: "0",
-      commitment: "0",
-      isUserWhitelisted: false,
-      reporterCommission: "0",
-      reportingPeriod: "0",
-      requiresWhitelist: false,
-      activeCommitment: "0",
-      totalPoolAmount: "0",
-      availableLiquidity: "0",
+      ...testData.coverStats.info,
       refetch: () => Promise.resolve(1),
     })
   ) =>
@@ -208,6 +201,18 @@ export const mockFn = {
   useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
     jest
       .spyOn(LiquidityInfoHook, "useMyLiquidityInfo")
+      .mockImplementation(returnFunction(cb)),
+  // useValidateReferralCode: (cb = () => true) =>
+  //   jest
+  //     .spyOn(ValidateReferralCode, "useValidateReferralCode")
+  //     .mockImplementation(cb),
+  usePolicyFees: (cb = () => testData.policyFees) =>
+    jest
+      .spyOn(PolicyFees, "usePolicyFees")
+      .mockImplementation(returnFunction(cb)),
+  usePurchasePolicy: (cb = () => testData.purchasePolicy) =>
+    jest
+      .spyOn(PurchasePolicy, "usePurchasePolicy")
       .mockImplementation(returnFunction(cb)),
 };
 

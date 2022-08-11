@@ -24,6 +24,8 @@ describe("InputWithTrailingButton component", () => {
           id: "test-input-id",
           placeholder: "Enter Amount",
         }}
+        decimalLimit={0}
+        error={{}}
       />
     );
     let button = screen.getByRole("button");
@@ -44,6 +46,8 @@ describe("InputWithTrailingButton component", () => {
           id: "test-input-id",
           placeholder: "Enter Amount",
         }}
+        decimalLimit=""
+        error=""
       />
     );
     const unitText = screen.getByText(/NPM-USDC LP/i);
@@ -64,6 +68,8 @@ describe("InputWithTrailingButton component", () => {
           onChange: onChange,
           disabled: false,
         }}
+        decimalLimit=""
+        error=""
       />
     );
     const input = screen.container.getElementsByTagName("input");
