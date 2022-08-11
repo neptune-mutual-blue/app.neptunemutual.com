@@ -95,16 +95,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   };
 
   const now = new Date();
-  const day = now.getDate();
+  const day = now.getUTCDate();
   let coverPeriodLabels = [];
   let months = "";
   for (let i = 0; i < 3; i++) {
     if (day >= 25) {
       // if current date is greater than or equal to 25th
       // we add another month
-      months = monthNames[(now.getMonth() + i + 1) % 12];
+      months = monthNames[(now.getUTCMonth() + i + 1) % 12];
     } else {
-      months = monthNames[(now.getMonth() + i) % 12];
+      months = monthNames[(now.getUTCMonth() + i) % 12];
     }
     coverPeriodLabels.push(months);
   }
