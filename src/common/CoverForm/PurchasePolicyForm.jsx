@@ -7,10 +7,7 @@ import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { getMonthNames } from "@/lib/dates";
 import { convertFromUnits, isValidNumber } from "@/utils/bn";
-import {
-  usePurchasePolicy,
-  isValidReferralCode,
-} from "@/src/hooks/usePurchasePolicy";
+import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { formatCurrency } from "@/utils/formatter/currency";
@@ -25,6 +22,7 @@ import { BackButton } from "@/common/BackButton/BackButton";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
 import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
+import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
@@ -46,6 +44,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     liquidityTokenDecimals
   ).toString();
   const monthNames = getMonthNames(router.locale);
+
+  const isValidReferralCode = useValidateReferralCode(referralCode);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -144,8 +144,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
   }
 
-  const _isValidReferralCode = isValidReferralCode(referralCode);
-
   return (
     <div className="max-w-lg" data-testid="purchase-policy-form">
       <TokenAmountInput
@@ -234,7 +232,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             }}
           />
 
-          {!!referralCode.trim().length && _isValidReferralCode && (
+          {!!referralCode.trim().length && isValidReferralCode && (
             <SuccessIcon
               className="w-6 h-6 text-21AD8C absolute right-6 top-6"
               aria-hidden="true"
@@ -256,7 +254,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !coverMonth ||
               updatingFee ||
               updatingBalance ||
-              !_isValidReferralCode
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
@@ -278,7 +276,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !coverMonth ||
               updatingFee ||
               updatingBalance ||
-              !_isValidReferralCode
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
