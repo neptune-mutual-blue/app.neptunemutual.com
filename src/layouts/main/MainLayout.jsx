@@ -34,7 +34,7 @@ export const MainLayout = ({ noHeader = false, children }) => {
   return (
     <>
       <PageLoader />
-      {!noHeader && <Header></Header>}
+      {!noHeader && <Header />}
       <div className="relative sm:static">
         {children}
         <DisclaimerModal />
