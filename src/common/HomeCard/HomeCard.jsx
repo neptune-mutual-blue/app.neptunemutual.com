@@ -14,7 +14,7 @@ export const HomeCard = ({ items, className, showDivider = true }) => {
         return (
           <div
             key={`home-card-${index}`}
-            className={`lg:py-4 flex flex-col justify-center items-center flex-1 ${firstBorder}`}
+            className={`lg:py-4 flex flex-col justify-center items-center text-center flex-1 ${firstBorder}`}
           >
             <p className="mb-2 text-h7 lg:mb-0 lg:text-h5 font-sora text-4e7dd9">
               {item?.name}

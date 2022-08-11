@@ -16,11 +16,12 @@ import { HeaderLogo } from "@/common/HeaderLogo";
 import { BurgerMenu } from "@/common/BurgerMenu/BurgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { TransactionList } from "@/common/TransactionList";
+import useWindowSize from "@/src/hooks/useWindowSize";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -84,6 +85,8 @@ export const Header = () => {
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false);
   const [container, setContainer] = useState(null);
 
+  const { width } = useWindowSize();
+
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
@@ -112,8 +115,15 @@ export const Header = () => {
 
   const network = (
     <div className="inline-flex items-center justify-center w-6/12 px-4 py-2 mr-2 overflow-hidden text-sm font-normal leading-loose md:py-3 lg:py-4 xl:py-2 md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF">
-      <ChainLogo width={24} height={24} />{" "}
-      <p className="inline-block ml-2 overflow-hidden whitespace-nowrap text-ellipsis">
+      <figure title={NetworkNames[networkId] || "Network"}>
+        <ChainLogo width={24} height={24} />{" "}
+      </figure>
+      <p
+        className={classNames(
+          "inline-block ml-2 truncate",
+          width >= 1200 && width <= 1439 && "hidden"
+        )}
+      >
         {NetworkNames[networkId] || "Network"}
       </p>
     </div>
@@ -153,7 +163,7 @@ export const Header = () => {
           <div className="flex items-stretch justify-between flex-grow py-0 pl-4 h-14 lg:h-20 sm:px-6 xl:pl-8 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
               <Link href="/" locale={router.locale || router.defaultLocale}>
-                <a>
+                <a className="w-48">
                   <HeaderLogo />
                 </a>
               </Link>
@@ -191,7 +201,7 @@ export const Header = () => {
                       title={t`Connect Wallet`}
                     >
                       <span className="sr-only">{t`Connect Wallet`}</span>
-                      Connect Wallet
+                      <Trans>Connect Wallet</Trans>
                     </button>
                   );
                   if (active) {
@@ -255,7 +265,7 @@ export const Header = () => {
           </div>
 
           {!isOpen && (
-            <div className="flex items-center pr-6 xl:hidden">
+            <div className="flex items-center xl:pr-6 xl:hidden">
               <BurgerMenu
                 isOpen={isOpen}
                 onToggle={toggleMenu}
