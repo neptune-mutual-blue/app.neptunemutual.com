@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useWeb3React } from "@web3-react/core";
-
+import { Trans } from "@lingui/macro";
 import useAuth from "../../hooks/useAuth";
 import { wallets } from "../../config/wallets";
 import { Modal } from "../Modal/Modal";
@@ -40,7 +40,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
         >
-          Connect Wallet
+          <Trans>Connect Wallet</Trans>
         </Dialog.Title>
 
         <button

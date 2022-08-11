@@ -434,15 +434,17 @@ msgstr "Sưu tập..."
 msgid "Coming soon!"
 msgstr "Sắp có!"
 
+#: lib/connect-wallet/components/ConnectWallet/Popup.jsx:43
 #: src/common/Header/Header.jsx:201
 #: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:204
 #: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
-msgstr ""
+msgstr "Kết nối ví"
 
 #: src/common/Header/Header.jsx:374
 msgid "Connect wallet"
-msgstr ""
+msgstr "Kết nối ví"
 
 #: src/common/Header/AccountDetailsModal.jsx:95
 msgid "Connected With"

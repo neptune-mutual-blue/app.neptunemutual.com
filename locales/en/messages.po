@@ -429,8 +429,10 @@ msgstr "Collecting..."
 msgid "Coming soon!"
 msgstr "Coming soon!"
 
+#: lib/connect-wallet/components/ConnectWallet/Popup.jsx:43
 #: src/common/Header/Header.jsx:201
 #: src/common/Header/Header.jsx:203
+#: src/common/Header/Header.jsx:204
 #: src/common/Header/Header.jsx:372
 msgid "Connect Wallet"
 msgstr "Connect Wallet"

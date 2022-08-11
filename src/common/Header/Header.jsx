@@ -16,7 +16,7 @@ import { HeaderLogo } from "@/common/HeaderLogo";
 import { BurgerMenu } from "@/common/BurgerMenu/BurgerMenu";
 import { Root, Overlay, Content, Portal } from "@radix-ui/react-dialog";
 import { isFeatureEnabled } from "@/src/config/environment";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
 import * as Tooltip from "@radix-ui/react-tooltip";
@@ -201,7 +201,7 @@ export const Header = () => {
                       title={t`Connect Wallet`}
                     >
                       <span className="sr-only">{t`Connect Wallet`}</span>
-                      Connect Wallet
+                      <Trans>Connect Wallet</Trans>
                     </button>
                   );
                   if (active) {
