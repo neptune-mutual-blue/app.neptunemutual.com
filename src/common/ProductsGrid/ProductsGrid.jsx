@@ -92,7 +92,9 @@ export const ProductsGrid = () => {
       <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
         <div className="flex items-center">
           <button
-            onClick={router.back}
+            onClick={() => {
+              router.push("/");
+            }}
             className={
               "flex group items-center rounded-big bg-9B9B9B/30 px-4 py-2 mr-4"
             }
