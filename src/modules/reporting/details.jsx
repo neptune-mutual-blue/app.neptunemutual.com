@@ -9,6 +9,7 @@ import { CastYourVote } from "@/src/modules/reporting/active/CastYourVote";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useConsensusReportingInfo } from "@/src/hooks/useConsensusReportingInfo";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
+import ReportComments from "@/modules/reporting/ReportComments";
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   const coverInfo = useCoverOrProductData({
@@ -71,7 +72,6 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
             myNo={info.myNo}
           />
         )}
-
         {
           // to be displayed in mobile only
           !reportingEnded && (
@@ -80,6 +80,15 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
             </div>
           )
         }
+
+        <ReportComments
+          reportIpfsData={incidentReport.reportIpfsData}
+          reportIpfsDataTimeStamp={incidentReport.reportTransaction.timestamp}
+          disputeIpfsData={incidentReport.disputeIpfsData}
+          disputeIpfsDataTimeStamp={
+            incidentReport.disputeTransaction?.timestamp
+          }
+        />
 
         <RecentVotesTable
           coverKey={incidentReport.coverKey}
