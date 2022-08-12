@@ -39,10 +39,14 @@ const getQuery = (reportId) => {
       totalRefutedCount
       reportTransaction {
         id
+        timestamp
       }
       disputeTransaction {
         id
+        timestamp
       }
+      reportIpfsData
+      disputeIpfsData
     }
   }
   `;
