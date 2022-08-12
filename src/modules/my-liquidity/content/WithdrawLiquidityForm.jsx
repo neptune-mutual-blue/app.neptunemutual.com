@@ -151,7 +151,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   };
 
   return (
-    <>
+    <div data-testid="withdraw-liquidity-form">
       <div className="overflow-y-auto max-h-[50vh] px-8 sm:px-12">
         <div className="flex flex-col mt-6">
           <TokenAmountInput
@@ -164,6 +164,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             tokenAddress={NPMTokenAddress}
             tokenSymbol={NPMTokenSymbol}
             tokenDecimals={NPMTokenDecimals}
+            data-testid="npm-input"
           >
             {isGreater(myStake, "0") && (
               <TokenAmountWithPrefix
@@ -171,6 +172,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
                 prefix={t`Your Stake:` + " "}
                 symbol={NPMTokenSymbol}
                 decimals={NPMTokenDecimals}
+                data-testid="my-stake-prefix"
               />
             )}
             <TokenAmountWithPrefix
@@ -178,9 +180,12 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               prefix={t`Minimum Stake:` + " "}
               symbol={NPMTokenSymbol}
               decimals={NPMTokenDecimals}
+              data-testid="minimum-stake-prefix"
             />
             {!isExit && npmErrorMsg && (
-              <p className="text-FA5C2F">{npmErrorMsg}</p>
+              <p className="text-FA5C2F" data-testid="npm-error">
+                {npmErrorMsg}
+              </p>
             )}
           </TokenAmountInput>
         </div>
@@ -197,8 +202,13 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             tokenSymbol={vaultTokenSymbol}
             tokenAddress={vaultTokenAddress}
             tokenDecimals={vaultTokenDecimals}
+            data-testid="pod-input"
           />
-          {podErrorMsg && <p className="text-FA5C2F">{podErrorMsg}</p>}
+          {podErrorMsg && (
+            <p className="text-FA5C2F" data-testid="pod-error">
+              {podErrorMsg}
+            </p>
+          )}
         </div>
 
         <div className="mt-6 modal-unlock">
@@ -212,6 +222,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               ).toString(),
               router.locale
             )}
+            data-testid="receive-input"
           />
         </div>
 
@@ -220,7 +231,11 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         </h5>
 
         <div>
-          <span className="text-7398C0" title={fromNow(withdrawalOpen)}>
+          <span
+            className="text-7398C0"
+            title={fromNow(withdrawalOpen)}
+            data-testid="open-date"
+          >
             <strong>
               <Trans>Open:</Trans>{" "}
             </strong>
@@ -229,7 +244,11 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         </div>
 
         <div>
-          <span className="text-7398C0" title={fromNow(withdrawalClose)}>
+          <span
+            className="text-7398C0"
+            title={fromNow(withdrawalClose)}
+            data-testid="close-date"
+          >
             <strong>
               <Trans>Close:</Trans>{" "}
             </strong>
@@ -243,6 +262,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             name="checkexitliquidity"
             checked={isExit}
             onChange={(ev) => handleExit(ev)}
+            data-testid="exit-checkbox"
           >
             Withdraw Full Liquidity
           </Checkbox>
@@ -266,6 +286,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               loadingAllowance ||
               !isAccrualComplete
             }
+            data-testid="approve-button"
           >
             {approving ? t`Approving..` : t`Approve`}
           </RegularButton>
@@ -288,11 +309,12 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               loadingAllowance ||
               !isAccrualComplete
             }
+            data-testid="withdraw-button"
           >
             {withdrawing ? t`Withdrawing..` : t`Withdraw`}
           </RegularButton>
         )}
       </div>
-    </>
+    </div>
   );
 };
