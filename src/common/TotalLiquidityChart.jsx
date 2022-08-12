@@ -197,7 +197,7 @@ const TotalLiquidityChart = () => {
   }, [data, chartData.length, liquidityTokenDecimals]);
 
   return (
-    <div>
+    <div data-testid="total-liquidity-chart">
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}

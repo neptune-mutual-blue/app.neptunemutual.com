@@ -48,7 +48,10 @@ export function CoveredProducts({ coverInfo }) {
   const [productInfo, setProductInfo] = useState();
 
   return (
-    <Container className="flex flex-col py-9">
+    <Container
+      className="flex flex-col py-9"
+      data-testid="cover-products-container"
+    >
       <div className="flex flex-col">
         <h4 className="mb-24 font-bold text-h3">
           <Trans>Products Covered Under This Pool</Trans>
@@ -82,7 +85,10 @@ export function CoveredProducts({ coverInfo }) {
 function Product({ productKey, infoObj, onClick }) {
   const imgSrc = getCoverImgSrc({ key: productKey });
   return (
-    <div className="flex flex-col items-center justify-start pb-8">
+    <div
+      className="flex flex-col items-center justify-start pb-8"
+      data-testid="cover-product"
+    >
       <div className="flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]">
         <img src={imgSrc} alt={infoObj.productName} />
       </div>

@@ -36,7 +36,7 @@ const sorterData = {
 
 export const StakingPage = () => {
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.ALPHABETIC}`,
+    name: SORT_TYPES.ALPHABETIC,
   });
   const router = useRouter();
 
@@ -68,9 +68,9 @@ export const StakingPage = () => {
   const options = useMemo(() => {
     if (router.locale) {
       return [
-        { name: t`${SORT_TYPES.ALPHABETIC}` },
-        { name: t`${SORT_TYPES.TVL}` },
-        { name: t`${SORT_TYPES.APR}` },
+        { name: SORT_TYPES.ALPHABETIC },
+        { name: SORT_TYPES.TVL },
+        { name: SORT_TYPES.APR },
       ];
     }
 

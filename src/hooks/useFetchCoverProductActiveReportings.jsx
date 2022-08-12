@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@/src/hooks/useQuery";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { getNetworkId } from "@/src/config/environment";
 
 const getQuery = (coverKey, productKey) => {
   return `
@@ -19,6 +20,16 @@ const getQuery = (coverKey, productKey) => {
   `;
 };
 
+const fetchCoverProductActiveReportings = fetchSubgraph(
+  "useFetchCoverProductActiveReportings"
+);
+/**
+ *
+ * @param {object} param
+ * @param {string} param.coverKey
+ * @param {string} param.productKey
+ * @returns
+ */
 export const useFetchCoverProductActiveReportings = ({
   coverKey,
   productKey,
@@ -26,37 +37,20 @@ export const useFetchCoverProductActiveReportings = ({
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { data: graphData, refetch } = useQuery();
-
   useEffect(() => {
-    let ignore = false;
-
-    if (!graphData || ignore) return;
-    setData(graphData.incidentReports);
-
-    return () => {
-      ignore = true;
-    };
-  }, [graphData]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    setLoading(true);
-
-    refetch(getQuery(coverKey, productKey))
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        if (ignore) return;
-        setLoading(false);
-      });
-
-    return () => {
-      ignore = true;
-    };
-  }, [coverKey, productKey, refetch]);
+    if (productKey && coverKey) {
+      setLoading(true);
+      fetchCoverProductActiveReportings(
+        getNetworkId(),
+        getQuery(coverKey, productKey)
+      )
+        .then(({ incidentReports }) => {
+          setData(incidentReports);
+        })
+        .catch((e) => console.error(`Error: ${e.message}`))
+        .finally(() => setLoading(false));
+    }
+  }, [coverKey, productKey]);
 
   return {
     data,

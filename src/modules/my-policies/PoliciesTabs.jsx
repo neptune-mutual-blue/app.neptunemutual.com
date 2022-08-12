@@ -14,12 +14,12 @@ const headers = [
   {
     name: "active",
     href: "/my-policies/active",
-    displayAs: t`Active`,
+    displayAs: <Trans>Active</Trans>,
   },
   {
     name: "expired",
     href: "/my-policies/expired",
-    displayAs: t`Expired`,
+    displayAs: <Trans>Expired</Trans>,
   },
 ];
 
@@ -38,7 +38,7 @@ export const PoliciesTabs = ({ active, children }) => {
           </HeroTitle>
 
           {/* Total Active Protection */}
-          <HeroStat title="Total Active Protection">
+          <HeroStat title={t`Total Active Protection`}>
             {
               formatCurrency(
                 convertFromUnits(totalActiveProtection, liquidityTokenDecimals),

@@ -1,18 +1,11 @@
-import React from "react";
-import {
-  render,
-  act,
-  screen,
-  cleanup,
-  fireEvent,
-} from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen, fireEvent } from "@/utils/unit-tests/test-utils";
 import * as Component from "@/modules/my-policies/ClaimCxTokensTable";
-import * as CxTokenRowContext from "@/src/modules/my-policies/CxTokenRowContext";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const props = {
   activePolicies: [
@@ -67,48 +60,17 @@ const props = {
   loading: false,
 };
 
-const mockCxTokenRowData = {
-  tokenSymbol: "CX",
-  balance: "100000000000000000000",
-  refetchBalance: jest.fn(),
-};
-
-const mockClaimTableData = {
-  report: {
-    claimExpiresAt: "1659311999",
-  },
-};
-
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
+const initialMocks = () => {
+  mockFn.useCxTokenRowContext();
+  mockFn.useClaimTableContext();
 };
 
 describe("ClaimCxTokensTable test", () => {
-  mockFunction(
-    CxTokenRowContext,
-    "useCxTokenRowContext",
-    () => mockCxTokenRowData
+  const { initialRender, rerenderFn } = initiateTest(
+    Component.ClaimCxTokensTable,
+    props,
+    initialMocks
   );
-
-  const initialRender = (newProps = {}) => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<Component.ClaimCxTokensTable {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = null) => {
-    if (mockParameters) {
-      mockFunction(
-        mockParameters.file,
-        mockParameters.method,
-        mockParameters.returnFn
-      );
-    }
-
-    cleanup();
-    initialRender(newProps);
-  };
 
   beforeEach(() => {
     initialRender();
@@ -140,13 +102,13 @@ describe("ClaimCxTokensTable test", () => {
 
   describe("No data", () => {
     test('should render "No data" message', () => {
-      rerender({ activePolicies: [] });
+      rerenderFn({ activePolicies: [] });
       const message = screen.getByText("No data found");
       expect(message).toBeInTheDocument();
     });
 
     test("should render `loading` when no data & loading is true", () => {
-      rerender({ activePolicies: [], loading: true });
+      rerenderFn({ activePolicies: [], loading: true });
       const loading = screen.getByText("loading...");
       expect(loading).toBeInTheDocument();
     });
@@ -173,7 +135,9 @@ describe("ClaimCxTokensTable test", () => {
       const textContent = tr
         .querySelectorAll("td")[1]
         .querySelector("span").textContent;
-      const claimDate = fromNow(mockClaimTableData.report.claimExpiresAt || 0);
+      const claimDate = fromNow(
+        testData.claimTableContext.report.claimExpiresAt || 0
+      );
       expect(textContent).toBe(claimDate);
     });
 
@@ -182,7 +146,7 @@ describe("ClaimCxTokensTable test", () => {
       const tr = tbody.querySelectorAll("tr")[0];
       const span = tr.querySelectorAll("td")[1].querySelector("span");
       const claimDate = DateLib.toLongDateFormat(
-        mockClaimTableData.report?.claimExpiresAt || 0,
+        testData.claimTableContext.report?.claimExpiresAt || 0,
         "en"
       );
       expect(span.title).toBe(claimDate);
@@ -195,9 +159,9 @@ describe("ClaimCxTokensTable test", () => {
         .querySelectorAll("td")[2]
         .querySelector("span").textContent;
       const claimAmount = formatCurrency(
-        convertFromUnits(mockCxTokenRowData.balance),
+        convertFromUnits(testData.cxTokenRowContext.balance),
         "en",
-        mockCxTokenRowData.tokenSymbol,
+        testData.cxTokenRowContext.tokenSymbol,
         true
       ).short;
       expect(textContent).toBe(claimAmount);
@@ -208,9 +172,9 @@ describe("ClaimCxTokensTable test", () => {
       const tr = tbody.querySelectorAll("tr")[0];
       const span = tr.querySelectorAll("td")[2].querySelector("span");
       const claimAmount = formatCurrency(
-        convertFromUnits(mockCxTokenRowData.balance),
+        convertFromUnits(testData.cxTokenRowContext.balance),
         "en",
-        mockCxTokenRowData.tokenSymbol,
+        testData.cxTokenRowContext.tokenSymbol,
         true
       ).long;
       expect(span.title).toBe(claimAmount);

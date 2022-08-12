@@ -11,7 +11,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { t, Trans } from "@lingui/macro";
+import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
@@ -45,7 +45,7 @@ export const ReportingActivePage = () => {
   } = useActiveReportings();
 
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.INCIDENT_DATE}`,
+    name: SORT_TYPES.INCIDENT_DATE,
   });
   const router = useRouter();
 
@@ -76,9 +76,9 @@ export const ReportingActivePage = () => {
   const options = useMemo(() => {
     if (router.locale) {
       return [
-        { name: t`${SORT_TYPES.ALPHABETIC}` },
-        { name: t`${SORT_TYPES.UTILIZATION_RATIO}` },
-        { name: t`${SORT_TYPES.INCIDENT_DATE}` },
+        { name: SORT_TYPES.ALPHABETIC },
+        { name: SORT_TYPES.UTILIZATION_RATIO },
+        { name: SORT_TYPES.INCIDENT_DATE },
       ];
     }
 

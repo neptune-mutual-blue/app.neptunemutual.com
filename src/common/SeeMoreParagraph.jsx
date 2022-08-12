@@ -25,6 +25,7 @@ export const SeeMoreParagraph = ({ text = "" }) => {
       <div
         ref={wrapperRef}
         className={classNames(!showFullText && "h-14 overflow-hidden")}
+        data-testid="text-wrapper"
       >
         <p ref={elementRef}>{text}</p>
       </div>

@@ -14,14 +14,14 @@ export const HomeCard = ({ items, className, showDivider = true }) => {
         return (
           <div
             key={`home-card-${index}`}
-            className={`lg:py-4 flex flex-col justify-center items-center flex-1 ${firstBorder}`}
+            className={`lg:py-4 flex flex-col justify-center items-center text-center flex-1 ${firstBorder}`}
           >
-            <h5 className="mb-2 text-h7 lg:mb-0 lg:text-h5 font-sora text-4e7dd9">
+            <p className="mb-2 text-h7 lg:mb-0 lg:text-h5 font-sora text-4e7dd9">
               {item?.name}
-            </h5>
-            <h3 className="font-bold leading-5 text-black text-h5 lg:text-h3 font-sora">
+            </p>
+            <p className="font-bold leading-5 text-black text-h5 lg:text-h3 font-sora">
               {item?.amount}
-            </h3>
+            </p>
           </div>
         );
       })}

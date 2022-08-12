@@ -11,7 +11,7 @@ import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoverAvatar } from "@/common/CoverAvatar";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS } from "@/common/CardStatusBadge";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 
 export const MyLiquidityCoverCard = ({
@@ -55,7 +55,9 @@ export const MyLiquidityCoverCard = ({
             }
           >
             <div>
-              <CardStatusBadge status={isDiversified ? "Diversified" : null} />
+              {isDiversified && (
+                <Badge status={E_CARD_STATUS.DIVERSIFIED} className="rounded" />
+              )}
             </div>
           </InfoTooltip>
         </div>

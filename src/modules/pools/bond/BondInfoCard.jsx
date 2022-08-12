@@ -96,6 +96,7 @@ export const BondInfoCard = ({
 };
 
 const BondInfoTooltipContent = ({ vestingPeriod }) => {
+  const vestingPeriodInterval = explainInterval(vestingPeriod);
   return (
     <>
       <Tooltip.Content side="top">
@@ -103,10 +104,9 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
           <h3 className="font-bold font-sora text-EEEEEE">What is Bond?</h3>
           <p className="mt-2 text-AABDCB">
             <Trans>
-              The bond feature provides you NPM tokens at a discounted value for
-              a vesting period of
-            </Trans>{" "}
-            {explainInterval(vestingPeriod)}.
+              {`The bond feature provides you NPM tokens at a discounted value for
+              a vesting period of ${vestingPeriodInterval}.`}
+            </Trans>
           </p>
         </div>
         <Tooltip.Arrow offset={16} className="fill-black" />

@@ -10,11 +10,10 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { classNames } from "@/utils/classnames";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import SheildIcon from "@/icons/SheildIcon";
 import { getCoverImgSrc } from "@/src/helpers/cover";
@@ -30,16 +29,15 @@ export const ProductCard = ({
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
 
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
-  const { activeCommitment, productStatus } = coverStats;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
   const imgSrc = getCoverImgSrc({ key: productKey });
 
-  const liquidity = liquidityInfo.totalLiquidity;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -64,6 +62,8 @@ export const ProductCard = ({
     router.locale
   ).long;
 
+  const status = identifyStatus(productStatus);
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
@@ -74,22 +74,24 @@ export const ProductCard = ({
         >
           <img
             src={imgSrc}
-            alt={productInfo.infoObj?.projectName}
+            alt={productInfo.infoObj?.productName}
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
             onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
           />
         </div>
         <div>
-          <CardStatusBadge status={productStatus} />
+          {status !== E_CARD_STATUS.NORMAL && (
+            <Badge status={status} className="rounded" />
+          )}
         </div>
       </div>
-      <h4
+      <p
         className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {productInfo.infoObj?.productName}
-      </h4>
+      </p>
       <div className="flex items-center justify-between">
         <div
           className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"
@@ -168,7 +170,7 @@ export const ProductCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }
@@ -196,7 +198,9 @@ export const ProductCard = ({
             title={protectionLong}
             data-testid="protection"
           >
-            <SheildIcon className="w-4 h-4 text-01052D" />
+            <span role="tooltip" aria-label="Protection">
+              <SheildIcon className="w-4 h-4 text-01052D" />
+            </span>
             <p>
               {
                 formatCurrency(

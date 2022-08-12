@@ -1,58 +1,13 @@
-import React from "react";
-import {
-  render,
-  act,
-  cleanup,
-  screen,
-  fireEvent,
-} from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen, fireEvent } from "@/utils/unit-tests/test-utils";
 
 import { PodStakingCard } from "@/modules/pools/pod-staking/PodStakingCard";
-import * as Network from "@/src/context/Network";
-import * as SortableStats from "@/src/context/SortableStatsContext";
-import * as PoolInfo from "@/src/hooks/usePoolInfo";
 import { getTokenImgSrc } from "@/src/helpers/token";
 import { formatPercent } from "@/utils/formatter/percent";
 import { getApr } from "@/src/services/protocol/staking-pool/info/apr";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
-
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
-};
-
-const mockNetwordData = { networkId: 80001 };
-
-const mockPoolInfoData = {
-  info: {
-    stakingPoolsContractAddress: "0x0ff47939639D6213D27b5217f317665008aCdE3E",
-    name: "Earn XD",
-    stakingToken: "0x90BB63b9C01b1cf1EF4Fd834Ddd25d6AE3BB3e56",
-    stakingTokenStablecoinPair: "0x0000000000000000000000000000000000000000",
-    rewardToken: "0xfE580ca5A2876e85489AbA1FdfCe172186302a9e",
-    rewardTokenStablecoinPair: "0x9123f59C472f8186CBa11833975c08494FAB450E",
-    totalStaked: "61100000000000000000000",
-    target: "800000000000000000000000",
-    maximumStake: "20000000000000000000000",
-    stakeBalance: "21100000000000000000000",
-    cumulativeDeposits: "61100000000000000000000",
-    rewardPerBlock: "6400000000",
-    platformFee: "25",
-    lockupPeriodInBlocks: "1200",
-    rewardTokenBalance: "34999983560448000000000000",
-    lastRewardHeight: "0",
-    lastDepositHeight: "0",
-    myStake: "0",
-    totalBlockSinceLastReward: "0",
-    rewards: "0",
-    canWithdrawFromBlockHeight: "1200",
-    stakingTokenPrice: "1000000000000000000",
-    rewardTokenPrice: "1930279026536796441",
-    apr: "0.12996182629866943",
-  },
-  refetch: jest.fn(),
-};
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const props = {
   data: {
@@ -78,43 +33,24 @@ const props = {
   },
   tvl: "36023415510680653787764225",
   getPriceByAddress: jest.fn((e) => {
-    if (e === mockPoolInfoData.info.stakingToken) return "1.00028";
-    else if (e === mockPoolInfoData.info.rewardToken) return "1";
+    if (e === testData.poolInfo.info.stakingToken) return "1.00028";
+    else if (e === testData.poolInfo.info.rewardToken) return "1";
   }),
 };
-
-const mockSortableStatsData = {
-  setStatsByKey: jest.fn(),
-};
-
-const initalMocks = () => {
-  mockFunction(Network, "useNetwork", () => mockNetwordData);
-  mockFunction(SortableStats, "useSortableStats", () => mockSortableStatsData);
-  mockFunction(PoolInfo, "usePoolInfo", () => mockPoolInfoData);
+const initialMocks = () => {
+  mockFn.useNetwork();
+  mockFn.useSortableStats();
+  mockFn.usePoolInfo();
 };
 
 describe("PodStakingCard test", () => {
-  const initialRender = (newProps = {}, rerender = false) => {
-    if (!rerender) initalMocks();
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<PodStakingCard {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
-
-    cleanup();
-    initialRender(newProps, true);
-  };
+  const { initialRender, rerenderFn } = initiateTest(
+    PodStakingCard,
+    props,
+    initialMocks
+  );
 
   beforeEach(() => {
-    cleanup();
     initialRender();
   });
 
@@ -137,7 +73,7 @@ describe("PodStakingCard test", () => {
   });
 
   test("should have correct card title", () => {
-    const title = mockPoolInfoData.info.name;
+    const title = testData.poolInfo.info.name;
     const cardTitle = screen.getByText(title);
     expect(cardTitle).toBeInTheDocument();
   });
@@ -150,13 +86,13 @@ describe("PodStakingCard test", () => {
 
   test("should  display correct badge text", () => {
     // data
-    const apr = getApr(mockNetwordData.networkId, {
+    const apr = getApr(testData.network.networkId, {
       stakingTokenPrice: props.getPriceByAddress(
-        mockPoolInfoData.info.stakingToken
+        testData.poolInfo.info.stakingToken
       ),
-      rewardPerBlock: mockPoolInfoData.info.rewardPerBlock,
+      rewardPerBlock: testData.poolInfo.info.rewardPerBlock,
       rewardTokenPrice: props.getPriceByAddress(
-        mockPoolInfoData.info.rewardToken
+        testData.poolInfo.info.rewardToken
       ),
     });
     const badgeText = `APR: ${formatPercent(apr, "en")}`;
@@ -178,19 +114,16 @@ describe("PodStakingCard test", () => {
   });
 
   test("should render Pool stat cards & staking cards when stake is greater than 0", () => {
-    rerender({}, [
-      {
-        file: PoolInfo,
-        method: "usePoolInfo",
-        returnFn: () => ({
-          ...mockPoolInfoData,
-          info: {
-            ...mockPoolInfoData.info,
-            myStake: "1000000000000000000",
-          },
-        }),
-      },
-    ]);
+    rerenderFn({}, () => {
+      mockFn.usePoolInfo(() => ({
+        ...testData.poolInfo,
+        info: {
+          ...testData.poolInfo.info,
+          myStake: "1000000000000000000",
+        },
+      }));
+    });
+
     const poolStatCard = screen.queryByTestId("pool-card-stat");
     const stakingCards = screen.queryAllByTestId("staking-cards");
     expect(poolStatCard).toBeInTheDocument();
@@ -198,22 +131,19 @@ describe("PodStakingCard test", () => {
   });
 
   test("should have correct value in pool stat card", () => {
-    rerender({}, [
-      {
-        file: PoolInfo,
-        method: "usePoolInfo",
-        returnFn: () => ({
-          ...mockPoolInfoData,
-          info: {
-            ...mockPoolInfoData.info,
-            myStake: "1000000000000000000",
-          },
-        }),
-      },
-    ]);
+    rerenderFn({}, () => {
+      mockFn.usePoolInfo(() => ({
+        ...testData.poolInfo,
+        info: {
+          ...testData.poolInfo.info,
+          myStake: "1000000000000000000",
+        },
+      }));
+    });
+
     const poolStatCard = screen.getByTestId("pool-card-stat");
     const poolStatValue = formatCurrency(
-      convertFromUnits(mockPoolInfoData.info.rewards),
+      convertFromUnits(testData.poolInfo.info.rewards),
       "en",
       props.data.rewardTokenSymbol,
       true
@@ -228,19 +158,15 @@ describe("PodStakingCard test", () => {
 
   describe("modals", () => {
     beforeEach(() => {
-      rerender({}, [
-        {
-          file: PoolInfo,
-          method: "usePoolInfo",
-          returnFn: () => ({
-            ...mockPoolInfoData,
-            info: {
-              ...mockPoolInfoData.info,
-              myStake: "1000000000000000000",
-            },
-          }),
-        },
-      ]);
+      rerenderFn({}, () => {
+        mockFn.usePoolInfo(() => ({
+          ...testData.poolInfo,
+          info: {
+            ...testData.poolInfo.info,
+            myStake: "1000000000000000000",
+          },
+        }));
+      });
     });
 
     test("should not render the stake modal by default", () => {

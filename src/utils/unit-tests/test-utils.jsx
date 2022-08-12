@@ -6,8 +6,6 @@ import { TxPosterProvider } from "@/src/context/TxPoster";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { AppConstantsProvider } from "@/src/context/AppConstants";
-import { IpfsProvider } from "@/src/context/Ipfs";
-import { CoversProvider } from "@/src/context/Covers";
 import { ToastProvider } from "@/lib/toast/provider";
 import { render } from "@testing-library/react";
 import { getLibrary } from "@/lib/connect-wallet/utils/web3";
@@ -20,6 +18,8 @@ import { RouterContext } from "next/dist/shared/lib/router-context";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 import { ACTIVE_CONNECTOR_KEY } from "@/lib/connect-wallet/config/localstorage";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
+import { CoversAndProductsProvider } from "@/src/context/CoversAndProductsData";
+import { DEFAULT_VARIANT } from "@/src/config/toast";
 
 export * from "@testing-library/react";
 
@@ -36,18 +36,18 @@ i18n.loadLocaleData({
   zh: { plurals: zh },
 });
 
+const NoProviders = ({ children }) => <>{children}</>;
+
 const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   return (
     <RouterContext.Provider value={router}>
       <I18nProvider i18n={i18n}>
         <Web3ReactProvider getLibrary={getLibrary}>
-          <IpfsProvider>
-            <UnlimitedApprovalProvider>
-              <ToastProvider>
-                <TxPosterProvider>{children}</TxPosterProvider>
-              </ToastProvider>
-            </UnlimitedApprovalProvider>
-          </IpfsProvider>
+          <UnlimitedApprovalProvider>
+            <ToastProvider variant={DEFAULT_VARIANT}>
+              <TxPosterProvider>{children}</TxPosterProvider>
+            </ToastProvider>
+          </UnlimitedApprovalProvider>
         </Web3ReactProvider>
       </I18nProvider>
     </RouterContext.Provider>
@@ -82,17 +82,15 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
           <Web3ReactProvider getLibrary={getLibrary}>
             <NetworkProvider>
               <AppConstantsProvider>
-                <IpfsProvider>
-                  <CoversProvider>
-                    <UnlimitedApprovalProvider>
-                      <ToastProvider>
-                        <TxPosterProvider>
-                          <Component />
-                        </TxPosterProvider>
-                      </ToastProvider>
-                    </UnlimitedApprovalProvider>
-                  </CoversProvider>
-                </IpfsProvider>
+                <CoversAndProductsProvider>
+                  <UnlimitedApprovalProvider>
+                    <ToastProvider variant={DEFAULT_VARIANT}>
+                      <TxPosterProvider>
+                        <Component />
+                      </TxPosterProvider>
+                    </ToastProvider>
+                  </UnlimitedApprovalProvider>
+                </CoversAndProductsProvider>
               </AppConstantsProvider>
             </NetworkProvider>
           </Web3ReactProvider>
@@ -102,8 +100,11 @@ export const withDataProviders = (Component, router = createMockRouter({})) => {
   };
 };
 
-const customRender = (ui, options) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (ui, options = {}) =>
+  render(ui, {
+    wrapper: options?.noProviders ? NoProviders : AllTheProviders,
+    ...options,
+  });
 
 export { customRender as render };
 
@@ -118,7 +119,7 @@ const LocalStorage = (() => {
     setItem: (key, value) => {
       store[key] = value;
     },
-    clearn: () => {
+    clear: () => {
       store = {};
     },
     removeItem: (key) => {

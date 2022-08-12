@@ -2,93 +2,23 @@ import React from "react";
 import {
   render,
   screen,
-  act,
   cleanup,
   fireEvent,
 } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { AvailableCovers } from "@/modules/home/AvailableCovers";
-import * as Covers from "@/src/context/Covers";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-
-const availableCovers = [
-  {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000001",
-    coverName: "Animated Brands",
-    projectName: "Animated Brands",
-    tags: ["Smart Contract", "NFT", "Gaming"],
-  },
-  {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000002",
-    coverName: "Bb8 Exchange Cover",
-    projectName: "Bb8 Exchange",
-    tags: ["Smart Contract", "DeFi", "Exchange"],
-  },
-  {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000003",
-    coverName: "Animated Brands",
-    projectName: "Animated Brands",
-    tags: ["Smart Contract", "NFT", "Gaming"],
-  },
-  {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000004",
-    coverName: "Bb8 Exchange Cover",
-    projectName: "Bb8 Exchange",
-    tags: ["Smart Contract", "DeFi", "Exchange"],
-  },
-  {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000005",
-    coverName: "Animated Brands",
-    projectName: "Animated Brands",
-    tags: ["Smart Contract", "NFT", "Gaming"],
-  },
-  {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000006",
-    coverName: "Bb8 Exchange Cover",
-    projectName: "Bb8 Exchange",
-    tags: ["Smart Contract", "DeFi", "Exchange"],
-  },
-  {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000007",
-    coverName: "Animated Brands",
-    projectName: "Animated Brands",
-    tags: ["Smart Contract", "NFT", "Gaming"],
-  },
-  {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000008",
-    coverName: "Bb8 Exchange Cover",
-    projectName: "Bb8 Exchange",
-    tags: ["Smart Contract", "DeFi", "Exchange"],
-  },
-  {
-    key: "0x616e696d617465642d6272616e64730000000000000000000000000000000009",
-    coverName: "Animated Brands",
-    projectName: "Animated Brands",
-    tags: ["Smart Contract", "NFT", "Gaming"],
-  },
-  {
-    key: "0x6262382d65786368616e67650000000000000000000000000000000000000010",
-    coverName: "Bb8 Exchange Cover",
-    projectName: "Bb8 Exchange",
-    tags: ["Smart Contract", "DeFi", "Exchange"],
-  },
-];
-
-const mockFunction = (file, method, returnData) => {
-  jest.spyOn(file, method).mockImplementation(() => returnData);
-};
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 describe("AvailableCovers test", () => {
   beforeEach(() => {
-    act(() => {
-      i18n.activate("en");
-    });
+    i18n.activate("en");
 
-    mockFunction(Covers, "useCovers", {
-      covers: availableCovers,
-      loading: false,
-    });
+    mockFn.useCovers();
+    mockFn.useFlattenedCoverProducts();
+    mockFn.useCoverOrProductData();
 
     render(<AvailableCovers />);
   });
@@ -98,24 +28,13 @@ describe("AvailableCovers test", () => {
     expect(wrapper).toBeInTheDocument();
   });
 
-  test("should render the `Available Covers` text element", () => {
-    const wrapper = screen.getByText("Available Covers");
+  test("should render the `Cover Products` text element", () => {
+    const wrapper = screen.getByText("Cover Products");
     expect(wrapper).toBeInTheDocument();
   });
 
   test("should render the SearchAndSortBar component", () => {
     const wrapper = screen.getByTestId("search-and-sort-container");
-    expect(wrapper).toBeInTheDocument();
-  });
-
-  test("should render the `No data found` if not loading & no available covers", () => {
-    mockFunction(Covers, "useCovers", {
-      covers: [],
-      loading: false,
-    });
-    cleanup();
-    render(<AvailableCovers />);
-    const wrapper = screen.getByTestId("no-data");
     expect(wrapper).toBeInTheDocument();
   });
 
@@ -125,8 +44,8 @@ describe("AvailableCovers test", () => {
   });
 
   test("should render correct cover link href", () => {
-    const href = `/covers/${safeParseBytes32String(
-      availableCovers[0].key
+    const href = `covers/${safeParseBytes32String(
+      testData.covers[0].id
     )}/options`;
     const link = screen.getAllByTestId("cover-link")[0];
     expect(link).toHaveAttribute("href", href);
@@ -142,20 +61,45 @@ describe("AvailableCovers test", () => {
     fireEvent.click(btn);
 
     const coverNumbers =
-      availableCovers.length >= CARDS_PER_PAGE * 2
+      testData.covers.length >= CARDS_PER_PAGE * 2
         ? CARDS_PER_PAGE * 2
-        : availableCovers.length;
+        : testData.covers.length;
     const links = screen.getAllByTestId("cover-link");
     expect(links.length).toBe(coverNumbers);
   });
 
-  test("testing by setting the `loading` state to true", () => {
-    mockFunction(Covers, "useCovers", {
-      covers: [],
-      loading: true,
-    });
+  test("should render the `No data found` if not loading & no available covers", async () => {
     cleanup();
+
+    mockFn.useCovers(() => ({
+      data: [],
+      loading: false,
+    }));
+    mockFn.useFlattenedCoverProducts(() => ({
+      data: [],
+      loading: false,
+    }));
+
     render(<AvailableCovers />);
+
+    const wrapper = screen.getByTestId("no-data");
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  test("testing by setting the `loading` state to true", () => {
+    cleanup();
+
+    mockFn.useCovers(() => ({
+      data: [],
+      loading: true,
+    }));
+    mockFn.useFlattenedCoverProducts(() => ({
+      data: [],
+      loading: true,
+    }));
+
+    render(<AvailableCovers />);
+
     const noData = screen.queryByTestId("no-data");
     expect(noData).not.toBeInTheDocument();
     const links = screen.queryAllByTestId("cover-link");

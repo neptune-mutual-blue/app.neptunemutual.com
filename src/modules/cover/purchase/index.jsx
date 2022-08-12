@@ -98,7 +98,7 @@ export const CoverPurchaseDetailsPage = () => {
       </Hero>
 
       {/* Content */}
-      <div className="pt-12 pb-24 border-t border-t-B0C4DB">
+      <div className="pt-12 pb-24 border-t border-t-B0C4DB" data-testid="body">
         <Container className="grid grid-cols-3 lg:gap-32">
           <div className="col-span-3 md:col-span-2">
             <span className="hidden lg:block">

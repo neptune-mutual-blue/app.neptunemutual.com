@@ -3,90 +3,44 @@ import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { PolicyCard } from "@/modules/my-policies/PolicyCard";
 
-import * as ValidReportHook from "@/src/hooks/useValidReport";
-import * as ERC20BalanceHook from "@/src/hooks/useERC20Balance";
-import * as FetchCoverStatsHook from "@/src/hooks/useFetchCoverStats";
-import * as CoversHook from "@/src/context/Covers";
 import { getCoverImgSrc } from "@/src/helpers/cover";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
-};
-
-const mockCoverInfo = {
-  key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-  coverName: "Bb8 Exchange Cover",
-  projectName: "Bb8 Exchange",
-};
-
-const mockValidReport = {
-  data: {
-    report: {
-      incidentDate: "1654263563",
-      resolutionDeadline: "1654265793",
-      status: "Claimable",
-      claimBeginsFrom: "1654265794",
-      claimExpiresAt: "1654267594",
-    },
-  },
-};
-
-const mocks = () => {
-  mockFunction(CoversHook, "useCovers", () => ({
-    getInfoByKey: jest.fn(() => mockCoverInfo),
-  }));
-
-  mockFunction(FetchCoverStatsHook, "useFetchCoverStats", () => ({
-    status: "Normal",
-  }));
-
-  mockFunction(
-    ValidReportHook,
-    "useValidReport",
-    jest.fn(() => mockValidReport)
-  );
-
-  mockFunction(ERC20BalanceHook, "useERC20Balance", () => ({
-    balance: "1400000000000000000000",
-  }));
-};
-
-describe("PoliciesTab test", () => {
+describe("PolicyCard test", () => {
   const props = {
     policyInfo: {
-      cover: {
-        id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-      },
+      id: "0x03b4658fa53bdac8cedd7c4cec3e41ca9777db84-0x5712114cfbc297158a7d7a1142aa82da69de6dbc-1664582399",
       cxToken: {
-        id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
-        creationDate: "1654065199",
-        expiryDate: "1656633599",
+        id: "0x5712114cfbc297158a7d7a1142aa82da69de6dbc",
+        creationDate: "1658377325",
+        expiryDate: "1659076653",
       },
+      totalAmountToCover: "1000000000",
+      expiresOn: "1664582399",
+      coverKey:
+        "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+      productKey:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      cover: {
+        id: "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
+      },
+      product: null,
     },
-  };
-
-  const initialRender = (newProps = {}, runMocks = true) => {
-    if (runMocks) mocks();
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<PolicyCard {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
-
-    cleanup();
-    initialRender(newProps, false);
   };
 
   beforeEach(() => {
     cleanup();
-    initialRender();
+
+    mockFn.useCoverOrProductData();
+    mockFn.useFetchCoverStats();
+    mockFn.useValidReport();
+    mockFn.useERC20Balance();
+
+    act(() => {
+      i18n.activate("en");
+    });
+    render(<PolicyCard {...props} />);
   });
 
   test("should render the main container", () => {
@@ -95,15 +49,10 @@ describe("PoliciesTab test", () => {
   });
 
   test("should not render the main container if coveInfo is not available", () => {
-    rerender({}, [
-      {
-        file: CoversHook,
-        method: "useCovers",
-        returnFn: () => ({
-          getInfoByKey: jest.fn(() => null),
-        }),
-      },
-    ]);
+    cleanup();
+    mockFn.useCoverOrProductData(() => null);
+
+    render(<PolicyCard {...props} />);
 
     const hero = screen.queryByTestId("policy-card");
     expect(hero).not.toBeInTheDocument();
@@ -117,13 +66,13 @@ describe("PoliciesTab test", () => {
 
     test("cover image should have correct src", () => {
       const coverImage = screen.getByTestId("cover-img");
-      const src = getCoverImgSrc({ key: props.policyInfo.cover.id });
+      const src = getCoverImgSrc({ key: testData.coverInfo.coverKey });
       expect(coverImage).toHaveAttribute("src", src);
     });
 
     test("cover image should have correct alt text", () => {
       const coverImage = screen.getByTestId("cover-img");
-      const text = mockCoverInfo.projectName;
+      const text = testData.coverInfo.infoObj.coverName;
       expect(coverImage).toHaveAttribute("alt", text);
     });
   });
@@ -135,27 +84,25 @@ describe("PoliciesTab test", () => {
     });
 
     test("should display status badge if status is not 'Normal'", () => {
-      rerender({}, [
-        {
-          file: FetchCoverStatsHook,
-          method: "useFetchCoverStats",
-          returnFn: () => ({
+      cleanup();
+      mockFn.useFetchCoverStats(() => ({
+        info: {
+          ...testData.coverStats.info,
+          productStatus: "Normal",
+        },
+      }));
+
+      mockFn.useValidReport(() => ({
+        data: {
+          report: {
+            ...testData.reporting.validReport.data.report,
             status: "Claimable",
-          }),
+          },
         },
-        {
-          file: ValidReportHook,
-          method: "useValidReport",
-          returnFn: () => ({
-            data: {
-              report: {
-                ...mockValidReport.data.report,
-                status: "Expired",
-              },
-            },
-          }),
-        },
-      ]);
+      }));
+
+      render(<PolicyCard {...props} />);
+
       const status = screen.getByTestId("policy-card-status");
       expect(status).toHaveTextContent("Claimable");
     });
@@ -163,7 +110,7 @@ describe("PoliciesTab test", () => {
 
   test("should dsplay correct policy card title", () => {
     const title = screen.getByTestId("policy-card-title");
-    expect(title).toHaveTextContent(mockCoverInfo.projectName);
+    expect(title).toHaveTextContent(testData.coverInfo.infoObj.coverName);
   });
 
   test("should render policy card footer", () => {

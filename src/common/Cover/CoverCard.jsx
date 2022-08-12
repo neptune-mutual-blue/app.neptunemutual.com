@@ -10,11 +10,10 @@ import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
 import { Trans } from "@lingui/macro";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { utils } from "@neptunemutual/sdk";
-import { CardStatusBadge } from "@/common/CardStatusBadge";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import SheildIcon from "@/icons/SheildIcon";
 import { CoverAvatar } from "@/common/CoverAvatar";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
@@ -30,14 +29,13 @@ export const CoverCard = ({
   const { liquidityTokenDecimals } = useAppConstants();
 
   const productKey = utils.keyUtil.toBytes32("");
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey: coverKey });
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey,
   });
 
-  const { activeCommitment, productStatus } = coverStats;
-  const liquidity = liquidityInfo.totalLiquidity;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
@@ -64,6 +62,10 @@ export const CoverCard = ({
     router.locale
   ).long;
 
+  const status = isDiversified
+    ? E_CARD_STATUS.DIVERSIFIED
+    : identifyStatus(productStatus);
+
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start">
@@ -80,20 +82,20 @@ export const CoverCard = ({
           }
         >
           <div>
-            <CardStatusBadge
-              status={isDiversified ? "Diversified" : productStatus}
-            />
+            {status !== E_CARD_STATUS.NORMAL && (
+              <Badge status={status} className="rounded" />
+            )}
           </div>
         </InfoTooltip>
       </div>
-      <h4
+      <p
         className="mt-4 font-semibold text-black uppercase text-h4 font-sora"
         data-testid="project-name"
       >
         {isDiversified
           ? coverInfo.infoObj.coverName
           : coverInfo.infoObj.projectName}
-      </h4>
+      </p>
       <div
         className="mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2"
         data-testid="cover-fee"
@@ -139,7 +141,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {protectionLong}
+              <Trans>Liquidity</Trans>: {liquidityLong}
             </p>
           </div>
         }
@@ -167,7 +169,9 @@ export const CoverCard = ({
             title={protectionLong}
             data-testid="protection"
           >
-            <SheildIcon className="w-4 h-4 text-01052D" />
+            <span role="tooltip" aria-label="Protection">
+              <SheildIcon className="w-4 h-4 text-01052D" />
+            </span>
             <p>
               {
                 formatCurrency(

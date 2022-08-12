@@ -1,76 +1,36 @@
-import React from "react";
-import {
-  render,
-  act,
-  screen,
-  cleanup,
-  fireEvent,
-} from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen, fireEvent } from "@/utils/unit-tests/test-utils";
 import { ClaimCoverModal } from "@/modules/my-policies/ClaimCoverModal";
-import * as ClaimPolicyHook from "@/src/hooks/useClaimPolicyInfo";
 import { getCoverImgSrc } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
 import { MULTIPLIER } from "@/src/config/constants";
-import * as CxTokenRowContext from "@/modules/my-policies/CxTokenRowContext";
-import * as AppConstants from "@/src/context/AppConstants";
-
-const mockFunction = (file, method, returnData) => {
-  jest.spyOn(file, method).mockImplementation(() => returnData);
-};
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const props = {
-  modalTitle: "Claim Cover",
+  claimPlatformFee: "650",
+  coverKey:
+    "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+  productKey:
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+  cxTokenAddress: "0x0fdc3e2afd39a4370f5d493d5d2576b8ab3c5258",
   isOpen: true,
   onClose: jest.fn(),
-  coverKey:
-    "0x6372706f6f6c0000000000000000000000000000000000000000000000000000",
-  incidentDate: "1653982637",
-  cxTokenAddress: "0xa363182843ccd48ec068f88a2ec932fa04b5dd7c",
+  modalTitle: "Claim Cover",
+  incidentDate: "1658995751",
 };
 
-const mockUseClaimPolicyInfo = {
-  canClaim: true,
-  claiming: false,
-  handleClaim: jest.fn(),
-  approving: false,
-  handleApprove: jest.fn(),
-  receiveAmount: "123124343",
-  error: null,
-  loadingAllowance: false,
-  loadingFees: false,
-  claimPlatformFee: "100000000000000000",
-};
-
-const mockAppConstants = {
-  liquidityTokenDecimals: 6,
-  liquidityTokenSymbol: "DAI",
-};
+function initialMocks() {
+  mockFn.useClaimPolicyInfo();
+  mockFn.useAppConstants();
+}
 
 describe("ClaimCoverModal test", () => {
-  mockFunction(ClaimPolicyHook, "useClaimPolicyInfo", mockUseClaimPolicyInfo);
-  mockFunction(AppConstants, "useAppConstants", mockAppConstants);
-
-  const initialRender = (newProps = {}) => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<ClaimCoverModal {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = null) => {
-    if (mockParameters) {
-      mockFunction(
-        mockParameters.file,
-        mockParameters.method,
-        mockParameters.returnData
-      );
-    }
-
-    cleanup();
-    initialRender(newProps);
-  };
+  const { initialRender, rerenderFn } = initiateTest(
+    ClaimCoverModal,
+    props,
+    initialMocks
+  );
 
   beforeEach(() => {
     initialRender();
@@ -98,17 +58,13 @@ describe("ClaimCoverModal test", () => {
   });
 
   test("should render the error text when error is present", () => {
-    rerender(
-      {},
-      {
-        file: ClaimPolicyHook,
-        method: "useClaimPolicyInfo",
-        returnData: {
-          ...mockUseClaimPolicyInfo,
-          error: "Error",
-        },
-      }
-    );
+    rerenderFn({}, () => {
+      mockFn.useClaimPolicyInfo(() => ({
+        ...testData.claimPolicyInfo,
+        error: "Error",
+      }));
+    });
+
     const wrapper = screen.getByTestId("error-text");
     expect(wrapper).toBeInTheDocument();
     expect(wrapper).toHaveTextContent("Error");
@@ -119,8 +75,8 @@ describe("ClaimCoverModal test", () => {
       .getByTestId("receive-info-container")
       .querySelector("span");
     const val = convertFromUnits(
-      mockUseClaimPolicyInfo.receiveAmount,
-      mockAppConstants.liquidityTokenDecimals
+      testData.claimPolicyInfo.receiveAmount,
+      testData.appConstants.liquidityTokenDecimals
     ).toString();
     expect(wrapper).toHaveTextContent(val);
   });
@@ -130,7 +86,7 @@ describe("ClaimCoverModal test", () => {
       .getByTestId("receive-info-container")
       .querySelector("p");
     const val = `Fee: ${formatPercent(
-      mockUseClaimPolicyInfo.claimPlatformFee / MULTIPLIER,
+      toBN(props.claimPlatformFee).dividedBy(MULTIPLIER).toString(),
       "en"
     )}`;
     expect(wrapper).toHaveTextContent(val);
@@ -148,17 +104,13 @@ describe("ClaimCoverModal test", () => {
     });
 
     test("claim button should show 'Claiming' when claiming is true", () => {
-      rerender(
-        {},
-        {
-          file: ClaimPolicyHook,
-          method: "useClaimPolicyInfo",
-          returnData: {
-            ...mockUseClaimPolicyInfo,
-            claiming: true,
-          },
-        }
-      );
+      rerenderFn({}, () => {
+        mockFn.useClaimPolicyInfo(() => ({
+          ...testData.claimPolicyInfo,
+          claiming: true,
+        }));
+      });
+
       const wrapper = screen.getByTestId("claim-button");
       expect(wrapper).toHaveTextContent("Claiming");
     });
@@ -172,58 +124,52 @@ describe("ClaimCoverModal test", () => {
 
   describe("Approve button", () => {
     test("should render the approve button when canClaim is false", () => {
-      rerender(
-        {},
-        {
-          file: ClaimPolicyHook,
-          method: "useClaimPolicyInfo",
-          returnData: {
-            ...mockUseClaimPolicyInfo,
-            canClaim: false,
-          },
-        }
-      );
+      rerenderFn({}, () => {
+        mockFn.useClaimPolicyInfo(() => ({
+          ...testData.claimPolicyInfo,
+          canClaim: false,
+        }));
+      });
+
       const wrapper = screen.getByTestId("approve-button");
       expect(wrapper).toBeInTheDocument();
     });
 
     test("approve button should show 'Approve' when approving is false", () => {
+      rerenderFn({}, () => {
+        mockFn.useClaimPolicyInfo(() => ({
+          ...testData.claimPolicyInfo,
+          canClaim: false,
+        }));
+      });
+
       const wrapper = screen.getByTestId("approve-button");
       expect(wrapper).toHaveTextContent("Approve");
     });
 
     test("approve button should show 'Approving' when approving is true", () => {
-      rerender(
-        {},
-        {
-          file: ClaimPolicyHook,
-          method: "useClaimPolicyInfo",
-          returnData: {
-            ...mockUseClaimPolicyInfo,
-            approving: true,
-            canClaim: false,
-          },
-        }
-      );
+      rerenderFn({}, () => {
+        mockFn.useClaimPolicyInfo(() => ({
+          ...testData.claimPolicyInfo,
+          approving: true,
+          canClaim: false,
+        }));
+      });
+
       const wrapper = screen.getByTestId("approve-button");
       expect(wrapper).toHaveTextContent("Approving");
     });
 
     test("should be disabled when approving or error or loadingAllowance", () => {
-      rerender(
-        {},
-        {
-          file: ClaimPolicyHook,
-          method: "useClaimPolicyInfo",
-          returnData: {
-            ...mockUseClaimPolicyInfo,
-            approving: true,
-            error: "error",
-            loadingAllowance: true,
-            canClaim: false,
-          },
-        }
-      );
+      rerenderFn({}, () => {
+        mockFn.useClaimPolicyInfo(() => ({
+          ...testData.claimPolicyInfo,
+          approving: true,
+          error: "error",
+          loadingAllowance: true,
+          canClaim: false,
+        }));
+      });
       const button = screen.getByTestId("approve-button");
       expect(button).toBeDisabled();
     });
@@ -231,52 +177,39 @@ describe("ClaimCoverModal test", () => {
 
   describe("coverage improve", () => {
     test("passing isOpen as false for coverage", () => {
-      rerender({
+      rerenderFn({
         ...props,
         isOpen: false,
       });
     });
 
     test("providing loadingBalance from hook", () => {
-      rerender(
-        {},
-        {
-          file: CxTokenRowContext,
-          method: "useCxTokenRowContext",
-          returnData: {
-            balance: "0",
-            loadingBalance: true,
-            tokenSymbol: "CX",
-          },
-        }
-      );
+      rerenderFn({}, () => {
+        mockFn.useCxTokenRowContext(() => ({
+          ...testData.cxTokenRowContext,
+          balance: "0",
+          loadingBalance: true,
+          tokenSymbol: "CX",
+        }));
+      });
     });
 
     test("providing loadingFees from hook", () => {
-      rerender(
-        {},
-        {
-          file: CxTokenRowContext,
-          method: "useCxTokenRowContext",
-          returnData: {
-            balance: "0",
-            loadingBalance: false,
-            tokenSymbol: "CX",
-          },
-        }
-      );
-      rerender(
-        {},
-        {
-          file: ClaimPolicyHook,
-          method: "useClaimPolicyInfo",
-          returnData: {
-            ...mockUseClaimPolicyInfo,
+      rerenderFn({}, () => {
+        mockFn.useCxTokenRowContext(() => ({
+          ...testData.cxTokenRowContext,
+          balance: "0",
+          loadingBalance: false,
+          tokenSymbol: "CX",
+        }));
+        rerenderFn({}, () => {
+          mockFn.useClaimPolicyInfo(() => ({
+            ...testData.claimPolicyInfo,
             loadingAllowance: false,
             loadingFees: true,
-          },
-        }
-      );
+          }));
+        });
+      });
     });
   });
 });

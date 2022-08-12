@@ -19,10 +19,10 @@ import {
   TableShowMore,
 } from "@/common/Table/Table";
 import { ResolvedTBodyRow } from "@/modules/reporting/resolved/ResolvedTBodyRow";
-import { ResolvedStatusBadge } from "@/modules/reporting/resolved/ResolvedStatusBadge";
 import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { convertFromUnits } from "@/utils/bn";
+import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -54,7 +54,7 @@ export const ReportingResolvedPage = () => {
   } = useResolvedReportings();
 
   const [sortType, setSortType] = useState({
-    name: t`${SORT_TYPES.RESOLVED_DATE}`,
+    name: SORT_TYPES.RESOLVED_DATE,
   });
   const router = useRouter();
   const { getStatsByKey } = useSortableStats();
@@ -90,9 +90,9 @@ export const ReportingResolvedPage = () => {
   const options = useMemo(() => {
     if (router.locale) {
       return [
-        { name: t`${SORT_TYPES.ALPHABETIC}` },
-        { name: t`${SORT_TYPES.INCIDENT_DATE}` },
-        { name: t`${SORT_TYPES.RESOLVED_DATE}` },
+        { name: SORT_TYPES.ALPHABETIC },
+        { name: SORT_TYPES.INCIDENT_DATE },
+        { name: SORT_TYPES.RESOLVED_DATE },
       ];
     }
 
@@ -108,7 +108,7 @@ export const ReportingResolvedPage = () => {
       <th
         scope="col"
         className={classNames(
-          `px-6 pt-6 pb-2 font-bold text-xs uppercase`,
+          `px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap`,
           col.align === "right" ? "text-right" : "text-left"
         )}
       >
@@ -119,8 +119,8 @@ export const ReportingResolvedPage = () => {
 
   const renderCover = (row) => {
     return (
-      <td className="px-6 py-2 text-sm">
-        <span className="flex items-center">
+      <td className="max-w-xs px-6 py-2 text-sm">
+        <span className="flex items-center w-max">
           <img
             src={row.imgSrc}
             alt={
@@ -132,7 +132,7 @@ export const ReportingResolvedPage = () => {
             width={48}
             height={48}
           />
-          <p className="ml-2 text-sm text-black font-poppins">
+          <p className="ml-2 text-sm text-black font-poppins grow">
             {row.isDiversified
               ? row.coverInfo?.infoObj.productName
               : row.coverInfo?.infoObj.projectName}
@@ -144,8 +144,11 @@ export const ReportingResolvedPage = () => {
 
   const renderDateAndTime = (row) => {
     return (
-      <td className="px-6 py-2 text-sm">
-        <span title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}>
+      <td className="px-6 py-2 text-sm max-w-180">
+        <span
+          className="w-max"
+          title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}
+        >
           {fromNow(row.resolvedOn)}
         </span>
       </td>
@@ -154,7 +157,7 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalAttestedStake = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-right">
         {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
       </td>
     );
@@ -162,16 +165,22 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalRefutedStake = (row) => {
     return (
-      <td className="px-6 py-2">
+      <td className="px-6 py-2 text-right">
         {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
       </td>
     );
   };
 
   const renderStatus = (row) => {
+    const status = identifyStatus(row.status);
     return (
       <td className="px-6 py-2 text-right">
-        <ResolvedStatusBadge status={row.status} />
+        {status !== E_CARD_STATUS.NORMAL && (
+          <Badge
+            className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
+            status={status}
+          />
+        )}
       </td>
     );
   };
@@ -191,13 +200,13 @@ export const ReportingResolvedPage = () => {
     },
     {
       name: t`total attested stake`,
-      align: "left",
+      align: "right",
       renderHeader,
       renderData: renderTotalAttestedStake,
     },
     {
       name: t`total refuted stake`,
-      align: "left",
+      align: "right",
       renderHeader,
       renderData: renderTotalRefutedStake,
     },

@@ -32,6 +32,7 @@ export const InfoTooltip = ({
 }) => (
   <Tooltip.Root delayDuration={delayDuration}>
     <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
+      {disabled && <span className="sr-only">tooltip button</span>}
       {children}
     </Tooltip.Trigger>
     <Tooltip.Content

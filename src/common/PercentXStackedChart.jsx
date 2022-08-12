@@ -85,6 +85,7 @@ export const PercentXStackedChart = ({ data }) => {
               tooltip: false,
             },
           }}
+          data-testid="percent-x-stacked-chart"
         />
       </div>
     </>

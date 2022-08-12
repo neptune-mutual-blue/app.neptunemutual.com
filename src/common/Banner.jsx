@@ -4,7 +4,7 @@ import { FAUCET_URL, LEADERBOARD_URL } from "@/src/config/constants";
 import { testnetChainIds } from "@/src/config/environment";
 import { useNetwork } from "@/src/context/Network";
 import { useState } from "react";
-import { Trans } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 export const Banner = () => {
   const { networkId } = useNetwork();
@@ -23,7 +23,7 @@ export const Banner = () => {
   if (!show) return <></>;
 
   return (
-    <div className="relative bg-4e7dd9">
+    <div className="relative bg-4e7dd9" data-testid="banner-container">
       <div className="flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7">
         <div className="flex items-center justify-center flex-auto min-w-0">
           <p>
@@ -34,6 +34,7 @@ export const Banner = () => {
                 href={FAUCET_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="faucet-link"
               >
                 Test Tokens
               </a>{" "}
@@ -43,6 +44,7 @@ export const Banner = () => {
                 href={LEADERBOARD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="leaderboard-link"
               >
                 View Leaderboard
               </a>
@@ -50,7 +52,13 @@ export const Banner = () => {
             </Trans>
           </p>
         </div>
-        <button onClick={handleClose} className="block p-1 ml-auto">
+        <button
+          aria-label="Close Banner"
+          onClick={handleClose}
+          className="block p-1 ml-auto"
+          title={t`Close Banner`}
+          data-testid="close-banner"
+        >
           <CloseIcon className="w-5 h-5" />
         </button>
       </div>

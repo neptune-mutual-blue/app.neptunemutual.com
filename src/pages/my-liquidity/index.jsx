@@ -26,7 +26,7 @@ export function getStaticProps() {
 
 export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
-  const { data, loading } = useMyLiquidities();
+  const { data, loading } = useMyLiquidities(account);
   const { liquidityList, myLiquidities } = data;
   const totalLiquidityProvided = useCalculateTotalLiquidity({ liquidityList });
 

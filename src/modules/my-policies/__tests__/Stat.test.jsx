@@ -1,42 +1,19 @@
-import React from "react";
-import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen } from "@/utils/unit-tests/test-utils";
 
 import { Stat } from "@/modules/my-policies/PolicyCardFooter";
+import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
+const props = {
+  title: "Expires In",
+  tooltip: "Jul 1, 2022, 5:44:59 AM GMT+5:45",
+  value: "in 3 weeks",
+  right: false,
+  variant: undefined,
 };
-
 describe("PoliciesTab test", () => {
-  const props = {
-    title: "Expires In",
-    tooltip: "Jul 1, 2022, 5:44:59 AM GMT+5:45",
-    value: "in 3 weeks",
-    right: false,
-    variant: undefined,
-  };
-
-  const initialRender = (newProps = {}) => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<Stat {...props} {...newProps} />);
-  };
-
-  const rerender = (newProps = {}, mockParameters = []) => {
-    if (mockParameters.length) {
-      mockParameters.map((mock) => {
-        mockFunction(mock.file, mock.method, mock.returnFn);
-      });
-    }
-
-    cleanup();
-    initialRender(newProps);
-  };
+  const { initialRender, rerenderFn } = initiateTest(Stat, props);
 
   beforeEach(() => {
-    cleanup();
     initialRender();
   });
 
@@ -58,14 +35,14 @@ describe("PoliciesTab test", () => {
   });
 
   test("should have class `text-FA5C2F` if variant is 'error'", () => {
-    rerender({ ...props, variant: "error" });
+    rerenderFn({ ...props, variant: "error" });
     const container = screen.getByTestId("footer-stat");
     const value = container.querySelector("p");
     expect(value).toHaveClass("text-FA5C2F");
   });
 
   test("should have class `text-7398C0` if variant is not 'error'", () => {
-    rerender({ ...props, variant: "normal" });
+    rerenderFn({ ...props, variant: "normal" });
     const container = screen.getByTestId("footer-stat");
     const value = container.querySelector("p");
     expect(value).toHaveClass("text-7398C0");

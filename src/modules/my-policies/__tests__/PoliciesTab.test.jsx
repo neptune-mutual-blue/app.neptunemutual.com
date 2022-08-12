@@ -1,38 +1,24 @@
 import React from "react";
-import { render, act, cleanup, screen } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen } from "@/utils/unit-tests/test-utils";
 import { PoliciesTabs } from "@/modules/my-policies/PoliciesTabs";
-import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
-const liquidityTokenDecimals = 6;
-const mockFunction = (file, method, returnFn) => {
-  jest.spyOn(file, method).mockImplementation(returnFn);
+const props = {
+  active: "active",
+  children: <></>,
+};
+
+const initialMocks = () => {
+  mockFn.useActivePolicies();
 };
 
 describe("PoliciesTab test", () => {
-  mockFunction(ActivePoliciesHook, "useActivePolicies", () => ({
-    data: {
-      totalActiveProtection: "200000000000000000000",
-    },
-    loading: false,
-  }));
-
-  const props = {
-    active: "active",
-    children: <></>,
-  };
-
-  const initialRender = (newProps = {}) => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<PoliciesTabs {...props} {...newProps} />);
-  };
+  const { initialRender } = initiateTest(PoliciesTabs, props, initialMocks);
 
   beforeEach(() => {
-    cleanup();
     initialRender();
   });
 
@@ -53,7 +39,10 @@ describe("PoliciesTab test", () => {
 
   test("should render the herostat value", () => {
     const value = formatCurrency(
-      convertFromUnits("200000000000000000000", liquidityTokenDecimals),
+      convertFromUnits(
+        "200000000000000000000",
+        testData.appConstants.liquidityTokenDecimals
+      ),
       "en"
     ).long;
     const heroStatVal = screen.getByText(value);

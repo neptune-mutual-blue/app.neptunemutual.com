@@ -1,15 +1,17 @@
-import React from "react";
-import { render, screen, act } from "@/utils/unit-tests/test-utils";
+import { screen, act } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
-import { ProjectStatusIndicator } from "@/common/CoverProfileInfo/ProjectStatusIndicator";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { Card } from "@/common/CoverProfileInfo/CoverProfileInfo";
+import { E_CARD_STATUS } from "@/common/CardStatusBadge";
+import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("ProjectStatusIndicator test", () => {
-  let props = {
+  const props = {
     coverKey:
       "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-    status: "Normal",
+    productKey: "0",
+    status: E_CARD_STATUS.NORMAL,
     incidentDate: "0",
   };
 
@@ -17,59 +19,129 @@ describe("ProjectStatusIndicator test", () => {
     act(() => {
       i18n.activate("en");
     });
-    render(<ProjectStatusIndicator {...props} />);
   });
 
-  test("should not render the badge if no status is provided", () => {
-    render(<ProjectStatusIndicator {...props} status="" />);
-    const wrapper = screen.queryAllByTestId(
-      "projectstatusindicator-container"
-    )[1];
-    expect(wrapper).toBeUndefined();
+  test("should render normal when no status is provided", () => {
+    const { initialRender } = initiateTest(Card, { ...props, status: "" });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("Normal");
+    expect(badge).toHaveClass("bg-21AD8C");
   });
 
-  test("should render status badge correctly", () => {
-    const wrapper = screen.getByTestId("projectstatusindicator-container");
-    expect(wrapper).toBeInTheDocument();
+  test("should render Normal status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.NORMAL,
+    });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("Normal");
+    expect(badge).toHaveClass("bg-21AD8C");
   });
 
-  test("should have correct classname based on status", async () => {
-    let wrapper = screen.getByTestId("projectstatusindicator-container");
-    expect(wrapper).toHaveClass("bg-21AD8C"); // when status is "Normal"
+  test("should render Incident Occured status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.INCIDENT,
+    });
+    initialRender();
 
-    render(<ProjectStatusIndicator {...props} status="Stopped" />);
-    wrapper = screen.getAllByTestId("projectstatusindicator-container")[1];
-    expect(wrapper).toHaveClass("bg-9B9B9B"); // when status is "Stopped"
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
 
-    render(<ProjectStatusIndicator {...props} status="Claimable" />);
-    wrapper = screen.getAllByTestId("projectstatusindicator-container")[2];
-    expect(wrapper).toHaveClass("bg-4289F2"); // when status is "Claimable"
-
-    render(<ProjectStatusIndicator {...props} status="Incident Happened" />);
-    wrapper = screen.getAllByTestId("projectstatusindicator-container")[3];
-    expect(wrapper).toHaveClass("bg-FA5C2F"); // when status is "Incident Happened"
+    expect(wrapper).toHaveTextContent("Incident Occured");
+    expect(badge).toHaveClass("bg-FA5C2F");
   });
 
-  test("should display correct status", () => {
-    const wrapper = screen
-      .getByTestId("projectstatusindicator-container")
-      .querySelector("div");
-    expect(wrapper).toHaveTextContent(props.status);
+  test("should render Claimable status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.CLAIMABLE,
+    });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("Claimable");
+    expect(badge).toHaveClass("bg-4289F2");
+  });
+
+  test("should render Stopped status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.STOPPED,
+    });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("Stopped");
+    expect(badge).toHaveClass("bg-9B9B9B");
+  });
+
+  test("should render False Reporting status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.FALSE_REPORTING,
+    });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("False Reporting");
+    expect(badge).toHaveClass("bg-21AD8C");
+  });
+
+  test("should render Diversified status badge correctly", () => {
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      status: E_CARD_STATUS.DIVERSIFIED,
+    });
+    initialRender();
+
+    const wrapper = screen.queryByTestId("projectstatusindicator-container");
+    const badge = screen.queryByTestId("card-badge");
+
+    expect(wrapper).toHaveTextContent("Diversified");
+    expect(badge).toHaveClass("bg-364253");
   });
 
   test("should be link when incidentreport is valid", () => {
-    render(<ProjectStatusIndicator {...props} incidentDate="123124324" />);
-    const wrapper = screen.getByTestId("badge-link");
-    expect(wrapper).toBeInTheDocument();
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      incidentDate: "123124324",
+    });
+    initialRender();
+
+    const badgeLink = screen.queryByTestId("badge-link");
+
+    expect(badgeLink).toBeInTheDocument();
   });
 
   test("should have correct badge link as provided in props", () => {
     const incidentDate = "123124324";
     const href = `/reporting/${safeParseBytes32String(
       props.coverKey
-    )}/${incidentDate}/details`;
-    render(<ProjectStatusIndicator {...props} incidentDate={incidentDate} />);
+    )}/product/${props.productKey}/${incidentDate}/details`;
+
+    const { initialRender } = initiateTest(Card, {
+      ...props,
+      incidentDate,
+    });
+    initialRender();
+
     const wrapper = screen.getByTestId("badge-link");
+
     expect(wrapper).toHaveAttribute("href", href);
   });
 });

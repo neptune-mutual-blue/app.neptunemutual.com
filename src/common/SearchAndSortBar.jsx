@@ -2,13 +2,12 @@ import { Select } from "@/common/Select";
 import SearchIcon from "@/icons/SearchIcon";
 import { classNames } from "@/utils/classnames";
 import { useState } from "react";
-import { t } from "@lingui/macro";
+import { t, Trans } from "@lingui/macro";
 
 const defaultOptions = [
-  { name: t`A-Z` },
-  { name: t`Utilization Ratio` },
-  { name: t`Liquidity` },
-  // { name: "APR" },
+  { name: <Trans>A-Z</Trans> },
+  { name: <Trans>Utilization Ratio</Trans> },
+  { name: <Trans>Liquidity</Trans> },
 ];
 
 export const SearchAndSortBar = ({
@@ -29,7 +28,10 @@ export const SearchAndSortBar = ({
       className={classNames("flex justify-between ", containerClass)}
       data-testid="search-and-sort-container"
     >
-      <div className={classNames("flex items-center ", searchClass)}>
+      <div
+        role="search"
+        className={classNames("flex items-center ", searchClass)}
+      >
         <input
           className={
             "w-full -mr-11 pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
@@ -41,7 +43,7 @@ export const SearchAndSortBar = ({
         />
 
         <div className="flex items-center justify-center text-9B9B9B">
-          <SearchIcon width={24} height={24} />
+          <SearchIcon width={24} height={24} data-testid="search-icon" />
         </div>
       </div>
 

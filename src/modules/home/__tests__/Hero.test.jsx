@@ -3,41 +3,13 @@ import { render, screen, act, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import { HomeHero } from "@/modules/home/Hero";
 import * as ProtocolHook from "@/src/hooks/useProtocolDayData";
-import * as Router from "next/router";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
-import * as FetchHeroStats from "@/src/hooks/useFetchHeroStats";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const liquidityTokenDecimals = 6;
-
-const protocolDayData = [
-  {
-    date: 1649980800,
-    totalLiquidity: "42972266000000000000000000",
-  },
-  {
-    date: 1650067200,
-    totalLiquidity: "43002586813333333333333335",
-  },
-  {
-    date: 1650153600,
-    totalLiquidity: "43005074813333333333333335",
-  },
-  {
-    date: 1650240000,
-    totalLiquidity: "43019312813333333333333335",
-  },
-];
-
-const heroStats = {
-  availableCovers: 0,
-  reportingCovers: 0,
-  tvlCover: "0",
-  tvlPool: "0",
-  covered: "0",
-  coverFee: "0",
-};
 
 const mockFunction = (file, method, returnData) => {
   jest.spyOn(file, method).mockImplementation(() => returnData);
@@ -66,18 +38,6 @@ const getChangeData = (data) => {
 };
 
 describe("Hero test", () => {
-  mockFunction(ProtocolHook, "useProtocolDayData", {
-    data: protocolDayData,
-    loading: false,
-  });
-
-  mockFunction(Router, "useRouter", { locale: "en" });
-
-  mockFunction(FetchHeroStats, "useFetchHeroStats", {
-    loading: false,
-    data: heroStats,
-  });
-
   const renderer = () => {
     act(() => {
       i18n.activate("en");
@@ -86,7 +46,13 @@ describe("Hero test", () => {
   };
 
   beforeEach(() => {
-    renderer();
+    i18n.activate("en");
+
+    mockFn.useProtocolDayData();
+    mockFn.useRouter();
+    mockFn.useFetchHeroStats();
+
+    render(<HomeHero />);
   });
 
   test("should render the component correctly", () => {
@@ -111,7 +77,7 @@ describe("Hero test", () => {
   });
 
   test("should render correct total liquidity value", () => {
-    const changeData = getChangeData(protocolDayData);
+    const changeData = getChangeData(testData.protocolDayData.data);
     const currencyText = formatCurrency(
       convertFromUnits(
         changeData?.last || "0",
@@ -129,7 +95,7 @@ describe("Hero test", () => {
   });
 
   test("should render correct change percentage", () => {
-    const changeData = getChangeData(protocolDayData);
+    const changeData = getChangeData(testData.protocolDayData.data);
     const percentText = formatPercent(changeData.diff, "en");
     const wrapper = screen
       .getByTestId("changedata-percent")
@@ -176,6 +142,7 @@ describe("Hero test", () => {
       loading: false,
     });
     renderer();
+
     const wrapper = screen.queryByTestId("changedata-percent");
     expect(wrapper).toBeNull();
   });

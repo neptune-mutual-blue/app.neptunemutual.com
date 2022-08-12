@@ -5,7 +5,8 @@ import { classNames } from "@/utils/classnames";
 export const LayoutButtons = ({ coverView, setCoverView }) => (
   <div className="flex ml-4 relative mt-7 sm:mt-0">
     <input
-      type={"radio"}
+      aria-label="Show covers and products"
+      type="radio"
       name="choose_layout"
       onChange={
         coverView !== "products" ? () => setCoverView("products") : () => {}
@@ -24,6 +25,7 @@ export const LayoutButtons = ({ coverView, setCoverView }) => (
       <SmallGridIcon color={coverView === "products" ? "#4e7dd9" : "#9B9B9B"} />
     </label>
     <input
+      aria-label="Show covers only"
       type={"radio"}
       name="choose_layout"
       id="choose_covers"

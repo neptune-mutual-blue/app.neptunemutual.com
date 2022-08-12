@@ -8,7 +8,12 @@ export const UnlockDate = ({ title, value }) => {
         <Trans>Unlock Date</Trans>
       </Label>
       <div>
-        <span id="unlock-date" className="text-7398C0" title={title}>
+        <span
+          id="unlock-date"
+          className="text-7398C0"
+          title={title}
+          data-testid="detail-span"
+        >
           {value}
         </span>
       </div>
