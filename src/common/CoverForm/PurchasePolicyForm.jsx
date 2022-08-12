@@ -45,7 +45,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   ).toString();
   const monthNames = getMonthNames(router.locale);
 
-  const isValidReferralCode = useValidateReferralCode(referralCode);
+  const [isValidReferralCode, referralCodeErrorMessage] =
+    useValidateReferralCode(referralCode);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -220,7 +221,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
         <div className="relative">
           <RegularInput
-            className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14"
+            className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 "
             inputProps={{
               id: "referral_code",
               placeholder: t`Enter Referral Code`,
@@ -229,6 +230,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 setReferralCode(e.target.value);
               },
               disabled: approving,
+              type: "text",
             }}
           />
 
@@ -237,6 +239,12 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               className="w-6 h-6 text-21AD8C absolute right-6 top-6"
               aria-hidden="true"
             />
+          )}
+
+          {referralCodeErrorMessage && (
+            <p className="ml-3 mt-3 flex items-center text-FA5C2F">
+              {referralCodeErrorMessage}
+            </p>
           )}
         </div>
       </div>

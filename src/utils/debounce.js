@@ -1,4 +1,8 @@
 /**
+ * A utility that creates a reference for debouncing an action/function
+ *
+ * This has to be declared outside of react component to keep the referential identity
+ *
  * @template T
  * @param {(...args: any[]) => T} callback
  * @param {number} [delay]
