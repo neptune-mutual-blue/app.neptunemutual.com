@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { truncateAddressParam } from "@/utils/address";
 import { Trans, t } from "@lingui/macro";
 import { safeParseString } from "@/src/services/transactions/utils";
 import { fromNow } from "@/utils/formatter/relative-time";
+import DateLib from "@/lib/date/DateLib";
 
 const INCIDENT = 0;
 const DISPUTE = 1;
@@ -12,6 +14,7 @@ const DISPUTE = 1;
  * @param {{ type: string; createdBy: string; reportedAt: number; }} props
  */
 function HeaderReport(props) {
+  const { locale } = useRouter();
   const { type, createdBy, reportedAt } = props;
 
   return (
@@ -20,7 +23,11 @@ function HeaderReport(props) {
       <span role="address" className="text-4e7dd9 mx-2">
         {createdBy && truncateAddressParam(createdBy, 8, -6)}
       </span>
-      <span role="reported-at" className="text-9B9B9B">
+      <span
+        role="reported-at"
+        className="text-9B9B9B"
+        title={DateLib.toLongDateFormat(reportedAt, locale)}
+      >
         {reportedAt && fromNow(reportedAt)}
       </span>
     </div>
