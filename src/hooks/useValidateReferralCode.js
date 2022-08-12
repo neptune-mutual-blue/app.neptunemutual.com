@@ -1,5 +1,5 @@
+import { useDebounce } from "@/src/hooks/useDebounce";
 import { fetchApi } from "@/src/services/fetchApi.js";
-import { debounce } from "@/utils/debounce";
 import { t } from "@lingui/macro";
 import { utils } from "@neptunemutual/sdk";
 import { useState, useEffect } from "react";
@@ -9,8 +9,8 @@ const fetchValidateReferralCode = fetchApi("fetchValidateReferralCode");
 
 // needs to be outside of react to keep debounce reference
 // wraps cancellable request with a debounce
-const debouncedValidation = debounce(
-  async (referralCode, setIsValid, setErrorMessage) => {
+async function validateReferralCode(referralCode) {
+  try {
     const result = await fetchValidateReferralCode(
       "protocol/cover/referral-code",
       {
@@ -21,17 +21,11 @@ const debouncedValidation = debounce(
 
     // status 401 is a valid request rejection
     // try catch won't work here
-    const isValid = result?.message.toLowerCase() === "ok";
-
-    setIsValid(isValid);
-    if (isValid) {
-      setErrorMessage("");
-      return;
-    }
-    setErrorMessage(t`Invalid Referral Code`);
-  },
-  400
-);
+    return result?.message.toLowerCase() === "ok";
+  } catch (e) {
+    return false;
+  }
+}
 
 /**
  *
@@ -47,28 +41,51 @@ function isValidReferralCode(referralCode) {
   }
 }
 
+/**
+ *
+ * @param {string} referralCode
+ * @returns {[boolean, string]}
+ */
 export function useValidateReferralCode(referralCode) {
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const finalReferralValue = useDebounce(referralCode, 400);
+
+  // immidiately disables approval button
   useEffect(() => {
-    const sanitizedValue = referralCode.trim();
-    // if there's a value we check it
-    if (sanitizedValue.length) {
-      if (isValidReferralCode(sanitizedValue)) {
-        // immediately disable submit button
+    setIsValid(false);
+  }, [referralCode]);
+
+  useEffect(() => {
+    (async () => {
+      const sanitizedValue = finalReferralValue.trim();
+      // if there's a value we check it
+      if (sanitizedValue.length) {
+        if (isValidReferralCode(sanitizedValue)) {
+          // immediately disable submit button
+          const isValidRef = await validateReferralCode(sanitizedValue);
+
+          setIsValid(isValidRef);
+          if (isValidRef) {
+            setErrorMessage("");
+            return;
+          }
+
+          setErrorMessage(t`Invalid Referral Code`);
+
+          return;
+        }
+        setErrorMessage(t`Incorrect Referral Code`);
         setIsValid(false);
-        debouncedValidation(sanitizedValue, setIsValid, setErrorMessage);
         return;
       }
-      setErrorMessage(t`Incorrect Referral Code`);
-      setIsValid(false);
-      return;
-    }
 
-    // if it's empty we set true immediately
-    setIsValid(true);
-  }, [referralCode]);
+      // if it's empty we set true immediately
+      setErrorMessage("");
+      setIsValid(true);
+    })();
+  }, [finalReferralValue]);
 
   return [isValid, errorMessage];
 }
