@@ -4,7 +4,7 @@ import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
 import { ModalRegular } from "@/common/Modal/ModalRegular";
 import { useResolveIncident } from "@/src/hooks/useResolveIncident";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
 import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
 import { ModalWrapper } from "@/common/Modal/ModalWrapper";
@@ -13,6 +13,7 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useRouter } from "next/router";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { useRole } from "@/src/hooks/useRole";
 
 export const ResolveIncident = ({
   refetchInfo,
@@ -22,6 +23,8 @@ export const ResolveIncident = ({
 }) => {
   const router = useRouter();
   const { product_id } = router.query;
+  const { checkHasRole } = useRole();
+
   const [isOpen, setIsOpen] = useState(false);
   const productKey = safeFormatBytes32String(product_id || "");
   const { resolve, emergencyResolve, resolving, emergencyResolving } =
@@ -42,16 +45,31 @@ export const ResolveIncident = ({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>;
-  }
-
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName
     : coverInfo?.infoObj.projectName;
 
   function onClose() {
     setIsOpen(false);
+  }
+
+  const [role, setRole] = useState({
+    governanceAgent: false,
+    governanceAdmin: false,
+  });
+
+  const checkRoles = useCallback(async () => {
+    const isAgent = await checkHasRole("NS_ROLES_GOVERNANCE_AGENT");
+    const isAdmin = await checkHasRole("NS_ROLES_GOVERNANCE_ADMIN");
+    setRole({ governanceAdmin: isAdmin, governanceAgent: isAgent });
+  }, [checkHasRole]);
+
+  useEffect(() => {
+    checkRoles();
+  }, [checkRoles]);
+
+  if (!coverInfo) {
+    return <Trans>loading...</Trans>;
   }
 
   return (
@@ -63,7 +81,7 @@ export const ResolveIncident = ({
       <div className="flex flex-wrap justify-center w-auto gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
-            disabled={resolving}
+            disabled={resolving || !role.governanceAgent}
             className="w-full px-10 py-4 font-semibold uppercase md:w-80"
             onClick={() => {
               resolve(() => {
@@ -78,6 +96,7 @@ export const ResolveIncident = ({
         )}
 
         <RegularButton
+          disabled={!role.governanceAdmin}
           className="w-full px-10 py-4 font-semibold uppercase md:w-80"
           onClick={() => setIsOpen(true)}
         >

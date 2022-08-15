@@ -91,8 +91,8 @@ export const sort = (amounts, selector, reverse = false) => {
 
 export const isGreater = (a, b) => {
   try {
-    const bigA = new BigNumber(a.toString());
-    const bigB = new BigNumber(b.toString());
+    const bigA = new BigNumber(a?.toString());
+    const bigB = new BigNumber(b?.toString());
 
     return bigA.isGreaterThan(bigB);
   } catch (error) {

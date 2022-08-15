@@ -45,6 +45,7 @@ export const ActiveReportSummary = ({
   const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
+
   const noPercent = toBN(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();

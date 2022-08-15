@@ -16,6 +16,9 @@ import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { useRole } from "@/src/hooks/useRole";
+import { useCallback, useEffect, useState } from "react";
+import { classNames } from "@/utils/classnames";
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -30,16 +33,20 @@ export const ResolvedReportSummary = ({
   const router = useRouter();
   const { product_id } = router.query;
   const productKey = safeFormatBytes32String(product_id || "");
+  const { checkHasRole } = useRole();
+
   const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.coverKey,
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
+
   const { capitalize, capitalizing } = useCapitalizePool({
     coverKey: incidentReport.coverKey,
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
+
   const { NPMTokenSymbol } = useAppConstants();
   const { refetch: refetchCoverStats } = useCoverStatsContext();
 
@@ -51,6 +58,7 @@ export const ResolvedReportSummary = ({
   const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
     .toNumber();
+
   const noPercent = toBN(1 - yesPercent)
     .decimalPlaces(2)
     .toNumber();
@@ -72,6 +80,17 @@ export const ResolvedReportSummary = ({
     percent: isAttestedWon ? yesPercent : noPercent,
     variant: isAttestedWon ? "success" : "failure",
   };
+
+  const [isAgent, setIsAgent] = useState(false);
+
+  const checkIfAgent = useCallback(async () => {
+    const isAgent = await checkHasRole("NS_ROLES_GOVERNANCE_AGENT");
+    setIsAgent(isAgent);
+  }, [checkHasRole]);
+
+  useEffect(() => {
+    checkIfAgent();
+  }, [checkIfAgent]);
 
   return (
     <>
@@ -244,8 +263,11 @@ export const ResolvedReportSummary = ({
           {!incidentReport.finalized && (
             <>
               <button
-                className="text-sm text-4e7dd9"
-                disabled={finalizing}
+                disabled={finalizing || !isAgent}
+                className={classNames(
+                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  !isAgent && "cursor-not-allowed opacity-50"
+                )}
                 onClick={() => {
                   finalize(() => {
                     refetchInfo();
@@ -260,8 +282,11 @@ export const ResolvedReportSummary = ({
               <br />
 
               <button
-                className="mt-2 text-sm font-poppins text-4e7dd9"
-                disabled={capitalizing}
+                disabled={capitalizing || !isAgent}
+                className={classNames(
+                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  !isAgent && "cursor-not-allowed opacity-50"
+                )}
                 onClick={() => {
                   capitalize(() => {
                     setTimeout(refetchReport, 10000);
