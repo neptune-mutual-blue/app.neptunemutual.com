@@ -13,6 +13,8 @@ const getQuery = () => {
 `;
 };
 
+const fetchCovers = fetchSubgraph("useCovers");
+
 export const useCovers = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,7 @@ export const useCovers = () => {
 
     setLoading(true);
 
-    fetchSubgraph("useCovers")(networkId, getQuery())
+    fetchCovers(networkId, getQuery())
       .then((data) => {
         if (!data || ignore) return;
         setData(data.covers);

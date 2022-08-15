@@ -38,6 +38,8 @@ const getQuery = (itemsToSkip) => {
   `;
 };
 
+const fetchPodStakingPools = fetchSubgraph("usePodStakingPools");
+
 export const usePodStakingPools = () => {
   const [data, setData] = useState({ pools: [] });
   const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ export const usePodStakingPools = () => {
 
     setLoading(true);
 
-    fetchSubgraph("usePodStakingPools")(networkId, getQuery(itemsToSkip))
+    fetchPodStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
         if (ignore || !_data) return;
 

@@ -13,6 +13,8 @@ const defaultData = {
   coverFee: "0",
 };
 
+const fetchFetchHeroStats = fetchSubgraph("useFetchHeroStats");
+
 const getQuery = () => {
   const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
@@ -48,7 +50,7 @@ export const useFetchHeroStats = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetchSubgraph("useFetchHeroStats")(getNetworkId(), getQuery())
+    fetchFetchHeroStats(getNetworkId(), getQuery())
       .then((data) => {
         const totalCoverLiquidityAdded = sumOf(
           ...data.protocols.map((x) => x.totalCoverLiquidityAdded)

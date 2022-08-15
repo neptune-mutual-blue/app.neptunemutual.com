@@ -72,11 +72,10 @@ const getQuery = (id) => {
 `;
 };
 
+const fetchCoverPurchasedEvent = fetchSubgraph("useCoverPurchasedEvent");
+
 const getEventFromSubgraph = async (networkId, txHash) => {
-  const data = await fetchSubgraph("useCoverPurchasedEvent")(
-    networkId,
-    getQuery(txHash)
-  );
+  const data = await fetchCoverPurchasedEvent(networkId, getQuery(txHash));
   return data.coverPurchasedEvent;
 };
 

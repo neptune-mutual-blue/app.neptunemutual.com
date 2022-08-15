@@ -38,6 +38,8 @@ const getQuery = (itemsToSkip) => {
   `;
 };
 
+const fetchResolvedReportings = fetchSubgraph("useResolvedReportings");
+
 export const useResolvedReportings = () => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -53,7 +55,7 @@ export const useResolvedReportings = () => {
 
     setLoading(true);
 
-    fetchSubgraph("useResolvedReportings")(networkId, getQuery(itemsToSkip))
+    fetchResolvedReportings(networkId, getQuery(itemsToSkip))
       .then((_data) => {
         if (ignore || !_data) return;
 

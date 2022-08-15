@@ -34,6 +34,8 @@ const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
   `;
 };
 
+const fetchRecentVotes = fetchSubgraph("useRecentVotes");
+
 export const useRecentVotes = ({
   coverKey,
   productKey,
@@ -58,7 +60,7 @@ export const useRecentVotes = ({
 
     setLoading(true);
 
-    fetchSubgraph("useRecentVotes")(
+    fetchRecentVotes(
       networkId,
       getQuery(limit, page, coverKey, productKey, incidentDate)
     )

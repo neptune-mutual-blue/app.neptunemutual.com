@@ -13,6 +13,8 @@ const getQuery = () => {
 `;
 };
 
+const fetchProtocolDayData = fetchSubgraph("useProtocolDayData");
+
 export const useProtocolDayData = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ export const useProtocolDayData = () => {
 
     setLoading(true);
 
-    fetchSubgraph("useProtocolDayData")(networkId, getQuery())
+    fetchProtocolDayData(networkId, getQuery())
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

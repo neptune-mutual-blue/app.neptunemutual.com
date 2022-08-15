@@ -42,6 +42,8 @@ const getQuery = (account, limit, skip) => {
   `;
 };
 
+const fetchBondTxs = fetchSubgraph("useBondTxs");
+
 export const useBondTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
@@ -63,7 +65,7 @@ export const useBondTxs = ({ limit, page }) => {
 
     setLoading(true);
 
-    fetchSubgraph("useBondTxs")(networkId, query)
+    fetchBondTxs(networkId, query)
       .then((_data) => {
         if (ignore || !_data) return;
 

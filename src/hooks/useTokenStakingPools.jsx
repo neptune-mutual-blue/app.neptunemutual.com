@@ -36,6 +36,8 @@ const getQuery = (itemsToSkip) => {
   `;
 };
 
+const fetchTokenStakingPools = fetchSubgraph("useTokenStakingPools");
+
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
     pools: [],
@@ -55,7 +57,7 @@ export const useTokenStakingPools = () => {
 
     setLoading(true);
 
-    fetchSubgraph("useTokenStakingPools")(networkId, getQuery(itemsToSkip))
+    fetchTokenStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
         if (ignore || !_data) return;
 

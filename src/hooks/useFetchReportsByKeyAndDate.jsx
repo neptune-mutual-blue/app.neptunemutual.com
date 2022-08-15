@@ -21,6 +21,8 @@ const getQuery = (coverKey, incidentDate) => {
   `;
 };
 
+const fetchReportsByKeyAndDate = fetchSubgraph("useFetchReportsByKeyAndDate");
+
 /**
  *
  * @param {object} param
@@ -35,10 +37,7 @@ export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
   useEffect(() => {
     if (coverKey && incidentDate) {
       setLoading(true);
-      fetchSubgraph("useFetchReportsByKeyAndDate")(
-        getNetworkId(),
-        getQuery(coverKey, incidentDate)
-      )
+      fetchReportsByKeyAndDate(getNetworkId(), getQuery(coverKey, incidentDate))
         .then(({ incidentReports }) => {
           setData(incidentReports);
         })

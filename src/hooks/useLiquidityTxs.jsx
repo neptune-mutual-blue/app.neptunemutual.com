@@ -40,6 +40,8 @@ const getQuery = (account, limit, skip) => {
   `;
 };
 
+const fetchLiquidityTxs = fetchSubgraph("useLiquidityTxs");
+
 export const useLiquidityTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
@@ -60,7 +62,7 @@ export const useLiquidityTxs = ({ limit, page }) => {
 
     setLoading(true);
 
-    fetchSubgraph("useLiquidityTxs")(networkId, query)
+    fetchLiquidityTxs(networkId, query)
       .then((_data) => {
         if (ignore || !_data) return;
 

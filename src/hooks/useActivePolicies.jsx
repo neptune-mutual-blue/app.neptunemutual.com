@@ -35,6 +35,8 @@ const getQuery = (startOfMonth, account) => {
   `;
 };
 
+const fetchActivePolicies = fetchSubgraph("useActivePolicies");
+
 export const useActivePolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -53,10 +55,7 @@ export const useActivePolicies = () => {
 
     setLoading(true);
 
-    fetchSubgraph("useActivePolicies")(
-      networkId,
-      getQuery(startOfMonth, account)
-    )
+    fetchActivePolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

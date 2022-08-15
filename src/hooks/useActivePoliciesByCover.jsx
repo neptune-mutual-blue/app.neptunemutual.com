@@ -39,6 +39,8 @@ const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   `;
 };
 
+const fetchActivePoliciesByCover = fetchSubgraph("useActivePoliciesByCover");
+
 export const useActivePoliciesByCover = ({
   coverKey,
   productKey,
@@ -71,7 +73,7 @@ export const useActivePoliciesByCover = ({
 
     setLoading(true);
 
-    fetchSubgraph("useActivePoliciesByCover")(
+    fetchActivePoliciesByCover(
       networkId,
       getQuery(limit, page, startOfMonth, account, coverKey, productKey)
     )

@@ -31,6 +31,8 @@ const getQuery = (startOfMonth, account) => {
   `;
 };
 
+const fetchExpiredPolicies = fetchSubgraph("useExpiredPolicies");
+
 export const useExpiredPolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -48,10 +50,7 @@ export const useExpiredPolicies = () => {
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
-    fetchSubgraph("useExpiredPolicies")(
-      networkId,
-      getQuery(startOfMonth, account)
-    )
+    fetchExpiredPolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

@@ -27,6 +27,8 @@ const getQuery = (start, end, coverKey, productKey) => {
   `;
 };
 
+const fetchValidReport = fetchSubgraph("useValidReport");
+
 export const useValidReport = ({ start, end, coverKey, productKey }) => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -43,10 +45,7 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
 
     setLoading(true);
 
-    fetchSubgraph("useValidReport")(
-      networkId,
-      getQuery(start, end, coverKey, productKey)
-    )
+    fetchValidReport(networkId, getQuery(start, end, coverKey, productKey))
       .then((_data) => {
         if (ignore || !_data) return;
         setData(_data);

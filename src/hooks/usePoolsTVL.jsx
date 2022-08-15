@@ -31,6 +31,8 @@ const getQuery = () => {
   }`;
 };
 
+const fetchPoolsTVL = fetchSubgraph("usePoolsTVL");
+
 /**
  *
  * @param {string} NPMTokenAddress
@@ -46,7 +48,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     if (NPMTokenAddress) {
       const networkId = getNetworkId();
 
-      fetchSubgraph("usePoolsTVL")(networkId, getQuery())
+      fetchPoolsTVL(networkId, getQuery())
         .then(async ({ bondPools, pools }) => {
           const bondsPayload = bondPools.map((bondPool) => {
             return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress);

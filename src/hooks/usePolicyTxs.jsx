@@ -42,6 +42,8 @@ const getQuery = (limit, page, account) => {
   `;
 };
 
+const fetchPolicyTxs = fetchSubgraph("usePolicyTxs");
+
 export const usePolicyTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     policyTransactions: [],
@@ -61,7 +63,7 @@ export const usePolicyTxs = ({ limit, page }) => {
 
     setLoading(true);
 
-    fetchSubgraph("usePolicyTxs")(networkId, getQuery(limit, page, account))
+    fetchPolicyTxs(networkId, getQuery(limit, page, account))
       .then((_data) => {
         if (ignore || !_data) return;
 
