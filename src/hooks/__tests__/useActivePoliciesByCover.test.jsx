@@ -34,7 +34,7 @@ describe("useActivePoliciesByCover", () => {
         wrapper,
       }
     );
-    console.log("result", result.current);
+
     expect(result.current.data.activePolicies).toEqual([]);
     expect(result.current.data.totalActiveProtection).toEqual(
       new BigNumber("0")
