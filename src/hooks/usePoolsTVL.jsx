@@ -32,6 +32,7 @@ const getQuery = () => {
 };
 
 const fetchPoolsTVL = fetchSubgraph("usePoolsTVL");
+
 /**
  *
  * @param {string} NPMTokenAddress

@@ -29,6 +29,7 @@ const getQuery = (account) => {
 };
 
 const fetchMyLiquidities = fetchSubgraph("useMyLiquidities");
+
 /**
  *
  * @param {string} account

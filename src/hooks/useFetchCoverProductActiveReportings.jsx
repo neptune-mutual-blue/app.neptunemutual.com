@@ -23,6 +23,7 @@ const getQuery = (coverKey, productKey) => {
 const fetchCoverProductActiveReportings = fetchSubgraph(
   "useFetchCoverProductActiveReportings"
 );
+
 /**
  *
  * @param {object} param

@@ -22,6 +22,7 @@ const getQuery = (coverKey, incidentDate) => {
 };
 
 const fetchReportsByKeyAndDate = fetchSubgraph("useFetchReportsByKeyAndDate");
+
 /**
  *
  * @param {object} param

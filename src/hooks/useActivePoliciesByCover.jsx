@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   return `
@@ -39,6 +39,8 @@ const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   `;
 };
 
+const fetchActivePoliciesByCover = fetchSubgraph("useActivePoliciesByCover");
+
 export const useActivePoliciesByCover = ({
   coverKey,
   productKey,
@@ -70,7 +72,8 @@ export const useActivePoliciesByCover = ({
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
-    getSubgraphData(
+
+    fetchActivePoliciesByCover(
       networkId,
       getQuery(limit, page, startOfMonth, account, coverKey, productKey)
     )

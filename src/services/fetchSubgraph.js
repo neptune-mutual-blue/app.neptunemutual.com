@@ -13,13 +13,18 @@ const ERRORS_SUBGRAPH = {
 export function fetchSubgraph(label) {
   let controller;
 
-  return (networkId, query) => {
+  return async (networkId, query) => {
     const graphURL = getGraphURL(networkId);
 
-    if (graphURL) {
-      controller?.abort();
-      controller = new AbortController();
-      return fetch(graphURL, {
+    if (!graphURL) {
+      throw new Error(ERRORS_SUBGRAPH.UNKNOWN_SUBGRAPH_URL);
+    }
+
+    controller?.abort();
+    controller = new AbortController();
+
+    try {
+      const response = await fetch(graphURL, {
         signal: controller.signal,
         method: "POST",
         headers: {
@@ -29,26 +34,23 @@ export function fetchSubgraph(label) {
         body: JSON.stringify({
           query,
         }),
-      })
-        .then((res) => res.json())
-        .then(({ data, errors }) => {
-          if (errors) {
-            throw new Error(ERRORS_SUBGRAPH.SUBGRAPH_DATA_ERROR);
-          }
+      });
 
-          return data;
-        })
-        .catch((e) => {
-          if (isAbortedRequest(e)) {
-            return console.log(`Aborted Request: ${label}`);
-          }
+      const { data, errors } = await response.json();
 
-          // else rethrow error so we can catch it externally
-          throw new Error(e);
-        });
+      if (errors) {
+        throw new Error(ERRORS_SUBGRAPH.SUBGRAPH_DATA_ERROR);
+      }
+
+      return data;
+    } catch (error) {
+      if (isAbortedRequest(error)) {
+        return console.log(`Aborted Request: ${label}`);
+      }
+
+      // else rethrow error so we can catch it externally
+      throw new Error(error);
     }
-
-    throw new Error(ERRORS_SUBGRAPH.UNKNOWN_SUBGRAPH_URL);
   };
 }
 

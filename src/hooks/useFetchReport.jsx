@@ -53,6 +53,7 @@ const getQuery = (reportId) => {
 };
 
 const fetchReport = fetchSubgraph("useFetchReport");
+
 /**
  *
  * @param {object} param
@@ -69,6 +70,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
 
   const getData = useCallback(() => {
     setLoading(true);
+
     return fetchReport(getNetworkId(), getQuery(reportId))
       .then(({ incidentReport }) => {
         setData(incidentReport);

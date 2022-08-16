@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 const getQuery = (itemsToSkip) => {
   return `
@@ -38,6 +38,8 @@ const getQuery = (itemsToSkip) => {
   `;
 };
 
+const fetchPodStakingPools = fetchSubgraph("usePodStakingPools");
+
 export const usePodStakingPools = () => {
   const [data, setData] = useState({ pools: [] });
   const [loading, setLoading] = useState(false);
@@ -53,7 +55,8 @@ export const usePodStakingPools = () => {
     }
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(itemsToSkip))
+
+    fetchPodStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
         if (ignore || !_data) return;
 

@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { useEffect, useState } from "react";
 
 const getQuery = () => {
@@ -14,6 +14,8 @@ const getQuery = () => {
 `;
 };
 
+const fetchFlattenedCoverProducts = fetchSubgraph("useFlattenedCoverProducts");
+
 export const useFlattenedCoverProducts = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +25,7 @@ export const useFlattenedCoverProducts = () => {
     let ignore = false;
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery())
+    fetchFlattenedCoverProducts(networkId, getQuery())
       .then((data) => {
         if (!data || ignore) return;
         setData(data.coverProducts);
