@@ -24,6 +24,30 @@ import { isValidProduct } from "@/src/helpers/cover";
 import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
 import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
 
+const getCoveragePeriodLabels = (locale) => {
+  const now = new Date();
+  const day = now.getUTCDate();
+  const currentMonthIndex = now.getUTCMonth();
+
+  const monthNames = getMonthNames(locale);
+
+  // Note: Refer `getExpiryDateInternal` in protocol
+  // https://github.com/neptune-mutual-blue/protocol/blob/a98fcce3657d80814f2aca67a4a8a3534ff8da2d/contracts/libraries/CoverUtilV1.sol#L599-L613
+  if (day >= 25) {
+    return [
+      monthNames[(currentMonthIndex + 1 + 0) % 12],
+      monthNames[(currentMonthIndex + 1 + 1) % 12],
+      monthNames[(currentMonthIndex + 1 + 2) % 12],
+    ];
+  }
+
+  return [
+    monthNames[(currentMonthIndex + 0) % 12],
+    monthNames[(currentMonthIndex + 1) % 12],
+    monthNames[(currentMonthIndex + 2) % 12],
+  ];
+};
+
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
 
@@ -43,7 +67,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     availableLiquidityInWei,
     liquidityTokenDecimals
   ).toString();
-  const monthNames = getMonthNames(router.locale);
 
   const [isValidReferralCode, referralCodeErrorMessage] =
     useValidateReferralCode(referralCode);
@@ -101,20 +124,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     setValue(convertFromUnits(balance, liquidityTokenDecimals).toString());
   };
 
-  const now = new Date();
-  const day = now.getUTCDate();
-  let coverPeriodLabels = [];
-  let months = "";
-  for (let i = 0; i < 3; i++) {
-    if (day >= 25) {
-      // if current date is greater than or equal to 25th
-      // we add another month
-      months = monthNames[(now.getUTCMonth() + i + 1) % 12];
-    } else {
-      months = monthNames[(now.getUTCMonth() + i) % 12];
-    }
-    coverPeriodLabels.push(months);
-  }
+  const coverPeriodLabels = getCoveragePeriodLabels(router.locale);
 
   let loadingMessage = "";
   if (updatingFee) {
@@ -245,13 +255,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
           {!!referralCode.trim().length && isValidReferralCode && (
             <SuccessIcon
-              className="w-6 h-6 text-21AD8C absolute right-6 top-6"
+              className="absolute w-6 h-6 text-21AD8C right-6 top-6"
               aria-hidden="true"
             />
           )}
 
           {referralCodeErrorMessage && (
-            <p className="ml-3 mt-3 flex items-center text-FA5C2F">
+            <p className="flex items-center mt-3 ml-3 text-FA5C2F">
               {referralCodeErrorMessage}
             </p>
           )}
