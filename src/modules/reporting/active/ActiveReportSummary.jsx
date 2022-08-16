@@ -96,7 +96,7 @@ export const ActiveReportSummary = ({
           <Divider />
 
           <>
-            {isAfterResolution ? (
+            {!isAfterResolution ? (
               <ResolveIncident
                 incidentReport={incidentReport}
                 resolvableTill={resolvableTill}

@@ -1,5 +1,12 @@
 import { classNames } from "@/utils/classnames";
 
+/**
+ *
+ * @param {Object} props
+ * @param {Object} props.inputProps
+ * @param {string} [props.className]
+ * @returns
+ */
 export const RegularInput = ({ inputProps, className }) => {
   return (
     <input
