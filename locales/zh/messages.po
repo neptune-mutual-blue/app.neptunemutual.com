@@ -247,7 +247,7 @@ msgstr ""
 #: src/modules/pools/PoolsTabs.jsx:17
 #: src/pages/pools/bond/transactions.jsx:40
 msgid "Bond"
-msgstr "纽带"
+msgstr "Bond"
 
 #: src/modules/pools/bond/BondInfoCard.jsx:46
 msgid "Bond Info"
@@ -1438,7 +1438,7 @@ msgstr "质押{tokenSymbol}已成功"
 
 #: src/modules/pools/PoolsTabs.jsx:22
 msgid "Staking"
-msgstr "正在质押"
+msgstr "NPM代币质押"
 
 #: src/helpers/notification.js:88
 msgid "Staking {tokenSymbol}"
