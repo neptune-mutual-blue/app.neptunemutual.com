@@ -17,6 +17,7 @@ export const TokenAmountInput = ({
   error,
   disabled,
   children,
+  buttonClassName = "",
   ...rest
 }) => {
   return (
@@ -33,6 +34,7 @@ export const TokenAmountInput = ({
           children: t`Max`,
           onClick: handleChooseMax,
           disabled: disabled,
+          buttonClassName,
         }}
         unit={tokenSymbol}
         inputProps={{

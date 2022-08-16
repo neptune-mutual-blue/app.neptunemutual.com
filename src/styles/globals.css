@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  [type="radio"]:focus,
+  [type="radio"]:checked {
+    box-shadow: none;
+    @apply !bg-4e7dd9 outline outline-1 outline-B0C4DB outline-offset-0 bg-none border-4 !border-white;
+  }
+}
+
 *[tabindex="-1"] {
   outline: none;
 }

@@ -23,19 +23,19 @@ export const PolicyFeesAndExpiry = ({ data }) => {
       <table className="w-full font-semibold text-black uppercase text-h6">
         <tbody>
           <tr className="flex justify-between mt-3">
-            <th>
+            <th className="font-semibold text-left">
               <Trans>Fees</Trans>
             </th>
-            <td className="text-4e7dd9">
+            <td className="text-4e7dd9 text-right">
               {formatPercent(rateConverted, router.locale)}
             </td>
           </tr>
           <tr className="flex justify-between mt-3">
-            <th>
+            <th className="font-semibold text-left">
               <Trans>Cover Fee</Trans>
             </th>
             <td
-              className="text-4e7dd9"
+              className="text-4e7dd9 text-right"
               title={
                 formatCurrency(
                   coverFee,
@@ -56,11 +56,22 @@ export const PolicyFeesAndExpiry = ({ data }) => {
             </td>
           </tr>
           <tr className="flex justify-between mt-3">
-            <th>
-              <Trans>Claim Expiry</Trans>
+            <th className="font-semibold text-left">
+              <Trans>Coverage Period</Trans>
             </th>
-            <td className="text-4e7dd9" title={expires.toString()}>
-              {DateLib.toLongDateFormat(expires, router.locale, "UTC")}
+            <td className="text-4e7dd9 text-right" title={expires.toString()}>
+              {DateLib.toLongDateFormat(new Date(), router.locale, "UTC", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}{" "}
+              -
+              {DateLib.toLongDateFormat(expires, router.locale, "UTC", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+              ; 0:00 UTC
             </td>
           </tr>
         </tbody>

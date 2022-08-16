@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import * as Tooltip from "@radix-ui/react-tooltip";
 
 import { Radio } from "@/common/Radio/Radio";
 import { PolicyFeesAndExpiry } from "@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry";
@@ -12,15 +11,18 @@ import { usePurchasePolicy } from "@/src/hooks/usePurchasePolicy";
 import { usePolicyFees } from "@/src/hooks/usePolicyFees";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { formatCurrency } from "@/utils/formatter/currency";
-import InfoCircleIcon from "@/icons/InfoCircleIcon";
 import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { Label } from "@/common/Label/Label";
+import { RegularInput } from "@/common/Input/RegularInput";
 import { BackButton } from "@/common/BackButton/BackButton";
+import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
+import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
+import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
@@ -28,6 +30,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const isDiversified = isValidProduct(productKey);
 
   const [value, setValue] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [coverMonth, setCoverMonth] = useState("");
   const {
     liquidityTokenAddress,
@@ -41,6 +44,9 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     liquidityTokenDecimals
   ).toString();
   const monthNames = getMonthNames(router.locale);
+
+  const [isValidReferralCode, referralCodeErrorMessage] =
+    useValidateReferralCode(referralCode);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -68,6 +74,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     feeAmount: feeData.fee,
     availableLiquidity,
     liquidityTokenSymbol,
+    referralCode: referralCode.trim(),
   });
 
   const {
@@ -120,6 +127,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const cover_id = safeParseBytes32String(coverKey);
   const product_id = safeParseBytes32String(productKey);
   const status = productStatus;
+
   if (status && status !== "Normal") {
     return (
       <Alert>
@@ -138,7 +146,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   return (
-    <div className="max-w-md" data-testid="purchase-policy-form">
+    <div className="max-w-lg" data-testid="purchase-policy-form">
       <TokenAmountInput
         labelText={t`Amount you wish to cover`}
         onChange={handleChange}
@@ -151,6 +159,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         inputId={"cover-amount"}
         inputValue={value}
         disabled={approving || purchasing}
+        buttonClassName="hidden"
       >
         {value && isValidNumber(value) && (
           <div
@@ -165,7 +174,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
         {error && <p className="flex items-center text-FA5C2F">{error}</p>}
       </TokenAmountInput>
-      <div className="px-3 mt-12">
+      <div className="mt-12">
         <div className="flex items-center gap-2 mb-4">
           <label
             className="block font-semibold text-black uppercase text-h6"
@@ -173,18 +182,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
           >
             <Trans>Select your coverage period</Trans>
           </label>
-          {/* Tooltip */}
-          <Tooltip.Root>
-            <Tooltip.Trigger className="block">
-              <span className="sr-only">Info</span>
-              <InfoCircleIcon
-                width={18}
-                height={18}
-                className="pr-1 fill-9B9B9B"
-              />
-            </Tooltip.Trigger>
-            <CovergaeInfoTooltipContent />
-          </Tooltip.Root>
         </div>
         <div className="flex">
           <Radio
@@ -216,6 +213,42 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
           />
         </div>
       </div>
+
+      <div className="mt-11">
+        <Label htmlFor={"incident_title"} className={"mb-2"}>
+          <Trans>Referral Code</Trans>
+        </Label>
+
+        <div className="relative">
+          <RegularInput
+            className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 "
+            inputProps={{
+              id: "referral_code",
+              placeholder: t`Enter Referral Code`,
+              value: referralCode,
+              onChange: (e) => {
+                setReferralCode(e.target.value);
+              },
+              disabled: approving,
+              type: "text",
+            }}
+          />
+
+          {!!referralCode.trim().length && isValidReferralCode && (
+            <SuccessIcon
+              className="w-6 h-6 text-21AD8C absolute right-6 top-6"
+              aria-hidden="true"
+            />
+          )}
+
+          {referralCodeErrorMessage && (
+            <p className="ml-3 mt-3 flex items-center text-FA5C2F">
+              {referralCodeErrorMessage}
+            </p>
+          )}
+        </div>
+      </div>
+
       {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
 
       <div className="mt-4">
@@ -228,7 +261,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !value ||
               !coverMonth ||
               updatingFee ||
-              updatingBalance
+              updatingBalance ||
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
@@ -249,12 +283,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !value ||
               !coverMonth ||
               updatingFee ||
-              updatingBalance
+              updatingBalance ||
+              !isValidReferralCode
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={() => {
               handlePurchase(() => {
                 setValue("");
+                setReferralCode("");
                 setCoverMonth("");
               });
             }}
@@ -268,26 +304,5 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <BackButton onClick={() => router.back()} />
       </div>
     </div>
-  );
-};
-
-const CovergaeInfoTooltipContent = () => {
-  return (
-    <>
-      <Tooltip.Content side="right" sideOffset={7}>
-        <div className="p-4 text-xs font-light leading-5 tracking-normal text-white bg-black rounded-xl max-w-15">
-          <p className="">
-            Coverage period will cover from date of purchase up to the month you
-            have selected.
-          </p>
-        </div>
-        <Tooltip.Arrow
-          offset={32}
-          width={16}
-          height={12}
-          className="fill-black"
-        />
-      </Tooltip.Content>
-    </>
   );
 };
