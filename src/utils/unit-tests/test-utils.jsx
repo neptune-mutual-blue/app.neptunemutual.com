@@ -136,6 +136,12 @@ Object.defineProperty(window, "location", {
   },
   writable: true,
 });
+Object.defineProperty(navigator, "language", {
+  value: "en-US",
+});
+Object.defineProperty(process, "browser", {
+  value: true,
+});
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
