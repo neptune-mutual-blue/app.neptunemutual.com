@@ -1,14 +1,15 @@
-import React from "react";
-import { render, act, screen, fireEvent } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
+import { screen, fireEvent } from "@/utils/unit-tests/test-utils";
 import { DisclaimerModal } from "@/common/Disclaimer/DisclaimerModal";
+import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("Disclaimer Modal test", () => {
+  const setDisclaimerApproval = jest.fn();
+  const { initialRender } = initiateTest(DisclaimerModal, {}, () => {
+    mockFn.useLocalStorage(() => [false, setDisclaimerApproval]);
+  });
+
   beforeEach(() => {
-    act(() => {
-      i18n.activate("en");
-    });
-    render(<DisclaimerModal />);
+    initialRender();
   });
 
   test("should render the component correctly", () => {
@@ -76,6 +77,7 @@ describe("Disclaimer Modal test", () => {
 
     const button = screen.getByTestId("disclaimer-accept");
     fireEvent.click(button);
+    expect(setDisclaimerApproval).toHaveBeenCalledWith(true);
   });
 
   test("simulating clicking on `Decline` button", () => {

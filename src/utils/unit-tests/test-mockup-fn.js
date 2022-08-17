@@ -36,9 +36,14 @@ import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
 
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
+import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
+// import * as FetchSubgraphFunction from "@/src/services/fetchSubgraph";
+const FetchSubgraphFunction = require("@/src/services/fetchSubgraph");
+
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
+import { act as hooksAct, renderHook } from "@testing-library/react-hooks";
 import { i18n } from "@lingui/core";
 
 /**
@@ -214,6 +219,38 @@ export const mockFn = {
     jest
       .spyOn(PurchasePolicy, "usePurchasePolicy")
       .mockImplementation(returnFunction(cb)),
+  useLocalStorage: (cb) =>
+    jest
+      .spyOn(LocalStorageHook, "useLocalStorage")
+      .mockImplementation(returnFunction(cb)),
+  fetchSubgraph: (resolve = true, returnData = {}) => {
+    const mockreturnFetchFn = resolve
+      ? () => Promise.resolve(returnData)
+      : () =>
+          Promise.reject(
+            new Error(typeof returnData === "string" ? returnData : "Error")
+          );
+    jest
+      .spyOn(FetchSubgraphFunction, "fetchSubgraph")
+      .mockImplementation(() => () => mockreturnFetchFn());
+  },
+  consoleError: () => {
+    const mockConsoleError = jest.fn();
+
+    return {
+      mock: () => {
+        Object.defineProperty(global.console, "error", {
+          value: mockConsoleError,
+        });
+      },
+      restore: () => {
+        Object.defineProperty(global.console, "error", {
+          value: console.error,
+        });
+      },
+      mockFunction: mockConsoleError,
+    };
+  },
 };
 
 export const initiateTest = (
@@ -239,5 +276,28 @@ export const initiateTest = (
   return {
     initialRender,
     rerenderFn,
+  };
+};
+
+export const renderHookWrapper = async (
+  hookFunction,
+  args = [],
+  waitForNextUpdate = false
+) => {
+  let res = {};
+
+  await hooksAct(async () => {
+    const { result, waitForNextUpdate: WFNU } = renderHook(() =>
+      hookFunction(...args)
+    );
+
+    if (waitForNextUpdate) {
+      await WFNU();
+    }
+
+    res = result.current;
+  });
+  return {
+    result: res,
   };
 };
