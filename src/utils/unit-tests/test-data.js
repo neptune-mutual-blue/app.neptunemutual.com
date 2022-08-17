@@ -933,4 +933,24 @@ export const testData = {
       expiryDate: "0",
     },
   },
+  coverPurchased: {
+    data: {
+      amountToCover: "5000000000",
+      coverKey:
+        "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+      createdAtTimestamp: 1660628210,
+      cxToken: "0xEE73661225597c17A39316E871d722B4304d8E63",
+      expiresOn: "1667260799",
+      fee: "52054794",
+      id: "0x3e19c6f2398efdf5f6183a168bb694421ebd5aab367eed39872a293b26a71a7c",
+      onBehalfOf: "0x88fFAcb1bbB771aF326E6DFd9E0E8eA3E4E0E306",
+      platformFee: "3383561",
+      policyId: "49",
+      productKey:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      referralCode:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      transaction: { from: "0x88fFAcb1bbB771aF326E6DFd9E0E8eA3E4E0E306" },
+    },
+  },
 };
