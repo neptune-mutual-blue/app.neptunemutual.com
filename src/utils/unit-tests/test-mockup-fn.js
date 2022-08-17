@@ -36,6 +36,7 @@ import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
 
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
+import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -213,6 +214,10 @@ export const mockFn = {
   usePurchasePolicy: (cb = () => testData.purchasePolicy) =>
     jest
       .spyOn(PurchasePolicy, "usePurchasePolicy")
+      .mockImplementation(returnFunction(cb)),
+  useFetchCoverPurchasedEvent: (cb = () => testData.coverPurchased) =>
+    jest
+      .spyOn(PurchasedEventHook, "useFetchCoverPurchasedEvent")
       .mockImplementation(returnFunction(cb)),
 };
 
