@@ -56,8 +56,6 @@ export const useBondTxs = ({ limit, page }) => {
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -67,7 +65,7 @@ export const useBondTxs = ({ limit, page }) => {
 
     fetchBondTxs(networkId, query)
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.bondTransactions.length === 0 ||
@@ -87,13 +85,8 @@ export const useBondTxs = ({ limit, page }) => {
       })
       .catch((err) => console.error(err))
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, limit, networkId, page]);
 
   return {

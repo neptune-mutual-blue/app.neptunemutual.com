@@ -48,8 +48,6 @@ export const usePodStakingPools = () => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    let ignore = false;
-
     if (!networkId) {
       setHasMore(false);
     }
@@ -58,7 +56,7 @@ export const usePodStakingPools = () => {
 
     fetchPodStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE;
@@ -75,13 +73,8 @@ export const usePodStakingPools = () => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

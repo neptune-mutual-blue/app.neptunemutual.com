@@ -52,8 +52,6 @@ export const useRecentVotes = ({
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!coverKey || !incidentDate) {
       return;
     }
@@ -65,7 +63,7 @@ export const useRecentVotes = ({
       getQuery(limit, page, coverKey, productKey, incidentDate)
     )
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.votes.length === 0 || _data.votes.length < limit;
@@ -83,13 +81,8 @@ export const useRecentVotes = ({
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [coverKey, incidentDate, limit, networkId, page, productKey]);
 
   return {
