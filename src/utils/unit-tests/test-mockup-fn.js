@@ -253,6 +253,51 @@ export const mockFn = {
   },
 };
 
+export const globalFn = {
+  ethereum: () => {
+    const ETHEREUM_METHODS = {
+      eth_requestAccounts: () => [testData.account.account],
+    };
+
+    global.ethereum = {
+      enable: jest.fn(() => Promise.resolve(true)),
+      send: jest.fn((method) => {
+        if (method === "eth_chainId") {
+          return Promise.resolve(1);
+        }
+
+        if (method === "eth_requestAccounts") {
+          return Promise.resolve(testData.account.account);
+        }
+
+        return Promise.resolve(true);
+      }),
+      request: jest.fn(async ({ method }) => {
+        if (ETHEREUM_METHODS.hasOwnProperty(method)) {
+          return ETHEREUM_METHODS[method];
+        }
+
+        return "";
+      }),
+      on: jest.fn(() => {}),
+    };
+  },
+  crypto: () => {
+    //@ts-ignore
+    global.crypto = {
+      getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),
+    };
+  },
+  scrollTo: () => {
+    global.scrollTo = jest.fn(() => {});
+  },
+  console: {
+    log: () => (console.log = jest.fn(() => {})),
+    dir: () => (console.dir = jest.fn(() => {})),
+    error: () => (console.error = jest.fn(() => {})),
+  },
+};
+
 export const initiateTest = (
   Component,
   props = {},

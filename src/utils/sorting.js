@@ -49,7 +49,7 @@ const sortByBigNumber = (dataList, selector, asc = false) => {
  * @param {Object} sorterArgs - args used for sorting
  * @param {(any)=>any} sorterArgs.selector - a function which returns the value to sort with.
  * @param {any[]} sorterArgs.list - array of items
- * @param {keyof SORT_DATA_TYPES} sorterArgs.datatype - array of items
+ * @param {keyof SORT_DATA_TYPES | string}  sorterArgs.datatype - array of items
  * @param {boolean} [sorterArgs.ascending] - array of items
  */
 export const sorter = ({ selector, list, datatype, ascending }) => {
