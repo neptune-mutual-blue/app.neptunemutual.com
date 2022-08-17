@@ -1,19 +1,11 @@
 import { PurchasePolicyReceipt } from "@/modules/my-policies/PurchasePolicyReceipt";
 import { i18n } from "@lingui/core";
 import { render, screen } from "@/utils/unit-tests/test-utils";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("PurchasePolicyReceipt test", () => {
   beforeEach(() => {
     i18n.activate("en");
-
-    const router = createMockRouter({
-      query: {
-        txHash:
-          "0x3e19c6f2398efdf5f6183a168bb694421ebd5aab367eed39872a293b26a71a7c",
-      },
-    });
 
     mockFn.useCoverOrProductData();
     mockFn.useAppConstants();
