@@ -67,7 +67,7 @@ export function InputDescription({ label, inputProps, className }) {
   return (
     <div className={classNames(className)}>
       <InputHeader label={label} id={inputProps.id} />
-      <textarea {...inputProps} onChange={handleChange} />
+      <textarea {...inputProps} onChange={handleChange}></textarea>
       <span
         className={classNames(
           "absolute bottom-0 right-0 mr-2 mb-2",

@@ -91,23 +91,29 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
    */
   function onSubmit(e) {
     e && e.preventDefault();
+
     if (canReport) {
       // process form and submit report
 
       const { current } = form;
 
-      const insidentUrl = current.incident_url;
+      const insidentUrl =
+        (current?.incident_url || []).length > 1
+          ? current?.incident_url
+          : [current?.incident_url];
+
       const urlReports = Object.keys(insidentUrl).map(
-        (i) => insidentUrl[i].value
+        (i) => insidentUrl[i]?.value
       );
 
       const payload = {
-        title: current.title.value,
-        observed: new Date(current.incident_date.value),
+        title: current?.title?.value,
+        observed: new Date(current?.incident_date?.value),
         proofOfIncident: urlReports,
-        description: current.description.value,
+        description: current?.description?.value,
         stake: convertToUnits(value).toString(),
       };
+
       handleReport(payload);
     } else {
       // ask for approval
@@ -145,8 +151,8 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
             label={t`Observed Date & Time`}
             inputProps={{
               max: today,
-              name: "incident_date",
               id: "incident_date",
+              name: "incident_date",
               type: "datetime-local",
               required: canReport,
               disabled: approving || reporting,
@@ -190,6 +196,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
             handleChooseMax={handleChooseMax}
             onChange={handleStakeChange}
             disabled={approving || reporting}
+            required={true}
           >
             <p className="text-9B9B9B">
               <Trans>Minimum Stake:</Trans>{" "}
@@ -212,7 +219,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
         </div>
 
         <div className="mt-10">
-          <div className="max-w-xs pr-8">
+          <div className="max-w-xs pr-8" data-testid="loaders">
             {loadingAllowance && (
               <DataLoadingIndicator message={t`Fetching allowance...`} />
             )}

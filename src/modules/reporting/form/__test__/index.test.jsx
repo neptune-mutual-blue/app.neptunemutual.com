@@ -32,7 +32,7 @@ describe("InputField test with all the attributes", () => {
     expect(input).toHaveAttribute("placeholder", "Test Placeholder");
     expect(input).toHaveAttribute("name", "test");
     expect(input).toHaveAttribute("id", "test_input");
-    expect(input).toHaveAttribute("required", "");
+    expect(input).toBeRequired();
     expect(input).toBeInTheDocument();
 
     const desc = screen.getByText("Test Description");
@@ -60,7 +60,7 @@ describe("InputField test with all the attributes", () => {
     expect(input).toHaveAttribute("placeholder", "Test Placeholder");
     expect(input).toHaveAttribute("name", "test");
     expect(input).toHaveAttribute("id", "test_input");
-    expect(input).toHaveAttribute("required", "");
+    expect(input).toBeRequired();
     expect(input).toBeInTheDocument();
 
     const desc = screen.getByText("Test Description");
@@ -99,7 +99,7 @@ describe("InputDescription test with all the attributes", () => {
 });
 
 describe("ProofOfIncident test with all the attributes", () => {
-  const { initialRender } = initiateTest(ProofOfIncident);
+  const { initialRender } = initiateTest(ProofOfIncident, { required: true });
 
   beforeEach(() => {
     initialRender();
@@ -202,7 +202,7 @@ describe("ProofOfIncident test with all the attributes", () => {
     expect(input).toHaveAttribute("placeholder", "https://");
     expect(input).toHaveAttribute("name", "incident_url");
     expect(input).toHaveAttribute("id", "incident_url");
-    expect(input).toHaveAttribute("required", "");
+    expect(input).toBeRequired();
     expect(input).toHaveValue("https://www.example.com/report_1");
     expect(input).toBeInTheDocument();
 
@@ -273,7 +273,7 @@ describe("ProofOfIncident test with all the attributes", () => {
     expect(input).toHaveAttribute("placeholder", "https://");
     expect(input).toHaveAttribute("name", "incident_url");
     expect(input).toHaveAttribute("id", "incident_url");
-    expect(input).toHaveAttribute("required", "");
+    expect(input).toBeRequired();
     expect(input).toHaveValue("https://www.example.com/report_1");
     expect(input).toBeInTheDocument();
 

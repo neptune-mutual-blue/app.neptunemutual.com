@@ -16,6 +16,7 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { isValidProduct } from "@/src/helpers/cover";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const form = useRef();
@@ -23,7 +24,9 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   const [value, setValue] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const { minStake } = useFirstReportingStake({
+  const isDiversified = isValidProduct(incidentReport.productKey);
+
+  const { minStake, fetchingMinStake } = useFirstReportingStake({
     coverKey: incidentReport.coverKey,
   });
   const {
@@ -41,6 +44,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
     minStake,
+    isDiversified,
   });
 
   const tokenDecimals = useTokenDecimals(tokenAddress);
@@ -76,15 +80,19 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
       const { current } = form;
 
-      const insidentUrl = current.incident_url;
+      const insidentUrl =
+        (current?.incident_url || []).length > 1
+          ? current?.incident_url
+          : [current?.incident_url];
+
       const urlReports = Object.keys(insidentUrl).map(
-        (i) => insidentUrl[i].value
+        (i) => insidentUrl[i]?.value
       );
 
       const payload = {
-        title: current.title.value,
+        title: current?.title?.value,
         proofOfIncident: urlReports,
-        description: current.description.value,
+        description: current?.description?.value,
         stake: convertToUnits(value).toString(),
       };
       handleDispute(payload);
@@ -97,7 +105,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   return (
     <Container className="pt-12 pb-24 border-t border-t-B0C4DB max-w-none bg-white md:bg-transparent">
       <form
-        data-testid="incident-report-form"
+        data-testid="dispute-report-form"
         ref={form}
         onSubmit={onSubmit}
         className="max-w-7xl mx-auto px-2 bg-white md:py-16 md:px-24"
@@ -109,13 +117,13 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
         <InputField
           label={t`Title`}
           inputProps={{
-            id: "incident_title",
+            id: "dispute_title",
             name: "title",
             placeholder: t`Enter Dispute Title`,
             required: canDispute,
             disabled: approving || disputing,
           }}
-          desc={t`Enter the incident title.`}
+          desc={t`Enter the dispute title.`}
         />
 
         <ProofOfIncident
@@ -153,6 +161,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             handleChooseMax={handleChooseMax}
             onChange={handleStakeChange}
             disabled={approving || disputing}
+            required={true}
           >
             <p className="text-9B9B9B">
               <Trans>Minimum Stake:</Trans>{" "}
@@ -175,10 +184,10 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
         </div>
 
         <div className="mt-10">
-          <div className="max-w-xs pr-8">
-            {convertFromUnits(minStake, tokenDecimals).isLessThanOrEqualTo(
-              0
-            ) && <DataLoadingIndicator message={t`Fetching min stake...`} />}
+          <div className="max-w-xs pr-8" data-testid="loaders">
+            {fetchingMinStake && (
+              <DataLoadingIndicator message={t`Fetching min stake...`} />
+            )}
           </div>
 
           <RegularButton
