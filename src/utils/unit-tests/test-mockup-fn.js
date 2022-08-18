@@ -38,6 +38,7 @@ import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
+import * as FetchReportHook from "@/src/hooks/useFetchReport";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
 import * as CoverProductsFunction from "@/src/services/covers-products";
 import * as DebounceHook from "@/src/hooks/useDebounce";
@@ -307,6 +308,11 @@ export const mockFn = {
       .spyOn(DisputeIncident, "useDisputeIncident")
       .mockImplementation(returnFunction(cb));
   },
+
+  useFetchReport: (cb = () => testData.incidentReports) =>
+    jest
+      .spyOn(FetchReportHook, "useFetchReport")
+      .mockImplementation(returnFunction(cb)),
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
       `${networkId}:${coverKey}-${productKey}`
