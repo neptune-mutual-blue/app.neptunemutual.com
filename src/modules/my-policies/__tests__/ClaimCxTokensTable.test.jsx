@@ -10,7 +10,7 @@ import { testData } from "@/utils/unit-tests/test-data";
 const props = {
   activePolicies: [
     {
-      id: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6-0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1-1656633599",
+      id: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9-0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1-1656633599",
       cxToken: {
         id: "0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1",
         creationDate: "1654065199",
@@ -23,7 +23,7 @@ const props = {
       },
     },
     {
-      id: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6-0x4a1801c51b1acb083cc198fc3022d08eac0b583d-1656633599",
+      id: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9-0x4a1801c51b1acb083cc198fc3022d08eac0b583d-1656633599",
       cxToken: {
         id: "0x4a1801c51b1acb083cc198fc3022d08eac0b583d",
         creationDate: "1653884896",
@@ -36,7 +36,7 @@ const props = {
       },
     },
     {
-      id: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6-0xa363182843ccd48ec068f88a2ec932fa04b5dd7c-1659311999",
+      id: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9-0xa363182843ccd48ec068f88a2ec932fa04b5dd7c-1659311999",
       cxToken: {
         id: "0xa363182843ccd48ec068f88a2ec932fa04b5dd7c",
         creationDate: "1653825622",

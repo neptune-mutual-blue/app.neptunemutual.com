@@ -3,7 +3,7 @@ import { ERROR_TOAST_TIME } from "@/src/config/toast";
 import { getErrorMessage } from "@/src/helpers/tx";
 import { useCallback } from "react";
 
-const defaultArgs = { duration: ERROR_TOAST_TIME };
+export const defaultArgs = { duration: ERROR_TOAST_TIME };
 
 export const useErrorNotifier = ({ duration } = defaultArgs) => {
   const toast = useToast();

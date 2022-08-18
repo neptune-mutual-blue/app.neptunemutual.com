@@ -39,7 +39,19 @@ import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
-// import * as FetchSubgraphFunction from "@/src/services/fetchSubgraph";
+import * as CoverProductsFunction from "@/src/services/covers-products";
+import * as DebounceHook from "@/src/hooks/useDebounce";
+import * as BondPoolAddressHook from "@/src/hooks/contracts/useBondPoolAddress";
+import * as TxToastHook from "@/src/hooks/useTxToast";
+import * as TxPosterHook from "@/src/context/TxPoster";
+import * as ErrorNotifierHook from "@/src/hooks/useErrorNotifier";
+import * as ERC20AllowanceHook from "@/src/hooks/useERC20Allowance";
+import * as UtilsWeb3 from "@/lib/connect-wallet/utils/web3";
+import * as NeptuneMutualSDK from "@neptunemutual/sdk";
+import * as CoversAndProductsHook from "@/src/context/CoversAndProductsData";
+import * as GovernanceAddressHook from "@/src/hooks/contracts/useGovernanceAddress";
+import * as UnlimitedApprovalHook from "@/src/context/UnlimitedApproval";
+import * as AuthValidationHook from "@/src/hooks/useAuthValidation";
 
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
@@ -84,14 +96,13 @@ export const mockFn = {
     jest
       .spyOn(ValidReportHook, "useValidReport")
       .mockImplementation(returnFunction(cb)),
-
-  useERC20Balance: (
-    cb = () => ({
-      balance: "1400000000000000000000",
-    })
-  ) =>
+  useERC20Balance: (cb = () => testData.erc20Balance) =>
     jest
       .spyOn(ERC20BalanceHook, "useERC20Balance")
+      .mockImplementation(returnFunction(cb)),
+  useERC20Allowance: (cb = () => testData.erc20Allowance) =>
+    jest
+      .spyOn(ERC20AllowanceHook, "useERC20Allowance")
       .mockImplementation(returnFunction(cb)),
 
   useCoverStatsContext: (
@@ -144,10 +155,12 @@ export const mockFn = {
     jest
       .spyOn(ConfigEnvironmentFile, "getNetworkId")
       .mockImplementation(returnFunction(cb)),
-  getGraphURL: (
-    cb = () =>
-      "https://api.thegraph.com/subgraphs/name/flashburst/subgraph-mumbai"
-  ) => jest.spyOn(ConfigEnvironmentFile, "getGraphURL").mockImplementation(cb),
+  getGraphURL: (networkId = 80001) =>
+    jest
+      .spyOn(ConfigEnvironmentFile, "getGraphURL")
+      .mockImplementation(
+        () => `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
+      ),
 
   useWeb3React: (cb = () => testData.account) =>
     jest
@@ -294,6 +307,122 @@ export const mockFn = {
       .spyOn(DisputeIncident, "useDisputeIncident")
       .mockImplementation(returnFunction(cb));
   },
+  getCoverProductData: (
+    cb = (networkId, coverKey, productKey) =>
+      `${networkId}:${coverKey}-${productKey}`
+  ) =>
+    jest
+      .spyOn(CoverProductsFunction, "getCoverProductData")
+      .mockImplementation(returnFunction(cb)),
+  getCoverData: (cb = (networkId, coverKey) => `${networkId}:${coverKey}`) =>
+    jest
+      .spyOn(CoverProductsFunction, "getCoverData")
+      .mockImplementation(returnFunction(cb)),
+  fetch: (
+    resolve = true,
+    fetchResponse = testData.fetch,
+    fetchJsonData = {}
+  ) => {
+    global.fetch = jest.fn(() =>
+      resolve
+        ? Promise.resolve({
+            ...fetchResponse,
+            json: () => Promise.resolve(fetchJsonData),
+          })
+        : Promise.reject("Error occured")
+    );
+    return {
+      unmock: () => {
+        if (global.fetch?.mockClear) {
+          global.fetch?.mockClear?.();
+          delete global.fetch;
+        }
+      },
+    };
+  },
+  useDebounce: (value = 123) =>
+    jest
+      .spyOn(DebounceHook, "useDebounce")
+      .mockImplementation(returnFunction(value)),
+  useBondPoolAddress: (cb = () => testData.bondPoolAddress) =>
+    jest
+      .spyOn(BondPoolAddressHook, "useBondPoolAddress")
+      .mockImplementation(returnFunction(cb)),
+  useTxToast: (cb = () => testData.txToast) =>
+    jest
+      .spyOn(TxToastHook, "useTxToast")
+      .mockImplementation(returnFunction(cb)),
+  useTxPoster: (cb = () => testData.txPoster) =>
+    jest
+      .spyOn(TxPosterHook, "useTxPoster")
+      .mockImplementation(returnFunction(cb)),
+  useErrorNotifier: (cb = () => testData.errorNotifier) =>
+    jest
+      .spyOn(ErrorNotifierHook, "useErrorNotifier")
+      .mockImplementation(returnFunction(cb)),
+  utilsWeb3: {
+    getProviderOrSigner: (cb = () => testData.providerOrSigner) =>
+      jest
+        .spyOn(UtilsWeb3, "getProviderOrSigner")
+        .mockImplementation(returnFunction(cb)),
+  },
+  sdk: {
+    registry: {
+      BondPool: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.BondPool.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+      },
+      Governance: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Governance.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+      },
+      IERC20: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.IERC20.getInstance = jest.fn(() =>
+            returnUndefined ? undefined : "IERC20 geInstance() mock"
+          );
+        },
+      },
+    },
+    utils: {
+      ipfs: {
+        write: (returnUndefined = false) => {
+          NeptuneMutualSDK.utils.ipfs.write = jest.fn((payload) =>
+            Promise.resolve(returnUndefined ? undefined : [payload.toString()])
+          );
+        },
+      },
+    },
+  },
+  setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
+  useCoversAndProducts: (resolve = true, returnData = {}) =>
+    jest
+      .spyOn(CoversAndProductsHook, "useCoversAndProducts")
+      .mockImplementation(() => ({
+        getCoverOrProductData: jest.fn(() =>
+          resolve
+            ? Promise.resolve(returnData)
+            : Promise.reject("Error occured")
+        ),
+      })),
+  useGovernanceAddress: (cb = () => testData.governanceAddress) =>
+    jest
+      .spyOn(GovernanceAddressHook, "useGovernanceAddress")
+      .mockImplementation(returnFunction(cb)),
+  useUnlimitedApproval: (cb = () => testData.unlimitedApproval) =>
+    jest
+      .spyOn(UnlimitedApprovalHook, "useUnlimitedApproval")
+      .mockImplementation(returnFunction(cb)),
+  useAuthValidation: (cb = () => testData.authValidation) =>
+    jest
+      .spyOn(AuthValidationHook, "useAuthValidation")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {
@@ -367,25 +496,66 @@ export const initiateTest = (
   };
 };
 
+/**
+ * @typedef renderHookWrapperReturn
+ * @property {Object} result
+ * @property {Function} act
+ * @property {Function} rerender
+ * @property {Function} unmount
+ * @property {Function} [waitForNextUpdate]
+ * @property {Function} [waitForValueToChange]
+ */
+
+/**
+ *
+ * @param {Function} hookFunction
+ * @param {any[]} [hookArgs]
+ * @param {boolean | number} [waitForNextUpdate]
+ * @param {Object} [renderHookOptions]
+ * @returns {Promise<renderHookWrapperReturn>}
+ *
+ */
 export const renderHookWrapper = async (
   hookFunction,
-  args = [],
-  waitForNextUpdate = false
+  hookArgs = [],
+  waitForNextUpdate = false,
+  renderHookOptions = {}
 ) => {
-  let res = {};
+  let res = {},
+    rr = () => {},
+    u = () => {},
+    wfnu = () => {},
+    wfvc = () => {};
 
   await hooksAct(async () => {
-    const { result, waitForNextUpdate: WFNU } = renderHook(() =>
-      hookFunction(...args)
-    );
+    const {
+      result,
+      waitForNextUpdate: WFNU,
+      rerender,
+      unmount,
+      waitForValueToChange,
+    } = renderHook((args) => hookFunction(...args), {
+      initialProps: hookArgs,
+      ...renderHookOptions,
+    });
 
-    if (waitForNextUpdate) {
+    if (typeof waitForNextUpdate === "boolean" && waitForNextUpdate)
       await WFNU();
-    }
+    else if (typeof waitForNextUpdate === "number")
+      await WFNU({ timeout: waitForNextUpdate });
 
     res = result.current;
+    rr = rerender;
+    u = unmount;
+    wfnu = WFNU;
+    wfvc = waitForValueToChange;
   });
   return {
     result: res,
+    act: hooksAct,
+    rerender: rr,
+    unmount: u,
+    waitForNextUpdate: wfnu,
+    waitForValueToChange: wfvc,
   };
 };
