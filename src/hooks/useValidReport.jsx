@@ -37,8 +37,6 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!isValidTimestamp(start) || !isValidTimestamp(end)) {
       return;
     }
@@ -47,20 +45,15 @@ export const useValidReport = ({ start, end, coverKey, productKey }) => {
 
     fetchValidReport(networkId, getQuery(start, end, coverKey, productKey))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [coverKey, end, networkId, productKey, start]);
 
   return {

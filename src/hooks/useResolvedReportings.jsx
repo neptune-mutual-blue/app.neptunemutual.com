@@ -51,13 +51,11 @@ export const useResolvedReportings = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     setLoading(true);
 
     fetchResolvedReportings(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.incidentReports.length === 0 ||
@@ -75,13 +73,8 @@ export const useResolvedReportings = () => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {

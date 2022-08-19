@@ -57,8 +57,6 @@ export const useActivePoliciesByCover = ({
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!networkId || !account) {
       return;
     }
@@ -78,7 +76,7 @@ export const useActivePoliciesByCover = ({
       getQuery(limit, page, startOfMonth, account, coverKey, productKey)
     )
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.userPolicies.length === 0 || _data.userPolicies.length < limit;
@@ -95,13 +93,8 @@ export const useActivePoliciesByCover = ({
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, coverKey, limit, networkId, page, productKey]);
 
   const totalActiveProtection = useMemo(() => {

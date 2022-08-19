@@ -41,8 +41,6 @@ export const useExpiredPolicies = () => {
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -52,20 +50,15 @@ export const useExpiredPolicies = () => {
     setLoading(true);
     fetchExpiredPolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, networkId]);
 
   return {

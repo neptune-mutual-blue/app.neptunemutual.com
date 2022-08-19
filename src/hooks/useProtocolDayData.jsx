@@ -22,26 +22,19 @@ export const useProtocolDayData = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     setLoading(true);
 
     fetchProtocolDayData(networkId, getQuery())
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [networkId]);
 
   return {

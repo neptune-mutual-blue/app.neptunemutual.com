@@ -22,22 +22,16 @@ export const useFlattenedCoverProducts = () => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     setLoading(true);
     fetchFlattenedCoverProducts(networkId, getQuery())
       .then((data) => {
-        if (!data || ignore) return;
+        if (!data) return;
         setData(data.coverProducts);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [networkId]);
 
   return {

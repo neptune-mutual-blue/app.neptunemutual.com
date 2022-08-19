@@ -45,8 +45,6 @@ export const useActivePolicies = () => {
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -57,20 +55,15 @@ export const useActivePolicies = () => {
 
     fetchActivePolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, networkId]);
 
   const activePolicies = data["userPolicies"] || [];

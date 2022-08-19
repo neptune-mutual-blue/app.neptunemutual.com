@@ -53,8 +53,6 @@ export const useLiquidityTxs = ({ limit, page }) => {
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -64,7 +62,7 @@ export const useLiquidityTxs = ({ limit, page }) => {
 
     fetchLiquidityTxs(networkId, query)
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.liquidityTransactions.length === 0 ||
@@ -87,13 +85,8 @@ export const useLiquidityTxs = ({ limit, page }) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, limit, networkId, page]);
 
   return {

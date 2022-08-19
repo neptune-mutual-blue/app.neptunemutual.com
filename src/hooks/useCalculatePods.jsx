@@ -83,6 +83,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     }
 
     exec();
+
     return () => {
       ignore = true;
     };

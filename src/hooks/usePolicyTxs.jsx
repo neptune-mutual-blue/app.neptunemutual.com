@@ -55,8 +55,6 @@ export const usePolicyTxs = ({ limit, page }) => {
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -65,7 +63,7 @@ export const usePolicyTxs = ({ limit, page }) => {
 
     fetchPolicyTxs(networkId, getQuery(limit, page, account))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.policyTransactions.length === 0 ||
@@ -87,13 +85,8 @@ export const usePolicyTxs = ({ limit, page }) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [account, limit, networkId, page]);
 
   return {
