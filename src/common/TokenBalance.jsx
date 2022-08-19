@@ -27,7 +27,8 @@ export const TokenBalance = ({
   const toast = useToast();
   const router = useRouter();
 
-  const handleCopy = async () => {
+  const handleCopy = async (e) => {
+    e && e.preventDefault();
     try {
       await navigator.clipboard.writeText(tokenAddress);
       toast.pushSuccess({

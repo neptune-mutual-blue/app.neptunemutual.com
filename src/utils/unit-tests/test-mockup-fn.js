@@ -41,6 +41,12 @@ import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 const FetchSubgraphFunction = require("@/src/services/fetchSubgraph");
 
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
+
+import * as FirstReportingStake from "@/src/hooks/useFirstReportingStake";
+import * as ReportIncident from "@/src/hooks/useReportIncident";
+import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
+import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
+
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -62,6 +68,7 @@ export const mockFn = {
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
       .mockImplementation(returnFunction(cb)),
+
   useFetchCoverStats: (
     cb = () => ({
       ...testData.coverStats,
@@ -71,10 +78,12 @@ export const mockFn = {
     jest
       .spyOn(FetchCoverStatsHook, "useFetchCoverStats")
       .mockImplementation(returnFunction(cb)),
+
   useValidReport: (cb = () => testData.reporting.validReport) =>
     jest
       .spyOn(ValidReportHook, "useValidReport")
       .mockImplementation(returnFunction(cb)),
+
   useERC20Balance: (
     cb = () => ({
       balance: "1400000000000000000000",
@@ -93,6 +102,7 @@ export const mockFn = {
     jest
       .spyOn(CoverStatsContext, "useCoverStatsContext")
       .mockImplementation(returnFunction(cb)),
+
   useCovers: (
     cb = () => ({
       data: {
@@ -104,32 +114,40 @@ export const mockFn = {
       loading: false,
     })
   ) => jest.spyOn(Covers, "useCovers").mockImplementation(returnFunction(cb)),
+
   useFlattenedCoverProducts: (
     cb = () => ({ data: testData.covers, loading: false })
   ) =>
     jest
       .spyOn(Diversified, "useFlattenedCoverProducts")
       .mockImplementation(returnFunction(cb)),
+
   useRegisterToken: (cb = () => testData.registerToken) =>
     jest
       .spyOn(UseRegisterTokenHook, "useRegisterToken")
       .mockImplementation(returnFunction(cb)),
+
   usePolicyTxs: (cb = () => testData.policies) =>
     jest
       .spyOn(PolicyTxs, "usePolicyTxs")
       .mockImplementation(returnFunction(cb)),
+
   useNetwork: (cb = () => testData.network) =>
     jest.spyOn(Network, "useNetwork").mockImplementation(returnFunction(cb)),
+
   useWeb3React: (cb = () => testData.account) =>
     jest
       .spyOn(Web3React, "useWeb3React")
       .mockImplementation(returnFunction(cb)),
+
   useRouter: (cb = () => testData.router) =>
     jest.spyOn(RouterHook, "useRouter").mockImplementation(returnFunction(cb)),
+
   useAppConstants: (cb = () => testData.appConstants) =>
     jest
       .spyOn(AppConstants, "useAppConstants")
       .mockImplementation(returnFunction(cb)),
+
   useProtocolDayData: (cb = () => testData.protocolDayData) =>
     jest
       .spyOn(ProtocolDayDataHook, "useProtocolDayData")
@@ -141,6 +159,7 @@ export const mockFn = {
     jest
       .spyOn(FetchHeroStats, "useFetchHeroStats")
       .mockImplementation(returnFunction(cb)),
+
   useLiquidityFormsContext: (cb = () => testData.liquidityFormsContext) =>
     jest
       .spyOn(LiquidityFormsContextHook, "useLiquidityFormsContext")
@@ -256,6 +275,23 @@ export const mockFn = {
       mockFunction: mockConsoleError,
     };
   },
+  useFirstReportingStake: (cb = () => testData.firstReportingStake) =>
+    jest
+      .spyOn(FirstReportingStake, "useFirstReportingStake")
+      .mockImplementation(returnFunction(cb)),
+  useReportIncident: (cb = () => testData.reportIncident) =>
+    jest
+      .spyOn(ReportIncident, "useReportIncident")
+      .mockImplementation(returnFunction(cb)),
+  useTokenDecimals: (cb = () => testData.tokenDecimals) =>
+    jest
+      .spyOn(TokenDecimals, "useTokenDecimals")
+      .mockImplementation(returnFunction(cb)),
+  useDisputeIncident: (cb = () => testData.disputeIncident) => {
+    jest
+      .spyOn(DisputeIncident, "useDisputeIncident")
+      .mockImplementation(returnFunction(cb));
+  },
 };
 
 export const globalFn = {
@@ -316,11 +352,11 @@ export const initiateTest = (
     act(() => {
       i18n.activate("en");
     });
-    render(<Component {...props} {...newProps} />, options);
+    return render(<Component {...props} {...newProps} />, options);
   };
 
   const rerenderFn = (newProps = {}, mocks = () => {}) => {
-    initialRender(newProps, mocks);
+    return initialRender(newProps, mocks);
   };
 
   return {

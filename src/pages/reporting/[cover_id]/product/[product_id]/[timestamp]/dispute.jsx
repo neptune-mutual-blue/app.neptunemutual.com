@@ -90,15 +90,15 @@ export default function DisputeFormPage({ disabled }) {
 
         {data.incidentReport && (
           <div>
-            <Container className="py-16">
-              {canDispute ? (
-                <NewDisputeReportForm incidentReport={data.incidentReport} />
-              ) : (
+            {canDispute ? (
+              <NewDisputeReportForm incidentReport={data.incidentReport} />
+            ) : (
+              <Container className="py-16">
                 <Alert>
                   <Trans>Not applicable for disputing</Trans>
                 </Alert>
-              )}
-            </Container>
+              </Container>
+            )}
           </div>
         )}
       </main>
