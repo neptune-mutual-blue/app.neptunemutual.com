@@ -55,6 +55,7 @@ export const useActivePolicies = () => {
 
     fetchActivePolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
