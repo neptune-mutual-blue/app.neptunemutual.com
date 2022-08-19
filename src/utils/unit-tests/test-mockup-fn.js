@@ -37,6 +37,7 @@ import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
+import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
 // import * as FetchSubgraphFunction from "@/src/services/fetchSubgraph";
 const FetchSubgraphFunction = require("@/src/services/fetchSubgraph");
 
@@ -247,6 +248,9 @@ export const mockFn = {
     jest
       .spyOn(LocalStorageHook, "useLocalStorage")
       .mockImplementation(returnFunction(cb)),
+  useAuth: (
+    cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
+  ) => jest.spyOn(useAuth, "default").mockImplementation(returnFunction(cb)),
   fetchSubgraph: (resolve = true, returnData = {}) => {
     const mockreturnFetchFn = resolve
       ? () => Promise.resolve(returnData)
