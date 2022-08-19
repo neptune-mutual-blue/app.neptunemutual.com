@@ -61,6 +61,9 @@ import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
 
+import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
+import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
+
 const Web3React = require("@web3-react/core");
 
 import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
@@ -313,6 +316,14 @@ export const mockFn = {
     jest
       .spyOn(FetchReportHook, "useFetchReport")
       .mockImplementation(returnFunction(cb)),
+  useConsensusReportingInfo: (cb = () => testData.consensusInfo) =>
+    jest
+      .spyOn(ConsensusReportingInfoHook, "useConsensusReportingInfo")
+      .mockImplementation(returnFunction(cb)),
+  useRecentVotes: (cb = () => testData.recentVotes) =>
+    jest
+      .spyOn(RecentVotesHook, "useRecentVotes")
+      .mockImplementation(returnFunction(cb)),
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
       `${networkId}:${coverKey}-${productKey}`
@@ -474,6 +485,29 @@ export const globalFn = {
     dir: () => (console.dir = jest.fn(() => {})),
     error: () => (console.error = jest.fn(() => {})),
   },
+  resizeObserver: () => {
+    global.ResizeObserver = class ResizeObserver {
+      constructor(cb) {
+        this.cb = cb;
+      }
+      observe() {
+        this.cb([{ borderBoxSize: { inlineSize: 0, blockSize: 0 } }]);
+      }
+      unobserve() {}
+    };
+  },
+  DOMRect: () => {
+    global.DOMRect = {
+      fromRect: () => ({
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        width: 0,
+        height: 0,
+      }),
+    };
+  },
 };
 
 export const initiateTest = (
@@ -563,5 +597,48 @@ export const renderHookWrapper = async (
     unmount: u,
     waitForNextUpdate: wfnu,
     waitForValueToChange: wfvc,
+  };
+};
+
+export const mockCanvas = (window) => {
+  window.HTMLCanvasElement.prototype.getContext = function () {
+    return {
+      fillRect: function () {},
+      clearRect: function () {},
+      getImageData: function (x, y, w, h) {
+        return {
+          data: new Array(w * h * 4),
+        };
+      },
+      putImageData: function () {},
+      createImageData: function () {
+        return [];
+      },
+      setTransform: function () {},
+      drawImage: function () {},
+      save: function () {},
+      fillText: function () {},
+      restore: function () {},
+      beginPath: function () {},
+      moveTo: function () {},
+      lineTo: function () {},
+      closePath: function () {},
+      stroke: function () {},
+      translate: function () {},
+      scale: function () {},
+      rotate: function () {},
+      arc: function () {},
+      fill: function () {},
+      measureText: function () {
+        return { width: 0 };
+      },
+      transform: function () {},
+      rect: function () {},
+      clip: function () {},
+    };
+  };
+
+  window.HTMLCanvasElement.prototype.toDataURL = function () {
+    return "";
   };
 };

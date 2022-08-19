@@ -1058,6 +1058,50 @@ export const testData = {
       yes: "3000000000000000000000",
     },
   },
+  recentVotes: {
+    data: {
+      votes: [
+        {
+          id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+          createdAtTimestamp: "1660556267",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+            timestamp: "1660556267",
+          },
+        },
+        {
+          id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+          createdAtTimestamp: "1660556209",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+            timestamp: "1660556209",
+          },
+        },
+        {
+          id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+          createdAtTimestamp: "1660556048",
+          voteType: "Attested",
+          witness: "0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9",
+          stake: "3000000000000000000000",
+          transaction: {
+            id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+            timestamp: "1660556048",
+          },
+        },
+      ],
+      _meta: {
+        block: {
+          number: 12678129,
+        },
+      },
+    },
+  },
   fetch: {
     body: null,
     bodyUsed: false,

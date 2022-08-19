@@ -2,11 +2,14 @@ import { i18n } from "@lingui/core";
 import { render } from "@/utils/unit-tests/test-utils";
 import { testData } from "@/utils/unit-tests/test-data";
 import { RecentVotesTable } from "@/modules/reporting/RecentVotesTable";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("RecentVotesTable test", () => {
   beforeEach(() => {
     i18n.activate("en");
   });
+
+  mockFn.useRecentVotes();
   const incidentReport = testData.incidentReports.data.incidentReport;
 
   test("should render the recent votes table", () => {
