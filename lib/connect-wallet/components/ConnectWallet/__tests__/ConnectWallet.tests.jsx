@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, screen } from "@/utils/unit-tests/test-utils";
+import { fireEvent, screen, waitFor } from "@/utils/unit-tests/test-utils";
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { i18n } from "@lingui/core";
 import ConnectWallet from "./../ConnectWallet";
@@ -204,7 +204,7 @@ describe("Popup Component", () => {
   });
 });
 
-describe.only("WalletList Component", () => {
+describe("WalletList Component", () => {
   const onConnect = jest.fn(() => {});
   beforeEach(() => {
     i18n.activate("en");
@@ -224,10 +224,14 @@ describe.only("WalletList Component", () => {
 
     fireEvent.click(metamaskButton);
 
-    expect(onConnect).toBeCalled();
+    waitFor(() => {
+      expect(onConnect).toBeCalled();
+    });
 
     fireEvent.click(binanceButton);
 
-    expect(onConnect).toBeCalled();
+    waitFor(() => {
+      expect(onConnect).toBeCalled();
+    });
   });
 });
