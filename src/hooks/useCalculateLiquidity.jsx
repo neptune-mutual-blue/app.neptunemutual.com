@@ -10,13 +10,14 @@ import { useTxPoster } from "@/src/context/TxPoster";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
 import { useMountedState } from "@/src/hooks/useMountedState";
+import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 
 export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
   const isMounted = useMountedState();
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
-  const debouncedValue = useDebounce(podAmount, 200);
+  const debouncedValue = useDebounce(podAmount, DEBOUNCE_TIMEOUT);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [loading, setLoading] = useState(false);
   const { contractRead } = useTxPoster();

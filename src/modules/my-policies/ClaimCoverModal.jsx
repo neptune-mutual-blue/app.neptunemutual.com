@@ -13,7 +13,7 @@ import { useDebounce } from "@/src/hooks/useDebounce";
 import { useCxTokenRowContext } from "@/src/modules/my-policies/CxTokenRowContext";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { formatPercent } from "@/utils/formatter/percent";
-import { MULTIPLIER } from "@/src/config/constants";
+import { DEBOUNCE_TIMEOUT, MULTIPLIER } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -29,7 +29,7 @@ export const ClaimCoverModal = ({
   claimPlatformFee,
 }) => {
   const [value, setValue] = useState("");
-  const delayedValue = useDebounce(value, 200);
+  const delayedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
   const { balance, loadingBalance, tokenSymbol, tokenDecimals } =
     useCxTokenRowContext();
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();

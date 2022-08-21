@@ -5,15 +5,9 @@ import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { NewIncidentReportPage } from "@/modules/reporting/new";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isV2BasketCoverEnabled(),
-    },
-  };
-}
+const disabled = !isV2BasketCoverEnabled();
 
-export default function ReportingNewCoverPage({ disabled }) {
+export default function ReportingNewCoverPage() {
   const router = useRouter();
   const { product_id, cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);

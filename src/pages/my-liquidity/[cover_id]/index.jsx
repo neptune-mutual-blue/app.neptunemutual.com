@@ -7,15 +7,9 @@ import { useRouter } from "next/router";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("liquidity"),
-    },
-  };
-}
+const disabled = !isFeatureEnabled("liquidity");
 
-export default function MyLiquidityCover({ disabled }) {
+export default function MyLiquidityCover() {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);

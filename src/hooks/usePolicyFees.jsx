@@ -9,6 +9,7 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { t } from "@lingui/macro";
 import DateLib from "@/lib/date/DateLib";
+import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 
 const { Contract, Provider } = multicall;
 
@@ -32,7 +33,7 @@ export const usePolicyFees = ({
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
-  const debouncedValue = useDebounce(value, 200);
+  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
   const [data, setData] = useState(defaultInfo);
   const [loading, setLoading] = useState(false);
   const { notifyError } = useErrorNotifier();

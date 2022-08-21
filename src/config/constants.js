@@ -7,6 +7,8 @@ export const ROWS_PER_PAGE = 50;
 export const CARDS_PER_PAGE = 6;
 export const GAS_MARGIN_MULTIPLIER = 1.5;
 
+export const DEBOUNCE_TIMEOUT = 400;
+
 export const CoverStatus = {
   0: "Normal",
   1: "Stopped",

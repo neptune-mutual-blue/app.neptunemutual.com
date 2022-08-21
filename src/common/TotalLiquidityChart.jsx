@@ -3,7 +3,6 @@ import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock.src";
 
 import HighchartsExporting from "highcharts/modules/exporting";
-import { useProtocolDayData } from "@/src/hooks/useProtocolDayData";
 import { convertFromUnits, sort } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { useRouter } from "next/router";
@@ -13,11 +12,10 @@ if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
-const TotalLiquidityChart = () => {
+const TotalLiquidityChart = ({ data }) => {
   const { liquidityTokenDecimals } = useAppConstants();
 
   const [chartData, setChartData] = useState([]);
-  const { data } = useProtocolDayData();
   const chartRef = useRef();
   const router = useRouter();
 

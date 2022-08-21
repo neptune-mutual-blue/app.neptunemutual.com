@@ -26,5 +26,6 @@ export const getServerSideProps = async () => {
     props: {
       noHeader: true,
     },
+    revalidate: 1000, // In seconds
   };
 };

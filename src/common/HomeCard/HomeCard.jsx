@@ -10,7 +10,7 @@ export const HomeCard = ({ items, className, showDivider = true }) => {
     >
       {items?.map((item, index) => {
         const firstBorder =
-          showDivider && index === 0 ? `border-r-0.5  border-AABDCB` : ``;
+          showDivider && index === 0 ? `border-r-0.5 border-E8E8ED` : ``;
         return (
           <div
             key={`home-card-${index}`}

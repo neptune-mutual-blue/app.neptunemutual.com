@@ -8,15 +8,9 @@ import { Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("reporting"),
-    },
-  };
-}
+const disabled = !isFeatureEnabled("reporting");
 
-export default function IncidentResolvedCoverPage({ disabled }) {
+export default function IncidentResolvedCoverPage() {
   const router = useRouter();
   const { cover_id, product_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
