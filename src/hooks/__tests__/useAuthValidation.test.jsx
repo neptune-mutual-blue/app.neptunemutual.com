@@ -1,19 +1,34 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react-hooks";
 import { useAuthValidation } from "../useAuthValidation";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { ToastProvider } from "@/lib/toast/provider";
-import { DEFAULT_VARIANT } from "@/src/config/toast";
+import { useWeb3React } from "@web3-react/core";
+
+jest.mock("@web3-react/core", () => ({
+  useWeb3React: jest.fn(),
+}));
+
+jest.mock("@/lib/toast/context", () => ({
+  useToast: jest.fn().mockImplementation(() => ({ pushError: () => {} })),
+}));
 
 describe("useAuthValidation", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <ToastProvider variant={DEFAULT_VARIANT}>{children}</ToastProvider>
-      </Web3ReactProvider>
-    );
+  test("should return nothing", async () => {
+    useWeb3React.mockImplementation(() => ({ account: null }));
+    const { result } = renderHook(() => useAuthValidation());
 
-    const { result } = renderHook(() => useAuthValidation(), { wrapper });
+    act(() => {
+      result.current.requiresAuth();
+    });
+
+    expect(result.current.requiresAuth).toEqual(expect.any(Function));
+  });
+
+  test("should require auth", async () => {
+    useWeb3React.mockImplementation(() => ({ account: "0x32423dfsf34" }));
+    const { result } = renderHook(() => useAuthValidation());
+
+    act(() => {
+      result.current.requiresAuth();
+    });
 
     expect(result.current.requiresAuth).toEqual(expect.any(Function));
   });
