@@ -2,7 +2,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -31,14 +31,13 @@ const getQuery = (startOfMonth, account) => {
   `;
 };
 
-const fetchExpiredPolicies = fetchSubgraph("useExpiredPolicies");
-
 export const useExpiredPolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const fetchExpiredPolicies = useSubgraphFetch("useExpiredPolicies");
 
   useEffect(() => {
     if (!account) {
@@ -59,7 +58,7 @@ export const useExpiredPolicies = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, networkId]);
+  }, [account, fetchExpiredPolicies, networkId]);
 
   return {
     data: {

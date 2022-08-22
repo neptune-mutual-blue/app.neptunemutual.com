@@ -203,7 +203,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
               {value &&
                 isGreater(convertToUnits(value), balance) &&
                 isGreater(convertToUnits(value), minReportingStake) && (
-                  <Trans>Insufficient Balanced</Trans>
+                  <Trans>Insufficient Balance</Trans>
                 )}
             </span>
           </TokenAmountInput>

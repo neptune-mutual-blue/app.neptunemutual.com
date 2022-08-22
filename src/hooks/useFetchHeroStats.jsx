@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
 import { getNetworkId } from "@/src/config/environment";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const defaultData = {
   availableCovers: 0,
@@ -12,8 +12,6 @@ const defaultData = {
   covered: "0",
   coverFee: "0",
 };
-
-const fetchFetchHeroStats = fetchSubgraph("useFetchHeroStats");
 
 const getQuery = () => {
   const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
@@ -46,6 +44,7 @@ const getQuery = () => {
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
+  const fetchFetchHeroStats = useSubgraphFetch("useFetchHeroStats");
 
   useEffect(() => {
     setLoading(true);
@@ -84,7 +83,7 @@ export const useFetchHeroStats = () => {
       })
       .catch((e) => console.error(`Error: ${e.message}`))
       .finally(() => setLoading(false));
-  }, []);
+  }, [fetchFetchHeroStats]);
 
   return {
     data,

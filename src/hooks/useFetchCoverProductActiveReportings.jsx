@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (coverKey, productKey) => {
   return `
@@ -20,10 +20,6 @@ const getQuery = (coverKey, productKey) => {
   `;
 };
 
-const fetchCoverProductActiveReportings = fetchSubgraph(
-  "useFetchCoverProductActiveReportings"
-);
-
 /**
  *
  * @param {object} param
@@ -37,6 +33,9 @@ export const useFetchCoverProductActiveReportings = ({
 }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const fetchCoverProductActiveReportings = useSubgraphFetch(
+    "useFetchCoverProductActiveReportings"
+  );
 
   useEffect(() => {
     if (productKey && coverKey) {
@@ -51,7 +50,7 @@ export const useFetchCoverProductActiveReportings = ({
         .catch((e) => console.error(`Error: ${e.message}`))
         .finally(() => setLoading(false));
     }
-  }, [coverKey, productKey]);
+  }, [coverKey, fetchCoverProductActiveReportings, productKey]);
 
   return {
     data,

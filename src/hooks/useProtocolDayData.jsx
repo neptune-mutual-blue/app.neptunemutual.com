@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useState, useEffect } from "react";
 
 const getQuery = () => {
@@ -13,13 +13,12 @@ const getQuery = () => {
 `;
 };
 
-const fetchProtocolDayData = fetchSubgraph("useProtocolDayData");
-
 export const useProtocolDayData = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
 
   const { networkId } = useNetwork();
+  const fetchProtocolDayData = useSubgraphFetch("useProtocolDayData");
 
   useEffect(() => {
     setLoading(true);
@@ -35,7 +34,7 @@ export const useProtocolDayData = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [networkId]);
+  }, [fetchProtocolDayData, networkId]);
 
   return {
     data: data["protocolDayDatas"],

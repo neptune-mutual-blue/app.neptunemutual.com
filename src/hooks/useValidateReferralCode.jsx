@@ -1,6 +1,6 @@
 import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { fetchApi } from "@/src/services/fetchApi.js";
+import { fetchApi } from "@/src/services/fetchApi";
 import { t } from "@lingui/macro";
 import { utils } from "@neptunemutual/sdk";
 import { useState, useEffect } from "react";

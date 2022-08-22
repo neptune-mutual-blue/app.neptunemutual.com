@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -42,8 +42,6 @@ const getQuery = (account, limit, skip) => {
   `;
 };
 
-const fetchBondTxs = fetchSubgraph("useBondTxs");
-
 export const useBondTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
@@ -54,6 +52,7 @@ export const useBondTxs = ({ limit, page }) => {
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const fetchBondTxs = useSubgraphFetch("useBondTxs");
 
   useEffect(() => {
     if (!account) {
@@ -87,7 +86,7 @@ export const useBondTxs = ({ limit, page }) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, limit, networkId, page]);
+  }, [account, fetchBondTxs, limit, networkId, page]);
 
   return {
     hasMore,

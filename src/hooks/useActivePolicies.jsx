@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -35,11 +35,10 @@ const getQuery = (startOfMonth, account) => {
   `;
 };
 
-const fetchActivePolicies = fetchSubgraph("useActivePolicies");
-
 export const useActivePolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const fetchActivePolicies = useSubgraphFetch("useActivePolicies");
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
@@ -64,7 +63,7 @@ export const useActivePolicies = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [account, networkId]);
+  }, [account, fetchActivePolicies, networkId]);
 
   const activePolicies = data["userPolicies"] || [];
   const totalActiveProtection = sumOf(

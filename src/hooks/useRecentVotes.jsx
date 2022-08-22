@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useState, useEffect } from "react";
 
 const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
@@ -34,8 +34,6 @@ const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
   `;
 };
 
-const fetchRecentVotes = fetchSubgraph("useRecentVotes");
-
 export const useRecentVotes = ({
   coverKey,
   productKey,
@@ -50,6 +48,7 @@ export const useRecentVotes = ({
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const { networkId } = useNetwork();
+  const fetchRecentVotes = useSubgraphFetch("useRecentVotes");
 
   useEffect(() => {
     if (!coverKey || !incidentDate) {
@@ -83,7 +82,15 @@ export const useRecentVotes = ({
       .finally(() => {
         setLoading(false);
       });
-  }, [coverKey, incidentDate, limit, networkId, page, productKey]);
+  }, [
+    coverKey,
+    fetchRecentVotes,
+    incidentDate,
+    limit,
+    networkId,
+    page,
+    productKey,
+  ]);
 
   return {
     data: {

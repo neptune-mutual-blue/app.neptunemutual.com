@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (itemsToSkip) => {
   return `
@@ -38,8 +38,6 @@ const getQuery = (itemsToSkip) => {
   `;
 };
 
-const fetchResolvedReportings = fetchSubgraph("useResolvedReportings");
-
 export const useResolvedReportings = () => {
   const [data, setData] = useState({
     incidentReports: [],
@@ -49,6 +47,7 @@ export const useResolvedReportings = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const { networkId } = useNetwork();
+  const fetchResolvedReportings = useSubgraphFetch("useResolvedReportings");
 
   useEffect(() => {
     setLoading(true);
@@ -75,7 +74,7 @@ export const useResolvedReportings = () => {
       .finally(() => {
         setLoading(false);
       });
-  }, [itemsToSkip, networkId]);
+  }, [fetchResolvedReportings, itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + CARDS_PER_PAGE);

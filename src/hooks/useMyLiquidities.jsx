@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (account) => {
   return `
@@ -28,8 +28,6 @@ const getQuery = (account) => {
 `;
 };
 
-const fetchMyLiquidities = fetchSubgraph("useMyLiquidities");
-
 /**
  *
  * @param {string} account
@@ -41,6 +39,7 @@ export const useMyLiquidities = (account) => {
     liquidityList: [],
   });
   const [loading, setLoading] = useState(false);
+  const fetchMyLiquidities = useSubgraphFetch("useMyLiquidities");
 
   useEffect(() => {
     if (account) {
@@ -61,7 +60,7 @@ export const useMyLiquidities = (account) => {
         .catch((e) => console.error(`Error: ${e.message}`))
         .finally(() => setLoading(false));
     }
-  }, [account]);
+  }, [account, fetchMyLiquidities]);
 
   return {
     data,
