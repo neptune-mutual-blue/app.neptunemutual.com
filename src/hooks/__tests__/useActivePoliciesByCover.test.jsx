@@ -38,10 +38,6 @@ jest.mock("@/src/config/environment", () => ({
   getGraphURL: jest.fn(),
 }));
 
-jest.mock("@/src/config/environment", () => ({
-  getGraphURL: jest.fn(),
-}));
-
 describe("useActivePoliciesByCover", () => {
   const { mock, restore, mockFunction } = mockFn.consoleError();
   mock();
