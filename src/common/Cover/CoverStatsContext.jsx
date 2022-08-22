@@ -13,6 +13,7 @@ const defaultStats = {
   requiresWhitelist: false,
   productStatus: "",
   totalPoolAmount: "0",
+  minReportingStake: "0",
   refetch: async (f) => f,
 };
 
@@ -39,6 +40,7 @@ export const CoverStatsProvider = ({
     productStatus,
     totalPoolAmount,
     availableLiquidity,
+    minReportingStake,
   } = info;
 
   return (
@@ -54,6 +56,7 @@ export const CoverStatsProvider = ({
         availableLiquidity,
         productStatus,
         totalPoolAmount,
+        minReportingStake,
         refetch,
       }}
     >

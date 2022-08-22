@@ -11,24 +11,21 @@ import { convertFromUnits, isGreater, convertToUnits } from "@/utils/bn";
 import { Container } from "@/common/Container/Container";
 import { RegularButton } from "@/common/Button/RegularButton";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
-import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
-import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useDisputeIncident } from "@/src/hooks/useDisputeIncident";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
 import { isValidProduct } from "@/src/helpers/cover";
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
-  const form = useRef();
+  const form = useRef(null);
 
   const [value, setValue] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const isDiversified = isValidProduct(incidentReport.productKey);
 
-  const { minStake, fetchingMinStake } = useFirstReportingStake({
-    coverKey: incidentReport.coverKey,
-  });
+  const { minReportingStake } = useCoverStatsContext();
   const {
     balance,
     tokenAddress,
@@ -43,7 +40,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
-    minStake,
+    minStake: minReportingStake,
     isDiversified,
   });
 
@@ -53,62 +50,56 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     setButtonDisabled(approving || disputing || !value);
   }, [approving, disputing, value]);
 
-  /**
-   *
-   * @param {string | Object} val
-   */
   function handleStakeChange(val) {
     if (typeof val === "string") setValue(val);
   }
 
-  /**
-   * @param {Object} e
-   */
   function handleChooseMax(e) {
-    e && e.preventDefault();
+    e.preventDefault();
     setValue(convertFromUnits(balance, tokenDecimals).toString());
   }
 
-  /**
-   *
-   * @param {Object} e
-   */
   function onSubmit(e) {
-    e && e.preventDefault();
-    if (canDispute) {
-      // process form and submit report
+    e.preventDefault();
 
-      const { current } = form;
-
-      const insidentUrl =
-        (current?.incident_url || []).length > 1
-          ? current?.incident_url
-          : [current?.incident_url];
-
-      const urlReports = Object.keys(insidentUrl).map(
-        (i) => insidentUrl[i]?.value
-      );
-
-      const payload = {
-        title: current?.title?.value,
-        proofOfIncident: urlReports,
-        description: current?.description?.value,
-        stake: convertToUnits(value).toString(),
-      };
-      handleDispute(payload);
-    } else {
+    if (!canDispute) {
       // ask for approval
       handleApprove();
+      return;
     }
+
+    if (!form.current) {
+      return;
+    }
+
+    // process form and submit report
+    const { current } = form;
+
+    const incidentUrl =
+      (current.incident_url || []).length > 1
+        ? current.incident_url
+        : [current.incident_url];
+
+    const urlReports = Object.keys(incidentUrl).map(
+      (i) => incidentUrl[i]?.value
+    );
+
+    const payload = {
+      title: current.title?.value,
+      proofOfIncident: urlReports,
+      description: current.description?.value,
+      stake: convertToUnits(value).toString(),
+    };
+    handleDispute(payload);
   }
 
   return (
-    <Container className="pt-12 pb-24 border-t border-t-B0C4DB max-w-none bg-white md:bg-transparent">
+    <Container className="pt-12 pb-24 bg-white border-t border-t-B0C4DB max-w-none md:bg-transparent">
       <form
         data-testid="dispute-report-form"
         ref={form}
         onSubmit={onSubmit}
-        className="max-w-7xl mx-auto px-2 bg-white md:py-16 md:px-24"
+        className="px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24"
       >
         <h2 className="mb-4 font-bold text-h2">
           <Trans>Submit Your Dispute</Trans>
@@ -165,30 +156,27 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           >
             <p className="text-9B9B9B">
               <Trans>Minimum Stake:</Trans>{" "}
-              {convertFromUnits(minStake, tokenDecimals).toString()} NPM
+              {convertFromUnits(minReportingStake, tokenDecimals).toString()}{" "}
+              NPM
             </p>
             <span className="flex items-center text-FA5C2F">
               {/* Show error for Insufficent state */}
-              {value && isGreater(minStake, convertToUnits(value)) && (
+              {value && isGreater(minReportingStake, convertToUnits(value)) && (
                 <Trans>Insufficient Stake</Trans>
               )}
 
               {/* Show error for Insufficent balance */}
               {value &&
                 isGreater(convertToUnits(value), balance) &&
-                isGreater(convertToUnits(value), minStake) && (
-                  <Trans>Insufficient Balanced</Trans>
+                isGreater(convertToUnits(value), minReportingStake) && (
+                  <Trans>Insufficient Balance</Trans>
                 )}
             </span>
           </TokenAmountInput>
         </div>
 
         <div className="mt-10">
-          <div className="max-w-xs pr-8" data-testid="loaders">
-            {fetchingMinStake && (
-              <DataLoadingIndicator message={t`Fetching min stake...`} />
-            )}
-          </div>
+          <div className="max-w-xs pr-8" data-testid="loaders"></div>
 
           <RegularButton
             disabled={buttonDisabled}

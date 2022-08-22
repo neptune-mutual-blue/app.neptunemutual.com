@@ -17,11 +17,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 
-export const HomeHero = ({
-  breadcrumbs = [],
-  heroContainerClass = "",
-  title = "",
-}) => {
+export const HomeHero = ({ breadcrumbs = [], title = "" }) => {
   const { data: heroData } = useFetchHeroStats();
   const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
   const router = useRouter();
@@ -67,14 +63,13 @@ export const HomeHero = ({
       )}
       <Container
         className={classNames(
-          "flex flex-col-reverse justify-between py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row",
-          heroContainerClass
+          "flex flex-col-reverse justify-between lg:gap-8 py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row"
         )}
       >
-        <div className="pt-10 md:flex md:gap-4 lg:block lg:mr-18 md:w-full lg:w-auto lg:pt-0">
-          <div className="flex-1">
+        <div className="pt-10 md:flex lg:flex-col md:gap-4 md:w-full lg:w-auto lg:pt-0">
+          <div className="flex-1 lg:flex-2 lg:flex lg:flex-col">
             <div
-              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start"
+              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start lg:flex-1"
               data-testid="tvl-homecard"
             >
               <HomeCard
@@ -104,7 +99,7 @@ export const HomeHero = ({
               />
             </div>
             <div
-              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start"
+              className="flex mb-2 md:mb-0 lg:mb-8 md:justify-center lg:justify-start lg:flex-1"
               data-testid="cover-homecard"
             >
               <HomeCard
@@ -142,8 +137,8 @@ export const HomeHero = ({
           </div>
         </div>
 
-        <div className="flex flex-col flex-1 min-w-0">
-          <div className="pt-6 mb-8">
+        <div className="flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard p-14 border-0.5 border-B0C4DB">
+          <div className="mb-8">
             <h3 className="mb-1 text-h3 font-sora text-4e7dd9">
               <Trans>Total Liquidity</Trans>
             </h3>

@@ -13,9 +13,9 @@ import { RegularButton } from "@/common/Button/RegularButton";
 import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 
-import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { useReportIncident } from "@/src/hooks/useReportIncident";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 
 /**
  *
@@ -46,8 +46,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
     isError,
   } = useReportIncident({ coverKey, productKey, value });
 
-  const { minStake, fetchingMinStake: isFetchingMinStake } =
-    useFirstReportingStake({ coverKey });
+  const { minReportingStake } = useCoverStatsContext();
   const tokenDecimals = useTokenDecimals(tokenAddress);
 
   useEffect(() => {
@@ -57,18 +56,9 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
         reporting ||
         !value ||
         loadingAllowance ||
-        loadingBalance ||
-        isFetchingMinStake
+        loadingBalance
     );
-  }, [
-    approving,
-    reporting,
-    value,
-    loadingAllowance,
-    loadingBalance,
-    isFetchingMinStake,
-    isError,
-  ]);
+  }, [approving, reporting, value, loadingAllowance, loadingBalance, isError]);
 
   /**
    *
@@ -97,13 +87,13 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
 
       const { current } = form;
 
-      const insidentUrl =
+      const incidentUrl =
         (current?.incident_url || []).length > 1
           ? current?.incident_url
           : [current?.incident_url];
 
-      const urlReports = Object.keys(insidentUrl).map(
-        (i) => insidentUrl[i]?.value
+      const urlReports = Object.keys(incidentUrl).map(
+        (i) => incidentUrl[i]?.value
       );
 
       const payload = {
@@ -122,12 +112,12 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
   }
 
   return (
-    <Container className="pt-12 pb-24 border-t border-t-B0C4DB max-w-none bg-white md:bg-transparent">
+    <Container className="pt-12 pb-24 bg-white border-t border-t-B0C4DB max-w-none md:bg-transparent">
       <form
         data-testid="incident-report-form"
         ref={form}
         onSubmit={onSubmit}
-        className="max-w-7xl mx-auto px-2 bg-white md:py-16 md:px-24"
+        className="px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24"
       >
         <h2 className="mb-4 font-bold text-h2">
           <Trans>Report an incident</Trans>
@@ -200,18 +190,19 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
           >
             <p className="text-9B9B9B">
               <Trans>Minimum Stake:</Trans>{" "}
-              {convertFromUnits(minStake, tokenDecimals).toString()} NPM
+              {convertFromUnits(minReportingStake, tokenDecimals).toString()}{" "}
+              NPM
             </p>
             <span className="flex items-center text-FA5C2F">
               {/* Show error for Insufficent state */}
-              {value && isGreater(minStake, convertToUnits(value)) && (
+              {value && isGreater(minReportingStake, convertToUnits(value)) && (
                 <Trans>Insufficient Stake</Trans>
               )}
 
               {/* Show error for Insufficent balance */}
               {value &&
                 isGreater(convertToUnits(value), balance) &&
-                isGreater(convertToUnits(value), minStake) && (
+                isGreater(convertToUnits(value), minReportingStake) && (
                   <Trans>Insufficient Balanced</Trans>
                 )}
             </span>
@@ -226,10 +217,6 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
 
             {loadingBalance && (
               <DataLoadingIndicator message={t`Fetching balance...`} />
-            )}
-
-            {isFetchingMinStake && (
-              <DataLoadingIndicator message={t`Fetching min stake...`} />
             )}
           </div>
 

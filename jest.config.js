@@ -11,6 +11,7 @@ const customJestConfig = {
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
+    "!**/src/utils/unit-tests/**",
     "!**/_mocks/**",
     "!**/locales/**",
   ],

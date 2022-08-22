@@ -82,6 +82,9 @@ module.exports = {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
         coverCard: "0px 6px 8px rgba(0, 0, 0, 0.1)",
       },
+      flex: {
+        2: "2 2 0%",
+      },
       spacing: {
         /* 72px */
         "9.5": "38px",

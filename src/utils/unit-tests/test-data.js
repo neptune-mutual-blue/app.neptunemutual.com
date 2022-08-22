@@ -315,6 +315,7 @@ export const testData = {
       productStatus: "Normal",
       totalPoolAmount: "7762051028549",
       availableLiquidity: "7761151028549",
+      minReportingStake: "3400000000000000000000",
     },
   },
   reporting: {

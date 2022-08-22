@@ -45,7 +45,6 @@ const FetchSubgraphFunction = require("@/src/services/fetchSubgraph");
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
 
-import * as FirstReportingStake from "@/src/hooks/useFirstReportingStake";
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
@@ -294,10 +293,6 @@ export const mockFn = {
       mockFunction: mockConsoleError,
     };
   },
-  useFirstReportingStake: (cb = () => testData.firstReportingStake) =>
-    jest
-      .spyOn(FirstReportingStake, "useFirstReportingStake")
-      .mockImplementation(returnFunction(cb)),
   useReportIncident: (cb = () => testData.reportIncident) =>
     jest
       .spyOn(ReportIncident, "useReportIncident")
