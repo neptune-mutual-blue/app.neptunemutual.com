@@ -27,7 +27,7 @@ export const HomeHero = ({
   const router = useRouter();
 
   const [changeData, setChangeData] = useState(null);
-  const { data } = useProtocolDayData();
+  const data = useProtocolDayData();
 
   useEffect(() => {
     if (data && data.length >= 2) {
@@ -189,7 +189,7 @@ export const HomeHero = ({
             className="flex-1 min-h-360"
             data-testid="liquidity-chart-wrapper"
           >
-            <TotalLiquidityChart />
+            <TotalLiquidityChart data={data} />
           </div>
         </div>
       </Container>
