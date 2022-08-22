@@ -59,6 +59,9 @@ import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
+import * as MyLiqudities from "@/src/hooks/useMyLiquidities";
+import * as CalculateTotalLiquidity from "@/src/hooks/useCalculateTotalLiquidity";
+import * as FetchReport from "@/src/hooks/useFetchReport";
 
 const Web3React = require("@web3-react/core");
 
@@ -423,6 +426,21 @@ export const mockFn = {
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
       .mockImplementation(returnFunction(cb)),
+  useMyLiquidities: (cb = () => testData.myLiquidities) => {
+    jest
+      .spyOn(MyLiqudities, "useMyLiquidities")
+      .mockImplementation(returnFunction(cb));
+  },
+  useCalculateTotalLiquidity: (cb = () => testData.calculateTotalLiquidity) => {
+    jest
+      .spyOn(CalculateTotalLiquidity, "useCalculateTotalLiquidity")
+      .mockImplementation(returnFunction(cb));
+  },
+  useFetchReport: (cb = () => testData.fetchReport) => {
+    jest
+      .spyOn(FetchReport, "useFetchReport")
+      .mockImplementation(returnFunction(cb));
+  },
 };
 
 export const globalFn = {

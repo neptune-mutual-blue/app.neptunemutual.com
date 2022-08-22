@@ -8,6 +8,7 @@ import { MyLiquidityTxsTable } from "@/src/modules/my-liquidity/MyLiquidityTxsTa
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {

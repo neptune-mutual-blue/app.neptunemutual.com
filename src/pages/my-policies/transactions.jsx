@@ -8,6 +8,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {
