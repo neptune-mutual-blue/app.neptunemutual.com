@@ -7,8 +7,10 @@ const ERRORS_SUBGRAPH = {
 };
 
 /**
+ * @typedef {(networkId: number, query: string) => Promise<any>} FetchSubgraph
+ *
  * @param {string} label
- * @returns {(networkId: number, query: string) => Promise<any>}
+ * @returns {FetchSubgraph}
  */
 export function fetchSubgraph(label) {
   let controller;

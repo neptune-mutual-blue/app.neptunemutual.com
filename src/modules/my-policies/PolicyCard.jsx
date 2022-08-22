@@ -10,10 +10,11 @@ import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import React from "react";
+import React, { useRef } from "react";
 import { CoverAvatar } from "@/common/CoverAvatar";
 import { InfoTooltip } from "@/common/Cover/InfoTooltip";
 import { isValidProduct } from "@/src/helpers/cover";
+import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo;
@@ -33,9 +34,8 @@ export const PolicyCard = ({ policyInfo }) => {
   const validityStartsAt = cxToken.creationDate || "0";
   const validityEndsAt = cxToken.expiryDate || "0";
 
-  const {
-    data: { report },
-  } = useValidReport({
+  const fetchRef = useRef(fetchSubgraph("useValidReport"));
+  const report = useValidReport(fetchRef.current, {
     start: validityStartsAt,
     end: validityEndsAt,
     coverKey: policyInfo.coverKey,

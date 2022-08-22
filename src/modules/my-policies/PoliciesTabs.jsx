@@ -24,10 +24,12 @@ const headers = [
 ];
 
 export const PoliciesTabs = ({ active, children }) => {
-  const { data } = useActivePolicies();
-  const { totalActiveProtection } = data;
-  const router = useRouter();
+  const {
+    data: { totalActiveProtection, activePolicies },
+    loading,
+  } = useActivePolicies();
   const { liquidityTokenDecimals } = useAppConstants();
+  const router = useRouter();
 
   return (
     <>
@@ -51,7 +53,7 @@ export const PoliciesTabs = ({ active, children }) => {
         <TabNav headers={headers} activeTab={active} />
       </Hero>
 
-      {children}
+      {children({ data: activePolicies, loading })}
     </>
   );
 };

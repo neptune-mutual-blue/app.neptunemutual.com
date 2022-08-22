@@ -27,7 +27,9 @@ export default function MyPoliciesActive({ disabled }) {
         />
       </Head>
       <PoliciesTabs active="active">
-        <PoliciesActivePage />
+        {({ data, loading }) => (
+          <PoliciesActivePage data={data} loading={loading} />
+        )}
       </PoliciesTabs>
     </main>
   );

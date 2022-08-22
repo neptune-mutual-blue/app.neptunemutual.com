@@ -19,12 +19,7 @@ export const PoliciesExpiredPage = () => {
       return (
         <Grid className="mb-24 mt-14">
           {expiredPolicies.map((policyInfo) => {
-            return (
-              <PolicyCard
-                key={policyInfo.id}
-                policyInfo={policyInfo}
-              ></PolicyCard>
-            );
+            return <PolicyCard key={policyInfo.id} policyInfo={policyInfo} />;
           })}
         </Grid>
       );
