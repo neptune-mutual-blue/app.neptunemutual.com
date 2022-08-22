@@ -1,19 +1,16 @@
-import { API_BASE_URL } from "@/src/config/constants";
-
 /**
  * @param {string} label
- * @returns {(endpoint: string, options: object) => Promise<any>}
  */
 export function fetchApi(label) {
   let controller;
 
-  return async (endpoint, options = {}) => {
+  async function request(url, options = {}) {
     controller?.abort();
     controller = new AbortController();
 
     try {
       const result = await fetch(
-        `${API_BASE_URL}${endpoint}`,
+        url,
         Object.assign(
           {
             signal: controller.signal,
@@ -36,7 +33,9 @@ export function fetchApi(label) {
       // else rethrow error so we can catch it externally
       throw new Error(e);
     }
-  };
+  }
+
+  return Object.assign(request, { abort: () => controller?.abort() });
 }
 
 /**

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "@/src/config/constants";
 import { useDebounce } from "@/src/hooks/useDebounce";
 import { fetchApi } from "@/src/services/fetchApi.js";
 import { t } from "@lingui/macro";
@@ -12,7 +13,7 @@ const fetchValidateReferralCode = fetchApi("fetchValidateReferralCode");
 async function validateReferralCode(referralCode) {
   try {
     const result = await fetchValidateReferralCode(
-      "protocol/cover/referral-code",
+      `${API_BASE_URL}protocol/cover/referral-code`,
       {
         method: "POST",
         body: JSON.stringify({ referralCode }),
@@ -85,6 +86,10 @@ export function useValidateReferralCode(referralCode) {
       setErrorMessage("");
       setIsValid(true);
     })();
+
+    return () => {
+      fetchValidateReferralCode.abort();
+    };
   }, [finalReferralValue]);
 
   return [isValid, errorMessage];

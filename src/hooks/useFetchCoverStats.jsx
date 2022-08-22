@@ -9,6 +9,7 @@ import {
 } from "@/src/config/constants";
 import { getStats } from "@/src/services/protocol/cover/stats";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { fetchApi } from "@/src/services/fetchApi.js";
 
 const defaultStats = {
   activeIncidentDate: "0",
@@ -31,82 +32,32 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const fetcher = useCallback(async () => {
     if (!networkId || !coverKey || !productKey) return;
 
-    let data = null;
-
     if (account) {
       // Get data from provider if wallet's connected
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      data = await getStats(
+      return getStats(
         networkId,
         coverKey,
         productKey,
         account,
         signerOrProvider.provider
       );
-    } else {
-      // Get data from API if wallet's not connected
-      const response = await fetch(
-        getReplacedString(COVER_STATS_URL, {
-          networkId,
-          coverKey,
-          productKey,
-          account: ADDRESS_ONE,
-        }),
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        return;
-      }
-
-      data = (await response.json()).data;
     }
 
-    if (!data || Object.keys(data).length === 0) {
-      return;
-    }
+    const url = getReplacedString(COVER_STATS_URL, {
+      networkId,
+      coverKey,
+      productKey,
+      account: ADDRESS_ONE,
+    });
+    // Get data from API if wallet's not connected
+
+    const request = fetchApi(`useFetchCoverStats:: ${url}`);
+
+    const { data } = await request(url);
 
     return data;
   }, [account, coverKey, library, networkId, productKey]);
-
-  useEffect(() => {
-    let ignore = false;
-
-    async function exec() {
-      try {
-        const data = await fetcher();
-
-        if (ignore || !data) return;
-
-        setInfo({
-          activeIncidentDate: data.activeIncidentDate,
-          claimPlatformFee: data.claimPlatformFee,
-          activeCommitment: data.activeCommitment,
-          isUserWhitelisted: data.isUserWhitelisted,
-          reporterCommission: data.reporterCommission,
-          reportingPeriod: data.reportingPeriod,
-          requiresWhitelist: data.requiresWhitelist,
-          productStatus: CoverStatus[data.productStatus],
-          totalPoolAmount: data.totalPoolAmount,
-          availableLiquidity: data.availableLiquidity,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    exec();
-
-    return () => {
-      ignore = true;
-    };
-  }, [fetcher]);
 
   const refetch = useCallback(async () => {
     try {
@@ -130,6 +81,10 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
       console.error(error);
     }
   }, [fetcher]);
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return { info, refetch };
 };
