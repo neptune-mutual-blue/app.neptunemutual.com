@@ -15,7 +15,9 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 
 import { useReportIncident } from "@/src/hooks/useReportIncident";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import DateLib from "@/lib/date/DateLib";
 
 /**
  *
@@ -25,7 +27,7 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
  * @returns
  */
 export function NewIncidentReportForm({ coverKey, productKey }) {
-  const today = new Date().toISOString().slice(0, 16);
+  const max = DateLib.dateToUTC().toISOString().slice(0, 16);
 
   const form = useRef();
 
@@ -140,7 +142,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
             className="lg:flex-shrink"
             label={t`Observed Date & Time`}
             inputProps={{
-              max: today,
+              max: max,
               id: "incident_date",
               name: "incident_date",
               type: "datetime-local",
