@@ -1,12 +1,12 @@
-import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
+import {
+  DEBOUNCE_TIMEOUT,
+  REFERRAL_CODE_VALIDATION_URL,
+} from "@/src/config/constants";
 import { useDebounce } from "@/src/hooks/useDebounce";
-import { fetchApi } from "@/src/services/fetchApi";
+import { useFetch } from "@/src/hooks/useFetch";
 import { t } from "@lingui/macro";
 import { utils } from "@neptunemutual/sdk";
 import { useState, useEffect } from "react";
-
-// creates a cancellable request
-const fetchValidateReferralCode = fetchApi("fetchValidateReferralCode");
 
 /**
  *
@@ -32,6 +32,7 @@ export function useValidateReferralCode(referralCode) {
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const fetchValidateReferralCode = useFetch("fetchValidateReferralCode");
   const debouncedValue = useDebounce(referralCode, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export function useValidateReferralCode(referralCode) {
           setIsPending(true);
 
           const result = await fetchValidateReferralCode(
-            "protocol/cover/referral-code",
+            REFERRAL_CODE_VALIDATION_URL,
             {
               method: "POST",
               body: JSON.stringify({ referralCode: trimmedValue }),
@@ -83,7 +84,7 @@ export function useValidateReferralCode(referralCode) {
       setIsValid(false);
       return;
     })();
-  }, [debouncedValue]);
+  }, [debouncedValue, fetchValidateReferralCode]);
 
   return { isValid, errorMessage, isPending };
 }
