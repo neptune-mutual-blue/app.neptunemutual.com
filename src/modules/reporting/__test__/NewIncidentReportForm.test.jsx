@@ -316,7 +316,7 @@ describe("Incident Occured form", () => {
       expect(error).toBeInTheDocument();
     });
 
-    test("Show error Insufficient Balanced", () => {
+    test("Show error Insufficient Balance", () => {
       rerenderFn({}, () => {
         mockFn.useCoverStatsContext(() => ({
           ...testData.coverStats.info,
@@ -329,7 +329,7 @@ describe("Incident Occured form", () => {
       });
       fireEvent.change(stakeInput, { target: { value: 1000 } });
 
-      const error = screen.getByText("Insufficient Balanced");
+      const error = screen.getByText("Insufficient Balance");
       expect(error).toHaveClass("text-FA5C2F");
       expect(error).toBeInTheDocument();
     });
