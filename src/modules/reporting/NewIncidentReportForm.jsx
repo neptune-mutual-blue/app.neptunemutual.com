@@ -27,7 +27,7 @@ import DateLib from "@/lib/date/DateLib";
  * @returns
  */
 export function NewIncidentReportForm({ coverKey, productKey }) {
-  const max = DateLib.dateToUTC().toISOString().slice(0, 16);
+  const max = DateLib.dateToISO().toISOString().slice(0, 16);
 
   const form = useRef();
 
