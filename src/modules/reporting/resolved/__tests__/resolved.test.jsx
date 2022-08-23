@@ -25,7 +25,7 @@ describe("ResolvedReportingPage test", () => {
     query: "",
   }));
 
-  const { initialRender, rerenderFn } = initiateTest(
+  const { initialRender } = initiateTest(
     ReportingResolvedPage,
     {},
     initialMocks
