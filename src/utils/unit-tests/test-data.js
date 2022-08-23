@@ -892,6 +892,26 @@ export const testData = {
           totalAttestedStake: "4634000000000000000000",
           totalRefutedStake: "3400000000000000000000",
         },
+        {
+          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661053596",
+          coverKey:
+            "0x6465666900000000000000000000000000000000000000000000000000000000",
+          productKey:
+            "0x31696e6368000000000000000000000000000000000000000000000000000000",
+          incidentDate: "1661053596",
+          resolutionDeadline: "1661056130",
+          resolved: true,
+          emergencyResolved: false,
+          emergencyResolveTransaction: null,
+          resolveTransaction: {
+            timestamp: "1661055830",
+          },
+          finalized: true,
+          status: "Claimable",
+          resolutionTimestamp: "1661053896",
+          totalAttestedStake: "2000000000000000000000",
+          totalRefutedStake: "0",
+        },
       ],
     },
     loading: false,
