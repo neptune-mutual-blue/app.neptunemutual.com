@@ -10,9 +10,9 @@ describe("Incident Occured form", () => {
       incidentReport: { coverKey: "coverKey" },
     },
     () => {
-      mockFn.useFirstReportingStake(),
-        mockFn.useDisputeIncident(),
-        mockFn.useTokenDecimals();
+      mockFn.useCoverStatsContext();
+      mockFn.useDisputeIncident();
+      mockFn.useTokenDecimals();
     }
   );
 
@@ -235,21 +235,6 @@ describe("Incident Occured form", () => {
     });
   });
 
-  describe("Loading test", () => {
-    test("fetchingMinStake test", () => {
-      rerenderFn({}, () => {
-        mockFn.useFirstReportingStake(() => ({
-          ...testData.firstReportingStake,
-          fetchingMinStake: true,
-        }));
-      });
-
-      const loading = screen.getByTestId("loaders");
-      expect(loading).toHaveTextContent("Fetching min stake...");
-      expect(loading).toBeInTheDocument();
-    });
-  });
-
   describe("Errors on Stake", () => {
     test("Show error Insufficient Stake", () => {
       const stakeInput = screen.getByRole("textbox", {
@@ -262,11 +247,12 @@ describe("Incident Occured form", () => {
       expect(error).toBeInTheDocument();
     });
 
-    test("Show error Insufficient Balanced", () => {
+    test("Show error Insufficient Balance", () => {
       rerenderFn({}, () => {
-        mockFn.useFirstReportingStake(() => ({
-          ...testData.firstReportingStake,
-          minStake: "300000000000000000000",
+        mockFn.useCoverStatsContext(() => ({
+          ...testData.coverStats.info,
+          minReportingStake: "300000000000000000000",
+          refetch: () => Promise.resolve(1),
         }));
       });
       const stakeInput = screen.getByRole("textbox", {
@@ -274,7 +260,7 @@ describe("Incident Occured form", () => {
       });
       fireEvent.change(stakeInput, { target: { value: 1000 } });
 
-      const error = screen.getByText("Insufficient Balanced");
+      const error = screen.getByText("Insufficient Balance");
       expect(error).toHaveClass("text-FA5C2F");
       expect(error).toBeInTheDocument();
     });

@@ -13,7 +13,6 @@ import { MULTIPLIER } from "@/src/config/constants";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
 import { Trans } from "@lingui/macro";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
@@ -32,19 +31,18 @@ export const ActiveReportingCard = ({
   const { setStatsByKey } = useSortableStats();
   const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
-  const { info: liquidityInfo } = useMyLiquidityInfo({ coverKey });
   const { info: coverStats } = useFetchCoverStats({
     coverKey,
     productKey,
   });
   const router = useRouter();
 
-  const { activeCommitment, productStatus } = coverStats;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
 
   const isDiversified = isValidProduct(productKey);
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
 
-  const liquidity = liquidityInfo.totalLiquidity;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"

@@ -40,12 +40,10 @@ import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
 // import * as FetchSubgraphFunction from "@/src/services/fetchSubgraph";
-const FetchSubgraphFunction = require("@/src/services/fetchSubgraph");
 
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
 
-import * as FirstReportingStake from "@/src/hooks/useFirstReportingStake";
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
@@ -266,17 +264,6 @@ export const mockFn = {
   useAuth: (
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
   ) => jest.spyOn(useAuth, "default").mockImplementation(returnFunction(cb)),
-  fetchSubgraph: (resolve = true, returnData = {}) => {
-    const mockreturnFetchFn = resolve
-      ? () => Promise.resolve(returnData)
-      : () =>
-          Promise.reject(
-            new Error(typeof returnData === "string" ? returnData : "Error")
-          );
-    jest
-      .spyOn(FetchSubgraphFunction, "fetchSubgraph")
-      .mockImplementation(() => () => mockreturnFetchFn());
-  },
   consoleError: () => {
     const mockConsoleError = jest.fn();
 
@@ -294,10 +281,6 @@ export const mockFn = {
       mockFunction: mockConsoleError,
     };
   },
-  useFirstReportingStake: (cb = () => testData.firstReportingStake) =>
-    jest
-      .spyOn(FirstReportingStake, "useFirstReportingStake")
-      .mockImplementation(returnFunction(cb)),
   useReportIncident: (cb = () => testData.reportIncident) =>
     jest
       .spyOn(ReportIncident, "useReportIncident")

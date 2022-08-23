@@ -29,9 +29,10 @@ import {
 import { METHODS } from "@/src/services/transactions/const";
 import { getActionMessage } from "@/src/helpers/notification";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
-  const debouncedValue = useDebounce(value, 200);
+  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
   const [approving, setApproving] = useState(false);

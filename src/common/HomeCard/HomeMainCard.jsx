@@ -7,7 +7,7 @@ export const HomeMainCard = ({ heroData, className = "" }) => {
   return (
     <div
       className={classNames(
-        "w-full max-w-96 py-5 lg:py-0 lg:h-36  bg-white rounded-2xl border-0.5 border-B0C4DB flex flex-col justify-center items-center px-12 shadow-homeCard",
+        "w-full max-w-96 py-5 lg:py-0 lg:h-full  bg-white rounded-2xl border-0.5 border-B0C4DB flex flex-col justify-center items-center px-12 shadow-homeCard",
         className
       )}
     >

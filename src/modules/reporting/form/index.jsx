@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Label } from "@/common/Label/Label";
 import { RegularInput } from "@/common/Input/RegularInput";
 import { classNames } from "@/utils/classnames";
-import { t, Trans } from "@lingui/macro";
+import { t } from "@lingui/macro";
 import DeleteIcon from "@/icons/delete-icon";
 
 /**
@@ -16,7 +16,7 @@ import DeleteIcon from "@/icons/delete-icon";
 function InputHeader({ label, id }) {
   return (
     <Label htmlFor={id} className={"mb-2 mt-6"}>
-      <Trans>{label}</Trans>
+      {label}
     </Label>
   );
 }
@@ -39,7 +39,7 @@ export function InputField({ label, inputProps, desc, className = "", error }) {
       <RegularInput inputProps={inputProps} />
       {desc && <span className="pl-2 mt-2 text-sm text-9B9B9B">{desc}</span>}
       {error && (
-        <span className="flex pl-2 items-center text-FA5C2F">{error}</span>
+        <span className="flex items-center pl-2 text-FA5C2F">{error}</span>
       )}
     </div>
   );
@@ -175,7 +175,7 @@ export function ProofOfIncident({ disabled, required }) {
 
       <button
         onClick={handleAdd}
-        className="mt-4 text-black bg-transparent border-B0C4DB bg-E6EAEF py-3 px-6 rounded-md hover:underline"
+        className="px-6 py-3 mt-4 text-black bg-transparent rounded-md border-B0C4DB bg-E6EAEF hover:underline"
       >
         + {t`Add new link`}
       </button>

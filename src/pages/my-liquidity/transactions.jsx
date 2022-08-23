@@ -47,7 +47,7 @@ export default function MyLiquidityTxs({ disabled }) {
             <Trans>Transaction List</Trans>
           </HeroTitle>
         </Container>
-        <hr className="border-b border-B0C4DB" />
+        <hr className="border-B0C4DB" />
       </Hero>
 
       <Container className="pt-14 pb-28">

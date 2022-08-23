@@ -1,5 +1,5 @@
 {
-  "name": "v2-app",
+  "name": "app.neptunemutual.com",
   "private": true,
   "scripts": {
     "dev": "next dev",

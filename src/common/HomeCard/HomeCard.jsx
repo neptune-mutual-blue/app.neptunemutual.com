@@ -4,13 +4,13 @@ export const HomeCard = ({ items, className, showDivider = true }) => {
   return (
     <div
       className={classNames(
-        "w-full lg:w-96 py-6 lg:py-0 lg:h-36 bg-white rounded-2xl shadow-homeCard md:rounded-none lg:rounded-2xl border-0.5 md:border-0  lg:border-0.5 border-B0C4DB lg:border-B0C4DB flex justify-center items-center",
+        "w-full lg:w-96 py-6 lg:py-0 lg:h-full bg-white rounded-2xl shadow-homeCard md:rounded-none lg:rounded-2xl border-0.5 md:border-0  lg:border-0.5 border-B0C4DB lg:border-B0C4DB flex justify-center items-center",
         className
       )}
     >
       {items?.map((item, index) => {
         const firstBorder =
-          showDivider && index === 0 ? `border-r-0.5  border-AABDCB` : ``;
+          showDivider && index === 0 ? `border-r-0.5 border-E8E8ED` : ``;
         return (
           <div
             key={`home-card-${index}`}

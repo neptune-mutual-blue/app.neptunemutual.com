@@ -11,9 +11,9 @@ describe("Incident Occured form", () => {
       productKey: "productKey",
     },
     () => {
-      mockFn.useFirstReportingStake(),
-        mockFn.useReportIncident(),
-        mockFn.useTokenDecimals();
+      mockFn.useCoverStatsContext();
+      mockFn.useReportIncident();
+      mockFn.useTokenDecimals();
     }
   );
 
@@ -261,19 +261,6 @@ describe("Incident Occured form", () => {
       expect(loading).toHaveTextContent("Fetching balance...");
       expect(loading).toBeInTheDocument();
     });
-
-    test("fetchingMinStake test", () => {
-      rerenderFn({}, () => {
-        mockFn.useFirstReportingStake(() => ({
-          ...testData.firstReportingStake,
-          fetchingMinStake: true,
-        }));
-      });
-
-      const loading = screen.getByTestId("loaders");
-      expect(loading).toHaveTextContent("Fetching min stake...");
-      expect(loading).toBeInTheDocument();
-    });
   });
 
   describe("Approve and Reporting Button", () => {
@@ -329,11 +316,12 @@ describe("Incident Occured form", () => {
       expect(error).toBeInTheDocument();
     });
 
-    test("Show error Insufficient Balanced", () => {
+    test("Show error Insufficient Balance", () => {
       rerenderFn({}, () => {
-        mockFn.useFirstReportingStake(() => ({
-          ...testData.firstReportingStake,
-          minStake: "300000000000000000000",
+        mockFn.useCoverStatsContext(() => ({
+          ...testData.coverStats.info,
+          minReportingStake: "300000000000000000000",
+          refetch: () => Promise.resolve(1),
         }));
       });
       const stakeInput = screen.getByRole("textbox", {
@@ -341,7 +329,7 @@ describe("Incident Occured form", () => {
       });
       fireEvent.change(stakeInput, { target: { value: 1000 } });
 
-      const error = screen.getByText("Insufficient Balanced");
+      const error = screen.getByText("Insufficient Balance");
       expect(error).toHaveClass("text-FA5C2F");
       expect(error).toBeInTheDocument();
     });

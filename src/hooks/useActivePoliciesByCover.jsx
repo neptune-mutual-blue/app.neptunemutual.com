@@ -4,7 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect, useMemo } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   return `
@@ -39,8 +39,6 @@ const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   `;
 };
 
-const fetchActivePoliciesByCover = fetchSubgraph("useActivePoliciesByCover");
-
 export const useActivePoliciesByCover = ({
   coverKey,
   productKey,
@@ -55,6 +53,9 @@ export const useActivePoliciesByCover = ({
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const fetchActivePoliciesByCover = useSubgraphFetch(
+    "useActivePoliciesByCover"
+  );
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -95,7 +96,15 @@ export const useActivePoliciesByCover = ({
       .finally(() => {
         setLoading(false);
       });
-  }, [account, coverKey, limit, networkId, page, productKey]);
+  }, [
+    account,
+    coverKey,
+    fetchActivePoliciesByCover,
+    limit,
+    networkId,
+    page,
+    productKey,
+  ]);
 
   const totalActiveProtection = useMemo(() => {
     return sumOf(

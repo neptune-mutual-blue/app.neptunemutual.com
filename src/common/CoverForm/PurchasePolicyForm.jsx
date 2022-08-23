@@ -23,6 +23,8 @@ import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
 import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
 import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
+import { Loader } from "@/common/Loader/Loader";
+import ErrorIcon from "@/lib/toast/components/icons/ErrorIcon";
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date();
@@ -68,8 +70,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     liquidityTokenDecimals
   ).toString();
 
-  const [isValidReferralCode, referralCodeErrorMessage] =
-    useValidateReferralCode(referralCode);
+  const {
+    isValid: isValidReferralCode,
+    errorMessage: referralCodeErrorMessage,
+    isPending: isReferralCodeCheckPending,
+  } = useValidateReferralCode(referralCode);
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -164,6 +169,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
   }
 
+  const hasReferralCode = !!referralCode.trim().length;
+
   return (
     <div className="max-w-lg" data-testid="purchase-policy-form">
       <TokenAmountInput
@@ -251,17 +258,18 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               disabled: approving,
               type: "text",
             }}
+            error={!!referralCodeErrorMessage}
           />
 
-          {!!referralCode.trim().length && isValidReferralCode && (
-            <SuccessIcon
-              className="absolute w-6 h-6 text-21AD8C right-6 top-6"
-              aria-hidden="true"
+          {hasReferralCode ? (
+            <ReferralCodeStatus
+              isReferralCodeCheckPending={isReferralCodeCheckPending}
+              isValidReferralCode={isValidReferralCode}
             />
-          )}
+          ) : null}
 
           {referralCodeErrorMessage && (
-            <p className="flex items-center mt-3 ml-3 text-FA5C2F">
+            <p className="flex items-center mt-2 ml-3 text-FA5C2F">
               {referralCodeErrorMessage}
             </p>
           )}
@@ -281,7 +289,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               !coverMonth ||
               updatingFee ||
               updatingBalance ||
-              !isValidReferralCode
+              isReferralCodeCheckPending
             }
             className="w-full p-6 font-semibold uppercase text-h6"
             onClick={handleApprove}
@@ -323,5 +331,35 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <BackButton onClick={() => router.back()} />
       </div>
     </div>
+  );
+};
+
+const ReferralCodeStatus = ({
+  isReferralCodeCheckPending,
+  isValidReferralCode,
+}) => {
+  if (isReferralCodeCheckPending) {
+    return (
+      <Loader
+        className="absolute w-6 h-6 right-6 top-6 text-4e7dd9"
+        aria-hidden="true"
+      />
+    );
+  }
+
+  if (isValidReferralCode) {
+    return (
+      <SuccessIcon
+        className="absolute w-6 h-6 text-21AD8C right-6 top-6"
+        aria-hidden="true"
+      />
+    );
+  }
+
+  return (
+    <ErrorIcon
+      className="absolute w-6 h-6 text-FA5C2F right-6 top-6"
+      aria-hidden="true"
+    />
   );
 };

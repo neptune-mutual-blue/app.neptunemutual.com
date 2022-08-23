@@ -38,10 +38,15 @@ export const getKeys = async (
     productKey
   );
 
-  const [getCoverPoolSummaryResult, status] = await ethcallProvider.all([
-    getCoverPoolSummaryCall,
-    getStatusCall,
-  ]);
+  const getFirstReportingStakeCall =
+    await governanceContract.getFirstReportingStake(coverKey);
+
+  const [getCoverPoolSummaryResult, status, minReportingStake] =
+    await ethcallProvider.all([
+      getCoverPoolSummaryCall,
+      getStatusCall,
+      getFirstReportingStakeCall,
+    ]);
 
   const [
     totalPoolAmount,
@@ -102,6 +107,11 @@ export const getKeys = async (
       returns: "uint256",
       property: "productStatus",
       compute: async () => status,
+    },
+    {
+      returns: "uint256",
+      property: "minReportingStake",
+      compute: async () => minReportingStake,
     },
     {
       key: [

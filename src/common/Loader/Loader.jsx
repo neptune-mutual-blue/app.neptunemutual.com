@@ -1,7 +1,12 @@
-export const Loader = ({ ...rest }) => {
+import { classNames } from "@/utils/classnames";
+
+export const Loader = ({ className, ...rest }) => {
   return (
     <svg
-      className="animate-spin -ml-1 mr-3 h-8 w-8 text-4e7dd9"
+      className={classNames(
+        "animate-spin",
+        className ? className : "h-8 w-8 -ml-1 mr-3 text-4e7dd9"
+      )}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

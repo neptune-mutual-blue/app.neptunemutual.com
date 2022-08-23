@@ -47,7 +47,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
         coverInfo={coverInfo}
         reportStatus={{ resolved: incidentReport.resolved }}
       />
-      <hr className="border-b border-B0C4DB" />
+      <hr className="border-B0C4DB" />
       <Container className="py-16">
         {showResolvedSummary ? (
           <ResolvedReportSummary

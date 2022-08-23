@@ -1,3 +1,4 @@
+import * as Tooltip from "@radix-ui/react-tooltip";
 import DateLib from "@/lib/date/DateLib";
 import { MULTIPLIER } from "@/src/config/constants";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -6,6 +7,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { formatPercent } from "@/utils/formatter/percent";
 import { Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import InfoCircleIcon from "@/icons/InfoCircleIcon";
 
 export const PolicyFeesAndExpiry = ({ data }) => {
   const { fee, rate } = data;
@@ -26,7 +28,7 @@ export const PolicyFeesAndExpiry = ({ data }) => {
             <th className="font-semibold text-left">
               <Trans>Fees</Trans>
             </th>
-            <td className="text-4e7dd9 text-right">
+            <td className="text-right text-4e7dd9">
               {formatPercent(rateConverted, router.locale)}
             </td>
           </tr>
@@ -35,7 +37,7 @@ export const PolicyFeesAndExpiry = ({ data }) => {
               <Trans>Cover Fee</Trans>
             </th>
             <td
-              className="text-4e7dd9 text-right"
+              className="text-right text-4e7dd9"
               title={
                 formatCurrency(
                   coverFee,
@@ -59,24 +61,58 @@ export const PolicyFeesAndExpiry = ({ data }) => {
             <th className="font-semibold text-left">
               <Trans>Coverage Period</Trans>
             </th>
-            <td className="text-4e7dd9 text-right" title={expires.toString()}>
+            <td className="text-right text-4e7dd9">
               {DateLib.toLongDateFormat(new Date(), router.locale, "UTC", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",
               })}{" "}
-              -
+              -{" "}
               {DateLib.toLongDateFormat(expires, router.locale, "UTC", {
                 year: "numeric",
                 month: "short",
                 day: "numeric",
               })}
-              ; 0:00 UTC
+              {/* Tooltip */}
+              <CoveragePeriodTooltip startsAt={new Date()} endsAt={expires} />
             </td>
           </tr>
         </tbody>
       </table>
       <hr className="mt-4 border-t border-d4dfee" />
     </>
+  );
+};
+
+/**
+ *
+ * @param {{startsAt: Date, endsAt: Date}} param0
+ */
+const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger className="p-0.5">
+        <span className="sr-only">Info</span>
+        <InfoCircleIcon width={24} className="fill-9B9B9B" />
+      </Tooltip.Trigger>
+
+      <Tooltip.Content side="top">
+        <div className="max-w-md px-4 py-4 text-xs tracking-normal bg-black rounded-lg text-EEEEEE">
+          <p>
+            <strong>
+              <Trans>Starts At</Trans>:
+            </strong>{" "}
+            {startsAt.toString()}
+          </p>
+          <p>
+            <strong>
+              <Trans>Expires At</Trans>:
+            </strong>{" "}
+            {endsAt.toString()}
+          </p>
+        </div>
+        <Tooltip.Arrow offset={16} className="fill-black" />
+      </Tooltip.Content>
+    </Tooltip.Root>
   );
 };

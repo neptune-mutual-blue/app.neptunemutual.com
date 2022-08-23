@@ -49,7 +49,7 @@ export default function MyLiquidity({ disabled }) {
       </Head>
 
       <Hero>
-        <Container className="flex flex-wrap px-2 py-20">
+        <Container className="flex flex-wrap px-2 py-28">
           <HeroTitle>
             <Trans>My Liquidity</Trans>
           </HeroTitle>
@@ -72,7 +72,7 @@ export default function MyLiquidity({ disabled }) {
             </HeroStat>
           )}
         </Container>
-        <hr className="border-b border-B0C4DB" />
+        <hr className="border-B0C4DB" />
       </Hero>
 
       <MyLiquidityPage myLiquidities={myLiquidities} loading={loading} />

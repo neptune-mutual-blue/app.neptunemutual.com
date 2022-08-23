@@ -11,12 +11,13 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 import { t } from "@lingui/macro";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 
 export const useCalculatePods = ({ coverKey, value, podAddress }) => {
   const { library, account } = useWeb3React();
   const { networkId } = useNetwork();
 
-  const debouncedValue = useDebounce(value, 200);
+  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
   const [receiveAmount, setReceiveAmount] = useState("0");
   const [loading, setLoading] = useState(false);
   const { contractRead } = useTxPoster();

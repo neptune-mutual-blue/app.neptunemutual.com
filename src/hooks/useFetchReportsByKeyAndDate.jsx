@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (coverKey, incidentDate) => {
   return `
@@ -21,8 +21,6 @@ const getQuery = (coverKey, incidentDate) => {
   `;
 };
 
-const fetchReportsByKeyAndDate = fetchSubgraph("useFetchReportsByKeyAndDate");
-
 /**
  *
  * @param {object} param
@@ -33,6 +31,9 @@ const fetchReportsByKeyAndDate = fetchSubgraph("useFetchReportsByKeyAndDate");
 export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const fetchReportsByKeyAndDate = useSubgraphFetch(
+    "useFetchReportsByKeyAndDate"
+  );
 
   useEffect(() => {
     if (coverKey && incidentDate) {
@@ -44,7 +45,7 @@ export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
         .catch((e) => console.error(`Error: ${e.message}`))
         .finally(() => setLoading(false));
     }
-  }, [coverKey, incidentDate]);
+  }, [coverKey, fetchReportsByKeyAndDate, incidentDate]);
 
   return {
     data,
