@@ -1,3 +1,5 @@
+import { convertToUnits, toBN } from "@/utils/bn";
+
 export const testData = {
   covers: [
     {
@@ -350,7 +352,7 @@ export const testData = {
         {
           type: "CoverPurchased",
           key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "1000000000000000000000",
           daiAmount: "1000000000000000000000",
           cxToken: {
@@ -369,7 +371,7 @@ export const testData = {
         {
           type: "Claimed",
           key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "100000000000000000000",
           daiAmount: "100000000000000000000",
           cxToken: {
@@ -388,7 +390,7 @@ export const testData = {
         {
           type: "CoverPurchased",
           key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "100000000000000000000",
           daiAmount: "100000000000000000000",
           cxToken: {
@@ -411,7 +413,7 @@ export const testData = {
     hasMore: false,
   },
   network: { networkId: 80001 },
-  account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
+  account: { account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9" },
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
@@ -427,7 +429,7 @@ export const testData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -446,7 +448,7 @@ export const testData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -546,6 +548,7 @@ export const testData = {
     isPreview: false,
     isLocaleDomain: false,
     events: {},
+    replace: jest.fn(),
   },
   coverActiveReportings: {
     data: [],
@@ -982,5 +985,104 @@ export const testData = {
     error: [],
     handleApprove: jest.fn,
     handleDispute: jest.fn,
+  },
+  fetch: {
+    body: null,
+    bodyUsed: false,
+    headers: {},
+    ok: true,
+    redirected: false,
+    status: 200,
+    statusText: "",
+    type: "cors",
+    url: "https://api.thegraph.com/subgraphs/name/test-orgs",
+  },
+  bondPoolAddress: "0x342108A1E04E8214B5D2f798b7217cd2268f33f5",
+  txToast: {
+    push: jest.fn((...args) => {
+      args[2]?.onTxSuccess?.();
+      args[2]?.onTxFailure?.();
+      return Promise.resolve({});
+    }),
+    pushError: jest.fn(),
+    pushSuccess: jest.fn(),
+  },
+  txPoster: {
+    contractRead: jest.fn((...args) => {
+      args[0]?.onError?.();
+      return Promise.resolve(toBN("100"));
+    }),
+    writeContract: jest.fn((arg) => {
+      arg?.onTransactionResult?.({
+        hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
+        nonce: null,
+        gasLimit: null,
+        gasPrice: null,
+        data: null,
+        value: null,
+        chainId: null,
+        confirmations: 0,
+        from: null,
+        wait: jest.fn(() => Promise.resolve()),
+      });
+      arg?.onRetryCancel?.();
+      arg?.onError?.();
+    }),
+  },
+  errorNotifier: { notifyError: jest.fn() },
+  erc20Allowance: {
+    allowance: convertToUnits(90),
+    loading: false,
+    refetch: jest.fn(),
+    approve: jest.fn((...args) => {
+      args[2]?.onTransactionResult?.({
+        hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
+        nonce: null,
+        gasLimit: null,
+        gasPrice: null,
+        data: null,
+        value: null,
+        chainId: null,
+        confirmations: 0,
+        from: null,
+      });
+      args[2]?.onRetryCancel?.();
+      args[2]?.onError?.("Mock Error");
+    }),
+  },
+  erc20Balance: {
+    balance: convertToUnits(1000),
+    loading: false,
+    refetch: jest.fn(),
+  },
+  useCreateBondArgs: {
+    info: {
+      lpTokenAddress: "0x97cCd316db0298498fcfD626b215955b9DF44b71",
+      discountRate: "75",
+      vestingTerm: "600",
+      maxBond: "10000000000000000000000",
+      totalNpmAllocated: "2000000000000000000000000",
+      totalNpmDistributed: "1424900465944819115",
+      bondContribution: "0",
+      claimable: "0",
+      unlockDate: "0",
+    },
+    refetchBondInfo: jest.fn(),
+    value: "100",
+  },
+  providerOrSigner: {
+    provider: {},
+    _address: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+    _index: null,
+    _isSigner: true,
+  },
+  governanceAddress: "0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060",
+  unlimitedApproval: {
+    unlimitedApproval: false,
+    setUnlimitedApproval: jest.fn(),
+    getApprovalAmount: jest.fn((_value) => _value),
+  },
+  authValidation: {
+    requiresAuth: jest.fn(),
   },
 };

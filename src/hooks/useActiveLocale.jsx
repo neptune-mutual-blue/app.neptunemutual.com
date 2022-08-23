@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "../config/locales";
 
-const parseLocale = (maybeSupportedLocale) => {
+export const parseLocale = (maybeSupportedLocale) => {
   const lowerMaybeSupportedLocale = maybeSupportedLocale.toLowerCase();
   return SUPPORTED_LOCALES.find(
     (locale) =>

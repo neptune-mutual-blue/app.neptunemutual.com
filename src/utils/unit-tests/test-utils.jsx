@@ -136,9 +136,7 @@ Object.defineProperty(window, "location", {
   },
   writable: true,
 });
-Object.defineProperty(navigator, "language", {
-  value: "en-US",
-});
+export const mockLanguage = jest.spyOn(window.navigator, "language", "get");
 Object.defineProperty(process, "browser", {
   value: true,
 });

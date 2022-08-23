@@ -1,6 +1,8 @@
-import { useActiveLocale } from "@/src/hooks/useActiveLocale";
+import { DEFAULT_LOCALE } from "@/src/config/locales";
+import { parseLocale, useActiveLocale } from "@/src/hooks/useActiveLocale";
 import { testData } from "@/utils/unit-tests/test-data";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { mockLanguage } from "@/utils/unit-tests/test-utils";
 import { renderHook } from "@testing-library/react-hooks";
 
 describe("useActiveLocal", () => {
@@ -21,6 +23,7 @@ describe("useActiveLocal", () => {
   });
 
   test("should get value from navigatorLocale function if useRouter is not available", () => {
+    mockLanguage.mockReturnValue("en-EN");
     mockFn.useRouter(() => ({
       ...testData.router,
       locale: undefined,
@@ -28,5 +31,27 @@ describe("useActiveLocal", () => {
 
     const { result } = renderHook(() => useActiveLocale());
     expect(result.current).toBe("en");
+  });
+
+  test("should return default locale if no locale in router & navigator", () => {
+    mockFn.useRouter(() => ({
+      ...testData.router,
+      locale: undefined,
+    }));
+    mockLanguage.mockReturnValue(undefined);
+
+    const { result } = renderHook(() => useActiveLocale());
+    expect(result.current).toBe(DEFAULT_LOCALE);
+  });
+
+  test("should return locale from parseLocale if no region", () => {
+    mockFn.useRouter(() => ({
+      ...testData.router,
+      locale: undefined,
+    }));
+    mockLanguage.mockReturnValue("en");
+
+    const { result } = renderHook(() => useActiveLocale());
+    expect(result.current).toBe(parseLocale("en"));
   });
 });
