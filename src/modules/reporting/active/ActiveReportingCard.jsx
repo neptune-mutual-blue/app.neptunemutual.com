@@ -61,7 +61,11 @@ export const ActiveReportingCard = ({
   }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization]);
 
   if (!coverInfo) {
-    return <CardSkeleton numberOfCards={1} />;
+    return (
+      <div data-testid="active-report-card-skeleton">
+        <CardSkeleton numberOfCards={1} />;
+      </div>
+    );
   }
 
   const status = identifyStatus(productStatus);
@@ -69,14 +73,17 @@ export const ActiveReportingCard = ({
   return (
     <OutlinedCard className="p-6 bg-white" type="link">
       <div className="flex items-start justify-between">
-        <div className="rounded-full w-18 h-18 bg-DEEAF6">
+        <div
+          className="rounded-full w-18 h-18 bg-DEEAF6"
+          data-testid="active-report-cover-img"
+        >
           <img
             src={imgSrc}
             alt={coverInfo.infoObj.projectName}
             className="inline-block max-w-full"
           />
         </div>
-        <div>
+        <div date-testid="card-badge">
           {status !== E_CARD_STATUS.NORMAL && (
             <Badge status={status} className="rounded" />
           )}
@@ -88,7 +95,10 @@ export const ActiveReportingCard = ({
           : coverInfo.infoObj.projectName}
       </h4>
       <div className="flex items-center justify-between">
-        <div className="mt-1 text-sm uppercase text-7398C0 lg:mt-2">
+        <div
+          className="mt-1 text-sm uppercase text-7398C0 lg:mt-2"
+          data-testid="cover-fee"
+        >
           <Trans>Cover fee:</Trans>{" "}
           {formatPercent(
             (isDiversified
@@ -239,6 +249,7 @@ export const ActiveReportingCard = ({
           }
         >
           <div
+            data-testid="incident-date"
             className="flex-1 text-right"
             title={DateLib.toLongDateFormat(incidentDate, router.locale)}
           >

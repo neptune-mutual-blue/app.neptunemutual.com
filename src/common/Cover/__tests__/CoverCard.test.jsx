@@ -63,7 +63,7 @@ describe("CoverCard component", () => {
   });
 
   test("should render the outer OutlinedCard", () => {
-    const wrapper = screen.getByTestId("card-skeleton");
+    const wrapper = screen.getByTestId("card-outline");
     expect(wrapper).toBeInTheDocument();
   });
 
