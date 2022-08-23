@@ -67,6 +67,7 @@ import * as FetchReport from "@/src/hooks/useFetchReport";
 
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
+import * as GetStatsFile from "@/src/services/protocol/cover/stats";
 import * as UnstakeReportingStakeHook from "@/src/hooks/useUnstakeReportingStake";
 import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
 import * as UseVoteHook from "@/src/hooks/useVote";
@@ -471,6 +472,24 @@ export const mockFn = {
           );
         },
       },
+      Resolution: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Resolution.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Resolution geInstance() mock"
+            )
+          );
+        },
+      },
+      Cover: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Cover.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Cover geInstance() mock"
+            )
+          );
+        },
+      },
     },
     utils: {
       ipfs: {
@@ -510,6 +529,8 @@ export const mockFn = {
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
       .mockImplementation(returnFunction(cb)),
+  getStats: (cb = () => Promise.resolve(testData.getcoverStats)) =>
+    jest.spyOn(GetStatsFile, "getStats").mockImplementation(returnFunction(cb)),
   useMyLiquidities: (cb = () => testData.myLiquidities) => {
     jest
       .spyOn(MyLiqudities, "useMyLiquidities")
