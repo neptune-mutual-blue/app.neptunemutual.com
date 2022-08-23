@@ -20,6 +20,10 @@ jest.mock("@web3-react/core", () => ({
     .mockImplementation(() => ({ account: "0x32423dfsf34" })),
 }));
 
+jest.mock("@/src/context/Network", () => ({
+  useNetwork: jest.fn().mockImplementation(() => ({ networkId: 43113 })),
+}));
+
 jest.mock("@/src/config/environment", () => ({
   getGraphURL: jest.fn().mockImplementation(() => "https://api.com"),
 }));

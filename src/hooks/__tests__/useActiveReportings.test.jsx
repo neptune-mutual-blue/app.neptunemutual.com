@@ -3,9 +3,22 @@ import { useActiveReportings } from "../useActiveReportings";
 import { getControlledPromise } from "@/utils/unit-tests/test-helpers";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
+const mockResolveData = {
+  data: {
+    incidentReports: [
+      {
+        id: "x09319hdakn12313",
+      },
+    ],
+  },
+};
+
 const mockReturnData = {
   data: {
     incidentReports: [
+      {
+        id: "x09319hdakn12313",
+      },
       {
         id: "x09319hdakn12313",
       },
@@ -86,7 +99,7 @@ describe("useActiveReportings", () => {
       useActiveReportings()
     );
 
-    deferred.resolve({ json: () => mockReturnData });
+    deferred.resolve({ json: () => mockResolveData });
 
     act(() => {
       result.current.handleShowMore();
