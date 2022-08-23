@@ -892,6 +892,26 @@ export const testData = {
           totalAttestedStake: "4634000000000000000000",
           totalRefutedStake: "3400000000000000000000",
         },
+        {
+          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661053596",
+          coverKey:
+            "0x6465666900000000000000000000000000000000000000000000000000000000",
+          productKey:
+            "0x31696e6368000000000000000000000000000000000000000000000000000000",
+          incidentDate: "1661053596",
+          resolutionDeadline: "1661056130",
+          resolved: true,
+          emergencyResolved: false,
+          emergencyResolveTransaction: null,
+          resolveTransaction: {
+            timestamp: "1661055830",
+          },
+          finalized: true,
+          status: "Claimable",
+          resolutionTimestamp: "1661053896",
+          totalAttestedStake: "2000000000000000000000",
+          totalRefutedStake: "0",
+        },
       ],
     },
     loading: false,
@@ -985,6 +1005,122 @@ export const testData = {
     error: [],
     handleApprove: jest.fn,
     handleDispute: jest.fn,
+  },
+  incidentReports: {
+    data: {
+      incidentReport: {
+        id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1660556048",
+        coverKey:
+          "0x6465666900000000000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x31696e6368000000000000000000000000000000000000000000000000000000",
+        incidentDate: "1660556048",
+        resolutionDeadline: "1660556956",
+        resolved: true,
+        resolveTransaction: {
+          timestamp: "1660556656",
+        },
+        emergencyResolved: false,
+        emergencyResolveTransaction: null,
+        finalized: true,
+        status: "FalseReporting",
+        decision: false,
+        resolutionTimestamp: "1660556348",
+        claimBeginsFrom: "0",
+        claimExpiresAt: "0",
+        reporter: "0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9",
+        reporterInfo:
+          "0x5619b6a34143138de536007cabd84e2ce16dbb3f90c7158e730437751d2c6db6",
+        reporterStake: "3000000000000000000000",
+        disputer: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+        disputerInfo:
+          "0x8d34a6b705d4ba718992d283ac92552df62188c231f461763b71523fb2ef4307",
+        disputerStake: "2000000000000000000000",
+        totalAttestedStake: "3000000000000000000000",
+        totalAttestedCount: "1",
+        totalRefutedStake: "4000000000000000000000",
+        totalRefutedCount: "2",
+        reportTransaction: {
+          id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+          timestamp: "1660556048",
+        },
+        disputeTransaction: {
+          id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+          timestamp: "1660556209",
+        },
+        reportIpfsData:
+          '{\n  "title": "This is a test report",\n  "observed": "2022-08-14T08:46:00.000Z",\n  "proofOfIncident": [\n    "https://www.example.com/report",\n    "https://www.example.com/report_3",\n    "https://www.example.com/report_2"\n  ],\n  "description": "asdsadsadsadas",\n  "stake": "3000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660466760000"\n}',
+        disputeIpfsData:
+          '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}',
+      },
+    },
+  },
+  consensusInfo: {
+    info: {
+      allocatedReward: "0",
+      burnRate: "3000",
+      claimPayouts: "0",
+      decision: "3",
+      latestIncidentDate: "1660795546",
+      myNo: "0",
+      myReward: "0",
+      myStakeInWinningCamp: "0",
+      myYes: "0",
+      no: "4000000000000000000000",
+      reporterCommission: "1000",
+      rewardsUnstaken: "0",
+      toBurn: "0",
+      toReporter: "0",
+      totalStakeInLosingCamp: "3000000000000000000000",
+      totalStakeInWinningCamp: "4000000000000000000000",
+      unstaken: "0",
+      willReceive: "0",
+      yes: "3000000000000000000000",
+    },
+  },
+  recentVotes: {
+    data: {
+      votes: [
+        {
+          id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+          createdAtTimestamp: "1660556267",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+            timestamp: "1660556267",
+          },
+        },
+        {
+          id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+          createdAtTimestamp: "1660556209",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+            timestamp: "1660556209",
+          },
+        },
+        {
+          id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+          createdAtTimestamp: "1660556048",
+          voteType: "Attested",
+          witness: "0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9",
+          stake: "3000000000000000000000",
+          transaction: {
+            id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+            timestamp: "1660556048",
+          },
+        },
+      ],
+      _meta: {
+        block: {
+          number: 12678129,
+        },
+      },
+    },
   },
   fetch: {
     body: null,

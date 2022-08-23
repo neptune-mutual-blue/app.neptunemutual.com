@@ -38,6 +38,7 @@ import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
+import * as FetchReportHook from "@/src/hooks/useFetchReport";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
 import * as CoverProductsFunction from "@/src/services/covers-products";
 import * as DebounceHook from "@/src/hooks/useDebounce";
@@ -59,6 +60,9 @@ import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
+
+import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
+import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
 
 const Web3React = require("@web3-react/core");
 
@@ -307,6 +311,19 @@ export const mockFn = {
       .spyOn(DisputeIncident, "useDisputeIncident")
       .mockImplementation(returnFunction(cb));
   },
+
+  useFetchReport: (cb = () => testData.incidentReports) =>
+    jest
+      .spyOn(FetchReportHook, "useFetchReport")
+      .mockImplementation(returnFunction(cb)),
+  useConsensusReportingInfo: (cb = () => testData.consensusInfo) =>
+    jest
+      .spyOn(ConsensusReportingInfoHook, "useConsensusReportingInfo")
+      .mockImplementation(returnFunction(cb)),
+  useRecentVotes: (cb = () => testData.recentVotes) =>
+    jest
+      .spyOn(RecentVotesHook, "useRecentVotes")
+      .mockImplementation(returnFunction(cb)),
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
       `${networkId}:${coverKey}-${productKey}`
@@ -468,6 +485,29 @@ export const globalFn = {
     dir: () => (console.dir = jest.fn(() => {})),
     error: () => (console.error = jest.fn(() => {})),
   },
+  resizeObserver: () => {
+    global.ResizeObserver = class ResizeObserver {
+      constructor(cb) {
+        this.cb = cb;
+      }
+      observe() {
+        this.cb([{ borderBoxSize: { inlineSize: 0, blockSize: 0 } }]);
+      }
+      unobserve() {}
+    };
+  },
+  DOMRect: () => {
+    global.DOMRect = {
+      fromRect: () => ({
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        width: 0,
+        height: 0,
+      }),
+    };
+  },
 };
 
 export const initiateTest = (
@@ -559,3 +599,4 @@ export const renderHookWrapper = async (
     waitForValueToChange: wfvc,
   };
 };
+

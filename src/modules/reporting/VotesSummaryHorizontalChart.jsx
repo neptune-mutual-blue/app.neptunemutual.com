@@ -5,6 +5,7 @@ import { formatPercent } from "@/utils/formatter/percent";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
+import React from "react";
 
 export const VotesSummaryHorizontalChart = ({
   yesPercent,
@@ -59,7 +60,10 @@ const ToolTipContent = ({ majority }) => {
         className="hidden test md:block"
         portalled={false}
       >
-        <div className="flex flex-col items-center justify-center px-6 py-2 bg-white rounded shadow-toolTip">
+        <div
+          data-testid="horizontal-chart"
+          className="flex flex-col items-center justify-center px-6 py-2 bg-white rounded shadow-toolTip"
+        >
           <>
             <span
               className={classNames(
@@ -72,7 +76,8 @@ const ToolTipContent = ({ majority }) => {
                 : t`False Reporting`}
             </span>
             <span className="py-1 text-sm leading-5 text-black">
-              {majority.voteCount} ({formatPercent(majority.percent, router.locale)})
+              {majority.voteCount} (
+              {formatPercent(majority.percent, router.locale)})
             </span>
           </>
 
