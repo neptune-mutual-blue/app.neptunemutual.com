@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (itemsToSkip) => {
   return `
@@ -44,18 +44,18 @@ export const usePodStakingPools = () => {
   const { networkId } = useNetwork();
   const [itemsToSkip, setItemsToSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const fetchPodStakingPools = useSubgraphFetch("usePodStakingPools");
 
   useEffect(() => {
-    let ignore = false;
-
     if (!networkId) {
       setHasMore(false);
     }
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(itemsToSkip))
+
+    fetchPodStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE;
@@ -72,14 +72,9 @@ export const usePodStakingPools = () => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
-  }, [itemsToSkip, networkId]);
+  }, [fetchPodStakingPools, itemsToSkip, networkId]);
 
   const handleShowMore = useCallback(() => {
     setItemsToSkip((prev) => prev + CARDS_PER_PAGE);

@@ -112,7 +112,7 @@ export const ClaimDetailsPage = ({ disabled }) => {
             </div>
           </Container>
 
-          <hr className="border-b border-B0C4DB" />
+          <hr className="border-B0C4DB" />
         </Hero>
 
         <Container className="px-2 pt-12 pb-36">

@@ -34,7 +34,10 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-center gap-8 my-10">
+      <div
+        data-testid="doughnut-charts"
+        className="flex flex-wrap items-center justify-center gap-8 my-10"
+      >
         <div className="relative max-w-fit">
           <DoughnutChartInsight
             title={t`Incident Occurred`}

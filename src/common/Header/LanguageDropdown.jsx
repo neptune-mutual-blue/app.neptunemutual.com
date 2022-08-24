@@ -1,7 +1,11 @@
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/router";
 import { Listbox, Transition } from "@headlessui/react";
-import { languageKey, localesKey } from "@/src/config/constants";
+import {
+  DEBOUNCE_TIMEOUT,
+  languageKey,
+  localesKey,
+} from "@/src/config/constants";
 import { classNames } from "@/utils/classnames";
 import SelectedCircleIcon from "@/icons/SelectedCircleIcon";
 import SearchLanguageIcon from "@/icons/SearchLanguageIcon";
@@ -11,8 +15,6 @@ import ChevronDownArrowIcon from "@/icons/ChevronDownArrowIcon";
 import { getBrowserLocale } from "@/utils/locale";
 import { useLocalStorage } from "@/src/hooks/useLocalStorage";
 import GlobeLogo from "@/lib/connect-wallet/components/logos/Globe";
-
-const DEBOUNCE_TIMER = 200;
 
 const LANGUAGES = Object.values(languageKey);
 const LANGUAGE_KEYS = Object.keys(languageKey);
@@ -42,7 +44,7 @@ export const LanguageDropdown = () => {
   }, [language, router]);
 
   const [languages, setLanguages] = useState(LANGUAGES);
-  const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMER);
+  const debouncedSearch = useDebounce(searchValue, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
     if (!debouncedSearch) {
@@ -87,7 +89,7 @@ export const LanguageDropdown = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="fixed z-50 top-8 xl:top-20 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Listbox.Options className="fixed z-50 top-8 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="flex items-center mb-1 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input

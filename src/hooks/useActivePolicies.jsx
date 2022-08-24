@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
 import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -38,13 +38,12 @@ const getQuery = (startOfMonth, account) => {
 export const useActivePolicies = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
+  const fetchActivePolicies = useSubgraphFetch("useActivePolicies");
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
@@ -52,23 +51,19 @@ export const useActivePolicies = () => {
     const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(startOfMonth, account))
+
+    fetchActivePolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
         setData(_data);
       })
       .catch((err) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, networkId]);
+  }, [account, fetchActivePolicies, networkId]);
 
   const activePolicies = data["userPolicies"] || [];
   const totalActiveProtection = sumOf(

@@ -108,22 +108,16 @@ export const useFetchCoverPurchasedEvent = ({ txHash }) => {
   const { networkId } = useNetwork();
 
   useEffect(() => {
-    let ignore = false;
-
     setLoading(true);
     getEvent(networkId, txHash)
       .then((data) => {
-        if (!data || ignore) return;
+        if (!data) return;
         setData(data);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
       });
-
-    return () => {
-      ignore = true;
-    };
   }, [networkId, txHash]);
 
   return {

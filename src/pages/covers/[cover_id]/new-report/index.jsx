@@ -5,15 +5,9 @@ import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { NewIncidentReportPage } from "@/modules/reporting/new";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("reporting"),
-    },
-  };
-}
+const disabled = !isFeatureEnabled("reporting");
 
-export default function ReportingNewCoverPage({ disabled }) {
+export default function ReportingNewCoverPage() {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);

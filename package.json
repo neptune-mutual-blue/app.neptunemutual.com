@@ -1,5 +1,5 @@
 {
-  "name": "v2-app",
+  "name": "app.neptunemutual.com",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -46,6 +46,7 @@
     "@lingui/macro": "3.13.3",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.2",
+    "@testing-library/react-hooks": "7.0.2",
     "autoprefixer": "10.4.0",
     "babel-jest": "27.4.6",
     "babel-plugin-macros": "3.1.0",

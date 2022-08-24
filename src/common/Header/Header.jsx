@@ -37,6 +37,15 @@ const getNavigationLinks = (pathname = "") => {
     poolLink = "/pools/pod-staking";
   }
 
+  /**
+   * @typedef Link
+   * @prop {string} name
+   * @prop {string} href
+   * @prop {string} [activeWhenStartsWith]
+   * @prop {boolean} [active]
+   */
+
+  /** @type {Link[]} */
   let links = [
     poolLink && {
       name: t`Pool`,

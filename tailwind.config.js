@@ -15,7 +15,7 @@ module.exports = {
         "0 3px 3px 0 rgb(162, 166, 218, 0.05), 0 30px 60px -30px #a2a6da",
       "toolTip": "0px 2px 6px rgba(0, 0, 0, 0.25)",
       "option": "0px 4px 8px rgba(0, 0, 0, 0.1)",
-      "homeCard": "0px 4px 5px rgba(0, 0, 0, 0.05)",
+      "homeCard": "0px 12px 16px rgba(0, 0, 0, 0.04)",
       "hc-tooltip": "0px 5px 13px rgba(0, 0, 0, 0.1)",
       "tx-overview": "0px 4px 11px rgba(1, 5, 45, 0.3)",
       "tx-list": "0px 4px 12px rgba(0, 0, 0, 0.4)",
@@ -82,6 +82,9 @@ module.exports = {
         actionCard: "0px 4px 64px rgba(78, 125, 217, 0.4)",
         coverCard: "0px 6px 8px rgba(0, 0, 0, 0.1)",
       },
+      flex: {
+        2: "2 2 0%",
+      },
       spacing: {
         /* 72px */
         "9.5": "38px",
@@ -147,6 +150,7 @@ module.exports = {
         "d4dfee": "#d4dfee",
         "E5E5E5": "#e5e5e5",
         "AABDCB": "#AABDCB",
+        "E8E8ED": "#E8E8ED",
         "0FB88F": "#0FB88F",
         "CDD6E3": "#CDD6E3",
         "404040": "#404040",
@@ -166,6 +170,7 @@ module.exports = {
         "E5F4F5": "#E5F4F5",
         "FEEBE6": "#FEEBE6",
         "000000": "#000000",
+        "E6EAEF": "#E6EAEF",
       },
       minHeight: {
         360: "360px",

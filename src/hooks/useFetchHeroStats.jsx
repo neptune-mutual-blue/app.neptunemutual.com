@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { sumOf } from "@/utils/bn";
 import DateLib from "@/lib/date/DateLib";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const defaultData = {
   availableCovers: 0,
@@ -41,15 +41,15 @@ const getQuery = () => {
   `;
 };
 
-const fetchHeroStats = fetchSubgraph("useFetchHeroStats");
-
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData);
   const [loading, setLoading] = useState(false);
+  const fetchFetchHeroStats = useSubgraphFetch("useFetchHeroStats");
 
   useEffect(() => {
     setLoading(true);
-    fetchHeroStats(getNetworkId(), getQuery())
+
+    fetchFetchHeroStats(getNetworkId(), getQuery())
       .then((data) => {
         const totalCoverLiquidityAdded = sumOf(
           ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
@@ -83,7 +83,7 @@ export const useFetchHeroStats = () => {
       })
       .catch((e) => console.error(`Error: ${e.message}`))
       .finally(() => setLoading(false));
-  }, []);
+  }, [fetchFetchHeroStats]);
 
   return {
     data,

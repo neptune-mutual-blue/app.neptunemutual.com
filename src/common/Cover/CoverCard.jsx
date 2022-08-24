@@ -34,14 +34,16 @@ export const CoverCard = ({
     productKey: productKey,
   });
 
+  const isDiversified = coverInfo?.supportsProducts;
   const { activeCommitment, productStatus, availableLiquidity } = coverStats;
-  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
+
+  const liquidity = isDiversified
+    ? coverStats.totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
+    : toBN(availableLiquidity).plus(activeCommitment).toString();
   const protection = activeCommitment;
   const utilization = toBN(liquidity).isEqualTo(0)
     ? "0"
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
-
-  const isDiversified = coverInfo?.supportsProducts;
 
   // Used for sorting purpose only
   useEffect(() => {

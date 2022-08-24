@@ -77,6 +77,7 @@ export const ProductCard = ({
             alt={productInfo.infoObj?.productName}
             className="rounded-full bg-DEEAF6"
             data-testid="cover-img"
+            // @ts-ignore
             onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
           />
         </div>

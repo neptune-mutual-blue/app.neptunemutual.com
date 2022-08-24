@@ -27,7 +27,7 @@ describe("CardSkeleton", () => {
         />
       );
 
-      const cards = getAllByTestId("card-skeleton");
+      const cards = getAllByTestId("card-outline");
       const lineContent = getAllByTestId("card-line-content");
 
       expect(cards).toHaveLength(CARDS_PER_PAGE);

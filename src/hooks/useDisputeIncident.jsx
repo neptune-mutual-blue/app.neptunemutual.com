@@ -21,7 +21,6 @@ import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
 import { useERC20Balance } from "@/src/hooks/useERC20Balance";
 import { registry, utils } from "@neptunemutual/sdk";
 import { t } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { METHODS } from "@/src/services/transactions/const";
 import {
   STATUS,
@@ -35,6 +34,7 @@ export const useDisputeIncident = ({
   value,
   incidentDate,
   minStake,
+  isDiversified = false,
 }) => {
   const router = useRouter();
 
@@ -216,10 +216,12 @@ export const useDisputeIncident = ({
                 status: STATUS.SUCCESS,
               });
 
+              const { query } = router;
+
               router.replace(
-                `/reporting/${safeParseBytes32String(
-                  coverKey
-                )}/${incidentDate}/details`
+                isDiversified
+                  ? `/reporting/${query.cover_id}/product/${query.product_id}/${query.timestamp}/details`
+                  : `/reporting/${query.cover_id}/${query.timestamp}/details`
               );
             },
             onTxFailure: () => {

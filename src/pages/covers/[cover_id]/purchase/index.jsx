@@ -7,15 +7,9 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("policy"),
-    },
-  };
-}
+const disabled = !isFeatureEnabled("policy");
 
-export default function CoverPurchaseDetails({ disabled }) {
+export default function CoverPurchaseDetails() {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);

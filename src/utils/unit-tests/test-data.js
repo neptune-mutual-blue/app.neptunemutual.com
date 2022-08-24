@@ -1,3 +1,5 @@
+import { convertToUnits, toBN } from "@/utils/bn";
+
 export const testData = {
   covers: [
     {
@@ -121,38 +123,49 @@ export const testData = {
     supportsProducts: true,
     ipfsHash: "QmVFtqx2J5VgFXsJ1K23XzyMAGy9NNWP6LTiWhavPz5KFD",
     ipfsData:
-      '{\n  "key": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "coverName": "Prime DApps",\n  "projectName": null,\n  "vault": {\n    "name": "Prime DApps Locked DAI",\n    "symbol": "DAI-P"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": true,\n  "leverage": "10",\n  "tags": [\n    "Smart Contract",\n    "DEX",\n    "Liquidity",\n    "Lending",\n    "Borrowing"\n  ],\n  "about": "Decentralized Exchanges",\n  "blockchains": [\n    {\n      "chainId": 1,\n      "name": "Main Ethereum Network"\n    }\n  ],\n  "rules": "1. Rule 1\\n            2. Rule 2\\n            3. Rule 3",\n  "exclusions": "1. Exclusion 1\\n                 2. Exclusion 1\\n                 3. Exclusion 3",\n  "pricingFloor": "600",\n  "pricingCeiling": "2400",\n  "reportingPeriod": 300,\n  "cooldownPeriod": 300,\n  "claimPeriod": 300,\n  "minReportingStake": "2000000000000000000000",\n  "stakeWithFees": "50000000000000000000000",\n  "reassurance": "50000000000",\n  "reassuranceRate": "2500"\n}',
+      '{\n  "key": "0x616e696d617465642d6272616e64730000000000000000000000000000000000",\n  "coverName": "Animated Brands",\n  "projectName": "Animated Brands",\n  "vault": {\n    "name": "Animated Brands POD",\n    "symbol": "AB-nDAI"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": false,\n  "leverage": "1",\n  "tags": [\n    "Smart Contract",\n    "NFT",\n    "Gaming"\n  ],\n  "about": "Animated Brands is a Thailand based gaming company, and a venture capitalist firm founded in 2017 by Jack D\'Souza. It was listed on Singapore Exchange (SGX) from 23rd May, 2019.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://www.animatedbrands.com",\n    "twitter": "https://twitter.com/animatedbrands",\n    "blog": "https://animatedbrands.medium.com",\n    "linkedin": "https://www.linkedin.com/company/animated-brands"\n  },\n  "pricingFloor": "700",\n  "pricingCeiling": "2400",\n  "reportingPeriod": 1800,\n  "cooldownPeriod": 300,\n  "claimPeriod": 1800,\n  "minReportingStake": "3400000000000000000000",\n  "resolutionSources": [\n    "https://twitter.com/animatedbrands",\n    "https://twitter.com/neptunemutual"\n  ],\n  "stakeWithFees": "50000000000000000000000",\n  "reassurance": "10000000000",\n  "reassuranceRate": "2500"\n}',
     infoObj: {
       coverName: "Prime DApps",
       projectName: null,
       leverage: "10",
       tags: ["Smart Contract", "DEX", "Liquidity", "Lending", "Borrowing"],
       about: "Decentralized Exchanges",
-      blockchains: [
-        {
-          chainId: 1,
-          name: "Main Ethereum Network",
-        },
-      ],
       rules: "1. Rule 1\n            2. Rule 2\n            3. Rule 3",
       exclusions:
         "1. Exclusion 1\n                 2. Exclusion 1\n                 3. Exclusion 3",
+      links: undefined,
       pricingFloor: "600",
       pricingCeiling: "2400",
+      resolutionSources: undefined,
     },
     products: [
       {
-        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x6161766500000000000000000000000000000000000000000000000000000000",
-        productKey:
-          "0x6161766500000000000000000000000000000000000000000000000000000000",
         coverKey:
           "0x7072696d65000000000000000000000000000000000000000000000000000000",
-        ipfsHash: "QmTz7b9upviKHtATQtxobsAru22WkAGCgrPkyM7tLg8UhR",
-        ipfsData:
-          '{\n  "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x6161766500000000000000000000000000000000000000000000000000000000",\n  "productName": "Aave Protocol",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Ehereum",\n    "DApp",\n    "Prime",\n    "Smart Contract",\n    "Lending",\n    "Flash Loan",\n    "Interest Bearing Tokens",\n    "aToken"\n  ],\n  "about": "Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://aave.com/",\n    "documentation": "https://docs.aave.com/",\n    "twitter": "https://twitter.com/aaveaave",\n    "github": "https://github.com/aave",\n    "discord": "https://discord.com/invite/CvKUrqM",\n    "telegram": "https://t.me/Aavesome",\n    "blog": "https://medium.com/aave",\n    "linkedin": ""\n  },\n  "resolutionSources": [\n    "https://twitter.com/aaveaave",\n    "https://medium.com/aave",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x6161766500000000000000000000000000000000000000000000000000000000",
         infoObj: {
-          productName: "Aave Protocol",
+          about:
+            "Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.",
           capitalEfficiency: "9000",
+          exclusions: "",
+          links: {
+            blog: "https://medium.com/aave",
+            discord: "https://discord.com/invite/CvKUrqM",
+            documentation: "https://docs.aave.com/",
+            github: "https://github.com/aave",
+            linkedin: "",
+            telegram: "https://t.me/Aavesome",
+            twitter: "https://twitter.com/aaveaave",
+            website: "https://aave.com/",
+          },
+          productName: "Aave Protocol",
+          resolutionSources: [
+            "https://twitter.com/aaveaave",
+            "https://medium.com/aave",
+            "https://twitter.com/neptunemutual",
+          ],
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
           tags: [
             "Ehereum",
             "DApp",
@@ -163,40 +176,39 @@ export const testData = {
             "Interest Bearing Tokens",
             "aToken",
           ],
-          about:
-            "Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.",
-          rules:
-            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
-          exclusions: "",
-          links: {
-            website: "https://aave.com/",
-            documentation: "https://docs.aave.com/",
-            twitter: "https://twitter.com/aaveaave",
-            github: "https://github.com/aave",
-            discord: "https://discord.com/invite/CvKUrqM",
-            telegram: "https://t.me/Aavesome",
-            blog: "https://medium.com/aave",
-            linkedin: "",
-          },
-          resolutionSources: [
-            "https://twitter.com/aaveaave",
-            "https://medium.com/aave",
-            "https://twitter.com/neptunemutual",
-          ],
         },
+        ipfsData:
+          '{"coverKey":"0x7072696d65000000000000000000000000000000000000000000000000000000","productKey":"0x6161766500000000000000000000000000000000000000000000000000000000","productName":"Aave Protocol","requiresWhitelist":false,"capitalEfficiency":"9000","tags":["Ehereum","DApp","Prime","Smart Contract","Lending","Flash Loan","Interest Bearing Tokens","aToken"],"about":"Aave is a decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers. Depositors provide liquidity to the market to earn a passive income, while borrowers are able to borrow in an overcollateralized (perpetually) or undercollateralized (one-block liquidity) fashion.","rules":"1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.","exclusions":"","links":{"website":"https://aave.com/","documentation":"https://docs.aave.com/","twitter":"https://twitter.com/aaveaave","github":"https://github.com/aave","discord":"https://discord.com/invite/CvKUrqM","telegram":"https://t.me/Aavesome","blog":"https://medium.com/aave","linkedin":""},"resolutionSources":["https://twitter.com/aaveaave","https://medium.com/aave","https://twitter.com/neptunemutual"]}',
+        ipfsHash: "QmTz7b9upviKHtATQtxobsAru22WkAGCgrPkyM7tLg8UhR",
+        productKey:
+          "0x6161766500000000000000000000000000000000000000000000000000000000",
       },
       {
-        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x62616c616e636572000000000000000000000000000000000000000000000000",
-        productKey:
-          "0x62616c616e636572000000000000000000000000000000000000000000000000",
         coverKey:
           "0x7072696d65000000000000000000000000000000000000000000000000000000",
-        ipfsHash: "QmaS9SsfVurGEnTs7afgRfuJC9emPCom48NFNMJoruhtGY",
-        ipfsData:
-          '{\n  "coverKey": "0x7072696d65000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x62616c616e636572000000000000000000000000000000000000000000000000",\n  "productName": "Balancer",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "8000",\n  "tags": [\n    "Ethereum",\n    "Smart Contract",\n    "Portfolio Management",\n    "Fundraising",\n    "Liquidity"\n  ],\n  "about": "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://balancer.fi/",\n    "twitter": "https://twitter.com/BalancerLabs",\n    "discord": "https://discord.balancer.fi/",\n    "blog": "https://medium.com/balancer-protocol",\n    "linkedin": "https://www.linkedin.com/company/balancer-labs/",\n    "youtube": "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",\n    "github": "https://github.com/balancer-labs/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/BalancerLabs",\n    "https://medium.com/balancer-protocol",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x62616c616e636572000000000000000000000000000000000000000000000000",
         infoObj: {
-          productName: "Balancer",
+          about:
+            "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",
           capitalEfficiency: "8000",
+          exclusions: "",
+          links: {
+            blog: "https://medium.com/balancer-protocol",
+            discord: "https://discord.balancer.fi/",
+            github: "https://github.com/balancer-labs/",
+            linkedin: "https://www.linkedin.com/company/balancer-labs/",
+            twitter: "https://twitter.com/BalancerLabs",
+            website: "https://balancer.fi/",
+            youtube: "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",
+          },
+          productName: "Balancer",
+          resolutionSources: [
+            "https://twitter.com/BalancerLabs",
+            "https://medium.com/balancer-protocol",
+            "https://twitter.com/neptunemutual",
+          ],
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
           tags: [
             "Ethereum",
             "Smart Contract",
@@ -204,26 +216,92 @@ export const testData = {
             "Fundraising",
             "Liquidity",
           ],
+        },
+        ipfsData:
+          '{"coverKey":"0x7072696d65000000000000000000000000000000000000000000000000000000","productKey":"0x62616c616e636572000000000000000000000000000000000000000000000000","productName":"Balancer","requiresWhitelist":false,"capitalEfficiency":"8000","tags":["Ethereum","Smart Contract","Portfolio Management","Fundraising","Liquidity"],"about":"Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.","rules":"1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.","exclusions":"","links":{"website":"https://balancer.fi/","twitter":"https://twitter.com/BalancerLabs","discord":"https://discord.balancer.fi/","blog":"https://medium.com/balancer-protocol","linkedin":"https://www.linkedin.com/company/balancer-labs/","youtube":"https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow","github":"https://github.com/balancer-labs/"},"resolutionSources":["https://twitter.com/BalancerLabs","https://medium.com/balancer-protocol","https://twitter.com/neptunemutual"]}',
+        ipfsHash: "QmaS9SsfVurGEnTs7afgRfuJC9emPCom48NFNMJoruhtGY",
+        productKey:
+          "0x62616c616e636572000000000000000000000000000000000000000000000000",
+      },
+      {
+        coverKey:
+          "0x7072696d65000000000000000000000000000000000000000000000000000000",
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x62616c616e636573000000000000000000000000000000000000000000000000",
+        infoObj: {
           about:
             "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",
-          rules:
-            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+          capitalEfficiency: "8000",
           exclusions: "",
           links: {
-            website: "https://balancer.fi/",
-            twitter: "https://twitter.com/BalancerLabs",
-            discord: "https://discord.balancer.fi/",
             blog: "https://medium.com/balancer-protocol",
-            linkedin: "https://www.linkedin.com/company/balancer-labs/",
-            youtube: "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",
+            discord: "https://discord.balancer.fi/",
             github: "https://github.com/balancer-labs/",
+            linkedin: "https://www.linkedin.com/company/balancer-labs/",
+            twitter: "https://twitter.com/BalancerLabs",
+            website: "https://balancer.fi/",
+            youtube: "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",
           },
+          productName: "Balancer",
           resolutionSources: [
             "https://twitter.com/BalancerLabs",
             "https://medium.com/balancer-protocol",
             "https://twitter.com/neptunemutual",
           ],
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+          tags: [
+            "Ethereum",
+            "Smart Contract",
+            "Portfolio Management",
+            "Fundraising",
+            "Liquidity",
+          ],
         },
+        ipfsData:
+          '{"coverKey":"0x7072696d65000000000000000000000000000000000000000000000000000000","productKey":"0x62616c616e636573000000000000000000000000000000000000000000000000","productName":"Balancer","requiresWhitelist":false,"capitalEfficiency":"8000","tags":["Ethereum","Smart Contract","Portfolio Management","Fundraising","Liquidity"],"about":"Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.","rules":"1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.","exclusions":"","links":{"website":"https://balancer.fi/","twitter":"https://twitter.com/BalancerLabs","discord":"https://discord.balancer.fi/","blog":"https://medium.com/balancer-protocol","linkedin":"https://www.linkedin.com/company/balancer-labs/","youtube":"https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow","github":"https://github.com/balancer-labs/"},"resolutionSources":["https://twitter.com/BalancerLabs","https://medium.com/balancer-protocol","https://twitter.com/neptunemutual"]}',
+        ipfsHash: "QmaS9SsfVurGEnTs7afgRfuJC9emPCom48NFNMJoruhtGY",
+        productKey:
+          "0x62616c616e636573000000000000000000000000000000000000000000000000",
+      },
+      {
+        coverKey:
+          "0x7072696d65000000000000000000000000000000000000000000000000000000",
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x62616c616e636576000000000000000000000000000000000000000000000000",
+        infoObj: {
+          about:
+            "Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.",
+          capitalEfficiency: "8000",
+          exclusions: "",
+          links: {
+            blog: "https://medium.com/balancer-protocol",
+            discord: "https://discord.balancer.fi/",
+            github: "https://github.com/balancer-labs/",
+            linkedin: "https://www.linkedin.com/company/balancer-labs/",
+            twitter: "https://twitter.com/BalancerLabs",
+            website: "https://balancer.fi/",
+            youtube: "https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow",
+          },
+          productName: "Balancer",
+          resolutionSources: [
+            "https://twitter.com/BalancerLabs",
+            "https://medium.com/balancer-protocol",
+            "https://twitter.com/neptunemutual",
+          ],
+          rules:
+            "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+          tags: [
+            "Ethereum",
+            "Smart Contract",
+            "Portfolio Management",
+            "Fundraising",
+            "Liquidity",
+          ],
+        },
+        ipfsData:
+          '{"coverKey":"0x7072696d65000000000000000000000000000000000000000000000000000000","productKey":"0x62616c616e636576000000000000000000000000000000000000000000000000","productName":"Balancer","requiresWhitelist":false,"capitalEfficiency":"8000","tags":["Ethereum","Smart Contract","Portfolio Management","Fundraising","Liquidity"],"about":"Balancer is a community-driven protocol, automated portfolio manager, liquidity provider, and price sensor that empowers decentralized exchange and the automated portfolio management of tokens on the Ethereum blockchain and other EVM compatible systems.","rules":"1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.","exclusions":"","links":{"website":"https://balancer.fi/","twitter":"https://twitter.com/BalancerLabs","discord":"https://discord.balancer.fi/","blog":"https://medium.com/balancer-protocol","linkedin":"https://www.linkedin.com/company/balancer-labs/","youtube":"https://www.youtube.com/channel/UCBRHug6Hu3nmbxwVMt8x_Ow","github":"https://github.com/balancer-labs/"},"resolutionSources":["https://twitter.com/BalancerLabs","https://medium.com/balancer-protocol","https://twitter.com/neptunemutual"]}',
+        ipfsHash: "QmaS9SsfVurGEnTs7afgRfuJC9emPCom48NFNMJoruhtGY",
+        productKey:
+          "0x62616c616e636576000000000000000000000000000000000000000000000000",
       },
     ],
   },
@@ -239,6 +317,7 @@ export const testData = {
       productStatus: "Normal",
       totalPoolAmount: "7762051028549",
       availableLiquidity: "7761151028549",
+      minReportingStake: "3400000000000000000000",
     },
   },
   reporting: {
@@ -273,7 +352,7 @@ export const testData = {
         {
           type: "CoverPurchased",
           key: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "1000000000000000000000",
           daiAmount: "1000000000000000000000",
           cxToken: {
@@ -292,7 +371,7 @@ export const testData = {
         {
           type: "Claimed",
           key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "100000000000000000000",
           daiAmount: "100000000000000000000",
           cxToken: {
@@ -311,7 +390,7 @@ export const testData = {
         {
           type: "CoverPurchased",
           key: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           cxTokenAmount: "100000000000000000000",
           daiAmount: "100000000000000000000",
           cxToken: {
@@ -334,7 +413,7 @@ export const testData = {
     hasMore: false,
   },
   network: { networkId: 80001 },
-  account: { account: "0x9BDAE2a084EC18528B78e90b38d1A67c79F6Cab6" },
+  account: { account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9" },
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
@@ -350,7 +429,7 @@ export const testData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -369,7 +448,7 @@ export const testData = {
         {
           type: "PodsIssued",
           key: "0x68696369662d62616e6b00000000000000000000000000000000000000000000",
-          account: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+          account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
           liquidityAmount: "500000000",
           podAmount: "500000000000000000000",
           vault: {
@@ -469,6 +548,7 @@ export const testData = {
     isPreview: false,
     isLocaleDomain: false,
     events: {},
+    replace: jest.fn(),
   },
   coverActiveReportings: {
     data: [],
@@ -812,6 +892,26 @@ export const testData = {
           totalAttestedStake: "4634000000000000000000",
           totalRefutedStake: "3400000000000000000000",
         },
+        {
+          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661053596",
+          coverKey:
+            "0x6465666900000000000000000000000000000000000000000000000000000000",
+          productKey:
+            "0x31696e6368000000000000000000000000000000000000000000000000000000",
+          incidentDate: "1661053596",
+          resolutionDeadline: "1661056130",
+          resolved: true,
+          emergencyResolved: false,
+          emergencyResolveTransaction: null,
+          resolveTransaction: {
+            timestamp: "1661055830",
+          },
+          finalized: true,
+          status: "Claimable",
+          resolutionTimestamp: "1661053896",
+          totalAttestedStake: "2000000000000000000000",
+          totalRefutedStake: "0",
+        },
       ],
     },
     loading: false,
@@ -856,5 +956,269 @@ export const testData = {
       rate: "0",
       expiryDate: "0",
     },
+  },
+  coverPurchased: {
+    data: {
+      amountToCover: "5000000000",
+      coverKey:
+        "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+      createdAtTimestamp: 1660628210,
+      cxToken: "0xEE73661225597c17A39316E871d722B4304d8E63",
+      expiresOn: "1667260799",
+      fee: "52054794",
+      id: "0x3e19c6f2398efdf5f6183a168bb694421ebd5aab367eed39872a293b26a71a7c",
+      onBehalfOf: "0x88fFAcb1bbB771aF326E6DFd9E0E8eA3E4E0E306",
+      platformFee: "3383561",
+      policyId: "49",
+      productKey:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      referralCode:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      transaction: { from: "0x88fFAcb1bbB771aF326E6DFd9E0E8eA3E4E0E306" },
+    },
+  },
+  firstReportingStake: {
+    minStake: "20000000000000000000",
+    fetchingMinStake: false,
+  },
+  reportIncident: {
+    tokenAddress: "",
+    tokenSymbol: "NPM",
+    balance: "100000000000000000000",
+    loadingBalance: false,
+    approving: false,
+    loadingAllowance: false,
+    reporting: false,
+    canReport: false,
+    isError: false,
+    handleApprove: jest.fn,
+    handleReport: jest.fn,
+  },
+  tokenDecimals: 18,
+  disputeIncident: {
+    tokenAddress: "",
+    tokenSymbol: "NPM",
+    balance: "100000000000000000000",
+    approving: false,
+    disputing: false,
+    canDispute: false,
+    error: [],
+    handleApprove: jest.fn,
+    handleDispute: jest.fn,
+  },
+  incidentReports: {
+    data: {
+      incidentReport: {
+        id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1660556048",
+        coverKey:
+          "0x6465666900000000000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x31696e6368000000000000000000000000000000000000000000000000000000",
+        incidentDate: "1660556048",
+        resolutionDeadline: "1660556956",
+        resolved: true,
+        resolveTransaction: {
+          timestamp: "1660556656",
+        },
+        emergencyResolved: false,
+        emergencyResolveTransaction: null,
+        finalized: true,
+        status: "FalseReporting",
+        decision: false,
+        resolutionTimestamp: "1660556348",
+        claimBeginsFrom: "0",
+        claimExpiresAt: "0",
+        reporter: "0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9",
+        reporterInfo:
+          "0x5619b6a34143138de536007cabd84e2ce16dbb3f90c7158e730437751d2c6db6",
+        reporterStake: "3000000000000000000000",
+        disputer: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+        disputerInfo:
+          "0x8d34a6b705d4ba718992d283ac92552df62188c231f461763b71523fb2ef4307",
+        disputerStake: "2000000000000000000000",
+        totalAttestedStake: "3000000000000000000000",
+        totalAttestedCount: "1",
+        totalRefutedStake: "4000000000000000000000",
+        totalRefutedCount: "2",
+        reportTransaction: {
+          id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+          timestamp: "1660556048",
+        },
+        disputeTransaction: {
+          id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+          timestamp: "1660556209",
+        },
+        reportIpfsData:
+          '{\n  "title": "This is a test report",\n  "observed": "2022-08-14T08:46:00.000Z",\n  "proofOfIncident": [\n    "https://www.example.com/report",\n    "https://www.example.com/report_3",\n    "https://www.example.com/report_2"\n  ],\n  "description": "asdsadsadsadas",\n  "stake": "3000000000000000000000",\n  "createdBy": "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660466760000"\n}',
+        disputeIpfsData:
+          '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}',
+      },
+    },
+  },
+  consensusInfo: {
+    info: {
+      allocatedReward: "0",
+      burnRate: "3000",
+      claimPayouts: "0",
+      decision: "3",
+      latestIncidentDate: "1660795546",
+      myNo: "0",
+      myReward: "0",
+      myStakeInWinningCamp: "0",
+      myYes: "0",
+      no: "4000000000000000000000",
+      reporterCommission: "1000",
+      rewardsUnstaken: "0",
+      toBurn: "0",
+      toReporter: "0",
+      totalStakeInLosingCamp: "3000000000000000000000",
+      totalStakeInWinningCamp: "4000000000000000000000",
+      unstaken: "0",
+      willReceive: "0",
+      yes: "3000000000000000000000",
+    },
+  },
+  recentVotes: {
+    data: {
+      votes: [
+        {
+          id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+          createdAtTimestamp: "1660556267",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x5ee7f5d2ab3900f121caacc2283ee3a81437386084a3f890415899f0e115541b",
+            timestamp: "1660556267",
+          },
+        },
+        {
+          id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+          createdAtTimestamp: "1660556209",
+          voteType: "Refuted",
+          witness: "0xae55a2fa7621093fa5e89abf410955764ac1d92b",
+          stake: "2000000000000000000000",
+          transaction: {
+            id: "0x4bf4943eb9425bcb69a1dedfbdad41a83fee045a0421252e05986fe64d822310",
+            timestamp: "1660556209",
+          },
+        },
+        {
+          id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+          createdAtTimestamp: "1660556048",
+          voteType: "Attested",
+          witness: "0x65e06b1bcf7b91974a15e5178f8aa74dee29b7c9",
+          stake: "3000000000000000000000",
+          transaction: {
+            id: "0x4c17ce606308ec7ddf286271f5901f8ba91f7347982b22425d265e537dfdd8e9",
+            timestamp: "1660556048",
+          },
+        },
+      ],
+      _meta: {
+        block: {
+          number: 12678129,
+        },
+      },
+    },
+  },
+  fetch: {
+    body: null,
+    bodyUsed: false,
+    headers: {},
+    ok: true,
+    redirected: false,
+    status: 200,
+    statusText: "",
+    type: "cors",
+    url: "https://api.thegraph.com/subgraphs/name/test-orgs",
+  },
+  bondPoolAddress: "0x342108A1E04E8214B5D2f798b7217cd2268f33f5",
+  txToast: {
+    push: jest.fn((...args) => {
+      args[2]?.onTxSuccess?.();
+      args[2]?.onTxFailure?.();
+      return Promise.resolve({});
+    }),
+    pushError: jest.fn(),
+    pushSuccess: jest.fn(),
+  },
+  txPoster: {
+    contractRead: jest.fn((...args) => {
+      args[0]?.onError?.();
+      return Promise.resolve(toBN("100"));
+    }),
+    writeContract: jest.fn((arg) => {
+      arg?.onTransactionResult?.({
+        hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
+        nonce: null,
+        gasLimit: null,
+        gasPrice: null,
+        data: null,
+        value: null,
+        chainId: null,
+        confirmations: 0,
+        from: null,
+        wait: jest.fn(() => Promise.resolve()),
+      });
+      arg?.onRetryCancel?.();
+      arg?.onError?.();
+    }),
+  },
+  errorNotifier: { notifyError: jest.fn() },
+  erc20Allowance: {
+    allowance: convertToUnits(90),
+    loading: false,
+    refetch: jest.fn(),
+    approve: jest.fn((...args) => {
+      args[2]?.onTransactionResult?.({
+        hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
+        nonce: null,
+        gasLimit: null,
+        gasPrice: null,
+        data: null,
+        value: null,
+        chainId: null,
+        confirmations: 0,
+        from: null,
+      });
+      args[2]?.onRetryCancel?.();
+      args[2]?.onError?.("Mock Error");
+    }),
+  },
+  erc20Balance: {
+    balance: convertToUnits(1000),
+    loading: false,
+    refetch: jest.fn(),
+  },
+  useCreateBondArgs: {
+    info: {
+      lpTokenAddress: "0x97cCd316db0298498fcfD626b215955b9DF44b71",
+      discountRate: "75",
+      vestingTerm: "600",
+      maxBond: "10000000000000000000000",
+      totalNpmAllocated: "2000000000000000000000000",
+      totalNpmDistributed: "1424900465944819115",
+      bondContribution: "0",
+      claimable: "0",
+      unlockDate: "0",
+    },
+    refetchBondInfo: jest.fn(),
+    value: "100",
+  },
+  providerOrSigner: {
+    provider: {},
+    _address: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+    _index: null,
+    _isSigner: true,
+  },
+  governanceAddress: "0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060",
+  unlimitedApproval: {
+    unlimitedApproval: false,
+    setUnlimitedApproval: jest.fn(),
+    getApprovalAmount: jest.fn((_value) => _value),
+  },
+  authValidation: {
+    requiresAuth: jest.fn(),
   },
 };

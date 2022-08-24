@@ -136,6 +136,10 @@ Object.defineProperty(window, "location", {
   },
   writable: true,
 });
+export const mockLanguage = jest.spyOn(window.navigator, "language", "get");
+Object.defineProperty(process, "browser", {
+  value: true,
+});
 
 global.crypto = {
   getRandomValues: jest.fn().mockReturnValueOnce(new Uint32Array(10)),

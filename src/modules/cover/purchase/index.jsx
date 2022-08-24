@@ -5,7 +5,7 @@ import { CoverActionsFooter } from "@/common/Cover/CoverActionsFooter";
 import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
 import { SeeMoreParagraph } from "@/common/SeeMoreParagraph";
 import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
-import { convertFromUnits } from "@/utils/bn";
+import { convertFromUnits, toBN } from "@/utils/bn";
 import { HeroStat } from "@/common/HeroStat";
 import { CoverProfileInfo } from "@/common/CoverProfileInfo/CoverProfileInfo";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
@@ -15,7 +15,6 @@ import { useState } from "react";
 import { PurchasePolicyForm } from "@/common/CoverForm/PurchasePolicyForm";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
-import { useMyLiquidityInfo } from "@/src/hooks/useMyLiquidityInfo";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
@@ -28,17 +27,10 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = safeFormatBytes32String(cover_id);
   const productKey = safeFormatBytes32String(product_id || "");
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants();
-  const { info } = useMyLiquidityInfo({ coverKey });
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
 
+  const coverStats = useCoverStatsContext();
   const isDiversified = isValidProduct(productKey);
-
-  const { availableLiquidity: availableLiquidityInWei } =
-    useCoverStatsContext();
-  const availableLiquidity = convertFromUnits(
-    availableLiquidityInWei,
-    liquidityTokenDecimals
-  ).toString();
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -48,8 +40,10 @@ export const CoverPurchaseDetailsPage = () => {
     setAcceptedRules(true);
   };
 
+  const { activeCommitment, availableLiquidity } = coverStats;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
-  const totalLiquidity = info.totalLiquidity;
+  const totalLiquidity = liquidity;
 
   const projectName = !isDiversified
     ? coverInfo?.infoObj?.coverName
@@ -138,13 +132,29 @@ export const CoverPurchaseDetailsPage = () => {
             <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
             <div
               className="flex justify-between pb-2"
-              title={formatCurrency(availableLiquidity, router.locale).long}
+              title={
+                formatCurrency(
+                  convertFromUnits(
+                    availableLiquidity,
+                    liquidityTokenDecimals
+                  ).toString(),
+                  router.locale
+                ).long
+              }
             >
               <span className="">
                 <Trans>Available Liquidity:</Trans>
               </span>
               <strong className="font-bold text-right">
-                {formatCurrency(availableLiquidity, router.locale).short}
+                {
+                  formatCurrency(
+                    convertFromUnits(
+                      availableLiquidity,
+                      liquidityTokenDecimals
+                    ).toString(),
+                    router.locale
+                  ).short
+                }
               </strong>
             </div>
           </CoverResolutionSources>

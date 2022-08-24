@@ -6,10 +6,12 @@ const customJestConfig = {
   collectCoverageFrom: [
     "**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
+    "!**/*.config.js",
     "!**/node_modules/**",
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
+    "!**/src/utils/unit-tests/**",
     "!**/_mocks/**",
     "!**/locales/**",
   ],

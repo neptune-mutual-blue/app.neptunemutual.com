@@ -7,15 +7,9 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isV2BasketCoverEnabled(),
-    },
-  };
-}
+const disabled = !isV2BasketCoverEnabled();
 
-export default function CoverPurchaseDetails({ disabled }) {
+export default function CoverPurchaseDetails() {
   const router = useRouter();
   const { product_id, cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);

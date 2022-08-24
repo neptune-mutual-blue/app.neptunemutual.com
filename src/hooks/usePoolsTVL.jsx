@@ -5,8 +5,8 @@ import { calcStakingPoolTVL } from "@/src/helpers/pool";
 import { getPricingData } from "@/src/helpers/pricing";
 import { isEqualTo, sumOf, toBN } from "@/utils/bn";
 import { getNpmPayload } from "@/src/helpers/token";
-import { fetchSubgraph } from "@/src/services/fetchSubgraph";
 import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
 const getQuery = () => {
   return `
@@ -31,7 +31,6 @@ const getQuery = () => {
   }`;
 };
 
-const fetchPoolsTVL = fetchSubgraph("usePoolsTVL");
 /**
  *
  * @param {string} NPMTokenAddress
@@ -42,6 +41,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
     items: [],
     tvl: "0",
   });
+  const fetchPoolsTVL = useSubgraphFetch("usePoolsTVL");
 
   useEffect(() => {
     if (NPMTokenAddress) {
@@ -72,7 +72,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
         })
         .catch((e) => console.error(`Error: ${e.message}`));
     }
-  }, [NPMTokenAddress]);
+  }, [NPMTokenAddress, fetchPoolsTVL]);
 
   const getTVLById = useCallback(
     /**

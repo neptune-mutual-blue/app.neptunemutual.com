@@ -7,6 +7,8 @@ export const ROWS_PER_PAGE = 50;
 export const CARDS_PER_PAGE = 6;
 export const GAS_MARGIN_MULTIPLIER = 1.5;
 
+export const DEBOUNCE_TIMEOUT = 400;
+
 export const CoverStatus = {
   0: "Normal",
   1: "Stopped",
@@ -74,6 +76,7 @@ export const BOND_INFO_URL = `${API_BASE_URL}protocol/bond/info/{networkId}/{acc
 export const GET_CONTRACTS_INFO_URL = `${API_BASE_URL}protocol/contracts/{networkName}`;
 export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/{coverKey}/{productKey}/{account}`;
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`;
+export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`;
 
 export const FAUCET_URL = "https://faucet.neptunemutual.com/";
 export const LEADERBOARD_URL = "https://leaderboard.neptunemutual.com/";

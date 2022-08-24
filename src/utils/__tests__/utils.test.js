@@ -1,7 +1,7 @@
-const { toBN } = require("@/utils/bn");
-const { classNames } = require("@/utils/classnames");
-const { SORT_DATA_TYPES, sorter } = require("@/utils/sorting");
-const { getReplacedString } = require("@/utils/string");
+import { toBN } from "@/utils/bn";
+import { classNames } from "@/utils/classnames";
+import { sorter, SORT_DATA_TYPES } from "@/utils/sorting";
+import { getReplacedString } from "@/utils/string";
 
 function createLetterObject(letter) {
   return {

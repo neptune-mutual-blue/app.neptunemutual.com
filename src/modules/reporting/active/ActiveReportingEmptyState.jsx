@@ -19,9 +19,15 @@ export const ActiveReportingEmptyState = () => {
   const [selected, setSelected] = useState({});
 
   useEffect(() => {
-    if (covers && covers.length > 0) {
+    let ignore = false;
+
+    if (!ignore && covers && covers.length > 0) {
       setSelected(covers[0]);
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [covers]);
 
   const selectedCover = useCoverOrProductData({

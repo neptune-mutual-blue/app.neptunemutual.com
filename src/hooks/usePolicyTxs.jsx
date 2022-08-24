@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -51,18 +51,18 @@ export const usePolicyTxs = ({ limit, page }) => {
   const [hasMore, setHasMore] = useState(true);
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const fetchPolicyTxs = useSubgraphFetch("usePolicyTxs");
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
 
     setLoading(true);
-    getSubgraphData(networkId, getQuery(limit, page, account))
+
+    fetchPolicyTxs(networkId, getQuery(limit, page, account))
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.policyTransactions.length === 0 ||
@@ -84,14 +84,9 @@ export const usePolicyTxs = ({ limit, page }) => {
         console.error(err);
       })
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, limit, networkId, page]);
+  }, [account, fetchPolicyTxs, limit, networkId, page]);
 
   return {
     data: {

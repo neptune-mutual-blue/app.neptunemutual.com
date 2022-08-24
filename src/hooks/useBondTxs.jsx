@@ -1,5 +1,5 @@
 import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react";
 
@@ -52,19 +52,19 @@ export const useBondTxs = ({ limit, page }) => {
 
   const { networkId } = useNetwork();
   const { account } = useWeb3React();
+  const fetchBondTxs = useSubgraphFetch("useBondTxs");
 
   useEffect(() => {
-    let ignore = false;
-
     if (!account) {
       return;
     }
     const query = getQuery(account, limit, limit * (page - 1));
 
     setLoading(true);
-    getSubgraphData(networkId, query)
+
+    fetchBondTxs(networkId, query)
       .then((_data) => {
-        if (ignore || !_data) return;
+        if (!_data) return;
 
         const isLastPage =
           _data.bondTransactions.length === 0 ||
@@ -84,14 +84,9 @@ export const useBondTxs = ({ limit, page }) => {
       })
       .catch((err) => console.error(err))
       .finally(() => {
-        if (ignore) return;
         setLoading(false);
       });
-
-    return () => {
-      ignore = true;
-    };
-  }, [account, limit, networkId, page]);
+  }, [account, fetchBondTxs, limit, networkId, page]);
 
   return {
     hasMore,

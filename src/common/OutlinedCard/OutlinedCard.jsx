@@ -15,7 +15,7 @@ export const OutlinedCard = ({
 }) => {
   return (
     <div
-      data-testid="card-skeleton"
+      data-testid="card-outline"
       className={classNames(
         className,
         "border border-B0C4DB rounded-3xl",

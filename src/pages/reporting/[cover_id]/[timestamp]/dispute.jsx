@@ -14,15 +14,9 @@ import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 
-export function getServerSideProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("reporting"),
-    },
-  };
-}
+const disabled = !isFeatureEnabled("reporting");
 
-export default function DisputeFormPage({ disabled }) {
+export default function DisputeFormPage() {
   const router = useRouter();
   const { cover_id, product_id, timestamp } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
@@ -90,15 +84,15 @@ export default function DisputeFormPage({ disabled }) {
 
         {data.incidentReport && (
           <div>
-            <Container className="py-16">
-              {canDispute ? (
-                <NewDisputeReportForm incidentReport={data.incidentReport} />
-              ) : (
+            {canDispute ? (
+              <NewDisputeReportForm incidentReport={data.incidentReport} />
+            ) : (
+              <Container className="py-16">
                 <Alert>
                   <Trans>Not applicable for disputing</Trans>
                 </Alert>
-              )}
-            </Container>
+              </Container>
+            )}
           </div>
         )}
       </main>

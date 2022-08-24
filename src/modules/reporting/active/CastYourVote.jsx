@@ -14,7 +14,6 @@ import {
 } from "@/utils/bn";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useFirstReportingStake } from "@/src/hooks/useFirstReportingStake";
 import { classNames } from "@/utils/classnames";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
@@ -26,9 +25,6 @@ import { MULTIPLIER } from "@/src/config/constants";
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState("");
-  const { minStake } = useFirstReportingStake({
-    coverKey: incidentReport.coverKey,
-  });
   const [error, setError] = useState("");
   const router = useRouter();
   const { product_id } = router.query;
@@ -52,7 +48,7 @@ export const CastYourVote = ({ incidentReport }) => {
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const { reporterCommission } = useCoverStatsContext();
+  const { reporterCommission, minReportingStake } = useCoverStatsContext();
 
   const tokenDecimals = useTokenDecimals(tokenAddress);
 
@@ -178,7 +174,11 @@ export const CastYourVote = ({ incidentReport }) => {
                 {isFirstDispute && (
                   <p className="text-9B9B9B">
                     <Trans>Minimum Stake:</Trans>{" "}
-                    {convertFromUnits(minStake, tokenDecimals).toString()} NPM
+                    {convertFromUnits(
+                      minReportingStake,
+                      tokenDecimals
+                    ).toString()}{" "}
+                    NPM
                   </p>
                 )}
                 {error && (
@@ -238,8 +238,8 @@ export const CastYourVote = ({ incidentReport }) => {
             <Trans>
               Since you are the first person to dispute this incident reporting,
               you will need to stake atleast{" "}
-              {convertFromUnits(minStake, tokenDecimals).toString()} NPM tokens.
-              If the majority agree with you, you will earn{" "}
+              {convertFromUnits(minReportingStake, tokenDecimals).toString()}{" "}
+              NPM tokens. If the majority agree with you, you will earn{" "}
               {toBN(reporterCommission)
                 .multipliedBy(100)
                 .dividedBy(MULTIPLIER)
