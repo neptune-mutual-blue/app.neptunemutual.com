@@ -7,7 +7,7 @@ import { testData } from "@/utils/unit-tests/test-data";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFetchCoverPurchasedEvent", () => {
-  const { mock, mockFunction } = mockFn.consoleError();
+  const { mock, mockFunction } = mockFn.console.error();
   mock();
 
   mockFn.useNetwork();

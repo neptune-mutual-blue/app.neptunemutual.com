@@ -3,7 +3,7 @@ import { useFetchReport } from "@/src/hooks/useFetchReport";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFetchReport", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
 
   mockFn.getGraphURL();
   mockFn.getNetworkId();

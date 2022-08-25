@@ -2,7 +2,7 @@ import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFlattenedCoverProducts", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
   mockFn.useNetwork();
   mockFn.getGraphURL();
   mockFn.getNetworkId();

@@ -330,22 +330,41 @@ export const mockFn = {
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
   ) => jest.spyOn(useAuth, "default").mockImplementation(returnFunction(cb)),
 
-  consoleError: () => {
-    const mockConsoleError = jest.fn();
+  console: {
+    error: () => {
+      const mockConsoleError = jest.fn();
 
-    return {
-      mock: () => {
-        Object.defineProperty(global.console, "error", {
-          value: mockConsoleError,
-        });
-      },
-      restore: () => {
-        Object.defineProperty(global.console, "error", {
-          value: console.error,
-        });
-      },
-      mockFunction: mockConsoleError,
-    };
+      return {
+        mock: () => {
+          Object.defineProperty(global.console, "error", {
+            value: mockConsoleError,
+          });
+        },
+        restore: () => {
+          Object.defineProperty(global.console, "error", {
+            value: console.error,
+          });
+        },
+        mockFunction: mockConsoleError,
+      };
+    },
+    log: () => {
+      const mockConsoleLog = jest.fn();
+
+      return {
+        mock: () => {
+          Object.defineProperty(global.console, "log", {
+            value: mockConsoleLog,
+          });
+        },
+        restore: () => {
+          Object.defineProperty(global.console, "log", {
+            value: console.log,
+          });
+        },
+        mockFunction: mockConsoleLog,
+      };
+    },
   },
 
   useReportIncident: (cb = () => testData.reportIncident) =>

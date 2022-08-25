@@ -2,7 +2,7 @@ import { useFetchReportsByKeyAndDate } from "@/src/hooks/useFetchReportsByKeyAnd
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFetchReportsByKeyAndDate", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
 
   mockFn.getGraphURL();
   mockFn.getNetworkId();

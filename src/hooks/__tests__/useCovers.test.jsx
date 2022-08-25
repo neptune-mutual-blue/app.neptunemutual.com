@@ -2,7 +2,7 @@ import { useCovers } from "@/src/hooks/useCovers";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useCovers", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
   mock();
 
   mockFn.useNetwork();

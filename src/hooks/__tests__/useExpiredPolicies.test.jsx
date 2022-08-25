@@ -2,7 +2,7 @@ import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useExpiredPolicies", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   mockFn.useNetwork();
   mockFn.useWeb3React();
