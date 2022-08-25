@@ -28,6 +28,7 @@ const TotalLiquidityChart = ({ data }) => {
         format:
           "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
         useHTML: true,
+        align: "left",
       },
       crosshair: {
         color: "#4E7DD9",
@@ -141,7 +142,7 @@ const TotalLiquidityChart = ({ data }) => {
           style: {
             color: "#01052D",
           },
-          align: "center",
+          align: "left",
           y: 14,
         },
       },

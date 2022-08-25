@@ -139,7 +139,7 @@ export const HomeHero = ({ breadcrumbs = [], title = "" }) => {
 
         <div className="flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard p-14 border-0.5 border-B0C4DB">
           <div className="mb-8">
-            <h3 className="mb-1 text-sm leading-5 font-sora text-9B9B9B">
+            <h3 className="mb-1 text-sm leading-5 font-poppins text-9B9B9B">
               <Trans>Total Liquidity</Trans>
             </h3>
             <div className="flex items-center">
