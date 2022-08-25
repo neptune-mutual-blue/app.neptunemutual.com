@@ -73,8 +73,7 @@ msgstr "활성 보고"
 msgid "Add Dispute"
 msgstr "분쟁 추가"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:162
-#: src/modules/reporting/NewIncidentReportForm.jsx:244
+#: src/modules/reporting/form/index.jsx:180
 msgid "Add new link"
 msgstr "새 링크 추가"
 
@@ -92,7 +91,7 @@ msgstr "유동성 추가 성공"
 msgid "Adding Liquidity"
 msgstr "유동성 추가"
 
-#: src/modules/my-liquidity/content/rules.jsx:102
+#: src/modules/my-liquidity/content/rules.jsx:106
 msgid "All rules of individual \"{0}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "개별 \"{0}\" 제품의 모든 규칙이 이 풀에 적용됩니다. 제품의 트리거 이벤트가 해결된 경우 이 풀의 유동성이 청구를 지불하는 데 사용됩니다."
 
@@ -104,11 +103,11 @@ msgstr "청구 가능한 금액"
 msgid "Amount You Wish To Stake"
 msgstr "스테이킹하고 싶은 금액"
 
-#: src/hooks/useDisputeIncident.jsx:284
+#: src/hooks/useDisputeIncident.jsx:286
 msgid "Amount less than minimum stake!"
 msgstr "최소 판돈보다 적은 금액!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:143
+#: src/common/CoverForm/PurchasePolicyForm.jsx:170
 msgid "Amount you wish to cover"
 msgstr "커버하고자 하는 금액"
 
@@ -116,16 +115,16 @@ msgstr "커버하고자 하는 금액"
 msgid "Amount you wish to withdraw"
 msgstr "출금하고자 하는 금액"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:240
+#: src/common/CoverForm/PurchasePolicyForm.jsx:293
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:270
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:291
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
+#: src/modules/reporting/NewDisputeReportForm.jsx:200
+#: src/modules/reporting/NewIncidentReportForm.jsx:243
 #: src/modules/reporting/active/CastYourVote.jsx:209
-#: src/modules/reporting/NewDisputeReportForm.jsx:235
-#: src/modules/reporting/NewIncidentReportForm.jsx:319
 msgid "Approve"
 msgstr "승인하다"
 
@@ -199,19 +198,19 @@ msgstr "{tokenSymbol} 승인 중"
 msgid "Approving {tokenSymbol} tokens"
 msgstr "{tokenSymbol} 토큰 승인"
 
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:270
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:291
 msgid "Approving.."
 msgstr "승인.."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:237
+#: src/common/CoverForm/PurchasePolicyForm.jsx:290
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
+#: src/modules/reporting/NewDisputeReportForm.jsx:200
+#: src/modules/reporting/NewIncidentReportForm.jsx:243
 #: src/modules/reporting/active/CastYourVote.jsx:206
-#: src/modules/reporting/NewDisputeReportForm.jsx:232
-#: src/modules/reporting/NewIncidentReportForm.jsx:316
 msgid "Approving..."
 msgstr "승인..."
 
@@ -236,21 +235,21 @@ msgid "Available cxTokens for {title} to Claim"
 msgstr "청구할 {title} 에 대해 사용 가능한 cxTokens"
 
 #: src/common/BackButton/BackButton.jsx:15
-#: src/common/ProductsGrid/ProductsGrid.jsx:101
+#: src/common/ProductsGrid/ProductsGrid.jsx:103
 msgid "Back"
 msgstr "뒤"
 
-#: src/common/TokenBalance.jsx:66
+#: src/common/TokenBalance.jsx:67
 msgid "Balance:"
 msgstr "균형:"
 
-#: src/modules/my-liquidity/content/rules.jsx:87
+#: src/modules/my-liquidity/content/rules.jsx:91
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{0}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "이 풀에 유동성을 제공하거나 이 풀에서 제품 정책을 구매하기 전에 모든 제품 매개변수를 철저히 평가하십시오. 인수 자본은 개별 제품을 다루는 \"{0}\" 풀에 집중되어 있습니다. 다양한 커버 풀이 LP에 훨씬 더 높은 수익을 제공하지만 전용 커버 풀보다 본질적으로 더 위험합니다."
 
-#: src/modules/pools/bond/index.jsx:247
 #: src/modules/pools/PoolsTabs.jsx:17
-#: src/pages/pools/bond/transactions.jsx:40
+#: src/modules/pools/bond/index.jsx:247
+#: src/pages/pools/bond/transactions.jsx:41
 msgid "Bond"
 msgstr "노예"
 
@@ -304,7 +303,7 @@ msgstr "커버 상태가 다음이므로 유동성을 추가할 수 없습니다
 msgid "Cannot go below minimum stake"
 msgstr "최소 판돈 이하로 갈 수 없음"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:126
+#: src/common/CoverForm/PurchasePolicyForm.jsx:153
 msgid "Cannot purchase policy, since the cover status is"
 msgstr "커버 상태가 다음이므로 정책을 구매할 수 없습니다."
 
@@ -361,10 +360,6 @@ msgstr "청구 채권"
 msgid "Claim Cover"
 msgstr "클레임 커버"
 
-#: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:60
-msgid "Claim Expiry"
-msgstr "클레임 만료"
-
 #: src/modules/pools/bond/BondInfoCard.jsx:80
 msgid "Claim My Bond"
 msgstr "내 채권 청구"
@@ -416,7 +411,7 @@ msgid "Close Banner"
 msgstr ""
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:274
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:234
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:253
 msgid "Close:"
 msgstr "닫다:"
 
@@ -538,8 +533,8 @@ msgid "Could not provide liquidity"
 msgstr "유동성을 제공할 수 없음"
 
 #: src/helpers/notification.js:268
-#: src/hooks/usePurchasePolicy.jsx:234
-#: src/hooks/usePurchasePolicy.jsx:234
+#: src/hooks/usePurchasePolicy.jsx:235
+#: src/hooks/usePurchasePolicy.jsx:235
 msgid "Could not purchase policy"
 msgstr "정책을 구매할 수 없습니다."
 
@@ -599,6 +594,10 @@ msgstr "표지 규칙"
 msgid "Cover fee:"
 msgstr "보험료:"
 
+#: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:60
+msgid "Coverage Period"
+msgstr ""
+
 #: src/modules/home/Hero.jsx:113
 msgid "Covered"
 msgstr "덮음"
@@ -615,8 +614,8 @@ msgstr "유대 만들기"
 msgid "Decline"
 msgstr "감소"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:168
-#: src/modules/reporting/NewIncidentReportForm.jsx:247
+#: src/modules/reporting/NewDisputeReportForm.jsx:137
+#: src/modules/reporting/NewIncidentReportForm.jsx:172
 msgid "Description"
 msgstr "설명"
 
@@ -632,9 +631,13 @@ msgstr "부인 및 보증"
 msgid "Disconnect"
 msgstr "연결 해제"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:245
+#: src/modules/reporting/NewDisputeReportForm.jsx:198
 msgid "Dispute"
 msgstr "논쟁"
+
+#: src/modules/reporting/ReportComments.jsx:184
+msgid "Disputed by"
+msgstr ""
 
 #: src/helpers/notification.js:150
 msgid "Disputed successfully"
@@ -644,7 +647,7 @@ msgstr "성공적으로 이의 제기됨"
 msgid "Disputing"
 msgstr "논쟁"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:245
+#: src/modules/reporting/NewDisputeReportForm.jsx:198
 msgid "Disputing..."
 msgstr "논쟁 중..."
 
@@ -653,7 +656,7 @@ msgstr "논쟁 중..."
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "{0}x 레버리지 팩터 및 {1} 자본 효율성을 갖춘 다양한 풀"
 
-#: src/modules/my-liquidity/content/rules.jsx:33
+#: src/modules/my-liquidity/content/rules.jsx:34
 msgid "Download LP Cover Terms"
 msgstr "LP 커버 약관 다운로드"
 
@@ -690,7 +693,7 @@ msgstr "긴급 해결 사고"
 msgid "Emergency Resolving..."
 msgstr "긴급 해결..."
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:41
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:43
 msgid "Enter Amount"
 msgstr "금액을 입력하세요"
 
@@ -698,7 +701,11 @@ msgstr "금액을 입력하세요"
 msgid "Enter Amount you wish to provide"
 msgstr "제공하고자 하는 금액 입력"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:157
+#: src/modules/reporting/NewDisputeReportForm.jsx:122
+msgid "Enter Dispute Title"
+msgstr ""
+
+#: src/modules/reporting/NewIncidentReportForm.jsx:142
 msgid "Enter Incident Title"
 msgstr "사건 제목 입력"
 
@@ -706,11 +713,15 @@ msgstr "사건 제목 입력"
 msgid "Enter Npm Amount"
 msgstr "Npm 금액 입력"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:112
-msgid "Enter a title of this dispute"
-msgstr "이 분쟁의 제목을 입력하세요."
+#: src/common/CoverForm/PurchasePolicyForm.jsx:246
+msgid "Enter Referral Code"
+msgstr ""
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:164
+#: src/modules/reporting/NewDisputeReportForm.jsx:126
+msgid "Enter the dispute title."
+msgstr ""
+
+#: src/modules/reporting/NewIncidentReportForm.jsx:146
 msgid "Enter the incident title."
 msgstr "사건 제목을 입력하세요."
 
@@ -718,16 +729,16 @@ msgstr "사건 제목을 입력하세요."
 msgid "Enter your NPM stake"
 msgstr "NPM 지분 입력"
 
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:190
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:195
 msgid "Enter your POD"
 msgstr "POD 입력"
 
 #: src/modules/pools/bond/index.jsx:182
-#: src/modules/reporting/NewDisputeReportForm.jsx:195
 msgid "Enter your amount"
 msgstr "금액을 입력하세요"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:275
+#: src/modules/reporting/NewDisputeReportForm.jsx:156
+#: src/modules/reporting/NewIncidentReportForm.jsx:191
 msgid "Enter your stake"
 msgstr "지분을 입력하세요"
 
@@ -735,14 +746,10 @@ msgstr "지분을 입력하세요"
 msgid "Enter your {tokenSymbol}"
 msgstr "{tokenSymbol} 입력"
 
-#: src/common/TokenBalance.jsx:41
-#: src/hooks/useDisputeIncident.jsx:278
+#: src/common/TokenBalance.jsx:42
+#: src/hooks/useDisputeIncident.jsx:280
 msgid "Error"
 msgstr "오류"
-
-#: src/modules/reporting/NewDisputeReportForm.jsx:214
-msgid "Error!!!"
-msgstr "오류!!!"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:98
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:110
@@ -767,8 +774,8 @@ msgstr "만료일"
 msgid "Expires In"
 msgstr "만료"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:174
-#: src/modules/reporting/NewIncidentReportForm.jsx:256
+#: src/modules/reporting/NewDisputeReportForm.jsx:143
+#: src/modules/reporting/NewIncidentReportForm.jsx:178
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "추가하고 싶은 것이 있으면 사건에 대해 간략하게 설명하십시오."
 
@@ -776,13 +783,14 @@ msgstr "추가하고 싶은 것이 있으면 사건에 대해 간략하게 설�
 msgid "FALSE REPORTING"
 msgstr "허위보고"
 
-#: src/modules/reporting/active/ActiveReportSummary.jsx:166
-#: src/modules/reporting/active/CastYourVote.jsx:148
 #: src/modules/reporting/HorizontalChartLegend.jsx:11
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/ReportComments.jsx:54
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:50
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:72
+#: src/modules/reporting/active/ActiveReportSummary.jsx:166
+#: src/modules/reporting/active/CastYourVote.jsx:148
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 #: src/utils/translations.js:44
 msgid "False Reporting"
 msgstr "허위보고"
@@ -799,11 +807,11 @@ msgstr "수수료: {0}"
 msgid "Fees"
 msgstr "수수료"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:107
+#: src/common/CoverForm/PurchasePolicyForm.jsx:133
 msgid "Fetching Allowance..."
 msgstr "수당 가져오는 중..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:109
+#: src/common/CoverForm/PurchasePolicyForm.jsx:135
 msgid "Fetching Balance..."
 msgstr "잔액을 가져오는 중..."
 
@@ -811,16 +819,16 @@ msgstr "잔액을 가져오는 중..."
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
 #: src/modules/pools/bond/index.jsx:173
 #: src/modules/pools/staking/StakeForm.jsx:69
+#: src/modules/reporting/NewIncidentReportForm.jsx:224
 #: src/modules/reporting/active/CastYourVote.jsx:117
-#: src/modules/reporting/NewIncidentReportForm.jsx:131
 msgid "Fetching allowance..."
 msgstr "수당을 가져오는 중..."
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:171
 #: src/modules/pools/staking/StakeForm.jsx:67
+#: src/modules/reporting/NewIncidentReportForm.jsx:228
 #: src/modules/reporting/active/CastYourVote.jsx:115
-#: src/modules/reporting/NewIncidentReportForm.jsx:133
 msgid "Fetching balance..."
 msgstr "잔액을 가져오는 중..."
 
@@ -828,13 +836,10 @@ msgstr "잔액을 가져오는 중..."
 msgid "Fetching balances..."
 msgstr "잔액을 가져오는 중..."
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:135
+#: src/modules/reporting/NewDisputeReportForm.jsx:189
+#: src/modules/reporting/NewIncidentReportForm.jsx:232
 msgid "Fetching min stake..."
 msgstr "최소 지분을 가져오는 중..."
-
-#: src/modules/reporting/NewDisputeReportForm.jsx:50
-msgid "Fetching min-stake amount..."
-msgstr "최소 판돈을 가져오는 중..."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:186
 msgid "Fetching {NPMTokenSymbol} allowance..."
@@ -844,7 +849,7 @@ msgstr "{NPMTokenSymbol} 허용량을 가져오는 중..."
 msgid "Fetching {liquidityTokenSymbol} allowance..."
 msgstr "{liquidityTokenSymbol} 허용량을 가져오는 중..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:105
+#: src/common/CoverForm/PurchasePolicyForm.jsx:131
 msgid "Fetching..."
 msgstr "가져오는 중..."
 
@@ -877,8 +882,8 @@ msgstr "LP 토큰 받기"
 #: src/modules/cover/purchase/index.jsx:65
 #: src/modules/reporting/ReportingHero.jsx:21
 #: src/modules/reporting/ReportingHero.jsx:38
+#: src/pages/covers/[cover_id]/[product_id]/options.jsx:47
 #: src/pages/covers/[cover_id]/options.jsx:32
-#: src/pages/covers/[cover_id]/[product_id]/options.jsx:46
 msgid "Home"
 msgstr "집"
 
@@ -910,7 +915,7 @@ msgstr "각 거래에 대해 계속 승인하지 않으려면 이 상자를 활�
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of total dishonest stakes if you are the first person to report this incident. In addition to NPM rewards, you may also earn a percentage commission on individual claims payout.<0/><1/><2>Note: Dishonest reporters get 100% of their stakes forfeited which is distributed to honest reporters. You may lose all of your stakes if resolution is not in your favor.</2>"
 msgstr "최근 {0} 사건에 대해 알게 되셨다면 위의 표지 규정을 주의 깊게 읽으십시오. 이 사건을 보고하는 첫 번째 사람이 전체 부정직한 지분의 균일한 {1}%를 얻을 수 있습니다. NPM 보상 외에도 개별 청구 지불금에 대해 일정 비율의 수수료를 받을 수도 있습니다.<0/><1/><2>참고: 부정직한 기자는 지분의 100%를 몰수당하고 정직한 기자에게 분배됩니다. 해결이 유리하지 않은 경우 모든 지분을 잃을 수 있습니다.</2>"
 
-#: src/modules/my-liquidity/content/rules.jsx:98
+#: src/modules/my-liquidity/content/rules.jsx:102
 msgid "Important Note"
 msgstr "중요 사항"
 
@@ -918,13 +923,17 @@ msgstr "중요 사항"
 msgid "Incident Happened"
 msgstr "사건 발생"
 
-#: src/modules/reporting/active/ActiveReportSummary.jsx:121
-#: src/modules/reporting/active/CastYourVote.jsx:133
+#: src/modules/reporting/ReportComments.jsx:52
+msgid "Incident Occured"
+msgstr ""
+
 #: src/modules/reporting/HorizontalChartLegend.jsx:8
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:40
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:71
+#: src/modules/reporting/active/ActiveReportSummary.jsx:121
+#: src/modules/reporting/active/CastYourVote.jsx:133
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
 msgid "Incident Occurred"
 msgstr "사건 발생"
 
@@ -933,9 +942,9 @@ msgstr "사건 발생"
 msgid "Incident Reporters"
 msgstr "사건 보고자"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:151
-msgid "Incident Title"
-msgstr "사건 제목"
+#: src/hooks/useValidateReferralCode.js:79
+msgid "Incorrect Referral Code"
+msgstr ""
 
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:102
 msgid "Insights"
@@ -943,19 +952,28 @@ msgstr "인사이트"
 
 #: src/hooks/useClaimPolicyInfo.jsx:311
 #: src/hooks/useCreateBond.jsx:150
-#: src/hooks/useDisputeIncident.jsx:289
-#: src/hooks/usePurchasePolicy.jsx:90
+#: src/hooks/useDisputeIncident.jsx:291
+#: src/hooks/usePurchasePolicy.jsx:91
 #: src/hooks/useStakingPoolDeposit.jsx:299
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:107
 #: src/modules/reporting/active/CastYourVote.jsx:75
-#: src/modules/reporting/NewIncidentReportForm.jsx:54
 msgid "Insufficient Balance"
 msgstr "잔액 불충분"
 
+#: src/modules/reporting/NewDisputeReportForm.jsx:180
+#: src/modules/reporting/NewIncidentReportForm.jsx:215
+msgid "Insufficient Balanced"
+msgstr ""
+
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:93
-#: src/modules/reporting/NewIncidentReportForm.jsx:49
+#: src/modules/reporting/NewDisputeReportForm.jsx:173
+#: src/modules/reporting/NewIncidentReportForm.jsx:208
 msgid "Insufficient Stake"
 msgstr "불충분한 지분"
+
+#: src/hooks/useValidateReferralCode.js:75
+msgid "Invalid Referral Code"
+msgstr ""
 
 #: src/hooks/useCreateBond.jsx:145
 msgid "Invalid amount to bond"
@@ -965,7 +983,7 @@ msgstr "유효하지 않은 채권 금액"
 msgid "Invalid amount to claim"
 msgstr "청구할 금액이 잘못되었습니다."
 
-#: src/hooks/usePurchasePolicy.jsx:85
+#: src/hooks/usePurchasePolicy.jsx:86
 msgid "Invalid amount to cover"
 msgstr "적용할 수 있는 유효하지 않은 금액"
 
@@ -1006,7 +1024,7 @@ msgstr "더"
 msgid "Market Price"
 msgstr "시장 가격"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:33
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:34
 msgid "Max"
 msgstr "최대"
 
@@ -1018,15 +1036,15 @@ msgstr "최대 본드"
 msgid "Maximum Limit:"
 msgstr "최대 한도:"
 
-#: src/hooks/usePurchasePolicy.jsx:96
+#: src/hooks/usePurchasePolicy.jsx:97
 msgid "Maximum protection available is {0}"
 msgstr "사용 가능한 최대 보호는 {0} 입니다."
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:178
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:180
+#: src/modules/reporting/NewDisputeReportForm.jsx:167
+#: src/modules/reporting/NewIncidentReportForm.jsx:202
 #: src/modules/reporting/active/CastYourVote.jsx:180
-#: src/modules/reporting/NewDisputeReportForm.jsx:205
-#: src/modules/reporting/NewIncidentReportForm.jsx:284
 msgid "Minimum Stake:"
 msgstr "최소 지분:"
 
@@ -1037,8 +1055,8 @@ msgstr "내 활성 보호"
 #: src/common/Header/Header.jsx:52
 #: src/modules/my-liquidity/details.jsx:56
 #: src/modules/my-liquidity/details.jsx:81
-#: src/pages/my-liquidity/index.jsx:54
-#: src/pages/my-liquidity/transactions.jsx:38
+#: src/pages/my-liquidity/index.jsx:55
+#: src/pages/my-liquidity/transactions.jsx:39
 msgid "My Liquidity"
 msgstr "나의 유동성"
 
@@ -1050,16 +1068,16 @@ msgstr "나의 유동성:"
 #: src/modules/my-policies/ClaimDetailsPage.jsx:77
 #: src/modules/my-policies/ClaimDetailsPage.jsx:94
 #: src/modules/my-policies/PoliciesTabs.jsx:37
-#: src/pages/my-policies/transactions.jsx:39
+#: src/pages/my-policies/transactions.jsx:40
 msgid "My Policies"
 msgstr "내 정책"
 
-#: src/pages/my-liquidity/index.jsx:57
+#: src/pages/my-liquidity/index.jsx:58
 msgid "My Total Liquidity"
 msgstr "나의 총 유동성"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:261
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:219
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:230
 msgid "NEXT UNLOCK CYCLE"
 msgstr "다음 잠금 해제 주기"
 
@@ -1079,7 +1097,7 @@ msgstr "해왕성 상호 기자"
 msgid "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
 msgstr "Neptune은 귀하에 대한 통지 없이 귀하 또는 다른 당사자에 대한 책임 없이 언제든지 이 면책 조항을 변경할 수 있습니다. 변경 사항에 대해 이 면책 조항을 주기적으로 확인하는 것은 귀하의 책임입니다. 이 면책 조항의 변경 사항에 동의하지 않으면 이 테스트넷의 사용을 중단해야 합니다."
 
-#: src/common/AcceptRulesForm/AcceptRulesForm.jsx:68
+#: src/common/AcceptRulesForm/AcceptRulesForm.jsx:69
 msgid "Next"
 msgstr "다음"
 
@@ -1093,10 +1111,10 @@ msgstr "포드 없음"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:267
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:54
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:87
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:54
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:87
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:55
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:88
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:55
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:88
 msgid "No data found"
 msgstr "데이터가 없습니다"
 
@@ -1116,8 +1134,8 @@ msgstr "주어진 타임스탬프로 보고된 유효한 사건이 없습니다.
 msgid "Normal"
 msgstr "정상"
 
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:98
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:98
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:99
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:99
 msgid "Not applicable for disputing"
 msgstr "이의 제기에 해당되지 않음"
 
@@ -1125,12 +1143,12 @@ msgstr "이의 제기에 해당되지 않음"
 msgid "Notification"
 msgstr "공고"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:169
+#: src/modules/reporting/NewIncidentReportForm.jsx:151
 msgid "Observed Date & Time"
 msgstr "관찰 날짜 및 시간"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:266
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:225
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:240
 msgid "Open:"
 msgstr "열려 있는:"
 
@@ -1138,12 +1156,8 @@ msgstr "열려 있는:"
 msgid "POD Staking"
 msgstr "POD 스테이킹"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:124
-msgid "Please choose date from the past"
-msgstr "과거 날짜를 선택하세요."
-
 #: src/hooks/useClaimPolicyInfo.jsx:301
-#: src/hooks/usePurchasePolicy.jsx:80
+#: src/hooks/usePurchasePolicy.jsx:81
 #: src/hooks/useStakingPoolDeposit.jsx:289
 msgid "Please connect your wallet"
 msgstr "지갑을 연결해주세요"
@@ -1164,7 +1178,7 @@ msgid "Please specify an amount"
 msgstr "금액을 지정하십시오"
 
 #: src/common/Header/Header.jsx:42
-#: src/pages/pools/bond/transactions.jsx:38
+#: src/pages/pools/bond/transactions.jsx:39
 msgid "Pool"
 msgstr "수영장"
 
@@ -1172,11 +1186,8 @@ msgstr "수영장"
 msgid "Products Covered Under This Pool"
 msgstr "이 풀에서 다루는 제품"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:122
-msgid "Proof of dispute"
-msgstr "분쟁의 증거"
-
-#: src/modules/reporting/NewIncidentReportForm.jsx:194
+#: src/modules/reporting/form/index.jsx:133
+#: src/modules/reporting/form/index.jsx:149
 msgid "Proof of incident"
 msgstr "사건의 증거"
 
@@ -1195,7 +1206,8 @@ msgstr "보호"
 msgid "Provide Liquidity"
 msgstr "유동성 제공"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:229
+#: src/modules/reporting/form/index.jsx:141
+#: src/modules/reporting/form/index.jsx:159
 msgid "Provide URL with a proximate proof of the incident."
 msgstr "사건의 대략적인 증거가 있는 URL을 제공하십시오."
 
@@ -1216,7 +1228,7 @@ msgstr "유동성 제공"
 msgid "Purchase Policy"
 msgstr "구매 정책"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:262
+#: src/common/CoverForm/PurchasePolicyForm.jsx:317
 msgid "Purchase policy"
 msgstr "구매 정책"
 
@@ -1229,18 +1241,18 @@ msgid "Purchased Policy"
 msgstr "구매한 정책"
 
 #: src/helpers/notification.js:261
-#: src/hooks/usePurchasePolicy.jsx:233
-#: src/hooks/usePurchasePolicy.jsx:233
+#: src/hooks/usePurchasePolicy.jsx:234
+#: src/hooks/usePurchasePolicy.jsx:234
 msgid "Purchased Policy Successfully"
 msgstr "정책을 성공적으로 구매했습니다"
 
 #: src/helpers/notification.js:273
-#: src/hooks/usePurchasePolicy.jsx:232
-#: src/hooks/usePurchasePolicy.jsx:232
+#: src/hooks/usePurchasePolicy.jsx:233
+#: src/hooks/usePurchasePolicy.jsx:233
 msgid "Purchasing Policy"
 msgstr "구매 정책"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:262
+#: src/common/CoverForm/PurchasePolicyForm.jsx:317
 msgid "Purchasing..."
 msgstr "구매 중..."
 
@@ -1266,6 +1278,10 @@ msgstr "안심:"
 msgid "Recent Votes"
 msgstr "최근 투표"
 
+#: src/common/CoverForm/PurchasePolicyForm.jsx:238
+msgid "Referral Code"
+msgstr ""
+
 #: src/helpers/notification.js:556
 msgid "Refuting"
 msgstr "반박하다"
@@ -1278,7 +1294,7 @@ msgstr "제거됨"
 msgid "Removed Liquidity Successfully"
 msgstr "유동성 제거 성공"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:337
+#: src/modules/reporting/NewIncidentReportForm.jsx:241
 msgid "Report"
 msgstr "보고서"
 
@@ -1291,13 +1307,17 @@ msgstr "사고 보고"
 msgid "Report Summary"
 msgstr "보고서 요약"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:147
+#: src/modules/reporting/NewIncidentReportForm.jsx:133
 msgid "Report an incident"
 msgstr "사건 보고"
 
 #: src/modules/reporting/active/ActiveReportingCard.jsx:236
 msgid "Reported On:"
 msgstr "보고된 날짜:"
+
+#: src/modules/reporting/ReportComments.jsx:169
+msgid "Reported by"
+msgstr ""
 
 #: src/helpers/notification.js:223
 msgid "Reported incident successfully"
@@ -1324,8 +1344,8 @@ msgstr "보고 기간"
 msgid "Reporting incident"
 msgstr "사건 보고"
 
+#: src/modules/reporting/NewIncidentReportForm.jsx:241
 #: src/modules/reporting/active/CastYourVote.jsx:227
-#: src/modules/reporting/NewIncidentReportForm.jsx:337
 msgid "Reporting..."
 msgstr "보고 중..."
 
@@ -1369,7 +1389,7 @@ msgstr "해결 중..."
 msgid "Result:"
 msgstr "결과:"
 
-#: src/modules/my-liquidity/content/rules.jsx:167
+#: src/modules/my-liquidity/content/rules.jsx:171
 msgid "Risk Disclosure / Disclaimer"
 msgstr "위험 공개/면책 조항"
 
@@ -1393,15 +1413,15 @@ msgstr "더보기"
 msgid "Select Your Decision"
 msgstr "결정을 선택하세요"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:184
+#: src/modules/reporting/NewIncidentReportForm.jsx:160
 msgid "Select the incident observance date."
 msgstr "사고발생일을 선택하세요."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:174
+#: src/common/CoverForm/PurchasePolicyForm.jsx:202
 msgid "Select your coverage period"
 msgstr "보장 기간 선택"
 
-#: src/common/ProductsGrid/ProductsGrid.jsx:162
+#: src/common/ProductsGrid/ProductsGrid.jsx:164
 #: src/common/Table/Table.jsx:39
 #: src/modules/home/AvailableCovers.jsx:143
 #: src/modules/pools/pod-staking/index.jsx:137
@@ -1429,11 +1449,11 @@ msgstr "정렬 기준:"
 msgid "Stake"
 msgstr "말뚝"
 
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 #: src/modules/reporting/active/ActiveReportSummary.jsx:130
 #: src/modules/reporting/active/ActiveReportSummary.jsx:175
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:116
 #: src/modules/reporting/resolved/ResolvedReportSummary.jsx:161
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:80
 msgid "Stake:"
 msgstr "말뚝:"
 
@@ -1453,7 +1473,7 @@ msgstr "{tokenSymbol} 스테이킹"
 msgid "Staking..."
 msgstr "스테이킹..."
 
-#: src/modules/my-liquidity/content/rules.jsx:111
+#: src/modules/my-liquidity/content/rules.jsx:115
 msgid "Standard Exclusions"
 msgstr "표준 제외"
 
@@ -1461,7 +1481,11 @@ msgstr "표준 제외"
 msgid "Stopped"
 msgstr "중지됨"
 
-#: src/common/TokenBalance.jsx:34
+#: src/modules/reporting/NewDisputeReportForm.jsx:114
+msgid "Submit Your Dispute"
+msgstr ""
+
+#: src/common/TokenBalance.jsx:35
 msgid "Success"
 msgstr "성공"
 
@@ -1490,7 +1514,7 @@ msgstr "채권 기능은 {vestingPeriodInterval} 의 가득 기간 동안 할인
 msgid "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
 msgstr "커버 생성자, 커버, 커버 가용성, 유동성 볼륨, 보호 금액, 사용률 및 테스트넷의 기타 모든 콘텐츠는 가상이며 테스트 및 실험 목적으로만 사용됩니다. Neptune은 그러한 정보나 콘텐츠가 메인넷이 배포될 때 실제 환경과 유사하거나 유사할 것이라고 보장하거나 보증하지 않습니다. 테스트넷에 배치된 로고 및 표지 제작자는 해당 제작자의 공식적인 보증이나 약속을 의미하지 않습니다."
 
-#: src/modules/my-liquidity/content/rules.jsx:58
+#: src/modules/my-liquidity/content/rules.jsx:62
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "위에 나열된 제품은 다양한 커버 풀의 일부입니다. 다양한 커버 상품에 대한 지급은 보장되지 않으므로 선착순으로 지급됩니다."
 
@@ -1510,11 +1534,12 @@ msgstr "이 테스트넷 환경은 Neptune Mutual, 즉 운영 주체인 Neptune 
 msgid "Timestamp"
 msgstr "타임스탬프"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:106
+#: src/modules/reporting/NewDisputeReportForm.jsx:118
+#: src/modules/reporting/NewIncidentReportForm.jsx:138
 msgid "Title"
 msgstr "제목"
 
-#: src/common/TokenBalance.jsx:35
+#: src/common/TokenBalance.jsx:36
 msgid "Token address copied Successfully"
 msgstr "토큰 주소 복사 성공"
 
@@ -1536,12 +1561,12 @@ msgstr "총 유동성:"
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:68
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:66
 #: src/modules/pools/bond/index.jsx:270
-#: src/pages/my-liquidity/transactions.jsx:40
-#: src/pages/my-liquidity/transactions.jsx:47
-#: src/pages/my-policies/transactions.jsx:43
-#: src/pages/my-policies/transactions.jsx:48
-#: src/pages/pools/bond/transactions.jsx:44
-#: src/pages/pools/bond/transactions.jsx:51
+#: src/pages/my-liquidity/transactions.jsx:41
+#: src/pages/my-liquidity/transactions.jsx:48
+#: src/pages/my-policies/transactions.jsx:44
+#: src/pages/my-policies/transactions.jsx:49
+#: src/pages/pools/bond/transactions.jsx:45
+#: src/pages/pools/bond/transactions.jsx:52
 msgid "Transaction List"
 msgstr "거래 목록"
 
@@ -1555,7 +1580,7 @@ msgstr "언스테이크"
 msgid "UTILIZATION RATIO:"
 msgstr "활용 비율:"
 
-#: src/common/TokenBalance.jsx:42
+#: src/common/TokenBalance.jsx:43
 msgid "Unable to copy token address"
 msgstr "토큰 주소를 복사할 수 없습니다."
 
@@ -1653,7 +1678,7 @@ msgstr "정책 기간이 끝나면 자동으로 이 섹션으로 이동합니다
 msgid "Will Unlock On"
 msgstr "잠금 해제 켜짐"
 
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:292
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:314
 msgid "Withdraw"
 msgstr "철회하다"
 
@@ -1666,7 +1691,7 @@ msgstr "유동성 인출"
 msgid "Withdrawing rewards"
 msgstr "보상 철회"
 
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:292
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:314
 msgid "Withdrawing.."
 msgstr "철수.."
 
@@ -1685,12 +1710,12 @@ msgid "You Earned"
 msgstr "너는 얻었 어"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:254
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:206
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:216
 #: src/modules/pools/bond/index.jsx:197
 msgid "You Will Receive"
 msgstr "당신은받을 것입니다"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:115
+#: src/common/CoverForm/PurchasePolicyForm.jsx:141
 msgid "You are not whitelisted"
 msgstr "당신은 화이트리스트에 없습니다"
 
@@ -1698,7 +1723,7 @@ msgstr "당신은 화이트리스트에 없습니다"
 msgid "You will receive"
 msgstr "당신은받을 것이다"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:161
+#: src/common/CoverForm/PurchasePolicyForm.jsx:189
 msgid "You will receive:"
 msgstr "다음을 받게 됩니다."
 
@@ -1717,7 +1742,7 @@ msgid "Your Stake"
 msgstr "우리의 스테이크"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:220
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:171
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:172
 #: src/modules/pools/staking/UnStakeForm.jsx:77
 msgid "Your Stake:"
 msgstr "우리의 스테이크"
@@ -1769,7 +1794,7 @@ msgstr "nPM 승인"
 msgid "approve {NPMTokenSymbol} tokens"
 msgstr "{NPMTokenSymbol} 토큰 승인"
 
-#: src/hooks/usePurchasePolicy.jsx:126
+#: src/hooks/usePurchasePolicy.jsx:127
 msgid "approve {liquidityTokenSymbol}"
 msgstr "{liquidityTokenSymbol} 승인"
 
@@ -1863,36 +1888,37 @@ msgstr "금고 정보 얻기"
 msgid "getting user whitelisted"
 msgstr "사용자를 허용 목록에 추가"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:205
+#: src/modules/reporting/form/index.jsx:137
+#: src/modules/reporting/form/index.jsx:153
 msgid "https://"
 msgstr "https://"
 
+#: src/pages/covers/[cover_id]/[product_id]/options.jsx:49
+#: src/pages/covers/[cover_id]/[product_id]/options.jsx:54
 #: src/pages/covers/[cover_id]/options.jsx:34
-#: src/pages/covers/[cover_id]/[product_id]/options.jsx:48
-#: src/pages/covers/[cover_id]/[product_id]/options.jsx:53
 msgid "loading.."
 msgstr "로딩중.."
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:75
 #: src/common/Table/__tests__/Table.test.jsx:108
-#: src/modules/cover/add-liquidity/index.jsx:36
 #: src/modules/cover/CoverOptionsPage.jsx:25
+#: src/modules/cover/add-liquidity/index.jsx:36
 #: src/modules/cover/purchase/index.jsx:44
 #: src/modules/my-liquidity/details.jsx:36
 #: src/modules/my-policies/ClaimDetailsPage.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:45
 #: src/modules/reporting/new/index.jsx:49
-#: src/modules/reporting/resolved/resolved.jsx:267
 #: src/modules/reporting/resolved/ResolveIncident.jsx:46
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
-#: src/pages/my-liquidity/index.jsx:58
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:48
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:42
-#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:81
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:42
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
+#: src/modules/reporting/resolved/resolved.jsx:267
+#: src/pages/my-liquidity/index.jsx:59
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:49
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:43
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:82
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:49
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:43
+#: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:82
 msgid "loading..."
 msgstr "로딩중..."
 
@@ -1911,7 +1937,7 @@ msgstr "데이터가 없습니다"
 msgid "policy"
 msgstr "정책"
 
-#: src/hooks/usePurchasePolicy.jsx:207
+#: src/hooks/usePurchasePolicy.jsx:208
 msgid "purchase policy"
 msgstr "구매 정책"
 
@@ -2012,3 +2038,7 @@ msgstr "보상을 철회하다"
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "withdrawing..."
 msgstr "철수..."
+
+#: src/modules/reporting/form/index.jsx:19
+msgid "{label}"
+msgstr ""

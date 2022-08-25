@@ -1294,4 +1294,13 @@ export const testData = {
   authValidation: {
     requiresAuth: jest.fn(),
   },
+  myLiquidities: {
+    data: { liquidityList: [], myLiquidities: {} },
+    loading: false,
+  },
+  calculateTotalLiquidity: 10,
+  fetchReport: {
+    data: { incidentReport: true },
+    loading: false,
+  },
 };

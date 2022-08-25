@@ -4,6 +4,7 @@ import { PoliciesActivePage } from "@/src/modules/my-policies/active/PoliciesAct
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {
