@@ -10,6 +10,7 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 
 const incidentReport = testData.reporting.activeReporting[0];
+const incidentReportDiversified = testData.reporting.activeReporting[1];
 
 const getUtilizationRatio = (totalLiquidity, activeCommitment) => {
   const liquidity = totalLiquidity;
@@ -44,7 +45,7 @@ describe("Active Reporting Card Loading", () => {
   });
 });
 
-describe("Active Reporting Card Info", () => {
+describe("Active Cover Reporting Card Info", () => {
   beforeEach(() => {
     mockFn.useAppConstants();
     mockFn.useCoverOrProductData();
@@ -67,35 +68,26 @@ describe("Active Reporting Card Info", () => {
     const src = getCoverImgSrc({
       key: testData.coverInfo.coverKey,
     });
-
     expect(img).toHaveAttribute("src", src);
 
-    const coverFee = screen.getByTestId("cover-fee");
-
-    const floor = formatPercent(
+    const coverFeeWrap = screen.getByTestId("cover-fee");
+    const coverFee = `Cover fee: ${formatPercent(
       testData.coverInfo.infoObj.pricingFloor / MULTIPLIER,
-      testData.router.locale
-    );
-
-    const ceiling = formatPercent(
+      "en"
+    )}-${formatPercent(
       testData.coverInfo.infoObj.pricingCeiling / MULTIPLIER,
-      testData.router.locale
-    );
-
-    expect(coverFee).toHaveTextContent(floor);
-    expect(coverFee).toHaveTextContent(ceiling);
+      "en"
+    )}`;
+    expect(coverFeeWrap).toHaveTextContent(coverFee);
 
     const utilRatio = screen.getByTestId("util-ratio");
-
     const utilizationRatioText = getUtilizationRatio(
       testData.liquidityFormsContext.info.totalLiquidity,
       testData.coverStats.info.activeCommitment
     );
-
     expect(utilRatio).toHaveTextContent(utilizationRatioText);
 
     const protection = screen.getByTestId("protection");
-
     const liquidityText = formatCurrency(
       convertFromUnits(
         testData.coverStats.info.activeCommitment,
@@ -103,13 +95,68 @@ describe("Active Reporting Card Info", () => {
       ).toString(),
       "en"
     ).short;
-
     expect(protection).toHaveTextContent(liquidityText);
 
     const incidentDate = screen.getByTestId("incident-date");
-
     const incidentDateText = fromNow(incidentReport.incidentDate);
+    expect(incidentDate).toHaveTextContent(incidentDateText);
+  });
+});
 
+describe("Active Diversified Cover Reporting Card Info", () => {
+  beforeEach(() => {
+    mockFn.useAppConstants();
+    mockFn.useCoverOrProductData(() => testData.productInfo);
+    mockFn.useMyLiquidityInfo();
+    mockFn.useFetchCoverStats();
+
+    const { initialRender } = initiateTest(ActiveReportingCard, {
+      id: incidentReportDiversified.id,
+      coverKey: incidentReportDiversified.coverKey,
+      productKey: incidentReportDiversified.productKey,
+      incidentDate: incidentReportDiversified.incidentDate,
+    });
+
+    initialRender();
+  });
+
+  test("should render the card info when cover info loaded", () => {
+    const imgContainer = screen.getByTestId("active-report-cover-img");
+    const img = imgContainer.querySelector("img");
+    const src = getCoverImgSrc({
+      key: testData.productInfo.productKey,
+    });
+    expect(img).toHaveAttribute("src", src);
+
+    const coverFeeWrap = screen.getByTestId("cover-fee");
+    const coverFee = `Cover fee: ${formatPercent(
+      testData.productInfo.cover.infoObj.pricingFloor / MULTIPLIER,
+      "en"
+    )}-${formatPercent(
+      testData.productInfo.cover.infoObj.pricingCeiling / MULTIPLIER,
+      "en"
+    )}`;
+    expect(coverFeeWrap).toHaveTextContent(coverFee);
+
+    const utilRatio = screen.getByTestId("util-ratio");
+    const utilizationRatioText = getUtilizationRatio(
+      testData.liquidityFormsContext.info.totalLiquidity,
+      testData.coverStats.info.activeCommitment
+    );
+    expect(utilRatio).toHaveTextContent(utilizationRatioText);
+
+    const protection = screen.getByTestId("protection");
+    const liquidityText = formatCurrency(
+      convertFromUnits(
+        testData.coverStats.info.activeCommitment,
+        testData.appConstants.liquidityTokenDecimals
+      ).toString(),
+      "en"
+    ).short;
+    expect(protection).toHaveTextContent(liquidityText);
+
+    const incidentDate = screen.getByTestId("incident-date");
+    const incidentDateText = fromNow(incidentReport.incidentDate);
     expect(incidentDate).toHaveTextContent(incidentDateText);
   });
 });

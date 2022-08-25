@@ -54,7 +54,10 @@ export const ActiveReportingEmptyState = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full pt-20">
+    <div
+      className="flex flex-col items-center w-full pt-20"
+      data-testid="active-reporting-empty"
+    >
       <img
         src="/images/covers/empty-list-illustration.svg"
         alt={t`no data found`}
