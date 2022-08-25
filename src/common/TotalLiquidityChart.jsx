@@ -28,6 +28,7 @@ const TotalLiquidityChart = ({ data }) => {
         format:
           "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
         useHTML: true,
+        align: "left",
       },
       crosshair: {
         color: "#4E7DD9",
@@ -35,7 +36,7 @@ const TotalLiquidityChart = ({ data }) => {
       },
       ordinal: false,
       minRange: 1 * 24 * 3600 * 1000,
-      lineWidth: 0.5,
+      lineWidth: 0,
       lineColor: "#01052D",
     },
     yAxis: {
@@ -54,7 +55,7 @@ const TotalLiquidityChart = ({ data }) => {
       gridLineColor: "#01052D40",
       gridLineWidth: 0.5,
       min: yAxisMin,
-      lineWidth: 0.5,
+      lineWidth: 0,
       lineColor: "#01052D",
     },
     series: [
@@ -133,7 +134,7 @@ const TotalLiquidityChart = ({ data }) => {
       maskFill: "rgba(66, 137, 242, 0.3)",
       outlineWidth: 0,
       xAxis: {
-        // tickInterval: 1 * 24 * 3600 * 1000,
+        tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
           format:
             "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
@@ -141,7 +142,7 @@ const TotalLiquidityChart = ({ data }) => {
           style: {
             color: "#01052D",
           },
-          align: "center",
+          align: "left",
           y: 14,
         },
       },

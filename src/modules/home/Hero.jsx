@@ -139,12 +139,12 @@ export const HomeHero = ({ breadcrumbs = [], title = "" }) => {
 
         <div className="flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard p-14 border-0.5 border-B0C4DB">
           <div className="mb-8">
-            <h3 className="mb-1 text-h3 font-sora text-4e7dd9">
+            <h3 className="mb-1 text-sm leading-5 font-poppins text-9B9B9B">
               <Trans>Total Liquidity</Trans>
             </h3>
             <div className="flex items-center">
               <h2
-                className="pr-3 font-bold text-black text-h2 font-sora"
+                className="pr-3 font-bold text-black text-h3 font-sora"
                 data-testid="changedata-currency"
               >
                 {
