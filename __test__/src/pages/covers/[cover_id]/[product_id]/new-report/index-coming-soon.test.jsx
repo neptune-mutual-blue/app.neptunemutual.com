@@ -1,11 +1,9 @@
 import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
-import { screen } from "@testing-library/react";
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { screen } from "@testing-library/react";
 
-jest.mock("@/modules/reporting/new", () => ({
-  NewIncidentReportPage: () => (
-    <div data-testid="new-incident-report-page"></div>
-  ),
+jest.mock("@/common/ComingSoon", () => ({
+  ComingSoon: () => <div data-testid="coming-soon"></div>,
 }));
 
 describe("ReportingNewCoverPage test", () => {
@@ -13,17 +11,16 @@ describe("ReportingNewCoverPage test", () => {
 
   beforeEach(() => {
     mockFn.useRouter();
-    process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: "true" };
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: "false" };
     const ReportingNewCoverPage =
       require("@/pages/covers/[cover_id]/[product_id]/new-report/index").default;
     const { initialRender } = initiateTest(ReportingNewCoverPage);
 
     initialRender();
   });
-  test("Should display incident report page", () => {
-    const newIncidentReportPage = screen.getByTestId(
-      "new-incident-report-page"
-    );
-    expect(newIncidentReportPage).toBeInTheDocument();
+
+  test("Should display coming soon", () => {
+    const comingSoon = screen.getByTestId("coming-soon");
+    expect(comingSoon).toBeInTheDocument();
   });
 });

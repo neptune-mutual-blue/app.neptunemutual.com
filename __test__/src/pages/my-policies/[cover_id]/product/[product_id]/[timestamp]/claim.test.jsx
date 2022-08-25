@@ -13,9 +13,7 @@ jest.mock("@/modules/my-policies/ClaimDetailsPage", () => {
 });
 
 describe("ClaimPolicyDiversifiedProduct test", () => {
-  const { initialRender, rerenderFn } = initiateTest(
-    ClaimPolicyDiversifiedProduct
-  );
+  const { initialRender } = initiateTest(ClaimPolicyDiversifiedProduct);
 
   beforeEach(() => {
     initialRender();
@@ -24,12 +22,5 @@ describe("ClaimPolicyDiversifiedProduct test", () => {
   test("should display ClaimPolicyDiversifiedProduct component", () => {
     const policies = screen.getByTestId("claim-details-page");
     expect(policies).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });

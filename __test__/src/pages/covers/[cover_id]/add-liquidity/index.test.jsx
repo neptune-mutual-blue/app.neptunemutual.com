@@ -1,6 +1,5 @@
-import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
-import { screen } from "@testing-library/react";
-import CoverAddLiquidityDetails from "@/src/pages/covers/[cover_id]/add-liquidity/index";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { screen, render } from "@testing-library/react";
 
 jest.mock("@/src/modules/cover/add-liquidity", () => ({
   CoverAddLiquidityDetailsPage: () => (
@@ -9,10 +8,15 @@ jest.mock("@/src/modules/cover/add-liquidity", () => ({
 }));
 
 describe("CoverAddLiquidityDetails test", () => {
-  const { initialRender, rerenderFn } = initiateTest(CoverAddLiquidityDetails);
+  const OLD_ENV = process.env;
 
   beforeEach(() => {
-    initialRender();
+    mockFn.useRouter();
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: "liquidity" };
+
+    const CoverPurchaseDetails =
+      require("@/src/pages/covers/[cover_id]/add-liquidity/index").default;
+    render(<CoverPurchaseDetails />);
   });
 
   test("Should display incident report page", () => {
@@ -20,11 +24,5 @@ describe("CoverAddLiquidityDetails test", () => {
       "cover-add-liquidity-details-page"
     );
     expect(newIncidentReportPage).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });

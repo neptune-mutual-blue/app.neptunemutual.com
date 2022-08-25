@@ -53,10 +53,4 @@ describe("IncidentResolvedCoverPage test", () => {
     const reporting = screen.getByTestId("reporting-details-page");
     expect(reporting).toBeInTheDocument();
   });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
-  });
 });

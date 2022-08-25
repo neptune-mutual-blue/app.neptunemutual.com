@@ -92,10 +92,4 @@ describe("DisputeFormPage test", () => {
     const dispute = screen.getByTestId("new-dispute-report-form");
     expect(dispute).toBeInTheDocument();
   });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
-  });
 });

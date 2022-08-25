@@ -1,6 +1,5 @@
-import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
-import { screen } from "@testing-library/react";
-import CoverPurchaseDetails from "@/src/pages/covers/[cover_id]/purchase/index";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { render, screen } from "@testing-library/react";
 
 jest.mock("@/src/modules/cover/purchase", () => ({
   CoverPurchaseDetailsPage: () => (
@@ -9,10 +8,15 @@ jest.mock("@/src/modules/cover/purchase", () => ({
 }));
 
 describe("CoverPurchaseDetails test", () => {
-  const { initialRender, rerenderFn } = initiateTest(CoverPurchaseDetails);
+  const OLD_ENV = process.env;
 
   beforeEach(() => {
-    initialRender();
+    mockFn.useRouter();
+    process.env = { ...OLD_ENV, NEXT_PUBLIC_FEATURES: "policy" };
+
+    const CoverPurchaseDetails =
+      require("@/src/pages/covers/[cover_id]/purchase/index").default;
+    render(<CoverPurchaseDetails />);
   });
 
   test("Should display Cover Purchase Details Page component", () => {
@@ -20,11 +24,5 @@ describe("CoverPurchaseDetails test", () => {
       "cover-purchase-details-page"
     );
     expect(newIncidentReportPage).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });

@@ -11,7 +11,7 @@ jest.mock("@/modules/reporting/new", () => {
 });
 
 describe("ReportingNewCoverPage test", () => {
-  const { initialRender, rerenderFn } = initiateTest(ReportingNewCoverPage);
+  const { initialRender } = initiateTest(ReportingNewCoverPage);
 
   beforeEach(() => {
     initialRender();
@@ -20,11 +20,5 @@ describe("ReportingNewCoverPage test", () => {
   test("should display ReportingNewCoverPage with NewIncidentReportPage component", () => {
     const incident = screen.getByTestId("new-incident-report-page");
     expect(incident).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });

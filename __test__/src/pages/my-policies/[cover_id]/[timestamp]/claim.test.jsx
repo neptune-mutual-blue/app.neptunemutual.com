@@ -2,6 +2,9 @@ import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 import ClaimPolicyDedicatedCover from "@/src/pages/my-policies/[cover_id]/[timestamp]/claim";
 import { screen } from "@testing-library/react";
 
+import * as environment from "@/src/config/environment";
+const mock = jest.spyOn(environment, "isFeatureEnabled");
+
 jest.mock("@/modules/my-policies/ClaimDetailsPage", () => {
   return {
     ClaimDetailsPage: ({ disabled }) => {
@@ -13,7 +16,13 @@ jest.mock("@/modules/my-policies/ClaimDetailsPage", () => {
 });
 
 describe("ClaimPolicyDedicatedCover test", () => {
-  const { initialRender, rerenderFn } = initiateTest(ClaimPolicyDedicatedCover);
+  const { initialRender, rerenderFn } = initiateTest(
+    ClaimPolicyDedicatedCover,
+    {},
+    () => {
+      mock.mockImplementation(() => true);
+    }
+  );
 
   beforeEach(() => {
     initialRender();
@@ -22,12 +31,5 @@ describe("ClaimPolicyDedicatedCover test", () => {
   test("should display ClaimPolicyDedicatedCover component", () => {
     const policies = screen.getByTestId("claim-details-page");
     expect(policies).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });

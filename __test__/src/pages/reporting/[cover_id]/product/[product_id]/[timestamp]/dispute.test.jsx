@@ -3,6 +3,9 @@ import { screen } from "@testing-library/react";
 import DisputeFormPage from "@/src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute";
 import DateLib from "@/lib/date/DateLib";
 
+import * as environment from "@/src/config/environment";
+const mock = jest.spyOn(environment, "isFeatureEnabled");
+
 jest.mock("@/src/modules/reporting/ReportingHero", () => {
   return {
     ReportingHero: () => {
@@ -29,6 +32,7 @@ describe("DisputeFormPage test", () => {
         data: { incidentReport: false },
         loading: true,
       }));
+      mock.mockImplementation(() => true);
     }
   );
 
@@ -91,11 +95,5 @@ describe("DisputeFormPage test", () => {
     });
     const dispute = screen.getByTestId("new-dispute-report-form");
     expect(dispute).toBeInTheDocument();
-  });
-
-  test("Should display coming soon", () => {
-    rerenderFn({ disabled: true });
-    const comingSoon = screen.getByText("Coming soon!");
-    expect(comingSoon).toBeInTheDocument();
   });
 });
