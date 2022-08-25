@@ -66,7 +66,6 @@ import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
 import * as MyLiqudities from "@/src/hooks/useMyLiquidities";
 import * as CalculateTotalLiquidity from "@/src/hooks/useCalculateTotalLiquidity";
-import * as FetchReport from "@/src/hooks/useFetchReport";
 
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
@@ -76,6 +75,8 @@ import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
 import * as UseVoteHook from "@/src/hooks/useVote";
 import * as BondInfoHook from "@/src/hooks/useBondInfo";
 import * as BondTxsHook from "@/src/hooks/useBondTxs";
+
+import * as VaultInfoFile from "@/src/services/protocol/vault/info";
 
 const Web3React = require("@web3-react/core");
 
@@ -546,6 +547,15 @@ export const mockFn = {
           );
         },
       },
+      Vault: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Vault geInstance() mock"
+            )
+          );
+        },
+      },
     },
     utils: {
       ipfs: {
@@ -597,11 +607,6 @@ export const mockFn = {
       .spyOn(CalculateTotalLiquidity, "useCalculateTotalLiquidity")
       .mockImplementation(returnFunction(cb));
   },
-  useFetchReport: (cb = () => testData.fetchReport) => {
-    jest
-      .spyOn(FetchReport, "useFetchReport")
-      .mockImplementation(returnFunction(cb));
-  },
   useVote: (cb = () => testData.castYourVote) =>
     jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
   useBondInfo: (cb = () => testData.bondInfo) => {
@@ -613,6 +618,8 @@ export const mockFn = {
     jest
       .spyOn(BondTxsHook, "useBondTxs")
       .mockImplementation(returnFunction(cb)),
+  getInfo: (cb = () => testData.myLiquidityInfo) =>
+    jest.spyOn(VaultInfoFile, "getInfo").mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {
@@ -716,7 +723,7 @@ export const initiateTest = (
  * @property {Function} rerender
  * @property {Function} unmount
  * @property {Function} [waitForNextUpdate]
- * @property {Function} [waitForValueToChange]
+ * @property {Object} [renderHookResult]
  */
 
 /**
@@ -738,7 +745,7 @@ export const renderHookWrapper = async (
     rr = () => {},
     u = () => {},
     wfnu = () => {},
-    wfvc = () => {};
+    renderHookResult = {};
 
   await hooksAct(async () => {
     const {
@@ -746,7 +753,6 @@ export const renderHookWrapper = async (
       waitForNextUpdate: WFNU,
       rerender,
       unmount,
-      waitForValueToChange,
     } = renderHook((args) => hookFunction(...args), {
       initialProps: hookArgs,
       ...renderHookOptions,
@@ -761,7 +767,7 @@ export const renderHookWrapper = async (
     rr = rerender;
     u = unmount;
     wfnu = WFNU;
-    wfvc = waitForValueToChange;
+    renderHookResult = result;
   });
   return {
     result: res,
@@ -769,6 +775,6 @@ export const renderHookWrapper = async (
     rerender: rr,
     unmount: u,
     waitForNextUpdate: wfnu,
-    waitForValueToChange: wfvc,
+    renderHookResult,
   };
 };

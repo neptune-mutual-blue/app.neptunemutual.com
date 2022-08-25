@@ -20,7 +20,7 @@ import {
 } from "@/src/services/transactions/transaction-history";
 import { getActionMessage } from "@/src/helpers/notification";
 
-const defaultInfo = {
+export const defaultInfo = {
   withdrawalOpen: "0",
   withdrawalClose: "0",
   totalReassurance: "0",

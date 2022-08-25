@@ -1127,6 +1127,8 @@ export const testData = {
           '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}',
       },
     },
+    loading: false,
+    refetch: jest.fn(),
   },
   consensusInfo: {
     info: {
@@ -1398,6 +1400,27 @@ export const testData = {
     handleApprove: jest.fn(),
     handleAttest: jest.fn(),
     handleRefute: jest.fn(),
+  },
+  myLiquidityInfo: {
+    stablecoin: "0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468",
+    vault: "0x134A1620eCf1BA0a42Fb2664Fc63D6BD50eBD424",
+    podTotalSupply: "9497947944564640430198548",
+    myPodBalance: "499995217441559127270",
+    vaultStablecoinBalance: "9594152807067",
+    vaultTokenSymbol: "CRPOOL-nDAI",
+    vaultTokenDecimals: "18",
+    myStablecoinBalance: "98550339092",
+    stablecoinTokenSymbol: "DAI",
+    withdrawalStarts: "1661425749",
+    withdrawalEnds: "1661429349",
+    totalReassurance: "3323996000000",
+    myStake: "1000000000000000000000",
+    isAccrualComplete: "",
+    amountLentInStrategies: "0",
+    minStakeToAddLiquidity: "250000000000000000000",
+    myShare: "505059676",
+    myUnrealizedShare: "505059676",
+    totalLiquidity: "9594152807067",
   },
   bondInfo: {
     info: {
