@@ -1195,6 +1195,14 @@ export const testData = {
       },
     },
   },
+  unstakeReporting: {
+    unstake: jest.fn(),
+    unstakeWithClaim: jest.fn(),
+    unstaking: false,
+  },
+  retryUntilPassed: {
+    passed: true,
+  },
   fetch: {
     body: null,
     bodyUsed: false,
@@ -1302,5 +1310,19 @@ export const testData = {
   fetchReport: {
     data: { incidentReport: true },
     loading: false,
+  },
+  castYourVote: {
+    tokenAddress: "0xF7c352D9d6967Bd916025030E38eA58cF48029f8",
+    tokenSymbol: "NPM",
+    balance: "181130000000000000000",
+    approving: false,
+    voting: false,
+    loadingAllowance: false,
+    loadingBalance: false,
+    canVote: true,
+    isError: false,
+    handleApprove: jest.fn(),
+    handleAttest: jest.fn(),
+    handleRefute: jest.fn(),
   },
 };

@@ -67,6 +67,9 @@ import * as FetchReport from "@/src/hooks/useFetchReport";
 
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
+import * as UnstakeReportingStakeHook from "@/src/hooks/useUnstakeReportingStake";
+import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
+import * as UseVoteHook from "@/src/hooks/useVote";
 
 const Web3React = require("@web3-react/core");
 
@@ -369,7 +372,14 @@ export const mockFn = {
     jest
       .spyOn(RecentVotesHook, "useRecentVotes")
       .mockImplementation(returnFunction(cb)),
-
+  useUnstakeReportingStake: (cb = () => testData.unstakeReporting) =>
+    jest
+      .spyOn(UnstakeReportingStakeHook, "useUnstakeReportingStake")
+      .mockImplementation(returnFunction(cb)),
+  useRetryUntilPassed: (cb = () => testData.retryUntilPassed) =>
+    jest
+      .spyOn(RetryUntilPassedHook, "useRetryUntilPassed")
+      .mockImplementation(returnFunction(cb)),
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
       `${networkId}:${coverKey}-${productKey}`
@@ -515,6 +525,8 @@ export const mockFn = {
       .spyOn(FetchReport, "useFetchReport")
       .mockImplementation(returnFunction(cb));
   },
+  useVote: (cb = () => testData.castYourVote) =>
+    jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {
