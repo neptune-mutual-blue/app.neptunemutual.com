@@ -1,5 +1,6 @@
 import { testData } from "@/utils/unit-tests/test-data";
 
+import * as ActiveReportings from "@/src/hooks/useActiveReportings";
 import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import * as ValidReportHook from "@/src/hooks/useValidReport";
 
@@ -81,6 +82,19 @@ const returnFunction = (d) => {
 };
 
 export const mockFn = {
+  useActiveReportings: (
+    cb = () => ({
+      data: {
+        incidentReports: testData.reporting.activeReporting,
+      },
+      loading: false,
+      hasMore: true,
+    })
+  ) =>
+    jest
+      .spyOn(ActiveReportings, "useActiveReportings")
+      .mockImplementation(returnFunction(cb)),
+
   useCoverOrProductData: (cb = () => testData.coverInfo) =>
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
@@ -100,10 +114,12 @@ export const mockFn = {
     jest
       .spyOn(ValidReportHook, "useValidReport")
       .mockImplementation(returnFunction(cb)),
+
   useERC20Balance: (cb = () => testData.erc20Balance) =>
     jest
       .spyOn(ERC20BalanceHook, "useERC20Balance")
       .mockImplementation(returnFunction(cb)),
+
   useERC20Allowance: (cb = () => testData.erc20Allowance) =>
     jest
       .spyOn(ERC20AllowanceHook, "useERC20Allowance")
@@ -155,10 +171,12 @@ export const mockFn = {
     jest
       .spyOn(EagerConnect, "useEagerConnect")
       .mockImplementation(returnFunction(cb)),
+
   getNetworkId: (cb = () => testData.network.networkId) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getNetworkId")
       .mockImplementation(returnFunction(cb)),
+
   getGraphURL: (networkId = 80001) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getGraphURL")
@@ -195,10 +213,12 @@ export const mockFn = {
     jest
       .spyOn(LiquidityFormsContextHook, "useLiquidityFormsContext")
       .mockImplementation(returnFunction(cb)),
+
   useCoverActiveReportings: (cb = () => testData.coverActiveReportings) =>
     jest
       .spyOn(CoverActiveReportingsHook, "useCoverActiveReportings")
       .mockImplementation(returnFunction(cb)),
+
   usePagination: (cb = () => testData.pagination) =>
     jest
       .spyOn(PaginationHook, "usePagination")
@@ -207,41 +227,52 @@ export const mockFn = {
     jest
       .spyOn(LiquidityTxsHook, "useLiquidityTxs")
       .mockImplementation(returnFunction(cb)),
+
   useClaimPolicyInfo: (cb = () => testData.claimPolicyInfo) =>
     jest
       .spyOn(ClaimPolicyHook, "useClaimPolicyInfo")
       .mockImplementation(returnFunction(cb)),
+
   useCxTokenRowContext: (cb = () => testData.cxTokenRowContext) =>
     jest
       .spyOn(CxTokenRowContextHook, "useCxTokenRowContext")
       .mockImplementation(returnFunction(cb)),
+
   useClaimTableContext: (cb = () => testData.claimTableContext) =>
     jest
       .spyOn(ClaimTableContextHook, "useClaimTableContext")
       .mockImplementation(returnFunction(cb)),
+
   usePodStakingPools: (cb = () => testData.podStakingPools) =>
     jest
       .spyOn(PodStakingPoolsHook, "usePodStakingPools")
       .mockImplementation(returnFunction(cb)),
+
   usePoolInfo: (cb = () => testData.poolInfo) =>
     jest
       .spyOn(PoolInfoHook, "usePoolInfo")
       .mockImplementation(returnFunction(cb)),
+
   useSortableStats: (cb = () => testData.sortableStats) =>
     jest
       .spyOn(SortableStatsHook, "useSortableStats")
       .mockImplementation(returnFunction(cb)),
+
   useActivePolicies: (cb = () => testData.activePolicies) =>
     jest
       .spyOn(ActivePoliciesHook, "useActivePolicies")
       .mockImplementation(returnFunction(cb)),
+
   chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
+
   useToast: (cb = () => testData.toast) =>
     jest.spyOn(ToastHook, "useToast").mockImplementation(returnFunction(cb)),
+
   useResolvedReportings: (cb = () => testData.resolvedReportings) =>
     jest
       .spyOn(ResolvedReportingsHook, "useResolvedReportings")
       .mockImplementation(returnFunction(cb)),
+
   useSearchResults: (cb = () => testData.searchResults) =>
     jest
       .spyOn(SearchResultsHook, "useSearchResults")
@@ -250,10 +281,12 @@ export const mockFn = {
     jest
       .spyOn(CalculateLiquidityHook, "useCalculateLiquidity")
       .mockImplementation(returnFunction(cb)),
+
   useRemoveLiquidity: (cb = () => testData.removeLiquidity) =>
     jest
       .spyOn(RemoveLiquidityHook, "useRemoveLiquidity")
       .mockImplementation(returnFunction(cb)),
+
   useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
     jest
       .spyOn(LiquidityInfoHook, "useMyLiquidityInfo")
@@ -266,10 +299,12 @@ export const mockFn = {
     jest
       .spyOn(PolicyFees, "usePolicyFees")
       .mockImplementation(returnFunction(cb)),
+
   usePurchasePolicy: (cb = () => testData.purchasePolicy) =>
     jest
       .spyOn(PurchasePolicy, "usePurchasePolicy")
       .mockImplementation(returnFunction(cb)),
+
   useFetchCoverPurchasedEvent: (cb = () => testData.coverPurchased) =>
     jest
       .spyOn(PurchasedEventHook, "useFetchCoverPurchasedEvent")
@@ -278,9 +313,11 @@ export const mockFn = {
     jest
       .spyOn(LocalStorageHook, "useLocalStorage")
       .mockImplementation(returnFunction(cb)),
+
   useAuth: (
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
   ) => jest.spyOn(useAuth, "default").mockImplementation(returnFunction(cb)),
+
   consoleError: () => {
     const mockConsoleError = jest.fn();
 
@@ -298,14 +335,17 @@ export const mockFn = {
       mockFunction: mockConsoleError,
     };
   },
+
   useReportIncident: (cb = () => testData.reportIncident) =>
     jest
       .spyOn(ReportIncident, "useReportIncident")
       .mockImplementation(returnFunction(cb)),
+
   useTokenDecimals: (cb = () => testData.tokenDecimals) =>
     jest
       .spyOn(TokenDecimals, "useTokenDecimals")
       .mockImplementation(returnFunction(cb)),
+
   useDisputeIncident: (cb = () => testData.disputeIncident) => {
     jest
       .spyOn(DisputeIncident, "useDisputeIncident")
@@ -316,14 +356,17 @@ export const mockFn = {
     jest
       .spyOn(FetchReportHook, "useFetchReport")
       .mockImplementation(returnFunction(cb)),
+
   useConsensusReportingInfo: (cb = () => testData.consensusInfo) =>
     jest
       .spyOn(ConsensusReportingInfoHook, "useConsensusReportingInfo")
       .mockImplementation(returnFunction(cb)),
+
   useRecentVotes: (cb = () => testData.recentVotes) =>
     jest
       .spyOn(RecentVotesHook, "useRecentVotes")
       .mockImplementation(returnFunction(cb)),
+
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
       `${networkId}:${coverKey}-${productKey}`
@@ -331,10 +374,12 @@ export const mockFn = {
     jest
       .spyOn(CoverProductsFunction, "getCoverProductData")
       .mockImplementation(returnFunction(cb)),
+
   getCoverData: (cb = (networkId, coverKey) => `${networkId}:${coverKey}`) =>
     jest
       .spyOn(CoverProductsFunction, "getCoverData")
       .mockImplementation(returnFunction(cb)),
+
   fetch: (
     resolve = true,
     fetchResponse = testData.fetch,
@@ -357,32 +402,39 @@ export const mockFn = {
       },
     };
   },
+
   useDebounce: (value = 123) =>
     jest
       .spyOn(DebounceHook, "useDebounce")
       .mockImplementation(returnFunction(value)),
+
   useBondPoolAddress: (cb = () => testData.bondPoolAddress) =>
     jest
       .spyOn(BondPoolAddressHook, "useBondPoolAddress")
       .mockImplementation(returnFunction(cb)),
+
   useTxToast: (cb = () => testData.txToast) =>
     jest
       .spyOn(TxToastHook, "useTxToast")
       .mockImplementation(returnFunction(cb)),
+
   useTxPoster: (cb = () => testData.txPoster) =>
     jest
       .spyOn(TxPosterHook, "useTxPoster")
       .mockImplementation(returnFunction(cb)),
+
   useErrorNotifier: (cb = () => testData.errorNotifier) =>
     jest
       .spyOn(ErrorNotifierHook, "useErrorNotifier")
       .mockImplementation(returnFunction(cb)),
+
   utilsWeb3: {
     getProviderOrSigner: (cb = () => testData.providerOrSigner) =>
       jest
         .spyOn(UtilsWeb3, "getProviderOrSigner")
         .mockImplementation(returnFunction(cb)),
   },
+
   sdk: {
     registry: {
       BondPool: {
@@ -417,7 +469,9 @@ export const mockFn = {
       },
     },
   },
+
   setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
+
   useCoversAndProducts: (resolve = true, returnData = {}) =>
     jest
       .spyOn(CoversAndProductsHook, "useCoversAndProducts")
@@ -428,14 +482,17 @@ export const mockFn = {
             : Promise.reject("Error occured")
         ),
       })),
+
   useGovernanceAddress: (cb = () => testData.governanceAddress) =>
     jest
       .spyOn(GovernanceAddressHook, "useGovernanceAddress")
       .mockImplementation(returnFunction(cb)),
+
   useUnlimitedApproval: (cb = () => testData.unlimitedApproval) =>
     jest
       .spyOn(UnlimitedApprovalHook, "useUnlimitedApproval")
       .mockImplementation(returnFunction(cb)),
+
   useAuthValidation: (cb = () => testData.authValidation) =>
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
@@ -599,4 +656,3 @@ export const renderHookWrapper = async (
     waitForValueToChange: wfvc,
   };
 };
-

@@ -116,6 +116,69 @@ export const testData = {
     },
     products: [],
   },
+  productInfo: {
+    id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000",
+    coverKey:
+      "0x6465666900000000000000000000000000000000000000000000000000000000",
+    productKey:
+      "0x31696e6368000000000000000000000000000000000000000000000000000000",
+    ipfsHash: "QmXPLJmCGNzGkBtvs5cx8xRUiXmZU4vmviWv79iuDM2mGc",
+    ipfsData:
+      '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x31696e6368000000000000000000000000000000000000000000000000000000",\n  "productName": "1inch ",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://1inch.io/",\n    "twitter": "https://twitter.com/1inch",\n    "blog": "https://blog.1inch.io/",\n    "documentation": "https://docs.1inch.io/",\n    "reddit": "https://www.reddit.com/r/1inch/",\n    "discord": "https://discord.com/invite/1inch",\n    "youtube": "https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w",\n    "telegram": "https://t.me/OneInchNetwork",\n    "github": "https://github.com/1inch"\n  },\n  "resolutionSources": [\n    "https://twitter.com/1inch",\n    "https://blog.1inch.io/",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+    infoObj: {
+      productName: "1inch ",
+      capitalEfficiency: "9000",
+      tags: ["Smart Contract"],
+      about:
+        "The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.",
+      rules:
+        "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+      exclusions: "",
+      links: {
+        website: "https://1inch.io/",
+        twitter: "https://twitter.com/1inch",
+        blog: "https://blog.1inch.io/",
+        documentation: "https://docs.1inch.io/",
+        reddit: "https://www.reddit.com/r/1inch/",
+        discord: "https://discord.com/invite/1inch",
+        youtube: "https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w",
+        telegram: "https://t.me/OneInchNetwork",
+        github: "https://github.com/1inch",
+      },
+      resolutionSources: [
+        "https://twitter.com/1inch",
+        "https://blog.1inch.io/",
+        "https://twitter.com/neptunemutual",
+      ],
+    },
+    cover: {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000",
+      supportsProducts: true,
+      coverKey:
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+      ipfsHash: "QmdNTc1SK3jESXUtmgqKWso3Cv4sV6qo9rjHN1cvprihQ3",
+      ipfsData:
+        '{\n  "key": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "coverName": "Popular DeFi Apps",\n  "projectName": null,\n  "vault": {\n    "name": "DAI Locked in DeFi Pool",\n    "symbol": "DAI-D"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": true,\n  "leverage": "10",\n  "tags": [\n    "Smart Contract",\n    "DEX",\n    "Liquidity"\n  ],\n  "about": "Decentralized Exchanges",\n  "blockchains": [\n    {\n      "chainId": 1,\n      "name": "Main Ethereum Network"\n    }\n  ],\n  "rules": "1. Rule 1\\n            2. Rule 2\\n            3. Rule 3",\n  "exclusions": "1. Exclusion 1\\n                 2. Exclusion 1\\n                 3. Exclusion 3",\n  "pricingFloor": "1000",\n  "pricingCeiling": "3200",\n  "reportingPeriod": 300,\n  "cooldownPeriod": 300,\n  "claimPeriod": 300,\n  "minReportingStake": "2000000000000000000000",\n  "stakeWithFees": "50000000000000000000000",\n  "reassurance": "50000000000",\n  "reassuranceRate": "2500"\n}',
+      infoObj: {
+        coverName: "Popular DeFi Apps",
+        projectName: null,
+        leverage: "10",
+        tags: ["Smart Contract", "DEX", "Liquidity"],
+        about: "Decentralized Exchanges",
+        blockchains: [
+          {
+            chainId: 1,
+            name: "Main Ethereum Network",
+          },
+        ],
+        rules: "1. Rule 1\n            2. Rule 2\n            3. Rule 3",
+        exclusions:
+          "1. Exclusion 1\n                 2. Exclusion 1\n                 3. Exclusion 3",
+        pricingFloor: "1000",
+        pricingCeiling: "3200",
+      },
+    },
+  },
   coverInfoWithProducts: {
     id: "0x7072696d65000000000000000000000000000000000000000000000000000000",
     coverKey:
@@ -330,6 +393,16 @@ export const testData = {
           "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
         productKey:
           "0x0000000000000000000000000000000000000000000000000000000000000000",
+        incidentDate: "1658984960",
+      },
+      {
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x6161766500000000000000000000000000000000000000000000000000000000-1658984960",
+        reporterInfo:
+          "0x43485480c5ecfa145e485d4a1e698fe5f35c054e2bf9b2847c9b215bb67a9c92",
+        coverKey:
+          "0x6465666900000000000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x31696e6368000000000000000000000000000000000000000000000000000000",
         incidentDate: "1658984960",
       },
     ],
