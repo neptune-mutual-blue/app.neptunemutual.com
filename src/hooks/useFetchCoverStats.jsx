@@ -2,11 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { useNetwork } from "@/src/context/Network";
 import { getReplacedString } from "@/utils/string";
-import { ADDRESS_ONE, CoverStatus, COVER_STATS_URL } from "@/src/config/constants";
+import {
+  ADDRESS_ONE,
+  CoverStatus,
+  COVER_STATS_URL,
+} from "@/src/config/constants";
 import { getStats } from "@/src/services/protocol/cover/stats";
 import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 
-const defaultStats = {
+export const defaultStats = {
   activeIncidentDate: "0",
   claimPlatformFee: "0",
   activeCommitment: "0",
@@ -33,7 +37,13 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
     if (account) {
       // Get data from provider if wallet's connected
       const signerOrProvider = getProviderOrSigner(library, account, networkId);
-      data = await getStats(networkId, coverKey, productKey, account, signerOrProvider.provider);
+      data = await getStats(
+        networkId,
+        coverKey,
+        productKey,
+        account,
+        signerOrProvider.provider
+      );
     } else {
       // Get data from API if wallet's not connected
       const response = await fetch(
@@ -76,17 +86,27 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
         if (ignore || !data) return;
 
         setInfo({
-          activeIncidentDate: data.activeIncidentDate || defaultStats.activeIncidentDate,
-          claimPlatformFee: data.claimPlatformFee || defaultStats.claimPlatformFee,
-          activeCommitment: data.activeCommitment || defaultStats.activeCommitment,
-          isUserWhitelisted: data.isUserWhitelisted || defaultStats.isUserWhitelisted,
-          reporterCommission: data.reporterCommission || defaultStats.reporterCommission,
+          activeIncidentDate:
+            data.activeIncidentDate || defaultStats.activeIncidentDate,
+          claimPlatformFee:
+            data.claimPlatformFee || defaultStats.claimPlatformFee,
+          activeCommitment:
+            data.activeCommitment || defaultStats.activeCommitment,
+          isUserWhitelisted:
+            data.isUserWhitelisted || defaultStats.isUserWhitelisted,
+          reporterCommission:
+            data.reporterCommission || defaultStats.reporterCommission,
           reportingPeriod: data.reportingPeriod || defaultStats.reportingPeriod,
-          requiresWhitelist: data.requiresWhitelist || defaultStats.requiresWhitelist,
-          productStatus: CoverStatus[data.productStatus] || CoverStatus[defaultStats.productStatus],
+          requiresWhitelist:
+            data.requiresWhitelist || defaultStats.requiresWhitelist,
+          productStatus:
+            CoverStatus[data.productStatus] ||
+            CoverStatus[defaultStats.productStatus],
           totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
-          availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
-          minReportingStake: data.minReportingStake || defaultStats.minReportingStake,
+          availableLiquidity:
+            data.availableLiquidity || defaultStats.availableLiquidity,
+          minReportingStake:
+            data.minReportingStake || defaultStats.minReportingStake,
         });
       } catch (error) {
         console.error(error);
@@ -107,17 +127,27 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
       if (!data) return;
 
       setInfo({
-        activeIncidentDate: data.activeIncidentDate || defaultStats.activeIncidentDate,
-        claimPlatformFee: data.claimPlatformFee || defaultStats.claimPlatformFee,
-        activeCommitment: data.activeCommitment || defaultStats.activeCommitment,
-        isUserWhitelisted: data.isUserWhitelisted || defaultStats.isUserWhitelisted,
-        reporterCommission: data.reporterCommission || defaultStats.reporterCommission,
+        activeIncidentDate:
+          data.activeIncidentDate || defaultStats.activeIncidentDate,
+        claimPlatformFee:
+          data.claimPlatformFee || defaultStats.claimPlatformFee,
+        activeCommitment:
+          data.activeCommitment || defaultStats.activeCommitment,
+        isUserWhitelisted:
+          data.isUserWhitelisted || defaultStats.isUserWhitelisted,
+        reporterCommission:
+          data.reporterCommission || defaultStats.reporterCommission,
         reportingPeriod: data.reportingPeriod || defaultStats.reportingPeriod,
-        requiresWhitelist: data.requiresWhitelist || defaultStats.requiresWhitelist,
-        productStatus: CoverStatus[data.productStatus] || CoverStatus[defaultStats.productStatus],
+        requiresWhitelist:
+          data.requiresWhitelist || defaultStats.requiresWhitelist,
+        productStatus:
+          CoverStatus[data.productStatus] ||
+          CoverStatus[defaultStats.productStatus],
         totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
-        availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
-        minReportingStake: data.minReportingStake || defaultStats.minReportingStake,
+        availableLiquidity:
+          data.availableLiquidity || defaultStats.availableLiquidity,
+        minReportingStake:
+          data.minReportingStake || defaultStats.minReportingStake,
       });
     } catch (error) {
       console.error(error);
