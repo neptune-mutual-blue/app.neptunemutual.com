@@ -1,11 +1,5 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useActivePoliciesByCover } from "../useActivePoliciesByCover";
-import BigNumber from "bignumber.js";
-import { getControlledPromise } from "@/utils/unit-tests/test-helpers";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import { useWeb3React } from "@web3-react/core";
-import { useNetwork } from "@/src/context/Network";
-import { getGraphURL } from "@/src/config/environment";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
   coverKey:
@@ -26,110 +20,59 @@ const mockReturnData = {
   },
 };
 
-jest.mock("@web3-react/core", () => ({
-  useWeb3React: jest.fn(),
-}));
-
-jest.mock("@/src/context/Network", () => ({
-  useNetwork: jest.fn(),
-}));
-
-jest.mock("@/src/config/environment", () => ({
-  getGraphURL: jest.fn(),
-}));
-
 describe("useActivePoliciesByCover", () => {
   const { mock, restore, mockFunction } = mockFn.consoleError();
-  mock();
 
-  test("while fetching data without account,networkId and graphurl", async () => {
-    useWeb3React.mockImplementation(() => ({ account: null }));
-    useNetwork.mockImplementation(() => ({ networkId: null }));
-    getGraphURL.mockImplementation(() => "");
+  test("while fetching w/o account, networkId and graphURL", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
+    mockFn.useNetwork(() => ({ networkId: null }));
+    mockFn.getGraphURL(() => "");
 
-    const { promise } = getControlledPromise();
-
-    global.fetch = jest.fn(() => promise);
-
-    const { result } = renderHook(() => useActivePoliciesByCover(mockProps));
-
-    // default values while fetching without account, networkId and graphurl
-    expect(result.current.data.activePolicies).toEqual([]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("0")
-    );
-    expect(result.current.loading).toBe(false);
-    expect(result.current.hasMore).toBe(true);
-  });
-
-  test("while fetching data with account and networkId", async () => {
-    useWeb3React.mockImplementation(() => ({ account: "0x32423dfsf34" }));
-    useNetwork.mockImplementation(() => ({ networkId: 43113 }));
-    getGraphURL.mockImplementation(() => "https://api.com");
-
-    const { promise } = getControlledPromise();
-
-    global.fetch = jest.fn(() => promise);
-
-    const { result } = renderHook(() => useActivePoliciesByCover(mockProps));
-
-    // default values while fetching with account and networkId
-    expect(result.current.data.activePolicies).toEqual([]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("0")
-    );
-    expect(result.current.loading).toBe(true);
-    expect(result.current.hasMore).toBe(true);
-  });
-
-  test("when fetched successfully", async () => {
-    useWeb3React.mockImplementation(() => ({ account: "0x32423dfsf34" }));
-    useNetwork.mockImplementation(() => ({ networkId: 43113 }));
-    getGraphURL.mockImplementation(() => "https://api.com");
-
-    const { deferred, promise } = getControlledPromise();
-
-    global.fetch = jest.fn(() => promise);
-
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useActivePoliciesByCover(mockProps)
-    );
-
-    deferred.resolve({ json: () => mockReturnData });
-
-    await waitForNextUpdate();
-
-    // values when fetched successfully
-    expect(result.current.data.activePolicies).toEqual([
-      mockReturnData.data.userPolicies[0],
+    const { result } = await renderHookWrapper(useActivePoliciesByCover, [
+      mockProps,
     ]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("1000")
-    );
-    expect(result.current.loading).toBe(false);
-    expect(result.current.hasMore).toBe(false);
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(result.loading).toBe(false);
+    expect(result.hasMore).toBe(true);
   });
 
-  test("when fetched error", async () => {
-    useWeb3React.mockImplementation(() => ({ account: "0x32423dfsf34" }));
-    useNetwork.mockImplementation(() => ({ networkId: 43113 }));
-    getGraphURL.mockImplementation(() => "https://api.com");
+  test("while fetching successful", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.getGraphURL();
+    mockFn.fetch(true, undefined, mockReturnData);
 
-    const { deferred, promise } = getControlledPromise();
-
-    global.fetch = jest.fn(() => promise);
-
-    const { waitForNextUpdate } = renderHook(() =>
-      useActivePoliciesByCover(mockProps)
+    const { result } = await renderHookWrapper(
+      useActivePoliciesByCover,
+      [mockProps],
+      true
     );
 
-    deferred.reject();
+    expect(result.data.activePolicies).toEqual([
+      ...mockReturnData.data.userPolicies,
+    ]);
+    expect(result.data.totalActiveProtection.toString()).toEqual(
+      mockReturnData.data.userPolicies[0].totalAmountToCover
+    );
+  });
 
-    await waitForNextUpdate();
+  test("while fetching error", async () => {
+    mockFn.fetch(false);
+    mock();
 
-    // expected to receive a console.error
+    const { result } = await renderHookWrapper(
+      useActivePoliciesByCover,
+      [mockProps],
+      true
+    );
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
     expect(mockFunction).toHaveBeenCalled();
 
+    mockFn.fetch().unmock();
     restore();
   });
 });

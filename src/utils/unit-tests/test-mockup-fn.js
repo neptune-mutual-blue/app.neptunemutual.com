@@ -41,8 +41,10 @@ import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
 import * as FetchReportHook from "@/src/hooks/useFetchReport";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
+import * as ConfigString from "@/utils/string";
 import * as CoverProductsFunction from "@/src/services/covers-products";
 import * as DebounceHook from "@/src/hooks/useDebounce";
+import * as MountedHook from "@/src/hooks/useMountedState";
 import * as BondPoolAddressHook from "@/src/hooks/contracts/useBondPoolAddress";
 import * as TxToastHook from "@/src/hooks/useTxToast";
 import * as TxPosterHook from "@/src/context/TxPoster";
@@ -421,7 +423,17 @@ export const mockFn = {
     jest
       .spyOn(DebounceHook, "useDebounce")
       .mockImplementation(returnFunction(value)),
-
+  getReplacedString: (networkId = 80001, account = testData.account.account) =>
+    jest
+      .spyOn(ConfigString, "getReplacedString")
+      .mockImplementation(
+        () =>
+          `https://api.npm.finance/protocol/bond/info/${networkId}/${account}`
+      ),
+  useMountedState: (cb = () => false) =>
+    jest
+      .spyOn(MountedHook, "useMountedState")
+      .mockImplementation(returnFunction(cb)),
   useBondPoolAddress: (cb = () => testData.bondPoolAddress) =>
     jest
       .spyOn(BondPoolAddressHook, "useBondPoolAddress")
@@ -472,21 +484,10 @@ export const mockFn = {
           );
         },
       },
-      Resolution: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.Resolution.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "Resolution geInstance() mock"
-            )
-          );
-        },
-      },
-      Cover: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.Cover.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "Cover geInstance() mock"
-            )
+      Vault: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
           );
         },
       },

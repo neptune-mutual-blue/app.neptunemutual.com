@@ -1,8 +1,5 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useActivePolicies } from "../useActivePolicies";
-import BigNumber from "bignumber.js";
-import { getControlledPromise } from "@/utils/unit-tests/test-helpers";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockReturnData = {
   data: {
@@ -14,74 +11,47 @@ const mockReturnData = {
   },
 };
 
-jest.mock("@web3-react/core", () => ({
-  useWeb3React: jest
-    .fn()
-    .mockImplementation(() => ({ account: "0x32423dfsf34" })),
-}));
-
-jest.mock("@/src/context/Network", () => ({
-  useNetwork: jest.fn().mockImplementation(() => ({ networkId: 43113 })),
-}));
-
-jest.mock("@/src/config/environment", () => ({
-  getGraphURL: jest.fn().mockImplementation(() => "https://api.com"),
-}));
-
 describe("useActivePolicies", () => {
   const { mock, restore, mockFunction } = mockFn.consoleError();
-  mock();
 
-  test("while fetching data", async () => {
-    const { promise } = getControlledPromise();
+  mockFn.useNetwork();
+  mockFn.getGraphURL();
 
-    global.fetch = jest.fn(() => promise);
+  test("while fetching w/o account", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
 
-    const { result } = renderHook(() => useActivePolicies());
+    const { result } = await renderHookWrapper(useActivePolicies);
 
-    // default values while fetching
-    expect(result.current.data.activePolicies).toEqual([]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("0")
-    );
-    expect(result.current.loading).toBe(true);
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(result.loading).toBe(false);
   });
 
-  test("when fetched successfully", async () => {
-    const { deferred, promise } = getControlledPromise();
+  test("while fetching successful", async () => {
+    mockFn.useWeb3React();
+    mockFn.fetch(true, undefined, mockReturnData);
 
-    global.fetch = jest.fn(() => promise);
+    const { result } = await renderHookWrapper(useActivePolicies, [], true);
 
-    const { result, waitForNextUpdate } = renderHook(() => useActivePolicies());
-
-    deferred.resolve({ json: () => mockReturnData });
-
-    await waitForNextUpdate();
-
-    // values when fetched successfully
-    expect(result.current.data.activePolicies).toEqual([
-      mockReturnData.data.userPolicies[0],
+    expect(result.data.activePolicies).toEqual([
+      ...mockReturnData.data.userPolicies,
     ]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("1000")
+    expect(result.data.totalActiveProtection.toString()).toEqual(
+      mockReturnData.data.userPolicies[0].totalAmountToCover
     );
-    expect(result.current.loading).toBe(false);
   });
 
-  test("when fetched error", async () => {
-    const { deferred, promise } = getControlledPromise();
+  test("while fetching error", async () => {
+    mockFn.fetch(false);
+    mock();
 
-    global.fetch = jest.fn(() => promise);
+    const { result } = await renderHookWrapper(useActivePolicies, [], true);
 
-    const { waitForNextUpdate } = renderHook(() => useActivePolicies());
-
-    deferred.reject();
-
-    await waitForNextUpdate();
-
-    // expected to receive a console.error
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
     expect(mockFunction).toHaveBeenCalled();
 
+    mockFn.fetch().unmock();
     restore();
   });
 });

@@ -1,7 +1,5 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useCoverActiveReportings } from "../useCoverActiveReportings";
-import { getControlledPromise } from "@/utils/unit-tests/test-helpers";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
   coverKey:
@@ -34,58 +32,40 @@ const mockReturnData = {
   ],
 };
 
-jest.mock("@/src/config/environment", () => ({
-  getGraphURL: jest.fn().mockImplementation(() => "https://api.com"),
-  getNetworkId: jest.fn().mockImplementation(() => 43113),
-}));
-
 describe("useCoverActiveReportings", () => {
   const { mock, restore, mockFunction } = mockFn.consoleError();
-  mock();
 
-  test("while fetching data", () => {
-    const { promise } = getControlledPromise();
+  mockFn.getNetworkId();
+  mockFn.getGraphURL();
 
-    global.fetch = jest.fn(() => promise);
+  test("while fetching successfully", async () => {
+    mockFn.fetch(true, undefined, mockResolvedData);
 
-    const { result } = renderHook(() => useCoverActiveReportings(mockProps));
-
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(true);
-  });
-
-  test("when fetched successfully", async () => {
-    const { deferred, promise } = getControlledPromise();
-
-    global.fetch = jest.fn(() => promise);
-
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useCoverActiveReportings(mockProps)
+    const { result } = await renderHookWrapper(
+      useCoverActiveReportings,
+      [mockProps],
+      true
     );
 
-    deferred.resolve({ json: () => mockResolvedData });
-
-    await waitForNextUpdate();
-
-    expect(result.current.data).toEqual(mockReturnData.data);
-    expect(result.current.loading).toBe(false);
+    expect(result.data).toEqual(mockReturnData.data);
+    expect(result.loading).toBe(false);
   });
 
   test("when fetched error", async () => {
-    const { deferred, promise } = getControlledPromise();
+    mockFn.fetch(false);
+    mock();
 
-    global.fetch = jest.fn(() => promise);
-
-    const { waitForNextUpdate } = renderHook(() =>
-      useCoverActiveReportings(mockProps)
+    const { result } = await renderHookWrapper(
+      useCoverActiveReportings,
+      [mockProps],
+      true
     );
 
-    deferred.reject();
-
-    await waitForNextUpdate();
-
+    expect(result.data).toEqual([]);
+    expect(result.loading).toBe(false);
     expect(mockFunction).toHaveBeenCalled();
 
+    mockFn.fetch().unmock();
     restore();
   });
 });

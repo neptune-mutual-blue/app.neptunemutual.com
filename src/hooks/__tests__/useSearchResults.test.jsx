@@ -1,17 +1,17 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useSearchResults } from "../useSearchResults";
+import { renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
   list: [],
-  filter: () => {},
+  filter: jest.fn(),
 };
 
 describe("useSearchResults", () => {
-  test("should receive values", () => {
-    const { result } = renderHook(() => useSearchResults(mockProps));
+  test("should receive values", async () => {
+    const { result } = await renderHookWrapper(useSearchResults, [mockProps]);
 
-    expect(result.current.searchValue).toEqual("");
-    expect(result.current.setSearchValue).toEqual(expect.any(Function));
-    expect(result.current.filtered).toEqual([]);
+    expect(result.searchValue).toEqual("");
+    expect(result.setSearchValue).toEqual(expect.any(Function));
+    expect(result.filtered).toEqual([]);
   });
 });
