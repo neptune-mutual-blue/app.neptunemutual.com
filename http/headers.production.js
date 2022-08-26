@@ -13,9 +13,11 @@ module.exports = [
   {
     key: "Content-Security-Policy",
     values: [
-      "script-src 'self'",
-      `connect-src 'self' https://*.neptunemutual.com/ ${connectSources || ""}`,
-      "style-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'nonce-rAnd0m' https://tagmanager.google.com https://*.googletagmanager.com`,
+      `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
+        connectSources || ""
+      }`,
+      "style-src 'self' 'unsafe-inline' https://tagmanager.google.com https://fonts.googleapis.com",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
       "default-src 'none'",
@@ -24,8 +26,8 @@ module.exports = [
       "base-uri 'none'",
       "form-action 'none'",
       "object-src 'none'",
-      "img-src 'self' data:",
-      "font-src 'self'",
+      "img-src 'self' www.googletagmanager.com https://ssl.gstatic.com https://www.gstatic.com https://*.google-analytics.com https://*.googletagmanager.com data:",
+      "font-src 'self' https://fonts.gstatic.com data:",
     ],
   },
   {
