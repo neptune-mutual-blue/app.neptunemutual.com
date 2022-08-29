@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
 import { truncateAddressParam } from "@/utils/address";
@@ -6,21 +5,24 @@ import { Trans, t } from "@lingui/macro";
 import { safeParseString } from "@/src/services/transactions/utils";
 import { fromNow } from "@/utils/formatter/relative-time";
 import DateLib from "@/lib/date/DateLib";
+import { getReplacedString } from "@/utils/string";
+import { IPFS_HASH_URL } from "@/src/config/constants";
+import OpenInNewIcon from "@/icons/OpenInNewIcon";
 
 const INCIDENT = 0;
 const DISPUTE = 1;
 
 /**
- * @param {{ type: string; createdBy: string; reportedAt: number; }} props
+ * @param {{ type: string; createdBy: string; reportedAt: number; ipfsHash: string; }} props
  */
 function HeaderReport(props) {
   const { locale } = useRouter();
-  const { type, createdBy, reportedAt } = props;
+  const { type, createdBy, reportedAt, ipfsHash } = props;
 
   return (
     <div className="text-sm">
       <span role="header-type">{type}</span>
-      <span role="address" className="text-4e7dd9 mx-2">
+      <span role="address" className="mx-2 text-4e7dd9">
         {createdBy && truncateAddressParam(createdBy, 8, -6)}
       </span>
       <span
@@ -29,6 +31,20 @@ function HeaderReport(props) {
         title={DateLib.toLongDateFormat(reportedAt, locale)}
       >
         {reportedAt && fromNow(reportedAt)}
+      </span>
+
+      {/* Link to ipfs */}
+      <span className="absolute inline-flex items-center justify-center ml-2">
+        <a
+          href={getReplacedString(IPFS_HASH_URL, { ipfsHash })}
+          target="_blank"
+          rel="noreferrer noopener nofollow"
+          className="p-1 -mt-1 text-black"
+          title="Open in new tab"
+        >
+          <span className="sr-only">Open in new tab</span>
+          <OpenInNewIcon className="w-4 h-4" />
+        </a>
       </span>
     </div>
   );
@@ -63,20 +79,22 @@ function ReportType(props) {
  * @param {{type: string, createdBy: string, reportedAt: number}} props.header
  * @param {{title: string; description: string}} props.content
  * @param {{type: number}} props.report
+ * @param {string} props.ipfsHash
  * @param {JSX.Element} [props.children]
  * @returns
  */
-function Report({ header, content, report, children }) {
+function Report({ header, content, report, children, ipfsHash }) {
   return (
     <>
       <HeaderReport
         type={header.type}
         createdBy={header.createdBy}
         reportedAt={header.reportedAt}
+        ipfsHash={ipfsHash}
       />
       <ReportType type={report.type} />
 
-      <div className="block text-black border-l-1.5 border-l-B0C4DB pl-5">
+      <div className="block pl-5 text-black border-l border-l-B0C4DB">
         <h3 role={"title"} className="font-semibold text-h5">
           {content.title}
         </h3>
@@ -105,70 +123,39 @@ function Report({ header, content, report, children }) {
 /**
  * @param {Object} props
  * @param {string} props.reportIpfsData
+ * @param {string} props.reportIpfsHash
  * @param {number} props.reportIpfsDataTimeStamp
+ * @param {string} [props.disputeIpfsHash]
  * @param {string} [props.disputeIpfsData]
  * @param {number} [props.disputeIpfsDataTimeStamp]
  * @returns
  */
 export default function ReportComments({
   reportIpfsData,
+  reportIpfsHash,
   reportIpfsDataTimeStamp,
   disputeIpfsData,
+  disputeIpfsHash,
   disputeIpfsDataTimeStamp,
 }) {
   /**
-   * @type {[ReportDesputeData, (reportData: ReportDesputeData) => void]}
+   * @type {ReportDesputeData}
    */
-  const [reportData, setReportData] = useState();
+  const reportData = safeParseString(reportIpfsData, {});
 
   /**
-   * @type {[ReportDesputeData, (disputeData: ReportDesputeData) => void]}
+   * @type {ReportDesputeData}
    */
-  const [disputeData, setDisputeData] = useState();
-
-  useEffect(() => {
-    const {
-      createdBy: rCreatedBy,
-      title: rTitle,
-      description: rDescription,
-    } = safeParseString(reportIpfsData, {});
-
-    setReportData({
-      createdBy: rCreatedBy,
-      title: rTitle,
-      description: rDescription,
-      timeStamp: reportIpfsDataTimeStamp,
-    });
-
-    const {
-      createdBy: dCreatedBy,
-      title: dTitle,
-      description: dDescription,
-    } = safeParseString(disputeIpfsData, {});
-
-    if (dTitle) {
-      setDisputeData({
-        createdBy: dCreatedBy,
-        title: dTitle,
-        description: dDescription,
-        timeStamp: disputeIpfsDataTimeStamp,
-      });
-    }
-  }, [
-    reportIpfsData,
-    disputeIpfsData,
-    reportIpfsDataTimeStamp,
-    disputeIpfsDataTimeStamp,
-  ]);
+  const disputeData = safeParseString(disputeIpfsData, {});
 
   return (
-    <OutlinedCard className="bg-white p-6 mt-8">
+    <OutlinedCard className="p-6 mt-8 bg-white">
       {reportData && (
         <Report
           header={{
             type: t`Reported by`,
             createdBy: reportData?.createdBy,
-            reportedAt: reportData?.timeStamp,
+            reportedAt: reportIpfsDataTimeStamp,
           }}
           report={{
             type: INCIDENT,
@@ -177,13 +164,14 @@ export default function ReportComments({
             title: reportData?.title,
             description: reportData?.description,
           }}
+          ipfsHash={reportIpfsHash}
         >
-          {disputeData && (
+          {disputeIpfsData && (
             <Report
               header={{
                 type: t`Disputed by`,
                 createdBy: disputeData?.createdBy,
-                reportedAt: disputeData?.timeStamp,
+                reportedAt: disputeIpfsDataTimeStamp,
               }}
               report={{
                 type: DISPUTE,
@@ -192,6 +180,7 @@ export default function ReportComments({
                 title: disputeData?.title,
                 description: disputeData?.description,
               }}
+              ipfsHash={disputeIpfsHash}
             />
           )}
         </Report>
