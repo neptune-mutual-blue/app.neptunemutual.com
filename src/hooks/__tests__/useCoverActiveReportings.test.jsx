@@ -1,15 +1,71 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useCoverActiveReportings } from "../useCoverActiveReportings";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
-  coverKey: "",
+  coverKey:
+    "0x7072696d65000000000000000000000000000000000000000000000000000000",
+};
+
+const mockResolvedData = {
+  data: {
+    incidentReports: [
+      {
+        id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947",
+        incidentDate: "1661159947",
+        productKey:
+          "0x31696e6368000000000000000000000000000000000000000000000000000000",
+        status: "Reporting",
+      },
+    ],
+  },
+};
+
+const mockReturnData = {
+  data: [
+    {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947",
+      incidentDate: "1661159947",
+      productKey:
+        "0x31696e6368000000000000000000000000000000000000000000000000000000",
+      status: "Reporting",
+    },
+  ],
 };
 
 describe("useCoverActiveReportings", () => {
-  test("should receive values", () => {
-    const { result } = renderHook(() => useCoverActiveReportings(mockProps));
+  const { mock, restore, mockFunction } = mockFn.consoleError();
 
-    expect(result.current.data).toEqual([]);
-    expect(result.current.loading).toBe(false);
+  mockFn.getNetworkId();
+  mockFn.getGraphURL();
+
+  test("while fetching successfully", async () => {
+    mockFn.fetch(true, undefined, mockResolvedData);
+
+    const { result } = await renderHookWrapper(
+      useCoverActiveReportings,
+      [mockProps],
+      true
+    );
+
+    expect(result.data).toEqual(mockReturnData.data);
+    expect(result.loading).toBe(false);
+  });
+
+  test("when fetched error", async () => {
+    mockFn.fetch(false);
+    mock();
+
+    const { result } = await renderHookWrapper(
+      useCoverActiveReportings,
+      [mockProps],
+      true
+    );
+
+    expect(result.data).toEqual([]);
+    expect(result.loading).toBe(false);
+    expect(mockFunction).toHaveBeenCalled();
+
+    mockFn.fetch().unmock();
+    restore();
   });
 });

@@ -1150,6 +1150,24 @@ export const testData = {
       willReceive: "0",
       yes: "3000000000000000000000",
     },
+    reportingInfo: {
+      yes: "0",
+      no: "0",
+      myYes: "0",
+      myNo: "0",
+      totalStakeInWinningCamp: "0",
+      totalStakeInLosingCamp: "0",
+      myStakeInWinningCamp: "0",
+      unstaken: "0",
+      latestIncidentDate: "0",
+      burnRate: "0",
+      reporterCommission: "0",
+      allocatedReward: "0",
+      toBurn: "0",
+      toReporter: "0",
+      myReward: "0",
+      willReceive: "0",
+    },
   },
   recentVotes: {
     data: {
@@ -1229,6 +1247,24 @@ export const testData = {
       args[0]?.onError?.();
       return Promise.resolve(toBN("100"));
     }),
+    contractReadBondInfo: jest.fn((...args) => {
+      args[0]?.onError?.();
+      return Promise.resolve([
+        ["0x97cCd316db0298498fcfD626b215955b9DF44b71"],
+        [
+          ["0"],
+          ["75"],
+          ["600"],
+          ["100"],
+          ["200"],
+          ["1400"],
+          ["0"],
+          ["0"],
+          ["0"],
+          ["0"],
+        ],
+      ]);
+    }),
     writeContract: jest.fn((arg) => {
       arg?.onTransactionResult?.({
         hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
@@ -1292,6 +1328,11 @@ export const testData = {
     _address: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
     _index: null,
     _isSigner: true,
+  },
+  providerOrSignerGetBlockNumber: {
+    provider: {
+      getBlockNumber: jest.fn(() => Promise.resolve(100)),
+    },
   },
   governanceAddress: "0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060",
   unlimitedApproval: {

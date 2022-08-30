@@ -1,24 +1,57 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useActivePolicies } from "../useActivePolicies";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { NetworkProvider } from "@/src/context/Network";
-import BigNumber from "bignumber.js";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
+
+const mockReturnData = {
+  data: {
+    userPolicies: [
+      {
+        totalAmountToCover: "1000",
+      },
+    ],
+  },
+};
 
 describe("useActivePolicies", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>{children}</NetworkProvider>
-      </Web3ReactProvider>
-    );
+  const { mock, restore, mockFunction } = mockFn.consoleError();
 
-    const { result } = renderHook(() => useActivePolicies(), { wrapper });
+  mockFn.useNetwork();
+  mockFn.getGraphURL();
 
-    expect(result.current.data.activePolicies).toEqual([]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("0")
+  test("while fetching w/o account", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
+
+    const { result } = await renderHookWrapper(useActivePolicies);
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(result.loading).toBe(false);
+  });
+
+  test("while fetching successful", async () => {
+    mockFn.useWeb3React();
+    mockFn.fetch(true, undefined, mockReturnData);
+
+    const { result } = await renderHookWrapper(useActivePolicies, [], true);
+
+    expect(result.data.activePolicies).toEqual([
+      ...mockReturnData.data.userPolicies,
+    ]);
+    expect(result.data.totalActiveProtection.toString()).toEqual(
+      mockReturnData.data.userPolicies[0].totalAmountToCover
     );
-    expect(result.current.loading).toBe(false);
+  });
+
+  test("while fetching error", async () => {
+    mockFn.fetch(false);
+    mock();
+
+    const { result } = await renderHookWrapper(useActivePolicies, [], true);
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(mockFunction).toHaveBeenCalled();
+
+    mockFn.fetch().unmock();
+    restore();
   });
 });

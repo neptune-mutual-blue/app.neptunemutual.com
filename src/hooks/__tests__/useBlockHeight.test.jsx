@@ -1,19 +1,29 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useBlockHeight } from "../useBlockHeight";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { NetworkProvider } from "@/src/context/Network";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 describe("useBlockHeight", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>{children}</NetworkProvider>
-      </Web3ReactProvider>
+  test("should not receive block height", async () => {
+    mockFn.useWeb3React(() => ({
+      account: null,
+    }));
+    mockFn.useNetwork(() => ({ networkId: null }));
+    mockFn.utilsWeb3.getProviderOrSigner(() => null);
+
+    const { result } = await renderHookWrapper(useBlockHeight);
+
+    expect(result).toEqual(1);
+  });
+
+  test("should receive block height", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.utilsWeb3.getProviderOrSigner(
+      () => testData.providerOrSignerGetBlockNumber
     );
 
-    const { result } = renderHook(() => useBlockHeight(), { wrapper });
+    const { result } = await renderHookWrapper(useBlockHeight, [], true);
 
-    expect(result.current).toEqual(1);
+    expect(result).toEqual(100);
   });
 });

@@ -1,45 +1,59 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useClaimBond } from "../useClaimBond";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { NetworkProvider } from "@/src/context/Network";
-import { TxPosterProvider } from "@/src/context/TxPoster";
-import { AppConstantsProvider } from "@/src/context/AppConstants";
-import { ToastProvider } from "@/lib/toast/provider";
-import { DEFAULT_VARIANT } from "@/src/config/toast";
-
-const unmockedFetch = global.fetch;
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 describe("useClaimBond", () => {
-  beforeAll(() => {
-    global.fetch = () =>
-      Promise.resolve({
-        json: () => Promise.resolve({}),
-      });
-  });
+  mockFn.utilsWeb3.getProviderOrSigner();
+  mockFn.sdk.registry.BondPool.getInstance();
+  mockFn.useErrorNotifier();
+  mockFn.useAppConstants();
 
-  afterAll(() => {
-    global.fetch = unmockedFetch;
-  });
+  test("while fetching w/o account and networkId", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
+    mockFn.useNetwork(() => ({ networkId: null }));
 
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>
-          <AppConstantsProvider>
-            <ToastProvider variant={DEFAULT_VARIANT}>
-              <TxPosterProvider>{children}</TxPosterProvider>
-            </ToastProvider>
-          </AppConstantsProvider>
-        </NetworkProvider>
-      </Web3ReactProvider>
-    );
+    const { result, act } = await renderHookWrapper(useClaimBond);
 
-    const { result } = renderHook(() => useClaimBond(), {
-      wrapper,
+    await act(async () => {
+      await result.handleClaim(() => {});
     });
 
-    expect(result.current.handleClaim).toEqual(expect.any(Function));
-    expect(result.current.claiming).toBe(false);
+    expect(result.handleClaim).toEqual(expect.any(Function));
+    expect(result.claiming).toBe(false);
+  });
+
+  test("while fetching successful", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.useTxPoster();
+    mockFn.useTxToast();
+
+    const { result, act } = await renderHookWrapper(useClaimBond);
+
+    await act(async () => {
+      await result.handleClaim(() => {});
+    });
+
+    expect(result.handleClaim).toEqual(expect.any(Function));
+    expect(result.claiming).toBe(false);
+  });
+
+  test("while fetching error", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.useTxPoster(() => ({
+      ...testData.txPoster,
+      writeContract: undefined,
+    }));
+    mockFn.useTxToast();
+
+    const { result, act } = await renderHookWrapper(useClaimBond);
+
+    await act(async () => {
+      await result.handleClaim(() => {});
+    });
+
+    expect(result.handleClaim).toEqual(expect.any(Function));
+    expect(result.claiming).toBe(false);
   });
 });

@@ -21,7 +21,7 @@ import { LanguageDropdown } from "@/common/Header/LanguageDropdown";
 import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { TransactionList } from "@/common/TransactionList";
-import useWindowSize from "@/src/hooks/useWindowSize";
+import { useWindowSize } from "@/src/hooks/useWindowSize";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
