@@ -21,7 +21,7 @@ import Script from "next/script";
 import { GTM_ID } from "@/src/config/constants";
 import getConfig from "next/config";
 
-const { generatedNonce } = getConfig();
+const { nonceGenerator } = getConfig();
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }) {
       <Script
         id="gtag-base"
         strategy="afterInteractive"
-        nonce={generatedNonce}
+        nonce={nonceGenerator}
         dangerouslySetInnerHTML={{
           __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
