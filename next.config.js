@@ -1,9 +1,16 @@
+const { v4 } = require("uuid");
+const crypto = require("crypto");
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const { i18n } = require("./i18n.config");
 const http = require("./http");
 
 module.exports = (phase, { _c }) => {
   return {
+    nonceGenerator: () => {
+      const hash = crypto.createHash("sha256");
+      hash.update(v4());
+      return hash.digest("base64");
+    },
     reactStrictMode: true,
     experimental: {
       outputStandalone: true,

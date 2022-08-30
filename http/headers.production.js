@@ -13,7 +13,7 @@ module.exports = [
   {
     key: "Content-Security-Policy",
     values: [
-      `script-src 'self' 'nonce-rAnd0m' https://tagmanager.google.com https://*.googletagmanager.com`,
+      `script-src 'self' 'nonce-{generatedNonce}' https://tagmanager.google.com https://*.googletagmanager.com`,
       `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
         connectSources || ""
       }`,
