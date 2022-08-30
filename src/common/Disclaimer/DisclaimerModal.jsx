@@ -14,18 +14,25 @@ export const DisclaimerModal = () => {
   const [isOpen, setIsOpen] = useState(!disclaimerApproval);
   const [isAgreed, setIsAgreed] = useState(false);
 
-  const handleAccept = () => {
-    setDisclaimerApproval(true);
-    // setIsOpen(false);
-    handleClose();
-  };
-
   const handleClose = () => {
     setIsOpen(false);
   };
 
+  const handleAccept = () => {
+    setDisclaimerApproval(true);
+    handleClose();
+  };
+
   const handleDecline = () => {
     window.location.href = "https://neptunemutual.com";
+  };
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+
+    if (isAgreed) {
+      handleAccept();
+    }
   };
 
   return (
@@ -98,48 +105,51 @@ export const DisclaimerModal = () => {
           </span>
         </Description>
 
-        <div className="flex items-start gap-2 mt-3">
-          <input
-            type={"checkbox"}
-            id="agreement-checkbox"
-            className="mt-1 cursor-pointer"
-            checked={isAgreed}
-            onChange={(e) => setIsAgreed(e.target.checked)}
-            data-testid="disclaimer-checkbox"
-          />
-          <label
-            htmlFor="agreement-checkbox"
-            className="text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040"
-            data-testid="disclaimer-checkbox-label"
-          >
-            <Trans>
-              By visiting this testnet environment, you acknowledge and agree
-              the disclaimer as above and/or any changes made to this
-              disclaimer.
-            </Trans>
-          </label>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex items-start gap-2 mt-3">
+            <input
+              type={"checkbox"}
+              id="agreement-checkbox"
+              className="mt-1 cursor-pointer"
+              checked={isAgreed}
+              onChange={(e) => setIsAgreed(e.target.checked)}
+              data-testid="disclaimer-checkbox"
+            />
+            <label
+              htmlFor="agreement-checkbox"
+              className="text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040"
+              data-testid="disclaimer-checkbox-label"
+            >
+              <Trans>
+                By visiting this testnet environment, you acknowledge and agree
+                the disclaimer as above and/or any changes made to this
+                disclaimer.
+              </Trans>
+            </label>
+          </div>
 
-        <div className="flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6">
-          <button
-            className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
-            onClick={handleDecline}
-            data-testid="disclaimer-decline"
-          >
-            <Trans>Decline</Trans>
-          </button>
-          <button
-            className={classNames(
-              "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9",
-              "disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed"
-            )}
-            disabled={!isAgreed}
-            onClick={handleAccept}
-            data-testid="disclaimer-accept"
-          >
-            <Trans>Accept</Trans>
-          </button>
-        </div>
+          <div className="flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6">
+            <button
+              type="button"
+              className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
+              onClick={handleDecline}
+              data-testid="disclaimer-decline"
+            >
+              <Trans>Decline</Trans>
+            </button>
+            <button
+              type="submit"
+              className={classNames(
+                "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9",
+                "disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed"
+              )}
+              disabled={!isAgreed}
+              data-testid="disclaimer-accept"
+            >
+              <Trans>Accept</Trans>
+            </button>
+          </div>
+        </form>
       </ModalWrapper>
     </ModalRegular>
   );
