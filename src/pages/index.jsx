@@ -16,3 +16,9 @@ export default function Home() {
     </main>
   );
 }
+
+export const getServerSideProps = async () => {
+  return {
+    props: {},
+  };
+};
