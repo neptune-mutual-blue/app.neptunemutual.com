@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 export const MULTIPLIER = 10_000;
 export const DAYS = 86400;
 
@@ -107,3 +109,4 @@ export const NetworkUrlParam = {
 };
 
 export const GTM_ID = "GTM-WKSTFFB";
+export const GENERATED_NONCE = crypto.randomBytes(16).toString("base64");

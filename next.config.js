@@ -19,6 +19,7 @@ module.exports = (phase, { _c }) => {
       dirs: ["http", "lib", "src"],
     },
     headers: async () => {
+      console.log("REQUEST AGAIN");
       if (phase === PHASE_DEVELOPMENT_SERVER) {
         return http.headers.development;
       }

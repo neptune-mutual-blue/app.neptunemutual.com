@@ -18,10 +18,7 @@ import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
 import { MainLayout } from "@/src/layouts/main/MainLayout";
 import Script from "next/script";
-import { GTM_ID } from "@/src/config/constants";
-import getConfig from "next/config";
-
-const { nonceGenerator } = getConfig();
+import { GENERATED_NONCE, GTM_ID } from "@/src/config/constants";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -43,7 +40,7 @@ function MyApp({ Component, pageProps }) {
       <Script
         id="gtag-base"
         strategy="afterInteractive"
-        nonce={nonceGenerator}
+        nonce={GENERATED_NONCE}
         dangerouslySetInnerHTML={{
           __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
