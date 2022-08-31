@@ -18,15 +18,19 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async ({ req, res }) => {
-  const nonce = crypto.randomBytes(16).toString("base64");
-  res.setHeader("Content-Security-Policy", [
-    `script-src 'self' 'nonce-${nonce}' https://tagmanager.google.com https://*.googletagmanager.com`,
-  ]);
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonceGenerated = crypto.randomBytes(16).toString("base64");
+  const headerKey = "Content-Security-Policy";
+
+  const cspWithNonce = res
+    .getHeader(headerKey)
+    .replace("script-src", `script-src 'nonce-${nonceGenerated}'`);
+
+  res.setHeader(headerKey, cspWithNonce);
 
   return {
     props: {
-      nonce,
+      nonce: nonceGenerated,
     },
   };
 };

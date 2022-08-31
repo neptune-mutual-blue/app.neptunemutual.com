@@ -1,5 +1,3 @@
-const { v4 } = require("uuid");
-const crypto = require("crypto");
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const { i18n } = require("./i18n.config");
 const http = require("./http");
