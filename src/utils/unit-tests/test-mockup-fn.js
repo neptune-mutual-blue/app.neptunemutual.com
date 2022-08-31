@@ -71,6 +71,8 @@ import * as GetStatsFile from "@/src/services/protocol/cover/stats";
 import * as UnstakeReportingStakeHook from "@/src/hooks/useUnstakeReportingStake";
 import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
 import * as UseVoteHook from "@/src/hooks/useVote";
+import * as BondInfoHook from "@/src/hooks/useBondInfo";
+import * as BondTxsHook from "@/src/hooks/useBondTxs";
 
 const Web3React = require("@web3-react/core");
 
@@ -548,6 +550,15 @@ export const mockFn = {
   },
   useVote: (cb = () => testData.castYourVote) =>
     jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
+  useBondInfo: (cb = () => testData.bondInfo) => {
+    jest
+      .spyOn(BondInfoHook, "useBondInfo")
+      .mockImplementation(returnFunction(cb));
+  },
+  useBondTxs: (cb = () => testData.bondTxs) =>
+    jest
+      .spyOn(BondTxsHook, "useBondTxs")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {

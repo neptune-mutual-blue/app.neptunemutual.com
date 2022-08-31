@@ -13,6 +13,11 @@ const refetchInfo = jest.fn();
 const incidentReport = testData.incidentReports.data.incidentReport;
 const info = testData.consensusInfo.info;
 
+jest.mock("react-chartjs-2", () => ({
+  Doughnut: (p) => mockFn.chartMockFn(p),
+  Bar: (p) => mockFn.chartMockFn(p),
+}));
+
 describe("ActiveReportSummary test", () => {
   const { initialRender, rerenderFn } = initiateTest(ActiveReportSummary, {
     refetchInfo: refetchInfo,

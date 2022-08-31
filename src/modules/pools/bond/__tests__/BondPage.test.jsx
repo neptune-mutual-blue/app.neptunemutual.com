@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@/utils/unit-tests/test-utils";
+import { waitFor, withProviders } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import {
   covers,
@@ -8,7 +8,8 @@ import {
   bondInfo,
 } from "@/utils/unit-tests/data/coverOptionsMockUpData";
 import BondPage from "@/modules/pools/bond";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
+import { render } from "@testing-library/react";
 
 const NETWORKID = 80001;
 
@@ -71,33 +72,21 @@ async function mockFetch(url, { body }) {
 }
 
 describe("BondPage", () => {
-  //global.fetch = jest.fn(mockFetch);
-
-  const { initialRender, rerenderFn } = initiateTest(BondPage);
+  global.fetch = jest.fn(mockFetch);
 
   beforeAll(async () => {
     i18n.activate("en");
-    mockFn.useNetwork();
-    mockFn.useWeb3React();
-    mockFn.useAppConstants();
-
-    initialRender;
   });
 
   test("has correct number cover actions", async () => {
-    //const router = createMockRouter({});
-    //const Component = withProviders(BondPage, router);
-    //const { getByTestId } = render(<Component />);
+    const router = createMockRouter({});
+    const Component = withProviders(BondPage, router);
+    const { getByTestId } = render(<Component />);
 
     const CoverOptionActions = await waitFor(() =>
-      screen.getByTestId("bond-amount-input")
+      getByTestId("bond-amount-input")
     );
 
     expect(CoverOptionActions).toBeInTheDocument();
-  });
-
-  test("should render the left half title's passed to it", () => {
-    const bondPrice = screen.getByText(/Bond Price/i);
-    expect(bondPrice).toBeInTheDocument();
   });
 });
