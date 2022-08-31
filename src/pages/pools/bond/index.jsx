@@ -31,10 +31,7 @@ export const getServerSideProps = async ({ req: _, res }) => {
 
   const cspWithNonce = res
     .getHeader(headerKey)
-    .replace(
-      `script-src 'self'`,
-      `script-src 'nonce-${nonceGenerated}' 'strict-dynamic'`
-    );
+    .replace(`script-src`, `script-src 'nonce-${nonceGenerated}'`);
 
   res.setHeader(headerKey, cspWithNonce);
 
