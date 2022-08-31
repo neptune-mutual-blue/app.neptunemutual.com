@@ -1,10 +1,4 @@
-import React from "react";
-import {
-  render,
-  act,
-  withProviders,
-  waitFor,
-} from "@/utils/unit-tests/test-utils";
+import { waitFor, withProviders } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 import {
   covers,
@@ -15,6 +9,7 @@ import {
 } from "@/utils/unit-tests/data/coverOptionsMockUpData";
 import BondPage from "@/modules/pools/bond";
 import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
+import { render } from "@testing-library/react";
 
 const NETWORKID = 80001;
 
@@ -80,12 +75,10 @@ describe("BondPage", () => {
   global.fetch = jest.fn(mockFetch);
 
   beforeAll(async () => {
-    act(() => {
-      i18n.activate("en");
-    });
+    i18n.activate("en");
   });
 
-  xit("has correct number cover actions", async () => {
+  test("has correct number cover actions", async () => {
     const router = createMockRouter({});
     const Component = withProviders(BondPage, router);
     const { getByTestId } = render(<Component />);
