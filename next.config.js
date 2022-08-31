@@ -6,11 +6,6 @@ const http = require("./http");
 
 module.exports = (phase, { _c }) => {
   return {
-    nonceGenerator: () => {
-      const hash = crypto.createHash("sha256");
-      hash.update(v4());
-      return hash.digest("base64");
-    },
     reactStrictMode: true,
     experimental: {
       outputStandalone: true,
@@ -19,7 +14,6 @@ module.exports = (phase, { _c }) => {
       dirs: ["http", "lib", "src"],
     },
     headers: async () => {
-      console.log("REQUEST AGAIN");
       if (phase === PHASE_DEVELOPMENT_SERVER) {
         return http.headers.development;
       }

@@ -2,16 +2,7 @@ import Head from "next/head";
 import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import BondPage from "@/src/modules/pools/bond";
 import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("bond"),
-    },
-  };
-}
+import crypto from "crypto";
 
 export default function Bond({ disabled }) {
   if (disabled) {
@@ -33,3 +24,16 @@ export default function Bond({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req, res }) => {
+  const nonce = crypto.randomBytes(16).toString("base64");
+  res.setHeader("Content-Security-Policy", [
+    `script-src 'self' 'nonce-${nonce}' https://tagmanager.google.com https://*.googletagmanager.com`,
+  ]);
+
+  return {
+    props: {
+      nonce,
+    },
+  };
+};
