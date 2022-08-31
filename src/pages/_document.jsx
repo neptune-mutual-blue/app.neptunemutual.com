@@ -2,10 +2,29 @@ import { GTM_ID } from "@/src/config/constants";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
+  static async getInitialProps(ctx) {
+    let pageProps = null;
+
+    const originalRenderPage = ctx.renderPage;
+    ctx.renderPage = () =>
+      originalRenderPage({
+        // eslint-disable-next-line react/display-name
+        enhanceApp: (App) => (props) => {
+          pageProps = props.pageProps;
+          return <App {...props} />;
+        },
+        enhanceComponent: (Component) => Component,
+      });
+
+    const initialProps = await Document.getInitialProps(ctx);
+    return { ...initialProps, pageProps };
+  }
   render() {
+    const { pageProps } = this.props;
+
     return (
       <Html>
-        <Head>
+        <Head nonce={pageProps.nonce}>
           <link
             rel="apple-touch-icon"
             sizes="57x57"
@@ -96,7 +115,7 @@ class MyDocument extends Document {
             />
           </noscript>
           <Main />
-          <NextScript />
+          <NextScript nonce={pageProps.nonce} />
         </body>
       </Html>
     );
