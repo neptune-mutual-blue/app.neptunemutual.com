@@ -1,6 +1,7 @@
 import { classNames } from "@/utils/classnames";
 import { forwardRef } from "react";
 
+/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement>>} */
 export const RegularButton = forwardRef(
   ({ children, className, ...props }, ref) => {
     return (

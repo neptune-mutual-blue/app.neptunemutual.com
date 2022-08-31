@@ -1,5 +1,6 @@
 import React from "react";
 
+/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement>>} */
 export const Checkbox = React.forwardRef(
   ({ id, name, children, ...inputProps }, ref) => {
     return (
