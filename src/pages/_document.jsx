@@ -1,11 +1,11 @@
-import { GTM_ID, GENERATED_NONCE } from "@/src/config/constants";
+import { GTM_ID } from "@/src/config/constants";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head nonce={GENERATED_NONCE}>
+        <Head>
           <link
             rel="apple-touch-icon"
             sizes="57x57"
@@ -96,7 +96,7 @@ class MyDocument extends Document {
             />
           </noscript>
           <Main />
-          <NextScript nonce={GENERATED_NONCE} />
+          <NextScript />
         </body>
       </Html>
     );

@@ -1,5 +1,3 @@
-const { GENERATED_NONCE } = require("@/src/config/constants");
-
 const connectSources = [
   process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
@@ -15,7 +13,7 @@ module.exports = [
   {
     key: "Content-Security-Policy",
     values: [
-      `script-src 'self' 'nonce-${GENERATED_NONCE}' https://tagmanager.google.com https://*.googletagmanager.com`,
+      `script-src 'self' 'nonce-random' https://tagmanager.google.com https://*.googletagmanager.com`,
       `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
         connectSources || ""
       }`,
