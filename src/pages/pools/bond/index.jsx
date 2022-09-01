@@ -25,7 +25,7 @@ export default function Bond({ disabled }) {
   );
 }
 
-export const getServerSideProps = async ({ req: _, res }) => {
+export const getServerSideProps = async ({ req: _ }) => {
   const nonceGenerated = crypto.randomBytes(16).toString("base64");
 
   return {
