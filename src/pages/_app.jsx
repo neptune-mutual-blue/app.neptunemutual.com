@@ -17,8 +17,7 @@ import { useEffect } from "react";
 import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
 import { MainLayout } from "@/src/layouts/main/MainLayout";
-import Script from "next/script";
-import { GTM_ID } from "@/src/config/constants";
+import GoogleTagManager from "@/common/GoogleTagManager";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -37,20 +36,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Script
-        id="gtag-base"
-        strategy="afterInteractive"
-        nonce={pageProps?.nonce}
-        dangerouslySetInnerHTML={{
-          __html: `
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer', '${GTM_ID}');
-        `,
-        }}
-      />
+      <GoogleTagManager nonce={pageProps.nonce} />
       <ErrorBoundary>
         <LanguageProvider>
           <Web3ReactProvider getLibrary={getLibrary}>
