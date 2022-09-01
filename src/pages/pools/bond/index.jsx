@@ -2,7 +2,7 @@ import Head from "next/head";
 import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import BondPage from "@/src/modules/pools/bond";
 import { ComingSoon } from "@/common/ComingSoon";
-import crypto from "crypto";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function Bond({ disabled }) {
   if (disabled) {
@@ -25,12 +25,14 @@ export default function Bond({ disabled }) {
   );
 }
 
-export const getServerSideProps = async ({ req: _ }) => {
-  const nonceGenerated = crypto.randomBytes(16).toString("base64");
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
 
   return {
     props: {
-      nonce: nonceGenerated,
+      nonce,
     },
   };
 };

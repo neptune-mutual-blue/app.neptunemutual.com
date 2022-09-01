@@ -116,7 +116,7 @@ class MyDocument extends Document {
             />
           </noscript>
           <Main />
-          <NextScript nonce={pageProps.nonce} />
+          <NextScript nonce={pageProps?.nonce} />
         </body>
       </Html>
     );
