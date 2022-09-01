@@ -33,7 +33,7 @@ const mockReturnData = {
 };
 
 describe("useCoverActiveReportings", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   mockFn.getNetworkId();
   mockFn.getGraphURL();

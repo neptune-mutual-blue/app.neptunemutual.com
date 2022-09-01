@@ -12,7 +12,7 @@ const mockReturnData = {
 };
 
 describe("useActiveReportings", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   mockFn.useNetwork();
   mockFn.getGraphURL();

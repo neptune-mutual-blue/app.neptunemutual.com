@@ -21,7 +21,7 @@ const mockReturnData = {
 };
 
 describe("useActivePoliciesByCover", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   test("while fetching w/o account, networkId and graphURL", async () => {
     mockFn.useWeb3React(() => ({ account: null }));
