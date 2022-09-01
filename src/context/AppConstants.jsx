@@ -9,6 +9,7 @@ import {
   getAddressesFromApi,
   getAddressesFromProvider,
 } from "@/src/services/contracts/getAddresses";
+import { useRoles } from "@/src/hooks/useRoles";
 
 const initValue = {
   NPMTokenAddress: "",
@@ -41,6 +42,10 @@ export const AppConstantsProvider = ({ children }) => {
     data.NPMTokenAddress
   );
   const { library, account } = useWeb3React();
+
+  const roles = useRoles();
+
+  console.log(roles);
 
   useEffect(() => {
     let ignore = false;
