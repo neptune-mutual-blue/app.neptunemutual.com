@@ -27,13 +27,6 @@ export default function Bond({ disabled }) {
 
 export const getServerSideProps = async ({ req: _, res }) => {
   const nonceGenerated = crypto.randomBytes(16).toString("base64");
-  const headerKey = "Content-Security-Policy";
-
-  const cspWithNonce = res
-    .getHeader(headerKey)
-    .replace(`script-src`, `script-src 'nonce-${nonceGenerated}'`);
-
-  res.setHeader(headerKey, cspWithNonce);
 
   return {
     props: {

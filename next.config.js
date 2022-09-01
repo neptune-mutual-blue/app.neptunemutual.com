@@ -11,13 +11,13 @@ module.exports = (phase, { _c }) => {
     eslint: {
       dirs: ["http", "lib", "src"],
     },
-    headers: async () => {
-      if (phase === PHASE_DEVELOPMENT_SERVER) {
-        return http.headers.development;
-      }
+    // headers: async () => {
+    //   if (phase === PHASE_DEVELOPMENT_SERVER) {
+    //     return http.headers.development;
+    //   }
 
-      return http.headers.production;
-    },
+    //   return http.headers.production;
+    // },
     redirects: async () => {
       return http.redirects;
     },
