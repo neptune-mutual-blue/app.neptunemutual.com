@@ -3,7 +3,7 @@ import { useFetchCoverProductActiveReportings } from "@/src/hooks/useFetchCoverP
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFetchCoverProductActiveReportings", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
 
   mockFn.useNetwork();
   mockFn.getGraphURL();

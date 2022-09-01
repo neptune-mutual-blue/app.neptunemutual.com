@@ -69,7 +69,7 @@ const checkData = (result, matchWithData = true) => {
 };
 
 describe("useFetchCoverStats", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
 
   mockFn.useNetwork();
   mockFn.useWeb3React();

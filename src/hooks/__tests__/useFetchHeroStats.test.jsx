@@ -3,7 +3,7 @@ import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useFetchHeroStats", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
 
   mockFn.getGraphURL();
   mockFn.getNetworkId();

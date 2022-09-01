@@ -2,7 +2,7 @@ import { useLiquidityTxs } from "@/src/hooks/useLiquidityTxs";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useLiquidityTxs", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
   mockFn.useWeb3React();
   mockFn.useNetwork();
   mockFn.getGraphURL();

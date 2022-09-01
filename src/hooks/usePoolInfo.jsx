@@ -7,7 +7,7 @@ import { t } from "@lingui/macro";
 import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from "@/src/config/constants";
 import { getReplacedString } from "@/utils/string";
 
-const defaultInfo = {
+export const defaultInfo = {
   // From store
   stakingPoolsContractAddress: "",
   name: "",
