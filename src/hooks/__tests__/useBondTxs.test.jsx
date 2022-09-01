@@ -26,7 +26,7 @@ const mockReturnData = {
 };
 
 describe("useBondTxs", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   test("while fetching data w/o account", async () => {
     mockFn.useWeb3React(() => ({ account: null }));

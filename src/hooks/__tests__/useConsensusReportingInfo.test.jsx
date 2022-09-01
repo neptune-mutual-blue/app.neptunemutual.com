@@ -31,7 +31,7 @@ const mockData = {
 };
 
 describe("useConsensusReportingInfo", () => {
-  const { mock, restore } = mockFn.consoleError();
+  const { mock, restore } = mockFn.console.error();
 
   mockFn.utilsWeb3.getProviderOrSigner();
 
