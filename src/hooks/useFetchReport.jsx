@@ -45,6 +45,8 @@ const getQuery = (reportId) => {
         id
         timestamp
       }
+      reportIpfsHash
+      disputeIpfsHash
       reportIpfsData
       disputeIpfsData
     }

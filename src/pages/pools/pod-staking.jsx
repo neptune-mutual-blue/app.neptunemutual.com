@@ -6,6 +6,7 @@ import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {

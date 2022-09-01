@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCalculateTotalLiquidity } from "@/src/hooks/useCalculateTotalLiquidity";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {

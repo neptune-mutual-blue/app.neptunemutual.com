@@ -23,7 +23,10 @@ import { isValidProduct } from "@/src/helpers/cover";
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (report) => report.isDiversified ? report.infoObj?.productName : report.infoObj?.projectName,
+    selector: (report) =>
+      report.isDiversified
+        ? report.infoObj?.productName
+        : report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING,
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
@@ -47,18 +50,23 @@ export const ReportingActivePage = () => {
   const [sortType, setSortType] = useState({
     name: SORT_TYPES.INCIDENT_DATE,
   });
+
   const router = useRouter();
 
   const { getStatsByKey } = useSortableStats();
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: incidentReports.map((report) => ({
+    list: (incidentReports || []).map((report) => ({
       ...report,
       ...getStatsByKey(report.id),
     })),
     filter: (cover, term) => {
       return (
-        toStringSafe(cover.isDiversified ? cover.infoObj.productName : cover.infoObj.projectName).indexOf(toStringSafe(term)) > -1
+        toStringSafe(
+          cover.isDiversified
+            ? cover.infoObj.productName
+            : cover.infoObj.projectName
+        ).indexOf(toStringSafe(term)) > -1
       );
     },
   });
@@ -74,19 +82,12 @@ export const ReportingActivePage = () => {
   );
 
   const options = useMemo(() => {
-    if (router.locale) {
-      return [
-        { name: SORT_TYPES.ALPHABETIC },
-        { name: SORT_TYPES.UTILIZATION_RATIO },
-        { name: SORT_TYPES.INCIDENT_DATE },
-      ];
-    }
-
     return [
       { name: SORT_TYPES.ALPHABETIC },
       { name: SORT_TYPES.UTILIZATION_RATIO },
       { name: SORT_TYPES.INCIDENT_DATE },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.locale]);
 
   return (
@@ -119,41 +120,45 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
     return (
       <>
-        <Grid className="mb-24 mt-14">
-          {data.map((report) => {
-            const isDiversified = isValidProduct(report.productKey);
+        <div data-testid="active-page-grid">
+          <Grid className="mb-24 mt-14">
+            {data.map((report) => {
+              const isDiversified = isValidProduct(report.productKey);
 
-            const cover_id = safeParseBytes32String(report.coverKey);
-            const product_id = safeParseBytes32String(report.productKey);
+              const cover_id = safeParseBytes32String(report.coverKey);
+              const product_id = safeParseBytes32String(report.productKey);
 
-            return (
-              <Link
-                href={
-                  isDiversified
-                    ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
-                    : `/reporting/${cover_id}/${report.incidentDate}/details`
-                }
-                key={report.id}
-              >
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                  <ActiveReportingCard
-                    id={report.id}
-                    coverKey={report.coverKey}
-                    productKey={report.productKey}
-                    incidentDate={report.incidentDate}
-                  />
-                </a>
-              </Link>
-            );
-          })}
-        </Grid>
+              return (
+                <Link
+                  href={
+                    isDiversified
+                      ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
+                      : `/reporting/${cover_id}/${report.incidentDate}/details`
+                  }
+                  key={report.id}
+                >
+                  <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                    <ActiveReportingCard
+                      id={report.id}
+                      coverKey={report.coverKey}
+                      productKey={report.productKey}
+                      incidentDate={report.incidentDate}
+                    />
+                  </a>
+                </Link>
+              );
+            })}
+          </Grid>
+        </div>
         {!loading && hasMore && (
-          <NeutralButton
-            className={"rounded-lg border-0.5"}
-            onClick={handleShowMore}
-          >
-            <Trans>Show More</Trans>
-          </NeutralButton>
+          <div data-testid="has-more-button">
+            <NeutralButton
+              className={"rounded-lg border-0.5"}
+              onClick={handleShowMore}
+            >
+              <Trans>Show More</Trans>
+            </NeutralButton>
+          </div>
         )}
       </>
     );
@@ -162,7 +167,9 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (loading) {
     return (
       <Grid className="mb-24 mt-14">
-        <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+        <div data-testid="active-reportings-card-skeleton">
+          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+        </div>
       </Grid>
     );
   }

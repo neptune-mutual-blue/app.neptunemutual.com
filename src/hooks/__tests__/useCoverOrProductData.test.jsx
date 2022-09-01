@@ -3,7 +3,7 @@ import { testData } from "@/utils/unit-tests/test-data";
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useCoverOrProductData", () => {
-  const { mock, mockFunction } = mockFn.consoleError();
+  const { mock, mockFunction } = mockFn.console.error();
   mockFn.useNetwork();
 
   test("should return null when invalid arguments passed", async () => {

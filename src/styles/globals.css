@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  [type="button"] {
+    -webkit-appearance: none;
+  }
+
   [type="radio"]:focus,
   [type="radio"]:checked {
     box-shadow: none;

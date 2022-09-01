@@ -21,6 +21,7 @@ export default function PurchasePolicyReceiptPage() {
   );
 }
 
+/* istanbul ignore next */
 export const getServerSideProps = async () => {
   return {
     props: {

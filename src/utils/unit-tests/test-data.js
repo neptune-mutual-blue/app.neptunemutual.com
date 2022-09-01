@@ -116,6 +116,69 @@ export const testData = {
     },
     products: [],
   },
+  productInfo: {
+    id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000",
+    coverKey:
+      "0x6465666900000000000000000000000000000000000000000000000000000000",
+    productKey:
+      "0x31696e6368000000000000000000000000000000000000000000000000000000",
+    ipfsHash: "QmXPLJmCGNzGkBtvs5cx8xRUiXmZU4vmviWv79iuDM2mGc",
+    ipfsData:
+      '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x31696e6368000000000000000000000000000000000000000000000000000000",\n  "productName": "1inch ",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://1inch.io/",\n    "twitter": "https://twitter.com/1inch",\n    "blog": "https://blog.1inch.io/",\n    "documentation": "https://docs.1inch.io/",\n    "reddit": "https://www.reddit.com/r/1inch/",\n    "discord": "https://discord.com/invite/1inch",\n    "youtube": "https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w",\n    "telegram": "https://t.me/OneInchNetwork",\n    "github": "https://github.com/1inch"\n  },\n  "resolutionSources": [\n    "https://twitter.com/1inch",\n    "https://blog.1inch.io/",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
+    infoObj: {
+      productName: "1inch ",
+      capitalEfficiency: "9000",
+      tags: ["Smart Contract"],
+      about:
+        "The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.",
+      rules:
+        "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\n    3. This does not have to be your own loss.",
+      exclusions: "",
+      links: {
+        website: "https://1inch.io/",
+        twitter: "https://twitter.com/1inch",
+        blog: "https://blog.1inch.io/",
+        documentation: "https://docs.1inch.io/",
+        reddit: "https://www.reddit.com/r/1inch/",
+        discord: "https://discord.com/invite/1inch",
+        youtube: "https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w",
+        telegram: "https://t.me/OneInchNetwork",
+        github: "https://github.com/1inch",
+      },
+      resolutionSources: [
+        "https://twitter.com/1inch",
+        "https://blog.1inch.io/",
+        "https://twitter.com/neptunemutual",
+      ],
+    },
+    cover: {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000",
+      supportsProducts: true,
+      coverKey:
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+      ipfsHash: "QmdNTc1SK3jESXUtmgqKWso3Cv4sV6qo9rjHN1cvprihQ3",
+      ipfsData:
+        '{\n  "key": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "coverName": "Popular DeFi Apps",\n  "projectName": null,\n  "vault": {\n    "name": "DAI Locked in DeFi Pool",\n    "symbol": "DAI-D"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": true,\n  "leverage": "10",\n  "tags": [\n    "Smart Contract",\n    "DEX",\n    "Liquidity"\n  ],\n  "about": "Decentralized Exchanges",\n  "blockchains": [\n    {\n      "chainId": 1,\n      "name": "Main Ethereum Network"\n    }\n  ],\n  "rules": "1. Rule 1\\n            2. Rule 2\\n            3. Rule 3",\n  "exclusions": "1. Exclusion 1\\n                 2. Exclusion 1\\n                 3. Exclusion 3",\n  "pricingFloor": "1000",\n  "pricingCeiling": "3200",\n  "reportingPeriod": 300,\n  "cooldownPeriod": 300,\n  "claimPeriod": 300,\n  "minReportingStake": "2000000000000000000000",\n  "stakeWithFees": "50000000000000000000000",\n  "reassurance": "50000000000",\n  "reassuranceRate": "2500"\n}',
+      infoObj: {
+        coverName: "Popular DeFi Apps",
+        projectName: null,
+        leverage: "10",
+        tags: ["Smart Contract", "DEX", "Liquidity"],
+        about: "Decentralized Exchanges",
+        blockchains: [
+          {
+            chainId: 1,
+            name: "Main Ethereum Network",
+          },
+        ],
+        rules: "1. Rule 1\n            2. Rule 2\n            3. Rule 3",
+        exclusions:
+          "1. Exclusion 1\n                 2. Exclusion 1\n                 3. Exclusion 3",
+        pricingFloor: "1000",
+        pricingCeiling: "3200",
+      },
+    },
+  },
   coverInfoWithProducts: {
     id: "0x7072696d65000000000000000000000000000000000000000000000000000000",
     coverKey:
@@ -330,6 +393,16 @@ export const testData = {
           "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
         productKey:
           "0x0000000000000000000000000000000000000000000000000000000000000000",
+        incidentDate: "1658984960",
+      },
+      {
+        id: "0x7072696d65000000000000000000000000000000000000000000000000000000-0x6161766500000000000000000000000000000000000000000000000000000000-1658984960",
+        reporterInfo:
+          "0x43485480c5ecfa145e485d4a1e698fe5f35c054e2bf9b2847c9b215bb67a9c92",
+        coverKey:
+          "0x6465666900000000000000000000000000000000000000000000000000000000",
+        productKey:
+          "0x31696e6368000000000000000000000000000000000000000000000000000000",
         incidentDate: "1658984960",
       },
     ],
@@ -1054,6 +1127,8 @@ export const testData = {
           '{\n  "title": "this is dispute",\n  "proofOfIncident": "[\\"https://www.example.com/dispute\\"]",\n  "description": "this is test dispuite",\n  "stake": "2000000000000000000000",\n  "createdBy": "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"\n}',
       },
     },
+    loading: false,
+    refetch: jest.fn(),
   },
   consensusInfo: {
     info: {
@@ -1076,6 +1151,24 @@ export const testData = {
       unstaken: "0",
       willReceive: "0",
       yes: "3000000000000000000000",
+    },
+    reportingInfo: {
+      yes: "0",
+      no: "0",
+      myYes: "0",
+      myNo: "0",
+      totalStakeInWinningCamp: "0",
+      totalStakeInLosingCamp: "0",
+      myStakeInWinningCamp: "0",
+      unstaken: "0",
+      latestIncidentDate: "0",
+      burnRate: "0",
+      reporterCommission: "0",
+      allocatedReward: "0",
+      toBurn: "0",
+      toReporter: "0",
+      myReward: "0",
+      willReceive: "0",
     },
   },
   recentVotes: {
@@ -1122,6 +1215,14 @@ export const testData = {
       },
     },
   },
+  unstakeReporting: {
+    unstake: jest.fn(),
+    unstakeWithClaim: jest.fn(),
+    unstaking: false,
+  },
+  retryUntilPassed: {
+    passed: true,
+  },
   fetch: {
     body: null,
     bodyUsed: false,
@@ -1147,6 +1248,24 @@ export const testData = {
     contractRead: jest.fn((...args) => {
       args[0]?.onError?.();
       return Promise.resolve(toBN("100"));
+    }),
+    contractReadBondInfo: jest.fn((...args) => {
+      args[0]?.onError?.();
+      return Promise.resolve([
+        ["0x97cCd316db0298498fcfD626b215955b9DF44b71"],
+        [
+          ["0"],
+          ["75"],
+          ["600"],
+          ["100"],
+          ["200"],
+          ["1400"],
+          ["0"],
+          ["0"],
+          ["0"],
+          ["0"],
+        ],
+      ]);
     }),
     writeContract: jest.fn((arg) => {
       arg?.onTransactionResult?.({
@@ -1212,6 +1331,11 @@ export const testData = {
     _index: null,
     _isSigner: true,
   },
+  providerOrSignerGetBlockNumber: {
+    provider: {
+      getBlockNumber: jest.fn(() => Promise.resolve(100)),
+    },
+  },
   governanceAddress: "0xc16be3c0e3028c1C42Ac0dCC3C696a7F237F8060",
   unlimitedApproval: {
     unlimitedApproval: false,
@@ -1220,5 +1344,224 @@ export const testData = {
   },
   authValidation: {
     requiresAuth: jest.fn(),
+  },
+  coverPurchasedEvent: {
+    transactionHash:
+      "0x6b1bbdd7844aa52d1f2267770a8a3ee910d85524ec60477f45f3a550eafddf8d",
+    args: {
+      coverKey:
+        "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+      productKey:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      onBehalfOf: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+      cxToken: "0x0FDc3e2aFd39a4370f5d493D5D2576B8aB3c5258",
+      fee: toBN("100"),
+      platformFee: toBN("100"),
+      amountToCover: toBN("100"),
+      expiresOn: toBN("100"),
+      referralCode:
+        "0x0000000000000000000000000000000000000000000000000000000000000000",
+      policyId: toBN("100"),
+    },
+    from: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+  },
+  getcoverStats: {
+    totalPoolAmount: "4306087000000",
+    activeCommitment: "0",
+    availableLiquidity: "4306087000000",
+    reporterCommission: "1000",
+    claimPlatformFee: "650",
+    reportingPeriod: "1800",
+    productStatus: "",
+    minReportingStake: "5000000000000000000000",
+    activeIncidentDate: "0",
+    requiresWhitelist: true,
+    isUserWhitelisted: false,
+  },
+  myLiquidities: {
+    data: { liquidityList: [], myLiquidities: {} },
+    loading: false,
+  },
+  calculateTotalLiquidity: 10,
+  fetchReport: {
+    data: { incidentReport: true },
+    loading: false,
+  },
+  castYourVote: {
+    tokenAddress: "0xF7c352D9d6967Bd916025030E38eA58cF48029f8",
+    tokenSymbol: "NPM",
+    balance: "181130000000000000000",
+    approving: false,
+    voting: false,
+    loadingAllowance: false,
+    loadingBalance: false,
+    canVote: true,
+    isError: false,
+    handleApprove: jest.fn(),
+    handleAttest: jest.fn(),
+    handleRefute: jest.fn(),
+  },
+  myLiquidityInfo: {
+    stablecoin: "0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468",
+    vault: "0x134A1620eCf1BA0a42Fb2664Fc63D6BD50eBD424",
+    podTotalSupply: "9497947944564640430198548",
+    myPodBalance: "499995217441559127270",
+    vaultStablecoinBalance: "9594152807067",
+    vaultTokenSymbol: "CRPOOL-nDAI",
+    vaultTokenDecimals: "18",
+    myStablecoinBalance: "98550339092",
+    stablecoinTokenSymbol: "DAI",
+    withdrawalStarts: "1661425749",
+    withdrawalEnds: "1661429349",
+    totalReassurance: "3323996000000",
+    myStake: "1000000000000000000000",
+    isAccrualComplete: "",
+    amountLentInStrategies: "0",
+    minStakeToAddLiquidity: "250000000000000000000",
+    myShare: "505059676",
+    myUnrealizedShare: "505059676",
+    totalLiquidity: "9594152807067",
+  },
+  bondInfo: {
+    info: {
+      bondContribution: "0",
+      claimable: "0",
+      discountRate: "75",
+      lpTokenAddress: "0x97cCd316db0298498fcfD626b215955b9DF44b71",
+      maxBond: "10000000000000000000000",
+      totalNpmAllocated: "2000000000000000000000000",
+      totalNpmDistributed: "1424900465944819115",
+      unlockDate: "0",
+      vestingTerm: "600",
+    },
+    details: [
+      {
+        title: "Bond Price",
+        value: "$1.99",
+        tooltip: "1.985000000000",
+        valueClasses: "text-h3 text-4e7dd9 mt-1",
+      },
+      {
+        title: "Market Price",
+        value: "$2.00",
+        tooltip: "2",
+        valueClasses: "text-h3 text-9B9B9B mt-1",
+      },
+      {
+        title: "Maximum Bond",
+        value: "10,000 NPM",
+        tooltip: "10,000 NPM",
+        valueClasses: "text-sm text-9B9B9B mt-1",
+        titleClasses: "mt-7",
+      },
+      {
+        title: "Your Bond",
+        value: "",
+        tooltip: "Not available",
+        titleClasses: "mt-7",
+        valueClasses: "text-sm text-9B9B9B mt-1",
+      },
+    ],
+    roi: "394.2",
+  },
+  bondTxs: {
+    hasMore: false,
+    data: {
+      blockNumber: "27851152",
+      transactions: [
+        {
+          type: "BondClaimed",
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          npmToVestAmount: "0",
+          claimAmount: "7124503337281278227",
+          lpTokenAmount: "0",
+          bondPool: {
+            token1: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+            token1Symbol: "NPM",
+            token1Decimals: 18,
+            lpTokenSymbol: "UNI-V2",
+            lpTokenDecimals: 18,
+          },
+          transaction: {
+            id: "0xfac762d44027f90a127a667a59d52b593a9d9a4708422a7f3cf1a0178a8638d1",
+            timestamp: "1661914340",
+          },
+        },
+        {
+          type: "BondCreated",
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          npmToVestAmount: "7124503337281278227",
+          claimAmount: "0",
+          lpTokenAmount: "5000000000000",
+          bondPool: {
+            token1: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+            token1Symbol: "NPM",
+            token1Decimals: 18,
+            lpTokenSymbol: "UNI-V2",
+            lpTokenDecimals: 18,
+          },
+          transaction: {
+            id: "0x16fe92fa49da6ba8766529cdd3625f9a86fcb753785717b36955f772a0a4df3e",
+            timestamp: "1661913718",
+          },
+        },
+        {
+          type: "BondClaimed",
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          npmToVestAmount: "0",
+          claimAmount: "1524643085462511567",
+          lpTokenAmount: "0",
+          bondPool: {
+            token1: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+            token1Symbol: "NPM",
+            token1Decimals: 18,
+            lpTokenSymbol: "UNI-V2",
+            lpTokenDecimals: 18,
+          },
+          transaction: {
+            id: "0x41383c2cd102efef6d839b17d6c5a911b71730cf46ea3bda4156847097fdbbac",
+            timestamp: "1661913633",
+          },
+        },
+        {
+          type: "BondCreated",
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          npmToVestAmount: "1424900465944819115",
+          claimAmount: "0",
+          lpTokenAmount: "1000000000000",
+          bondPool: {
+            token1: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+            token1Symbol: "NPM",
+            token1Decimals: 18,
+            lpTokenSymbol: "UNI-V2",
+            lpTokenDecimals: 18,
+          },
+          transaction: {
+            id: "0x36aa5b0a083bc45bf791bb250dc9720e515a3c501321bdd7d7dcf7b943b4d35e",
+            timestamp: "1661912551",
+          },
+        },
+        {
+          type: "BondCreated",
+          account: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+          npmToVestAmount: "99742619517692452",
+          claimAmount: "0",
+          lpTokenAmount: "70000000000",
+          bondPool: {
+            token1: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+            token1Symbol: "NPM",
+            token1Decimals: 18,
+            lpTokenSymbol: "UNI-V2",
+            lpTokenDecimals: 18,
+          },
+          transaction: {
+            id: "0x0621ae6c1a5b489d48ae76fd90c09a647fb3de5a4006c42f24ad813b148ec456",
+            timestamp: "1661912435",
+          },
+        },
+      ],
+      totalCount: 3,
+    },
+    loading: false,
   },
 };

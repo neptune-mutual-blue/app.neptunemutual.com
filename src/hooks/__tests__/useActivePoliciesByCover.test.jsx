@@ -1,9 +1,5 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useActivePoliciesByCover } from "../useActivePoliciesByCover";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { NetworkProvider } from "@/src/context/Network";
-import BigNumber from "bignumber.js";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
   coverKey:
@@ -14,32 +10,69 @@ const mockProps = {
   limit: 50,
 };
 
-describe("useActivePoliciesByCover", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>{children}</NetworkProvider>
-      </Web3ReactProvider>
-    );
-
-    const { result } = renderHook(
-      () =>
-        useActivePoliciesByCover({
-          coverKey: mockProps.coverKey,
-          productKey: mockProps.productKey,
-          page: mockProps.page,
-          limit: mockProps.limit,
-        }),
+const mockReturnData = {
+  data: {
+    userPolicies: [
       {
-        wrapper,
-      }
+        totalAmountToCover: "1000",
+      },
+    ],
+  },
+};
+
+describe("useActivePoliciesByCover", () => {
+  const { mock, restore, mockFunction } = mockFn.console.error();
+
+  test("while fetching w/o account, networkId and graphURL", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
+    mockFn.useNetwork(() => ({ networkId: null }));
+    mockFn.getGraphURL(() => "");
+
+    const { result } = await renderHookWrapper(useActivePoliciesByCover, [
+      mockProps,
+    ]);
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(result.loading).toBe(false);
+    expect(result.hasMore).toBe(true);
+  });
+
+  test("while fetching successful", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.getGraphURL();
+    mockFn.fetch(true, undefined, mockReturnData);
+
+    const { result } = await renderHookWrapper(
+      useActivePoliciesByCover,
+      [mockProps],
+      true
     );
 
-    expect(result.current.data.activePolicies).toEqual([]);
-    expect(result.current.data.totalActiveProtection).toEqual(
-      new BigNumber("0")
+    expect(result.data.activePolicies).toEqual([
+      ...mockReturnData.data.userPolicies,
+    ]);
+    expect(result.data.totalActiveProtection.toString()).toEqual(
+      mockReturnData.data.userPolicies[0].totalAmountToCover
     );
-    expect(result.current.loading).toBe(false);
-    expect(result.current.hasMore).toBe(true);
+  });
+
+  test("while fetching error", async () => {
+    mockFn.fetch(false);
+    mock();
+
+    const { result } = await renderHookWrapper(
+      useActivePoliciesByCover,
+      [mockProps],
+      true
+    );
+
+    expect(result.data.activePolicies).toEqual([]);
+    expect(result.data.totalActiveProtection.toString()).toEqual("0");
+    expect(mockFunction).toHaveBeenCalled();
+
+    mockFn.fetch().unmock();
+    restore();
   });
 });

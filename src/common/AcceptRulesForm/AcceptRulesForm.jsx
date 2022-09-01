@@ -46,6 +46,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
     <>
       {/* Accept Rules Form */}
       <form onSubmit={handleSubmit} className="mt-20">
+        status: {status}
         <Checkbox
           id="checkid"
           name="checkinputname"

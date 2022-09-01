@@ -27,7 +27,7 @@ describe("useCreateBond", () => {
   mockFn.sdk.registry.Governance.getInstance();
   mockFn.sdk.utils.ipfs.write();
   mockFn.useGovernanceAddress();
-  mockFn.consoleError().mock();
+  mockFn.console.error().mock();
 
   test("should return default value from hook", async () => {
     const { result } = await renderHookWrapper(useDisputeIncident, [hookArgs]);
@@ -57,7 +57,7 @@ describe("useCreateBond", () => {
 
     expect(result.canDispute).toBe(true);
 
-    // mockFn.consoleError().restore();
+    // mockFn.console.error().restore();
   });
 
   test("should execute the handleDispute function", async () => {

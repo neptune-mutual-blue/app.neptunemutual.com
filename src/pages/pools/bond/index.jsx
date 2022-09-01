@@ -4,6 +4,7 @@ import BondPage from "@/src/modules/pools/bond";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 
+/* istanbul ignore next */
 export function getStaticProps() {
   return {
     props: {

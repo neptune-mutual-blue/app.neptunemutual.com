@@ -1,35 +1,66 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useActiveReportings } from "../useActiveReportings";
-import { NetworkProvider } from "@/src/context/Network";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import { testData } from "@/utils/unit-tests/test-data";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
+
+const mockReturnData = {
+  data: {
+    incidentReports: [
+      {
+        id: "x09319hdakn12313",
+      },
+    ],
+  },
+};
 
 describe("useActiveReportings", () => {
-  test("should receive initial values", async () => {
-    mockFn.getNetworkId();
-    mockFn.useNetwork();
-    mockFn.getGraphURL();
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: async () => testData.resolvedReportings,
-      })
+  const { mock, restore, mockFunction } = mockFn.console.error();
+
+  mockFn.useNetwork();
+  mockFn.getGraphURL();
+
+  test("while fetching successful", async () => {
+    mockFn.fetch(true, undefined, mockReturnData);
+
+    const { result } = await renderHookWrapper(useActiveReportings, [], true);
+
+    expect(result.data.incidentReports).toEqual([
+      ...mockReturnData.data.incidentReports,
+    ]);
+    expect(result.handleShowMore).toEqual(expect.any(Function));
+    expect(result.loading).toBe(false);
+    expect(result.hasMore).toBe(false);
+  });
+
+  test("while fetching error", async () => {
+    mockFn.fetch(false);
+    mock();
+
+    const { result } = await renderHookWrapper(useActiveReportings, [], true);
+
+    expect(result.data.incidentReports).toEqual([]);
+    expect(result.handleShowMore).toEqual(expect.any(Function));
+    expect(result.loading).toBe(false);
+    expect(result.hasMore).toBe(true);
+    expect(mockFunction).toHaveBeenCalled();
+
+    mockFn.fetch().unmock();
+    restore();
+  });
+
+  test("calling handleShowMore function", async () => {
+    mockFn.fetch(true, undefined, mockReturnData);
+
+    const { result, act } = await renderHookWrapper(
+      useActiveReportings,
+      [],
+      true
     );
 
-    const wrapper = ({ children }) => (
-      <NetworkProvider>{children}</NetworkProvider>
-    );
+    await act(async () => {
+      await result.handleShowMore();
+    });
 
-    const { result, waitForNextUpdate } = renderHook(
-      () => useActiveReportings(),
-      { wrapper }
-    );
-
-    expect(result.current.data.incidentReports).toEqual([]);
-    expect(result.current.loading).toBe(true);
-    expect(result.current.hasMore).toBe(true);
-
-    await waitForNextUpdate();
-
-    expect(result.current.loading).toBe(false);
+    expect(result.data.incidentReports).toEqual([
+      ...mockReturnData.data.incidentReports,
+    ]);
   });
 });

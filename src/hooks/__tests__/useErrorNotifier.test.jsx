@@ -6,7 +6,7 @@ import { ERROR_TOAST_TIME } from "@/src/config/toast";
 
 describe("useErrorNotifier", () => {
   mockFn.useToast();
-  const { mock, mockFunction } = mockFn.consoleError();
+  const { mock, mockFunction } = mockFn.console.error();
   mock();
 
   const args = [{ duration: 5000 }];

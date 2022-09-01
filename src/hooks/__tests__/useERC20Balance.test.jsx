@@ -6,7 +6,7 @@ describe("useERC20Balance", () => {
   mockFn.useNetwork();
   mockFn.useWeb3React();
   mockFn.useTxPoster();
-  const { mock, mockFunction } = mockFn.consoleError();
+  const { mock, mockFunction } = mockFn.console.error();
   mock();
 
   test("should return default value", async () => {

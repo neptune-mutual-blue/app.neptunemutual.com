@@ -125,7 +125,7 @@ describe("useCreateBond", () => {
   });
 
   test("simulating for coverage", async () => {
-    mockFn.consoleError().mock();
+    mockFn.console.error().mock();
     let args = { ...testData.useCreateBondArgs, value: "invalid" };
     const { result, rerender } = await renderHookWrapper(
       useCreateBond,
@@ -150,6 +150,6 @@ describe("useCreateBond", () => {
     };
     await rerender([args]);
 
-    mockFn.consoleError().restore();
+    mockFn.console.error().restore();
   });
 });

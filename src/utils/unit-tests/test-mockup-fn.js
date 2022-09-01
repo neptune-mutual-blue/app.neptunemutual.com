@@ -1,5 +1,6 @@
 import { testData } from "@/utils/unit-tests/test-data";
 
+import * as ActiveReportings from "@/src/hooks/useActiveReportings";
 import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import * as ValidReportHook from "@/src/hooks/useValidReport";
 
@@ -40,8 +41,11 @@ import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
 import * as useAuth from "@/lib/connect-wallet/hooks/useAuth.jsx";
 import * as FetchReportHook from "@/src/hooks/useFetchReport";
 import * as ConfigEnvironmentFile from "@/src/config/environment";
+import * as ConfigString from "@/utils/string";
+import * as UnstakeInfoFor from "@/src/services/protocol/consensus/info";
 import * as CoverProductsFunction from "@/src/services/covers-products";
 import * as DebounceHook from "@/src/hooks/useDebounce";
+import * as MountedHook from "@/src/hooks/useMountedState";
 import * as BondPoolAddressHook from "@/src/hooks/contracts/useBondPoolAddress";
 import * as TxToastHook from "@/src/hooks/useTxToast";
 import * as TxPosterHook from "@/src/context/TxPoster";
@@ -60,9 +64,19 @@ import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
+import * as MyLiqudities from "@/src/hooks/useMyLiquidities";
+import * as CalculateTotalLiquidity from "@/src/hooks/useCalculateTotalLiquidity";
 
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
+import * as GetStatsFile from "@/src/services/protocol/cover/stats";
+import * as UnstakeReportingStakeHook from "@/src/hooks/useUnstakeReportingStake";
+import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
+import * as UseVoteHook from "@/src/hooks/useVote";
+import * as BondInfoHook from "@/src/hooks/useBondInfo";
+import * as BondTxsHook from "@/src/hooks/useBondTxs";
+
+import * as VaultInfoFile from "@/src/services/protocol/vault/info";
 
 const Web3React = require("@web3-react/core");
 
@@ -81,6 +95,19 @@ const returnFunction = (d) => {
 };
 
 export const mockFn = {
+  useActiveReportings: (
+    cb = () => ({
+      data: {
+        incidentReports: testData.reporting.activeReporting,
+      },
+      loading: false,
+      hasMore: true,
+    })
+  ) =>
+    jest
+      .spyOn(ActiveReportings, "useActiveReportings")
+      .mockImplementation(returnFunction(cb)),
+
   useCoverOrProductData: (cb = () => testData.coverInfo) =>
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
@@ -100,10 +127,12 @@ export const mockFn = {
     jest
       .spyOn(ValidReportHook, "useValidReport")
       .mockImplementation(returnFunction(cb)),
+
   useERC20Balance: (cb = () => testData.erc20Balance) =>
     jest
       .spyOn(ERC20BalanceHook, "useERC20Balance")
       .mockImplementation(returnFunction(cb)),
+
   useERC20Allowance: (cb = () => testData.erc20Allowance) =>
     jest
       .spyOn(ERC20AllowanceHook, "useERC20Allowance")
@@ -155,10 +184,12 @@ export const mockFn = {
     jest
       .spyOn(EagerConnect, "useEagerConnect")
       .mockImplementation(returnFunction(cb)),
+
   getNetworkId: (cb = () => testData.network.networkId) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getNetworkId")
       .mockImplementation(returnFunction(cb)),
+
   getGraphURL: (networkId = 80001) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getGraphURL")
@@ -195,10 +226,12 @@ export const mockFn = {
     jest
       .spyOn(LiquidityFormsContextHook, "useLiquidityFormsContext")
       .mockImplementation(returnFunction(cb)),
+
   useCoverActiveReportings: (cb = () => testData.coverActiveReportings) =>
     jest
       .spyOn(CoverActiveReportingsHook, "useCoverActiveReportings")
       .mockImplementation(returnFunction(cb)),
+
   usePagination: (cb = () => testData.pagination) =>
     jest
       .spyOn(PaginationHook, "usePagination")
@@ -207,41 +240,52 @@ export const mockFn = {
     jest
       .spyOn(LiquidityTxsHook, "useLiquidityTxs")
       .mockImplementation(returnFunction(cb)),
+
   useClaimPolicyInfo: (cb = () => testData.claimPolicyInfo) =>
     jest
       .spyOn(ClaimPolicyHook, "useClaimPolicyInfo")
       .mockImplementation(returnFunction(cb)),
+
   useCxTokenRowContext: (cb = () => testData.cxTokenRowContext) =>
     jest
       .spyOn(CxTokenRowContextHook, "useCxTokenRowContext")
       .mockImplementation(returnFunction(cb)),
+
   useClaimTableContext: (cb = () => testData.claimTableContext) =>
     jest
       .spyOn(ClaimTableContextHook, "useClaimTableContext")
       .mockImplementation(returnFunction(cb)),
+
   usePodStakingPools: (cb = () => testData.podStakingPools) =>
     jest
       .spyOn(PodStakingPoolsHook, "usePodStakingPools")
       .mockImplementation(returnFunction(cb)),
+
   usePoolInfo: (cb = () => testData.poolInfo) =>
     jest
       .spyOn(PoolInfoHook, "usePoolInfo")
       .mockImplementation(returnFunction(cb)),
+
   useSortableStats: (cb = () => testData.sortableStats) =>
     jest
       .spyOn(SortableStatsHook, "useSortableStats")
       .mockImplementation(returnFunction(cb)),
+
   useActivePolicies: (cb = () => testData.activePolicies) =>
     jest
       .spyOn(ActivePoliciesHook, "useActivePolicies")
       .mockImplementation(returnFunction(cb)),
+
   chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
+
   useToast: (cb = () => testData.toast) =>
     jest.spyOn(ToastHook, "useToast").mockImplementation(returnFunction(cb)),
+
   useResolvedReportings: (cb = () => testData.resolvedReportings) =>
     jest
       .spyOn(ResolvedReportingsHook, "useResolvedReportings")
       .mockImplementation(returnFunction(cb)),
+
   useSearchResults: (cb = () => testData.searchResults) =>
     jest
       .spyOn(SearchResultsHook, "useSearchResults")
@@ -250,10 +294,12 @@ export const mockFn = {
     jest
       .spyOn(CalculateLiquidityHook, "useCalculateLiquidity")
       .mockImplementation(returnFunction(cb)),
+
   useRemoveLiquidity: (cb = () => testData.removeLiquidity) =>
     jest
       .spyOn(RemoveLiquidityHook, "useRemoveLiquidity")
       .mockImplementation(returnFunction(cb)),
+
   useMyLiquidityInfo: (cb = () => testData.liquidityFormsContext) =>
     jest
       .spyOn(LiquidityInfoHook, "useMyLiquidityInfo")
@@ -266,10 +312,12 @@ export const mockFn = {
     jest
       .spyOn(PolicyFees, "usePolicyFees")
       .mockImplementation(returnFunction(cb)),
+
   usePurchasePolicy: (cb = () => testData.purchasePolicy) =>
     jest
       .spyOn(PurchasePolicy, "usePurchasePolicy")
       .mockImplementation(returnFunction(cb)),
+
   useFetchCoverPurchasedEvent: (cb = () => testData.coverPurchased) =>
     jest
       .spyOn(PurchasedEventHook, "useFetchCoverPurchasedEvent")
@@ -278,34 +326,58 @@ export const mockFn = {
     jest
       .spyOn(LocalStorageHook, "useLocalStorage")
       .mockImplementation(returnFunction(cb)),
+
   useAuth: (
     cb = () => ({ login: jest.fn(() => {}), logout: jest.fn(() => {}) })
   ) => jest.spyOn(useAuth, "default").mockImplementation(returnFunction(cb)),
-  consoleError: () => {
-    const mockConsoleError = jest.fn();
 
-    return {
-      mock: () => {
-        Object.defineProperty(global.console, "error", {
-          value: mockConsoleError,
-        });
-      },
-      restore: () => {
-        Object.defineProperty(global.console, "error", {
-          value: console.error,
-        });
-      },
-      mockFunction: mockConsoleError,
-    };
+  console: {
+    error: () => {
+      const mockConsoleError = jest.fn();
+
+      return {
+        mock: () => {
+          Object.defineProperty(global.console, "error", {
+            value: mockConsoleError,
+          });
+        },
+        restore: () => {
+          Object.defineProperty(global.console, "error", {
+            value: console.error,
+          });
+        },
+        mockFunction: mockConsoleError,
+      };
+    },
+    log: () => {
+      const mockConsoleLog = jest.fn();
+
+      return {
+        mock: () => {
+          Object.defineProperty(global.console, "log", {
+            value: mockConsoleLog,
+          });
+        },
+        restore: () => {
+          Object.defineProperty(global.console, "log", {
+            value: console.log,
+          });
+        },
+        mockFunction: mockConsoleLog,
+      };
+    },
   },
+
   useReportIncident: (cb = () => testData.reportIncident) =>
     jest
       .spyOn(ReportIncident, "useReportIncident")
       .mockImplementation(returnFunction(cb)),
+
   useTokenDecimals: (cb = () => testData.tokenDecimals) =>
     jest
       .spyOn(TokenDecimals, "useTokenDecimals")
       .mockImplementation(returnFunction(cb)),
+
   useDisputeIncident: (cb = () => testData.disputeIncident) => {
     jest
       .spyOn(DisputeIncident, "useDisputeIncident")
@@ -316,13 +388,23 @@ export const mockFn = {
     jest
       .spyOn(FetchReportHook, "useFetchReport")
       .mockImplementation(returnFunction(cb)),
+
   useConsensusReportingInfo: (cb = () => testData.consensusInfo) =>
     jest
       .spyOn(ConsensusReportingInfoHook, "useConsensusReportingInfo")
       .mockImplementation(returnFunction(cb)),
+
   useRecentVotes: (cb = () => testData.recentVotes) =>
     jest
       .spyOn(RecentVotesHook, "useRecentVotes")
+      .mockImplementation(returnFunction(cb)),
+  useUnstakeReportingStake: (cb = () => testData.unstakeReporting) =>
+    jest
+      .spyOn(UnstakeReportingStakeHook, "useUnstakeReportingStake")
+      .mockImplementation(returnFunction(cb)),
+  useRetryUntilPassed: (cb = () => testData.retryUntilPassed) =>
+    jest
+      .spyOn(RetryUntilPassedHook, "useRetryUntilPassed")
       .mockImplementation(returnFunction(cb)),
   getCoverProductData: (
     cb = (networkId, coverKey, productKey) =>
@@ -331,10 +413,12 @@ export const mockFn = {
     jest
       .spyOn(CoverProductsFunction, "getCoverProductData")
       .mockImplementation(returnFunction(cb)),
+
   getCoverData: (cb = (networkId, coverKey) => `${networkId}:${coverKey}`) =>
     jest
       .spyOn(CoverProductsFunction, "getCoverData")
       .mockImplementation(returnFunction(cb)),
+
   fetch: (
     resolve = true,
     fetchResponse = testData.fetch,
@@ -357,32 +441,57 @@ export const mockFn = {
       },
     };
   },
+
   useDebounce: (value = 123) =>
     jest
       .spyOn(DebounceHook, "useDebounce")
       .mockImplementation(returnFunction(value)),
+
+  getReplacedString: (networkId = 80001, account = testData.account.account) =>
+    jest
+      .spyOn(ConfigString, "getReplacedString")
+      .mockImplementation(
+        () =>
+          `https://api.npm.finance/protocol/bond/info/${networkId}/${account}`
+      ),
+
+  getUnstakeInfoFor: (value = testData.consensusInfo.reportingInfo) =>
+    jest
+      .spyOn(UnstakeInfoFor, "getUnstakeInfoFor")
+      .mockImplementation(returnFunction(value)),
+
+  useMountedState: (cb = () => false) =>
+    jest
+      .spyOn(MountedHook, "useMountedState")
+      .mockImplementation(returnFunction(cb)),
+
   useBondPoolAddress: (cb = () => testData.bondPoolAddress) =>
     jest
       .spyOn(BondPoolAddressHook, "useBondPoolAddress")
       .mockImplementation(returnFunction(cb)),
+
   useTxToast: (cb = () => testData.txToast) =>
     jest
       .spyOn(TxToastHook, "useTxToast")
       .mockImplementation(returnFunction(cb)),
+
   useTxPoster: (cb = () => testData.txPoster) =>
     jest
       .spyOn(TxPosterHook, "useTxPoster")
       .mockImplementation(returnFunction(cb)),
+
   useErrorNotifier: (cb = () => testData.errorNotifier) =>
     jest
       .spyOn(ErrorNotifierHook, "useErrorNotifier")
       .mockImplementation(returnFunction(cb)),
+
   utilsWeb3: {
     getProviderOrSigner: (cb = () => testData.providerOrSigner) =>
       jest
         .spyOn(UtilsWeb3, "getProviderOrSigner")
         .mockImplementation(returnFunction(cb)),
   },
+
   sdk: {
     registry: {
       BondPool: {
@@ -406,6 +515,47 @@ export const mockFn = {
           );
         },
       },
+      Vault: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+      },
+      Reassurance: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Reassurance.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+      },
+      Resolution: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Resolution.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Resolution geInstance() mock"
+            )
+          );
+        },
+      },
+      Cover: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Cover.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Cover geInstance() mock"
+            )
+          );
+        },
+      },
+      Vault: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Vault geInstance() mock"
+            )
+          );
+        },
+      },
     },
     utils: {
       ipfs: {
@@ -417,7 +567,9 @@ export const mockFn = {
       },
     },
   },
+
   setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
+
   useCoversAndProducts: (resolve = true, returnData = {}) =>
     jest
       .spyOn(CoversAndProductsHook, "useCoversAndProducts")
@@ -428,18 +580,46 @@ export const mockFn = {
             : Promise.reject("Error occured")
         ),
       })),
+
   useGovernanceAddress: (cb = () => testData.governanceAddress) =>
     jest
       .spyOn(GovernanceAddressHook, "useGovernanceAddress")
       .mockImplementation(returnFunction(cb)),
+
   useUnlimitedApproval: (cb = () => testData.unlimitedApproval) =>
     jest
       .spyOn(UnlimitedApprovalHook, "useUnlimitedApproval")
       .mockImplementation(returnFunction(cb)),
+
   useAuthValidation: (cb = () => testData.authValidation) =>
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
       .mockImplementation(returnFunction(cb)),
+  getStats: (cb = () => Promise.resolve(testData.getcoverStats)) =>
+    jest.spyOn(GetStatsFile, "getStats").mockImplementation(returnFunction(cb)),
+  useMyLiquidities: (cb = () => testData.myLiquidities) => {
+    jest
+      .spyOn(MyLiqudities, "useMyLiquidities")
+      .mockImplementation(returnFunction(cb));
+  },
+  useCalculateTotalLiquidity: (cb = () => testData.calculateTotalLiquidity) => {
+    jest
+      .spyOn(CalculateTotalLiquidity, "useCalculateTotalLiquidity")
+      .mockImplementation(returnFunction(cb));
+  },
+  useVote: (cb = () => testData.castYourVote) =>
+    jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
+  useBondInfo: (cb = () => testData.bondInfo) => {
+    jest
+      .spyOn(BondInfoHook, "useBondInfo")
+      .mockImplementation(returnFunction(cb));
+  },
+  useBondTxs: (cb = () => testData.bondTxs) =>
+    jest
+      .spyOn(BondTxsHook, "useBondTxs")
+      .mockImplementation(returnFunction(cb)),
+  getInfo: (cb = () => testData.myLiquidityInfo) =>
+    jest.spyOn(VaultInfoFile, "getInfo").mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {
@@ -543,7 +723,7 @@ export const initiateTest = (
  * @property {Function} rerender
  * @property {Function} unmount
  * @property {Function} [waitForNextUpdate]
- * @property {Function} [waitForValueToChange]
+ * @property {Object} [renderHookResult]
  */
 
 /**
@@ -565,7 +745,7 @@ export const renderHookWrapper = async (
     rr = () => {},
     u = () => {},
     wfnu = () => {},
-    wfvc = () => {};
+    renderHookResult = {};
 
   await hooksAct(async () => {
     const {
@@ -573,7 +753,6 @@ export const renderHookWrapper = async (
       waitForNextUpdate: WFNU,
       rerender,
       unmount,
-      waitForValueToChange,
     } = renderHook((args) => hookFunction(...args), {
       initialProps: hookArgs,
       ...renderHookOptions,
@@ -588,7 +767,7 @@ export const renderHookWrapper = async (
     rr = rerender;
     u = unmount;
     wfnu = WFNU;
-    wfvc = waitForValueToChange;
+    renderHookResult = result;
   });
   return {
     result: res,
@@ -596,7 +775,6 @@ export const renderHookWrapper = async (
     rerender: rr,
     unmount: u,
     waitForNextUpdate: wfnu,
-    waitForValueToChange: wfvc,
+    renderHookResult,
   };
 };
-

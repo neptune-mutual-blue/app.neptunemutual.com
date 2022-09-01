@@ -1,20 +1,30 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useAuthValidation } from "../useAuthValidation";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { ToastProvider } from "@/lib/toast/provider";
-import { DEFAULT_VARIANT } from "@/src/config/toast";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("useAuthValidation", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <ToastProvider variant={DEFAULT_VARIANT}>{children}</ToastProvider>
-      </Web3ReactProvider>
-    );
+  mockFn.useToast();
 
-    const { result } = renderHook(() => useAuthValidation(), { wrapper });
+  test("should return nothing", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
 
-    expect(result.current.requiresAuth).toEqual(expect.any(Function));
+    const { result, act } = await renderHookWrapper(useAuthValidation);
+
+    act(() => {
+      result.requiresAuth();
+    });
+
+    expect(result.requiresAuth).toEqual(expect.any(Function));
+  });
+
+  test("should require auth", async () => {
+    mockFn.useWeb3React(() => ({ account: "0x32423dfsf34" }));
+
+    const { result, act } = await renderHookWrapper(useAuthValidation);
+
+    act(() => {
+      result.requiresAuth();
+    });
+
+    expect(result.requiresAuth).toEqual(expect.any(Function));
   });
 });

@@ -1,38 +1,73 @@
-import { renderHook } from "@testing-library/react-hooks";
 import { useBondTxs } from "../useBondTxs";
-import { Web3ReactProvider } from "@web3-react/core";
-import { getLibrary } from "@/lib/connect-wallet/utils/web3";
-import { NetworkProvider } from "@/src/context/Network";
+import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
 
 const mockProps = {
   page: 1,
   limit: 50,
 };
-const mockData = {
-  blockNumber: null,
-  transactions: [],
-  totalCount: 0,
+
+const mockResolvedData = {
+  data: {
+    _meta: {
+      block: {
+        number: 10,
+      },
+    },
+    bondTransactions: [{ id: "12312sa312" }],
+  },
+};
+
+const mockReturnData = {
+  data: {
+    blockNumber: 10,
+    transactions: [{ id: "12312sa312" }],
+    totalCount: 1,
+  },
 };
 
 describe("useBondTxs", () => {
-  test("should receive values", () => {
-    const wrapper = ({ children }) => (
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <NetworkProvider>{children}</NetworkProvider>
-      </Web3ReactProvider>
-    );
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
-    const { result } = renderHook(
-      () =>
-        useBondTxs({
-          limit: mockProps.limit,
-          page: mockProps.page,
-        }),
-      { wrapper }
-    );
+  test("while fetching data w/o account", async () => {
+    mockFn.useWeb3React(() => ({ account: null }));
+    mockFn.useNetwork();
 
-    expect(result.current.data).toMatchObject(mockData);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.hasMore).toBe(true);
+    const { result } = await renderHookWrapper(useBondTxs, [mockProps]);
+
+    expect(result.data).toEqual({
+      blockNumber: null,
+      transactions: [],
+      totalCount: 0,
+    });
+    expect(result.loading).toBe(false);
+    expect(result.hasMore).toBe(true);
+  });
+
+  test("while fetching data with account and successfully", async () => {
+    mockFn.useWeb3React();
+    mockFn.useNetwork();
+    mockFn.getGraphURL();
+    mockFn.fetch(true, undefined, mockResolvedData);
+
+    const { result } = await renderHookWrapper(useBondTxs, [mockProps], true);
+
+    expect(result.data).toEqual(mockReturnData.data);
+  });
+
+  test("while fetching data with account and error", async () => {
+    mockFn.fetch(false);
+    mock();
+
+    const { result } = await renderHookWrapper(useBondTxs, [mockProps], true);
+
+    expect(result.data).toEqual({
+      blockNumber: null,
+      transactions: [],
+      totalCount: 0,
+    });
+    expect(mockFunction).toHaveBeenCalled();
+
+    mockFn.fetch().unmock();
+    restore();
   });
 });
