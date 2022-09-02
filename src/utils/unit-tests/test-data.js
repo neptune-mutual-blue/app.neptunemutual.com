@@ -545,10 +545,10 @@ export const testData = {
   },
   appConstants: {
     liquidityTokenDecimals: 6,
-    NPMTokenAddress: "",
+    NPMTokenAddress: "0xF7c352D9d6967Bd916025030E38eA58cF48029f8",
     NPMTokenDecimals: 18,
     NPMTokenSymbol: "NPM",
-    liquidityTokenAddress: "",
+    liquidityTokenAddress: "0x5B73fd777f535C5A47CC6eFb45d0cc66308B1468",
     liquidityTokenSymbol: "DAI",
     poolsTvl: "0",
     getTVLById: (_id) => "0",
@@ -1563,5 +1563,20 @@ export const testData = {
       totalCount: 3,
     },
     loading: false,
+  },
+  governanceReportResult: {
+    result: {
+      tx: {
+        hash: "0x51b27a8bd577559bc1896cb841b78a878c181ab11835e7cd659d87748fa13a77",
+        nonce: null,
+        gasLimit: null,
+        gasPrice: null,
+        data: null,
+        value: null,
+        chainId: null,
+        confirmations: 0,
+        from: null,
+      },
+    },
   },
 };

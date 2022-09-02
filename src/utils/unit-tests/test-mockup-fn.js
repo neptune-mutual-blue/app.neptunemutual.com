@@ -3,7 +3,6 @@ import { testData } from "@/utils/unit-tests/test-data";
 import * as ActiveReportings from "@/src/hooks/useActiveReportings";
 import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import * as ValidReportHook from "@/src/hooks/useValidReport";
-
 import * as FetchCoverStatsHook from "@/src/hooks/useFetchCoverStats";
 import * as ERC20BalanceHook from "@/src/hooks/useERC20Balance";
 import * as CoverStatsContext from "@/common/Cover/CoverStatsContext";
@@ -31,10 +30,8 @@ import * as ToastHook from "@/lib/toast/context";
 import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
 import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
-// import * as ValidateReferralCode from "@/src/hooks/useValidateReferralCode";
 import * as PolicyFees from "@/src/hooks/usePolicyFees";
 import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
-
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
@@ -57,16 +54,13 @@ import * as CoversAndProductsHook from "@/src/context/CoversAndProductsData";
 import * as GovernanceAddressHook from "@/src/hooks/contracts/useGovernanceAddress";
 import * as UnlimitedApprovalHook from "@/src/context/UnlimitedApproval";
 import * as AuthValidationHook from "@/src/hooks/useAuthValidation";
-
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
-
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
 import * as MyLiqudities from "@/src/hooks/useMyLiquidities";
 import * as CalculateTotalLiquidity from "@/src/hooks/useCalculateTotalLiquidity";
-
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
 import * as GetStatsFile from "@/src/services/protocol/cover/stats";
@@ -75,8 +69,8 @@ import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
 import * as UseVoteHook from "@/src/hooks/useVote";
 import * as BondInfoHook from "@/src/hooks/useBondInfo";
 import * as BondTxsHook from "@/src/hooks/useBondTxs";
-
 import * as VaultInfoFile from "@/src/services/protocol/vault/info";
+import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
 
 const Web3React = require("@web3-react/core");
 
@@ -333,6 +327,7 @@ export const mockFn = {
 
   console: {
     error: () => {
+      const originalError = console.error;
       const mockConsoleError = jest.fn();
 
       return {
@@ -343,13 +338,14 @@ export const mockFn = {
         },
         restore: () => {
           Object.defineProperty(global.console, "error", {
-            value: console.error,
+            value: originalError,
           });
         },
         mockFunction: mockConsoleError,
       };
     },
     log: () => {
+      const originalLog = console.log;
       const mockConsoleLog = jest.fn();
 
       return {
@@ -360,7 +356,7 @@ export const mockFn = {
         },
         restore: () => {
           Object.defineProperty(global.console, "log", {
-            value: console.log,
+            value: originalLog,
           });
         },
         mockFunction: mockConsoleLog,
@@ -430,7 +426,7 @@ export const mockFn = {
             ...fetchResponse,
             json: () => Promise.resolve(fetchJsonData),
           })
-        : Promise.reject("Error occured")
+        : Promise.reject(fetchJsonData ?? "Error occured")
     );
     return {
       unmock: () => {
@@ -566,6 +562,13 @@ export const mockFn = {
         },
       },
     },
+    governance: {
+      report: () => {
+        NeptuneMutualSDK.governance.report = jest.fn(() =>
+          Promise.resolve(testData.governanceReportResult)
+        );
+      },
+    },
   },
 
   setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
@@ -595,31 +598,47 @@ export const mockFn = {
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
       .mockImplementation(returnFunction(cb)),
+
   getStats: (cb = () => Promise.resolve(testData.getcoverStats)) =>
     jest.spyOn(GetStatsFile, "getStats").mockImplementation(returnFunction(cb)),
+
   useMyLiquidities: (cb = () => testData.myLiquidities) => {
     jest
       .spyOn(MyLiqudities, "useMyLiquidities")
       .mockImplementation(returnFunction(cb));
   },
+
   useCalculateTotalLiquidity: (cb = () => testData.calculateTotalLiquidity) => {
     jest
       .spyOn(CalculateTotalLiquidity, "useCalculateTotalLiquidity")
       .mockImplementation(returnFunction(cb));
   },
+
   useVote: (cb = () => testData.castYourVote) =>
     jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
+
   useBondInfo: (cb = () => testData.bondInfo) => {
     jest
       .spyOn(BondInfoHook, "useBondInfo")
       .mockImplementation(returnFunction(cb));
   },
+
   useBondTxs: (cb = () => testData.bondTxs) =>
     jest
       .spyOn(BondTxsHook, "useBondTxs")
       .mockImplementation(returnFunction(cb)),
+
   getInfo: (cb = () => testData.myLiquidityInfo) =>
     jest.spyOn(VaultInfoFile, "getInfo").mockImplementation(returnFunction(cb)),
+
+  registerToken: (success = true) =>
+    jest
+      .spyOn(WalletUtilsFile, "registerToken")
+      .mockImplementation(() =>
+        success
+          ? Promise.resolve("registerToken success")
+          : Promise.reject("registerToken error")
+      ),
 };
 
 export const globalFn = {
@@ -748,6 +767,7 @@ export const renderHookWrapper = async (
     renderHookResult = {};
 
   await hooksAct(async () => {
+    i18n.activate("en");
     const {
       result,
       waitForNextUpdate: WFNU,
