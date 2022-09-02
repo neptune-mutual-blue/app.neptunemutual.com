@@ -105,5 +105,3 @@ export const NetworkUrlParam = {
   1: "",
   3: "ropsten",
 };
-
-export const GTM_ID = "GTM-WKSTFFB";
