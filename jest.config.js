@@ -11,6 +11,7 @@ const customJestConfig = {
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
+    "!**/lib/react-currency-input-field/**", // external package: https://github.com/cchanxzy/react-currency-input-field
     "!**/src/utils/unit-tests/**",
     "!**/_mocks/**",
     "!**/locales/**",
