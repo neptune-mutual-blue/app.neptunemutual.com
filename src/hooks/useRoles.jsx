@@ -9,7 +9,12 @@ import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 const { Contract, Provider } = multicall;
 
 export const useRoles = () => {
-  const [roles, setRoles] = useState({});
+  const [roles, setRoles] = useState({
+    isGovernanceAgent: false,
+    isGovernanceAdmin: false,
+    isLiquidityManager: false,
+    isCoverManager: false,
+  });
   const { account, library } = useWeb3React();
   const { networkId } = useNetwork();
   const { notifyError } = useErrorNotifier();

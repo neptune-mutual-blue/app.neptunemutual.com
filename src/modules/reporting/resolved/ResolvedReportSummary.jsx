@@ -16,6 +16,7 @@ import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { classNames } from "@/utils/classnames";
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -40,7 +41,7 @@ export const ResolvedReportSummary = ({
     productKey: productKey,
     incidentDate: incidentReport.incidentDate,
   });
-  const { NPMTokenSymbol } = useAppConstants();
+  const { NPMTokenSymbol, roles } = useAppConstants();
   const { refetch: refetchCoverStats } = useCoverStatsContext();
 
   const votes = {
@@ -244,8 +245,12 @@ export const ResolvedReportSummary = ({
           {!incidentReport.finalized && (
             <>
               <button
-                className="text-sm text-4e7dd9"
-                disabled={finalizing}
+                className={classNames(
+                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  (finalizing || !roles.isGovernanceAgent) &&
+                    "cursor-not-allowed opacity-50"
+                )}
+                disabled={finalizing || !roles.isGovernanceAgent}
                 onClick={() => {
                   finalize(() => {
                     refetchInfo();
@@ -260,8 +265,12 @@ export const ResolvedReportSummary = ({
               <br />
 
               <button
-                className="mt-2 text-sm font-poppins text-4e7dd9"
-                disabled={capitalizing}
+                className={classNames(
+                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  (capitalizing || !roles.isLiquidityManager) &&
+                    "cursor-not-allowed opacity-50"
+                )}
+                disabled={capitalizing || !roles.isLiquidityManager}
                 onClick={() => {
                   capitalize(() => {
                     setTimeout(refetchReport, 10000);
