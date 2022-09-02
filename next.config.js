@@ -4,7 +4,7 @@ const http = require("./http");
 module.exports = () => {
   return {
     env: {
-      GTM_ID: "my-value",
+      GTM_ID: "GTM-WKSTFFB",
     },
     reactStrictMode: true,
     experimental: {
