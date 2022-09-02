@@ -6,6 +6,14 @@ import {
 } from "@/src/services/transactions/transaction-history";
 import { act, waitFor } from "@testing-library/react";
 
+jest.mock("@/src/config/environment", () => {
+  return {
+    timeouts: {
+      waitForTransactionWithTimeout: 500,
+    },
+  };
+});
+
 const item = {
   hash: "11222333",
   methodName: METHODS.BOND_CREATE,
@@ -122,6 +130,7 @@ describe("Transaction History", () => {
       { ...item, hash: "20000002" },
       { ...item, hash: "20000003" },
     ];
+
     const provider = {
       getTransactionReceipt: jest.fn((hash) => {
         if (hash.startsWith("1")) {
@@ -135,8 +144,12 @@ describe("Transaction History", () => {
         return Promise.reject(hash);
       }),
       waitForTransaction: jest.fn((hash) => {
-        if (hash.startsWith("1")) {
+        if (hash.endsWith("1")) {
           return Promise.resolve(hash);
+        }
+
+        if (hash.endsWith("3")) {
+          return new Promise(() => {});
         }
 
         return Promise.reject(hash);
@@ -172,12 +185,64 @@ describe("Transaction History", () => {
       expect(provider.waitForTransaction).toHaveBeenCalledTimes(3);
     });
 
-    test("should call success 3 times", () => {
-      expect(success).toHaveBeenCalledTimes(3);
+    test("should call success 4 times", () => {
+      expect(success).toHaveBeenCalledTimes(4);
     });
 
-    test("should call failure 6 times", () => {
-      expect(failure).toHaveBeenCalledTimes(6);
+    test("should call failure 4 times", () => {
+      expect(failure).toHaveBeenCalledTimes(4);
+    });
+
+    test("should clear", () => {
+      LSHistory.clear();
+      expect(LSHistory.state).toMatchObject({
+        "test-account-123456:80001": [],
+      });
+    });
+  });
+
+  describe("LSHistoryClass should throw an error", () => {
+    test("Should throw and Invalid Shape error and use default value in state using string", () => {
+      TransactionHistory.push("invalid");
+      LSHistory.init();
+      expect(LSHistory.state).toMatchObject({});
+    });
+
+    test("Should throw and Invalid Shape error and use default value in state using invalid object", () => {
+      TransactionHistory.push({ invalid: true });
+      LSHistory.init();
+      expect(LSHistory.state).toMatchObject({});
+    });
+  });
+
+  describe("LSHistory default value test", () => {
+    test("LSHistory.get should return default value", () => {
+      const get = LSHistory.get(1);
+      expect(get).toMatchObject({
+        data: [],
+        maxPage: 1,
+      });
+    });
+
+    test("LSHistory.get without parameter pass should return default value", () => {
+      const get = LSHistory.get();
+      expect(get).toMatchObject({
+        data: [],
+        maxPage: 1,
+      });
+    });
+
+    test("LSHistory.get should return default value", () => {
+      const pending = LSHistory.getAllPending();
+      expect(pending).toMatchObject([]);
+    });
+
+    test("LSHistory.init verifyShapeIntegrity function should return default", () => {
+      localStorage.setItem("npmTransactionHistory", '{"invalid":true}');
+
+      LSHistory.init();
+      const state = LSHistory.state;
+      expect(state).toMatchObject({});
     });
   });
 });
