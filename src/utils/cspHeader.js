@@ -1,33 +1,33 @@
 import crypto from "crypto";
 
-export const connectSources = [
-  process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
-  process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
-  process.env.NEXT_PUBLIC_API_URL,
-  "https://api.thegraph.com/ipfs/",
-  "https://ipfs.infura.io:5001/",
-]
-  .map((x) => (x || "").trim())
-  .filter((x) => !!x)
-  .join(" ");
+export const connectSources =
+  [
+    process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+    process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
+    process.env.NEXT_PUBLIC_API_URL,
+    "https://api.thegraph.com/ipfs/",
+    "https://ipfs.infura.io:5001/",
+  ]
+    .map((x) => (x || "").trim())
+    .filter((x) => !!x)
+    .join(" ") || "";
+
+const devScriptSrc =
+  process.env.NODE_ENV === "development" ? `'unsafe-eval' 'unsafe-inline'` : "";
+
+const upgradeInsecureRequests =
+  process.env.NODE_ENV === "development" ? "" : "upgrade-insecure-requests";
+
+const devConnectSrc =
+  process.env.NODE_ENV === "development"
+    ? ` http://localhost:3000 ws://localhost:3000`
+    : "";
 
 export const csp = [
-  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com${
-    process.env.NODE_ENV === "development"
-      ? ` 'unsafe-eval' 'unsafe-inline'`
-      : ""
-  }`,
-  `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
-    connectSources || ""
-  }${
-    process.env.NODE_ENV === "development"
-      ? ` http://localhost:3000 ws://localhost:3000`
-      : ""
-  }`,
+  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com ${devScriptSrc}`,
+  `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${connectSources} ${devConnectSrc}`,
   "style-src 'self' 'unsafe-inline' https://tagmanager.google.com https://fonts.googleapis.com",
-  `${
-    process.env.NODE_ENV === "development" ? "" : "upgrade-insecure-requests"
-  }`,
+  `${upgradeInsecureRequests}`,
   "frame-ancestors 'none'",
   "default-src 'none'",
   "prefetch-src 'self'",
