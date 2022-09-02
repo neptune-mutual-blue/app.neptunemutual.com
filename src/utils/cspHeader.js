@@ -19,9 +19,15 @@ export const csp = [
   }`,
   `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
     connectSources || ""
+  }${
+    process.env.NODE_ENV === "development"
+      ? ` http://localhost:3000 ws://localhost:3000`
+      : ""
   }`,
   "style-src 'self' 'unsafe-inline' https://tagmanager.google.com https://fonts.googleapis.com",
-  "upgrade-insecure-requests",
+  `${
+    process.env.NODE_ENV === "development" ? "" : "upgrade-insecure-requests"
+  }`,
   "frame-ancestors 'none'",
   "default-src 'none'",
   "prefetch-src 'self'",
