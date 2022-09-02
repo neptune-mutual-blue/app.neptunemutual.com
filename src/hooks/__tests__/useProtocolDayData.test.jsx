@@ -194,7 +194,7 @@ const mockReturnData = {
 };
 
 describe("useProtocolDayData", () => {
-  const { mock, mockFunction, restore } = mockFn.consoleError();
+  const { mock, mockFunction, restore } = mockFn.console.error();
   mockFn.useWeb3React();
   mockFn.useNetwork();
   mockFn.getGraphURL();
