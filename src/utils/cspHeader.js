@@ -12,9 +12,9 @@ export const connectSources = [
   .join(" ");
 
 export const csp = [
-  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com ${
+  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com${
     process.env.NODE_ENV === "development"
-      ? `'unsafe-eval' 'unsafe-inline'`
+      ? ` 'unsafe-eval' 'unsafe-inline'`
       : ""
   }`,
   `connect-src 'self' https://*.neptunemutual.com/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com ${
