@@ -12,7 +12,7 @@ export const connectSources = [
   .join(" ");
 
 export const csp = [
-  `script-src https://tagmanager.google.com https://*.googletagmanager.com${
+  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com${
     process.env.NODE_ENV === "development"
       ? ` 'unsafe-eval' 'unsafe-inline'`
       : ""
