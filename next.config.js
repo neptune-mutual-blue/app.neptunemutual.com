@@ -3,6 +3,9 @@ const http = require("./http");
 
 module.exports = () => {
   return {
+    env: {
+      GTM_ID: "my-value",
+    },
     reactStrictMode: true,
     experimental: {
       outputStandalone: true,
