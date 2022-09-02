@@ -584,7 +584,7 @@ export const testData = {
       myStake: "500000000000000000000",
       isAccrualComplete: true,
     },
-    stakingTokenBalance: "0",
+    stakingTokenBalance: "1000000000000000000000",
     stakingTokenBalanceLoading: false,
     updateStakingTokenBalance: jest.fn(),
     refetchInfo: jest.fn(),
