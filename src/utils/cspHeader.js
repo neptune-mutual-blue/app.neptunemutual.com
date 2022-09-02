@@ -12,7 +12,7 @@ export const connectSources = [
   .join(" ");
 
 export const csp = [
-  `script-src 'self' https://tagmanager.google.com https://*.googletagmanager.com${
+  `script-src https://tagmanager.google.com https://*.googletagmanager.com${
     process.env.NODE_ENV === "development"
       ? ` 'unsafe-eval' 'unsafe-inline'`
       : ""
@@ -44,7 +44,7 @@ export const setCspHeaderWithNonce = (res, nonce) => {
 
   const cspString = csp
     .join("; ")
-    .replace(`script-src`, `script-src 'nonce-${nonce}'`);
+    .replace(`script-src`, `script-src 'strict-dynamic' 'nonce-${nonce}'`);
 
   res.setHeader(headerKey, cspString);
 };
