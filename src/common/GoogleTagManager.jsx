@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { GTM_ID } from "@/src/config/constants";
 
-function GoogleTagManager(nonce) {
+function GoogleTagManager({ nonce }) {
   return (
     <Script
       id="gtag-base"

@@ -3,15 +3,7 @@ import { PoliciesTabs } from "@/src/modules/my-policies/PoliciesTabs";
 import { PoliciesExpiredPage } from "@/src/modules/my-policies/expired/PoliciesExpiredPage";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("policy"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function MyPoliciesExpired({ disabled }) {
   if (disabled) {
@@ -33,3 +25,16 @@ export default function MyPoliciesExpired({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("policy"),
+    },
+  };
+};

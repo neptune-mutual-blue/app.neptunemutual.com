@@ -4,8 +4,7 @@ import { isFeatureEnabled } from "@/src/config/environment";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { NewIncidentReportPage } from "@/modules/reporting/new";
-
-const disabled = !isFeatureEnabled("reporting");
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function ReportingNewCoverPage() {
   const router = useRouter();
@@ -23,3 +22,16 @@ export default function ReportingNewCoverPage() {
     </CoverStatsProvider>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("reporting"),
+    },
+  };
+};

@@ -44,7 +44,7 @@ export const setCspHeaderWithNonce = (res, nonce) => {
 
   const cspString = csp
     .join("; ")
-    .replace(`script-src`, `script-src 'strict-dynamic' 'nonce-${nonce}'`);
+    .replace(`script-src`, `script-src 'nonce-${nonce}'`);
 
   res.setHeader(headerKey, cspString);
 };

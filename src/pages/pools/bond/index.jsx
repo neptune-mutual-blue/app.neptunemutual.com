@@ -3,6 +3,7 @@ import { PoolsTabs } from "@/src/modules/pools/PoolsTabs";
 import BondPage from "@/src/modules/pools/bond";
 import { ComingSoon } from "@/common/ComingSoon";
 import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
+import { isFeatureEnabled } from "@/src/config/environment";
 
 export default function Bond({ disabled }) {
   if (disabled) {
@@ -33,6 +34,7 @@ export const getServerSideProps = async ({ req: _, res }) => {
   return {
     props: {
       nonce,
+      disabled: !isFeatureEnabled("bond"),
     },
   };
 };

@@ -6,6 +6,7 @@ import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function Options() {
   const router = useRouter();
@@ -42,3 +43,15 @@ export default function Options() {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+    },
+  };
+};

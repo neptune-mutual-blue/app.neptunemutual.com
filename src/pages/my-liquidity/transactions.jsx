@@ -7,15 +7,7 @@ import { HeroTitle } from "@/common/HeroTitle";
 import { MyLiquidityTxsTable } from "@/src/modules/my-liquidity/MyLiquidityTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("liquidity"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function MyLiquidityTxs({ disabled }) {
   if (disabled) {
@@ -57,3 +49,16 @@ export default function MyLiquidityTxs({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("liquidity"),
+    },
+  };
+};

@@ -7,15 +7,7 @@ import { MyBondTxsTable } from "@/src/modules/pools/bond/MyBondTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import Head from "next/head";
 import { t, Trans } from "@lingui/macro";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("bond"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function MyBondTxs({ disabled }) {
   if (disabled) {
@@ -61,3 +53,16 @@ export default function MyBondTxs({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("bond"),
+    },
+  };
+};

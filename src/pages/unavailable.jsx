@@ -1,14 +1,7 @@
 import Head from "next/head";
 import { Container } from "@/common/Container/Container";
 import { HeaderLogo } from "@/common/HeaderLogo";
-
-export const getStaticProps = async () => {
-  return {
-    props: {
-      noWrappers: true,
-    },
-  };
-};
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function PageNotAvailable() {
   return (
@@ -55,3 +48,16 @@ export default function PageNotAvailable() {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      noWrappers: true,
+    },
+  };
+};

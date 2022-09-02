@@ -7,15 +7,7 @@ import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("policy"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function MyPoliciesTxs({ disabled }) {
   if (disabled) {
@@ -59,3 +51,16 @@ export default function MyPoliciesTxs({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("policy"),
+    },
+  };
+};

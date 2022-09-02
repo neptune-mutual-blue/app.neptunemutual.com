@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { PurchasePolicyReceipt } from "@/modules/my-policies/PurchasePolicyReceipt";
 import { useRouter } from "next/router";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function PurchasePolicyReceiptPage() {
   const router = useRouter();
@@ -21,10 +22,14 @@ export default function PurchasePolicyReceiptPage() {
   );
 }
 
-/* istanbul ignore next */
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
   return {
     props: {
+      nonce,
       noHeader: true,
     },
   };

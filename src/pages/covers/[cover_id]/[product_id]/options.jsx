@@ -8,10 +8,9 @@ import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
-const disabled = !isV2BasketCoverEnabled();
-
-export default function Options() {
+export default function Options({ disabled }) {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
 
@@ -55,3 +54,16 @@ export default function Options() {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isV2BasketCoverEnabled(),
+    },
+  };
+};

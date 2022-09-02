@@ -6,10 +6,9 @@ import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
-const disabled = !isV2BasketCoverEnabled();
-
-export default function CoverPurchaseDetails() {
+export default function CoverPurchaseDetails({ disabled }) {
   const router = useRouter();
   const { product_id, cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
@@ -35,3 +34,16 @@ export default function CoverPurchaseDetails() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isV2BasketCoverEnabled(),
+    },
+  };
+};

@@ -7,10 +7,9 @@ import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsCo
 import { useRouter } from "next/router";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
-const disabled = !isFeatureEnabled("liquidity");
-
-export default function CoverAddLiquidityDetails() {
+export default function CoverAddLiquidityDetails({ disabled }) {
   const router = useRouter();
   const { cover_id } = router.query;
   const coverKey = safeFormatBytes32String(cover_id);
@@ -38,3 +37,16 @@ export default function CoverAddLiquidityDetails() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("liquidity"),
+    },
+  };
+};

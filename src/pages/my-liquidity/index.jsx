@@ -15,15 +15,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCalculateTotalLiquidity } from "@/src/hooks/useCalculateTotalLiquidity";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("liquidity"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function MyLiquidity({ disabled }) {
   const { account } = useWeb3React();
@@ -80,3 +72,16 @@ export default function MyLiquidity({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("liquidity"),
+    },
+  };
+};

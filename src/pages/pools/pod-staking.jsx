@@ -5,15 +5,7 @@ import { PodStakingPage } from "@/src/modules/pools/pod-staking";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("pod-staking-pool"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function PodStaking({ disabled }) {
   if (disabled) {
@@ -37,3 +29,16 @@ export default function PodStaking({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("pod-staking-pool"),
+    },
+  };
+};

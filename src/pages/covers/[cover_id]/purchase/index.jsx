@@ -6,8 +6,7 @@ import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-
-const disabled = !isFeatureEnabled("policy");
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function CoverPurchaseDetails() {
   const router = useRouter();
@@ -35,3 +34,16 @@ export default function CoverPurchaseDetails() {
     </>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("policy"),
+    },
+  };
+};

@@ -5,15 +5,7 @@ import { StakingPage } from "@/src/modules/pools/staking";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("staking-pool"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function Staking({ disabled }) {
   if (disabled) {
@@ -37,3 +29,16 @@ export default function Staking({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("staking-pool"),
+    },
+  };
+};

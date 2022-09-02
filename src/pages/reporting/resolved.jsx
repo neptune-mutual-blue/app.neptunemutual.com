@@ -4,15 +4,7 @@ import { ReportingResolvedPage } from "@/src/modules/reporting/resolved/resolved
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
-
-/* istanbul ignore next */
-export function getStaticProps() {
-  return {
-    props: {
-      disabled: !isFeatureEnabled("reporting"),
-    },
-  };
-}
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
 export default function ReportingResolved({ disabled }) {
   if (disabled) {
@@ -36,3 +28,16 @@ export default function ReportingResolved({ disabled }) {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isFeatureEnabled("reporting"),
+    },
+  };
+};

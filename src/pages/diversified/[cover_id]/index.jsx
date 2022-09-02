@@ -3,10 +3,9 @@ import { HomeHero } from "@/modules/home/Hero";
 import { ProductsGrid } from "@/common/ProductsGrid/ProductsGrid";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
+import { generateNonce, setCspHeaderWithNonce } from "@/utils/cspHeader";
 
-const disabled = !isV2BasketCoverEnabled();
-
-export default function BasketsCoverpool() {
+export default function BasketsCoverpool({ disabled }) {
   if (disabled) {
     return <ComingSoon />;
   }
@@ -25,3 +24,16 @@ export default function BasketsCoverpool() {
     </main>
   );
 }
+
+export const getServerSideProps = async ({ req: _, res }) => {
+  const nonce = generateNonce();
+
+  setCspHeaderWithNonce(res, nonce);
+
+  return {
+    props: {
+      nonce,
+      disabled: !isV2BasketCoverEnabled(),
+    },
+  };
+};
