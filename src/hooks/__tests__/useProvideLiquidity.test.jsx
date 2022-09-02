@@ -3,32 +3,6 @@ import { testData } from "@/utils/unit-tests/test-data";
 import { useProvideLiquidity } from "@/src/hooks/useProvideLiquidity";
 import { convertToUnits } from "@/utils/bn";
 
-const mockData = {
-  data: {
-    npmApproving: false,
-    npmBalance: "181130000000000000000000",
-    npmBalanceLoading: false,
-    hasNPMTokenAllowance: true,
-    npmAllowanceLoading: false,
-
-    hasLqTokenAllowance: true,
-    lqApproving: false,
-    myStablecoinBalance: "177351071921",
-    lqAllowanceLoading: false,
-
-    canProvideLiquidity: false,
-    isError: false,
-    providing: false,
-    podSymbol: "BEC-nDAI",
-    podAddress: "0xA7D9B4CFe505E0Bd24Dabd19dc1b7c39Fe74389a",
-    podDecimals: "18",
-
-    handleLqTokenApprove: jest.fn(),
-    handleNPMTokenApprove: jest.fn(),
-    handleProvide: jest.fn(),
-  },
-};
-
 const mockArgs = {
   coverKey:
     "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
