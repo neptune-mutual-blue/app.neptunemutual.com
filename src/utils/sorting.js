@@ -9,6 +9,9 @@ export const SORT_TYPES = {
   APR: "APR",
   INCIDENT_DATE: "Incident Date",
   RESOLVED_DATE: "Resolved Date",
+  ALL: "All",
+  DIVERSIFIED_POOL: "Diversified Pool",
+  DEDICATED_POOL: "Dedicated Pool",
 };
 
 export const SORT_DATA_TYPES = {
