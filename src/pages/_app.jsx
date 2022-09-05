@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
 import { MainLayout } from "@/src/layouts/main/MainLayout";
+import GoogleTagManager from "@/common/GoogleTagManager";
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -34,27 +35,30 @@ function MyApp({ Component, pageProps }) {
   }
 
   return (
-    <ErrorBoundary>
-      <LanguageProvider>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <NetworkProvider>
-            <AppConstantsProvider>
-              <CoversAndProductsProvider>
-                <UnlimitedApprovalProvider>
-                  <ToastProvider variant={DEFAULT_VARIANT}>
-                    <TxPosterProvider>
-                      <MainLayout noHeader={pageProps.noHeader}>
-                        <Component {...pageProps} />
-                      </MainLayout>
-                    </TxPosterProvider>
-                  </ToastProvider>
-                </UnlimitedApprovalProvider>
-              </CoversAndProductsProvider>
-            </AppConstantsProvider>
-          </NetworkProvider>
-        </Web3ReactProvider>
-      </LanguageProvider>
-    </ErrorBoundary>
+    <>
+      <GoogleTagManager />
+      <ErrorBoundary>
+        <LanguageProvider>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <NetworkProvider>
+              <AppConstantsProvider>
+                <CoversAndProductsProvider>
+                  <UnlimitedApprovalProvider>
+                    <ToastProvider variant={DEFAULT_VARIANT}>
+                      <TxPosterProvider>
+                        <MainLayout noHeader={pageProps.noHeader}>
+                          <Component {...pageProps} />
+                        </MainLayout>
+                      </TxPosterProvider>
+                    </ToastProvider>
+                  </UnlimitedApprovalProvider>
+                </CoversAndProductsProvider>
+              </AppConstantsProvider>
+            </NetworkProvider>
+          </Web3ReactProvider>
+        </LanguageProvider>
+      </ErrorBoundary>
+    </>
   );
 }
 

@@ -1,4 +1,6 @@
+import { csp, generateGtmHash } from "@/utils/cspHeader";
 import { NextResponse } from "next/server";
+import { gtmScript } from "@/src/config/google";
 
 /** @type string */
 const regions = process.env.NEXT_PUBLIC_UNSUPPORTED_REGIONS || "";
@@ -25,4 +27,19 @@ export default function geoBlocking(req) {
   }
 
   return NextResponse.next();
+}
+
+export function middleware() {
+  const response = NextResponse.next();
+
+  const headerKey = "Content-Security-Policy";
+  const scriptHash = generateGtmHash();
+  const cspString = csp
+    .join("; ")
+    .replace(`script-src 'self'`, `script-src 'self' 'sha256-${scriptHash}'`);
+
+  console.log({ gtmScript });
+  response.headers.append(headerKey, cspString);
+
+  return response;
 }
