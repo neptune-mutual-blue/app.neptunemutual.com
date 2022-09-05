@@ -26,7 +26,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
       onAccept();
     }
   };
-  console.log(productStatus);
+
   if (productStatus && productStatus !== "Normal") {
     const cover_id = safeParseBytes32String(coverKey);
     return (
