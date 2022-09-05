@@ -8,16 +8,17 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
-import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
 import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
 import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
 import { useCovers } from "@/src/hooks/useCovers";
 import { isValidProduct } from "@/src/helpers/cover";
 import { utils } from "@neptunemutual/sdk";
+import { SelectListBar } from "@/common/SelectListBar/SelectListBar";
+import { classNames } from "@/utils/classnames";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -38,19 +39,24 @@ const sorterData = {
 };
 
 export const AvailableCovers = () => {
-  const { data: groupCovers, loading: groupCoversLoading } = useCovers();
+  const [coverView, setCoverView] = useState({ name: SORT_TYPES.ALL });
+  const { data: groupCovers, loading: groupCoversLoading } = useCovers({
+    supportsProducts:
+      coverView.name === SORT_TYPES.DIVERSIFIED_POOL ? true : false,
+  });
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts();
   const { getStatsByKey } = useSortableStats();
-
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
-  const [coverView, setCoverView] = useState("products");
+  const [toggleInputWidth, setToggleInputWidth] = useState(false);
 
   const coversLoading =
-    coverView == "products" ? flattenedCoversLoading : groupCoversLoading;
+    coverView.name === SORT_TYPES.ALL
+      ? flattenedCoversLoading
+      : groupCoversLoading;
   const availableCovers =
-    coverView == "products" ? flattenedCovers : groupCovers;
+    coverView.name === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => {
@@ -90,6 +96,14 @@ export const AvailableCovers = () => {
     setSearchValue(ev.target.value);
   };
 
+  const searchOnFocusHandler = () => {
+    setToggleInputWidth(true);
+  };
+
+  const searchOnBlurHandler = () => {
+    setToggleInputWidth(false);
+  };
+
   const handleShowMore = () => {
     setShowCount((val) => val + CARDS_PER_PAGE);
   };
@@ -104,13 +118,24 @@ export const AvailableCovers = () => {
           <SearchAndSortBar
             searchValue={searchValue}
             onSearchChange={searchHandler}
-            sortClass="w-full md:w-48 lg:w-64 rounded-lg"
+            searchOnFocus={searchOnFocusHandler}
+            searchOnBlur={searchOnBlurHandler}
+            sortClass="w-auto mb-4 md:mb-0"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
-            searchClass="w-full md:w-48 lg:w-64 rounded-lg"
+            searchClass={classNames(
+              "w-full rounded-lg",
+              toggleInputWidth && "xl:w-96"
+            )}
             sortType={sortType}
             setSortType={setSortType}
           />
-          <LayoutButtons coverView={coverView} setCoverView={setCoverView} />
+          <SelectListBar
+            sortClassContainer="w-full md:w-auto md:ml-2"
+            prefix={t`View:` + " "}
+            sortClass="w-auto"
+            sortType={coverView}
+            setSortType={setCoverView}
+          />
         </div>
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14" data-testid="body">
@@ -121,7 +146,10 @@ export const AvailableCovers = () => {
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
 
-          if (coverView == "products" && isValidProduct(c.productKey)) {
+          if (
+            coverView.name === SORT_TYPES.ALL &&
+            isValidProduct(c.productKey)
+          ) {
             return (
               <ProductCardWrapper
                 key={c.id}
@@ -136,7 +164,9 @@ export const AvailableCovers = () => {
       </Grid>
       {sortedCovers.length > showCount && (
         <NeutralButton
-          className={"rounded-lg border-0.5"}
+          className={
+            "rounded-lg border-0 bg-E6EAEF !text-black font-poppins leading-5 !p-4"
+          }
           onClick={handleShowMore}
           data-testid="show-more-button"
         >
