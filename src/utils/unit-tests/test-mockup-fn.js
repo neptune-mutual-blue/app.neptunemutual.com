@@ -74,6 +74,7 @@ import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
 import * as SubgraphData from "@/src/services/subgraph";
 import * as StakingPoolsAddressHook from "@/src/hooks/contracts/useStakingPoolsAddress";
 import * as TransactionHistoryFile from "@/src/services/transactions/transaction-history";
+import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
 
 const Web3React = require("@web3-react/core");
 
@@ -582,6 +583,15 @@ export const mockFn = {
           );
         },
       },
+      PolicyContract: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.PolicyContract.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getInstance() mock"
+            )
+          );
+        },
+      },
     },
     utils: {
       ipfs: {
@@ -735,6 +745,10 @@ export const mockFn = {
       TransactionHistoryFile.TransactionHistory.callback = originalFunction;
     },
   },
+  usePolicyAddress: (cb = () => testData.policyContractAddress) =>
+    jest
+      .spyOn(PolicyAddressHook, "usePolicyAddress")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {

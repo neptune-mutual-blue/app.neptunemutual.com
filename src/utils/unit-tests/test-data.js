@@ -1614,4 +1614,5 @@ export const testData = {
     getExpiryDateResult: "10039",
   },
   stakingPoolsAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
+  policyContractAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
 };
