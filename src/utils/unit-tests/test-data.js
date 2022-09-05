@@ -553,6 +553,12 @@ export const testData = {
     poolsTvl: "0",
     getTVLById: (_id) => "0",
     getPriceByAddress: (_address) => "0",
+    roles: {
+      isGovernanceAgent: false,
+      isGovernanceAdmin: true,
+      isLiquidityManager: false,
+      isCoverManager: false,
+    },
   },
   pagination: {
     page: 1,
