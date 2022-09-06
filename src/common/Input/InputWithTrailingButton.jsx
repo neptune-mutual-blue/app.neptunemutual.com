@@ -61,7 +61,9 @@ export const InputWithTrailingButton = ({
     value: inputValue,
     onValueChange: (val) => {
       const plainNumber = getPlainNumber(val ?? "", locale);
-      if (!plainNumber.match(/^\d+\.$/)) inputProps.onChange(plainNumber);
+      if (!plainNumber.match(/^\d+\.$/)) {
+        inputProps.onChange(plainNumber);
+      }
       setInputValue(val);
     },
   };

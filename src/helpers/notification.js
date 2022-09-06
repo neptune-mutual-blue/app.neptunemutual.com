@@ -327,38 +327,41 @@ const actionMessages = {
     };
   },
   [METHODS.LIQUIDITY_PROVIDE_APPROVE]: (status, _data) => {
-    const symbol = _data.tokenSymbol;
+    const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approve ${symbol} Successfully`,
+        title: t`Approve ${tokenSymbol} Successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not approve ${symbol} tokens`, description: "" };
+      return {
+        title: t`Could not approve ${tokenSymbol} tokens`,
+        description: "",
+      };
     }
 
-    return { title: t`Approving ${symbol}`, description: "" };
+    return { title: t`Approving ${tokenSymbol}`, description: "" };
   },
   [METHODS.LIQUIDITY_STAKE_APPROVE]: (status, _data) => {
-    const symbol = _data.tokenSymbol;
+    const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approve ${symbol} Success`,
+        title: t`Approve ${tokenSymbol} Success`,
         description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not approve ${symbol} tokens`,
+        title: t`Could not approve ${tokenSymbol} tokens`,
         description: displayValue(_data),
       };
     }
 
     return {
-      title: t`Approving ${symbol} to stake`,
+      title: t`Approving ${tokenSymbol} to stake`,
       description: displayValue(_data),
     };
   },
