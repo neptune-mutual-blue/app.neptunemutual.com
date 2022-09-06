@@ -166,11 +166,11 @@ function Content({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className="mb-24 mt-14">
-        <div data-testid="active-reportings-card-skeleton">
+      <div data-testid="active-reportings-card-skeleton">
+        <Grid className="gap-4 mt-14 lg:mb-24 mb-14 w-full">
           <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
-        </div>
-      </Grid>
+        </Grid>
+      </div>
     );
   }
 
