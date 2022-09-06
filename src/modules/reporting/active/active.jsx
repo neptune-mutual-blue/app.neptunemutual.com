@@ -11,8 +11,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { Trans, t } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
@@ -48,10 +47,9 @@ export const ReportingActivePage = () => {
   } = useActiveReportings();
 
   const [sortType, setSortType] = useState({
-    name: SORT_TYPES.INCIDENT_DATE,
+    name: t`Incident Date`,
+    value: SORT_TYPES.INCIDENT_DATE,
   });
-
-  const router = useRouter();
 
   const { getStatsByKey } = useSortableStats();
 
@@ -74,21 +72,18 @@ export const ReportingActivePage = () => {
   const activeCardInfoArray = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
-  const options = useMemo(() => {
-    return [
-      { name: SORT_TYPES.ALPHABETIC },
-      { name: SORT_TYPES.UTILIZATION_RATIO },
-      { name: SORT_TYPES.INCIDENT_DATE },
-    ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.locale]);
+  const options = [
+    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t`Utilization Ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
+  ];
 
   return (
     <Container className={"pt-16 pb-36"}>
