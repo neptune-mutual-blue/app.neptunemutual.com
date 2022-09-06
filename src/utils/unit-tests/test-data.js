@@ -1615,4 +1615,6 @@ export const testData = {
   },
   stakingPoolsAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
   policyContractAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
+  claimsProcessorAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
+  vaultAddress: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
 };

@@ -502,6 +502,11 @@ export const mockFn = {
             Promise.resolve("geInstance() mock")
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.BondPool.getAddress = jest.fn(() =>
+            Promise.resolve(testData.bondPoolAddress)
+          );
+        },
       },
       Governance: {
         getInstance: () => {
@@ -509,11 +514,28 @@ export const mockFn = {
             Promise.resolve("geInstance() mock")
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Governance.getAddress = jest.fn(() =>
+            Promise.resolve(testData.governanceAddress)
+          );
+        },
       },
       IERC20: {
         getInstance: (returnUndefined = false) => {
           NeptuneMutualSDK.registry.IERC20.getInstance = jest.fn(() =>
             returnUndefined ? undefined : "IERC20 geInstance() mock"
+          );
+        },
+      },
+      Vault: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
           );
         },
       },
@@ -550,36 +572,9 @@ export const mockFn = {
             )
           );
         },
-      },
-      PolicyContract: {
-        getAddress: (returnUndefined = false, functionUndefined = false) => {
-          const mockFunction = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "PolicyContract getAddress() mock"
-            )
-          );
-          NeptuneMutualSDK.registry.PolicyContract.getAddress =
-            functionUndefined ? undefined : mockFunction;
-        },
-      },
-      Protocol: {
-        getAddress: (returnUndefined = false, functionUndefined = false) => {
-          const mockFunction = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "Protocol getAddress() mock"
-            )
-          );
-          NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
-            ? undefined
-            : mockFunction;
-        },
-      },
-      StakingPools: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "StakingPools geInstance() mock"
-            )
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
           );
         },
       },
@@ -589,6 +584,25 @@ export const mockFn = {
             Promise.resolve(
               returnUndefined ? undefined : "PolicyContract getInstance() mock"
             )
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.PolicyContract.getAddress = jest.fn(() =>
+            Promise.resolve(testData.policyContractAddress)
+          );
+        },
+      },
+      ClaimsProcessor: {
+        getAddress: () => {
+          NeptuneMutualSDK.registry.ClaimsProcessor.getAddress = jest.fn(() =>
+            Promise.resolve(testData.claimsProcessorAddress)
+          );
+        },
+      },
+      StakingPools: {
+        getAddress: () => {
+          NeptuneMutualSDK.registry.StakingPools.getAddress = jest.fn(() =>
+            Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
           );
         },
       },
