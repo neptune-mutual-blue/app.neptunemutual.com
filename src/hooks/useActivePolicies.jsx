@@ -15,6 +15,8 @@ const getQuery = (startOfMonth, account) => {
       }
     ) {
       id
+      coverKey
+      productKey
       cxToken {
         id
         creationDate
@@ -22,8 +24,6 @@ const getQuery = (startOfMonth, account) => {
       }
       totalAmountToCover
       expiresOn
-      coverKey
-      productKey
       cover {
         id
       }

@@ -26,6 +26,7 @@ import * as PodStakingPoolsHook from "@/src/hooks/usePodStakingPools";
 import * as PoolInfoHook from "@/src/hooks/usePoolInfo";
 import * as SortableStatsHook from "@/src/context/SortableStatsContext";
 import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
+import * as ExpiredPoliciesHook from "@/src/hooks/useExpiredPolicies.jsx";
 import * as ToastHook from "@/lib/toast/context";
 import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
@@ -273,6 +274,10 @@ export const mockFn = {
   useActivePolicies: (cb = () => testData.activePolicies) =>
     jest
       .spyOn(ActivePoliciesHook, "useActivePolicies")
+      .mockImplementation(returnFunction(cb)),
+  useExpiredPolicies: (cb = () => testData.useExpiredPolicies) =>
+    jest
+      .spyOn(ExpiredPoliciesHook, "useExpiredPolicies")
       .mockImplementation(returnFunction(cb)),
 
   chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,

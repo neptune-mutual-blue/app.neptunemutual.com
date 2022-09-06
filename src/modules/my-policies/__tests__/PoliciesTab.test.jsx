@@ -8,11 +8,12 @@ import { testData } from "@/utils/unit-tests/test-data";
 
 const props = {
   active: "active",
-  children: <></>,
+  children: () => <></>,
 };
 
 const initialMocks = () => {
   mockFn.useActivePolicies();
+  mockFn.useValidReport();
 };
 
 describe("PoliciesTab test", () => {
@@ -40,7 +41,7 @@ describe("PoliciesTab test", () => {
   test("should render the herostat value", () => {
     const value = formatCurrency(
       convertFromUnits(
-        "200000000000000000000",
+        "1032000000",
         testData.appConstants.liquidityTokenDecimals
       ),
       "en"
