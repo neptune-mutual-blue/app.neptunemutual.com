@@ -12,7 +12,7 @@ const mockReturnData = {
 };
 
 describe("useTokenStakingPools", () => {
-  const { mock, restore, mockFunction } = mockFn.consoleError();
+  const { mock, restore, mockFunction } = mockFn.console.error();
 
   mockFn.utilsWeb3.getProviderOrSigner();
   mockFn.useTxPoster();
