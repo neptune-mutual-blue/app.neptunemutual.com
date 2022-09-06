@@ -2,12 +2,7 @@ import { useState } from "react";
 import { Select } from "@/common/Select";
 import { t } from "@lingui/macro";
 import SmallGridIcon from "@/icons/SmallGridIcon";
-
-const defaultOptions = [
-  { name: t`All` },
-  { name: t`Diversified Pool` },
-  { name: t`Dedicated Pool` },
-];
+import { SORT_TYPES } from "@/utils/sorting";
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -17,6 +12,11 @@ export const SelectListBar = ({
   prefix,
   options = null,
 }) => {
+  const defaultOptions = [
+    { name: t`All`, value: SORT_TYPES.ALL },
+    { name: t`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
+    { name: t`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL },
+  ];
   const selectOptions = options ?? defaultOptions;
   const [selected, setSelected] = useState(selectOptions[0]);
 

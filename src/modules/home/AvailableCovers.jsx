@@ -39,24 +39,30 @@ const sorterData = {
 };
 
 export const AvailableCovers = () => {
-  const [coverView, setCoverView] = useState({ name: SORT_TYPES.ALL });
+  const [coverView, setCoverView] = useState({
+    name: t`All`,
+    value: SORT_TYPES.ALL,
+  });
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
     supportsProducts:
-      coverView.name === SORT_TYPES.DIVERSIFIED_POOL ? true : false,
+      coverView.value === SORT_TYPES.DIVERSIFIED_POOL ? true : false,
   });
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts();
   const { getStatsByKey } = useSortableStats();
-  const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
+  const [sortType, setSortType] = useState({
+    name: t`A-Z`,
+    value: SORT_TYPES.ALL,
+  });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
   const [toggleInputWidth, setToggleInputWidth] = useState(false);
 
   const coversLoading =
-    coverView.name === SORT_TYPES.ALL
+    coverView.value === SORT_TYPES.ALL
       ? flattenedCoversLoading
       : groupCoversLoading;
   const availableCovers =
-    coverView.name === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
+    coverView.value === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => {
@@ -85,11 +91,11 @@ export const AvailableCovers = () => {
   const sortedCovers = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
   const searchHandler = (ev) => {
@@ -147,7 +153,7 @@ export const AvailableCovers = () => {
           if (idx > showCount - 1) return;
 
           if (
-            coverView.name === SORT_TYPES.ALL &&
+            coverView.value === SORT_TYPES.ALL &&
             isValidProduct(c.productKey)
           ) {
             return (
