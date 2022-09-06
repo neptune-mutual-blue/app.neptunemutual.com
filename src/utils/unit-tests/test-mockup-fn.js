@@ -71,6 +71,7 @@ import * as BondInfoHook from "@/src/hooks/useBondInfo";
 import * as BondTxsHook from "@/src/hooks/useBondTxs";
 import * as VaultInfoFile from "@/src/services/protocol/vault/info";
 import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
+import * as SubgraphData from "@/src/services/subgraph";
 
 const Web3React = require("@web3-react/core");
 
@@ -639,6 +640,11 @@ export const mockFn = {
           ? Promise.resolve("registerToken success")
           : Promise.reject("registerToken error")
       ),
+
+  getSubgraphData: (cb = () => testData.defaultSubgraphData) =>
+    jest
+      .spyOn(SubgraphData, "getSubgraphData")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {

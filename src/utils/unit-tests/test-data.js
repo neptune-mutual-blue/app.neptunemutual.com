@@ -1585,4 +1585,16 @@ export const testData = {
       },
     },
   },
+  defaultSubgraphData: {
+    cover: {
+      id: "0x7832643200000000000000000000000000000000000000000000000000000000",
+      coverKey:
+        "0x7832643200000000000000000000000000000000000000000000000000000000",
+      supportsProducts: false,
+      ipfsHash: "Qmc8ei9ixDJd34dPLUu3bF9dcKU7XP2b7rb4DPJcnJb9Sj",
+      ipfsData:
+        '{\n  "key": "0x7832643200000000000000000000000000000000000000000000000000000000", "coverName": "X2D2 Exchange Cover"\n}',
+      products: [],
+    },
+  },
 };
