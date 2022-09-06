@@ -44,8 +44,7 @@ export const AvailableCovers = () => {
     value: SORT_TYPES.ALL,
   });
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
-    supportsProducts:
-      coverView.value === SORT_TYPES.DIVERSIFIED_POOL ? true : false,
+    supportsProducts: coverView.value === SORT_TYPES.DIVERSIFIED_POOL,
   });
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts();

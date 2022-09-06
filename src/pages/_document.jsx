@@ -1,3 +1,4 @@
+import { NoScript } from "@/common/NoScript";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
@@ -86,6 +87,7 @@ class MyDocument extends Document {
           translate="no"
           className="text-black font-poppins text-para bg-f1f3f6"
         >
+          <NoScript />
           <Main />
           <NextScript />
         </body>
