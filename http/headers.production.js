@@ -1,20 +1,39 @@
+const crypto = require("crypto");
+const { gtmScript } = require("../src/config/scripts/google");
+
+/** @param {string} data */
+const generateShaHash = (data) => {
+  return crypto.createHash("sha256").update(data, "binary").digest("base64");
+};
+
+const inlineScripts = [gtmScript];
+
+const scriptHashes = inlineScripts.map(
+  (content) => `'sha256-${generateShaHash(content)}'`
+);
+
+const scriptSources = ["https://*.googletagmanager.com"]
+  .map((x) => (x || "").trim())
+  .filter((x) => !!x);
+
 const connectSources = [
   process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_API_URL,
   "https://api.thegraph.com/ipfs/",
   "https://ipfs.infura.io:5001/",
+  "https://*.googletagmanager.com",
+  "https://*.neptunemutual.com/",
 ]
   .map((x) => (x || "").trim())
-  .filter((x) => !!x)
-  .join(" ");
+  .filter((x) => !!x);
 
-module.exports = [
+const production = [
   {
     key: "Content-Security-Policy",
     values: [
-      "script-src 'self'",
-      `connect-src 'self' https://*.neptunemutual.com/ ${connectSources || ""}`,
+      `script-src 'self' ${scriptSources.join()} ${scriptHashes.join(" ")}`,
+      `connect-src 'self' ${connectSources.join(" ")}`,
       "style-src 'self' 'unsafe-inline'",
       "upgrade-insecure-requests",
       "frame-ancestors 'none'",
@@ -26,6 +45,7 @@ module.exports = [
       "object-src 'none'",
       "img-src 'self' data:",
       "font-src 'self'",
+      "frame-src 'none'",
     ],
   },
   {
@@ -94,3 +114,5 @@ module.exports = [
     values: ["600"],
   },
 ];
+
+module.exports = production;

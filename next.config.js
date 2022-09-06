@@ -2,7 +2,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 const { i18n } = require("./i18n.config");
 const http = require("./http");
 
-module.exports = (phase, { _c }) => {
+const nextConfig = (phase, { _c }) => {
   return {
     reactStrictMode: true,
     experimental: {
@@ -32,3 +32,5 @@ module.exports = (phase, { _c }) => {
     },
   };
 };
+
+module.exports = nextConfig;

@@ -17,44 +17,51 @@ import { useEffect } from "react";
 import { setupMetamaskForFirefox } from "@/utils/metamask-firefox";
 import ErrorBoundary from "@/common/ErrorBoundary";
 import { MainLayout } from "@/src/layouts/main/MainLayout";
+import { InlineScripts } from "@/common/InlineScripts";
+
+const Wrappers = ({ disabled, children, noHeader }) => {
+  if (disabled) {
+    return children;
+  }
+
+  return (
+    <Web3ReactProvider getLibrary={getLibrary}>
+      <NetworkProvider>
+        <AppConstantsProvider>
+          <CoversAndProductsProvider>
+            <UnlimitedApprovalProvider>
+              <ToastProvider variant={DEFAULT_VARIANT}>
+                <TxPosterProvider>
+                  <MainLayout noHeader={noHeader}>{children}</MainLayout>
+                </TxPosterProvider>
+              </ToastProvider>
+            </UnlimitedApprovalProvider>
+          </CoversAndProductsProvider>
+        </AppConstantsProvider>
+      </NetworkProvider>
+    </Web3ReactProvider>
+  );
+};
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     setupMetamaskForFirefox();
   }, []);
 
-  if (pageProps.noWrappers) {
-    return (
+  return (
+    <>
       <ErrorBoundary>
         <LanguageProvider>
-          <Component {...pageProps} />
+          <Wrappers
+            disabled={pageProps.noWrappers}
+            noHeader={pageProps.noHeader}
+          >
+            <Component {...pageProps} />
+          </Wrappers>
         </LanguageProvider>
       </ErrorBoundary>
-    );
-  }
-
-  return (
-    <ErrorBoundary>
-      <LanguageProvider>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <NetworkProvider>
-            <AppConstantsProvider>
-              <CoversAndProductsProvider>
-                <UnlimitedApprovalProvider>
-                  <ToastProvider variant={DEFAULT_VARIANT}>
-                    <TxPosterProvider>
-                      <MainLayout noHeader={pageProps.noHeader}>
-                        <Component {...pageProps} />
-                      </MainLayout>
-                    </TxPosterProvider>
-                  </ToastProvider>
-                </UnlimitedApprovalProvider>
-              </CoversAndProductsProvider>
-            </AppConstantsProvider>
-          </NetworkProvider>
-        </Web3ReactProvider>
-      </LanguageProvider>
-    </ErrorBoundary>
+      <InlineScripts />
+    </>
   );
 }
 
