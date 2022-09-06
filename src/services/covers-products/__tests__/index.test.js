@@ -1,78 +1,58 @@
 import { getCoverData } from "@/src/services/covers-products";
-import * as subgraphService from "@/src/services/subgraph";
+import { testData } from "@/utils/unit-tests/test-data";
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
 
 describe("Cover Products Service", () => {
+  const expectedData = {
+    id: "0x7832643200000000000000000000000000000000000000000000000000000000",
+    coverKey:
+      "0x7832643200000000000000000000000000000000000000000000000000000000",
+    supportsProducts: false,
+    ipfsHash: "Qmc8ei9ixDJd34dPLUu3bF9dcKU7XP2b7rb4DPJcnJb9Sj",
+    ipfsData:
+      '{\n  "key": "0x7832643200000000000000000000000000000000000000000000000000000000", "coverName": "X2D2 Exchange Cover"\n}',
+    infoObj: {
+      about: undefined,
+      blockchains: undefined,
+      coverName: "X2D2 Exchange Cover",
+      exclusions: undefined,
+      leverage: undefined,
+      links: undefined,
+      pricingCeiling: undefined,
+      pricingFloor: undefined,
+      projectName: undefined,
+      resolutionSources: undefined,
+      rules: undefined,
+      tags: undefined,
+    },
+    products: [],
+  };
+
   describe("getCoverData", () => {
     test("get address", async () => {
-      jest
-        .spyOn(subgraphService, "getSubgraphData")
-        .mockImplementation(async () => ({
-          cover: {
-            id: "0x7832643200000000000000000000000000000000000000000000000000000000",
-            coverKey:
-              "0x7832643200000000000000000000000000000000000000000000000000000000",
-            supportsProducts: false,
-            ipfsHash: "Qmc8ei9ixDJd34dPLUu3bF9dcKU7XP2b7rb4DPJcnJb9Sj",
-            ipfsData:
-              '{\n  "key": "0x7832643200000000000000000000000000000000000000000000000000000000", "coverName": "X2D2 Exchange Cover"\n}',
-            products: [],
-          },
-        }));
+      mockFn.getSubgraphData();
 
-      const expected = {
-        id: "0x7832643200000000000000000000000000000000000000000000000000000000",
-        coverKey:
-          "0x7832643200000000000000000000000000000000000000000000000000000000",
-        supportsProducts: false,
-        ipfsHash: "Qmc8ei9ixDJd34dPLUu3bF9dcKU7XP2b7rb4DPJcnJb9Sj",
-        ipfsData:
-          '{\n  "key": "0x7832643200000000000000000000000000000000000000000000000000000000", "coverName": "X2D2 Exchange Cover"\n}',
-        infoObj: {
-          about: undefined,
-          blockchains: undefined,
-          coverName: "X2D2 Exchange Cover",
-          exclusions: undefined,
-          leverage: undefined,
-          links: undefined,
-          pricingCeiling: undefined,
-          pricingFloor: undefined,
-          projectName: undefined,
-          resolutionSources: undefined,
-          rules: undefined,
-          tags: undefined,
-        },
-        products: [],
-      };
+      const result = await getCoverData(testData.network.networkId);
 
-      const result = await getCoverData(
-        process.env.NEXT_PUBLIC_FALLBACK_NETWORK
-      );
-
-      expect(result).toStrictEqual(expected);
+      expect(result).toStrictEqual(expectedData);
     });
 
     test("returns null when subgraph returns no data", async () => {
-      jest
-        .spyOn(subgraphService, "getSubgraphData")
-        .mockImplementation(async () => null);
+      mockFn.getSubgraphData(() => null);
 
-      const result = await getCoverData(
-        process.env.NEXT_PUBLIC_FALLBACK_NETWORK
-      );
+      const result = await getCoverData(testData.network.networkId);
 
       expect(result).toStrictEqual(null);
     });
 
     test("reverts when getSubgraphData rejects", async () => {
-      jest
-        .spyOn(subgraphService, "getSubgraphData")
-        .mockImplementation(async () => {
-          throw new Error("foobar");
-        });
+      mockFn.getSubgraphData(async () => {
+        throw new Error("foobar");
+      });
 
-      expect(
-        getCoverData(process.env.NEXT_PUBLIC_FALLBACK_NETWORK)
-      ).rejects.toThrow("foobar");
+      expect(getCoverData(testData.network.networkId)).rejects.toThrow(
+        "foobar"
+      );
     });
   });
 });
