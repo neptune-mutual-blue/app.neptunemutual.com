@@ -6,8 +6,6 @@ import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
 import { useNetwork } from "@/src/context/Network";
 import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
 
-const { Contract, Provider } = multicall;
-
 export const useRoles = () => {
   const [roles, setRoles] = useState({
     isGovernanceAgent: false,
@@ -37,6 +35,8 @@ export const useRoles = () => {
           networkId,
           signerOrProvider
         );
+
+        const { Contract, Provider } = multicall;
 
         const multiCallProvider = new Provider(signerOrProvider.provider);
 
