@@ -20,7 +20,7 @@ describe("Popup Component", () => {
   const onLogout = jest.fn(() => {});
   const onClose = jest.fn(() => {});
   const notifier = jest.fn(() => {});
-  const { initialRender, rerenderFn } = initiateTest(Popup, {
+  const { initialRender } = initiateTest(Popup, {
     isOpen: true,
     onClose: onClose,
     networkId: testData.network.networkId,
