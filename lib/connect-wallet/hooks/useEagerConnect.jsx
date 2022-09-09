@@ -22,7 +22,6 @@ export const useEagerConnect = (networkId, notifier) => {
 
   useEffect(() => {
     const connectorName = window.localStorage.getItem(ACTIVE_CONNECTOR_KEY);
-
     if (!connectorName) {
       console.info("Unable to find connector from local storage");
       return;
