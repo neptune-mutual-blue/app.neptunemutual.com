@@ -72,6 +72,8 @@ import * as BondTxsHook from "@/src/hooks/useBondTxs";
 import * as VaultInfoFile from "@/src/services/protocol/vault/info";
 import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
 import * as SubgraphData from "@/src/services/subgraph";
+import * as StakingPoolsAddressHook from "@/src/hooks/contracts/useStakingPoolsAddress";
+import * as TransactionHistoryFile from "@/src/services/transactions/transaction-history";
 
 const Web3React = require("@web3-react/core");
 
@@ -185,11 +187,13 @@ export const mockFn = {
       .spyOn(ConfigEnvironmentFile, "getNetworkId")
       .mockImplementation(returnFunction(cb)),
 
-  getGraphURL: (networkId = 80001) =>
+  getGraphURL: (networkId = 80001, sendNull = false) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getGraphURL")
-      .mockImplementation(
-        () => `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
+      .mockImplementation(() =>
+        sendNull
+          ? null
+          : `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
       ),
 
   useWeb3React: (cb = () => testData.account) =>
@@ -512,13 +516,6 @@ export const mockFn = {
           );
         },
       },
-      Vault: {
-        getInstance: () => {
-          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
-            Promise.resolve("geInstance() mock")
-          );
-        },
-      },
       Reassurance: {
         getInstance: () => {
           NeptuneMutualSDK.registry.Reassurance.getInstance = jest.fn(() =>
@@ -553,6 +550,38 @@ export const mockFn = {
           );
         },
       },
+      PolicyContract: {
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getAddress() mock"
+            )
+          );
+          NeptuneMutualSDK.registry.PolicyContract.getAddress =
+            functionUndefined ? undefined : mockFunction;
+        },
+      },
+      Protocol: {
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Protocol getAddress() mock"
+            )
+          );
+          NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
+            ? undefined
+            : mockFunction;
+        },
+      },
+      StakingPools: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "StakingPools geInstance() mock"
+            )
+          );
+        },
+      },
     },
     utils: {
       ipfs: {
@@ -569,6 +598,42 @@ export const mockFn = {
           Promise.resolve(testData.governanceReportResult)
         );
       },
+    },
+    multicall: (returnData) => {
+      const data = {
+        getCoverFeeInfo:
+          returnData?.getCoverFeeInfo ?? jest.fn(() => "getCoverFeeInfo mock"),
+        getExpiryDate:
+          returnData?.getExpiryDate ?? jest.fn(() => "getexpirydate mock"),
+        hasRole: returnData?.hasRole ?? jest.fn((...args) => args),
+        calculateLiquidity:
+          returnData?.calculateLiquidity ?? jest.fn((...args) => args),
+        init: returnData?.init ?? jest.fn(() => Promise.resolve("init")),
+        all:
+          returnData?.all ??
+          jest.fn(() => {
+            const { getCoverFeeInfoResult, getExpiryDateResult } =
+              testData.multicallProvider;
+            return Promise.resolve([
+              getCoverFeeInfoResult,
+              getExpiryDateResult,
+            ]);
+          }),
+      };
+
+      class MockContract {
+        getCoverFeeInfo = data.getCoverFeeInfo;
+        getExpiryDate = data.getExpiryDate;
+        hasRole = data.hasRole;
+        calculateLiquidity = data.calculateLiquidity;
+      }
+      class MockProvider {
+        init = data.init;
+        all = data.all;
+      }
+
+      NeptuneMutualSDK.multicall.Contract = MockContract;
+      NeptuneMutualSDK.multicall.Provider = MockProvider;
     },
   },
 
@@ -645,6 +710,31 @@ export const mockFn = {
     jest
       .spyOn(SubgraphData, "getSubgraphData")
       .mockImplementation(returnFunction(cb)),
+
+  useStakingPoolsAddress: (cb = () => testData.stakingPoolsAddress) =>
+    jest
+      .spyOn(StakingPoolsAddressHook, "useStakingPoolsAddress")
+      .mockImplementation(returnFunction(cb)),
+
+  TransactionHistory: {
+    callback: (mockCallbackFunction = true) => {
+      const originalFunction =
+        TransactionHistoryFile.TransactionHistory.callback;
+
+      if (mockCallbackFunction) {
+        const mockFunction = jest.fn(
+          (provider, { success = () => {}, failure = () => {} }) => {
+            const arg = { hash: 1, methodName: "success", data: {} };
+            success(arg);
+            failure(arg);
+          }
+        );
+        TransactionHistoryFile.TransactionHistory.callback = mockFunction;
+        return null;
+      }
+      TransactionHistoryFile.TransactionHistory.callback = originalFunction;
+    },
+  },
 };
 
 export const globalFn = {

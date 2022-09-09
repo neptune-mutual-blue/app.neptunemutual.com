@@ -486,7 +486,10 @@ export const testData = {
     hasMore: false,
   },
   network: { networkId: 80001 },
-  account: { account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9" },
+  account: {
+    account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+    library: null,
+  },
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
@@ -1332,7 +1335,9 @@ export const testData = {
     value: "100",
   },
   providerOrSigner: {
-    provider: {},
+    provider: {
+      getTransactionReceipt: jest.fn(() => Promise.resolve({})),
+    },
     _address: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
     _index: null,
     _isSigner: true,
@@ -1597,4 +1602,16 @@ export const testData = {
       products: [],
     },
   },
+  multicallProvider: {
+    getCoverFeeInfoResult: {
+      ceiling: "10000500",
+      fee: "10000500",
+      floor: "10000500",
+      rate: "10000500",
+      totalAvailableLiquidity: "10000500",
+      utilizationRatio: "10000500",
+    },
+    getExpiryDateResult: "10039",
+  },
+  stakingPoolsAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
 };

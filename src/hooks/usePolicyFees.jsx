@@ -11,9 +11,7 @@ import { t } from "@lingui/macro";
 import DateLib from "@/lib/date/DateLib";
 import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
 
-const { Contract, Provider } = multicall;
-
-const defaultInfo = {
+export const defaultInfo = {
   fee: "0",
   utilizationRatio: "0",
   totalAvailableLiquidity: "0",
@@ -70,6 +68,8 @@ export const usePolicyFees = ({
           networkId,
           signerOrProvider
         );
+
+        const { Contract, Provider } = multicall;
 
         const multiCallProvider = new Provider(signerOrProvider.provider);
 
