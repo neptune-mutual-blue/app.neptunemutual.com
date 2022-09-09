@@ -18,7 +18,6 @@ import { useCovers } from "@/src/hooks/useCovers";
 import { isValidProduct } from "@/src/helpers/cover";
 import { utils } from "@neptunemutual/sdk";
 import { SelectListBar } from "@/common/SelectListBar/SelectListBar";
-import { classNames } from "@/utils/classnames";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
