@@ -8,12 +8,11 @@ import { SORT_TYPES } from "@/utils/sorting";
 
 export const SearchAndSortBar = ({
   containerClass = "min-w-sm",
-  searchClass = "w-64",
+  searchClass = "",
   sortClass = "",
+  inputClass,
   searchValue,
   onSearchChange,
-  searchOnFocus,
-  searchOnBlur,
   sortType,
   setSortType,
   searchAndSortOptions = null,
@@ -34,23 +33,23 @@ export const SearchAndSortBar = ({
       <div
         role="search"
         className={classNames(
-          "flex items-center mr-0 mb-4 md:mb-0 md:mr-2",
+          "flex items-center mr-0 mb-4 md:mb-0 md:mr-2 relative",
           searchClass
         )}
       >
         <input
-          className={
-            "w-full -mr-11 pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-1 focus-visible:ring-4e7dd9"
+          className={classNames(
+            "md:w-64 w-full pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-1 focus-visible:ring-4e7dd9",
+            inputClass
+          )
           }
           placeholder={t`Search`}
           value={searchValue}
           onChange={onSearchChange}
-          onFocus={searchOnFocus}
-          onBlur={searchOnBlur}
           data-testid="search-input"
         />
 
-        <div className="flex items-center justify-center text-9B9B9B">
+        <div className="absolute right-3.5 flex items-center justify-center text-9B9B9B">
           <SearchIcon width={24} height={24} data-testid="search-icon" />
         </div>
       </div>

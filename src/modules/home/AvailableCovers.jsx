@@ -54,7 +54,6 @@ export const AvailableCovers = () => {
     value: SORT_TYPES.ALL,
   });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
-  const [toggleInputWidth, setToggleInputWidth] = useState(false);
 
   const coversLoading =
     coverView.value === SORT_TYPES.ALL
@@ -101,36 +100,23 @@ export const AvailableCovers = () => {
     setSearchValue(ev.target.value);
   };
 
-  const searchOnFocusHandler = () => {
-    setToggleInputWidth(true);
-  };
-
-  const searchOnBlurHandler = () => {
-    setToggleInputWidth(false);
-  };
-
   const handleShowMore = () => {
     setShowCount((val) => val + CARDS_PER_PAGE);
   };
 
   return (
     <Container className="py-16" data-testid="available-covers-container">
-      <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
-        <h1 className="font-bold text-h3 lg:text-h2 font-sora">
+      <div className="flex flex-wrap items-center justify-between">
+        <h1 className="mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora">
           <Trans>Cover Products</Trans>
         </h1>
-        <div className="flex flex-wrap items-center justify-center w-full sm:flex-nowrap sm:w-auto">
+        <div className="flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto">
           <SearchAndSortBar
             searchValue={searchValue}
             onSearchChange={searchHandler}
-            searchOnFocus={searchOnFocusHandler}
-            searchOnBlur={searchOnBlurHandler}
             sortClass="w-auto mb-4 md:mb-0"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
-            searchClass={classNames(
-              "w-full rounded-lg",
-              toggleInputWidth && "xl:w-96"
-            )}
+            inputClass="focus:md:w-96"
             sortType={sortType}
             setSortType={setSortType}
           />
