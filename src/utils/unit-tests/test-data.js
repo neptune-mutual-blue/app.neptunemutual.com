@@ -629,7 +629,6 @@ export const testData = {
     isReady: true,
     isPreview: false,
     isLocaleDomain: false,
-    events: {},
     replace: jest.fn(),
   },
   coverActiveReportings: {

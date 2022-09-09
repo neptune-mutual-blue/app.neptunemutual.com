@@ -24,8 +24,11 @@ export const PageLoader = () => {
   }
 
   return (
-    <div className="w-full w-full bg-gray-200 fixed top-0 z-50">
-      <div className="w-full h-2 shim-progress"></div>
+    <div className="w-full bg-gray-200 fixed top-0 z-50">
+      <div
+        data-testid="progress-bar"
+        className="w-full h-2 shim-progress"
+      ></div>
     </div>
   );
 };
