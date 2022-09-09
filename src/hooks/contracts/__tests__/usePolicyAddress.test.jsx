@@ -1,5 +1,4 @@
 import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
-import { testData } from "@/utils/unit-tests/test-data";
 import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
 
 describe("useClaimsProcessorAddress", () => {
@@ -21,6 +20,6 @@ describe("useClaimsProcessorAddress", () => {
 
     const { result } = await renderHookWrapper(usePolicyAddress, [], true);
 
-    expect(result).toBe(testData.policyContractAddress);
+    expect(result).toBe("PolicyContract getAddress() mock");
   });
 });

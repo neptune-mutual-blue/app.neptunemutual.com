@@ -586,10 +586,14 @@ export const mockFn = {
             )
           );
         },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.PolicyContract.getAddress = jest.fn(() =>
-            Promise.resolve(testData.policyContractAddress)
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getAddress() mock"
+            )
           );
+          NeptuneMutualSDK.registry.PolicyContract.getAddress =
+            functionUndefined ? undefined : mockFunction;
         },
       },
       ClaimsProcessor: {
@@ -600,10 +604,29 @@ export const mockFn = {
         },
       },
       StakingPools: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "StakingPools getInstance() mock"
+            )
+          );
+        },
         getAddress: () => {
           NeptuneMutualSDK.registry.StakingPools.getAddress = jest.fn(() =>
             Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
           );
+        },
+      },
+      Protocol: {
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Protocol getAddress() mock"
+            )
+          );
+          NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
+            ? undefined
+            : mockFunction;
         },
       },
     },
