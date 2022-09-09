@@ -151,8 +151,11 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   };
 
   return (
-    <div data-testid="withdraw-liquidity-form">
-      <div className="overflow-y-auto max-h-[50vh] px-8 sm:px-12">
+    <>
+      <div
+        className="overflow-y-auto max-h-[50vh] px-8 sm:px-12"
+        data-testid="withdraw-liquidity-form-inputs"
+      >
         <div className="flex flex-col mt-6">
           <TokenAmountInput
             labelText={t`Enter Npm Amount`}
@@ -269,7 +272,10 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         </div>
       </div>
 
-      <div className="px-8 mt-4 sm:px-12">
+      <div
+        className="px-8 mt-4 sm:px-12"
+        data-testid="withdraw-liquidity-form-buttons"
+      >
         {!isAccrualComplete && <p className="text-FA5C2F">Wait for accrual</p>}
         <DataLoadingIndicator message={loadingMessage} />
         {!canWithdraw ? (
@@ -315,6 +321,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
           </RegularButton>
         )}
       </div>
-    </div>
+    </>
   );
 };

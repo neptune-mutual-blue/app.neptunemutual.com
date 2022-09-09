@@ -115,45 +115,42 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
     return (
       <>
-        <div data-testid="active-page-grid">
-          <Grid className="mb-24 mt-14">
-            {data.map((report) => {
-              const isDiversified = isValidProduct(report.productKey);
+        <Grid className="mb-24 mt-14" data-testid="active-page-grid">
+          {data.map((report) => {
+            const isDiversified = isValidProduct(report.productKey);
 
-              const cover_id = safeParseBytes32String(report.coverKey);
-              const product_id = safeParseBytes32String(report.productKey);
+            const cover_id = safeParseBytes32String(report.coverKey);
+            const product_id = safeParseBytes32String(report.productKey);
 
-              return (
-                <Link
-                  href={
-                    isDiversified
-                      ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
-                      : `/reporting/${cover_id}/${report.incidentDate}/details`
-                  }
-                  key={report.id}
-                >
-                  <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                    <ActiveReportingCard
-                      id={report.id}
-                      coverKey={report.coverKey}
-                      productKey={report.productKey}
-                      incidentDate={report.incidentDate}
-                    />
-                  </a>
-                </Link>
-              );
-            })}
-          </Grid>
-        </div>
+            return (
+              <Link
+                href={
+                  isDiversified
+                    ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
+                    : `/reporting/${cover_id}/${report.incidentDate}/details`
+                }
+                key={report.id}
+              >
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                  <ActiveReportingCard
+                    id={report.id}
+                    coverKey={report.coverKey}
+                    productKey={report.productKey}
+                    incidentDate={report.incidentDate}
+                  />
+                </a>
+              </Link>
+            );
+          })}
+        </Grid>
         {!loading && hasMore && (
-          <div data-testid="has-more-button">
-            <NeutralButton
-              className={"rounded-lg border-0.5"}
-              onClick={handleShowMore}
-            >
-              <Trans>Show More</Trans>
-            </NeutralButton>
-          </div>
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+            data-testid="has-more-button"
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
         )}
       </>
     );
