@@ -1612,6 +1612,55 @@ export const testData = {
     },
     getExpiryDateResult: "10039",
   },
+  activePoliciesByCover: {
+    activePolicies: [
+      {
+        id: "0xc90a988f06eacff696302240bd243f0fe6e842e5-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399",
+        coverKey:
+          "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+        productKey:
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+        cxToken: {
+          id: "0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2",
+          creationDate: "1658819063",
+          expiryDate: "1664582399",
+          tokenSymbol: "cxUSD",
+          tokenDecimals: 18,
+        },
+        totalAmountToCover: "2000000000",
+        expiresOn: "1664582399",
+        cover: {
+          id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+        },
+      },
+      {
+        id: "0xc90a988f06eacff696302240bd243f0fe6e842e5-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399",
+        coverKey:
+          "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+        productKey:
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+        cxToken: {
+          id: "0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2",
+          creationDate: "1658819063",
+          expiryDate: "1664582399",
+          tokenSymbol: "cxUSD",
+          tokenDecimals: 18,
+        },
+        totalAmountToCover: "2000000000",
+        expiresOn: "1664582399",
+        cover: {
+          id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+        },
+      },
+    ],
+    totalActiveProtection: "8000000000",
+  },
+  reports: [
+    {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1662551282",
+      claimExpiresAt: "1662689743",
+    },
+  ],
   stakingPoolsAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
   policyContractAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
   claimsProcessorAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
