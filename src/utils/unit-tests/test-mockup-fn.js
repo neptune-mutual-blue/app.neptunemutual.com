@@ -74,6 +74,7 @@ import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
 import * as SubgraphData from "@/src/services/subgraph";
 import * as StakingPoolsAddressHook from "@/src/hooks/contracts/useStakingPoolsAddress";
 import * as TransactionHistoryFile from "@/src/services/transactions/transaction-history";
+import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
 
 const Web3React = require("@web3-react/core");
 
@@ -501,6 +502,11 @@ export const mockFn = {
             Promise.resolve("geInstance() mock")
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.BondPool.getAddress = jest.fn(() =>
+            Promise.resolve(testData.bondPoolAddress)
+          );
+        },
       },
       Governance: {
         getInstance: () => {
@@ -508,11 +514,28 @@ export const mockFn = {
             Promise.resolve("geInstance() mock")
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Governance.getAddress = jest.fn(() =>
+            Promise.resolve(testData.governanceAddress)
+          );
+        },
       },
       IERC20: {
         getInstance: (returnUndefined = false) => {
           NeptuneMutualSDK.registry.IERC20.getInstance = jest.fn(() =>
             returnUndefined ? undefined : "IERC20 geInstance() mock"
+          );
+        },
+      },
+      Vault: {
+        getInstance: () => {
+          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
+            Promise.resolve("geInstance() mock")
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
           );
         },
       },
@@ -549,8 +572,20 @@ export const mockFn = {
             )
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
+          );
+        },
       },
       PolicyContract: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.PolicyContract.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getInstance() mock"
+            )
+          );
+        },
         getAddress: (returnUndefined = false, functionUndefined = false) => {
           const mockFunction = jest.fn(() =>
             Promise.resolve(
@@ -559,6 +594,27 @@ export const mockFn = {
           );
           NeptuneMutualSDK.registry.PolicyContract.getAddress =
             functionUndefined ? undefined : mockFunction;
+        },
+      },
+      ClaimsProcessor: {
+        getAddress: () => {
+          NeptuneMutualSDK.registry.ClaimsProcessor.getAddress = jest.fn(() =>
+            Promise.resolve(testData.claimsProcessorAddress)
+          );
+        },
+      },
+      StakingPools: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "StakingPools getInstance() mock"
+            )
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.StakingPools.getAddress = jest.fn(() =>
+            Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
+          );
         },
       },
       Protocol: {
@@ -571,15 +627,6 @@ export const mockFn = {
           NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
             ? undefined
             : mockFunction;
-        },
-      },
-      StakingPools: {
-        getInstance: (returnUndefined = false) => {
-          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
-            Promise.resolve(
-              returnUndefined ? undefined : "StakingPools geInstance() mock"
-            )
-          );
         },
       },
     },
@@ -735,6 +782,10 @@ export const mockFn = {
       TransactionHistoryFile.TransactionHistory.callback = originalFunction;
     },
   },
+  usePolicyAddress: (cb = () => testData.policyContractAddress) =>
+    jest
+      .spyOn(PolicyAddressHook, "usePolicyAddress")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {

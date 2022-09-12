@@ -22,7 +22,17 @@ describe("useCovers", () => {
   });
 
   test("should return correct value as returned from the api", async () => {
-    const mockData = { data: { covers: [{ id: 1 }] } };
+    const mockData = {
+      data: {
+        covers: [
+          {
+            id: "0x6465666900000000000000000000000000000000000000000000000000000000",
+            coverKey:
+              "0x6465666900000000000000000000000000000000000000000000000000000000",
+          },
+        ],
+      },
+    };
     mockFn.fetch(true, undefined, mockData);
 
     const { result } = await renderHookWrapper(useCovers, args, true);
