@@ -735,8 +735,69 @@ export const testData = {
   },
   activePolicies: {
     data: {
-      activePolicies: [],
-      totalActiveProtection: "200000000000000000000",
+      activePolicies: [
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399",
+          coverKey:
+            "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc",
+            creationDate: "1659576476",
+            expiryDate: "1664582399",
+          },
+          totalAmountToCover: "32000000",
+          expiresOn: "1664582399",
+          cover: {
+            id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          },
+          product: null,
+        },
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399",
+          coverKey:
+            "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2",
+            creationDate: "1658819063",
+            expiryDate: "1664582399",
+          },
+          totalAmountToCover: "1000000000",
+          expiresOn: "1664582399",
+          cover: {
+            id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          },
+          product: null,
+        },
+      ],
+      totalActiveProtection: "1032000000",
+    },
+    loading: false,
+  },
+  useExpiredPolicies: {
+    data: {
+      expiredPolicies: [
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399",
+          coverKey:
+            "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0x2a405d704a54a1d4da200cb25a5a097c34629519",
+            creationDate: "1659576567",
+            expiryDate: "1661990399",
+          },
+          totalAmountToCover: "43000000",
+          expiresOn: "1661990399",
+          cover: {
+            id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          },
+        },
+      ],
     },
     loading: false,
   },
