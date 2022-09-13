@@ -6,18 +6,16 @@ export const ReportingInfo = ({ ipfsBytes }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    let ignore = false;
-    utils.ipfs
-      .readBytes32(ipfsBytes)
-      .then((x) => {
-        if (ignore) return;
-        setData(x);
-      })
-      .catch(console.error);
-
-    return () => {
-      ignore = true;
+    const fetchIpfsData = async () => {
+      try {
+        const ipfsData = await utils.ipfs.readBytes32(ipfsBytes);
+        setData(ipfsData);
+      } catch (error) {
+        console.log(error);
+      }
     };
+
+    fetchIpfsData();
   }, [ipfsBytes]);
 
   return (
@@ -25,7 +23,10 @@ export const ReportingInfo = ({ ipfsBytes }) => {
       <summary>
         <Trans>Reporting Info</Trans>
       </summary>
-      <pre className="p-4 overflow-x-auto bg-white rounded-md">
+      <pre
+        className="p-4 overflow-x-auto bg-white rounded-md"
+        data-testid="reporter-info-ipfs-data"
+      >
         {JSON.stringify(data, null, 2)}
       </pre>
     </details>

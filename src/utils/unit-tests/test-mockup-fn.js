@@ -637,6 +637,11 @@ export const mockFn = {
             Promise.resolve(returnUndefined ? undefined : [payload.toString()])
           );
         },
+        readBytes32: (ipfsBytes) => {
+          NeptuneMutualSDK.utils.ipfs.readBytes32 = jest.fn(() =>
+            Promise.resolve(ipfsBytes)
+          );
+        },
       },
     },
     governance: {
