@@ -489,6 +489,7 @@ export const testData = {
   account: {
     account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
     library: null,
+    active: true,
   },
   heroStats: {
     availableCovers: 0,

@@ -173,3 +173,8 @@ global.ethereum = {
 };
 
 global.scrollTo = jest.fn(() => {});
+
+export const delay = (ms = 1000) =>
+  new Promise((resolve) => {
+    setTimeout(() => resolve(), ms);
+  });
