@@ -7,6 +7,7 @@ import {
 import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 import { getActionMessage } from "@/src/helpers/notification";
 import { screen, fireEvent } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 
 const mockItem = {
   hash: "11222331",
@@ -118,7 +119,7 @@ describe("Transaction List", () => {
     });
   });
 
-  describe("with 3 Data", () => {
+  describe("with 1 Data", () => {
     beforeEach(() => {
       addItems(1);
       initialRender();
@@ -149,6 +150,13 @@ describe("Transaction List", () => {
 
       const gt = screen.getByText(/View Tx/i);
       expect(gt).toBeInTheDocument();
+
+      act(() => {
+        TransactionHistory.push({ ...mockItem, status: STATUS.SUCCESS });
+      });
+
+      const updatedFirstItem = screen.getByText(/Created bond successfully/i);
+      expect(updatedFirstItem).toBeInTheDocument();
     });
   });
 
