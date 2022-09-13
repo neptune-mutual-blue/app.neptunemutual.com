@@ -1,11 +1,21 @@
 import { initiateTest } from "@/utils/unit-tests/test-mockup-fn";
 import { screen } from "@testing-library/react";
 import MyPoliciesActive from "@/src/pages/my-policies/active";
+import { testData } from "@/utils/unit-tests/test-data";
 
+const mockActivitiesData = testData.activePolicies;
 jest.mock("@/src/modules/my-policies/PoliciesTabs", () => {
   return {
     PoliciesTabs: ({ children }) => {
-      return <div data-testid="policies-tabs">{children}</div>;
+      const {
+        data: { activePolicies },
+        loading,
+      } = mockActivitiesData;
+      return (
+        <div data-testid="policies-tabs">
+          {children({ data: activePolicies, loading })}
+        </div>
+      );
     },
   };
 });

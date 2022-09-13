@@ -40,8 +40,8 @@ describe("Active Reporting Card Loading", () => {
   });
 
   test("should render the card skeleton while no cover or product info is fetched", () => {
-    const cardSkeleton = screen.getByTestId("active-report-card-skeleton");
-    expect(cardSkeleton).toBeInTheDocument();
+    const cardSkeletons = screen.getAllByTestId("skeleton-card");
+    expect(cardSkeletons.length).toBeGreaterThan(0);
   });
 });
 

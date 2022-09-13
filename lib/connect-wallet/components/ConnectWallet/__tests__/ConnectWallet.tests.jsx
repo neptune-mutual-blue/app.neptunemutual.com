@@ -8,11 +8,29 @@ import { Option } from "./../Option";
 import { Popup } from "./../Popup";
 import { WalletList } from "./../WalletList";
 import { testData } from "@/utils/unit-tests/test-data";
-import { wallets } from "@/lib/connect-wallet/config/wallets.js";
+import * as configWallets from "../../../config/wallets";
 
 describe("ConnectWallet component", () => {
   const onLogin = jest.fn(() => {});
   const onLogout = jest.fn(() => {});
+  const { initialRender, rerenderFn } = initiateTest(() => (
+    <ConnectWallet
+      networkId={testData.network.networkId}
+      notifier={jest.fn(() => {})}
+    >
+      {({ onOpen, logout }) => (
+        <div>
+          <button onClick={onOpen} data-testid="onOpen">
+            on open
+          </button>
+          <button onClick={logout} data-testid="logout">
+            logout
+          </button>
+        </div>
+      )}
+    </ConnectWallet>
+  ));
+
   beforeEach(() => {
     i18n.activate("en");
     mockFn.useAuth(() => ({
@@ -20,23 +38,7 @@ describe("ConnectWallet component", () => {
       logout: onLogout,
     }));
 
-    const { initialRender } = initiateTest(() => (
-      <ConnectWallet
-        networkId={testData.network.networkId}
-        notifier={jest.fn(() => {})}
-      >
-        {({ onOpen, logout }) => (
-          <div>
-            <button onClick={onOpen} data-testid="onOpen">
-              on open
-            </button>
-            <button onClick={logout} data-testid="logout">
-              logout
-            </button>
-          </div>
-        )}
-      </ConnectWallet>
-    ));
+    mockFn.useWeb3React();
 
     initialRender();
   });
@@ -64,6 +66,10 @@ describe("ConnectWallet component", () => {
   });
 
   test("Should show Modal", () => {
+    mockFn.useWeb3React(() => ({ ...testData.account, active: false }));
+
+    rerenderFn();
+
     const onOpenButton = screen.getByTestId("onOpen");
 
     expect(onOpenButton).toBeInTheDocument();
@@ -79,6 +85,29 @@ describe("ConnectWallet component", () => {
     expect(screen.getByText(/Protocol Disclaimer/i)).toBeInTheDocument();
     expect(screen.getByText(/MetaMask/i)).toBeInTheDocument();
     expect(screen.getByText(/Install Binance Wallet/i)).toBeInTheDocument();
+  });
+
+  test("Should logout", () => {
+    mockFn.useWeb3React();
+
+    rerenderFn();
+    const onOpenButton = screen.getByTestId("onOpen");
+
+    expect(onOpenButton).toBeInTheDocument();
+
+    fireEvent.click(onOpenButton);
+
+    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Terms & Conditions/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Protocol Disclaimer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/MetaMask/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Install Binance Wallet/i)
+    ).not.toBeInTheDocument();
   });
 });
 
@@ -106,7 +135,7 @@ describe("Option Component", () => {
   });
 
   test("Metamask: Show button", () => {
-    const metamask = wallets[0];
+    const metamask = configWallets.wallets[0];
     const { initialRender } = initiateTest(() => <Option {...metamask} />);
 
     initialRender();
@@ -114,7 +143,7 @@ describe("Option Component", () => {
   });
 
   test("MetaMask Show Install Link", () => {
-    const metamask = wallets[0];
+    const metamask = configWallets.wallets[0];
     global.web3 = undefined;
     global.ethereum = undefined;
     const { initialRender } = initiateTest(() => <Option {...metamask} />);
@@ -124,7 +153,7 @@ describe("Option Component", () => {
   });
 
   test("Binance: Show Button", () => {
-    const binance = wallets[1];
+    const binance = configWallets.wallets[1];
     global.BinanceChain = {};
     const { initialRender } = initiateTest(() => <Option {...binance} />);
 
@@ -133,7 +162,7 @@ describe("Option Component", () => {
   });
 
   test("Binance: Show Install Link", () => {
-    const metamask = wallets[1];
+    const metamask = configWallets.wallets[1];
     global.BinanceChain = undefined;
     const { initialRender } = initiateTest(() => <Option {...metamask} />);
 
@@ -143,24 +172,44 @@ describe("Option Component", () => {
 });
 
 describe("Popup Component", () => {
+  const onLogin = jest.fn(() => {});
+  const onLogout = jest.fn(() => {});
   const onClose = jest.fn(() => {});
   const notifier = jest.fn(() => {});
+  const { initialRender, rerenderFn } = initiateTest(Popup, {
+    isOpen: true,
+    onClose: onClose,
+    networkId: testData.network.networkId,
+    notifier: notifier,
+  });
+
   beforeEach(() => {
+    mockFn.useAuth(() => ({
+      login: onLogin,
+      logout: onLogout,
+    }));
     i18n.activate("en");
+
+    initialRender();
   });
 
   test("Show Popup Modal", () => {
-    const { initialRender } = initiateTest(() => (
-      <Popup
-        isOpen={true}
-        onClose={onClose}
-        networkId={testData.network.networkId}
-        notifier={notifier}
-      />
-    ));
+    const closeButton = screen.getByText(/Close/i);
 
-    initialRender();
+    expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
+    expect(closeButton).toBeInTheDocument();
+    expect(
+      screen.getByText(/By connecting a wallet, you agree to Neptune Mutual/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Terms & Conditions/i)).toBeInTheDocument();
+    expect(screen.getByText(/Protocol Disclaimer/i)).toBeInTheDocument();
+    expect(screen.getByText(/MetaMask/i)).toBeInTheDocument();
+    expect(screen.getByText(/Install Binance Wallet/i)).toBeInTheDocument();
 
+    fireEvent.click(closeButton);
+  });
+
+  test("Show Popup Modal and Close", () => {
     const closeButton = screen.getByText(/Close/i);
 
     expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
@@ -179,16 +228,28 @@ describe("Popup Component", () => {
   });
 
   test("Hide Popup Modal", () => {
-    const { initialRender } = initiateTest(() => (
-      <Popup
-        isOpen={false}
-        onClose={onClose}
-        networkId={testData.network.networkId}
-        notifier={notifier}
-      />
-    ));
+    rerenderFn({
+      isOpen: false,
+    });
 
-    initialRender();
+    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Terms & Conditions/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Protocol Disclaimer/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/MetaMask/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(/Install Binance Wallet/i)
+    ).not.toBeInTheDocument();
+  });
+
+  test("Hide Popup Modal and Close", () => {
+    mockFn.useWeb3React();
+    rerenderFn({
+      isOpen: false,
+    });
 
     expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
@@ -210,7 +271,7 @@ describe("WalletList Component", () => {
     i18n.activate("en");
 
     const { initialRender } = initiateTest(() => (
-      <WalletList wallets={wallets} onConnect={onConnect} />
+      <WalletList wallets={configWallets.wallets} onConnect={onConnect} />
     ));
 
     initialRender();

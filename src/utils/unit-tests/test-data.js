@@ -486,7 +486,11 @@ export const testData = {
     hasMore: false,
   },
   network: { networkId: 80001 },
-  account: { account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9" },
+  account: {
+    account: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
+    library: null,
+    active: true,
+  },
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
@@ -626,7 +630,6 @@ export const testData = {
     isReady: true,
     isPreview: false,
     isLocaleDomain: false,
-    events: {},
     replace: jest.fn(),
   },
   coverActiveReportings: {
@@ -732,8 +735,69 @@ export const testData = {
   },
   activePolicies: {
     data: {
-      activePolicies: [],
-      totalActiveProtection: "200000000000000000000",
+      activePolicies: [
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc-1664582399",
+          coverKey:
+            "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0x7e2aaac680811f8a8f0bff71c5778f7cd2b4f3cc",
+            creationDate: "1659576476",
+            expiryDate: "1664582399",
+          },
+          totalAmountToCover: "32000000",
+          expiresOn: "1664582399",
+          cover: {
+            id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          },
+          product: null,
+        },
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2-1664582399",
+          coverKey:
+            "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0xb6ee2ea681a009a7f8fa5310cb499e96d4829cf2",
+            creationDate: "1658819063",
+            expiryDate: "1664582399",
+          },
+          totalAmountToCover: "1000000000",
+          expiresOn: "1664582399",
+          cover: {
+            id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
+          },
+          product: null,
+        },
+      ],
+      totalActiveProtection: "1032000000",
+    },
+    loading: false,
+  },
+  useExpiredPolicies: {
+    data: {
+      expiredPolicies: [
+        {
+          id: "0xac43b98fe7352897cbc1551cdfde231a1180cd9e-0x2a405d704a54a1d4da200cb25a5a097c34629519-1661990399",
+          coverKey:
+            "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          productKey:
+            "0x0000000000000000000000000000000000000000000000000000000000000000",
+          cxToken: {
+            id: "0x2a405d704a54a1d4da200cb25a5a097c34629519",
+            creationDate: "1659576567",
+            expiryDate: "1661990399",
+          },
+          totalAmountToCover: "43000000",
+          expiresOn: "1661990399",
+          cover: {
+            id: "0x68756f62692d77616e0000000000000000000000000000000000000000000000",
+          },
+        },
+      ],
     },
     loading: false,
   },
@@ -1332,7 +1396,9 @@ export const testData = {
     value: "100",
   },
   providerOrSigner: {
-    provider: {},
+    provider: {
+      getTransactionReceipt: jest.fn(() => Promise.resolve({})),
+    },
     _address: "0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9",
     _index: null,
     _isSigner: true,
@@ -1597,4 +1663,20 @@ export const testData = {
       products: [],
     },
   },
+  multicallProvider: {
+    getCoverFeeInfoResult: {
+      ceiling: "10000500",
+      fee: "10000500",
+      floor: "10000500",
+      rate: "10000500",
+      totalAvailableLiquidity: "10000500",
+      utilizationRatio: "10000500",
+    },
+    getExpiryDateResult: "10039",
+  },
+  stakingPoolsAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
+  policyContractAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
+  claimsProcessorAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
+  vaultAddress: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
+  protocolAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
 };

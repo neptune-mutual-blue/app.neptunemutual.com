@@ -31,9 +31,11 @@ describe("WithdrawLiquidityForm", () => {
     initialRender();
   });
 
-  test("should render the main container", () => {
-    const form = screen.getByTestId("withdraw-liquidity-form");
-    expect(form).toBeInTheDocument();
+  test("should render the main containers", () => {
+    const inputs = screen.getByTestId("withdraw-liquidity-form-inputs");
+    const buttons = screen.getByTestId("withdraw-liquidity-form-buttons");
+    expect(inputs).toBeInTheDocument();
+    expect(buttons).toBeInTheDocument();
   });
 
   test("should render npm input field", () => {

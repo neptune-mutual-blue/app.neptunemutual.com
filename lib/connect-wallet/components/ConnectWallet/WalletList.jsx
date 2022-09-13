@@ -6,7 +6,9 @@ export const WalletList = ({ wallets, onConnect }) => {
       {wallets.map((wallet) => (
         <Option
           key={wallet.id}
-          onClick={() => onConnect(wallet.id)}
+          onClick={() => {
+            onConnect(wallet.id);
+          }}
           {...wallet}
         />
       ))}

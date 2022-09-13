@@ -59,11 +59,7 @@ export const ActiveReportingCard = ({
   }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization]);
 
   if (!coverInfo) {
-    return (
-      <div data-testid="active-report-card-skeleton">
-        <CardSkeleton numberOfCards={1} />;
-      </div>
-    );
+    return <CardSkeleton numberOfCards={1} data-testid="skeleton-card" />;
   }
 
   const status = identifyStatus(productStatus);

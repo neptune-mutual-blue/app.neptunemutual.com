@@ -243,11 +243,15 @@ export const usePurchasePolicy = ({
               });
 
               tx.wait().then((receipt) => {
-                const events = receipt.events;
-                const event = events.find((x) => x.event === "CoverPurchased");
-                const txHash = storePurchaseEvent(event, receipt.from);
+                if (receipt) {
+                  const events = receipt.events;
+                  const event = events.find(
+                    (x) => x.event === "CoverPurchased"
+                  );
+                  const txHash = storePurchaseEvent(event, receipt.from);
 
-                router.push(`/my-policies/receipt/${txHash}`);
+                  router.push(`/my-policies/receipt/${txHash}`);
+                }
               });
               onTxSuccess();
             },

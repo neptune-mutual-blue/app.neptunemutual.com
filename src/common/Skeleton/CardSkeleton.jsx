@@ -6,6 +6,7 @@ export const CardSkeleton = ({
   statusBadge = true,
   subTitle = true,
   lineContent = 3,
+  ...rest
 }) => {
   const cardsArray = new Array(numberOfCards).fill(1); // convert number of card to array
   const lineContentArray = new Array(lineContent).fill(1); // convert number of line content to array
@@ -13,7 +14,7 @@ export const CardSkeleton = ({
   return (
     <>
       {cardsArray.map((_, i) => (
-        <OutlinedCard key={i} className="p-6 bg-white">
+        <OutlinedCard key={i} className="p-6 bg-white" {...rest}>
           <div className="flex justify-between animate-pulse">
             <div className="rounded-full h-14 lg:h-18 w-14 lg:w-18 bg-skeleton" />
             {statusBadge && (

@@ -1,7 +1,7 @@
 import { getGraphURL } from "@/src/config/environment";
 import { useCallback, useEffect, useRef } from "react";
 
-const ERRORS_SUBGRAPH = {
+export const ERRORS_SUBGRAPH = {
   UNKNOWN_SUBGRAPH_URL: "UNKNOWN_SUBGRAPH_URL",
   SUBGRAPH_DATA_ERROR: "SUBGRAPH_DATA_ERROR",
   REQUEST_ABORTED: "REQUEST_ABORTED",

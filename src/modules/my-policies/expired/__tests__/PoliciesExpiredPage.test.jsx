@@ -1,142 +1,88 @@
-import {
-  render,
-  act,
-  fireEvent,
-  withProviders,
-} from "@/utils/unit-tests/test-utils";
-import { PoliciesExpiredPage } from "../PoliciesExpiredPage";
+import { render, act, cleanup } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
-
-// mock api call
-const getMockExpiredPolicies = async () => {
-  try {
-    const res = await fetch(
-      "https://api.thegraph.com/subgraphs/name/neptune-mutual/subgraph-mumbai",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          query: `
-        {
-          userPolicies(
-            where: {
-              expiresOn_gt: 1651363200
-              account: 0x767AaA0A901f865E80D0FE9841f34a2239a1F8c0
-            }
-          ) {
-            id
-            cxToken {
-              id
-              creationDate
-              expiryDate
-            }
-            totalAmountToCover
-            expiresOn
-            cover {
-              id
-            }
-          }
-        }
-        `,
-        }),
-      }
-    );
-    const json = await res.json();
-
-    return json;
-  } catch (error) {
-    return null;
-  }
-};
-
-// mock response
-const mockExpiredPolicies = [
-  {
-    cover: {
-      id: "0x6262382d65786368616e67650000000000000000000000000000000000000000",
-    },
-    cxToken: {
-      creationDate: "1650037062",
-      expiryDate: "1656633599",
-      id: "0x0e41e45e9067c30cc64787b7dc996843ca96145e",
-      expiresOn: "1656633599",
-      id: "0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0-0x0e41e45e9067c30cc64787b7dc996843ca96145e-1656633599",
-      totalAmountToCover: "2200000000000000000000",
-    },
-  },
-];
-
-const unmockedFetch = global.fetch;
+import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { PoliciesExpiredPage } from "../PoliciesExpiredPage";
+import { testData } from "@/utils/unit-tests/test-data";
 
 describe("PoliciesExpiredPage", () => {
-  describe("should render PoliciesExpiredPage", () => {
-    beforeAll(() => {
-      act(() => {
-        i18n.activate("en");
-      });
+  beforeEach(() => {
+    mockFn.useValidReport();
 
-      global.fetch = () =>
-        Promise.resolve({
-          json: () => Promise.resolve(mockExpiredPolicies),
-        });
+    act(() => {
+      i18n.activate("en");
+    });
+  });
+
+  test("should render PoliciesExpiredPage loading page", () => {
+    cleanup();
+
+    mockFn.useExpiredPolicies(() => {
+      return {
+        data: testData.useExpiredPolicies.data,
+        loading: true,
+      };
     });
 
-    afterAll(() => {
-      global.fetch = unmockedFetch;
+    const { getAllByTestId, queryByTestId } = render(<PoliciesExpiredPage />);
+
+    const ids = getAllByTestId("card-outline");
+    expect(ids.length).toEqual(6);
+
+    const empty = queryByTestId("empty-text");
+
+    expect(empty).not.toBeInTheDocument();
+  });
+
+  test("should render PoliciesExpiredPage placeholder text", () => {
+    cleanup();
+
+    mockFn.useExpiredPolicies(() => {
+      return {
+        data: {
+          expiredPolicies: [],
+        },
+        loading: false,
+      };
     });
 
-    test("it has Transaction List link", () => {
-      const { getByRole } = render(<PoliciesExpiredPage />);
-      const TransactionListLink = getByRole("link", {
-        name: /Transaction List/i,
-      });
+    const { getByTestId } = render(<PoliciesExpiredPage />);
 
-      expect(TransactionListLink).toHaveAttribute(
-        "href",
-        "/my-policies/transactions"
-      );
+    const empty = getByTestId("empty-text");
+
+    expect(empty).toBeInTheDocument();
+  });
+
+  test("it has Transaction List link", () => {
+    cleanup();
+
+    mockFn.useExpiredPolicies(() => {
+      return {
+        data: {
+          expiredPolicies: [],
+        },
+        loading: false,
+      };
     });
 
-    test("when Transaction List link is clicked", () => {
-      const router = createMockRouter({});
-      const Component = withProviders(PoliciesExpiredPage, router);
-      const { getByRole } = render(<Component />);
-      const TransactionListLink = getByRole("link", {
-        name: /Transaction List/i,
-      });
+    const { getByRole } = render(<PoliciesExpiredPage />);
 
-      fireEvent.click(TransactionListLink);
-
-      expect(router.push).toHaveBeenCalledWith(
-        "/my-policies/transactions",
-        "/my-policies/transactions",
-        { locale: undefined, scroll: undefined, shallow: undefined }
-      );
+    const TransactionListLink = getByRole("link", {
+      name: /Transaction List/i,
     });
 
-    test("fetch expired policies and render policy card ", async () => {
-      const expiredPolicies = await getMockExpiredPolicies();
+    expect(TransactionListLink).toHaveAttribute(
+      "href",
+      "/my-policies/transactions"
+    );
+  });
 
-      expect(expiredPolicies).toEqual(mockExpiredPolicies);
-    });
+  test("Should have 1 card", () => {
+    cleanup();
 
-    test("should placeholder when no expired policies", () => {
-      const { getByText, getByAltText } = render(<PoliciesExpiredPage />);
-      const text =
-        "When a policy's duration ends, it automatically moves to this section. Explore products on the home screen to view available protections.";
-      const placeholderText = getByText((content, node) => {
-        const hasText = (node) => node.textContent === text;
-        const nodeHasText = hasText(node);
-        const childrenDontHaveText = Array.from(node.children).every(
-          (child) => !hasText(child)
-        );
+    mockFn.useExpiredPolicies();
+    const { getAllByTestId } = render(<PoliciesExpiredPage />);
 
-        return nodeHasText && childrenDontHaveText;
-      });
-      const placeholderImage = getByAltText("no data found");
-
-      expect(placeholderText).toBeInTheDocument();
-      expect(placeholderImage).toBeInTheDocument();
-    });
+    const ids = getAllByTestId("card-outline");
+    expect(ids.length).toEqual(1);
   });
 });

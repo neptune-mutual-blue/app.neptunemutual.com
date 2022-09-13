@@ -5,7 +5,11 @@ import MyPoliciesExpired from "@/src/pages/my-policies/expired";
 jest.mock("@/src/modules/my-policies/PoliciesTabs", () => {
   return {
     PoliciesTabs: ({ children }) => {
-      return <div data-testid="policies-tabs">{children}</div>;
+      return (
+        <div data-testid="policies-tabs">
+          {children({ data: [], loading: false })}
+        </div>
+      );
     },
   };
 });
