@@ -149,7 +149,11 @@ function Notification({
   );
 
   return (
-    <div className="flex py-4 border-b border-B0C4DB/40" key={hash}>
+    <div
+      className="flex py-4 border-b border-B0C4DB/40"
+      key={hash}
+      data-testid="notification-item"
+    >
       <div className="mr-4">{convertToIconVariant(status)}</div>
       <div className="mr-4 grow">
         <p className="mb-1 text-sm font-bold font-sora">{title}</p>
