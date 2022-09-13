@@ -1,5 +1,7 @@
 import { testData } from "@/utils/unit-tests/test-data";
 
+import * as FetchReportsByKeyAndDat from "@/src/hooks/useFetchReportsByKeyAndDate";
+import * as ActivePoliciesByCover from "@/src/hooks/useActivePoliciesByCover";
 import * as ActiveReportings from "@/src/hooks/useActiveReportings";
 import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import * as ValidReportHook from "@/src/hooks/useValidReport";
@@ -94,6 +96,26 @@ const returnFunction = (d) => {
 };
 
 export const mockFn = {
+  useActivePoliciesByCover: (
+    cb = () => ({
+      data: { ...testData.activePoliciesByCover },
+      hasMore: false,
+    })
+  ) =>
+    jest
+      .spyOn(ActivePoliciesByCover, "useActivePoliciesByCover")
+      .mockImplementation(returnFunction(cb)),
+
+  useFetchReportsByKeyAndDate: (
+    cb = () => ({
+      data: testData.reports,
+      loading: false,
+    })
+  ) =>
+    jest
+      .spyOn(FetchReportsByKeyAndDat, "useFetchReportsByKeyAndDate")
+      .mockImplementation(returnFunction(cb)),
+
   useActiveReportings: (
     cb = () => ({
       data: {
