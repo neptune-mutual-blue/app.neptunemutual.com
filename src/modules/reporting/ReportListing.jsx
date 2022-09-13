@@ -101,10 +101,18 @@ const columns = [
   },
 ];
 
-const ReportListing = () => {
-  const { query, locale, push } = useRouter();
+/**
+ *
+ * @param {Object} props
+ * @param {string} props.cover_id
+ * @param {string} props.product_id
+ * @param {string} props.locale
+ * @returns
+ */
+const ReportListing = (props) => {
+  const { cover_id, product_id, locale } = props;
+  const { push } = useRouter();
   const { networkId } = useNetwork();
-  const { product_id = "", cover_id } = query;
   const [reports, setReports] = useState([]);
 
   const coverKey = safeFormatBytes32String(cover_id);
@@ -117,11 +125,10 @@ const ReportListing = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const { incidentReports = [] } =
-        (await getSubgraphData(
-          networkId,
-          subgraphQuery(coverKey, productKey)
-        )) || {};
+      const { incidentReports } = await getSubgraphData(
+        networkId,
+        subgraphQuery(coverKey, productKey)
+      );
 
       setReports(incidentReports);
     }
@@ -156,10 +163,7 @@ const ReportListing = () => {
               theadClass="bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]"
               columns={columns}
             />
-            <tbody
-              className="divide-y divide-DAE2EB"
-              data-testid="app-table-body"
-            >
+            <tbody className="divide-y divide-DAE2EB">
               {reports.map((report, i) => (
                 <tr
                   onClick={() => goTo(report.id)}
