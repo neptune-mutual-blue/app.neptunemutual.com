@@ -23,6 +23,7 @@ export function identifyStatus(status, defaultValue = E_CARD_STATUS.NORMAL) {
       return E_CARD_STATUS.NORMAL;
     case "claimable":
       return E_CARD_STATUS.CLAIMABLE;
+    case "falsereporting":
     case "false reporting":
       return E_CARD_STATUS.FALSE_REPORTING;
     case "diversified":
