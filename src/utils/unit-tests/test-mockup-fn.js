@@ -78,6 +78,7 @@ import * as SubgraphData from "@/src/services/subgraph";
 import * as StakingPoolsAddressHook from "@/src/hooks/contracts/useStakingPoolsAddress";
 import * as TransactionHistoryFile from "@/src/services/transactions/transaction-history";
 import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
+import * as ValidateReferralCodeHook from "@/src/hooks/useValidateReferralCode";
 
 const Web3React = require("@web3-react/core");
 
@@ -817,6 +818,10 @@ export const mockFn = {
   usePolicyAddress: (cb = () => testData.policyContractAddress) =>
     jest
       .spyOn(PolicyAddressHook, "usePolicyAddress")
+      .mockImplementation(returnFunction(cb)),
+  useValidateReferralCode: (cb = () => testData.referralCodeHook) =>
+    jest
+      .spyOn(ValidateReferralCodeHook, "useValidateReferralCode")
       .mockImplementation(returnFunction(cb)),
 };
 
