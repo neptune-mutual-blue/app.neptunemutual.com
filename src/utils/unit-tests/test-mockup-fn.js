@@ -303,7 +303,23 @@ export const mockFn = {
       .spyOn(ExpiredPoliciesHook, "useExpiredPolicies")
       .mockImplementation(returnFunction(cb)),
 
-  chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
+  chartMockFn: (props) => {
+    const options = props?.options;
+    options?.scales?.x?.ticks?.callback?.();
+    options?.animation?.onComplete?.({
+      chart: {
+        ctx: { fillText: jest.fn() },
+        getDatasetMeta: () => ({
+          data: [
+            { x: 1, y: 1 },
+            { x: 1, y: 1 },
+          ],
+        }),
+        data: { datasets: [{ data: [1] }] },
+      },
+    });
+    return <div data-testid={props["data-testid"]}></div>;
+  },
 
   useToast: (cb = () => testData.toast) =>
     jest.spyOn(ToastHook, "useToast").mockImplementation(returnFunction(cb)),
@@ -717,6 +733,11 @@ export const mockFn = {
   },
 
   setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
+  setInterval: () =>
+    (global.setInterval = jest.fn((cb) => {
+      cb();
+      return 1234;
+    })),
 
   useCoversAndProducts: (resolve = true, returnData = {}) =>
     jest
