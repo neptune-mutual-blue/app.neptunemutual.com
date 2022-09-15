@@ -1,7 +1,13 @@
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { convertFromUnits, toBN } from "@/utils/bn";
 import { formatPercent } from "@/utils/formatter/percent";
-import { cleanup, screen, act, render } from "@/utils/unit-tests/test-utils";
+import {
+  cleanup,
+  screen,
+  act,
+  render,
+  fireEvent,
+} from "@/utils/unit-tests/test-utils";
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { ProductCard } from "@/common/Cover/ProductCard";
 import { testData } from "@/utils/unit-tests/test-data";
@@ -103,6 +109,12 @@ describe("ProductCard component", () => {
       });
       const img = screen.getByTestId("cover-img");
       expect(img).toHaveAttribute("src", imgSrc);
+    });
+
+    test("should show empty cover image in case of error", () => {
+      const img = screen.getByTestId("cover-img");
+      fireEvent.error(img, { target: img });
+      expect(img).toHaveAttribute("src", "/images/covers/empty.svg");
     });
   });
 

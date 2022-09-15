@@ -41,10 +41,6 @@ const mockCoverDetails = {
 };
 
 describe("CoverAddLiquidityPage.test", () => {
-  jest
-    .spyOn(CoverOrProductData, "useCoverOrProductData")
-    .mockImplementation(() => mockCoverDetails);
-
   beforeAll(async () => {
     act(() => {
       i18n.activate("en");
@@ -52,6 +48,10 @@ describe("CoverAddLiquidityPage.test", () => {
   });
 
   it("should show add liquidity form after accepting rules", async () => {
+    jest
+      .spyOn(CoverOrProductData, "useCoverOrProductData")
+      .mockImplementation(() => mockCoverDetails);
+
     const { getByTestId } = render(<CoverAddLiquidityDetailsPage />);
 
     await waitFor(() => {
@@ -65,5 +65,17 @@ describe("CoverAddLiquidityPage.test", () => {
     fireEvent.click(acceptRulesNextButton);
 
     expect(getByTestId("add-liquidity-form")).toBeInTheDocument();
+  });
+
+  test("should show loading if coverinfo is null ", async () => {
+    jest
+      .spyOn(CoverOrProductData, "useCoverOrProductData")
+      .mockImplementation(() => {});
+
+    const { getByText } = render(<CoverAddLiquidityDetailsPage />);
+
+    await waitFor(() => {
+      expect(getByText(/loading/)).toBeInTheDocument();
+    });
   });
 });
