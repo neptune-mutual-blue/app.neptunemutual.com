@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, act } from "@/utils/unit-tests/test-utils";
+import { render, screen, act, fireEvent } from "@/utils/unit-tests/test-utils";
 import { i18n } from "@lingui/core";
 
 import { ProjectImage } from "@/common/CoverProfileInfo/ProjectImage";
@@ -27,6 +27,15 @@ describe("ProjectImage test", () => {
       .getByTestId("projectimage-container")
       .querySelector("img");
     expect(wrapper).toHaveAttribute("src", props.imgSrc);
+  });
+
+  test("should render empty img src for project image on error", () => {
+    const wrapper = screen
+      .getByTestId("projectimage-container")
+      .querySelector("img");
+
+    fireEvent.error(wrapper, { target: wrapper });
+    expect(wrapper).toHaveAttribute("src", "/images/covers/empty.svg");
   });
 
   test("should render correct alt-text for the image", () => {
