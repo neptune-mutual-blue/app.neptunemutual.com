@@ -30,10 +30,6 @@ export const ActiveReportSummary = ({
   const router = useRouter();
   const startDate = DateLib.fromUnix(incidentReport.incidentDate);
   const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
-  console.log({
-    startDate,
-    endDate,
-  });
   const { NPMTokenSymbol } = useAppConstants();
 
   const isAfterResolution = useRetryUntilPassed(() => {
