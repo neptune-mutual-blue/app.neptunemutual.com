@@ -65,7 +65,7 @@ describe("HighLight Calendar", () => {
     expect(endDate.parentElement).toHaveClass("bg-DEEAF6");
   });
 
-  test.only("Bug Scenario where startDate is greater than resolution date ", () => {
+  test("Bug Scenario where startDate is greater than resolution date ", () => {
     const dates = {
       startDate: DateLib.fromUnix(DateLib.toUnix(new Date("2022-11-15"))),
       endDate: DateLib.fromUnix(DateLib.toUnix(new Date("2022-12-8"))),
