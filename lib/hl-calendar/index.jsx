@@ -9,7 +9,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
   const weekDays = getWeekDays("en");
 
   return (
-    <table className="text-xxs" aria-hidden="true">
+    <table className="text-xxs" aria-hidden="true" data-testid="hlcalendar">
       <thead>
         <tr>
           {weekDays.map((x) => (
@@ -59,6 +59,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
 };
 
 function addWeekDatesBefore(dates) {
+  /* istanbul ignore next */
   if (dates.length === 0) {
     return [];
   }
@@ -85,6 +86,7 @@ function addWeekDatesBefore(dates) {
 }
 
 function addWeekDatesAfter(dates) {
+  /* istanbul ignore next */
   if (dates.length === 0) {
     return [];
   }
@@ -126,13 +128,15 @@ function getPrimaryMonthYear(startDate, endDate) {
     [endMonth]: 1,
   };
 
+  // calculates the day difference between startDate and endDate
   const cursorDate = getClone(startDate);
   while (cursorDate.getDate() !== endDate.getDate()) {
     daysOfMonth[cursorDate.getMonth()] += 1;
-
     cursorDate.setDate(cursorDate.getDate() + 1);
   }
 
+  // no idea how to reach this part of the code
+  // daysOfMonth[startMonth] > daysOfMonth[endDate]
   return {
     month:
       daysOfMonth[startMonth] > daysOfMonth[endDate] ? startMonth : endMonth,
@@ -161,14 +165,16 @@ function getMonth(month, year, refDate) {
   date.setDate(1);
 
   const days = [];
+
   while (date.getMonth() === month) {
     days.push(new Date(date));
     date.setDate(date.getDate() + 1);
   }
+
   return days;
 }
 
-function chunk(arrayToSplit = [], chunkSize = 10) {
+function chunk(arrayToSplit, chunkSize) {
   const chunks = [];
 
   for (let i = 0; i < arrayToSplit.length; i += chunkSize) {
