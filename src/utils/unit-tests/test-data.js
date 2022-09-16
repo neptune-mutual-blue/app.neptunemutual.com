@@ -1734,4 +1734,31 @@ export const testData = {
     errorMessage: "Invalid referral code",
     isPending: false,
   },
+  calculatePods: {
+    receiveAmount: "100",
+    loading: false,
+  },
+  provideLiquidity: {
+    npmApproving: false,
+    npmBalance: "10000000000000000",
+    npmBalanceLoading: false,
+    hasNPMTokenAllowance: true,
+    npmAllowanceLoading: false,
+
+    hasLqTokenAllowance: true,
+    lqApproving: false,
+    myStablecoinBalance: 1000,
+    lqAllowanceLoading: true,
+
+    canProvideLiquidity: true,
+    isError: false,
+    providing: false,
+    podSymbol: "AB-nDAI",
+    podAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
+    podDecimals: "16",
+
+    handleLqTokenApprove: jest.fn(),
+    handleNPMTokenApprove: jest.fn(),
+    handleProvide: jest.fn(),
+  },
 };
