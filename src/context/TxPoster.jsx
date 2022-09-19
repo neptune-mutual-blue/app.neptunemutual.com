@@ -12,8 +12,7 @@ import { contractRead } from "@/src/services/readContract";
 const initValue = {
   // prettier-ignore
   writeContract: async ({instance, methodName, overrides = {},  args = [],  onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
-  // prettier-ignore
-  contractRead: async ({instance, methodName, overrides = {}, args = [], onError = console.error}) => null, // eslint-disable-line
+  contractRead,
 };
 
 const TxPosterContext = React.createContext(initValue);

@@ -11,8 +11,7 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
+import { Trans, t } from "@lingui/macro";
 import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
@@ -48,10 +47,9 @@ export const ReportingActivePage = () => {
   } = useActiveReportings();
 
   const [sortType, setSortType] = useState({
-    name: SORT_TYPES.INCIDENT_DATE,
+    name: t`Incident Date`,
+    value: SORT_TYPES.INCIDENT_DATE,
   });
-
-  const router = useRouter();
 
   const { getStatsByKey } = useSortableStats();
 
@@ -74,21 +72,18 @@ export const ReportingActivePage = () => {
   const activeCardInfoArray = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
-  const options = useMemo(() => {
-    return [
-      { name: SORT_TYPES.ALPHABETIC },
-      { name: SORT_TYPES.UTILIZATION_RATIO },
-      { name: SORT_TYPES.INCIDENT_DATE },
-    ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.locale]);
+  const options = [
+    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t`Utilization Ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
+  ];
 
   return (
     <Container className={"pt-16 pb-36"}>
@@ -120,45 +115,42 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (data.length) {
     return (
       <>
-        <div data-testid="active-page-grid">
-          <Grid className="mb-24 mt-14">
-            {data.map((report) => {
-              const isDiversified = isValidProduct(report.productKey);
+        <Grid className="mb-24 mt-14" data-testid="active-page-grid">
+          {data.map((report) => {
+            const isDiversified = isValidProduct(report.productKey);
 
-              const cover_id = safeParseBytes32String(report.coverKey);
-              const product_id = safeParseBytes32String(report.productKey);
+            const cover_id = safeParseBytes32String(report.coverKey);
+            const product_id = safeParseBytes32String(report.productKey);
 
-              return (
-                <Link
-                  href={
-                    isDiversified
-                      ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
-                      : `/reporting/${cover_id}/${report.incidentDate}/details`
-                  }
-                  key={report.id}
-                >
-                  <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
-                    <ActiveReportingCard
-                      id={report.id}
-                      coverKey={report.coverKey}
-                      productKey={report.productKey}
-                      incidentDate={report.incidentDate}
-                    />
-                  </a>
-                </Link>
-              );
-            })}
-          </Grid>
-        </div>
+            return (
+              <Link
+                href={
+                  isDiversified
+                    ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
+                    : `/reporting/${cover_id}/${report.incidentDate}/details`
+                }
+                key={report.id}
+              >
+                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                  <ActiveReportingCard
+                    id={report.id}
+                    coverKey={report.coverKey}
+                    productKey={report.productKey}
+                    incidentDate={report.incidentDate}
+                  />
+                </a>
+              </Link>
+            );
+          })}
+        </Grid>
         {!loading && hasMore && (
-          <div data-testid="has-more-button">
-            <NeutralButton
-              className={"rounded-lg border-0.5"}
-              onClick={handleShowMore}
-            >
-              <Trans>Show More</Trans>
-            </NeutralButton>
-          </div>
+          <NeutralButton
+            className={"rounded-lg border-0.5"}
+            onClick={handleShowMore}
+            data-testid="has-more-button"
+          >
+            <Trans>Show More</Trans>
+          </NeutralButton>
         )}
       </>
     );
@@ -166,11 +158,11 @@ function Content({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className="mb-24 mt-14">
-        <div data-testid="active-reportings-card-skeleton">
+      <div data-testid="active-reportings-card-skeleton">
+        <Grid className="gap-4 mt-14 lg:mb-24 mb-14 w-full">
           <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
-        </div>
-      </Grid>
+        </Grid>
+      </div>
     );
   }
 

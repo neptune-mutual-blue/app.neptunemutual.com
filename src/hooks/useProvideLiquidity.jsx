@@ -101,12 +101,13 @@ export const useProvideLiquidity = ({
       });
 
       try {
+        const tokenSymbol = "DAI";
         await txToast.push(
           tx,
           {
-            pending: t`Approving DAI`,
-            success: t`Approved DAI Successfully`,
-            failure: t`Could not approve DAI`,
+            pending: t`Approving ${tokenSymbol}`,
+            success: t`Approved ${tokenSymbol} Successfully`,
+            failure: t`Could not approve ${tokenSymbol}`,
           },
           {
             onTxSuccess: () => {

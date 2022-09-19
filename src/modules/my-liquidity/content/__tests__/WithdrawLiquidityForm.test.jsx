@@ -31,9 +31,11 @@ describe("WithdrawLiquidityForm", () => {
     initialRender();
   });
 
-  test("should render the main container", () => {
-    const form = screen.getByTestId("withdraw-liquidity-form");
-    expect(form).toBeInTheDocument();
+  test("should render the main containers", () => {
+    const inputs = screen.getByTestId("withdraw-liquidity-form-inputs");
+    const buttons = screen.getByTestId("withdraw-liquidity-form-buttons");
+    expect(inputs).toBeInTheDocument();
+    expect(buttons).toBeInTheDocument();
   });
 
   test("should render npm input field", () => {
@@ -146,6 +148,17 @@ describe("WithdrawLiquidityForm", () => {
     expect(wrapper).toBeInTheDocument();
   });
 
+  test("should show loadingMessage", () => {
+    rerenderFn({}, () => {
+      mockFn.useCalculateLiquidity({
+        ...testData.calculateLiquidity,
+        loading: true,
+      });
+    });
+
+    expect(screen.getByText(/Calculating tokens/i)).toBeInTheDocument();
+  });
+
   describe("Approve Button", () => {
     test("should show approve button", () => {
       const button = screen.getByTestId("approve-button");
@@ -233,6 +246,19 @@ describe("WithdrawLiquidityForm", () => {
 
       const button = screen.getByTestId("withdraw-button");
       expect(button).toHaveAttribute("disabled");
+    });
+  });
+
+  describe("Max buttons", () => {
+    test("should fire max handlers", () => {
+      const buttons = screen.getAllByRole("button");
+      const npmBtn = buttons[0];
+      const podBtn = buttons[3];
+
+      expect(npmBtn).toHaveTextContent("Max");
+      fireEvent.click(npmBtn);
+      expect(podBtn).toHaveTextContent("Max");
+      fireEvent.click(podBtn);
     });
   });
 });

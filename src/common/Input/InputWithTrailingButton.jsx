@@ -49,19 +49,23 @@ export const InputWithTrailingButton = ({
 
   const inputFieldProps = {
     id: inputProps.id,
-    value: inputValue,
     placeholder: inputProps.placeholder,
     disabled: inputProps.disabled,
-    onValueChange: (val) => {
-      inputProps.onChange(getPlainNumber(val ?? "", locale));
-      setInputValue(val ?? "");
-    },
     intlConfig: {
       locale: locale,
     },
     autoComplete: "off",
     decimalsLimit: typeof decimalLimit === "number" ? decimalLimit : 25,
     ...inputProps,
+    onChange: null,
+    value: inputValue,
+    onValueChange: (val) => {
+      const plainNumber = getPlainNumber(val ?? "", locale);
+      if (!plainNumber.match(/^\d+\.$/)) {
+        inputProps.onChange(plainNumber);
+      }
+      setInputValue(val);
+    },
   };
 
   return (

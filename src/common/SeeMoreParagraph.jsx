@@ -35,6 +35,7 @@ export const SeeMoreParagraph = ({ text = "" }) => {
         <button
           onClick={handleReadMore}
           className="mt-4 underline capitalize cursor-pointer opacity-40 hover:no-underline"
+          data-testid="button"
         >
           {showFullText ? t`See less` : t`See more`}
         </button>

@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
 
 import { NeutralButton } from "@/common/Button/NeutralButton";
 import { Container } from "@/common/Container/Container";
@@ -36,9 +35,9 @@ const sorterData = {
 
 export const StakingPage = () => {
   const [sortType, setSortType] = useState({
-    name: SORT_TYPES.ALPHABETIC,
+    name: t`A-Z`,
+    value: SORT_TYPES.ALPHABETIC,
   });
-  const router = useRouter();
 
   const { data, loading, hasMore, handleShowMore } = useTokenStakingPools();
   const { getStatsByKey } = useSortableStats();
@@ -59,27 +58,17 @@ export const StakingPage = () => {
   const sortedPools = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
-  const options = useMemo(() => {
-    if (router.locale) {
-      return [
-        { name: SORT_TYPES.ALPHABETIC },
-        { name: SORT_TYPES.TVL },
-        { name: SORT_TYPES.APR },
-      ];
-    }
-
-    return [
-      { name: SORT_TYPES.ALPHABETIC },
-      { name: SORT_TYPES.TVL },
-      { name: SORT_TYPES.APR },
-    ];
-  }, [router.locale]);
+  const options = [
+    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t`TVL`, value: SORT_TYPES.TVL },
+    { name: t`APR`, value: SORT_TYPES.APR },
+  ];
 
   return (
     <Container className={"pt-16 pb-36"}>

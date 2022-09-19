@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { useNetwork } from "@/src/context/Network";
 import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 
-const getQuery = () => {
+const getQuery = (supportsProducts) => {
   return `
   {
-    covers {
+    covers(
+      where: {
+         supportsProducts: ${supportsProducts}
+      }
+    ) {
       id
       coverKey
     }
@@ -13,7 +17,7 @@ const getQuery = () => {
 `;
 };
 
-export const useCovers = () => {
+export const useCovers = ({ supportsProducts }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { networkId } = useNetwork();
@@ -22,7 +26,7 @@ export const useCovers = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetchCovers(networkId, getQuery())
+    fetchCovers(networkId, getQuery(supportsProducts))
       .then((data) => {
         if (!data) return;
         setData(data.covers);
@@ -31,7 +35,7 @@ export const useCovers = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [fetchCovers, networkId]);
+  }, [fetchCovers, networkId, supportsProducts]);
 
   return {
     loading,

@@ -13,7 +13,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   const router = useRouter();
   const coverPurchasePage = router.pathname.includes("purchase");
   const [checked, setChecked] = useState(false);
-  const { activeIncidentDate, status } = useCoverStatsContext();
+  const { activeIncidentDate, productStatus } = useCoverStatsContext();
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked);
@@ -27,7 +27,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
     }
   };
 
-  if (status && status !== "Normal") {
+  if (productStatus && productStatus !== "Normal") {
     const cover_id = safeParseBytes32String(coverKey);
     return (
       <Alert>
@@ -36,7 +36,9 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           since the cover status is
         </Trans>{" "}
         <Link href={`/reporting/${cover_id}/${activeIncidentDate}/details`}>
-          <a className="font-medium underline hover:no-underline">{status}</a>
+          <a className="font-medium underline hover:no-underline">
+            {productStatus}
+          </a>
         </Link>
       </Alert>
     );
@@ -46,7 +48,6 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
     <>
       {/* Accept Rules Form */}
       <form onSubmit={handleSubmit} className="mt-20">
-        status: {status}
         <Checkbox
           id="checkid"
           name="checkinputname"

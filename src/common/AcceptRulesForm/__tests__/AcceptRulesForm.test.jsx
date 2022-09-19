@@ -41,7 +41,7 @@ describe("AcceptReportRules component", () => {
       jest
         .spyOn(coverStatsContext, "useCoverStatsContext")
         .mockImplementation(() => ({
-          productStatus: "active",
+          productStatus: "NOT NORMAL",
           activeIncidentDate: "12232323",
           claimPlatformFee: "0",
           commitment: "0",
@@ -52,7 +52,6 @@ describe("AcceptReportRules component", () => {
           activeCommitment: "0",
           totalPoolAmount: "0",
           availableLiquidity: "0",
-          status: "NOT NORMAL",
           refetch: () => Promise.resolve(1),
         }));
     });
@@ -64,9 +63,7 @@ describe("AcceptReportRules component", () => {
         </AcceptRulesForm>
       );
 
-      const divElement = screen.getByText(
-        /Cannot add liquidity, since the cover status is/i
-      );
+      const divElement = screen.getByText(/since the cover status is/i);
       expect(divElement).toBeInTheDocument();
 
       const statusMessage = screen.getByText(/NOT NORMAL/i);

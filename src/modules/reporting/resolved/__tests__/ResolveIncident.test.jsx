@@ -108,6 +108,7 @@ describe("ResolveIncident test", () => {
   const { initialRender } = initiateTest(ResolveIncident, props, initialMocks);
 
   beforeEach(() => {
+    mockFn.useAppConstants();
     initialRender();
   });
 

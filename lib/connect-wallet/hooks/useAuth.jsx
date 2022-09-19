@@ -55,7 +55,7 @@ const activateConnector = async (
 
   setTimeout(
     // added a slight delay in executing activate fx in connecting the wallet to prevent stale error issue
-    () =>
+    () => {
       activate(connector, async (error) => {
         if (error instanceof UnsupportedChainIdError) {
           const hasSetup = await setupNetwork(connectorName, networkId);
@@ -89,7 +89,8 @@ const activateConnector = async (
         }
 
         notifications.unidentifiedError(notify, error);
-      }),
+      });
+    },
     100
   );
 };

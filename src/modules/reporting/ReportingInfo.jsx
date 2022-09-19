@@ -25,7 +25,10 @@ export const ReportingInfo = ({ ipfsBytes }) => {
       <summary>
         <Trans>Reporting Info</Trans>
       </summary>
-      <pre className="p-4 overflow-x-auto bg-white rounded-md">
+      <pre
+        className="p-4 overflow-x-auto bg-white rounded-md"
+        data-testid="reporter-info-ipfs-data"
+      >
         {JSON.stringify(data, null, 2)}
       </pre>
     </details>

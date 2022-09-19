@@ -1,4 +1,5 @@
 import { LSHistory } from "@/src/services/transactions/history";
+import { timeouts } from "@/src/config/environment";
 
 export const STATUS = {
   PENDING: 2,
@@ -85,7 +86,7 @@ export class TransactionHistory {
    * }} callback
    * @returns {(item: ISTATE_VALUE) => Promise<unknown>}
    */
-  static callback(provider, { success = noop, failure = noop }) {
+  static callback(provider, { success = () => {}, failure = () => {} }) {
     return (item) => {
       return provider
         .getTransactionReceipt(item.hash)
@@ -136,8 +137,6 @@ export class TransactionHistory {
   }
 }
 
-const noop = () => {};
-
 /**
  *
  * @param {() => Promise<any>} callback
@@ -148,7 +147,7 @@ function waitForTransactionWithTimeout(callback) {
       reject(ERRORS.TIMEOUT);
 
       clearTimeout(refTimeout);
-    }, 30000);
+    }, timeouts.waitForTransactionWithTimeout);
 
     callback()
       .then((result) => {

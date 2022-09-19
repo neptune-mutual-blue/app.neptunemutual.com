@@ -28,7 +28,7 @@ export default function MyPoliciesExpired({ disabled }) {
         />
       </Head>
       <PoliciesTabs active="expired">
-        <PoliciesExpiredPage />
+        {() => <PoliciesExpiredPage />}
       </PoliciesTabs>
     </main>
   );

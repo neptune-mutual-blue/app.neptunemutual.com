@@ -166,6 +166,7 @@ export function ProofOfIncident({ disabled, required }) {
               }}
               className={`flex-shrink p-2 ml-4 border rounded-md h-10 mt-18 border-CEEBED button-${i}`}
               title="Delete"
+              type="button"
             >
               <DeleteIcon width={14} height={16} />
             </button>
@@ -175,6 +176,7 @@ export function ProofOfIncident({ disabled, required }) {
 
       <button
         onClick={handleAdd}
+        type="button"
         className="px-6 py-3 mt-4 text-black bg-transparent rounded-md border-B0C4DB bg-E6EAEF hover:underline"
       >
         + {t`Add new link`}

@@ -36,7 +36,9 @@ describe("WithdrawLiquidityModal", () => {
   });
 
   test("should render the WithdrawLiquidityForm component", () => {
-    const form = screen.getByTestId("withdraw-liquidity-form");
-    expect(form).toBeInTheDocument();
+    const formInputs = screen.getByTestId("withdraw-liquidity-form-inputs");
+    const formButtons = screen.getByTestId("withdraw-liquidity-form-buttons");
+    expect(formInputs).toBeInTheDocument();
+    expect(formButtons).toBeInTheDocument();
   });
 });

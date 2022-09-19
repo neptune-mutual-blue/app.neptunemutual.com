@@ -9,6 +9,7 @@ import {
   getAddressesFromApi,
   getAddressesFromProvider,
 } from "@/src/services/contracts/getAddresses";
+import { useRoles } from "@/src/hooks/useRoles";
 
 const initValue = {
   NPMTokenAddress: "",
@@ -20,6 +21,12 @@ const initValue = {
   poolsTvl: "0",
   getTVLById: (_id) => "0",
   getPriceByAddress: (_address) => "0",
+  roles: {
+    isGovernanceAgent: false,
+    isGovernanceAdmin: false,
+    isLiquidityManager: false,
+    isCoverManager: false,
+  },
 };
 
 const AppConstantsContext = React.createContext(initValue);
@@ -41,6 +48,8 @@ export const AppConstantsProvider = ({ children }) => {
     data.NPMTokenAddress
   );
   const { library, account } = useWeb3React();
+
+  const roles = useRoles();
 
   useEffect(() => {
     let ignore = false;
@@ -114,7 +123,13 @@ export const AppConstantsProvider = ({ children }) => {
 
   return (
     <AppConstantsContext.Provider
-      value={{ ...data, poolsTvl: tvl, getTVLById, getPriceByAddress }}
+      value={{
+        ...data,
+        poolsTvl: tvl,
+        getTVLById,
+        getPriceByAddress,
+        roles,
+      }}
     >
       {children}
     </AppConstantsContext.Provider>

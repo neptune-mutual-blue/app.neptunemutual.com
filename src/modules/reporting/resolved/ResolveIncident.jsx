@@ -13,6 +13,7 @@ import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useRouter } from "next/router";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
+import { useAppConstants } from "@/src/context/AppConstants";
 
 export const ResolveIncident = ({
   refetchInfo,
@@ -30,6 +31,7 @@ export const ResolveIncident = ({
       productKey: productKey,
       incidentDate: incidentReport.incidentDate,
     });
+  const { roles } = useAppConstants();
 
   const isDiversified = isValidProduct(incidentReport.productKey);
 
@@ -63,7 +65,7 @@ export const ResolveIncident = ({
       <div className="flex flex-wrap justify-center w-auto gap-10 mb-16">
         {!incidentReport.resolved && (
           <RegularButton
-            disabled={resolving}
+            disabled={resolving || !roles.isGovernanceAgent}
             className="w-full px-10 py-4 font-semibold uppercase md:w-80"
             onClick={() => {
               resolve(() => {
@@ -78,6 +80,7 @@ export const ResolveIncident = ({
         )}
 
         <RegularButton
+          disabled={!roles.isGovernanceAdmin}
           className="w-full px-10 py-4 font-semibold uppercase md:w-80"
           onClick={() => setIsOpen(true)}
         >

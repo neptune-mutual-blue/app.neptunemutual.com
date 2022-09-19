@@ -26,9 +26,21 @@ msgstr "（已紧急裁决）"
 msgid "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
 msgstr "当事件发生时，拥有一份保单就意味着您可以申请赔付并获得赔偿。如需购买保单，请在主页选择保单类别。"
 
-#: src/common/SearchAndSortBar.jsx:8
+#: src/common/SearchAndSortBar.jsx:22
+#: src/modules/home/AvailableCovers.jsx:54
+#: src/modules/pools/pod-staking/index.jsx:38
+#: src/modules/pools/pod-staking/index.jsx:68
+#: src/modules/pools/staking/index.jsx:38
+#: src/modules/pools/staking/index.jsx:68
+#: src/modules/reporting/active/active.jsx:83
+#: src/modules/reporting/resolved/resolved.jsx:92
 msgid "A-Z"
 msgstr "从A到Z"
+
+#: src/modules/pools/pod-staking/index.jsx:70
+#: src/modules/pools/staking/index.jsx:70
+msgid "APR"
+msgstr "年利率"
 
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:166
 #: src/modules/pools/staking/StakingCard.jsx:179
@@ -86,6 +98,11 @@ msgstr "已成功添加流动性"
 msgid "Adding Liquidity"
 msgstr "正在添加流动性"
 
+#: src/common/SelectListBar/SelectListBar.jsx:16
+#: src/modules/home/AvailableCovers.jsx:43
+msgid "All"
+msgstr "全部"
+
 #: src/modules/my-liquidity/content/rules.jsx:106
 msgid "All rules of individual \"{0}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr ""
@@ -117,9 +134,9 @@ msgstr "您想要提取的金额"
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:134
+#: src/modules/reporting/active/CastYourVote.jsx:209
 #: src/modules/reporting/NewDisputeReportForm.jsx:188
 #: src/modules/reporting/NewIncidentReportForm.jsx:232
-#: src/modules/reporting/active/CastYourVote.jsx:209
 msgid "Approve"
 msgstr "核准"
 
@@ -203,9 +220,9 @@ msgstr "正在核准中"
 #: src/modules/my-policies/ClaimCoverModal.jsx:161
 #: src/modules/pools/bond/index.jsx:226
 #: src/modules/pools/staking/StakeForm.jsx:131
+#: src/modules/reporting/active/CastYourVote.jsx:206
 #: src/modules/reporting/NewDisputeReportForm.jsx:188
 #: src/modules/reporting/NewIncidentReportForm.jsx:232
-#: src/modules/reporting/active/CastYourVote.jsx:206
 msgid "Approving..."
 msgstr "正在核准中"
 
@@ -242,8 +259,8 @@ msgstr "余额："
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{0}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr ""
 
-#: src/modules/pools/PoolsTabs.jsx:17
 #: src/modules/pools/bond/index.jsx:247
+#: src/modules/pools/PoolsTabs.jsx:17
 #: src/pages/pools/bond/transactions.jsx:41
 msgid "Bond"
 msgstr "Bond"
@@ -310,7 +327,7 @@ msgstr "不可以质押超过{0}"
 msgid "Cannot {0}, since the cover status is"
 msgstr "目前保障状态为    ， 故不能{0}"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:280
 msgid "Capitalize"
 msgstr ""
 
@@ -326,7 +343,7 @@ msgstr ""
 msgid "Capitalizing Pool"
 msgstr ""
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:271
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:280
 msgid "Capitalizing..."
 msgstr ""
 
@@ -575,7 +592,7 @@ msgstr "无法取出奖励"
 msgid "Cover Fee"
 msgstr "保费"
 
-#: src/modules/home/AvailableCovers.jsx:101
+#: src/modules/home/AvailableCovers.jsx:121
 msgid "Cover Products"
 msgstr ""
 
@@ -608,6 +625,10 @@ msgstr "正在创建Bond"
 #: src/common/Disclaimer/DisclaimerModal.jsx:138
 msgid "Decline"
 msgstr "降低"
+
+#: src/common/SelectListBar/SelectListBar.jsx:18
+msgid "Dedicated Pool"
+msgstr "专用池"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:128
 #: src/modules/reporting/NewIncidentReportForm.jsx:164
@@ -646,6 +667,10 @@ msgstr "正在提交争议"
 msgid "Disputing..."
 msgstr "正在提交争议中"
 
+#: src/common/SelectListBar/SelectListBar.jsx:17
+msgid "Diversified Pool"
+msgstr "多元化池"
+
 #: src/common/Cover/ProductCard.jsx:116
 #: src/modules/reporting/active/ActiveReportingCard.jsx:119
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
@@ -655,7 +680,7 @@ msgstr ""
 msgid "Download LP Cover Terms"
 msgstr ""
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:174
+#: src/modules/reporting/resolved/ResolveIncident.jsx:177
 msgid "EMERGENCY RESOLVE"
 msgstr "紧急裁决"
 
@@ -664,11 +689,11 @@ msgstr "紧急裁决"
 msgid "Earn"
 msgstr "获取"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:135
+#: src/modules/reporting/resolved/ResolveIncident.jsx:138
 msgid "Emergency Resolution"
 msgstr "紧急裁决"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:84
+#: src/modules/reporting/resolved/ResolveIncident.jsx:87
 msgid "Emergency Resolve"
 msgstr "紧急裁决"
 
@@ -684,7 +709,7 @@ msgstr "紧急裁决事件成功"
 msgid "Emergency Resolving Incident"
 msgstr "正在紧急裁决事件"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:173
+#: src/modules/reporting/resolved/ResolveIncident.jsx:176
 msgid "Emergency Resolving..."
 msgstr "正在紧急裁决"
 
@@ -778,18 +803,18 @@ msgstr "将在   后过期"
 msgid "Explain briefly about the incident if you want to add anything."
 msgstr "如您想添加任何内容，请在这一栏简单描述该事件。"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:151
+#: src/modules/reporting/resolved/ResolveIncident.jsx:154
 msgid "FALSE REPORTING"
 msgstr "误报"
 
-#: src/modules/reporting/HorizontalChartLegend.jsx:11
-#: src/modules/reporting/ReportComments.jsx:70
-#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:53
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:76
 #: src/modules/reporting/active/ActiveReportSummary.jsx:166
 #: src/modules/reporting/active/CastYourVote.jsx:144
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:152
+#: src/modules/reporting/HorizontalChartLegend.jsx:11
+#: src/modules/reporting/ReportComments.jsx:70
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:153
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:53
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:76
 #: src/utils/translations.js:44
 msgid "False Reporting"
 msgstr "误报"
@@ -818,16 +843,16 @@ msgstr "正在获取余额。。。"
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
 #: src/modules/pools/bond/index.jsx:173
 #: src/modules/pools/staking/StakeForm.jsx:69
-#: src/modules/reporting/NewIncidentReportForm.jsx:217
 #: src/modules/reporting/active/CastYourVote.jsx:113
+#: src/modules/reporting/NewIncidentReportForm.jsx:217
 msgid "Fetching allowance..."
 msgstr "正在获取津贴。。。"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:171
 #: src/modules/pools/staking/StakeForm.jsx:67
-#: src/modules/reporting/NewIncidentReportForm.jsx:221
 #: src/modules/reporting/active/CastYourVote.jsx:111
+#: src/modules/reporting/NewIncidentReportForm.jsx:221
 msgid "Fetching balance..."
 msgstr "正在获取余额。。。"
 
@@ -847,7 +872,7 @@ msgstr "正在获取{liquidityTokenSymbol}津贴。。。"
 msgid "Fetching..."
 msgstr "正在获取中"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:262
 msgid "Finalize"
 msgstr "最终裁定"
 
@@ -863,7 +888,7 @@ msgstr "事件最终裁定成功"
 msgid "Finalizing Incident"
 msgstr "正在最终裁定事件"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:257
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:262
 msgid "Finalizing..."
 msgstr "正在最终裁定中"
 
@@ -876,8 +901,8 @@ msgstr "获得LP代币"
 #: src/modules/cover/purchase/index.jsx:59
 #: src/modules/reporting/ReportingHero.jsx:21
 #: src/modules/reporting/ReportingHero.jsx:38
-#: src/pages/covers/[cover_id]/[product_id]/options.jsx:40
 #: src/pages/covers/[cover_id]/options.jsx:32
+#: src/pages/covers/[cover_id]/[product_id]/options.jsx:40
 msgid "Home"
 msgstr "主页"
 
@@ -897,7 +922,7 @@ msgstr ""
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "我已阅读，理解并同意本保障的条款与细则。"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:143
+#: src/modules/reporting/resolved/ResolveIncident.jsx:146
 msgid "INCIDENT OCCURRED"
 msgstr ""
 
@@ -913,6 +938,12 @@ msgstr ""
 msgid "Important Note"
 msgstr ""
 
+#: src/modules/reporting/active/active.jsx:50
+#: src/modules/reporting/active/active.jsx:85
+#: src/modules/reporting/resolved/resolved.jsx:93
+msgid "Incident Date"
+msgstr "事件日期"
+
 #: src/utils/translations.js:42
 msgid "Incident Happened"
 msgstr "事件已发生"
@@ -921,18 +952,18 @@ msgstr "事件已发生"
 msgid "Incident Occured"
 msgstr ""
 
-#: src/modules/reporting/HorizontalChartLegend.jsx:8
-#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:43
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:75
 #: src/modules/reporting/active/ActiveReportSummary.jsx:121
 #: src/modules/reporting/active/CastYourVote.jsx:129
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:107
+#: src/modules/reporting/HorizontalChartLegend.jsx:8
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:108
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:43
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:75
 msgid "Incident Occurred"
 msgstr "事件已发生"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:213
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:195
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:196
 msgid "Incident Reporters"
 msgstr "事件通报者"
 
@@ -940,7 +971,7 @@ msgstr "事件通报者"
 msgid "Incorrect Referral Code"
 msgstr ""
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:102
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:103
 msgid "Insights"
 msgstr "洞见"
 
@@ -950,9 +981,9 @@ msgstr "洞见"
 #: src/hooks/usePurchasePolicy.jsx:91
 #: src/hooks/useStakingPoolDeposit.jsx:299
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:107
+#: src/modules/reporting/active/CastYourVote.jsx:71
 #: src/modules/reporting/NewDisputeReportForm.jsx:172
 #: src/modules/reporting/NewIncidentReportForm.jsx:208
-#: src/modules/reporting/active/CastYourVote.jsx:71
 msgid "Insufficient Balance"
 msgstr "余额不足"
 
@@ -993,7 +1024,7 @@ msgstr "上次同步时间："
 #: src/common/Cover/ProductCard.jsx:174
 #: src/common/Cover/ProductCard.jsx:222
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
-#: src/common/SearchAndSortBar.jsx:10
+#: src/common/SearchAndSortBar.jsx:24
 msgid "Liquidity"
 msgstr "流动性"
 
@@ -1033,9 +1064,9 @@ msgstr "可购买保障的最高限额是{0}"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:212
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:180
+#: src/modules/reporting/active/CastYourVote.jsx:176
 #: src/modules/reporting/NewDisputeReportForm.jsx:158
 #: src/modules/reporting/NewIncidentReportForm.jsx:194
-#: src/modules/reporting/active/CastYourVote.jsx:176
 msgid "Minimum Stake:"
 msgstr "最低质押数量："
 
@@ -1092,20 +1123,20 @@ msgstr "Neptune可能会不经通知随时更改该免责声明，这些更改�
 msgid "Next"
 msgstr "下一个"
 
-#: src/modules/pools/staking/index.jsx:155
+#: src/modules/pools/staking/index.jsx:144
 msgid "No <0>staking pools found.</0>"
 msgstr "没有<0>发现质押资金池。</0>"
 
-#: src/modules/pools/pod-staking/index.jsx:163
+#: src/modules/pools/pod-staking/index.jsx:151
 msgid "No POD"
 msgstr "没有POD（存款凭证）"
 
 #: src/common/Table/Table.jsx:75
-#: src/modules/reporting/resolved/resolved.jsx:267
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
+#: src/modules/reporting/resolved/resolved.jsx:258
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:48
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:81
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:48
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:81
 msgid "No data found"
 msgstr "无查找的数据"
 
@@ -1125,8 +1156,8 @@ msgstr "在时间戳表示的时间内未有任何认可的事件被通报"
 msgid "Normal"
 msgstr "正常"
 
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:92
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:92
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:92
 msgid "Not applicable for disputing"
 msgstr "不适用于争议"
 
@@ -1294,7 +1325,7 @@ msgid "Report Incident"
 msgstr "通报事件"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:76
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:82
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:83
 msgid "Report Summary"
 msgstr "事件通报概要"
 
@@ -1327,7 +1358,7 @@ msgid "Reporting Info"
 msgstr "通报信息"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:230
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:212
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:213
 msgid "Reporting Period"
 msgstr "通报期"
 
@@ -1335,8 +1366,8 @@ msgstr "通报期"
 msgid "Reporting incident"
 msgstr "正在通报事件"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:230
 #: src/modules/reporting/active/CastYourVote.jsx:227
+#: src/modules/reporting/NewIncidentReportForm.jsx:230
 msgid "Reporting..."
 msgstr "通报中"
 
@@ -1348,7 +1379,7 @@ msgstr "由   裁决"
 msgid "Resolution Sources"
 msgstr "裁决的证据及资料"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:76
+#: src/modules/reporting/resolved/ResolveIncident.jsx:78
 msgid "Resolve"
 msgstr "裁决"
 
@@ -1360,6 +1391,11 @@ msgstr "裁决时间"
 msgid "Resolved"
 msgstr "已裁决"
 
+#: src/modules/reporting/resolved/resolved.jsx:57
+#: src/modules/reporting/resolved/resolved.jsx:94
+msgid "Resolved Date"
+msgstr "解决日期"
+
 #: src/helpers/notification.js:95
 msgid "Resolved Incident Successfully"
 msgstr "事件裁决成功"
@@ -1368,11 +1404,11 @@ msgstr "事件裁决成功"
 msgid "Resolving Incident"
 msgstr "正在裁决事件"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:60
+#: src/modules/reporting/resolved/ResolveIncident.jsx:62
 msgid "Resolving in"
 msgstr "在  后进行裁决"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:76
+#: src/modules/reporting/resolved/ResolveIncident.jsx:78
 msgid "Resolving..."
 msgstr "正在裁决中"
 
@@ -1384,7 +1420,7 @@ msgstr "结果："
 msgid "Risk Disclosure / Disclaimer"
 msgstr ""
 
-#: src/common/SearchAndSortBar.jsx:39
+#: src/common/SearchAndSortBar.jsx:45
 msgid "Search"
 msgstr "查询"
 
@@ -1400,7 +1436,7 @@ msgstr "查看更少"
 msgid "See more"
 msgstr "查看更多"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:139
+#: src/modules/reporting/resolved/ResolveIncident.jsx:142
 msgid "Select Your Decision"
 msgstr "选择您的决定"
 
@@ -1414,10 +1450,10 @@ msgstr "选择您的保障期限"
 
 #: src/common/ProductsGrid/ProductsGrid.jsx:164
 #: src/common/Table/Table.jsx:39
-#: src/modules/home/AvailableCovers.jsx:143
-#: src/modules/pools/pod-staking/index.jsx:137
-#: src/modules/pools/staking/index.jsx:132
-#: src/modules/reporting/active/active.jsx:159
+#: src/modules/home/AvailableCovers.jsx:179
+#: src/modules/pools/pod-staking/index.jsx:125
+#: src/modules/pools/staking/index.jsx:121
+#: src/modules/reporting/active/active.jsx:154
 msgid "Show More"
 msgstr "显示更多"
 
@@ -1425,7 +1461,7 @@ msgstr "显示更多"
 msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr ""
 
-#: src/common/SearchAndSortBar.jsx:53
+#: src/common/SearchAndSortBar.jsx:59
 msgid "Sort by:"
 msgstr "排序方式："
 
@@ -1440,11 +1476,11 @@ msgstr "排序方式："
 msgid "Stake"
 msgstr "质押"
 
-#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:85
 #: src/modules/reporting/active/ActiveReportSummary.jsx:130
 #: src/modules/reporting/active/ActiveReportSummary.jsx:175
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:116
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:161
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:117
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:162
+#: src/modules/reporting/VotesSummaryHorizontalChart.jsx:85
 msgid "Stake:"
 msgstr "质押数量："
 
@@ -1484,7 +1520,9 @@ msgstr ""
 msgid "Success"
 msgstr "成功"
 
+#: src/modules/pools/pod-staking/index.jsx:69
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:118
+#: src/modules/pools/staking/index.jsx:69
 #: src/modules/pools/staking/StakingCard.jsx:110
 msgid "TVL"
 msgstr "总锁仓量"
@@ -1632,12 +1670,13 @@ msgstr "解除质押中"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:126
 #: src/modules/reporting/active/ActiveReportSummary.jsx:171
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:112
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:157
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:113
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:158
 msgid "User Votes:"
 msgstr "用户投票数："
 
-#: src/common/SearchAndSortBar.jsx:9
+#: src/common/SearchAndSortBar.jsx:23
+#: src/modules/reporting/active/active.jsx:84
 msgid "Utilization Ratio"
 msgstr "利用率"
 
@@ -1660,6 +1699,10 @@ msgstr "在Explorer上查看"
 #: src/common/ViewTxLink.jsx:14
 msgid "View transaction"
 msgstr "查看交易"
+
+#: src/modules/home/AvailableCovers.jsx:140
+msgid "View:"
+msgstr ""
 
 #: src/modules/reporting/RecentVotesTable.jsx:60
 msgid "Weight"
@@ -1731,8 +1774,8 @@ msgstr "您的Bond"
 #: src/modules/pools/staking/StakingCard.jsx:93
 #: src/modules/reporting/active/ActiveReportSummary.jsx:145
 #: src/modules/reporting/active/ActiveReportSummary.jsx:194
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:131
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:176
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:132
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:177
 msgid "Your Stake"
 msgstr "您的质押"
 
@@ -1833,7 +1876,7 @@ msgstr "认领保单"
 msgid "close"
 msgstr "关闭"
 
-#: src/modules/reporting/resolved/resolved.jsx:190
+#: src/modules/reporting/resolved/resolved.jsx:181
 msgid "cover"
 msgstr ""
 
@@ -1841,7 +1884,7 @@ msgstr ""
 msgid "create bond"
 msgstr "创建bond"
 
-#: src/modules/reporting/resolved/resolved.jsx:196
+#: src/modules/reporting/resolved/resolved.jsx:187
 msgid "date and time"
 msgstr ""
 
@@ -1871,6 +1914,10 @@ msgstr "获取费率"
 msgid "get pool info"
 msgstr "获取资金池信息"
 
+#: src/hooks/useRoles.jsx:32
+msgid "get roles"
+msgstr ""
+
 #: src/hooks/useMyLiquidityInfo.jsx:60
 msgid "get vault info"
 msgstr "获取金库信息"
@@ -1884,40 +1931,40 @@ msgstr "设置用户白名单"
 msgid "https://"
 msgstr "https://"
 
+#: src/pages/covers/[cover_id]/options.jsx:34
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:42
 #: src/pages/covers/[cover_id]/[product_id]/options.jsx:47
-#: src/pages/covers/[cover_id]/options.jsx:34
 msgid "loading.."
 msgstr ""
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:75
 #: src/common/Table/__tests__/Table.test.jsx:108
-#: src/modules/cover/CoverOptionsPage.jsx:25
 #: src/modules/cover/add-liquidity/index.jsx:36
+#: src/modules/cover/CoverOptionsPage.jsx:25
 #: src/modules/cover/purchase/index.jsx:36
 #: src/modules/my-liquidity/details.jsx:36
 #: src/modules/my-policies/ClaimDetailsPage.jsx:48
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:51
 #: src/modules/reporting/new/index.jsx:49
-#: src/modules/reporting/resolved/ResolveIncident.jsx:46
+#: src/modules/reporting/resolved/resolved.jsx:258
+#: src/modules/reporting/resolved/ResolveIncident.jsx:48
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
-#: src/modules/reporting/resolved/resolved.jsx:267
 #: src/pages/my-liquidity/index.jsx:59
-#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:42
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:36
-#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:75
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/details.jsx:42
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:36
 #: src/pages/reporting/[cover_id]/product/[product_id]/[timestamp]/dispute.jsx:75
+#: src/pages/reporting/[cover_id]/[timestamp]/details.jsx:42
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:36
+#: src/pages/reporting/[cover_id]/[timestamp]/dispute.jsx:75
 msgid "loading..."
 msgstr "加载中"
 
 #: src/modules/my-liquidity/index.jsx:74
 #: src/modules/my-policies/active/PoliciesActivePage.jsx:38
 #: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:36
-#: src/modules/pools/pod-staking/index.jsx:159
-#: src/modules/pools/staking/index.jsx:151
+#: src/modules/pools/pod-staking/index.jsx:147
+#: src/modules/pools/staking/index.jsx:140
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:63
 msgid "no data found"
 msgstr "无数据显示"
@@ -1957,11 +2004,11 @@ msgstr "选择一个保单"
 msgid "stake {tokenSymbol}"
 msgstr "质押{tokenSymbol}"
 
-#: src/modules/pools/pod-staking/index.jsx:165
+#: src/modules/pools/pod-staking/index.jsx:153
 msgid "staking pools found."
 msgstr "找到质押资金池。"
 
-#: src/modules/reporting/resolved/resolved.jsx:214
+#: src/modules/reporting/resolved/resolved.jsx:205
 msgid "status"
 msgstr ""
 
@@ -1985,11 +2032,11 @@ msgstr "以共同分担风险及获取奖励"
 msgid "to receive payout by claiming cxTokens"
 msgstr "通过认领cxTokens来获得赔偿"
 
-#: src/modules/reporting/resolved/resolved.jsx:202
+#: src/modules/reporting/resolved/resolved.jsx:193
 msgid "total attested stake"
 msgstr ""
 
-#: src/modules/reporting/resolved/resolved.jsx:208
+#: src/modules/reporting/resolved/resolved.jsx:199
 msgid "total refuted stake"
 msgstr ""
 

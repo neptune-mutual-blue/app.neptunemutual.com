@@ -54,7 +54,8 @@ export const ReportingResolvedPage = () => {
   } = useResolvedReportings();
 
   const [sortType, setSortType] = useState({
-    name: SORT_TYPES.RESOLVED_DATE,
+    name: t`Resolved Date`,
+    value: SORT_TYPES.RESOLVED_DATE,
   });
   const router = useRouter();
   const { getStatsByKey } = useSortableStats();
@@ -80,28 +81,18 @@ export const ReportingResolvedPage = () => {
   const resolvedCardInfoArray = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
-  const options = useMemo(() => {
-    if (router.locale) {
-      return [
-        { name: SORT_TYPES.ALPHABETIC },
-        { name: SORT_TYPES.INCIDENT_DATE },
-        { name: SORT_TYPES.RESOLVED_DATE },
-      ];
-    }
-
-    return [
-      { name: SORT_TYPES.ALPHABETIC },
-      { name: SORT_TYPES.INCIDENT_DATE },
-      { name: SORT_TYPES.RESOLVED_DATE },
-    ];
-  }, [router.locale]);
+  const options = [
+    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
+    { name: t`Resolved Date`, value: SORT_TYPES.RESOLVED_DATE },
+  ];
 
   const renderHeader = (col) => {
     return (

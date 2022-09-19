@@ -43,3 +43,26 @@ describe("CoverPurchasePage.test", () => {
     expect(screen.getByTestId("purchase-policy-form")).toBeInTheDocument();
   });
 });
+
+describe("CoverPurchasePage.test", () => {
+  beforeEach(() => {
+    act(() => {
+      i18n.activate("en");
+    });
+
+    mockFn.useAppConstants();
+    mockFn.useMyLiquidityInfo();
+    mockFn.useCoverOrProductData(() => {});
+    mockFn.useCoverStatsContext();
+    // mockFn.useValidateReferralCode();
+    mockFn.useRouter();
+
+    render(<CoverPurchaseDetailsPage />);
+  });
+
+  test("should show loading if not cover info", async () => {
+    await waitFor(() => {
+      expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    });
+  });
+});

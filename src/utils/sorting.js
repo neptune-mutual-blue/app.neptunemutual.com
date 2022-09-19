@@ -1,6 +1,7 @@
 import { toBNSafe } from "@/utils/bn";
 import { toStringSafe } from "@/utils/string";
 
+// Don't translate these
 export const SORT_TYPES = {
   ALPHABETIC: "A-Z",
   UTILIZATION_RATIO: "Utilization Ratio",
@@ -9,6 +10,9 @@ export const SORT_TYPES = {
   APR: "APR",
   INCIDENT_DATE: "Incident Date",
   RESOLVED_DATE: "Resolved Date",
+  ALL: "All",
+  DIVERSIFIED_POOL: "Diversified Pool",
+  DEDICATED_POOL: "Dedicated Pool",
 };
 
 export const SORT_DATA_TYPES = {

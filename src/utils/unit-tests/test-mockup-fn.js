@@ -1,9 +1,10 @@
 import { testData } from "@/utils/unit-tests/test-data";
 
+import * as FetchReportsByKeyAndDat from "@/src/hooks/useFetchReportsByKeyAndDate";
+import * as ActivePoliciesByCover from "@/src/hooks/useActivePoliciesByCover";
 import * as ActiveReportings from "@/src/hooks/useActiveReportings";
 import * as CoverOrProductData from "@/src/hooks/useCoverOrProductData";
 import * as ValidReportHook from "@/src/hooks/useValidReport";
-
 import * as FetchCoverStatsHook from "@/src/hooks/useFetchCoverStats";
 import * as ERC20BalanceHook from "@/src/hooks/useERC20Balance";
 import * as CoverStatsContext from "@/common/Cover/CoverStatsContext";
@@ -27,14 +28,13 @@ import * as PodStakingPoolsHook from "@/src/hooks/usePodStakingPools";
 import * as PoolInfoHook from "@/src/hooks/usePoolInfo";
 import * as SortableStatsHook from "@/src/context/SortableStatsContext";
 import * as ActivePoliciesHook from "@/src/hooks/useActivePolicies";
+import * as ExpiredPoliciesHook from "@/src/hooks/useExpiredPolicies.jsx";
 import * as ToastHook from "@/lib/toast/context";
 import * as ResolvedReportingsHook from "@/src/hooks/useResolvedReportings";
 import * as SearchResultsHook from "@/src/hooks/useSearchResults";
 import * as LiquidityInfoHook from "@/src/hooks/useMyLiquidityInfo";
-// import * as ValidateReferralCode from "@/src/hooks/useValidateReferralCode";
 import * as PolicyFees from "@/src/hooks/usePolicyFees";
 import * as PurchasePolicy from "@/src/hooks/usePurchasePolicy";
-
 import * as CalculateLiquidityHook from "@/src/hooks/useCalculateLiquidity";
 import * as RemoveLiquidityHook from "@/src/hooks/useRemoveLiquidity";
 import * as LocalStorageHook from "@/src/hooks/useLocalStorage";
@@ -57,16 +57,13 @@ import * as CoversAndProductsHook from "@/src/context/CoversAndProductsData";
 import * as GovernanceAddressHook from "@/src/hooks/contracts/useGovernanceAddress";
 import * as UnlimitedApprovalHook from "@/src/context/UnlimitedApproval";
 import * as AuthValidationHook from "@/src/hooks/useAuthValidation";
-
 import * as PurchasedEventHook from "@/src/hooks/useFetchCoverPurchasedEvent";
 import * as EagerConnect from "@/lib/connect-wallet/hooks/useEagerConnect";
-
 import * as ReportIncident from "@/src/hooks/useReportIncident";
 import * as DisputeIncident from "@/src/hooks/useDisputeIncident";
 import * as TokenDecimals from "@/src/hooks/useTokenDecimals";
 import * as MyLiqudities from "@/src/hooks/useMyLiquidities";
 import * as CalculateTotalLiquidity from "@/src/hooks/useCalculateTotalLiquidity";
-
 import * as ConsensusReportingInfoHook from "@/src/hooks/useConsensusReportingInfo";
 import * as RecentVotesHook from "@/src/hooks/useRecentVotes";
 import * as GetStatsFile from "@/src/services/protocol/cover/stats";
@@ -75,8 +72,15 @@ import * as RetryUntilPassedHook from "@/src/hooks/useRetryUntilPassed";
 import * as UseVoteHook from "@/src/hooks/useVote";
 import * as BondInfoHook from "@/src/hooks/useBondInfo";
 import * as BondTxsHook from "@/src/hooks/useBondTxs";
-
 import * as VaultInfoFile from "@/src/services/protocol/vault/info";
+import * as WalletUtilsFile from "@/lib/connect-wallet/utils/wallet";
+import * as SubgraphData from "@/src/services/subgraph";
+import * as StakingPoolsAddressHook from "@/src/hooks/contracts/useStakingPoolsAddress";
+import * as TransactionHistoryFile from "@/src/services/transactions/transaction-history";
+import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
+import * as ValidateReferralCodeHook from "@/src/hooks/useValidateReferralCode";
+import * as CalculatePodsHook from "@/src/hooks/useCalculatePods";
+import * as ProvideLiquidityHook from "@/src/hooks/useProvideLiquidity";
 
 const Web3React = require("@web3-react/core");
 
@@ -95,6 +99,26 @@ const returnFunction = (d) => {
 };
 
 export const mockFn = {
+  useActivePoliciesByCover: (
+    cb = () => ({
+      data: { ...testData.activePoliciesByCover },
+      hasMore: false,
+    })
+  ) =>
+    jest
+      .spyOn(ActivePoliciesByCover, "useActivePoliciesByCover")
+      .mockImplementation(returnFunction(cb)),
+
+  useFetchReportsByKeyAndDate: (
+    cb = () => ({
+      data: testData.reports,
+      loading: false,
+    })
+  ) =>
+    jest
+      .spyOn(FetchReportsByKeyAndDat, "useFetchReportsByKeyAndDate")
+      .mockImplementation(returnFunction(cb)),
+
   useActiveReportings: (
     cb = () => ({
       data: {
@@ -190,11 +214,13 @@ export const mockFn = {
       .spyOn(ConfigEnvironmentFile, "getNetworkId")
       .mockImplementation(returnFunction(cb)),
 
-  getGraphURL: (networkId = 80001) =>
+  getGraphURL: (networkId = 80001, sendNull = false) =>
     jest
       .spyOn(ConfigEnvironmentFile, "getGraphURL")
-      .mockImplementation(
-        () => `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
+      .mockImplementation(() =>
+        sendNull
+          ? null
+          : `https://api.thegraph.com/subgraphs/name/test-org/${networkId}`
       ),
 
   useWeb3React: (cb = () => testData.account) =>
@@ -275,8 +301,28 @@ export const mockFn = {
     jest
       .spyOn(ActivePoliciesHook, "useActivePolicies")
       .mockImplementation(returnFunction(cb)),
+  useExpiredPolicies: (cb = () => testData.useExpiredPolicies) =>
+    jest
+      .spyOn(ExpiredPoliciesHook, "useExpiredPolicies")
+      .mockImplementation(returnFunction(cb)),
 
-  chartMockFn: (props) => <div data-testid={props["data-testid"]}></div>,
+  chartMockFn: (props) => {
+    const options = props?.options;
+    options?.scales?.x?.ticks?.callback?.();
+    options?.animation?.onComplete?.({
+      chart: {
+        ctx: { fillText: jest.fn() },
+        getDatasetMeta: () => ({
+          data: [
+            { x: 1, y: 1 },
+            { x: 1, y: 1 },
+          ],
+        }),
+        data: { datasets: [{ data: [1] }] },
+      },
+    });
+    return <div data-testid={props["data-testid"]}></div>;
+  },
 
   useToast: (cb = () => testData.toast) =>
     jest.spyOn(ToastHook, "useToast").mockImplementation(returnFunction(cb)),
@@ -333,6 +379,7 @@ export const mockFn = {
 
   console: {
     error: () => {
+      const originalError = console.error;
       const mockConsoleError = jest.fn();
 
       return {
@@ -343,13 +390,14 @@ export const mockFn = {
         },
         restore: () => {
           Object.defineProperty(global.console, "error", {
-            value: console.error,
+            value: originalError,
           });
         },
         mockFunction: mockConsoleError,
       };
     },
     log: () => {
+      const originalLog = console.log;
       const mockConsoleLog = jest.fn();
 
       return {
@@ -360,7 +408,7 @@ export const mockFn = {
         },
         restore: () => {
           Object.defineProperty(global.console, "log", {
-            value: console.log,
+            value: originalLog,
           });
         },
         mockFunction: mockConsoleLog,
@@ -430,7 +478,7 @@ export const mockFn = {
             ...fetchResponse,
             json: () => Promise.resolve(fetchJsonData),
           })
-        : Promise.reject("Error occured")
+        : Promise.reject(fetchJsonData ?? "Error occured")
     );
     return {
       unmock: () => {
@@ -500,11 +548,21 @@ export const mockFn = {
             Promise.resolve("geInstance() mock")
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.BondPool.getAddress = jest.fn(() =>
+            Promise.resolve(testData.bondPoolAddress)
+          );
+        },
       },
       Governance: {
         getInstance: () => {
           NeptuneMutualSDK.registry.Governance.getInstance = jest.fn(() =>
             Promise.resolve("geInstance() mock")
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Governance.getAddress = jest.fn(() =>
+            Promise.resolve(testData.governanceAddress)
           );
         },
       },
@@ -519,6 +577,11 @@ export const mockFn = {
         getInstance: () => {
           NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
             Promise.resolve("geInstance() mock")
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
           );
         },
       },
@@ -555,6 +618,62 @@ export const mockFn = {
             )
           );
         },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
+            Promise.resolve(testData.vaultAddress)
+          );
+        },
+      },
+      PolicyContract: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.PolicyContract.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getInstance() mock"
+            )
+          );
+        },
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "PolicyContract getAddress() mock"
+            )
+          );
+          NeptuneMutualSDK.registry.PolicyContract.getAddress =
+            functionUndefined ? undefined : mockFunction;
+        },
+      },
+      ClaimsProcessor: {
+        getAddress: () => {
+          NeptuneMutualSDK.registry.ClaimsProcessor.getAddress = jest.fn(() =>
+            Promise.resolve(testData.claimsProcessorAddress)
+          );
+        },
+      },
+      StakingPools: {
+        getInstance: (returnUndefined = false) => {
+          NeptuneMutualSDK.registry.StakingPools.getInstance = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "StakingPools getInstance() mock"
+            )
+          );
+        },
+        getAddress: () => {
+          NeptuneMutualSDK.registry.StakingPools.getAddress = jest.fn(() =>
+            Promise.resolve(testData.poolInfo.info.stakingPoolsContractAddress)
+          );
+        },
+      },
+      Protocol: {
+        getAddress: (returnUndefined = false, functionUndefined = false) => {
+          const mockFunction = jest.fn(() =>
+            Promise.resolve(
+              returnUndefined ? undefined : "Protocol getAddress() mock"
+            )
+          );
+          NeptuneMutualSDK.registry.Protocol.getAddress = functionUndefined
+            ? undefined
+            : mockFunction;
+        },
       },
     },
     utils: {
@@ -564,11 +683,64 @@ export const mockFn = {
             Promise.resolve(returnUndefined ? undefined : [payload.toString()])
           );
         },
+        readBytes32: (ipfsBytes) => {
+          NeptuneMutualSDK.utils.ipfs.readBytes32 = jest.fn(() =>
+            Promise.resolve(ipfsBytes)
+          );
+        },
       },
+    },
+    governance: {
+      report: () => {
+        NeptuneMutualSDK.governance.report = jest.fn(() =>
+          Promise.resolve(testData.governanceReportResult)
+        );
+      },
+    },
+    multicall: (returnData) => {
+      const data = {
+        getCoverFeeInfo:
+          returnData?.getCoverFeeInfo ?? jest.fn(() => "getCoverFeeInfo mock"),
+        getExpiryDate:
+          returnData?.getExpiryDate ?? jest.fn(() => "getexpirydate mock"),
+        hasRole: returnData?.hasRole ?? jest.fn((...args) => args),
+        calculateLiquidity:
+          returnData?.calculateLiquidity ?? jest.fn((...args) => args),
+        init: returnData?.init ?? jest.fn(() => Promise.resolve("init")),
+        all:
+          returnData?.all ??
+          jest.fn(() => {
+            const { getCoverFeeInfoResult, getExpiryDateResult } =
+              testData.multicallProvider;
+            return Promise.resolve([
+              getCoverFeeInfoResult,
+              getExpiryDateResult,
+            ]);
+          }),
+      };
+
+      class MockContract {
+        getCoverFeeInfo = data.getCoverFeeInfo;
+        getExpiryDate = data.getExpiryDate;
+        hasRole = data.hasRole;
+        calculateLiquidity = data.calculateLiquidity;
+      }
+      class MockProvider {
+        init = data.init;
+        all = data.all;
+      }
+
+      NeptuneMutualSDK.multicall.Contract = MockContract;
+      NeptuneMutualSDK.multicall.Provider = MockProvider;
     },
   },
 
   setTimeout: () => (global.setTimeout = jest.fn((cb) => cb())),
+  setInterval: () =>
+    (global.setInterval = jest.fn((cb) => {
+      cb();
+      return 1234;
+    })),
 
   useCoversAndProducts: (resolve = true, returnData = {}) =>
     jest
@@ -595,31 +767,93 @@ export const mockFn = {
     jest
       .spyOn(AuthValidationHook, "useAuthValidation")
       .mockImplementation(returnFunction(cb)),
+
   getStats: (cb = () => Promise.resolve(testData.getcoverStats)) =>
     jest.spyOn(GetStatsFile, "getStats").mockImplementation(returnFunction(cb)),
+
   useMyLiquidities: (cb = () => testData.myLiquidities) => {
     jest
       .spyOn(MyLiqudities, "useMyLiquidities")
       .mockImplementation(returnFunction(cb));
   },
+
   useCalculateTotalLiquidity: (cb = () => testData.calculateTotalLiquidity) => {
     jest
       .spyOn(CalculateTotalLiquidity, "useCalculateTotalLiquidity")
       .mockImplementation(returnFunction(cb));
   },
+
   useVote: (cb = () => testData.castYourVote) =>
     jest.spyOn(UseVoteHook, "useVote").mockImplementation(returnFunction(cb)),
+
   useBondInfo: (cb = () => testData.bondInfo) => {
     jest
       .spyOn(BondInfoHook, "useBondInfo")
       .mockImplementation(returnFunction(cb));
   },
+
   useBondTxs: (cb = () => testData.bondTxs) =>
     jest
       .spyOn(BondTxsHook, "useBondTxs")
       .mockImplementation(returnFunction(cb)),
+
   getInfo: (cb = () => testData.myLiquidityInfo) =>
     jest.spyOn(VaultInfoFile, "getInfo").mockImplementation(returnFunction(cb)),
+
+  registerToken: (success = true) =>
+    jest
+      .spyOn(WalletUtilsFile, "registerToken")
+      .mockImplementation(() =>
+        success
+          ? Promise.resolve("registerToken success")
+          : Promise.reject("registerToken error")
+      ),
+
+  getSubgraphData: (cb = () => testData.defaultSubgraphData) =>
+    jest
+      .spyOn(SubgraphData, "getSubgraphData")
+      .mockImplementation(returnFunction(cb)),
+
+  useStakingPoolsAddress: (cb = () => testData.stakingPoolsAddress) =>
+    jest
+      .spyOn(StakingPoolsAddressHook, "useStakingPoolsAddress")
+      .mockImplementation(returnFunction(cb)),
+
+  TransactionHistory: {
+    callback: (mockCallbackFunction = true) => {
+      const originalFunction =
+        TransactionHistoryFile.TransactionHistory.callback;
+
+      if (mockCallbackFunction) {
+        const mockFunction = jest.fn(
+          (provider, { success = () => {}, failure = () => {} }) => {
+            const arg = { hash: 1, methodName: "success", data: {} };
+            success(arg);
+            failure(arg);
+          }
+        );
+        TransactionHistoryFile.TransactionHistory.callback = mockFunction;
+        return null;
+      }
+      TransactionHistoryFile.TransactionHistory.callback = originalFunction;
+    },
+  },
+  usePolicyAddress: (cb = () => testData.policyContractAddress) =>
+    jest
+      .spyOn(PolicyAddressHook, "usePolicyAddress")
+      .mockImplementation(returnFunction(cb)),
+  useValidateReferralCode: (cb = () => testData.referralCodeHook) =>
+    jest
+      .spyOn(ValidateReferralCodeHook, "useValidateReferralCode")
+      .mockImplementation(returnFunction(cb)),
+  useCalculatePods: (cb = () => testData.calculatePods) =>
+    jest
+      .spyOn(CalculatePodsHook, "useCalculatePods")
+      .mockImplementation(returnFunction(cb)),
+  useProvideLiquidity: (cb = () => testData.provideLiquidity) =>
+    jest
+      .spyOn(ProvideLiquidityHook, "useProvideLiquidity")
+      .mockImplementation(returnFunction(cb)),
 };
 
 export const globalFn = {
@@ -679,12 +913,15 @@ export const globalFn = {
   DOMRect: () => {
     global.DOMRect = {
       fromRect: () => ({
+        x: 0,
+        y: 0,
         top: 0,
         left: 0,
         bottom: 0,
         right: 0,
         width: 0,
         height: 0,
+        toJSON: () => {},
       }),
     };
   },
@@ -703,6 +940,7 @@ export const initiateTest = (
     act(() => {
       i18n.activate("en");
     });
+
     return render(<Component {...props} {...newProps} />, options);
   };
 
@@ -748,6 +986,7 @@ export const renderHookWrapper = async (
     renderHookResult = {};
 
   await hooksAct(async () => {
+    i18n.activate("en");
     const {
       result,
       waitForNextUpdate: WFNU,

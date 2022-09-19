@@ -11,6 +11,7 @@ const customJestConfig = {
     "!**/.next/**",
     "!**/coverage/**",
     "!**/http/**",
+    "!**/lib/react-currency-input-field/**", // external package: https://github.com/cchanxzy/react-currency-input-field
     "!**/src/utils/unit-tests/**",
     "!**/_mocks/**",
     "!**/locales/**",
@@ -18,6 +19,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   verbose: true,
   modulePaths: ["<rootDir>/lib"],
+  modulePathIgnorePatterns: ["<rootDir>/.next"],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],

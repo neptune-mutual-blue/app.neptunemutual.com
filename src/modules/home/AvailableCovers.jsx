@@ -8,16 +8,16 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { Trans } from "@lingui/macro";
+import { Trans, t } from "@lingui/macro";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
 import { CoverCardWrapper } from "@/common/Cover/CoverCardWrapper";
-import { LayoutButtons } from "@/common/LayoutButtons/LayoutButtons";
 import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
 import { ProductCardWrapper } from "@/common/Cover/ProductCardWrapper";
 import { useCovers } from "@/src/hooks/useCovers";
 import { isValidProduct } from "@/src/helpers/cover";
 import { utils } from "@neptunemutual/sdk";
+import { SelectListBar } from "@/common/SelectListBar/SelectListBar";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -38,19 +38,28 @@ const sorterData = {
 };
 
 export const AvailableCovers = () => {
-  const { data: groupCovers, loading: groupCoversLoading } = useCovers();
+  const [coverView, setCoverView] = useState({
+    name: t`All`,
+    value: SORT_TYPES.ALL,
+  });
+  const { data: groupCovers, loading: groupCoversLoading } = useCovers({
+    supportsProducts: coverView.value === SORT_TYPES.DIVERSIFIED_POOL,
+  });
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts();
   const { getStatsByKey } = useSortableStats();
-
-  const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC });
+  const [sortType, setSortType] = useState({
+    name: t`A-Z`,
+    value: SORT_TYPES.ALL,
+  });
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
-  const [coverView, setCoverView] = useState("products");
 
   const coversLoading =
-    coverView == "products" ? flattenedCoversLoading : groupCoversLoading;
+    coverView.value === SORT_TYPES.ALL
+      ? flattenedCoversLoading
+      : groupCoversLoading;
   const availableCovers =
-    coverView == "products" ? flattenedCovers : groupCovers;
+    coverView.value === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => {
@@ -79,11 +88,11 @@ export const AvailableCovers = () => {
   const sortedCovers = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
+        ...sorterData[sortType.value],
         list: filtered,
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   );
 
   const searchHandler = (ev) => {
@@ -96,21 +105,27 @@ export const AvailableCovers = () => {
 
   return (
     <Container className="py-16" data-testid="available-covers-container">
-      <div className="flex flex-wrap items-center justify-between gap-6 md:flex-nowrap">
-        <h1 className="font-bold text-h3 lg:text-h2 font-sora">
+      <div className="flex flex-wrap items-center justify-between">
+        <h1 className="mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora">
           <Trans>Cover Products</Trans>
         </h1>
-        <div className="flex flex-wrap items-center justify-center w-full sm:flex-nowrap sm:w-auto">
+        <div className="flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto">
           <SearchAndSortBar
             searchValue={searchValue}
             onSearchChange={searchHandler}
-            sortClass="w-full md:w-48 lg:w-64 rounded-lg"
+            sortClass="w-auto mb-4 md:mb-0"
             containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
-            searchClass="w-full md:w-48 lg:w-64 rounded-lg"
+            inputClass="focus:md:w-96"
             sortType={sortType}
             setSortType={setSortType}
           />
-          <LayoutButtons coverView={coverView} setCoverView={setCoverView} />
+          <SelectListBar
+            sortClassContainer="w-full md:w-auto md:ml-2"
+            prefix={t`View:` + " "}
+            sortClass="w-auto"
+            sortType={coverView}
+            setSortType={setCoverView}
+          />
         </div>
       </div>
       <Grid className="gap-4 mt-14 lg:mb-24 mb-14" data-testid="body">
@@ -121,7 +136,10 @@ export const AvailableCovers = () => {
         {sortedCovers.map((c, idx) => {
           if (idx > showCount - 1) return;
 
-          if (coverView == "products" && isValidProduct(c.productKey)) {
+          if (
+            coverView.value === SORT_TYPES.ALL &&
+            isValidProduct(c.productKey)
+          ) {
             return (
               <ProductCardWrapper
                 key={c.id}
@@ -136,7 +154,9 @@ export const AvailableCovers = () => {
       </Grid>
       {sortedCovers.length > showCount && (
         <NeutralButton
-          className={"rounded-lg border-0.5"}
+          className={
+            "rounded-lg border-0 bg-E6EAEF !text-black font-poppins leading-5 !p-4"
+          }
           onClick={handleShowMore}
           data-testid="show-more-button"
         >
