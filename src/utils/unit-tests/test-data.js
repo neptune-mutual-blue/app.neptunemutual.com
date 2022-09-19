@@ -897,46 +897,43 @@ export const testData = {
   protocolDayData: {
     data: [
       {
-        date: 1658188800,
-        totalLiquidity: "61432804000000",
+        date: 1658880000,
+        totalLiquidity: "61483097602741",
       },
       {
         date: 1658361600,
         totalLiquidity: "61442554000000",
       },
       {
-        date: 1658448000,
+        date: 1658361600,
         totalLiquidity: "61447554000000",
       },
       {
         date: 1658275200,
         totalLiquidity: "61434054000000",
       },
-
+      {
+        date: 1658188800,
+        totalLiquidity: "61432804000000",
+      },
       {
         date: 1658534400,
         totalLiquidity: "61447554000000",
       },
       {
-        date: 1658620800,
+        date: 1668102401,
         totalLiquidity: "61447554000000",
       },
       {
         date: 1658793600,
         totalLiquidity: "61469047602741",
       },
-      {
-        date: 1658880000,
-        totalLiquidity: "61483097602741",
-      },
+
       {
         date: 1658880000,
         totalLiquidity: "61449554000000",
       },
-      {
-        date: 1658102400,
-        totalLiquidity: "61432804000000",
-      },
+
       {
         date: 1658966400,
         totalLiquidity: "61483097602741",
