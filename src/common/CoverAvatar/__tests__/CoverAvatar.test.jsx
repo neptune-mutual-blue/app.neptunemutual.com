@@ -1,4 +1,4 @@
-import { screen, act, render } from "@/utils/unit-tests/test-utils";
+import { screen, act, render, fireEvent } from "@/utils/unit-tests/test-utils";
 import { testData } from "@/utils/unit-tests/test-data";
 import { i18n } from "@lingui/core";
 import { CoverAvatar } from "@/common/CoverAvatar/CoverAvatar";
@@ -48,5 +48,31 @@ describe("CoverAvatar component", () => {
     );
     const moreText = screen.getByText(/MORE/i);
     expect(moreText).toBeInTheDocument();
+  });
+
+  test("should show empty images in case of error", () => {
+    const screen = render(
+      <CoverAvatar
+        coverInfo={testData.coverInfoWithProducts}
+        isDiversified={true}
+      />
+    );
+    const imgs = screen.container.getElementsByTagName("img");
+    fireEvent.error(imgs[0], { target: imgs[0] });
+
+    expect(imgs[0]).toHaveAttribute("src", "/images/covers/empty.svg");
+  });
+
+  test("should show empty images in case of error", () => {
+    const screen = render(
+      <CoverAvatar
+        coverInfo={testData.coverInfoWithProducts}
+        isDiversified={false}
+      />
+    );
+    const imgs = screen.container.getElementsByTagName("img");
+    fireEvent.error(imgs[0], { target: imgs[0] });
+
+    expect(imgs[0]).toHaveAttribute("src", "/images/covers/empty.svg");
   });
 });

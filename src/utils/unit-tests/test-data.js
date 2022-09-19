@@ -631,6 +631,7 @@ export const testData = {
     isPreview: false,
     isLocaleDomain: false,
     replace: jest.fn(),
+    back: jest.fn(),
   },
   coverActiveReportings: {
     data: [],
@@ -1725,4 +1726,36 @@ export const testData = {
   claimsProcessorAddress: "0x762FB9cD95b7499EE57FaEF271df998c8049dCE8",
   vaultAddress: "0xf7c352d9d6967bd916025030e38ea58cf48029f8",
   protocolAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
+  referralCodeHook: {
+    isValid: true,
+    errorMessage: "Invalid referral code",
+    isPending: false,
+  },
+  calculatePods: {
+    receiveAmount: "100",
+    loading: false,
+  },
+  provideLiquidity: {
+    npmApproving: false,
+    npmBalance: "10000000000000000",
+    npmBalanceLoading: false,
+    hasNPMTokenAllowance: true,
+    npmAllowanceLoading: false,
+
+    hasLqTokenAllowance: true,
+    lqApproving: false,
+    myStablecoinBalance: 1000,
+    lqAllowanceLoading: true,
+
+    canProvideLiquidity: true,
+    isError: false,
+    providing: false,
+    podSymbol: "AB-nDAI",
+    podAddress: "0xa85fd0D71c5780Cc4ac5c64F58abdb18D7E47d18",
+    podDecimals: "16",
+
+    handleLqTokenApprove: jest.fn(),
+    handleNPMTokenApprove: jest.fn(),
+    handleProvide: jest.fn(),
+  },
 };

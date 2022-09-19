@@ -1,4 +1,4 @@
-import { screen } from "@/utils/unit-tests/test-utils";
+import { fireEvent, screen } from "@/utils/unit-tests/test-utils";
 
 import {
   columns,
@@ -93,6 +93,20 @@ describe("MyLiquidityTxsTable test", () => {
       expect(tableRows.length).toBe(
         testData.liquidityTxs.data.transactions.length
       );
+    });
+
+    test("should render show more if its true", () => {
+      rerenderFn({}, () => {
+        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true });
+      });
+      const showMore = screen.getByTestId("table-show-more");
+      expect(showMore).toBeInTheDocument();
+      fireEvent.click(showMore);
+    });
+
+    test("fire register token", () => {
+      const register = screen.getAllByTitle("Add to Metamask");
+      fireEvent.click(register[0]);
     });
 
     describe("Tx table data row", () => {

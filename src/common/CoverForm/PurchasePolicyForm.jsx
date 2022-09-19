@@ -122,13 +122,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     setCoverMonth(e.target.value);
   };
 
-  const handleChooseMax = () => {
-    if (!balance) {
-      return;
-    }
-    setValue(convertFromUnits(balance, liquidityTokenDecimals).toString());
-  };
-
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale);
 
   let loadingMessage = "";
@@ -177,7 +170,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         labelText={t`Amount you wish to cover`}
         onChange={handleChange}
         error={!!error}
-        handleChooseMax={handleChooseMax}
+        handleChooseMax={() => {}}
         tokenAddress={liquidityTokenAddress}
         tokenSymbol={liquidityTokenSymbol}
         tokenDecimals={liquidityTokenDecimals}
@@ -249,14 +242,15 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
           <RegularInput
             className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 "
             inputProps={{
-              id: "referral_code",
-              placeholder: t`Enter Referral Code`,
-              value: referralCode,
-              onChange: (e) => {
+              "id": "referral_code",
+              "placeholder": t`Enter Referral Code`,
+              "value": referralCode,
+              "onChange": (e) => {
                 setReferralCode(e.target.value);
               },
-              disabled: approving,
-              type: "text",
+              "disabled": approving,
+              "type": "text",
+              "data-testid": "referral-input",
             }}
             error={!!referralCodeErrorMessage}
           />
@@ -343,6 +337,7 @@ const ReferralCodeStatus = ({
       <Loader
         className="absolute w-6 h-6 right-6 top-6 text-4e7dd9"
         aria-hidden="true"
+        data-testid="loader"
       />
     );
   }
