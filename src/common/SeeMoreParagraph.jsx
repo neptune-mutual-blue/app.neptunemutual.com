@@ -13,10 +13,6 @@ export const SeeMoreParagraph = ({ text = "" }) => {
   };
 
   useEffect(() => {
-    console.log({
-      sh: elementRef.current.scrollHeight,
-      oh: wrapperRef.current.offsetHeight,
-    });
     setHasOverflow(
       wrapperRef.current &&
         elementRef.current &&
