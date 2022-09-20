@@ -35,7 +35,9 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           Cannot {coverPurchasePage ? "purchase policy" : "add liquidity"},
           since the cover status is
         </Trans>{" "}
-        <Link href={`/reporting/${cover_id}/${activeIncidentDate}/details`}>
+        <Link
+          href={`/reports/${cover_id}/incidents/${activeIncidentDate}/details`}
+        >
           <a className="font-medium underline hover:no-underline">
             {productStatus}
           </a>

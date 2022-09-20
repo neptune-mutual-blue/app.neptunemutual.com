@@ -220,8 +220,8 @@ export const useDisputeIncident = ({
 
               router.replace(
                 isDiversified
-                  ? `/reporting/${query.cover_id}/product/${query.product_id}/${query.timestamp}/details`
-                  : `/reporting/${query.cover_id}/${query.timestamp}/details`
+                  ? `/reports/${query.cover_id}/products/${query.product_id}/incidents/${query.timestamp}/details`
+                  : `/reports/${query.cover_id}/incidents/${query.timestamp}/details`
               );
             },
             onTxFailure: () => {

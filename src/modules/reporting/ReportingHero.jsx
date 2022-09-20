@@ -21,7 +21,7 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
         { name: t`Home`, href: "/", current: false },
         {
           name: t`Reporting`,
-          href: `/reporting/${reportStatus.resolved ? "resolved" : "active"}`,
+          href: `/reports/${reportStatus.resolved ? "resolved" : "active"}`,
           current: false,
         },
         {
@@ -41,8 +41,8 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
             ? coverInfo?.infoObj.productName
             : coverInfo?.infoObj.coverName,
           href: product_id
-            ? `/covers/${cover_id}/${product_id}/options`
-            : `/covers/${cover_id}/options`,
+            ? `/covers/${cover_id}/products/${product_id}`
+            : `/covers/${cover_id}`,
           current: false,
         },
         { name: t`Reporting`, current: true },

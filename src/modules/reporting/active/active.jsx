@@ -126,8 +126,8 @@ function Content({ data, loading, hasMore, handleShowMore }) {
               <Link
                 href={
                   isDiversified
-                    ? `/reporting/${cover_id}/product/${product_id}/${report.incidentDate}/details`
-                    : `/reporting/${cover_id}/${report.incidentDate}/details`
+                    ? `/reports/${cover_id}/products/${product_id}/incidents/${report.incidentDate}/details`
+                    : `/reports/${cover_id}/incidents/${report.incidentDate}/details`
                 }
                 key={report.id}
               >
@@ -159,7 +159,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
   if (loading) {
     return (
       <div data-testid="active-reportings-card-skeleton">
-        <Grid className="gap-4 mt-14 lg:mb-24 mb-14 w-full">
+        <Grid className="w-full gap-4 mt-14 lg:mb-24 mb-14">
           <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
         </Grid>
       </div>

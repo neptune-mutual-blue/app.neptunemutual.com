@@ -40,8 +40,8 @@ export function NewIncidentReportPage() {
 
     router.replace(
       isDiversified
-        ? `/reporting/${cover_id}/product/${product_id}/${activeReportings[0].incidentDate}/details`
-        : `/reporting/${cover_id}/${activeReportings[0].incidentDate}/details`
+        ? `/reports/${cover_id}/products/${product_id}/incidents/${activeReportings[0].incidentDate}/details`
+        : `/reports/${cover_id}/incidents/${activeReportings[0].incidentDate}/details`
     );
   }, [activeReportings, cover_id, isDiversified, product_id, router]);
 

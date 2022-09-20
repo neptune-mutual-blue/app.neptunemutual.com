@@ -152,8 +152,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <Link
           href={
             !isDiversified
-              ? `/reporting/${cover_id}/${activeIncidentDate}/details`
-              : `/reporting/${cover_id}/product/${product_id}/${activeIncidentDate}/details`
+              ? `/reports/${cover_id}/incidents/${activeIncidentDate}/details`
+              : `/reports/${cover_id}/products/${product_id}/incidents/${activeIncidentDate}/details`
           }
         >
           <a className="font-medium underline hover:no-underline">{status}</a>

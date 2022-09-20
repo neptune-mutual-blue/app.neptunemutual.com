@@ -7,12 +7,12 @@ import { Trans } from "@lingui/macro";
 const headers = [
   {
     name: "active",
-    href: "/reporting/active",
+    href: "/reports/active",
     displayAs: <Trans>Active</Trans>,
   },
   {
     name: "resolved",
-    href: "/reporting/resolved",
+    href: "/reports/resolved",
     displayAs: <Trans>Resolved</Trans>,
   },
 ];
