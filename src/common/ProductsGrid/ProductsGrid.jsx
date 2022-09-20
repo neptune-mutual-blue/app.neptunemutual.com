@@ -93,7 +93,7 @@ export const ProductsGrid = () => {
         <div className="flex items-center">
           <button
             onClick={() => {
-              router.push("/");
+              router.push(`/?view=diversified`);
             }}
             className={
               "flex group items-center rounded-big bg-9B9B9B/30 px-4 py-2 mr-4"
