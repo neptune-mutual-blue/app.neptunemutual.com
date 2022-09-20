@@ -34,14 +34,14 @@ export function Card({ status, incidentDate = "0", coverKey, productKey }) {
       <Link
         href={
           !isDiversified
-            ? `/reporting/${safeParseBytes32String(
+            ? `/reports/${safeParseBytes32String(
                 coverKey
-              )}/${incidentDate}/details`
-            : `/reporting/${safeParseBytes32String(
+              )}/incidents/${incidentDate}/details`
+            : `/reports/${safeParseBytes32String(
                 coverKey
-              )}/product/${safeParseBytes32String(
+              )}/products/${safeParseBytes32String(
                 productKey
-              )}/${incidentDate}/details`
+              )}/incidents/${incidentDate}/details`
         }
       >
         <a data-testid="badge-link">{badge}</a>

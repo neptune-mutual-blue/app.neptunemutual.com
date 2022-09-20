@@ -148,9 +148,11 @@ const ReportListing = (props) => {
     const product_id = safeParseBytes32String(productKey);
 
     if (isDiversified) {
-      push(`/reporting/${cover_id}/product/${product_id}/${timestamp}/details`);
+      push(
+        `/reports/${cover_id}/products/${product_id}/incidents/${timestamp}/details`
+      );
     }
-    push(`/reporting/${cover_id}/${timestamp}/details`);
+    push(`/reports/${cover_id}/incidents/${timestamp}/details`);
   }
 
   return (
@@ -186,17 +188,17 @@ const ReportListing = (props) => {
                       {fromNow(report.incidentDate)}
                     </span>
                   </td>
-                  <td className="px-6 py-2 text-sm max-w-180 text-right">
+                  <td className="px-6 py-2 text-sm text-right max-w-180">
                     {convertFromUnits(report.totalAttestedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-2 text-sm max-w-180 text-right">
+                  <td className="px-6 py-2 text-sm text-right max-w-180">
                     {convertFromUnits(report.totalRefutedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-2 text-sm max-w-180 text-right">
+                  <td className="px-6 py-2 text-sm text-right max-w-180">
                     <Badge
                       className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
                       status={identifyStatus(report.status)}

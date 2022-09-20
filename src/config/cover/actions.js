@@ -16,7 +16,7 @@ export const actions = {
     footerImgSrc: `/cover-actions/purchase.svg`,
     getHref: (cover_id, product_id, isDiversified) =>
       isDiversified
-        ? `/covers/${cover_id}/${product_id}/purchase`
+        ? `/covers/${cover_id}/products/${product_id}/purchase`
         : `/covers/${cover_id}/purchase`,
     action: "purchase",
   },
@@ -40,7 +40,7 @@ export const actions = {
     footerImgSrc: `/cover-actions/report.svg`,
     getHref: (cover_id, product_id, isDiversified) =>
       isDiversified
-        ? `/covers/${cover_id}/${product_id}/new-report`
+        ? `/covers/${cover_id}/products/${product_id}/new-report`
         : `/covers/${cover_id}/new-report`,
     action: "new-report",
   },

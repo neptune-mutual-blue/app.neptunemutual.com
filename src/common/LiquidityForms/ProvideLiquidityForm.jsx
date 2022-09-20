@@ -158,7 +158,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
     const incidentDate = activeReportings[0].incidentDate;
     const cover_id = safeParseBytes32String(coverKey);
 
-    const incidentLink = `/reporting/${cover_id}/${incidentDate}/details`;
+    const incidentLink = `/reports/${cover_id}/incidents/${incidentDate}/details`;
 
     return isDiversified ? (
       <Alert>

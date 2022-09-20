@@ -220,9 +220,9 @@ export const ReportingResolvedPage = () => {
     const product_id = safeParseBytes32String(productKey);
 
     if (isDiversified) {
-      return `/reporting/${cover_id}/product/${product_id}/${timestamp}/details`;
+      return `/reports/${cover_id}/products/${product_id}/incidents/${timestamp}/details`;
     }
-    return `/reporting/${cover_id}/${timestamp}/details`;
+    return `/reports/${cover_id}/incidents/${timestamp}/details`;
   };
 
   return (

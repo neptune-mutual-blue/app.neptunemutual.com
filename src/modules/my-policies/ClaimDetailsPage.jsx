@@ -81,8 +81,8 @@ export const ClaimDetailsPage = ({ disabled }) => {
                 {
                   name: title,
                   href: !isDiversified
-                    ? `/covers/${cover_id}/options`
-                    : `/covers/${cover_id}/${product_id}/options`,
+                    ? `/covers/${cover_id}`
+                    : `/covers/${cover_id}/products/${product_id}`,
                   current: false,
                 },
                 { name: t`Claim`, href: "#", current: true },

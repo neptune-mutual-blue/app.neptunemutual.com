@@ -112,8 +112,8 @@ export const PolicyCardFooter = ({
         <Link
           href={
             isDiversified
-              ? `/my-policies/${cover_id}/product/${product_id}/${report.incidentDate}/claim`
-              : `/my-policies/${cover_id}/${report.incidentDate}/claim`
+              ? `/my-policies/${cover_id}/products/${product_id}/incidents/${report.incidentDate}/claim`
+              : `/my-policies/${cover_id}/incidents/${report.incidentDate}/claim`
           }
         >
           <a

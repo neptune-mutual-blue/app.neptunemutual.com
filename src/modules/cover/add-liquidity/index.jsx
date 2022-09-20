@@ -53,7 +53,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                 name: coverInfo?.infoObj.coverName,
                 href: isDiversified
                   ? `/diversified/${cover_id}`
-                  : `/covers/${cover_id}/options`,
+                  : `/covers/${cover_id}`,
                 current: false,
               },
               { name: t`Provide Liquidity`, current: true },

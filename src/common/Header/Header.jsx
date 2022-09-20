@@ -64,8 +64,8 @@ const getNavigationLinks = (pathname = "") => {
     },
     reportingEnabled && {
       name: t`Reporting`,
-      href: "/reporting/active",
-      activeWhenStartsWith: "/reporting",
+      href: "/reports/active",
+      activeWhenStartsWith: "/reports",
     },
   ];
 

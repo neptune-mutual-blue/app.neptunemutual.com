@@ -20,7 +20,7 @@ export const ProductCardWrapper = ({
   const product_id = safeParseBytes32String(productKey);
 
   return (
-    <Link href={`/covers/${cover_id}/${product_id}/options`} key={coverKey}>
+    <Link href={`/covers/${cover_id}/products/${product_id}`} key={coverKey}>
       <a
         className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
         data-testid="cover-link"

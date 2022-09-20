@@ -17,7 +17,7 @@ describe("Breadcrumb component", () => {
             { name: `Home`, href: "/", current: false },
             {
               name: "Animated Brands",
-              href: `/cover/animated-brands/options`,
+              href: `/cover/animated-brands`,
               current: false,
             },
             { name: `Provide Liquidity`, current: true },
@@ -35,7 +35,7 @@ describe("Breadcrumb component", () => {
             { name: `Home`, href: "/", current: false },
             {
               name: "Animated Brands",
-              href: `/cover/animated-brands/options`,
+              href: `/cover/animated-brands`,
               current: false,
             },
             { name: `Provide Liquidity`, current: true },
@@ -53,7 +53,7 @@ describe("Breadcrumb component", () => {
             { name: `Home`, href: "/", current: false },
             {
               name: "Animated Brands",
-              href: `/cover/animated-brands/options`,
+              href: `/cover/animated-brands`,
               current: false,
             },
             { name: `Provide Liquidity`, current: true },
@@ -63,7 +63,7 @@ describe("Breadcrumb component", () => {
       const brandLinkElement = screen.getByText("Animated Brands");
       expect(brandLinkElement).toHaveAttribute(
         "href",
-        "/cover/animated-brands/options"
+        "/cover/animated-brands"
       );
     });
   });

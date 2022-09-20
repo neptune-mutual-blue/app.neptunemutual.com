@@ -44,9 +44,7 @@ describe("AvailableCovers test", () => {
   });
 
   test("should render correct cover link href", () => {
-    const href = `covers/${safeParseBytes32String(
-      testData.covers[0].id
-    )}/options`;
+    const href = `covers/${safeParseBytes32String(testData.covers[0].id)}`;
     const link = screen.getAllByTestId("cover-link")[0];
     expect(link).toHaveAttribute("href", href);
   });
