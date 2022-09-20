@@ -128,30 +128,37 @@ export const AvailableCovers = () => {
           />
         </div>
       </div>
-      <Grid className="gap-4 mt-14 lg:mb-24 mb-14" data-testid="body">
+      <Grid
+        className="gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-2 grid-rows-3"
+        data-testid="body"
+      >
         {coversLoading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
+
         {!coversLoading && availableCovers.length === 0 && (
           <p data-testid="no-data">No data found</p>
         )}
-        {sortedCovers.map((c, idx) => {
-          if (idx > showCount - 1) return;
 
-          if (
-            coverView.value === SORT_TYPES.ALL &&
-            isValidProduct(c.productKey)
-          ) {
-            return (
-              <ProductCardWrapper
-                key={c.id}
-                coverKey={c.coverKey}
-                productKey={c.productKey}
-              />
-            );
-          }
+        {!coversLoading &&
+          sortedCovers.map((c, idx) => {
+            if (idx > showCount - 1) return;
 
-          return <CoverCardWrapper key={c.id} coverKey={c.coverKey} />;
-        })}
+            if (
+              coverView.value === SORT_TYPES.ALL &&
+              isValidProduct(c.productKey)
+            ) {
+              return (
+                <ProductCardWrapper
+                  key={c.id}
+                  coverKey={c.coverKey}
+                  productKey={c.productKey}
+                />
+              );
+            }
+
+            return <CoverCardWrapper key={c.id} coverKey={c.coverKey} />;
+          })}
       </Grid>
+
       {sortedCovers.length > showCount && (
         <NeutralButton
           className={
