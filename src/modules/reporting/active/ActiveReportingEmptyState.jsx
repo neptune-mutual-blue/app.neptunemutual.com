@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { actions } from "@/src/config/cover/actions";
 import { getCoverImgSrc } from "@/src/helpers/cover";
 import { t, Trans } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useFlattenedCoverProducts } from "@/src/hooks/useFlattenedCoverProducts";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { utils } from "@neptunemutual/sdk";
@@ -36,13 +35,9 @@ export const ActiveReportingEmptyState = () => {
   });
 
   const handleAddReport = () => {
-    const cover_id = safeParseBytes32String(selectedCover.coverKey);
-    if (selectedCover.productKey) {
-      const prod_id = safeParseBytes32String(selectedCover.productKey);
-      router.push(actions.report.getHref(cover_id, prod_id, true));
-    } else {
-      router.push(actions.report.getHref(cover_id));
-    }
+    router.push(
+      actions.report.getHref(selected?.coverKey, selected?.productKey)
+    );
   };
 
   if (loading) {

@@ -4,13 +4,9 @@ import { Container } from "@/common/Container/Container";
 import { Grid } from "@/common/Grid/Grid";
 import { CoverActionCard } from "./CoverActionCard";
 import { actions as coverActions } from "@/src/config/cover/actions";
-import { useRouter } from "next/router";
 import { Trans } from "@lingui/macro";
 
-export const CoverActionsFooter = ({ activeKey }) => {
-  const router = useRouter();
-  const { cover_id } = router.query;
-
+export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
   return (
     <>
       {/* Cover Actions */}
@@ -29,7 +25,7 @@ export const CoverActionsFooter = ({ activeKey }) => {
                 return (
                   <Link
                     key={i}
-                    href={coverActions[actionKey].getHref(cover_id)}
+                    href={coverActions[actionKey].getHref(coverKey, productKey)}
                   >
                     <a
                       className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"

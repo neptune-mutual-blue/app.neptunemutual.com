@@ -6,13 +6,12 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { Routes } from "@/src/config/routes";
 
 export const PolicyCardFooter = ({
   coverKey,
   productKey,
-  isDiversified,
   report,
   validityEndsAt,
   cxToken,
@@ -66,9 +65,6 @@ export const PolicyCardFooter = ({
     });
   }
 
-  const cover_id = safeParseBytes32String(coverKey);
-  const product_id = safeParseBytes32String(productKey);
-
   return (
     <>
       {/* Stats */}
@@ -110,11 +106,7 @@ export const PolicyCardFooter = ({
       {/* Link */}
       {report && withinClaimPeriod && (
         <Link
-          href={
-            isDiversified
-              ? `/my-policies/${cover_id}/products/${product_id}/incidents/${report.incidentDate}/claim`
-              : `/my-policies/${cover_id}/incidents/${report.incidentDate}/claim`
-          }
+          href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
           <a
             className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"

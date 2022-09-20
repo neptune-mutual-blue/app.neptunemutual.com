@@ -36,7 +36,7 @@ export function useFetch(label) {
         }
 
         // else rethrow error so we can catch it externally
-        throw new Error(e);
+        throw e;
       }
     },
     [label]

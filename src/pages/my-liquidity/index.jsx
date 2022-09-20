@@ -39,6 +39,16 @@ export default function MyLiquidity({ disabled }) {
     return <ComingSoon />;
   }
 
+  const myTotalLiquidity = loading
+    ? t`loading...`
+    : `${
+        formatCurrency(
+          convertFromUnits(totalLiquidityProvided, liquidityTokenDecimals),
+          router.locale
+        ).long
+      }
+  `;
+
   return (
     <main>
       <Head>
@@ -50,26 +60,13 @@ export default function MyLiquidity({ disabled }) {
       </Head>
 
       <Hero>
-        <Container className="flex flex-wrap px-2 py-28">
+        <Container className="flex flex-wrap px-2 py-20">
           <HeroTitle>
             <Trans>My Liquidity</Trans>
           </HeroTitle>
           {account && (
             <HeroStat title={t`My Total Liquidity`}>
-              {loading && t`loading...`}
-              {!loading &&
-                `$ ${
-                  formatCurrency(
-                    convertFromUnits(
-                      totalLiquidityProvided,
-                      liquidityTokenDecimals
-                    ),
-                    router.locale,
-                    "USD",
-                    true
-                  ).long
-                }
-                `}
+              {myTotalLiquidity}
             </HeroStat>
           )}
         </Container>

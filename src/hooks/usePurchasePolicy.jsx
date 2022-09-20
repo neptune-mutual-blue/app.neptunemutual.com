@@ -27,6 +27,7 @@ import {
 import { METHODS } from "@/src/services/transactions/const";
 import { getActionMessage } from "@/src/helpers/notification";
 import { storePurchaseEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
+import { Routes } from "@/src/config/routes";
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -250,7 +251,7 @@ export const usePurchasePolicy = ({
                   );
                   const txHash = storePurchaseEvent(event, receipt.from);
 
-                  router.push(`/my-policies/receipt/${txHash}`);
+                  router.push(Routes.ViewPolicyReceipt(txHash));
                 }
               });
               onTxSuccess();

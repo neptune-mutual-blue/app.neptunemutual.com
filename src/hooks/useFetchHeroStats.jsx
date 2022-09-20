@@ -81,7 +81,7 @@ export const useFetchHeroStats = () => {
           tvlPool: "0",
         });
       })
-      .catch((e) => console.error(`Error: ${e.message}`))
+      .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [fetchFetchHeroStats]);
 

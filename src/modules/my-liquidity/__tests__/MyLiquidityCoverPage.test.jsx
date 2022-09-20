@@ -1,6 +1,6 @@
 import { screen } from "@/utils/unit-tests/test-utils";
 
-import { MyLiquidityCoverPage } from "@/modules/my-liquidity/details";
+import { ProvideLiquidityToCover } from "@/modules/my-liquidity/details";
 
 import { formatCurrency } from "@/utils/formatter/currency";
 import { convertFromUnits } from "@/utils/bn";
@@ -17,7 +17,7 @@ const initialMocks = () => {
 
 describe("MyLiquidityTxsTable test", () => {
   const { initialRender, rerenderFn } = initiateTest(
-    MyLiquidityCoverPage,
+    ProvideLiquidityToCover,
     {},
     initialMocks
   );

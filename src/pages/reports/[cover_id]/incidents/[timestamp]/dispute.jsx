@@ -42,7 +42,7 @@ export default function DisputeFormPage() {
 
   const now = DateLib.unix();
   const reportingEnded = data?.incidentReport
-    ? isGreater(now, data.incidentReport.resolutionTimestamp)
+    ? isGreater(now, data.incidentReport.resolutionTimestamp || "0")
     : false;
 
   const canDispute =

@@ -1,13 +1,16 @@
 import Head from "next/head";
 import { CoverOptionsPage } from "@/src/modules/cover/CoverOptionsPage";
 import { useRouter } from "next/router";
-import { Container } from "@/common/Container/Container";
-import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
-import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { HomeHero } from "@/modules/home/Hero";
+import { ProductsGrid } from "@/common/ProductsGrid/ProductsGrid";
+import { isV2BasketCoverEnabled } from "@/src/config/environment";
+import { ComingSoon } from "@/common/ComingSoon";
 
-export default function Options() {
+const disabled = !isV2BasketCoverEnabled();
+
+export default function CoverPage() {
   const router = useRouter();
   const { cover_id, product_id } = router.query;
 
@@ -15,6 +18,12 @@ export default function Options() {
   const productKey = safeFormatBytes32String(product_id || "");
 
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
+
+  const isDiversified = coverInfo?.supportsProducts;
+
+  if (disabled && isDiversified) {
+    return <ComingSoon />;
+  }
 
   return (
     <main>
@@ -26,19 +35,18 @@ export default function Options() {
         />
       </Head>
 
-      <Container className="pt-9">
-        <BreadCrumbs
-          pages={[
-            { name: t`Home`, href: "/", current: false },
-            {
-              name: coverInfo?.infoObj?.coverName || t`loading..`,
-              href: `/covers/${cover_id}`,
-              current: true,
-            },
-          ]}
+      {isDiversified ? (
+        <>
+          <HomeHero />
+          <ProductsGrid />
+        </>
+      ) : (
+        <CoverOptionsPage
+          coverKey={coverKey}
+          productKey={productKey}
+          coverProductInfo={coverInfo}
         />
-      </Container>
-      <CoverOptionsPage />
+      )}
     </main>
   );
 }

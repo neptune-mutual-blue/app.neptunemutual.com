@@ -7,6 +7,7 @@ import { PolicyCard } from "@/src/modules/my-policies/PolicyCard";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { t, Trans } from "@lingui/macro";
+import { Routes } from "@/src/config/routes";
 
 export const PoliciesExpiredPage = () => {
   const {
@@ -17,7 +18,7 @@ export const PoliciesExpiredPage = () => {
   return (
     <Container className="py-16">
       <div className="flex justify-end">
-        <Link href="/my-policies/transactions">
+        <Link href={Routes.PolicyTransactions}>
           <a className="font-medium text-h4 text-4e7dd9 hover:underline">
             <Trans>Transaction List</Trans>
           </a>

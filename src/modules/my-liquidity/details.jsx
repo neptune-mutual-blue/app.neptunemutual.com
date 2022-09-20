@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { Container } from "@/common/Container/Container";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Hero } from "@/common/Hero";
@@ -10,20 +9,17 @@ import { convertFromUnits } from "@/utils/bn";
 import { formatCurrency } from "@/utils/formatter/currency";
 import { ProvideLiquidityForm } from "@/common/LiquidityForms/ProvideLiquidityForm";
 import { t, Trans } from "@lingui/macro";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { LiquidityResolutionSources } from "@/common/LiquidityResolutionSources/LiquidityResolutionSources";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/DiversifiedCoverProfileInfo";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import { useRouter } from "next/router";
+import { Routes } from "@/src/config/routes";
 
-export const MyLiquidityCoverPage = () => {
+export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter();
-  const { cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String("");
-
   const { liquidityTokenDecimals } = useAppConstants();
 
   const coverInfo = useCoverOrProductData({ coverKey, productKey });
@@ -54,7 +50,7 @@ export const MyLiquidityCoverPage = () => {
             pages={[
               {
                 name: t`My Liquidity`,
-                href: "/my-liquidity",
+                href: Routes.MyLiquidity,
                 current: false,
               },
               {

@@ -12,23 +12,20 @@ import {
   convertToUnits,
   toBN,
 } from "@/utils/bn";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { classNames } from "@/utils/classnames";
 import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { MULTIPLIER } from "@/src/config/constants";
+import { Routes } from "@/src/config/routes";
 
 export const CastYourVote = ({ incidentReport }) => {
   const [votingType, setVotingType] = useState("incident-occurred");
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
-  const { product_id } = router.query;
-  const productKey = safeFormatBytes32String(product_id || "");
+
   const {
     balance,
     tokenAddress,
@@ -45,7 +42,7 @@ export const CastYourVote = ({ incidentReport }) => {
   } = useVote({
     value,
     coverKey: incidentReport.coverKey,
-    productKey: productKey,
+    productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
   });
   const { reporterCommission, minReportingStake } = useCoverStatsContext();
@@ -103,8 +100,6 @@ export const CastYourVote = ({ incidentReport }) => {
     }
     handleAttest(onTxSuccess);
   };
-
-  const disputeUrl = router.asPath.replace("/details", "/dispute");
 
   let loadingMessage = "";
   if (loadingBalance) {
@@ -247,7 +242,14 @@ export const CastYourVote = ({ incidentReport }) => {
               % of the platform fee instead of the incident reporter.
             </Trans>
           </Alert>
-          <Link href={disputeUrl} passHref>
+          <Link
+            href={Routes.DisputeReport(
+              incidentReport.coverKey,
+              incidentReport.productKey,
+              incidentReport.incidentDate
+            )}
+            passHref
+          >
             <RegularButton
               className={
                 "flex-auto w-full lg:w-64 mb-11 sm:mb-0 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mt-4"

@@ -1,4 +1,5 @@
 import { Container } from "@/common/Container/Container";
+import { Routes } from "@/src/config/routes";
 import Link from "next/link";
 
 export default function PageNotFound() {
@@ -12,7 +13,7 @@ export default function PageNotFound() {
         <p className="mb-11 text-h5">
           Oops! Looks like you&#x2019;re heading to a wrong planet.
         </p>
-        <Link href={"/"} replace>
+        <Link href={Routes.Home} replace>
           <a
             className={
               "uppercase py-5 px-16 font-bold leading-8 tracking-wide text-EEEEEE border border-4e7dd9 rounded-lg bg-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
