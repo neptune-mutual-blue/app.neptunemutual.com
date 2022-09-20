@@ -1,7 +1,8 @@
 import { i18n } from "@lingui/core";
-import { fireEvent, screen } from "@/utils/unit-tests/test-utils";
+import { fireEvent, screen, waitFor } from "@/utils/unit-tests/test-utils";
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { ResolveIncident } from "@/modules/reporting/resolved/ResolveIncident";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const incidentReport = {
   data: {
@@ -89,7 +90,7 @@ const bb8Report = {
   },
 };
 
-describe("ResolveIncident test", () => {
+describe("ResolveIncident loading", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
@@ -99,7 +100,8 @@ describe("ResolveIncident test", () => {
 
   const initialMocks = () => {
     i18n.activate("en");
-    mockFn.useCoverOrProductData();
+    mockFn.useResolveIncident();
+    mockFn.useCoverOrProductData(() => null);
     mockFn.useWeb3React(() => ({
       account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",
     }));
@@ -112,23 +114,79 @@ describe("ResolveIncident test", () => {
     initialRender();
   });
 
-  test("should render two buttons", () => {
-    const buttons = screen.getAllByRole("button");
-    expect(buttons.length).toBe(2);
-  });
-
-  test("should show resolve ", () => {
-    const resolveButton = screen.getAllByRole("button");
-    expect(resolveButton[0]).toHaveTextContent("Resolve");
-  });
-
-  test("should show emergency resolve button and show modal", () => {
-    const resolveButton = screen.getAllByRole("button");
-    expect(resolveButton[1]).toHaveTextContent("Emergency Resolve");
+  test("should render loading", () => {
+    const loadingText = screen.getByText(/loading.../);
+    expect(loadingText).toBeInTheDocument();
   });
 });
 
-describe("ResolveIncident test", () => {
+describe("ResolveIncident action buttons", () => {
+  const refetchInfo = jest.fn();
+  const resolveCb = jest.fn();
+  const emergencyResolveCb = jest.fn();
+
+  const props = {
+    refetchInfo,
+    refetchReport: jest.fn(),
+    incidentReport: incidentReport.data,
+    resolvableTill: incidentReport.data.resolutionDeadline,
+  };
+
+  let actionButtons = [];
+
+  const initialMocks = () => {
+    i18n.activate("en");
+    mockFn.useResolveIncident(() => ({
+      ...testData.resolveIncidentHookValues,
+      resolve: resolveCb,
+      emergencyResolve: emergencyResolveCb,
+    }));
+    mockFn.useCoverOrProductData();
+    mockFn.useWeb3React(() => ({
+      account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",
+    }));
+  };
+
+  const { initialRender } = initiateTest(ResolveIncident, props, initialMocks);
+
+  beforeEach(() => {
+    mockFn.useAppConstants();
+    initialRender();
+    actionButtons = screen.getAllByRole("button");
+  });
+
+  test("should render two buttons", () => {
+    expect(actionButtons.length).toBe(2);
+  });
+
+  test("should show resolve ", () => {
+    const resolveButton = actionButtons[0];
+    expect(resolveButton).toHaveTextContent("Resolve");
+  });
+
+  test("should show emergency resolve button and show modal", () => {
+    const emergencyResolveButton = actionButtons[1];
+    expect(emergencyResolveButton).toHaveTextContent("Emergency Resolve");
+  });
+
+  test("should call resolve function ", async () => {
+    const resolveButton = actionButtons[0];
+    fireEvent.click(resolveButton);
+    waitFor(() => {
+      expect(testData.resolveIncidentHookValues.resolve).toBeCalled();
+    });
+  });
+
+  test("should call emergency resolve function ", () => {
+    const emergencyResolveButton = actionButtons[1];
+    fireEvent.click(emergencyResolveButton);
+    waitFor(() => {
+      expect(testData.resolveIncidentHookValues.emergencyResolve).toBeCalled();
+    });
+  });
+});
+
+describe("ResolveIncident dialog", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
@@ -138,6 +196,7 @@ describe("ResolveIncident test", () => {
 
   const initialMocks = () => {
     i18n.activate("en");
+    mockFn.useResolveIncident();
     mockFn.useCoverOrProductData();
     mockFn.useWeb3React(() => ({
       account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",

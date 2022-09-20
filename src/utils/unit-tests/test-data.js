@@ -1758,4 +1758,10 @@ export const testData = {
     handleNPMTokenApprove: jest.fn(),
     handleProvide: jest.fn(),
   },
+  resolveIncidentHookValues: {
+    resolve: jest.fn(),
+    emergencyResolve: jest.fn(),
+    resolving: false,
+    emergencyResolving: false,
+  },
 };

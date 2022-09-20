@@ -81,6 +81,7 @@ import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
 import * as ValidateReferralCodeHook from "@/src/hooks/useValidateReferralCode";
 import * as CalculatePodsHook from "@/src/hooks/useCalculatePods";
 import * as ProvideLiquidityHook from "@/src/hooks/useProvideLiquidity";
+import * as ResolveIncident from "@/src/hooks/useResolveIncident";
 
 const Web3React = require("@web3-react/core");
 
@@ -99,6 +100,11 @@ const returnFunction = (d) => {
 };
 
 export const mockFn = {
+  useResolveIncident: (cb = () => testData.resolveIncidentHookValues) =>
+    jest
+      .spyOn(ResolveIncident, "useResolveIncident")
+      .mockImplementation(returnFunction(cb)),
+
   useActivePoliciesByCover: (
     cb = () => ({
       data: { ...testData.activePoliciesByCover },
