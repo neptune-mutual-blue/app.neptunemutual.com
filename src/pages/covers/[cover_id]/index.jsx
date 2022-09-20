@@ -32,7 +32,7 @@ export default function Options() {
             { name: t`Home`, href: "/", current: false },
             {
               name: coverInfo?.infoObj?.coverName || t`loading..`,
-              href: `/covers/${cover_id}/options`,
+              href: `/covers/${cover_id}`,
               current: true,
             },
           ]}

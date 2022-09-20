@@ -45,7 +45,7 @@ export default function Options() {
             },
             {
               name: productInfo?.infoObj?.productName || t`loading..`,
-              href: `/covers/${cover_id}/${product_id}/options`,
+              href: `/covers/${cover_id}/products/${product_id}`,
               current: true,
             },
           ]}
