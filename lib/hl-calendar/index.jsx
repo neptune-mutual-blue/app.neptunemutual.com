@@ -1,27 +1,18 @@
 import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
 import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
+import { getMonthNames } from "@/lib/dates";
 import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
+  const router = useRouter();
   const { month, year } = getPrimaryMonthYear(startDate, endDate);
 
   const [calendarState, setCalendarState] = useState({ month, year });
+
+  const monthNames = getMonthNames(router.locale);
 
   const allDates = addWeekDatesAfter(
     addWeekDatesBefore(
