@@ -1,6 +1,13 @@
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { screen } from "@testing-library/react";
-import Options from "@/src/pages/covers/[cover_id]";
+
+import * as environment from "@/src/config/environment";
+import { testData } from "@/utils/unit-tests/test-data";
+
+const mockIsV2BasketCoverEnabled = jest.spyOn(
+  environment,
+  "isV2BasketCoverEnabled"
+);
 
 jest.mock("@/src/modules/cover/CoverOptionsPage", () => ({
   CoverOptionsPage: () => {
@@ -8,8 +15,23 @@ jest.mock("@/src/modules/cover/CoverOptionsPage", () => ({
   },
 }));
 
+jest.mock("@/modules/home/Hero", () => ({
+  HomeHero: () => {
+    return <div data-testid="home-hero"></div>;
+  },
+}));
+
+jest.mock("@/common/ProductsGrid/ProductsGrid", () => ({
+  ProductsGrid: () => {
+    return <div data-testid="products-grind"></div>;
+  },
+}));
+
 describe("Options test", () => {
-  const { initialRender } = initiateTest(Options, {}, () => {
+  mockIsV2BasketCoverEnabled.mockImplementation(() => true);
+  const CoverPage = require("@/src/pages/covers/[cover_id]").default;
+
+  const { initialRender, rerenderFn } = initiateTest(CoverPage, {}, () => {
     mockFn.useCoverOrProductData();
   });
 
@@ -17,14 +39,22 @@ describe("Options test", () => {
     initialRender();
   });
 
-  test("should display BreadCrumbs of Animated Brands and cover option page", () => {
-    const home = screen.getByText("Home");
-    expect(home).toBeInTheDocument();
-
-    const animatedbrands = screen.getByText("Animated Brands");
-    expect(animatedbrands).toBeInTheDocument();
-
+  test("Should display Cover option page Dedicated Product", () => {
     const coverOptionPage = screen.getByTestId("cover-options-page");
     expect(coverOptionPage).toBeInTheDocument();
+  });
+
+  test("Should display Home Hero And Products Grind Component Diversifed Product", () => {
+    rerenderFn(CoverPage, () => {
+      mockFn.useCoverOrProductData(() => {
+        return { ...testData.coverInfo, supportsProducts: true };
+      });
+    });
+
+    const homeHero = screen.getByTestId("home-hero");
+    expect(homeHero).toBeInTheDocument();
+
+    const productsGrind = screen.getByTestId("products-grind");
+    expect(productsGrind).toBeInTheDocument();
   });
 });

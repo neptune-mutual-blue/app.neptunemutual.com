@@ -22,9 +22,9 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { TokenAmountWithPrefix } from "@/common/TokenAmountWithPrefix";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
 import { t, Trans } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { BackButton } from "@/common/BackButton/BackButton";
 import { useCoverActiveReportings } from "@/src/hooks/useCoverActiveReportings";
+import { Routes } from "@/src/config/routes";
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   const [lqValue, setLqValue] = useState("");
@@ -156,9 +156,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   if (activeReportings.length > 0) {
     const status = activeReportings[0].status;
     const incidentDate = activeReportings[0].incidentDate;
-    const cover_id = safeParseBytes32String(coverKey);
-
-    const incidentLink = `/reports/${cover_id}/incidents/${incidentDate}/details`;
+    const productKey = activeReportings[0].productKey;
 
     return isDiversified ? (
       <Alert>
@@ -170,7 +168,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
     ) : (
       <Alert>
         <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
-        <Link href={incidentLink}>
+        <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
           <a className="font-medium underline hover:no-underline">{status}</a>
         </Link>
       </Alert>

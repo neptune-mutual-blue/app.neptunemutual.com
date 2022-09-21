@@ -17,12 +17,18 @@ describe("CoverCard component", () => {
 
   const props = {
     activeKey: "add-liquidity",
+    coverKey: "animated-brands",
   };
   beforeEach(() => {
     act(() => {
       i18n.activate("en");
     });
-    render(<CoverActionsFooter activeKey={props.activeKey} />);
+    render(
+      <CoverActionsFooter
+        activeKey={props.activeKey}
+        coverKey={props.coverKey}
+      />
+    );
   });
 
   test("should render the outer OutlineCard", () => {

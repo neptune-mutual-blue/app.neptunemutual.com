@@ -24,6 +24,7 @@ export const useCountdown = ({ target, getTime }) => {
       const minutes = (diff / 60) % 60;
       const hours = diff / (60 * 60);
 
+      /* istanbul ignore next */
       if (ignore) {
         return;
       }

@@ -18,6 +18,7 @@ import { DiversifiedCoverProfileInfo } from "@/common/CoverProfileInfo/Diversifi
 import { CoveredProducts } from "@/modules/my-liquidity/content/CoveredProducts";
 import { DiversifiedCoverRules } from "@/modules/my-liquidity/content/rules";
 import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
+import { Routes } from "@/src/config/routes";
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -51,9 +52,7 @@ export const CoverAddLiquidityDetailsPage = () => {
               { name: t`Home`, href: "/", current: false },
               {
                 name: coverInfo?.infoObj.coverName,
-                href: isDiversified
-                  ? `/diversified/${cover_id}`
-                  : `/covers/${cover_id}`,
+                href: Routes.ViewCover(coverKey),
                 current: false,
               },
               { name: t`Provide Liquidity`, current: true },
@@ -144,7 +143,11 @@ export const CoverAddLiquidityDetailsPage = () => {
         </Container>
       </div>
 
-      <CoverActionsFooter activeKey="add-liquidity" />
+      <CoverActionsFooter
+        activeKey="add-liquidity"
+        coverKey={coverKey}
+        productKey={productKey}
+      />
     </main>
   );
 };

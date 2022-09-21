@@ -39,6 +39,16 @@ export default function MyLiquidity({ disabled }) {
     return <ComingSoon />;
   }
 
+  const myTotalLiquidity = loading
+    ? t`loading...`
+    : `${
+        formatCurrency(
+          convertFromUnits(totalLiquidityProvided, liquidityTokenDecimals),
+          router.locale
+        ).long
+      }
+  `;
+
   return (
     <main>
       <Head>
@@ -56,20 +66,7 @@ export default function MyLiquidity({ disabled }) {
           </HeroTitle>
           {account && (
             <HeroStat title={t`My Total Liquidity`}>
-              {loading && t`loading...`}
-              {!loading &&
-                `$ ${
-                  formatCurrency(
-                    convertFromUnits(
-                      totalLiquidityProvided,
-                      liquidityTokenDecimals
-                    ),
-                    router.locale,
-                    "USD",
-                    true
-                  ).long
-                }
-                `}
+              {myTotalLiquidity}
             </HeroStat>
           )}
         </Container>

@@ -39,9 +39,7 @@ describe("useSubgraphFetch", () => {
       try {
         await result(...fnArgs);
       } catch (e) {
-        expect(e.message).toEqual(
-          `Error: ${ERRORS_SUBGRAPH.SUBGRAPH_DATA_ERROR}`
-        );
+        expect(e.message).toEqual(`SUBGRAPH_DATA_ERROR`);
       }
     });
   });

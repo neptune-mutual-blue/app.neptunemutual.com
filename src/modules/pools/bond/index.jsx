@@ -24,6 +24,7 @@ import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
+import { Routes } from "@/src/config/routes";
 
 const BondPage = () => {
   const { networkId } = useNetwork();
@@ -265,7 +266,7 @@ const BondPage = () => {
             <Trans>Get LP tokens</Trans>
           </a>
 
-          <Link href="/pools/bond/transactions">
+          <Link href={Routes.BondTransactions}>
             <a className="inline-block font-medium text-h4 text-4e7dd9 hover:underline">
               <Trans>Transaction List</Trans>
             </a>

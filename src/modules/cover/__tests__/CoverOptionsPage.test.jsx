@@ -12,6 +12,7 @@ import { CoverOptionsPage } from "@/modules/cover/CoverOptionsPage";
 import { actions as coverActions } from "@/src/config/cover/actions";
 
 import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { testData } from "@/utils/unit-tests/test-data";
 
 const NUMBER_OF_ACTIONS = Object.keys(coverActions).length;
 
@@ -19,13 +20,14 @@ describe("CoverOptionsPage", () => {
   const backBtnHandler = jest.fn();
   beforeEach(async () => {
     i18n.activate("en");
-    mockFn.useCoverOrProductData();
 
     const router = createMockRouter({
       query: { cover_id: "animated-brands" },
       back: () => backBtnHandler(),
     });
-    const Component = withProviders(CoverOptionsPage, router);
+    const Component = withProviders(CoverOptionsPage, router, {
+      coverProductInfo: testData.coverInfo,
+    });
     render(<Component />);
   });
 

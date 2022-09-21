@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Container } from "@/common/Container/Container";
 import { HeaderLogo } from "@/common/HeaderLogo";
 
+/* istanbul ignore next */
 export const getStaticProps = async () => {
   return {
     props: {

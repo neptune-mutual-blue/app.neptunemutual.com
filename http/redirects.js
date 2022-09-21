@@ -5,18 +5,19 @@ module.exports = [
     permanent: false,
   },
   {
-    source: "/reporting",
-    destination: "/reporting/active",
+    source: "/reports",
+    destination: "/reports/active",
     permanent: false,
   },
   {
-    source: "/cover/:path",
-    destination: "/cover/:path/options",
+    source: "/reports/:cover_id/incidents/:timestamp",
+    destination: "/reports/:cover_id/incidents/:timestamp/details",
     permanent: false,
   },
   {
-    source: "/cover/:path/report",
-    destination: "/cover/:path/report/details",
+    source: "/reports/:cover_id/products/:product_id/incidents/:timestamp",
+    destination:
+      "/reports/:cover_id/products/:product_id/incidents/:timestamp/details",
     permanent: false,
   },
   {

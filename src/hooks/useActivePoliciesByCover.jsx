@@ -1,4 +1,3 @@
-import { getGraphURL } from "@/src/config/environment";
 import { sumOf } from "@/utils/bn";
 import { useWeb3React } from "@web3-react/core";
 import DateLib from "@/lib/date/DateLib";
@@ -59,12 +58,6 @@ export const useActivePoliciesByCover = ({
 
   useEffect(() => {
     if (!networkId || !account) {
-      return;
-    }
-
-    const graphURL = getGraphURL(networkId);
-
-    if (!graphURL) {
       return;
     }
 

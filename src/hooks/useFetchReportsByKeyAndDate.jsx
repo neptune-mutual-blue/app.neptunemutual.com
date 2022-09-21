@@ -42,7 +42,7 @@ export const useFetchReportsByKeyAndDate = ({ coverKey, incidentDate }) => {
         .then(({ incidentReports }) => {
           setData(incidentReports);
         })
-        .catch((e) => console.error(`Error: ${e.message}`))
+        .catch((e) => console.error(e))
         .finally(() => setLoading(false));
     }
   }, [coverKey, fetchReportsByKeyAndDate, incidentDate]);

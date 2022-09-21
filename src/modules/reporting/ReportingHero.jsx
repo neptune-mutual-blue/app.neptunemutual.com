@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 
 export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
   const router = useRouter();
@@ -41,8 +42,8 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
             ? coverInfo?.infoObj.productName
             : coverInfo?.infoObj.coverName,
           href: product_id
-            ? `/covers/${cover_id}/products/${product_id}`
-            : `/covers/${cover_id}`,
+            ? Routes.ViewProduct(coverKey, productKey)
+            : Routes.ViewCover(coverKey),
           current: false,
         },
         { name: t`Reporting`, current: true },

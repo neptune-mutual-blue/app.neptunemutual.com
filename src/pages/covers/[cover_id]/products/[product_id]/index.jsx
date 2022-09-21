@@ -3,9 +3,6 @@ import { CoverOptionsPage } from "@/src/modules/cover/CoverOptionsPage";
 import { isV2BasketCoverEnabled } from "@/src/config/environment";
 import { ComingSoon } from "@/common/ComingSoon";
 import { useRouter } from "next/router";
-import { t } from "@lingui/macro";
-import { Container } from "@/common/Container/Container";
-import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
@@ -34,24 +31,11 @@ export default function Options() {
         />
       </Head>
 
-      <Container className="pt-9">
-        <BreadCrumbs
-          pages={[
-            { name: t`Home`, href: "/", current: false },
-            {
-              name: productInfo?.cover?.infoObj?.coverName || t`loading..`,
-              href: `/diversified/${cover_id}`,
-              current: true,
-            },
-            {
-              name: productInfo?.infoObj?.productName || t`loading..`,
-              href: `/covers/${cover_id}/products/${product_id}`,
-              current: true,
-            },
-          ]}
-        />
-      </Container>
-      <CoverOptionsPage />
+      <CoverOptionsPage
+        coverKey={coverKey}
+        productKey={productKey}
+        coverProductInfo={productInfo}
+      />
     </main>
   );
 }
