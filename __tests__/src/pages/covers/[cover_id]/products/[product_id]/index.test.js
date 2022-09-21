@@ -7,26 +7,14 @@ jest.mock("@/src/modules/cover/CoverOptionsPage", () => ({
   },
 }));
 
-jest.mock("@/common/Container/Container", () => ({
-  Container: ({ children }) => {
-    return <div data-testid="container">{children}</div>;
-  },
-}));
-
-jest.mock("@/common/BreadCrumbs/BreadCrumbs", () => ({
-  BreadCrumbs: () => {
-    return <div data-testid="bread-crumbs"></div>;
-  },
-}));
-
 describe("Options test", () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
     process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: "true" };
-    const Options =
+    const Index =
       require("@/src/pages/covers/[cover_id]/products/[product_id]").default;
-    const { initialRender } = initiateTest(Options, {}, () => {
+    const { initialRender } = initiateTest(Index, {}, () => {
       mockFn.useRouter();
       mockFn.useCoverOrProductData();
     });
@@ -34,12 +22,6 @@ describe("Options test", () => {
   });
 
   test("should display BreadCrumbs of Animated Brands and cover option page", () => {
-    const container = screen.getByTestId("container");
-    expect(container).toBeInTheDocument();
-
-    const breadCrumbs = screen.getByTestId("bread-crumbs");
-    expect(breadCrumbs).toBeInTheDocument();
-
     const coverOptionPage = screen.getByTestId("cover-options-page");
     expect(coverOptionPage).toBeInTheDocument();
   });

@@ -54,11 +54,15 @@ const AllTheProviders = ({ children, router = createMockRouter({}) }) => {
   );
 };
 
-export const withProviders = (Component, router = createMockRouter({})) => {
+export const withProviders = (
+  Component,
+  router = createMockRouter({}),
+  props = {}
+) => {
   return function Wrapper() {
     return (
       <AllTheProviders router={router}>
-        <Component />
+        <Component {...props} />
       </AllTheProviders>
     );
   };
