@@ -1,8 +1,7 @@
 import { i18n } from "@lingui/core";
-import { fireEvent, screen, waitFor } from "@/utils/unit-tests/test-utils";
+import { fireEvent, screen } from "@/utils/unit-tests/test-utils";
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { ResolveIncident } from "@/modules/reporting/resolved/ResolveIncident";
-import { testData } from "@/utils/unit-tests/test-data";
 
 const incidentReport = {
   data: {
@@ -15,6 +14,49 @@ const incidentReport = {
       incidentDate: "1661159947",
       resolutionDeadline: "0",
       resolved: false,
+      resolveTransaction: null,
+      emergencyResolved: false,
+      emergencyResolveTransaction: null,
+      finalized: false,
+      status: "Reporting",
+      decision: null,
+      resolutionTimestamp: "1661160247",
+      claimBeginsFrom: "0",
+      claimExpiresAt: "0",
+      reporter: "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+      reporterInfo:
+        "0x5c69ee1c0f7c6efe418b3ce8431349fa01b2fd484bd1115bdb88fcc13f3e93d0",
+      reporterStake: "2000000000000000000000",
+      disputer: null,
+      disputerInfo: "0x00000000",
+      disputerStake: null,
+      totalAttestedStake: "2000000000000000000000",
+      totalAttestedCount: "1",
+      totalRefutedStake: "0",
+      totalRefutedCount: "0",
+      reportTransaction: {
+        id: "0x15c867159b08151e66ef80296d7dfe666f4d76717eb5ab8a982df832215f1054",
+        timestamp: "1661159947",
+      },
+      disputeTransaction: null,
+      reportIpfsData:
+        '{\n  "title": "test",\n  "observed": "2022-08-14T09:18:00.000Z",\n  "proofOfIncident": "[\\"\\"]",\n  "description": "",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x201Bcc0d375f10543e585fbB883B36c715c959B3",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660468680000"\n}',
+      disputeIpfsData: null,
+    },
+  },
+};
+
+const incidentReportResolve = {
+  data: {
+    incidentReport: {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947",
+      coverKey:
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+      productKey:
+        "0x31696e6368000000000000000000000000000000000000000000000000000000",
+      incidentDate: "1661159947",
+      resolutionDeadline: "0",
+      resolved: true,
       resolveTransaction: null,
       emergencyResolved: false,
       emergencyResolveTransaction: null,
@@ -94,7 +136,7 @@ describe("ResolveIncident loading", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
-    incidentReport: incidentReport.data,
+    incidentReport: incidentReport.data.incidentReport,
     resolvableTill: incidentReport.data.resolutionDeadline,
   };
 
@@ -120,27 +162,16 @@ describe("ResolveIncident loading", () => {
   });
 });
 
-describe("ResolveIncident action buttons", () => {
-  const refetchInfo = jest.fn();
-  const resolveCb = jest.fn();
-  const emergencyResolveCb = jest.fn();
-
+describe("ResolveIncident test resolve", () => {
   const props = {
-    refetchInfo,
+    refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
-    incidentReport: incidentReport.data,
-    resolvableTill: incidentReport.data.resolutionDeadline,
+    incidentReport: incidentReportResolve.data.incidentReport,
+    resolvableTill: incidentReportResolve.data.resolutionDeadline,
   };
-
-  let actionButtons = [];
 
   const initialMocks = () => {
     i18n.activate("en");
-    mockFn.useResolveIncident(() => ({
-      ...testData.resolveIncidentHookValues,
-      resolve: resolveCb,
-      emergencyResolve: emergencyResolveCb,
-    }));
     mockFn.useCoverOrProductData();
     mockFn.useWeb3React(() => ({
       account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",
@@ -152,45 +183,24 @@ describe("ResolveIncident action buttons", () => {
   beforeEach(() => {
     mockFn.useAppConstants();
     initialRender();
-    actionButtons = screen.getAllByRole("button");
   });
 
   test("should render two buttons", () => {
-    expect(actionButtons.length).toBe(2);
+    const buttons = screen.getAllByRole("button");
+    expect(buttons.length).toBe(1);
   });
 
   test("should show resolve ", () => {
-    const resolveButton = actionButtons[0];
-    expect(resolveButton).toHaveTextContent("Resolve");
-  });
-
-  test("should show emergency resolve button and show modal", () => {
-    const emergencyResolveButton = actionButtons[1];
-    expect(emergencyResolveButton).toHaveTextContent("Emergency Resolve");
-  });
-
-  test("should call resolve function ", async () => {
-    const resolveButton = actionButtons[0];
-    fireEvent.click(resolveButton);
-    waitFor(() => {
-      expect(testData.resolveIncidentHookValues.resolve).toBeCalled();
-    });
-  });
-
-  test("should call emergency resolve function ", () => {
-    const emergencyResolveButton = actionButtons[1];
-    fireEvent.click(emergencyResolveButton);
-    waitFor(() => {
-      expect(testData.resolveIncidentHookValues.emergencyResolve).toBeCalled();
-    });
+    const resolveButton = screen.getAllByRole("button");
+    expect(resolveButton[0]).toHaveTextContent("Resolve");
   });
 });
 
-describe("ResolveIncident dialog", () => {
+describe("ResolveIncident test", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
-    incidentReport: bb8Report.data,
+    incidentReport: bb8Report.data.incidentReport,
     resolvableTill: bb8Report.data.resolutionDeadline,
   };
 

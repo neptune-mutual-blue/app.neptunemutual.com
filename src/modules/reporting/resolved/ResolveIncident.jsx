@@ -40,6 +40,7 @@ export const ResolveIncident = ({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
   });
+
   const logoSource = getCoverImgSrc({
     key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
   });

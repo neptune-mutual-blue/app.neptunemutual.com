@@ -15,6 +15,7 @@ const customJestConfig = {
     "!**/src/utils/unit-tests/**",
     "!**/_mocks/**",
     "!**/locales/**",
+    "!**/icons/**",
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   verbose: true,
