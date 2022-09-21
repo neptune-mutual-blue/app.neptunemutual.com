@@ -1,60 +1,134 @@
+import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
+import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
+import { t } from "@lingui/macro";
+import { useState } from "react";
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
   const { month, year } = getPrimaryMonthYear(startDate, endDate);
+
+  const [calendarState, setCalendarState] = useState({ month, year });
+
   const allDates = addWeekDatesAfter(
-    addWeekDatesBefore(getMonth(month, year, startDate))
+    addWeekDatesBefore(
+      getMonth(calendarState.month, calendarState.year, startDate)
+    )
   );
 
   const arr = chunk(allDates, 7);
   const weekDays = getWeekDays("en");
 
-  return (
-    <table className="text-xxs" aria-hidden="true" data-testid="hlcalendar">
-      <thead>
-        <tr>
-          {weekDays.map((x) => (
-            <td
-              key={x}
-              className="p-3 font-medium text-center lowercase align-middle"
-            >
-              {x[0]}
-            </td>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {arr.map((x, _i) => (
-          <tr key={_i}>
-            {x.map((y, _j) => {
-              const isStart = startDate.getTime() == y.getTime();
-              const isEnd = endDate.getTime() == y.getTime();
-              const isInsideRange =
-                startDate.getTime() <= y.getTime() &&
-                endDate.getTime() >= y.getTime();
-              const isDifferentMonth = month !== y.getMonth();
+  const handlePrev = () => {
+    setCalendarState((prev) => {
+      const _month = prev.month === 0 ? 11 : prev.month - 1;
+      const _year = prev.month === 0 ? prev.year - 1 : prev.year;
+      return { month: _month, year: _year };
+    });
+  };
 
-              return (
-                <td
-                  key={_j}
-                  className={classNames(
-                    "p-3 text-center align-middle",
-                    isStart && "rounded-l-lg",
-                    isEnd && "rounded-r-lg",
-                    isInsideRange && "bg-DEEAF6"
-                  )}
-                >
-                  <span
-                    className={classNames(isDifferentMonth && "opacity-40")}
-                  >
-                    {y.getDate()}
-                  </span>
-                </td>
-              );
-            })}
+  const handleNext = () => {
+    setCalendarState((prev) => {
+      const _month = prev.month === 11 ? 0 : prev.month + 1;
+      const _year = prev.month === 11 ? prev.year + 1 : prev.year;
+      return { month: _month, year: _year };
+    });
+  };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <div className="text-sm">
+          {monthNames[calendarState.month]} {calendarState.year}
+        </div>
+        <div className="flex">
+          <button
+            aria-label="Prev"
+            className={classNames("p-1 text-black mr-2 bg-EEEEEE")}
+            onClick={handlePrev}
+          >
+            <span className="sr-only">{t`prev button`}</span>
+            <ChevronLeftLgIcon aria-hidden="true" className="h-3 w-3 text-lg" />
+          </button>
+          <button
+            aria-label="Prev"
+            className={classNames("p-1 text-black mr-2 bg-EEEEEE")}
+            onClick={handleNext}
+          >
+            <span className="sr-only">{t`prev button`}</span>
+            <ChevronRightLgIcon
+              aria-hidden="true"
+              className="h-3 w-3 text-lg"
+            />
+          </button>
+        </div>
+      </div>
+      <table className="text-xxs" aria-hidden="true" data-testid="hlcalendar">
+        <thead>
+          <tr>
+            {weekDays.map((x) => (
+              <td
+                key={x}
+                className="p-3 font-medium text-center lowercase align-middle"
+              >
+                {x[0]}
+              </td>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {arr.map((x, _i) => (
+            <tr key={_i}>
+              {x.map((y, _j) => {
+                // const isStart = startDate.getTime() == y.getTime();
+                // const isEnd = endDate.getTime() == y.getTime();
+                const isInsideRange =
+                  startDate.getTime() <= y.getTime() &&
+                  endDate.getTime() >= y.getTime();
+                const isDifferentMonth = month !== y.getMonth();
+                const isToday =
+                  y.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
+
+                return (
+                  <td
+                    key={_j}
+                    className={classNames(
+                      "p-2 text-center align-middle",
+                      // isStart && "rounded-l-lg",
+                      // isEnd && "rounded-r-lg",
+                      isInsideRange && "bg-DEEAF6"
+                    )}
+                  >
+                    <span
+                      className={classNames(
+                        "px-1.5 py-2 block",
+                        isDifferentMonth && "opacity-40",
+                        isToday && "rounded-full bg-4e7dd9 text-white"
+                      )}
+                    >
+                      {y.getDate()}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
