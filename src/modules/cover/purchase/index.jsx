@@ -19,6 +19,7 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
+import { Routes } from "@/src/config/routes";
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false);
@@ -59,9 +60,9 @@ export const CoverPurchaseDetailsPage = () => {
               { name: t`Home`, href: "/", current: false },
               {
                 name: projectName,
-                href: !isDiversified
-                  ? `/covers/${cover_id}`
-                  : `/covers/${cover_id}/products/${product_id}`,
+                href: isDiversified
+                  ? Routes.ViewProduct(coverKey, productKey)
+                  : Routes.ViewCover(coverKey),
                 current: false,
               },
               { name: t`Purchase Policy`, current: true },
@@ -161,7 +162,11 @@ export const CoverPurchaseDetailsPage = () => {
         </Container>
       </div>
 
-      <CoverActionsFooter activeKey="purchase" />
+      <CoverActionsFooter
+        activeKey="purchase"
+        coverKey={coverKey}
+        productKey={productKey}
+      />
     </main>
   );
 };

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { MyLiquidityCoverPage } from "@/src/modules/my-liquidity/details";
+import { ProvideLiquidityToCover } from "@/src/modules/my-liquidity/details";
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
@@ -31,7 +31,10 @@ export default function MyLiquidityCover() {
 
       <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
         <LiquidityFormsProvider coverKey={coverKey}>
-          <MyLiquidityCoverPage />
+          <ProvideLiquidityToCover
+            coverKey={coverKey}
+            productKey={productKey}
+          />
         </LiquidityFormsProvider>
       </CoverStatsProvider>
     </main>

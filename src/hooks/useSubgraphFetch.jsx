@@ -56,7 +56,7 @@ export function useSubgraphFetch(label) {
         }
 
         // else rethrow error so we can catch it externally
-        throw new Error(error);
+        throw error;
       }
     },
     [label]

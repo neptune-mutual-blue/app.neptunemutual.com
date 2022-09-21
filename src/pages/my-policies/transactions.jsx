@@ -7,6 +7,7 @@ import { MyPoliciesTxsTable } from "@/src/modules/my-policies/MyPoliciesTxsTable
 import { ComingSoon } from "@/common/ComingSoon";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
+import { Routes } from "@/src/config/routes";
 
 /* istanbul ignore next */
 export function getStaticProps() {
@@ -38,7 +39,7 @@ export default function MyPoliciesTxs({ disabled }) {
             pages={[
               {
                 name: t`My Policies`,
-                href: "/my-policies/active",
+                href: Routes.MyPolicies,
                 current: false,
               },
               { name: t`Transaction List`, href: "#", current: true },

@@ -22,6 +22,7 @@ import { TransactionOverviewIcon } from "@/icons/TransactionOverviewIcon";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { TransactionList } from "@/common/TransactionList";
 import { useWindowSize } from "@/src/hooks/useWindowSize";
+import { Routes } from "@/src/config/routes";
 
 const getNavigationLinks = (pathname = "") => {
   const policyEnabled = isFeatureEnabled("policy");
@@ -30,11 +31,11 @@ const getNavigationLinks = (pathname = "") => {
 
   let poolLink = null;
   if (isFeatureEnabled("bond")) {
-    poolLink = "/pools/bond";
+    poolLink = Routes.BondPool;
   } else if (isFeatureEnabled("staking-pool")) {
-    poolLink = "/pools/staking";
+    poolLink = Routes.StakingPools;
   } else if (isFeatureEnabled("pod-staking-pool")) {
-    poolLink = "/pools/pod-staking";
+    poolLink = Routes.PodStakingPools;
   }
 
   /**
@@ -54,17 +55,17 @@ const getNavigationLinks = (pathname = "") => {
     },
     policyEnabled && {
       name: t`My Policies`,
-      href: "/my-policies/active",
+      href: Routes.MyPolicies,
       activeWhenStartsWith: "/my-policies",
     },
     liquidityEnabled && {
       name: t`My Liquidity`,
-      href: "/my-liquidity",
+      href: Routes.MyLiquidity,
       activeWhenStartsWith: "/my-liquidity",
     },
     reportingEnabled && {
       name: t`Reporting`,
-      href: "/reports/active",
+      href: Routes.ActiveReports,
       activeWhenStartsWith: "/reports",
     },
   ];
@@ -171,7 +172,10 @@ export const Header = () => {
         <nav className="flex max-w-full mx-auto" aria-label="Top">
           <div className="flex items-stretch justify-between flex-grow py-0 pl-4 h-14 lg:h-20 sm:px-6 xl:pl-8 xl:pr-22px xl:border-b border-B0C4DB xl:border-none">
             <div className="flex items-center">
-              <Link href="/" locale={router.locale || router.defaultLocale}>
+              <Link
+                href={Routes.Home}
+                locale={router.locale || router.defaultLocale}
+              >
                 <a className="w-48">
                   <HeaderLogo />
                 </a>

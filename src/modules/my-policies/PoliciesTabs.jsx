@@ -9,16 +9,17 @@ import { formatCurrency } from "@/utils/formatter/currency";
 import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { Routes } from "@/src/config/routes";
 
 const headers = [
   {
     name: "active",
-    href: "/my-policies/active",
+    href: Routes.MyPolicies,
     displayAs: <Trans>Active</Trans>,
   },
   {
     name: "expired",
-    href: "/my-policies/expired",
+    href: Routes.MyExpiredPolicies,
     displayAs: <Trans>Expired</Trans>,
   },
 ];

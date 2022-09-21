@@ -24,6 +24,7 @@ import {
 } from "@/src/services/transactions/transaction-history";
 import { METHODS } from "@/src/services/transactions/const";
 import { getActionMessage } from "@/src/helpers/notification";
+import { Routes } from "@/src/config/routes";
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter();
@@ -201,7 +202,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               status: STATUS.SUCCESS,
             });
 
-            router.replace(`/reporting/active`);
+            router.replace(Routes.ActiveReports);
           },
           onTxFailure: () => {
             TransactionHistory.push({
