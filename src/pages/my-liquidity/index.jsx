@@ -50,7 +50,7 @@ export default function MyLiquidity({ disabled }) {
       </Head>
 
       <Hero>
-        <Container className="flex flex-wrap px-2 py-28">
+        <Container className="flex flex-wrap px-2 py-32">
           <HeroTitle>
             <Trans>My Liquidity</Trans>
           </HeroTitle>
