@@ -258,7 +258,7 @@ export const ActiveReportSummary = ({
               )}
             </span>
           </p>
-          {isAfterResolution && (
+          {!isAfterResolution && (
             <HlCalendar startDate={startDate} endDate={endDate} />
           )}
         </div>
