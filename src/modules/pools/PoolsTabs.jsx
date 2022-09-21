@@ -35,7 +35,7 @@ export const PoolsTabs = ({ active, children }) => {
   return (
     <>
       <Hero>
-        <Container className="flex flex-wrap px-2 py-20">
+        <Container className="flex flex-wrap px-2 py-32">
           <HeroTitle>
             <Trans>Bond and Staking Pools</Trans>
           </HeroTitle>

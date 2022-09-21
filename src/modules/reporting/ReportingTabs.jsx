@@ -22,7 +22,7 @@ export const ReportingTabs = ({ active, children }) => {
   return (
     <>
       <Hero>
-        <Container className="px-2 py-20">
+        <Container className="px-2 py-20 min-h-[347px] flex flex-col justify-center">
           <HeroTitle>
             <Trans>Reporting</Trans>
           </HeroTitle>

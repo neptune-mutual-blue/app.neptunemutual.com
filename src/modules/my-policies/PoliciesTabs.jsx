@@ -35,7 +35,7 @@ export const PoliciesTabs = ({ active, children }) => {
   return (
     <>
       <Hero>
-        <Container className="flex flex-wrap px-2 py-20">
+        <Container className="flex flex-wrap px-2 py-32">
           <HeroTitle>
             <Trans>My Policies</Trans>
           </HeroTitle>
