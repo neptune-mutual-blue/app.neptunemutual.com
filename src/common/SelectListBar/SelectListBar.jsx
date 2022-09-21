@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Select } from "@/common/Select";
 import { t } from "@lingui/macro";
 import SmallGridIcon from "@/icons/SmallGridIcon";
@@ -15,14 +15,12 @@ export const SelectListBar = ({
 }) => {
   const { query } = useRouter();
 
-  const defaultOptions = useMemo(
-    () => [
-      { name: t`All`, value: SORT_TYPES.ALL },
-      { name: t`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
-      { name: t`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL },
-    ],
-    []
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const defaultOptions = [
+    { name: t`All`, value: SORT_TYPES.ALL },
+    { name: t`Diversified Pool`, value: SORT_TYPES.DIVERSIFIED_POOL },
+    { name: t`Dedicated Pool`, value: SORT_TYPES.DEDICATED_POOL },
+  ];
 
   const selectOptions = options ?? defaultOptions;
   const [selected, setSelected] = useState(selectOptions[0]);
