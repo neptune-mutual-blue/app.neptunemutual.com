@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Select } from "@/common/Select";
 import { t } from "@lingui/macro";
 import SmallGridIcon from "@/icons/SmallGridIcon";
 import { SORT_TYPES } from "@/utils/sorting";
 import { useRouter } from "next/router";
+import { useRef } from "react";
 
 export const SelectListBar = ({
   sortClassContainer,
   sortClass,
   sortType,
-  setSortType,
+  setSortType = ({}) => {},
   prefix,
   options = null,
 }) => {
   const { query } = useRouter();
+  const selectRef = useRef(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -23,24 +25,28 @@ export const SelectListBar = ({
   ];
 
   const selectOptions = options ?? defaultOptions;
-  const [selected, setSelected] = useState(selectOptions[0]);
 
   useEffect(() => {
-    if (query?.["view"] === "diversified") {
+    if (query.view === "diversified") {
       const selectedOption = defaultOptions.find(
         (item) => item.value === SORT_TYPES.DIVERSIFIED_POOL
       );
-      setSortType(selectedOption) ?? setSelected(selectedOption);
+      setSortType(selectedOption);
     }
-  }, [defaultOptions, query, setSortType]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query.view, setSortType]);
 
   return (
-    <div className={sortClassContainer}>
+    <div
+      ref={selectRef}
+      data-testid="select-list-bar"
+      className={sortClassContainer}
+    >
       <Select
         prefix={prefix}
         options={selectOptions}
-        selected={sortType ?? selected}
-        setSelected={setSortType ?? setSelected}
+        selected={sortType}
+        setSelected={setSortType}
         className={sortClass}
         icon={<SmallGridIcon color="#9B9B9B" aria-hidden="true" />}
         direction="right"
