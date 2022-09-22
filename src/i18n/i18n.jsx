@@ -1,45 +1,9 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { en, es, fr, ja, zh, de, id, it, ko, ru, el, tr, vi } from "make-plural/plurals";
 import { useEffect, useState } from "react";
 
-import { useActiveLocale } from "./hooks/useActiveLocale";
-
-const plurals = {
-  en: en,
-  es: es,
-  fr: fr,
-  ja: ja,
-  zh: zh,
-  de: de,
-  id: id,
-  it: it,
-  ko: ko,
-  ru: ru,
-  el: el,
-  tr: tr,
-  vi: vi,
-};
-
-/**
- * Load messages for requested locale and activate it.
- * This function isn't part of the LinguiJS library because there're
- * many ways how to load messages — from REST API, from file, from cache, etc.
- */
-export const dynamicActivate = async (locale) => {
-  let messages;
-
-  const isProduction = process.env.NODE_ENV === "production";
-  if (isProduction) {
-    messages = await import(`../locales/${locale}/messages`);
-  } else {
-    messages = await import(`@lingui/loader!../locales/${locale}/messages.po`);
-  }
-
-  i18n.loadLocaleData(locale, { plurals: () => plurals[locale] });
-  i18n.load(locale, messages.messages);
-  i18n.activate(locale);
-};
+import { useActiveLocale } from "../hooks/useActiveLocale";
+import { dynamicActivate } from "@/src/i18n/dynamic-activate";
 
 export function LanguageProvider({ children }) {
   const locale = useActiveLocale();
@@ -51,6 +15,7 @@ export function LanguageProvider({ children }) {
 
     dynamicActivate(locale)
       .then(() => {
+        /* istanbul ignore next */
         if (ignore) return;
         setLoaded(true);
       })
