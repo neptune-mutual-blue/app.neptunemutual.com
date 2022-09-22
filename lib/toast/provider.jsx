@@ -19,6 +19,9 @@ const DEFAULT_INTERVAL = 30000; // 30 seconds
  */
 export const ToastProvider = ({ children, variant }) => {
   const [data, setData] = useState([]);
+
+  const [hidden, setHidden] = useState(false);
+
   const Push = useCallback(
     (message, type, lifetime, title) => {
       if (message) {
@@ -83,6 +86,10 @@ export const ToastProvider = ({ children, variant }) => {
     setData((prevState) => prevState.filter((e) => e.id !== id));
   }, []);
 
+  const hide = useCallback(async (status) => {
+    setHidden(status);
+  }, []);
+
   const toastFunctions = useMemo(
     () => ({
       pushError: PushError,
@@ -93,6 +100,7 @@ export const ToastProvider = ({ children, variant }) => {
       push: Push,
       pushCustom: PushCustom,
       remove,
+      hide,
     }),
     [
       Push,
@@ -103,12 +111,13 @@ export const ToastProvider = ({ children, variant }) => {
       PushSuccess,
       PushWarning,
       remove,
+      hide,
     ]
   );
 
   return (
     <ToastContext.Provider value={toastFunctions}>
-      <ToastContainer variant={variant} data={data} />
+      <ToastContainer variant={variant} data={data} hidden={hidden} />
       {children}
     </ToastContext.Provider>
   );

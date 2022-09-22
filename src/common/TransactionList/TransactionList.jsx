@@ -8,6 +8,7 @@ import { getTxLink } from "@/lib/connect-wallet/utils/explorer";
 import { useNetwork } from "@/src/context/Network";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { useRouter } from "next/router";
+import { useToast } from "@/lib/toast/context";
 import { TransactionHistory } from "@/src/services/transactions/transaction-history";
 
 export function TransactionList({
@@ -16,6 +17,8 @@ export function TransactionList({
   container,
   ...rest
 }) {
+  const toast = useToast();
+
   const [
     /**
      * @type {import('@/src/services/transactions/history').IHistoryEntry[]}
@@ -38,6 +41,8 @@ export function TransactionList({
   };
 
   useEffect(() => {
+    toast.hide(isOpen);
+
     if (isOpen) {
       const history = LSHistory.get(page);
       setListOfTransactions((current) => {
