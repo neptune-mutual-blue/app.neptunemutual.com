@@ -5,16 +5,12 @@ import { t } from "@lingui/macro";
 import { ReportingHero } from "@/modules/reporting/ReportingHero";
 
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
 import { useNetwork } from "@/src/context/Network";
-import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 
 import DateLib from "@/lib/date/DateLib";
 
-import {
-  safeFormatBytes32String,
-  safeParseBytes32String,
-} from "@/utils/formatter/bytes32String";
 import { classNames } from "@/utils/classnames";
 import { convertFromUnits } from "@/utils/bn";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -30,7 +26,7 @@ import { Badge, identifyStatus } from "@/common/CardStatusBadge";
  * @param {string} productKey
  * @returns
  */
-const subgraphQuery = function (coverKey, productKey) {
+const getQuery = function (coverKey, productKey) {
   return `{
     incidentReports(
       skip: 0
@@ -104,19 +100,17 @@ const columns = [
 /**
  *
  * @param {Object} props
- * @param {string} props.cover_id
- * @param {string} props.product_id
+ * @param {string} props.coverKey
+ * @param {string} props.productKey
  * @param {string} props.locale
  * @returns
  */
 const ReportListing = (props) => {
-  const { cover_id, product_id, locale } = props;
+  const { coverKey, productKey, locale } = props;
   const { push } = useRouter();
   const { networkId } = useNetwork();
   const [reports, setReports] = useState([]);
-
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String(product_id);
+  const fetchReports = useSubgraphFetch("ReportListing");
 
   const coverInfo = useCoverOrProductData({
     coverKey,
@@ -124,17 +118,19 @@ const ReportListing = (props) => {
   });
 
   useEffect(() => {
-    async function fetchData() {
-      const { incidentReports } = await getSubgraphData(
-        networkId,
-        subgraphQuery(coverKey, productKey)
-      );
-
-      setReports(incidentReports);
+    if (!coverKey) {
+      return;
     }
 
-    fetchData();
-  }, [coverKey, productKey, networkId]);
+    fetchReports(networkId, getQuery(coverKey, productKey))
+      .then((_data) => {
+        if (!_data) return;
+        setReports(_data.incidentReports);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [coverKey, productKey, networkId, fetchReports]);
 
   /**
    *
@@ -142,22 +138,17 @@ const ReportListing = (props) => {
    */
   function goTo(reportId) {
     const [, , timestamp] = reportId.split("-");
-    const isDiversified = isValidProduct(productKey);
+    push(Routes.ViewReport(coverKey, productKey, timestamp));
+  }
 
-    const cover_id = safeParseBytes32String(coverKey);
-    const product_id = safeParseBytes32String(productKey);
-
-    if (isDiversified) {
-      push(
-        `/reports/${cover_id}/products/${product_id}/incidents/${timestamp}/details`
-      );
-    }
-    push(`/reports/${cover_id}/incidents/${timestamp}/details`);
+  if (!coverInfo) {
+    return null;
   }
 
   return (
     <>
       <ReportingHero coverInfo={coverInfo} />
+      <hr className="border-B0C4DB" />
       <Container className={"pt-16 pb-36"}>
         <TableWrapper>
           <Table>
@@ -172,12 +163,12 @@ const ReportListing = (props) => {
                   className="cursor-pointer hover:bg-F4F8FC"
                   key={i}
                 >
-                  <td className="px-6 py-2 text-sm max-w-180">
+                  <td className="px-6 py-4 text-sm max-w-180">
                     <span className="w-max" title={report.reporter}>
                       {truncateAddress(report.reporter)}
                     </span>
                   </td>
-                  <td className="px-6 py-2 text-sm max-w-180">
+                  <td className="px-6 py-4 text-sm max-w-180">
                     <span
                       className="w-max"
                       title={DateLib.toLongDateFormat(
@@ -188,17 +179,17 @@ const ReportListing = (props) => {
                       {fromNow(report.incidentDate)}
                     </span>
                   </td>
-                  <td className="px-6 py-2 text-sm text-right max-w-180">
+                  <td className="px-6 py-4 text-right">
                     {convertFromUnits(report.totalAttestedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-2 text-sm text-right max-w-180">
+                  <td className="px-6 py-4 text-right">
                     {convertFromUnits(report.totalRefutedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-2 text-sm text-right max-w-180">
+                  <td className="px-6 py-4 text-right">
                     <Badge
                       className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
                       status={identifyStatus(report.status)}

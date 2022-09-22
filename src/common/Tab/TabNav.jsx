@@ -9,7 +9,9 @@ export const TabNav = ({ activeTab, headers }) => {
         {headers.map((header) => (
           <Tab key={header.name} active={activeTab == header.name}>
             <Link href={header.href}>
-              <a className="inline-block px-2 py-2 xs:px-5 sm:px-6">{header.displayAs}</a>
+              <a className="inline-block px-2 py-2 xs:px-5 sm:px-6">
+                {header.displayAs}
+              </a>
             </Link>
           </Tab>
         ))}

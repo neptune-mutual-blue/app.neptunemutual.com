@@ -1,8 +1,10 @@
-export const Hero = ({ children }) => {
+import { classNames } from "@/utils/classnames";
+
+export const Hero = ({ children, className = "" }) => {
   return (
     <div
-      className="bg-left bg-cover bg-gradient-bg"
       data-testid="hero-container"
+      className={classNames("bg-left bg-cover bg-gradient-bg", className)}
     >
       {children}
     </div>

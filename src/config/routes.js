@@ -60,6 +60,10 @@ const ViewReport = (coverKey, productKey, incidentDate) => {
   const coverId = safeParseBytes32String(coverKey);
   const productId = safeParseBytes32String(productKey);
 
+  if (productId === "") {
+    return `/reports/${coverId}/incidents/${incidentDate}`;
+  }
+
   return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}`;
 };
 

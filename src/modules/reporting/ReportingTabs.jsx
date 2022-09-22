@@ -21,8 +21,8 @@ const headers = [
 export const ReportingTabs = ({ active, children }) => {
   return (
     <>
-      <Hero>
-        <Container className="px-2 py-20 min-h-[347px] flex flex-col justify-center">
+      <Hero className="min-h-[312px] flex flex-col justify-between">
+        <Container className="flex flex-wrap w-full px-2 pt-32 pb-10">
           <HeroTitle>
             <Trans>Reporting</Trans>
           </HeroTitle>
