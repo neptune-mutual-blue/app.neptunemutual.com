@@ -34,7 +34,7 @@ function InputHeader({ label, id }) {
  */
 export function InputField({ label, inputProps, desc, className = "", error }) {
   return (
-    <div className={classNames(className)}>
+    <div className={classNames(className, inputProps.disabled && "opacity-40")}>
       {label && <InputHeader label={label} id={inputProps.id} />}
       <RegularInput inputProps={inputProps} />
       {desc && <span className="pl-2 mt-2 text-sm text-9B9B9B">{desc}</span>}
@@ -55,6 +55,7 @@ export function InputField({ label, inputProps, desc, className = "", error }) {
  */
 export function InputDescription({ label, inputProps, className }) {
   const [descriptionCounter, setDescriptionCounter] = useState(0);
+  const { className: inputClassName, ...rest } = inputProps;
 
   /**
    * @param {Object} e
@@ -65,9 +66,13 @@ export function InputDescription({ label, inputProps, className }) {
   }
 
   return (
-    <div className={classNames(className)}>
+    <div className={classNames(className, inputProps.disabled && "opacity-40")}>
       <InputHeader label={label} id={inputProps.id} />
-      <textarea {...inputProps} onChange={handleChange}></textarea>
+      <textarea
+        {...rest}
+        className={classNames(inputClassName, "disabled:cursor-not-allowed")}
+        onChange={handleChange}
+      ></textarea>
       <span
         className={classNames(
           "absolute bottom-0 right-0 mr-2 mb-2",
@@ -164,9 +169,13 @@ export function ProofOfIncident({ disabled, required }) {
                 e && e.preventDefault();
                 handleDelete(i);
               }}
-              className={`flex-shrink p-2 ml-4 border rounded-md h-10 mt-18 border-CEEBED button-${i}`}
+              className={classNames(
+                `flex-shrink p-2 ml-4 border rounded-md h-10 mt-18 border-CEEBED button-${i}`,
+                `disabled:opacity-40 disabled:cursor-not-allowed`
+              )}
               title="Delete"
               type="button"
+              disabled={disabled}
             >
               <DeleteIcon width={14} height={16} />
             </button>
@@ -177,7 +186,11 @@ export function ProofOfIncident({ disabled, required }) {
       <button
         onClick={handleAdd}
         type="button"
-        className="px-6 py-3 mt-4 text-black bg-transparent rounded-md border-B0C4DB bg-E6EAEF hover:underline"
+        disabled={disabled}
+        className={classNames(
+          "px-6 py-3 mt-4 text-black bg-transparent rounded-md border-B0C4DB bg-E6EAEF hover:underline",
+          "disabled:opacity-40 disabled:cursor-not-allowed"
+        )}
       >
         + {t`Add new link`}
       </button>
