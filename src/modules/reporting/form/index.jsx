@@ -34,7 +34,7 @@ function InputHeader({ label, id }) {
  */
 export function InputField({ label, inputProps, desc, className = "", error }) {
   return (
-    <div className={classNames(className, "disabled:opacity-40")}>
+    <div className={classNames(className, inputProps.disabled && "opacity-40")}>
       {label && <InputHeader label={label} id={inputProps.id} />}
       <RegularInput inputProps={inputProps} />
       {desc && <span className="pl-2 mt-2 text-sm text-9B9B9B">{desc}</span>}
@@ -66,7 +66,7 @@ export function InputDescription({ label, inputProps, className }) {
   }
 
   return (
-    <div className={classNames(className, "disabled:opacity-40")}>
+    <div className={classNames(className, inputProps.disabled && "opacity-40")}>
       <InputHeader label={label} id={inputProps.id} />
       <textarea
         {...rest}
