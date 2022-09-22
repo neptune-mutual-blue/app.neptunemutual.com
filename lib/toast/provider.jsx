@@ -2,7 +2,7 @@
  * Inspiration: https://github.com/damikun/React-Toast
  * Author: Dalibor Kundrat  https://github.com/damikun
  */
-import { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 
 import ToastContainer from "./container";
 import { ToastContext } from "./context";
@@ -12,6 +12,10 @@ const DEFAULT_INTERVAL = 30000; // 30 seconds
 
 /**
  * Implementation
+ *
+ * @param {object} param
+ * @param {string} param.variant
+ * @param {JSX.Element | undefined} [param.children]
  */
 export const ToastProvider = ({ children, variant }) => {
   const [data, setData] = useState([]);

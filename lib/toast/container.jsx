@@ -46,6 +46,7 @@ const ToastContainer = ({ variant = "top_right", data }) => {
         "fixed z-60 w-full md:max-w-sm",
         "px-4 mr-2 overflow-x-hidden overflow-y-auto"
       )}
+      data-testid="toast-container"
     >
       <div
         className={classNames(

@@ -1,10 +1,10 @@
-import CloseIcon from "./CloseIcon";
-import ErrorIcon from "./ErrorIcon";
-import InfoIcon from "./InfoIcon";
-import LoadingIcon from "./LoadingIcon";
-import MinimizeIcon from "./MinimizeIcon";
-import SuccessIcon from "./SuccessIcon";
-import WarningIcon from "./WarningIcon";
+import CloseIcon from "../components/icons/CloseIcon";
+import ErrorIcon from "../components/icons/ErrorIcon";
+import InfoIcon from "../components/icons/InfoIcon";
+import LoadingIcon from "../components/icons/LoadingIcon";
+import MinimizeIcon from "../components/icons/MinimizeIcon";
+import SuccessIcon from "../components/icons/SuccessIcon";
+import WarningIcon from "../components/icons/WarningIcon";
 import { render } from "@testing-library/react";
 
 describe("Toast Icons", () => {
