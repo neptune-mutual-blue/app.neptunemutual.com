@@ -143,7 +143,7 @@ export function ProofOfIncident({ disabled, required }) {
           required: required,
           disabled: disabled,
         }}
-        desc={t`Provide URL with a proximate proof of the incident.`}
+        desc={t`Provide a URL confirming the nature of the incident.`}
       />
 
       {fields.map((value, i) => {
@@ -161,7 +161,7 @@ export function ProofOfIncident({ disabled, required }) {
                 required: required,
                 disabled: disabled,
               }}
-              desc={t`Provide URL with a proximate proof of the incident.`}
+              desc={t`Provide a URL confirming the nature of the incident.`}
             />
 
             <button
