@@ -33,6 +33,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
 
   const [value, setValue] = useState("");
   const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isDateNoHasValue, setIsDateHasNoValue] = useState(true);
 
   const {
     balance,
@@ -76,6 +77,14 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
   function handleChooseMax(e) {
     e && e.preventDefault();
     setValue(convertFromUnits(balance, tokenDecimals).toString());
+  }
+
+  /**
+   * @param {Object} e
+   */
+  function handleObserveDateTime(e) {
+    e && e.preventDefault();
+    setIsDateHasNoValue(!!!e.target.value);
   }
 
   /**
@@ -148,6 +157,8 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
               type: "datetime-local",
               required: canReport,
               disabled: approving || reporting,
+              onChange: handleObserveDateTime,
+              className: isDateNoHasValue && "text-9B9B9B",
             }}
             desc={t`Select the incident observance date.`}
           />
