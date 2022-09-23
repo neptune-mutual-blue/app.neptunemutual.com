@@ -1,10 +1,9 @@
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 import { Select } from "@/common/Select";
 import { t } from "@lingui/macro";
 import SmallGridIcon from "@/icons/SmallGridIcon";
 import { SORT_TYPES } from "@/utils/sorting";
-import { useRouter } from "next/router";
-import { useRef } from "react";
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -15,7 +14,6 @@ export const SelectListBar = ({
   options = null,
 }) => {
   const { query } = useRouter();
-  const selectRef = useRef(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -37,11 +35,7 @@ export const SelectListBar = ({
   }, [query.view, setSortType]);
 
   return (
-    <div
-      ref={selectRef}
-      data-testid="select-list-bar"
-      className={sortClassContainer}
-    >
+    <div data-testid="select-list-bar" className={sortClassContainer}>
       <Select
         prefix={prefix}
         options={selectOptions}
