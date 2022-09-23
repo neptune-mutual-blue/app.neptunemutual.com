@@ -85,7 +85,7 @@ msgstr "분쟁 추가"
 msgid "Add new link"
 msgstr "새 링크 추가"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr "스테이킹하고 싶은 금액"
 msgid "Amount less than minimum stake!"
 msgstr "최소 판돈보다 적은 금액!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "커버하고자 하는 금액"
 
@@ -128,7 +128,7 @@ msgstr "커버하고자 하는 금액"
 msgid "Amount you wish to withdraw"
 msgstr "출금하고자 하는 금액"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr "{tokenSymbol} 토큰 승인"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -286,8 +286,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "최소 판돈 이하로 갈 수 없음"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -698,7 +698,7 @@ msgstr "사건 제목 입력"
 msgid "Enter Npm Amount"
 msgstr "Npm 금액 입력"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1211,7 +1211,7 @@ msgstr "유동성 제공"
 msgid "Purchase Policy"
 msgstr "구매 정책"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "구매 정책"
 
@@ -1235,7 +1235,7 @@ msgstr "정책을 성공적으로 구매했습니다"
 msgid "Purchasing Policy"
 msgstr "구매 정책"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "구매 중..."
 
@@ -1261,7 +1261,7 @@ msgstr "안심:"
 msgid "Recent Votes"
 msgstr "최근 투표"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "반박하다"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr "결정을 선택하세요"
 msgid "Select the incident observance date."
 msgstr "사고발생일을 선택하세요."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "보장 기간 선택"
 
@@ -1722,7 +1722,7 @@ msgstr "당신은 화이트리스트에 없습니다"
 msgid "You will receive"
 msgstr "당신은받을 것이다"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "다음을 받게 됩니다."
 

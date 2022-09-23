@@ -80,7 +80,7 @@ msgstr "添加争议"
 msgid "Add new link"
 msgstr "添加新链接"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr "您想要质押的金额"
 msgid "Amount less than minimum stake!"
 msgstr "质押数量小于最低质押额！"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "您想要保障的金额"
 
@@ -123,7 +123,7 @@ msgstr "您想要保障的金额"
 msgid "Amount you wish to withdraw"
 msgstr "您想要提取的金额"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr ""
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -281,8 +281,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "不可提交小于最低质押金额的流动性"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -693,7 +693,7 @@ msgstr "填写事件名称"
 msgid "Enter Npm Amount"
 msgstr "填写NPM数量"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgstr ""
 msgid "Purchase Policy"
 msgstr "购买保单"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "购买保单"
 
@@ -1230,7 +1230,7 @@ msgstr "保单购买已成功"
 msgid "Purchasing Policy"
 msgstr "正在购买保单"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "正在购买中"
 
@@ -1256,7 +1256,7 @@ msgstr "再保险："
 msgid "Recent Votes"
 msgstr "最近的投票记录"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "正在反驳"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1400,7 +1400,7 @@ msgstr "选择您的决定"
 msgid "Select the incident observance date."
 msgstr "选择发现事件的日期"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "选择您的保障期限"
 
@@ -1717,7 +1717,7 @@ msgstr "您不在白名单中"
 msgid "You will receive"
 msgstr "您将获得"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "您将获得："
 

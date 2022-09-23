@@ -152,7 +152,6 @@ const DetailsRenderer = ({ row }) => {
     coverKey: row.cover.id,
     productKey: productKey,
   });
-  const router = useRouter();
   const { liquidityTokenDecimals } = useAppConstants();
   const isDiversified = coverInfo?.supportsProducts;
 

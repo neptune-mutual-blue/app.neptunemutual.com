@@ -20,3 +20,5 @@ export const RegularInput = forwardRef(
     );
   }
 );
+
+RegularInput.displayName = "RegularInput";

@@ -80,7 +80,7 @@ msgstr "Añadir disputa"
 msgid "Add new link"
 msgstr "Agregar nuevo enlaceñadir"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -115,7 +115,7 @@ msgstr "Cantidad que desea poner en stake"
 msgid "Amount less than minimum stake!"
 msgstr "Cantidad inferior al staking mínimo!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "Cantidad que desea cubrir"
 
@@ -123,7 +123,7 @@ msgstr "Cantidad que desea cubrir"
 msgid "Amount you wish to withdraw"
 msgstr "Cantidad que desea retirar"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr ""
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -281,8 +281,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "No se puede ir por debajo del staking mínimo"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -693,7 +693,7 @@ msgstr "Ingrese el título del incidente"
 msgid "Enter Npm Amount"
 msgstr "Ingrese la cantidad de Npm"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgstr ""
 msgid "Purchase Policy"
 msgstr "Comprar póliza"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "Comprar póliza"
 
@@ -1230,7 +1230,7 @@ msgstr "Póliza comprada con éxito"
 msgid "Purchasing Policy"
 msgstr "Comprando póliza"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "Comprando..."
 
@@ -1256,7 +1256,7 @@ msgstr "Garantías: "
 msgid "Recent Votes"
 msgstr "Votos recientes"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1264,7 +1264,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "Refutando"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1400,7 +1400,7 @@ msgstr "Seleccione su decisión"
 msgid "Select the incident observance date."
 msgstr "Seleccione la fecha de observancia del incidente."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "Seleccione su período de cobertura"
 
@@ -1717,7 +1717,7 @@ msgstr "No estás en la lista blanca"
 msgid "You will receive"
 msgstr "Usted recibirá"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "Usted recibirá:"
 

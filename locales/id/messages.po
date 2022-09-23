@@ -85,7 +85,7 @@ msgstr "Tambahkan Sengketa"
 msgid "Add new link"
 msgstr "Tambahkan tautan baru"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr "Jumlah yang Anda Ingin Taruh"
 msgid "Amount less than minimum stake!"
 msgstr "Jumlah kurang dari taruhan minimum!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "Jumlah yang ingin Anda tanggung"
 
@@ -128,7 +128,7 @@ msgstr "Jumlah yang ingin Anda tanggung"
 msgid "Amount you wish to withdraw"
 msgstr "Jumlah yang ingin Anda tarik"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr "Menyetujui token {tokenSymbol}"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -286,8 +286,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "Tidak bisa di bawah taruhan minimum"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -698,7 +698,7 @@ msgstr "Masukkan Judul Insiden"
 msgid "Enter Npm Amount"
 msgstr "Masukkan Jumlah Npm"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1211,7 +1211,7 @@ msgstr "Menyediakan likuiditas"
 msgid "Purchase Policy"
 msgstr "Kebijakan Pembelian"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "Kebijakan pembelian"
 
@@ -1235,7 +1235,7 @@ msgstr "Kebijakan yang Dibeli Berhasil"
 msgid "Purchasing Policy"
 msgstr "Kebijakan Pembelian"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "Membeli..."
 
@@ -1261,7 +1261,7 @@ msgstr "Jaminan:"
 msgid "Recent Votes"
 msgstr "Suara Terbaru"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "Menyanggah"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr "Pilih Keputusan Anda"
 msgid "Select the incident observance date."
 msgstr "Pilih tanggal peringatan insiden."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "Pilih periode pertanggungan Anda"
 
@@ -1722,7 +1722,7 @@ msgstr "Anda tidak masuk daftar putih"
 msgid "You will receive"
 msgstr "Anda akan menerima"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "Anda akan menerima:"
 

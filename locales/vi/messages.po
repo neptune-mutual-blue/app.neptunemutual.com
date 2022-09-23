@@ -85,7 +85,7 @@ msgstr "Thêm tranh chấp"
 msgid "Add new link"
 msgstr "Thêm liên kết mới"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr "Số tiền bạn muốn đặt cọc"
 msgid "Amount less than minimum stake!"
 msgstr "Số tiền ít hơn số tiền đặt cược tối thiểu!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "Số tiền bạn muốn trang trải"
 
@@ -128,7 +128,7 @@ msgstr "Số tiền bạn muốn trang trải"
 msgid "Amount you wish to withdraw"
 msgstr "Số tiền bạn muốn rút"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr "Phê duyệt mã thông báo {tokenSymbol}"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -286,8 +286,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "Không thể xuống dưới mức đặt cược tối thiểu"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -698,7 +698,7 @@ msgstr "Nhập tiêu đề sự cố"
 msgid "Enter Npm Amount"
 msgstr "Nhập số tiền Npm"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1211,7 +1211,7 @@ msgstr "Cung cấp thanh khoản"
 msgid "Purchase Policy"
 msgstr "Chính sách mua hàng"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "Chính sách mua hàng"
 
@@ -1235,7 +1235,7 @@ msgstr "Chính sách đã mua thành công"
 msgid "Purchasing Policy"
 msgstr "Chính sách mua hàng"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "Thu mua..."
 
@@ -1261,7 +1261,7 @@ msgstr "Tái đảm bảo:"
 msgid "Recent Votes"
 msgstr "Phiếu bầu gần đây"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "Bác bỏ"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr "Chọn quyết định của bạn"
 msgid "Select the incident observance date."
 msgstr "Chọn ngày quan sát sự cố."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "Chọn thời gian bảo hiểm của bạn"
 
@@ -1722,7 +1722,7 @@ msgstr "Bạn không có trong danh sách trắng"
 msgid "You will receive"
 msgstr "Bạn sẽ nhận"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "Bạn sẽ nhận:"
 

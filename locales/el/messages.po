@@ -85,7 +85,7 @@ msgstr "Προσθήκη Διαφοράς"
 msgid "Add new link"
 msgstr "Προσθήκη νέου συνδέσμου"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:175
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:174
 msgid "Added <0/> to {0}"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr "Ποσό Που Επιθυμείτε Να Λάβετε"
 msgid "Amount less than minimum stake!"
 msgstr "Ποσό μικρότερο από το ελάχιστο στοίχημα!"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:161
 msgid "Amount you wish to cover"
 msgstr "Ποσό που θέλετε να καλύψετε"
 
@@ -128,7 +128,7 @@ msgstr "Ποσό που θέλετε να καλύψετε"
 msgid "Amount you wish to withdraw"
 msgstr "Ποσό που επιθυμείτε να αποσύρετε"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:284
+#: src/common/CoverForm/PurchasePolicyForm.jsx:282
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:298
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:317
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Approving {tokenSymbol} tokens"
 msgstr "Εγκρίνει {tokenSymbol} μάρκες"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:281
+#: src/common/CoverForm/PurchasePolicyForm.jsx:279
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:295
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:314
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:297
@@ -286,8 +286,8 @@ msgstr ""
 msgid "Cannot go below minimum stake"
 msgstr "Δεν μπορείτε να πάτε κάτω από το ελάχιστο ποντάρισμα"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:144
-msgid "Cannot purchase policy, since the cover status is <0><1>{productStatus}</1></0>"
+#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+msgid "Cannot purchase policy, since the cover status is {link}"
 msgstr ""
 
 #: src/hooks/useStakingPoolDeposit.jsx:305
@@ -698,7 +698,7 @@ msgstr "Εισαγωγή Τίτλου Περιστατικού"
 msgid "Enter Npm Amount"
 msgstr "Εισάγετε Ποσό NPM"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:237
 msgid "Enter Referral Code"
 msgstr ""
 
@@ -1211,7 +1211,7 @@ msgstr "Παροχή ρευστότητας"
 msgid "Purchase Policy"
 msgstr "Πολιτική Αγορών"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchase policy"
 msgstr "Πολιτική αγορών"
 
@@ -1235,7 +1235,7 @@ msgstr "Πολιτική Αγορών Επιτυχώς"
 msgid "Purchasing Policy"
 msgstr "Πολιτική Αγορών"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:308
+#: src/common/CoverForm/PurchasePolicyForm.jsx:306
 msgid "Purchasing..."
 msgstr "Αγορά..."
 
@@ -1261,7 +1261,7 @@ msgstr "Διασφάλιση:"
 msgid "Recent Votes"
 msgstr "Πρόσφατες Ψηφοφορίες"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:229
 msgid "Referral Code"
 msgstr ""
 
@@ -1269,7 +1269,7 @@ msgstr ""
 msgid "Refuting"
 msgstr "Ανεφοδιασμός"
 
-#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:187
+#: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:186
 msgid "Removed <0/> from {0}"
 msgstr ""
 
@@ -1405,7 +1405,7 @@ msgstr "Επιλέξτε Την Απόφαση Σας"
 msgid "Select the incident observance date."
 msgstr "Επιλέξτε την ημερομηνία τήρησης περιστατικού."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:193
 msgid "Select your coverage period"
 msgstr "Επιλέξτε την περίοδο κάλυψης"
 
@@ -1722,7 +1722,7 @@ msgstr "Δεν είστε στη λίστα επιτρεπόμενων"
 msgid "You will receive"
 msgstr "Θα λάβετε"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:180
 msgid "You will receive:"
 msgstr "Θα λάβετε:"
 
