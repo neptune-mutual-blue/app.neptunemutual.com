@@ -42,7 +42,6 @@ export function TransactionList({
 
   useEffect(() => {
     toast.hide(isOpen);
-
     if (isOpen) {
       const history = LSHistory.get(page);
       setListOfTransactions((current) => {
@@ -75,6 +74,8 @@ export function TransactionList({
     setListOfTransactions([]);
     setPage(1);
     setMaxPage(1);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, page]);
 
   return (
