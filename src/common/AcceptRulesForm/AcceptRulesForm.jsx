@@ -8,13 +8,13 @@ import { useRouter } from "next/router";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import LeftArrow from "@/icons/LeftArrow";
 import { Routes } from "@/src/config/routes";
-import { ZERO_BYTES32 } from "@neptunemutual/sdk/dist/config/constants";
+import { config } from "@neptunemutual/sdk";
 
 export const AcceptRulesForm = ({
   onAccept,
   children,
   coverKey,
-  productKey = ZERO_BYTES32,
+  productKey = config.constants.ZERO_BYTES32,
 }) => {
   const router = useRouter();
   const coverPurchasePage = router.pathname.includes("purchase");
