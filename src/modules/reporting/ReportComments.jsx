@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { truncateAddressParam } from "@/utils/address";
 import { Trans, t } from "@lingui/macro";
 import { safeParseString } from "@/src/services/transactions/utils";
 import { fromNow } from "@/utils/formatter/relative-time";
@@ -23,7 +22,7 @@ function HeaderReport(props) {
     <div className="text-sm">
       <span role="header-type">{type}</span>
       <span role="address" className="mx-2 text-4e7dd9">
-        {createdBy && truncateAddressParam(createdBy, 8, -6)}
+        {createdBy && createdBy}
       </span>
       <span
         role="reported-at"
