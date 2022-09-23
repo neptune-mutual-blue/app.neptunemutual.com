@@ -132,7 +132,7 @@ describe("ProjectStatusIndicator test", () => {
     const incidentDate = "123124324";
     const href = `/reports/${safeParseBytes32String(props.coverKey)}/products/${
       props.productKey
-    }/incidents/${incidentDate}/details`;
+    }/incidents/${incidentDate}`;
 
     const { initialRender } = initiateTest(Card, {
       ...props,

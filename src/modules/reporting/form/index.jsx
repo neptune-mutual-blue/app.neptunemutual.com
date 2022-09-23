@@ -26,19 +26,17 @@ function InputHeader({ label, id }) {
  * @param {Object} props
  * @param {string} props.desc
  * @param {string} [props.label]
- * @param {{id: string, name?: string, className?: string, required?: boolean, placeholder?: string, type?: string, value?: string, disabled?: boolean, max?: number | string, min?: number | string, onChange?: Function}} props.inputProps
+ * @param {React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error:boolean}} props.inputProps
  * @param {string} [props.className]
  * @param {string} [props.error]
  * @param {number | string} [props.key]
  * @returns
  */
 export function InputField({ label, inputProps, desc, className = "", error }) {
-  const { className: inputClassName, ...restInputProps } = inputProps;
-
   return (
     <div className={classNames(className, inputProps.disabled && "opacity-40")}>
       {label && <InputHeader label={label} id={inputProps.id} />}
-      <RegularInput inputProps={restInputProps} className={inputClassName} />
+      <RegularInput {...inputProps} />
       {desc && <span className="pl-2 mt-2 text-sm text-9B9B9B">{desc}</span>}
       {error && (
         <span className="flex items-center pl-2 text-FA5C2F">{error}</span>

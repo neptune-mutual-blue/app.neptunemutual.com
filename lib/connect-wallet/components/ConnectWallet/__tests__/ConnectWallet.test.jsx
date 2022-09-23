@@ -2,11 +2,11 @@ import React from "react";
 import { fireEvent, screen, waitFor } from "@/utils/unit-tests/test-utils";
 import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
 import { i18n } from "@lingui/core";
-import ConnectWallet from "./../ConnectWallet";
-import { Disclaimer } from "./../Disclaimer";
-import { Option } from "./../Option";
-import { Popup } from "./../Popup";
-import { WalletList } from "./../WalletList";
+import ConnectWallet from "../ConnectWallet";
+import { Disclaimer } from "../Disclaimer";
+import { Option } from "../Option";
+import { Popup } from "../Popup";
+import { WalletList } from "../WalletList";
 import { testData } from "@/utils/unit-tests/test-data";
 import * as configWallets from "../../../config/wallets";
 

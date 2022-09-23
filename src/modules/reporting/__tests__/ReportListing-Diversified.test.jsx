@@ -10,11 +10,11 @@ describe("ReportListing test", () => {
   beforeEach(() => {
     const { initialRender: iR } = initiateTest(
       ReportListing,
-      { cover_id: "prime", product_id: "chainlink", locale: "en" },
+      { coverKey: "animated-brands", productKey: "", locale: "en" },
       () => {
         mockFn.useRouter(() => ({ ...testData.router, push }));
-        // @ts-ignore
-        mockFn.getSubgraphData(() => ({
+        mockFn.useCoverOrProductData();
+        mockFn.useSubgraphFetch(async () => ({
           incidentReports: [
             {
               id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286",

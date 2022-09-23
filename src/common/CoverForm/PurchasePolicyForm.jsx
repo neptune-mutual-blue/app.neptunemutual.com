@@ -139,16 +139,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   if (productStatus && productStatus !== "Normal") {
+    const link = (
+      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
+        <a className="font-medium underline hover:no-underline">
+          {productStatus}
+        </a>
+      </Link>
+    );
     return (
       <Alert>
-        <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
-        <Link
-          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
-        >
-          <a className="font-medium underline hover:no-underline">
-            {productStatus}
-          </a>
-        </Link>
+        <Trans>Cannot purchase policy, since the cover status is {link}</Trans>
       </Alert>
     );
   }
@@ -232,18 +232,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <div className="relative">
           <RegularInput
             className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 "
-            inputProps={{
-              "id": "referral_code",
-              "placeholder": t`Enter Referral Code`,
-              "value": referralCode,
-              "onChange": (e) => {
-                setReferralCode(e.target.value);
-              },
-              "disabled": approving,
-              "type": "text",
-              "data-testid": "referral-input",
-            }}
             error={!!referralCodeErrorMessage}
+            id={"referral_code"}
+            placeholder={t`Enter Referral Code`}
+            value={referralCode}
+            onChange={(e) => setReferralCode(e.target.value)}
+            disabled={approving}
+            type={"text"}
+            data-testid={"referral-input"}
           />
 
           {hasReferralCode ? (

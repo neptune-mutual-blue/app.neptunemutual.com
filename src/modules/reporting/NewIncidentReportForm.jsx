@@ -84,7 +84,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
    */
   function handleObserveDateTime(e) {
     e && e.preventDefault();
-    setIsDateHasNoValue(!!!e.target.value);
+    setIsDateHasNoValue(!e.target.value);
   }
 
   /**

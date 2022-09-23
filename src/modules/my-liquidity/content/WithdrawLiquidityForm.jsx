@@ -294,7 +294,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
             data-testid="approve-button"
           >
-            {approving ? t`Approving..` : t`Approve`}
+            {approving ? t`Approving...` : t`Approve`}
           </RegularButton>
         ) : (
           <RegularButton

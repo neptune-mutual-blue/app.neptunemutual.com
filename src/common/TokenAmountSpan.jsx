@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 export const TokenAmountSpan = ({
   amountInUnits,
-  symbol,
+  symbol = undefined,
   className = null,
   decimals,
 }) => {
@@ -18,7 +18,7 @@ export const TokenAmountSpan = ({
           convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
-          true
+          typeof symbol == "undefined" ? false : true
         ).long
       }`}
       data-testid="token-amount-span"
@@ -28,7 +28,7 @@ export const TokenAmountSpan = ({
           convertFromUnits(amountInUnits, decimals).toString(),
           router.locale,
           symbol,
-          true
+          typeof symbol == "undefined" ? false : true
         ).short
       }
     </span>

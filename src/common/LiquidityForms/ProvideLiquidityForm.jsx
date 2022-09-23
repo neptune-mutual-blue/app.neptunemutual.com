@@ -167,10 +167,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
       </Alert>
     ) : (
       <Alert>
-        <Trans>Cannot add liquidity, since the cover status is</Trans>{" "}
-        <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-          <a className="font-medium underline hover:no-underline">{status}</a>
-        </Link>
+        <Trans>
+          Cannot add liquidity, since the cover status is{" "}
+          <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
+            <a className="font-medium underline hover:no-underline">{status}</a>
+          </Link>
+        </Trans>
       </Alert>
     );
   }
