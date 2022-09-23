@@ -1,11 +1,13 @@
 import ReportListing from "@/src/modules/reporting/ReportListing";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
 export default function Index() {
-  const { query, locale } = useRouter();
-
-  const { product_id = "", cover_id = "" } = query;
+  const router = useRouter();
+  const { cover_id, product_id } = router.query;
+  const coverKey = safeFormatBytes32String(cover_id);
+  const productKey = safeFormatBytes32String(product_id || "");
 
   return (
     <>
@@ -17,9 +19,9 @@ export default function Index() {
         />
       </Head>
       <ReportListing
-        locale={locale}
-        cover_id={cover_id}
-        product_id={product_id}
+        locale={router.locale}
+        coverKey={coverKey}
+        productKey={productKey}
       />
     </>
   );

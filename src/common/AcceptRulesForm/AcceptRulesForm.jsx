@@ -6,10 +6,16 @@ import { Alert } from "@/common/Alert/Alert";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import LeftArrow from "@/icons/LeftArrow";
+import { Routes } from "@/src/config/routes";
+import { config } from "@neptunemutual/sdk";
 
-export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
+export const AcceptRulesForm = ({
+  onAccept,
+  children,
+  coverKey,
+  productKey = config.constants.ZERO_BYTES32,
+}) => {
   const router = useRouter();
   const coverPurchasePage = router.pathname.includes("purchase");
   const [checked, setChecked] = useState(false);
@@ -28,7 +34,6 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
   };
 
   if (productStatus && productStatus !== "Normal") {
-    const cover_id = safeParseBytes32String(coverKey);
     return (
       <Alert>
         <Trans>
@@ -36,7 +41,7 @@ export const AcceptRulesForm = ({ onAccept, children, coverKey }) => {
           since the cover status is
         </Trans>{" "}
         <Link
-          href={`/reports/${cover_id}/incidents/${activeIncidentDate}/details`}
+          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
         >
           <a className="font-medium underline hover:no-underline">
             {productStatus}

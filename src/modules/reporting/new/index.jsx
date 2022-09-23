@@ -8,7 +8,7 @@ import { ReportingHero } from "@/src/modules/reporting/ReportingHero";
 import { useFetchCoverProductActiveReportings } from "@/src/hooks/useFetchCoverProductActiveReportings";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 
 export function NewIncidentReportPage() {
   const [accepted, setAccepted] = useState(false);
@@ -26,8 +26,6 @@ export function NewIncidentReportPage() {
     productKey,
   });
 
-  const isDiversified = isValidProduct(productKey);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [accepted]);
@@ -39,11 +37,9 @@ export function NewIncidentReportPage() {
     if (!hasActiveReportings) return;
 
     router.replace(
-      isDiversified
-        ? `/reports/${cover_id}/products/${product_id}/incidents/${activeReportings[0].incidentDate}/details`
-        : `/reports/${cover_id}/incidents/${activeReportings[0].incidentDate}/details`
+      Routes.ViewReport(coverKey, productKey, activeReportings[0].incidentDate)
     );
-  }, [activeReportings, cover_id, isDiversified, product_id, router]);
+  }, [activeReportings, coverKey, productKey, router]);
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>;
@@ -65,6 +61,7 @@ export function NewIncidentReportPage() {
 
       {/* hero */}
       <ReportingHero coverInfo={coverInfo} />
+      <hr className="border-B0C4DB" />
 
       {accepted ? (
         <NewIncidentReportForm coverKey={coverKey} productKey={productKey} />

@@ -12,10 +12,9 @@ import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
 import { CARDS_PER_PAGE } from "@/src/config/constants";
 import { Trans, t } from "@lingui/macro";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -117,18 +116,13 @@ function Content({ data, loading, hasMore, handleShowMore }) {
       <>
         <Grid className="mb-24 mt-14" data-testid="active-page-grid">
           {data.map((report) => {
-            const isDiversified = isValidProduct(report.productKey);
-
-            const cover_id = safeParseBytes32String(report.coverKey);
-            const product_id = safeParseBytes32String(report.productKey);
-
             return (
               <Link
-                href={
-                  isDiversified
-                    ? `/reports/${cover_id}/products/${product_id}/incidents/${report.incidentDate}/details`
-                    : `/reports/${cover_id}/incidents/${report.incidentDate}/details`
-                }
+                href={Routes.ViewReport(
+                  report.coverKey,
+                  report.productKey,
+                  report.incidentDate
+                )}
                 key={report.id}
               >
                 <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">

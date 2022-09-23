@@ -16,6 +16,7 @@ export function identifyStatus(status, defaultValue = E_CARD_STATUS.NORMAL) {
   }
 
   switch (status.toLowerCase()) {
+    case "reporting":
     case "incident happened":
     case "incident occurred":
       return E_CARD_STATUS.INCIDENT;

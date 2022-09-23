@@ -44,7 +44,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
     <div className="bg-f1f3f6" data-testid="main-container">
       {/* hero */}
       <Hero>
-        <Container className="px-2 py-20 min-h-[392px] flex flex-col justify-center">
+        <Container className="px-2 py-20 min-h-[312px]">
           <BreadCrumbs
             data-testid="breadcrumbs"
             pages={[

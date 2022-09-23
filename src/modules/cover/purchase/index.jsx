@@ -114,6 +114,7 @@ export const CoverPurchaseDetailsPage = () => {
                 <AcceptRulesForm
                   onAccept={handleAcceptRules}
                   coverKey={coverKey}
+                  productKey={productKey}
                 >
                   <Trans>
                     I have read, understood, and agree to the terms of cover

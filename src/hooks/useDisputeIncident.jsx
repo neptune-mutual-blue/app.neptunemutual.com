@@ -27,6 +27,7 @@ import {
   TransactionHistory,
 } from "@/src/services/transactions/transaction-history";
 import { getActionMessage } from "@/src/helpers/notification";
+import { Routes } from "@/src/config/routes";
 
 export const useDisputeIncident = ({
   coverKey,
@@ -34,7 +35,6 @@ export const useDisputeIncident = ({
   value,
   incidentDate,
   minStake,
-  isDiversified = false,
 }) => {
   const router = useRouter();
 
@@ -216,12 +216,8 @@ export const useDisputeIncident = ({
                 status: STATUS.SUCCESS,
               });
 
-              const { query } = router;
-
               router.replace(
-                isDiversified
-                  ? `/reports/${query.cover_id}/products/${query.product_id}/incidents/${query.timestamp}/details`
-                  : `/reports/${query.cover_id}/incidents/${query.timestamp}/details`
+                Routes.ViewReport(coverKey, productKey, incidentDate)
               );
             },
             onTxFailure: () => {

@@ -123,7 +123,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
   }
 
   return (
-    <Container className="pt-12 pb-24 bg-white border-t border-t-B0C4DB max-w-none md:bg-transparent">
+    <Container className="pt-12 pb-24 bg-white max-w-none md:bg-transparent">
       <form
         data-testid="incident-report-form"
         ref={form}

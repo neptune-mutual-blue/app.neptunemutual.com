@@ -8,7 +8,7 @@ import CurrencyInput from "@/lib/react-currency-input-field";
  *
  * @param {object} param
  * @param {HTMLInputElement} param.inputProps
- * @param {HTMLButtonElement & { buttonClassName?: string }} param.buttonProps
+ * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
  * @param {boolean} [param.error]
  * @param {number} param.decimalLimit
@@ -88,6 +88,7 @@ export const InputWithTrailingButton = ({
           </div>
         )}
         <button
+          type="button"
           className={classNames(
             "font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9",
             buttonClassName,

@@ -19,12 +19,11 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { Label } from "@/common/Label/Label";
 import { RegularInput } from "@/common/Input/RegularInput";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-import { isValidProduct } from "@/src/helpers/cover";
 import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
 import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
 import { Loader } from "@/common/Loader/Loader";
 import ErrorIcon from "@/lib/toast/components/icons/ErrorIcon";
+import { Routes } from "@/src/config/routes";
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date();
@@ -52,8 +51,6 @@ const getCoveragePeriodLabels = (locale) => {
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
-
-  const isDiversified = isValidProduct(productKey);
 
   const [value, setValue] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -141,22 +138,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
   }
 
-  const cover_id = safeParseBytes32String(coverKey);
-  const product_id = safeParseBytes32String(productKey);
-  const status = productStatus;
-
-  if (status && status !== "Normal") {
+  if (productStatus && productStatus !== "Normal") {
     return (
       <Alert>
         <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
         <Link
-          href={
-            !isDiversified
-              ? `/reports/${cover_id}/incidents/${activeIncidentDate}/details`
-              : `/reports/${cover_id}/products/${product_id}/incidents/${activeIncidentDate}/details`
-          }
+          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
         >
-          <a className="font-medium underline hover:no-underline">{status}</a>
+          <a className="font-medium underline hover:no-underline">
+            {productStatus}
+          </a>
         </Link>
       </Alert>
     );

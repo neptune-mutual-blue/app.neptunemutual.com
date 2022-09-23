@@ -22,7 +22,9 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
         { name: t`Home`, href: "/", current: false },
         {
           name: t`Reporting`,
-          href: `/reports/${reportStatus.resolved ? "resolved" : "active"}`,
+          href: reportStatus.resolved
+            ? Routes.ResolvedReports
+            : Routes.ActiveReports,
           current: false,
         },
         {
@@ -58,7 +60,7 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
 
   return (
     <Hero>
-      <Container className="px-2 py-20 min-h-[392px] flex flex-col justify-center">
+      <Container className="px-2 py-20 min-h-[312px]">
         <BreadCrumbs pages={breadcrumbData} />
         <div className="flex">
           <CoverProfileInfo

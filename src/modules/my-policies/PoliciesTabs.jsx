@@ -10,6 +10,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { Routes } from "@/src/config/routes";
+import { useWeb3React } from "@web3-react/core";
 
 const headers = [
   {
@@ -25,6 +26,7 @@ const headers = [
 ];
 
 export const PoliciesTabs = ({ active, children }) => {
+  const { account } = useWeb3React();
   const {
     data: { totalActiveProtection, activePolicies },
     loading,
@@ -34,21 +36,26 @@ export const PoliciesTabs = ({ active, children }) => {
 
   return (
     <>
-      <Hero>
-        <Container className="flex flex-wrap px-2 py-32">
+      <Hero className="min-h-[312px] flex flex-col justify-between">
+        <Container className="flex flex-wrap w-full px-2 pt-32 pb-10">
           <HeroTitle>
             <Trans>My Policies</Trans>
           </HeroTitle>
 
           {/* Total Active Protection */}
-          <HeroStat title={t`Total Active Protection`}>
-            {
-              formatCurrency(
-                convertFromUnits(totalActiveProtection, liquidityTokenDecimals),
-                router.locale
-              ).long
-            }
-          </HeroStat>
+          {account && (
+            <HeroStat title={t`Total Active Protection`}>
+              {
+                formatCurrency(
+                  convertFromUnits(
+                    totalActiveProtection,
+                    liquidityTokenDecimals
+                  ),
+                  router.locale
+                ).long
+              }
+            </HeroStat>
+          )}
         </Container>
 
         <TabNav headers={headers} activeTab={active} />

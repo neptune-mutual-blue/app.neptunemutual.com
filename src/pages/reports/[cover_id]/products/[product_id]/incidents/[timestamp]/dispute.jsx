@@ -67,7 +67,6 @@ export default function DisputeFormPage() {
             dispute: true,
           }}
         />
-
         <hr className="border-t border-t-B0C4DB" />
 
         {loading && (
