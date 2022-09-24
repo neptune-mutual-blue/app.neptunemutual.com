@@ -32,19 +32,21 @@ const VARIANTS = {
   },
 };
 
-const ToastContainer = ({ variant = "top_right", data }) => {
+const ToastContainer = ({ variant = "top_right", data, hidden }) => {
   const context = useToast();
   const Var = VARIANTS[variant] || VARIANTS.top_right;
 
   const handleRemove = (id) => {
     context.remove(id);
   };
+
   return (
     <div
       className={classNames(
         Var.style,
         "fixed z-60 w-full md:max-w-sm",
-        "px-4 mr-2 overflow-x-hidden overflow-y-auto"
+        "px-4 mr-2 overflow-x-hidden overflow-y-auto",
+        hidden && "hidden"
       )}
       data-testid="toast-container"
     >
