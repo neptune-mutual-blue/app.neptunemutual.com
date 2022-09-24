@@ -17,7 +17,15 @@ const initialMocks = () => {
 };
 
 describe("PoliciesTab test", () => {
-  const { initialRender } = initiateTest(PoliciesTabs, props, initialMocks);
+  const { initialRender, rerenderFn } = initiateTest(
+    PoliciesTabs,
+    props,
+    initialMocks
+  );
+
+  beforeAll(() => {
+    mockFn.useWeb3React();
+  });
 
   beforeEach(() => {
     initialRender();
@@ -38,6 +46,24 @@ describe("PoliciesTab test", () => {
     expect(heroStat).toBeInTheDocument();
   });
 
+  test("should not render the herostat value when wallet is not connected", () => {
+    mockFn.useWeb3React(() => ({ ...testData.account, account: null }));
+    rerenderFn();
+
+    const value = formatCurrency(
+      convertFromUnits(
+        "1032000000",
+        testData.appConstants.liquidityTokenDecimals
+      ),
+      "en"
+    ).long;
+    const heroStatVal = screen.queryByText(value);
+    expect(heroStatVal).not.toBeInTheDocument();
+
+    mockFn.useWeb3React();
+    rerenderFn();
+  });
+
   test("should render the herostat value", () => {
     const value = formatCurrency(
       convertFromUnits(
@@ -46,7 +72,7 @@ describe("PoliciesTab test", () => {
       ),
       "en"
     ).long;
-    const heroStatVal = screen.getByText(value);
+    const heroStatVal = screen.queryByText(value);
     expect(heroStatVal).toBeInTheDocument();
   });
 

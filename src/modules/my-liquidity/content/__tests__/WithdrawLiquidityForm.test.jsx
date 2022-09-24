@@ -176,7 +176,7 @@ describe("WithdrawLiquidityForm", () => {
         }));
       });
       button = screen.getByTestId("approve-button");
-      expect(button.textContent).toBe("Approving..");
+      expect(button.textContent).toBe("Approving...");
     });
 
     test("should disable the approve button when approving", () => {

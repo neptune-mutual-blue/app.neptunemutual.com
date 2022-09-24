@@ -91,8 +91,8 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     <div className="flex flex-col items-center pt-4">
       <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
         <Trans>Result:</Trans>{" "}
-        {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`}{" "}
-        {incidentReport.emergencyResolved && t`(Emergency Resolved)`}
+        {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`} (
+        {incidentReport.emergencyResolved && t`Emergency Resolved`})
       </span>
 
       {isClaimableNow && (

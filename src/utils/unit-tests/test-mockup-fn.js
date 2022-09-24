@@ -81,6 +81,7 @@ import * as PolicyAddressHook from "@/src/hooks/contracts/usePolicyAddress";
 import * as ValidateReferralCodeHook from "@/src/hooks/useValidateReferralCode";
 import * as CalculatePodsHook from "@/src/hooks/useCalculatePods";
 import * as ProvideLiquidityHook from "@/src/hooks/useProvideLiquidity";
+import * as SubgraphFetchHook from "@/src/hooks/useSubgraphFetch";
 import * as ResolveIncident from "@/src/hooks/useResolveIncident";
 
 const Web3React = require("@web3-react/core");
@@ -824,6 +825,9 @@ export const mockFn = {
     jest
       .spyOn(StakingPoolsAddressHook, "useStakingPoolsAddress")
       .mockImplementation(returnFunction(cb)),
+
+  useSubgraphFetch: (cb) =>
+    jest.spyOn(SubgraphFetchHook, "useSubgraphFetch").mockReturnValue(cb),
 
   TransactionHistory: {
     callback: (mockCallbackFunction = true) => {

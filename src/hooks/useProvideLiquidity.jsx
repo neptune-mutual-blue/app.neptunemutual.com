@@ -181,12 +181,13 @@ export const useProvideLiquidity = ({
       });
 
       try {
+        const tokenSymbol = `NPM`;
         await txToast.push(
           tx,
           {
-            pending: t`Approving NPM`,
-            success: t`Approved NPM Successfully`,
-            failure: t`Could not approve NPM`,
+            pending: t`Approving ${tokenSymbol}`,
+            success: t`Approved ${tokenSymbol} Successfully`,
+            failure: t`Could not approve ${tokenSymbol}`,
           },
           {
             onTxSuccess: () => {
