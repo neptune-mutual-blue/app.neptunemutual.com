@@ -27,7 +27,6 @@ describe("HighLight Calendar", () => {
   test("With Highlighted value", () => {
     const day15 = screen.getByText("15");
 
-    expect(day15.parentElement).toHaveClass("rounded-l-lg");
     expect(day15.parentElement).toHaveClass("bg-DEEAF6");
   });
 
@@ -42,8 +41,6 @@ describe("HighLight Calendar", () => {
       .getAllByText(String(dates.startDate.getDate()))
       .shift();
 
-    expect(startDate.parentElement).toHaveClass("rounded-l-lg");
-    expect(startDate.parentElement).toHaveClass("rounded-r-lg");
     expect(startDate.parentElement).toHaveClass("bg-DEEAF6");
   });
 
@@ -89,10 +86,7 @@ describe("HighLight Calendar", () => {
       .shift();
     const endDate = screen.getByText(String(dates.endDate.getDate()));
 
-    expect(startDate.parentElement).toHaveClass("rounded-l-lg");
     expect(startDate.parentElement).toHaveClass("bg-DEEAF6");
-
-    expect(endDate.parentElement).toHaveClass("rounded-r-lg");
     expect(endDate.parentElement).toHaveClass("bg-DEEAF6");
   });
 
@@ -105,7 +99,6 @@ describe("HighLight Calendar", () => {
 
     const endDate = screen.getByText(String(dates.endDate.getDate()));
 
-    expect(endDate.parentElement).toHaveClass("rounded-r-lg");
     expect(endDate.parentElement).toHaveClass("bg-DEEAF6");
   });
 });

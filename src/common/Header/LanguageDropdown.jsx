@@ -27,19 +27,18 @@ export const LanguageDropdown = () => {
 
   useEffect(() => {
     const browserLocale = getBrowserLocale().replace(/-.*/, "");
-    if (!language) {
-      if (
-        LANGUAGE_KEYS.includes(browserLocale) &&
-        router.locale !== browserLocale
-      ) {
-        router.push(router.asPath, router.asPath, {
-          locale: browserLocale,
-        });
-      }
-    } else if (router.locale !== language) {
-      router.push(router.asPath, router.asPath, {
-        locale: language,
-      });
+    if (
+      !language &&
+      LANGUAGE_KEYS.includes(browserLocale) &&
+      router.locale !== browserLocale
+    ) {
+      router.push(router.asPath, router.asPath, { locale: browserLocale });
+      return;
+    }
+
+    if (LANGUAGE_KEYS.includes(language) && router.locale !== language) {
+      router.push(router.asPath, router.asPath, { locale: language });
+      return;
     }
   }, [language, router]);
 
@@ -90,7 +89,7 @@ export const LanguageDropdown = () => {
           leaveTo="opacity-0"
         >
           <Listbox.Options className="fixed z-50 top-8 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="flex items-center mb-1 text-sm pb-4">
+            <div className="flex items-center pb-4 mb-1 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input
                 className="w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px] font-sora"
@@ -98,7 +97,7 @@ export const LanguageDropdown = () => {
                 onChange={handleSearchLanguage}
               />
             </div>
-            <div className="max-h-64 overflow-y-auto">
+            <div className="overflow-y-auto max-h-64">
               {languages.map((lang, i) => (
                 <Listbox.Option key={i} value={lang}>
                   {({ selected, active }) => (
