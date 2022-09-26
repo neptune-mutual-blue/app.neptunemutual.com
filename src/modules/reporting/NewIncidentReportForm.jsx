@@ -160,7 +160,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
               onChange: handleObserveDateTime,
               className: isDateNoHasValue && "text-9B9B9B",
             }}
-            desc={t`Select the incident observance date.`}
+            desc={t`The date and time you observed the incident.`}
           />
         </div>
 
@@ -178,7 +178,7 @@ export function NewIncidentReportForm({ coverKey, productKey }) {
               name: "description",
               className:
                 "block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB",
-              placeholder: t`Explain briefly about the incident if you want to add anything.`,
+              placeholder: t`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
               rows: 5,
               maxLength: 300,
               required: canReport,

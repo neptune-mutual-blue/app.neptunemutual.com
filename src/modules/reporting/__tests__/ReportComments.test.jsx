@@ -27,7 +27,9 @@ describe("Incident Occured", () => {
     expect(headerType).toBeInTheDocument();
 
     const address = screen.getByRole("address");
-    expect(address).toHaveTextContent("0x65E06B...29b7C9");
+    expect(address).toHaveTextContent(
+      "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9"
+    );
     expect(address).toBeInTheDocument();
 
     const reportedAt = screen.getByRole("reported-at");
@@ -84,8 +86,12 @@ describe("Incident Occured and False Reporting", () => {
     expect(headerType[1]).toBeInTheDocument();
 
     const address = screen.getAllByRole("address");
-    expect(address[0]).toHaveTextContent("0x65E06B...29b7C9");
-    expect(address[1]).toHaveTextContent("0xAE55A2...C1d92b");
+    expect(address[0]).toHaveTextContent(
+      "0x65E06B1bCF7B91974a15e5178F8aA74Dee29b7C9"
+    );
+    expect(address[1]).toHaveTextContent(
+      "0xAE55A2fA7621093fa5e89aBf410955764AC1d92b"
+    );
     expect(address[0]).toBeInTheDocument();
     expect(address[1]).toBeInTheDocument();
 
