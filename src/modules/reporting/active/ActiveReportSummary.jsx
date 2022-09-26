@@ -16,8 +16,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
-import * as Tooltip from "@radix-ui/react-tooltip";
-import InfoIcon from "@/lib/toast/components/icons/InfoIcon";
+import { ReportingPeriodStatus } from "@/modules/reporting/ReportingPeriodStatus";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -233,36 +232,9 @@ export const ActiveReportSummary = ({
           <h3 className="mb-4 font-bold text-h4 font-sora">
             <Trans>Reporting Period</Trans>
           </h3>
-          <div className="flex items-center mb-2">
-            <p className="font-bold text-sm">
-              {durationToResolution.durationAgo}
-            </p>
-            <Tooltip.Root>
-              <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
-                <InfoIcon className="w-4 h-4 text-999BAB" aria-hidden="true" />
-              </Tooltip.Trigger>
-              <Tooltip.Content side="top">
-                <div className="max-w-md p-2 text-xs text-white bg-black rounded font-poppins">
-                  <Trans>This report will be concluded on</Trans>
-                  <br />
-                  {DateLib.toDateFormat(
-                    incidentReport.resolutionTimestamp,
-                    router.locale,
-                    {
-                      month: "numeric",
-                      day: "numeric",
-                      year: "numeric",
-                      hour: "numeric",
-                      minute: "numeric",
-                      second: "numeric",
-                    },
-                    "UTC"
-                  )}
-                </div>
-                <Tooltip.Arrow offset={16} className="fill-black" />
-              </Tooltip.Content>
-            </Tooltip.Root>
-          </div>
+          <ReportingPeriodStatus
+            resolutionTimestamp={incidentReport.resolutionTimestamp}
+          />
           <p className="text-sm opacity-50 mr-1.5">
             <span
               title={DateLib.toLongDateFormat(
