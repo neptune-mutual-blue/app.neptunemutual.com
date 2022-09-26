@@ -4,15 +4,15 @@ import { toStringSafe } from "@/utils/string";
 // Don't translate these
 export const SORT_TYPES = {
   ALPHABETIC: "A-Z",
-  UTILIZATION_RATIO: "Utilization Ratio",
+  UTILIZATION_RATIO: "Utilization ratio",
   LIQUIDITY: "Liquidity",
   TVL: "TVL",
   APR: "APR",
-  INCIDENT_DATE: "Incident Date",
-  RESOLVED_DATE: "Resolved Date",
+  INCIDENT_DATE: "Incident date",
+  RESOLVED_DATE: "Resolved date",
   ALL: "All",
-  DIVERSIFIED_POOL: "Diversified Pool",
-  DEDICATED_POOL: "Dedicated Pool",
+  DIVERSIFIED_POOL: "Diversified pool",
+  DEDICATED_POOL: "Dedicated pool",
 };
 
 export const SORT_DATA_TYPES = {

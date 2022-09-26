@@ -38,7 +38,7 @@ export const ClaimBondModal = ({
         ></ModalCloseButton>
         <div className="mt-6">
           <Label htmlFor={"claimable-bond"} className="mb-4 font-semibold">
-            <Trans>Amount Available To Claim</Trans>
+            <Trans>Amount available to claim</Trans>
           </Label>
           <DisabledInput
             value={formatAmount(

@@ -159,6 +159,17 @@ const DetailsRenderer = ({ row }) => {
     return null;
   }
 
+  const tokenAmountWithSymbol = (
+    <TokenAmountSpan
+      amountInUnits={row.liquidityAmount}
+      decimals={liquidityTokenDecimals}
+    />
+  );
+
+  const coverOrProjectName = isDiversified
+    ? coverInfo.infoObj.coverName
+    : coverInfo.infoObj.projectName;
+
   return (
     <td className="max-w-sm px-6 py-6">
       <div className="flex items-center w-max">
@@ -172,27 +183,11 @@ const DetailsRenderer = ({ row }) => {
         <span className="pl-4 text-left whitespace-nowrap">
           {row.type == "PodsIssued" ? (
             <Trans>
-              Added{" "}
-              <TokenAmountSpan
-                amountInUnits={row.liquidityAmount}
-                decimals={liquidityTokenDecimals}
-              />{" "}
-              to{" "}
-              {isDiversified
-                ? coverInfo.infoObj.coverName
-                : coverInfo.infoObj.projectName}
+              Added {tokenAmountWithSymbol} to {coverOrProjectName}
             </Trans>
           ) : (
             <Trans>
-              Removed{" "}
-              <TokenAmountSpan
-                amountInUnits={row.liquidityAmount}
-                decimals={liquidityTokenDecimals}
-              />{" "}
-              from{" "}
-              {isDiversified
-                ? coverInfo.infoObj.coverName
-                : coverInfo.infoObj.projectName}
+              Removed {tokenAmountWithSymbol} from {coverOrProjectName}
             </Trans>
           )}
         </span>

@@ -85,6 +85,8 @@ function WarningMessage() {
 }
 
 function Notes({ coverInfo }) {
+  const coverName = coverInfo.infoObj.coverName;
+
   return (
     <div className="flex flex-col pt-6" data-testid="notes">
       <p>
@@ -92,9 +94,9 @@ function Notes({ coverInfo }) {
           Before providing liquidity to or purchasing a product policy from this
           pool, please evaluate all product parameters thoroughly. The
           underwriting capital is concentrated in the &quot;
-          {coverInfo.infoObj.coverName}&quot; pool that covers individual
-          products. Although diversified cover pools give LPs much higher
-          returns, they are riskier by nature than dedicated cover pools.
+          {coverName}&quot; pool that covers individual products. Although
+          diversified cover pools give LPs much higher returns, they are riskier
+          by nature than dedicated cover pools.
         </Trans>
       </p>
 
@@ -104,10 +106,9 @@ function Notes({ coverInfo }) {
 
       <p>
         <Trans>
-          All rules of individual &quot;{coverInfo.infoObj.coverName}&quot;
-          products are applicable to this pool. If a product&apos;s trigger
-          event results resolution, liquidity from this pool will be used to pay
-          out claims.
+          All rules of individual &quot;{coverName}&quot; products are
+          applicable to this pool. If a product&apos;s trigger event results
+          resolution, liquidity from this pool will be used to pay out claims.
         </Trans>
       </p>
 

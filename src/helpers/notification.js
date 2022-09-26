@@ -92,42 +92,42 @@ const actionMessages = {
   [METHODS.RESOLVE_INCIDENT_APPROVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Resolved Incident Successfully`,
+        title: t`Resolved incident successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not Resolve Incident`,
+        title: t`Could not resolve incident`,
         description: "",
       };
     }
 
-    return { title: t`Resolving Incident`, description: "" };
+    return { title: t`Resolving incident`, description: "" };
   },
   [METHODS.RESOLVE_INCIDENT_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Emergency Resolved Incident Successfully`,
+        title: t`Emergency resolved incident successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not Emergency Resolve Incident`,
+        title: t`Could not emergency resolve incident`,
         description: "",
       };
     }
 
-    return { title: t`Emergency Resolving Incident`, description: "" };
+    return { title: t`Emergency resolving incident`, description: "" };
   },
   [METHODS.REPORT_DISPUTE_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} tokens successfully`,
         description: displayValue(_data),
       };
     }
@@ -156,7 +156,7 @@ const actionMessages = {
       return { title: t`Could not dispute`, description: displayValue(_data) };
     }
 
-    return { title: t`Disputing`, description: displayValue(_data) };
+    return { title: t`Disputing...`, description: displayValue(_data) };
   },
   [METHODS.CLAIM_COVER_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
@@ -182,14 +182,14 @@ const actionMessages = {
   [METHODS.CLAIM_COVER_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Claimed policy Successfully`,
+        title: t`Claimed policy successfully`,
         description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not Claim policy`,
+        title: t`Could not claim policy`,
         description: displayValue(_data),
       };
     }
@@ -366,7 +366,7 @@ const actionMessages = {
     }
 
     return {
-      title: t`Approving ${tokenSymbol} to stake`,
+      title: t`Approving ${tokenSymbol} tokens`,
       description: displayValue(_data),
     };
   },
@@ -418,28 +418,28 @@ const actionMessages = {
   [METHODS.POOL_CAPITALIZE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Capitalized Pool Successfully`,
+        title: t`Capitalized pool successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not Capitalize Pool`, description: "" };
+      return { title: t`Could not capitalize pool`, description: "" };
     }
 
-    return { title: t`Capitalizing Pool`, description: "" };
+    return { title: t`Capitalizing pool`, description: "" };
   },
   [METHODS.BOND_CLAIM]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Claimed ${tokenSymbol} Successfully`,
+        title: t`Claimed ${tokenSymbol} successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Claimed ${tokenSymbol} Successfully`, description: "" };
+      return { title: t`Claimed ${tokenSymbol} successfully`, description: "" };
     }
 
     return { title: t`Claiming ${tokenSymbol}`, description: "" };
@@ -447,22 +447,22 @@ const actionMessages = {
   [METHODS.INCIDENT_FINALIZE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Finalized Incident Successfully`,
+        title: t`Finalized incident successfully`,
         description: "",
       };
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not Finalize Incident`, description: "" };
+      return { title: t`Could not finalize incident`, description: "" };
     }
 
-    return { title: t`Finalizing Incident`, description: "" };
+    return { title: t`Finalizing incident`, description: "" };
   },
   [METHODS.LIQUIDITY_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} tokens successfully`,
         description: "",
       };
     }
@@ -544,7 +544,7 @@ const actionMessages = {
       };
     }
 
-    return { title: t`Attesting`, description: "" };
+    return { title: t`Attesting...`, description: "" };
   },
   [METHODS.VOTE_REFUTE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {

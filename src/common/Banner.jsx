@@ -53,10 +53,11 @@ export const Banner = () => {
           </p>
         </div>
         <button
-          aria-label="Close Banner"
+          type="button"
+          aria-label="Close"
           onClick={handleClose}
           className="block p-1 ml-auto"
-          title={t`Close Banner`}
+          title={t`close`}
           data-testid="close-banner"
         >
           <CloseIcon className="w-5 h-5" />

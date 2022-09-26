@@ -485,7 +485,7 @@ export const mockFn = {
             ...fetchResponse,
             json: () => Promise.resolve(fetchJsonData),
           })
-        : Promise.reject(fetchJsonData ?? "Error occured")
+        : Promise.reject(fetchJsonData ?? "Error occurred")
     );
     return {
       unmock: () => {
@@ -756,7 +756,7 @@ export const mockFn = {
         getCoverOrProductData: jest.fn(() =>
           resolve
             ? Promise.resolve(returnData)
-            : Promise.reject("Error occured")
+            : Promise.reject("Error occurred")
         ),
       })),
 

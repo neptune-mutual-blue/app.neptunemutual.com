@@ -158,6 +158,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
     const incidentDate = activeReportings[0].incidentDate;
     const productKey = activeReportings[0].productKey;
 
+    const statusLink = (
+      <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
+        <a className="font-medium underline hover:no-underline">{status}</a>
+      </Link>
+    );
+
     return isDiversified ? (
       <Alert>
         <Trans>
@@ -168,10 +174,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
     ) : (
       <Alert>
         <Trans>
-          Cannot add liquidity, since the cover status is{" "}
-          <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-            <a className="font-medium underline hover:no-underline">{status}</a>
-          </Link>
+          Cannot add liquidity, since the cover status is {statusLink}
         </Trans>
       </Alert>
     );
@@ -181,7 +184,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
   if (receiveAmountLoading) {
     loadingMessage = t`Calculating tokens...`;
   } else if (npmBalanceLoading) {
-    loadingMessage = t`Fetching balances...`;
+    loadingMessage = t`Fetching balance...`;
   } else if (npmAllowanceLoading) {
     loadingMessage = t`Fetching ${NPMTokenSymbol} allowance...`;
   } else if (lqAllowanceLoading) {
@@ -263,7 +266,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalOpen)}>
           <strong>
-            <Trans>Open:</Trans>{" "}
+            <Trans comment="Liquidity Withdrawal Period Open Date">Open:</Trans>{" "}
           </strong>
           {DateLib.toLongDateFormat(info.withdrawalOpen, router.locale)}
         </span>
@@ -271,7 +274,9 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
       <div>
         <span className="text-7398C0" title={fromNow(info.withdrawalClose)}>
           <strong>
-            <Trans>Close:</Trans>{" "}
+            <Trans comment="Liquidity Withdrawal Period Closing Date">
+              Close:
+            </Trans>{" "}
           </strong>
           {DateLib.toLongDateFormat(info.withdrawalClose, router.locale)}
         </span>

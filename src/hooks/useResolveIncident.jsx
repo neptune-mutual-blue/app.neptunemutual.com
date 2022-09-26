@@ -133,7 +133,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, t`Emergency Resolve Incident`);
+      notifyError(err, t`Emergency resolve incident`);
     };
 
     try {

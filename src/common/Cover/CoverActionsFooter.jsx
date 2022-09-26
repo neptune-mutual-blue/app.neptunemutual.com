@@ -15,8 +15,8 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
         data-testid="main-container"
       >
         <Container>
-          <h1 className="mb-10 font-bold text-center text-h4 md:text-h2 font-sora sm:mb-12">
-            <Trans>Didn&#x2019;t Find What You Were Looking For?</Trans>
+          <h1 className="mb-10 font-bold text-center capitalize text-h4 md:text-h2 font-sora sm:mb-12">
+            <Trans>Didn&#x2019;t find what you were looking for?</Trans>
           </h1>
           <Grid>
             {Object.keys(coverActions)

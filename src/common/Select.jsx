@@ -61,7 +61,7 @@ export const Select = ({
                     <>
                       <span
                         className={classNames(
-                          `block truncate px-4 py-2`,
+                          `block truncate px-4 py-2 capitalize`,
                           selected ? "font-medium" : "font-normal",
                           active ? "bg-EEEEEE bg-opacity-50 rounded-lg" : ""
                         )}

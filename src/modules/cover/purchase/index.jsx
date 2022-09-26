@@ -145,7 +145,7 @@ export const CoverPurchaseDetailsPage = () => {
               }
             >
               <span className="">
-                <Trans>Available Liquidity:</Trans>
+                <Trans>Available Liquidity: </Trans>
               </span>
               <strong className="font-bold text-right">
                 {

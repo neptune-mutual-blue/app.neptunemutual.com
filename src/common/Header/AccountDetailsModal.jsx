@@ -63,7 +63,7 @@ export const AccountDetailsModal = ({
   handleDisconnect,
   account,
 }) => {
-  const network = wallets.find((x) => x.id == "1");
+  const wallet = wallets.find((x) => x.id == "1");
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval();
 
   return (
@@ -92,10 +92,10 @@ export const AccountDetailsModal = ({
           <div className="flex flex-col-reverse items-center justify-between sm:flex-row">
             <span className="flex items-center text-xs tracking-normal text-364253 whitespace-nowrap">
               <span>
-                <Trans>Connected With</Trans> {network.name}
+                <Trans>Connected with</Trans> {wallet.name}
               </span>
               <span className="ml-2">
-                {<network.Icon width={12} height={12} />}
+                {<wallet.Icon width={12} height={12} />}
               </span>
             </span>
             <button

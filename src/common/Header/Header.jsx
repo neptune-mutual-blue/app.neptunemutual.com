@@ -211,10 +211,10 @@ export const Header = () => {
                     <button
                       className="inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md whitespace-nowrap bg-4e7dd9 hover:bg-opacity-75"
                       onClick={onOpen}
-                      title={t`Connect Wallet`}
+                      title={t`Connect wallet`}
                     >
-                      <span className="sr-only">{t`Connect Wallet`}</span>
-                      <Trans>Connect Wallet</Trans>
+                      <span className="sr-only">{t`Connect wallet`}</span>
+                      <Trans>Connect wallet</Trans>
                     </button>
                   );
                   if (active) {
@@ -382,10 +382,10 @@ export const MenuModal = ({
                         <button
                           className="justify-center inline-block w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75"
                           onClick={onOpen}
-                          title={t`Connect Wallet`}
+                          title={t`Connect wallet`}
                         >
                           <span className="sr-only">{t`Connect wallet`}</span>
-                          Connect Wallet
+                          Connect wallet
                         </button>
                       );
                       if (active) {

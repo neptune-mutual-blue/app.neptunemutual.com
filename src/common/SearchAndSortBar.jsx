@@ -19,7 +19,7 @@ export const SearchAndSortBar = ({
 }) => {
   const defaultOptions = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Utilization Ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
     { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY },
   ];
   const options = searchAndSortOptions ?? defaultOptions;
@@ -41,8 +41,7 @@ export const SearchAndSortBar = ({
           className={classNames(
             "md:w-64 w-full pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-1 focus-visible:ring-4e7dd9",
             inputClass
-          )
-          }
+          )}
           placeholder={t`Search`}
           value={searchValue}
           onChange={onSearchChange}

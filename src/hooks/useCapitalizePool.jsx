@@ -38,7 +38,7 @@ export const useCapitalizePool = ({ coverKey, productKey, incidentDate }) => {
     };
 
     const handleError = (err) => {
-      notifyError(err, t`Capitalize Pool`);
+      notifyError(err, t`Capitalize pool`);
     };
 
     try {

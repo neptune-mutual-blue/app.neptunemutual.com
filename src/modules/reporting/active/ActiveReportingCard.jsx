@@ -147,7 +147,7 @@ export const ActiveReportingCard = ({
       {/* Stats */}
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">
-          <Trans>utilization Ratio</Trans>
+          <Trans>Utilization ratio</Trans>
         </span>
         <span
           className="font-semibold text-right text-h7 lg:text-sm "
@@ -162,7 +162,7 @@ export const ActiveReportingCard = ({
           <div>
             <p>
               <b>
-                <Trans>UTILIZATION RATIO:</Trans>{" "}
+                <Trans>Utilization ratio:</Trans>{" "}
                 {formatPercent(utilization, router.locale)}
               </b>
             </p>

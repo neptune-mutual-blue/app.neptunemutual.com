@@ -155,7 +155,7 @@ export function ProofOfIncident({ disabled, required }) {
               inputProps={{
                 id: `incident_url_${i}`,
                 name: "incident_url",
-                placeholder: t`https://`,
+                placeholder: "https://",
                 onChange: (/** @type {Object} */ e) => handleChange(e, i),
                 value: value,
                 required: required,

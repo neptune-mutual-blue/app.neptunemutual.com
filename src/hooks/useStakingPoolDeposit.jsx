@@ -301,16 +301,14 @@ export const useStakingPoolDeposit = ({
     }
 
     if (isGreater(convertToUnits(value).toString(), maxStakableAmount)) {
-      setError(
-        t`Cannot stake more than ${
-          formatCurrency(
-            convertFromUnits(maxStakableAmount).toString(),
-            router.locale,
-            "",
-            true
-          ).short
-        }`
-      );
+      const maxStakableTokenAmount = formatCurrency(
+        convertFromUnits(maxStakableAmount).toString(),
+        router.locale,
+        "",
+        true
+      ).short;
+
+      setError(t`Cannot stake more than ${maxStakableTokenAmount}`);
       return;
     }
 

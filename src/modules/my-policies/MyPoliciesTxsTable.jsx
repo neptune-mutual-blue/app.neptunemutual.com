@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { usePagination } from "@/src/hooks/usePagination";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { useAppConstants } from "@/src/context/AppConstants";
+import { TokenAmountSpan } from "@/common/TokenAmountSpan";
 
 const renderHeader = (col) => (
   <th
@@ -143,7 +144,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className="px-6 py-6 max-w-xs whitespace-nowrap"
+      className="max-w-xs px-6 py-6 whitespace-nowrap"
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
       data-testid="timestamp-col"
     >
@@ -153,7 +154,6 @@ const WhenRenderer = ({ row }) => {
 };
 
 const DetailsRenderer = ({ row }) => {
-  const router = useRouter();
   const productKey = row.productKey;
   const { liquidityTokenDecimals } = useAppConstants();
   const coverInfo = useCoverOrProductData({
@@ -167,8 +167,19 @@ const DetailsRenderer = ({ row }) => {
     return null;
   }
 
+  const tokenAmountWithSymbol = (
+    <TokenAmountSpan
+      amountInUnits={row.daiAmount}
+      decimals={liquidityTokenDecimals}
+    />
+  );
+
+  const projectOrProductName = isDiversified
+    ? coverInfo.infoObj.productName
+    : coverInfo.infoObj.projectName;
+
   return (
-    <td className="px-6 py-6 max-w-sm" data-testid="details-col">
+    <td className="max-w-sm px-6 py-6" data-testid="details-col">
       <div className="flex items-center whitespace-nowrap">
         <img
           src={getCoverImgSrc({
@@ -181,26 +192,15 @@ const DetailsRenderer = ({ row }) => {
         />
 
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "CoverPurchased" ? t`Purchased` : t`Claimed`}{" "}
-          <span
-            title={
-              formatCurrency(
-                convertFromUnits(row.daiAmount, liquidityTokenDecimals),
-                router.locale
-              ).long
-            }
-          >
-            {
-              formatCurrency(
-                convertFromUnits(row.daiAmount, liquidityTokenDecimals),
-                router.locale
-              ).short
-            }
-          </span>{" "}
-          {isDiversified
-            ? coverInfo.infoObj.productName
-            : coverInfo.infoObj.projectName}{" "}
-          <Trans>policy</Trans>
+          {row.type == "CoverPurchased" ? (
+            <Trans>
+              Purchased {tokenAmountWithSymbol} {projectOrProductName} policy
+            </Trans>
+          ) : (
+            <Trans>
+              Claimed {tokenAmountWithSymbol} {projectOrProductName} policy
+            </Trans>
+          )}
         </span>
       </div>
     </td>
@@ -225,7 +225,7 @@ const CxDaiAmountRenderer = ({ row }) => {
   );
 
   return (
-    <td className="px-6 py-6 text-right max-w-sm" data-testid="col-amount">
+    <td className="max-w-sm px-6 py-6 text-right" data-testid="col-amount">
       <div className="flex items-center justify-end whitespace-nowrap">
         <span
           className={

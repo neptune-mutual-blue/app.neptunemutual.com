@@ -89,8 +89,8 @@ export const ReportingResolvedPage = () => {
 
   const options = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
-    { name: t`Resolved Date`, value: SORT_TYPES.RESOLVED_DATE },
+    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
+    { name: t`Resolved date`, value: SORT_TYPES.RESOLVED_DATE },
   ];
 
   const renderHeader = (col) => {
