@@ -48,15 +48,11 @@ export const getKeys = async (
       getFirstReportingStakeCall,
     ]);
 
-  const [
-    totalPoolAmount,
-    activeCommitment,
-    _reassurance,
-    _reassurancePoolWeight,
-    productsCount,
-    leverage,
-    capitalEfficiency,
-  ] = getCoverPoolSummaryResult;
+  const totalPoolAmount = getCoverPoolSummaryResult.totalAmountInPool;
+  const activeCommitment = getCoverPoolSummaryResult.totalCommitment;
+  const productsCount = getCoverPoolSummaryResult.productCount;
+  const leverage = getCoverPoolSummaryResult.leverage;
+  const capitalEfficiency = getCoverPoolSummaryResult.productCapitalEfficiency;
 
   let availableLiquidity = totalPoolAmount.sub(activeCommitment);
 

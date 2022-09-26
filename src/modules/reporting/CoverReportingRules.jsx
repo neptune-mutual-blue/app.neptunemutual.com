@@ -44,10 +44,7 @@ export const CoverReportingRules = ({
                     <div className="mb-10">
                       {activeReportings.map((x) => {
                         return (
-                          <ReportingInfo
-                            key={x.id}
-                            ipfsBytes={x.reporterInfo}
-                          />
+                          <ReportingInfo key={x.id} ipfsHash={x.reporterInfo} />
                         );
                       })}
                     </div>

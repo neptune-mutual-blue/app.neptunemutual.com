@@ -2,13 +2,13 @@ import { utils } from "@neptunemutual/sdk";
 import { useEffect, useState } from "react";
 import { Trans } from "@lingui/macro";
 
-export const ReportingInfo = ({ ipfsBytes }) => {
+export const ReportingInfo = ({ ipfsHash }) => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     let ignore = false;
     utils.ipfs
-      .readBytes32(ipfsBytes)
+      .read(ipfsHash)
       .then((x) => {
         if (ignore) return;
         setData(x);
@@ -18,7 +18,7 @@ export const ReportingInfo = ({ ipfsBytes }) => {
     return () => {
       ignore = true;
     };
-  }, [ipfsBytes]);
+  }, [ipfsHash]);
 
   return (
     <details open>

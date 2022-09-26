@@ -23,8 +23,8 @@ const getQuery = () => {
     }
     bondPools {
       id
-      address0
-      values
+      lpToken
+      totalNpmTopUp
       totalBondClaimed
       totalLpAddedToBond
     }
