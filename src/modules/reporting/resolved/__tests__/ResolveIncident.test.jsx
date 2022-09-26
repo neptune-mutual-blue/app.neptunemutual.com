@@ -46,6 +46,49 @@ const incidentReport = {
   },
 };
 
+const incidentReportResolve = {
+  data: {
+    incidentReport: {
+      id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000-1661159947",
+      coverKey:
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+      productKey:
+        "0x31696e6368000000000000000000000000000000000000000000000000000000",
+      incidentDate: "1661159947",
+      resolutionDeadline: "0",
+      resolved: true,
+      resolveTransaction: null,
+      emergencyResolved: false,
+      emergencyResolveTransaction: null,
+      finalized: false,
+      status: "Reporting",
+      decision: null,
+      resolutionTimestamp: "1661160247",
+      claimBeginsFrom: "0",
+      claimExpiresAt: "0",
+      reporter: "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+      reporterInfo:
+        "0x5c69ee1c0f7c6efe418b3ce8431349fa01b2fd484bd1115bdb88fcc13f3e93d0",
+      reporterStake: "2000000000000000000000",
+      disputer: null,
+      disputerInfo: "0x00000000",
+      disputerStake: null,
+      totalAttestedStake: "2000000000000000000000",
+      totalAttestedCount: "1",
+      totalRefutedStake: "0",
+      totalRefutedCount: "0",
+      reportTransaction: {
+        id: "0x15c867159b08151e66ef80296d7dfe666f4d76717eb5ab8a982df832215f1054",
+        timestamp: "1661159947",
+      },
+      disputeTransaction: null,
+      reportIpfsData:
+        '{\n  "title": "test",\n  "observed": "2022-08-14T09:18:00.000Z",\n  "proofOfIncident": "[\\"\\"]",\n  "description": "",\n  "stake": "2000000000000000000000",\n  "createdBy": "0x201Bcc0d375f10543e585fbB883B36c715c959B3",\n  "permalink": "https://app.neptunemutual.com/covers/view/0x6465666900000000000000000000000000000000000000000000000000000000/reporting/1660468680000"\n}',
+      disputeIpfsData: null,
+    },
+  },
+};
+
 const bb8Report = {
   data: {
     incidentReport: {
@@ -89,12 +132,42 @@ const bb8Report = {
   },
 };
 
-describe("ResolveIncident test", () => {
+describe("ResolveIncident loading", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
-    incidentReport: incidentReport.data,
+    incidentReport: incidentReport.data.incidentReport,
     resolvableTill: incidentReport.data.resolutionDeadline,
+  };
+
+  const initialMocks = () => {
+    i18n.activate("en");
+    mockFn.useResolveIncident();
+    mockFn.useCoverOrProductData(() => null);
+    mockFn.useWeb3React(() => ({
+      account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",
+    }));
+  };
+
+  const { initialRender } = initiateTest(ResolveIncident, props, initialMocks);
+
+  beforeEach(() => {
+    mockFn.useAppConstants();
+    initialRender();
+  });
+
+  test("should render loading", () => {
+    const loadingText = screen.getByText(/loading.../);
+    expect(loadingText).toBeInTheDocument();
+  });
+});
+
+describe("ResolveIncident test resolve", () => {
+  const props = {
+    refetchInfo: jest.fn(),
+    refetchReport: jest.fn(),
+    incidentReport: incidentReportResolve.data.incidentReport,
+    resolvableTill: incidentReportResolve.data.resolutionDeadline,
   };
 
   const initialMocks = () => {
@@ -114,17 +187,12 @@ describe("ResolveIncident test", () => {
 
   test("should render two buttons", () => {
     const buttons = screen.getAllByRole("button");
-    expect(buttons.length).toBe(2);
+    expect(buttons.length).toBe(1);
   });
 
   test("should show resolve ", () => {
     const resolveButton = screen.getAllByRole("button");
     expect(resolveButton[0]).toHaveTextContent("Resolve");
-  });
-
-  test("should show emergency resolve button and show modal", () => {
-    const resolveButton = screen.getAllByRole("button");
-    expect(resolveButton[1]).toHaveTextContent("Emergency Resolve");
   });
 });
 
@@ -132,12 +200,13 @@ describe("ResolveIncident test", () => {
   const props = {
     refetchInfo: jest.fn(),
     refetchReport: jest.fn(),
-    incidentReport: bb8Report.data,
+    incidentReport: bb8Report.data.incidentReport,
     resolvableTill: bb8Report.data.resolutionDeadline,
   };
 
   const initialMocks = () => {
     i18n.activate("en");
+    mockFn.useResolveIncident();
     mockFn.useCoverOrProductData();
     mockFn.useWeb3React(() => ({
       account: "0xfFA88cb1bbB771aF326E6DFd9E0E8eA3E4E0E603",

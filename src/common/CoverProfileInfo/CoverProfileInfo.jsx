@@ -1,9 +1,8 @@
 import { Badge, identifyStatus } from "@/common/CardStatusBadge";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
-import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 import { isGreater } from "@/utils/bn";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import Link from "next/link";
 import { ProjectImage } from "./ProjectImage";
 import { ProjectName } from "./ProjectName";
@@ -29,21 +28,8 @@ export function Card({ status, incidentDate = "0", coverKey, productKey }) {
   );
 
   if (isGreater(incidentDate, "0")) {
-    const isDiversified = isValidProduct(productKey);
     return (
-      <Link
-        href={
-          !isDiversified
-            ? `/reporting/${safeParseBytes32String(
-                coverKey
-              )}/${incidentDate}/details`
-            : `/reporting/${safeParseBytes32String(
-                coverKey
-              )}/product/${safeParseBytes32String(
-                productKey
-              )}/${incidentDate}/details`
-        }
-      >
+      <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
         <a data-testid="badge-link">{badge}</a>
       </Link>
     );

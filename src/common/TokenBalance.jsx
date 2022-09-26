@@ -79,6 +79,7 @@ export const TokenBalance = ({
       </div>
       <div className="flex items-center">
         <button
+          type="button"
           title="Copy token address"
           onClick={handleCopy}
           className={classNames(
@@ -105,6 +106,7 @@ export const TokenBalance = ({
           <OpenInNewIcon width={20} fill="currentColor" />
         </a>
         <button
+          type="button"
           className={classNames(
             "ml-3",
             disabled && "pointer-events-none cursor-not-allowed"

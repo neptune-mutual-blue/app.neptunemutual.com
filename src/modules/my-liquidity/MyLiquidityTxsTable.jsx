@@ -27,6 +27,7 @@ import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { Fragment } from "react";
 import { CoverAvatar } from "@/common/CoverAvatar";
+import { TokenAmountSpan } from "@/common/TokenAmountSpan";
 
 const renderHeader = (col) => (
   <th
@@ -151,7 +152,6 @@ const DetailsRenderer = ({ row }) => {
     coverKey: row.cover.id,
     productKey: productKey,
   });
-  const router = useRouter();
   const { liquidityTokenDecimals } = useAppConstants();
   const isDiversified = coverInfo?.supportsProducts;
 
@@ -170,26 +170,31 @@ const DetailsRenderer = ({ row }) => {
           liquidityTxTable={true}
         />
         <span className="pl-4 text-left whitespace-nowrap">
-          {row.type == "PodsIssued" ? t`Added` : t`Removed`}{" "}
-          <span
-            title={
-              formatCurrency(
-                convertFromUnits(row.liquidityAmount, liquidityTokenDecimals),
-                router.locale
-              ).long
-            }
-          >
-            {
-              formatCurrency(
-                convertFromUnits(row.liquidityAmount, liquidityTokenDecimals),
-                router.locale
-              ).short
-            }
-          </span>{" "}
-          {row.type == "PodsIssued" ? t`to` : t`from`}{" "}
-          {isDiversified
-            ? coverInfo.infoObj.coverName
-            : coverInfo.infoObj.projectName}
+          {row.type == "PodsIssued" ? (
+            <Trans>
+              Added{" "}
+              <TokenAmountSpan
+                amountInUnits={row.liquidityAmount}
+                decimals={liquidityTokenDecimals}
+              />{" "}
+              to{" "}
+              {isDiversified
+                ? coverInfo.infoObj.coverName
+                : coverInfo.infoObj.projectName}
+            </Trans>
+          ) : (
+            <Trans>
+              Removed{" "}
+              <TokenAmountSpan
+                amountInUnits={row.liquidityAmount}
+                decimals={liquidityTokenDecimals}
+              />{" "}
+              from{" "}
+              {isDiversified
+                ? coverInfo.infoObj.coverName
+                : coverInfo.infoObj.projectName}
+            </Trans>
+          )}
         </span>
       </div>
     </td>

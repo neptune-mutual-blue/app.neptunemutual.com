@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { BreadCrumbs } from "@/common/BreadCrumbs/BreadCrumbs";
 import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
@@ -15,17 +14,20 @@ import { Alert } from "@/common/Alert/Alert";
 import { t, Trans } from "@lingui/macro";
 import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
 import { usePagination } from "@/src/hooks/usePagination";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
+import { useRouter } from "next/router";
 
-export const ClaimDetailsPage = ({ disabled }) => {
+export const ClaimDetailsPage = ({
+  disabled,
+  coverKey,
+  productKey,
+  timestamp,
+}) => {
   const router = useRouter();
   const { page, limit, setPage } = usePagination();
-  const { cover_id, product_id, timestamp } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String(product_id || "");
 
   const coverInfo = useCoverOrProductData({
     coverKey: coverKey,
@@ -75,14 +77,14 @@ export const ClaimDetailsPage = ({ disabled }) => {
               pages={[
                 {
                   name: t`My Policies`,
-                  href: "/my-policies/active",
+                  href: Routes.MyPolicies,
                   current: false,
                 },
                 {
                   name: title,
                   href: !isDiversified
-                    ? `/covers/${cover_id}/options`
-                    : `/covers/${cover_id}/${product_id}/options`,
+                    ? Routes.ViewCover(coverKey)
+                    : Routes.ViewProduct(coverKey, productKey),
                   current: false,
                 },
                 { name: t`Claim`, href: "#", current: true },

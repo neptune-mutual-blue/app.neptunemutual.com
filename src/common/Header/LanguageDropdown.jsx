@@ -27,19 +27,18 @@ export const LanguageDropdown = () => {
 
   useEffect(() => {
     const browserLocale = getBrowserLocale().replace(/-.*/, "");
-    if (!language) {
-      if (
-        LANGUAGE_KEYS.includes(browserLocale) &&
-        router.locale !== browserLocale
-      ) {
-        router.push(router.asPath, router.asPath, {
-          locale: browserLocale,
-        });
-      }
-    } else if (router.locale !== language) {
-      router.push(router.asPath, router.asPath, {
-        locale: language,
-      });
+    if (
+      !language &&
+      LANGUAGE_KEYS.includes(browserLocale) &&
+      router.locale !== browserLocale
+    ) {
+      router.push(router.asPath, router.asPath, { locale: browserLocale });
+      return;
+    }
+
+    if (LANGUAGE_KEYS.includes(language) && router.locale !== language) {
+      router.push(router.asPath, router.asPath, { locale: language });
+      return;
     }
   }, [language, router]);
 
@@ -89,8 +88,8 @@ export const LanguageDropdown = () => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="fixed z-50 top-8 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="flex items-center mb-1 text-sm">
+          <Listbox.Options className="fixed z-50 top-8 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div className="flex items-center pb-4 mb-1 text-sm">
               <SearchLanguageIcon width={16} height={16} className="mx-2.5" />
               <input
                 className="w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px] font-sora"
@@ -98,29 +97,30 @@ export const LanguageDropdown = () => {
                 onChange={handleSearchLanguage}
               />
             </div>
-
-            {languages.map((lang, i) => (
-              <Listbox.Option key={i} value={lang}>
-                {({ selected, active }) => (
-                  <span
-                    className={classNames(
-                      `truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal font-sora leading-4`,
-                      selected && "bg-[#b0c4db]   bg-opacity-20 rounded",
-                      active
-                        ? "text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded"
-                        : "text-black"
-                    )}
-                  >
-                    {lang}{" "}
-                    {selected && (
-                      <span aria-label="Selected">
-                        <SelectedCircleIcon className="pl-2" />
-                      </span>
-                    )}
-                  </span>
-                )}
-              </Listbox.Option>
-            ))}
+            <div className="overflow-y-auto max-h-64">
+              {languages.map((lang, i) => (
+                <Listbox.Option key={i} value={lang}>
+                  {({ selected, active }) => (
+                    <span
+                      className={classNames(
+                        `truncate p-2 flex justify-between items-center text-xs font-medium tracking-normal font-sora leading-4`,
+                        selected && "bg-[#b0c4db]   bg-opacity-20 rounded",
+                        active
+                          ? "text-4e7dd9 bg-[#b0c4db]  bg-opacity-20 rounded"
+                          : "text-black"
+                      )}
+                    >
+                      {lang}{" "}
+                      {selected && (
+                        <span aria-label="Selected">
+                          <SelectedCircleIcon className="pl-2" />
+                        </span>
+                      )}
+                    </span>
+                  )}
+                </Listbox.Option>
+              ))}
+            </div>
           </Listbox.Options>
         </Transition>
       </Listbox>

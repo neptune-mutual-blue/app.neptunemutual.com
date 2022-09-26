@@ -6,7 +6,13 @@ import ProvideLiquiditySmall from "@/icons/ProvideLiquiditySmall";
 import PurchasePolicySmall from "@/icons/PurchasePolicySmall";
 import ReportIncidentSmall from "@/icons/ReportIncidentSmall";
 import ClaimCoverSmall from "@/icons/ClaimCoverSmall";
+import { Routes } from "@/src/config/routes";
 
+/**
+ *
+ * @type {Object.<string, {title: string, description: string, imgSrc: JSX.Element, smImgSrc: JSX.Element, footerImgSrc: string, getHref: (coverKey: any, productKey: any) => string, action: string}>}
+ *
+ */
 export const actions = {
   "purchase": {
     title: "Purchase Policy",
@@ -14,10 +20,8 @@ export const actions = {
     imgSrc: <PurchasePolicyIcon />,
     smImgSrc: <PurchasePolicySmall />,
     footerImgSrc: `/cover-actions/purchase.svg`,
-    getHref: (cover_id, product_id, isDiversified) =>
-      isDiversified
-        ? `/covers/${cover_id}/${product_id}/purchase`
-        : `/covers/${cover_id}/purchase`,
+    getHref: (coverKey, productKey) =>
+      Routes.PurchasePolicy(coverKey, productKey),
     action: "purchase",
   },
   "add-liquidity": {
@@ -26,10 +30,7 @@ export const actions = {
     imgSrc: <ProvideLiquidityIcon />,
     smImgSrc: <ProvideLiquiditySmall />,
     footerImgSrc: `/cover-actions/add-liquidity.svg`,
-    getHref: (cover_id, product_id, isDiversified) =>
-      isDiversified
-        ? `/covers/${cover_id}/add-liquidity`
-        : `/covers/${cover_id}/add-liquidity`,
+    getHref: (coverKey, _productKey) => Routes.ProvideLiquidity(coverKey),
     action: "add-liquidity",
   },
   "report": {
@@ -38,10 +39,8 @@ export const actions = {
     imgSrc: <ReportIncidentIcon />,
     smImgSrc: <ReportIncidentSmall />,
     footerImgSrc: `/cover-actions/report.svg`,
-    getHref: (cover_id, product_id, isDiversified) =>
-      isDiversified
-        ? `/covers/${cover_id}/${product_id}/new-report`
-        : `/covers/${cover_id}/new-report`,
+    getHref: (coverKey, productKey) =>
+      Routes.ReportNewIncident(coverKey, productKey),
     action: "new-report",
   },
   "claim": {
@@ -50,7 +49,7 @@ export const actions = {
     imgSrc: <ClaimCoverIcon />,
     smImgSrc: <ClaimCoverSmall />,
     footerImgSrc: `/cover-actions/claim.svg`,
-    getHref: (_id) => `/my-policies/active`,
+    getHref: (_coverKey, _productKey) => Routes.MyPolicies,
     action: "claim",
   },
 };

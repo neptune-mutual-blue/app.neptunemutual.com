@@ -273,21 +273,26 @@ const actionMessages = {
     return { title: t`Purchasing Policy`, description: displayValue(_data) };
   },
   [METHODS.BOND_APPROVE]: (status, _data) => {
+    const tokenSymbol = `LP`;
+
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved LP tokens Successfully`,
+        title: t`Approved ${tokenSymbol} tokens Successfully`,
         description: displayValue(_data),
       };
     }
 
     if (status === STATUS.FAILED) {
       return {
-        title: t`Could not approve LP tokens`,
+        title: t`Could not approve ${tokenSymbol} tokens`,
         description: displayValue(_data),
       };
     }
 
-    return { title: t`Approving LP tokens`, description: displayValue(_data) };
+    return {
+      title: t`Approving ${tokenSymbol} tokens`,
+      description: displayValue(_data),
+    };
   },
   [METHODS.BOND_CREATE]: (status, data, locale) => {
     const value = data.receiveAmount || data.value || "";
@@ -330,7 +335,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approve ${tokenSymbol} Successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: "",
       };
     }
@@ -348,7 +353,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || "";
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approve ${tokenSymbol} Success`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: displayValue(_data),
       };
     }
@@ -491,7 +496,7 @@ const actionMessages = {
   [METHODS.LIQUIDITY_INFO]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Accrued intrest successfully`,
+        title: t`Accrued interest successfully`,
         description: "",
       };
     }

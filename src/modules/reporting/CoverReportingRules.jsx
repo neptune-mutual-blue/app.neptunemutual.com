@@ -4,7 +4,6 @@ import { Alert } from "@/common/Alert/Alert";
 import { Container } from "@/common/Container/Container";
 import { AcceptReportRulesForm } from "@/common/AcceptCoverRulesForm/AcceptReportRulesForm";
 import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
-import Link from "next/link";
 import { Trans } from "@lingui/macro";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { toBN } from "@/utils/bn";
@@ -82,11 +81,11 @@ export const CoverReportingRules = ({
             </div>
           </div>
           <CoverResolutionSources coverInfo={coverInfo}>
-            <Link href="#">
+            {/* <Link href="#">
               <a className="block mt-3 text-4e7dd9 hover:underline">
                 <Trans>Neptune Mutual Reporters</Trans>
               </a>
-            </Link>
+            </Link> */}
           </CoverResolutionSources>
         </Container>
       </div>

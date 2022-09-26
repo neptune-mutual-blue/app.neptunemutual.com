@@ -6,7 +6,7 @@ export const NoScript = () => {
           <img
             loading="lazy"
             alt="Neptune Mutual"
-            srcSet="/logos/neptune-mutual-inverse-full.svg"
+            srcSet="/logos/neptune-mutual-inverse-full-beta.svg"
             className="h-full"
           />
         </div>

@@ -62,6 +62,7 @@ const ToastMessage = ({
         "w-full bg-3A4557 bg-opacity-95 text-white shadow-toast rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden",
         type && "max-h-40"
       )}
+      data-testid="toast-message"
     >
       <div className="px-4 py-6">
         <div className="flex items-start">

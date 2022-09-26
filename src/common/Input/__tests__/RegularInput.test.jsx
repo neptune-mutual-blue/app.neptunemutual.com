@@ -19,16 +19,14 @@ describe("Regukar component", () => {
     const screen = render(
       <RegularInput
         className="leading-none"
-        inputProps={{
-          id: "incident_title",
-          placeholder: `Enter Incident Title`,
-          value: mockProps.incidentTitle,
-          disabled: mockProps.approving,
-          onChange: changeHandler,
-        }}
+        id={"incident_title"}
+        placeholder={`Enter Incident Title`}
+        value={mockProps.incidentTitle}
+        disabled={mockProps.approving}
+        onChange={changeHandler}
       />
     );
-    const input = screen.getByPlaceholderText("Enter Incident Title");
+    const input = screen.getByRole("textbox");
     return {
       input,
       ...screen,

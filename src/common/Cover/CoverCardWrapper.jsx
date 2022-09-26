@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { utils } from "@neptunemutual/sdk";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { Routes } from "@/src/config/routes";
 import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
 import { CoverCard } from "@/common/Cover/CoverCard";
 import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
@@ -17,19 +17,8 @@ export const CoverCardWrapper = ({
     return <CardSkeleton numberOfCards={1} />;
   }
 
-  const cover_id = safeParseBytes32String(coverKey);
-
-  const isDiversified = coverInfo?.supportsProducts;
-
   return (
-    <Link
-      href={
-        isDiversified
-          ? `/diversified/${cover_id}`
-          : `covers/${cover_id}/options`
-      }
-      key={coverKey}
-    >
+    <Link href={Routes.ViewCover(coverKey)} key={coverKey}>
       <a
         className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
         data-testid="cover-link"

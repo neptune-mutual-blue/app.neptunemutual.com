@@ -1,6 +1,6 @@
 import { classNames } from "@/utils/classnames";
 
-export const Grid = ({ children, className, ...rest }) => {
+export const Grid = ({ children, className = "", ...rest }) => {
   return (
     <div
       className={classNames(

@@ -130,9 +130,9 @@ describe("ProjectStatusIndicator test", () => {
 
   test("should have correct badge link as provided in props", () => {
     const incidentDate = "123124324";
-    const href = `/reporting/${safeParseBytes32String(
-      props.coverKey
-    )}/product/${props.productKey}/${incidentDate}/details`;
+    const href = `/reports/${safeParseBytes32String(props.coverKey)}/products/${
+      props.productKey
+    }/incidents/${incidentDate}`;
 
     const { initialRender } = initiateTest(Card, {
       ...props,

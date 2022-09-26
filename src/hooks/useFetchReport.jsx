@@ -73,10 +73,14 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
     setLoading(true);
 
     return fetchReport(getNetworkId(), getQuery(reportId))
-      .then(({ incidentReport }) => {
-        setData(incidentReport);
+      .then((data) => {
+        if (!data) {
+          return;
+        }
+
+        setData(data.incidentReport);
       })
-      .catch((e) => console.error(`Error: ${e.message}`))
+      .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [fetchReport, reportId]);
 

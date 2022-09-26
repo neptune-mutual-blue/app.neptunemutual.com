@@ -9,6 +9,7 @@ import {
   getSuffix,
 } from "./utils";
 
+/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement>>} */
 export const CurrencyInput = forwardRef(
   (
     {

@@ -70,9 +70,9 @@ describe("PolicyCardFooter test", () => {
     });
 
     const linkComponent = screen.getByTestId("claim-link");
-    const link = `/my-policies/${safeParseBytes32String(props.coverKey)}/${
-      props.report.incidentDate
-    }/claim`;
+    const link = `/my-policies/${safeParseBytes32String(
+      props.coverKey
+    )}/incidents/${props.report.incidentDate}/claim`;
     expect(linkComponent).toHaveAttribute("href", link);
   });
 

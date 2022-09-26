@@ -21,7 +21,7 @@ describe("Banner test", () => {
 
   test("should have correct srcSet", () => {
     const img = screen.getByTestId("header-logo");
-    const srcSet = "/logos/neptune-mutual-inverse-full.svg";
+    const srcSet = "/logos/neptune-mutual-inverse-full-beta.svg";
     expect(img).toHaveAttribute("srcSet", srcSet);
   });
 });

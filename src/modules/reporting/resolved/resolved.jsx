@@ -7,10 +7,8 @@ import { useSearchResults } from "@/src/hooks/useSearchResults";
 import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
 import { t } from "@lingui/macro";
 import { useRouter } from "next/router";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
 import { toStringSafe } from "@/utils/string";
 import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { isValidProduct } from "@/src/helpers/cover";
 import { classNames } from "@/utils/classnames";
 import {
   Table,
@@ -23,6 +21,7 @@ import DateLib from "@/lib/date/DateLib";
 import { fromNow } from "@/utils/formatter/relative-time";
 import { convertFromUnits } from "@/utils/bn";
 import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
+import { Routes } from "@/src/config/routes";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -214,15 +213,8 @@ export const ReportingResolvedPage = () => {
     let coverKey = keysArray[0];
     let productKey = keysArray[1];
     let timestamp = keysArray[2];
-    const isDiversified = isValidProduct(productKey);
 
-    const cover_id = safeParseBytes32String(coverKey);
-    const product_id = safeParseBytes32String(productKey);
-
-    if (isDiversified) {
-      return `/reporting/${cover_id}/product/${product_id}/${timestamp}/details`;
-    }
-    return `/reporting/${cover_id}/${timestamp}/details`;
+    return Routes.ViewReport(coverKey, productKey, timestamp);
   };
 
   return (

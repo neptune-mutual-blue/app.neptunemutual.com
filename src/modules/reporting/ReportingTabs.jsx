@@ -2,17 +2,18 @@ import { Container } from "@/common/Container/Container";
 import { Hero } from "@/common/Hero";
 import { HeroTitle } from "@/common/HeroTitle";
 import { TabNav } from "@/common/Tab/TabNav";
+import { Routes } from "@/src/config/routes";
 import { Trans } from "@lingui/macro";
 
 const headers = [
   {
     name: "active",
-    href: "/reporting/active",
+    href: Routes.ActiveReports,
     displayAs: <Trans>Active</Trans>,
   },
   {
     name: "resolved",
-    href: "/reporting/resolved",
+    href: Routes.ResolvedReports,
     displayAs: <Trans>Resolved</Trans>,
   },
 ];
@@ -20,8 +21,8 @@ const headers = [
 export const ReportingTabs = ({ active, children }) => {
   return (
     <>
-      <Hero>
-        <Container className="px-2 py-20">
+      <Hero className="min-h-[312px] flex flex-col justify-between">
+        <Container className="flex flex-wrap w-full px-2 pt-32 pb-10">
           <HeroTitle>
             <Trans>Reporting</Trans>
           </HeroTitle>

@@ -70,7 +70,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
             tvl: result.total,
           });
         })
-        .catch((e) => console.error(`Error: ${e.message}`));
+        .catch((e) => console.error(e));
     }
   }, [NPMTokenAddress, fetchPoolsTVL]);
 

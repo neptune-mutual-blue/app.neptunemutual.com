@@ -3,8 +3,8 @@ import { screen } from "@testing-library/react";
 import MyLiquidityCover from "@/pages/my-liquidity/[cover_id]/index";
 
 jest.mock("@/src/modules/my-liquidity/details", () => ({
-  MyLiquidityCoverPage: () => {
-    return <div data-testid="my-liquidity-cover-page"></div>;
+  ProvideLiquidityToCover: () => {
+    return <div data-testid="provide-liquidity-to-cover" />;
   },
 }));
 
@@ -16,7 +16,7 @@ describe("MyLiquidityCover test", () => {
   });
 
   test("should display MyLiquidityCoverPage component", () => {
-    const coverPage = screen.getByTestId("my-liquidity-cover-page");
+    const coverPage = screen.getByTestId("provide-liquidity-to-cover");
     expect(coverPage).toBeInTheDocument();
   });
 });

@@ -7,6 +7,7 @@ import { HeroTitle } from "@/common/HeroTitle";
 import { MyLiquidityTxsTable } from "@/src/modules/my-liquidity/MyLiquidityTxsTable";
 import { isFeatureEnabled } from "@/src/config/environment";
 import { t, Trans } from "@lingui/macro";
+import { Routes } from "@/src/config/routes";
 
 /* istanbul ignore next */
 export function getStaticProps() {
@@ -36,10 +37,14 @@ export default function MyLiquidityTxs({ disabled }) {
         <Container className="px-2 py-20">
           <BreadCrumbs
             pages={[
-              { name: t`My Liquidity`, href: "/my-liquidity", current: false },
+              {
+                name: t`My Liquidity`,
+                href: Routes.MyLiquidity,
+                current: false,
+              },
               {
                 name: t`Transaction List`,
-                href: "/my-liquidity/transactions",
+                href: Routes.LiquidityTransactions,
                 current: true,
               },
             ]}

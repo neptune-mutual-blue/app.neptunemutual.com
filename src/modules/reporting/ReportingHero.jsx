@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { t } from "@lingui/macro";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { isValidProduct } from "@/src/helpers/cover";
+import { Routes } from "@/src/config/routes";
 
 export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
   const router = useRouter();
@@ -21,7 +22,9 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
         { name: t`Home`, href: "/", current: false },
         {
           name: t`Reporting`,
-          href: `/reporting/${reportStatus.resolved ? "resolved" : "active"}`,
+          href: reportStatus.resolved
+            ? Routes.ResolvedReports
+            : Routes.ActiveReports,
           current: false,
         },
         {
@@ -41,8 +44,8 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
             ? coverInfo?.infoObj.productName
             : coverInfo?.infoObj.coverName,
           href: product_id
-            ? `/covers/${cover_id}/${product_id}/options`
-            : `/covers/${cover_id}/options`,
+            ? Routes.ViewProduct(coverKey, productKey)
+            : Routes.ViewCover(coverKey),
           current: false,
         },
         { name: t`Reporting`, current: true },
@@ -57,7 +60,7 @@ export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
 
   return (
     <Hero>
-      <Container className="px-2 py-20">
+      <Container className="px-2 py-20 min-h-[312px]">
         <BreadCrumbs pages={breadcrumbData} />
         <div className="flex">
           <CoverProfileInfo

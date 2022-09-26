@@ -25,4 +25,5 @@ module.exports = {
   },
   sourceLocale: "en",
   format: "po",
+  formatOptions: { origins: true, lineNumbers: true },
 };

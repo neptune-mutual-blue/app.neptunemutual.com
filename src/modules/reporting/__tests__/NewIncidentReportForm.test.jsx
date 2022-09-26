@@ -120,10 +120,12 @@ describe("Incident Occured form", () => {
       expect(title).toHaveDisplayValue("Test Title");
 
       const observeDateAndTime = screen.getByLabelText("Observed Date & Time");
+      expect(observeDateAndTime).toHaveClass("text-9B9B9B");
       fireEvent.change(observeDateAndTime, {
         target: { value: "2000-01-01T12:00" },
       });
       expect(observeDateAndTime).toHaveDisplayValue("2000-01-01T12:00");
+      expect(observeDateAndTime).not.toHaveClass("text-9B9B9B");
 
       const url = screen.getByRole("textbox", { name: "Proof of incident" });
       fireEvent.change(url, {

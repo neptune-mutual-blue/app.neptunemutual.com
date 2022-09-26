@@ -19,12 +19,11 @@ import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { Label } from "@/common/Label/Label";
 import { RegularInput } from "@/common/Input/RegularInput";
 import { BackButton } from "@/common/BackButton/BackButton";
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
-import { isValidProduct } from "@/src/helpers/cover";
 import SuccessIcon from "@/lib/toast/components/icons/SuccessIcon";
 import { useValidateReferralCode } from "@/src/hooks/useValidateReferralCode";
 import { Loader } from "@/common/Loader/Loader";
 import ErrorIcon from "@/lib/toast/components/icons/ErrorIcon";
+import { Routes } from "@/src/config/routes";
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date();
@@ -52,8 +51,6 @@ const getCoveragePeriodLabels = (locale) => {
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter();
-
-  const isDiversified = isValidProduct(productKey);
 
   const [value, setValue] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -141,23 +138,17 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
   }
 
-  const cover_id = safeParseBytes32String(coverKey);
-  const product_id = safeParseBytes32String(productKey);
-  const status = productStatus;
-
-  if (status && status !== "Normal") {
+  if (productStatus && productStatus !== "Normal") {
+    const link = (
+      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
+        <a className="font-medium underline hover:no-underline">
+          {productStatus}
+        </a>
+      </Link>
+    );
     return (
       <Alert>
-        <Trans>Cannot purchase policy, since the cover status is</Trans>{" "}
-        <Link
-          href={
-            !isDiversified
-              ? `/reporting/${cover_id}/${activeIncidentDate}/details`
-              : `/reporting/${cover_id}/product/${product_id}/${activeIncidentDate}/details`
-          }
-        >
-          <a className="font-medium underline hover:no-underline">{status}</a>
-        </Link>
+        <Trans>Cannot purchase policy, since the cover status is {link}</Trans>
       </Alert>
     );
   }
@@ -241,18 +232,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <div className="relative">
           <RegularInput
             className="leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 "
-            inputProps={{
-              "id": "referral_code",
-              "placeholder": t`Enter Referral Code`,
-              "value": referralCode,
-              "onChange": (e) => {
-                setReferralCode(e.target.value);
-              },
-              "disabled": approving,
-              "type": "text",
-              "data-testid": "referral-input",
-            }}
             error={!!referralCodeErrorMessage}
+            id={"referral_code"}
+            placeholder={t`Enter Referral Code`}
+            value={referralCode}
+            onChange={(e) => setReferralCode(e.target.value)}
+            disabled={approving}
+            type={"text"}
+            data-testid={"referral-input"}
           />
 
           {hasReferralCode ? (
