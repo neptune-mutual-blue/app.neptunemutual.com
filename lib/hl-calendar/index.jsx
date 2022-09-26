@@ -1,60 +1,130 @@
+import ChevronLeftLgIcon from "@/icons/ChevronLeftLgIcon";
+import ChevronRightLgIcon from "@/icons/ChevronRightLgIcon";
+import { getMonthNames } from "@/lib/dates";
+import { t } from "@lingui/macro";
+import { useRouter } from "next/router";
+import { useState } from "react";
+
 // HlCalendar - Highlight Calendar
 export const HlCalendar = ({ startDate, endDate }) => {
+  const router = useRouter();
   const { month, year } = getPrimaryMonthYear(startDate, endDate);
+
+  const [calendarState, setCalendarState] = useState({ month, year });
+
+  const monthNames = getMonthNames(router.locale);
+
   const allDates = addWeekDatesAfter(
-    addWeekDatesBefore(getMonth(month, year, startDate))
+    addWeekDatesBefore(
+      getMonth(calendarState.month, calendarState.year, startDate)
+    )
   );
 
   const arr = chunk(allDates, 7);
   const weekDays = getWeekDays("en");
 
-  return (
-    <table className="text-xxs" aria-hidden="true" data-testid="hlcalendar">
-      <thead>
-        <tr>
-          {weekDays.map((x) => (
-            <td
-              key={x}
-              className="p-3 font-medium text-center lowercase align-middle"
-            >
-              {x[0]}
-            </td>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {arr.map((x, _i) => (
-          <tr key={_i}>
-            {x.map((y, _j) => {
-              const isStart = startDate.getTime() == y.getTime();
-              const isEnd = endDate.getTime() == y.getTime();
-              const isInsideRange =
-                startDate.getTime() <= y.getTime() &&
-                endDate.getTime() >= y.getTime();
-              const isDifferentMonth = month !== y.getMonth();
+  const handlePrev = () => {
+    setCalendarState((prev) => {
+      const _month = prev.month === 0 ? 11 : prev.month - 1;
+      const _year = prev.month === 0 ? prev.year - 1 : prev.year;
+      return { month: _month, year: _year };
+    });
+  };
 
-              return (
-                <td
-                  key={_j}
-                  className={classNames(
-                    "p-3 text-center align-middle",
-                    isStart && "rounded-l-lg",
-                    isEnd && "rounded-r-lg",
-                    isInsideRange && "bg-DEEAF6"
-                  )}
-                >
-                  <span
-                    className={classNames(isDifferentMonth && "opacity-40")}
-                  >
-                    {y.getDate()}
-                  </span>
-                </td>
-              );
-            })}
+  const handleNext = () => {
+    setCalendarState((prev) => {
+      const _month = prev.month === 11 ? 0 : prev.month + 1;
+      const _year = prev.month === 11 ? prev.year + 1 : prev.year;
+      return { month: _month, year: _year };
+    });
+  };
+
+  return (
+    <div className="mt-8">
+      <div className="flex items-center justify-between">
+        <div className="text-sm">
+          {monthNames[calendarState.month]} {calendarState.year}
+        </div>
+        <div className="flex">
+          <button
+            aria-label="Prev"
+            className={classNames(
+              "p-1 text-black rounded-1 mr-2 bg-EEEEEE hover:bg-DEEAF6"
+            )}
+            onClick={handlePrev}
+          >
+            <span className="sr-only">{t`prev button`}</span>
+            <ChevronLeftLgIcon aria-hidden="true" className="w-3 h-3 text-lg" />
+          </button>
+          <button
+            aria-label="Prev"
+            className={classNames(
+              "p-1 text-black rounded-1 mr-2 bg-EEEEEE hover:bg-DEEAF6"
+            )}
+            onClick={handleNext}
+          >
+            <span className="sr-only">{t`prev button`}</span>
+            <ChevronRightLgIcon
+              aria-hidden="true"
+              className="w-3 h-3 text-lg"
+            />
+          </button>
+        </div>
+      </div>
+      <table className="text-xxs" aria-hidden="true" data-testid="hlcalendar">
+        <thead>
+          <tr>
+            {weekDays.map((x) => (
+              <td
+                key={x}
+                title={x}
+                className="p-3 font-medium text-center lowercase align-middle"
+              >
+                {x[0]}
+              </td>
+            ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {arr.map((x, _i) => (
+            <tr key={_i}>
+              {x.map((y, _j) => {
+                // const isStart = startDate.getTime() == y.getTime();
+                // const isEnd = endDate.getTime() == y.getTime();
+                const isInsideRange =
+                  startDate.getTime() <= y.getTime() &&
+                  endDate.getTime() >= y.getTime();
+                const isDifferentMonth = calendarState.month !== y.getMonth();
+                const isToday =
+                  y.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0);
+
+                return (
+                  <td
+                    key={_j}
+                    className={classNames(
+                      "p-2 text-center align-middle",
+                      // isStart && "rounded-l-lg",
+                      // isEnd && "rounded-r-lg",
+                      isInsideRange && "bg-DEEAF6"
+                    )}
+                  >
+                    <span
+                      className={classNames(
+                        "px-1.5 py-2 block",
+                        isDifferentMonth && "opacity-40",
+                        isToday && "rounded-full bg-4e7dd9 text-white"
+                      )}
+                    >
+                      {y.getDate()}
+                    </span>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
@@ -153,8 +223,8 @@ function getClone(date) {
 }
 
 /**
- * @param {int} The month number, 0 based
- * @param {int} The year, not zero based, required to account for leap years
+ * @param {number} month the month number, 0 based
+ * @param {number} year the year  not zero based, required to account for leap years
  * @return {Date[]} List with date objects for each day of the month
  */
 function getMonth(month, year, refDate) {
