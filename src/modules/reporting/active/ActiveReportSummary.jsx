@@ -68,8 +68,6 @@ export const ActiveReportSummary = ({
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  const durationToResolution = DateLib.durationBetween(endDate, Date.now());
-
   return (
     <>
       <OutlinedCard className="bg-white md:flex">

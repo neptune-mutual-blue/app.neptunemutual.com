@@ -75,9 +75,6 @@ export const ResolvedReportSummary = ({
     variant: isAttestedWon ? "success" : "failure",
   };
 
-  const endDate = DateLib.fromUnix(incidentReport.resolutionTimestamp);
-  const durationToResolution = DateLib.durationBetween(endDate, Date.now());
-
   return (
     <>
       <OutlinedCard className="bg-white md:flex">
