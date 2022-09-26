@@ -233,41 +233,36 @@ export const ActiveReportSummary = ({
           <h3 className="mb-4 font-bold text-h4 font-sora">
             <Trans>Reporting Period</Trans>
           </h3>
-          {durationToResolution.duration > 0 && (
-            <div className="flex items-center mb-2">
-              <p className="font-bold text-sm">
-                {durationToResolution.durationAgo}
-              </p>
-              <Tooltip.Root>
-                <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
-                  <InfoIcon
-                    className="w-4 h-4 text-999BAB"
-                    aria-hidden="true"
-                  />
-                </Tooltip.Trigger>
-                <Tooltip.Content side="top">
-                  <div className="max-w-md p-3 text-xs text-white bg-black rounded-lg">
-                    <Trans>This report will be concluded on</Trans>
-                    <br />
-                    {DateLib.toDateFormat(
-                      incidentReport.resolutionTimestamp,
-                      router.locale,
-                      {
-                        month: "numeric",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                        second: "numeric",
-                      },
-                      "UTC"
-                    )}
-                  </div>
-                  <Tooltip.Arrow offset={16} className="fill-black" />
-                </Tooltip.Content>
-              </Tooltip.Root>
-            </div>
-          )}
+          <div className="flex items-center mb-2">
+            <p className="font-bold text-sm">
+              {durationToResolution.durationAgo}
+            </p>
+            <Tooltip.Root>
+              <Tooltip.Trigger className="p-1 mr-4 text-9B9B9B">
+                <InfoIcon className="w-4 h-4 text-999BAB" aria-hidden="true" />
+              </Tooltip.Trigger>
+              <Tooltip.Content side="top">
+                <div className="max-w-md p-3 text-xs text-white bg-black rounded-lg">
+                  <Trans>This report will be concluded on</Trans>
+                  <br />
+                  {DateLib.toDateFormat(
+                    incidentReport.resolutionTimestamp,
+                    router.locale,
+                    {
+                      month: "numeric",
+                      day: "numeric",
+                      year: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      second: "numeric",
+                    },
+                    "UTC"
+                  )}
+                </div>
+                <Tooltip.Arrow offset={16} className="fill-black" />
+              </Tooltip.Content>
+            </Tooltip.Root>
+          </div>
           <p className="text-sm opacity-50 mr-1.5">
             <span
               title={DateLib.toLongDateFormat(
