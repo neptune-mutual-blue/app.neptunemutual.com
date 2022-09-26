@@ -16,12 +16,12 @@ export const getAnnualDiscountRate = (protoDiscountRate, vestingTerm) => {
 };
 
 export const calcBondPoolTVL = (bondPool, networkId, NPMTokenAddress) => {
-  const bondInitialNpm = bondPool.values[3];
+  const totalNpmTopUp = bondPool.totalNpmTopUp;
   const bondClaimed = bondPool.totalBondClaimed;
   const bondLpTokensAdded = bondPool.totalLpAddedToBond;
 
-  const bondNpmBalance = isGreater(bondInitialNpm, bondClaimed)
-    ? toBN(bondInitialNpm).minus(bondClaimed).toString()
+  const bondNpmBalance = isGreater(totalNpmTopUp, bondClaimed)
+    ? toBN(totalNpmTopUp).minus(bondClaimed).toString()
     : "0";
 
   return {
@@ -34,7 +34,7 @@ export const calcBondPoolTVL = (bondPool, networkId, NPMTokenAddress) => {
       },
       {
         type: "lp",
-        address: bondPool.address0,
+        address: bondPool.lpToken,
         amount: bondLpTokensAdded,
       },
     ],

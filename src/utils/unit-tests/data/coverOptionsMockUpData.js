@@ -195,13 +195,8 @@ export const pools = {
     bondPools: [
       {
         id: "0x4e504d2f55534443",
-        address0: "0x40d135283d8ae7815f26c39d3980ca47b062e473",
-        values: [
-          "75",
-          "10000000000000000000000",
-          "600",
-          "2000000000000000000000000",
-        ],
+        lpToken: "0x40d135283d8ae7815f26c39d3980ca47b062e473",
+        totalNpmTopUp: "2000000000000000000000000",
         totalBondClaimed: "62291194073791831751292",
         totalLpAddedToBond: "90176123220343056629145",
       },

@@ -17,13 +17,8 @@ describe("usePoolsTVL", () => {
       bondPools: [
         {
           id: "0x4e504d2f55534443",
-          address0: "0x97ccd316db0298498fcfd626b215955b9df44b71",
-          values: [
-            "75",
-            "10000000000000000000000",
-            "600",
-            "2000000000000000000000000",
-          ],
+          lpToken: "0x97ccd316db0298498fcfd626b215955b9df44b71",
+          totalNpmTopUp: "2000000000000000000000000",
           totalBondClaimed: "1424900465944819115",
           totalLpAddedToBond: "1100000000000",
         },
