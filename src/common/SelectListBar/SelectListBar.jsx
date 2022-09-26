@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Select } from "@/common/Select";
 import { t } from "@lingui/macro";
@@ -8,12 +7,10 @@ import { SORT_TYPES } from "@/utils/sorting";
 export const SelectListBar = ({
   sortClassContainer,
   sortClass,
-  sortType,
-  setSortType = ({}) => {},
   prefix,
   options = null,
 }) => {
-  const { query } = useRouter();
+  const { query, replace } = useRouter();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -24,23 +21,32 @@ export const SelectListBar = ({
 
   const selectOptions = options ?? defaultOptions;
 
-  useEffect(() => {
-    if (query.view === "diversified") {
-      const selectedOption = defaultOptions.find(
-        (item) => item.value === SORT_TYPES.DIVERSIFIED_POOL
-      );
-      setSortType(selectedOption);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.view, setSortType]);
+  const selectedOption = defaultOptions.find(
+    (item) => item.value === query?.coverView
+  );
+
+  const handleSelectView = (_selected) => {
+    replace(
+      {
+        query: {
+          ...query,
+          coverView: _selected?.value,
+        },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+  };
 
   return (
     <div data-testid="select-list-bar" className={sortClassContainer}>
       <Select
         prefix={prefix}
         options={selectOptions}
-        selected={sortType}
-        setSelected={setSortType}
+        selected={selectedOption}
+        setSelected={handleSelectView}
         className={sortClass}
         icon={<SmallGridIcon color="#9B9B9B" aria-hidden="true" />}
         direction="right"
