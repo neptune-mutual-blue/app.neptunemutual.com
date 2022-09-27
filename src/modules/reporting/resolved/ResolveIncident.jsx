@@ -104,6 +104,20 @@ export const ResolveIncident = ({
   )
 }
 
+const options = [
+  {
+    label: t`Incident occurred`,
+    id: 'decision-1',
+    value: 'true'
+  },
+  {
+
+    label: t`False reporting`,
+    id: 'decision-2',
+    value: 'false'
+  }
+]
+
 const EmergencyResolveModal = ({
   isOpen,
   onClose,
@@ -115,10 +129,21 @@ const EmergencyResolveModal = ({
   logoAlt,
   emergencyResolving
 }) => {
-  const [decision, setDecision] = useState(null)
+  const [decision, setDecision] = useState(undefined)
 
   const handleRadioChange = (e) => {
     setDecision(e.target.value)
+  }
+
+  const handleSubmit = (ev) => {
+    ev.preventDefault()
+
+    emergencyResolve(decision === 'true', () => {
+      refetchInfo()
+      refetchCoverStats()
+      setTimeout(refetchReport, 10000)
+      onClose()
+    })
   }
 
   return (
@@ -138,44 +163,38 @@ const EmergencyResolveModal = ({
             <Trans>Emergency resolution</Trans>
           </div>
         </Dialog.Title>
-        <div className='mt-8 mb-6 font-semibold uppercase'>
-          <Trans>Select your decision</Trans>
-        </div>
-        <div className='flex flex-col gap-4 my-4 sm:flex-row'>
-          <Radio
-            label={t`Incident occurred`}
-            id='decision-1'
-            value='true'
-            name='decision'
-            disabled={emergencyResolving}
-            onChange={handleRadioChange}
-          />
-          <Radio
-            label={t`False reporting`}
-            id='decision-2'
-            value='false'
-            name='decision'
-            disabled={emergencyResolving}
-            onChange={handleRadioChange}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className='mt-8 mb-6 font-semibold uppercase'>
+            <Trans>Select your decision</Trans>
+          </div>
+          <div className='flex flex-col gap-4 my-4 sm:flex-row sm:justify-between'>
+            {options.map(option => {
+              return (
+                <Radio
+                  label={option.label}
+                  key={option.id}
+                  id={option.id}
+                  value={option.value}
+                  checked={option.value === decision}
+                  name='decision'
+                  disabled={emergencyResolving}
+                  onChange={handleRadioChange}
+                  required
+                />
+              )
+            })}
+          </div>
 
-        <RegularButton
-          disabled={emergencyResolving}
-          className='w-full px-10 py-4 mt-12 font-semibold uppercase'
-          onClick={() => {
-            emergencyResolve(decision === 'true', () => {
-              refetchInfo()
-              refetchCoverStats()
-              setTimeout(refetchReport, 10000)
-              onClose()
-            })
-          }}
-        >
-          {emergencyResolving
-            ? t`Emergency resolving...`
-            : t`Emergency resolve`}
-        </RegularButton>
+          <RegularButton
+            type='submit'
+            disabled={emergencyResolving}
+            className='w-full px-10 py-4 mt-12 font-semibold uppercase'
+          >
+            {emergencyResolving
+              ? t`Emergency resolving...`
+              : t`Emergency resolve`}
+          </RegularButton>
+        </form>
 
         <ModalCloseButton
           disabled={emergencyResolving}

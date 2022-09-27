@@ -121,7 +121,7 @@ export const AvailableCovers = () => {
             onSearchChange={searchHandler}
             sortClass='w-auto mb-4 md:mb-0'
             containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
-            inputClass='focus:md:w-96'
+            inputClass='focus:md:w-96 transition-all'
             sortType={sortType}
             setSortType={setSortType}
           />

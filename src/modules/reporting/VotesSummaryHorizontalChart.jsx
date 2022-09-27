@@ -68,10 +68,10 @@ const ToolTipContent = ({ majority }) => {
             <span
               className={classNames(
                 'text-sm font-semibold leading-5',
-                majority.variant == 'success' ? 'text-0FB88F' : 'text-FA5C2F'
+                majority.variant === 'success' ? 'text-0FB88F' : 'text-FA5C2F'
               )}
             >
-              {majority.variant == 'success'
+              {majority.variant === 'success'
                 ? t`Incident Occurred`
                 : t`False Reporting`}
             </span>

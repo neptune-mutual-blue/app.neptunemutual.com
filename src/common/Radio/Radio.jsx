@@ -4,7 +4,7 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
   return (
     <div
       className={classNames(
-        'flex items-center w-full mr-4',
+        'flex items-center w-full flex-1',
         disabled && 'cursor-not-allowed'
       )}
     >
@@ -20,7 +20,7 @@ export const Radio = ({ label, id, disabled, ...rest }) => {
       />
       <label
         className={classNames(
-          'text-sm uppercase',
+          'text-sm uppercase flex-1',
           disabled && 'cursor-not-allowed'
         )}
         htmlFor={id}

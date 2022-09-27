@@ -13,7 +13,7 @@ const unavailableTo = regions.split(',').filter((x) => !!x)
 export default function geoBlocking (req) {
   const country = req.geo?.country || ''
 
-  if (!country || unavailableTo.length == 0) {
+  if (!country || unavailableTo.length === 0) {
     return NextResponse.next()
   }
 

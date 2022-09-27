@@ -5,8 +5,10 @@ import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { t } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { useRouter } from 'next/router'
 
 export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = null }) => {
+  const router = useRouter()
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
@@ -36,7 +38,7 @@ export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = 
           name: isDiversified
             ? coverInfo?.infoObj.productName
             : coverInfo?.infoObj.coverName,
-          href: productId
+          href: isDiversified
             ? Routes.ViewProduct(coverKey, productKey)
             : Routes.ViewCover(coverKey),
           current: false
