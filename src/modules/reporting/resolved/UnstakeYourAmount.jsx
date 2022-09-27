@@ -71,14 +71,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
   }
 
   const handleUnstake = async () => {
-    // For incident occurred, during claim period
-    if (isIncidentOccurred && isClaimableNow) {
-      await unstakeWithClaim()
-      return
-    }
-
-    // For false reporting, Before finalization
-    if (!isIncidentOccurred && !incidentReport.finalized) {
+    if (!incidentReport.finalized) {
       await unstakeWithClaim()
       return
     }
