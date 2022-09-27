@@ -27,7 +27,7 @@ export const Select = ({
           >
             <span className="block text-left truncate text-9B9B9B">
               {prefix}
-              {selected.name}
+              {selected?.name}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-9B9B9B">
               {icon}

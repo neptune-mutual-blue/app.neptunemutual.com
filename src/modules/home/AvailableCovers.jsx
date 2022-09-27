@@ -18,6 +18,8 @@ import { useCovers } from "@/src/hooks/useCovers";
 import { isValidProduct } from "@/src/helpers/cover";
 import { utils } from "@neptunemutual/sdk";
 import { SelectListBar } from "@/common/SelectListBar/SelectListBar";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -38,12 +40,11 @@ const sorterData = {
 };
 
 export const AvailableCovers = () => {
-  const [coverView, setCoverView] = useState({
-    name: t`All`,
-    value: SORT_TYPES.ALL,
-  });
+  const { query } = useRouter();
+  const coverView = query?.coverView || SORT_TYPES.ALL;
+
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
-    supportsProducts: coverView.value === SORT_TYPES.DIVERSIFIED_POOL,
+    supportsProducts: coverView === SORT_TYPES.DIVERSIFIED_POOL,
   });
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts();
@@ -55,11 +56,9 @@ export const AvailableCovers = () => {
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
 
   const coversLoading =
-    coverView.value === SORT_TYPES.ALL
-      ? flattenedCoversLoading
-      : groupCoversLoading;
+    coverView === SORT_TYPES.ALL ? flattenedCoversLoading : groupCoversLoading;
   const availableCovers =
-    coverView.value === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
+    coverView === SORT_TYPES.ALL ? flattenedCovers : groupCovers;
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: availableCovers.map((cover) => {
@@ -105,10 +104,17 @@ export const AvailableCovers = () => {
 
   return (
     <Container className="py-16" data-testid="available-covers-container">
-      <div className="flex flex-wrap items-center justify-between">
-        <h1 className="mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora">
-          <Trans>Cover Products</Trans>
-        </h1>
+      <div
+        id="cover-products"
+        className="flex flex-wrap items-center justify-between"
+      >
+        <Link href="#cover-products">
+          <a>
+            <h1 className="mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora">
+              <Trans>Cover Products</Trans>
+            </h1>
+          </a>
+        </Link>
         <div className="flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto">
           <SearchAndSortBar
             searchValue={searchValue}
@@ -123,8 +129,6 @@ export const AvailableCovers = () => {
             sortClassContainer="w-full md:w-auto md:ml-2"
             prefix={t`View:` + " "}
             sortClass="w-auto"
-            sortType={coverView}
-            setSortType={setCoverView}
           />
         </div>
       </div>
@@ -142,10 +146,7 @@ export const AvailableCovers = () => {
           sortedCovers.map((c, idx) => {
             if (idx > showCount - 1) return;
 
-            if (
-              coverView.value === SORT_TYPES.ALL &&
-              isValidProduct(c.productKey)
-            ) {
+            if (coverView === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
               return (
                 <ProductCardWrapper
                   key={c.id}

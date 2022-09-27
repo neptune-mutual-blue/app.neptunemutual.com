@@ -22,6 +22,7 @@ export const SearchAndSortBar = ({
     { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
     { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY },
   ];
+
   const options = searchAndSortOptions ?? defaultOptions;
   const [selected, setSelected] = useState(options[0]);
 
