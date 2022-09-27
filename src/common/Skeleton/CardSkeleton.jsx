@@ -1,11 +1,13 @@
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { Divider } from '@/common/Divider/Divider'
+import { classNames } from '@/utils/classnames'
 
 export const CardSkeleton = ({
   numberOfCards = 1,
   statusBadge = true,
   subTitle = true,
   lineContent = 3,
+  className = '',
   ...rest
 }) => {
   const cardsArray = new Array(numberOfCards).fill(1) // convert number of card to array
@@ -14,7 +16,11 @@ export const CardSkeleton = ({
   return (
     <>
       {cardsArray.map((_, i) => (
-        <OutlinedCard key={i} className='p-6 bg-white' {...rest}>
+        <OutlinedCard
+          key={i}
+          className={classNames('p-6 bg-white', className)}
+          {...rest}
+        >
           <div className='flex justify-between animate-pulse'>
             <div className='rounded-full h-14 lg:h-18 w-14 lg:w-18 bg-skeleton' />
             {statusBadge && (

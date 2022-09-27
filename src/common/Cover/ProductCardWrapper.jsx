@@ -8,12 +8,13 @@ export const ProductCardWrapper = ({
   coverKey,
   productKey,
   progressFgColor = undefined,
-  progressBgColor = undefined
+  progressBgColor = undefined,
+  ...rest
 }) => {
   const productInfo = useCoverOrProductData({ coverKey, productKey })
 
   if (!productInfo) {
-    return <CardSkeleton numberOfCards={1} />
+    return <CardSkeleton numberOfCards={1} {...rest} />
   }
 
   return (
@@ -28,6 +29,7 @@ export const ProductCardWrapper = ({
           productInfo={productInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
+          {...rest}
         />
       </a>
     </Link>

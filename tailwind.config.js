@@ -173,7 +173,9 @@ module.exports = {
         E6EAEF: '#E6EAEF'
       },
       minHeight: {
-        360: '360px'
+        360: '360px',
+        301: '301px',
+        72: '72px'
       },
       maxHeight: {
         144: '36rem',

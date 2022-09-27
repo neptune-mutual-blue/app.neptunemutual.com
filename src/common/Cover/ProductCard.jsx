@@ -23,7 +23,8 @@ export const ProductCard = ({
   productKey,
   productInfo,
   progressFgColor = undefined,
-  progressBgColor = undefined
+  progressBgColor = undefined,
+  className = ''
 }) => {
   const router = useRouter()
   const { setStatsByKey } = useSortableStats()
@@ -65,8 +66,8 @@ export const ProductCard = ({
   const status = identifyStatus(productStatus)
 
   return (
-    <OutlinedCard className='p-6 bg-white' type='link'>
-      <div className='flex items-start justify-between'>
+    <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
+      <div className='flex items-start justify-between min-h-72'>
         <div
           className={classNames(
             'inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18'

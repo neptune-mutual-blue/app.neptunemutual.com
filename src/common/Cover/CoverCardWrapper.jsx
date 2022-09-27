@@ -8,13 +8,14 @@ import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 export const CoverCardWrapper = ({
   coverKey,
   progressFgColor = undefined,
-  progressBgColor = undefined
+  progressBgColor = undefined,
+  ...rest
 }) => {
   const productKey = utils.keyUtil.toBytes32('')
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
 
   if (!coverInfo) {
-    return <CardSkeleton numberOfCards={1} />
+    return <CardSkeleton numberOfCards={1} {...rest} />
   }
 
   return (
@@ -28,6 +29,7 @@ export const CoverCardWrapper = ({
           coverInfo={coverInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
+          {...rest}
         />
       </a>
     </Link>

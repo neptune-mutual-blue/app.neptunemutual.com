@@ -17,12 +17,14 @@ import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
 import SheildIcon from '@/icons/SheildIcon'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { classNames } from '@/utils/classnames'
 
 export const CoverCard = ({
   coverKey,
   coverInfo,
   progressFgColor = undefined,
-  progressBgColor = undefined
+  progressBgColor = undefined,
+  className = ''
 }) => {
   const router = useRouter()
   const { setStatsByKey } = useSortableStats()
@@ -69,8 +71,8 @@ export const CoverCard = ({
     : identifyStatus(productStatus)
 
   return (
-    <OutlinedCard className='p-6 bg-white' type='link'>
-      <div className='flex items-start'>
+    <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
+      <div className='flex items-start min-h-72'>
         <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
         <InfoTooltip
           disabled={coverInfo.products?.length === 0}

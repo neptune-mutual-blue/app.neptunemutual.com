@@ -136,7 +136,9 @@ export const AvailableCovers = () => {
         className='grid-rows-3 gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-2'
         data-testid='body'
       >
-        {coversLoading && <CardSkeleton numberOfCards={12} />}
+        {coversLoading && (
+          <CardSkeleton numberOfCards={CARDS_PER_PAGE} className='min-h-301' />
+        )}
 
         {!coversLoading && availableCovers.length === 0 && (
           <p data-testid='no-data'>No data found</p>
@@ -149,6 +151,7 @@ export const AvailableCovers = () => {
             if (coverView === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
               return (
                 <ProductCardWrapper
+                  className='min-h-301'
                   key={c.id}
                   coverKey={c.coverKey}
                   productKey={c.productKey}
@@ -156,7 +159,13 @@ export const AvailableCovers = () => {
               )
             }
 
-            return <CoverCardWrapper key={c.id} coverKey={c.coverKey} />
+            return (
+              <CoverCardWrapper
+                key={c.id}
+                coverKey={c.coverKey}
+                className='min-h-301'
+              />
+            )
           })}
       </Grid>
 
