@@ -20,8 +20,8 @@ export const LiquidityResolutionSources = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-  const { cover_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
+  const { coverId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
 
   const {
     info: { myStake, myPodBalance }

@@ -30,8 +30,8 @@ export const ResolvedReportSummary = ({
   willReceive
 }) => {
   const router = useRouter()
-  const { product_id } = router.query
-  const productKey = safeFormatBytes32String(product_id || '')
+  const { productId } = router.query
+  const productKey = safeFormatBytes32String(productId || '')
   const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.coverKey,
     productKey: productKey,

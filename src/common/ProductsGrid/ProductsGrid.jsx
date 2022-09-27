@@ -44,8 +44,8 @@ export const ProductsGrid = () => {
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const router = useRouter()
-  const { cover_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
+  const { coverId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
 
   const productKey = safeFormatBytes32String('')
   const coverInfo = useCoverOrProductData({ coverKey, productKey })

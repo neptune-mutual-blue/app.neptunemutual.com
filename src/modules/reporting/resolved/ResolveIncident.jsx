@@ -22,9 +22,9 @@ export const ResolveIncident = ({
   resolvableTill
 }) => {
   const router = useRouter()
-  const { product_id } = router.query
+  const { productId } = router.query
   const [isOpen, setIsOpen] = useState(false)
-  const productKey = safeFormatBytes32String(product_id || '')
+  const productKey = safeFormatBytes32String(productId || '')
   const { resolve, emergencyResolve, resolving, emergencyResolving } =
     useResolveIncident({
       coverKey: incidentReport.coverKey,

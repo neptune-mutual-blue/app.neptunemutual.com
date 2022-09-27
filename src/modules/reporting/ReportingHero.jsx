@@ -36,7 +36,7 @@ export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = 
           name: isDiversified
             ? coverInfo?.infoObj.productName
             : coverInfo?.infoObj.coverName,
-          href: product_id
+          href: productId
             ? Routes.ViewProduct(coverKey, productKey)
             : Routes.ViewCover(coverKey),
           current: false

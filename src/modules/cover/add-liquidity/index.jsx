@@ -23,8 +23,8 @@ import { Routes } from '@/src/config/routes'
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
   const router = useRouter()
-  const { cover_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
+  const { coverId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
 

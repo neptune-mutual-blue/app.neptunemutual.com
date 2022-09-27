@@ -24,9 +24,9 @@ import { Routes } from '@/src/config/routes'
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
   const router = useRouter()
-  const { cover_id, product_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
-  const productKey = safeFormatBytes32String(product_id || '')
+  const { coverId, productId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
+  const productKey = safeFormatBytes32String(productId || '')
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
 

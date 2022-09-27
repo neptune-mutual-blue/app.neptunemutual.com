@@ -16,7 +16,7 @@ describe('WithdrawLiquidityForm', () => {
       mockFn.useRouter(() => ({
         ...testData.router,
         query: {
-          cover_id: '0x1234567890123456789012345678901234567890'
+          coverId: '0x1234567890123456789012345678901234567890'
         },
         locale: 'en'
       }))

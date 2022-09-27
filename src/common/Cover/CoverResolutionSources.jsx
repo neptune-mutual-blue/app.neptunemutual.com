@@ -9,8 +9,8 @@ import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 
 export const CoverResolutionSources = ({ children, coverInfo }) => {
   const router = useRouter()
-  const { product_id } = router.query
-  const productKey = safeFormatBytes32String(product_id || '')
+  const { productId } = router.query
+  const productKey = safeFormatBytes32String(productId || '')
   const isDiversified = isValidProduct(productKey)
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName

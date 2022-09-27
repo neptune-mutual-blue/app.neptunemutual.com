@@ -22,7 +22,7 @@ describe('CoverOptionsPage', () => {
     i18n.activate('en')
 
     const router = createMockRouter({
-      query: { cover_id: 'animated-brands' },
+      query: { coverId: 'animated-brands' },
       back: () => backBtnHandler()
     })
     const Component = withProviders(CoverOptionsPage, router, {
@@ -52,7 +52,7 @@ describe('CoverOptionsPage', () => {
     mockFn.useCoverOrProductData(() => {})
 
     const router = createMockRouter({
-      query: { cover_id: 'animated-brands' }
+      query: { coverId: 'animated-brands' }
     })
     const Component = withProviders(CoverOptionsPage, router)
     render(<Component />)

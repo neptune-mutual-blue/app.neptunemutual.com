@@ -4,7 +4,6 @@ import ErrorBoundary from '@/common/ErrorBoundary'
 
 const ComponentWithError = () => {
   throw new Error('Error for testing')
-  return <div>Error</div>
 }
 
 describe('ErrorBoundary component', () => {

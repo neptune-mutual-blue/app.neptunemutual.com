@@ -10,14 +10,14 @@ module.exports = [
     permanent: false
   },
   {
-    source: '/reports/:cover_id/incidents/:timestamp',
-    destination: '/reports/:cover_id/incidents/:timestamp/details',
+    source: '/reports/:coverId/incidents/:timestamp',
+    destination: '/reports/:coverId/incidents/:timestamp/details',
     permanent: false
   },
   {
-    source: '/reports/:cover_id/products/:product_id/incidents/:timestamp',
+    source: '/reports/:coverId/products/:productId/incidents/:timestamp',
     destination:
-      '/reports/:cover_id/products/:product_id/incidents/:timestamp/details',
+      '/reports/:coverId/products/:productId/incidents/:timestamp/details',
     permanent: false
   },
   {

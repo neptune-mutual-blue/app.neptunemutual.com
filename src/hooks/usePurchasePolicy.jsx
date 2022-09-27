@@ -100,7 +100,6 @@ export const usePurchasePolicy = ({
         }`
       )
       return
-    } else {
     }
 
     if (error) {

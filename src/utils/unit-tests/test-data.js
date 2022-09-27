@@ -624,14 +624,14 @@ export const testData = {
     refetchInfo: jest.fn()
   },
   router: {
-    pathname: '/my-liquidity/[cover_id]',
-    route: '/my-liquidity/[cover_id]',
+    pathname: '/my-liquidity/[coverId]',
+    route: '/my-liquidity/[coverId]',
     query: {
-      cover_id: 'animated-brands'
+      coverId: 'animated-brands'
     },
     asPath: '/my-liquidity/animated-brands',
     components: {
-      '/my-liquidity/[cover_id]': {
+      '/my-liquidity/[coverId]': {
         initial: true,
         props: {
           pageProps: {

@@ -28,8 +28,8 @@ import { Checkbox } from '@/common/Checkbox/Checkbox'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
-  const { cover_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
+  const { coverId } = router.query
+  const coverKey = safeFormatBytes32String(coverId)
   const [podValue, setPodValue] = useState('')
   const [npmValue, setNpmValue] = useState('')
   const [npmErrorMsg, setNpmErrorMsg] = useState('')

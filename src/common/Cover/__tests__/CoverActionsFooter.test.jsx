@@ -10,7 +10,7 @@ const mockFunction = (file, method, returnData) => {
 
 describe('CoverCard component', () => {
   const routerProps = {
-    query: { cover_id: 'animated-brands' }
+    query: { coverId: 'animated-brands' }
   }
 
   mockFunction(Router, 'useRouter', routerProps)
@@ -52,7 +52,7 @@ describe('CoverCard component', () => {
     const actions = Object.keys(coverActions).filter(
       (x) => x !== props.activeKey
     )
-    const href = coverActions[actions[0]].getHref(routerProps.query.cover_id)
+    const href = coverActions[actions[0]].getHref(routerProps.query.coverId)
 
     expect(link).toBe(href)
   })

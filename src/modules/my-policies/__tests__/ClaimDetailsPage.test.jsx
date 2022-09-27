@@ -10,8 +10,8 @@ describe('Claim Details Page loading', () => {
     mockFn.useRouter(() => ({
       ...testData.router,
       query: {
-        cover_id: 'defi',
-        product_id: '1inch'
+        coverId: 'defi',
+        productId: '1inch'
       },
       locale: 'en'
     }))
@@ -36,8 +36,8 @@ describe('Claim Details Page disabled', () => {
     mockFn.useRouter(() => ({
       ...testData.router,
       query: {
-        cover_id: 'defi',
-        product_id: '1inch'
+        coverId: 'defi',
+        productId: '1inch'
       },
       locale: 'en'
     }))
@@ -64,8 +64,8 @@ describe('Claim Details Page', () => {
     mockFn.useRouter(() => ({
       ...testData.router,
       query: {
-        cover_id: 'defi',
-        product_id: '1inch'
+        coverId: 'defi',
+        productId: '1inch'
       },
       locale: 'en'
     }))

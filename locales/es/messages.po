@@ -1050,10 +1050,10 @@ msgstr "Sin POD"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:250
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:80
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:80
 msgid "No data found"
 msgstr "Datos no encontrados"
 
@@ -1069,8 +1069,8 @@ msgstr ""
 msgid "No valid incidents are reported with the given timestamp"
 msgstr "No se informan incidentes válidos con el período de tiempo dado"
 
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:91
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:91
 msgid "Not applicable for disputing"
 msgstr "No aplicable para disputar"
 
@@ -1874,12 +1874,12 @@ msgstr "https://"
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
 #: src/modules/reporting/resolved/resolved.jsx:250
 #: src/pages/my-liquidity/index.jsx:43
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:74
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:74
 msgid "loading..."
 msgstr "cargando..."
 
