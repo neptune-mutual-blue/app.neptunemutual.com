@@ -54,7 +54,7 @@ describe("ConnectWallet component", () => {
 
     expect(onLogout).toBeCalled();
 
-    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect wallet/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
     expect(
       screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -76,7 +76,7 @@ describe("ConnectWallet component", () => {
 
     fireEvent.click(onOpenButton);
 
-    expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Connect wallet/i)).toBeInTheDocument();
     expect(screen.getByText(/Close/i)).toBeInTheDocument();
     expect(
       screen.getByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -97,7 +97,7 @@ describe("ConnectWallet component", () => {
 
     fireEvent.click(onOpenButton);
 
-    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect wallet/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
     expect(
       screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -196,7 +196,7 @@ describe("Popup Component", () => {
   test("Show Popup Modal", () => {
     const closeButton = screen.getByText(/Close/i);
 
-    expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Connect wallet/i)).toBeInTheDocument();
     expect(closeButton).toBeInTheDocument();
     expect(
       screen.getByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -212,7 +212,7 @@ describe("Popup Component", () => {
   test("Show Popup Modal and Close", () => {
     const closeButton = screen.getByText(/Close/i);
 
-    expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Connect wallet/i)).toBeInTheDocument();
     expect(closeButton).toBeInTheDocument();
     expect(
       screen.getByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -232,7 +232,7 @@ describe("Popup Component", () => {
       isOpen: false,
     });
 
-    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect wallet/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
     expect(
       screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)
@@ -251,7 +251,7 @@ describe("Popup Component", () => {
       isOpen: false,
     });
 
-    expect(screen.queryByText(/Connect Wallet/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Connect wallet/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Close/i)).not.toBeInTheDocument();
     expect(
       screen.queryByText(/By connecting a wallet, you agree to Neptune Mutual/i)

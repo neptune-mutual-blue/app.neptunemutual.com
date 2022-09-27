@@ -123,11 +123,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   let loadingMessage = "";
   if (updatingFee) {
-    loadingMessage = t`Fetching...`;
+    loadingMessage = t`Fetching fees...`;
   } else if (updatingAllowance) {
-    loadingMessage = t`Fetching Allowance...`;
+    loadingMessage = t`Fetching allowance...`;
   } else if (updatingBalance) {
-    loadingMessage = t`Fetching Balance...`;
+    loadingMessage = t`Fetching balance...`;
   }
 
   if (requiresWhitelist && !isUserWhitelisted) {
@@ -139,7 +139,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   if (productStatus && productStatus !== "Normal") {
-    const link = (
+    const statusLink = (
       <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
         <a className="font-medium underline hover:no-underline">
           {productStatus}
@@ -148,7 +148,9 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     );
     return (
       <Alert>
-        <Trans>Cannot purchase policy, since the cover status is {link}</Trans>
+        <Trans>
+          Cannot purchase policy, since the cover status is {statusLink}
+        </Trans>
       </Alert>
     );
   }

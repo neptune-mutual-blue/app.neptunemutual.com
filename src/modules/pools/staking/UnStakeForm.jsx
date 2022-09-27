@@ -98,7 +98,7 @@ export const UnStakeForm = ({
           });
         }}
       >
-        {withdrawing ? t`withdrawing...` : t`Unstake`}
+        {withdrawing ? t`Withdrawing...` : t`Unstake`}
       </RegularButton>
     </div>
   );

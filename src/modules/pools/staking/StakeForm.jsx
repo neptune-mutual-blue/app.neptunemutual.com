@@ -73,7 +73,7 @@ export const StakeForm = ({
     <>
       <div className="mt-6">
         <TokenAmountInput
-          labelText={t`Amount You Wish To Stake`}
+          labelText={t`Amount you wish to stake`}
           tokenBalance={balance}
           tokenSymbol={stakingTokenSymbol}
           tokenAddress={tokenAddress}

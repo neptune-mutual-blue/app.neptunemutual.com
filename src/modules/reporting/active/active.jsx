@@ -46,7 +46,7 @@ export const ReportingActivePage = () => {
   } = useActiveReportings();
 
   const [sortType, setSortType] = useState({
-    name: t`Incident Date`,
+    name: t`Incident date`,
     value: SORT_TYPES.INCIDENT_DATE,
   });
 
@@ -80,8 +80,8 @@ export const ReportingActivePage = () => {
 
   const options = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Utilization Ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
+    { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
   ];
 
   return (

@@ -64,7 +64,7 @@ function ReportType(props) {
         } text-white text-xs p-0.5 px-1 rounded-1`}
       >
         {type === INCIDENT ? (
-          <Trans>Incident Occured</Trans>
+          <Trans>Incident Occurred</Trans>
         ) : (
           <Trans>False Reporting</Trans>
         )}

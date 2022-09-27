@@ -278,19 +278,19 @@ export const usePurchasePolicy = ({
         cleanup();
       };
 
-      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
-      const args = [
-        account, // onBehalfOf
-        coverKey,
-        productKeyArg,
-        parseInt(coverMonth, 10),
-        convertToUnits(value, liquidityTokenDecimals).toString(), // <-- Amount to Cover (In DAI)
-        utils.keyUtil.toBytes32(referralCode), // referral code
-      ];
+      const args = {
+        onBehalfOf: account,
+        coverKey: coverKey,
+        productKey: productKey || utils.keyUtil.toBytes32(""),
+        coverDuration: parseInt(coverMonth, 10),
+        amountToCover: convertToUnits(value, liquidityTokenDecimals).toString(),
+        referralCode: utils.keyUtil.toBytes32(referralCode),
+      };
+
       writeContract({
         instance: policyContract,
         methodName: "purchaseCover",
-        args,
+        args: [args],
         onTransactionResult,
         onRetryCancel,
         onError,

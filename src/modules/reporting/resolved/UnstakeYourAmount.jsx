@@ -97,14 +97,14 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
 
       {isClaimableNow && (
         <CountDownTimer
-          title={t`CLAIM ENDS IN`}
+          title={t`Claim ends in`}
           target={incidentReport.claimExpiresAt}
         />
       )}
 
       {notClaimableYet && (
         <CountDownTimer
-          title={t`CLAIM BEGINS IN`}
+          title={t`Claim begins in`}
           target={incidentReport.claimBeginsFrom}
         />
       )}

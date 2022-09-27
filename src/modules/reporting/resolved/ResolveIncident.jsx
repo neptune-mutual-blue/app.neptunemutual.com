@@ -85,7 +85,7 @@ export const ResolveIncident = ({
           className="w-full px-10 py-4 font-semibold uppercase md:w-80"
           onClick={() => setIsOpen(true)}
         >
-          <Trans>Emergency Resolve</Trans>
+          <Trans>Emergency resolve</Trans>
         </RegularButton>
 
         <EmergencyResolveModal
@@ -135,16 +135,16 @@ const EmergencyResolveModal = ({
             alt={logoAlt}
             src={logoSource}
           />
-          <div className="font-bold font-sora text-h2">
-            <Trans>Emergency Resolution</Trans>
+          <div className="font-bold capitalize font-sora text-h2">
+            <Trans>Emergency resolution</Trans>
           </div>
         </Dialog.Title>
         <div className="mt-8 mb-6 font-semibold uppercase">
-          <Trans>Select Your Decision</Trans>
+          <Trans>Select your decision</Trans>
         </div>
         <div className="flex flex-col gap-4 my-4 sm:flex-row">
           <Radio
-            label={t`INCIDENT OCCURRED`}
+            label={t`Incident occurred`}
             id="decision-1"
             value="true"
             name="decision"
@@ -152,7 +152,7 @@ const EmergencyResolveModal = ({
             onChange={handleRadioChange}
           />
           <Radio
-            label={t`FALSE REPORTING`}
+            label={t`False reporting`}
             id="decision-2"
             value="false"
             name="decision"
@@ -174,8 +174,8 @@ const EmergencyResolveModal = ({
           }}
         >
           {emergencyResolving
-            ? t`Emergency Resolving...`
-            : t`EMERGENCY RESOLVE`}
+            ? t`Emergency resolving...`
+            : t`Emergency resolve`}
         </RegularButton>
 
         <ModalCloseButton

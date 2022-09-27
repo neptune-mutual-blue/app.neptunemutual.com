@@ -10,7 +10,7 @@ jest.mock("../dynamic-activate", () => ({
 function WithProvider() {
   return (
     <LanguageProvider>
-      <Trans>Connect Wallet</Trans>
+      <Trans>Connect wallet</Trans>
     </LanguageProvider>
   );
 }
@@ -26,7 +26,7 @@ describe("LanguageProvider", () => {
     initialRender();
 
     await waitFor(() => {
-      const connectWallet = screen.getByText("Connect Wallet");
+      const connectWallet = screen.getByText("Connect wallet");
 
       expect(connectWallet).toBeInTheDocument();
     });
@@ -38,7 +38,7 @@ describe("LanguageProvider", () => {
     initialRender();
 
     await waitFor(() => {
-      const connectWallet = screen.getByText("Connect Wallet");
+      const connectWallet = screen.getByText("Connect wallet");
 
       expect(connectWallet).toBeInTheDocument();
 

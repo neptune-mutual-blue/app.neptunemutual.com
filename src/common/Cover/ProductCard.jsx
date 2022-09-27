@@ -148,7 +148,7 @@ export const ProductCard = ({
       {/* Stats */}
       <div className="flex justify-between px-1 text-h7 lg:text-sm">
         <span className="uppercase text-h7 lg:text-sm">
-          <Trans>utilization Ratio</Trans>
+          <Trans>Utilization ratio</Trans>
         </span>
         <span
           className="font-semibold text-right text-h7 lg:text-sm "
@@ -162,10 +162,11 @@ export const ProductCard = ({
         infoComponent={
           <div>
             <p>
-              <b>
-                <Trans>UTILIZATION RATIO:</Trans>{" "}
-                {formatPercent(utilization, router.locale)}
-              </b>
+              <strong>
+                <Trans>
+                  Utilization ratio: {formatPercent(utilization, router.locale)}
+                </Trans>
+              </strong>
             </p>
             <p>
               <Trans>Protection</Trans>: {protectionLong}

@@ -56,7 +56,7 @@ export const ClaimDetailsPage = ({
 
   const isDiversified = isValidProduct(productKey);
 
-  const title = !isDiversified
+  const coverOrProductName = !isDiversified
     ? coverInfo?.infoObj?.coverName
     : coverInfo?.infoObj?.productName;
 
@@ -81,7 +81,7 @@ export const ClaimDetailsPage = ({
                   current: false,
                 },
                 {
-                  name: title,
+                  name: coverOrProductName,
                   href: !isDiversified
                     ? Routes.ViewCover(coverKey)
                     : Routes.ViewProduct(coverKey, productKey),
@@ -119,13 +119,13 @@ export const ClaimDetailsPage = ({
 
         <Container className="px-2 pt-12 pb-36">
           <h2 className="font-bold text-h2 font-sora">
-            <Trans>Available cxTokens for {title} to Claim</Trans>
+            <Trans>Available cxTokens for {coverOrProductName} to Claim</Trans>
           </h2>
           <p className="w-full max-w-xl pt-6 pb-16 ml-0 text-lg">
             <Trans>
-              Claim your {title} cover cxTokens from the following addresses
-              before the given claim date. Also indicated is the amount of
-              cxTokens you will receive per claim.
+              Claim your {coverOrProductName} cover cxTokens from the following
+              addresses before the given claim date. Also indicated is the
+              amount of cxTokens you will receive per claim.
             </Trans>
           </p>
 

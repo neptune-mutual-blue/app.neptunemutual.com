@@ -59,7 +59,7 @@ export const CARD_STATUS = {
     icon: StatusNormalIcon,
   },
   [E_CARD_STATUS.INCIDENT]: {
-    label: "Incident Occured",
+    label: "Incident Occurred",
     className: "bg-FA5C2F",
     icon: StatusIncidentOccurredIcon,
   },
