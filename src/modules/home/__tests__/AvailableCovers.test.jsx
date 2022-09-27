@@ -14,60 +14,110 @@ import { testData } from '@/utils/unit-tests/test-data'
 
 describe('AvailableCovers test', () => {
   beforeEach(() => {
-    i18n.activate('en')
+    i18n.activate("en");
 
-    mockFn.useCovers()
-    mockFn.useFlattenedCoverProducts()
-    mockFn.useCoverOrProductData()
+    mockFn.useCovers();
+    mockFn.useFlattenedCoverProducts();
+    mockFn.useCoverOrProductData();
 
-    render(<AvailableCovers />)
-  })
+    render(<AvailableCovers />);
+  });
 
-  test('should render the component correctly', () => {
-    const wrapper = screen.getByTestId('available-covers-container')
-    expect(wrapper).toBeInTheDocument()
-  })
+  test("should render the component correctly", () => {
+    const wrapper = screen.getByTestId("available-covers-container");
+    expect(wrapper).toBeInTheDocument();
+  });
 
-  test('should render the `Cover Products` text element', () => {
-    const wrapper = screen.getByText('Cover Products')
-    expect(wrapper).toBeInTheDocument()
-  })
+  test("should render the `Cover Products` text element", () => {
+    const wrapper = screen.getByText("Cover Products");
+    expect(wrapper).toBeInTheDocument();
+  });
 
-  test('should render the SearchAndSortBar component', () => {
-    const wrapper = screen.getByTestId('search-and-sort-container')
-    expect(wrapper).toBeInTheDocument()
-  })
+  test("should render the SearchAndSortBar component", () => {
+    const wrapper = screen.getByTestId("search-and-sort-container");
+    expect(wrapper).toBeInTheDocument();
+  });
 
-  test('should render correct no. of cover links', () => {
-    const links = screen.getAllByTestId('cover-link')
-    expect(links.length).toBe(CARDS_PER_PAGE)
-  })
+  test("should render correct no. of cover links", () => {
+    const links = screen.getAllByTestId("cover-link");
+    expect(links.length).toBe(12);
+  });
 
-  test('should render correct cover link href', () => {
-    const href = `/covers/${safeParseBytes32String(testData.covers[0].id)}`
-    const link = screen.getAllByTestId('cover-link')[0]
-    expect(link).toHaveAttribute('href', href)
-  })
+  test("should render correct cover link href", () => {
+    const href = `/covers/${safeParseBytes32String(testData.covers[0].id)}`;
+    const link = screen.getAllByTestId("cover-link")[0];
+    expect(link).toHaveAttribute("href", href);
+  });
 
-  test('should render `Show More` button by default', () => {
-    const btn = screen.getByTestId('show-more-button')
-    expect(btn).toBeInTheDocument()
-  })
+  test("should render `Show More` button by default", () => {
+    const btn = screen.getByTestId("show-more-button");
+    expect(btn).toBeInTheDocument();
+  });
 
-  test('should show more cover cards on `Show More` button click', () => {
-    const btn = screen.getByTestId('show-more-button')
-    fireEvent.click(btn)
+  test("should show more cover cards on `Show More` button click", () => {
+    const btn = screen.getByTestId("show-more-button");
+    fireEvent.click(btn);
 
     const coverNumbers =
-      testData.covers.length >= CARDS_PER_PAGE * 2
-        ? CARDS_PER_PAGE * 2
-        : testData.covers.length
-    const links = screen.getAllByTestId('cover-link')
-    expect(links.length).toBe(coverNumbers)
-  })
+      testData.covers.length >= 12 + CARDS_PER_PAGE
+        ? 12 + CARDS_PER_PAGE
+        : testData.covers.length;
+    const links = screen.getAllByTestId("cover-link");
+    expect(links.length).toBe(coverNumbers);
+  });
 
-  test('should render the `No data found` if not loading & no available covers', async () => {
-    cleanup()
+    mockFn.useCovers();
+    mockFn.useFlattenedCoverProducts();
+    mockFn.useCoverOrProductData();
+
+    render(<AvailableCovers />);
+  });
+
+  test("should render the component correctly", () => {
+    const wrapper = screen.getByTestId("available-covers-container");
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  test("should render the `Cover Products` text element", () => {
+    const wrapper = screen.getByText("Cover Products");
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  test("should render the SearchAndSortBar component", () => {
+    const wrapper = screen.getByTestId("search-and-sort-container");
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  test("should render correct no. of cover links", () => {
+    const links = screen.getAllByTestId("cover-link");
+    expect(links.length).toBe(12);
+  });
+
+  test("should render correct cover link href", () => {
+    const href = `/covers/${safeParseBytes32String(testData.covers[0].id)}`;
+    const link = screen.getAllByTestId("cover-link")[0];
+    expect(link).toHaveAttribute("href", href);
+  });
+
+  test("should render `Show More` button by default", () => {
+    const btn = screen.getByTestId("show-more-button");
+    expect(btn).toBeInTheDocument();
+  });
+
+  test("should show more cover cards on `Show More` button click", () => {
+    const btn = screen.getByTestId("show-more-button");
+    fireEvent.click(btn);
+
+    const coverNumbers =
+      testData.covers.length >= 12 + CARDS_PER_PAGE
+        ? 12 + CARDS_PER_PAGE
+        : testData.covers.length;
+    const links = screen.getAllByTestId("cover-link");
+    expect(links.length).toBe(coverNumbers);
+  });
+
+  test("should render the `No data found` if not loading & no available covers", async () => {
+    cleanup();
 
     mockFn.useCovers(() => ({
       data: [],
