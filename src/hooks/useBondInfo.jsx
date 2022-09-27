@@ -88,13 +88,13 @@ export const useBondInfo = () => {
 
       const [lpToken] = addresses
       const [
-        _marketPrice,
+        , // marketPrice
         discountRate,
         vestingTerm,
         maxBond,
         totalNpmAllocated,
         totalNpmDistributed,
-        _npmAvailable,
+        , // npmAvailable
         bondContribution,
         claimable,
         unlockDate

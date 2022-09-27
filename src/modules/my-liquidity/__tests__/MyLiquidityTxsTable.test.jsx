@@ -128,7 +128,7 @@ describe('MyLiquidityTxsTable test', () => {
 
         const dataRow = testData.liquidityTxs.data.transactions[0]
         const expectedDetails = `${
-          dataRow.type == 'PodsIssued' ? 'Added' : 'Removed'
+          dataRow.type === 'PodsIssued' ? 'Added' : 'Removed'
         } ${
           formatCurrency(
             convertFromUnits(
@@ -137,7 +137,7 @@ describe('MyLiquidityTxsTable test', () => {
             ),
             'en'
           ).short
-        } ${dataRow.type == 'PodsIssued' ? 'to' : 'from'} ${
+        } ${dataRow.type === 'PodsIssued' ? 'to' : 'from'} ${
           testData.coverInfo.supportsProducts
             ? testData.coverInfo.infoObj.coverName
             : testData.coverInfo.infoObj.projectName

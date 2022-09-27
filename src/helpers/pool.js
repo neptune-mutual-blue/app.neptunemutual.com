@@ -13,7 +13,7 @@ export const calcStakingPoolTVL = (pool) => {
     id: pool.id,
     data: [
       {
-        type: pool.poolType == 'PODStaking' ? 'pod' : 'token',
+        type: pool.poolType === 'PODStaking' ? 'pod' : 'token',
         address: pool.stakingToken,
         amount: stakingTokenAmount
       },

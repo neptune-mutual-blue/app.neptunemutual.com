@@ -194,7 +194,7 @@ const DetailsRenderer = ({ row }) => {
         />
 
         <span className='pl-4 text-left whitespace-nowrap'>
-          {row.type == 'CoverPurchased'
+          {row.type === 'CoverPurchased'
             ? (
               <Trans>
                 Purchased {tokenAmountWithSymbol} {projectOrProductName} policy
@@ -233,7 +233,7 @@ const CxDaiAmountRenderer = ({ row }) => {
       <div className='flex items-center justify-end whitespace-nowrap'>
         <span
           className={
-            row.type == 'CoverPurchased' ? 'text-404040' : 'text-FA5C2F'
+            row.type === 'CoverPurchased' ? 'text-404040' : 'text-FA5C2F'
           }
           title={formattedCurrency.long}
         >

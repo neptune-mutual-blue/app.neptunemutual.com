@@ -164,7 +164,7 @@ const TotalLiquidityChart = ({ data }) => {
 
     if (data) {
       const _chartData = []
-      data.map(({ date, totalLiquidity }) => {
+      data.forEach(({ date, totalLiquidity }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(

@@ -100,7 +100,7 @@ export const usePoolsTVL = (NPMTokenAddress) => {
 
         for (let j = 0; j < item.data.length; j++) {
           const tokenData = item.data[j]
-          if (tokenData.address.toLowerCase() == address.toLowerCase()) {
+          if (tokenData.address.toLowerCase() === address.toLowerCase()) {
             if (isEqualTo(tokenData.amount, '0')) {
               return '0'
             }

@@ -89,14 +89,14 @@ export const HlCalendar = ({ startDate, endDate }) => {
           {arr.map((x, _i) => (
             <tr key={_i}>
               {x.map((y, _j) => {
-                // const isStart = startDate.getTime() == y.getTime();
-                // const isEnd = endDate.getTime() == y.getTime();
+                // const isStart = startDate.getTime() === y.getTime();
+                // const isEnd = endDate.getTime() === y.getTime();
                 const isInsideRange =
                   startDate.getTime() <= y.getTime() &&
                   endDate.getTime() >= y.getTime()
                 const isDifferentMonth = calendarState.month !== y.getMonth()
                 const isToday =
-                  y.setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0)
+                  y.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)
 
                 return (
                   <td

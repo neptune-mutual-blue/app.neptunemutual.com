@@ -9,12 +9,12 @@ export const TabHeader = ({ activeTab, headers, onClick }) => {
     >
       <div className='flex mx-auto max-w-7xl'>
         {headers.map((header) => (
-          <Tab key={header.name} active={activeTab == header.name}>
+          <Tab key={header.name} active={activeTab === header.name}>
             <button
               onClick={() => onClick(header.name)}
               className={classNames(
                 'inline-block px-6 py-2',
-                activeTab == header.name ? 'font-semibold' : ''
+                activeTab === header.name ? 'font-semibold' : ''
               )}
               data-testid='tab-btn'
             >

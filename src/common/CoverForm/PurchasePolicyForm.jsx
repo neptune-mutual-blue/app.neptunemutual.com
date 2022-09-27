@@ -221,7 +221,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             name='cover-period'
             disabled={approving || purchasing}
             onChange={handleRadioChange}
-            checked={coverMonth == '3'}
+            checked={coverMonth === '3'}
           />
         </div>
       </div>

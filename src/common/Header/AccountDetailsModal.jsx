@@ -65,7 +65,7 @@ export const AccountDetailsModal = ({
   handleDisconnect,
   account
 }) => {
-  const wallet = wallets.find((x) => x.id == '1')
+  const wallet = wallets.find((x) => x.id === '1') // @todo: needs to be dynamic
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval()
 
   return (

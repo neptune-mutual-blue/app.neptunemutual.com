@@ -144,7 +144,7 @@ export const AvailableCovers = () => {
 
         {!coversLoading &&
           sortedCovers.map((c, idx) => {
-            if (idx > showCount - 1) return
+            if (idx > showCount - 1) return null
 
             if (coverView === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
               return (

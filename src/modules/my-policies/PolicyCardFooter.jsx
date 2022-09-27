@@ -21,7 +21,7 @@ export const PolicyCardFooter = ({
   const router = useRouter()
   const cxTokenDecimals = useTokenDecimals(cxToken.id)
 
-  const isClaimable = report ? report.status == 'Claimable' : false
+  const isClaimable = report ? report.status === 'Claimable' : false
   const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
   const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
   const isPolicyExpired = isGreater(now, validityEndsAt)
@@ -80,7 +80,7 @@ export const PolicyCardFooter = ({
               tooltip={stat.tooltipText}
               value={stat.value}
               variant={stat.variant}
-              right={idx % 2 == 1}
+              right={idx % 2 === 1}
             />
           )
         })}

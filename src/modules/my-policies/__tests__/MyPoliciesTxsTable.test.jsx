@@ -34,20 +34,20 @@ describe('MyPoliciesTxsTable test', () => {
     })
 
     test('should render correct block number text', () => {
-      const block_a = screen.getByTestId('block-number').querySelector('a')
-      expect(block_a).toHaveTextContent(
+      const blockA = screen.getByTestId('block-number').querySelector('a')
+      expect(blockA).toHaveTextContent(
         '#' + testData.policies.data.blockNumber
       )
     })
 
     test('should render correct block href link', () => {
-      const block_a = screen.getByTestId('block-number').querySelector('a')
+      const blockA = screen.getByTestId('block-number').querySelector('a')
 
       const href = getBlockLink(
         testData.network.networkId,
         testData.policies.data.blockNumber
       )
-      expect(block_a).toHaveAttribute('href', href)
+      expect(blockA).toHaveAttribute('href', href)
     })
 
     test('should not render block number element if blockNumber is not available', () => {

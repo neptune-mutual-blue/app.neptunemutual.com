@@ -38,7 +38,7 @@ function MyLiquidities ({ data, loading }) {
     )
   }
 
-  if (data.length == 0) {
+  if (data.length === 0) {
     return (
       <div
         className='flex flex-col items-center w-full pt-20'

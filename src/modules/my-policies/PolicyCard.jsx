@@ -68,7 +68,7 @@ export const PolicyCard = ({ policyInfo }) => {
   } else {
     status = productStatus
 
-    const isClaimable = report ? report.status == 'Claimable' : false
+    const isClaimable = report ? report.status === 'Claimable' : false
     const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
     const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
 

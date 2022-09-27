@@ -41,8 +41,7 @@ export const isFeatureEnabled = (feature) => {
 
 export const testnetChainIds = [3, 97, 42, 80001, 43113]
 
-export const isV2BasketCoverEnabled = () =>
-  process.env.NEXT_PUBLIC_ENABLE_V2 == 'true'
+export const isV2BasketCoverEnabled = () => process.env.NEXT_PUBLIC_ENABLE_V2 === 'true'
 
 export const timeouts = {
   waitForTransactionWithTimeout: 30000

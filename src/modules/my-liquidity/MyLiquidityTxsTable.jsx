@@ -183,7 +183,7 @@ const DetailsRenderer = ({ row }) => {
           liquidityTxTable
         />
         <span className='pl-4 text-left whitespace-nowrap'>
-          {row.type == 'PodsIssued'
+          {row.type === 'PodsIssued'
             ? (
               <Trans>
                 Added {tokenAmountWithSymbol} to {coverOrProjectName}
@@ -211,7 +211,7 @@ const PodAmountRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6 text-right'>
       <div className='flex items-center justify-end whitespace-nowrap w-max'>
         <span
-          className={row.type == 'PodsIssued' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'PodsIssued' ? 'text-404040' : 'text-FA5C2F'}
           title={
             formatCurrency(
               convertFromUnits(row.podAmount, tokenDecimals),

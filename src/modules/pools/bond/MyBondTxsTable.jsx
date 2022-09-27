@@ -168,9 +168,9 @@ const BondAmountRenderer = ({ row }) => {
     <td className='px-6 py-6 text-right max-w-sm'>
       <div className='flex items-center justify-end w-max whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.type == 'BondCreated' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'BondCreated' ? 'text-404040' : 'text-FA5C2F'}
           amountInUnits={
-            row.type == 'BondCreated' ? row.npmToVestAmount : row.claimAmount
+            row.type === 'BondCreated' ? row.npmToVestAmount : row.claimAmount
           }
           symbol={row.bondPool.token1Symbol}
           decimals={row.bondPool.token1Decimals}

@@ -38,7 +38,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
         diff: diff && diff.absoluteValue().toString(),
         rise: diff && diff.isGreaterThanOrEqualTo(0)
       })
-    } else if (data && data.length == 1) {
+    } else if (data && data.length === 1) {
       setChangeData({
         last: toBN(data[0].totalLiquidity).toString(),
         diff: null,

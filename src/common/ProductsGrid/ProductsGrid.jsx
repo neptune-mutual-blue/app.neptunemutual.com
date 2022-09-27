@@ -84,7 +84,7 @@ export const ProductsGrid = () => {
   }
 
   if (!coverInfo) {
-    null
+    return null
   }
 
   return (
@@ -97,7 +97,7 @@ export const ProductsGrid = () => {
                 `/?coverView=${SORT_TYPES.DIVERSIFIED_POOL}#cover-products`
               )
             }}
-            className='flex group items-center rounded-big bg-9B9B9B/30 px-4 py-2 mr-4'
+            className='flex items-center px-4 py-2 mr-4 group rounded-big bg-9B9B9B/30'
           >
             <LeftArrow />
             <Trans>Back</Trans>

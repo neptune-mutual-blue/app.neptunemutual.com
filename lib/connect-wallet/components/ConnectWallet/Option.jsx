@@ -1,7 +1,7 @@
 export const Option = (props) => {
   const { id, name, Icon, onClick } = props
 
-  if (name.toLowerCase() == 'metamask') {
+  if (name.toLowerCase() === 'metamask') {
     if (!(window.web3 || window.ethereum)) {
       return (
         <a
@@ -17,7 +17,7 @@ export const Option = (props) => {
     }
   }
 
-  if (name.toLowerCase() == 'binance chain wallet') {
+  if (name.toLowerCase() === 'binance chain wallet') {
     if (!window.BinanceChain) {
       return (
         <a

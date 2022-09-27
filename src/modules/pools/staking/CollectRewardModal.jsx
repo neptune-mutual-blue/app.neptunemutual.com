@@ -60,7 +60,7 @@ export const CollectRewardModal = ({
             activeTab={activeTab}
           />
 
-          {activeTab == 'harvest'
+          {activeTab === 'harvest'
             ? (
               <HarvestForm
                 info={info}
