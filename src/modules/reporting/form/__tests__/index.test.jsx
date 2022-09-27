@@ -119,7 +119,7 @@ describe("ProofOfIncident test with all the attributes", () => {
     expect(input).toBeInTheDocument();
 
     const desc = screen.getByText(
-      "Provide URL with a proximate proof of the incident."
+      "Provide a URL confirming the nature of the incident."
     );
     expect(desc).toBeInTheDocument();
 

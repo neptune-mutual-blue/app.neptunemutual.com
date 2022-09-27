@@ -40,7 +40,7 @@ describe("AvailableCovers test", () => {
 
   test("should render correct no. of cover links", () => {
     const links = screen.getAllByTestId("cover-link");
-    expect(links.length).toBe(CARDS_PER_PAGE);
+    expect(links.length).toBe(12);
   });
 
   test("should render correct cover link href", () => {
@@ -59,8 +59,8 @@ describe("AvailableCovers test", () => {
     fireEvent.click(btn);
 
     const coverNumbers =
-      testData.covers.length >= CARDS_PER_PAGE * 2
-        ? CARDS_PER_PAGE * 2
+      testData.covers.length >= 12 + CARDS_PER_PAGE
+        ? 12 + CARDS_PER_PAGE
         : testData.covers.length;
     const links = screen.getAllByTestId("cover-link");
     expect(links.length).toBe(coverNumbers);
