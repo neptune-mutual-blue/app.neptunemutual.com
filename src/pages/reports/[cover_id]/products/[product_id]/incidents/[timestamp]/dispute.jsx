@@ -61,6 +61,8 @@ export default function DisputeFormPage () {
 
         {/* hero */}
         <ReportingHero
+          coverKey={coverKey}
+          productKey={productKey}
           coverInfo={coverInfo}
           reportStatus={{
             resolved: data.incidentReport?.resolved,

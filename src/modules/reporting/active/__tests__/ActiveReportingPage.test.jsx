@@ -16,7 +16,7 @@ describe('Active Reporting Page Data Loading', () => {
     initialRender()
   })
 
-  test('Should render the page card sk	eleton', () => {
+  test('Should render the page card skeleton', () => {
     const cardSkeleton = screen.getByTestId('active-reportings-card-skeleton')
 
     expect(cardSkeleton).toBeInTheDocument()

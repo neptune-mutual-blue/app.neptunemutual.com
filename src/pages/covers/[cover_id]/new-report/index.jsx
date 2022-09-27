@@ -19,7 +19,7 @@ export default function ReportingNewCoverPage () {
 
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
-      <NewIncidentReportPage />
+      <NewIncidentReportPage coverKey={coverKey} productKey={productKey} />
     </CoverStatsProvider>
   )
 }

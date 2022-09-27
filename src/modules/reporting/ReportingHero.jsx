@@ -3,16 +3,10 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useRouter } from 'next/router'
 import { t } from '@lingui/macro'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Routes } from '@/src/config/routes'
 
-export const ReportingHero = ({ coverInfo, reportStatus = null }) => {
-  const router = useRouter()
-  const { cover_id, product_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
-  const productKey = safeFormatBytes32String(product_id || '')
+export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = null }) => {
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 

@@ -6,16 +6,15 @@ import { CoverReportingRules } from '@/src/modules/reporting/CoverReportingRules
 import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
 import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
 import { useFetchCoverProductActiveReportings } from '@/src/hooks/useFetchCoverProductActiveReportings'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { Routes } from '@/src/config/routes'
 
-export function NewIncidentReportPage () {
+export function NewIncidentReportPage ({
+  coverKey,
+  productKey
+}) {
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
-  const { product_id, cover_id } = router.query
-  const coverKey = safeFormatBytes32String(cover_id)
-  const productKey = safeFormatBytes32String(product_id || '')
 
   const coverInfo = useCoverOrProductData({
     coverKey: coverKey,
@@ -60,7 +59,7 @@ export function NewIncidentReportPage () {
       </Head>
 
       {/* hero */}
-      <ReportingHero coverInfo={coverInfo} />
+      <ReportingHero coverKey={coverKey} productKey={productKey} coverInfo={coverInfo} />
       <hr className='border-B0C4DB' />
 
       {accepted

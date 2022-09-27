@@ -580,18 +580,6 @@ export const mockFn = {
           )
         }
       },
-      Vault: {
-        getInstance: () => {
-          NeptuneMutualSDK.registry.Vault.getInstance = jest.fn(() =>
-            Promise.resolve('geInstance() mock')
-          )
-        },
-        getAddress: () => {
-          NeptuneMutualSDK.registry.Vault.getAddress = jest.fn(() =>
-            Promise.resolve(testData.vaultAddress)
-          )
-        }
-      },
       Reassurance: {
         getInstance: () => {
           NeptuneMutualSDK.registry.Reassurance.getInstance = jest.fn(() =>

@@ -44,6 +44,8 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
   return (
     <>
       <ReportingHero
+        coverKey={incidentReport.coverKey}
+        productKey={incidentReport.productKey}
         coverInfo={coverInfo}
         reportStatus={{ resolved: incidentReport.resolved }}
       />

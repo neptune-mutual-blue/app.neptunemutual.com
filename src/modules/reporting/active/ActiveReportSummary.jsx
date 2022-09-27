@@ -97,19 +97,20 @@ export const ActiveReportSummary = ({
           <Divider />
 
           <>
-            {isAfterResolution ? (
-              <ResolveIncident
-                incidentReport={incidentReport}
-                resolvableTill={resolvableTill}
-                refetchReport={refetchReport}
-                refetchInfo={refetchInfo}
-              />
-            ) : (
-              // hidden in mobile
-              <div className='hidden md:block'>
-                <CastYourVote incidentReport={incidentReport} />
-              </div>
-            )}
+            {isAfterResolution
+              ? (
+                <ResolveIncident
+                  incidentReport={incidentReport}
+                  resolvableTill={resolvableTill}
+                  refetchReport={refetchReport}
+                  refetchInfo={refetchInfo}
+                />
+                )
+              : (
+                <div className='hidden md:block'> {/* hidden in mobile */}
+                  <CastYourVote incidentReport={incidentReport} />
+                </div>
+                )}
           </>
         </div>
 

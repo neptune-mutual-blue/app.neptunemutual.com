@@ -142,14 +142,14 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       'The standard exclusions are enforced on all covers. Neptune Mutual reserves the right to update the exclusion list periodically.',
       [
         'If we have reason to believe you are an attacker or are directly or indirectly associated with an attacker, we reserve the right to blacklist you or deny your claims.',
-        <>
+        <Fragment key='exclusions-2'>
           In addition to{' '}
           <a href='#' className='text-4e7dd9'>
             coverage lag
           </a>
           , we may also blacklist you or deny your claims if you purchased
           coverage just before, on, or the same day of the attack.
-        </>,
+        </Fragment>,
         'Minimum total loss should exceed $1 million.',
         'Any loss in which the protocol continues to function as intended is not covered.',
         'Any type of 51 percent attack or consensus attack on the parent blockchain is not covered.',

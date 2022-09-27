@@ -38,12 +38,12 @@ export const DescriptionComponent = ({
                             <ul
                               key={idx}
                               className={classNames(
-                      bullets ? 'list-disc pl-6' : 'list-none pl-3'
-                    )}
+                                bullets ? 'list-disc pl-6' : 'list-none pl-3'
+                              )}
                             >
                               {item.map((listItem, index) => (
-                      <li key={index}>{listItem}</li>
-                    ))}
+                                <li key={index}>{listItem}</li>
+                              ))}
                             </ul>
                             )
                           : (
