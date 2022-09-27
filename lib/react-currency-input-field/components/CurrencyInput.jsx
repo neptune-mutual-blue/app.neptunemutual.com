@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, forwardRef, useMemo } from 'react'
 import {
   isNumber,
   cleanValue,
@@ -6,8 +6,8 @@ import {
   formatValue,
   getLocaleConfig,
   padTrimValue,
-  getSuffix,
-} from "./utils";
+  getSuffix
+} from './utils'
 
 /** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement>>} */
 export const CurrencyInput = forwardRef(
@@ -51,10 +51,10 @@ export const CurrencyInput = forwardRef(
     const localeConfig = useMemo(
       () => getLocaleConfig(intlConfig),
       [intlConfig]
-    );
+    )
     const decimalSeparator =
-      _decimalSeparator || localeConfig.decimalSeparator || "";
-    const groupSeparator = _groupSeparator || localeConfig.groupSeparator || "";
+      _decimalSeparator || localeConfig.decimalSeparator || ''
+    const groupSeparator = _groupSeparator || localeConfig.groupSeparator || ''
 
     const formatValueOptions = {
       decimalSeparator,
@@ -62,8 +62,8 @@ export const CurrencyInput = forwardRef(
       disableGroupSeparators,
       intlConfig,
       prefix: prefix || localeConfig.prefix,
-      suffix: suffix,
-    };
+      suffix: suffix
+    }
 
     const cleanValueOptions = {
       decimalSeparator,
@@ -73,35 +73,35 @@ export const CurrencyInput = forwardRef(
       allowNegativeValue,
       disableAbbreviations,
       prefix: prefix || localeConfig.prefix,
-      transformRawValue,
-    };
+      transformRawValue
+    }
 
     const formattedStateValue =
       defaultValue !== undefined && defaultValue !== null
         ? formatValue({
-            ...formatValueOptions,
-            decimalScale,
-            value: String(defaultValue),
-          })
+          ...formatValueOptions,
+          decimalScale,
+          value: String(defaultValue)
+        })
         : userValue !== undefined && userValue !== null
-        ? formatValue({
+          ? formatValue({
             ...formatValueOptions,
             decimalScale,
-            value: String(userValue),
+            value: String(userValue)
           })
-        : "";
+          : ''
 
-    const [stateValue, setStateValue] = useState(formattedStateValue);
-    const [dirty, setDirty] = useState(false);
-    const [cursor, setCursor] = useState(0);
-    const inputRef = useRef(ref ?? null);
+    const [stateValue, setStateValue] = useState(formattedStateValue)
+    const [dirty, setDirty] = useState(false)
+    const [cursor, setCursor] = useState(0)
+    const inputRef = useRef(ref ?? null)
 
     if (_decimalSeparator && isNumber(_decimalSeparator)) {
-      throw new Error("decimalSeparator cannot be a number");
+      throw new Error('decimalSeparator cannot be a number')
     }
 
     if (_groupSeparator && isNumber(_groupSeparator)) {
-      throw new Error("groupSeparator cannot be a number");
+      throw new Error('groupSeparator cannot be a number')
     }
 
     if (
@@ -110,86 +110,86 @@ export const CurrencyInput = forwardRef(
       decimalSeparator === groupSeparator &&
       disableGroupSeparators === false
     ) {
-      throw new Error("decimalSeparator cannot be the same as groupSeparator");
+      throw new Error('decimalSeparator cannot be the same as groupSeparator')
     }
 
     /**
      * Process change in value
      */
     const processChange = (value, selectionStart) => {
-      setDirty(true);
-      const stringValue = cleanValue({ value, ...cleanValueOptions });
+      setDirty(true)
+      const stringValue = cleanValue({ value, ...cleanValueOptions })
 
       if (
         userMaxLength &&
-        stringValue.replace(/-/g, "").length > userMaxLength
+        stringValue.replace(/-/g, '').length > userMaxLength
       ) {
-        return;
+        return
       }
 
       if (
-        stringValue === "" ||
-        stringValue === "-" ||
+        stringValue === '' ||
+        stringValue === '-' ||
         stringValue === decimalSeparator
       ) {
         onValueChange &&
           onValueChange(undefined, name, {
             float: null,
-            formatted: "",
-            value: "",
-          });
-        setStateValue(stringValue);
-        return;
+            formatted: '',
+            value: ''
+          })
+        setStateValue(stringValue)
+        return
       }
 
       const numberValue = parseFloat(
-        stringValue.replace(decimalSeparator, ".")
-      );
+        stringValue.replace(decimalSeparator, '.')
+      )
       const formattedValue = formatValue({
         value: stringValue,
-        ...formatValueOptions,
-      });
+        ...formatValueOptions
+      })
 
       /* istanbul ignore next */
       if (selectionStart !== undefined && selectionStart !== null) {
         // Prevent cursor jumping
         const newCursor =
-          selectionStart + (formattedValue.length - value.length) || 1;
-        setCursor(newCursor);
+          selectionStart + (formattedValue.length - value.length) || 1
+        setCursor(newCursor)
       }
 
-      setStateValue(formattedValue);
+      setStateValue(formattedValue)
 
       if (onValueChange) {
         const values = {
           float: numberValue,
           formatted: formattedValue,
-          value: stringValue,
-        };
-        onValueChange(stringValue, name, values);
+          value: stringValue
+        }
+        onValueChange(stringValue, name, values)
       }
-    };
+    }
 
     /**
      * Handle change event
      */
     const handleOnChange = (event) => {
       const {
-        target: { value, selectionStart },
-      } = event;
+        target: { value, selectionStart }
+      } = event
 
-      processChange(value, selectionStart);
+      processChange(value, selectionStart)
 
-      onChange && onChange(event);
-    };
+      onChange && onChange(event)
+    }
 
     /**
      * Handle focus event
      */
     const handleOnFocus = (event) => {
-      onFocus && onFocus(event);
-      return stateValue ? stateValue.length : 0;
-    };
+      onFocus && onFocus(event)
+      return stateValue ? stateValue.length : 0
+    }
 
     /**
      * Handle blur event
@@ -198,48 +198,48 @@ export const CurrencyInput = forwardRef(
      */
     const handleOnBlur = (event) => {
       const {
-        target: { value },
-      } = event;
+        target: { value }
+      } = event
 
-      const valueOnly = cleanValue({ value, ...cleanValueOptions });
+      const valueOnly = cleanValue({ value, ...cleanValueOptions })
 
-      if (valueOnly === "-" || !valueOnly) {
-        setStateValue("");
-        onBlur && onBlur(event);
-        return;
+      if (valueOnly === '-' || !valueOnly) {
+        setStateValue('')
+        onBlur && onBlur(event)
+        return
       }
 
       const fixedDecimals = fixedDecimalValue(
         valueOnly,
         decimalSeparator,
         fixedDecimalLength
-      );
+      )
 
       const newValue = padTrimValue(
         fixedDecimals,
         decimalSeparator,
         decimalScale !== undefined ? decimalScale : fixedDecimalLength
-      );
+      )
 
-      const numberValue = parseFloat(newValue.replace(decimalSeparator, "."));
+      const numberValue = parseFloat(newValue.replace(decimalSeparator, '.'))
 
       const formattedValue = formatValue({
         ...formatValueOptions,
-        value: newValue,
-      });
+        value: newValue
+      })
 
       if (onValueChange) {
         onValueChange(newValue, name, {
           float: numberValue,
           formatted: formattedValue,
-          value: newValue,
-        });
+          value: newValue
+        })
       }
 
-      setStateValue(formattedValue);
+      setStateValue(formattedValue)
 
-      onBlur && onBlur(event);
-    };
+      onBlur && onBlur(event)
+    }
 
     /**
      * Handle key down event
@@ -247,42 +247,42 @@ export const CurrencyInput = forwardRef(
      * Increase or decrease value by step
      */
     const handleOnKeyDown = (event) => {
-      const { key } = event;
+      const { key } = event
 
-      if (step && (key === "ArrowUp" || key === "ArrowDown")) {
-        event.preventDefault();
-        setCursor(stateValue.length);
+      if (step && (key === 'ArrowUp' || key === 'ArrowDown')) {
+        event.preventDefault()
+        setCursor(stateValue.length)
 
         const currentValue =
           parseFloat(
             userValue !== undefined && userValue !== null
-              ? String(userValue).replace(decimalSeparator, ".")
+              ? String(userValue).replace(decimalSeparator, '.')
               : cleanValue({ value: stateValue, ...cleanValueOptions })
-          ) || 0;
+          ) || 0
         const newValue =
-          key === "ArrowUp" ? currentValue + step : currentValue - step;
+          key === 'ArrowUp' ? currentValue + step : currentValue - step
 
         if (min !== undefined && newValue < min) {
-          return;
+          return
         }
 
         if (max !== undefined && newValue > max) {
-          return;
+          return
         }
 
-        const fixedLength = String(step).includes(".")
-          ? Number(String(step).split(".")[1].length)
-          : undefined;
+        const fixedLength = String(step).includes('.')
+          ? Number(String(step).split('.')[1].length)
+          : undefined
 
         processChange(
           String(
             fixedLength ? newValue.toFixed(fixedLength) : newValue
-          ).replace(".", decimalSeparator)
-        );
+          ).replace('.', decimalSeparator)
+        )
       }
 
-      onKeyDown && onKeyDown(event);
-    };
+      onKeyDown && onKeyDown(event)
+    }
 
     /**
      * Handle key up event
@@ -292,42 +292,42 @@ export const CurrencyInput = forwardRef(
     const handleOnKeyUp = (event) => {
       const {
         key,
-        currentTarget: { selectionStart },
-      } = event;
-      if (key !== "ArrowUp" && key !== "ArrowDown" && stateValue !== "-") {
+        currentTarget: { selectionStart }
+      } = event
+      if (key !== 'ArrowUp' && key !== 'ArrowDown' && stateValue !== '-') {
         const suffix = getSuffix(stateValue, {
           groupSeparator,
-          decimalSeparator,
-        });
+          decimalSeparator
+        })
 
         if (
           suffix &&
           selectionStart &&
           selectionStart > stateValue.length - suffix.length
         ) {
-          if (inputRef && typeof inputRef === "object" && inputRef.current) {
-            const newCursor = stateValue.length - suffix.length;
-            inputRef.current.setSelectionRange(newCursor, newCursor);
+          if (inputRef && typeof inputRef === 'object' && inputRef.current) {
+            const newCursor = stateValue.length - suffix.length
+            inputRef.current.setSelectionRange(newCursor, newCursor)
           }
         }
       }
 
-      onKeyUp && onKeyUp(event);
-    };
+      onKeyUp && onKeyUp(event)
+    }
 
     /* istanbul ignore next */
     useEffect(() => {
       // prevent cursor jumping if editing value
       if (
         dirty &&
-        stateValue !== "-" &&
+        stateValue !== '-' &&
         inputRef &&
-        typeof inputRef === "object" &&
+        typeof inputRef === 'object' &&
         inputRef.current
       ) {
-        inputRef.current.setSelectionRange(cursor, cursor);
+        inputRef.current.setSelectionRange(cursor, cursor)
       }
-    }, [stateValue, cursor, inputRef, dirty]);
+    }, [stateValue, cursor, inputRef, dirty])
 
     /**
      * If user has only entered "-" or decimal separator,
@@ -337,22 +337,22 @@ export const CurrencyInput = forwardRef(
       if (
         userValue !== undefined &&
         userValue !== null &&
-        stateValue !== "-" &&
+        stateValue !== '-' &&
         stateValue !== decimalSeparator
       ) {
         return formatValue({
           ...formatValueOptions,
           decimalScale: dirty ? undefined : decimalScale,
-          value: String(userValue),
-        });
+          value: String(userValue)
+        })
       }
 
-      return stateValue;
-    };
+      return stateValue
+    }
 
     const inputProps = {
-      type: "text",
-      inputMode: "decimal",
+      type: 'text',
+      inputMode: 'decimal',
       id,
       name,
       className,
@@ -365,18 +365,18 @@ export const CurrencyInput = forwardRef(
       disabled,
       value: getRenderValue(),
       ref: inputRef,
-      ...props,
-    };
-
-    if (customInput) {
-      const CustomInput = customInput;
-      return <CustomInput {...inputProps} />;
+      ...props
     }
 
-    return <input {...inputProps} />;
+    if (customInput) {
+      const CustomInput = customInput
+      return <CustomInput {...inputProps} />
+    }
+
+    return <input {...inputProps} />
   }
-);
+)
 
-CurrencyInput.displayName = "CurrencyInput";
+CurrencyInput.displayName = 'CurrencyInput'
 
-export default CurrencyInput;
+export default CurrencyInput

@@ -1,9 +1,9 @@
-import { useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { ModalRegular } from "@/common/Modal/ModalRegular";
-import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
-import { ModalWrapper } from "@/common/Modal/ModalWrapper";
-import { StakeForm } from "@/src/modules/pools/staking/StakeForm";
+import { useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { StakeForm } from '@/src/modules/pools/staking/StakeForm'
 
 export const StakeModal = ({
   info,
@@ -13,25 +13,25 @@ export const StakeModal = ({
   isOpen,
   onClose,
   stakingTokenSymbol,
-  lockupPeriod,
+  lockupPeriod
 }) => {
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false)
   return (
     <ModalRegular
       isOpen={isOpen}
       onClose={onClose}
       disabled={isDisabled}
-      data-testid="staking-modal"
+      data-testid='staking-modal'
     >
-      <ModalWrapper className="bg-f1f3f6">
-        <Dialog.Title className="flex items-center font-bold font-sora text-h2">
+      <ModalWrapper className='bg-f1f3f6'>
+        <Dialog.Title className='flex items-center font-bold font-sora text-h2'>
           {modalTitle}
         </Dialog.Title>
 
         <ModalCloseButton
           disabled={isDisabled}
           onClick={onClose}
-        ></ModalCloseButton>
+        />
 
         <StakeForm
           info={info}
@@ -44,5 +44,5 @@ export const StakeModal = ({
         />
       </ModalWrapper>
     </ModalRegular>
-  );
-};
+  )
+}

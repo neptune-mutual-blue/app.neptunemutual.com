@@ -1,52 +1,52 @@
-import { useCallback, useEffect, useState } from "react";
-import { useWeb3React } from "@web3-react/core";
+import { useCallback, useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
 
-import { useNetwork } from "@/src/context/Network";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { t } from "@lingui/macro";
-import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from "@/src/config/constants";
-import { getReplacedString } from "@/utils/string";
+import { useNetwork } from '@/src/context/Network'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { t } from '@lingui/macro'
+import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from '@/src/config/constants'
+import { getReplacedString } from '@/utils/string'
 
 export const defaultInfo = {
   // From store
-  stakingPoolsContractAddress: "",
-  name: "",
-  stakingToken: "",
-  stakingTokenStablecoinPair: "",
-  rewardToken: "",
-  rewardTokenStablecoinPair: "",
-  totalStaked: "0",
-  target: "0",
-  maximumStake: "0",
-  stakeBalance: "0",
-  cumulativeDeposits: "0",
-  rewardPerBlock: "0",
-  platformFee: "0",
-  lockupPeriodInBlocks: "0",
-  rewardTokenBalance: "0",
-  myStake: "0",
-  totalBlockSinceLastReward: "0",
-  rewards: "0",
-  canWithdrawFromBlockHeight: "0",
-  lastDepositHeight: "0",
-  lastRewardHeight: "0",
-};
+  stakingPoolsContractAddress: '',
+  name: '',
+  stakingToken: '',
+  stakingTokenStablecoinPair: '',
+  rewardToken: '',
+  rewardTokenStablecoinPair: '',
+  totalStaked: '0',
+  target: '0',
+  maximumStake: '0',
+  stakeBalance: '0',
+  cumulativeDeposits: '0',
+  rewardPerBlock: '0',
+  platformFee: '0',
+  lockupPeriodInBlocks: '0',
+  rewardTokenBalance: '0',
+  myStake: '0',
+  totalBlockSinceLastReward: '0',
+  rewards: '0',
+  canWithdrawFromBlockHeight: '0',
+  lastDepositHeight: '0',
+  lastRewardHeight: '0'
+}
 
 export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
-  const [info, setInfo] = useState(defaultInfo);
+  const [info, setInfo] = useState(defaultInfo)
 
-  const { account } = useWeb3React();
-  const { networkId } = useNetwork();
-  const { notifyError } = useErrorNotifier();
+  const { account } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { notifyError } = useErrorNotifier()
 
   const fetchPoolInfo = useCallback(async () => {
     if (!networkId || !key) {
-      return;
+      return
     }
 
     const handleError = (err) => {
-      notifyError(err, t`get pool info`);
-    };
+      notifyError(err, t`get pool info`)
+    }
 
     try {
       const response = await fetch(
@@ -54,51 +54,51 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
           networkId,
           key,
           account: account || ADDRESS_ONE,
-          type,
+          type
         }),
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-          },
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          }
         }
-      );
+      )
 
-      const { data } = await response.json();
-      return data;
+      const { data } = await response.json()
+      return data
     } catch (err) {
-      handleError(err);
+      handleError(err)
     }
-  }, [account, key, networkId, notifyError, type]);
+  }, [account, key, networkId, notifyError, type])
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
     fetchPoolInfo()
       .then((data) => {
         if (ignore || !data) {
-          return;
+          return
         }
 
-        setInfo(data);
+        setInfo(data)
       })
-      .catch(console.error);
+      .catch(console.error)
 
     return () => {
-      ignore = true;
-    };
-  }, [fetchPoolInfo]);
+      ignore = true
+    }
+  }, [fetchPoolInfo])
 
   const refetch = useCallback(() => {
     fetchPoolInfo()
       .then((data) => {
-        if (!data) return;
+        if (!data) return
 
-        setInfo(data);
+        setInfo(data)
       })
-      .catch(console.error);
-  }, [fetchPoolInfo]);
+      .catch(console.error)
+  }, [fetchPoolInfo])
 
-  return { info, refetch };
-};
+  return { info, refetch }
+}

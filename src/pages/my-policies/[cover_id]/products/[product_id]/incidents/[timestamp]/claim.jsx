@@ -1,15 +1,15 @@
-import { isFeatureEnabled } from "@/src/config/environment";
-import { ClaimDetailsPage } from "@/modules/my-policies/ClaimDetailsPage";
-import { useRouter } from "next/router";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { isFeatureEnabled } from '@/src/config/environment'
+import { ClaimDetailsPage } from '@/modules/my-policies/ClaimDetailsPage'
+import { useRouter } from 'next/router'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-const disabled = !isFeatureEnabled("claim");
+const disabled = !isFeatureEnabled('claim')
 
-export default function ClaimPolicyDiversifiedProduct() {
-  const router = useRouter();
-  const { cover_id, product_id, timestamp } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String(product_id || "");
+export default function ClaimPolicyDiversifiedProduct () {
+  const router = useRouter()
+  const { cover_id, product_id, timestamp } = router.query
+  const coverKey = safeFormatBytes32String(cover_id)
+  const productKey = safeFormatBytes32String(product_id || '')
 
   return (
     <ClaimDetailsPage
@@ -18,5 +18,5 @@ export default function ClaimPolicyDiversifiedProduct() {
       productKey={productKey}
       timestamp={timestamp}
     />
-  );
+  )
 }

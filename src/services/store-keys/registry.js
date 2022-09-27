@@ -1,65 +1,65 @@
-import { utils } from "@neptunemutual/sdk";
+import { utils } from '@neptunemutual/sdk'
 
-export const stakingPools = (property = "stakingPools") => {
+export const stakingPools = (property = 'stakingPools') => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CONTRACTS,
-      utils.keyUtil.PROTOCOL.CNS.STAKING_POOL,
+      utils.keyUtil.PROTOCOL.CNS.STAKING_POOL
     ],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}
 
-export const policy = (property = "policy") => {
+export const policy = (property = 'policy') => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CONTRACTS,
-      utils.keyUtil.PROTOCOL.CNS.COVER_POLICY,
+      utils.keyUtil.PROTOCOL.CNS.COVER_POLICY
     ],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}
 
-export const governance = (property = "governance") => {
+export const governance = (property = 'governance') => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CONTRACTS,
-      utils.keyUtil.PROTOCOL.CNS.GOVERNANCE,
+      utils.keyUtil.PROTOCOL.CNS.GOVERNANCE
     ],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}
 
-export const stablecoin = (property = "stablecoin") => {
+export const stablecoin = (property = 'stablecoin') => {
   return {
     key: [utils.keyUtil.PROTOCOL.CNS.COVER_STABLECOIN],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}
 
-export const vault = (coverKey, property = "vault") => {
+export const vault = (coverKey, property = 'vault') => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CONTRACTS,
       utils.keyUtil.PROTOCOL.CNS.COVER_VAULT,
-      coverKey,
+      coverKey
     ],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}
 
-export const priceDiscovery = (property = "priceDiscovery") => {
+export const priceDiscovery = (property = 'priceDiscovery') => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CONTRACTS,
-      utils.keyUtil.PROTOCOL.CNS.PRICE_DISCOVERY,
+      utils.keyUtil.PROTOCOL.CNS.PRICE_DISCOVERY
     ],
-    returns: "address",
-    property,
-  };
-};
+    returns: 'address',
+    property
+  }
+}

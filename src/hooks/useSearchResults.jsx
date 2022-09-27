@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 /**
  * @template T
@@ -9,21 +9,21 @@ import { useState } from "react";
  * }} param
  */
 export const useSearchResults = ({ list, filter }) => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('')
 
   const filtered = list.filter((item) => {
     try {
-      return filter(item, searchValue);
+      return filter(item, searchValue)
     } catch (err) {
       /* swallow */
     }
 
-    return true;
-  });
+    return true
+  })
 
   return {
     searchValue,
     setSearchValue,
-    filtered,
-  };
-};
+    filtered
+  }
+}

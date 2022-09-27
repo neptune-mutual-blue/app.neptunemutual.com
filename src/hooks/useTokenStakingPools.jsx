@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import { useNetwork } from "@/src/context/Network";
-import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { useState, useEffect, useCallback } from 'react'
+import { useNetwork } from '@/src/context/Network'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (itemsToSkip) => {
   return `
@@ -33,60 +33,60 @@ const getQuery = (itemsToSkip) => {
       platformFee
     }
   }
-  `;
-};
+  `
+}
 
 export const useTokenStakingPools = () => {
   const [data, setData] = useState({
-    pools: [],
-  });
-  const [loading, setLoading] = useState(false);
-  const [itemsToSkip, setItemsToSkip] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+    pools: []
+  })
+  const [loading, setLoading] = useState(false)
+  const [itemsToSkip, setItemsToSkip] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
 
-  const { networkId } = useNetwork();
-  const fetchTokenStakingPools = useSubgraphFetch("useTokenStakingPools");
+  const { networkId } = useNetwork()
+  const fetchTokenStakingPools = useSubgraphFetch('useTokenStakingPools')
 
   useEffect(() => {
     if (!networkId) {
-      setHasMore(false);
+      setHasMore(false)
     }
 
-    setLoading(true);
+    setLoading(true)
 
     fetchTokenStakingPools(networkId, getQuery(itemsToSkip))
       .then((_data) => {
-        if (!_data) return;
+        if (!_data) return
 
         const isLastPage =
-          _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE;
+          _data.pools.length === 0 || _data.pools.length < CARDS_PER_PAGE
 
         if (isLastPage) {
-          setHasMore(false);
+          setHasMore(false)
         }
 
         setData((prev) => ({
-          pools: [...prev.pools, ..._data.pools],
-        }));
+          pools: [...prev.pools, ..._data.pools]
+        }))
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, [fetchTokenStakingPools, itemsToSkip, networkId]);
+        setLoading(false)
+      })
+  }, [fetchTokenStakingPools, itemsToSkip, networkId])
 
   const handleShowMore = useCallback(() => {
-    setItemsToSkip((prev) => prev + CARDS_PER_PAGE);
-  }, []);
+    setItemsToSkip((prev) => prev + CARDS_PER_PAGE)
+  }, [])
 
   return {
     handleShowMore,
     hasMore,
     data: {
-      pools: data.pools,
+      pools: data.pools
     },
-    loading,
-  };
-};
+    loading
+  }
+}

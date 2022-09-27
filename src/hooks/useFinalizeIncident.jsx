@@ -1,59 +1,59 @@
-import { useState } from "react";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useNetwork } from "@/src/context/Network";
-import { useAuthValidation } from "@/src/hooks/useAuthValidation";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { registry, utils } from "@neptunemutual/sdk";
-import { useWeb3React } from "@web3-react/core";
-import { t } from "@lingui/macro";
+import { useState } from 'react'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useNetwork } from '@/src/context/Network'
+import { useAuthValidation } from '@/src/hooks/useAuthValidation'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { registry, utils } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
 
 export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
-  const [finalizing, setFinalizing] = useState(false);
+  const [finalizing, setFinalizing] = useState(false)
 
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const { requiresAuth } = useAuthValidation();
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { requiresAuth } = useAuthValidation()
 
-  const txToast = useTxToast();
-  const { notifyError } = useErrorNotifier();
-  const { writeContract } = useTxPoster();
+  const txToast = useTxToast()
+  const { notifyError } = useErrorNotifier()
+  const { writeContract } = useTxPoster()
 
   const finalize = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
-      requiresAuth();
-      return;
+      requiresAuth()
+      return
     }
 
-    setFinalizing(true);
+    setFinalizing(true)
     const cleanup = () => {
-      setFinalizing(false);
-    };
+      setFinalizing(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`Finalize Incident`);
-    };
+      notifyError(err, t`Finalize Incident`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const instance = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.INCIDENT_FINALIZE,
-          status: STATUS.PENDING,
-        });
+          status: STATUS.PENDING
+        })
 
         await txToast.push(
           tx,
@@ -63,57 +63,57 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
             success: getActionMessage(METHODS.INCIDENT_FINALIZE, STATUS.SUCCESS)
               .title,
             failure: getActionMessage(METHODS.INCIDENT_FINALIZE, STATUS.FAILED)
-              .title,
+              .title
           },
           {
             onTxSuccess: () => {
-              onSuccess();
+              onSuccess()
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.INCIDENT_FINALIZE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.INCIDENT_FINALIZE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
+        )
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
-      const args = [coverKey, productKeyArg, incidentDate];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32('')
+      const args = [coverKey, productKeyArg, incidentDate]
       writeContract({
         instance,
-        methodName: "finalize",
+        methodName: 'finalize',
         args,
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   return {
     finalize,
-    finalizing,
-  };
-};
+    finalizing
+  }
+}

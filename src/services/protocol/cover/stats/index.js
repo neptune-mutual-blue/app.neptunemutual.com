@@ -1,6 +1,6 @@
-import { getKeys, getMetadataKeys } from "./keys";
-import { utils } from "@neptunemutual/sdk";
-import { stringifyProps } from "../../../../utils/props";
+import { getKeys, getMetadataKeys } from './keys'
+import { utils } from '@neptunemutual/sdk'
+import { stringifyProps } from '../../../../utils/props'
 
 export const getStats = async (
   chainId,
@@ -10,12 +10,12 @@ export const getStats = async (
   provider
 ) => {
   try {
-    const metadataKeys = getMetadataKeys();
+    const metadataKeys = getMetadataKeys()
     const metadataResult = await utils.store.readStorage(
       chainId,
       metadataKeys,
       provider
-    );
+    )
 
     const all = await getKeys(
       provider,
@@ -23,11 +23,11 @@ export const getStats = async (
       productKey,
       account,
       metadataResult
-    );
-    const result = await utils.store.readStorage(chainId, all, provider);
+    )
+    const result = await utils.store.readStorage(chainId, all, provider)
 
-    return stringifyProps(result);
+    return stringifyProps(result)
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}

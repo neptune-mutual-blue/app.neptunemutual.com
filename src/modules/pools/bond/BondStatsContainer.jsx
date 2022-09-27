@@ -1,8 +1,8 @@
-import { BondStat } from "./BondStat";
+import { BondStat } from './BondStat'
 
 export const BondStatsContainer = ({ details }) => {
   return (
-    <div className="flex flex-wrap justify-between gap-y-3">
+    <div className='flex flex-wrap justify-between gap-y-3'>
       {details.map((x, idx) => {
         return (
           <BondStat
@@ -14,8 +14,8 @@ export const BondStatsContainer = ({ details }) => {
             titleClasses={x.titleClasses}
             right={idx % 2 !== 0}
           />
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}

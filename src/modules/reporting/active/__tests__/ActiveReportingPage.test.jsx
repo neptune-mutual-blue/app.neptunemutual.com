@@ -1,69 +1,69 @@
-import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import { screen } from "@testing-library/react";
-import { ReportingActivePage } from "@/modules/reporting/active/active";
+import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { screen } from '@testing-library/react'
+import { ReportingActivePage } from '@/modules/reporting/active/active'
 
-describe("Active Reporting Page Data Loading", () => {
+describe('Active Reporting Page Data Loading', () => {
   beforeEach(() => {
-    mockFn.useRouter();
+    mockFn.useRouter()
     mockFn.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: true,
-      hasMore: false,
-    }));
+      hasMore: false
+    }))
 
-    const { initialRender } = initiateTest(ReportingActivePage, {});
+    const { initialRender } = initiateTest(ReportingActivePage, {})
 
-    initialRender();
-  });
+    initialRender()
+  })
 
-  test("Should render the page card sk	eleton", () => {
-    const cardSkeleton = screen.getByTestId("active-reportings-card-skeleton");
+  test('Should render the page card sk	eleton', () => {
+    const cardSkeleton = screen.getByTestId('active-reportings-card-skeleton')
 
-    expect(cardSkeleton).toBeInTheDocument();
-  });
-});
+    expect(cardSkeleton).toBeInTheDocument()
+  })
+})
 
-describe("Active Reporting Page Data Display", () => {
+describe('Active Reporting Page Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter();
-    mockFn.useActiveReportings();
+    mockFn.useRouter()
+    mockFn.useActiveReportings()
 
-    const { initialRender } = initiateTest(ReportingActivePage, {});
+    const { initialRender } = initiateTest(ReportingActivePage, {})
 
-    initialRender();
-  });
+    initialRender()
+  })
 
-  test("should render the page grid", () => {
-    const cardGrid = screen.getByTestId("active-page-grid");
+  test('should render the page grid', () => {
+    const cardGrid = screen.getByTestId('active-page-grid')
 
-    expect(cardGrid).toBeInTheDocument();
-  });
+    expect(cardGrid).toBeInTheDocument()
+  })
 
-  test("should render the has more button", () => {
-    const hasMoreButton = screen.getByTestId("has-more-button");
+  test('should render the has more button', () => {
+    const hasMoreButton = screen.getByTestId('has-more-button')
 
-    expect(hasMoreButton).toBeInTheDocument();
-  });
-});
+    expect(hasMoreButton).toBeInTheDocument()
+  })
+})
 
-describe("Active Reporting Page No Data Display", () => {
+describe('Active Reporting Page No Data Display', () => {
   beforeEach(() => {
-    mockFn.useRouter();
+    mockFn.useRouter()
     mockFn.useActiveReportings(() => ({
       data: { incidentReports: [] },
       loading: false,
-      hasMore: false,
-    }));
-    mockFn.useFlattenedCoverProducts();
+      hasMore: false
+    }))
+    mockFn.useFlattenedCoverProducts()
 
-    const { initialRender } = initiateTest(ReportingActivePage, {});
+    const { initialRender } = initiateTest(ReportingActivePage, {})
 
-    initialRender();
-  });
+    initialRender()
+  })
 
-  test("should render the empty reportings component", () => {
-    const emptyItemsDisplay = screen.getByTestId("active-reporting-empty");
+  test('should render the empty reportings component', () => {
+    const emptyItemsDisplay = screen.getByTestId('active-reporting-empty')
 
-    expect(emptyItemsDisplay).toBeInTheDocument();
-  });
-});
+    expect(emptyItemsDisplay).toBeInTheDocument()
+  })
+})

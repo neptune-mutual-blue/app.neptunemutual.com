@@ -1,13 +1,13 @@
-import { convertFromUnits, isGreater } from "@/utils/bn";
-import { classNames } from "@/utils/classnames";
-import DateLib from "@/lib/date/DateLib";
-import Link from "next/link";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { fromNow } from "@/utils/formatter/relative-time";
-import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
-import { Routes } from "@/src/config/routes";
+import { convertFromUnits, isGreater } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import DateLib from '@/lib/date/DateLib'
+import Link from 'next/link'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { t, Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { Routes } from '@/src/config/routes'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -15,23 +15,23 @@ export const PolicyCardFooter = ({
   report,
   validityEndsAt,
   cxToken,
-  tokenBalance,
+  tokenBalance
 }) => {
-  const now = DateLib.unix();
-  const router = useRouter();
-  const cxTokenDecimals = useTokenDecimals(cxToken.id);
+  const now = DateLib.unix()
+  const router = useRouter()
+  const cxTokenDecimals = useTokenDecimals(cxToken.id)
 
-  const isClaimable = report ? report.status == "Claimable" : false;
-  const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
-  const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
-  const isPolicyExpired = isGreater(now, validityEndsAt);
+  const isClaimable = report ? report.status == 'Claimable' : false
+  const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
+  const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
+  const isPolicyExpired = isGreater(now, validityEndsAt)
 
-  const hasBalance = isGreater(tokenBalance, "0");
+  const hasBalance = isGreater(tokenBalance, '0')
   const withinClaimPeriod =
-    hasBalance && isClaimable && isClaimStarted && !isClaimExpired;
-  const beforeResolutionDeadline = isClaimable && !isClaimStarted;
+    hasBalance && isClaimable && isClaimStarted && !isClaimExpired
+  const beforeResolutionDeadline = isClaimable && !isClaimStarted
 
-  const stats = [];
+  const stats = []
   if (withinClaimPeriod) {
     stats.push({
       title: t`Claim Before`,
@@ -40,8 +40,8 @@ export const PolicyCardFooter = ({
         router.locale
       ),
       value: fromNow(report.claimExpiresAt),
-      variant: "error",
-    });
+      variant: 'error'
+    })
   } else if (beforeResolutionDeadline) {
     stats.push({
       title: t`Resolution By`,
@@ -49,28 +49,28 @@ export const PolicyCardFooter = ({
         report.claimBeginsFrom,
         router.locale
       ),
-      value: fromNow(report.claimBeginsFrom),
-    });
+      value: fromNow(report.claimBeginsFrom)
+    })
   } else if (isPolicyExpired) {
     stats.push({
       title: t`Expired On`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
-      value: fromNow(validityEndsAt),
-    });
+      value: fromNow(validityEndsAt)
+    })
   } else {
     stats.push({
       title: t`Expires In`,
       tooltipText: DateLib.toLongDateFormat(validityEndsAt, router.locale),
-      value: fromNow(validityEndsAt),
-    });
+      value: fromNow(validityEndsAt)
+    })
   }
 
   return (
     <>
       {/* Stats */}
       <div
-        className="flex flex-wrap justify-between px-1 text-sm"
-        data-testid="policy-card-footer"
+        className='flex flex-wrap justify-between px-1 text-sm'
+        data-testid='policy-card-footer'
       >
         {stats.map((stat, idx) => {
           return (
@@ -82,7 +82,7 @@ export const PolicyCardFooter = ({
               variant={stat.variant}
               right={idx % 2 == 1}
             />
-          );
+          )
         })}
 
         <Stat
@@ -109,33 +109,33 @@ export const PolicyCardFooter = ({
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
           <a
-            className="flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4"
-            data-testid="claim-link"
+            className='flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4'
+            data-testid='claim-link'
           >
             <Trans>Claim</Trans>
           </a>
         </Link>
       )}
     </>
-  );
-};
+  )
+}
 
-export const Stat = ({ title, tooltip, value, right, variant = "" }) => {
+export const Stat = ({ title, tooltip, value, right, variant = '' }) => {
   return (
     <div
-      className={classNames("flex flex-col basis-1/2", right && "items-end")}
-      data-testid="footer-stat"
+      className={classNames('flex flex-col basis-1/2', right && 'items-end')}
+      data-testid='footer-stat'
     >
-      <h5 className="mb-2 text-sm font-semibold text-black">{title}</h5>
+      <h5 className='mb-2 text-sm font-semibold text-black'>{title}</h5>
       <p
         title={tooltip}
         className={classNames(
-          "mb-4",
-          variant === "error" ? "text-FA5C2F" : "text-7398C0"
+          'mb-4',
+          variant === 'error' ? 'text-FA5C2F' : 'text-7398C0'
         )}
       >
         {value}
       </p>
     </div>
-  );
-};
+  )
+}

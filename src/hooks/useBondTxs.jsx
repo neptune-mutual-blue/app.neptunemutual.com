@@ -1,7 +1,7 @@
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { useWeb3React } from "@web3-react/core";
-import { useState, useEffect } from "react";
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useWeb3React } from '@web3-react/core'
+import { useState, useEffect } from 'react'
 
 const getQuery = (account, limit, skip) => {
   return `
@@ -39,62 +39,62 @@ const getQuery = (account, limit, skip) => {
       }
     }
   }
-  `;
-};
+  `
+}
 
 export const useBondTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     blockNumber: null,
-    bondTransactions: [],
-  });
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+    bondTransactions: []
+  })
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
-  const { networkId } = useNetwork();
-  const { account } = useWeb3React();
-  const fetchBondTxs = useSubgraphFetch("useBondTxs");
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
+  const fetchBondTxs = useSubgraphFetch('useBondTxs')
 
   useEffect(() => {
     if (!account) {
-      return;
+      return
     }
-    const query = getQuery(account, limit, limit * (page - 1));
+    const query = getQuery(account, limit, limit * (page - 1))
 
-    setLoading(true);
+    setLoading(true)
 
     fetchBondTxs(networkId, query)
       .then((_data) => {
-        if (!_data) return;
+        if (!_data) return
 
         const isLastPage =
           _data.bondTransactions.length === 0 ||
-          _data.bondTransactions.length < limit;
+          _data.bondTransactions.length < limit
 
         if (isLastPage) {
-          setHasMore(false);
+          setHasMore(false)
         }
 
         setData((prev) => ({
           blockNumber: _data._meta.block.number,
           bondTransactions: [
             ...prev.bondTransactions,
-            ..._data.bondTransactions,
-          ],
-        }));
+            ..._data.bondTransactions
+          ]
+        }))
       })
       .catch((err) => console.error(err))
       .finally(() => {
-        setLoading(false);
-      });
-  }, [account, fetchBondTxs, limit, networkId, page]);
+        setLoading(false)
+      })
+  }, [account, fetchBondTxs, limit, networkId, page])
 
   return {
     hasMore,
     data: {
       blockNumber: data.blockNumber,
       transactions: data.bondTransactions,
-      totalCount: data.bondTransactions.length,
+      totalCount: data.bondTransactions.length
     },
-    loading,
-  };
-};
+    loading
+  }
+}

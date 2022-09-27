@@ -1,21 +1,21 @@
-import Head from "next/head";
-import { PoliciesTabs } from "@/src/modules/my-policies/PoliciesTabs";
-import { PoliciesActivePage } from "@/src/modules/my-policies/active/PoliciesActivePage";
-import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
+import Head from 'next/head'
+import { PoliciesTabs } from '@/src/modules/my-policies/PoliciesTabs'
+import { PoliciesActivePage } from '@/src/modules/my-policies/active/PoliciesActivePage'
+import { ComingSoon } from '@/common/ComingSoon'
+import { isFeatureEnabled } from '@/src/config/environment'
 
 /* istanbul ignore next */
-export function getStaticProps() {
+export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled("policy"),
-    },
-  };
+      disabled: !isFeatureEnabled('policy')
+    }
+  }
 }
 
-export default function MyPoliciesActive({ disabled }) {
+export default function MyPoliciesActive ({ disabled }) {
   if (disabled) {
-    return <ComingSoon />;
+    return <ComingSoon />
   }
 
   return (
@@ -23,15 +23,15 @@ export default function MyPoliciesActive({ disabled }) {
       <Head>
         <title>Neptune Mutual Covers</title>
         <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          name='description'
+          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
-      <PoliciesTabs active="active">
+      <PoliciesTabs active='active'>
         {({ data, loading }) => (
           <PoliciesActivePage data={data} loading={loading} />
         )}
       </PoliciesTabs>
     </main>
-  );
+  )
 }

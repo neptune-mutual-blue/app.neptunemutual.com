@@ -1,48 +1,48 @@
-import { useState } from "react";
-import { useWeb3React } from "@web3-react/core";
-import DateLib from "@/lib/date/DateLib";
-import { Label } from "@/common/Label/Label";
-import { RegularButton } from "@/common/Button/RegularButton";
-import { Container } from "@/common/Container/Container";
-import { BondInfoCard } from "@/src/modules/pools/bond/BondInfoCard";
-import { mergeAlternatively } from "@/utils/arrays";
-import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
-import { ReceiveAmountInput } from "@/common/ReceiveAmountInput/ReceiveAmountInput";
-import { convertFromUnits, convertToUnits, sumOf } from "@/utils/bn";
-import { useBondInfo } from "@/src/hooks/useBondInfo";
-import { useCreateBond } from "@/src/hooks/useCreateBond";
-import { useTokenSymbol } from "@/src/hooks/useTokenSymbol";
-import { getAnnualDiscountRate, getDiscountedPrice } from "@/src/helpers/bond";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { fromNow } from "@/utils/formatter/relative-time";
-import Link from "next/link";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { getReplacedString } from "@/utils/string";
-import { POOL_URLS } from "@/src/config/constants";
-import { useNetwork } from "@/src/context/Network";
-import { DataLoadingIndicator } from "@/common/DataLoadingIndicator";
-import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
-import { Routes } from "@/src/config/routes";
+import { useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import DateLib from '@/lib/date/DateLib'
+import { Label } from '@/common/Label/Label'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { Container } from '@/common/Container/Container'
+import { BondInfoCard } from '@/src/modules/pools/bond/BondInfoCard'
+import { mergeAlternatively } from '@/utils/arrays'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { ReceiveAmountInput } from '@/common/ReceiveAmountInput/ReceiveAmountInput'
+import { convertFromUnits, convertToUnits, sumOf } from '@/utils/bn'
+import { useBondInfo } from '@/src/hooks/useBondInfo'
+import { useCreateBond } from '@/src/hooks/useCreateBond'
+import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { getAnnualDiscountRate, getDiscountedPrice } from '@/src/helpers/bond'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import Link from 'next/link'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { getReplacedString } from '@/utils/string'
+import { POOL_URLS } from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { t, Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { Routes } from '@/src/config/routes'
 
 const BondPage = () => {
-  const { networkId } = useNetwork();
-  const { info, refetch: refetchBondInfo } = useBondInfo();
-  const [value, setValue] = useState("");
-  const { account } = useWeb3React();
-  const lpTokenAddress = info.lpTokenAddress;
-  const lpTokenSymbol = useTokenSymbol(lpTokenAddress);
-  const lpTokenDecimals = useTokenDecimals(lpTokenAddress);
+  const { networkId } = useNetwork()
+  const { info, refetch: refetchBondInfo } = useBondInfo()
+  const [value, setValue] = useState('')
+  const { account } = useWeb3React()
+  const lpTokenAddress = info.lpTokenAddress
+  const lpTokenSymbol = useTokenSymbol(lpTokenAddress)
+  const lpTokenDecimals = useTokenDecimals(lpTokenAddress)
   const {
     NPMTokenAddress,
     liquidityTokenAddress,
     liquidityTokenDecimals,
     NPMTokenSymbol,
     getPriceByAddress,
-    NPMTokenDecimals,
-  } = useAppConstants();
-  const router = useRouter();
+    NPMTokenDecimals
+  } = useAppConstants()
+  const router = useRouter()
 
   const {
     balance,
@@ -55,14 +55,14 @@ const BondPage = () => {
     canBond,
     error,
     handleApprove,
-    handleBond,
-  } = useCreateBond({ info, value, refetchBondInfo });
+    handleBond
+  } = useCreateBond({ info, value, refetchBondInfo })
 
-  const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm);
+  const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm)
   const marketPrice = convertToUnits(
     getPriceByAddress(NPMTokenAddress),
     NPMTokenDecimals
-  ).toString();
+  ).toString()
 
   const leftHalf = [
     {
@@ -73,13 +73,13 @@ const BondPage = () => {
           convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
         ),
         router.locale,
-        "USD"
+        'USD'
       ).short,
       tooltip: getDiscountedPrice(
         info.discountRate,
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString()
       ),
-      valueClasses: "text-h3 text-4e7dd9 mt-1",
+      valueClasses: 'text-h3 text-4e7dd9 mt-1'
     },
     {
       title: t`Maximum Bond`,
@@ -99,10 +99,10 @@ const BondPage = () => {
           true
         ).long
       }`,
-      valueClasses: "text-sm text-9B9B9B mt-1",
-      titleClasses: "mt-7",
-    },
-  ];
+      valueClasses: 'text-sm text-9B9B9B mt-1',
+      titleClasses: 'mt-7'
+    }
+  ]
 
   const rightHalf = [
     {
@@ -110,17 +110,17 @@ const BondPage = () => {
       value: formatCurrency(
         convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
         router.locale,
-        "USD"
+        'USD'
       ).short,
       tooltip: convertFromUnits(marketPrice, liquidityTokenDecimals).toString(),
-      valueClasses: "text-h3 text-9B9B9B mt-1",
-    },
-  ];
+      valueClasses: 'text-h3 text-9B9B9B mt-1'
+    }
+  ]
 
   const claimable = convertFromUnits(
     info.claimable,
     NPMTokenDecimals
-  ).isGreaterThan(0);
+  ).isGreaterThan(0)
 
   if (account) {
     rightHalf.push({
@@ -134,7 +134,7 @@ const BondPage = () => {
               true
             ).short
           }`
-        : "",
+        : '',
       tooltip: `${
         formatCurrency(
           convertFromUnits(info.claimable, NPMTokenDecimals).toString(),
@@ -143,42 +143,42 @@ const BondPage = () => {
           true
         ).long
       }`,
-      titleClasses: `mt-7`,
-      valueClasses: `text-sm text-9B9B9B mt-1`,
-    });
+      titleClasses: 'mt-7',
+      valueClasses: 'text-sm text-9B9B9B mt-1'
+    })
   }
 
   const details = mergeAlternatively(leftHalf, rightHalf, {
-    title: "",
-    value: "",
-    tooltip: "",
-  });
+    title: '',
+    value: '',
+    tooltip: ''
+  })
 
   const handleChange = (val) => {
-    if (typeof val === "string") {
-      setValue(val);
+    if (typeof val === 'string') {
+      setValue(val)
     }
-  };
+  }
 
   const handleChooseMax = () => {
-    setValue(convertFromUnits(balance, lpTokenDecimals).toString());
-  };
+    setValue(convertFromUnits(balance, lpTokenDecimals).toString())
+  }
 
-  const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || "0");
-  let loadingMessage = "";
+  const unlockTimestamp = sumOf(DateLib.unix(), info?.vestingTerm || '0')
+  let loadingMessage = ''
   if (receiveAmountLoading) {
-    loadingMessage = t`Calculating tokens...`;
+    loadingMessage = t`Calculating tokens...`
   } else if (loadingBalance) {
-    loadingMessage = t`Fetching balance...`;
+    loadingMessage = t`Fetching balance...`
   } else if (loadingAllowance) {
-    loadingMessage = t`Fetching allowance...`;
+    loadingMessage = t`Fetching allowance...`
   }
 
   return (
     <Container
-      className={"grid sm:gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36"}
+      className='grid sm:gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36'
     >
-      <div className="max-w-lg col-span-2">
+      <div className='max-w-lg col-span-2'>
         <TokenAmountInput
           labelText={t`Enter your amount`}
           inputValue={value}
@@ -186,88 +186,94 @@ const BondPage = () => {
           tokenSymbol={lpTokenSymbol}
           tokenAddress={lpTokenAddress}
           tokenDecimals={lpTokenDecimals}
-          inputId={"bond-amount"}
+          inputId='bond-amount'
           onChange={handleChange}
           disabled={approving || bonding}
           handleChooseMax={handleChooseMax}
-          data-testid="bond-amount-input"
+          data-testid='bond-amount-input'
         />
-        {error && <p className="px-3 text-FA5C2F">{error}</p>}
-        <div className="mt-16 receive">
+        {error && <p className='px-3 text-FA5C2F'>{error}</p>}
+        <div className='mt-16 receive'>
           <ReceiveAmountInput
             labelText={t`You Will Receive`}
             tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
-            data-testid="receive-amount-input"
+            data-testid='receive-amount-input'
           />
         </div>
 
-        <div className="unlock mt-14">
-          <Label className="mb-2" htmlFor="unlock-on">
+        <div className='unlock mt-14'>
+          <Label className='mb-2' htmlFor='unlock-on'>
             <Trans>Will Unlock On</Trans>
           </Label>
           <p
-            id="unlock-on"
-            className="font-medium text-7398C0 text-h4"
+            id='unlock-on'
+            className='font-medium text-7398C0 text-h4'
             title={DateLib.toLongDateFormat(unlockTimestamp, router.locale)}
           >
             {fromNow(unlockTimestamp)}
           </p>
         </div>
 
-        <div className="mt-4">
+        <div className='mt-4'>
           <DataLoadingIndicator message={loadingMessage} />
-          {!canBond ? (
-            <RegularButton
-              disabled={error || approving || !value || loadingMessage}
-              className="w-full p-6 font-semibold uppercase text-h6"
-              onClick={handleApprove}
-            >
-              {approving ? (
-                t`Approving...`
-              ) : (
-                <>
-                  <Trans>Approve</Trans> {lpTokenSymbol}
-                </>
+          {!canBond
+            ? (
+              <RegularButton
+                disabled={error || approving || !value || loadingMessage}
+                className='w-full p-6 font-semibold uppercase text-h6'
+                onClick={handleApprove}
+              >
+                {approving
+                  ? (
+                      t`Approving...`
+                    )
+                  : (
+                    <>
+                      <Trans>Approve</Trans> {lpTokenSymbol}
+                    </>
+                    )}
+              </RegularButton>
+              )
+            : (
+              <RegularButton
+                disabled={error || bonding || loadingMessage}
+                className='w-full p-6 font-semibold uppercase text-h6'
+                onClick={() => {
+                  handleBond(() => {
+                    setValue('')
+                  })
+                }}
+              >
+                {bonding
+                  ? (
+                      t`Bonding...`
+                    )
+                  : (
+                    <>
+                      <Trans>Bond</Trans> {lpTokenSymbol}
+                    </>
+                    )}
+              </RegularButton>
               )}
-            </RegularButton>
-          ) : (
-            <RegularButton
-              disabled={error || bonding || loadingMessage}
-              className="w-full p-6 font-semibold uppercase text-h6"
-              onClick={() => {
-                handleBond(() => {
-                  setValue("");
-                });
-              }}
-            >
-              {bonding ? (
-                t`Bonding...`
-              ) : (
-                <>
-                  <Trans>Bond</Trans> {lpTokenSymbol}
-                </>
-              )}
-            </RegularButton>
-          )}
         </div>
       </div>
-      <div className="row-start-1 mb-10 md:row-start-auto">
-        <div className="flex justify-end mb-10">
+      <div className='row-start-1 mb-10 md:row-start-auto'>
+        <div className='flex justify-end mb-10'>
           <a
             href={getReplacedString(POOL_URLS[networkId], {
               liquidityTokenAddress,
-              NPMTokenAddress,
+              NPMTokenAddress
             })}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline"
+            target='_blank'
+            rel='noopener noreferrer nofollow'
+            className='inline-block mr-8 font-medium text-h4 text-4e7dd9 hover:underline'
           >
             <Trans>Get LP tokens</Trans>
           </a>
 
           <Link href={Routes.BondTransactions}>
-            <a className="inline-block font-medium text-h4 text-4e7dd9 hover:underline">
+            <a className='inline-block font-medium text-h4 text-4e7dd9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
@@ -281,7 +287,7 @@ const BondPage = () => {
         />
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default BondPage;
+export default BondPage

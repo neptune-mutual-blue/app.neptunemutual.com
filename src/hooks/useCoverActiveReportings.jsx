@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { getNetworkId } from "@/src/config/environment";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { useState, useEffect } from 'react'
+import { getNetworkId } from '@/src/config/environment'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (coverKey) => {
   return `
@@ -15,8 +15,8 @@ const getQuery = (coverKey) => {
       incidentDate
     }
   }
-  `;
-};
+  `
+}
 
 // TODO: Instead we could expose `isCoverNormalInternal` from smart contracts
 /**
@@ -26,24 +26,24 @@ const getQuery = (coverKey) => {
  * @returns
  */
 export const useCoverActiveReportings = ({ coverKey }) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
   const fetchCoverActiveReportings = useSubgraphFetch(
-    "useCoverActiveReportings"
-  );
+    'useCoverActiveReportings'
+  )
 
   useEffect(() => {
     if (coverKey) {
-      setLoading(true);
+      setLoading(true)
       fetchCoverActiveReportings(getNetworkId(), getQuery(coverKey))
         .then(({ incidentReports }) => setData(incidentReports))
         .catch((e) => console.error(e))
-        .finally(() => setLoading(false));
+        .finally(() => setLoading(false))
     }
-  }, [coverKey, fetchCoverActiveReportings]);
+  }, [coverKey, fetchCoverActiveReportings])
 
   return {
     data,
-    loading,
-  };
-};
+    loading
+  }
+}

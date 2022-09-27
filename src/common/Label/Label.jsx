@@ -1,10 +1,10 @@
-import { classNames } from "@/utils/classnames";
+import { classNames } from '@/utils/classnames'
 
 export const Label = ({ children, className, htmlFor }) => {
   return (
     <label
       className={classNames(
-        "block uppercase text-black text-h6 font-semibold",
+        'block uppercase text-black text-h6 font-semibold',
         className
       )}
       htmlFor={htmlFor}
@@ -12,5 +12,5 @@ export const Label = ({ children, className, htmlFor }) => {
     >
       {children}
     </label>
-  );
-};
+  )
+}

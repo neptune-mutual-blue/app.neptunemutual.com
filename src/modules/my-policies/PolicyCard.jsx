@@ -1,91 +1,91 @@
-import { Divider } from "@/common/Divider/Divider";
-import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { PolicyCardFooter } from "@/src/modules/my-policies/PolicyCardFooter";
-import { useValidReport } from "@/src/hooks/useValidReport";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import DateLib from "@/lib/date/DateLib";
-import { isGreater } from "@/utils/bn";
-import { ReportStatus } from "@/src/config/constants";
-import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import React from "react";
-import { CoverAvatar } from "@/common/CoverAvatar";
-import { InfoTooltip } from "@/common/Cover/InfoTooltip";
-import { isValidProduct } from "@/src/helpers/cover";
+import { Divider } from '@/common/Divider/Divider'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { PolicyCardFooter } from '@/src/modules/my-policies/PolicyCardFooter'
+import { useValidReport } from '@/src/hooks/useValidReport'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import DateLib from '@/lib/date/DateLib'
+import { isGreater } from '@/utils/bn'
+import { ReportStatus } from '@/src/config/constants'
+import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import React from 'react'
+import { CoverAvatar } from '@/common/CoverAvatar'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { isValidProduct } from '@/src/helpers/cover'
 
 export const PolicyCard = ({ policyInfo }) => {
-  const { cxToken } = policyInfo;
+  const { cxToken } = policyInfo
 
   const coverInfo = useCoverOrProductData({
     coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey,
-  });
+    productKey: policyInfo.productKey
+  })
 
   const { info: coverStats } = useFetchCoverStats({
     coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey,
-  });
+    productKey: policyInfo.productKey
+  })
 
-  const { productStatus } = coverStats;
+  const { productStatus } = coverStats
 
-  const validityStartsAt = cxToken.creationDate || "0";
-  const validityEndsAt = cxToken.expiryDate || "0";
+  const validityStartsAt = cxToken.creationDate || '0'
+  const validityEndsAt = cxToken.expiryDate || '0'
 
   const {
-    data: { report },
+    data: { report }
   } = useValidReport({
     start: validityStartsAt,
     end: validityEndsAt,
     coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey,
-  });
+    productKey: policyInfo.productKey
+  })
 
-  const { balance } = useERC20Balance(cxToken.id);
+  const { balance } = useERC20Balance(cxToken.id)
 
   if (!coverInfo) {
-    return <CardSkeleton numberOfCards={1} />;
+    return <CardSkeleton numberOfCards={1} />
   }
 
-  const { infoObj } = coverInfo;
-  const { coverName, productName } = infoObj;
+  const { infoObj } = coverInfo
+  const { coverName, productName } = infoObj
 
-  const isDiversified = isValidProduct(policyInfo.productKey);
-  const policyCoverName = isDiversified ? productName : coverName;
+  const isDiversified = isValidProduct(policyInfo.productKey)
+  const policyCoverName = isDiversified ? productName : coverName
 
-  const now = DateLib.unix();
-  const isPolicyExpired = isGreater(now, validityEndsAt);
+  const now = DateLib.unix()
+  const isPolicyExpired = isGreater(now, validityEndsAt)
 
-  let status = null;
-  let showStatus = true;
+  let status = null
+  let showStatus = true
 
   // If policy expired, show the last reporting status between `validityStartsAt` and `validityEndsAt`
   // else when policy is currently valid, show the current status of the cover
   // (no need to display anything if the status is normal)
   if (isPolicyExpired) {
-    status = ReportStatus[report?.status];
+    status = ReportStatus[report?.status]
   } else {
-    status = productStatus;
+    status = productStatus
 
-    const isClaimable = report ? report.status == "Claimable" : false;
-    const isClaimStarted = report && isGreater(now, report.claimBeginsFrom);
-    const isClaimExpired = report && isGreater(now, report.claimExpiresAt);
+    const isClaimable = report ? report.status == 'Claimable' : false
+    const isClaimStarted = report && isGreater(now, report.claimBeginsFrom)
+    const isClaimExpired = report && isGreater(now, report.claimExpiresAt)
 
     // If status is "Claimable" then show status only during claim period
-    showStatus = isClaimable ? isClaimStarted && !isClaimExpired : true;
+    showStatus = isClaimable ? isClaimStarted && !isClaimExpired : true
   }
 
-  const _status = identifyStatus(status);
+  const _status = identifyStatus(status)
 
   return (
     <div
-      className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-      data-testid="policy-card"
+      className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      data-testid='policy-card'
     >
-      <OutlinedCard className="p-6 bg-white" type="normal">
+      <OutlinedCard className='p-6 bg-white' type='normal'>
         <div>
-          <div className="flex justify-between">
+          <div className='flex justify-between'>
             <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
             <div>
               <InfoTooltip
@@ -99,17 +99,17 @@ export const PolicyCard = ({ policyInfo }) => {
                   </div>
                 }
               >
-                <div data-testid="policy-card-status">
+                <div data-testid='policy-card-status'>
                   {showStatus && _status !== E_CARD_STATUS.NORMAL && (
-                    <Badge status={_status} className="rounded" />
+                    <Badge status={_status} className='rounded' />
                   )}
                 </div>
               </InfoTooltip>
             </div>
           </div>
           <h4
-            className="mt-4 font-semibold uppercase text-h4 font-sora"
-            data-testid="policy-card-title"
+            className='mt-4 font-semibold uppercase text-h4 font-sora'
+            data-testid='policy-card-title'
           >
             {policyCoverName}
           </h4>
@@ -127,5 +127,5 @@ export const PolicyCard = ({ policyInfo }) => {
         />
       </OutlinedCard>
     </div>
-  );
-};
+  )
+}

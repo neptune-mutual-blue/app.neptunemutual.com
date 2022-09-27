@@ -1,26 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export const useRetryUntilPassed = (callback, interval = 1000) => {
   // Reduce unnecessary re-renders by setting the initial state correctly
-  const [passed, setPassed] = useState(() => callback());
+  const [passed, setPassed] = useState(() => callback())
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
     const intervalId = setInterval(() => {
-      if (ignore) return;
+      if (ignore) return
 
       if (callback() === true) {
-        setPassed(true);
-        clearInterval(intervalId);
+        setPassed(true)
+        clearInterval(intervalId)
       }
-    }, interval);
+    }, interval)
 
     return () => {
-      ignore = true;
-      clearInterval(intervalId);
-    };
-  }, [callback, interval]);
+      ignore = true
+      clearInterval(intervalId)
+    }
+  }, [callback, interval])
 
-  return passed;
-};
+  return passed
+}

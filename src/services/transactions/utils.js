@@ -5,11 +5,11 @@
  * @returns {any}
  *
  */
-export const safeParseString = (stringedValue, defaultValue = "") => {
+export const safeParseString = (stringedValue, defaultValue = '') => {
   if (stringedValue) {
     try {
-      return JSON.parse(stringedValue);
+      return JSON.parse(stringedValue)
     } catch (e) {}
   }
-  return defaultValue;
-};
+  return defaultValue
+}

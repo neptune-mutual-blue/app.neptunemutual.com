@@ -1,4 +1,4 @@
-import { classNames } from "@/utils/classnames";
+import { classNames } from '@/utils/classnames'
 
 export const BondStat = ({
   title,
@@ -6,16 +6,16 @@ export const BondStat = ({
   value,
   right,
   valueClasses,
-  titleClasses,
+  titleClasses
 }) => {
   return (
-    <div className="flex flex-col w-1/2">
+    <div className='flex flex-col w-1/2'>
       {value && (
         <>
           <h6
             className={classNames(
-              "uppercase font-semibold text-sm",
-              right && "text-right",
+              'uppercase font-semibold text-sm',
+              right && 'text-right',
               titleClasses
             )}
           >
@@ -24,8 +24,8 @@ export const BondStat = ({
           <p
             title={tooltip}
             className={classNames(
-              "text-lg font-normal font-numbers",
-              right && "text-right",
+              'text-lg font-normal font-numbers',
+              right && 'text-right',
               valueClasses
             )}
           >
@@ -34,5 +34,5 @@ export const BondStat = ({
         </>
       )}
     </div>
-  );
-};
+  )
+}

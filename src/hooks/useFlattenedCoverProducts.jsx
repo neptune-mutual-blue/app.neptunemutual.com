@@ -1,6 +1,6 @@
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { useEffect, useState } from "react";
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useEffect, useState } from 'react'
 
 const getQuery = () => {
   return `
@@ -11,32 +11,32 @@ const getQuery = () => {
       productKey
     }
   }
-`;
-};
+`
+}
 
 export const useFlattenedCoverProducts = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+  const { networkId } = useNetwork()
   const fetchFlattenedCoverProducts = useSubgraphFetch(
-    "useFlattenedCoverProducts"
-  );
+    'useFlattenedCoverProducts'
+  )
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     fetchFlattenedCoverProducts(networkId, getQuery())
       .then((data) => {
-        if (!data) return;
-        setData(data.coverProducts);
-        setLoading(false);
+        if (!data) return
+        setData(data.coverProducts)
+        setLoading(false)
       })
       .catch((error) => {
-        console.error(error);
-      });
-  }, [fetchFlattenedCoverProducts, networkId]);
+        console.error(error)
+      })
+  }, [fetchFlattenedCoverProducts, networkId])
 
   return {
     loading,
-    data,
-  };
-};
+    data
+  }
+}

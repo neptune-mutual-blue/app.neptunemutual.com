@@ -1,96 +1,95 @@
-import { RegularButton } from "@/common/Button/RegularButton";
-import { DisabledInput } from "@/common/Input/DisabledInput";
-import { ModalCloseButton } from "@/common/Modal/ModalCloseButton";
-import { ModalRegular } from "@/common/Modal/ModalRegular";
-import { CountDownTimer } from "@/src/modules/reporting/resolved/CountdownTimer";
-import { classNames } from "@/lib/toast/utils";
-import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
-import { useUnstakeReportingStake } from "@/src/hooks/useUnstakeReportingStake";
-import { convertFromUnits, isGreater } from "@/utils/bn";
-import * as Dialog from "@radix-ui/react-dialog";
-import DateLib from "@/lib/date/DateLib";
-import { useState } from "react";
-import { ModalWrapper } from "@/common/Modal/ModalWrapper";
-import { t, Trans } from "@lingui/macro";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
+import { RegularButton } from '@/common/Button/RegularButton'
+import { DisabledInput } from '@/common/Input/DisabledInput'
+import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { CountDownTimer } from '@/src/modules/reporting/resolved/CountdownTimer'
+import { classNames } from '@/lib/toast/utils'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
+import { convertFromUnits, isGreater } from '@/utils/bn'
+import * as Dialog from '@radix-ui/react-dialog'
+import DateLib from '@/lib/date/DateLib'
+import { useState } from 'react'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { t, Trans } from '@lingui/macro'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const isDiversified = isValidProduct(incidentReport.productKey);
+  const [isOpen, setIsOpen] = useState(false)
+  const isDiversified = isValidProduct(incidentReport.productKey)
 
   const coverInfo = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
-    productKey: incidentReport.productKey,
-  });
+    productKey: incidentReport.productKey
+  })
 
   const logoSrc = getCoverImgSrc({
-    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey,
-  });
+    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey
+  })
 
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
-    incidentDate: incidentReport.incidentDate,
-  });
+    incidentDate: incidentReport.incidentDate
+  })
 
   const isClaimExpired = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) return true;
+    if (!incidentReport.decision) return true
 
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.claimExpiresAt);
-  });
+    const _now = DateLib.unix()
+    return isGreater(_now, incidentReport.claimExpiresAt)
+  })
 
   const isClaimStarted = useRetryUntilPassed(() => {
     // If false reporting, we don't care about the claim period
-    if (!incidentReport.decision) return true;
+    if (!incidentReport.decision) return true
 
-    const _now = DateLib.unix();
-    return isGreater(_now, incidentReport.claimBeginsFrom);
-  });
+    const _now = DateLib.unix()
+    return isGreater(_now, incidentReport.claimBeginsFrom)
+  })
 
   if (!coverInfo) {
-    return <Trans>loading...</Trans>;
+    return <Trans>loading...</Trans>
   }
 
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.projectName;
+    : coverInfo?.infoObj.projectName
 
-  const now = DateLib.unix();
+  const now = DateLib.unix()
 
-  const isIncidentOccurred = incidentReport.decision;
-  const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now);
+  const isIncidentOccurred = incidentReport.decision
+  const notClaimableYet = isGreater(incidentReport.claimBeginsFrom, now)
   const isClaimableNow =
-    isIncidentOccurred && !isClaimExpired && isClaimStarted;
+    isIncidentOccurred && !isClaimExpired && isClaimStarted
 
-  function onClose() {
-    setIsOpen(false);
+  function onClose () {
+    setIsOpen(false)
   }
 
   const handleUnstake = async () => {
     // For incident occurred, during claim period
     if (isIncidentOccurred && isClaimableNow) {
-      await unstakeWithClaim();
-      return;
+      await unstakeWithClaim()
+      return
     }
 
     // For false reporting, Before finalization
     if (!isIncidentOccurred && !incidentReport.finalized) {
-      await unstakeWithClaim();
-      return;
+      await unstakeWithClaim()
+      return
     }
 
-    await unstake();
-    return;
-  };
+    await unstake()
+  }
 
   return (
-    <div className="flex flex-col items-center pt-4">
-      <span className={classNames("font-semibold", !isClaimableNow && "mb-4")}>
-        <Trans>Result:</Trans>{" "}
+    <div className='flex flex-col items-center pt-4'>
+      <span className={classNames('font-semibold', !isClaimableNow && 'mb-4')}>
+        <Trans>Result:</Trans>{' '}
         {incidentReport.decision ? t`Incident Occurred` : t`False Reporting`} (
         {incidentReport.emergencyResolved && t`Emergency Resolved`})
       </span>
@@ -110,7 +109,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
       )}
 
       <RegularButton
-        className="w-full px-10 py-4 mb-16 font-semibold md:w-80"
+        className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
         onClick={() => setIsOpen(true)}
       >
         <Trans>UNSTAKE</Trans>
@@ -126,8 +125,8 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
         unstaking={unstaking}
       />
     </div>
-  );
-};
+  )
+}
 
 const UnstakeModal = ({
   isOpen,
@@ -136,26 +135,26 @@ const UnstakeModal = ({
   reward,
   logoSrc,
   logoAlt,
-  unstaking,
+  unstaking
 }) => {
-  const { NPMTokenSymbol } = useAppConstants();
+  const { NPMTokenSymbol } = useAppConstants()
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <ModalWrapper className="min-w-300 sm:min-w-500 lg:min-w-600 bg-f1f3f6">
-        <Dialog.Title className="flex items-center">
+      <ModalWrapper className='min-w-300 sm:min-w-500 lg:min-w-600 bg-f1f3f6'>
+        <Dialog.Title className='flex items-center'>
           <img
-            className="w-10 h-10 mr-3 border rounded-full"
+            className='w-10 h-10 mr-3 border rounded-full'
             alt={logoAlt}
             src={logoSrc}
           />
-          <span className="font-bold font-sora text-h2">
+          <span className='font-bold font-sora text-h2'>
             <Trans>Unstake</Trans>
           </span>
         </Dialog.Title>
 
-        <div className="my-8">
-          <div className="mb-5 font-semibold">
+        <div className='my-8'>
+          <div className='mb-5 font-semibold'>
             <Trans>YOU WILL RECEIVE</Trans>
           </div>
           <DisabledInput value={reward} unit={NPMTokenSymbol} />
@@ -163,7 +162,7 @@ const UnstakeModal = ({
 
         <RegularButton
           disabled={unstaking}
-          className="w-full px-10 py-4 font-semibold uppercase"
+          className='w-full px-10 py-4 font-semibold uppercase'
           onClick={unstake}
         >
           {unstaking ? t`Unstaking...` : t`Unstake`}
@@ -172,8 +171,8 @@ const UnstakeModal = ({
         <ModalCloseButton
           disabled={unstaking}
           onClick={onClose}
-        ></ModalCloseButton>
+        />
       </ModalWrapper>
     </ModalRegular>
-  );
-};
+  )
+}

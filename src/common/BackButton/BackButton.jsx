@@ -1,12 +1,12 @@
-import { OutlinedButton } from "@/common/Button/OutlinedButton";
-import LeftArrow from "@/icons/LeftArrow";
-import { classNames } from "@/utils/classnames";
-import { Trans } from "@lingui/macro";
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import LeftArrow from '@/icons/LeftArrow'
+import { classNames } from '@/utils/classnames'
+import { Trans } from '@lingui/macro'
 
-export const BackButton = ({ onClick, className = "" }) => (
+export const BackButton = ({ onClick, className = '' }) => (
   <OutlinedButton
     className={classNames(
-      "flex group items-center rounded-big border border-solid border-4E7DD9",
+      'flex group items-center rounded-big border border-solid border-4E7DD9',
       className
     )}
     onClick={onClick}
@@ -14,4 +14,4 @@ export const BackButton = ({ onClick, className = "" }) => (
     <LeftArrow />
     <Trans>Back</Trans>
   </OutlinedButton>
-);
+)

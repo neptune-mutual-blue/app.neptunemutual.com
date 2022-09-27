@@ -1,56 +1,56 @@
-import { useWeb3React } from "@web3-react/core";
-import { registry } from "@neptunemutual/sdk";
+import { useWeb3React } from '@web3-react/core'
+import { registry } from '@neptunemutual/sdk'
 
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { convertToUnits } from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useNetwork } from "@/src/context/Network";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useEffect, useState } from "react";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { t } from "@lingui/macro";
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { convertToUnits } from '@/utils/bn'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useEffect, useState } from 'react'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
-  const [approving, setApproving] = useState(false);
-  const [withdrawing, setWithdrawing] = useState(false);
-  const { library, account } = useWeb3React();
-  const { networkId } = useNetwork();
+  const [approving, setApproving] = useState(false)
+  const [withdrawing, setWithdrawing] = useState(false)
+  const { library, account } = useWeb3React()
+  const { networkId } = useNetwork()
   const {
     info: { vault: vaultTokenAddress, vaultTokenSymbol },
     refetchInfo,
-    updateStakingTokenBalance,
-  } = useLiquidityFormsContext();
+    updateStakingTokenBalance
+  } = useLiquidityFormsContext()
   const {
     allowance,
     approve,
     loading: loadingAllowance,
-    refetch: updateAllowance,
-  } = useERC20Allowance(vaultTokenAddress);
+    refetch: updateAllowance
+  } = useERC20Allowance(vaultTokenAddress)
 
-  const txToast = useTxToast();
-  const { notifyError } = useErrorNotifier();
-  const { writeContract } = useTxPoster();
+  const txToast = useTxToast()
+  const { notifyError } = useErrorNotifier()
+  const { writeContract } = useTxPoster()
 
   useEffect(() => {
-    updateAllowance(vaultTokenAddress);
-  }, [vaultTokenAddress, updateAllowance]);
+    updateAllowance(vaultTokenAddress)
+  }, [vaultTokenAddress, updateAllowance])
 
   const handleApprove = async () => {
-    setApproving(true);
+    setApproving(true)
     const cleanup = () => {
-      setApproving(false);
-    };
+      setApproving(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`approve ${vaultTokenSymbol} tokens`);
-    };
+      notifyError(err, t`approve ${vaultTokenSymbol} tokens`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -58,9 +58,9 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         methodName: METHODS.LIQUIDITY_TOKEN_APPROVE,
         status: STATUS.PENDING,
         data: {
-          tokenSymbol: vaultTokenSymbol,
-        },
-      });
+          tokenSymbol: vaultTokenSymbol
+        }
+      })
 
       try {
         await txToast.push(tx, {
@@ -68,79 +68,79 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.PENDING,
             {
-              tokenSymbol: vaultTokenSymbol,
+              tokenSymbol: vaultTokenSymbol
             }
           ).title,
           success: getActionMessage(
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.SUCCESS,
             {
-              tokenSymbol: vaultTokenSymbol,
+              tokenSymbol: vaultTokenSymbol
             }
           ).title,
           failure: getActionMessage(
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.FAILED,
             {
-              tokenSymbol: vaultTokenSymbol,
+              tokenSymbol: vaultTokenSymbol
             }
-          ).title,
-        });
-        cleanup();
+          ).title
+        })
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
-    };
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     approve(vaultTokenAddress, convertToUnits(value).toString(), {
       onTransactionResult,
       onRetryCancel,
-      onError,
-    });
-  };
+      onError
+    })
+  }
 
   const handleWithdraw = async (onTxSuccess, exit) => {
-    if (!networkId || !account) return;
+    if (!networkId || !account) return
 
-    setWithdrawing(true);
+    setWithdrawing(true)
     const cleanup = () => {
-      setWithdrawing(false);
-      updateAllowance(vaultTokenAddress);
+      setWithdrawing(false)
+      updateAllowance(vaultTokenAddress)
 
       // Both NPM and DAI should be updated after withdrawal is successful
       // Will be reflected in provide liquidity form
-      refetchInfo();
-      updateStakingTokenBalance();
-    };
+      refetchInfo()
+      updateStakingTokenBalance()
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`remove liquidity`);
-    };
+      notifyError(err, t`remove liquidity`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const instance = await registry.Vault.getInstance(
         networkId,
         coverKey,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.LIQUIDITY_REMOVE,
-          status: STATUS.PENDING,
-        });
+          status: STATUS.PENDING
+        })
 
         await txToast.push(
           tx,
@@ -150,57 +150,57 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
             success: getActionMessage(METHODS.LIQUIDITY_REMOVE, STATUS.SUCCESS)
               .title,
             failure: getActionMessage(METHODS.LIQUIDITY_REMOVE, STATUS.FAILED)
-              .title,
+              .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.LIQUIDITY_REMOVE,
-                status: STATUS.SUCCESS,
-              });
-              onTxSuccess();
+                status: STATUS.SUCCESS
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.LIQUIDITY_REMOVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
-      };
+        )
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
       const args = [
         coverKey,
         convertToUnits(value).toString(),
         convertToUnits(npmValue).toString(),
-        exit,
-      ];
+        exit
+      ]
       writeContract({
         instance,
-        methodName: "removeLiquidity",
+        methodName: 'removeLiquidity',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   return {
     allowance,
@@ -210,6 +210,6 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
     withdrawing,
 
     handleApprove,
-    handleWithdraw,
-  };
-};
+    handleWithdraw
+  }
+}

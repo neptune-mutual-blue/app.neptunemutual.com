@@ -1,32 +1,32 @@
-import { useEffect, useState } from "react";
-import { registry } from "@neptunemutual/sdk";
-import { useWeb3React } from "@web3-react/core";
+import { useEffect, useState } from 'react'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
-import { convertToUnits, convertFromUnits, isValidNumber } from "@/utils/bn";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useNetwork } from "@/src/context/Network";
-import { useDebounce } from "@/src/hooks/useDebounce";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { t } from "@lingui/macro";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useTokenDecimals } from "@/src/hooks/useTokenDecimals";
-import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
+import { convertToUnits, convertFromUnits, isValidNumber } from '@/utils/bn'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useNetwork } from '@/src/context/Network'
+import { useDebounce } from '@/src/hooks/useDebounce'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { t } from '@lingui/macro'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 
 export const useCalculatePods = ({ coverKey, value, podAddress }) => {
-  const { library, account } = useWeb3React();
-  const { networkId } = useNetwork();
+  const { library, account } = useWeb3React()
+  const { networkId } = useNetwork()
 
-  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
-  const [receiveAmount, setReceiveAmount] = useState("0");
-  const [loading, setLoading] = useState(false);
-  const { contractRead } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
-  const { liquidityTokenDecimals } = useAppConstants();
-  const tokenDecimals = useTokenDecimals(podAddress);
+  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
+  const [receiveAmount, setReceiveAmount] = useState('0')
+  const [loading, setLoading] = useState(false)
+  const { contractRead } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
+  const { liquidityTokenDecimals } = useAppConstants()
+  const tokenDecimals = useTokenDecimals(podAddress)
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
     if (
       !networkId ||
@@ -34,60 +34,60 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
       !debouncedValue ||
       !isValidNumber(debouncedValue)
     ) {
-      if (receiveAmount !== "0") setReceiveAmount("0");
-      return;
+      if (receiveAmount !== '0') setReceiveAmount('0')
+      return
     }
 
     const handleError = (err) => {
-      notifyError(err, t`calculate pods`);
-    };
+      notifyError(err, t`calculate pods`)
+    }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-    async function exec() {
-      setLoading(true);
+    async function exec () {
+      setLoading(true)
 
       const cleanup = () => {
-        setLoading(false);
-      };
+        setLoading(false)
+      }
 
       try {
         const instance = await registry.Vault.getInstance(
           networkId,
           coverKey,
           signerOrProvider
-        );
+        )
 
         const onError = (err) => {
-          handleError(err);
-          cleanup();
-        };
+          handleError(err)
+          cleanup()
+        }
 
         const args = [
-          convertToUnits(debouncedValue, liquidityTokenDecimals).toString(),
-        ];
+          convertToUnits(debouncedValue, liquidityTokenDecimals).toString()
+        ]
         const podAmount = await contractRead({
           instance,
-          methodName: "calculatePods",
+          methodName: 'calculatePods',
 
           onError,
-          args,
-        });
+          args
+        })
 
-        if (ignore) return;
-        setReceiveAmount(convertFromUnits(podAmount, tokenDecimals).toString());
-        cleanup();
+        if (ignore) return
+        setReceiveAmount(convertFromUnits(podAmount, tokenDecimals).toString())
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
     }
 
-    exec();
+    exec()
 
     return () => {
-      ignore = true;
-    };
+      ignore = true
+    }
   }, [
     account,
     coverKey,
@@ -98,11 +98,11 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     notifyError,
     tokenDecimals,
     receiveAmount,
-    contractRead,
-  ]);
+    contractRead
+  ])
 
   return {
     receiveAmount,
-    loading,
-  };
-};
+    loading
+  }
+}

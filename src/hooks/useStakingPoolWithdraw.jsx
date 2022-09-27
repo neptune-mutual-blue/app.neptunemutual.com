@@ -1,58 +1,58 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { useWeb3React } from "@web3-react/core";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
-import { convertToUnits } from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useNetwork } from "@/src/context/Network";
-import { t } from "@lingui/macro";
+import { useWeb3React } from '@web3-react/core'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { registry } from '@neptunemutual/sdk'
+import { convertToUnits } from '@/utils/bn'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useNetwork } from '@/src/context/Network'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
 
 export const useStakingPoolWithdraw = ({
   value,
   poolKey,
   tokenSymbol,
-  refetchInfo,
+  refetchInfo
 }) => {
-  const [withdrawing, setWithdrawing] = useState(false);
+  const [withdrawing, setWithdrawing] = useState(false)
 
-  const { networkId } = useNetwork();
-  const { account, library } = useWeb3React();
+  const { networkId } = useNetwork()
+  const { account, library } = useWeb3React()
 
-  const txToast = useTxToast();
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
+  const txToast = useTxToast()
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
 
   const handleWithdraw = async (onTxSuccess) => {
     if (!account || !networkId) {
-      return;
+      return
     }
 
-    setWithdrawing(true);
+    setWithdrawing(true)
 
     const cleanup = () => {
-      refetchInfo();
-      setWithdrawing(false);
-    };
+      refetchInfo()
+      setWithdrawing(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`unstake ${tokenSymbol}`);
-    };
+      notifyError(err, t`unstake ${tokenSymbol}`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -61,9 +61,9 @@ export const useStakingPoolWithdraw = ({
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol,
-          },
-        });
+            tokenSymbol
+          }
+        })
 
         await txToast.push(
           tx,
@@ -73,7 +73,7 @@ export const useStakingPoolWithdraw = ({
               STATUS.PENDING,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
             ).title,
             success: getActionMessage(
@@ -81,7 +81,7 @@ export const useStakingPoolWithdraw = ({
               STATUS.SUCCESS,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
             ).title,
             failure: getActionMessage(
@@ -89,101 +89,101 @@ export const useStakingPoolWithdraw = ({
               STATUS.FAILED,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
-            ).title,
+            ).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_DEPOSIT,
-                status: STATUS.SUCCESS,
-              });
-              onTxSuccess();
+                status: STATUS.SUCCESS
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_DEPOSIT,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
+        )
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const args = [poolKey, convertToUnits(value).toString()];
+      const args = [poolKey, convertToUnits(value).toString()]
       writeContract({
         instance,
-        methodName: "withdraw",
+        methodName: 'withdraw',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   return {
     withdrawing,
-    handleWithdraw,
-  };
-};
+    handleWithdraw
+  }
+}
 
 export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
-  const [withdrawingRewards, setWithdrawingRewards] = useState(false);
+  const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
-  const { networkId } = useNetwork();
-  const { account, library } = useWeb3React();
+  const { networkId } = useNetwork()
+  const { account, library } = useWeb3React()
 
-  const txToast = useTxToast();
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
+  const txToast = useTxToast()
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
 
   const handleWithdrawRewards = async (onTxSuccess) => {
     if (!account || !networkId) {
-      return;
+      return
     }
 
-    setWithdrawingRewards(true);
+    setWithdrawingRewards(true)
 
     const cleanup = () => {
-      refetchInfo();
-      setWithdrawingRewards(false);
-    };
+      refetchInfo()
+      setWithdrawingRewards(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`withdraw rewards`);
-    };
+      notifyError(err, t`withdraw rewards`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.UNSTAKING_WITHDRAW,
-          status: STATUS.PENDING,
-        });
+          status: STATUS.PENDING
+        })
 
         await txToast.push(
           tx,
@@ -197,56 +197,56 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
               STATUS.SUCCESS
             ).title,
             failure: getActionMessage(METHODS.UNSTAKING_WITHDRAW, STATUS.FAILED)
-              .title,
+              .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_WITHDRAW,
-                status: STATUS.SUCCESS,
-              });
-              onTxSuccess();
+                status: STATUS.SUCCESS
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_WITHDRAW,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
+        )
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const args = [poolKey];
+      const args = [poolKey]
       writeContract({
         instance,
-        methodName: "withdrawRewards",
+        methodName: 'withdrawRewards',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   return {
     withdrawingRewards,
-    handleWithdrawRewards,
-  };
-};
+    handleWithdrawRewards
+  }
+}

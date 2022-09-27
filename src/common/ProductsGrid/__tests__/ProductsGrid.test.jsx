@@ -3,10 +3,10 @@ import {
   render,
   withProviders,
   waitFor
-} from '@/utils/unit-tests/test-utils';
-import { i18n } from '@lingui/core';
-import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid';
-import { mockFn } from '@/utils/unit-tests/test-mockup-fn';
+} from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
+import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 describe('ProductsGrid', () => {
   beforeEach(async () => {

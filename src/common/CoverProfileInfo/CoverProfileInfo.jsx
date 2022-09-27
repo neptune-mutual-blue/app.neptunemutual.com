@@ -1,12 +1,12 @@
-import { Badge, identifyStatus } from "@/common/CardStatusBadge";
-import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import { SocialIconLinks } from "@/common/CoverProfileInfo/SocialIconLinks";
-import { Routes } from "@/src/config/routes";
-import { isGreater } from "@/utils/bn";
-import Link from "next/link";
-import { ProjectImage } from "./ProjectImage";
-import { ProjectName } from "./ProjectName";
-import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
+import { Badge, identifyStatus } from '@/common/CardStatusBadge'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { SocialIconLinks } from '@/common/CoverProfileInfo/SocialIconLinks'
+import { Routes } from '@/src/config/routes'
+import { isGreater } from '@/utils/bn'
+import Link from 'next/link'
+import { ProjectImage } from './ProjectImage'
+import { ProjectName } from './ProjectName'
+import { ProjectWebsiteLink } from './ProjectWebsiteLink'
 
 /**
  *
@@ -17,25 +17,25 @@ import { ProjectWebsiteLink } from "./ProjectWebsiteLink";
  * @param {string} [param.productKey]
  * @returns
  */
-export function Card({ status, incidentDate = "0", coverKey, productKey }) {
+export function Card ({ status, incidentDate = '0', coverKey, productKey }) {
   const badge = (
     <Badge
       status={status}
-      className="ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white"
+      className='ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white'
       icon
-      data-testid="projectstatusindicator-container"
+      data-testid='projectstatusindicator-container'
     />
-  );
+  )
 
-  if (isGreater(incidentDate, "0")) {
+  if (isGreater(incidentDate, '0')) {
     return (
       <Link href={Routes.ViewReport(coverKey, productKey, incidentDate)}>
-        <a data-testid="badge-link">{badge}</a>
+        <a data-testid='badge-link'>{badge}</a>
       </Link>
-    );
+    )
   }
 
-  return badge;
+  return badge
 }
 
 export const CoverProfileInfo = ({
@@ -43,18 +43,18 @@ export const CoverProfileInfo = ({
   projectName,
   links,
   coverKey,
-  productKey,
+  productKey
 }) => {
-  const { productStatus, activeIncidentDate } = useCoverStatsContext();
+  const { productStatus, activeIncidentDate } = useCoverStatsContext()
 
   return (
-    <div className="flex" data-testid="dedicated-coverprofileinfo-container">
+    <div className='flex' data-testid='dedicated-coverprofileinfo-container'>
       <div>
         <ProjectImage imgSrc={imgSrc} name={projectName} />
       </div>
-      <div className="p-3"></div>
+      <div className='p-3' />
       <div>
-        <div className="flex items-center">
+        <div className='flex items-center'>
           <ProjectName name={projectName} />
           <Card
             coverKey={coverKey}
@@ -67,5 +67,5 @@ export const CoverProfileInfo = ({
         <SocialIconLinks links={links} />
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,11 +1,11 @@
-import * as React from "react";
+import * as React from 'react'
 
 const LargeGridIcon = ({ color, props }) => (
   <svg
     width={16}
     height={16}
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
     {...props}
   >
     <rect
@@ -17,8 +17,8 @@ const LargeGridIcon = ({ color, props }) => (
       stroke={color}
       strokeWidth={1.5}
     />
-    <path d="M8 2v12M2 8h12" stroke={color} strokeWidth={1.5} />
+    <path d='M8 2v12M2 8h12' stroke={color} strokeWidth={1.5} />
   </svg>
-);
+)
 
-export default LargeGridIcon;
+export default LargeGridIcon

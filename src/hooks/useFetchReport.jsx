@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import { getNetworkId } from "@/src/config/environment";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { useState, useEffect, useCallback } from 'react'
+import { getNetworkId } from '@/src/config/environment'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (reportId) => {
   return `
@@ -51,8 +51,8 @@ const getQuery = (reportId) => {
       disputeIpfsData
     }
   }
-  `;
-};
+  `
+}
 
 /**
  *
@@ -63,34 +63,34 @@ const getQuery = (reportId) => {
  * @returns
  */
 export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const fetchReport = useSubgraphFetch("useFetchReport");
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const fetchReport = useSubgraphFetch('useFetchReport')
 
-  const reportId = `${coverKey}-${productKey}-${incidentDate}`;
+  const reportId = `${coverKey}-${productKey}-${incidentDate}`
 
   const getData = useCallback(() => {
-    setLoading(true);
+    setLoading(true)
 
     return fetchReport(getNetworkId(), getQuery(reportId))
       .then((data) => {
         if (!data) {
-          return;
+          return
         }
 
-        setData(data.incidentReport);
+        setData(data.incidentReport)
       })
       .catch((e) => console.error(e))
-      .finally(() => setLoading(false));
-  }, [fetchReport, reportId]);
+      .finally(() => setLoading(false))
+  }, [fetchReport, reportId])
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    getData()
+  }, [getData])
 
   return {
     data: { incidentReport: data },
     loading,
-    refetch: getData,
-  };
-};
+    refetch: getData
+  }
+}

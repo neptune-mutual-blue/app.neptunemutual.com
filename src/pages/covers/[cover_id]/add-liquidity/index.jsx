@@ -1,23 +1,23 @@
-import Head from "next/head";
+import Head from 'next/head'
 
-import { CoverAddLiquidityDetailsPage } from "@/src/modules/cover/add-liquidity";
-import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
-import { LiquidityFormsProvider } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { useRouter } from "next/router";
-import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { CoverAddLiquidityDetailsPage } from '@/src/modules/cover/add-liquidity'
+import { ComingSoon } from '@/common/ComingSoon'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { LiquidityFormsProvider } from '@/common/LiquidityForms/LiquidityFormsContext'
+import { useRouter } from 'next/router'
+import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-const disabled = !isFeatureEnabled("liquidity");
+const disabled = !isFeatureEnabled('liquidity')
 
-export default function CoverAddLiquidityDetails() {
-  const router = useRouter();
-  const { cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String("");
+export default function CoverAddLiquidityDetails () {
+  const router = useRouter()
+  const { cover_id } = router.query
+  const coverKey = safeFormatBytes32String(cover_id)
+  const productKey = safeFormatBytes32String('')
 
   if (disabled) {
-    return <ComingSoon />;
+    return <ComingSoon />
   }
 
   return (
@@ -25,8 +25,8 @@ export default function CoverAddLiquidityDetails() {
       <Head>
         <title>Neptune Mutual Covers</title>
         <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          name='description'
+          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
 
@@ -36,5 +36,5 @@ export default function CoverAddLiquidityDetails() {
         </LiquidityFormsProvider>
       </CoverStatsProvider>
     </>
-  );
+  )
 }

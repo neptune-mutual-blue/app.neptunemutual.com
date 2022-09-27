@@ -1,22 +1,22 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { CoverStatsProvider } from "@/common/Cover/CoverStatsContext";
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 
-import { CoverPurchaseDetailsPage } from "@/src/modules/cover/purchase";
-import { ComingSoon } from "@/common/ComingSoon";
-import { isFeatureEnabled } from "@/src/config/environment";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { CoverPurchaseDetailsPage } from '@/src/modules/cover/purchase'
+import { ComingSoon } from '@/common/ComingSoon'
+import { isFeatureEnabled } from '@/src/config/environment'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-const disabled = !isFeatureEnabled("policy");
+const disabled = !isFeatureEnabled('policy')
 
-export default function CoverPurchaseDetails() {
-  const router = useRouter();
-  const { cover_id } = router.query;
-  const coverKey = safeFormatBytes32String(cover_id);
-  const productKey = safeFormatBytes32String("");
+export default function CoverPurchaseDetails () {
+  const router = useRouter()
+  const { cover_id } = router.query
+  const coverKey = safeFormatBytes32String(cover_id)
+  const productKey = safeFormatBytes32String('')
 
   if (disabled) {
-    return <ComingSoon />;
+    return <ComingSoon />
   }
 
   return (
@@ -24,8 +24,8 @@ export default function CoverPurchaseDetails() {
       <Head>
         <title>Neptune Mutual Covers</title>
         <meta
-          name="description"
-          content="Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment."
+          name='description'
+          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
 
@@ -33,5 +33,5 @@ export default function CoverPurchaseDetails() {
         <CoverPurchaseDetailsPage />
       </CoverStatsProvider>
     </>
-  );
+  )
 }

@@ -1,32 +1,32 @@
-import FacebookIcon from "@/icons/FacebookIcon";
-import LinkedinIcon from "@/icons/LinkedinIcon";
-import TwitterIcon from "@/icons/TwitterIcon";
+import FacebookIcon from '@/icons/FacebookIcon'
+import LinkedinIcon from '@/icons/LinkedinIcon'
+import TwitterIcon from '@/icons/TwitterIcon'
 
 const IconLink = ({ href, iconText, icon }) => {
   return (
     <a
       href={href}
-      className="inline-block mr-4 hover:text-4e7dd9"
-      target="_blank"
-      rel="noreferrer nofollow"
-      data-testid="icon-link"
+      className='inline-block mr-4 hover:text-4e7dd9'
+      target='_blank'
+      rel='noreferrer nofollow'
+      data-testid='icon-link'
       title={`${iconText} link`}
     >
-      <span className="sr-only">{iconText}</span>
+      <span className='sr-only'>{iconText}</span>
       {icon}
     </a>
-  );
-};
+  )
+}
 
 export const SocialIconLinks = ({ links = {} }) => {
-  const { facebook, linkedin, twitter } = links;
+  const { facebook, linkedin, twitter } = links
 
   return (
-    <div className="mt-4 sm:mt-5" data-testid="socialiconlinks-container">
+    <div className='mt-4 sm:mt-5' data-testid='socialiconlinks-container'>
       {facebook && (
         <IconLink
           href={facebook}
-          iconText="Facebook"
+          iconText='Facebook'
           icon={<FacebookIcon width={24} />}
         />
       )}
@@ -34,7 +34,7 @@ export const SocialIconLinks = ({ links = {} }) => {
       {linkedin && (
         <IconLink
           href={linkedin}
-          iconText="LinkedIn"
+          iconText='LinkedIn'
           icon={<LinkedinIcon width={24} />}
         />
       )}
@@ -42,10 +42,10 @@ export const SocialIconLinks = ({ links = {} }) => {
       {twitter && (
         <IconLink
           href={twitter}
-          iconText="Twitter"
+          iconText='Twitter'
           icon={<TwitterIcon width={24} />}
         />
       )}
     </div>
-  );
-};
+  )
+}

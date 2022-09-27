@@ -1,52 +1,52 @@
-import { toBNSafe } from "@/utils/bn";
-import { toStringSafe } from "@/utils/string";
+import { toBNSafe } from '@/utils/bn'
+import { toStringSafe } from '@/utils/string'
 
 // Don't translate these
 export const SORT_TYPES = {
-  ALPHABETIC: "A-Z",
-  UTILIZATION_RATIO: "Utilization ratio",
-  LIQUIDITY: "Liquidity",
-  TVL: "TVL",
-  APR: "APR",
-  INCIDENT_DATE: "Incident date",
-  RESOLVED_DATE: "Resolved date",
-  ALL: "All",
-  DIVERSIFIED_POOL: "Diversified pool",
-  DEDICATED_POOL: "Dedicated pool",
-};
+  ALPHABETIC: 'A-Z',
+  UTILIZATION_RATIO: 'Utilization ratio',
+  LIQUIDITY: 'Liquidity',
+  TVL: 'TVL',
+  APR: 'APR',
+  INCIDENT_DATE: 'Incident date',
+  RESOLVED_DATE: 'Resolved date',
+  ALL: 'All',
+  DIVERSIFIED_POOL: 'Diversified pool',
+  DEDICATED_POOL: 'Dedicated pool'
+}
 
 export const SORT_DATA_TYPES = {
-  BIGNUMBER: "BIGNUMBER",
-  STRING: "STRING",
-};
+  BIGNUMBER: 'BIGNUMBER',
+  STRING: 'STRING'
+}
 
 const sortByString = (dataList, selector, asc = true) => {
   return dataList.sort((a, b) => {
-    const aKey = toStringSafe(selector(a));
-    const bKey = toStringSafe(selector(b));
+    const aKey = toStringSafe(selector(a))
+    const bKey = toStringSafe(selector(b))
 
-    const compare = new Intl.Collator("en").compare;
+    const compare = new Intl.Collator('en').compare
 
-    return asc ? compare(aKey, bKey) : compare(bKey, aKey);
-  });
-};
+    return asc ? compare(aKey, bKey) : compare(bKey, aKey)
+  })
+}
 
 const sortByBigNumber = (dataList, selector, asc = false) => {
   return dataList.sort((a, b) => {
-    const aKey = toBNSafe(selector(a));
-    const bKey = toBNSafe(selector(b));
+    const aKey = toBNSafe(selector(a))
+    const bKey = toBNSafe(selector(b))
 
     if (aKey.isGreaterThan(bKey)) {
-      return asc ? 1 : -1;
+      return asc ? 1 : -1
     }
 
     if (bKey.isGreaterThan(aKey)) {
-      return asc ? -1 : 1;
+      return asc ? -1 : 1
     }
 
-    return 0;
-  });
-};
+    return 0
+  })
+}
 
 /**
  *
@@ -58,12 +58,12 @@ const sortByBigNumber = (dataList, selector, asc = false) => {
  */
 export const sorter = ({ selector, list, datatype, ascending }) => {
   if (datatype === SORT_DATA_TYPES.STRING) {
-    return sortByString(list, selector, ascending);
+    return sortByString(list, selector, ascending)
   }
 
   if (datatype === SORT_DATA_TYPES.BIGNUMBER) {
-    return sortByBigNumber(list, selector, ascending);
+    return sortByBigNumber(list, selector, ascending)
   }
 
-  return list;
-};
+  return list
+}

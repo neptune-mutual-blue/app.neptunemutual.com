@@ -1,5 +1,5 @@
-import { DisabledInput } from "@/common/Input/DisabledInput";
-import { Label } from "@/common/Label/Label";
+import { DisabledInput } from '@/common/Input/DisabledInput'
+import { Label } from '@/common/Label/Label'
 
 export const ReceiveAmountInput = ({
   tokenSymbol,
@@ -8,10 +8,10 @@ export const ReceiveAmountInput = ({
   ...rest
 }) => (
   <>
-    <Label className="mb-4" htmlFor="receive-amount">
+    <Label className='mb-4' htmlFor='receive-amount'>
       {labelText}
     </Label>
 
     <DisabledInput value={inputValue} unit={tokenSymbol} {...rest} />
   </>
-);
+)

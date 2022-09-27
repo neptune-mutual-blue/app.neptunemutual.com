@@ -1,25 +1,25 @@
-const redirects = require("./redirects");
-const development = require("./headers.development");
-const production = require("./headers.production");
+const redirects = require('./redirects')
+const development = require('./headers.development')
+const production = require('./headers.production')
 
 const get = (config) => {
   return [
     {
-      source: "/:path*",
+      source: '/:path*',
       headers: config.map((x) => {
         return {
           key: x.key,
-          value: x.values.join("; "),
-        };
-      }),
-    },
-  ];
-};
+          value: x.values.join('; ')
+        }
+      })
+    }
+  ]
+}
 
 module.exports = {
   headers: {
     development: get(development),
-    production: get(production),
+    production: get(production)
   },
-  redirects,
-};
+  redirects
+}

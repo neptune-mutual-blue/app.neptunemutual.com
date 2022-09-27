@@ -1,16 +1,16 @@
-import { convertToUnits } from "@/utils/bn";
+import { convertToUnits } from '@/utils/bn'
 
-export const getTokenImgSrc = (tokenSymbol = "") => {
+export const getTokenImgSrc = (tokenSymbol = '') => {
   try {
     if (!tokenSymbol) {
-      throw Error("invalid token symbol");
+      throw Error('invalid token symbol')
     }
 
-    return `/images/tokens/${tokenSymbol.toLowerCase()}.svg`;
+    return `/images/tokens/${tokenSymbol.toLowerCase()}.svg`
   } catch (error) {
-    return `/images/covers/empty.svg`;
+    return '/images/covers/empty.svg'
   }
-};
+}
 
 export const getNpmPayload = (address) => {
   return [
@@ -18,11 +18,11 @@ export const getNpmPayload = (address) => {
       id: address,
       data: [
         {
-          type: "token",
+          type: 'token',
           address: address,
-          amount: convertToUnits(1).toString(),
-        },
-      ],
-    },
-  ];
-};
+          amount: convertToUnits(1).toString()
+        }
+      ]
+    }
+  ]
+}

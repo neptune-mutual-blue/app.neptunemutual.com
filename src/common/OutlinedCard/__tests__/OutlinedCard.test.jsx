@@ -1,46 +1,46 @@
-import { render, act } from "@/utils/unit-tests/test-utils";
-import { OutlinedCard } from "../OutlinedCard";
-import { i18n } from "@lingui/core";
+import { render, act } from '@/utils/unit-tests/test-utils'
+import { OutlinedCard } from '../OutlinedCard'
+import { i18n } from '@lingui/core'
 
-describe("OutlinedCard component", () => {
+describe('OutlinedCard component', () => {
   beforeAll(() => {
     act(() => {
-      i18n.activate("en");
-    });
-  });
+      i18n.activate('en')
+    })
+  })
 
-  test("should render OutlinedCard children component", () => {
+  test('should render OutlinedCard children component', () => {
     const { getByText } = render(
       <OutlinedCard>
         <div>Child Component</div>
       </OutlinedCard>
-    );
+    )
 
-    const childComponent = getByText("Child Component");
-    expect(childComponent).toBeInTheDocument();
-  });
+    const childComponent = getByText('Child Component')
+    expect(childComponent).toBeInTheDocument()
+  })
 
-  test("can add classNames as prop", () => {
+  test('can add classNames as prop', () => {
     const { getByTestId } = render(
-      <OutlinedCard className="outline-card-mock-classname">
+      <OutlinedCard className='outline-card-mock-classname'>
         <div>Child Component</div>
       </OutlinedCard>
-    );
+    )
 
-    const childComponent = getByTestId("card-outline");
-    expect(childComponent).toHaveClass("outline-card-mock-classname");
-  });
+    const childComponent = getByTestId('card-outline')
+    expect(childComponent).toHaveClass('outline-card-mock-classname')
+  })
 
-  test("can add type as prop", () => {
+  test('can add type as prop', () => {
     const { getByTestId } = render(
-      <OutlinedCard type="link">
+      <OutlinedCard type='link'>
         <div>Child Component</div>
       </OutlinedCard>
-    );
+    )
 
-    const childComponent = getByTestId("card-outline");
+    const childComponent = getByTestId('card-outline')
     expect(childComponent).toHaveClass(
-      "transition duration-150 ease-out hover:ease-in hover:shadow-card"
-    );
-  });
-});
+      'transition duration-150 ease-out hover:ease-in hover:shadow-card'
+    )
+  })
+})

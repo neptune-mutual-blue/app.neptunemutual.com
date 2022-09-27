@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import { useWeb3React } from "@web3-react/core";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
+import { useWeb3React } from '@web3-react/core'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { registry } from '@neptunemutual/sdk'
 import {
   convertFromUnits,
   convertToUnits,
@@ -10,24 +10,24 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
-  sort,
-} from "@/utils/bn";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useStakingPoolsAddress } from "@/src/hooks/contracts/useStakingPoolsAddress";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useNetwork } from "@/src/context/Network";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { t } from "@lingui/macro";
-import { useRouter } from "next/router";
-import { METHODS } from "@/src/services/transactions/const";
+  sort
+} from '@/utils/bn'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useStakingPoolsAddress } from '@/src/hooks/contracts/useStakingPoolsAddress'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useNetwork } from '@/src/context/Network'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import { useRouter } from 'next/router'
+import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { getActionMessage } from "@/src/helpers/notification";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { getActionMessage } from '@/src/helpers/notification'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -35,48 +35,48 @@ export const useStakingPoolDeposit = ({
   tokenAddress,
   tokenSymbol,
   maximumStake,
-  refetchInfo,
+  refetchInfo
 }) => {
-  const [error, setError] = useState("");
-  const [approving, setApproving] = useState(false);
-  const [depositing, setDepositing] = useState(false);
+  const [error, setError] = useState('')
+  const [approving, setApproving] = useState(false)
+  const [depositing, setDepositing] = useState(false)
 
-  const { networkId } = useNetwork();
-  const { account, library } = useWeb3React();
-  const poolContractAddress = useStakingPoolsAddress();
+  const { networkId } = useNetwork()
+  const { account, library } = useWeb3React()
+  const poolContractAddress = useStakingPoolsAddress()
   const {
     allowance,
     approve,
     refetch: updateAllowance,
-    loading: loadingAllowance,
-  } = useERC20Allowance(tokenAddress);
+    loading: loadingAllowance
+  } = useERC20Allowance(tokenAddress)
   const {
     balance,
     refetch: updateBalance,
-    loading: loadingBalance,
-  } = useERC20Balance(tokenAddress);
+    loading: loadingBalance
+  } = useERC20Balance(tokenAddress)
 
-  const txToast = useTxToast();
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
-  const router = useRouter();
+  const txToast = useTxToast()
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
+  const router = useRouter()
 
   // Minimum of info.maximumStake, balance
-  const maxStakableAmount = sort([maximumStake, balance])[0];
+  const maxStakableAmount = sort([maximumStake, balance])[0]
 
   useEffect(() => {
-    updateAllowance(poolContractAddress);
-  }, [poolContractAddress, updateAllowance]);
+    updateAllowance(poolContractAddress)
+  }, [poolContractAddress, updateAllowance])
 
   const handleApprove = async () => {
-    setApproving(true);
+    setApproving(true)
 
     const cleanup = () => {
-      setApproving(false);
-    };
+      setApproving(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`approve ${tokenSymbol}`);
-    };
+      notifyError(err, t`approve ${tokenSymbol}`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -85,9 +85,9 @@ export const useStakingPoolDeposit = ({
         status: STATUS.PENDING,
         data: {
           value,
-          tokenSymbol,
-        },
-      });
+          tokenSymbol
+        }
+      })
 
       try {
         await txToast.push(
@@ -98,7 +98,7 @@ export const useStakingPoolDeposit = ({
               STATUS.PENDING,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
             ).title,
             success: getActionMessage(
@@ -106,7 +106,7 @@ export const useStakingPoolDeposit = ({
               STATUS.SUCCESS,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
             ).title,
             failure: getActionMessage(
@@ -114,83 +114,83 @@ export const useStakingPoolDeposit = ({
               STATUS.FAILED,
               {
                 value,
-                tokenSymbol,
+                tokenSymbol
               }
-            ).title,
+            ).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
+        )
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
-    };
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     approve(poolContractAddress, convertToUnits(value).toString(), {
       onTransactionResult,
       onRetryCancel,
-      onError,
-    });
-  };
+      onError
+    })
+  }
 
   const handleDeposit = async (onDepositSuccess) => {
     if (!account || !networkId) {
-      return;
+      return
     }
 
-    setDepositing(true);
+    setDepositing(true)
 
     const cleanup = () => {
-      updateBalance();
-      updateAllowance(poolContractAddress);
-      refetchInfo();
-      setDepositing(false);
-    };
+      updateBalance()
+      updateAllowance(poolContractAddress)
+      refetchInfo()
+      setDepositing(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`stake ${tokenSymbol}`);
-    };
+      notifyError(err, t`stake ${tokenSymbol}`)
+    }
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
     try {
       const instance = await registry.StakingPools.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
           status: STATUS.PENDING,
-          data: { value, tokenSymbol },
-        });
+          data: { value, tokenSymbol }
+        })
 
         await txToast
           .push(
@@ -201,7 +201,7 @@ export const useStakingPoolDeposit = ({
                 STATUS.PENDING,
                 {
                   value,
-                  tokenSymbol,
+                  tokenSymbol
                 }
               ).title,
               success: getActionMessage(
@@ -209,7 +209,7 @@ export const useStakingPoolDeposit = ({
                 STATUS.SUCCESS,
                 {
                   value,
-                  tokenSymbol,
+                  tokenSymbol
                 }
               ).title,
               failure: getActionMessage(
@@ -217,113 +217,112 @@ export const useStakingPoolDeposit = ({
                 STATUS.FAILED,
                 {
                   value,
-                  tokenSymbol,
+                  tokenSymbol
                 }
-              ).title,
+              ).title
             },
             {
               onTxSuccess: () => {
-                onDepositSuccess();
+                onDepositSuccess()
                 TransactionHistory.push({
                   hash: tx.hash,
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
-                  status: STATUS.SUCCESS,
-                });
+                  status: STATUS.SUCCESS
+                })
               },
               onTxFailure: () => {
                 TransactionHistory.push({
                   hash: tx.hash,
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
-                  status: STATUS.SUCCESS,
-                });
-              },
+                  status: STATUS.SUCCESS
+                })
+              }
             }
           )
           .catch((err) => {
-            handleError(err);
-          });
+            handleError(err)
+          })
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const args = [poolKey, convertToUnits(value).toString()];
+      const args = [poolKey, convertToUnits(value).toString()]
       writeContract({
         instance,
-        methodName: "deposit",
+        methodName: 'deposit',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   useEffect(() => {
     if (!value && error) {
-      setError("");
-      return;
+      setError('')
+      return
     }
 
     if (!value) {
-      return;
+      return
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to stake`);
-      return;
+      setError(t`Invalid amount to stake`)
+      return
     }
 
     if (!account) {
-      setError(t`Please connect your wallet`);
-      return;
+      setError(t`Please connect your wallet`)
+      return
     }
 
-    if (isEqualTo(value, "0")) {
-      setError(t`Please specify an amount`);
-      return;
+    if (isEqualTo(value, '0')) {
+      setError(t`Please specify an amount`)
+      return
     }
 
     if (isGreater(convertToUnits(value).toString(), balance)) {
-      setError(t`Insufficient Balance`);
-      return;
+      setError(t`Insufficient Balance`)
+      return
     }
 
     if (isGreater(convertToUnits(value).toString(), maxStakableAmount)) {
       const maxStakableTokenAmount = formatCurrency(
         convertFromUnits(maxStakableAmount).toString(),
         router.locale,
-        "",
+        '',
         true
-      ).short;
+      ).short
 
-      setError(t`Cannot stake more than ${maxStakableTokenAmount}`);
-      return;
+      setError(t`Cannot stake more than ${maxStakableTokenAmount}`)
+      return
     }
 
     if (error) {
-      setError("");
-      return;
+      setError('')
     }
-  }, [account, balance, error, maxStakableAmount, router.locale, value]);
+  }, [account, balance, error, maxStakableAmount, router.locale, value])
 
   const canDeposit =
     value &&
     isValidNumber(value) &&
-    isGreaterOrEqual(allowance, convertToUnits(value || "0"));
+    isGreaterOrEqual(allowance, convertToUnits(value || '0'))
 
-  const isError = value && (!isValidNumber(value) || error);
+  const isError = value && (!isValidNumber(value) || error)
 
   return {
     balance,
@@ -342,6 +341,6 @@ export const useStakingPoolDeposit = ({
     canDeposit,
 
     handleApprove,
-    handleDeposit,
-  };
-};
+    handleDeposit
+  }
+}

@@ -1,87 +1,89 @@
-import { useRouter } from "next/router";
-import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { Trans, t } from "@lingui/macro";
-import { safeParseString } from "@/src/services/transactions/utils";
-import { fromNow } from "@/utils/formatter/relative-time";
-import DateLib from "@/lib/date/DateLib";
-import { getReplacedString } from "@/utils/string";
-import { IPFS_HASH_URL } from "@/src/config/constants";
-import OpenInNewIcon from "@/icons/OpenInNewIcon";
-import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
-import { useNetwork } from "@/src/context/Network";
+import { useRouter } from 'next/router'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { Trans, t } from '@lingui/macro'
+import { safeParseString } from '@/src/services/transactions/utils'
+import { fromNow } from '@/utils/formatter/relative-time'
+import DateLib from '@/lib/date/DateLib'
+import { getReplacedString } from '@/utils/string'
+import { IPFS_HASH_URL } from '@/src/config/constants'
+import OpenInNewIcon from '@/icons/OpenInNewIcon'
+import { getAddressLink } from '@/lib/connect-wallet/utils/explorer'
+import { useNetwork } from '@/src/context/Network'
 
-const INCIDENT = 0;
-const DISPUTE = 1;
+const INCIDENT = 0
+const DISPUTE = 1
 
 /**
  * @param {{ type: string; createdBy: string; reportedAt: number; ipfsHash: string; }} props
  */
-function HeaderReport(props) {
-  const { locale } = useRouter();
-  const { type, createdBy, reportedAt, ipfsHash } = props;
-  const { networkId } = useNetwork();
+function HeaderReport (props) {
+  const { locale } = useRouter()
+  const { type, createdBy, reportedAt, ipfsHash } = props
+  const { networkId } = useNetwork()
 
   return (
-    <div className="text-sm">
-      <span role="header-type">{type}</span>
-      <span role="address" className="mx-2 text-4e7dd9">
+    <div className='text-sm'>
+      <span role='header-type'>{type}</span>
+      <span role='address' className='mx-2 text-4e7dd9'>
         {createdBy && (
           <a
             href={getAddressLink(networkId, createdBy)}
-            target="_blank"
-            rel="noreferrer noopener nofollow"
+            target='_blank'
+            rel='noreferrer noopener nofollow'
           >
             {createdBy}
           </a>
         )}
       </span>
       <span
-        role="reported-at"
-        className="text-9B9B9B"
+        role='reported-at'
+        className='text-9B9B9B'
         title={DateLib.toLongDateFormat(reportedAt, locale)}
       >
         {reportedAt && fromNow(reportedAt)}
       </span>
 
       {/* Link to ipfs */}
-      <span className="absolute inline-flex items-center justify-center ml-2">
+      <span className='absolute inline-flex items-center justify-center ml-2'>
         <a
           href={getReplacedString(IPFS_HASH_URL, { ipfsHash })}
-          target="_blank"
-          rel="noreferrer noopener nofollow"
-          className="p-1 -mt-1 text-black"
-          title="Open in new tab"
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='p-1 -mt-1 text-black'
+          title='Open in new tab'
         >
-          <span className="sr-only">Open in new tab</span>
-          <OpenInNewIcon className="w-4 h-4" />
+          <span className='sr-only'>Open in new tab</span>
+          <OpenInNewIcon className='w-4 h-4' />
         </a>
       </span>
     </div>
-  );
+  )
 }
 
 /**
  * @param {{ type: number; }} props
  */
-function ReportType(props) {
-  const { type } = props;
+function ReportType (props) {
+  const { type } = props
 
   return (
-    <div className="my-3">
+    <div className='my-3'>
       <span
-        role="report-type"
+        role='report-type'
         className={`${
-          type === INCIDENT ? "bg-21AD8C" : "bg-FA5C2F"
+          type === INCIDENT ? 'bg-21AD8C' : 'bg-FA5C2F'
         } text-white text-xs p-0.5 px-1 rounded-1`}
       >
-        {type === INCIDENT ? (
-          <Trans>Incident Occurred</Trans>
-        ) : (
-          <Trans>False Reporting</Trans>
-        )}
+        {type === INCIDENT
+          ? (
+            <Trans>Incident Occurred</Trans>
+            )
+          : (
+            <Trans>False Reporting</Trans>
+            )}
       </span>
     </div>
-  );
+  )
 }
 
 /**
@@ -93,7 +95,7 @@ function ReportType(props) {
  * @param {JSX.Element} [props.children]
  * @returns
  */
-function Report({ header, content, report, children, ipfsHash }) {
+function Report ({ header, content, report, children, ipfsHash }) {
   return (
     <>
       <HeaderReport
@@ -104,22 +106,22 @@ function Report({ header, content, report, children, ipfsHash }) {
       />
       <ReportType type={report.type} />
 
-      <div className="block pl-5 text-black border-l border-l-B0C4DB">
-        <h3 role={"title"} className="font-semibold text-h5">
+      <div className='block pl-5 text-black border-l border-l-B0C4DB'>
+        <h3 role='title' className='font-semibold text-h5'>
           {content.title}
         </h3>
-        <p role={"desc"} className="text-h6">
+        <p role='desc' className='text-h6'>
           {content.description}
         </p>
 
         {children && (
-          <div role="dispute" className="mt-8">
+          <div role='dispute' className='mt-8'>
             {children}
           </div>
         )}
       </div>
     </>
-  );
+  )
 }
 
 /**
@@ -140,39 +142,39 @@ function Report({ header, content, report, children, ipfsHash }) {
  * @param {number} [props.disputeIpfsDataTimeStamp]
  * @returns
  */
-export default function ReportComments({
+export default function ReportComments ({
   reportIpfsData,
   reportIpfsHash,
   reportIpfsDataTimeStamp,
   disputeIpfsData,
   disputeIpfsHash,
-  disputeIpfsDataTimeStamp,
+  disputeIpfsDataTimeStamp
 }) {
   /**
    * @type {ReportDesputeData}
    */
-  const reportData = safeParseString(reportIpfsData, {});
+  const reportData = safeParseString(reportIpfsData, {})
 
   /**
    * @type {ReportDesputeData}
    */
-  const disputeData = safeParseString(disputeIpfsData, {});
+  const disputeData = safeParseString(disputeIpfsData, {})
 
   return (
-    <OutlinedCard className="p-6 mt-8 bg-white">
+    <OutlinedCard className='p-6 mt-8 bg-white'>
       {reportData && (
         <Report
           header={{
             type: t`Reported by`,
             createdBy: reportData?.createdBy,
-            reportedAt: reportIpfsDataTimeStamp,
+            reportedAt: reportIpfsDataTimeStamp
           }}
           report={{
-            type: INCIDENT,
+            type: INCIDENT
           }}
           content={{
             title: reportData?.title,
-            description: reportData?.description,
+            description: reportData?.description
           }}
           ipfsHash={reportIpfsHash}
         >
@@ -181,14 +183,14 @@ export default function ReportComments({
               header={{
                 type: t`Disputed by`,
                 createdBy: disputeData?.createdBy,
-                reportedAt: disputeIpfsDataTimeStamp,
+                reportedAt: disputeIpfsDataTimeStamp
               }}
               report={{
-                type: DISPUTE,
+                type: DISPUTE
               }}
               content={{
                 title: disputeData?.title,
-                description: disputeData?.description,
+                description: disputeData?.description
               }}
               ipfsHash={disputeIpfsHash}
             />
@@ -196,5 +198,5 @@ export default function ReportComments({
         </Report>
       )}
     </OutlinedCard>
-  );
+  )
 }

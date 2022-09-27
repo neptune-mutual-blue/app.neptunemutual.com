@@ -1,4 +1,4 @@
-import { TokenAmountSpan } from "@/common/TokenAmountSpan";
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 
 export const TokenAmountWithPrefix = ({
   amountInUnits,
@@ -8,13 +8,13 @@ export const TokenAmountWithPrefix = ({
   ...rest
 }) => {
   return (
-    <p data-testid="token-amount-with-prefix" {...rest}>
-      {prefix}{" "}
+    <p data-testid='token-amount-with-prefix' {...rest}>
+      {prefix}{' '}
       <TokenAmountSpan
         amountInUnits={amountInUnits}
         symbol={symbol}
         decimals={decimals}
       />
     </p>
-  );
-};
+  )
+}

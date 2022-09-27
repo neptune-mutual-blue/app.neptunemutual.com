@@ -1,6 +1,6 @@
-import { getKeys } from "./keys";
-import { utils } from "@neptunemutual/sdk";
-import { stringifyProps } from "@/utils/props";
+import { getKeys } from './keys'
+import { utils } from '@neptunemutual/sdk'
+import { stringifyProps } from '@/utils/props'
 
 export const getUnstakeInfoFor = async (
   chainId,
@@ -11,13 +11,13 @@ export const getUnstakeInfoFor = async (
   provider
 ) => {
   try {
-    const all = await getKeys(coverKey, productKey, account, incidentDate);
+    const all = await getKeys(coverKey, productKey, account, incidentDate)
 
-    const result = await utils.store.readStorage(chainId, all, provider);
+    const result = await utils.store.readStorage(chainId, all, provider)
 
-    return stringifyProps(result);
+    return stringifyProps(result)
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error(error)
+    throw error
   }
-};
+}
