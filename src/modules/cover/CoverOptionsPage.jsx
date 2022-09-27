@@ -49,14 +49,13 @@ export const CoverOptionsPage = ({
   coverProductInfo,
   coverKey,
   productKey,
+  isDiversified,
 }) => {
   const router = useRouter();
 
   if (!coverProductInfo) {
     return <Trans>loading...</Trans>;
   }
-
-  const isDiversified = coverProductInfo?.supportsProducts;
 
   return (
     <>

@@ -35,6 +35,7 @@ export default function Options() {
         coverKey={coverKey}
         productKey={productKey}
         coverProductInfo={productInfo}
+        isDiversified={true}
       />
     </main>
   );
