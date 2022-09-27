@@ -82,6 +82,30 @@ export const testData = {
       projectName: "Bb8 Exchange",
       tags: ["Smart Contract", "DeFi", "Exchange"],
     },
+    {
+      id: "0x6262382d65786368616e67650000000000000000000000000000000000000011",
+      coverKey:
+        "0x6262382d65786368616e67650000000000000000000000000000000000000011",
+      coverName: "Bb8 Exchange Cover",
+      projectName: "Bb8 Exchange",
+      tags: ["Smart Contract", "DeFi", "Exchange"],
+    },
+    {
+      id: "0x6262382d65786368616e67650000000000000000000000000000000000000012",
+      coverKey:
+        "0x6262382d65786368616e67650000000000000000000000000000000000000012",
+      coverName: "Bb8 Exchange Cover",
+      projectName: "Bb8 Exchange",
+      tags: ["Smart Contract", "DeFi", "Exchange"],
+    },
+    {
+      id: "0x6262382d65786368616e67650000000000000000000000000000000000000013",
+      coverKey:
+        "0x6262382d65786368616e67650000000000000000000000000000000000000013",
+      coverName: "Bb8 Exchange Cover",
+      projectName: "Bb8 Exchange",
+      tags: ["Smart Contract", "DeFi", "Exchange"],
+    },
   ],
   coverInfo: {
     id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
