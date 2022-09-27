@@ -44,6 +44,6 @@ describe("ReportingDropdown test", () => {
     const lists = screen.getByRole("listbox");
     const listItems = screen.queryAllByRole("option");
     expect(lists).toBeInTheDocument();
-    expect(listItems.length).toBe(10);
+    expect(listItems.length).toBe(testData.covers.length);
   });
 });
