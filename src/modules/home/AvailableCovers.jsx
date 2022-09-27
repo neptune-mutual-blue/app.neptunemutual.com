@@ -53,7 +53,7 @@ export const AvailableCovers = () => {
     name: t`A-Z`,
     value: SORT_TYPES.ALL,
   });
-  const [showCount, setShowCount] = useState(CARDS_PER_PAGE);
+  const [showCount, setShowCount] = useState(12);
 
   const coversLoading =
     coverView === SORT_TYPES.ALL ? flattenedCoversLoading : groupCoversLoading;
@@ -133,10 +133,10 @@ export const AvailableCovers = () => {
         </div>
       </div>
       <Grid
-        className="gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-2 grid-rows-3"
+        className="grid-rows-3 gap-4 mt-14 lg:mb-24 mb-14 lg:min-h-360 lg:grid-rows-2"
         data-testid="body"
       >
-        {coversLoading && <CardSkeleton numberOfCards={CARDS_PER_PAGE} />}
+        {coversLoading && <CardSkeleton numberOfCards={12} />}
 
         {!coversLoading && availableCovers.length === 0 && (
           <p data-testid="no-data">No data found</p>
