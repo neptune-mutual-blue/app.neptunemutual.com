@@ -7,15 +7,11 @@ export const storePurchaseEvent = (event, from) => {
   const txHash = event.transactionHash;
 
   const {
-    coverKey,
-    productKey,
-    onBehalfOf,
+    args: { coverKey, productKey, onBehalfOf, amountToCover, referralCode },
     cxToken,
     fee,
     platformFee,
-    amountToCover,
     expiresOn,
-    referralCode,
     policyId,
   } = event.args;
 
