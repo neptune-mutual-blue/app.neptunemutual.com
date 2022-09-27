@@ -40,7 +40,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
           as="h3"
           className="font-bold leading-9 text-black font-sora text-h2"
         >
-          <Trans>Connect Wallet</Trans>
+          <Trans>Connect wallet</Trans>
         </Dialog.Title>
 
         <button

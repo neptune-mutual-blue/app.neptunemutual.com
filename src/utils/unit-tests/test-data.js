@@ -852,7 +852,7 @@ export const testData = {
         name: "A-Z",
       },
       {
-        name: "Utilization Ratio",
+        name: "Utilization ratio",
       },
       {
         name: "Liquidity",

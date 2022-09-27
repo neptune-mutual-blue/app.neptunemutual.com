@@ -40,7 +40,7 @@ describe("Popup Component", () => {
   test("Show Popup Modal with Custom connect to wallet", () => {
     const closeButton = screen.getByText(/Close/i);
 
-    expect(screen.getByText(/Connect Wallet/i)).toBeInTheDocument();
+    expect(screen.getByText(/Connect wallet/i)).toBeInTheDocument();
     expect(closeButton).toBeInTheDocument();
     expect(
       screen.getByText(/By connecting a wallet, you agree to Neptune Mutual/i)

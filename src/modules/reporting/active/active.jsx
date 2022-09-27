@@ -46,7 +46,7 @@ export const ReportingActivePage = () => {
   } = useActiveReportings();
 
   const [sortType, setSortType] = useState({
-    name: t`Incident Date`,
+    name: t`Incident date`,
     value: SORT_TYPES.INCIDENT_DATE,
   });
 
@@ -80,8 +80,8 @@ export const ReportingActivePage = () => {
 
   const options = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Utilization Ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t`Incident Date`, value: SORT_TYPES.INCIDENT_DATE },
+    { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
   ];
 
   return (
@@ -111,7 +111,17 @@ export const ReportingActivePage = () => {
 };
 
 function Content({ data, loading, hasMore, handleShowMore }) {
-  if (data.length) {
+  if (loading) {
+    return (
+      <div data-testid="active-reportings-card-skeleton">
+        <Grid className="w-full gap-4 mt-14 lg:mb-24 mb-14">
+          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+        </Grid>
+      </div>
+    );
+  }
+
+  if (data.length > 0) {
     return (
       <>
         <Grid className="mb-24 mt-14" data-testid="active-page-grid">
@@ -147,16 +157,6 @@ function Content({ data, loading, hasMore, handleShowMore }) {
           </NeutralButton>
         )}
       </>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div data-testid="active-reportings-card-skeleton">
-        <Grid className="w-full gap-4 mt-14 lg:mb-24 mb-14">
-          <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
-        </Grid>
-      </div>
     );
   }
 

@@ -277,14 +277,14 @@ export const useDisputeIncident = ({
           : "";
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) err = "Amount greater than balance!";
+      if (_value.isGreaterThan(_balance)) err = "Insufficient balance";
       else if (_minStake && _value.isLessThan(_minStake))
-        err = t`Amount less than minimum stake!`;
+        err = t`Insufficient stake`;
     }
 
     // set error if balance is less than minStake
     if (_minStake && _balance.isLessThan(_minStake))
-      err = t`Insufficient Balance`;
+      err = t`Insufficient balance`;
 
     return err;
   }

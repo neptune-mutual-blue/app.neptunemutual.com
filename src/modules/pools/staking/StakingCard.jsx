@@ -176,7 +176,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         </div>
 
         <Badge className="text-21AD8C">
-          <Trans>APR:</Trans> {formatPercent(apr, router.locale)}
+          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
         </Badge>
       </div>
       <StakingCardTitle text={poolName} />

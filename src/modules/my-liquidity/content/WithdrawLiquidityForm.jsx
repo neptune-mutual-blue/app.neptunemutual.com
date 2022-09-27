@@ -240,7 +240,9 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             data-testid="open-date"
           >
             <strong>
-              <Trans>Open:</Trans>{" "}
+              <Trans comment="Liquidity Withdrawal Period Open Date">
+                Open:
+              </Trans>{" "}
             </strong>
             {DateLib.toLongDateFormat(withdrawalOpen, router.locale)}
           </span>
@@ -253,7 +255,9 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             data-testid="close-date"
           >
             <strong>
-              <Trans>Close:</Trans>{" "}
+              <Trans comment="Liquidity Withdrawal Period Closing Date">
+                Close:
+              </Trans>{" "}
             </strong>
             {DateLib.toLongDateFormat(withdrawalClose, router.locale)}
           </span>

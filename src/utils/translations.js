@@ -29,20 +29,3 @@ export const renderDescriptionTranslation = (description) => {
       break;
   }
 };
-
-export const renderStatusIndicatorTranslation = (status) => {
-  switch (status) {
-    case "Stopped":
-      return <Trans>Stopped</Trans>;
-    case "Normal":
-      return <Trans>Normal</Trans>;
-    case "Claimable":
-      return <Trans>Claimable</Trans>;
-    case "Incident Happened":
-      return <Trans>Incident Happened</Trans>;
-    case "False Reporting":
-      return <Trans>False Reporting</Trans>;
-    default:
-      break;
-  }
-};

@@ -34,19 +34,24 @@ export const AcceptRulesForm = ({
   };
 
   if (productStatus && productStatus !== "Normal") {
+    const statusLink = (
+      <Link href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}>
+        <a className="font-medium underline hover:no-underline">
+          {productStatus}
+        </a>
+      </Link>
+    );
     return (
       <Alert>
-        <Trans>
-          Cannot {coverPurchasePage ? "purchase policy" : "add liquidity"},
-          since the cover status is
-        </Trans>{" "}
-        <Link
-          href={Routes.ViewReport(coverKey, productKey, activeIncidentDate)}
-        >
-          <a className="font-medium underline hover:no-underline">
-            {productStatus}
-          </a>
-        </Link>
+        {coverPurchasePage ? (
+          <Trans>
+            Cannot purchase policy, since the cover status is {statusLink}
+          </Trans>
+        ) : (
+          <Trans>
+            Cannot add liquidity, since the cover status is {statusLink}
+          </Trans>
+        )}
       </Alert>
     );
   }

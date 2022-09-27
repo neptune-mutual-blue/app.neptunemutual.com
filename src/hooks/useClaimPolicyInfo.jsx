@@ -231,8 +231,8 @@ export const useClaimPolicyInfo = ({
           tx,
           {
             pending: t`Claiming policy`,
-            success: t`Claimed policy Successfully`,
-            failure: t`Could not Claim policy`,
+            success: t`Claimed policy successfully`,
+            failure: t`Could not claim policy`,
           },
           {
             onTxSuccess: () => {

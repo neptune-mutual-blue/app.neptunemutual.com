@@ -24,12 +24,12 @@ const getBreadCrumbs = (
     return [
       { name: t`Home`, href: "/", current: false },
       {
-        name: coverProductInfo?.cover?.infoObj?.coverName || t`loading..`,
+        name: coverProductInfo?.cover?.infoObj?.coverName || t`loading...`,
         href: Routes.ViewCover(coverKey),
         current: true,
       },
       {
-        name: coverProductInfo?.infoObj?.productName || t`loading..`,
+        name: coverProductInfo?.infoObj?.productName || t`loading...`,
         href: Routes.ViewProduct(coverKey, productKey),
         current: true,
       },
@@ -38,7 +38,7 @@ const getBreadCrumbs = (
   return [
     { name: t`Home`, href: "/", current: false },
     {
-      name: coverProductInfo?.infoObj?.coverName || t`loading..`,
+      name: coverProductInfo?.infoObj?.coverName || t`loading...`,
       href: Routes.ViewCover(coverKey),
       current: true,
     },
@@ -49,14 +49,13 @@ export const CoverOptionsPage = ({
   coverProductInfo,
   coverKey,
   productKey,
+  isDiversified,
 }) => {
   const router = useRouter();
 
   if (!coverProductInfo) {
     return <Trans>loading...</Trans>;
   }
-
-  const isDiversified = coverProductInfo?.supportsProducts;
 
   return (
     <>

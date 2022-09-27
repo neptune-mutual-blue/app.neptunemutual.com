@@ -163,7 +163,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         </div>
         <div>
           <Badge className="text-21AD8C">
-            <Trans>APR:</Trans> {formatPercent(apr, router.locale)}
+            <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
           </Badge>
         </div>
       </div>

@@ -7,6 +7,8 @@ import DateLib from "@/lib/date/DateLib";
 import { getReplacedString } from "@/utils/string";
 import { IPFS_HASH_URL } from "@/src/config/constants";
 import OpenInNewIcon from "@/icons/OpenInNewIcon";
+import { getAddressLink } from "@/lib/connect-wallet/utils/explorer";
+import { useNetwork } from "@/src/context/Network";
 
 const INCIDENT = 0;
 const DISPUTE = 1;
@@ -17,12 +19,21 @@ const DISPUTE = 1;
 function HeaderReport(props) {
   const { locale } = useRouter();
   const { type, createdBy, reportedAt, ipfsHash } = props;
+  const { networkId } = useNetwork();
 
   return (
     <div className="text-sm">
       <span role="header-type">{type}</span>
       <span role="address" className="mx-2 text-4e7dd9">
-        {createdBy && createdBy}
+        {createdBy && (
+          <a
+            href={getAddressLink(networkId, createdBy)}
+            target="_blank"
+            rel="noreferrer noopener nofollow"
+          >
+            {createdBy}
+          </a>
+        )}
       </span>
       <span
         role="reported-at"
@@ -64,7 +75,7 @@ function ReportType(props) {
         } text-white text-xs p-0.5 px-1 rounded-1`}
       >
         {type === INCIDENT ? (
-          <Trans>Incident Occured</Trans>
+          <Trans>Incident Occurred</Trans>
         ) : (
           <Trans>False Reporting</Trans>
         )}
