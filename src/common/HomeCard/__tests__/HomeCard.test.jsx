@@ -33,7 +33,7 @@ describe("alert component behaviour", () => {
     });
   });
 
-  it("should render card component", () => {
+  test("should render card component", () => {
     render(<HomeCard items={items}></HomeCard>);
     const covered = screen.getByText(items[0].name);
     const coverFee = screen.getByText(items[1].name);

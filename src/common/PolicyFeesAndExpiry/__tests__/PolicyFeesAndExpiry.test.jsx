@@ -20,7 +20,7 @@ describe("PolicyFeesAndExpiry component behaviour", () => {
     });
   });
 
-  it("should render fees percent", () => {
+  test("should render fees percent", () => {
     render(<PolicyFeesAndExpiry data={mockdata} />);
     const feesElement = screen.getByText(/Fees/i);
     const feesPercent = screen.getByText(formatPercent(rateConverted, "en"));

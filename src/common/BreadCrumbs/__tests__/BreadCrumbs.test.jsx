@@ -10,7 +10,7 @@ describe("Breadcrumb component", () => {
   });
 
   describe("different scenarios for Breadcrumbs Component", () => {
-    it("should render unordered list", () => {
+    test("should render unordered list", () => {
       const screen = render(
         <BreadCrumbs
           pages={[
@@ -28,7 +28,7 @@ describe("Breadcrumb component", () => {
       expect(listElementContainer.length).toEqual(1);
     });
 
-    it("should have length of pages passed to it", () => {
+    test("should have length of pages passed to it", () => {
       const screen = render(
         <BreadCrumbs
           pages={[
@@ -46,7 +46,7 @@ describe("Breadcrumb component", () => {
       expect(listElements.length).toEqual(3);
     });
 
-    it("should have link element", () => {
+    test("should have link element", () => {
       const screen = render(
         <BreadCrumbs
           pages={[

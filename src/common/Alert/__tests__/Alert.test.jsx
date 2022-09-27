@@ -9,13 +9,13 @@ describe("alert component behaviour", () => {
     });
   });
 
-  it("should render any children passed to it", () => {
+  test("should render any children passed to it", () => {
     render(<Alert>This shows alert text.</Alert>);
     const divElement = screen.getByText(/This shows alert text./i);
     expect(divElement).toBeInTheDocument();
   });
 
-  it("should have class if info prop is passed to it", async () => {
+  test("should have class if info prop is passed to it", async () => {
     const screen = render(
       <Alert info>This shows text with blue border.</Alert>
     );

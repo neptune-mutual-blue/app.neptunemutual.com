@@ -9,7 +9,7 @@ describe("Badge component", () => {
     });
   });
 
-  it("should render any children passed to it", () => {
+  test("should render any children passed to it", () => {
     render(<Badge>20%</Badge>);
     const divElement = screen.getByText(/20%/i);
     expect(divElement).toBeInTheDocument();

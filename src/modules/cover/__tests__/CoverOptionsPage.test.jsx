@@ -31,7 +31,7 @@ describe("CoverOptionsPage", () => {
     render(<Component />);
   });
 
-  it("has correct number cover actions", async () => {
+  test("has correct number cover actions", async () => {
     const coverOptionActions = await waitFor(() =>
       screen.getAllByTestId("cover-option-actions")
     );
@@ -58,7 +58,7 @@ describe("CoverOptionsPage", () => {
     render(<Component />);
   });
 
-  it("returns loading if not cover info", async () => {
+  test("returns loading if not cover info", async () => {
     const loading = screen.getByText(/loading.../i);
 
     expect(loading).toBeInTheDocument();

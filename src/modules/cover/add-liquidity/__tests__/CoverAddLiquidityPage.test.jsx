@@ -47,7 +47,7 @@ describe("CoverAddLiquidityPage.test", () => {
     });
   });
 
-  it("should show add liquidity form after accepting rules", async () => {
+  test("should show add liquidity form after accepting rules", async () => {
     jest
       .spyOn(CoverOrProductData, "useCoverOrProductData")
       .mockImplementation(() => mockCoverDetails);

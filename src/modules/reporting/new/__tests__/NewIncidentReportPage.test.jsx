@@ -18,7 +18,7 @@ describe("NewIncidentReportPage.test", () => {
     });
   });
 
-  it("should show incident report form after accepting rules", async () => {
+  test("should show incident report form after accepting rules", async () => {
     const router = createMockRouter({
       query: { id: "animated-brands" },
     });
