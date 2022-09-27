@@ -17,6 +17,7 @@ import { useAppConstants } from "@/src/context/AppConstants";
 import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
 import { classNames } from "@/utils/classnames";
+import { ReportingPeriodStatus } from "@/modules/reporting/ReportingPeriodStatus";
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -212,6 +213,9 @@ export const ResolvedReportSummary = ({
           <h3 className="mb-4 font-bold text-h4 font-sora">
             <Trans>Reporting Period</Trans>
           </h3>
+          <ReportingPeriodStatus
+            resolutionTimestamp={incidentReport.resolutionTimestamp}
+          />
           <p className="mb-4 text-sm opacity-50">
             <span
               title={DateLib.toLongDateFormat(

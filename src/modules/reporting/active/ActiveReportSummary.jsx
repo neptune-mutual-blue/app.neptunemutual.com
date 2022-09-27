@@ -16,6 +16,7 @@ import { t, Trans } from "@lingui/macro";
 import { useRouter } from "next/router";
 import { useAppConstants } from "@/src/context/AppConstants";
 import { useRetryUntilPassed } from "@/src/hooks/useRetryUntilPassed";
+import { ReportingPeriodStatus } from "@/modules/reporting/ReportingPeriodStatus";
 
 export const ActiveReportSummary = ({
   refetchReport,
@@ -229,7 +230,10 @@ export const ActiveReportSummary = ({
           <h3 className="mb-4 font-bold text-h4 font-sora">
             <Trans>Reporting Period</Trans>
           </h3>
-          <p className="mb-4 text-sm opacity-50">
+          <ReportingPeriodStatus
+            resolutionTimestamp={incidentReport.resolutionTimestamp}
+          />
+          <p className="text-sm opacity-50 mr-1.5">
             <span
               title={DateLib.toLongDateFormat(
                 incidentReport.incidentDate,

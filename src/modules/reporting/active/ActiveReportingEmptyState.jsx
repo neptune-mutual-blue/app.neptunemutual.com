@@ -50,7 +50,7 @@ export const ActiveReportingEmptyState = () => {
 
   return (
     <div
-      className="flex flex-col items-center w-full pt-20"
+      className="flex flex-col items-center w-full pt-20 pb-20"
       data-testid="active-reporting-empty"
     >
       <img

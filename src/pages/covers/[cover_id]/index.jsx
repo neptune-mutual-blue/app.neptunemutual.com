@@ -45,7 +45,7 @@ export default function CoverPage() {
           coverKey={coverKey}
           productKey={productKey}
           coverProductInfo={coverInfo}
-          isDiversified={false}
+          isDiversified={isDiversified}
         />
       )}
     </main>
