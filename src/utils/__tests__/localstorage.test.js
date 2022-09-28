@@ -16,10 +16,10 @@ function verifyShapeIntegrity (object) {
   return Object.values(object).every((entries) => {
     return entries.every((item) => {
       return (
-        item.hasOwnProperty('hash') &&
-        item.hasOwnProperty('methodName') &&
-        item.hasOwnProperty('status') &&
-        item.hasOwnProperty('timestamp')
+        Object.prototype.hasOwnProperty.call(item, 'hash') &&
+        Object.prototype.hasOwnProperty.call(item, 'methodName') &&
+        Object.prototype.hasOwnProperty.call(item, 'status') &&
+        Object.prototype.hasOwnProperty.call(item, 'timestamp')
       )
     })
   })

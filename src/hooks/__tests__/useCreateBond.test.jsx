@@ -62,7 +62,7 @@ describe('useCreateBond', () => {
   test('calling handleApprove function with error', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject({}))
+      push: jest.fn(() => Promise.reject(new Error('Error occurred when calling approve function')))
     }))
 
     const { result, act } = await renderHookWrapper(

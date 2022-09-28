@@ -25,10 +25,10 @@ function verifyShapeIntegrity (object) {
     if (Array.isArray(entries)) {
       return entries.every((item) => {
         return (
-          item.hasOwnProperty('hash') &&
-          item.hasOwnProperty('methodName') &&
-          item.hasOwnProperty('status') &&
-          item.hasOwnProperty('timestamp')
+          Object.prototype.hasOwnProperty.call(item, 'hash') &&
+          Object.prototype.hasOwnProperty.call(item, 'methodName') &&
+          Object.prototype.hasOwnProperty.call(item, 'status') &&
+          Object.prototype.hasOwnProperty.call(item, 'timestamp')
         )
       })
     }
@@ -70,7 +70,7 @@ class LSHistoryClass {
   setId (account, networkId) {
     this.id = `${account}:${networkId}`
 
-    if (!this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       this.state[this.id] = []
     }
 
@@ -87,7 +87,7 @@ class LSHistoryClass {
    * @returns {IHistoryEntry | false | undefined}
    */
   isExisting (hash) {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       return this.state[this.id].find((item) => item.hash === hash)
     }
 
@@ -99,7 +99,7 @@ class LSHistoryClass {
    * @param {IHistoryEntry} item
    */
   add (item) {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       this.state[this.id] = [item, ...this.state[this.id]].slice(
         0,
         MAX_TRANSACTION_HISTORY
@@ -113,7 +113,7 @@ class LSHistoryClass {
    * @param {IHistoryEntry} item
    */
   update (item) {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const itemToUpdate = this.state[this.id].find(
         ({ hash }) => item.hash === hash
       )
@@ -131,7 +131,7 @@ class LSHistoryClass {
    * @returns
    */
   get (page = 1, offset = 6) {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const list = this.state[this.id]
       const data = list.slice((page - 1) * offset, page * offset)
 
@@ -147,7 +147,7 @@ class LSHistoryClass {
   }
 
   getAllPending () {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       return this.state[this.id].filter(
         (item) => item.status === STATUS.PENDING
       )
@@ -157,7 +157,7 @@ class LSHistoryClass {
   }
 
   clear () {
-    if (this.state.hasOwnProperty(this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       this.state[this.id] = []
     }
 

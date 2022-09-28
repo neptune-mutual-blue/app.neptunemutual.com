@@ -59,7 +59,7 @@ describe('useRemoveLiquidity', () => {
   test('should call notifyError when error arises in handleApprove', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject('Error'))
+      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
 
     const { result, act } = await renderHookWrapper(useRemoveLiquidity, args)

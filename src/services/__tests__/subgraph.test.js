@@ -1,3 +1,4 @@
+/* eslint-disable no-global-assign */
 import { getSubgraphData } from '@/src/services/subgraph'
 
 import * as environment from '@/src/config/environment'

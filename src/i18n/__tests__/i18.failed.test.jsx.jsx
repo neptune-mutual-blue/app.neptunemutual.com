@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro'
 import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 jest.mock('../dynamic-activate', () => ({
-  dynamicActivate: jest.fn(() => Promise.reject())
+  dynamicActivate: jest.fn(() => Promise.reject(new Error('Error in dynamic-activate')))
 }))
 
 function WithProvider () {

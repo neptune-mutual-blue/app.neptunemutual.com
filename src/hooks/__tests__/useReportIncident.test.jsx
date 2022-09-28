@@ -61,7 +61,7 @@ describe('useReportIncident', () => {
   test('should call notifyError in handleApprove function if error raised', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject('Err'))
+      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
 
     const { result, act } = await renderHookWrapper(useReportIncident, args)
@@ -77,7 +77,7 @@ describe('useReportIncident', () => {
   test('should call notifyError in handleReport function if error raised', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject('Err'))
+      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
 
     const { result, act } = await renderHookWrapper(useReportIncident, [
