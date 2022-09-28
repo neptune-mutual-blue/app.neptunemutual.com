@@ -84,21 +84,19 @@ export const useBondInfo = () => {
         onError: notifyError
       })
 
-      const [addresses, values] = result
-
-      const [lpToken] = addresses
-      const [
-        , // marketPrice
+      const {
+        lpToken,
+        // marketPrice,
         discountRate,
         vestingTerm,
         maxBond,
         totalNpmAllocated,
         totalNpmDistributed,
-        , // npmAvailable
+        // npmAvailable,
         bondContribution,
         claimable,
         unlockDate
-      ] = values
+      } = result
 
       onResult({
         lpTokenAddress: lpToken,
@@ -130,12 +128,10 @@ export const useBondInfo = () => {
     }
 
     // If wallet is connected, get data from provider
-    const onResult = (_info) => {
+    fetchBondInfo((_info) => {
       if (ignore || !_info) return
       setInfo(_info)
-    }
-
-    fetchBondInfo(onResult).catch(console.error)
+    }).catch(console.error)
 
     return () => {
       ignore = true
