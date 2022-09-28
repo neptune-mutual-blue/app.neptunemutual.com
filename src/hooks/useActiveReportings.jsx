@@ -30,9 +30,7 @@ const getQuery = (itemsToSkip) => {
 }
 
 export const useActiveReportings = () => {
-  const [data, setData] = useState({
-    incidentReports: []
-  })
+  const [data, setData] = useState({ incidentReports: [] })
   const [loading, setLoading] = useState(false)
   const [itemsToSkip, setItemsToSkip] = useState(0)
   const [hasMore, setHasMore] = useState(true)
