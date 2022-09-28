@@ -7,7 +7,7 @@ import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
 import { AppConstantsProvider } from '@/src/context/AppConstants'
 import { ToastProvider } from '@/lib/toast/provider'
-import { render } from '@testing-library/react'
+import { render, act, waitFor, cleanup, fireEvent, screen } from '@testing-library/react'
 import { getLibrary } from '@/lib/connect-wallet/utils/web3'
 import { en, fr, ja, zh } from 'make-plural/plurals'
 import { messages as enMessages } from '@/locales/en/messages'
@@ -108,7 +108,7 @@ const customRender = (ui, options = {}) =>
     ...options
   })
 
-export { customRender as render }
+export { customRender as render, act, waitFor, cleanup, fireEvent, screen }
 
 const LocalStorage = (() => {
   let store = {

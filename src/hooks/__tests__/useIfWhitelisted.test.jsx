@@ -49,7 +49,7 @@ describe('useIfWhitelisted', () => {
     expect(result.isUserWhitelisted).toBe(false)
   })
 
-  test('should execute notifyError function if error occured', async () => {
+  test('should execute notifyError function if error occurred', async () => {
     mockFn.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null

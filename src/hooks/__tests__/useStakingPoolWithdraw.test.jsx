@@ -44,7 +44,7 @@ describe('useStakingPoolWithdraw', () => {
     expect(testData.txPoster.writeContract).toHaveBeenCalled()
   })
 
-  test('should handle error if error occured in handleWithdraw function', async () => {
+  test('should handle error if error occurred in handleWithdraw function', async () => {
     mockFn.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null
@@ -126,7 +126,7 @@ describe('useStakingPoolWithdrawRewards', () => {
     expect(testData.txPoster.writeContract).toHaveBeenCalled()
   })
 
-  test('should handle error if error occured in handleWithdrawRewards function', async () => {
+  test('should handle error if error occurred in handleWithdrawRewards function', async () => {
     mockFn.useTxPoster(() => ({
       ...testData.txPoster,
       writeContract: null

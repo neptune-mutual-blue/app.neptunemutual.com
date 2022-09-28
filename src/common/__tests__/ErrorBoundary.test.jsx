@@ -20,7 +20,7 @@ describe('ErrorBoundary component', () => {
     )
   })
 
-  test('should render error if occured', () => {
+  test('should render error if occurred', () => {
     expect(screen.getByText(/Error for testing/i)).toBeInTheDocument()
   })
 })

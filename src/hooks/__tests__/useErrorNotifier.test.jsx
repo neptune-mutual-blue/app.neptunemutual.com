@@ -31,21 +31,21 @@ describe('useErrorNotifier', () => {
     const { result, act } = await renderHookWrapper(useErrorNotifier, args)
 
     act(() => {
-      result.notifyError({ data: 'Error occured!' })
+      result.notifyError({ data: 'Error occurred!' })
     })
-    expect(mockFunction).toHaveBeenCalledWith({ data: 'Error occured!' })
+    expect(mockFunction).toHaveBeenCalledWith({ data: 'Error occurred!' })
   })
 
   test('should call the toast.pushError function', async () => {
     const { result, act } = await renderHookWrapper(useErrorNotifier, args)
 
     act(() => {
-      result.notifyError({ data: 'Error occured!' })
+      result.notifyError({ data: 'Error occurred!' })
     })
 
     const pushErrorArgs = {
-      title: 'Error occured!',
-      message: getErrorMessage({ error: 'Error occured!' }),
+      title: 'Error occurred!',
+      message: getErrorMessage({ error: 'Error occurred!' }),
       lifetime: args[0].duration
     }
 

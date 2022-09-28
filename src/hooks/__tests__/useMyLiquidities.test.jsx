@@ -50,7 +50,7 @@ describe('useMyLiquidities', () => {
     mockFn.fetch().unmock()
   })
 
-  test('should log the error when occured', async () => {
+  test('should log the error when occurred', async () => {
     mockFn.fetch(false)
     mock()
 

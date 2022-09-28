@@ -30,7 +30,7 @@ describe('useRegisterToken', () => {
     restoreLog()
   })
 
-  test('should call console.error if error occured', async () => {
+  test('should call console.error if error occurred', async () => {
     mock()
     mockFn.registerToken(false)
 

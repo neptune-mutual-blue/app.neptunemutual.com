@@ -143,7 +143,7 @@ describe('ProductCard component', () => {
 
       initialRender()
 
-      const badgeText = screen.queryByText('Incident Occured')
+      const badgeText = screen.queryByText('Incident Occurred')
 
       expect(badgeText).toBeInTheDocument()
     })

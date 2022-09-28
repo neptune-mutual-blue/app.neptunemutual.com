@@ -65,7 +65,7 @@ describe('useFetchCoverPurchasedEvent', () => {
   test('should get data from localstorage if available', async () => {
     // store an event in localstorage
     storePurchaseEvent(
-      testData.coverPurchasedEvent,
+      { args: testData.coverPurchasedEvent },
       testData.coverPurchasedEvent.from
     )
 
@@ -80,7 +80,7 @@ describe('useFetchCoverPurchasedEvent', () => {
 
   test('testing storePurchaseEvent function', () => {
     storePurchaseEvent(
-      { ...testData.coverPurchasedEvent, transactionHash: '123456789' },
+      { args: { ...testData.coverPurchasedEvent, transactionHash: '123456789' } },
       testData.coverPurchasedEvent.from
     )
 
@@ -93,7 +93,7 @@ describe('useFetchCoverPurchasedEvent', () => {
   test('when localstorage data is expired', async () => {
     // store an event in localstorage
     storePurchaseEvent(
-      testData.coverPurchasedEvent,
+      { args: testData.coverPurchasedEvent },
       testData.coverPurchasedEvent.from
     )
 
