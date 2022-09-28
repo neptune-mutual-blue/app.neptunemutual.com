@@ -3,6 +3,7 @@ import { STATUS } from '@/src/services/transactions/transaction-history'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
+import { act } from 'react-dom/test-utils'
 
 /**
  *
@@ -576,7 +577,7 @@ const actionMessages = {
  * @returns {{ title: string, description: string }}
  */
 export function getActionMessage (methodName, status, data = {}, locale = 'en') {
-  if (actionMessages.hasOwnProperty(methodName)) {
+  if (Object.prototype.hasOwnProperty.call(act, methodName)) {
     return actionMessages[methodName](status, data, locale)
   }
 

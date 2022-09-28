@@ -34,7 +34,7 @@ describe('useRoles', () => {
   })
 
   test('should call notifyError function if error raised', async () => {
-    mockFn.sdk.multicall({ all: () => Promise.reject('ERROR') })
+    mockFn.sdk.multicall({ all: () => Promise.reject(new Error('Something went wrong')) })
 
     await renderHookWrapper(useRoles, [])
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()

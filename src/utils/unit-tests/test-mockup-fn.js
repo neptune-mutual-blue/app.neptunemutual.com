@@ -744,7 +744,7 @@ export const mockFn = {
         getCoverOrProductData: jest.fn(() =>
           resolve
             ? Promise.resolve(returnData)
-            : Promise.reject('Error occurred')
+            : Promise.reject(new Error('Error occurred'))
         )
       })),
 
@@ -801,7 +801,7 @@ export const mockFn = {
       .mockImplementation(() =>
         success
           ? Promise.resolve('registerToken success')
-          : Promise.reject('registerToken error')
+          : Promise.reject(new Error('registerToken error'))
       ),
 
   getSubgraphData: (cb = () => testData.defaultSubgraphData) =>
@@ -874,7 +874,7 @@ export const globalFn = {
         return Promise.resolve(true)
       }),
       request: jest.fn(async ({ method }) => {
-        if (ETHEREUM_METHODS.hasOwnProperty(method)) {
+        if (Object.prototype.hasOwnProperty.call(ETHEREUM_METHODS, method)) {
           return ETHEREUM_METHODS[method]
         }
 

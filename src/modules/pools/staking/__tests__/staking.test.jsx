@@ -131,10 +131,10 @@ describe('Pool Staking', () => {
           `[aria-labelledby='${sortButton.id}']`
         )
 
-        const [_, tvl] = Array.from(sortList.querySelectorAll('li'))
+        const targetTvl = Array.from(sortList.querySelectorAll('li'))?.[1]
 
         act(() => {
-          fireEvent.click(tvl)
+          fireEvent.click(targetTvl)
         })
 
         const values = getValues(container, SELECTION.TVL)
@@ -157,10 +157,10 @@ describe('Pool Staking', () => {
           `[aria-labelledby='${sortButton.id}']`
         )
 
-        const [_, _tvl, apr] = Array.from(sortList.querySelectorAll('li'))
+        const target = Array.from(sortList.querySelectorAll('li'))?.[2]
 
         act(() => {
-          fireEvent.click(apr)
+          fireEvent.click(target)
         })
 
         const values = getValues(container, SELECTION.APR)

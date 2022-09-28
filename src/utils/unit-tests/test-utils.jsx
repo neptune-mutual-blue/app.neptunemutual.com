@@ -21,8 +21,6 @@ import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
 import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
 import { DEFAULT_VARIANT } from '@/src/config/toast'
 
-export * from '@testing-library/react'
-
 i18n.load({
   en: enMessages,
   fr: frMessages,
@@ -167,7 +165,7 @@ global.ethereum = {
     return Promise.resolve(true)
   }),
   request: jest.fn(async ({ method }) => {
-    if (ETHEREUM_METHODS.hasOwnProperty(method)) {
+    if (Object.prototype.hasOwnProperty.call(ETHEREUM_METHODS, method)) {
       return ETHEREUM_METHODS[method]
     }
 

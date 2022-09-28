@@ -50,7 +50,7 @@ describe('useERC20Balance', () => {
       mockFn.sdk.registry.IERC20.getInstance()
       mockFn.useTxPoster(() => ({
         ...testData.txPoster,
-        contractRead: () => Promise.reject('')
+        contractRead: () => Promise.reject(new Error('Something went wrong'))
       }))
 
       const args = ['0x03b4658fA53bdaC8cedd7C4Cec3E41Ca9777dB84']

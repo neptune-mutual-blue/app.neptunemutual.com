@@ -1,3 +1,4 @@
+/* eslint-disable no-loss-of-precision */
 import { screen, act, render } from '@/utils/unit-tests/test-utils'
 import { i18n } from '@lingui/core'
 import { HomeCard } from '@/common/HomeCard/HomeCard'

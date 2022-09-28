@@ -53,7 +53,7 @@ describe('useProvideLiquidity', () => {
   test('calling handleLqTokenApprove function with error', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject({}))
+      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
 
     const { result, act } = await renderHookWrapper(useProvideLiquidity, [
@@ -86,7 +86,7 @@ describe('useProvideLiquidity', () => {
   test('calling handleNPMTokenApprove function with error', async () => {
     mockFn.useTxToast(() => ({
       ...testData.txToast,
-      push: jest.fn(() => Promise.reject({}))
+      push: jest.fn(() => Promise.reject(new Error('Something went wrong')))
     }))
 
     const { result, act } = await renderHookWrapper(useProvideLiquidity, [

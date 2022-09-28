@@ -96,13 +96,11 @@ describe('useBondInfo', () => {
       const [addresses, values] = contractResult
       const [lpToken] = addresses
       const [
-        _marketPrice,
         discountRate,
         vestingTerm,
         maxBond,
         totalNpmAllocated,
         totalNpmDistributed,
-        _npmAvailable,
         bondContribution,
         claimable,
         unlockDate
@@ -139,13 +137,11 @@ describe('useBondInfo', () => {
       const [addresses, values] = contractResult
       const [lpToken] = addresses
       const [
-        _marketPrice,
         discountRate,
         vestingTerm,
         maxBond,
         totalNpmAllocated,
         totalNpmDistributed,
-        _npmAvailable,
         bondContribution,
         claimable,
         unlockDate

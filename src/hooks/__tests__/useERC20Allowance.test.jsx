@@ -83,7 +83,7 @@ describe('useERC20Allowance', () => {
     test('should return when error in fetchAllowance function', async () => {
       mockFn.useTxPoster(() => ({
         ...testData.txPoster,
-        contractRead: () => Promise.reject('Error in contractRead')
+        contractRead: () => Promise.reject(new Error('Error in contractRead'))
       }))
       const { result, act } = await renderHookWrapper(useERC20Allowance, args)
 

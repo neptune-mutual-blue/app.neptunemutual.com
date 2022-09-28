@@ -75,7 +75,5 @@ describe('usePolicyFees', () => {
 
     await renderHookWrapper(usePolicyFees, args)
     expect(testData.errorNotifier.notifyError).toHaveBeenCalled()
-
-    mockFn.sdk.registry.PolicyContract.getAddress
   })
 })
