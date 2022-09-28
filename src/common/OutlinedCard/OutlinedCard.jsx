@@ -1,4 +1,4 @@
-import { classNames } from "@/utils/classnames";
+import { classNames } from '@/utils/classnames'
 
 /**
  * Props
@@ -10,21 +10,21 @@ import { classNames } from "@/utils/classnames";
 export const OutlinedCard = ({
   children,
   className,
-  type = "normal",
+  type = 'normal',
   ...rest
 }) => {
   return (
     <div
-      data-testid="card-outline"
+      data-testid='card-outline'
       className={classNames(
         className,
-        "border border-B0C4DB rounded-3xl",
-        type === "link" &&
-          "transition duration-150 ease-out hover:ease-in hover:shadow-card"
+        'border border-B0C4DB rounded-3xl',
+        type === 'link' &&
+          'transition duration-150 ease-out hover:ease-in hover:shadow-card'
       )}
       {...rest}
     >
       {children}
     </div>
-  );
-};
+  )
+}

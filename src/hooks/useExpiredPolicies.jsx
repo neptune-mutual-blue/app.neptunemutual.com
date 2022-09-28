@@ -1,8 +1,8 @@
-import { useWeb3React } from "@web3-react/core";
-import DateLib from "@/lib/date/DateLib";
-import { useState, useEffect } from "react";
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { useWeb3React } from '@web3-react/core'
+import DateLib from '@/lib/date/DateLib'
+import { useState, useEffect } from 'react'
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -28,42 +28,42 @@ const getQuery = (startOfMonth, account) => {
       }
     }
   }
-  `;
-};
+  `
+}
 
 export const useExpiredPolicies = () => {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
 
-  const { networkId } = useNetwork();
-  const { account } = useWeb3React();
-  const fetchExpiredPolicies = useSubgraphFetch("useExpiredPolicies");
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
+  const fetchExpiredPolicies = useSubgraphFetch('useExpiredPolicies')
 
   useEffect(() => {
     if (!account) {
-      return;
+      return
     }
 
-    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()))
 
-    setLoading(true);
+    setLoading(true)
     fetchExpiredPolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (!_data) return;
-        setData(_data);
+        if (!_data) return
+        setData(_data)
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, [account, fetchExpiredPolicies, networkId]);
+        setLoading(false)
+      })
+  }, [account, fetchExpiredPolicies, networkId])
 
   return {
     data: {
-      expiredPolicies: data["userPolicies"] || [],
+      expiredPolicies: data.userPolicies || []
     },
-    loading,
-  };
-};
+    loading
+  }
+}

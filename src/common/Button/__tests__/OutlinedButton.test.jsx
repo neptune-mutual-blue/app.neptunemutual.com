@@ -1,39 +1,39 @@
-import { render, act, fireEvent } from "@/utils/unit-tests/test-utils";
-import { OutlinedButton } from "../OutlinedButton";
-import { i18n } from "@lingui/core";
+import { render, act, fireEvent } from '@/utils/unit-tests/test-utils'
+import { OutlinedButton } from '../OutlinedButton'
+import { i18n } from '@lingui/core'
 
-describe("should render NeutralButton Component", () => {
+describe('should render NeutralButton Component', () => {
   beforeAll(() => {
     act(() => {
-      i18n.activate("en");
-    });
-  });
+      i18n.activate('en')
+    })
+  })
 
-  test("should receive onClick handler pass to it", () => {
-    const mockOnClick = jest.fn();
-    const { getByRole } = render(<OutlinedButton onClick={mockOnClick} />);
-    const button = getByRole("button");
+  test('should receive onClick handler pass to it', () => {
+    const mockOnClick = jest.fn()
+    const { getByRole } = render(<OutlinedButton onClick={mockOnClick} />)
+    const button = getByRole('button')
 
-    fireEvent.click(button);
+    fireEvent.click(button)
 
-    expect(mockOnClick).toHaveBeenCalledTimes(1);
-  });
+    expect(mockOnClick).toHaveBeenCalledTimes(1)
+  })
 
-  test("should receive classNames pass to it", () => {
+  test('should receive classNames pass to it', () => {
     const { getByRole } = render(
-      <OutlinedButton className="outlined-button-class" />
-    );
-    const button = getByRole("button");
+      <OutlinedButton className='outlined-button-class' />
+    )
+    const button = getByRole('button')
 
-    expect(button).toHaveClass("outlined-button-class");
-  });
+    expect(button).toHaveClass('outlined-button-class')
+  })
 
-  test("should render any children passed to it", () => {
+  test('should render any children passed to it', () => {
     const { getByText } = render(
       <OutlinedButton>Outlined Button</OutlinedButton>
-    );
-    const component = getByText("Outlined Button");
+    )
+    const component = getByText('Outlined Button')
 
-    expect(component).toBeInTheDocument();
-  });
-});
+    expect(component).toBeInTheDocument()
+  })
+})

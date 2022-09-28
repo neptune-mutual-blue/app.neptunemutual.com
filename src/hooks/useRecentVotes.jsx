@@ -1,6 +1,6 @@
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { useState, useEffect } from "react";
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useState, useEffect } from 'react'
 
 const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
   return `
@@ -31,57 +31,57 @@ const getQuery = (limit, page, coverKey, productKey, incidentDate) => {
       }
     }
   }        
-  `;
-};
+  `
+}
 
 export const useRecentVotes = ({
   coverKey,
   productKey,
   incidentDate,
   limit,
-  page,
+  page
 }) => {
   const [data, setData] = useState({
     votes: [],
-    blockNumber: null,
-  });
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const { networkId } = useNetwork();
-  const fetchRecentVotes = useSubgraphFetch("useRecentVotes");
+    blockNumber: null
+  })
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const { networkId } = useNetwork()
+  const fetchRecentVotes = useSubgraphFetch('useRecentVotes')
 
   useEffect(() => {
     if (!coverKey || !incidentDate) {
-      return;
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
     fetchRecentVotes(
       networkId,
       getQuery(limit, page, coverKey, productKey, incidentDate)
     )
       .then((_data) => {
-        if (!_data) return;
+        if (!_data) return
 
         const isLastPage =
-          _data.votes.length === 0 || _data.votes.length < limit;
+          _data.votes.length === 0 || _data.votes.length < limit
 
         if (isLastPage) {
-          setHasMore(false);
+          setHasMore(false)
         }
 
         setData((prev) => ({
           blockNumber: _data._meta.block.number,
-          votes: [...prev.votes, ..._data.votes],
-        }));
+          votes: [...prev.votes, ..._data.votes]
+        }))
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
+        setLoading(false)
+      })
   }, [
     coverKey,
     fetchRecentVotes,
@@ -89,15 +89,15 @@ export const useRecentVotes = ({
     limit,
     networkId,
     page,
-    productKey,
-  ]);
+    productKey
+  ])
 
   return {
     data: {
       blockNumber: data.blockNumber,
-      transactions: data?.votes || [],
+      transactions: data?.votes || []
     },
     loading,
-    hasMore,
-  };
-};
+    hasMore
+  }
+}

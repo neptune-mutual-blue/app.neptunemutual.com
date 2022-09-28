@@ -1,51 +1,51 @@
-import { useEffect, useState } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { config, multicall } from "@neptunemutual/sdk";
+import { useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { config, multicall } from '@neptunemutual/sdk'
 
-import { sumOf } from "@/utils/bn";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useNetwork } from "@/src/context/Network";
+import { sumOf } from '@/utils/bn'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useNetwork } from '@/src/context/Network'
 
 export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
-  const [myTotalLiquidity, setMyTotalLiquidity] = useState("0");
-  const { library, account } = useWeb3React();
-  const { networkId } = useNetwork();
+  const [myTotalLiquidity, setMyTotalLiquidity] = useState('0')
+  const { library, account } = useWeb3React()
+  const { networkId } = useNetwork()
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-    async function exec() {
-      const { Contract, Provider } = multicall;
+    async function exec () {
+      const { Contract, Provider } = multicall
 
-      const multiCallProvider = new Provider(signerOrProvider.provider);
+      const multiCallProvider = new Provider(signerOrProvider.provider)
 
-      await multiCallProvider.init(); // Only required when `chainId` is not provided in the `Provider` constructor
+      await multiCallProvider.init() // Only required when `chainId` is not provided in the `Provider` constructor
 
-      const calls = [];
+      const calls = []
       liquidityList.forEach(({ podAmount, podAddress }) => {
-        const instance = new Contract(podAddress, config.abis.IVault);
+        const instance = new Contract(podAddress, config.abis.IVault)
 
-        calls.push(instance.calculateLiquidity(podAmount));
-      });
+        calls.push(instance.calculateLiquidity(podAmount))
+      })
 
-      const amountsInDai = await multiCallProvider.all(calls);
+      const amountsInDai = await multiCallProvider.all(calls)
 
-      if (ignore) return;
+      if (ignore) return
       setMyTotalLiquidity(
         sumOf(...amountsInDai.map((x) => x.toString())).toString()
-      );
+      )
     }
 
     if (liquidityList.length > 0) {
-      exec();
+      exec()
     }
 
     return () => {
-      ignore = true;
-    };
-  }, [account, library, liquidityList, networkId]);
+      ignore = true
+    }
+  }, [account, library, liquidityList, networkId])
 
-  return myTotalLiquidity;
-};
+  return myTotalLiquidity
+}

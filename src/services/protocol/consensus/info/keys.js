@@ -1,6 +1,6 @@
-import { MULTIPLIER } from "@/src/config/constants";
-import { BigNumber } from "@ethersproject/bignumber";
-import { consensus } from "../../../store-keys";
+import { MULTIPLIER } from '@/src/config/constants'
+import { BigNumber } from '@ethersproject/bignumber'
+import { consensus } from '../../../store-keys'
 
 export const getKeys = async (coverKey, productKey, account, incidentDate) => {
   return [
@@ -8,171 +8,171 @@ export const getKeys = async (coverKey, productKey, account, incidentDate) => {
       coverKey,
       productKey,
       incidentDate,
-      "decision"
+      'decision'
     ),
     consensus.claimPayoutsOf(
       coverKey,
       productKey,
       incidentDate,
-      "claimPayouts"
+      'claimPayouts'
     ),
     consensus.totalStakeIncidentOccurred(
       coverKey,
       productKey,
       incidentDate,
-      "yes"
+      'yes'
     ),
     consensus.totalStakeFalseReporting(
       coverKey,
       productKey,
       incidentDate,
-      "no"
+      'no'
     ),
     consensus.myStakeIncidentOccurred(
       coverKey,
       productKey,
       incidentDate,
       account,
-      "myYes"
+      'myYes'
     ),
     consensus.myStakeFalseReporting(
       coverKey,
       productKey,
       incidentDate,
       account,
-      "myNo"
+      'myNo'
     ),
     consensus.myUnstakenAmount(
       coverKey,
       productKey,
       incidentDate,
       account,
-      "unstaken"
+      'unstaken'
     ),
     consensus.myRewardsUnstaken(
       coverKey,
       productKey,
       incidentDate,
       account,
-      "rewardsUnstaken"
+      'rewardsUnstaken'
     ),
-    consensus.latestIncidentDate(coverKey, productKey, "latestIncidentDate"),
-    consensus.stakeForfeitBurnRate("burnRate"),
-    consensus.stakeForfeitReporterComissionRate("reporterCommission"),
+    consensus.latestIncidentDate(coverKey, productKey, 'latestIncidentDate'),
+    consensus.stakeForfeitBurnRate('burnRate'),
+    consensus.stakeForfeitReporterComissionRate('reporterCommission'),
     {
-      returns: "uint256",
-      property: "totalStakeInWinningCamp",
+      returns: 'uint256',
+      property: 'totalStakeInWinningCamp',
       compute: async ({ result }) => {
-        const { decision, yes, no } = result;
+        const { decision, yes, no } = result
 
         const incidentHappened =
           decision.toNumber() === consensus.CoverStatus.IncidentHappened ||
-          decision.toNumber() === consensus.CoverStatus.Claimable;
+          decision.toNumber() === consensus.CoverStatus.Claimable
 
         if (incidentHappened) {
-          return yes;
+          return yes
         }
 
-        return no;
-      },
+        return no
+      }
     },
     {
-      returns: "uint256",
-      property: "totalStakeInLosingCamp",
+      returns: 'uint256',
+      property: 'totalStakeInLosingCamp',
       compute: async ({ result }) => {
-        const { decision, yes, no } = result;
+        const { decision, yes, no } = result
 
         const incidentHappened =
           decision.toNumber() === consensus.CoverStatus.IncidentHappened ||
-          decision.toNumber() === consensus.CoverStatus.Claimable;
+          decision.toNumber() === consensus.CoverStatus.Claimable
 
         if (incidentHappened) {
-          return no;
+          return no
         }
 
-        return yes;
-      },
+        return yes
+      }
     },
     {
-      returns: "uint256",
-      property: "myStakeInWinningCamp",
+      returns: 'uint256',
+      property: 'myStakeInWinningCamp',
       compute: async ({ result }) => {
-        const { decision, myYes, myNo } = result;
+        const { decision, myYes, myNo } = result
 
         const incidentHappened =
           decision.toNumber() === consensus.CoverStatus.IncidentHappened ||
-          decision.toNumber() === consensus.CoverStatus.Claimable;
+          decision.toNumber() === consensus.CoverStatus.Claimable
 
         if (incidentHappened) {
-          return myYes;
+          return myYes
         }
 
-        return myNo;
-      },
+        return myNo
+      }
     },
     {
-      returns: "uint256",
-      property: "allocatedReward",
+      returns: 'uint256',
+      property: 'allocatedReward',
       compute: async ({ result }) => {
         const {
           myStakeInWinningCamp,
           totalStakeInWinningCamp,
           totalStakeInLosingCamp,
-          latestIncidentDate,
-        } = result;
+          latestIncidentDate
+        } = result
 
         if (latestIncidentDate.toString() !== incidentDate.toString()) {
-          return BigNumber.from("0");
+          return BigNumber.from('0')
         }
 
-        if (totalStakeInWinningCamp.eq("0")) {
-          return totalStakeInWinningCamp;
+        if (totalStakeInWinningCamp.eq('0')) {
+          return totalStakeInWinningCamp
         }
 
         const ratio = myStakeInWinningCamp
           .mul(MULTIPLIER.toString())
-          .div(totalStakeInWinningCamp);
+          .div(totalStakeInWinningCamp)
 
-        return totalStakeInLosingCamp.mul(ratio).div(MULTIPLIER.toString());
-      },
+        return totalStakeInLosingCamp.mul(ratio).div(MULTIPLIER.toString())
+      }
     },
     {
-      returns: "uint256",
-      property: "toBurn",
+      returns: 'uint256',
+      property: 'toBurn',
       compute: async ({ result }) => {
-        const { allocatedReward, burnRate } = result;
-        return allocatedReward.mul(burnRate).div(MULTIPLIER.toString());
-      },
+        const { allocatedReward, burnRate } = result
+        return allocatedReward.mul(burnRate).div(MULTIPLIER.toString())
+      }
     },
     {
-      returns: "uint256",
-      property: "toReporter",
+      returns: 'uint256',
+      property: 'toReporter',
       compute: async ({ result }) => {
-        const { allocatedReward, reporterCommission } = result;
+        const { allocatedReward, reporterCommission } = result
         return allocatedReward
           .mul(reporterCommission)
-          .div(MULTIPLIER.toString());
-      },
+          .div(MULTIPLIER.toString())
+      }
     },
     {
-      returns: "uint256",
-      property: "myReward",
+      returns: 'uint256',
+      property: 'myReward',
       compute: async ({ result }) => {
-        const { allocatedReward, toBurn, toReporter } = result;
-        return allocatedReward.sub(toBurn).sub(toReporter);
-      },
+        const { allocatedReward, toBurn, toReporter } = result
+        return allocatedReward.sub(toBurn).sub(toReporter)
+      }
     },
     {
-      returns: "uint256",
-      property: "willReceive",
+      returns: 'uint256',
+      property: 'willReceive',
       compute: async ({ result }) => {
         const { myStakeInWinningCamp, myReward, unstaken, rewardsUnstaken } =
-          result;
+          result
         return myStakeInWinningCamp
           .add(myReward)
           .sub(unstaken)
-          .sub(rewardsUnstaken);
-      },
-    },
-  ];
-};
+          .sub(rewardsUnstaken)
+      }
+    }
+  ]
+}

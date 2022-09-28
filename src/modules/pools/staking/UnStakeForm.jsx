@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import { RegularButton } from "@/common/Button/RegularButton";
-import { TokenAmountInput } from "@/common/TokenAmountInput/TokenAmountInput";
-import { useBlockHeight } from "@/src/hooks/useBlockHeight";
-import { useStakingPoolWithdraw } from "@/src/hooks/useStakingPoolWithdraw";
+import { useState, useEffect } from 'react'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
+import { useBlockHeight } from '@/src/hooks/useBlockHeight'
+import { useStakingPoolWithdraw } from '@/src/hooks/useStakingPoolWithdraw'
 import {
   convertFromUnits,
   convertToUnits,
   isGreater,
-  isValidNumber,
-} from "@/utils/bn";
-import { t, Trans } from "@lingui/macro";
-import { TokenAmountSpan } from "@/common/TokenAmountSpan";
+  isValidNumber
+} from '@/utils/bn'
+import { t, Trans } from '@lingui/macro'
+import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 
 export const UnStakeForm = ({
   info,
@@ -19,52 +19,52 @@ export const UnStakeForm = ({
   refetchInfo,
   poolKey,
   setModalDisabled,
-  onUnstakeSuccess = () => {},
+  onUnstakeSuccess = () => {}
 }) => {
-  const blockHeight = useBlockHeight();
+  const blockHeight = useBlockHeight()
 
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState()
 
   const { withdrawing, handleWithdraw } = useStakingPoolWithdraw({
     value: inputValue,
     tokenAddress: info.stakingToken,
     tokenSymbol: stakingTokenSymbol,
     poolKey,
-    refetchInfo,
-  });
+    refetchInfo
+  })
 
   useEffect(() => {
     return () => {
-      setInputValue("");
-    };
-  }, []);
+      setInputValue('')
+    }
+  }, [])
 
   useEffect(() => {
-    setModalDisabled((val) => ({ ...val, w: withdrawing }));
-  }, [setModalDisabled, withdrawing]);
+    setModalDisabled((val) => ({ ...val, w: withdrawing }))
+  }, [setModalDisabled, withdrawing])
 
-  const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight);
-  const stakingTokenAddress = info.stakingToken;
-  const stakingDecimals = info.stakingTokenDecimals;
+  const canWithdraw = isGreater(blockHeight, info.canWithdrawFromBlockHeight)
+  const stakingTokenAddress = info.stakingToken
+  const stakingDecimals = info.stakingTokenDecimals
   const isError =
     inputValue &&
     (!isValidNumber(inputValue) ||
-      isGreater(convertToUnits(inputValue || "0"), stakedAmount));
+      isGreater(convertToUnits(inputValue || '0'), stakedAmount))
 
   const handleChooseMax = () => {
-    setInputValue(convertFromUnits(stakedAmount, stakingDecimals).toString());
-  };
+    setInputValue(convertFromUnits(stakedAmount, stakingDecimals).toString())
+  }
 
   const handleChange = (val) => {
-    if (typeof val === "string") {
-      setInputValue(val);
+    if (typeof val === 'string') {
+      setInputValue(val)
     }
-  };
+  }
 
   return (
-    <div className="px-12 mt-6">
+    <div className='px-12 mt-6'>
       <TokenAmountInput
-        inputId={"withdraw-amount"}
+        inputId='withdraw-amount'
         inputValue={inputValue}
         handleChooseMax={handleChooseMax}
         labelText={t`Amount you wish to withdraw`}
@@ -73,8 +73,8 @@ export const UnStakeForm = ({
         tokenAddress={stakingTokenAddress}
         disabled={withdrawing}
       >
-        <p className="-ml-3">
-          <Trans>Your Stake:</Trans>{" "}
+        <p className='-ml-3'>
+          <Trans>Your Stake:</Trans>{' '}
           <TokenAmountSpan
             amountInUnits={stakedAmount}
             symbol={stakingTokenSymbol}
@@ -82,7 +82,7 @@ export const UnStakeForm = ({
           />
         </p>
         {!canWithdraw && (
-          <p className="flex items-center -ml-3 text-FA5C2F">
+          <p className='flex items-center -ml-3 text-FA5C2F'>
             <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
@@ -90,16 +90,16 @@ export const UnStakeForm = ({
 
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}
-        className="w-full p-6 mt-8 font-semibold uppercase text-h6"
+        className='w-full p-6 mt-8 font-semibold uppercase text-h6'
         onClick={() => {
           handleWithdraw(() => {
-            onUnstakeSuccess();
-            refetchInfo();
-          });
+            onUnstakeSuccess()
+            refetchInfo()
+          })
         }}
       >
         {withdrawing ? t`Withdrawing...` : t`Unstake`}
       </RegularButton>
     </div>
-  );
-};
+  )
+}

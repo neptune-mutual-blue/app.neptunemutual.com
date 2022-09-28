@@ -1,39 +1,39 @@
-import React, { useCallback, useState } from "react";
-import * as Dialog from "@radix-ui/react-dialog";
-import { ModalRegular } from "@/common/Modal/ModalRegular";
-import { DEFAULT_GAS_LIMIT } from "@/src/config/constants";
-import { getErrorMessage } from "@/src/helpers/tx";
-import { calculateGasMargin } from "@/utils/bn";
-import { Divider } from "@/common/Divider/Divider";
-import { ModalWrapper } from "@/common/Modal/ModalWrapper";
-import { useTransactionHistory } from "@/src/hooks/useTransactionHistory";
-import { contractRead } from "@/src/services/readContract";
+import React, { useCallback, useState } from 'react'
+import * as Dialog from '@radix-ui/react-dialog'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { DEFAULT_GAS_LIMIT } from '@/src/config/constants'
+import { getErrorMessage } from '@/src/helpers/tx'
+import { calculateGasMargin } from '@/utils/bn'
+import { Divider } from '@/common/Divider/Divider'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { useTransactionHistory } from '@/src/hooks/useTransactionHistory'
+import { contractRead } from '@/src/services/readContract'
 
 const initValue = {
   // prettier-ignore
   writeContract: async ({instance, methodName, overrides = {},  args = [],  onTransactionResult, onRetryCancel, onError}) => {}, // eslint-disable-line
-  contractRead,
-};
+  contractRead
+}
 
-const TxPosterContext = React.createContext(initValue);
+const TxPosterContext = React.createContext(initValue)
 
-export function useTxPoster() {
-  const context = React.useContext(TxPosterContext);
+export function useTxPoster () {
+  const context = React.useContext(TxPosterContext)
   if (context === undefined) {
-    throw new Error("useTxPoster must be used within a TxPosterProvider");
+    throw new Error('useTxPoster must be used within a TxPosterProvider')
   }
-  return context;
+  return context
 }
 
 export const TxPosterProvider = ({ children }) => {
   const [data, setData] = useState({
-    description: "",
-    message: "",
+    description: '',
+    message: '',
     isError: false,
-    pendingInvokeArgs: {},
-  });
+    pendingInvokeArgs: {}
+  })
 
-  useTransactionHistory();
+  useTransactionHistory()
 
   const writeContract = useCallback(
     async ({
@@ -43,33 +43,33 @@ export const TxPosterProvider = ({ children }) => {
       args = [],
       onTransactionResult = (_tx) => {},
       onRetryCancel = () => {},
-      onError = console.error,
+      onError = console.error
     }) => {
       if (!instance) {
-        onError(new Error("Instance not found"));
-        return;
+        onError(new Error('Instance not found'))
+        return
       }
 
-      let estimatedGas = null;
+      let estimatedGas = null
 
       try {
-        estimatedGas = await instance.estimateGas[methodName](...args);
+        estimatedGas = await instance.estimateGas[methodName](...args)
 
         const tx = await instance[methodName](...args, {
           gasLimit: calculateGasMargin(estimatedGas),
-          ...overrides,
-        });
+          ...overrides
+        })
 
-        onTransactionResult(tx);
+        onTransactionResult(tx)
       } catch (err) {
-        console.log(`Could not estimate gas for "${methodName}", args: `, args);
+        console.log(`Could not estimate gas for "${methodName}", args: `, args)
 
-        onError(err);
+        onError(err)
 
         // Could not estimate gas, therefore could not proceed
         // Shows popup (with following description and message) and wait for user confirmation
-        const argsStr = JSON.stringify(args);
-        const description = `Could not estimate gas for "${methodName}", args: ${argsStr}`;
+        const argsStr = JSON.stringify(args)
+        const description = `Could not estimate gas for "${methodName}", args: ${argsStr}`
 
         setData({
           description: description,
@@ -82,14 +82,13 @@ export const TxPosterProvider = ({ children }) => {
             args,
             onTransactionResult,
             onRetryCancel,
-            onError,
-          },
-        });
-        return;
+            onError
+          }
+        })
       }
     },
     []
-  );
+  )
 
   const handleContinue = async () => {
     const {
@@ -98,48 +97,48 @@ export const TxPosterProvider = ({ children }) => {
       overrides,
       args,
       onTransactionResult,
-      onError,
-    } = data.pendingInvokeArgs;
+      onError
+    } = data.pendingInvokeArgs
 
     try {
       // Closes modal and clears data
       setData({
-        description: "",
-        message: "",
+        description: '',
+        message: '',
         isError: false,
-        pendingInvokeArgs: {},
-      });
+        pendingInvokeArgs: {}
+      })
 
       const tx = await instance[methodName](...args, {
         gasLimit: DEFAULT_GAS_LIMIT,
-        ...overrides,
-      });
+        ...overrides
+      })
 
-      onTransactionResult(tx);
+      onTransactionResult(tx)
     } catch (err) {
-      onError(err);
+      onError(err)
     }
-  };
+  }
 
   const handleClose = () => {
     setData((prevData) => {
-      const { onRetryCancel } = prevData.pendingInvokeArgs;
-      onRetryCancel && onRetryCancel();
+      const { onRetryCancel } = prevData.pendingInvokeArgs
+      onRetryCancel && onRetryCancel()
 
       return {
-        description: "",
-        message: "",
+        description: '',
+        message: '',
         isError: false,
-        pendingInvokeArgs: {},
-      };
-    });
-  };
+        pendingInvokeArgs: {}
+      }
+    })
+  }
 
   return (
     <TxPosterContext.Provider
       value={{
         writeContract,
-        contractRead,
+        contractRead
       }}
     >
       {children}
@@ -151,60 +150,60 @@ export const TxPosterProvider = ({ children }) => {
         handleContinue={handleContinue}
       />
     </TxPosterContext.Provider>
-  );
-};
+  )
+}
 
 const ForceTxModal = ({
   isOpen,
   onClose,
   message,
   description,
-  handleContinue,
+  handleContinue
 }) => {
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose}>
-      <ModalWrapper className="max-w-xs sm:max-w-lg md:max-w-2xl bg-FEFEFF">
-        <Dialog.Title className="flex items-center">
-          <div className="mb-4 font-semibold text-black font-sora text-h4">
+      <ModalWrapper className='max-w-xs sm:max-w-lg md:max-w-2xl bg-FEFEFF'>
+        <Dialog.Title className='flex items-center'>
+          <div className='mb-4 font-semibold text-black font-sora text-h4'>
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
-        <div className="overflow-y-auto text-sm max-h-54">
-          <div className="mb-5">
-            <p className="leading-5 text-404040 font-poppins">
+        <div className='overflow-y-auto text-sm max-h-54'>
+          <div className='mb-5'>
+            <p className='leading-5 text-404040 font-poppins'>
               We attempted to submit your transaction but ran into an unexpected
               error. The smart contract sent the following error message:
             </p>
           </div>
 
-          <div className="mb-5">
-            <p className="text-940000">{message}</p>
+          <div className='mb-5'>
+            <p className='text-940000'>{message}</p>
           </div>
 
-          <div className="mb-4 text-940000">
-            <p className="break-words whitespace-pre-wrap">{description}</p>
+          <div className='mb-4 text-940000'>
+            <p className='break-words whitespace-pre-wrap'>{description}</p>
           </div>
         </div>
 
-        <Divider className="mt-0 mb-4" />
+        <Divider className='mt-0 mb-4' />
 
-        <div className="mb-5">
-          <p className="text-sm leading-5 text-404040 font-poppins">
+        <div className='mb-5'>
+          <p className='text-sm leading-5 text-404040 font-poppins'>
             While we do not suggest it, you may force this transaction to be
             sent nonetheless.
           </p>
         </div>
 
-        <div className="flex flex-col justify-end sm:flex-row">
+        <div className='flex flex-col justify-end sm:flex-row'>
           <button
-            className="w-full p-3 mb-4 font-medium border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10"
+            className='w-full p-3 mb-4 font-medium border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10'
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className="w-full p-3 font-medium text-white rounded sm:w-auto bg-E52E2E"
+            className='w-full p-3 font-medium text-white rounded sm:w-auto bg-E52E2E'
             onClick={handleContinue}
           >
             Send Transaction Ignoring This Error
@@ -212,5 +211,5 @@ const ForceTxModal = ({
         </div>
       </ModalWrapper>
     </ModalRegular>
-  );
-};
+  )
+}

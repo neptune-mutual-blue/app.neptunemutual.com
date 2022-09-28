@@ -1,20 +1,20 @@
 export const getErrorMessage = (_error) => {
   try {
-    let error = _error.error || _error;
+    const error = _error.error || _error
     if (!error || !error.message) {
-      return "Unexpected Error Occurred";
+      return 'Unexpected Error Occurred'
     }
 
     if (error?.data?.message) {
-      return error.data.message.trim().replace("execution reverted: ", "");
+      return error.data.message.trim().replace('execution reverted: ', '')
     } else if (error?.data?.originalError?.message) {
       return error.data.originalError.message
         .trim()
-        .replace("execution reverted: ", "");
+        .replace('execution reverted: ', '')
     }
 
-    return error.message.trim().replace("MetaMask Tx Signature: ", "");
+    return error.message.trim().replace('MetaMask Tx Signature: ', '')
   } catch (err) {
-    return "Something went wrong";
+    return 'Something went wrong'
   }
-};
+}

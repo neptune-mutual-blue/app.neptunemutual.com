@@ -1,7 +1,7 @@
-import { getParsedCoverInfo, getParsedProductInfo } from "@/src/helpers/cover";
-import { getSubgraphData } from "@/src/services/subgraph";
+import { getParsedCoverInfo, getParsedProductInfo } from '@/src/helpers/cover'
+import { getSubgraphData } from '@/src/services/subgraph'
 
-export async function getCoverData(networkId, coverKey) {
+export async function getCoverData (networkId, coverKey) {
   const data = await getSubgraphData(
     networkId,
     `{
@@ -20,9 +20,9 @@ export async function getCoverData(networkId, coverKey) {
     }
   }
 }`
-  );
+  )
 
-  if (!data) return null;
+  if (!data) return null
 
   const products = await Promise.all(
     data.cover.products.map(async (product) => ({
@@ -31,9 +31,9 @@ export async function getCoverData(networkId, coverKey) {
       coverKey: product.coverKey,
       ipfsHash: product.ipfsHash,
       ipfsData: product.ipfsData,
-      infoObj: await getParsedProductInfo(product.ipfsData, product.ipfsHash),
+      infoObj: await getParsedProductInfo(product.ipfsData, product.ipfsHash)
     }))
-  );
+  )
 
   return {
     id: data.cover.id,
@@ -42,11 +42,11 @@ export async function getCoverData(networkId, coverKey) {
     ipfsHash: data.cover.ipfsHash,
     ipfsData: data.cover.ipfsData,
     infoObj: await getParsedCoverInfo(data.cover.ipfsData, data.cover.ipfsHash),
-    products: products,
-  };
+    products: products
+  }
 }
 
-export async function getCoverProductData(networkId, coverKey, productKey) {
+export async function getCoverProductData (networkId, coverKey, productKey) {
   const data = await getSubgraphData(
     networkId,
     `{
@@ -65,9 +65,9 @@ export async function getCoverProductData(networkId, coverKey, productKey) {
     }
   }
 }`
-  );
+  )
 
-  if (!data) return null;
+  if (!data) return null
 
   return {
     id: data.product.id,
@@ -88,7 +88,7 @@ export async function getCoverProductData(networkId, coverKey, productKey) {
       infoObj: await getParsedCoverInfo(
         data.product.cover.ipfsData,
         data.product.cover.ipfsHash
-      ),
-    },
-  };
+      )
+    }
+  }
 }

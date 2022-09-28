@@ -1,23 +1,23 @@
-export function createRandomString(length) {
-  let result = "";
-  let characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+export function createRandomString (length) {
+  let result = ''
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * length));
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * length))
   }
 
-  return result;
+  return result
 }
 
-export function createMockTableData({ count = 3, fields = [] }) {
+export function createMockTableData ({ count = 3, fields = [] }) {
   return [...Array(count)].map((_) => {
-    let objectValue = {};
+    const objectValue = {}
 
     fields.forEach((field) => {
-      objectValue[field] = createRandomString();
-    });
+      objectValue[field] = createRandomString()
+    })
 
-    return objectValue;
-  });
+    return objectValue
+  })
 }

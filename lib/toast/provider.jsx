@@ -2,13 +2,13 @@
  * Inspiration: https://github.com/damikun/React-Toast
  * Author: Dalibor Kundrat  https://github.com/damikun
  */
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, useMemo } from 'react'
 
-import ToastContainer from "./container";
-import { ToastContext } from "./context";
-import { v4 as uuidv4 } from "uuid";
+import ToastContainer from './container'
+import { ToastContext } from './context'
+import { v4 as uuidv4 } from 'uuid'
 
-const DEFAULT_INTERVAL = 30000; // 30 seconds
+const DEFAULT_INTERVAL = 30000 // 30 seconds
 
 /**
  * Implementation
@@ -18,9 +18,9 @@ const DEFAULT_INTERVAL = 30000; // 30 seconds
  * @param {JSX.Element | undefined} [param.children]
  */
 export const ToastProvider = ({ children, variant }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([])
 
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(false)
 
   const Push = useCallback(
     (message, type, lifetime, title) => {
@@ -30,15 +30,15 @@ export const ToastProvider = ({ children, variant }) => {
           message: message,
           type: type,
           lifetime: lifetime || DEFAULT_INTERVAL,
-          title,
-        };
-        setData((prevState) => [...prevState, newItem]);
+          title
+        }
+        setData((prevState) => [...prevState, newItem])
 
-        return newItem.id;
+        return newItem.id
       }
     },
     [setData]
-  );
+  )
   const PushCustom = useCallback(
     ({ message, lifetime, icon, header }) => {
       if (message) {
@@ -48,47 +48,47 @@ export const ToastProvider = ({ children, variant }) => {
           lifetime: lifetime || DEFAULT_INTERVAL,
           icon: icon,
           header: header,
-          type: undefined,
-        };
-        setData((prevState) => [...prevState, newItem]);
+          type: undefined
+        }
+        setData((prevState) => [...prevState, newItem])
 
-        return newItem.id;
+        return newItem.id
       }
     },
     [setData]
-  );
+  )
   const PushError = useCallback(
-    ({ message, title = "Error", lifetime }) =>
-      Push(message, "Error", lifetime, title),
+    ({ message, title = 'Error', lifetime }) =>
+      Push(message, 'Error', lifetime, title),
     [Push]
-  );
+  )
   const PushWarning = useCallback(
-    ({ message, title = "Warning", lifetime }) =>
-      Push(message, "Warning", lifetime, title),
+    ({ message, title = 'Warning', lifetime }) =>
+      Push(message, 'Warning', lifetime, title),
     [Push]
-  );
+  )
   const PushSuccess = useCallback(
-    ({ message, title = "Success", lifetime }) =>
-      Push(message, "Success", lifetime, title),
+    ({ message, title = 'Success', lifetime }) =>
+      Push(message, 'Success', lifetime, title),
     [Push]
-  );
+  )
   const PushInfo = useCallback(
-    ({ message, title = "Info", lifetime }) =>
-      Push(message, "Info", lifetime, title),
+    ({ message, title = 'Info', lifetime }) =>
+      Push(message, 'Info', lifetime, title),
     [Push]
-  );
+  )
   const PushLoading = useCallback(
-    ({ message, title = "Loading", lifetime }) =>
-      Push(message, "Loading", lifetime, title),
+    ({ message, title = 'Loading', lifetime }) =>
+      Push(message, 'Loading', lifetime, title),
     [Push]
-  );
+  )
   const remove = useCallback(async (id) => {
-    setData((prevState) => prevState.filter((e) => e.id !== id));
-  }, []);
+    setData((prevState) => prevState.filter((e) => e.id !== id))
+  }, [])
 
   const hide = useCallback(async (status) => {
-    setHidden(status);
-  }, []);
+    setHidden(status)
+  }, [])
 
   const toastFunctions = useMemo(
     () => ({
@@ -100,7 +100,7 @@ export const ToastProvider = ({ children, variant }) => {
       push: Push,
       pushCustom: PushCustom,
       remove,
-      hide,
+      hide
     }),
     [
       Push,
@@ -111,14 +111,14 @@ export const ToastProvider = ({ children, variant }) => {
       PushSuccess,
       PushWarning,
       remove,
-      hide,
+      hide
     ]
-  );
+  )
 
   return (
     <ToastContext.Provider value={toastFunctions}>
       <ToastContainer variant={variant} data={data} hidden={hidden} />
       {children}
     </ToastContext.Provider>
-  );
-};
+  )
+}

@@ -1,114 +1,114 @@
-import { safeParseBytes32String } from "@/utils/formatter/bytes32String";
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 
 const ViewCover = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey);
+  const coverId = safeParseBytes32String(coverKey)
 
-  return `/covers/${coverId}`;
-};
+  return `/covers/${coverId}`
+}
 
 const ViewProduct = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  return `/covers/${coverId}/products/${productId}`;
-};
+  return `/covers/${coverId}/products/${productId}`
+}
 
 const ProvideLiquidity = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey);
+  const coverId = safeParseBytes32String(coverKey)
 
-  return `/covers/${coverId}/add-liquidity`;
-};
+  return `/covers/${coverId}/add-liquidity`
+}
 
 const PurchasePolicy = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  if (productId === "") {
-    return `/covers/${coverId}/purchase`;
+  if (productId === '') {
+    return `/covers/${coverId}/purchase`
   }
 
-  return `/covers/${coverId}/products/${productId}/purchase`;
-};
+  return `/covers/${coverId}/products/${productId}/purchase`
+}
 
 const ReportNewIncident = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  if (productId === "") {
-    return `/covers/${coverId}/new-report`;
+  if (productId === '') {
+    return `/covers/${coverId}/new-report`
   }
 
-  return `/covers/${coverId}/products/${productId}/new-report`;
-};
+  return `/covers/${coverId}/products/${productId}/new-report`
+}
 
 const ClaimPolicy = (coverKey, productKey, incidentDate) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  if (productId === "") {
-    return `/my-policies/${coverId}/incidents/${incidentDate}/claim`;
+  if (productId === '') {
+    return `/my-policies/${coverId}/incidents/${incidentDate}/claim`
   }
 
-  return `/my-policies/${coverId}/products/${productId}/incidents/${incidentDate}/claim`;
-};
+  return `/my-policies/${coverId}/products/${productId}/incidents/${incidentDate}/claim`
+}
 
 const ViewPolicyReceipt = (txHash) => {
-  return `/my-policies/receipt/${txHash}`;
-};
+  return `/my-policies/receipt/${txHash}`
+}
 
 const ViewReport = (coverKey, productKey, incidentDate) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  if (productId === "") {
-    return `/reports/${coverId}/incidents/${incidentDate}`;
+  if (productId === '') {
+    return `/reports/${coverId}/incidents/${incidentDate}`
   }
 
-  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}`;
-};
+  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}`
+}
 
 const DisputeReport = (coverKey, productKey, incidentDate) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  if (productId === "") {
-    return `/reports/${coverId}/incidents/${incidentDate}/dispute`;
+  if (productId === '') {
+    return `/reports/${coverId}/incidents/${incidentDate}/dispute`
   }
 
-  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/dispute`;
-};
+  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/dispute`
+}
 
 const ViewCoverReports = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey);
+  const coverId = safeParseBytes32String(coverKey)
 
-  return `/reports/${coverId}`;
-};
+  return `/reports/${coverId}`
+}
 
 const MyCoverLiquidity = (coverKey) => {
-  const coverId = safeParseBytes32String(coverKey);
+  const coverId = safeParseBytes32String(coverKey)
 
-  return `/my-liquidity/${coverId}`;
-};
+  return `/my-liquidity/${coverId}`
+}
 
 const ViewProductReports = (coverKey, productKey) => {
-  const coverId = safeParseBytes32String(coverKey);
-  const productId = safeParseBytes32String(productKey);
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
 
-  return `/reports/${coverId}/products/${productId}`;
-};
+  return `/reports/${coverId}/products/${productId}`
+}
 
-const Home = `/`;
-const BondTransactions = `/pools/bond/transactions`;
-const PolicyTransactions = `/my-policies/transactions`;
-const LiquidityTransactions = `/my-liquidity/transactions`;
-const MyPolicies = `/my-policies/active`;
-const MyExpiredPolicies = `/my-policies/expired`;
-const MyLiquidity = `/my-liquidity`;
-const ActiveReports = `/reports/active`;
-const ResolvedReports = `/reports/resolved`;
-const BondPool = "/pools/bond";
-const StakingPools = "/pools/staking";
-const PodStakingPools = "/pools/pod-staking";
+const Home = '/'
+const BondTransactions = '/pools/bond/transactions'
+const PolicyTransactions = '/my-policies/transactions'
+const LiquidityTransactions = '/my-liquidity/transactions'
+const MyPolicies = '/my-policies/active'
+const MyExpiredPolicies = '/my-policies/expired'
+const MyLiquidity = '/my-liquidity'
+const ActiveReports = '/reports/active'
+const ResolvedReports = '/reports/resolved'
+const BondPool = '/pools/bond'
+const StakingPools = '/pools/staking'
+const PodStakingPools = '/pools/pod-staking'
 
 export const Routes = {
   Home,
@@ -134,5 +134,5 @@ export const Routes = {
   ReportNewIncident,
   ClaimPolicy,
   ViewCoverReports,
-  ViewProductReports,
-};
+  ViewProductReports
+}

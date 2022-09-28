@@ -11,7 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2022-07-28 08:22\n"
 "Last-Translator: \n"
 "Language-Team: Russian\n"
-"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 === 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
 "X-Crowdin-Project: neptune-mutual-translations\n"
 "X-Crowdin-Project-ID: 529256\n"
 "X-Crowdin-Language: ru\n"
@@ -1055,10 +1055,10 @@ msgstr "Нет POD"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:250
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:80
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:80
 msgid "No data found"
 msgstr "Данные не найдены"
 
@@ -1074,8 +1074,8 @@ msgstr "Нет истории транзакций для отображения
 msgid "No valid incidents are reported with the given timestamp"
 msgstr "Нет сообщений о действительных инцидентах с заданной отметкой времени"
 
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:91
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:91
 msgid "Not applicable for disputing"
 msgstr "Не применимо к спорам"
 
@@ -1879,12 +1879,12 @@ msgstr "https://"
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
 #: src/modules/reporting/resolved/resolved.jsx:250
 #: src/pages/my-liquidity/index.jsx:43
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:74
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:74
 msgid "loading..."
 msgstr "загрузка..."
 

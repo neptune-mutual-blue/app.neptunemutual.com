@@ -1,5 +1,5 @@
-import { classNames } from "@/utils/classnames";
-import * as Tooltip from "@radix-ui/react-tooltip";
+import { classNames } from '@/utils/classnames'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 /**
  *
@@ -20,15 +20,15 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 export const InfoTooltip = ({
   children,
   infoComponent,
-  className = "",
-  position = "top",
+  className = '',
+  position = 'top',
   positionOffset = 5,
-  align = "center",
+  align = 'center',
   alignOffset = 0,
   arrow = true,
   arrowOffset = 4,
   delayDuration = 200,
-  disabled = false,
+  disabled = false
 }) => (
   <Tooltip.Root delayDuration={delayDuration}>
     <Tooltip.Trigger asChild={!disabled} disabled={disabled}>
@@ -36,8 +36,8 @@ export const InfoTooltip = ({
     </Tooltip.Trigger>
     <Tooltip.Content
       className={classNames(
-        "flex flex-col gap-y-1 text-xs leading-5 font-poppins max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview",
-        className ? className : "p-4"
+        'flex flex-col gap-y-1 text-xs leading-5 font-poppins max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview',
+        className || 'p-4'
       )}
       side={position}
       sideOffset={positionOffset}
@@ -46,13 +46,13 @@ export const InfoTooltip = ({
     >
       {arrow && (
         <Tooltip.Arrow
-          className=""
+          className=''
           offset={arrowOffset}
-          fill="#01052D"
+          fill='#01052D'
           height={7}
         />
       )}
       {infoComponent}
     </Tooltip.Content>
   </Tooltip.Root>
-);
+)

@@ -16,16 +16,16 @@
 // const target = DateLib.unix() + 60 * 60 * 44;
 // const formatCount = (n) => String(n).padStart(2, "0");
 
-export function getStaticProps() {
+export function getStaticProps () {
   return {
     // returns the default 404 page with a status code of 404 in production
-    notFound: process.env.NODE_ENV === "production",
-    props: {},
-  };
+    notFound: process.env.NODE_ENV === 'production',
+    props: {}
+  }
 }
 
-export default function Components() {
-  return null;
+export default function Components () {
+  return null
   // const { hours, minutes, seconds } = useCountdown({
   //   target,
   //   getTime,

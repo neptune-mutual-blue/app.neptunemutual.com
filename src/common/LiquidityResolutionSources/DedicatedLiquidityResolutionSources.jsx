@@ -1,27 +1,27 @@
-import { useRouter } from "next/router";
-import { CoverResolutionSources } from "@/common/Cover/CoverResolutionSources";
-import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { Trans } from "@lingui/macro";
-import { useAppConstants } from "@/src/context/AppConstants";
+import { useRouter } from 'next/router'
+import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { Trans } from '@lingui/macro'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 export const DedicatedLiquidityResolutionSources = ({
   coverInfo,
   info,
-  children,
+  children
 }) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { liquidityTokenDecimals } = useAppConstants();
+  const { liquidityTokenDecimals } = useAppConstants()
 
-  const totalLiquidity = info.totalLiquidity;
-  const reassuranceAmount = info.totalReassurance;
+  const totalLiquidity = info.totalLiquidity
+  const reassuranceAmount = info.totalReassurance
 
   return (
     <CoverResolutionSources coverInfo={coverInfo}>
-      <hr className="mt-4 mb-6 border-t border-B0C4DB/60" />
+      <hr className='mt-4 mb-6 border-t border-B0C4DB/60' />
       <div
-        className="flex justify-between pb-2"
+        className='flex justify-between pb-2'
         title={
           formatCurrency(
             convertFromUnits(totalLiquidity, liquidityTokenDecimals),
@@ -29,10 +29,10 @@ export const DedicatedLiquidityResolutionSources = ({
           ).long
         }
       >
-        <span className="">
+        <span className=''>
           <Trans>Total Liquidity:</Trans>
         </span>
-        <strong className="font-bold text-right">
+        <strong className='font-bold text-right'>
           {
             formatCurrency(
               convertFromUnits(totalLiquidity, liquidityTokenDecimals),
@@ -42,7 +42,7 @@ export const DedicatedLiquidityResolutionSources = ({
         </strong>
       </div>
       <div
-        className="flex justify-between"
+        className='flex justify-between'
         title={
           formatCurrency(
             convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
@@ -50,10 +50,10 @@ export const DedicatedLiquidityResolutionSources = ({
           ).long
         }
       >
-        <span className="">
+        <span className=''>
           <Trans>Reassurance:</Trans>
         </span>
-        <strong className="font-bold text-right">
+        <strong className='font-bold text-right'>
           {
             formatCurrency(
               convertFromUnits(reassuranceAmount, liquidityTokenDecimals),
@@ -65,5 +65,5 @@ export const DedicatedLiquidityResolutionSources = ({
 
       {children}
     </CoverResolutionSources>
-  );
-};
+  )
+}

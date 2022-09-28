@@ -1,59 +1,59 @@
-import { useExpiredPolicies } from "@/src/hooks/useExpiredPolicies";
-import { mockFn, renderHookWrapper } from "@/utils/unit-tests/test-mockup-fn";
+import { useExpiredPolicies } from '@/src/hooks/useExpiredPolicies'
+import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
 
-describe("useExpiredPolicies", () => {
-  const { mock, restore, mockFunction } = mockFn.console.error();
+describe('useExpiredPolicies', () => {
+  const { mock, restore, mockFunction } = mockFn.console.error()
 
-  mockFn.useNetwork();
-  mockFn.useWeb3React();
-  mockFn.getGraphURL();
+  mockFn.useNetwork()
+  mockFn.useWeb3React()
+  mockFn.getGraphURL()
 
-  test("should return default value when null data returned from api", async () => {
-    const mockData = { data: null };
-    mockFn.fetch(true, undefined, mockData);
+  test('should return default value when null data returned from api', async () => {
+    const mockData = { data: null }
+    mockFn.fetch(true, undefined, mockData)
 
-    const { result } = await renderHookWrapper(useExpiredPolicies);
-    expect(result.data).toEqual({ expiredPolicies: [] });
-    expect(result.loading).toEqual(false);
+    const { result } = await renderHookWrapper(useExpiredPolicies)
+    expect(result.data).toEqual({ expiredPolicies: [] })
+    expect(result.loading).toEqual(false)
 
-    mockFn.fetch().unmock();
-  });
+    mockFn.fetch().unmock()
+  })
 
-  test("should return result when data received from api", async () => {
+  test('should return result when data received from api', async () => {
     const mockData = {
-      data: { userPolicies: [{ id: 1, policyName: "my-policy" }] },
-    };
-    mockFn.fetch(true, undefined, mockData);
+      data: { userPolicies: [{ id: 1, policyName: 'my-policy' }] }
+    }
+    mockFn.fetch(true, undefined, mockData)
 
-    const { result } = await renderHookWrapper(useExpiredPolicies, [], true);
+    const { result } = await renderHookWrapper(useExpiredPolicies, [], true)
     expect(result.data).toEqual({
-      expiredPolicies: mockData.data.userPolicies,
-    });
-    expect(result.loading).toEqual(false);
-  });
+      expiredPolicies: mockData.data.userPolicies
+    })
+    expect(result.loading).toEqual(false)
+  })
 
-  test("should return if no account data available", async () => {
-    mockFn.useWeb3React(() => ({ account: null }));
+  test('should return if no account data available', async () => {
+    mockFn.useWeb3React(() => ({ account: null }))
 
-    const { result } = await renderHookWrapper(useExpiredPolicies, []);
+    const { result } = await renderHookWrapper(useExpiredPolicies, [])
     expect(result.data).toEqual({
-      expiredPolicies: [],
-    });
+      expiredPolicies: []
+    })
 
-    mockFn.useWeb3React();
-  });
+    mockFn.useWeb3React()
+  })
 
-  test("should log error if error occurs in api", async () => {
-    mockFn.fetch(false);
-    mock();
+  test('should log error if error occurs in api', async () => {
+    mockFn.fetch(false)
+    mock()
 
-    const { result } = await renderHookWrapper(useExpiredPolicies, [], true);
+    const { result } = await renderHookWrapper(useExpiredPolicies, [], true)
     expect(result.data).toEqual({
-      expiredPolicies: [],
-    });
-    expect(mockFunction).toHaveBeenCalled();
+      expiredPolicies: []
+    })
+    expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock();
-    restore();
-  });
-});
+    mockFn.fetch().unmock()
+    restore()
+  })
+})

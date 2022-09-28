@@ -1,36 +1,36 @@
-import { getGraphURL } from "@/src/config/environment";
+import { getGraphURL } from '@/src/config/environment'
 
-export async function getSubgraphData(networkId, query) {
+export async function getSubgraphData (networkId, query) {
   if (!networkId) {
-    return null;
+    return null
   }
 
-  const graphURL = getGraphURL(networkId);
+  const graphURL = getGraphURL(networkId)
 
   if (!graphURL) {
-    return null;
+    return null
   }
 
   const response = await fetch(graphURL, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
     },
     body: JSON.stringify({
-      query: query,
-    }),
-  });
+      query: query
+    })
+  })
 
   if (!response.ok) {
-    return null;
+    return null
   }
 
-  const result = await response.json();
+  const result = await response.json()
 
   if (result.errors) {
-    return null;
+    return null
   }
 
-  return result.data;
+  return result.data
 }

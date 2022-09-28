@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { useWeb3React } from "@web3-react/core";
-import useAuth from "../../hooks/useAuth";
-import { Popup } from "./Popup";
+import { useWeb3React } from '@web3-react/core'
+import useAuth from '../../hooks/useAuth'
+import { Popup } from './Popup'
 
-export default function ConnectWallet({ networkId, notifier, children }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { active } = useWeb3React();
+export default function ConnectWallet ({ networkId, notifier, children }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const { active } = useWeb3React()
 
-  const { logout } = useAuth(networkId, notifier);
+  const { logout } = useAuth(networkId, notifier)
 
-  function onClose() {
-    setIsOpen(false);
+  function onClose () {
+    setIsOpen(false)
   }
 
-  function onOpen() {
+  function onOpen () {
     if (active) {
-      logout();
+      logout()
     }
 
-    setIsOpen(true);
+    setIsOpen(true)
   }
 
   return (
@@ -32,5 +32,5 @@ export default function ConnectWallet({ networkId, notifier, children }) {
         notifier={notifier}
       />
     </>
-  );
+  )
 }

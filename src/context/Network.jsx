@@ -1,34 +1,34 @@
-import React from "react";
+import React from 'react'
 
-import { useEagerConnect } from "@/lib/connect-wallet/hooks/useEagerConnect";
-import { useInactiveListener } from "@/lib/connect-wallet/hooks/useInactiveListener";
-import { getNetworkId } from "@/src/config/environment";
+import { useEagerConnect } from '@/lib/connect-wallet/hooks/useEagerConnect'
+import { useInactiveListener } from '@/lib/connect-wallet/hooks/useInactiveListener'
+import { getNetworkId } from '@/src/config/environment'
 
-const NetworkContext = React.createContext({ networkId: null });
+const NetworkContext = React.createContext({ networkId: null })
 
-export function useNetwork() {
-  const context = React.useContext(NetworkContext);
+export function useNetwork () {
+  const context = React.useContext(NetworkContext)
   if (context === undefined) {
-    throw new Error("useAppContext must be used within a AppWrapper");
+    throw new Error('useAppContext must be used within a AppWrapper')
   }
-  return context;
+  return context
 }
 
 export const NetworkProvider = ({ children }) => {
-  const networkId = getNetworkId();
+  const networkId = getNetworkId()
 
   return (
     <NetworkContext.Provider value={{ networkId }}>
       {networkId && <PostNetworkIdLoad networkId={networkId} />}
       {children}
     </NetworkContext.Provider>
-  );
-};
+  )
+}
 
 // This component makes sure that given hooks are only executed once after networkId is loaded
 const PostNetworkIdLoad = ({ networkId }) => {
-  useEagerConnect(networkId);
-  useInactiveListener(networkId);
+  useEagerConnect(networkId)
+  useInactiveListener(networkId)
 
-  return null;
-};
+  return null
+}

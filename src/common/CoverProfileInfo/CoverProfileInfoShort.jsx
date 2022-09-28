@@ -1,31 +1,31 @@
-import { classNames } from "@/utils/classnames";
+import { classNames } from '@/utils/classnames'
 
 export const CoverProfileInfoShort = ({
   imgSrc,
   title,
   className,
-  fontSizeClass = "text-h4",
+  fontSizeClass = 'text-h4'
 }) => {
   return (
     <div
       className={classNames(
-        "container mx-auto flex items-center mb-12",
+        'container mx-auto flex items-center mb-12',
         className
       )}
-      data-testid="cover-profile-info-short"
+      data-testid='cover-profile-info-short'
     >
-      <div className="mr-4 border rounded-full w-11 border-B0C4DB">
+      <div className='mr-4 border rounded-full w-11 border-B0C4DB'>
         <img
           src={imgSrc}
           alt={title}
-          onError={(ev) => (ev.target.src = "/images/covers/empty.svg")}
+          onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
         />
       </div>
       <div>
-        <h4 className={classNames("font-sora font-bold", fontSizeClass)}>
+        <h4 className={classNames('font-sora font-bold', fontSizeClass)}>
           {title}
         </h4>
       </div>
     </div>
-  );
-};
+  )
+}

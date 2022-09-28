@@ -1,94 +1,94 @@
-import { useState, useEffect } from "react";
-import { registry, utils } from "@neptunemutual/sdk";
-import { useWeb3React } from "@web3-react/core";
+import { useState, useEffect } from 'react'
+import { registry, utils } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 import {
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
-  isValidNumber,
-} from "@/utils/bn";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useNetwork } from "@/src/context/Network";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useLiquidityFormsContext } from "@/common/LiquidityForms/LiquidityFormsContext";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { t } from "@lingui/macro";
+  isValidNumber
+} from '@/utils/bn'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useNetwork } from '@/src/context/Network'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
 
 export const useProvideLiquidity = ({
   coverKey,
   lqValue,
   npmValue,
   liquidityTokenDecimals,
-  npmTokenDecimals,
+  npmTokenDecimals
 }) => {
-  const [lqApproving, setLqApproving] = useState(false);
-  const [npmApproving, setNPMApproving] = useState(false);
-  const [providing, setProviding] = useState(false);
+  const [lqApproving, setLqApproving] = useState(false)
+  const [npmApproving, setNPMApproving] = useState(false)
+  const [providing, setProviding] = useState(false)
 
-  const { networkId } = useNetwork();
-  const { library, account } = useWeb3React();
+  const { networkId } = useNetwork()
+  const { library, account } = useWeb3React()
   const {
     info: {
       vault: vaultTokenAddress,
       vaultTokenSymbol,
       vaultTokenDecimals,
-      myStablecoinBalance,
+      myStablecoinBalance
     },
     stakingTokenBalance,
     stakingTokenBalanceLoading,
     updateStakingTokenBalance,
-    refetchInfo,
-  } = useLiquidityFormsContext();
+    refetchInfo
+  } = useLiquidityFormsContext()
   const {
     liquidityTokenAddress,
     NPMTokenAddress,
     liquidityTokenSymbol,
-    NPMTokenSymbol,
-  } = useAppConstants();
+    NPMTokenSymbol
+  } = useAppConstants()
   const {
     allowance: lqTokenAllowance,
     approve: lqTokenApprove,
     loading: lqAllowanceLoading,
-    refetch: updateLqAllowance,
-  } = useERC20Allowance(liquidityTokenAddress);
+    refetch: updateLqAllowance
+  } = useERC20Allowance(liquidityTokenAddress)
   const {
     allowance: stakeTokenAllowance,
     approve: stakeTokenApprove,
     loading: stakeAllowanceLoading,
-    refetch: updateStakeAllowance,
-  } = useERC20Allowance(NPMTokenAddress);
+    refetch: updateStakeAllowance
+  } = useERC20Allowance(NPMTokenAddress)
 
-  const txToast = useTxToast();
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
-
-  useEffect(() => {
-    updateLqAllowance(vaultTokenAddress);
-  }, [updateLqAllowance, vaultTokenAddress]);
+  const txToast = useTxToast()
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
-    updateStakeAllowance(vaultTokenAddress);
-  }, [updateStakeAllowance, vaultTokenAddress]);
+    updateLqAllowance(vaultTokenAddress)
+  }, [updateLqAllowance, vaultTokenAddress])
+
+  useEffect(() => {
+    updateStakeAllowance(vaultTokenAddress)
+  }, [updateStakeAllowance, vaultTokenAddress])
 
   const handleLqTokenApprove = async () => {
-    setLqApproving(true);
+    setLqApproving(true)
 
     const cleanup = () => {
-      setLqApproving(false);
-    };
+      setLqApproving(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`approve DAI`);
-    };
+      notifyError(err, t`approve DAI`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -96,18 +96,18 @@ export const useProvideLiquidity = ({
         methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
         status: STATUS.PENDING,
         data: {
-          tokenSymbol: liquidityTokenSymbol,
-        },
-      });
+          tokenSymbol: liquidityTokenSymbol
+        }
+      })
 
       try {
-        const tokenSymbol = "DAI";
+        const tokenSymbol = 'DAI'
         await txToast.push(
           tx,
           {
             pending: t`Approving ${tokenSymbol}`,
             success: t`Approved ${tokenSymbol} Successfully`,
-            failure: t`Could not approve ${tokenSymbol}`,
+            failure: t`Could not approve ${tokenSymbol}`
           },
           {
             onTxSuccess: () => {
@@ -116,9 +116,9 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol,
-                },
-              });
+                  tokenSymbol: liquidityTokenSymbol
+                }
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -126,27 +126,27 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol,
-                },
-              });
-            },
+                  tokenSymbol: liquidityTokenSymbol
+                }
+              })
+            }
           }
-        );
-        cleanup();
+        )
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
-    };
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     lqTokenApprove(
       vaultTokenAddress,
@@ -154,20 +154,20 @@ export const useProvideLiquidity = ({
       {
         onTransactionResult,
         onRetryCancel,
-        onError,
+        onError
       }
-    );
-  };
+    )
+  }
 
   const handleNPMTokenApprove = async () => {
-    setNPMApproving(true);
+    setNPMApproving(true)
 
     const cleanup = () => {
-      setNPMApproving(false);
-    };
+      setNPMApproving(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`approve NPM`);
-    };
+      notifyError(err, t`approve NPM`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -176,18 +176,18 @@ export const useProvideLiquidity = ({
         status: STATUS.PENDING,
         data: {
           value: npmValue,
-          tokenSymbol: NPMTokenSymbol,
-        },
-      });
+          tokenSymbol: NPMTokenSymbol
+        }
+      })
 
       try {
-        const tokenSymbol = `NPM`;
+        const tokenSymbol = 'NPM'
         await txToast.push(
           tx,
           {
             pending: t`Approving ${tokenSymbol}`,
             success: t`Approved ${tokenSymbol} Successfully`,
-            failure: t`Could not approve ${tokenSymbol}`,
+            failure: t`Could not approve ${tokenSymbol}`
           },
           {
             onTxSuccess: () => {
@@ -196,9 +196,9 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: NPMTokenSymbol,
-                },
-              });
+                  tokenSymbol: NPMTokenSymbol
+                }
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -206,27 +206,27 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: NPMTokenSymbol,
-                },
-              });
-            },
+                  tokenSymbol: NPMTokenSymbol
+                }
+              })
+            }
           }
-        );
-        cleanup();
+        )
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
-    };
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     stakeTokenApprove(
       vaultTokenAddress,
@@ -234,37 +234,37 @@ export const useProvideLiquidity = ({
       {
         onTransactionResult,
         onRetryCancel,
-        onError,
+        onError
       }
-    );
-  };
+    )
+  }
 
   const handleProvide = async (onTxSuccess) => {
-    setProviding(true);
+    setProviding(true)
 
     const cleanup = () => {
-      setProviding(false);
-      updateStakingTokenBalance();
-      refetchInfo();
-      updateLqAllowance(vaultTokenAddress);
-      updateStakeAllowance(vaultTokenAddress);
-    };
+      setProviding(false)
+      updateStakingTokenBalance()
+      refetchInfo()
+      updateLqAllowance(vaultTokenAddress)
+      updateStakeAllowance(vaultTokenAddress)
+    }
     const handleError = (err) => {
-      notifyError(err, t`add liquidity`);
-    };
+      notifyError(err, t`add liquidity`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const lqAmount = convertToUnits(
         lqValue,
         liquidityTokenDecimals
-      ).toString();
-      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString();
+      ).toString()
+      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString()
       const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -272,15 +272,15 @@ export const useProvideLiquidity = ({
           methodName: METHODS.LIQUIDITY_PROVIDE,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: vaultTokenSymbol,
-          },
-        });
+            tokenSymbol: vaultTokenSymbol
+          }
+        })
         await txToast.push(
           tx,
           {
             pending: t`Adding Liquidity`,
             success: t`Added Liquidity Successfully`,
-            failure: t`Could not add liquidity`,
+            failure: t`Could not add liquidity`
           },
           {
             onTxSuccess: () => {
@@ -289,10 +289,10 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: vaultTokenSymbol,
-                },
-              });
-              onTxSuccess();
+                  tokenSymbol: vaultTokenSymbol
+                }
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -300,62 +300,62 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: vaultTokenSymbol,
-                },
-              });
-            },
+                  tokenSymbol: vaultTokenSymbol
+                }
+              })
+            }
           }
-        );
-        cleanup();
-      };
+        )
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const args = [coverKey, lqAmount, npmAmount, utils.keyUtil.toBytes32("")];
+      const args = [coverKey, lqAmount, npmAmount, utils.keyUtil.toBytes32('')]
       writeContract({
         instance: vault,
-        methodName: "addLiquidity",
+        methodName: 'addLiquidity',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   const hasLqTokenAllowance = isGreaterOrEqual(
-    lqTokenAllowance || "0",
-    convertToUnits(lqValue || "0", liquidityTokenDecimals)
-  );
+    lqTokenAllowance || '0',
+    convertToUnits(lqValue || '0', liquidityTokenDecimals)
+  )
 
   const hasNPMTokenAllowance = isGreaterOrEqual(
-    stakeTokenAllowance || "0",
-    convertToUnits(npmValue || "0", npmTokenDecimals)
-  );
+    stakeTokenAllowance || '0',
+    convertToUnits(npmValue || '0', npmTokenDecimals)
+  )
 
   const canProvideLiquidity =
     lqValue &&
     isValidNumber(lqValue) &&
     hasLqTokenAllowance &&
-    hasNPMTokenAllowance;
+    hasNPMTokenAllowance
 
   const isError =
     lqValue &&
     (!isValidNumber(lqValue) ||
       isGreater(
-        convertToUnits(lqValue || "0", liquidityTokenDecimals),
-        myStablecoinBalance || "0"
-      ));
+        convertToUnits(lqValue || '0', liquidityTokenDecimals),
+        myStablecoinBalance || '0'
+      ))
 
   return {
     npmApproving,
@@ -378,6 +378,6 @@ export const useProvideLiquidity = ({
 
     handleLqTokenApprove,
     handleNPMTokenApprove,
-    handleProvide,
-  };
-};
+    handleProvide
+  }
+}

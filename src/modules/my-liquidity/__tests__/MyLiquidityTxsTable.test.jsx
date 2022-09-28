@@ -1,199 +1,199 @@
-import { fireEvent, screen } from "@/utils/unit-tests/test-utils";
+import { fireEvent, screen } from '@/utils/unit-tests/test-utils'
 
 import {
   columns,
-  MyLiquidityTxsTable,
-} from "@/modules/my-liquidity/MyLiquidityTxsTable";
+  MyLiquidityTxsTable
+} from '@/modules/my-liquidity/MyLiquidityTxsTable'
 
-import { getBlockLink, getTxLink } from "@/lib/connect-wallet/utils/explorer";
-import { fromNow } from "@/utils/formatter/relative-time";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { convertFromUnits } from "@/utils/bn";
-import { testData } from "@/utils/unit-tests/test-data";
-import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
+import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { convertFromUnits } from '@/utils/bn'
+import { testData } from '@/utils/unit-tests/test-data'
+import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 const initialMocks = () => {
-  mockFn.usePagination();
-  mockFn.useLiquidityTxs();
-  mockFn.useNetwork();
-  mockFn.useWeb3React();
-  mockFn.useAppConstants();
-  mockFn.useCoverOrProductData();
-};
+  mockFn.usePagination()
+  mockFn.useLiquidityTxs()
+  mockFn.useNetwork()
+  mockFn.useWeb3React()
+  mockFn.useAppConstants()
+  mockFn.useCoverOrProductData()
+}
 
-describe("MyLiquidityTxsTable test", () => {
+describe('MyLiquidityTxsTable test', () => {
   const { initialRender, rerenderFn } = initiateTest(
     MyLiquidityTxsTable,
     {},
     initialMocks
-  );
+  )
 
   beforeEach(() => {
-    initialRender();
-  });
+    initialRender()
+  })
 
-  describe("Blocknumber", () => {
-    test("should render blocknumber element if blocknumber data present", () => {
-      const card = screen.getByTestId("block-number");
-      expect(card).toBeInTheDocument();
-    });
+  describe('Blocknumber', () => {
+    test('should render blocknumber element if blocknumber data present', () => {
+      const card = screen.getByTestId('block-number')
+      expect(card).toBeInTheDocument()
+    })
 
-    test("correct blocknumber data should be displayed", () => {
-      const card = screen.getByTestId("block-number");
-      const blockNumber = card.querySelector("a").textContent;
-      expect(blockNumber).toBe(`#${testData.liquidityTxs.data.blockNumber}`);
-    });
+    test('correct blocknumber data should be displayed', () => {
+      const card = screen.getByTestId('block-number')
+      const blockNumber = card.querySelector('a').textContent
+      expect(blockNumber).toBe(`#${testData.liquidityTxs.data.blockNumber}`)
+    })
 
-    test("should render correct block url", () => {
-      const card = screen.getByTestId("block-number");
-      const blockNumber = card.querySelector("a").getAttribute("href");
+    test('should render correct block url', () => {
+      const card = screen.getByTestId('block-number')
+      const blockNumber = card.querySelector('a').getAttribute('href')
       expect(blockNumber).toBe(
         getBlockLink(
           testData.network.networkId,
           testData.liquidityTxs.data.blockNumber
         )
-      );
-    });
+      )
+    })
 
-    test("should not render blocknumber element if blocknumber data not present", () => {
+    test('should not render blocknumber element if blocknumber data not present', () => {
       rerenderFn({}, () => {
         mockFn.useLiquidityTxs(() => ({
           ...testData.liquidityTxs,
           data: {
             ...testData.liquidityTxs.data,
-            blockNumber: null,
-          },
-        }));
-      });
-      const card = screen.queryByTestId("block-number");
-      expect(card).not.toBeInTheDocument();
-    });
-  });
+            blockNumber: null
+          }
+        }))
+      })
+      const card = screen.queryByTestId('block-number')
+      expect(card).not.toBeInTheDocument()
+    })
+  })
 
-  describe("Table", () => {
-    test("should render table head", () => {
-      const card = screen.getByTestId("table-head");
-      expect(card).toBeInTheDocument();
-    });
+  describe('Table', () => {
+    test('should render table head', () => {
+      const card = screen.getByTestId('table-head')
+      expect(card).toBeInTheDocument()
+    })
 
-    test("should render correct number of columns", () => {
-      const card = screen.getByTestId("table-head");
-      const renderedColumns = card.querySelectorAll("th");
-      expect(renderedColumns.length).toBe(columns.length);
-    });
+    test('should render correct number of columns', () => {
+      const card = screen.getByTestId('table-head')
+      const renderedColumns = card.querySelectorAll('th')
+      expect(renderedColumns.length).toBe(columns.length)
+    })
 
-    test("should render the TBody component if account connected", () => {
-      const tableWrapper = screen.getByTestId("app-table-body");
-      expect(tableWrapper).toBeInTheDocument();
-    });
+    test('should render the TBody component if account connected', () => {
+      const tableWrapper = screen.getByTestId('app-table-body')
+      expect(tableWrapper).toBeInTheDocument()
+    })
 
-    test("should render correct number of table rows", () => {
-      const tableWrapper = screen.getByTestId("app-table-body");
-      const tableRows = tableWrapper.querySelectorAll("tr");
+    test('should render correct number of table rows', () => {
+      const tableWrapper = screen.getByTestId('app-table-body')
+      const tableRows = tableWrapper.querySelectorAll('tr')
       expect(tableRows.length).toBe(
         testData.liquidityTxs.data.transactions.length
-      );
-    });
+      )
+    })
 
-    test("should render show more if its true", () => {
+    test('should render show more if its true', () => {
       rerenderFn({}, () => {
-        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true });
-      });
-      const showMore = screen.getByTestId("table-show-more");
-      expect(showMore).toBeInTheDocument();
-      fireEvent.click(showMore);
-    });
+        mockFn.useLiquidityTxs({ ...testData.liquidityTxs, hasMore: true })
+      })
+      const showMore = screen.getByTestId('table-show-more')
+      expect(showMore).toBeInTheDocument()
+      fireEvent.click(showMore)
+    })
 
-    test("fire register token", () => {
-      const register = screen.getAllByTitle("Add to Metamask");
-      fireEvent.click(register[0]);
-    });
+    test('fire register token', () => {
+      const register = screen.getAllByTitle('Add to Metamask')
+      fireEvent.click(register[0])
+    })
 
-    describe("Tx table data row", () => {
-      test("should render correct transaction time in row", () => {
-        const tableWrapper = screen.getByTestId("app-table-body");
-        const row = tableWrapper.querySelectorAll("tr")[0];
-        const renderedTime = row.querySelectorAll("td")[0].textContent;
+    describe('Tx table data row', () => {
+      test('should render correct transaction time in row', () => {
+        const tableWrapper = screen.getByTestId('app-table-body')
+        const row = tableWrapper.querySelectorAll('tr')[0]
+        const renderedTime = row.querySelectorAll('td')[0].textContent
         expect(renderedTime).toBe(
           fromNow(
             testData.liquidityTxs.data.transactions[0].transaction.timestamp
           )
-        );
-      });
+        )
+      })
 
-      test("should render correct tx details in row", () => {
-        const tableWrapper = screen.getByTestId("app-table-body");
-        const row = tableWrapper.querySelectorAll("tr")[0];
-        const renderedDetails = row.querySelectorAll("td")[1].textContent;
+      test('should render correct tx details in row', () => {
+        const tableWrapper = screen.getByTestId('app-table-body')
+        const row = tableWrapper.querySelectorAll('tr')[0]
+        const renderedDetails = row.querySelectorAll('td')[1].textContent
 
-        const dataRow = testData.liquidityTxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0]
         const expectedDetails = `${
-          dataRow.type == "PodsIssued" ? "Added" : "Removed"
+          dataRow.type === 'PodsIssued' ? 'Added' : 'Removed'
         } ${
           formatCurrency(
             convertFromUnits(
               dataRow.liquidityAmount,
               testData.appConstants.liquidityTokenDecimals
             ),
-            "en"
+            'en'
           ).short
-        } ${dataRow.type == "PodsIssued" ? "to" : "from"} ${
+        } ${dataRow.type === 'PodsIssued' ? 'to' : 'from'} ${
           testData.coverInfo.supportsProducts
             ? testData.coverInfo.infoObj.coverName
             : testData.coverInfo.infoObj.projectName
-        }`;
-        expect(renderedDetails).toBe(expectedDetails);
-      });
+        }`
+        expect(renderedDetails).toBe(expectedDetails)
+      })
 
-      test("should render correct pod amount in row", () => {
-        const tableWrapper = screen.getByTestId("app-table-body");
-        const row = tableWrapper.querySelectorAll("tr")[0];
+      test('should render correct pod amount in row', () => {
+        const tableWrapper = screen.getByTestId('app-table-body')
+        const row = tableWrapper.querySelectorAll('tr')[0]
         const renderedAmount = row.querySelector(
-          "td:nth-child(3)>div>span"
-        ).textContent;
+          'td:nth-child(3)>div>span'
+        ).textContent
 
-        const dataRow = testData.liquidityTxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0]
         const expectedAmount = formatCurrency(
           convertFromUnits(dataRow.podAmount, dataRow.vault.tokenDecimals),
-          "en",
+          'en',
           dataRow.vault.tokenSymbol,
           true
-        ).short;
-        expect(renderedAmount).toBe(expectedAmount);
+        ).short
+        expect(renderedAmount).toBe(expectedAmount)
 
         const metamaskButtonTitle = row
-          .querySelector("td:nth-child(3)>div>button")
-          .getAttribute("title");
-        expect(metamaskButtonTitle).toBe("Add to Metamask");
-      });
+          .querySelector('td:nth-child(3)>div>button')
+          .getAttribute('title')
+        expect(metamaskButtonTitle).toBe('Add to Metamask')
+      })
 
       test("should have correct 'Open in Explorer' link in row", () => {
-        const tableWrapper = screen.getByTestId("app-table-body");
-        const row = tableWrapper.querySelectorAll("tr")[0];
+        const tableWrapper = screen.getByTestId('app-table-body')
+        const row = tableWrapper.querySelectorAll('tr')[0]
         const explorerLink = row
-          .querySelector("td:nth-child(4)>div>a")
-          .getAttribute("href");
+          .querySelector('td:nth-child(4)>div>a')
+          .getAttribute('href')
 
-        const dataRow = testData.liquidityTxs.data.transactions[0];
+        const dataRow = testData.liquidityTxs.data.transactions[0]
         expect(explorerLink).toBe(
           getTxLink(testData.network.networkId, {
-            hash: dataRow.transaction.id,
+            hash: dataRow.transaction.id
           })
-        );
-      });
-    });
+        )
+      })
+    })
 
-    test("should render no account message if no account connected", () => {
+    test('should render no account message if no account connected', () => {
       rerenderFn({}, () => {
         mockFn.useWeb3React(() => ({
-          account: null,
-        }));
-      });
-      const card = screen.getByTestId("no-account-message");
-      const tableWrapper = screen.queryByTestId("app-table-body");
+          account: null
+        }))
+      })
+      const card = screen.getByTestId('no-account-message')
+      const tableWrapper = screen.queryByTestId('app-table-body')
 
-      expect(card).toBeInTheDocument();
-      expect(tableWrapper).not.toBeInTheDocument();
-    });
-  });
-});
+      expect(card).toBeInTheDocument()
+      expect(tableWrapper).not.toBeInTheDocument()
+    })
+  })
+})

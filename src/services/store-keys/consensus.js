@@ -1,76 +1,76 @@
-import { utils } from "@neptunemutual/sdk";
+import { utils } from '@neptunemutual/sdk'
 
 export const CoverStatus = {
   Normal: 0,
   Stopped: 1,
   IncidentHappened: 2,
   FalseReporting: 3,
-  Claimable: 4,
-};
+  Claimable: 4
+}
 
 export const totalStakeIncidentOccurred = (
   coverKey,
   productKey,
   incidentDate,
-  property = "yes"
+  property = 'yes'
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_WITNESS_YES,
       coverKey,
       productKey,
-      incidentDate,
+      incidentDate
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const coverProductStatusOf = (
   coverKey,
   productKey,
   incidentDate,
-  property = "coverProductStatus"
+  property = 'coverProductStatus'
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.COVER_STATUS,
       coverKey,
       productKey,
-      incidentDate,
+      incidentDate
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const claimPayoutsOf = (
   coverKey,
   productKey,
   incidentDate,
-  property = "claimPayoutsOf"
+  property = 'claimPayoutsOf'
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.CLAIM_PAYOUTS,
       coverKey,
       productKey,
-      incidentDate,
+      incidentDate
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const myStakeIncidentOccurred = (
   coverKey,
   productKey,
   incidentDate,
   account,
-  property = "myYes"
+  property = 'myYes'
 ) => {
   return {
     key: [
@@ -78,39 +78,39 @@ export const myStakeIncidentOccurred = (
       coverKey,
       productKey,
       incidentDate,
-      account,
+      account
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256', 'address'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const totalStakeFalseReporting = (
   coverKey,
   productKey,
   incidentDate,
-  property = "no"
+  property = 'no'
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_WITNESS_NO,
       coverKey,
       productKey,
-      incidentDate,
+      incidentDate
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const myStakeFalseReporting = (
   coverKey,
   productKey,
   incidentDate,
   account,
-  property = "myNo"
+  property = 'myNo'
 ) => {
   return {
     key: [
@@ -118,20 +118,20 @@ export const myStakeFalseReporting = (
       coverKey,
       productKey,
       incidentDate,
-      account,
+      account
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256', 'address'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const myUnstakenAmount = (
   coverKey,
   productKey,
   incidentDate,
   account,
-  property = "unstaken"
+  property = 'unstaken'
 ) => {
   return {
     key: [
@@ -139,20 +139,20 @@ export const myUnstakenAmount = (
       coverKey,
       productKey,
       incidentDate,
-      account,
+      account
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256', 'address'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const myRewardsUnstaken = (
   coverKey,
   productKey,
   incidentDate,
   account,
-  property = "rewardsUnstaken"
+  property = 'rewardsUnstaken'
 ) => {
   return {
     key: [
@@ -160,44 +160,44 @@ export const myRewardsUnstaken = (
       coverKey,
       productKey,
       incidentDate,
-      account,
+      account
     ],
-    signature: ["bytes32", "bytes32", "bytes32", "uint256", "address"],
-    returns: "uint256",
-    property,
-  };
-};
+    signature: ['bytes32', 'bytes32', 'bytes32', 'uint256', 'address'],
+    returns: 'uint256',
+    property
+  }
+}
 
 export const latestIncidentDate = (
   coverKey,
   productKey,
-  property = "latestIncidentDate"
+  property = 'latestIncidentDate'
 ) => {
   return {
     key: [
       utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_INCIDENT_DATE,
       coverKey,
-      productKey,
+      productKey
     ],
-    returns: "uint256",
-    property,
-  };
-};
+    returns: 'uint256',
+    property
+  }
+}
 
-export const stakeForfeitBurnRate = (property = "burnRate") => {
+export const stakeForfeitBurnRate = (property = 'burnRate') => {
   return {
     key: [utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTING_BURN_RATE],
-    returns: "uint256",
-    property,
-  };
-};
+    returns: 'uint256',
+    property
+  }
+}
 
 export const stakeForfeitReporterComissionRate = (
-  property = "reporterCommissionRate"
+  property = 'reporterCommissionRate'
 ) => {
   return {
     key: [utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTER_COMMISSION],
-    returns: "uint256",
-    property,
-  };
-};
+    returns: 'uint256',
+    property
+  }
+}

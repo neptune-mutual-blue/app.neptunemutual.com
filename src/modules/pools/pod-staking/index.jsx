@@ -1,19 +1,19 @@
-import { useMemo, useState } from "react";
-import { t, Trans } from "@lingui/macro";
+import { useMemo, useState } from 'react'
+import { t, Trans } from '@lingui/macro'
 
-import { NeutralButton } from "@/common/Button/NeutralButton";
-import { Container } from "@/common/Container/Container";
-import { Grid } from "@/common/Grid/Grid";
-import { SearchAndSortBar } from "@/common/SearchAndSortBar";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useSearchResults } from "@/src/hooks/useSearchResults";
-import { sorter, SORT_TYPES, SORT_DATA_TYPES } from "@/utils/sorting";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { PodStakingCard } from "@/src/modules/pools/pod-staking/PodStakingCard";
-import { usePodStakingPools } from "@/src/hooks/usePodStakingPools";
-import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { toStringSafe } from "@/utils/string";
+import { NeutralButton } from '@/common/Button/NeutralButton'
+import { Container } from '@/common/Container/Container'
+import { Grid } from '@/common/Grid/Grid'
+import { SearchAndSortBar } from '@/common/SearchAndSortBar'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import { sorter, SORT_TYPES, SORT_DATA_TYPES } from '@/utils/sorting'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { PodStakingCard } from '@/src/modules/pools/pod-staking/PodStakingCard'
+import { usePodStakingPools } from '@/src/hooks/usePodStakingPools'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { toStringSafe } from '@/utils/string'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -21,69 +21,69 @@ import { toStringSafe } from "@/utils/string";
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
     selector: (pool) => pool.name,
-    datatype: SORT_DATA_TYPES.STRING,
+    datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.TVL]: {
     selector: (pool) => pool.tvl,
-    datatype: SORT_DATA_TYPES.BIGNUMBER,
+    datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.APR]: {
     selector: (pool) => pool.apr,
-    datatype: SORT_DATA_TYPES.BIGNUMBER,
-  },
-};
+    datatype: SORT_DATA_TYPES.BIGNUMBER
+  }
+}
 
 export const PodStakingPage = () => {
   const [sortType, setSortType] = useState({
     name: t`A-Z`,
-    value: SORT_TYPES.ALPHABETIC,
-  });
+    value: SORT_TYPES.ALPHABETIC
+  })
 
-  const { data, loading, hasMore, handleShowMore } = usePodStakingPools();
-  const { getStatsByKey } = useSortableStats();
-  const { getTVLById } = useAppConstants();
+  const { data, loading, hasMore, handleShowMore } = usePodStakingPools()
+  const { getStatsByKey } = useSortableStats()
+  const { getTVLById } = useAppConstants()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: data.pools.map((pool) => ({
       ...pool,
       tvl: getTVLById(pool.id),
-      ...getStatsByKey(pool.id),
+      ...getStatsByKey(pool.id)
     })),
 
     filter: (item, term) => {
-      return toStringSafe(item.name).indexOf(toStringSafe(term)) > -1;
-    },
-  });
+      return toStringSafe(item.name).indexOf(toStringSafe(term)) > -1
+    }
+  })
 
   const sortedPools = useMemo(
     () =>
       sorter({
         ...sorterData[sortType.value],
-        list: filtered,
+        list: filtered
       }),
     [filtered, sortType.value]
-  );
+  )
 
   const options = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
     { name: t`TVL`, value: SORT_TYPES.TVL },
-    { name: t`APR`, value: SORT_TYPES.APR },
-  ];
+    { name: t`APR`, value: SORT_TYPES.APR }
+  ]
 
   return (
     <Container
-      className={"pt-16 pb-36"}
-      data-testid="pod-staking-page-container"
+      className='pt-16 pb-36'
+      data-testid='pod-staking-page-container'
     >
-      <div className="flex justify-end">
+      <div className='flex justify-end'>
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={(event) => {
-            setSearchValue(event.target.value);
+            setSearchValue(event.target.value)
           }}
-          sortClass="w-full md:w-48 lg:w-64 rounded-lg z-10"
-          containerClass="flex-col md:flex-row min-w-full md:min-w-sm"
-          searchClass="w-full md:w-64 rounded-lg"
+          sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
+          containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
+          searchClass='w-full md:w-64 rounded-lg'
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
@@ -97,16 +97,16 @@ export const PodStakingPage = () => {
         handleShowMore={handleShowMore}
       />
     </Container>
-  );
-};
+  )
+}
 
-function Content({ data, loading, hasMore, handleShowMore }) {
-  const { getPriceByAddress } = useAppConstants();
+function Content ({ data, loading, hasMore, handleShowMore }) {
+  const { getPriceByAddress } = useAppConstants()
 
   if (data.length) {
     return (
       <>
-        <Grid className="mb-24 mt-14" data-testid="pools-grid">
+        <Grid className='mb-24 mt-14' data-testid='pools-grid'>
           {data.map((poolData) => (
             <PodStakingCard
               key={poolData.id}
@@ -118,41 +118,41 @@ function Content({ data, loading, hasMore, handleShowMore }) {
         </Grid>
         {!loading && hasMore && (
           <NeutralButton
-            className={"rounded-lg border-0.5"}
+            className='rounded-lg border-0.5'
             onClick={handleShowMore}
-            data-testid="show-more-button"
+            data-testid='show-more-button'
           >
             <Trans>Show More</Trans>
           </NeutralButton>
         )}
       </>
-    );
+    )
   }
 
   if (loading) {
     return (
-      <Grid className="mb-24 mt-14" data-testid="loading-grid">
+      <Grid className='mb-24 mt-14' data-testid='loading-grid'>
         <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
       </Grid>
-    );
+    )
   }
 
   return (
     <div
-      className="flex flex-col items-center w-full pt-20"
-      data-testid="no-pools-container"
+      className='flex flex-col items-center w-full pt-20'
+      data-testid='no-pools-container'
     >
       <img
-        src="/images/covers/empty-list-illustration.svg"
+        src='/images/covers/empty-list-illustration.svg'
         alt={t`no data found`}
-        className="w-48 h-48"
+        className='w-48 h-48'
       />
-      <p className="max-w-full mt-8 text-center text-h5 text-404040 w-96">
-        <Trans>No POD</Trans>{" "}
-        <span className="whitespace-nowrap">
+      <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
+        <Trans>No POD</Trans>{' '}
+        <span className='whitespace-nowrap'>
           <Trans>staking pools found.</Trans>
         </span>
       </p>
     </div>
-  );
+  )
 }

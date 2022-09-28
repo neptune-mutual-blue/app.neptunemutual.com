@@ -1,28 +1,28 @@
-import { act, render } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
-import { RadioReport } from "@/common/RadioReport/RadioReport";
+import { act, render } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+import { RadioReport } from '@/common/RadioReport/RadioReport'
 
-describe("Radio component", () => {
+describe('Radio component', () => {
   beforeAll(() => {
     act(() => {
-      i18n.activate("en");
-    });
-  });
+      i18n.activate('en')
+    })
+  })
 
-  test("should render input and have id same as prop passed to it", () => {
-    const screen = render(<RadioReport label={"radio"} id="test-radio" />);
-    let element = screen.container.getElementsByTagName("input");
-    expect(element.length).toEqual(1);
-    let radio = screen.getByRole("radio");
-    expect(radio).toBeInTheDocument();
-    expect(radio).toHaveAttribute("id", "test-radio");
-  });
+  test('should render input and have id same as prop passed to it', () => {
+    const screen = render(<RadioReport label='radio' id='test-radio' />)
+    const element = screen.container.getElementsByTagName('input')
+    expect(element.length).toEqual(1)
+    const radio = screen.getByRole('radio')
+    expect(radio).toBeInTheDocument()
+    expect(radio).toHaveAttribute('id', 'test-radio')
+  })
 
-  test("should not be clickable if disabled", () => {
+  test('should not be clickable if disabled', () => {
     const screen = render(
-      <RadioReport label={"radio"} id="test-radio" disabled />
-    );
-    let radio = screen.getByRole("radio");
-    expect(radio).toBeDisabled();
-  });
-});
+      <RadioReport label='radio' id='test-radio' disabled />
+    )
+    const radio = screen.getByRole('radio')
+    expect(radio).toBeDisabled()
+  })
+})

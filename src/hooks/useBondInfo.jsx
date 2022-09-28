@@ -1,47 +1,47 @@
-import { useCallback, useEffect, useState } from "react";
-import { registry } from "@neptunemutual/sdk";
-import { useWeb3React } from "@web3-react/core";
+import { useCallback, useEffect, useState } from 'react'
+import { registry } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
-import { useNetwork } from "@/src/context/Network";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { ADDRESS_ONE, BOND_INFO_URL } from "@/src/config/constants";
-import { getReplacedString } from "@/utils/string";
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { ADDRESS_ONE, BOND_INFO_URL } from '@/src/config/constants'
+import { getReplacedString } from '@/utils/string'
 
 const defaultInfo = {
-  lpTokenAddress: "",
-  discountRate: "0",
-  vestingTerm: "0",
-  maxBond: "0",
-  totalNpmAllocated: "0",
-  totalNpmDistributed: "0",
-  bondContribution: "0",
-  claimable: "0",
-  unlockDate: "0",
-};
+  lpTokenAddress: '',
+  discountRate: '0',
+  vestingTerm: '0',
+  maxBond: '0',
+  totalNpmAllocated: '0',
+  totalNpmDistributed: '0',
+  bondContribution: '0',
+  claimable: '0',
+  unlockDate: '0'
+}
 
 const fetchBondInfoApi = async (networkId, account) => {
   if (!networkId) {
-    return;
+    return
   }
 
   const response = await fetch(
     getReplacedString(BOND_INFO_URL, { networkId, account }),
     {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
     }
-  );
+  )
 
   if (!response.ok) {
-    return;
+    return
   }
 
-  const { data } = await response.json();
+  const { data } = await response.json()
 
   return {
     lpTokenAddress: data.lpToken,
@@ -52,53 +52,53 @@ const fetchBondInfoApi = async (networkId, account) => {
     totalNpmDistributed: data.totalNpmDistributed,
     bondContribution: data.bondContribution,
     claimable: data.claimable,
-    unlockDate: data.unlockDate,
-  };
-};
+    unlockDate: data.unlockDate
+  }
+}
 
 export const useBondInfo = () => {
-  const [info, setInfo] = useState(defaultInfo);
+  const [info, setInfo] = useState(defaultInfo)
 
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const { contractRead } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { contractRead } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
 
   const fetchBondInfo = useCallback(
     async (onResult) => {
       if (!networkId) {
-        return;
+        return
       }
 
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-      let instance = await registry.BondPool.getInstance(
+      const instance = await registry.BondPool.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const result = await contractRead({
         instance,
-        methodName: "getInfo",
+        methodName: 'getInfo',
         args: [account],
-        onError: notifyError,
-      });
+        onError: notifyError
+      })
 
-      const [addresses, values] = result;
+      const [addresses, values] = result
 
-      const [lpToken] = addresses;
+      const [lpToken] = addresses
       const [
-        _marketPrice,
+        , // marketPrice
         discountRate,
         vestingTerm,
         maxBond,
         totalNpmAllocated,
         totalNpmDistributed,
-        _npmAvailable,
+        , // npmAvailable
         bondContribution,
         claimable,
-        unlockDate,
-      ] = values;
+        unlockDate
+      ] = values
 
       onResult({
         lpTokenAddress: lpToken,
@@ -109,46 +109,46 @@ export const useBondInfo = () => {
         totalNpmDistributed: totalNpmDistributed.toString(),
         bondContribution: bondContribution.toString(),
         claimable: claimable.toString(),
-        unlockDate: unlockDate.toString(),
-      });
+        unlockDate: unlockDate.toString()
+      })
     },
     [account, contractRead, library, networkId, notifyError]
-  );
+  )
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
 
     if (!account) {
       // If wallet is not connected, get data from API
       fetchBondInfoApi(networkId, ADDRESS_ONE)
         .then((data) => {
-          if (ignore || !data) return;
-          setInfo(data);
+          if (ignore || !data) return
+          setInfo(data)
         })
-        .catch(console.error);
-      return;
+        .catch(console.error)
+      return
     }
 
     // If wallet is connected, get data from provider
     const onResult = (_info) => {
-      if (ignore || !_info) return;
-      setInfo(_info);
-    };
+      if (ignore || !_info) return
+      setInfo(_info)
+    }
 
-    fetchBondInfo(onResult).catch(console.error);
+    fetchBondInfo(onResult).catch(console.error)
 
     return () => {
-      ignore = true;
-    };
-  }, [account, fetchBondInfo, networkId]);
+      ignore = true
+    }
+  }, [account, fetchBondInfo, networkId])
 
   const updateBondInfo = useCallback(() => {
     const onResult = (_info) => {
-      setInfo(_info || defaultInfo);
-    };
+      setInfo(_info || defaultInfo)
+    }
 
-    fetchBondInfo(onResult).catch(console.error);
-  }, [fetchBondInfo]);
+    fetchBondInfo(onResult).catch(console.error)
+  }, [fetchBondInfo])
 
-  return { info, refetch: updateBondInfo };
-};
+  return { info, refetch: updateBondInfo }
+}

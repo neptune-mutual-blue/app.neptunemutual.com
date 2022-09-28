@@ -1,160 +1,160 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import { useWeb3React } from "@web3-react/core";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { registry } from "@neptunemutual/sdk";
+import { useWeb3React } from '@web3-react/core'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { registry } from '@neptunemutual/sdk'
 import {
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
   isEqualTo,
   isValidNumber,
-  convertFromUnits,
-} from "@/utils/bn";
-import { useNetwork } from "@/src/context/Network";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useBondPoolAddress } from "@/src/hooks/contracts/useBondPoolAddress";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useDebounce } from "@/src/hooks/useDebounce";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { t } from "@lingui/macro";
-import { useRouter } from "next/router";
+  convertFromUnits
+} from '@/utils/bn'
+import { useNetwork } from '@/src/context/Network'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useBondPoolAddress } from '@/src/hooks/contracts/useBondPoolAddress'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useDebounce } from '@/src/hooks/useDebounce'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import { useRouter } from 'next/router'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { DEBOUNCE_TIMEOUT } from "@/src/config/constants";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
-  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT);
-  const [receiveAmount, setReceiveAmount] = useState("0");
-  const [receiveAmountLoading, setReceiveAmountLoading] = useState(false);
-  const [approving, setApproving] = useState(false);
-  const [bonding, setBonding] = useState(false);
-  const [error, setError] = useState("");
+  const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
+  const [receiveAmount, setReceiveAmount] = useState('0')
+  const [receiveAmountLoading, setReceiveAmountLoading] = useState(false)
+  const [approving, setApproving] = useState(false)
+  const [bonding, setBonding] = useState(false)
+  const [error, setError] = useState('')
 
-  const { networkId } = useNetwork();
-  const { account, library } = useWeb3React();
-  const { NPMTokenSymbol } = useAppConstants();
-  const bondContractAddress = useBondPoolAddress();
+  const { networkId } = useNetwork()
+  const { account, library } = useWeb3React()
+  const { NPMTokenSymbol } = useAppConstants()
+  const bondContractAddress = useBondPoolAddress()
   const {
     allowance,
     loading: loadingAllowance,
     refetch: updateAllowance,
-    approve,
-  } = useERC20Allowance(info.lpTokenAddress);
+    approve
+  } = useERC20Allowance(info.lpTokenAddress)
   const {
     balance,
     loading: loadingBalance,
-    refetch: updateBalance,
-  } = useERC20Balance(info.lpTokenAddress);
+    refetch: updateBalance
+  } = useERC20Balance(info.lpTokenAddress)
 
-  const txToast = useTxToast();
-  const { writeContract, contractRead } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
-  const router = useRouter();
+  const txToast = useTxToast()
+  const { writeContract, contractRead } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
+  const router = useRouter()
 
   useEffect(() => {
-    updateAllowance(bondContractAddress);
-  }, [bondContractAddress, updateAllowance]);
+    updateAllowance(bondContractAddress)
+  }, [bondContractAddress, updateAllowance])
 
   // Resets loading and other states which are modified in the above hook
   // "IF" condition should match the above effect
   // Should appear after the effect which contains the async function (which sets loading state)
   useEffect(() => {
     if (!networkId || !account || !debouncedValue) {
-      if (receiveAmount !== "0") {
-        setReceiveAmount("0");
+      if (receiveAmount !== '0') {
+        setReceiveAmount('0')
       }
       if (receiveAmountLoading !== false) {
-        setReceiveAmountLoading(false);
+        setReceiveAmountLoading(false)
       }
     }
-  }, [account, debouncedValue, networkId, receiveAmount, receiveAmountLoading]);
+  }, [account, debouncedValue, networkId, receiveAmount, receiveAmountLoading])
 
   useEffect(() => {
-    let ignore = false;
-    if (!networkId || !account || !debouncedValue) return;
+    let ignore = false
+    if (!networkId || !account || !debouncedValue) return
 
-    async function updateReceiveAmount() {
-      setReceiveAmountLoading(true);
+    async function updateReceiveAmount () {
+      setReceiveAmountLoading(true)
 
       const cleanup = () => {
-        setReceiveAmountLoading(false);
-      };
+        setReceiveAmountLoading(false)
+      }
       const handleError = (err) => {
-        notifyError(err, t`calculate tokens`);
-      };
+        notifyError(err, t`calculate tokens`)
+      }
 
       try {
         const signerOrProvider = getProviderOrSigner(
           library,
           account,
           networkId
-        );
+        )
         const instance = await registry.BondPool.getInstance(
           networkId,
           signerOrProvider
-        );
+        )
 
         const onError = (err) => {
-          handleError(err);
-          cleanup();
-        };
+          handleError(err)
+          cleanup()
+        }
 
-        const args = [convertToUnits(debouncedValue).toString()];
+        const args = [convertToUnits(debouncedValue).toString()]
         const result = await contractRead({
           instance,
-          methodName: "calculateTokensForLp",
+          methodName: 'calculateTokensForLp',
           args,
-          onError,
-        });
+          onError
+        })
 
-        if (ignore) return;
-        setReceiveAmount(result.toString());
-        cleanup();
+        if (ignore) return
+        setReceiveAmount(result.toString())
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
     }
 
-    updateReceiveAmount();
+    updateReceiveAmount()
 
     return () => {
-      ignore = true;
-    };
-  }, [networkId, debouncedValue, notifyError, account, library, contractRead]);
+      ignore = true
+    }
+  }, [networkId, debouncedValue, notifyError, account, library, contractRead])
 
   useEffect(() => {
     if (!value && error) {
-      setError("");
-      return;
+      setError('')
+      return
     }
 
     if (!value) {
-      return;
+      return
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to bond`);
-      return;
+      setError(t`Invalid amount to bond`)
+      return
     }
 
     if (isGreater(convertToUnits(value), balance)) {
-      setError(t`Insufficient Balance`);
-      return;
+      setError(t`Insufficient Balance`)
+      return
     }
 
     if (isEqualTo(convertToUnits(value), 0)) {
-      setError(t`Please specify a value`);
-      return;
+      setError(t`Please specify a value`)
+      return
     }
 
     if (isGreater(receiveAmount, info.maxBond)) {
@@ -167,13 +167,12 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
             true
           ).long
         }`
-      );
-      return;
+      )
+      return
     }
 
     if (error) {
-      setError("");
-      return;
+      setError('')
     }
   }, [
     balance,
@@ -182,18 +181,18 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     receiveAmount,
     router.locale,
     value,
-    NPMTokenSymbol,
-  ]);
+    NPMTokenSymbol
+  ])
 
   const handleApprove = async () => {
-    setApproving(true);
+    setApproving(true)
 
     const cleanup = () => {
-      setApproving(false);
-    };
+      setApproving(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`approve LP tokens`);
-    };
+      notifyError(err, t`approve LP tokens`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -203,9 +202,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         data: {
           value,
           receiveAmount,
-          tokenSymbol: "LP",
-        },
-      });
+          tokenSymbol: 'LP'
+        }
+      })
 
       await txToast
         .push(
@@ -216,68 +215,68 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
             success: getActionMessage(METHODS.BOND_APPROVE, STATUS.SUCCESS)
               .title,
             failure: getActionMessage(METHODS.BOND_APPROVE, STATUS.FAILED)
-              .title,
+              .title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.BOND_APPROVE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.BOND_APPROVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
         )
         .catch((err) => {
-          handleError(err);
-        });
+          handleError(err)
+        })
 
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     approve(bondContractAddress, convertToUnits(value).toString(), {
       onTransactionResult,
       onRetryCancel,
-      onError,
-    });
-  };
+      onError
+    })
+  }
 
   const handleBond = async (onTxSuccess) => {
-    setBonding(true);
+    setBonding(true)
 
     const cleanup = () => {
-      setBonding(false);
-      updateBalance();
-      updateAllowance(bondContractAddress);
-      refetchBondInfo();
-    };
+      setBonding(false)
+      updateBalance()
+      updateAllowance(bondContractAddress)
+      refetchBondInfo()
+    }
     const handleError = (err) => {
-      notifyError(err, t`create bond`);
-    };
+      notifyError(err, t`create bond`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.BondPool.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -287,9 +286,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
           data: {
             value,
             receiveAmount,
-            tokenSymbol: NPMTokenSymbol,
-          },
-        });
+            tokenSymbol: NPMTokenSymbol
+          }
+        })
 
         await txToast.push(
           tx,
@@ -298,58 +297,58 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
               .title,
             success: getActionMessage(METHODS.BOND_CREATE, STATUS.SUCCESS)
               .title,
-            failure: getActionMessage(METHODS.BOND_CREATE, STATUS.FAILED).title,
+            failure: getActionMessage(METHODS.BOND_CREATE, STATUS.FAILED).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.BOND_CREATE,
-                status: STATUS.SUCCESS,
-              });
-              onTxSuccess();
+                status: STATUS.SUCCESS
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.BOND_CREATE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
+        )
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const args = [convertToUnits(value).toString(), receiveAmount];
+      const args = [convertToUnits(value).toString(), receiveAmount]
       writeContract({
         instance,
-        methodName: "createBond",
+        methodName: 'createBond',
         args,
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   const canBond =
     value &&
     isValidNumber(value) &&
-    isGreaterOrEqual(allowance, convertToUnits(value || "0"));
+    isGreaterOrEqual(allowance, convertToUnits(value || '0'))
 
   return {
     balance,
@@ -367,6 +366,6 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
     error,
 
     handleApprove,
-    handleBond,
-  };
-};
+    handleBond
+  }
+}

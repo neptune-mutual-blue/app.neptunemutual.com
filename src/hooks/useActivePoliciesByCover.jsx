@@ -1,9 +1,9 @@
-import { sumOf } from "@/utils/bn";
-import { useWeb3React } from "@web3-react/core";
-import DateLib from "@/lib/date/DateLib";
-import { useState, useEffect, useMemo } from "react";
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { sumOf } from '@/utils/bn'
+import { useWeb3React } from '@web3-react/core'
+import DateLib from '@/lib/date/DateLib'
+import { useState, useEffect, useMemo } from 'react'
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
   return `
@@ -35,60 +35,60 @@ const getQuery = (limit, page, startOfMonth, account, coverKey, productKey) => {
       }
     }
   }
-  `;
-};
+  `
+}
 
 export const useActivePoliciesByCover = ({
   coverKey,
   productKey,
   limit,
-  page,
+  page
 }) => {
   const [data, setData] = useState({
-    userPolicies: [],
-  });
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+    userPolicies: []
+  })
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
-  const { networkId } = useNetwork();
-  const { account } = useWeb3React();
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
   const fetchActivePoliciesByCover = useSubgraphFetch(
-    "useActivePoliciesByCover"
-  );
+    'useActivePoliciesByCover'
+  )
 
   useEffect(() => {
     if (!networkId || !account) {
-      return;
+      return
     }
 
-    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()))
 
-    setLoading(true);
+    setLoading(true)
 
     fetchActivePoliciesByCover(
       networkId,
       getQuery(limit, page, startOfMonth, account, coverKey, productKey)
     )
       .then((_data) => {
-        if (!_data) return;
+        if (!_data) return
 
         const isLastPage =
-          _data.userPolicies.length === 0 || _data.userPolicies.length < limit;
+          _data.userPolicies.length === 0 || _data.userPolicies.length < limit
 
         if (isLastPage) {
-          setHasMore(false);
+          setHasMore(false)
         }
 
         setData((prev) => ({
-          userPolicies: [...prev.userPolicies, ..._data.userPolicies],
-        }));
+          userPolicies: [...prev.userPolicies, ..._data.userPolicies]
+        }))
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
+        setLoading(false)
+      })
   }, [
     account,
     coverKey,
@@ -96,22 +96,22 @@ export const useActivePoliciesByCover = ({
     limit,
     networkId,
     page,
-    productKey,
-  ]);
+    productKey
+  ])
 
   const totalActiveProtection = useMemo(() => {
     return sumOf(
-      "0",
-      ...data.userPolicies.map((x) => x.totalAmountToCover || "0")
-    );
-  }, [data.userPolicies]);
+      '0',
+      ...data.userPolicies.map((x) => x.totalAmountToCover || '0')
+    )
+  }, [data.userPolicies])
 
   return {
     data: {
       activePolicies: data.userPolicies,
-      totalActiveProtection,
+      totalActiveProtection
     },
     loading,
-    hasMore,
-  };
-};
+    hasMore
+  }
+}

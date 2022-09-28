@@ -1,34 +1,34 @@
-import { RegularButton } from "@/common/Button/RegularButton";
-import { Checkbox } from "@/common/Checkbox/Checkbox";
-import { classNames } from "@/utils/classnames";
-import { useState } from "react";
-import { Trans } from "@lingui/macro";
+import { RegularButton } from '@/common/Button/RegularButton'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { classNames } from '@/utils/classnames'
+import { useState } from 'react'
+import { Trans } from '@lingui/macro'
 
 export const AcceptReportRulesForm = ({ onAccept, children }) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false)
 
   const handleChange = (ev) => {
-    setChecked(ev.target.checked);
-  };
+    setChecked(ev.target.checked)
+  }
 
   const handleSubmit = (ev) => {
-    ev.preventDefault();
+    ev.preventDefault()
 
     if (checked) {
-      onAccept();
+      onAccept()
     }
-  };
+  }
 
   return (
     <>
       {/* Accept Rules Form */}
-      <form onSubmit={handleSubmit} className="mt-20">
+      <form onSubmit={handleSubmit} className='mt-20'>
         <Checkbox
-          id="checkid"
-          name="checkinputname"
+          id='checkid'
+          name='checkinputname'
           checked={checked}
           onChange={handleChange}
-          data-testid="accept-report-rules-check-box"
+          data-testid='accept-report-rules-check-box'
         >
           <Trans>
             I have read, understood, and agree to the terms of cover rules
@@ -37,17 +37,17 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
         <br />
         {children}
         <RegularButton
-          data-testid="accept-report-rules-next-button"
+          data-testid='accept-report-rules-next-button'
           disabled={!checked}
           className={classNames(
-            !checked && "opacity-30 cursor-not-allowed",
-            "text-h6 font-bold py-6 px-12 mt-8"
+            !checked && 'opacity-30 cursor-not-allowed',
+            'text-h6 font-bold py-6 px-12 mt-8'
           )}
-          type="submit"
+          type='submit'
         >
           <Trans>REPORT AN INCIDENT</Trans>
         </RegularButton>
       </form>
     </>
-  );
-};
+  )
+}
