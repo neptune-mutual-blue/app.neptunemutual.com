@@ -65,7 +65,7 @@ export const Select = ({
                           selected
                             ? 'font-medium bg-EEEEEE bg-opacity-50'
                             : 'font-normal',
-                          active ? 'bg-EEEEEE rounded-lg' : ''
+                          active ? 'bg-EEEEEE bg-opacity-50 rounded-lg' : ''
                         )}
                       >
                         {option.name}
