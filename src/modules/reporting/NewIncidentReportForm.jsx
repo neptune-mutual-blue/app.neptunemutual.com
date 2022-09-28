@@ -158,7 +158,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
               required: canReport,
               disabled: approving || reporting,
               onChange: handleObserveDateTime,
-              className: isDateNoHasValue && 'text-9B9B9B'
+              className: isDateNoHasValue && 'text-9B9B9B inactive'
             }}
             desc={t`The date and time you observed the incident.`}
           />
