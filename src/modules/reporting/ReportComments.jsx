@@ -22,9 +22,9 @@ function HeaderReport (props) {
   const { networkId } = useNetwork()
 
   return (
-    <div className='text-sm'>
+    <div className='text-sm flex flex-wrap'>
       <span role='header-type'>{type}</span>
-      <span role='address' className='mx-2 text-4e7dd9'>
+      <span role='address' className='md:mx-2 text-4e7dd9 break-all'>
         {createdBy && (
           <a
             href={getAddressLink(networkId, createdBy)}
@@ -44,7 +44,7 @@ function HeaderReport (props) {
       </span>
 
       {/* Link to ipfs */}
-      <span className='absolute inline-flex items-center justify-center ml-2'>
+      <span className='inline-flex items-center justify-center ml-2'>
         <a
           href={getReplacedString(IPFS_HASH_URL, { ipfsHash })}
           target='_blank'
