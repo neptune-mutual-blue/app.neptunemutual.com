@@ -235,7 +235,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
 
           <RegularButton
             disabled={buttonDisabled}
-            className='px-24 py-6 font-semibold uppercase text-h6'
+            className='w-full py-6 font-semibold uppercase px-14 xs:px-24 text-h6 md:w-auto'
             type='submit'
           >
             {canReport && (reporting ? t`Reporting...` : t`Report`)}
