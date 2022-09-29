@@ -111,6 +111,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             id: 'dispute_title',
             name: 'title',
             placeholder: t`Enter Dispute Title`,
+            type: 'text',
             required: canDispute,
             disabled: approving || disputing
           }}

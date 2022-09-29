@@ -1,7 +1,7 @@
 import { classNames } from '@/utils/classnames'
 import { forwardRef } from 'react'
 
-/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error:boolean}>} */
+/** @type {React.ForwardRefExoticComponent<React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error?:boolean}>} */
 export const RegularInput = forwardRef(
   ({ className, error = false, ...inputProps }, ref) => {
     return (

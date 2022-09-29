@@ -142,7 +142,8 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
               name: 'title',
               placeholder: t`Enter Incident Title`,
               required: canReport,
-              disabled: approving || reporting
+              disabled: approving || reporting,
+              type: 'text'
             }}
             desc={t`Enter the incident title.`}
           />
