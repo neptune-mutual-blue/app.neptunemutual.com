@@ -5,6 +5,7 @@ import { Title, Description } from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import { Trans } from '@lingui/macro'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 
 export const DisclaimerModal = () => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage(
@@ -107,10 +108,9 @@ export const DisclaimerModal = () => {
 
         <form onSubmit={handleSubmit}>
           <div className='flex items-start gap-2 mt-3'>
-            <input
-              type='checkbox'
+            <Checkbox
               id='agreement-checkbox'
-              className='mt-1 cursor-pointer'
+              className='w-4 h-4 mt-1 cursor-pointer'
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e.target.checked)}
               data-testid='disclaimer-checkbox'
