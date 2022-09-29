@@ -46,7 +46,7 @@ describe('ProjectStatusIndicator test', () => {
     expect(badge).toHaveClass('bg-21AD8C')
   })
 
-  test('should render Incident Occured status badge correctly', () => {
+  test('should render Incident Occurred status badge correctly', () => {
     const { initialRender } = initiateTest(Card, {
       ...props,
       status: E_CARD_STATUS.INCIDENT
@@ -56,7 +56,7 @@ describe('ProjectStatusIndicator test', () => {
     const wrapper = screen.queryByTestId('projectstatusindicator-container')
     const badge = screen.queryByTestId('card-badge')
 
-    expect(wrapper).toHaveTextContent('Incident Occured')
+    expect(wrapper).toHaveTextContent('Incident Occurred')
     expect(badge).toHaveClass('bg-FA5C2F')
   })
 

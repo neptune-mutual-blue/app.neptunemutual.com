@@ -4,7 +4,7 @@ import { screen } from '@testing-library/react'
 const oneHourToMilliseconds = 3600000
 const currentTime = new Date().getTime()
 
-describe('Incident Occured', () => {
+describe('Incident Occurred', () => {
   const plus3HoursToCurrentTime = Math.floor(
     new Date(currentTime + oneHourToMilliseconds * 3).getTime() / 1000
   )
@@ -37,7 +37,7 @@ describe('Incident Occured', () => {
     expect(reportedAt).toBeInTheDocument()
 
     const reportType = screen.getByRole('report-type')
-    expect(reportType).toHaveTextContent('Incident Occured')
+    expect(reportType).toHaveTextContent('Incident Occurred')
     expect(reportType).toHaveClass('bg-21AD8C')
     expect(reportType).toBeInTheDocument()
 
@@ -53,7 +53,7 @@ describe('Incident Occured', () => {
   })
 })
 
-describe('Incident Occured and False Reporting', () => {
+describe('Incident Occurred and False Reporting', () => {
   const plus3HoursToCurrentTime = Math.floor(
     new Date(currentTime + oneHourToMilliseconds * 3).getTime() / 1000
   )
@@ -102,7 +102,7 @@ describe('Incident Occured and False Reporting', () => {
     expect(reportedAt[1]).toBeInTheDocument()
 
     const reportType = screen.getAllByRole('report-type')
-    expect(reportType[0]).toHaveTextContent('Incident Occured')
+    expect(reportType[0]).toHaveTextContent('Incident Occurred')
     expect(reportType[1]).toHaveTextContent('False Reporting')
     expect(reportType[0]).toHaveClass('bg-21AD8C')
     expect(reportType[1]).toHaveClass('bg-FA5C2F')

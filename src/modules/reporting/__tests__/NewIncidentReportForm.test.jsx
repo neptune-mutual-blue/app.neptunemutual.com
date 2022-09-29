@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import { NewIncidentReportForm } from '@/src/modules/reporting/NewIncidentReportForm'
 import { testData } from '@/utils/unit-tests/test-data'
 
-describe('Incident Occured form', () => {
+describe('Incident Occurred form', () => {
   const { initialRender, rerenderFn } = initiateTest(
     NewIncidentReportForm,
     {
@@ -307,13 +307,13 @@ describe('Incident Occured form', () => {
   })
 
   describe('Errors on Stake', () => {
-    test('Show error Insufficient Stake', () => {
+    test('Show error Insufficient stake', () => {
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })
       fireEvent.change(stakeInput, { target: { value: 10 } })
 
-      const error = screen.getByText('Insufficient Stake')
+      const error = screen.getByText('Insufficient stake')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })
@@ -331,7 +331,7 @@ describe('Incident Occured form', () => {
       })
       fireEvent.change(stakeInput, { target: { value: 1000 } })
 
-      const error = screen.getByText('Insufficient Balance')
+      const error = screen.getByText('Insufficient balance')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })

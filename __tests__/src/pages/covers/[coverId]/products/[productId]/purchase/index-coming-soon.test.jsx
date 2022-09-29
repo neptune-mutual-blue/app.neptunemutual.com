@@ -11,7 +11,7 @@ describe('CoverPurchaseDetails test', () => {
     mockFn.useRouter()
     process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'false' }
     const CoverPurchaseDetails =
-      require('@/src/pages/covers/[coverId]/products/[product_id]/purchase/index').default
+      require('@/src/pages/covers/[coverId]/products/[productId]/purchase').default
     const { initialRender } = initiateTest(CoverPurchaseDetails)
     initialRender()
   })

@@ -23,7 +23,7 @@ export const SelectListBar = ({
 
   const selectedOption = defaultOptions.find(
     (item) => item.value === query?.coverView
-  )
+  ) || defaultOptions[0]
 
   const handleSelectView = (_selected) => {
     replace(

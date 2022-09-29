@@ -48,6 +48,7 @@ export const Select = ({
             >
               {options.map((option, optionIdx) => (
                 <Listbox.Option
+                  data-testid={`option-${optionIdx + 1}`}
                   key={optionIdx}
                   className={({ active }) =>
                     classNames(

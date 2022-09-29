@@ -82,7 +82,7 @@ describe('PurchasePolicyForm component', () => {
     rerenderFn({}, () => {
       mockFn.useCoverStatsContext({
         ...testData.coverStats.info,
-        productStatus: 'Incident Occured'
+        productStatus: 'Incident Occurred'
       })
     })
 
