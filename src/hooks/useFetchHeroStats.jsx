@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { sumOf } from "@/utils/bn";
-import DateLib from "@/lib/date/DateLib";
-import { getNetworkId } from "@/src/config/environment";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { getTotalCoverage } from "@/utils/formula";
-import { getDiversifiedTotalCoverage } from "@/src/services/covers-products";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
+import { useState, useEffect } from 'react'
+import { sumOf } from '@/utils/bn'
+import DateLib from '@/lib/date/DateLib'
+import { getNetworkId } from '@/src/config/environment'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { getTotalCoverage } from '@/utils/formula'
+import { getDiversifiedTotalCoverage } from '@/src/services/covers-products'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
 const defaultData = {
   availableCovers: 0,
@@ -56,14 +56,14 @@ const getQuery = () => {
  * @returns
  */
 export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
-  const [data, setData] = useState(defaultData);
-  const [loading, setLoading] = useState(false);
-  const fetchFetchHeroStats = useSubgraphFetch("useFetchHeroStats");
+  const [data, setData] = useState(defaultData)
+  const [loading, setLoading] = useState(false)
+  const fetchFetchHeroStats = useSubgraphFetch('useFetchHeroStats')
 
   useEffect(() => {
     setLoading(true)
 
-    const networkId = getNetworkId();
+    const networkId = getNetworkId()
 
     if (coverKey) {
       getDiversifiedTotalCoverage(
@@ -77,7 +77,7 @@ export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
             totalCoverFee,
             totalCoveredAmount,
             availableCovers,
-            reportingCovers,
+            reportingCovers
           }) => {
             setData({
               availableCovers,
@@ -85,13 +85,13 @@ export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
               coverFee: totalCoverFee.toString(),
               covered: totalCoveredAmount.toString(),
               tvlCover: totalCoverage.toString(),
-              tvlPool: "0",
-            });
+              tvlPool: '0'
+            })
           }
         )
         .catch((e) => console.error(e))
-        .finally(() => setLoading(false));
-      return;
+        .finally(() => setLoading(false))
+      return
     }
 
     fetchFetchHeroStats(networkId, getQuery())
@@ -103,7 +103,7 @@ export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
           ...data.cxTokens.map((x) => x.totalCoveredAmount)
         )
 
-        const tvlCover = getTotalCoverage(data.protocols);
+        const tvlCover = getTotalCoverage(data.protocols)
 
         const productsCount = data.products.length
         const dedicatedPoolCount = data.covers.length
@@ -113,13 +113,13 @@ export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
-          tvlCover: tvlCover,
+          tvlCover,
           tvlPool: '0'
         })
       })
       .catch((e) => console.error(e))
-      .finally(() => setLoading(false));
-  }, [coverKey, fetchFetchHeroStats, liquidityTokenDecimals]);
+      .finally(() => setLoading(false))
+  }, [coverKey, fetchFetchHeroStats, liquidityTokenDecimals])
 
   return {
     data,

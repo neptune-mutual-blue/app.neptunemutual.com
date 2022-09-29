@@ -17,23 +17,23 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 
-export const HomeHero = ({ breadcrumbs = [], title = "" }) => {
-  const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
-  const router = useRouter();
+export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
+  const router = useRouter()
 
   /**
    * @type {string}
    */
   // @ts-ignore
-  const { cover_id } = router.query;
+  const { cover_id } = router.query
 
   const { data: heroData } = useFetchHeroStats(
-    cover_id || "",
+    cover_id || '',
     liquidityTokenDecimals
-  );
+  )
 
-  const [changeData, setChangeData] = useState(null);
-  const { data } = useProtocolDayData();
+  const [changeData, setChangeData] = useState(null)
+  const { data } = useProtocolDayData()
 
   useEffect(() => {
     if (data && data.length >= 2) {

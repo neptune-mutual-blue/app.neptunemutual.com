@@ -1,1 +1,1 @@
-export { getTotalCoverage } from "./get-total-coverage";
+export { getTotalCoverage } from './get-total-coverage'

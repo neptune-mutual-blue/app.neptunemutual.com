@@ -94,9 +94,9 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
     rules: '---',
     exclusions: '---',
     links: {},
-    resolutionSources: [],
-  };
-};
+    resolutionSources: []
+  }
+}
 
 /**
  *
@@ -104,10 +104,10 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
  * @param {string} ipfsHash
  * @returns
  */
-export async function parseIpfsData(ipfsData, ipfsHash) {
+export async function parseIpfsData (ipfsData, ipfsHash) {
   if (!ipfsData) {
-    return utils.ipfs.read(ipfsHash);
+    return utils.ipfs.read(ipfsHash)
   }
 
-  return JSON.parse(ipfsData);
+  return JSON.parse(ipfsData)
 }

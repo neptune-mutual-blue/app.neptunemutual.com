@@ -1,4 +1,4 @@
-import { sumOf } from "@/utils/bn";
+import { sumOf } from '@/utils/bn'
 
 /**
  * @typedef IVault
@@ -10,21 +10,21 @@ import { sumOf } from "@/utils/bn";
  *
  * @param {IVault[]} vaults
  */
-function getTotalCoverage(vaults) {
+function getTotalCoverage (vaults) {
   const totalCoverLiquidityAdded = sumOf(
     ...vaults.map((x) => x.totalCoverLiquidityAdded)
-  );
+  )
   const totalCoverLiquidityRemoved = sumOf(
     ...vaults.map((x) => x.totalCoverLiquidityRemoved)
-  );
-  const totalFlashLoanFees = sumOf(...vaults.map((x) => x.totalFlashLoanFees));
+  )
+  const totalFlashLoanFees = sumOf(...vaults.map((x) => x.totalFlashLoanFees))
 
   const tvlCover = totalCoverLiquidityAdded
     .minus(totalCoverLiquidityRemoved)
     .plus(totalFlashLoanFees)
-    .toString();
+    .toString()
 
-  return tvlCover;
+  return tvlCover
 }
 
-export { getTotalCoverage };
+export { getTotalCoverage }

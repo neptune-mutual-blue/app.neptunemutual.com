@@ -1788,103 +1788,103 @@ export const testData = {
     resolve: jest.fn(),
     emergencyResolve: jest.fn(),
     resolving: false,
-    emergencyResolving: false,
+    emergencyResolving: false
   },
 
   diversifedHeroStats: {
     cover: {
-      id: "0x6465666900000000000000000000000000000000000000000000000000000000",
+      id: '0x6465666900000000000000000000000000000000000000000000000000000000',
       ipfsData:
         '{\n  "key": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "coverName": "Popular DeFi Apps",\n  "projectName": null,\n  "vault": {\n    "name": "DAI Locked in DeFi Pool",\n    "symbol": "DAI-D"\n  },\n  "requiresWhitelist": false,\n  "supportsProducts": true,\n  "leverage": "10",\n  "tags": [\n    "Smart Contract",\n    "DEX",\n    "Liquidity"\n  ],\n  "about": "Decentralized Exchanges",\n  "blockchains": [\n    {\n      "chainId": 1,\n      "name": "Main Ethereum Network"\n    }\n  ],\n  "rules": "1. Rule 1\\n            2. Rule 2\\n            3. Rule 3",\n  "exclusions": "1. Exclusion 1\\n                 2. Exclusion 1\\n                 3. Exclusion 3",\n  "pricingFloor": "1000",\n  "pricingCeiling": "3200",\n  "reportingPeriod": 300,\n  "cooldownPeriod": 300,\n  "claimPeriod": 300,\n  "minStakeToReport": "2000000000000000000000",\n  "stakeWithFee": "50000000000000000000000",\n  "reassurance": "50000000000",\n  "reassuranceRate": "2500"\n}',
-      ipfsHash: "QmRmWb2qLrMp2zkmUEzRNHB5LxTs7iqPSDswexFe4GYzhd",
+      ipfsHash: 'QmRmWb2qLrMp2zkmUEzRNHB5LxTs7iqPSDswexFe4GYzhd',
       products: [
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x31696e6368000000000000000000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x31696e6368000000000000000000000000000000000000000000000000000000",\n  "productName": "1inch ",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "The 1inch Network unites decentralized protocols whose synergy enables the most lucrative, fastest, and protected operations in the DeFi space by offering access to hundreds of liquidity sources across multiple chains. The 1inch Network was launched at the ETHGlobal New York hackathon in May 2019 with the release of its Aggregation Protocol v1. Since then, 1inch Network has developed additional DeFi tools such as the Liquidity Protocol, Limit Order Protocol, P2P transactions, and 1inch Mobile Wallet.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://1inch.io/",\n    "twitter": "https://twitter.com/1inch",\n    "blog": "https://blog.1inch.io/",\n    "documentation": "https://docs.1inch.io/",\n    "reddit": "https://www.reddit.com/r/1inch/",\n    "discord": "https://discord.com/invite/1inch",\n    "youtube": "https://www.youtube.com/channel/UCk0nvK4bHpteQXZKv7lkq5w",\n    "telegram": "https://t.me/OneInchNetwork",\n    "github": "https://github.com/1inch"\n  },\n  "resolutionSources": [\n    "https://twitter.com/1inch",\n    "https://blog.1inch.io/",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmXPLJmCGNzGkBtvs5cx8xRUiXmZU4vmviWv79iuDM2mGc",
+          ipfsHash: 'QmXPLJmCGNzGkBtvs5cx8xRUiXmZU4vmviWv79iuDM2mGc'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x657468657265756d2d6e616d652d736572766963650000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x657468657265756d2d6e616d652d736572766963650000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x657468657265756d2d6e616d652d736572766963650000000000000000000000",\n  "productName": "Ethereum Name Service",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "5000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "The Ethereum Name Service (ENS) is a distributed, open, and extensible naming system based on the Ethereum blockchain. ENS’s job is to map human-readable names like ‘alice.eth’ to machine-readable identifiers such as Ethereum addresses, other cryptocurrency addresses, content hashes, and metadata. ENS also supports ‘reverse resolution’, making it possible to associate metadata such as canonical names or interface descriptions with Ethereum addresses.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://ens.domains/",\n    "documentation": "https://docs.ens.domains/",\n    "twitter": "https://twitter.com/ensdomains",\n    "blog": "https://medium.com/the-ethereum-name-service",\n    "github": "https://github.com/ensdomains",\n    "forum": "https://discuss.ens.domains/",\n    "discord": "https://chat.ens.domains/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/ensdomains"\n  ]\n}',
-          ipfsHash: "QmX7mRKjLZrWno9HjipJ55UKLiSKRXxzqrwrngcrVynB4n",
+          ipfsHash: 'QmX7mRKjLZrWno9HjipJ55UKLiSKRXxzqrwrngcrVynB4n'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x6b79626572000000000000000000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6b79626572000000000000000000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x6b79626572000000000000000000000000000000000000000000000000000000",\n  "productName": "Kyber",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "5000",\n  "tags": [\n    "Smart Contract",\n    "Trading",\n    "DEX",\n    "Staking"\n  ],\n  "about": "Kyber Network is a multi-chain crypto trading and liquidity hub that connects liquidity from different sources to enable trades at the best rates .",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://kyber.network/",\n    "documentation": "https://docs.kyberswap.com/introduction",\n    "github": "https://github.com/KyberNetwork",\n    "dao": "https://kyber.org/vote",\n    "forum": "https://gov.kyber.org/",\n    "discord": "https://discord.com/invite/NB3vc8J9uv",\n    "telegram": "https://t.me/kybernetwork",\n    "twitter": "https://twitter.com/kybernetwork/",\n    "youtube": "https://www.youtube.com/channel/UCQ-8mEqsKM3x9dTT6rrqgJw",\n    "blog": "https://blog.kyber.network/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/kybernetwork/",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmVsKaVbXtSGf3tuTKo3SKWxT2YXdt32J2VdvkYkTYWY2Z",
+          ipfsHash: 'QmVsKaVbXtSGf3tuTKo3SKWxT2YXdt32J2VdvkYkTYWY2Z'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x6c69646f00000000000000000000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6c69646f00000000000000000000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x6c69646f00000000000000000000000000000000000000000000000000000000",\n  "productName": "Lido (ETH)",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Smart Contract",\n    "ETH2.0",\n    "Staking"\n  ],\n  "about": "Lido is the leading liquid staking solution - providing a simple and secure way to earn interest on your digital assets. By staking with Lido your assets remain liquid and can be used across a range of DeFi applications, earning extra yield.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://lido.fi/",\n    "documentation": "https://docs.lido.fi/",\n    "telegram": "https://t.me/lidofinance",\n    "twitter": "https://twitter.com/lidofinance",\n    "discord": "https://discord.com/invite/lido",\n    "github": "https://github.com/lidofinance",\n    "reddit": "https://www.reddit.com/r/LidoFinance/",\n    "blog": "https://blog.lido.fi/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/lidofinance",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmRPs653GEakjkhJ6ojBoDU5UMfFtxqohdGoS2QXFR7SSf",
+          ipfsHash: 'QmRPs653GEakjkhJ6ojBoDU5UMfFtxqohdGoS2QXFR7SSf'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x6e657875732d6d757475616c0000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6e657875732d6d757475616c0000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x6e657875732d6d757475616c0000000000000000000000000000000000000000",\n  "productName": "Nexus Mutual",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "9000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "Nexus Mutual is a decentralised alternative to insurance. Nexus Mutual uses blockchain technology to create a risk sharing pool in the form of a mutual to return the power of insurance to the people. The platform is built on the Ethereum public chain. It allows anyone to become a member and purchase cover. It replaces the idea of a traditional insurance company because it is wholly owned by the members. The model encourages engagement as members will get economic incentives for participating in Risk Assessment, Claims Assessment and Governance.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://nexusmutual.io/",\n    "twitter": "https://twitter.com/NexusMutual",\n    "blog": "https://medium.com/nexus-mutual",\n    "documentation": "https://nexusmutual.gitbook.io/docs/users/understanding-nexus-mutual",\n    "github": "https://github.com/NexusMutual",\n    "discord": "https://discord.com/invite/aQjkzW5",\n    "telegram": "https://t.me/joinchat/K_g-fA-3CmFwXumCKQUXkw"\n  },\n  "resolutionSources": [\n    "https://twitter.com/NexusMutual",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmYD7SkBw3pSaioVGmi8y59NwU1N73XHSjvpd38J8hUxNm",
+          ipfsHash: 'QmYD7SkBw3pSaioVGmi8y59NwU1N73XHSjvpd38J8hUxNm'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x7375736869000000000000000000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x7375736869000000000000000000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x7375736869000000000000000000000000000000000000000000000000000000",\n  "productName": "Sushi",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "7000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "Sushi is a community-driven organization built to solve what might be called the “liquidity problem.” One could define this problem as the inability of disparate forms of liquidity to connect with markets in a decentralized way, and vice versa. While other solutions provide incrementally progressive advances toward solving the problem of liquidity, Sushi’s progress is intended to create a broader range of network effects. Rather than limiting itself to a single solution, Sushi intertwines many decentralized markets and instruments.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://sushi.com/",\n    "twitter": "https://twitter.com/sushiswap",\n    "blog": "https://sushichef.medium.com/",\n    "github": "https://github.com/sushiswap",\n    "documentation": "https://dev.sushi.com/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/sushiswap",\n    "https://sushichef.medium.com/",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmQovGnfrYj5B1ebwTNfTHVMTZtBBiJgVzfDyoHiGR5suB",
+          ipfsHash: 'QmQovGnfrYj5B1ebwTNfTHVMTZtBBiJgVzfDyoHiGR5suB'
         },
         {
-          id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x73796e7468657469780000000000000000000000000000000000000000000000",
+          id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x73796e7468657469780000000000000000000000000000000000000000000000',
           ipfsData:
             '{\n  "coverKey": "0x6465666900000000000000000000000000000000000000000000000000000000",\n  "productKey": "0x73796e7468657469780000000000000000000000000000000000000000000000",\n  "productName": "Synthetix",\n  "requiresWhitelist": false,\n  "capitalEfficiency": "7000",\n  "tags": [\n    "Smart Contract"\n  ],\n  "about": "Synthetix is a new financial primitive enabling the creation of synthetic assets, offering unique derivatives and exposure to real-world assets on the blockchain.",\n  "rules": "1. You must have maintained at least 1 NPM tokens in your wallet during your coverage period.\\n    2. During your coverage period, the project faced a vulnerability that resulted in user assets being stolen and the project was also unable to cover the loss themselves.\\n    3. This does not have to be your own loss.",\n  "exclusions": "",\n  "links": {\n    "website": "https://synthetix.io/",\n    "discord": "https://discord.com/invite/AEdUHzt",\n    "twitter": "https://twitter.com/synthetix_io",\n    "github": "https://github.com/synthetixio",\n    "blog": "https://blog.synthetix.io/",\n    "dao": "https://synthetix.io/governance",\n    "documentation": "https://docs.synthetix.io/"\n  },\n  "resolutionSources": [\n    "https://twitter.com/synthetix_io",\n    "https://twitter.com/neptunemutual"\n  ]\n}',
-          ipfsHash: "QmPLGFuDmsNZCKCyzCtvDiQDT9Dd5gZjUbWBBa2ePbgkUM",
-        },
-      ],
+          ipfsHash: 'QmPLGFuDmsNZCKCyzCtvDiQDT9Dd5gZjUbWBBa2ePbgkUM'
+        }
+      ]
     },
     reporting: [
       {
-        id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x6c69646f00000000000000000000000000000000000000000000000000000000-1664353037",
+        id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6c69646f00000000000000000000000000000000000000000000000000000000-1664353037'
       },
       {
-        id: "0x6465666900000000000000000000000000000000000000000000000000000000-0x6e657875732d6d757475616c0000000000000000000000000000000000000000-1664276643",
-      },
+        id: '0x6465666900000000000000000000000000000000000000000000000000000000-0x6e657875732d6d757475616c0000000000000000000000000000000000000000-1664276643'
+      }
     ],
     protocols: [
       {
-        totalFlashLoanFees: "0",
-        totalCoverLiquidityAdded: "15960372000000",
-        totalCoverLiquidityRemoved: "0",
-        totalCoverFee: "1123030134",
-      },
+        totalFlashLoanFees: '0',
+        totalCoverLiquidityAdded: '15960372000000',
+        totalCoverLiquidityRemoved: '0',
+        totalCoverFee: '1123030134'
+      }
     ],
     covers: [
       {
         vaults: [
           {
-            totalCoverLiquidityAdded: "13323371000000",
-            totalCoverLiquidityRemoved: "0",
-            totalFlashLoanFees: "0",
-          },
-        ],
-      },
+            totalCoverLiquidityAdded: '13323371000000',
+            totalCoverLiquidityRemoved: '0',
+            totalFlashLoanFees: '0'
+          }
+        ]
+      }
     ],
     cxTokens: [
       {
-        totalCoveredAmount: "1000000000",
+        totalCoveredAmount: '1000000000'
       },
       {
-        totalCoveredAmount: "25100000000",
+        totalCoveredAmount: '25100000000'
       },
       {
-        totalCoveredAmount: "1000000000",
+        totalCoveredAmount: '1000000000'
       },
       {
-        totalCoveredAmount: "600000000",
+        totalCoveredAmount: '600000000'
       },
       {
-        totalCoveredAmount: "10100000000",
-      },
-    ],
-  },
-};
+        totalCoveredAmount: '10100000000'
+      }
+    ]
+  }
+}
