@@ -307,13 +307,13 @@ describe('Incident Occurred form', () => {
   })
 
   describe('Errors on Stake', () => {
-    test('Show error Insufficient Stake', () => {
+    test('Show error Insufficient stake', () => {
       const stakeInput = screen.getByRole('textbox', {
         name: 'Enter your stake'
       })
       fireEvent.change(stakeInput, { target: { value: 10 } })
 
-      const error = screen.getByText('Insufficient Stake')
+      const error = screen.getByText('Insufficient stake')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })
@@ -331,7 +331,7 @@ describe('Incident Occurred form', () => {
       })
       fireEvent.change(stakeInput, { target: { value: 1000 } })
 
-      const error = screen.getByText('Insufficient Balance')
+      const error = screen.getByText('Insufficient balance')
       expect(error).toHaveClass('text-FA5C2F')
       expect(error).toBeInTheDocument()
     })

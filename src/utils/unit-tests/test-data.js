@@ -1448,15 +1448,15 @@ export const testData = {
       productKey:
         '0x0000000000000000000000000000000000000000000000000000000000000000',
       onBehalfOf: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
-      cxToken: '0x0FDc3e2aFd39a4370f5d493D5D2576B8aB3c5258',
-      fee: toBN('100'),
-      platformFee: toBN('100'),
       amountToCover: toBN('100'),
-      expiresOn: toBN('100'),
       referralCode:
-        '0x0000000000000000000000000000000000000000000000000000000000000000',
-      policyId: toBN('100')
+        '0x0000000000000000000000000000000000000000000000000000000000000000'
     },
+    cxToken: '0x0FDc3e2aFd39a4370f5d493D5D2576B8aB3c5258',
+    fee: toBN('100'),
+    platformFee: toBN('100'),
+    expiresOn: toBN('100'),
+    policyId: toBN('100'),
     from: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9'
   },
   getcoverStats: {

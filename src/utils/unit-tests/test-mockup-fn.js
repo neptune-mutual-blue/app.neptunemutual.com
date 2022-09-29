@@ -679,7 +679,7 @@ export const mockFn = {
           )
         },
         readBytes32: (ipfsBytes) => {
-          NeptuneMutualSDK.utils.ipfs.readBytes32 = jest.fn(() =>
+          NeptuneMutualSDK.utils.ipfs.read = jest.fn(() =>
             Promise.resolve(ipfsBytes)
           )
         }

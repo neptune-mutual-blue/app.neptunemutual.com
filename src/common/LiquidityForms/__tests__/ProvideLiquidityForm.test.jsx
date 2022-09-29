@@ -52,7 +52,7 @@ describe('PurchasePolicyForm component', () => {
       })
     })
 
-    const loadingText = screen.getByText(/Fetching balances/i)
+    const loadingText = screen.getByText(/Fetching balance/i)
     expect(loadingText).toBeInTheDocument()
   })
 

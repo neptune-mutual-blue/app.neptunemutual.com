@@ -13,7 +13,7 @@ describe('Reporting Info', () => {
     )
 
     const { initialRender } = initiateTest(ReportingInfo, {
-      ipfsBytes: testData.reporting.activeReporting[0].reporterInfo
+      ipfsHash: testData.reporting.activeReporting[0].reporterInfo
     })
 
     initialRender()
