@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { ComingSoon } from '@/common/ComingSoon'
-import { isV2BasketCoverEnabled } from '@/src/config/environment'
+import { isDiversifiedCoversEnabled } from '@/src/config/environment'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
 
-const disabled = !isV2BasketCoverEnabled()
+const disabled = !isDiversifiedCoversEnabled()
 
 export default function ReportingNewCoverPage () {
   const router = useRouter()

@@ -35,7 +35,7 @@ export const CoverReportingRules = ({
                   {!hasActiveReportings && (
                     <p className='mb-10 text-h4 text-8F949C'>
                       <Trans>
-                        There are no known incidents of {coverInfo.coverName}.
+                        There are no known incidents of {coverInfo?.infoObj.projectName || coverInfo?.infoObj.productName}.
                       </Trans>
                     </p>
                   )}
@@ -53,7 +53,7 @@ export const CoverReportingRules = ({
                   <Alert>
                     <Trans>
                       If you just came to know about a recent incident of{' '}
-                      {coverInfo.projectName}, carefully read the cover rules
+                      {coverInfo?.infoObj.projectName || coverInfo?.infoObj.productName}, carefully read the cover rules
                       above. You can earn flat{' '}
                       {toBN(reporterCommission)
                         .multipliedBy(100)

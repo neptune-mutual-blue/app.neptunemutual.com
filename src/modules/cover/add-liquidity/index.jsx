@@ -149,11 +149,11 @@ export const CoverAddLiquidityDetailsPage = () => {
         </Container>
       </div>
 
-      <CoverActionsFooter
+      {!isDiversified && <CoverActionsFooter
         activeKey='add-liquidity'
         coverKey={coverKey}
         productKey={productKey}
-      />
+                         />}
     </main>
   )
 }
