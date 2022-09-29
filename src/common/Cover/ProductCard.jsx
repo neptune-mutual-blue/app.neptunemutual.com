@@ -64,8 +64,6 @@ export const ProductCard = ({
 
   const status = identifyStatus(productStatus)
 
-  console.log({ status, productStatus })
-
   return (
     <OutlinedCard className='p-6 bg-white' type='link'>
       <div className='flex items-start justify-between'>

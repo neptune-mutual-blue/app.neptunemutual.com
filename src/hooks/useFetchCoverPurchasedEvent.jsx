@@ -4,7 +4,7 @@ import { getSubgraphData } from '@/src/services/subgraph'
 import { useEffect, useState } from 'react'
 
 export const storePurchaseEvent = (event, from) => {
-  const txHash = event.args.transactionHash
+  const txHash = event.transactionHash
 
   const {
     args: { coverKey, productKey, onBehalfOf, amountToCover, referralCode },
