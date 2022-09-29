@@ -173,7 +173,8 @@ module.exports = {
         E6EAEF: '#E6EAEF',
         F5F9FC: '#F5F9FC',
         '2151B0': '#2151B0',
-        '003fbd': '#003FBD'
+        '003fbd': '#003FBD',
+        E03636: '#E03636'
       },
       minHeight: {
         360: '360px',
