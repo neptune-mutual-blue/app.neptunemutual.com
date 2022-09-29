@@ -12,14 +12,14 @@ export const DescriptionComponent = ({
     <div className={className}>
       <h2
         className={classNames(
-          'font-bold text-receipt-info font-sora',
+          'font-bold text-lg font-sora',
           titleClassName
         )}
       >
         {title}
       </h2>
 
-      <div className='mt-6 text-lg leading-8'>
+      <div className='mt-2 text-lg'>
         {Array.isArray(text)
           ? (
             <div className='space-y-4'>

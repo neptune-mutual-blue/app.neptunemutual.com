@@ -1,13 +1,5 @@
 import { BackButton } from '@/common/BackButton/BackButton'
 import { HeaderLogo } from '@/common/HeaderLogo'
-import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import LinkedinIcon from '@/icons/LinkedinIcon'
-import RedditIcon from '@/icons/RedditIcon'
-import TelegramIcon from '@/icons/TelegramIcon'
-import TwitterIcon from '@/icons/TwitterIcon'
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import DownloadIcon from '@/icons/DownloadIcon'
-import AddCircleIcon from '@/icons/AddCircleIcon'
 import { DescriptionComponent } from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
 import { useRouter } from 'next/router'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
@@ -17,27 +9,16 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Fragment } from 'react'
-import {
-  getAddressLink,
-  getTokenLink,
-  getTxLink
-} from '@/lib/connect-wallet/utils/explorer'
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { useNetwork } from '@/src/context/Network'
+
 import { useFetchCoverPurchasedEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
 import DateLib from '@/lib/date/DateLib'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { Alert } from '@/common/Alert/Alert'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
 
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
-  const { networkId } = useNetwork()
-  const { register } = useRegisterToken()
   const { data: event } = useFetchCoverPurchasedEvent({ txHash })
-  const cxTokenSymbol = useTokenSymbol(event?.cxToken)
-  const cxTokenDecimals = useTokenDecimals(event?.cxToken)
   const coverInfo = useCoverOrProductData({
     coverKey: event?.coverKey,
     productKey: event?.productKey
@@ -74,22 +55,6 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     .toString()
 
   const data = [
-    {
-      label: 'On Behalf of',
-      value: (
-        <div className='flex items-center gap-2 overflow-hidden text-lg leading-6'>
-          <span className='overflow-hidden text-ellipsis'>{onBehalfOf}</span>
-          <a
-            href={getAddressLink(networkId, onBehalfOf)}
-            target='_blank'
-            rel='noreferrer'
-            title='Open In Explorer'
-          >
-            <OpenInNewIcon className='w-4 h-4' fill='#DADADA' />
-          </a>
-        </div>
-      )
-    },
     {
       label: 'Protection',
       value: formatCurrency(
@@ -181,32 +146,6 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     ]
   }
 
-  const shareUrl = window.location.href
-  const shareText = encodeURI('Purchase a Policy in Neptune Mutual')
-
-  const socials = [
-    {
-      Icon: TwitterIcon,
-      href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareText}&via=`,
-      label: 'Twitter'
-    },
-    {
-      Icon: RedditIcon,
-      href: `https://reddit.com/submit?url=${shareUrl}&title=${shareText}`,
-      label: 'Reddit'
-    },
-    {
-      Icon: TelegramIcon,
-      href: `https://telegram.me/share/url?url=${shareUrl}&text=${shareText}`,
-      label: 'Telegram'
-    },
-    {
-      Icon: LinkedinIcon,
-      href: `https://www.linkedin.com/shareArticle?url=${shareUrl}&title=${shareText}`,
-      label: 'Linkedin'
-    }
-  ]
-
   return (
     <div>
       <div className='py-9.5 px-4 md:px-10 lg:px-13 bg-black text-white'>
@@ -223,20 +162,6 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           >
             neptunemutual.com
           </a>
-
-          <p className='mt-5 text-sm font-semibold leading-6'>Purchaser:</p>
-          <p className='flex items-center gap-2 overflow-hidden text-lg leading-6'>
-            <span className='overflow-hidden text-ellipsis'>{purchaser}</span>
-            <a
-              href={getAddressLink(networkId, purchaser)}
-              target='_blank'
-              rel='noreferrer'
-              title='Open In Explorer'
-            >
-              <span className='sr-only'>Open in Explorer</span>
-              <OpenInNewIcon className='w-4 h-4' fill='#DADADA' />
-            </a>
-          </p>
         </div>
       </div>
 
@@ -245,117 +170,89 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           {policyName} Policy Receipt
         </h1>
 
-        <div className='text-lg leading-6 font-sora text-9B9B9B mt-3.5'>
-          <p className='font-semibold'>Date:</p>
+        <div className='text-lg leading-6 font-sora mt-3.5 flex'>
+          <p className='font-bold mr-2'>Date:</p>
           <p>{new Date(date).toUTCString()}</p>
         </div>
 
-        <div className='mt-4 text-lg leading-6 font-sora text-9B9B9B'>
-          <p className='font-semibold'>Receipt no:</p>
+        <div className='mt-4 text-lg leading-6 font-sora flex'>
+          <p className='font-bold mr-2'>Receipt no:</p>
           <p>{receiptNo}</p>
         </div>
 
-        <p className='mt-8'>{text.policyInfo}</p>
-
-        <div className='mt-6'>
-          <p>Share it with your friends for surprise gift!</p>
-          <div className='flex gap-4 mt-4'>
-            {socials.map(({ Icon, href, label }, idx) => (
-              <Fragment key={idx}>
-                {href && (
-                  <a
-                    href={href}
-                    target='_blank'
-                    rel='noreferrer'
-                    title={`Share on ${label}`}
-                  >
-                    <Icon className='w-6 h-6 text-black' />
-                  </a>
-                )}
-              </Fragment>
-            ))}
-          </div>
+        <div className='mt-4 text-lg leading-6 font-sora flex'>
+          <p className='font-bold mr-2'>Purchaser:</p>
+          <p>{purchaser}</p>
         </div>
 
-        <OutlinedButton
-          onClick={() => {}}
-          className='flex items-center gap-2 p-4 mt-12 rounded-lg border-4e7dd9 text-4e7dd9'
-        >
-          <DownloadIcon />
-          <span className='font-semibold uppercase'>
-            Download Product Cover Terms
-          </span>
-        </OutlinedButton>
+        <hr className='mt-12' />
 
-        <div className='mt-16 divide-y divide-9B9B9B'>
+        <div className='mt-10'>
+
+          <div className='text-lg leading-6 font-sora mt-3.5 mb-10'>
+            <p className='font-bold mr-2 text-receipt-info'>On Behalf Of</p>
+            <p className='text-h4'>{onBehalfOf}</p>
+          </div>
+
           {data.map(({ label, value }, i) => (
             <div
               key={i}
-              className='flex justify-between gap-2 pt-6 pb-4 text-lg leading-6'
+              className='flex  pb-4 text-lg leading-6'
             >
-              <p className='flex-shrink-0 font-semibold font-sora'>{label}</p>
+              <p className='flex-shrink-0 font-bold font-sora min-w-[234px]'>{label}</p>
               <div className='overflow-hidden font-poppins'>{value}</div>
             </div>
           ))}
 
-          <div className='flex justify-between py-5 text-lg font-bold leading-6 !border-y-2 !border-y-404040'>
-            <p className='font-sora'>Premium Paid</p>
+          <div className='flex text-lg font-bold leading-6'>
+            <p className='font-sora min-w-[234px]'>Premium Paid</p>
             <p className='uppercase font-poppins'>{premuimPaid}</p>
           </div>
 
-          <div className='py-8 !border-t-0 !border-b-2 !border-y-404040 text-lg leading-6'>
-            <p className='font-semibold font-sora'>Your cx DAI Address</p>
-            <div className='flex items-center gap-3 mt-1.5 overflow-hidden'>
-              <span className='overflow-hidden text-ellipsis'>
-                {event.cxToken}
-              </span>
-              <a
-                href={getTokenLink(networkId, event.cxToken)}
-                target='_blank'
-                rel='noreferrer'
-                title='Open In Explorer'
-              >
-                <span className='sr-only'>Open in Explorer</span>
-                <OpenInNewIcon className='w-4 h-4' fill='#AAAAAA' />
-              </a>
-              <button
-                onClick={() =>
-                  register(event.cxToken, cxTokenSymbol, cxTokenDecimals)}
-                title='Add to Metamask'
-              >
-                <span className='sr-only'>Add to Metamask</span>
-                <AddCircleIcon className='w-4 h-4' fill='#AAAAAA' />
-              </button>
-            </div>
+          <hr className='mt-12' />
 
-            <p className='mt-6 font-semibold font-sora'>View Transaction</p>
-            <div className='flex items-center gap-3 mt-1.5 overflow-hidden'>
-              <span className='overflow-hidden text-ellipsis'>{txHash}</span>
-              <a
-                href={getTxLink(networkId, { hash: txHash })}
-                target='_blank'
-                rel='noreferrer'
-                title='Open In Explorer'
-              >
-                <span className='sr-only'>Open in Explorer</span>
-                <OpenInNewIcon className='w-4 h-4' fill='#AAAAAA' />
-              </a>
+          <div className='mt-10 text-lg leading-6 flex'>
+            <p className='font-bold font-sora w-[234px] flex-shrink-0'>Your cxDAI Address</p>
+            <div className='flex items-center break-all'>
+              {event.cxToken}
+            </div>
+          </div>
+          <div className='mt-6 text-lg leading-6 flex'>
+            <p className='font-bold font-sora w-[234px] flex-shrink-0'>Transaction Receipt</p>
+            <div className='flex items-center break-all'>
+              {txHash}
             </div>
           </div>
         </div>
 
+        <hr className='mt-10 mb-9' />
+
+        <Alert className='!bg-white'>
+          <p className='text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
+          <p className='text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
+        </Alert>
+
         <DescriptionComponent
           title='Cover Rules'
           text={text.coverRules}
-          className='mt-14'
+          className='mt-13'
           bullets={false}
         />
 
         <DescriptionComponent
           title='Exclusions'
           text={text.exclusions}
-          className='mt-8'
+          className='mt-6'
+          bullets={false}
         />
+        <div>
+          <p className='text-lg font-bold mt-6'>Risk Disclosure/Disclaimer</p>
+          <p className='text-lg mt-2'>In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:
+            <a target='_blank' rel='noreferer noopener nofollow noreferrer' href='https://docs.neptunemutual.com/usage/risk-factors'>
+              Risk Factors, Neptune Mutual Documentation
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   )
