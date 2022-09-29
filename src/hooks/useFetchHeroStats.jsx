@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react'
-import { sumOf } from '@/utils/bn'
-import DateLib from '@/lib/date/DateLib'
-import { getNetworkId } from '@/src/config/environment'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useState, useEffect } from "react";
+import { sumOf } from "@/utils/bn";
+import DateLib from "@/lib/date/DateLib";
+import { getNetworkId } from "@/src/config/environment";
+import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { getTotalCoverage } from "@/utils/formula";
+import { getDiversifiedTotalCoverage } from "@/src/services/covers-products";
+import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
 
 const defaultData = {
   availableCovers: 0,
@@ -46,25 +49,53 @@ const getQuery = () => {
   `
 }
 
-export const useFetchHeroStats = () => {
-  const [data, setData] = useState(defaultData)
-  const [loading, setLoading] = useState(false)
-  const fetchFetchHeroStats = useSubgraphFetch('useFetchHeroStats')
+/**
+ *
+ * @param {string} coverKey
+ * @param {number} liquidityTokenDecimals
+ * @returns
+ */
+export const useFetchHeroStats = (coverKey, liquidityTokenDecimals) => {
+  const [data, setData] = useState(defaultData);
+  const [loading, setLoading] = useState(false);
+  const fetchFetchHeroStats = useSubgraphFetch("useFetchHeroStats");
 
   useEffect(() => {
     setLoading(true)
 
-    fetchFetchHeroStats(getNetworkId(), getQuery())
+    const networkId = getNetworkId();
+
+    if (coverKey) {
+      getDiversifiedTotalCoverage(
+        networkId,
+        safeFormatBytes32String(coverKey),
+        liquidityTokenDecimals
+      )
+        .then(
+          ({
+            totalCoverage,
+            totalCoverFee,
+            totalCoveredAmount,
+            availableCovers,
+            reportingCovers,
+          }) => {
+            setData({
+              availableCovers,
+              reportingCovers,
+              coverFee: totalCoverFee.toString(),
+              covered: totalCoveredAmount.toString(),
+              tvlCover: totalCoverage.toString(),
+              tvlPool: "0",
+            });
+          }
+        )
+        .catch((e) => console.error(e))
+        .finally(() => setLoading(false));
+      return;
+    }
+
+    fetchFetchHeroStats(networkId, getQuery())
       .then((data) => {
-        const totalCoverLiquidityAdded = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
-        )
-        const totalCoverLiquidityRemoved = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityRemoved)
-        )
-        const totalFlashLoanFees = sumOf(
-          ...data.protocols.map((x) => x.totalFlashLoanFees)
-        )
         const totalCoverFee = sumOf(
           ...data.protocols.map((x) => x.totalCoverFee)
         )
@@ -72,10 +103,7 @@ export const useFetchHeroStats = () => {
           ...data.cxTokens.map((x) => x.totalCoveredAmount)
         )
 
-        const tvlCover = totalCoverLiquidityAdded
-          .minus(totalCoverLiquidityRemoved)
-          .plus(totalFlashLoanFees)
-          .toString()
+        const tvlCover = getTotalCoverage(data.protocols);
 
         const productsCount = data.products.length
         const dedicatedPoolCount = data.covers.length
@@ -90,8 +118,8 @@ export const useFetchHeroStats = () => {
         })
       })
       .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
-  }, [fetchFetchHeroStats])
+      .finally(() => setLoading(false));
+  }, [coverKey, fetchFetchHeroStats, liquidityTokenDecimals]);
 
   return {
     data,

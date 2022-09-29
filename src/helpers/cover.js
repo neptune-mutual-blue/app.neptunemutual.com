@@ -3,7 +3,7 @@ import { parseBytes32String } from '@ethersproject/strings'
 
 /**
  *
- * @param {Object} [coverData]
+ * @param {object} coverData
  * @param {string} coverData.key
  * @returns
  */
@@ -94,6 +94,20 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
     rules: '---',
     exclusions: '---',
     links: {},
-    resolutionSources: []
+    resolutionSources: [],
+  };
+};
+
+/**
+ *
+ * @param {string} ipfsData
+ * @param {string} ipfsHash
+ * @returns
+ */
+export async function parseIpfsData(ipfsData, ipfsHash) {
+  if (!ipfsData) {
+    return utils.ipfs.read(ipfsHash);
   }
+
+  return JSON.parse(ipfsData);
 }

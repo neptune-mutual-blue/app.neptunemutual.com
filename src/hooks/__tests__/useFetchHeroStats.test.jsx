@@ -1,4 +1,5 @@
-import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
+import { useFetchHeroStats } from "@/src/hooks/useFetchHeroStats";
+import { testData } from "@/utils/unit-tests/test-data";
 
 import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
 
@@ -51,7 +52,51 @@ describe('useFetchHeroStats', () => {
 
     expect(mockFunction).toHaveBeenCalled()
 
-    mockFn.fetch().unmock()
-    restore()
-  })
-})
+    mockFn.fetch().unmock();
+    restore();
+  });
+
+  test("Diversifed Cover ", async () => {
+    mockFn.fetch(true, undefined, { data: testData.diversifedHeroStats });
+
+    const { result } = await renderHookWrapper(
+      useFetchHeroStats,
+      [
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+        testData.appConstants.liquidityTokenDecimals,
+      ],
+      true
+    );
+
+    expect(result.data.availableCovers).toBeDefined();
+    expect(result.data.reportingCovers).toBeDefined();
+    expect(result.data.coverFee).toBeDefined();
+    expect(result.data.covered).toBeDefined();
+    expect(result.data.tvlCover).toBeDefined();
+    expect(result.data.tvlPool).toBeDefined();
+
+    mockFn.fetch().unmock();
+  });
+
+  test("Diversifed Cover Error", async () => {
+    mockFn.fetch(false, undefined, { data: testData.diversifedHeroStats });
+
+    const { result } = await renderHookWrapper(
+      useFetchHeroStats,
+      [
+        "0x6465666900000000000000000000000000000000000000000000000000000000",
+        testData.appConstants.liquidityTokenDecimals,
+      ],
+      true
+    );
+
+    expect(result.data.availableCovers).toEqual(0);
+    expect(result.data.reportingCovers).toEqual(0);
+    expect(result.data.coverFee).toEqual("0");
+    expect(result.data.covered).toEqual("0");
+    expect(result.data.tvlCover).toEqual("0");
+    expect(result.data.tvlPool).toEqual("0");
+
+    mockFn.fetch().unmock();
+  });
+});

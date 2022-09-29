@@ -1,5 +1,13 @@
-import { getParsedCoverInfo, getParsedProductInfo } from '@/src/helpers/cover'
-import { getSubgraphData } from '@/src/services/subgraph'
+import {
+  getParsedCoverInfo,
+  getParsedProductInfo,
+  parseIpfsData,
+} from "@/src/helpers/cover";
+import { getSubgraphData } from "@/src/services/subgraph";
+import { getTotalCoverage } from "@/utils/formula";
+import { convertFromUnits, convertToUnits, sumOf, toBN } from "@/utils/bn";
+import { MULTIPLIER } from "@/src/config/constants";
+import DateLib from "@/lib/date/DateLib";
 
 export async function getCoverData (networkId, coverKey) {
   const data = await getSubgraphData(
@@ -91,4 +99,124 @@ export async function getCoverProductData (networkId, coverKey, productKey) {
       )
     }
   }
+}
+
+/**
+ *
+ * @param {number} networkId
+ * @param {string} coverKey
+ * @param {number} liquidityTokenDecimals
+ */
+export async function getDiversifiedTotalCoverage(
+  networkId,
+  coverKey,
+  liquidityTokenDecimals
+) {
+  const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+
+  const data = await getSubgraphData(
+    networkId,
+    `{
+  cover (id: "${coverKey}") {
+    id
+    ipfsData
+    ipfsHash
+    products {
+      ipfsData
+      ipfsHash
+    }
+  }
+  reporting: incidentReports (where: {
+    finalized: false
+    coverKey: "${coverKey}"
+  }) {
+    id
+  }
+  protocols {
+    totalFlashLoanFees
+    totalCoverLiquidityAdded
+    totalCoverLiquidityRemoved
+    totalCoverFee
+  }
+  covers (where: { coverKey: "${coverKey}" }){
+    vaults {
+      totalCoverLiquidityAdded,
+      totalCoverLiquidityRemoved
+      totalFlashLoanFees
+    }
+  }
+  cxTokens(where: {
+    expiryDate_gt: "${startOfMonth}"
+    coverKey: "${coverKey}"
+  }){
+    totalCoveredAmount
+  }
+}`
+  );
+
+  if (!data) return null;
+
+  const { leverage } = await parseIpfsData(
+    data.cover.ipfsData,
+    data.cover.ipfsHash
+  );
+
+  const producstInfoArray = await Promise.all(
+    data.cover.products.map((product) =>
+      parseIpfsData(product.ipfsData, product.ipfsHash)
+    )
+  );
+
+  const totalCapitalEfficiency = producstInfoArray.reduce(
+    (total, productData) => total + Number(productData.capitalEfficiency),
+    0
+  );
+
+  const medianCapitalEfficiency = toBN(
+    totalCapitalEfficiency / data.cover.products.length
+  ).dividedBy(MULTIPLIER);
+
+  const vaults = data.covers.map((cover) =>
+    cover.vaults.reduce(
+      (total, vault) => ({
+        totalCoverLiquidityAdded: total.totalCoverLiquidityAdded.plus(
+          toBN(vault.totalCoverLiquidityAdded)
+        ),
+        totalCoverLiquidityRemoved: total.totalCoverLiquidityRemoved.plus(
+          toBN(vault.totalCoverLiquidityRemoved)
+        ),
+        totalFlashLoanFees: total.totalFlashLoanFees.plus(
+          toBN(vault.totalFlashLoanFees)
+        ),
+      }),
+      {
+        totalCoverLiquidityAdded: toBN(0),
+        totalCoverLiquidityRemoved: toBN(0),
+        totalFlashLoanFees: toBN(0),
+      }
+    )
+  );
+  const totalCoverageFromVault = getTotalCoverage(vaults);
+
+  const totalCoverage = convertFromUnits(
+    totalCoverageFromVault,
+    liquidityTokenDecimals
+  )
+    .multipliedBy(leverage)
+    .multipliedBy(medianCapitalEfficiency);
+
+  const totalCoverFee = sumOf(...data.protocols.map((x) => x.totalCoverFee));
+  const totalCoveredAmount = sumOf(
+    ...data.cxTokens.map((x) => x.totalCoveredAmount)
+  );
+
+  return {
+    availableCovers: 1,
+    reportingCovers: data.reporting.length,
+    leverage,
+    medianCapitalEfficiency,
+    totalCoverage: convertToUnits(totalCoverage, liquidityTokenDecimals),
+    totalCoverFee,
+    totalCoveredAmount,
+  };
 }

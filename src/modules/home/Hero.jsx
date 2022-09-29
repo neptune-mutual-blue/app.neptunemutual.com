@@ -17,13 +17,23 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 
-export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
-  const { data: heroData } = useFetchHeroStats()
-  const { poolsTvl, liquidityTokenDecimals } = useAppConstants()
-  const router = useRouter()
+export const HomeHero = ({ breadcrumbs = [], title = "" }) => {
+  const { poolsTvl, liquidityTokenDecimals } = useAppConstants();
+  const router = useRouter();
 
-  const [changeData, setChangeData] = useState(null)
-  const { data } = useProtocolDayData()
+  /**
+   * @type {string}
+   */
+  // @ts-ignore
+  const { cover_id } = router.query;
+
+  const { data: heroData } = useFetchHeroStats(
+    cover_id || "",
+    liquidityTokenDecimals
+  );
+
+  const [changeData, setChangeData] = useState(null);
+  const { data } = useProtocolDayData();
 
   useEffect(() => {
     if (data && data.length >= 2) {
@@ -75,7 +85,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`TVL (Cover)`,
+                    name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
                         heroData.tvlCover,
