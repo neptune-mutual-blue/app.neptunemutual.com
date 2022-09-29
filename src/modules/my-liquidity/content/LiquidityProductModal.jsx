@@ -22,7 +22,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
       }}
       data-testid='liquidity-product-modal'
     >
-      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-8 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
+      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 xs:p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
         <Dialog.Title
           className='flex flex-col items-center w-full pb-3 font-bold border-b md:flex-row font-sora border-b-B0C4DB'
           data-testid='dialog-title'
