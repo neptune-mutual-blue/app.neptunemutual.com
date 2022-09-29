@@ -160,7 +160,7 @@ export function ProofOfIncident ({ disabled, required }) {
                 value: value,
                 required: required,
                 disabled: disabled,
-                type: 'text'
+                type: 'url'
               }}
               desc={t`Provide a URL confirming the nature of the incident.`}
             />
