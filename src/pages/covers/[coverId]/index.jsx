@@ -5,10 +5,10 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { HomeHero } from '@/modules/home/Hero'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
-import { isV2BasketCoverEnabled } from '@/src/config/environment'
+import { isDiversifiedCoversEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
 
-const disabled = !isV2BasketCoverEnabled()
+const disabled = !isDiversifiedCoversEnabled()
 
 export default function CoverPage () {
   const router = useRouter()
