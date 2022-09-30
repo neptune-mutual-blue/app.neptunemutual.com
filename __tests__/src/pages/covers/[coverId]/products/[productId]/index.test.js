@@ -13,7 +13,7 @@ describe('Options test', () => {
   beforeEach(() => {
     process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'true' }
     const Index =
-      require('@/src/pages/covers/[coverId]/products/[product_id]').default
+      require('@/src/pages/covers/[coverId]/products/[productId]').default
     const { initialRender } = initiateTest(Index, {}, () => {
       mockFn.useRouter()
       mockFn.useCoverOrProductData()

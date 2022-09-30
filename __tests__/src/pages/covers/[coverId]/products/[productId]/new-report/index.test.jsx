@@ -14,7 +14,7 @@ describe('ReportingNewCoverPage test', () => {
     mockFn.useRouter()
     process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'true' }
     const ReportingNewCoverPage =
-      require('@/pages/covers/[coverId]/products/[product_id]/new-report/index').default
+      require('@/pages/covers/[coverId]/products/[productId]/new-report').default
     const { initialRender } = initiateTest(ReportingNewCoverPage)
 
     initialRender()

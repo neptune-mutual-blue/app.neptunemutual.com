@@ -46,7 +46,7 @@ describe('CardStatusBadge component behaviour', () => {
       expect(result).toEqual('FALSE_REPORTING')
     })
 
-    test('should return the status if it is `incident happened` or `incident occured`', () => {
+    test('should return the status if it is `incident happened` or `incident occurred`', () => {
       const status = 'INCIDENT HAPPENED'
       const result = identifyStatus(status)
       expect(result).toEqual('INCIDENT')

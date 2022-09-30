@@ -3,7 +3,7 @@ import { NewDisputeReportForm } from '@/src/modules/reporting/NewDisputeReportFo
 import { screen, fireEvent } from '@testing-library/react'
 import { testData } from '@/utils/unit-tests/test-data'
 
-describe('Incident Occured form', () => {
+describe('Incident Occurred form', () => {
   const { initialRender, rerenderFn } = initiateTest(
     NewDisputeReportForm,
     {

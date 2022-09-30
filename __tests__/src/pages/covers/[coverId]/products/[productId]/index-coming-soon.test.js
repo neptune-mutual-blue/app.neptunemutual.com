@@ -11,7 +11,7 @@ describe('Options test', () => {
     mockFn.useRouter()
     process.env = { ...OLD_ENV, NEXT_PUBLIC_ENABLE_V2: 'false' }
     const Options =
-      require('@/src/pages/covers/[coverId]/products/[product_id]').default
+      require('@/src/pages/covers/[coverId]/products/[productId]').default
     render(<Options />)
   })
 

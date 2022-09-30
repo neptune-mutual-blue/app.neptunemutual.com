@@ -185,14 +185,14 @@ describe('ResolveIncident test resolve', () => {
     initialRender()
   })
 
-  test('should render two buttons', () => {
+  test('should render a button', () => {
     const buttons = screen.getAllByRole('button')
     expect(buttons.length).toBe(1)
   })
 
-  test('should show resolve ', () => {
+  test('should show emergency resolve ', () => {
     const resolveButton = screen.getAllByRole('button')
-    expect(resolveButton[0]).toHaveTextContent('Resolve')
+    expect(resolveButton[0]).toHaveTextContent('Emergency resolve')
   })
 })
 
@@ -246,7 +246,7 @@ describe('ResolveIncident test', () => {
   test('should show unstaking after clicking on dialog button', () => {
     const wrapper = screen.getAllByRole('dialog')[1]
     const emergencyResolve = wrapper.getElementsByTagName('button')
-    expect(emergencyResolve[0]).toHaveTextContent('EMERGENCY RESOLVE')
+    expect(emergencyResolve[0]).toHaveTextContent('Emergency resolve')
     fireEvent.click(emergencyResolve[0])
   })
 })

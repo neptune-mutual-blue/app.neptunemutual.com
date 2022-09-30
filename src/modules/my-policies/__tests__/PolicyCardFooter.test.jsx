@@ -85,6 +85,6 @@ describe('PolicyCardFooter test', () => {
     })
 
     const link = screen.getByTestId('claim-link')
-    expect(link).toHaveTextContent('CLAIM')
+    expect(link).toHaveTextContent('Claim')
   })
 })

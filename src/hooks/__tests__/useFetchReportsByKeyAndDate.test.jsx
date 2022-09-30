@@ -48,7 +48,7 @@ describe('useFetchReportsByKeyAndDate', () => {
     mockFn.fetch().unmock()
   })
 
-  test('should log the error if error occured', async () => {
+  test('should log the error if error occurred', async () => {
     mockFn.fetch(false)
     mock()
 

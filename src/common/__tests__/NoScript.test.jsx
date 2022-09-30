@@ -9,7 +9,7 @@ describe('NoScript component', () => {
     })
   })
 
-  test('should render error if occured', () => {
+  test('should render error if occurred', () => {
     const screen = render(<NoScript />)
     expect(screen.container.getElementsByTagName('noscript').length).toBe(1)
   })

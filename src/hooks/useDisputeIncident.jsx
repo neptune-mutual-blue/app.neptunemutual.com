@@ -167,13 +167,11 @@ export const useDisputeIncident = ({
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-      const payload = await utils.ipfs.write({ ...info, createdBy: account })
+      const hash = await utils.ipfs.write({ ...info, createdBy: account })
 
-      if (payload === undefined) {
+      if (hash === undefined) {
         throw new Error('Could not save cover to an IPFS network')
       }
-
-      const hashBytes32 = payload[1]
 
       const instance = await registry.Governance.getInstance(
         networkId,
@@ -246,7 +244,7 @@ export const useDisputeIncident = ({
         coverKey,
         productKey,
         incidentDate,
-        hashBytes32,
+        hash,
         convertToUnits(value).toString()
       ]
       writeContract({
