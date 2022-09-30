@@ -131,7 +131,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
               id: 'description',
               name: 'description',
               className:
-                'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB',
+                'block w-full py-6 pl-6 mb-10 bg-white border rounded-lg focus:outline-none focus:ring-4e7dd9 focus:border-4e7dd9 border-B0C4DB',
               placeholder: t`Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident.`,
               rows: 5,
               maxLength: 300,
