@@ -164,7 +164,7 @@ const WhenRenderer = ({ row }) => {
 const DetailsRenderer = ({ row }) => {
   const {locale} = useRouter()
 
-  const { title, description } = getActionMessage(
+  const { title } = getActionMessage(
     row.methodName,
     row.status,
     row.data,

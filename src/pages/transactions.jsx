@@ -1,6 +1,5 @@
 import Head from 'next/head'
 
-import HomePage from '@/modules/home'
 import { HeroTitle } from '@/common/HeroTitle'
 import { t, Trans } from '@lingui/macro'
 import { Container } from '@/common/Container/Container'
