@@ -209,7 +209,6 @@ const ForceTxModal = ({
             Send Transaction Ignoring This Error
           </button>
         </div>
-
       </ModalWrapper>
     </ModalRegular>
   )

@@ -1,6 +1,5 @@
 import { classNames } from '@/utils/classnames'
-import { Root, Overlay, Content, Portal, Close } from '@radix-ui/react-dialog'
-import CloseIcon from '@/icons/CloseIcon'
+import { Root, Overlay, Content, Portal } from '@radix-ui/react-dialog'
 
 export const ModalRegular = ({
   isOpen = false,
@@ -28,12 +27,7 @@ export const ModalRegular = ({
         className={classNames(defaultContentClassNames, className)}
         {...rest}
       >
-        <>
-          <Close asChild onClick={onClose} className='absolute z-10 right-7 top-3 cursor-pointer'>
-            <div aria-label='Close'><CloseIcon className='w-5 h-5' /></div>
-          </Close>
-          {children}
-        </>
+        {children}
       </Content>
 
     </Portal>
