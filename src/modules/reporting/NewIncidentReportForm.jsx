@@ -18,6 +18,7 @@ import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import DateLib from '@/lib/date/DateLib'
+import { classNames } from '@/utils/classnames'
 
 /**
  *
@@ -34,6 +35,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
   const [value, setValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [isDateNoHasValue, setIsDateHasNoValue] = useState(true)
+  const [isInActive, setIsInActive] = useState(true)
 
   const {
     balance,
@@ -85,6 +87,20 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
   function handleObserveDateTime (e) {
     e && e.preventDefault()
     setIsDateHasNoValue(!e.target.value)
+  }
+
+  /**
+   * @param {Object} e
+   */
+  function handleObserveDateTimeBlurFocus (e) {
+    e && e.preventDefault()
+
+    if (e.target.value) {
+      setIsInActive(false)
+      return
+    }
+
+    setIsInActive(e.type === 'blur')
   }
 
   /**
@@ -158,7 +174,9 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
               required: canReport,
               disabled: approving || reporting,
               onChange: handleObserveDateTime,
-              className: isDateNoHasValue && 'text-9B9B9B'
+              onBlur: handleObserveDateTimeBlurFocus,
+              onFocus: handleObserveDateTimeBlurFocus,
+              className: classNames(isDateNoHasValue && 'text-9B9B9B', isInActive && 'inactive')
             }}
             desc={t`The date and time you observed the incident.`}
           />

@@ -23,6 +23,10 @@ input:checked + div svg {
   @apply block;
 }
 
+.inactive::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+
 .transform-flip {
   transform: scale(1, -1);
 }
