@@ -8,6 +8,7 @@ import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { toBN } from '@/utils/bn'
 import { MULTIPLIER } from '@/src/config/constants'
+import { isValidProduct } from '@/src/helpers/cover'
 
 export const CoverReportingRules = ({
   coverInfo,
@@ -16,6 +17,7 @@ export const CoverReportingRules = ({
 }) => {
   const { reporterCommission } = useCoverStatsContext()
   const hasActiveReportings = activeReportings && activeReportings.length > 0
+  const isDiversified = isValidProduct(coverInfo.productKey)
 
   return (
     <>
@@ -35,7 +37,7 @@ export const CoverReportingRules = ({
                   {!hasActiveReportings && (
                     <p className='mb-10 text-h4 text-8F949C'>
                       <Trans>
-                        There are no known incidents of {coverInfo?.infoObj.projectName || coverInfo?.infoObj.productName}.
+                        There are no known incidents of {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.coverName}.
                       </Trans>
                     </p>
                   )}
@@ -53,24 +55,14 @@ export const CoverReportingRules = ({
                   <Alert>
                     <Trans>
                       If you just came to know about a recent incident of{' '}
-                      {coverInfo?.infoObj.projectName || coverInfo?.infoObj.productName}, carefully read the cover rules
+                      {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.coverName}, carefully read the cover rules
                       above. You can earn flat{' '}
                       {toBN(reporterCommission)
                         .multipliedBy(100)
                         .dividedBy(MULTIPLIER)
                         .toString()}
-                      % of total dishonest stakes if you are the first person to
-                      report this incident. In addition to NPM rewards, you may
-                      also earn a percentage commission on individual claims
-                      payout.
-                      <br />
-                      <br />
-                      <span>
-                        Note: Dishonest reporters get 100% of their stakes
-                        forfeited which is distributed to honest reporters. You
-                        may lose all of your stakes if resolution is not in your
-                        favor.
-                      </span>
+                      % of the minority fees if you are the first person to
+                      report this incident.
                     </Trans>
                   </Alert>
                 </div>

@@ -147,7 +147,8 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
         className='px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24'
       >
         <h2 className='mb-4 font-bold text-h2'>
-          <Trans>Report an incident</Trans>
+          {/* Incident should be capitalized */}
+          <Trans>Report an Incident</Trans>
         </h2>
         <div className='flex flex-col md:flex-row'>
           <InputField

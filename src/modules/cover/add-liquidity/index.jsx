@@ -19,6 +19,7 @@ import { CoveredProducts } from '@/modules/my-liquidity/content/CoveredProducts'
 import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
 import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
 import { Routes } from '@/src/config/routes'
+import { classNames } from '@/utils/classnames'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -83,7 +84,7 @@ export const CoverAddLiquidityDetailsPage = () => {
         {isDiversified ? <CoveredProducts coverInfo={coverInfo} /> : null}
 
         <Container className='grid grid-cols-3 lg:gap-32'>
-          <div className='col-span-3 md:col-span-2'>
+          <div className={classNames(acceptedRules ? 'col-span-3 md:col-span-2' : 'col-span-3')}>
             {/* Description */}
             <span className='hidden lg:block'>
               <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
@@ -139,13 +140,14 @@ export const CoverAddLiquidityDetailsPage = () => {
             <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
           </span>
 
-          <LiquidityResolutionSources
-            isDiversified={isDiversified}
-            info={info}
-            coverInfo={coverInfo}
-            isWithdrawalWindowOpen={isWithdrawalWindowOpen}
-            accrueInterest={accrueInterest}
-          />
+          {acceptedRules && (
+            <LiquidityResolutionSources
+              isDiversified={isDiversified}
+              info={info}
+              coverInfo={coverInfo}
+              isWithdrawalWindowOpen={isWithdrawalWindowOpen}
+              accrueInterest={accrueInterest}
+            />)}
         </Container>
       </div>
 

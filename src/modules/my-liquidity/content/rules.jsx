@@ -1,10 +1,15 @@
+import CloseIcon from '@/icons/CloseIcon'
+import InfoWithHollowCircleIcon from '@/icons/InfoWithHollowCircleIcon'
 import { Trans } from '@lingui/macro'
+import { useState } from 'react'
 
 export function DiversifiedCoverRules ({ coverInfo }) {
+  const [showWarning, setShowWarning] = useState(true)
+
   return (
     <>
       <DownloadButton />
-      <WarningMessage />
+      {showWarning && <WarningMessage handleClose={() => setShowWarning(false)} />}
       <Notes coverInfo={coverInfo} />
     </>
   )
@@ -37,50 +42,31 @@ function DownloadButton () {
   )
 }
 
-function WarningMessage () {
+function WarningMessage ({ handleClose }) {
   return (
-    <div
-      className='flex items-center justify-center px-10 py-4 text-sm bg-F7E2BE'
-      data-testid='warning-message'
-    >
-      <div>
-        <svg
-          width='20'
-          height='20'
-          viewBox='0 0 20 20'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <path
-            d='M9 5H11V7H9V5ZM9 9H11V15H9V9ZM10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM10 18C5.59 18 2 14.41 2 10C2 5.59 5.59 2 10 2C14.41 2 18 5.59 18 10C18 14.41 14.41 18 10 18Z'
-            fill='#E52E2E'
-          />
-        </svg>
-      </div>
+    <>
+      <div
+        className='flex justify-between pl-4 pr-2 py-4 text-sm bg-E52E2E bg-opacity-5 border-l-4 border-y border-r border-E52E2E'
+        data-testid='warning-message'
+      >
+        <div className='flex'>
+          <div className='text-E52E2E'>
+            <InfoWithHollowCircleIcon />
+          </div>
+          <p className='pl-6 leading-5 text-E52E2E max-w-2xl'>
+            <Trans>
+              The product(s) listed above are part of a diversified cover pool. The
+              payout for a diversified cover product is not guaranteed, so it will
+              be granted on a first-come, first-serve basis.
+            </Trans>
+          </p>
+        </div>
 
-      <p className='px-6 leading-5 text-E52E2E'>
-        <Trans>
-          The product(s) listed above are part of a diversified cover pool. The
-          payout for a diversified cover product is not guaranteed, so it will
-          be granted on a first-come, first-serve basis.
-        </Trans>
-      </p>
-
-      <div>
-        <svg
-          width='10'
-          height='10'
-          viewBox='0 0 10 10'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
-        >
-          <path
-            d='M9.66634 1.27301L8.72634 0.333008L4.99967 4.05967L1.27301 0.333008L0.333008 1.27301L4.05967 4.99967L0.333008 8.72634L1.27301 9.66634L4.99967 5.93967L8.72634 9.66634L9.66634 8.72634L5.93967 4.99967L9.66634 1.27301Z'
-            fill='#E52E2E'
-          />
-        </svg>
+        <div className='h-fit text-E52E2E' onClick={() => handleClose()}>
+          <CloseIcon className='scale-[1.7]' width='10' height='10' />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

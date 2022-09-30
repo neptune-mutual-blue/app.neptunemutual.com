@@ -238,7 +238,7 @@ export const CastYourVote = ({ incidentReport }) => {
                 .multipliedBy(100)
                 .dividedBy(MULTIPLIER)
                 .toString()}
-              % of the platform fee instead of the incident reporter.
+              % of the "incident occurred" side&apos;s tokens.
             </Trans>
           </Alert>
           <Link
