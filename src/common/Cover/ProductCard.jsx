@@ -18,18 +18,21 @@ import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import SheildIcon from '@/icons/SheildIcon'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 
+const lineContentArray = new Array(3).fill(1)
+
 export const ProductCard = ({
   coverKey,
   productKey,
   productInfo,
   progressFgColor = undefined,
-  progressBgColor = undefined
+  progressBgColor = undefined,
+  className = ''
 }) => {
   const router = useRouter()
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const { info: coverStats } = useFetchCoverStats({
+  const { info: coverStats, isLoading } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey
   })
@@ -65,8 +68,8 @@ export const ProductCard = ({
   const status = identifyStatus(productStatus)
 
   return (
-    <OutlinedCard className='p-6 bg-white' type='link'>
-      <div className='flex items-start justify-between'>
+    <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
+      <div className='flex items-start justify-between min-h-72'>
         <div
           className={classNames(
             'inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18'
@@ -82,9 +85,16 @@ export const ProductCard = ({
           />
         </div>
         <div>
-          {status !== E_CARD_STATUS.NORMAL && (
-            <Badge status={status} className='rounded' />
-          )}
+          {
+            isLoading
+              ? <div
+                  className='w-40 h-6 animate-pulse rounded-full bg-skeleton'
+                  data-testid='card-status-badge'
+                />
+              : (status !== E_CARD_STATUS.NORMAL && (
+                <Badge status={status} className='rounded' />
+                ))
+          }
         </div>
       </div>
       <p
@@ -146,7 +156,15 @@ export const ProductCard = ({
       <Divider className='mb-4 lg:mb-8' />
 
       {/* Stats */}
-      <div className='flex justify-between px-1 text-h7 lg:text-sm'>
+      {isLoading && lineContentArray.map((_, i) => (
+        <div
+          key={i}
+          className='h-3 mt-3 rounded-full bg-skeleton'
+          data-testid='card-line-content'
+        />
+      ))}
+
+      <div className={classNames('justify-between px-1 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
         <span className='uppercase text-h7 lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
@@ -177,7 +195,7 @@ export const ProductCard = ({
           </div>
         }
       >
-        <div className='mt-2 mb-4'>
+        <div className={classNames('mt-2 mb-4', isLoading ? 'hidden' : 'block')}>
           <ProgressBar
             value={utilization}
             bgClass={progressBgColor}
@@ -186,7 +204,9 @@ export const ProductCard = ({
         </div>
       </InfoTooltip>
 
-      <div className='flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm'>
+      <div
+        className={classNames('justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}
+      >
         <InfoTooltip
           arrow={false}
           infoComponent={
