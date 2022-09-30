@@ -32,13 +32,13 @@ export function TransactionList ({
   const [page, setPage] = useState(1)
   const [maxPage, setMaxPage] = useState(1)
 
-  const showMore = (event) => {
-    event.preventDefault()
+  // const showMore = (event) => {
+  //   event.preventDefault()
 
-    if (page < maxPage) {
-      setPage((curPage) => curPage + 1)
-    }
-  }
+  //   if (page < maxPage) {
+  //     setPage((curPage) => curPage + 1)
+  //   }
+  // }
 
   useEffect(() => {
     toast.hide(isOpen)
