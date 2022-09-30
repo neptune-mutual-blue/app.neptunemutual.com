@@ -21,7 +21,7 @@ export function Card ({ status, incidentDate = '0', coverKey, productKey }) {
   const badge = (
     <Badge
       status={status}
-      className='ml-4 flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white'
+      className='flex items-center rounded-1 py-0.5 px-1.5 leading-4.5 text-white'
       icon
       data-testid='projectstatusindicator-container'
     />
@@ -54,7 +54,7 @@ export const CoverProfileInfo = ({
       </div>
       <div className='p-3' />
       <div>
-        <div className='flex items-center'>
+        <div className='flex flex-wrap-reverse items-center gap-x-4 gap-y-1'>
           <ProjectName name={projectName} />
           <Card
             coverKey={coverKey}

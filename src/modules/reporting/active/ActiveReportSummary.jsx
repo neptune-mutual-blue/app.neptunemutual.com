@@ -72,7 +72,7 @@ export const ActiveReportSummary = ({
     <>
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
-        <div className='flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB'>
+        <div className='flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB min-w-300'>
           <h2 className='mb-6 font-bold text-center text-h3 font-sora lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>

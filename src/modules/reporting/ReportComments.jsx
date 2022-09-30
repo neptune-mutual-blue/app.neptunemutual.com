@@ -22,14 +22,15 @@ function HeaderReport (props) {
   const { networkId } = useNetwork()
 
   return (
-    <div className='text-sm'>
+    <div className='flex flex-wrap gap-2 text-sm sm:flex-nowrap'>
       <span role='header-type'>{type}</span>
-      <span role='address' className='mx-2 text-4e7dd9'>
+      <span role='address' className='overflow-hidden text-4e7dd9'>
         {createdBy && (
           <a
             href={getAddressLink(networkId, createdBy)}
             target='_blank'
             rel='noreferrer noopener nofollow'
+            className='block overflow-hidden text-ellipsis'
           >
             {createdBy}
           </a>
@@ -37,14 +38,14 @@ function HeaderReport (props) {
       </span>
       <span
         role='reported-at'
-        className='text-9B9B9B'
+        className='text-9B9B9B shrink-0'
         title={DateLib.toLongDateFormat(reportedAt, locale)}
       >
         {reportedAt && fromNow(reportedAt)}
       </span>
 
       {/* Link to ipfs */}
-      <span className='absolute inline-flex items-center justify-center ml-2'>
+      <span className='inline-flex items-start justify-center'>
         <a
           href={getReplacedString(IPFS_HASH_URL, { ipfsHash })}
           target='_blank'
