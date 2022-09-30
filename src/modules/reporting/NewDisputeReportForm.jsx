@@ -86,7 +86,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
     const payload = {
       title: current.title?.value,
-      proofOfIncident: urlReports,
+      proofOfDispute: urlReports,
       description: current.description?.value,
       stake: convertToUnits(value).toString()
     }

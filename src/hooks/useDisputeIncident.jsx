@@ -15,11 +15,10 @@ import { useTxToast } from '@/src/hooks/useTxToast'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useRouter } from 'next/router'
-import { useTxPoster } from '@/src/context/TxPoster'
 import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { registry, utils } from '@neptunemutual/sdk'
+import { governance } from '@neptunemutual/sdk'
 import { t } from '@lingui/macro'
 import { METHODS } from '@/src/services/transactions/const'
 import {
@@ -53,7 +52,6 @@ export const useDisputeIncident = ({
   const { balance } = useERC20Balance(NPMTokenAddress)
 
   const txToast = useTxToast()
-  const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
@@ -151,113 +149,78 @@ export const useDisputeIncident = ({
     })
   }
 
-  const handleDispute = async (info) => {
-    if (!networkId || !account) {
-      return
-    }
-
+  const handleDispute = async (payload) => {
     setDisputing(true)
+
     const cleanup = () => {
       setDisputing(false)
-    }
-    const handleError = (err) => {
-      notifyError(err, t`dispute`)
     }
 
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
-      const hash = await utils.ipfs.write({ ...info, createdBy: account })
-
-      if (hash === undefined) {
-        throw new Error('Could not save cover to an IPFS network')
-      }
-
-      const instance = await registry.Governance.getInstance(
+      const wrappedResult = await governance.dispute(
         networkId,
+        coverKey,
+        productKey,
+        payload,
         signerOrProvider
       )
 
-      const onTransactionResult = async (tx) => {
-        TransactionHistory.push({
-          hash: tx.hash,
-          methodName: METHODS.REPORT_DISPUTE_COMPLETE,
-          status: STATUS.PENDING,
-          data: {
-            value,
-            tokenSymbol: NPMTokenSymbol,
-            date: incidentDate
-          }
-        })
+      const tx = wrappedResult.result.tx
 
-        await txToast.push(
-          tx,
-          {
-            pending: getActionMessage(
-              METHODS.REPORT_DISPUTE_COMPLETE,
-              STATUS.PENDING
-            ).title,
-            success: getActionMessage(
-              METHODS.REPORT_DISPUTE_COMPLETE,
-              STATUS.SUCCESS
-            ).title,
-            failure: getActionMessage(
-              METHODS.REPORT_DISPUTE_COMPLETE,
-              STATUS.FAILED
-            ).title
-          },
-          {
-            onTxSuccess: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
-                status: STATUS.SUCCESS
-              })
-
-              router.replace(
-                Routes.ViewReport(coverKey, productKey, incidentDate)
-              )
-            },
-            onTxFailure: () => {
-              TransactionHistory.push({
-                hash: tx.hash,
-                methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
-                status: STATUS.FAILED
-              })
-            }
-          }
-        )
-
-        cleanup()
-      }
-
-      const onRetryCancel = () => {
-        cleanup()
-      }
-
-      const onError = (err) => {
-        cleanup()
-        handleError(err)
-      }
-
-      const args = [
-        coverKey,
-        productKey,
-        incidentDate,
-        hash,
-        convertToUnits(value).toString()
-      ]
-      writeContract({
-        instance,
-        methodName: 'dispute',
-        args,
-        onTransactionResult,
-        onRetryCancel,
-        onError
+      TransactionHistory.push({
+        hash: tx.hash,
+        methodName: METHODS.REPORT_DISPUTE_COMPLETE,
+        status: STATUS.PENDING,
+        data: {
+          value,
+          tokenSymbol: NPMTokenSymbol,
+          date: incidentDate
+        }
       })
+
+      await txToast.push(
+        tx,
+        {
+          pending: getActionMessage(
+            METHODS.REPORT_DISPUTE_COMPLETE,
+            STATUS.PENDING
+          ).title,
+          success: getActionMessage(
+            METHODS.REPORT_DISPUTE_COMPLETE,
+            STATUS.SUCCESS
+          ).title,
+          failure: getActionMessage(
+            METHODS.REPORT_DISPUTE_COMPLETE,
+            STATUS.FAILED
+          ).title
+        },
+        {
+          onTxSuccess: () => {
+            TransactionHistory.push({
+              hash: tx.hash,
+              methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              status: STATUS.SUCCESS
+            })
+
+            router.replace(
+              Routes.ViewReport(coverKey, productKey, incidentDate)
+            )
+          },
+          onTxFailure: () => {
+            TransactionHistory.push({
+              hash: tx.hash,
+              methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
+              status: STATUS.FAILED
+            })
+          }
+        }
+      )
     } catch (err) {
+      notifyError(err, t`dispute`)
+    } finally {
       cleanup()
-      handleError(err)
     }
   }
 
