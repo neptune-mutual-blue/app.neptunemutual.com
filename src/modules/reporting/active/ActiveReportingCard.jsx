@@ -31,7 +31,7 @@ export const ActiveReportingCard = ({
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
-  const { info: coverStats } = useFetchCoverStats({
+  const { info: coverStats, isLoading } = useFetchCoverStats({
     coverKey,
     productKey
   })
@@ -78,9 +78,16 @@ export const ActiveReportingCard = ({
           />
         </div>
         <div date-testid='card-badge'>
-          {status !== E_CARD_STATUS.NORMAL && (
-            <Badge status={status} className='rounded' />
-          )}
+          {
+            isLoading
+              ? <div
+                  className='w-40 h-6 animate-pulse rounded-full bg-skeleton'
+                  data-testid='card-status-badge'
+                />
+              : (status !== E_CARD_STATUS.NORMAL && (
+                <Badge status={status} className='rounded' />
+                ))
+          }
         </div>
       </div>
       <h4 className='mt-4 font-semibold uppercase text-h4 font-sora'>

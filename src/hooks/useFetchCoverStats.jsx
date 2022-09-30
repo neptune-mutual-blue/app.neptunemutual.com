@@ -26,6 +26,7 @@ export const defaultStats = {
 
 export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const [info, setInfo] = useState(defaultStats)
+  const [isLoading, setIsLoading] = useState(false)
   const { account, library } = useWeb3React()
   const { networkId } = useNetwork()
 
@@ -80,6 +81,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
     let ignore = false
 
     async function exec () {
+      setIsLoading(true)
       try {
         const data = await fetcher()
 
@@ -110,6 +112,8 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
         })
       } catch (error) {
         console.error(error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -121,6 +125,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
   }, [fetcher])
 
   const refetch = useCallback(async () => {
+    setIsLoading(true)
     try {
       const data = await fetcher()
 
@@ -151,8 +156,10 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
       })
     } catch (error) {
       console.error(error)
+    } finally {
+      setIsLoading(false)
     }
   }, [fetcher])
 
-  return { info, refetch }
+  return { info, refetch, isLoading }
 }
