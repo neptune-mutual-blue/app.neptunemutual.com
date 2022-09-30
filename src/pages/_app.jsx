@@ -17,6 +17,7 @@ import { useEffect } from 'react'
 import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
+import { CookiePolicy } from '@/common/Cookie'
 
 const Wrappers = ({ disabled, children, noHeader }) => {
   if (disabled) {
@@ -55,6 +56,7 @@ function MyApp ({ Component, pageProps }) {
             disabled={pageProps.noWrappers}
             noHeader={pageProps.noHeader}
           >
+            <CookiePolicy />
             <Component {...pageProps} />
           </Wrappers>
         </LanguageProvider>

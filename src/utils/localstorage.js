@@ -7,7 +7,8 @@
 export const KEYS = {
   DISCLAIMER_APPROVAL: 'disclaimerApproval',
   UNLIMITED_APPROVAL: 'unlimitedApproval',
-  TRANSACTION_HISTORY: 'npmTransactionHistory'
+  TRANSACTION_HISTORY: 'npmTransactionHistory',
+  COOKIE_POLICY: 'acceptedCookiePolicy'
 }
 
 export const LOCAL_STORAGE_ERRORS = {
@@ -28,8 +29,8 @@ function toString (data) {
 }
 
 export class LocalStorage {
-  static KEYS = KEYS;
-  static LOCAL_STORAGE_ERRORS = LOCAL_STORAGE_ERRORS;
+  static KEYS = KEYS
+  static LOCAL_STORAGE_ERRORS = LOCAL_STORAGE_ERRORS
   /**
    *
    * @param {string} key
