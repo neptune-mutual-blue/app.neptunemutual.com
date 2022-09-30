@@ -57,7 +57,7 @@ const ToolTipContent = ({ majority }) => {
       <Tooltip.Content
         side='top'
         sideOffset={-32}
-        className='hidden test md:block'
+        className='hidden test lg:block'
         portalled={false}
       >
         <div
