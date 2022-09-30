@@ -16,6 +16,11 @@
   outline: none;
 }
 
+input:focus,
+textarea:focus {
+  border-color: #4e7dd9;
+}
+
 input:checked + div {
   @apply border-4e7dd9;
 }

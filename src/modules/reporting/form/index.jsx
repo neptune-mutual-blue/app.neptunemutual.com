@@ -26,7 +26,7 @@ function InputHeader ({ label, id }) {
  * @param {Object} props
  * @param {string} props.desc
  * @param {string} [props.label]
- * @param {React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error:boolean}} props.inputProps
+ * @param {React.ComponentProps<'input'> & React.RefAttributes<HTMLInputElement> & {error?:boolean}} props.inputProps
  * @param {string} [props.className]
  * @param {string} [props.error]
  * @param {number | string} [props.key]
@@ -159,7 +159,8 @@ export function ProofOfIncident ({ disabled, required }) {
                 onChange: (/** @type {Object} */ e) => handleChange(e, i),
                 value: value,
                 required: required,
-                disabled: disabled
+                disabled: disabled,
+                type: 'url'
               }}
               desc={t`Provide a URL confirming the nature of the incident.`}
             />
