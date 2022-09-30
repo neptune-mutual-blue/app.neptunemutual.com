@@ -10,6 +10,7 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { useRouter } from 'next/router'
 import { useToast } from '@/lib/toast/context'
 import { TransactionHistory } from '@/src/services/transactions/transaction-history'
+import { Routes } from '@/src/config/routes'
 
 export function TransactionList ({
   isOpen = false,
@@ -92,7 +93,10 @@ export function TransactionList ({
           <NotificationsList data={listOfTransactions} />
         </div>
         <div className={`text-center py-8 ${page >= maxPage ? 'hidden' : ''}`}>
-          <a href='#' className='underline' onClick={showMore}>
+          {/* <a href='#' className='underline' onClick={showMore}>
+            {t`View More`}
+          </a> */}
+          <a href={Routes.Transactions} className='underline'>
             {t`View More`}
           </a>
         </div>

@@ -70,7 +70,7 @@ class LSHistoryClass {
   setId (account, networkId) {
     this.id = `${account}:${networkId}`
 
-    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
+    if (Object.prototype.hasOwnProperty.call(this.id)) {
       this.state[this.id] = []
     }
 
