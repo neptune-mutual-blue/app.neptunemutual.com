@@ -21,6 +21,9 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import SheildIcon from '@/icons/SheildIcon'
+import { classNames } from '@/utils/classnames'
+
+const lineContentArray = new Array(3).fill(1)
 
 export const ActiveReportingCard = ({
   id,
@@ -151,8 +154,16 @@ export const ActiveReportingCard = ({
       {/* Divider */}
       <Divider />
 
+      {isLoading && lineContentArray.map((_, i) => (
+        <div
+          key={i}
+          className='h-3 mt-3 rounded-full bg-skeleton'
+          data-testid='card-line-content'
+        />
+      ))}
+
       {/* Stats */}
-      <div className='flex justify-between px-1 text-h7 lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
         <span className='uppercase text-h7 lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
@@ -188,12 +199,12 @@ export const ActiveReportingCard = ({
           </div>
         }
       >
-        <div className='mt-2 mb-4'>
+        <div className={classNames('mt-2 mb-4', isLoading ? 'hidden' : 'block')}>
           <ProgressBar value={utilization} />
         </div>
       </InfoTooltip>
 
-      <div className='flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm'>
+      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
         <InfoTooltip
           arrow={false}
           infoComponent={
