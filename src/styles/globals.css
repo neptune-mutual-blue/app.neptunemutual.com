@@ -18,12 +18,7 @@
 
 input:focus,
 textarea:focus {
-  @apply focus-visible:ring-1 focus-visible:ring-4e7dd9;
-}
-
-input,
-textarea {
-  outline-color: #4e7dd9;
+  border-color: #4e7dd9;
 }
 
 input:checked + div {

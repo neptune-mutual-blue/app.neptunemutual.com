@@ -40,7 +40,7 @@ export const SearchAndSortBar = ({
       >
         <input
           className={classNames(
-            'md:w-64 w-full pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none focus-visible:ring-1 focus-visible:ring-4e7dd9',
+            'md:w-64 w-full pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none',
             inputClass
           )}
           placeholder={t`Search`}
