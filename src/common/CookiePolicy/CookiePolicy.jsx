@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Trans } from '@lingui/macro'
 import { LocalStorage } from '@/utils/localstorage'
@@ -22,11 +22,7 @@ const getLSAcceptedCookie = () => {
   )
 }
 
-function CookiePolicy () {
-  const [isOpen, setIsOpen] = useState(() => !getLSAcceptedCookie())
-
-  const onClose = () => setIsOpen(false)
-
+function CookiePolicy ({ isOpen, onClose }) {
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog
@@ -45,7 +41,7 @@ function CookiePolicy () {
           </span>
           <Transition.Child as={React.Fragment}>
             <div className='overflow-hidden max-w-full xs:mx-1 sm:max-w-xl md:max-w-2xl bg-F5F9FC backdrop-blur-3xl flex flex-col md:flex-row font-poppins text-left px-8 py-6 text-h6 items-center relative bottom-0 md:bottom-8 rounded-t-2xl rounded-b-none md:rounded-b-2xl'>
-              <p className='pb-4 md:pb-0 md:pr-4'>
+              <p className='pb-4 md:pb-0 md:pr-4 tracking-normal'>
                 <Trans>
                   We use third-party cookies in order to personalize your
                   experience.
@@ -76,4 +72,4 @@ function CookiePolicy () {
   )
 }
 
-export { CookiePolicy }
+export { CookiePolicy, getLSAcceptedCookie }
