@@ -342,7 +342,7 @@ export const MenuModal = ({
     <div>
       <Root open={isOpen} onOpenChange={onClose}>
         <Portal>
-          <Overlay className='fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-xl' />
+          <Overlay className='fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-md' />
 
           <Content className='fixed z-50 w-full max-h-screen px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2'>
             <div className='flex flex-col items-end justify-between min-h-screen px-4 text-center'>
