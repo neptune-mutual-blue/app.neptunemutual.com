@@ -18,7 +18,12 @@ const getQuery = () => {
 
   return `
   {
-    covers {
+    covers (where: {
+      supportsProducts: false
+    }) {
+      id
+    }
+    products {
       id
     }
     reporting: incidentReports (where: {
@@ -72,8 +77,11 @@ export const useFetchHeroStats = () => {
           .plus(totalFlashLoanFees)
           .toString()
 
+        const productsCount = data.products.length
+        const dedicatedPoolCount = data.covers.length
+
         setData({
-          availableCovers: data.covers.length,
+          availableCovers: productsCount + dedicatedPoolCount,
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
