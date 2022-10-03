@@ -1,3 +1,4 @@
+import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 
 const mockParameters = [
   {
@@ -42,10 +43,10 @@ const mockParameters = [
 
 const List = ({ type, children }) => {
   if (type === 'unordered') {
-    return <ul className='pl-5 list-disc'>{children}</ul>
+    return <ul className='mt-5 pl-5 list-disc'>{children}</ul>
   }
   if (type === 'ordered') {
-    return <ol className='pl-5 list-decimal'>{children}</ol>
+    return <ol className='mt-5 pl-5 list-decimal'>{children}</ol>
   }
 }
 
@@ -55,9 +56,8 @@ const CoverParameters = ({ parameters = mockParameters }) => {
       <h4 className='mt-10 mb-6 font-semibold text-h4 font-sora'>
         {param.parameter}
       </h4>
-      <p className='mb-4'>
-        {param.text}
-      </p>
+
+      {param.text && <SeeMoreParagraph text={param.text} />}
 
       <List type={param.list.type}>
         {param.list.items.map((item, x) => (
