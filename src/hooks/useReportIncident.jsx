@@ -151,8 +151,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
 
     const cleanup = () => {
       setReporting(false)
-      updateAllowance(governanceContractAddress)
-      updateBalance()
+      return Promise.all([updateAllowance(governanceContractAddress), updateBalance()])
     }
 
     try {
@@ -195,12 +194,14 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
           ).title
         },
         {
-          onTxSuccess: () => {
+          onTxSuccess: async () => {
             TransactionHistory.push({
               hash: tx.hash,
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
               status: STATUS.SUCCESS
             })
+
+            await cleanup()
 
             router.replace(Routes.ActiveReports)
           },
@@ -215,7 +216,6 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
       )
     } catch (err) {
       notifyError(err, t`report incident`)
-    } finally {
       cleanup()
     }
   }
