@@ -136,7 +136,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
-      <CoverParameters parameters={coverInfo?.infoObj?.parameters} />
+      <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} />
     ],
     exclusions: coverInfo?.infoObj?.exclusions,
     standardExclusions: [
