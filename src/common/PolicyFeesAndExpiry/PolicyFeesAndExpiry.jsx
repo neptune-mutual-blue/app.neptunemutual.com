@@ -97,7 +97,7 @@ const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
       </Tooltip.Trigger>
 
       <Tooltip.Content side='top'>
-        <div className='max-w-md px-4 py-4 text-xs tracking-normal bg-black rounded-lg text-EEEEEE'>
+        <div className='md:max-w-md max-w-60 px-4 py-4 text-xs tracking-normal bg-black rounded-lg text-EEEEEE'>
           <p>
             <strong>
               <Trans>Starts At</Trans>:
