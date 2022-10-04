@@ -48,7 +48,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   }, [data])
 
   return (
-    <Hero>
+    <Hero big>
       {Boolean(breadcrumbs.length) && (
         <Container className='pt-9'>
           <BreadCrumbs pages={breadcrumbs} />
