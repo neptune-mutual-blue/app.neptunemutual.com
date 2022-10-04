@@ -80,7 +80,7 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
       capitalEfficiency: obj.capitalEfficiency,
       tags: obj.tags,
       about: obj.about,
-      rules: obj.rules,
+      parameters: obj.parameters,
       exclusions: obj.exclusions,
       links: obj.links,
       resolutionSources: obj.resolutionSources
@@ -91,7 +91,7 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
     productName: '---',
     tags: [],
     about: '---',
-    rules: '---',
+    parameters: '---',
     exclusions: '---',
     links: {},
     resolutionSources: []
