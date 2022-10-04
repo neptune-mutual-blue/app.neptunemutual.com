@@ -1,14 +1,14 @@
-import { useNetwork } from "@/src/context/Network";
-import { useWeb3React } from "@web3-react/core";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useEffect, useRef } from "react";
+import { useNetwork } from '@/src/context/Network'
+import { useWeb3React } from '@web3-react/core'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useEffect, useRef } from 'react'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { getActionMessage } from "@/src/helpers/notification";
-import { LSHistory } from "@/src/services/transactions/history";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { getActionMessage } from '@/src/helpers/notification'
+import { LSHistory } from '@/src/services/transactions/history'
 /**
  * @callback INotify
  * @param {string} title
@@ -20,25 +20,25 @@ import { LSHistory } from "@/src/services/transactions/history";
  * @prop {INotify} pushError
  */
 
-export function useTransactionHistory() {
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const txToast = useTxToast();
+export function useTransactionHistory () {
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const txToast = useTxToast()
 
-  const init = useRef(true);
+  const init = useRef(true)
 
   useEffect(() => {
-    LSHistory.init();
-  }, []);
+    LSHistory.init()
+  }, [])
 
   useEffect(() => {
     if (account && networkId) {
-      init.current = true;
+      init.current = true
     }
-  }, [account, networkId]);
+  }, [account, networkId])
 
   useEffect(() => {
-    if (!networkId || !account || !library) return;
+    if (!networkId || !account || !library) return
 
     LSHistory.setId(account, networkId);
 
@@ -48,10 +48,10 @@ export function useTransactionHistory() {
           library,
           account,
           networkId
-        );
+        )
 
         if (signerOrProvider && signerOrProvider.provider) {
-          init.current = false;
+          init.current = false
 
           TransactionHistory.process(
             TransactionHistory.callback(signerOrProvider.provider, {
@@ -59,20 +59,20 @@ export function useTransactionHistory() {
                 txToast.pushSuccess(
                   getActionMessage(methodName, STATUS.SUCCESS, data).title,
                   hash
-                );
+                )
               },
               failure: ({ hash, methodName, data }) => {
                 txToast.pushError(
                   getActionMessage(methodName, STATUS.FAILED, data).title,
                   hash
-                );
-              },
+                )
+              }
             })
-          );
+          )
         }
       }
-    })();
-  }, [account, library, networkId, txToast]);
+    })()
+  }, [account, library, networkId, txToast])
 
-  return null;
+  return null
 }

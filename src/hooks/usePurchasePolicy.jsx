@@ -1,33 +1,33 @@
-import { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { registry, utils } from "@neptunemutual/sdk";
+import { useState, useEffect } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { registry, utils } from '@neptunemutual/sdk'
 
 import {
   convertToUnits,
   isValidNumber,
   isGreaterOrEqual,
-  isGreater,
-} from "@/utils/bn";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useNetwork } from "@/src/context/Network";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { usePolicyAddress } from "@/src/hooks/contracts/usePolicyAddress";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { t } from "@lingui/macro";
-import { useRouter } from "next/router";
+  isGreater
+} from '@/utils/bn'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useNetwork } from '@/src/context/Network'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { usePolicyAddress } from '@/src/hooks/contracts/usePolicyAddress'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { t } from '@lingui/macro'
+import { useRouter } from 'next/router'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
-import { storePurchaseEvent } from "@/src/hooks/useFetchCoverPurchasedEvent";
-import { Routes } from "@/src/config/routes";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
+import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { Routes } from '@/src/config/routes'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -37,60 +37,60 @@ export const usePurchasePolicy = ({
   coverMonth,
   availableLiquidity,
   liquidityTokenSymbol,
-  referralCode,
+  referralCode
 }) => {
-  const { library, account } = useWeb3React();
-  const { networkId } = useNetwork();
+  const { library, account } = useWeb3React()
+  const { networkId } = useNetwork()
 
-  const [approving, setApproving] = useState(false);
-  const [purchasing, setPurchasing] = useState(false);
-  const [error, setError] = useState("");
+  const [approving, setApproving] = useState(false)
+  const [purchasing, setPurchasing] = useState(false)
+  const [error, setError] = useState('')
 
-  const txToast = useTxToast();
-  const policyContractAddress = usePolicyAddress();
-  const { liquidityTokenAddress, liquidityTokenDecimals } = useAppConstants();
+  const txToast = useTxToast()
+  const policyContractAddress = usePolicyAddress()
+  const { liquidityTokenAddress, liquidityTokenDecimals } = useAppConstants()
   const {
     balance,
     refetch: updateBalance,
-    loading: updatingBalance,
-  } = useERC20Balance(liquidityTokenAddress);
+    loading: updatingBalance
+  } = useERC20Balance(liquidityTokenAddress)
   const {
     allowance,
     approve,
     refetch: updateAllowance,
-    loading: updatingAllowance,
-  } = useERC20Allowance(liquidityTokenAddress);
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
-  const router = useRouter();
+    loading: updatingAllowance
+  } = useERC20Allowance(liquidityTokenAddress)
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
+  const router = useRouter()
 
   useEffect(() => {
-    updateAllowance(policyContractAddress);
-  }, [policyContractAddress, updateAllowance]);
+    updateAllowance(policyContractAddress)
+  }, [policyContractAddress, updateAllowance])
 
   useEffect(() => {
     if (!value && error) {
-      setError("");
-      return;
+      setError('')
+      return
     }
 
     if (!value) {
-      return;
+      return
     }
 
     if (!account) {
-      setError(t`Please connect your wallet`);
-      return;
+      setError(t`Please connect your wallet`)
+      return
     }
 
     if (!isValidNumber(value)) {
-      setError(t`Invalid amount to cover`);
-      return;
+      setError(t`Invalid amount to cover`)
+      return
     }
 
-    if (isGreater(feeAmount || "0", balance || "0")) {
-      setError(t`Insufficient Balance`);
-      return;
+    if (isGreater(feeAmount || '0', balance || '0')) {
+      setError(t`Insufficient Balance`)
+      return
     }
 
     if (isGreater(value || 0, availableLiquidity || 0)) {
@@ -98,14 +98,12 @@ export const usePurchasePolicy = ({
         t`Maximum protection available is ${
           formatCurrency(availableLiquidity, router.locale).short
         }`
-      );
-      return;
-    } else {
+      )
+      return
     }
 
     if (error) {
-      setError("");
-      return;
+      setError('')
     }
   }, [
     account,
@@ -114,19 +112,19 @@ export const usePurchasePolicy = ({
     error,
     feeAmount,
     router.locale,
-    value,
-  ]);
+    value
+  ])
 
   const handleApprove = async () => {
-    setApproving(true);
+    setApproving(true)
 
     const cleanup = () => {
-      setApproving(false);
-    };
+      setApproving(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${liquidityTokenSymbol}`);
-    };
+      notifyError(err, t`approve ${liquidityTokenSymbol}`)
+    }
 
     try {
       const onTransactionResult = async (tx) => {
@@ -136,86 +134,86 @@ export const usePurchasePolicy = ({
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: liquidityTokenSymbol,
-          },
-        });
+            tokenSymbol: liquidityTokenSymbol
+          }
+        })
 
         await txToast.push(
           tx,
           {
             pending: getActionMessage(METHODS.POLICY_APPROVE, STATUS.PENDING, {
               value,
-              tokenSymbol: liquidityTokenSymbol,
+              tokenSymbol: liquidityTokenSymbol
             }).title,
             success: getActionMessage(METHODS.POLICY_APPROVE, STATUS.SUCCESS, {
               value,
-              tokenSymbol: liquidityTokenSymbol,
+              tokenSymbol: liquidityTokenSymbol
             }).title,
             failure: getActionMessage(METHODS.POLICY_APPROVE, STATUS.FAILED, {
               value,
-              tokenSymbol: liquidityTokenSymbol,
-            }).title,
+              tokenSymbol: liquidityTokenSymbol
+            }).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_APPROVE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_APPROVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
-      };
+        )
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
       approve(policyContractAddress, feeAmount, {
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   const handlePurchase = async (onTxSuccess) => {
-    setPurchasing(true);
+    setPurchasing(true)
 
     const cleanup = () => {
-      setPurchasing(false);
-      updateAllowance(policyContractAddress);
-      updateBalance();
-    };
+      setPurchasing(false)
+      updateAllowance(policyContractAddress)
+      updateBalance()
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`purchase policy`);
-    };
+      notifyError(err, t`purchase policy`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const policyContract = await registry.PolicyContract.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
@@ -224,87 +222,87 @@ export const usePurchasePolicy = ({
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: liquidityTokenSymbol,
-          },
-        });
+            tokenSymbol: liquidityTokenSymbol
+          }
+        })
 
         await txToast.push(
           tx,
           {
             pending: t`Purchasing Policy`,
             success: t`Purchased Policy Successfully`,
-            failure: t`Could not purchase policy`,
+            failure: t`Could not purchase policy`
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
 
               tx.wait().then((receipt) => {
                 if (receipt) {
-                  const events = receipt.events;
+                  const events = receipt.events
                   const event = events.find(
-                    (x) => x.event === "CoverPurchased"
-                  );
-                  const txHash = storePurchaseEvent(event, receipt.from);
+                    (x) => x.event === 'CoverPurchased'
+                  )
+                  const txHash = storePurchaseEvent(event, receipt.from)
 
-                  router.push(Routes.ViewPolicyReceipt(txHash));
+                  router.push(Routes.ViewPolicyReceipt(txHash))
                 }
-              });
-              onTxSuccess();
+              })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
+        )
 
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
       const args = {
         onBehalfOf: account,
         coverKey: coverKey,
-        productKey: productKey || utils.keyUtil.toBytes32(""),
+        productKey: productKey || utils.keyUtil.toBytes32(''),
         coverDuration: parseInt(coverMonth, 10),
         amountToCover: convertToUnits(value, liquidityTokenDecimals).toString(),
-        referralCode: utils.keyUtil.toBytes32(referralCode),
-      };
+        referralCode: utils.keyUtil.toBytes32(referralCode)
+      }
 
       writeContract({
         instance: policyContract,
-        methodName: "purchaseCover",
+        methodName: 'purchaseCover',
         args: [args],
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   const canPurchase =
     value &&
     isValidNumber(value) &&
-    isGreaterOrEqual(allowance || "0", feeAmount || "0");
+    isGreaterOrEqual(allowance || '0', feeAmount || '0')
 
   return {
     balance,
@@ -316,6 +314,6 @@ export const usePurchasePolicy = ({
     error,
     handleApprove,
     handlePurchase,
-    updatingBalance,
-  };
-};
+    updatingBalance
+  }
+}

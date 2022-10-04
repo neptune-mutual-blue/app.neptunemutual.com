@@ -1,5 +1,5 @@
 export const getReplacedString = (
-  stringWithPlaceholders = "",
+  stringWithPlaceholders = '',
   replacements
 ) => {
   const str = stringWithPlaceholders.replace(
@@ -7,15 +7,15 @@ export const getReplacedString = (
     (placeholder) =>
       replacements[placeholder.substring(1, placeholder.length - 1)] ||
       placeholder
-  );
+  )
 
-  return str;
-};
+  return str
+}
 
 export const toStringSafe = (x) => {
   try {
-    return x.toString().trim().toLowerCase();
+    return x.toString().trim().toLowerCase()
   } catch (error) {
-    return "";
+    return ''
   }
-};
+}

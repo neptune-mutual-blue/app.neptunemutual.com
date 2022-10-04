@@ -1,1 +1,1 @@
-export { LanguageProvider } from "./i18n";
+export { LanguageProvider } from './i18n'

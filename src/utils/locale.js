@@ -1,5 +1,5 @@
 export const getBrowserLocale = () => {
-  const fallback = "en";
+  const fallback = 'en'
 
   try {
     return (
@@ -11,10 +11,10 @@ export const getBrowserLocale = () => {
       navigator.browserLanguage ||
       navigator.systemLanguage ||
       fallback
-    );
+    )
   } catch {
     // `navigator` is not available
   }
 
-  return fallback;
-};
+  return fallback
+}

@@ -1,23 +1,23 @@
-import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { IncidentReporter } from "@/src/modules/reporting/IncidentReporter";
-import { InsightsTable } from "@/src/modules/reporting/InsightsTable";
-import { UnstakeYourAmount } from "@/src/modules/reporting/resolved/UnstakeYourAmount";
-import { Divider } from "@/common/Divider/Divider";
-import { convertFromUnits, isGreater, toBN } from "@/utils/bn";
-import { truncateAddressParam } from "@/utils/address";
-import { useFinalizeIncident } from "@/src/hooks/useFinalizeIncident";
-import { formatCurrency } from "@/utils/formatter/currency";
-import DateLib from "@/lib/date/DateLib";
-import { VotesSummaryHorizontalChart } from "@/src/modules/reporting/VotesSummaryHorizontalChart";
-import { formatPercent } from "@/utils/formatter/percent";
-import { t, Trans } from "@lingui/macro";
-import { useRouter } from "next/router";
-import { useCapitalizePool } from "@/src/hooks/useCapitalizePool";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useCoverStatsContext } from "@/common/Cover/CoverStatsContext";
-import { classNames } from "@/utils/classnames";
-import { ReportingPeriodStatus } from "@/modules/reporting/ReportingPeriodStatus";
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { IncidentReporter } from '@/src/modules/reporting/IncidentReporter'
+import { InsightsTable } from '@/src/modules/reporting/InsightsTable'
+import { UnstakeYourAmount } from '@/src/modules/reporting/resolved/UnstakeYourAmount'
+import { Divider } from '@/common/Divider/Divider'
+import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
+import { truncateAddressParam } from '@/utils/address'
+import { useFinalizeIncident } from '@/src/hooks/useFinalizeIncident'
+import { formatCurrency } from '@/utils/formatter/currency'
+import DateLib from '@/lib/date/DateLib'
+import { VotesSummaryHorizontalChart } from '@/src/modules/reporting/VotesSummaryHorizontalChart'
+import { formatPercent } from '@/utils/formatter/percent'
+import { t, Trans } from '@lingui/macro'
+import { useRouter } from 'next/router'
+import { useCapitalizePool } from '@/src/hooks/useCapitalizePool'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { classNames } from '@/utils/classnames'
+import { ReportingPeriodStatus } from '@/modules/reporting/ReportingPeriodStatus'
 
 export const ResolvedReportSummary = ({
   incidentReport,
@@ -27,43 +27,43 @@ export const ResolvedReportSummary = ({
   no,
   myYes,
   myNo,
-  willReceive,
+  willReceive
 }) => {
-  const router = useRouter();
-  const { product_id } = router.query;
-  const productKey = safeFormatBytes32String(product_id || "");
+  const router = useRouter()
+  const { productId } = router.query
+  const productKey = safeFormatBytes32String(productId || '')
   const { finalize, finalizing } = useFinalizeIncident({
     coverKey: incidentReport.coverKey,
     productKey: productKey,
-    incidentDate: incidentReport.incidentDate,
-  });
+    incidentDate: incidentReport.incidentDate
+  })
   const { capitalize, capitalizing } = useCapitalizePool({
     coverKey: incidentReport.coverKey,
     productKey: productKey,
-    incidentDate: incidentReport.incidentDate,
-  });
-  const { NPMTokenSymbol, roles } = useAppConstants();
-  const { refetch: refetchCoverStats } = useCoverStatsContext();
+    incidentDate: incidentReport.incidentDate
+  })
+  const { NPMTokenSymbol, roles } = useAppConstants()
+  const { refetch: refetchCoverStats } = useCoverStatsContext()
 
   const votes = {
     yes: convertFromUnits(yes).decimalPlaces(0).toNumber(),
-    no: convertFromUnits(no).decimalPlaces(0).toNumber(),
-  };
+    no: convertFromUnits(no).decimalPlaces(0).toNumber()
+  }
 
   const yesPercent = toBN(votes.yes / (votes.yes + votes.no))
     .decimalPlaces(2)
-    .toNumber();
+    .toNumber()
   const noPercent = toBN(1 - yesPercent)
     .decimalPlaces(2)
-    .toNumber();
+    .toNumber()
 
-  let isAttestedWon = incidentReport.decision;
+  let isAttestedWon = incidentReport.decision
 
   if (incidentReport.decision === null) {
     isAttestedWon = isGreater(
       incidentReport.totalAttestedStake,
       incidentReport.totalRefutedStake
-    );
+    )
   }
 
   const majority = {
@@ -72,15 +72,15 @@ export const ResolvedReportSummary = ({
       : incidentReport.totalRefutedCount,
     stake: isAttestedWon ? votes.yes : votes.no,
     percent: isAttestedWon ? yesPercent : noPercent,
-    variant: isAttestedWon ? "success" : "failure",
-  };
+    variant: isAttestedWon ? 'success' : 'failure'
+  }
 
   return (
     <>
-      <OutlinedCard className="bg-white md:flex">
+      <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
-        <div className="flex-1 p-10 md:border-r border-B0C4DB">
-          <h2 className="mb-6 font-bold text-center text-h3 font-sora lg:text-left">
+        <div className='flex-1 p-10 md:border-r border-B0C4DB'>
+          <h2 className='mb-6 font-bold text-center text-h3 font-sora lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -95,12 +95,13 @@ export const ResolvedReportSummary = ({
           <UnstakeYourAmount
             incidentReport={incidentReport}
             willReceive={willReceive}
+            refetchInfo={refetchInfo}
           />
         </div>
 
         {/* Right half */}
-        <div className="p-10">
-          <h3 className="mb-4 font-bold text-h4 font-sora">
+        <div className='p-10'>
+          <h3 className='mb-4 font-bold text-h4 font-sora'>
             <Trans>Insights</Trans>
           </h3>
           <InsightsTable
@@ -108,11 +109,11 @@ export const ResolvedReportSummary = ({
               {
                 title: t`Incident Occurred`,
                 value: formatPercent(yesPercent, router.locale),
-                variant: "success",
+                variant: 'success'
               },
               {
                 title: t`User Votes:`,
-                value: incidentReport.totalAttestedCount,
+                value: incidentReport.totalAttestedCount
               },
               {
                 title: t`Stake:`,
@@ -127,7 +128,7 @@ export const ResolvedReportSummary = ({
                   router.locale,
                   NPMTokenSymbol,
                   true
-                ).long,
+                ).long
               },
               {
                 title: t`Your Stake`,
@@ -142,22 +143,22 @@ export const ResolvedReportSummary = ({
                   router.locale,
                   NPMTokenSymbol,
                   true
-                ).long,
-              },
+                ).long
+              }
             ]}
           />
 
-          <hr className="mt-4 mb-6 border-t border-d4dfee" />
+          <hr className='mt-4 mb-6 border-t border-d4dfee' />
           <InsightsTable
             insights={[
               {
                 title: t`False Reporting`,
                 value: formatPercent(noPercent, router.locale),
-                variant: "error",
+                variant: 'error'
               },
               {
                 title: t`User Votes:`,
-                value: incidentReport.totalRefutedCount,
+                value: incidentReport.totalRefutedCount
               },
               {
                 title: t`Stake:`,
@@ -172,7 +173,7 @@ export const ResolvedReportSummary = ({
                   router.locale,
                   NPMTokenSymbol,
                   true
-                ).long,
+                ).long
               },
               {
                 title: t`Your Stake`,
@@ -187,36 +188,36 @@ export const ResolvedReportSummary = ({
                   router.locale,
                   NPMTokenSymbol,
                   true
-                ).long,
-              },
+                ).long
+              }
             ]}
           />
 
-          <hr className="mt-6 mb-6 border-t border-d4dfee" />
-          <h3 className="mb-4 font-bold text-h4 font-sora">
+          <hr className='mt-6 mb-6 border-t border-d4dfee' />
+          <h3 className='mb-4 font-bold text-h4 font-sora'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
-            variant={"success"}
+            variant='success'
             account={truncateAddressParam(incidentReport.reporter, 8, -6)}
             txHash={incidentReport.reportTransaction.id}
           />
           {incidentReport.disputer && (
             <IncidentReporter
-              variant={"error"}
+              variant='error'
               account={truncateAddressParam(incidentReport.disputer, 8, -6)}
               txHash={incidentReport.disputeTransaction.id}
             />
           )}
 
-          <hr className="mt-8 mb-6 border-t border-d4dfee" />
-          <h3 className="mb-4 font-bold text-h4 font-sora">
+          <hr className='mt-8 mb-6 border-t border-d4dfee' />
+          <h3 className='mb-4 font-bold text-h4 font-sora'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus
             resolutionTimestamp={incidentReport.resolutionTimestamp}
           />
-          <p className="mb-4 text-sm opacity-50">
+          <p className='mb-4 text-sm opacity-50'>
             <span
               title={DateLib.toLongDateFormat(
                 incidentReport.incidentDate,
@@ -226,11 +227,11 @@ export const ResolvedReportSummary = ({
               {DateLib.toDateFormat(
                 incidentReport.incidentDate,
                 router.locale,
-                { month: "short", day: "numeric" },
-                "UTC"
+                { month: 'short', day: 'numeric' },
+                'UTC'
               )}
             </span>
-            {" - "}
+            {' - '}
             <span
               title={DateLib.toLongDateFormat(
                 incidentReport.resolutionTimestamp,
@@ -240,8 +241,8 @@ export const ResolvedReportSummary = ({
               {DateLib.toDateFormat(
                 incidentReport.resolutionTimestamp,
                 router.locale,
-                { month: "short", day: "numeric" },
-                "UTC"
+                { month: 'short', day: 'numeric' },
+                'UTC'
               )}
             </span>
           </p>
@@ -250,17 +251,17 @@ export const ResolvedReportSummary = ({
             <>
               <button
                 className={classNames(
-                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  'mt-2 text-sm font-poppins text-4e7dd9',
                   (finalizing || !roles.isGovernanceAgent) &&
-                    "cursor-not-allowed opacity-50"
+                    'cursor-not-allowed opacity-50'
                 )}
                 disabled={finalizing || !roles.isGovernanceAgent}
                 onClick={() => {
                   finalize(() => {
-                    refetchInfo();
-                    refetchCoverStats();
-                    setTimeout(refetchReport, 10000);
-                  });
+                    refetchInfo()
+                    refetchCoverStats()
+                    setTimeout(refetchReport, 10000)
+                  })
                 }}
               >
                 {finalizing ? t`Finalizing...` : t`Finalize`}
@@ -270,15 +271,15 @@ export const ResolvedReportSummary = ({
 
               <button
                 className={classNames(
-                  "mt-2 text-sm font-poppins text-4e7dd9",
+                  'mt-2 text-sm font-poppins text-4e7dd9',
                   (capitalizing || !roles.isLiquidityManager) &&
-                    "cursor-not-allowed opacity-50"
+                    'cursor-not-allowed opacity-50'
                 )}
                 disabled={capitalizing || !roles.isLiquidityManager}
                 onClick={() => {
                   capitalize(() => {
-                    setTimeout(refetchReport, 10000);
-                  });
+                    setTimeout(refetchReport, 10000)
+                  })
                 }}
               >
                 {capitalizing ? t`Capitalizing...` : t`Capitalize`}
@@ -288,5 +289,5 @@ export const ResolvedReportSummary = ({
         </div>
       </OutlinedCard>
     </>
-  );
-};
+  )
+}

@@ -1,10 +1,10 @@
-export function createMockRouter(router) {
+export function createMockRouter (router) {
   return {
-    basePath: "",
-    pathname: "/",
-    route: "/",
+    basePath: '',
+    pathname: '/',
+    route: '/',
     query: {},
-    asPath: "/",
+    asPath: '/',
     back: jest.fn(),
     beforePopState: jest.fn(),
     prefetch: jest.fn(),
@@ -14,14 +14,14 @@ export function createMockRouter(router) {
     events: {
       on: jest.fn(),
       off: jest.fn(),
-      emit: jest.fn(),
+      emit: jest.fn()
     },
     isFallback: false,
     isLocaleDomain: false,
     isReady: true,
-    defaultLocale: "en",
+    defaultLocale: 'en',
     domainLocales: [],
     isPreview: false,
-    ...router,
-  };
+    ...router
+  }
 }

@@ -1,16 +1,18 @@
 {
     "editor.formatOnSave": true,
+    "standard.autoFixOnSave": true,
     "[javascriptreact]": {
         "editor.formatOnSave": true,
+        "editor.defaultFormatter": "standard.vscode-standard",
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true
+            "source.fixAll": true
         }
     },
     "[javascript]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.defaultFormatter": "standard.vscode-standard",
         "editor.codeActionsOnSave": {
-            "source.fixAll.eslint": true
+            "source.fixAll": true
         }
     },
     "[yaml]": {

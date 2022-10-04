@@ -1,7 +1,8 @@
 {
   "extends": [
-    "next/core-web-vitals",
-    "prettier"
+    "standard",
+    "standard-jsx",
+    "next/core-web-vitals"
   ],
   "plugins": [
     "unused-imports"
@@ -18,5 +19,8 @@
         "argsIgnorePattern": "^_"
       }
     ]
+  },
+  "env": {
+    "jest": true
   }
 }

@@ -2,20 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  [type="button"] {
-    -webkit-appearance: none;
-  }
+:root {
+  accent-color: #4e7dd9;
+}
 
-  [type="radio"]:focus,
-  [type="radio"]:checked {
-    box-shadow: none;
-    @apply !bg-4e7dd9 outline outline-1 outline-B0C4DB outline-offset-0 bg-none border-4 !border-white;
+@layer base {
+  [type='button'] {
+    -webkit-appearance: none;
   }
 }
 
-*[tabindex="-1"] {
+*[tabindex='-1'] {
   outline: none;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #4e7dd9;
 }
 
 input:checked + div {
@@ -23,6 +26,10 @@ input:checked + div {
 }
 input:checked + div svg {
   @apply block;
+}
+
+.inactive::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
 }
 
 .transform-flip {
@@ -49,7 +56,7 @@ input:checked + div svg {
     rgba(233, 233, 233, 0.8) 100%
   );
   animation: shimmer 1s ease-out infinite;
-  content: "";
+  content: '';
 }
 
 @keyframes shimmer {
@@ -58,3 +65,38 @@ input:checked + div svg {
     opacity: 0;
   }
 }
+
+/* styles for checkbox with `checkbox_custom` class */
+input[type='checkbox'].checkbox_custom {
+  appearance: none;
+  padding: 0;
+  print-color-adjust: exact;
+  display: inline-block;
+  vertical-align: middle;
+  background-origin: border-box;
+  user-select: none;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input[type='checkbox']:focus.checkbox_custom {
+  outline: none;
+}
+
+input[type='checkbox']:hover.checkbox_custom,
+input[type='checkbox'].checkbox_custom + label:hover {
+  border-color: rgb(130, 130, 130);
+}
+
+input[type='checkbox']:indeterminate.checkbox_custom {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3E%3Cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3E%3C/svg%3E");
+  background-color: white;
+}
+
+input[type='checkbox']:checked.checkbox_custom {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+  background-color: currentColor;
+  border-color: transparent;
+}
+/********** `checkbox_custom` style end **********/

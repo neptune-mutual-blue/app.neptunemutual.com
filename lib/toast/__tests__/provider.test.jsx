@@ -1,9 +1,9 @@
-import { useToast } from "@/lib/toast/context";
-import { ToastProvider } from "@/lib/toast/provider";
-import { DEFAULT_VARIANT } from "@/src/config/toast";
+import { useToast } from '@/lib/toast/context'
+import { ToastProvider } from '@/lib/toast/provider'
+import { DEFAULT_VARIANT } from '@/src/config/toast'
 
-import { act, fireEvent, render, screen } from "@testing-library/react";
-import { useEffect } from "react";
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { useEffect } from 'react'
 
 /**
  * @typedef PushNotif
@@ -27,320 +27,320 @@ import { useEffect } from "react";
  */
 const eventListener = {
   listen: (_data) => {},
-  emit: (data) => eventListener.listen(data),
-};
+  emit: (data) => eventListener.listen(data)
+}
 
-function CustomChildren() {
-  const toast = useToast();
+function CustomChildren () {
+  const toast = useToast()
 
   useEffect(() => {
     eventListener.listen = (data) => {
-      if ("push" === data.action) {
-        return toast.push(data.message, data.type, data.lifetime, data.title);
+      if (data.action === 'push') {
+        return toast.push(data.message, data.type, data.lifetime, data.title)
       }
 
-      if ("pushCustom" === data.action) {
-        return toast.pushCustom(data);
+      if (data.action === 'pushCustom') {
+        return toast.pushCustom(data)
       }
 
       if (
         [
-          "pushError",
-          "pushWarning",
-          "pushSuccess",
-          "pushInfo",
-          "pushLoading",
+          'pushError',
+          'pushWarning',
+          'pushSuccess',
+          'pushInfo',
+          'pushLoading'
         ].includes(data.action)
       ) {
-        return toast[data.action](data);
+        return toast[data.action](data)
       }
 
-      if ("remove" === data.action) {
-        return toast.remove(data.id);
+      if (data.action === 'remove') {
+        return toast.remove(data.id)
       }
-    };
-  }, [toast]);
+    }
+  }, [toast])
 
-  return <p>Testing</p>;
+  return <p>Testing</p>
 }
 
-function WithProvider() {
+function WithProvider () {
   return (
     <ToastProvider variant={DEFAULT_VARIANT}>
       <CustomChildren />
     </ToastProvider>
-  );
+  )
 }
 
-function generateRandomId() {
-  return Date.now() + "-" + Math.floor(Math.random() * 10000);
+function generateRandomId () {
+  return Date.now() + '-' + Math.floor(Math.random() * 10000)
 }
 
-describe("ToastProvider", () => {
-  test("Should render ToastProvider", () => {
-    render(<WithProvider />);
+describe('ToastProvider', () => {
+  test('Should render ToastProvider', () => {
+    render(<WithProvider />)
 
-    const container = screen.getByTestId("toast-container");
+    const container = screen.getByTestId('toast-container')
 
-    expect(container).toBeInTheDocument();
-  });
+    expect(container).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with Push Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with Push Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "push",
+      action: 'push',
       id: generateRandomId(),
-      type: "",
+      type: '',
       lifetime: 10,
-      title: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      title: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.title);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.title)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with Push Notification and 30secs timeout", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with Push Notification and 30secs timeout', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "push",
+      action: 'push',
       id: generateRandomId(),
-      type: "",
-      title: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      type: '',
+      title: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.title);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.title)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushCustom Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushCustom Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushCustom",
+      action: 'pushCustom',
       id: generateRandomId(),
-      type: "",
+      type: '',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.header);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.header)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushCustom Notification and 30secs timeout", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushCustom Notification and 30secs timeout', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushCustom",
+      action: 'pushCustom',
       id: generateRandomId(),
-      type: "",
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      type: '',
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.header);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.header)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushError Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushError Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushError",
+      action: 'pushError',
       id: generateRandomId(),
-      type: "Error",
+      type: 'Error',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushSuccess Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushSuccess Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushSuccess",
+      action: 'pushSuccess',
       id: generateRandomId(),
-      type: "Success",
+      type: 'Success',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
-  test("Should render ToastProvider with PushWarning Notification", async () => {
-    render(<WithProvider />);
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
+  test('Should render ToastProvider with PushWarning Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushWarning",
+      action: 'pushWarning',
       id: generateRandomId(),
-      type: "Warning",
+      type: 'Warning',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushInfo Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushInfo Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushInfo",
+      action: 'pushInfo',
       id: generateRandomId(),
-      type: "Info",
+      type: 'Info',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushLoading Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushLoading Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushLoading",
+      action: 'pushLoading',
       id: generateRandomId(),
-      type: "Loading",
+      type: 'Loading',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
-  });
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
+  })
 
-  test("Should render ToastProvider with PushLoading Notification", async () => {
-    render(<WithProvider />);
+  test('Should render ToastProvider with PushLoading Notification', async () => {
+    render(<WithProvider />)
 
     const data = {
-      action: "pushLoading",
+      action: 'pushLoading',
       id: generateRandomId(),
-      type: "Loading",
+      type: 'Loading',
       lifetime: 10,
-      header: "Sample Push Title",
-      message: "Sample Push message",
-    };
+      header: 'Sample Push Title',
+      message: 'Sample Push message'
+    }
 
     act(() => {
-      eventListener.emit(data);
-    });
+      eventListener.emit(data)
+    })
 
-    const title = screen.getByText(data.type);
-    const message = screen.getByText(data.message);
-    const closeButton = screen.getByText("Close");
+    const title = screen.getByText(data.type)
+    const message = screen.getByText(data.message)
+    const closeButton = screen.getByText('Close')
 
-    expect(title).toBeInTheDocument();
-    expect(message).toBeInTheDocument();
-    expect(closeButton).toBeInTheDocument();
+    expect(title).toBeInTheDocument()
+    expect(message).toBeInTheDocument()
+    expect(closeButton).toBeInTheDocument()
 
     act(() => {
-      fireEvent.click(closeButton.parentElement);
-    });
+      fireEvent.click(closeButton.parentElement)
+    })
 
-    const _title = screen.queryByText(data.type);
-    const _message = screen.queryByText(data.message);
-    const _closeButton = screen.queryByText("Close");
+    const _title = screen.queryByText(data.type)
+    const _message = screen.queryByText(data.message)
+    const _closeButton = screen.queryByText('Close')
 
-    expect(_title).not.toBeInTheDocument();
-    expect(_message).not.toBeInTheDocument();
-    expect(_closeButton).not.toBeInTheDocument();
-  });
-});
+    expect(_title).not.toBeInTheDocument()
+    expect(_message).not.toBeInTheDocument()
+    expect(_closeButton).not.toBeInTheDocument()
+  })
+})

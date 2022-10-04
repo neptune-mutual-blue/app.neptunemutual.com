@@ -1,7 +1,7 @@
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { useWeb3React } from "@web3-react/core";
-import { useState, useEffect } from "react";
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useWeb3React } from '@web3-react/core'
+import { useState, useEffect } from 'react'
 
 const getQuery = (limit, page, account) => {
   return `
@@ -39,62 +39,62 @@ const getQuery = (limit, page, account) => {
       }
     }
   }
-  `;
-};
+  `
+}
 
 export const usePolicyTxs = ({ limit, page }) => {
   const [data, setData] = useState({
     policyTransactions: [],
-    blockNumber: null,
-  });
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const { networkId } = useNetwork();
-  const { account } = useWeb3React();
-  const fetchPolicyTxs = useSubgraphFetch("usePolicyTxs");
+    blockNumber: null
+  })
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
+  const fetchPolicyTxs = useSubgraphFetch('usePolicyTxs')
 
   useEffect(() => {
     if (!account) {
-      return;
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
     fetchPolicyTxs(networkId, getQuery(limit, page, account))
       .then((_data) => {
-        if (!_data) return;
+        if (!_data) return
 
         const isLastPage =
           _data.policyTransactions.length === 0 ||
-          _data.policyTransactions.length < limit;
+          _data.policyTransactions.length < limit
 
         if (isLastPage) {
-          setHasMore(false);
+          setHasMore(false)
         }
 
         setData((prev) => ({
           blockNumber: _data._meta.block.number,
           policyTransactions: [
             ...prev.policyTransactions,
-            ..._data.policyTransactions,
-          ],
-        }));
+            ..._data.policyTransactions
+          ]
+        }))
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, [account, fetchPolicyTxs, limit, networkId, page]);
+        setLoading(false)
+      })
+  }, [account, fetchPolicyTxs, limit, networkId, page])
 
   return {
     data: {
       blockNumber: data.blockNumber,
       transactions: data.policyTransactions,
-      totalCount: data.policyTransactions.length,
+      totalCount: data.policyTransactions.length
     },
     loading,
-    hasMore,
-  };
-};
+    hasMore
+  }
+}

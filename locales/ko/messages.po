@@ -1055,10 +1055,10 @@ msgstr "포드 없음"
 
 #: src/common/Table/Table.jsx:75
 #: src/modules/reporting/resolved/resolved.jsx:250
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:80
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:80
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:48
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:80
 msgid "No data found"
 msgstr "데이터가 없습니다"
 
@@ -1074,8 +1074,8 @@ msgstr "표시할 거래 내역이 없습니다."
 msgid "No valid incidents are reported with the given timestamp"
 msgstr "주어진 타임스탬프로 보고된 유효한 사건이 없습니다."
 
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:91
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:91
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:91
 msgid "Not applicable for disputing"
 msgstr "이의 제기에 해당되지 않음"
 
@@ -1879,12 +1879,12 @@ msgstr "https://"
 #: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
 #: src/modules/reporting/resolved/resolved.jsx:250
 #: src/pages/my-liquidity/index.jsx:43
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/incidents/[timestamp]/dispute.jsx:74
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[cover_id]/products/[product_id]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:74
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:42
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:36
+#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:74
 msgid "loading..."
 msgstr "로딩중..."
 

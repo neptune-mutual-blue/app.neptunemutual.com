@@ -1,50 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 const defaultState = {
   hours: 0,
   minutes: 0,
-  seconds: 0,
-};
+  seconds: 0
+}
 
 export const useCountdown = ({ target, getTime }) => {
-  const [state, setState] = useState(defaultState);
+  const [state, setState] = useState(defaultState)
 
   useEffect(() => {
-    let ignore = false;
+    let ignore = false
     const updateState = (_intervalId) => {
-      const now = getTime();
-      const diff = target - now;
+      const now = getTime()
+      const diff = target - now
 
       if (diff < 0) {
-        clearInterval(_intervalId);
-        return;
+        clearInterval(_intervalId)
+        return
       }
 
-      const seconds = diff % 60;
-      const minutes = (diff / 60) % 60;
-      const hours = diff / (60 * 60);
+      const seconds = diff % 60
+      const minutes = (diff / 60) % 60
+      const hours = diff / (60 * 60)
 
       /* istanbul ignore next */
       if (ignore) {
-        return;
+        return
       }
 
       setState({
         seconds: Math.floor(seconds),
         minutes: Math.floor(minutes),
-        hours: Math.floor(hours),
-      });
-    };
+        hours: Math.floor(hours)
+      })
+    }
 
     const intervalId = setInterval(() => {
-      updateState(intervalId);
-    }, 1000);
+      updateState(intervalId)
+    }, 1000)
 
     return () => {
-      ignore = true;
-      clearInterval(intervalId);
-    };
-  }, [getTime, target]);
+      ignore = true
+      clearInterval(intervalId)
+    }
+  }, [getTime, target])
 
-  return state;
-};
+  return state
+}

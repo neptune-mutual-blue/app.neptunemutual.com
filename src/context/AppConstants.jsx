@@ -1,65 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 
-import { useNetwork } from "@/src/context/Network";
-import { usePoolsTVL } from "@/src/hooks/usePoolsTVL";
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useWeb3React } from "@web3-react/core";
+import { useNetwork } from '@/src/context/Network'
+import { usePoolsTVL } from '@/src/hooks/usePoolsTVL'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useWeb3React } from '@web3-react/core'
 
 import {
   getAddressesFromApi,
-  getAddressesFromProvider,
-} from "@/src/services/contracts/getAddresses";
-import { useRoles } from "@/src/hooks/useRoles";
+  getAddressesFromProvider
+} from '@/src/services/contracts/getAddresses'
+import { useRoles } from '@/src/hooks/useRoles'
 
 const initValue = {
-  NPMTokenAddress: "",
+  NPMTokenAddress: '',
   NPMTokenDecimals: 18,
-  NPMTokenSymbol: "NPM",
-  liquidityTokenAddress: "",
+  NPMTokenSymbol: 'NPM',
+  liquidityTokenAddress: '',
   liquidityTokenDecimals: 6,
-  liquidityTokenSymbol: "DAI",
-  poolsTvl: "0",
-  getTVLById: (_id) => "0",
-  getPriceByAddress: (_address) => "0",
+  liquidityTokenSymbol: 'DAI',
+  poolsTvl: '0',
+  getTVLById: (_id) => '0',
+  getPriceByAddress: (_address) => '0',
   roles: {
     isGovernanceAgent: false,
     isGovernanceAdmin: false,
     isLiquidityManager: false,
-    isCoverManager: false,
-  },
-};
+    isCoverManager: false
+  }
+}
 
-const AppConstantsContext = React.createContext(initValue);
+const AppConstantsContext = React.createContext(initValue)
 
-export function useAppConstants() {
-  const context = React.useContext(AppConstantsContext);
+export function useAppConstants () {
+  const context = React.useContext(AppConstantsContext)
   if (context === undefined) {
     throw new Error(
-      "useAppConstants must be used within a AppConstantsProvider"
-    );
+      'useAppConstants must be used within a AppConstantsProvider'
+    )
   }
-  return context;
+  return context
 }
 
 export const AppConstantsProvider = ({ children }) => {
-  const [data, setData] = useState(initValue);
-  const { networkId } = useNetwork();
+  const [data, setData] = useState(initValue)
+  const { networkId } = useNetwork()
   const { tvl, getTVLById, getPriceByAddress } = usePoolsTVL(
     data.NPMTokenAddress
-  );
-  const { library, account } = useWeb3React();
+  )
+  const { library, account } = useWeb3React()
 
-  const roles = useRoles();
+  const roles = useRoles()
 
   useEffect(() => {
-    let ignore = false;
-    if (!networkId) return;
+    let ignore = false
+    if (!networkId) return
 
     if (!account) {
       getAddressesFromApi(networkId)
         .then((result) => {
           if (!result || ignore) {
-            return;
+            return
           }
 
           const {
@@ -68,8 +68,8 @@ export const AppConstantsProvider = ({ children }) => {
             NPMTokenDecimals,
             NPMTokenSymbol,
             liquidityTokenDecimals,
-            liquidityTokenSymbol,
-          } = result;
+            liquidityTokenSymbol
+          } = result
 
           setData((prev) => ({
             ...prev,
@@ -78,21 +78,21 @@ export const AppConstantsProvider = ({ children }) => {
             NPMTokenDecimals,
             NPMTokenSymbol,
             liquidityTokenDecimals,
-            liquidityTokenSymbol,
-          }));
+            liquidityTokenSymbol
+          }))
         })
-        .catch(console.error);
+        .catch(console.error)
 
       return () => {
-        ignore = true;
-      };
+        ignore = true
+      }
     }
-    const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
     getAddressesFromProvider(networkId, signerOrProvider)
       .then((result) => {
         if (!result || ignore) {
-          return;
+          return
         }
 
         const {
@@ -101,8 +101,8 @@ export const AppConstantsProvider = ({ children }) => {
           NPMTokenDecimals,
           NPMTokenSymbol,
           liquidityTokenDecimals,
-          liquidityTokenSymbol,
-        } = result;
+          liquidityTokenSymbol
+        } = result
 
         setData((prev) => ({
           ...prev,
@@ -111,15 +111,15 @@ export const AppConstantsProvider = ({ children }) => {
           NPMTokenDecimals,
           NPMTokenSymbol,
           liquidityTokenDecimals,
-          liquidityTokenSymbol,
-        }));
+          liquidityTokenSymbol
+        }))
       })
-      .catch(console.error);
+      .catch(console.error)
 
     return () => {
-      ignore = true;
-    };
-  }, [account, library, networkId]);
+      ignore = true
+    }
+  }, [account, library, networkId])
 
   return (
     <AppConstantsContext.Provider
@@ -128,10 +128,10 @@ export const AppConstantsProvider = ({ children }) => {
         poolsTvl: tvl,
         getTVLById,
         getPriceByAddress,
-        roles,
+        roles
       }}
     >
       {children}
     </AppConstantsContext.Provider>
-  );
-};
+  )
+}

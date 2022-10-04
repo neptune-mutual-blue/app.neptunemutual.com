@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { t } from "@lingui/macro";
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { t } from '@lingui/macro'
 
-import { ReportingHero } from "@/modules/reporting/ReportingHero";
+import { ReportingHero } from '@/modules/reporting/ReportingHero'
 
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
-import { useNetwork } from "@/src/context/Network";
-import { Routes } from "@/src/config/routes";
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { useNetwork } from '@/src/context/Network'
+import { Routes } from '@/src/config/routes'
 
-import DateLib from "@/lib/date/DateLib";
+import DateLib from '@/lib/date/DateLib'
 
-import { classNames } from "@/utils/classnames";
-import { convertFromUnits } from "@/utils/bn";
-import { fromNow } from "@/utils/formatter/relative-time";
-import { truncateAddress } from "@/utils/address";
+import { classNames } from '@/utils/classnames'
+import { convertFromUnits } from '@/utils/bn'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { truncateAddress } from '@/utils/address'
 
-import { Table, TableWrapper, THead } from "@/common/Table/Table";
-import { Container } from "@/common/Container/Container";
-import { Badge, identifyStatus } from "@/common/CardStatusBadge";
+import { Table, TableWrapper, THead } from '@/common/Table/Table'
+import { Container } from '@/common/Container/Container'
+import { Badge, identifyStatus } from '@/common/CardStatusBadge'
 
 /**
  *
@@ -47,55 +47,55 @@ const getQuery = function (coverKey, productKey) {
       totalRefutedStake
       reporter
     }
-  }`;
-};
+  }`
+}
 
 /**
  *
  * @param {{name: string, align: string}} col
  * @returns
  */
-function renderHeader(col) {
+function renderHeader (col) {
   return (
     <th
-      scope="col"
+      scope='col'
       className={classNames(
-        `px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap`,
-        col.align === "right" ? "text-right" : "text-left"
+        'px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap',
+        col.align === 'right' ? 'text-right' : 'text-left'
       )}
     >
       {col.name}
     </th>
-  );
+  )
 }
 
 const columns = [
   {
     name: t`reporter`,
-    align: "left",
-    renderHeader,
+    align: 'left',
+    renderHeader
   },
   {
     name: t`date and time`,
-    align: "left",
-    renderHeader,
+    align: 'left',
+    renderHeader
   },
   {
     name: t`total attested stake`,
-    align: "right",
-    renderHeader,
+    align: 'right',
+    renderHeader
   },
   {
     name: t`total refuted stake`,
-    align: "right",
-    renderHeader,
+    align: 'right',
+    renderHeader
   },
   {
     name: t`status`,
-    align: "right",
-    renderHeader,
-  },
-];
+    align: 'right',
+    renderHeader
+  }
+]
 
 /**
  *
@@ -106,71 +106,71 @@ const columns = [
  * @returns
  */
 const ReportListing = (props) => {
-  const { coverKey, productKey, locale } = props;
-  const { push } = useRouter();
-  const { networkId } = useNetwork();
-  const [reports, setReports] = useState([]);
-  const fetchReports = useSubgraphFetch("ReportListing");
+  const { coverKey, productKey, locale } = props
+  const { push } = useRouter()
+  const { networkId } = useNetwork()
+  const [reports, setReports] = useState([])
+  const fetchReports = useSubgraphFetch('ReportListing')
 
   const coverInfo = useCoverOrProductData({
     coverKey,
-    productKey,
-  });
+    productKey
+  })
 
   useEffect(() => {
     if (!coverKey) {
-      return;
+      return
     }
 
     fetchReports(networkId, getQuery(coverKey, productKey))
       .then((_data) => {
-        if (!_data) return;
-        setReports(_data.incidentReports);
+        if (!_data) return
+        setReports(_data.incidentReports)
       })
       .catch((err) => {
-        console.error(err);
-      });
-  }, [coverKey, productKey, networkId, fetchReports]);
+        console.error(err)
+      })
+  }, [coverKey, productKey, networkId, fetchReports])
 
   /**
    *
    * @param {string} reportId
    */
-  function goTo(reportId) {
-    const [, , timestamp] = reportId.split("-");
-    push(Routes.ViewReport(coverKey, productKey, timestamp));
+  function goTo (reportId) {
+    const [, , timestamp] = reportId.split('-')
+    push(Routes.ViewReport(coverKey, productKey, timestamp))
   }
 
   if (!coverInfo) {
-    return null;
+    return null
   }
 
   return (
     <>
-      <ReportingHero coverInfo={coverInfo} />
-      <hr className="border-B0C4DB" />
-      <Container className={"pt-16 pb-36"}>
+      <ReportingHero coverKey={coverKey} productKey={productKey} coverInfo={coverInfo} />
+      <hr className='border-B0C4DB' />
+      <Container className='pt-16 pb-36'>
         <TableWrapper>
           <Table>
             <THead
-              theadClass="bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]"
+              theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]'
               columns={columns}
             />
-            <tbody className="divide-y divide-DAE2EB">
+            <tbody className='divide-y divide-DAE2EB'>
               {reports.map((report, i) => (
                 <tr
                   onClick={() => goTo(report.id)}
-                  className="cursor-pointer hover:bg-F4F8FC"
+                  className='cursor-pointer hover:bg-F4F8FC'
                   key={i}
                 >
-                  <td className="px-6 py-4 text-sm max-w-180">
-                    <span className="w-max" title={report.reporter}>
+                  <td className='px-6 py-4 text-sm max-w-180'>
+                    <span className='w-max' title={report.reporter}>
                       {truncateAddress(report.reporter)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm max-w-180">
+                  <td className='px-6 py-4 text-sm max-w-180'>
                     <span
-                      className="w-max"
+                      className='w-max'
                       title={DateLib.toLongDateFormat(
                         report.incidentDate,
                         locale
@@ -179,19 +179,19 @@ const ReportListing = (props) => {
                       {fromNow(report.incidentDate)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className='px-6 py-4 text-right'>
                     {convertFromUnits(report.totalAttestedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className='px-6 py-4 text-right'>
                     {convertFromUnits(report.totalRefutedStake)
                       .decimalPlaces(0)
                       .toNumber()}
                   </td>
-                  <td className="px-6 py-4 text-right">
+                  <td className='px-6 py-4 text-right'>
                     <Badge
-                      className="rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs"
+                      className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
                       status={identifyStatus(report.status)}
                     />
                   </td>
@@ -202,7 +202,7 @@ const ReportListing = (props) => {
         </TableWrapper>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default ReportListing;
+export default ReportListing

@@ -1,70 +1,70 @@
-import { useEffect, useState } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { governance } from "@neptunemutual/sdk";
+import { useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { governance } from '@neptunemutual/sdk'
 
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import {
   convertToUnits,
   isGreater,
   isGreaterOrEqual,
-  isValidNumber,
-} from "@/utils/bn";
-import { useNetwork } from "@/src/context/Network";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useRouter } from "next/router";
-import { useGovernanceAddress } from "@/src/hooks/contracts/useGovernanceAddress";
-import { useERC20Allowance } from "@/src/hooks/useERC20Allowance";
-import { useERC20Balance } from "@/src/hooks/useERC20Balance";
-import { t } from "@lingui/macro";
+  isValidNumber
+} from '@/utils/bn'
+import { useNetwork } from '@/src/context/Network'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useRouter } from 'next/router'
+import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
+import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
+import { useERC20Balance } from '@/src/hooks/useERC20Balance'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
-import { Routes } from "@/src/config/routes";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
+import { Routes } from '@/src/config/routes'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [approving, setApproving] = useState(false);
-  const [reporting, setReporting] = useState(false);
+  const [approving, setApproving] = useState(false)
+  const [reporting, setReporting] = useState(false)
 
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const governanceContractAddress = useGovernanceAddress();
-  const { NPMTokenAddress, NPMTokenSymbol } = useAppConstants();
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const governanceContractAddress = useGovernanceAddress()
+  const { NPMTokenAddress, NPMTokenSymbol } = useAppConstants()
   const {
     allowance,
     loading: loadingAllowance,
     refetch: updateAllowance,
-    approve,
-  } = useERC20Allowance(NPMTokenAddress);
+    approve
+  } = useERC20Allowance(NPMTokenAddress)
   const {
     balance,
     loading: loadingBalance,
-    refetch: updateBalance,
-  } = useERC20Balance(NPMTokenAddress);
+    refetch: updateBalance
+  } = useERC20Balance(NPMTokenAddress)
 
-  const txToast = useTxToast();
-  const { notifyError } = useErrorNotifier();
+  const txToast = useTxToast()
+  const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
-    updateAllowance(governanceContractAddress);
-  }, [governanceContractAddress, updateAllowance]);
+    updateAllowance(governanceContractAddress)
+  }, [governanceContractAddress, updateAllowance])
 
   const handleApprove = async () => {
-    setApproving(true);
+    setApproving(true)
 
     const cleanup = () => {
-      setApproving(false);
-    };
+      setApproving(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${NPMTokenSymbol} tokens`);
-    };
+      notifyError(err, t`approve ${NPMTokenSymbol} tokens`)
+    }
 
     const onTransactionResult = async (tx) => {
       TransactionHistory.push({
@@ -73,9 +73,9 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         status: STATUS.PENDING,
         data: {
           value,
-          tokenSymbol: NPMTokenSymbol,
-        },
-      });
+          tokenSymbol: NPMTokenSymbol
+        }
+      })
 
       try {
         await txToast.push(
@@ -86,7 +86,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               STATUS.PENDING,
               {
                 value,
-                tokenSymbol: NPMTokenSymbol,
+                tokenSymbol: NPMTokenSymbol
               }
             ).title,
             success: getActionMessage(
@@ -94,7 +94,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               STATUS.SUCCESS,
               {
                 value,
-                tokenSymbol: NPMTokenSymbol,
+                tokenSymbol: NPMTokenSymbol
               }
             ).title,
             failure: getActionMessage(
@@ -102,61 +102,60 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               STATUS.FAILED,
               {
                 value,
-                tokenSymbol: NPMTokenSymbol,
+                tokenSymbol: NPMTokenSymbol
               }
-            ).title,
+            ).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.REPORT_INCIDENT_APPROVE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.REPORT_INCIDENT_APPROVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
+        )
+        cleanup()
       } catch (err) {
-        handleError(err);
-        cleanup();
+        handleError(err)
+        cleanup()
       }
-    };
+    }
 
     const onRetryCancel = () => {
-      cleanup();
-    };
+      cleanup()
+    }
 
     const onError = (err) => {
-      handleError(err);
-      cleanup();
-    };
+      handleError(err)
+      cleanup()
+    }
 
     approve(governanceContractAddress, convertToUnits(value).toString(), {
       onTransactionResult,
       onRetryCancel,
-      onError,
-    });
-  };
+      onError
+    })
+  }
 
   const handleReport = async (payload) => {
-    setReporting(true);
+    setReporting(true)
 
     const cleanup = () => {
-      setReporting(false);
-      updateAllowance(governanceContractAddress);
-      updateBalance();
-    };
+      setReporting(false)
+      return Promise.all([updateAllowance(governanceContractAddress), updateBalance()])
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const wrappedResult = await governance.report(
         networkId,
@@ -164,9 +163,9 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         productKey,
         payload,
         signerOrProvider
-      );
+      )
 
-      const tx = wrappedResult.result.tx;
+      const tx = wrappedResult.result.tx
 
       TransactionHistory.push({
         hash: tx.hash,
@@ -174,9 +173,9 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         status: STATUS.PENDING,
         data: {
           value,
-          tokenSymbol: NPMTokenSymbol,
-        },
-      });
+          tokenSymbol: NPMTokenSymbol
+        }
+      })
 
       await txToast.push(
         tx,
@@ -192,41 +191,42 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
           failure: getActionMessage(
             METHODS.REPORT_INCIDENT_COMPLETE,
             STATUS.FAILED
-          ).title,
+          ).title
         },
         {
-          onTxSuccess: () => {
+          onTxSuccess: async () => {
             TransactionHistory.push({
               hash: tx.hash,
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
-              status: STATUS.SUCCESS,
-            });
+              status: STATUS.SUCCESS
+            })
 
-            router.replace(Routes.ActiveReports);
+            await cleanup()
+
+            router.replace(Routes.ActiveReports)
           },
           onTxFailure: () => {
             TransactionHistory.push({
               hash: tx.hash,
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
-              status: STATUS.FAILED,
-            });
-          },
+              status: STATUS.FAILED
+            })
+          }
         }
-      );
+      )
     } catch (err) {
-      notifyError(err, t`report incident`);
-    } finally {
-      cleanup();
+      notifyError(err, t`report incident`)
+      cleanup()
     }
-  };
+  }
 
   const canReport =
     value &&
     isValidNumber(value) &&
-    isGreaterOrEqual(allowance, convertToUnits(value || "0"));
+    isGreaterOrEqual(allowance, convertToUnits(value || '0'))
   const isError =
     value &&
-    (!isValidNumber(value) || isGreater(convertToUnits(value || "0"), balance));
+    (!isValidNumber(value) || isGreater(convertToUnits(value || '0'), balance))
 
   return {
     tokenAddress: NPMTokenAddress,
@@ -244,6 +244,6 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     isError,
 
     handleApprove,
-    handleReport,
-  };
-};
+    handleReport
+  }
+}

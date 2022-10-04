@@ -1,26 +1,27 @@
-import Link from "next/link";
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { ProductCard } from "@/common/Cover/ProductCard";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { Routes } from "@/src/config/routes";
+import Link from 'next/link'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { ProductCard } from '@/common/Cover/ProductCard'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { Routes } from '@/src/config/routes'
 
 export const ProductCardWrapper = ({
   coverKey,
   productKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
+  ...rest
 }) => {
-  const productInfo = useCoverOrProductData({ coverKey, productKey });
+  const productInfo = useCoverOrProductData({ coverKey, productKey })
 
   if (!productInfo) {
-    return <CardSkeleton numberOfCards={1} />;
+    return <CardSkeleton numberOfCards={1} {...rest} />
   }
 
   return (
     <Link href={Routes.ViewProduct(coverKey, productKey)} key={coverKey}>
       <a
-        className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9"
-        data-testid="cover-link"
+        className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+        data-testid='cover-link'
       >
         <ProductCard
           coverKey={coverKey}
@@ -28,8 +29,9 @@ export const ProductCardWrapper = ({
           productInfo={productInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
+          {...rest}
         />
       </a>
     </Link>
-  );
-};
+  )
+}

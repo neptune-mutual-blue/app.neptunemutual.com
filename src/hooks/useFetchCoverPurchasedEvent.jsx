@@ -1,10 +1,10 @@
-import DateLib from "@/lib/date/DateLib";
-import { useNetwork } from "@/src/context/Network";
-import { getSubgraphData } from "@/src/services/subgraph";
-import { useEffect, useState } from "react";
+import DateLib from '@/lib/date/DateLib'
+import { useNetwork } from '@/src/context/Network'
+import { getSubgraphData } from '@/src/services/subgraph'
+import { useEffect, useState } from 'react'
 
 export const storePurchaseEvent = (event, from) => {
-  const txHash = event.transactionHash;
+  const txHash = event.transactionHash
 
   const {
     args: { coverKey, productKey, onBehalfOf, amountToCover, referralCode },
@@ -12,8 +12,8 @@ export const storePurchaseEvent = (event, from) => {
     fee,
     platformFee,
     expiresOn,
-    policyId,
-  } = event.args;
+    policyId
+  } = event.args
 
   const value = {
     event: {
@@ -31,15 +31,15 @@ export const storePurchaseEvent = (event, from) => {
       createdAtTimestamp: DateLib.unix(),
 
       transaction: {
-        from,
-      },
+        from
+      }
     },
-    expiry: DateLib.toUnix(DateLib.addMinutes(new Date(), 5)),
-  };
+    expiry: DateLib.toUnix(DateLib.addMinutes(new Date(), 5))
+  }
 
-  localStorage.setItem(txHash, JSON.stringify(value));
-  return txHash;
-};
+  localStorage.setItem(txHash, JSON.stringify(value))
+  return txHash
+}
 
 const getQuery = (id) => {
   return `
@@ -65,59 +65,59 @@ const getQuery = (id) => {
       }
     }
   }
-`;
-};
+`
+}
 
 const getEventFromSubgraph = async (networkId, txHash) => {
-  const data = await getSubgraphData(networkId, getQuery(txHash));
-  return data.coverPurchasedEvent;
-};
+  const data = await getSubgraphData(networkId, getQuery(txHash))
+  return data.coverPurchasedEvent
+}
 
 const getEventFromStorage = async (txHash) => {
   try {
-    const str = localStorage.getItem(txHash);
-    const data = JSON.parse(str);
+    const str = localStorage.getItem(txHash)
+    const data = JSON.parse(str)
 
     if (data.expiry < DateLib.unix()) {
-      localStorage.removeItem(txHash);
+      localStorage.removeItem(txHash)
     }
 
-    return data.event;
+    return data.event
   } catch (error) {}
 
-  return null;
-};
+  return null
+}
 
 const getEvent = async (networkId, txHash) => {
   return getEventFromStorage(txHash).then((data) => {
     if (!data) {
-      return getEventFromSubgraph(networkId, txHash);
+      return getEventFromSubgraph(networkId, txHash)
     }
 
-    return data;
-  });
-};
+    return data
+  })
+}
 
 export const useFetchCoverPurchasedEvent = ({ txHash }) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const { networkId } = useNetwork();
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const { networkId } = useNetwork()
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     getEvent(networkId, txHash)
       .then((data) => {
-        if (!data) return;
-        setData(data);
-        setLoading(false);
+        if (!data) return
+        setData(data)
+        setLoading(false)
       })
       .catch((error) => {
-        console.error(error);
-      });
-  }, [networkId, txHash]);
+        console.error(error)
+      })
+  }, [networkId, txHash])
 
   return {
     data,
-    loading,
-  };
-};
+    loading
+  }
+}

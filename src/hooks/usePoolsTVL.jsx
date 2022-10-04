@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react'
 
-import { calcBondPoolTVL } from "@/src/helpers/bond";
-import { calcStakingPoolTVL } from "@/src/helpers/pool";
-import { getPricingData } from "@/src/helpers/pricing";
-import { isEqualTo, sumOf, toBN } from "@/utils/bn";
-import { getNpmPayload } from "@/src/helpers/token";
-import { getNetworkId } from "@/src/config/environment";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { calcBondPoolTVL } from '@/src/helpers/bond'
+import { calcStakingPoolTVL } from '@/src/helpers/pool'
+import { getPricingData } from '@/src/helpers/pricing'
+import { isEqualTo, sumOf, toBN } from '@/utils/bn'
+import { getNpmPayload } from '@/src/helpers/token'
+import { getNetworkId } from '@/src/config/environment'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = () => {
   return `
@@ -28,8 +28,8 @@ const getQuery = () => {
       totalBondClaimed
       totalLpAddedToBond
     }
-  }`;
-};
+  }`
+}
 
 /**
  *
@@ -39,40 +39,40 @@ const getQuery = () => {
 export const usePoolsTVL = (NPMTokenAddress) => {
   const [poolsTVL, setPoolsTVL] = useState({
     items: [],
-    tvl: "0",
-  });
-  const fetchPoolsTVL = useSubgraphFetch("usePoolsTVL");
+    tvl: '0'
+  })
+  const fetchPoolsTVL = useSubgraphFetch('usePoolsTVL')
 
   useEffect(() => {
     if (NPMTokenAddress) {
-      const networkId = getNetworkId();
+      const networkId = getNetworkId()
 
       fetchPoolsTVL(networkId, getQuery())
         .then(async ({ bondPools, pools }) => {
           const bondsPayload = bondPools.map((bondPool) => {
-            return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress);
-          });
+            return calcBondPoolTVL(bondPool, networkId, NPMTokenAddress)
+          })
 
           const poolsPayload = pools.map((currentPool) => {
-            return calcStakingPoolTVL(currentPool);
-          });
+            return calcStakingPoolTVL(currentPool)
+          })
 
-          const npmPayload = getNpmPayload(NPMTokenAddress);
+          const npmPayload = getNpmPayload(NPMTokenAddress)
 
           const result = await getPricingData(networkId, [
             ...bondsPayload,
             ...poolsPayload,
-            ...npmPayload,
-          ]);
+            ...npmPayload
+          ])
 
           setPoolsTVL({
             items: result.items,
-            tvl: result.total,
-          });
+            tvl: result.total
+          })
         })
-        .catch((e) => console.error(e));
+        .catch((e) => console.error(e))
     }
-  }, [NPMTokenAddress, fetchPoolsTVL]);
+  }, [NPMTokenAddress, fetchPoolsTVL])
 
   const getTVLById = useCallback(
     /**
@@ -80,14 +80,14 @@ export const usePoolsTVL = (NPMTokenAddress) => {
      * @returns {string}
      */
     (id) => {
-      const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {};
-      const tokensInfo = poolTVLInfo.data || [];
+      const poolTVLInfo = poolsTVL.items.find((x) => x.id === id) || {}
+      const tokensInfo = poolTVLInfo.data || []
 
-      const tvl = sumOf(...tokensInfo.map((x) => x.price || "0")).toString();
-      return tvl;
+      const tvl = sumOf(...tokensInfo.map((x) => x.price || '0')).toString()
+      return tvl
     },
     [poolsTVL.items]
-  );
+  )
 
   const getPriceByAddress = useCallback(
     /**
@@ -96,24 +96,24 @@ export const usePoolsTVL = (NPMTokenAddress) => {
      */
     (address) => {
       for (let i = 0; i < poolsTVL.items.length; i++) {
-        const item = poolsTVL.items[i];
+        const item = poolsTVL.items[i]
 
         for (let j = 0; j < item.data.length; j++) {
-          const tokenData = item.data[j];
-          if (tokenData.address.toLowerCase() == address.toLowerCase()) {
-            if (isEqualTo(tokenData.amount, "0")) {
-              return "0";
+          const tokenData = item.data[j]
+          if (tokenData.address.toLowerCase() === address.toLowerCase()) {
+            if (isEqualTo(tokenData.amount, '0')) {
+              return '0'
             }
 
-            return toBN(tokenData.price).dividedBy(tokenData.amount).toString();
+            return toBN(tokenData.price).dividedBy(tokenData.amount).toString()
           }
         }
       }
 
-      return "0";
+      return '0'
     },
     [poolsTVL.items]
-  );
+  )
 
-  return { tvl: poolsTVL.tvl, getTVLById, getPriceByAddress };
-};
+  return { tvl: poolsTVL.tvl, getTVLById, getPriceByAddress }
+}

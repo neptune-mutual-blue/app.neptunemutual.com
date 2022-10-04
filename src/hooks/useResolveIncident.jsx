@@ -1,62 +1,62 @@
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
-import { useNetwork } from "@/src/context/Network";
-import { useAuthValidation } from "@/src/hooks/useAuthValidation";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { useTxToast } from "@/src/hooks/useTxToast";
-import { registry, utils } from "@neptunemutual/sdk";
-import { useWeb3React } from "@web3-react/core";
-import { useState } from "react";
-import { t } from "@lingui/macro";
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { useNetwork } from '@/src/context/Network'
+import { useAuthValidation } from '@/src/hooks/useAuthValidation'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { useTxToast } from '@/src/hooks/useTxToast'
+import { registry, utils } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
+import { useState } from 'react'
+import { t } from '@lingui/macro'
 import {
   STATUS,
-  TransactionHistory,
-} from "@/src/services/transactions/transaction-history";
-import { METHODS } from "@/src/services/transactions/const";
-import { getActionMessage } from "@/src/helpers/notification";
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { METHODS } from '@/src/services/transactions/const'
+import { getActionMessage } from '@/src/helpers/notification'
 
 export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const { writeContract } = useTxPoster();
-  const { requiresAuth } = useAuthValidation();
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { writeContract } = useTxPoster()
+  const { requiresAuth } = useAuthValidation()
 
-  const txToast = useTxToast();
-  const { notifyError } = useErrorNotifier();
+  const txToast = useTxToast()
+  const { notifyError } = useErrorNotifier()
 
-  const [resolving, setResolving] = useState(false);
-  const [emergencyResolving, setEmergencyResolving] = useState(false);
+  const [resolving, setResolving] = useState(false)
+  const [emergencyResolving, setEmergencyResolving] = useState(false)
 
   const resolve = async (onSuccess = (f) => f) => {
     if (!networkId || !account) {
-      requiresAuth();
-      return;
+      requiresAuth()
+      return
     }
 
-    setResolving(true);
+    setResolving(true)
 
     const cleanup = () => {
-      setResolving(false);
-    };
+      setResolving(false)
+    }
     const handleError = (err) => {
-      notifyError(err, t`Resolve Incident`);
-    };
+      notifyError(err, t`Resolve Incident`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
           status: STATUS.PENDING,
-          data: {},
-        });
+          data: {}
+        })
 
         await txToast.push(
           tx,
@@ -72,85 +72,85 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
             failure: getActionMessage(
               METHODS.RESOLVE_INCIDENT_APPROVE,
               STATUS.FAILED
-            ).title,
+            ).title
           },
           {
             onTxSuccess: () => {
-              onSuccess();
+              onSuccess()
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_APPROVE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
-      };
+        )
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
-      const args = [coverKey, productKeyArg, incidentDate];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32('')
+      const args = [coverKey, productKeyArg, incidentDate]
       writeContract({
         instance,
-        methodName: "resolve",
+        methodName: 'resolve',
         args,
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   const emergencyResolve = async (decision, onSuccess = (f) => f) => {
     if (!networkId || !account) {
-      requiresAuth();
-      return;
+      requiresAuth()
+      return
     }
 
-    setEmergencyResolving(true);
+    setEmergencyResolving(true)
 
     const cleanup = () => {
-      setEmergencyResolving(false);
-    };
+      setEmergencyResolving(false)
+    }
 
     const handleError = (err) => {
-      notifyError(err, t`Emergency resolve incident`);
-    };
+      notifyError(err, t`Emergency resolve incident`)
+    }
 
     try {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.Resolution.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = async (tx) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
           status: STATUS.PENDING,
-          data: {},
-        });
+          data: {}
+        })
 
         await txToast.push(
           tx,
@@ -166,59 +166,59 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
             failure: getActionMessage(
               METHODS.RESOLVE_INCIDENT_COMPLETE,
               STATUS.FAILED
-            ).title,
+            ).title
           },
 
           {
             onTxSuccess: () => {
-              onSuccess();
+              onSuccess()
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
-                status: STATUS.SUCCESS,
-              });
+                status: STATUS.SUCCESS
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.RESOLVE_INCIDENT_COMPLETE,
-                status: STATUS.FAILED,
-              });
-            },
+                status: STATUS.FAILED
+              })
+            }
           }
-        );
-        cleanup();
-      };
+        )
+        cleanup()
+      }
 
       const onRetryCancel = () => {
-        cleanup();
-      };
+        cleanup()
+      }
 
       const onError = (err) => {
-        handleError(err);
-        cleanup();
-      };
+        handleError(err)
+        cleanup()
+      }
 
-      const productKeyArg = productKey || utils.keyUtil.toBytes32("");
-      const args = [coverKey, productKeyArg, incidentDate, decision];
+      const productKeyArg = productKey || utils.keyUtil.toBytes32('')
+      const args = [coverKey, productKeyArg, incidentDate, decision]
       writeContract({
         instance,
-        methodName: "emergencyResolve",
+        methodName: 'emergencyResolve',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args,
-      });
+        args
+      })
     } catch (err) {
-      handleError(err);
-      cleanup();
+      handleError(err)
+      cleanup()
     }
-  };
+  }
 
   return {
     resolve,
     emergencyResolve,
     resolving,
-    emergencyResolving,
-  };
-};
+    emergencyResolving
+  }
+}

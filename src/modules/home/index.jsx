@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
-import { AvailableCovers } from "@/modules/home/AvailableCovers";
-import { HomeHero } from "@/modules/home/Hero";
-import { SortableStatsProvider } from "@/src/context/SortableStatsContext";
+import { AvailableCovers } from '@/modules/home/AvailableCovers'
+import { HomeHero } from '@/modules/home/Hero'
+import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 
-export default function HomePage() {
+export default function HomePage () {
   return (
     <>
       <HomeHero />
@@ -13,5 +13,5 @@ export default function HomePage() {
         <AvailableCovers />
       </SortableStatsProvider>
     </>
-  );
+  )
 }

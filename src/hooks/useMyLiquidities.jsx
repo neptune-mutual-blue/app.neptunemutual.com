@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { getNetworkId } from "@/src/config/environment";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { useState, useEffect } from 'react'
+import { getNetworkId } from '@/src/config/environment'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (account) => {
   return `
@@ -25,8 +25,8 @@ const getQuery = (account) => {
     }
   }
 }
-`;
-};
+`
+}
 
 /**
  *
@@ -36,34 +36,34 @@ const getQuery = (account) => {
 export const useMyLiquidities = (account) => {
   const [data, setData] = useState({
     myLiquidities: [],
-    liquidityList: [],
-  });
-  const [loading, setLoading] = useState(false);
-  const fetchMyLiquidities = useSubgraphFetch("useMyLiquidities");
+    liquidityList: []
+  })
+  const [loading, setLoading] = useState(false)
+  const fetchMyLiquidities = useSubgraphFetch('useMyLiquidities')
 
   useEffect(() => {
     if (account) {
-      setLoading(true);
+      setLoading(true)
       fetchMyLiquidities(getNetworkId(), getQuery(account))
         .then(({ userLiquidities }) => {
-          const myLiquidities = userLiquidities || [];
+          const myLiquidities = userLiquidities || []
           setData({
             myLiquidities,
             liquidityList: myLiquidities.map(
               ({ totalPodsRemaining, cover }) => ({
-                podAmount: totalPodsRemaining || "0",
-                podAddress: cover.vaults[0].address,
+                podAmount: totalPodsRemaining || '0',
+                podAddress: cover.vaults[0].address
               })
-            ),
-          });
+            )
+          })
         })
         .catch((e) => console.error(e))
-        .finally(() => setLoading(false));
+        .finally(() => setLoading(false))
     }
-  }, [account, fetchMyLiquidities]);
+  }, [account, fetchMyLiquidities])
 
   return {
     data,
-    loading,
-  };
-};
+    loading
+  }
+}

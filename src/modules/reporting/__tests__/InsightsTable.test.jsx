@@ -1,29 +1,29 @@
-import { i18n } from "@lingui/core";
-import { render } from "@/utils/unit-tests/test-utils";
-import { mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import { testData } from "@/utils/unit-tests/test-data";
-import { InsightsTable } from "@/modules/reporting/InsightsTable";
-import { convertFromUnits } from "@/utils/bn";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { createMockRouter } from "@/utils/unit-tests/createMockRouter";
+import { i18n } from '@lingui/core'
+import { render } from '@/utils/unit-tests/test-utils'
+import { mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { testData } from '@/utils/unit-tests/test-data'
+import { InsightsTable } from '@/modules/reporting/InsightsTable'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { createMockRouter } from '@/utils/unit-tests/createMockRouter'
 
-const incidentReport = testData.incidentReports.data.incidentReport;
+const incidentReport = testData.incidentReports.data.incidentReport
 
-const router = createMockRouter();
-const { NPMTokenSymbol } = mockFn.useAppConstants();
+const router = createMockRouter()
+const { NPMTokenSymbol } = mockFn.useAppConstants()
 
 const successinsights = [
   {
-    title: `Incident Occurred`,
-    value: "43%",
-    variant: "success",
+    title: 'Incident Occurred',
+    value: '43%',
+    variant: 'success'
   },
   {
-    title: `User Votes:`,
-    value: incidentReport.totalAttestedCount,
+    title: 'User Votes:',
+    value: incidentReport.totalAttestedCount
   },
   {
-    title: `Stake:`,
+    title: 'Stake:',
     value: formatCurrency(
       convertFromUnits(incidentReport.totalAttestedStake),
       router.locale,
@@ -35,10 +35,10 @@ const successinsights = [
       router.locale,
       NPMTokenSymbol,
       true
-    ).long,
+    ).long
   },
   {
-    title: `Your Stake`,
+    title: 'Your Stake',
     value: formatCurrency(
       convertFromUnits(0),
       router.locale,
@@ -50,22 +50,22 @@ const successinsights = [
       router.locale,
       NPMTokenSymbol,
       true
-    ).long,
-  },
-];
+    ).long
+  }
+]
 
 const errorinsights = [
   {
-    title: `False Reporting`,
-    value: "57%",
-    variant: "error",
+    title: 'False Reporting',
+    value: '57%',
+    variant: 'error'
   },
   {
-    title: `User Votes:`,
-    value: incidentReport.totalRefutedCount,
+    title: 'User Votes:',
+    value: incidentReport.totalRefutedCount
   },
   {
-    title: `Stake:`,
+    title: 'Stake:',
     value: `${
       formatCurrency(
         convertFromUnits(incidentReport.totalRefutedStake),
@@ -81,10 +81,10 @@ const errorinsights = [
         NPMTokenSymbol,
         true
       ).long
-    }`,
+    }`
   },
   {
-    title: `Your Stake`,
+    title: 'Your Stake',
     value: formatCurrency(
       convertFromUnits(0),
       router.locale,
@@ -96,28 +96,28 @@ const errorinsights = [
       router.locale,
       NPMTokenSymbol,
       true
-    ).long,
-  },
-];
+    ).long
+  }
+]
 
-describe("InsightsTable test", () => {
+describe('InsightsTable test', () => {
   beforeEach(() => {
-    i18n.activate("en");
-  });
+    i18n.activate('en')
+  })
 
-  test("should render the Insights table as green when variant is success", () => {
-    const screen = render(<InsightsTable insights={successinsights} />);
-    const wrapper = screen.getByRole("table");
-    const successClass = screen.container.getElementsByClassName("text-0FB88F");
-    expect(wrapper).toBeInTheDocument();
-    expect(successClass.length).toBe(1);
-  });
+  test('should render the Insights table as green when variant is success', () => {
+    const screen = render(<InsightsTable insights={successinsights} />)
+    const wrapper = screen.getByRole('table')
+    const successClass = screen.container.getElementsByClassName('text-0FB88F')
+    expect(wrapper).toBeInTheDocument()
+    expect(successClass.length).toBe(1)
+  })
 
-  test("should render the Insights table as green when variant is success", () => {
-    const screen = render(<InsightsTable insights={errorinsights} />);
-    const wrapper = screen.getByRole("table");
-    const successClass = screen.container.getElementsByClassName("text-FA5C2F");
-    expect(wrapper).toBeInTheDocument();
-    expect(successClass.length).toBe(1);
-  });
-});
+  test('should render the Insights table as green when variant is success', () => {
+    const screen = render(<InsightsTable insights={errorinsights} />)
+    const wrapper = screen.getByRole('table')
+    const successClass = screen.container.getElementsByClassName('text-FA5C2F')
+    expect(wrapper).toBeInTheDocument()
+    expect(successClass.length).toBe(1)
+  })
+})

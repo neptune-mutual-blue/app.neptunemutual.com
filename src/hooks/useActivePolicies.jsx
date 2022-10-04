@@ -1,9 +1,9 @@
-import { sumOf } from "@/utils/bn";
-import { useWeb3React } from "@web3-react/core";
-import DateLib from "@/lib/date/DateLib";
-import { useState, useEffect } from "react";
-import { useNetwork } from "@/src/context/Network";
-import { useSubgraphFetch } from "@/src/hooks/useSubgraphFetch";
+import { sumOf } from '@/utils/bn'
+import { useWeb3React } from '@web3-react/core'
+import DateLib from '@/lib/date/DateLib'
+import { useState, useEffect } from 'react'
+import { useNetwork } from '@/src/context/Network'
+import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
 const getQuery = (startOfMonth, account) => {
   return `
@@ -32,50 +32,50 @@ const getQuery = (startOfMonth, account) => {
       }
     }
   }
-  `;
-};
+  `
+}
 
 export const useActivePolicies = () => {
-  const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const fetchActivePolicies = useSubgraphFetch("useActivePolicies");
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState(false)
+  const fetchActivePolicies = useSubgraphFetch('useActivePolicies')
 
-  const { networkId } = useNetwork();
-  const { account } = useWeb3React();
+  const { networkId } = useNetwork()
+  const { account } = useWeb3React()
 
   useEffect(() => {
     if (!account) {
-      return;
+      return
     }
 
-    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()));
+    const startOfMonth = DateLib.toUnix(DateLib.getSomInUTC(Date.now()))
 
-    setLoading(true);
+    setLoading(true)
 
     fetchActivePolicies(networkId, getQuery(startOfMonth, account))
       .then((_data) => {
-        if (!_data) return;
-        setData(_data);
+        if (!_data) return
+        setData(_data)
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
       .finally(() => {
-        setLoading(false);
-      });
-  }, [account, fetchActivePolicies, networkId]);
+        setLoading(false)
+      })
+  }, [account, fetchActivePolicies, networkId])
 
-  const activePolicies = data["userPolicies"] || [];
+  const activePolicies = data.userPolicies || []
   const totalActiveProtection = sumOf(
-    "0",
-    ...activePolicies.map((x) => x.totalAmountToCover || "0")
-  );
+    '0',
+    ...activePolicies.map((x) => x.totalAmountToCover || '0')
+  )
 
   return {
     data: {
       activePolicies,
-      totalActiveProtection,
+      totalActiveProtection
     },
-    loading,
-  };
-};
+    loading
+  }
+}

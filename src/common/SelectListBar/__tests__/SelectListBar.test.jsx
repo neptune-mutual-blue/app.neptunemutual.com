@@ -1,58 +1,59 @@
-import { act } from "@/utils/unit-tests/test-utils";
-import { i18n } from "@lingui/core";
-import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import { SelectListBar } from "@/common/SelectListBar/SelectListBar";
-import { screen, waitFor } from "@testing-library/react";
-import { testData } from "@/utils/unit-tests/test-data";
-import { SORT_TYPES } from "@/utils/sorting";
-import { t } from "@lingui/macro";
+import { act } from '@/utils/unit-tests/test-utils'
+import { i18n } from '@lingui/core'
+import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import { SelectListBar } from '@/common/SelectListBar/SelectListBar'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { testData } from '@/utils/unit-tests/test-data'
+import { t } from '@lingui/macro'
 
-describe("SelectListBar", () => {
-  const mockSetSort = jest.fn();
+describe('SelectListBar', () => {
+  const mockSetSort = jest.fn()
 
   beforeAll(() => {
     act(() => {
-      i18n.activate("en");
-    });
-  });
+      i18n.activate('en')
+    })
+  })
 
   beforeEach(() => {
     mockFn.useRouter({
       ...testData.router,
       // @ts-ignore
-      query: { view: "diversified" },
-    });
+      query: { coverView: 'Diversified pool' },
+      replace: mockSetSort
+    })
 
-    const { initialRender } = initiateTest(SelectListBar, {
-      setSortType: mockSetSort,
-      sortType: {
-        name: t`Diversified Pool`,
-        value: SORT_TYPES.DIVERSIFIED_POOL,
-      },
-    });
+    const { initialRender } = initiateTest(SelectListBar)
 
-    initialRender();
-  });
+    initialRender()
+  })
 
-  test("Should render select", async () => {
-    const select = screen.getByTestId("select-list-bar");
+  test('Should render select', async () => {
+    const select = screen.getByTestId('select-list-bar')
 
-    expect(select).toBeInTheDocument();
-  });
+    expect(select).toBeInTheDocument()
+  })
 
-  test("Should call setSortType prop on selection change", async () => {
-    await waitFor(() => {
-      expect(mockSetSort).toHaveBeenCalled();
-    });
-  });
+  test('Should call router replace on selection change', async () => {
+    const select = screen.getByTestId('select-button')
 
-  test("Should display correct select value", async () => {
-    const select = screen.getByTestId("select-list-bar");
+    fireEvent.click(select)
+    const options = screen.getByTestId('option-2')
 
-    expect(select).toBeInTheDocument();
+    fireEvent.click(options)
 
     await waitFor(() => {
-      expect(select).toHaveTextContent(t`Diversified Pool`);
-    });
-  });
-});
+      expect(mockSetSort).toHaveBeenCalled()
+    })
+  })
+
+  test('Should display correct select value', async () => {
+    const select = screen.getByTestId('select-list-bar')
+
+    expect(select).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(select).toHaveTextContent(t`Diversified Pool`)
+    })
+  })
+})

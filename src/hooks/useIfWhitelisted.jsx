@@ -1,73 +1,73 @@
-import { useEffect, useState } from "react";
-import { useWeb3React } from "@web3-react/core";
-import { registry } from "@neptunemutual/sdk";
+import { useEffect, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { registry } from '@neptunemutual/sdk'
 
-import { getProviderOrSigner } from "@/lib/connect-wallet/utils/web3";
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 
-import { useNetwork } from "@/src/context/Network";
-import { useErrorNotifier } from "@/src/hooks/useErrorNotifier";
-import { useTxPoster } from "@/src/context/TxPoster";
-import { t } from "@lingui/macro";
+import { useNetwork } from '@/src/context/Network'
+import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
+import { useTxPoster } from '@/src/context/TxPoster'
+import { t } from '@lingui/macro'
 
 export const useIfWhitelisted = ({ coverKey }) => {
-  const [isUserWhitelisted, setIsUserWhitelisted] = useState(false);
+  const [isUserWhitelisted, setIsUserWhitelisted] = useState(false)
 
-  const { account, library } = useWeb3React();
-  const { networkId } = useNetwork();
-  const { writeContract } = useTxPoster();
-  const { notifyError } = useErrorNotifier();
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { writeContract } = useTxPoster()
+  const { notifyError } = useErrorNotifier()
 
   useEffect(() => {
-    if (!networkId || !account) return;
+    if (!networkId || !account) return
 
-    let ignore = false;
+    let ignore = false
 
     const handleError = (err) => {
-      notifyError(err, t`getting user whitelisted`);
-    };
+      notifyError(err, t`getting user whitelisted`)
+    }
 
-    async function checkWhitelisted() {
-      const signerOrProvider = getProviderOrSigner(library, account, networkId);
+    async function checkWhitelisted () {
+      const signerOrProvider = getProviderOrSigner(library, account, networkId)
 
       const instance = await registry.Cover.getInstance(
         networkId,
         signerOrProvider
-      );
+      )
 
       const onTransactionResult = (result) => {
-        if (ignore) return;
+        if (ignore) return
         if (result) {
-          setIsUserWhitelisted(true);
+          setIsUserWhitelisted(true)
         }
-      };
+      }
 
-      const onRetryCancel = () => {};
+      const onRetryCancel = () => {}
 
       const onError = (err) => {
-        handleError(err);
-      };
+        handleError(err)
+      }
 
-      const productKey = null;
+      const productKey = null
       writeContract({
         instance,
-        methodName: "checkIfWhitelistedUser",
+        methodName: 'checkIfWhitelistedUser',
         args: [coverKey, productKey, account],
         onTransactionResult,
         onRetryCancel,
-        onError,
-      });
+        onError
+      })
     }
 
     checkWhitelisted().catch((err) => {
-      handleError(err);
-    });
+      handleError(err)
+    })
 
     return () => {
-      ignore = true;
-    };
-  }, [account, coverKey, writeContract, library, networkId, notifyError]);
+      ignore = true
+    }
+  }, [account, coverKey, writeContract, library, networkId, notifyError])
 
   return {
-    isUserWhitelisted,
-  };
-};
+    isUserWhitelisted
+  }
+}

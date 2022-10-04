@@ -1,141 +1,141 @@
-import { initiateTest, mockFn } from "@/utils/unit-tests/test-mockup-fn";
-import ReportListing from "@/modules/reporting/ReportListing";
-import { waitFor, screen, fireEvent } from "@testing-library/react";
-import { testData } from "@/utils/unit-tests/test-data";
+import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
+import ReportListing from '@/modules/reporting/ReportListing'
+import { waitFor, screen, fireEvent } from '@testing-library/react'
+import { testData } from '@/utils/unit-tests/test-data'
 
-describe("ReportListing test", () => {
-  let initialRender;
-  const push = jest.fn(() => {});
+describe('ReportListing test', () => {
+  let initialRender
+  const push = jest.fn(() => {})
 
   beforeEach(() => {
     const { initialRender: iR } = initiateTest(
       ReportListing,
-      { coverKey: "animated-brands", productKey: "", locale: "en" },
+      { coverKey: 'animated-brands', productKey: '', locale: 'en' },
       () => {
-        mockFn.useRouter(() => ({ ...testData.router, push }));
-        mockFn.useCoverOrProductData();
+        mockFn.useRouter(() => ({ ...testData.router, push }))
+        mockFn.useCoverOrProductData()
         mockFn.useSubgraphFetch(async () => ({
           incidentReports: [
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661401286',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1661401286",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1661401286',
               resolved: true,
-              status: "Claimable",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306",
+              status: 'Claimable',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x88ffacb1bbb771af326e6dfd9e0e8ea3e4e0e306'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661056509",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1661056509',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1661056509",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1661056509',
               resolved: true,
-              status: "Claimable",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x201bcc0d375f10543e585fbb883b36c715c959b3",
+              status: 'Claimable',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x201bcc0d375f10543e585fbb883b36c715c959b3'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660719202",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1660719202',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1660719202",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1660719202',
               resolved: true,
-              status: "FalseReporting",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x794089c95952a4f2c381e25c36245f265c2ae965",
+              status: 'FalseReporting',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1659338824",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1659338824',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1659338824",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1659338824',
               resolved: true,
-              status: "Claimable",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x794089c95952a4f2c381e25c36245f265c2ae965",
+              status: 'Claimable',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x794089c95952a4f2c381e25c36245f265c2ae965'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658995751",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658995751',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1658995751",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1658995751',
               resolved: true,
-              status: "Claimable",
-              totalAttestedStake: "4634000000000000000000",
-              totalRefutedStake: "3400000000000000000000",
-              reporter: "0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6",
+              status: 'Claimable',
+              totalAttestedStake: '4634000000000000000000',
+              totalRefutedStake: '3400000000000000000000',
+              reporter: '0x9bdae2a084ec18528b78e90b38d1a67c79f6cab6'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658303011",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658303011',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1658303011",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1658303011',
               resolved: true,
-              status: "FalseReporting",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0",
+              status: 'FalseReporting',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
             },
             {
-              id: "0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658207714",
+              id: '0x616e696d617465642d6272616e64730000000000000000000000000000000000-0x0000000000000000000000000000000000000000000000000000000000000000-1658207714',
               coverKey:
-                "0x616e696d617465642d6272616e64730000000000000000000000000000000000",
+                '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
               productKey:
-                "0x0000000000000000000000000000000000000000000000000000000000000000",
-              incidentDate: "1658207714",
+                '0x0000000000000000000000000000000000000000000000000000000000000000',
+              incidentDate: '1658207714',
               resolved: true,
-              status: "Claimable",
-              totalAttestedStake: "3400000000000000000000",
-              totalRefutedStake: "0",
-              reporter: "0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0",
-            },
-          ],
-        }));
+              status: 'Claimable',
+              totalAttestedStake: '3400000000000000000000',
+              totalRefutedStake: '0',
+              reporter: '0x767aaa0a901f865e80d0fe9841f34a2239a1f8c0'
+            }
+          ]
+        }))
       }
-    );
-    initialRender = iR;
-  });
+    )
+    initialRender = iR
+  })
 
-  describe("Decicated cover", () => {
-    test("Should display reports", async () => {
+  describe('Decicated cover', () => {
+    test('Should display reports', async () => {
       await waitFor(() => {
-        initialRender();
-      });
+        initialRender()
+      })
 
-      const table = screen.getByRole("table");
-      expect(table).toBeInTheDocument();
+      const table = screen.getByRole('table')
+      expect(table).toBeInTheDocument()
 
-      const randomReporter = screen.getByText("0x88....e306");
-      expect(randomReporter).toBeInTheDocument();
+      const randomReporter = screen.getByText('0x88....e306')
+      expect(randomReporter).toBeInTheDocument()
 
-      const randoTotallyAttestedStake = screen.getByText("4634");
-      expect(randoTotallyAttestedStake).toBeInTheDocument();
+      const randoTotallyAttestedStake = screen.getByText('4634')
+      expect(randoTotallyAttestedStake).toBeInTheDocument()
 
-      const rows = screen.getAllByRole("cell");
+      const rows = screen.getAllByRole('cell')
       // 7 rows 5 columns
-      expect(rows.length).toBe(7 * 5);
+      expect(rows.length).toBe(7 * 5)
 
-      fireEvent.click(rows[0]);
+      fireEvent.click(rows[0])
 
-      expect(push).toBeCalled();
-    });
-  });
-});
+      expect(push).toBeCalled()
+    })
+  })
+})

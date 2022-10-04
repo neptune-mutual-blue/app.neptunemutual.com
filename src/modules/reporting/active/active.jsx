@@ -1,20 +1,20 @@
-import { useMemo, useState } from "react";
-import { NeutralButton } from "@/common/Button/NeutralButton";
-import { Container } from "@/common/Container/Container";
-import { Grid } from "@/common/Grid/Grid";
-import { SearchAndSortBar } from "@/common/SearchAndSortBar";
-import { ActiveReportingCard } from "@/src/modules/reporting/active/ActiveReportingCard";
-import { ActiveReportingEmptyState } from "@/src/modules/reporting/active/ActiveReportingEmptyState";
-import { useActiveReportings } from "@/src/hooks/useActiveReportings";
-import Link from "next/link";
-import { useSearchResults } from "@/src/hooks/useSearchResults";
-import { sorter, SORT_DATA_TYPES, SORT_TYPES } from "@/utils/sorting";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { CARDS_PER_PAGE } from "@/src/config/constants";
-import { Trans, t } from "@lingui/macro";
-import { toStringSafe } from "@/utils/string";
-import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { Routes } from "@/src/config/routes";
+import { useMemo, useState } from 'react'
+import { NeutralButton } from '@/common/Button/NeutralButton'
+import { Container } from '@/common/Container/Container'
+import { Grid } from '@/common/Grid/Grid'
+import { SearchAndSortBar } from '@/common/SearchAndSortBar'
+import { ActiveReportingCard } from '@/src/modules/reporting/active/ActiveReportingCard'
+import { ActiveReportingEmptyState } from '@/src/modules/reporting/active/ActiveReportingEmptyState'
+import { useActiveReportings } from '@/src/hooks/useActiveReportings'
+import Link from 'next/link'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import { sorter, SORT_DATA_TYPES, SORT_TYPES } from '@/utils/sorting'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { Trans, t } from '@lingui/macro'
+import { toStringSafe } from '@/utils/string'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { Routes } from '@/src/config/routes'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -25,37 +25,37 @@ const sorterData = {
       report.isDiversified
         ? report.infoObj?.productName
         : report.infoObj?.projectName,
-    datatype: SORT_DATA_TYPES.STRING,
+    datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
     selector: (report) => report.utilization,
-    datatype: SORT_DATA_TYPES.BIGNUMBER,
+    datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.INCIDENT_DATE]: {
     selector: (report) => report.incidentDate,
-    datatype: SORT_DATA_TYPES.BIGNUMBER,
-  },
-};
+    datatype: SORT_DATA_TYPES.BIGNUMBER
+  }
+}
 
 export const ReportingActivePage = () => {
   const {
     data: { incidentReports },
     loading,
     hasMore,
-    handleShowMore,
-  } = useActiveReportings();
+    handleShowMore
+  } = useActiveReportings()
 
   const [sortType, setSortType] = useState({
     name: t`Incident date`,
-    value: SORT_TYPES.INCIDENT_DATE,
-  });
+    value: SORT_TYPES.INCIDENT_DATE
+  })
 
-  const { getStatsByKey } = useSortableStats();
+  const { getStatsByKey } = useSortableStats()
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (incidentReports || []).map((report) => ({
       ...report,
-      ...getStatsByKey(report.id),
+      ...getStatsByKey(report.id)
     })),
     filter: (cover, term) => {
       return (
@@ -64,39 +64,39 @@ export const ReportingActivePage = () => {
             ? cover.infoObj.productName
             : cover.infoObj.projectName
         ).indexOf(toStringSafe(term)) > -1
-      );
-    },
-  });
+      )
+    }
+  })
 
   const activeCardInfoArray = useMemo(
     () =>
       sorter({
         ...sorterData[sortType.value],
-        list: filtered,
+        list: filtered
       }),
 
     [filtered, sortType.value]
-  );
+  )
 
   const options = [
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
     { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE },
-  ];
+    { name: t`Incident date`, value: SORT_TYPES.INCIDENT_DATE }
+  ]
 
   return (
-    <Container className={"pt-16 pb-36"}>
-      <div className="flex sm:justify-end">
+    <Container className='pt-16 pb-36'>
+      <div className='flex sm:justify-end'>
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={(event) => {
-            setSearchValue(event.target.value);
+            setSearchValue(event.target.value)
           }}
           searchAndSortOptions={options}
           sortType={sortType}
           setSortType={setSortType}
-          containerClass="flex-col sm:flex-row w-full sm:w-auto"
-          searchClass="w-full sm:w-auto"
+          containerClass='flex-col sm:flex-row w-full sm:w-auto'
+          searchClass='w-full sm:w-auto'
         />
       </div>
 
@@ -107,24 +107,24 @@ export const ReportingActivePage = () => {
         handleShowMore={handleShowMore}
       />
     </Container>
-  );
-};
+  )
+}
 
-function Content({ data, loading, hasMore, handleShowMore }) {
+function Content ({ data, loading, hasMore, handleShowMore }) {
   if (loading) {
     return (
-      <div data-testid="active-reportings-card-skeleton">
-        <Grid className="w-full gap-4 mt-14 lg:mb-24 mb-14">
+      <div data-testid='active-reportings-card-skeleton'>
+        <Grid className='w-full gap-4 mt-14 lg:mb-24 mb-14'>
           <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
         </Grid>
       </div>
-    );
+    )
   }
 
   if (data.length > 0) {
     return (
       <>
-        <Grid className="mb-24 mt-14" data-testid="active-page-grid">
+        <Grid className='mb-24 mt-14' data-testid='active-page-grid'>
           {data.map((report) => {
             return (
               <Link
@@ -135,7 +135,7 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                 )}
                 key={report.id}
               >
-                <a className="rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9">
+                <a className='rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
                   <ActiveReportingCard
                     id={report.id}
                     coverKey={report.coverKey}
@@ -144,21 +144,22 @@ function Content({ data, loading, hasMore, handleShowMore }) {
                   />
                 </a>
               </Link>
-            );
+            )
           })}
         </Grid>
+
         {!loading && hasMore && (
           <NeutralButton
-            className={"rounded-lg border-0.5"}
+            className='rounded-lg border-0.5'
             onClick={handleShowMore}
-            data-testid="has-more-button"
+            data-testid='has-more-button'
           >
             <Trans>Show More</Trans>
           </NeutralButton>
         )}
       </>
-    );
+    )
   }
 
-  return <ActiveReportingEmptyState />;
+  return <ActiveReportingEmptyState />
 }

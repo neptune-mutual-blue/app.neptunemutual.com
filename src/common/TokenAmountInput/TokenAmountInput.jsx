@@ -1,8 +1,8 @@
-import { Label } from "@/common/Label/Label";
-import { InputWithTrailingButton } from "@/common/Input/InputWithTrailingButton";
-import { TokenBalance } from "@/common/TokenBalance";
-import { t } from "@lingui/macro";
-import { classNames } from "@/utils/classnames";
+import { Label } from '@/common/Label/Label'
+import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { TokenBalance } from '@/common/TokenBalance'
+import { t } from '@lingui/macro'
+import { classNames } from '@/utils/classnames'
 
 export const TokenAmountInput = ({
   tokenAddress,
@@ -17,13 +17,13 @@ export const TokenAmountInput = ({
   error = false,
   disabled,
   children,
-  buttonClassName = "",
+  buttonClassName = '',
   ...rest
 }) => {
   return (
-    <div className={classNames(disabled && "opacity-40 cursor-not-allowed")}>
+    <div className={classNames(disabled && 'opacity-40 cursor-not-allowed')}>
       {labelText && (
-        <Label htmlFor={inputId} className="mb-4 font-semibold uppercase">
+        <Label htmlFor={inputId} className='mb-4 font-semibold uppercase'>
           {labelText}
         </Label>
       )}
@@ -34,7 +34,7 @@ export const TokenAmountInput = ({
           children: t`Max`,
           onClick: handleChooseMax,
           disabled: disabled,
-          buttonClassName,
+          buttonClassName
         }}
         unit={tokenSymbol}
         inputProps={{
@@ -44,7 +44,7 @@ export const TokenAmountInput = ({
           value: inputValue,
           onChange: onChange,
           allowNegativeValue: false,
-          ...rest,
+          ...rest
         }}
       />
       <TokenBalance
@@ -57,5 +57,5 @@ export const TokenAmountInput = ({
         {children}
       </TokenBalance>
     </div>
-  );
-};
+  )
+}

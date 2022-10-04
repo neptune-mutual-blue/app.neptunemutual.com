@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { i18n } from "@lingui/core";
+import { i18n } from '@lingui/core'
 import {
   en,
   es,
@@ -13,8 +13,8 @@ import {
   ru,
   el,
   tr,
-  vi,
-} from "make-plural/plurals";
+  vi
+} from 'make-plural/plurals'
 
 const plurals = {
   en: en,
@@ -29,8 +29,8 @@ const plurals = {
   ru: ru,
   el: el,
   tr: tr,
-  vi: vi,
-};
+  vi: vi
+}
 
 /**
  * Load messages for requested locale and activate it.
@@ -38,13 +38,13 @@ const plurals = {
  * many ways how to load messages — from REST API, from file, from cache, etc.
  */
 export const dynamicActivate = async (locale) => {
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = process.env.NODE_ENV === 'production'
 
   const messages = isProduction
     ? await import(`../../locales/${locale}/messages`)
-    : await import(`@lingui/loader!../../locales/${locale}/messages.po`);
+    : await import(`@lingui/loader!../../locales/${locale}/messages.po`)
 
-  i18n.loadLocaleData(locale, { plurals: () => plurals[locale] });
-  i18n.load(locale, messages.messages);
-  i18n.activate(locale);
-};
+  i18n.loadLocaleData(locale, { plurals: () => plurals[locale] })
+  i18n.load(locale, messages.messages)
+  i18n.activate(locale)
+}

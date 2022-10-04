@@ -1,43 +1,43 @@
-import ScrollToTopArrow from "@/icons/ScrollToTopArrow";
-import { classNames } from "@/utils/classnames";
-import React, { useEffect, useState } from "react";
+import ScrollToTopArrow from '@/icons/ScrollToTopArrow'
+import { classNames } from '@/utils/classnames'
+import React, { useEffect, useState } from 'react'
 
 export const ScrollToTopButton = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
 
   const showButton = () => {
-    const currentPosition = document.documentElement.scrollTop;
+    const currentPosition = document.documentElement.scrollTop
     if (currentPosition > 300) {
-      setIsVisible(true);
+      setIsVisible(true)
     } else {
-      setIsVisible(false);
+      setIsVisible(false)
     }
-  };
+  }
 
   const scrollViewportToTop = () => {
     window.scrollTo({
       top: 0,
-      behaviour: "smooth",
-    });
-  };
+      behaviour: 'smooth'
+    })
+  }
   useEffect(() => {
-    window.addEventListener("scroll", showButton);
+    window.addEventListener('scroll', showButton)
 
     return () => {
-      window.removeEventListener("scroll", showButton);
-    };
-  }, []);
+      window.removeEventListener('scroll', showButton)
+    }
+  }, [])
 
   return (
     <button
-      aria-label="Scroll to top"
+      aria-label='Scroll to top'
       onClick={scrollViewportToTop}
       className={classNames(
-        "flex md:hidden w-8 h-7 bg-black opacity-50 fixed bottom-8 right-4 justify-center items-center rounded-md",
-        !isVisible && "hidden"
+        'flex md:hidden w-8 h-7 bg-black opacity-50 fixed bottom-8 right-4 justify-center items-center rounded-md',
+        !isVisible && 'hidden'
       )}
     >
       <ScrollToTopArrow />
     </button>
-  );
-};
+  )
+}

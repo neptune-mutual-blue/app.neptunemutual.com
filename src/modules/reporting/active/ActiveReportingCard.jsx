@@ -1,52 +1,55 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-import { Divider } from "@/common/Divider/Divider";
-import { OutlinedCard } from "@/common/OutlinedCard/OutlinedCard";
-import { ProgressBar } from "@/common/ProgressBar/ProgressBar";
-import { getCoverImgSrc, isValidProduct } from "@/src/helpers/cover";
-import { formatCurrency } from "@/utils/formatter/currency";
-import { fromNow } from "@/utils/formatter/relative-time";
-import DateLib from "@/lib/date/DateLib";
-import { formatPercent } from "@/utils/formatter/percent";
-import { MULTIPLIER } from "@/src/config/constants";
-import { convertFromUnits, toBN } from "@/utils/bn";
-import { Badge, E_CARD_STATUS, identifyStatus } from "@/common/CardStatusBadge";
-import { Trans } from "@lingui/macro";
-import { useFetchCoverStats } from "@/src/hooks/useFetchCoverStats";
-import { useSortableStats } from "@/src/context/SortableStatsContext";
-import { CardSkeleton } from "@/common/Skeleton/CardSkeleton";
-import { safeFormatBytes32String } from "@/utils/formatter/bytes32String";
-import { useAppConstants } from "@/src/context/AppConstants";
-import { useCoverOrProductData } from "@/src/hooks/useCoverOrProductData";
-import { InfoTooltip } from "@/common/Cover/InfoTooltip";
-import SheildIcon from "@/icons/SheildIcon";
+import { Divider } from '@/common/Divider/Divider'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { fromNow } from '@/utils/formatter/relative-time'
+import DateLib from '@/lib/date/DateLib'
+import { formatPercent } from '@/utils/formatter/percent'
+import { MULTIPLIER } from '@/src/config/constants'
+import { convertFromUnits, toBN } from '@/utils/bn'
+import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import { Trans } from '@lingui/macro'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import SheildIcon from '@/icons/SheildIcon'
+import { classNames } from '@/utils/classnames'
+
+const lineContentArray = new Array(3).fill(1)
 
 export const ActiveReportingCard = ({
   id,
   coverKey,
-  productKey = safeFormatBytes32String(""),
-  incidentDate,
+  productKey = safeFormatBytes32String(''),
+  incidentDate
 }) => {
-  const { setStatsByKey } = useSortableStats();
-  const { liquidityTokenDecimals } = useAppConstants();
-  const coverInfo = useCoverOrProductData({ coverKey, productKey });
-  const { info: coverStats } = useFetchCoverStats({
+  const { setStatsByKey } = useSortableStats()
+  const { liquidityTokenDecimals } = useAppConstants()
+  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { info: coverStats, isLoading } = useFetchCoverStats({
     coverKey,
-    productKey,
-  });
-  const router = useRouter();
+    productKey
+  })
+  const router = useRouter()
 
-  const { activeCommitment, productStatus, availableLiquidity } = coverStats;
+  const { activeCommitment, productStatus, availableLiquidity } = coverStats
 
-  const isDiversified = isValidProduct(productKey);
-  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey });
+  const isDiversified = isValidProduct(productKey)
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
-  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString();
-  const protection = activeCommitment;
+  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString()
+  const protection = activeCommitment
   const utilization = toBN(liquidity).isEqualTo(0)
-    ? "0"
-    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString();
+    ? '0'
+    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
 
   // Used for sorting purpose only
   useEffect(() => {
@@ -54,46 +57,53 @@ export const ActiveReportingCard = ({
       liquidity,
       utilization,
       infoObj: coverInfo?.infoObj,
-      isDiversified,
-    });
-  }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization]);
+      isDiversified
+    })
+  }, [coverInfo, id, isDiversified, liquidity, setStatsByKey, utilization])
 
   if (!coverInfo) {
-    return <CardSkeleton numberOfCards={1} data-testid="skeleton-card" />;
+    return <CardSkeleton numberOfCards={1} data-testid='skeleton-card' />
   }
 
-  const status = identifyStatus(productStatus);
+  const status = identifyStatus(productStatus)
 
   return (
-    <OutlinedCard className="p-6 bg-white" type="link">
-      <div className="flex items-start justify-between">
+    <OutlinedCard className='p-6 bg-white' type='link'>
+      <div className='flex items-start justify-between'>
         <div
-          className="rounded-full w-18 h-18 bg-DEEAF6"
-          data-testid="active-report-cover-img"
+          className='rounded-full w-18 h-18 bg-DEEAF6'
+          data-testid='active-report-cover-img'
         >
           <img
             src={imgSrc}
             alt={coverInfo.infoObj.projectName}
-            className="inline-block max-w-full"
+            className='inline-block max-w-full'
           />
         </div>
-        <div date-testid="card-badge">
-          {status !== E_CARD_STATUS.NORMAL && (
-            <Badge status={status} className="rounded" />
-          )}
+        <div date-testid='card-badge'>
+          {
+            isLoading
+              ? <div
+                  className='w-40 h-6 animate-pulse rounded-full bg-skeleton'
+                  data-testid='card-status-badge'
+                />
+              : (status !== E_CARD_STATUS.NORMAL && (
+                <Badge status={status} className='rounded' />
+                ))
+          }
         </div>
       </div>
-      <h4 className="mt-4 font-semibold uppercase text-h4 font-sora">
+      <h4 className='mt-4 font-semibold uppercase text-h4 font-sora'>
         {isDiversified
           ? coverInfo.infoObj.productName
           : coverInfo.infoObj.projectName}
       </h4>
-      <div className="flex items-center justify-between">
+      <div className='flex items-center justify-between'>
         <div
-          className="mt-1 text-sm uppercase text-7398C0 lg:mt-2"
-          data-testid="cover-fee"
+          className='mt-1 text-sm uppercase text-7398C0 lg:mt-2'
+          data-testid='cover-fee'
         >
-          <Trans>Cover fee:</Trans>{" "}
+          <Trans>Cover fee:</Trans>{' '}
           {formatPercent(
             (isDiversified
               ? coverInfo.cover.infoObj.pricingFloor
@@ -114,19 +124,19 @@ export const ActiveReportingCard = ({
               <p>
                 <Trans>
                   Diversified pool with {coverInfo.cover.infoObj.leverage}x
-                  leverage factor and{" "}
+                  leverage factor and{' '}
                   {formatPercent(
                     toBN(coverInfo.infoObj.capitalEfficiency)
                       .dividedBy(MULTIPLIER)
                       .toString()
-                  )}{" "}
+                  )}{' '}
                   capital efficiency
                 </Trans>
               </p>
             }
           >
-            <div className="rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5">
-              <p className="opacity-60">
+            <div className='rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5'>
+              <p className='opacity-60'>
                 D{coverInfo.cover.infoObj.leverage}x
                 {formatPercent(
                   toBN(coverInfo.infoObj.capitalEfficiency)
@@ -144,14 +154,22 @@ export const ActiveReportingCard = ({
       {/* Divider */}
       <Divider />
 
+      {isLoading && lineContentArray.map((_, i) => (
+        <div
+          key={i}
+          className='h-3 mt-3 rounded-full bg-skeleton'
+          data-testid='card-line-content'
+        />
+      ))}
+
       {/* Stats */}
-      <div className="flex justify-between px-1 text-h7 lg:text-sm">
-        <span className="uppercase text-h7 lg:text-sm">
+      <div className={classNames('justify-between px-1 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
+        <span className='uppercase text-h7 lg:text-sm'>
           <Trans>Utilization ratio</Trans>
         </span>
         <span
-          className="font-semibold text-right text-h7 lg:text-sm "
-          data-testid="util-ratio"
+          className='font-semibold text-right text-h7 lg:text-sm '
+          data-testid='util-ratio'
         >
           {formatPercent(utilization, router.locale)}
         </span>
@@ -162,12 +180,12 @@ export const ActiveReportingCard = ({
           <div>
             <p>
               <b>
-                <Trans>Utilization ratio:</Trans>{" "}
+                <Trans>Utilization ratio:</Trans>{' '}
                 {formatPercent(utilization, router.locale)}
               </b>
             </p>
             <p>
-              <Trans>Protection</Trans>:{" "}
+              <Trans>Protection</Trans>:{' '}
               {
                 formatCurrency(
                   convertFromUnits(
@@ -181,17 +199,17 @@ export const ActiveReportingCard = ({
           </div>
         }
       >
-        <div className="mt-2 mb-4">
+        <div className={classNames('mt-2 mb-4', isLoading ? 'hidden' : 'block')}>
           <ProgressBar value={utilization} />
         </div>
       </InfoTooltip>
 
-      <div className="flex justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm">
+      <div className={classNames('justify-between px-1 text-01052D opacity-40 text-h7 lg:text-sm', isLoading ? 'hidden' : 'flex')}>
         <InfoTooltip
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Protection</Trans>:{" "}
+              <Trans>Protection</Trans>:{' '}
               {
                 formatCurrency(
                   convertFromUnits(
@@ -205,7 +223,7 @@ export const ActiveReportingCard = ({
           }
         >
           <div
-            className="flex flex-1"
+            className='flex flex-1'
             title={
               formatCurrency(
                 convertFromUnits(
@@ -215,10 +233,10 @@ export const ActiveReportingCard = ({
                 router.locale
               ).long
             }
-            data-testid="protection"
+            data-testid='protection'
           >
-            <span role="tooltip" aria-label="Protection">
-              <SheildIcon className="w-4 h-4 text-01052D" />
+            <span role='tooltip' aria-label='Protection'>
+              <SheildIcon className='w-4 h-4 text-01052D' />
             </span>
             <p>
               {
@@ -237,14 +255,14 @@ export const ActiveReportingCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Reported On:</Trans>:{" "}
+              <Trans>Reported On:</Trans>:{' '}
               {DateLib.toLongDateFormat(incidentDate, router.locale)}
             </div>
           }
         >
           <div
-            data-testid="incident-date"
-            className="flex-1 text-right"
+            data-testid='incident-date'
+            className='flex-1 text-right'
             title={DateLib.toLongDateFormat(incidentDate, router.locale)}
           >
             {fromNow(incidentDate)}
@@ -252,5 +270,5 @@ export const ActiveReportingCard = ({
         </InfoTooltip>
       </div>
     </OutlinedCard>
-  );
-};
+  )
+}

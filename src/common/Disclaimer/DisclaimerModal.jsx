@@ -1,60 +1,61 @@
-import { ModalRegular } from "@/common/Modal/ModalRegular";
-import { useLocalStorage } from "@/src/hooks/useLocalStorage";
-import { classNames } from "@/utils/classnames";
-import { Title, Description } from "@radix-ui/react-dialog";
-import { useState } from "react";
-import { Trans } from "@lingui/macro";
-import { ModalWrapper } from "@/common/Modal/ModalWrapper";
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { classNames } from '@/utils/classnames'
+import { Title, Description } from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import { Trans } from '@lingui/macro'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 
 export const DisclaimerModal = () => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage(
-    "disclaimerApproval",
+    'disclaimerApproval',
     false
-  );
-  const [isOpen, setIsOpen] = useState(!disclaimerApproval);
-  const [isAgreed, setIsAgreed] = useState(false);
+  )
+  const [isOpen, setIsOpen] = useState(!disclaimerApproval)
+  const [isAgreed, setIsAgreed] = useState(false)
 
   const handleClose = () => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
 
   const handleAccept = () => {
-    setDisclaimerApproval(true);
-    handleClose();
-  };
+    setDisclaimerApproval(true)
+    handleClose()
+  }
 
   const handleDecline = () => {
-    window.location.href = "https://neptunemutual.com";
-  };
+    window.location.href = 'https://neptunemutual.com'
+  }
 
   const handleSubmit = (ev) => {
-    ev.preventDefault();
+    ev.preventDefault()
 
     if (isAgreed) {
-      handleAccept();
+      handleAccept()
     }
-  };
+  }
 
   return (
     <ModalRegular
       isOpen={isOpen}
       onClose={handleClose}
       disabled
-      data-testid="disclaimer-container"
-      className="px-0 h-5/6 sm:h-auto"
+      data-testid='disclaimer-container'
+      className='px-0 h-5/6 sm:h-auto'
     >
-      <ModalWrapper className="max-w-5xl !rounded-xl sm:!rounded-3xl h-full flex flex-col bg-FEFEFF">
+      <ModalWrapper className='max-w-5xl !rounded-xl sm:!rounded-3xl h-full flex flex-col bg-FEFEFF'>
         <Title
-          className="flex items-center font-bold font-sora text-h4"
-          data-testid="disclaimer-title"
+          className='flex items-center font-bold font-sora text-h4'
+          data-testid='disclaimer-title'
         >
           <Trans>Disclaimer and Warranty</Trans>
         </Title>
         <Description
           className={classNames(
-            "mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f1f3f6"
+            'mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f1f3f6'
           )}
-          data-testid="disclaimer-description"
+          data-testid='disclaimer-description'
         >
           <span>
             <Trans>
@@ -106,19 +107,18 @@ export const DisclaimerModal = () => {
         </Description>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex items-start gap-2 mt-3">
-            <input
-              type={"checkbox"}
-              id="agreement-checkbox"
-              className="mt-1 cursor-pointer"
+          <div className='flex items-start gap-2 mt-3'>
+            <Checkbox
+              id='agreement-checkbox'
+              className='w-4 h-4 mt-1 cursor-pointer'
               checked={isAgreed}
               onChange={(e) => setIsAgreed(e.target.checked)}
-              data-testid="disclaimer-checkbox"
+              data-testid='disclaimer-checkbox'
             />
             <label
-              htmlFor="agreement-checkbox"
-              className="text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040"
-              data-testid="disclaimer-checkbox-label"
+              htmlFor='agreement-checkbox'
+              className='text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040'
+              data-testid='disclaimer-checkbox-label'
             >
               <Trans>
                 By visiting this testnet environment, you acknowledge and agree
@@ -128,23 +128,23 @@ export const DisclaimerModal = () => {
             </label>
           </div>
 
-          <div className="flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6">
+          <div className='flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6'>
             <button
-              type="button"
-              className="box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9"
+              type='button'
+              className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9'
               onClick={handleDecline}
-              data-testid="disclaimer-decline"
+              data-testid='disclaimer-decline'
             >
               <Trans>Decline</Trans>
             </button>
             <button
-              type="submit"
+              type='submit'
               className={classNames(
-                "box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9",
-                "disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed"
+                'box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
+                'disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed'
               )}
               disabled={!isAgreed}
-              data-testid="disclaimer-accept"
+              data-testid='disclaimer-accept'
             >
               <Trans>Accept</Trans>
             </button>
@@ -152,5 +152,5 @@ export const DisclaimerModal = () => {
         </form>
       </ModalWrapper>
     </ModalRegular>
-  );
-};
+  )
+}

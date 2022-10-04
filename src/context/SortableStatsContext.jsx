@@ -1,42 +1,42 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from 'react'
 
 const defaultValue = {
   setStatsByKey: (_key, _obj) => {},
-  getStatsByKey: (_key) => ({}),
-};
+  getStatsByKey: (_key) => ({})
+}
 
-const SortableStatsContext = React.createContext(defaultValue);
+const SortableStatsContext = React.createContext(defaultValue)
 
 /**
  * @description DO NOT use `setStatsByKey` and `getStatsByKey` in the same effect (`useEffect`, `useCallback` or `useMemo`)
  *
  * Used for storing and sorting the data fetched when each card is loaded (like APR)
  */
-export function useSortableStats() {
-  const context = React.useContext(SortableStatsContext);
+export function useSortableStats () {
+  const context = React.useContext(SortableStatsContext)
   if (context === undefined) {
     throw new Error(
-      "useSortableStats must be used within a SortableStatsProvider"
-    );
+      'useSortableStats must be used within a SortableStatsProvider'
+    )
   }
-  return context;
+  return context
 }
 
 /** Used Only For Sorting */
 export const SortableStatsProvider = ({ children }) => {
-  const [state, setState] = useState(defaultValue);
+  const [state, setState] = useState(defaultValue)
 
   const setStatsByKey = useCallback((key, obj) => {
     setState((prev) => ({
       ...prev,
       [key]: {
         ...prev[key],
-        ...obj,
-      },
-    }));
-  }, []);
+        ...obj
+      }
+    }))
+  }, [])
 
-  const getStatsByKey = useCallback((key) => state[key] || {}, [state]);
+  const getStatsByKey = useCallback((key) => state[key] || {}, [state])
 
   return (
     <SortableStatsContext.Provider
@@ -47,5 +47,5 @@ export const SortableStatsProvider = ({ children }) => {
     >
       {children}
     </SortableStatsContext.Provider>
-  );
-};
+  )
+}
