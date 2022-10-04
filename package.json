@@ -21,7 +21,7 @@
     "@lingui/react": "3.13.2",
     "@metamask/post-message-stream": "4.0.0",
     "@metamask/providers": "8.1.1",
-    "@neptunemutual/sdk": "^0.4.9-beta",
+    "@neptunemutual/sdk": "^0.5.0-beta",
     "@radix-ui/react-dialog": "0.1.6",
     "@radix-ui/react-tooltip": "0.1.0",
     "@web3-react/core": "6.1.9",

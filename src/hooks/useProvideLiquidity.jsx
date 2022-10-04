@@ -318,14 +318,19 @@ export const useProvideLiquidity = ({
         cleanup()
       }
 
-      const args = [coverKey, lqAmount, npmAmount, utils.keyUtil.toBytes32('')]
+      const args = {
+        coverKey,
+        amount: lqAmount,
+        npmStakeToAdd: npmAmount,
+        referralCode: utils.keyUtil.toBytes32('')
+      }
       writeContract({
         instance: vault,
         methodName: 'addLiquidity',
         onTransactionResult,
         onRetryCancel,
         onError,
-        args
+        args: [args]
       })
     } catch (err) {
       handleError(err)
