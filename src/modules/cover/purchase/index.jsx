@@ -10,7 +10,7 @@ import { HeroStat } from '@/common/HeroStat'
 import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Hero } from '@/common/Hero'
-import { CoverRules } from '@/common/CoverRules/CoverRules'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { useState } from 'react'
 import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -112,7 +112,7 @@ export const CoverPurchaseDetailsPage = () => {
                 )
               : (
                 <>
-                  <CoverRules rules={coverInfo.infoObj?.rules} />
+                  <CoverParameters parameters={coverInfo.infoObj?.parameters} />
                   <AcceptRulesForm
                     onAccept={handleAcceptRules}
                     coverKey={coverKey}

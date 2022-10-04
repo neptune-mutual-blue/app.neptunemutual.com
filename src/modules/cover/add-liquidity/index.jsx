@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { AcceptRulesForm } from '@/common/AcceptRulesForm/AcceptRulesForm'
-import { CoverRules } from '@/common/CoverRules/CoverRules'
 import { ProvideLiquidityForm } from '@/common/LiquidityForms/ProvideLiquidityForm'
 import { CoverActionsFooter } from '@/common/Cover/CoverActionsFooter'
 import { Container } from '@/common/Container/Container'
 import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { Hero } from '@/common/Hero'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { t, Trans } from '@lingui/macro'
@@ -120,7 +120,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                       )
                     : (
                       <>
-                        <CoverRules rules={coverInfo.infoObj?.rules} />
+                        <CoverParameters parameters={coverInfo.infoObj?.parameters} />
                         <AcceptRulesForm
                           onAccept={handleAcceptRules}
                           coverKey={coverKey}

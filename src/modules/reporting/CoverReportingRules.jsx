@@ -1,9 +1,9 @@
-import { CoverRules } from '@/common/CoverRules/CoverRules'
 import { ReportingInfo } from './ReportingInfo'
 import { Alert } from '@/common/Alert/Alert'
 import { Container } from '@/common/Container/Container'
 import { AcceptReportRulesForm } from '@/common/AcceptCoverRulesForm/AcceptReportRulesForm'
 import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { toBN } from '@/utils/bn'
@@ -26,7 +26,8 @@ export const CoverReportingRules = ({
         <Container className='grid grid-cols-3 md:gap-32'>
           <div className='col-span-3 row-start-3 md:col-span-2 md:row-start-auto'>
             {/* Rules */}
-            <CoverRules rules={coverInfo?.infoObj.rules} />
+
+            <CoverParameters parameters={coverInfo?.infoObj.parameters} />
             <div>
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className='mt-16'>
