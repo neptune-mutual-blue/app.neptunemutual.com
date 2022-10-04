@@ -61,12 +61,13 @@ module.exports = {
       ],
       xxxl: '136px',
       xxl: '40px',
-      'receipt-info': ['24px', '36px']
+      'receipt-info': ['24px', '36px'],
+      md: ['20px', '23px']
     },
     fontFamily: {
       poppins: 'Poppins, sans-serif',
       sora: 'Sora, sans-serif',
-      helvetica: 'Helvetica, Sora, Poppins, sans-serif'
+      arial: 'Arial, Sora, sans-serif'
     },
     extend: {
       borderRadius: {

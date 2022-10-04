@@ -12,7 +12,7 @@ export const DescriptionComponent = ({
     <div className={className}>
       <h2
         className={classNames(
-          'font-bold text-lg font-sora',
+          'font-bold text-lg leading-5',
           titleClassName
         )}
       >

@@ -1,5 +1,3 @@
-import { BackButton } from '@/common/BackButton/BackButton'
-import { HeaderLogo } from '@/common/HeaderLogo'
 import { DescriptionComponent } from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
 import { useRouter } from 'next/router'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
@@ -14,6 +12,7 @@ import { useFetchCoverPurchasedEvent } from '@/src/hooks/useFetchCoverPurchasedE
 import DateLib from '@/lib/date/DateLib'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { Alert } from '@/common/Alert/Alert'
+import { t } from '@lingui/macro'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -25,7 +24,6 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     productKey: event?.productKey
   })
 
-  console.log('test', txHash, event)
   if (!txHash || !event) return null
 
   const purchaser = event.onBehalfOf
@@ -102,7 +100,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
-      <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} />
+      <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} titleClassName='text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
     ],
     exclusions: coverInfo?.infoObj?.exclusions,
     standardExclusions: [
@@ -148,107 +146,120 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     ]
   }
 
-  return (
-    <div>
-      <div className='py-9.5 px-4 md:px-10 lg:px-13 bg-black text-white'>
-        <BackButton
-          onClick={() => router.back()}
-          className='!px-4 !py-2 border-white !text-white hover:bg-transparent hover:text-white'
-        />
+  const policyReceiptData = [
+    [
+      'Date:',
+      new Date(date).toUTCString()
+    ],
+    [
+      'Receipt no:',
+      receiptNo
+    ],
+    [
+      'Purchaser:',
+      purchaser
+    ]
+  ]
 
-        <div className='mt-9 lg:px-42 font-sora'>
-          <HeaderLogo />
+  return (
+    <div className='font-arial bg-white'>
+
+      <div className='px-10 md:px-10 lg:max-w-5xl m-auto pt-4 pb-52'>
+        <div className='mt-9 flex cursor-pointer'>
+          <picture onClick={() => router.back()}>
+            <img
+              loading='lazy'
+              alt={t`Neptune Mutual`}
+              srcSet='/logos/neptune-mutual-full.svg'
+              className='w-full h-9 text-black'
+              data-testid='header-logo'
+            />
+          </picture>
+          <div className='flex-grow'> </div>
           <a
             href='https://neptunemutual.com'
-            className='mt-2 underline text-4e7dd9'
+            className='mt-2 text-black items-end'
           >
             neptunemutual.com
           </a>
         </div>
-      </div>
 
-      <div className='px-4 bg-white md:px-10 lg:px-54 pt-14 pb-52'>
-        <h1 className='font-semibold leading-8 text-receipt-info font-sora'>
+        <hr className='mt-4 mb-10' />
+        <h1 className='font-bold leading-9 text-receipt-info'>
           {policyName} Policy Receipt
         </h1>
 
-        <div className='text-lg leading-6 font-sora mt-3.5 flex'>
-          <p className='font-bold mr-2'>Date:</p>
-          <p>{new Date(date).toUTCString()}</p>
-        </div>
-
-        <div className='mt-4 text-lg leading-6 font-sora flex'>
-          <p className='font-bold mr-2'>Receipt no:</p>
-          <p>{receiptNo}</p>
-        </div>
-
-        <div className='mt-4 text-lg leading-6 font-sora flex'>
-          <p className='font-bold mr-2'>Purchaser:</p>
-          <p>{purchaser}</p>
-        </div>
+        {
+          policyReceiptData.map(([label, value]) => (
+            <div className='mt-4 text-lg leading-7 flex' key={label}>
+              <p className='font-bold mr-2'>{label}</p>
+              <p>{value}</p>
+            </div>
+          ))
+        }
 
         <hr className='mt-12' />
 
         <div className='mt-10'>
 
-          <div className='text-lg leading-6 font-sora mt-3.5 mb-10'>
-            <p className='font-bold mr-2 text-receipt-info'>On Behalf Of</p>
-            <p className='text-h4'>{onBehalfOf}</p>
+          <div className='text-lg leading-6 mt-3.5 mb-10'>
+            <p className='font-bold mr-2 mb-2 text-receipt-info leading-7'>On Behalf Of</p>
+            <p className='text-md'>{onBehalfOf}</p>
           </div>
 
           {onBehalfOfData.map(({ label, value }, i) => (
             <div
               key={i}
-              className='flex  pb-4 text-lg leading-6'
+              className='flex pb-4 text-lg leading-6'
             >
-              <p className='flex-shrink-0 font-bold font-sora min-w-[234px]'>{label}</p>
-              <div className='overflow-hidden font-poppins'>{value}</div>
+              <p className='flex-shrink-0 font-bold leading-5 max-w-60 w-full'>{label}</p>
+              <div className='overflow-hidden'>{value}</div>
             </div>
           ))}
 
           <div className='flex text-lg font-bold leading-6'>
-            <p className='font-sora min-w-[234px]'>Premium Paid</p>
-            <p className='uppercase font-poppins'>{premuimPaid}</p>
+            <p className='max-w-60 w-full'>Premium Paid</p>
+            <p className='uppercase'>{premuimPaid}</p>
           </div>
 
           <hr className='mt-12' />
 
-          <div className='mt-10 text-lg leading-6 flex'>
-            <p className='font-bold font-sora w-[234px] flex-shrink-0'>Your cxDAI Address</p>
+          <div className='mt-10 text-lg leading-5 flex'>
+            <p className='font-bold max-w-60 w-full flex-shrink-0'>Your cxDAI Address</p>
             <div className='flex items-center break-all'>
               {event.cxToken}
             </div>
           </div>
-          <div className='mt-6 text-lg leading-6 flex'>
-            <p className='font-bold font-sora w-[234px] flex-shrink-0'>Transaction Receipt</p>
+          <div className='mt-6 text-lg leading-5 flex'>
+            <p className='font-bold max-w-60 w-full flex-shrink-0'>Transaction Receipt</p>
             <div className='flex items-center break-all'>
               {txHash}
             </div>
           </div>
         </div>
 
-        <hr className='mt-10 mb-9' />
+        <hr className='my-10' />
 
-        <Alert className='!bg-white'>
-          <p className='text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
+        <Alert className='!bg-white leading-5'>
+          <p className='text-lg font-bold text-E03636 pb-1'>Beta Version Disclaimer</p>
           <p className='text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
         </Alert>
 
         <DescriptionComponent
           title='Cover Rules'
           text={text.coverRules}
-          className='mt-13 '
-          bullets={false}
+          className='mt-13'
+          bullets={!false}
         />
 
         <DescriptionComponent
-          title='Exclusions'
+          title='Standard Exclusions'
           text={text.exclusions}
           className='mt-6'
           bullets={false}
         />
         <div>
-          <p className='text-lg font-bold mt-6'>Risk Disclosure/Disclaimer</p>
+          <p className='text-lg font-bold mt-6 leading-5'>Risk Disclosure/Disclaimer</p>
           <p className='text-lg mt-2'>In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:
             <a target='_blank' rel='noreferer noopener nofollow noreferrer' href='https://docs.neptunemutual.com/usage/risk-factors'>
               Risk Factors, Neptune Mutual Documentation
