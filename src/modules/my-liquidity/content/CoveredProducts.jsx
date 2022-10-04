@@ -13,6 +13,7 @@ import { useState } from 'react'
  * @prop {string} pricingFloor
  * @prop {string[] | undefined} resolutionSources
  * @prop {string} rules
+ * @prop {Array} parameters
  * @prop {string} tags
  * @prop {string} exclusions
  *

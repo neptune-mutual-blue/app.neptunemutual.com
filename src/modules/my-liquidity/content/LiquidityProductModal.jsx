@@ -1,3 +1,4 @@
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -86,14 +87,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             className='pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm'
             data-testid='cover-rules'
           >
-            {product.infoObj.rules.split('\n').map((x, i) => (
-              <li key={i} className='pb-4 leading-5 md:pb-1'>
-                {x
-                  .trim()
-                  .replace(/^\d+\./g, '')
-                  .trim()}
-              </li>
-            ))}
+            <CoverParameters parameters={product.infoObj.parameters} />
           </ul>
 
           <p className='py-2 text-sm font-bold leading-5 md:py-6 text-000000'>

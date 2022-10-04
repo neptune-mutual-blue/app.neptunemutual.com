@@ -28,6 +28,7 @@ import { useFetchCoverPurchasedEvent } from '@/src/hooks/useFetchCoverPurchasedE
 import DateLib from '@/lib/date/DateLib'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -135,7 +136,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
-      [coverInfo?.infoObj?.rules?.split('\n')]
+      <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} />
     ],
     exclusions: coverInfo?.infoObj?.exclusions,
     standardExclusions: [

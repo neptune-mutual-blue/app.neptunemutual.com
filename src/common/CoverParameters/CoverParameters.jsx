@@ -9,23 +9,37 @@ const List = ({ type, children }) => {
   }
 }
 
-const CoverParameters = ({ parameters = [] }) => {
-  return parameters.map((param, i) => (
-    <div key={i}>
-      <h4 className='mt-10 mb-6 font-semibold text-h4 font-sora'>
-        {param.parameter}
-      </h4>
+/**
+ *
+ * @param {{parameters: Array}} props
+ * @returns
+ */
+const CoverParameters = ({ parameters }) => {
+  if (!Array.isArray(parameters) || parameters.length === 0) {
+    return null
+  }
 
-      {param.text && <SeeMoreParagraph text={param.text} />}
+  return (
+    <>
+      {
+        parameters.map((param, i) => (
+          <div key={`parameter-${i}`}>
+            <h4 className='mt-10 mb-6 font-semibold text-h4 font-sora'>
+              {param.parameter}
+            </h4>
 
-      <List type={param.list.type}>
-        {param.list.items.map((item, x) => (
-          <li key={x}>{item}</li>
-        ))}
-      </List>
+            {param.text && <SeeMoreParagraph key={`parameter-paragraph-${i}`} text={param.text} />}
 
-    </div>
-  ))
+            <List type={param.list.type}>
+              {param.list.items.map((item, x) => (
+                <li key={x}>{item}</li>
+              ))}
+            </List>
+          </div>
+        ))
+      }
+    </>
+  )
 }
 
 export { CoverParameters }
