@@ -25,7 +25,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
    * @type {string}
    */
   // @ts-ignore
-  const { cover_id: coverId } = router.query
+  const { coverId } = router.query
 
   const { data: heroData } = useFetchHeroStats(
     coverId || '',
