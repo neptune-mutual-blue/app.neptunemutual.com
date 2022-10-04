@@ -3,17 +3,7 @@ import { mockFn, renderHookWrapper } from '@/utils/unit-tests/test-mockup-fn'
 import { testData } from '@/utils/unit-tests/test-data'
 
 const mockData = {
-  data: {
-    lpToken: '0x97cCd316db0298498fcfD626b215955b9DF44b71',
-    discountRate: '75',
-    vestingTerm: '600',
-    maxBond: '100',
-    totalNpmAllocated: '200',
-    totalNpmDistributed: '1400',
-    bondContribution: '0',
-    claimable: '0',
-    unlockDate: '0'
-  }
+  data: testData.bondInfo.data
 }
 
 describe('useBondInfo', () => {
@@ -61,6 +51,7 @@ describe('useBondInfo', () => {
   describe('wallet is connected', () => {
     mockFn.utilsWeb3.getProviderOrSigner()
     mockFn.sdk.registry.BondPool.getInstance()
+    mockFn.getBondInfo(mockData.data)
 
     test('while fetching w/o networkId', async () => {
       mockFn.useWeb3React()
@@ -85,47 +76,20 @@ describe('useBondInfo', () => {
     test('while fetching w/ networkId', async () => {
       mockFn.useWeb3React()
       mockFn.useNetwork()
-      mockFn.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: testData.txPoster.contractReadBondInfo
-      }))
 
       const { result } = await renderHookWrapper(useBondInfo, [], true)
 
-      const contractResult = await testData.txPoster.contractReadBondInfo()
-      const [addresses, values] = contractResult
-      const [lpToken] = addresses
-      const [
-        discountRate,
-        vestingTerm,
-        maxBond,
-        totalNpmAllocated,
-        totalNpmDistributed,
-        bondContribution,
-        claimable,
-        unlockDate
-      ] = values
+      const { lpToken, ...rest } = mockData.data
 
       expect(result.info).toEqual({
         lpTokenAddress: lpToken,
-        discountRate: discountRate.toString(),
-        vestingTerm: vestingTerm.toString(),
-        maxBond: maxBond.toString(),
-        totalNpmAllocated: totalNpmAllocated.toString(),
-        totalNpmDistributed: totalNpmDistributed.toString(),
-        bondContribution: bondContribution.toString(),
-        claimable: claimable.toString(),
-        unlockDate: unlockDate.toString()
+        ...rest
       })
     })
 
     test('calling refetch function', async () => {
       mockFn.useWeb3React()
       mockFn.useNetwork()
-      mockFn.useTxPoster(() => ({
-        ...testData.txPoster,
-        contractRead: testData.txPoster.contractReadBondInfo
-      }))
 
       const { result, act } = await renderHookWrapper(useBondInfo, [], true)
 
@@ -133,30 +97,11 @@ describe('useBondInfo', () => {
         await result.refetch()
       })
 
-      const contractResult = await testData.txPoster.contractReadBondInfo()
-      const [addresses, values] = contractResult
-      const [lpToken] = addresses
-      const [
-        discountRate,
-        vestingTerm,
-        maxBond,
-        totalNpmAllocated,
-        totalNpmDistributed,
-        bondContribution,
-        claimable,
-        unlockDate
-      ] = values
+      const { lpToken, ...rest } = mockData.data
 
       expect(result.info).toEqual({
         lpTokenAddress: lpToken,
-        discountRate: discountRate.toString(),
-        vestingTerm: vestingTerm.toString(),
-        maxBond: maxBond.toString(),
-        totalNpmAllocated: totalNpmAllocated.toString(),
-        totalNpmDistributed: totalNpmDistributed.toString(),
-        bondContribution: bondContribution.toString(),
-        claimable: claimable.toString(),
-        unlockDate: unlockDate.toString()
+        ...rest
       })
     })
   })

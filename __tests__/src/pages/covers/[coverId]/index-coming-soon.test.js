@@ -3,9 +3,9 @@ import { screen } from '@testing-library/react'
 import { testData } from '@/utils/unit-tests/test-data'
 import * as environment from '@/src/config/environment'
 
-const mockIsV2BasketCoverEnabled = jest.spyOn(
+const mockisDiversifiedCoversEnabled = jest.spyOn(
   environment,
-  'isV2BasketCoverEnabled'
+  'isDiversifiedCoversEnabled'
 )
 
 jest.mock('@/common/ComingSoon', () => ({
@@ -15,7 +15,7 @@ jest.mock('@/common/ComingSoon', () => ({
 }))
 
 describe('Options test', () => {
-  mockIsV2BasketCoverEnabled.mockImplementation(() => false)
+  mockisDiversifiedCoversEnabled.mockImplementation(() => false)
   const CoverPage = require('@/src/pages/covers/[coverId]').default
 
   const { initialRender } = initiateTest(CoverPage, {}, () => {
@@ -29,7 +29,7 @@ describe('Options test', () => {
   })
 
   test('Should display Coming Soon', () => {
-    mockIsV2BasketCoverEnabled.mockImplementation(() => false)
+    mockisDiversifiedCoversEnabled.mockImplementation(() => false)
     const CoverPage = require('@/src/pages/covers/[coverId]').default
 
     initiateTest(CoverPage)

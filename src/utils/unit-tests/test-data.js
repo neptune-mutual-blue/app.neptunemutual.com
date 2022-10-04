@@ -1519,6 +1519,17 @@ export const testData = {
     totalLiquidity: '9594152807067'
   },
   bondInfo: {
+    data: {
+      lpToken: '0x97cCd316db0298498fcfD626b215955b9DF44b71',
+      discountRate: '75',
+      vestingTerm: '600',
+      maxBond: '100',
+      totalNpmAllocated: '200',
+      totalNpmDistributed: '1400',
+      bondContribution: '0',
+      claimable: '0',
+      unlockDate: '0'
+    },
     info: {
       bondContribution: '0',
       claimable: '0',
