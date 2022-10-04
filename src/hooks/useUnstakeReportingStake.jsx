@@ -32,7 +32,7 @@ export const useUnstakeReportingStake = ({
 
   const { NPMTokenSymbol } = useAppConstants()
 
-  const unstake = async () => {
+  const unstake = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
       requiresAuth()
       return
@@ -98,6 +98,7 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -139,7 +140,7 @@ export const useUnstakeReportingStake = ({
     }
   }
 
-  const unstakeWithClaim = async () => {
+  const unstakeWithClaim = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
       requiresAuth()
       return
@@ -206,6 +207,7 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
+              onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
