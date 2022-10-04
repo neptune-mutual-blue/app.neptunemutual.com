@@ -9,14 +9,14 @@ import { useUnstakeReportingStake } from '@/src/hooks/useUnstakeReportingStake'
 import { convertFromUnits, isGreater } from '@/utils/bn'
 import * as Dialog from '@radix-ui/react-dialog'
 import DateLib from '@/lib/date/DateLib'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { t, Trans } from '@lingui/macro'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 
-export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
+export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) => {
   const [isOpen, setIsOpen] = useState(false)
   const isDiversified = isValidProduct(incidentReport.productKey)
 
@@ -51,6 +51,14 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
     return isGreater(_now, incidentReport.claimBeginsFrom)
   })
 
+  const handleUnstakeSuccess = useCallback(
+    () => {
+      refetchInfo()
+      onClose()
+    },
+    [refetchInfo]
+  )
+
   if (!coverInfo) {
     return <Trans>loading...</Trans>
   }
@@ -72,12 +80,14 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
 
   const handleUnstake = async () => {
     if (!incidentReport.finalized) {
-      await unstakeWithClaim()
+      await unstakeWithClaim(handleUnstakeSuccess)
       return
     }
 
-    await unstake()
+    await unstake(handleUnstakeSuccess)
   }
+
+  const hasStake = !(convertFromUnits(willReceive).isZero())
 
   return (
     <div className='flex flex-col items-center pt-4'>
@@ -103,6 +113,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive }) => {
 
       <RegularButton
         className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
+        disabled={!hasStake}
         onClick={() => setIsOpen(true)}
       >
         <Trans>UNSTAKE</Trans>

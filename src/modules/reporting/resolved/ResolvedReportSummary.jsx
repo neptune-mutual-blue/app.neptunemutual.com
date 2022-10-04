@@ -95,6 +95,7 @@ export const ResolvedReportSummary = ({
           <UnstakeYourAmount
             incidentReport={incidentReport}
             willReceive={willReceive}
+            refetchInfo={refetchInfo}
           />
         </div>
 
