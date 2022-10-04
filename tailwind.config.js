@@ -65,7 +65,8 @@ module.exports = {
     },
     fontFamily: {
       poppins: 'Poppins, sans-serif',
-      sora: 'Sora, sans-serif'
+      sora: 'Sora, sans-serif',
+      helvetica: 'Helvetica, Sora, Poppins, sans-serif'
     },
     extend: {
       borderRadius: {

@@ -25,6 +25,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     productKey: event?.productKey
   })
 
+  console.log('test', txHash, event)
   if (!txHash || !event) return null
 
   const purchaser = event.onBehalfOf
@@ -55,7 +56,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     )
     .toString()
 
-  const data = [
+  const onBehalfOfData = [
     {
       label: 'Protection',
       value: formatCurrency(
@@ -78,14 +79,14 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     },
     {
       label: 'Start Date',
-      value: DateLib.toLongDateFormat(event.createdAtTimestamp)
+      value: DateLib.toLongDateFormat(event.createdAtTimestamp, 'en-GB', '')
     },
     {
       label: 'End Date',
-      value: DateLib.toLongDateFormat(event.expiresOn)
+      value: DateLib.toLongDateFormat(event.expiresOn, 'en-GB', '')
     },
     {
-      label: 'Referral',
+      label: 'Referral Code',
       value: safeParseBytes32String(event.referralCode) || '---'
     }
   ]
@@ -195,7 +196,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
             <p className='text-h4'>{onBehalfOf}</p>
           </div>
 
-          {data.map(({ label, value }, i) => (
+          {onBehalfOfData.map(({ label, value }, i) => (
             <div
               key={i}
               className='flex  pb-4 text-lg leading-6'
@@ -236,7 +237,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         <DescriptionComponent
           title='Cover Rules'
           text={text.coverRules}
-          className='mt-13'
+          className='mt-13 '
           bullets={false}
         />
 
