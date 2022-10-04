@@ -15,7 +15,6 @@ export const ModalRegular = ({
 }) => (
   <Root
     open={isOpen}
-    onOpenChange={disabled ? () => {} : () => onClose()}
     {...rootProps}
   >
     <Portal container={container}>
@@ -27,10 +26,12 @@ export const ModalRegular = ({
       />
       <Content
         className={classNames(defaultContentClassNames, className)}
+        onEscapeKeyDown={disabled ? () => {} : onClose}
         {...rest}
       >
         {children}
       </Content>
+
     </Portal>
   </Root>
 )
