@@ -100,7 +100,7 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side='top'>
-        <div className='max-w-sm p-6 text-sm leading-6 bg-black rounded-xl'>
+        <div className='flex flex-col gap-y-1 text-xs leading-6 font-poppins max-w-60 md:max-w-sm text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview p-6 rounded-xl'>
           <h3 className='font-bold font-sora text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
             <Trans>
