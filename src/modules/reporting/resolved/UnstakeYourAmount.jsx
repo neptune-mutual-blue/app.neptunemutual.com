@@ -87,7 +87,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
     await unstake(handleUnstakeSuccess)
   }
 
-  const hasStake = !convertFromUnits(willReceive).isZero()
+  const hasStake = !(convertFromUnits(willReceive).isZero())
 
   return (
     <div className='flex flex-col items-center pt-4'>
