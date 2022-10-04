@@ -4,9 +4,9 @@ import { screen } from '@testing-library/react'
 import * as environment from '@/src/config/environment'
 import { testData } from '@/utils/unit-tests/test-data'
 
-const mockIsV2BasketCoverEnabled = jest.spyOn(
+const mockisDiversifiedCoversEnabled = jest.spyOn(
   environment,
-  'isV2BasketCoverEnabled'
+  'isDiversifiedCoversEnabled'
 )
 
 jest.mock('@/src/modules/cover/CoverOptionsPage', () => ({
@@ -28,7 +28,7 @@ jest.mock('@/common/ProductsGrid/ProductsGrid', () => ({
 }))
 
 describe('Options test', () => {
-  mockIsV2BasketCoverEnabled.mockImplementation(() => true)
+  mockisDiversifiedCoversEnabled.mockImplementation(() => true)
   const CoverPage = require('@/src/pages/covers/[coverId]').default
 
   const { initialRender, rerenderFn } = initiateTest(CoverPage, {}, () => {

@@ -73,6 +73,7 @@ import * as UseVoteHook from '@/src/hooks/useVote'
 import * as BondInfoHook from '@/src/hooks/useBondInfo'
 import * as BondTxsHook from '@/src/hooks/useBondTxs'
 import * as VaultInfoFile from '@/src/services/protocol/vault/info'
+import * as BondInfoFile from '@/src/services/protocol/bond/info'
 import * as WalletUtilsFile from '@/lib/connect-wallet/utils/wallet'
 import * as SubgraphData from '@/src/services/subgraph'
 import * as StakingPoolsAddressHook from '@/src/hooks/contracts/useStakingPoolsAddress'
@@ -794,6 +795,9 @@ export const mockFn = {
 
   getInfo: (cb = () => testData.myLiquidityInfo) =>
     jest.spyOn(VaultInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
+
+  getBondInfo: (cb = () => testData.bondInfo.info) =>
+    jest.spyOn(BondInfoFile, 'getInfo').mockImplementation(returnFunction(cb)),
 
   registerToken: (success = true) =>
     jest
