@@ -98,8 +98,6 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     true
   ).long
 
-  console.log(coverInfo)
-
   const text = {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
