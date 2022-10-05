@@ -200,7 +200,8 @@ module.exports = {
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
-        'gradient-bg': 'url(/gradient.svg)'
+        'gradient-big': 'url(/gradient-big.svg)',
+        'gradient-slim': 'url(/gradient-slim.svg)'
       },
       transitionTimingFunction: {
         menu: 'cubic-bezier(0.4, 0, 0.2, 1)'
