@@ -197,10 +197,9 @@ export const usePurchasePolicy = ({
   const handlePurchase = async (onTxSuccess) => {
     setPurchasing(true)
 
-    const cleanup = () => {
+    const cleanup = async () => {
       setPurchasing(false)
-      updateAllowance(policyContractAddress)
-      updateBalance()
+      return Promise.all([updateAllowance(policyContractAddress), updateBalance()])
     }
 
     const handleError = (err) => {
@@ -241,7 +240,7 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS
               })
 
-              tx.wait().then((receipt) => {
+              tx.wait().then(async (receipt) => {
                 if (receipt) {
                   const events = receipt.events
                   const event = events.find(
@@ -249,7 +248,9 @@ export const usePurchasePolicy = ({
                   )
                   const txHash = storePurchaseEvent(event, receipt.from)
 
-                  router.push(Routes.ViewPolicyReceipt(txHash))
+                  window.open(Routes.ViewPolicyReceipt(txHash), '_blank')
+                  await cleanup()
+                  router.push(Routes.MyPolicies)
                 }
               })
               onTxSuccess()
@@ -260,11 +261,11 @@ export const usePurchasePolicy = ({
                 methodName: METHODS.POLICY_PURCHASE,
                 status: STATUS.FAILED
               })
+
+              cleanup()
             }
           }
         )
-
-        cleanup()
       }
 
       const onRetryCancel = () => {

@@ -6,7 +6,6 @@ import { convertFromUnits, toBN } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-import { Fragment } from 'react'
 
 import { useFetchCoverPurchasedEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
 import DateLib from '@/lib/date/DateLib'
@@ -104,48 +103,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
       <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} titleClassName='text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
     ],
-    exclusions: coverInfo?.infoObj?.exclusions,
-    standardExclusions: [
-      'The standard exclusions are enforced on all covers. Neptune Mutual reserves the right to update the exclusion list periodically.',
-      [
-        'If we have reason to believe you are an attacker or are directly or indirectly associated with an attacker, we reserve the right to blacklist you or deny your claims.',
-        <Fragment key='exclusions-2'>
-          In addition to{' '}
-          <a href='#' className='text-black underline'>
-            coverage lag
-          </a>
-          , we may also blacklist you or deny your claims if you purchased
-          coverage just before, on, or the same day of the attack.
-        </Fragment>,
-        'Minimum total loss should exceed $1 million.',
-        'Any loss in which the protocol continues to function as intended is not covered.',
-        'Any type of 51 percent attack or consensus attack on the parent blockchain is not covered.',
-        'Consensus attack on the protocol is not covered.',
-        'Financial risk can not be covered.',
-        'Bridge-related losses not coverable.',
-        'Backend exploits are not coverable.',
-        "Gross negligence or misconduct by a project's founders, employees, development team, or former employees are not coverable.",
-        [
-          'Rug pull or theft of funds.',
-          'Project team confiscating user funds. ',
-          'Attacks by team members or former team members on their protocol.',
-          'Compromised private key.',
-          'Compromised API access keys.',
-          'Utilization of obsolete or vulnerable dependencies in the application or DApp before the coverage period began',
-          'Developers or insiders creating backdoors to later exploit their own protocol.'
-        ]
-      ]
-    ],
-    riskDisclosure: [
-      "In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:",
-      <a
-        href='https://docs.neptunemutual.com/usage/risk-factors'
-        key='1235'
-        className='text-4e7dd9'
-      >
-        https://docs.neptunemutual.com/usage/risk-factors
-      </a>
-    ]
+    exclusions: coverInfo?.infoObj?.exclusions
   }
 
   const policyReceiptData = [
@@ -256,23 +214,15 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           title='Cover Rules'
           text={text.coverRules}
           className='mt-13'
-          bullets={!false}
+          bullets
         />
 
         <DescriptionComponent
-          title='Standard Exclusions'
+          title='Exclusions'
           text={text.exclusions}
           className='mt-6'
           bullets
         />
-        <div>
-          <h4 className='text-lg font-bold mt-6 leading-5'>Risk Disclosure/Disclaimer</h4>
-          <p className='text-lg mt-2'>In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:
-            <a target='_blank' rel='noreferer noopener nofollow noreferrer' href='https://docs.neptunemutual.com/usage/risk-factors' className='pl-1'>
-              https://docs.neptunemutual.com/usage/risk-factors
-            </a>
-          </p>
-        </div>
       </div>
     </div>
   )
