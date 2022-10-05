@@ -13,6 +13,8 @@ import DateLib from '@/lib/date/DateLib'
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { Alert } from '@/common/Alert/Alert'
 import { t } from '@lingui/macro'
+import Link from 'next/link'
+import { Routes } from '@/src/config/routes'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -96,6 +98,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     true
   ).long
 
+  console.log(coverInfo)
+
   const text = {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
@@ -109,7 +113,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         'If we have reason to believe you are an attacker or are directly or indirectly associated with an attacker, we reserve the right to blacklist you or deny your claims.',
         <Fragment key='exclusions-2'>
           In addition to{' '}
-          <a href='#' className='text-4e7dd9'>
+          <a href='#' className='text-black underline'>
             coverage lag
           </a>
           , we may also blacklist you or deny your claims if you purchased
@@ -166,15 +170,20 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
       <div className='px-10 md:px-10 lg:max-w-5xl m-auto pt-4 pb-52'>
         <div className='mt-9 flex cursor-pointer'>
-          <picture onClick={() => router.back()}>
-            <img
-              loading='lazy'
-              alt={t`Neptune Mutual`}
-              srcSet='/logos/neptune-mutual-full.svg'
-              className='w-full h-9 text-black'
-              data-testid='header-logo'
-            />
-          </picture>
+
+          <Link href={Routes.Home} replace>
+            <a>
+              <picture>
+                <img
+                  loading='lazy'
+                  alt={t`Neptune Mutual`}
+                  srcSet='/logos/neptune-mutual-full-beta.svg'
+                  className='w-full h-9 text-black'
+                  data-testid='header-logo'
+                />
+              </picture>
+            </a>
+          </Link>
           <div className='flex-grow'> </div>
           <a
             href='https://neptunemutual.com'
@@ -256,13 +265,13 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           title='Standard Exclusions'
           text={text.exclusions}
           className='mt-6'
-          bullets={false}
+          bullets
         />
         <div>
-          <p className='text-lg font-bold mt-6 leading-5'>Risk Disclosure/Disclaimer</p>
+          <h4 className='text-lg font-bold mt-6 leading-5'>Risk Disclosure/Disclaimer</h4>
           <p className='text-lg mt-2'>In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool's balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:
-            <a target='_blank' rel='noreferer noopener nofollow noreferrer' href='https://docs.neptunemutual.com/usage/risk-factors'>
-              Risk Factors, Neptune Mutual Documentation
+            <a target='_blank' rel='noreferer noopener nofollow noreferrer' href='https://docs.neptunemutual.com/usage/risk-factors' className='pl-1'>
+              https://docs.neptunemutual.com/usage/risk-factors
             </a>
           </p>
         </div>

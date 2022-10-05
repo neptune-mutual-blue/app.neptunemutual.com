@@ -10,14 +10,14 @@ export const DescriptionComponent = ({
   if (!text) return <></>
   return (
     <div className={className}>
-      <h2
+      <h4
         className={classNames(
           'font-bold text-lg leading-5',
           titleClassName
         )}
       >
         {title}
-      </h2>
+      </h4>
 
       <div className='mt-2 text-lg'>
         {Array.isArray(text)

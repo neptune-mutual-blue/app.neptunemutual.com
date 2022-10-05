@@ -107,7 +107,6 @@ export const useFetchCoverPurchasedEvent = ({ txHash }) => {
     setLoading(true)
     getEvent(networkId, txHash)
       .then((data) => {
-        console.log('test data', data)
         if (!data) return
         setData(data)
         setLoading(false)
