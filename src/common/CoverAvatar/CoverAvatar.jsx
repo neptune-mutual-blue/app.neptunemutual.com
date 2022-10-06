@@ -37,7 +37,7 @@ export const CoverAvatar = ({
                   <img
                     src={imgSrc}
                     alt={item.infoObj.productName}
-                    className='rounded-full bg-DEEAF6'
+                    className='rounded-full bg-DEEAF6 p-4'
                     data-testid='cover-img'
                     onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
                   />
@@ -66,7 +66,7 @@ export const CoverAvatar = ({
                 ? coverInfo.infoObj.productName
                 : coverInfo.infoObj.coverName
             }
-              className='rounded-full bg-DEEAF6'
+              className='rounded-full bg-DEEAF6 p-4'
               data-testid='cover-img'
               onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
             />
