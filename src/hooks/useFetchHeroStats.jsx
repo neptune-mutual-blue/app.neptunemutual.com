@@ -3,6 +3,10 @@ import { sumOf } from '@/utils/bn'
 import DateLib from '@/lib/date/DateLib'
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { getDedicatedLiquidityInfo, getDiversifiedLiquidityInfo } from '@/src/services/protocol/cover/liquidity'
+import { useNetwork } from '@/src/context/Network'
+import { useWeb3React } from '@web3-react/core'
+import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 
 const defaultData = {
   availableCovers: 0,
@@ -18,17 +22,16 @@ const getQuery = () => {
 
   return `
   {
-    covers (where: {
-      supportsProducts: false
-    }) {
-      id
+    dedicatedCovers: covers(where: {supportsProducts: false}) {
+      coverKey
     }
-    products {
-      id
+    diversifiedCovers: covers(where: {supportsProducts: true}) {
+      coverKey
+      products {
+        productKey
+      }
     }
-    reporting: incidentReports (where: {
-      finalized: false
-    }) {
+    reporting: incidentReports(where: {finalized: false}) {
       id
     }
     protocols {
@@ -37,25 +40,34 @@ const getQuery = () => {
       totalCoverLiquidityRemoved
       totalCoverFee
     }
-    cxTokens(where: {
-      expiryDate_gt: "${startOfMonth}"
-    }){
+    cxTokens(where: {expiryDate_gt: "${startOfMonth}"}) {
       totalCoveredAmount
     }
-  }
-  `
+  }`
 }
 
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData)
   const [loading, setLoading] = useState(false)
-  const fetchFetchHeroStats = useSubgraphFetch('useFetchHeroStats')
+  const { account, library } = useWeb3React()
+  const { networkId } = useNetwork()
+  const fetchStats = useSubgraphFetch('useFetchHeroStats')
 
   useEffect(() => {
     setLoading(true)
 
-    fetchFetchHeroStats(getNetworkId(), getQuery())
-      .then((data) => {
+    ;(async function () {
+      try {
+        if (!networkId) {
+          return
+        }
+
+        const data = await fetchStats(getNetworkId(), getQuery())
+
+        if (!data) {
+          return
+        }
+
         const totalCoverLiquidityAdded = sumOf(
           ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
         )
@@ -72,26 +84,62 @@ export const useFetchHeroStats = () => {
           ...data.cxTokens.map((x) => x.totalCoveredAmount)
         )
 
-        const tvlCover = totalCoverLiquidityAdded
+        let tvlCover = totalCoverLiquidityAdded
           .minus(totalCoverLiquidityRemoved)
           .plus(totalFlashLoanFees)
           .toString()
 
-        const productsCount = data.products.length
-        const dedicatedPoolCount = data.covers.length
+        let availableCount = data.dedicatedCovers.length
+        for (let i = 0; i < data.diversifiedCovers.length; i++) {
+          availableCount += data.diversifiedCovers[i].products.length
+        }
+
+        if (account) {
+          // Get data from provider if wallet's connected
+          const signerOrProvider = getProviderOrSigner(
+            library,
+            account,
+            networkId
+          )
+          const divData = (await getDiversifiedLiquidityInfo(
+            networkId,
+            data.diversifiedCovers.map(cover => ({
+              coverKey: cover.coverKey,
+              productKeys: cover.products.map(product => product.productKey)
+            })),
+            signerOrProvider.provider)
+          )
+          const dedData = (await getDedicatedLiquidityInfo(
+            networkId,
+            data.dedicatedCovers.map(cover => ({
+              coverKey: cover.coverKey
+            })),
+            signerOrProvider.provider)
+          )
+
+          const tvls = [
+            ...divData.map(x => x.tvl),
+            ...dedData.map(x => x.tvl)
+          ]
+
+          tvlCover = sumOf(...tvls).toString()
+        }
 
         setData({
-          availableCovers: productsCount + dedicatedPoolCount,
+          availableCovers: availableCount,
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
           tvlCover: tvlCover,
           tvlPool: '0'
         })
-      })
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
-  }, [fetchFetchHeroStats])
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [account, fetchStats, library, networkId])
 
   return {
     data,
