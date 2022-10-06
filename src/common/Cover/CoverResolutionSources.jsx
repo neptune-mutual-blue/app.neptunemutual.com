@@ -14,7 +14,7 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
   const isDiversified = isValidProduct(productKey)
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.projectName
+    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
   const { reportingPeriod } = useCoverStatsContext()
 
   const knowledgebase = coverInfo?.infoObj.resolutionSources?.[1] || ''

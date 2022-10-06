@@ -86,7 +86,7 @@ export const POOL_URLS = {
   3: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   42: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001:
-    'https://quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+    'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   43113:
     'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
 }

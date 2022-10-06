@@ -32,9 +32,9 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
     return <Trans>loading...</Trans>
   }
 
-  const projectName = !isDiversified
-    ? coverInfo?.infoObj.projectName
-    : coverInfo?.infoObj.coverName
+  const projectName = isDiversified
+    ? coverInfo?.infoObj.coverName
+    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
 
   const imgSrc = getCoverImgSrc({ key: coverKey })
 

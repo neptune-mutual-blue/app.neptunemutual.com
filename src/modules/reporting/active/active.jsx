@@ -24,7 +24,7 @@ const sorterData = {
     selector: (report) =>
       report.isDiversified
         ? report.infoObj?.productName
-        : report.infoObj?.projectName,
+        : report.infoObj?.coverName || report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
@@ -62,7 +62,7 @@ export const ReportingActivePage = () => {
         toStringSafe(
           cover.isDiversified
             ? cover.infoObj.productName
-            : cover.infoObj.projectName
+            : cover.infoObj.coverName || cover.infoObj.projectName
         ).indexOf(toStringSafe(term)) > -1
       )
     }

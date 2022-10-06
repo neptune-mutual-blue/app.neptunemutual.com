@@ -73,6 +73,7 @@ export const ActiveReportingEmptyState = () => {
           selected={selected}
           setSelected={setSelected}
           selectedName={
+            selectedCover?.infoObj?.coverName ||
             selectedCover?.infoObj?.projectName ||
             selectedCover?.infoObj?.productName
           }
@@ -91,7 +92,7 @@ export const ActiveReportingEmptyState = () => {
           }
         />
         <RegularButton
-          className='text-sm font-medium uppercase mt-6 py-4 w-full'
+          className='w-full py-4 mt-6 text-sm font-medium uppercase'
           onClick={handleAddReport}
         >
           <Trans>REPORT AN INCIDENT</Trans>
