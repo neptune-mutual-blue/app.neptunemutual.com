@@ -48,7 +48,7 @@ export const SelectListBar = ({
         selected={selectedOption}
         setSelected={handleSelectView}
         className={sortClass}
-        icon={<FilterIcon aria-hidden='true' />}
+        icon={<FilterIcon height={18} aria-hidden='true' />}
         direction='right'
       />
     </div>
