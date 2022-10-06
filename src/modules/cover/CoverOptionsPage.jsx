@@ -12,6 +12,7 @@ import {
 import { BackButton } from '@/common/BackButton/BackButton'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Routes } from '@/src/config/routes'
+import { SORT_TYPES } from '@/utils/sorting'
 
 const getBreadCrumbs = (
   isDiversified,
@@ -21,10 +22,10 @@ const getBreadCrumbs = (
 ) => {
   if (isDiversified) {
     return [
-      { name: t`Home`, href: '/', current: false },
+      { name: t`Home`, href: `/?coverView=${SORT_TYPES.ALL}#cover-list`, current: false },
       {
         name: coverProductInfo?.cover?.infoObj?.coverName || t`loading...`,
-        href: Routes.ViewCover(coverKey),
+        href: `${Routes.ViewCover(coverKey)}#cover-list`,
         current: true
       },
       {

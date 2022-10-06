@@ -8,7 +8,6 @@ export default function HomePage () {
   return (
     <>
       <HomeHero />
-
       <SortableStatsProvider>
         <AvailableCovers />
       </SortableStatsProvider>

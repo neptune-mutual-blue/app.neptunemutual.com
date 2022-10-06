@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import LeftArrow from '@/icons/LeftArrow'
+import Link from 'next/link'
 
 /**
  *
@@ -88,7 +89,7 @@ export const ProductsGrid = () => {
   }
 
   return (
-    <Container className='py-16' data-testid='available-covers-container'>
+    <Container className='py-16 pt-24' data-testid='available-covers-container'>
       <div className='flex flex-wrap items-center justify-between gap-6 md:flex-nowrap'>
         <div className='flex items-center'>
           <button
@@ -102,11 +103,14 @@ export const ProductsGrid = () => {
             <LeftArrow />
             <Trans>Back</Trans>
           </button>
-          <h1 className='font-bold text-h3 lg:text-h2 font-sora'>
-            {coverInfo?.infoObj?.coverName}
-          </h1>
+          <Link href='#cover-list'>
+            <a>
+              <h1 className='font-bold text-h3 lg:text-h2 font-sora'>
+                {coverInfo?.infoObj?.coverName}
+              </h1>
+            </a>
+          </Link>
         </div>
-
         <SearchAndSortBar
           searchValue={searchValue}
           onSearchChange={searchHandler}

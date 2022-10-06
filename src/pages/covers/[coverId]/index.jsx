@@ -7,6 +7,7 @@ import { HomeHero } from '@/modules/home/Hero'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { isDiversifiedCoversEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
+import { Trans } from '@lingui/macro'
 
 const disabled = !isDiversifiedCoversEnabled()
 
@@ -21,9 +22,22 @@ export default function CoverPage () {
 
   const isDiversified = coverInfo?.supportsProducts
 
-  if (disabled && isDiversified) {
+  if (disabled) {
     return <ComingSoon />
   }
+
+  const CoverList = isDiversified
+    ? <ProductsGrid />
+    : (
+      <CoverOptionsPage
+        coverKey={coverKey}
+        productKey={productKey}
+        coverProductInfo={coverInfo}
+        isDiversified={isDiversified}
+      />
+      )
+
+  const HeroComponent = isDiversified ? <HomeHero /> : null
 
   return (
     <main>
@@ -34,22 +48,14 @@ export default function CoverPage () {
           content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
-
-      {isDiversified
-        ? (
-          <>
-            <HomeHero />
-            <ProductsGrid />
-          </>
-          )
-        : (
-          <CoverOptionsPage
-            coverKey={coverKey}
-            productKey={productKey}
-            coverProductInfo={coverInfo}
-            isDiversified={isDiversified}
-          />
-          )}
+      {
+        coverInfo
+          ? HeroComponent
+          : <div className='min-h-screen' />
+      }
+      <div id='cover-list' className='min-h-screen'>
+        {coverInfo ? CoverList : <Trans>loading...</Trans>}
+      </div>
     </main>
   )
 }
