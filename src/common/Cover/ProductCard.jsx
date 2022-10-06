@@ -72,13 +72,13 @@ export const ProductCard = ({
       <div className='flex items-start justify-between min-h-72'>
         <div
           className={classNames(
-            'inline-block max-w-full bg-FEFEFF rounded-full w-14 lg:w-18'
+            'inline-block max-w-full bg-DEEAF6 p-4 rounded-full w-14 lg:w-18 h-14 lg:h-18'
           )}
         >
           <img
             src={imgSrc}
             alt={productInfo.infoObj?.productName}
-            className='rounded-full bg-DEEAF6 p-4'
+            className='inline-block'
             data-testid='cover-img'
             // @ts-ignore
             onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
@@ -88,7 +88,7 @@ export const ProductCard = ({
           {
             isLoading
               ? <div
-                  className='w-40 h-6 animate-pulse rounded-full bg-skeleton'
+                  className='w-40 h-6 rounded-full animate-pulse bg-skeleton'
                   data-testid='card-status-badge'
                 />
               : (status !== E_CARD_STATUS.NORMAL && (
