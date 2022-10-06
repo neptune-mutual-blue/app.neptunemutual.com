@@ -71,7 +71,7 @@ export const ActiveReportingCard = ({
     <OutlinedCard className='p-6 bg-white' type='link'>
       <div className='flex items-start justify-between'>
         <div
-          className='rounded-full w-18 h-18 bg-DEEAF6 p-4'
+          className='rounded-full w-18 h-18 bg-DEEAF6 p-4 min-h-72 min-w-72'
           data-testid='active-report-cover-img'
         >
           <img
