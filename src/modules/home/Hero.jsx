@@ -78,7 +78,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
                     name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
-                        heroData.tvlCover,
+                        heroData.totalCoverage,
                         liquidityTokenDecimals
                       ).toString(),
                       router.locale

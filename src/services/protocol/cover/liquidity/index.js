@@ -1,17 +1,16 @@
 import { getKeys } from './keys'
-import sdk, { registry, utils, multicall } from '@neptunemutual/sdk'
+import sdk, { utils, multicall } from '@neptunemutual/sdk'
 import { stringifyProps } from '../../../../utils/props'
 import { MULTIPLIER } from '@/src/config/constants'
 import { sumOf } from '@/utils/bn'
 
-const getAmountsInPool = async (chainId, payload, provider) => {
+const getAmountsInPool = async (chainId, payload, policy, provider) => {
   try {
     const { Contract, Provider } = multicall
 
     const multiCallProvider = new Provider(provider)
     await multiCallProvider.init()
 
-    const policy = await registry.PolicyContract.getAddress(chainId, provider)
     const policyContract = new Contract(policy, sdk.config.abis.IPolicy)
 
     const calls = payload.map(cover => policyContract.getAvailableLiquidity(cover.coverKey))
@@ -31,28 +30,41 @@ const getAmountsInPool = async (chainId, payload, provider) => {
 /**
  * @param {{coverKey:string, productKeys: string[]}[]} payload
  */
-export const getDiversifiedLiquidityInfo = async (chainId, payload, provider) => {
+export const getTotalCoverage = async (chainId, payload, provider) => {
   try {
-    const all = getKeys(payload)
+    const all = getKeys(payload.filter(cover => {
+      return cover.productKeys && cover.productKeys.length > 0
+    }))
 
     const props = await utils.store.readStorage(chainId, all, provider)
-    const leverageAndEfficiencies = stringifyProps(props)
+    const storeData = stringifyProps(props)
 
     const result1 = payload.map((cover) => {
+      if (!cover.productKeys || cover.productKeys.length === 0) {
+        return cover
+      }
+
       const efficiencies = cover.productKeys.map(productKey => {
-        return leverageAndEfficiencies[`${cover.coverKey}-${productKey}`]
+        return storeData[`${cover.coverKey}-${productKey}`]
       })
 
       return {
         ...cover,
-        leverage: leverageAndEfficiencies[`${cover.coverKey}-leverage`],
+        leverage: storeData[`${cover.coverKey}-leverage`],
         medianEfficiency: sumOf(...efficiencies).dividedBy(efficiencies.length).toString()
       }
     })
 
-    const result2 = await getAmountsInPool(chainId, result1, provider)
+    const result2 = await getAmountsInPool(chainId, result1, storeData.policy, provider)
 
-    return result2.map((cover) => {
+    const result3 = result2.map((cover) => {
+      if (!cover.productKeys || cover.productKeys.length === 0) {
+        return {
+          ...cover,
+          tvl: cover.totalAmountInPool
+        }
+      }
+
       const tvl = cover.totalAmountInPool
         .mul(cover.leverage)
         .mul(cover.medianEfficiency)
@@ -64,24 +76,8 @@ export const getDiversifiedLiquidityInfo = async (chainId, payload, provider) =>
         tvl
       }
     })
-  } catch (error) {
-    console.error(error)
-  }
-}
 
-/**
- * @param {{coverKey:string}[]} payload
- */
-export const getDedicatedLiquidityInfo = async (chainId, payload, provider) => {
-  try {
-    const result = await getAmountsInPool(chainId, payload, provider)
-
-    return result.map((cover) => {
-      return {
-        ...cover,
-        tvl: cover.totalAmountInPool
-      }
-    })
+    return sumOf(...result3.map(x => x.tvl)).toString()
   } catch (error) {
     console.error(error)
   }

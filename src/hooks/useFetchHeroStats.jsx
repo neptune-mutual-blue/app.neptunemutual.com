@@ -3,7 +3,7 @@ import { sumOf } from '@/utils/bn'
 import DateLib from '@/lib/date/DateLib'
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-import { getDedicatedLiquidityInfo, getDiversifiedLiquidityInfo } from '@/src/services/protocol/cover/liquidity'
+import { getTotalCoverage } from '@/src/services/protocol/cover/liquidity'
 import { useNetwork } from '@/src/context/Network'
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -11,7 +11,7 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 const defaultData = {
   availableCovers: 0,
   reportingCovers: 0,
-  tvlCover: '0',
+  totalCoverage: '0',
   tvlPool: '0',
   covered: '0',
   coverFee: '0'
@@ -84,7 +84,7 @@ export const useFetchHeroStats = () => {
           ...data.cxTokens.map((x) => x.totalCoveredAmount)
         )
 
-        let tvlCover = totalCoverLiquidityAdded
+        let totalCoverage = totalCoverLiquidityAdded
           .minus(totalCoverLiquidityRemoved)
           .plus(totalFlashLoanFees)
           .toString()
@@ -101,28 +101,20 @@ export const useFetchHeroStats = () => {
             account,
             networkId
           )
-          const divData = (await getDiversifiedLiquidityInfo(
-            networkId,
-            data.diversifiedCovers.map(cover => ({
-              coverKey: cover.coverKey,
-              productKeys: cover.products.map(product => product.productKey)
-            })),
-            signerOrProvider.provider)
-          )
-          const dedData = (await getDedicatedLiquidityInfo(
-            networkId,
-            data.dedicatedCovers.map(cover => ({
-              coverKey: cover.coverKey
-            })),
-            signerOrProvider.provider)
-          )
 
-          const tvls = [
-            ...divData.map(x => x.tvl),
-            ...dedData.map(x => x.tvl)
-          ]
-
-          tvlCover = sumOf(...tvls).toString()
+          totalCoverage = await getTotalCoverage(
+            networkId,
+            [
+              ...data.diversifiedCovers.map(cover => ({
+                coverKey: cover.coverKey,
+                productKeys: cover.products.map(product => product.productKey)
+              })),
+              ...data.dedicatedCovers.map(cover => ({
+                coverKey: cover.coverKey,
+                productKeys: null
+              }))
+            ],
+            signerOrProvider.provider)
         }
 
         setData({
@@ -130,7 +122,7 @@ export const useFetchHeroStats = () => {
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
-          tvlCover: tvlCover,
+          totalCoverage: totalCoverage,
           tvlPool: '0'
         })
       } catch (error) {

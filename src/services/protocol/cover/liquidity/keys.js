@@ -1,10 +1,14 @@
+import { registry } from '@/src/services/store-keys'
 import sdk from '@neptunemutual/sdk'
 
 /**
  * @param {{coverKey:string, productKeys: string[]}[]} payload
  */
 export const getKeys = (payload) => {
-  return payload.map(x => getIndividualKeys(x)).flat()
+  return [
+    registry.policy('policy'),
+    ...payload.map(x => getIndividualKeys(x)).flat()
+  ]
 }
 
 /**
