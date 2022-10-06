@@ -11,6 +11,7 @@ export const ModalRegular = ({
   defaultContentClassNames = 'fixed z-50 max-w-screen max-h-screen px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max max-w-90vw',
   className = '',
   container = document.body,
+  noBlur = false,
   ...rest
 }) => (
   <Root
@@ -20,7 +21,8 @@ export const ModalRegular = ({
     <Portal container={container}>
       <Overlay
         className={classNames(
-          'fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-30 backdrop-blur-md',
+          'fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-30',
+          !noBlur && 'backdrop-blur-md',
           overlayClass
         )}
       />

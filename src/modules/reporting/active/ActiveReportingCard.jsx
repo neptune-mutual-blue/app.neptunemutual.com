@@ -71,12 +71,12 @@ export const ActiveReportingCard = ({
     <OutlinedCard className='p-6 bg-white' type='link'>
       <div className='flex items-start justify-between'>
         <div
-          className='rounded-full w-18 h-18 bg-DEEAF6'
+          className='p-4 rounded-full w-18 h-18 bg-DEEAF6'
           data-testid='active-report-cover-img'
         >
           <img
             src={imgSrc}
-            alt={coverInfo.infoObj.projectName}
+            alt={coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
             className='inline-block max-w-full'
           />
         </div>
@@ -84,7 +84,7 @@ export const ActiveReportingCard = ({
           {
             isLoading
               ? <div
-                  className='w-40 h-6 animate-pulse rounded-full bg-skeleton'
+                  className='w-40 h-6 rounded-full animate-pulse bg-skeleton'
                   data-testid='card-status-badge'
                 />
               : (status !== E_CARD_STATUS.NORMAL && (
@@ -96,7 +96,7 @@ export const ActiveReportingCard = ({
       <h4 className='mt-4 font-semibold uppercase text-h4 font-sora'>
         {isDiversified
           ? coverInfo.infoObj.productName
-          : coverInfo.infoObj.projectName}
+          : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
       </h4>
       <div className='flex items-center justify-between'>
         <div

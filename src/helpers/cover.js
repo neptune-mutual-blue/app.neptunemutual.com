@@ -36,15 +36,15 @@ export const getParsedCoverInfo = async (ipfsStr = '', ipfsHash) => {
     return {
       coverName: obj.coverName,
       projectName: obj.projectName,
-      leverage: obj.leverage,
+      leverage: obj.leverageFactor,
       tags: obj.tags,
       about: obj.about,
       blockchains: obj.blockchains,
       parameters: obj.parameters,
       exclusions: obj.exclusions,
       links: obj.links,
-      pricingFloor: obj.pricingFloor,
-      pricingCeiling: obj.pricingCeiling,
+      pricingFloor: obj.floor,
+      pricingCeiling: obj.ceiling,
       resolutionSources: obj.resolutionSources
     }
   } catch (error) {}
@@ -77,7 +77,7 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
 
     return {
       productName: obj.productName,
-      capitalEfficiency: obj.capitalEfficiency,
+      capitalEfficiency: obj.efficiency,
       tags: obj.tags,
       about: obj.about,
       parameters: obj.parameters,

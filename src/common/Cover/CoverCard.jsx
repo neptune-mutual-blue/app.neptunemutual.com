@@ -96,9 +96,7 @@ export const CoverCard = ({
         className='mt-4 font-semibold text-black uppercase text-h4 font-sora'
         data-testid='project-name'
       >
-        {isDiversified
-          ? coverInfo.infoObj.coverName
-          : coverInfo.infoObj.projectName}
+        {coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
       </p>
       <div
         className='mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2'
