@@ -1,19 +1,19 @@
-import { convertToIconVariant } from "@/common/TransactionList"
-import OpenInNewIcon from "@/icons/OpenInNewIcon"
-import { getTxLink } from "@/lib/connect-wallet/utils/explorer"
-import DateLib from "@/lib/date/DateLib"
-import { useNetwork } from "@/src/context/Network"
-import { getActionMessage } from "@/src/helpers/notification"
-import { LSHistory } from "@/src/services/transactions/history"
-import { TransactionHistory } from "@/src/services/transactions/transaction-history"
-import { classNames } from "@/utils/classnames"
-import { fromNow } from "@/utils/formatter/relative-time"
-import { useWeb3React } from "@web3-react/core"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { convertToIconVariant } from '@/common/TransactionList'
+import OpenInNewIcon from '@/icons/OpenInNewIcon'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import DateLib from '@/lib/date/DateLib'
+import { useNetwork } from '@/src/context/Network'
+import { getActionMessage } from '@/src/helpers/notification'
+import { LSHistory } from '@/src/services/transactions/history'
+import { TransactionHistory } from '@/src/services/transactions/transaction-history'
+import { classNames } from '@/utils/classnames'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
-const { TableWrapper, Table, THead, TBody, TableShowMore } = require("@/common/Table/Table")
-const { t, Trans } = require("@lingui/macro")
+const { TableWrapper, Table, THead, TBody, TableShowMore } = require('@/common/Table/Table')
+const { t, Trans } = require('@lingui/macro')
 
 const renderHeader = (col) => (
   <th
@@ -74,9 +74,11 @@ const MyTransactionsTable = () => {
   const [maxPage, setMaxPage] = useState(1)
 
   const { account } = useWeb3React()
+  const { networkId } = useNetwork()
 
   useEffect(() => {
-    const history = LSHistory.get(page);
+    if (account && networkId) LSHistory.setId(account, networkId)
+    const history = LSHistory.get(page)
     setListOfTransactions((current) => {
       const hashes = current.map(({ hash }) => hash)
 
@@ -102,7 +104,7 @@ const MyTransactionsTable = () => {
     return () => {
       updateListener.off()
     }
-  }, [page])
+  }, [page, account, networkId])
 
   return (
     <>
@@ -162,7 +164,7 @@ const WhenRenderer = ({ row }) => {
 }
 
 const DetailsRenderer = ({ row }) => {
-  const {locale} = useRouter()
+  const { locale } = useRouter()
 
   const { title } = getActionMessage(
     row.methodName,
@@ -173,7 +175,7 @@ const DetailsRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
-      <div className="flex items-center gap-5">
+      <div className='flex items-center gap-5'>
         <div>{convertToIconVariant(row.status)}</div>
         <p>{title}</p>
       </div>
@@ -182,7 +184,7 @@ const DetailsRenderer = ({ row }) => {
 }
 
 const AmountRenderer = ({ row }) => {
-  const {locale} = useRouter()
+  const { locale } = useRouter()
 
   const { description } = getActionMessage(
     row.methodName,
@@ -193,7 +195,7 @@ const AmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
-        <p>{description}</p>
+      <p>{description}</p>
     </td>
   )
 }
@@ -203,21 +205,20 @@ const ActionsRenderer = ({ row }) => {
 
   return (
     <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
-      <div className="flex items-center justify-end">
+      <div className='flex items-center justify-end'>
         <a
-            href={getTxLink(networkId, { hash: row.hash })}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='p-1 text-black'
-            title='Open in explorer'
-          >
-            <span className='sr-only'>Open transaction in explorer</span>
-            <OpenInNewIcon className='w-4 h-4' />
-          </a>
+          href={getTxLink(networkId, { hash: row.hash })}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='p-1 text-black'
+          title='Open in explorer'
+        >
+          <span className='sr-only'>Open transaction in explorer</span>
+          <OpenInNewIcon className='w-4 h-4' />
+        </a>
       </div>
     </td>
   )
 }
-
 
 export { MyTransactionsTable }

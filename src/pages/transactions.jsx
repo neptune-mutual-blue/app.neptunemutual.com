@@ -39,7 +39,7 @@ export default function Home () {
 
         <hr className='border-B0C4DB' />
       </Hero>
-      
+
       <Container className='pt-14 pb-28'>
         <MyTransactionsTable />
       </Container>
