@@ -31,7 +31,7 @@ const sorterData = {
     selector: (report) =>
       report.isDiversified
         ? report.infoObj?.productName
-        : report.infoObj?.projectName,
+        : report.infoObj?.coverName || report.infoObj?.projectName,
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.INCIDENT_DATE]: {
@@ -71,7 +71,7 @@ export const ReportingResolvedPage = () => {
         toStringSafe(
           item.isDiversified
             ? item.infoObj.productName
-            : item.infoObj.projectName
+            : item.infoObj.coverName || item.infoObj.projectName
         ).indexOf(toStringSafe(term)) > -1
       )
     }
@@ -116,7 +116,7 @@ export const ReportingResolvedPage = () => {
             alt={
               row.isDiversified
                 ? row.coverInfo?.infoObj.productName
-                : row.coverInfo?.infoObj.projectName
+                : row.coverInfo?.infoObj.coverName || row.coverInfo?.infoObj.projectName
             }
             className='rounded-full bg-DEEAF6'
             width={48}
@@ -125,7 +125,7 @@ export const ReportingResolvedPage = () => {
           <p className='ml-2 text-sm text-black font-poppins grow'>
             {row.isDiversified
               ? row.coverInfo?.infoObj.productName
-              : row.coverInfo?.infoObj.projectName}
+              : row.coverInfo?.infoObj.coverName || row.coverInfo?.infoObj.projectName}
           </p>
         </span>
       </td>

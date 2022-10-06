@@ -65,7 +65,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
 
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.projectName
+    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
 
   const now = DateLib.unix()
 

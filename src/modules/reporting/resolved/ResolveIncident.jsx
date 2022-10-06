@@ -51,7 +51,7 @@ export const ResolveIncident = ({
 
   const projectName = isDiversified
     ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.projectName
+    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
 
   function onClose () {
     setIsOpen(false)
