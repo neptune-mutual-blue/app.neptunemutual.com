@@ -14,8 +14,7 @@ import { TransactionHistory } from '@/src/services/transactions/transaction-hist
 export function TransactionList ({
   isOpen = false,
   onClose,
-  container,
-  ...rest
+  container
 }) {
   const toast = useToast()
 
