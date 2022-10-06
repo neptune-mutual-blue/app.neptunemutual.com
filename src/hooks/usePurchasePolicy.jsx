@@ -27,7 +27,6 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { Routes } from '@/src/config/routes'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -45,6 +44,9 @@ export const usePurchasePolicy = ({
   const [approving, setApproving] = useState(false)
   const [purchasing, setPurchasing] = useState(false)
   const [error, setError] = useState('')
+
+  const [txHash, setTxHash] = useState('')
+  const [purchaseWaiting, setPurchaseWaiting] = useState(false)
 
   const txToast = useTxToast()
   const policyContractAddress = usePolicyAddress()
@@ -215,6 +217,8 @@ export const usePurchasePolicy = ({
       )
 
       const onTransactionResult = async (tx) => {
+        setPurchaseWaiting(true)
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.POLICY_PURCHASE,
@@ -248,9 +252,7 @@ export const usePurchasePolicy = ({
                   )
                   const txHash = storePurchaseEvent(event, receipt.from)
 
-                  window.open(Routes.ViewPolicyReceipt(txHash), '_blank')
-                  await cleanup()
-                  router.push(Routes.MyPolicies)
+                  setTxHash(txHash)
                 }
               })
               onTxSuccess()
@@ -261,11 +263,11 @@ export const usePurchasePolicy = ({
                 methodName: METHODS.POLICY_PURCHASE,
                 status: STATUS.FAILED
               })
-
-              cleanup()
             }
           }
         )
+
+        cleanup()
       }
 
       const onRetryCancel = () => {
@@ -306,6 +308,8 @@ export const usePurchasePolicy = ({
     isGreaterOrEqual(allowance || '0', feeAmount || '0')
 
   return {
+    txHash,
+    purchaseWaiting,
     balance,
     allowance,
     approving,
