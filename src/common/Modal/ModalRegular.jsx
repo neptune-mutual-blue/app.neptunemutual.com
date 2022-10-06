@@ -12,6 +12,7 @@ export const ModalRegular = ({
   className = '',
   container = document.body,
   noBlur = false,
+  closeOnClickOutside = false,
   ...rest
 }) => (
   <Root
@@ -25,10 +26,11 @@ export const ModalRegular = ({
           !noBlur && 'backdrop-blur-md',
           overlayClass
         )}
+        onClick={closeOnClickOutside ? () => onClose() : () => {}}
       />
       <Content
         className={classNames(defaultContentClassNames, className)}
-        onEscapeKeyDown={disabled ? () => {} : onClose}
+        onEscapeKeyDown={disabled ? () => {} : () => onClose()}
         {...rest}
       >
         {children}

@@ -87,6 +87,7 @@ export function TransactionList ({
       defaultContentClassNames='w-screen lg:w-auto absolute z-50 transform top-full -right-13 lg:-right-14 xl:right-5 px-4 lg:px-0 pt-3 rounded-3xl'
       container={container}
       noBlur
+      closeOnClickOutside
     >
       <div className='relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list'>
         <div className='pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list'>
