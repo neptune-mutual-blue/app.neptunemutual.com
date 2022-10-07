@@ -65,9 +65,9 @@ module.exports = {
       md: ['20px', '23px']
     },
     fontFamily: {
-      poppins: 'Poppins, sans-serif',
-      sora: 'Sora, sans-serif',
-      arial: 'Arial, Sora, sans-serif'
+      poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
       borderRadius: {

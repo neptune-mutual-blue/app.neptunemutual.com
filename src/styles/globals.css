@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: Helvetica;
-  src: url(/fonts/Helvetica/Helvetica.ttf);
-}
-
-@font-face {
-  font-family: Helvetica;
-  src: url(/fonts/Helvetica/Helvetica-Bold.ttf);
-  font-weight: bold;
-}
-
 :root {
   accent-color: #4e7dd9;
 }
