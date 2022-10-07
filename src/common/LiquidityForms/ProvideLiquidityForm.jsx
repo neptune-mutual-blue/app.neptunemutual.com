@@ -222,7 +222,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
           {isGreater(myStake, '0') && (
             <TokenAmountWithPrefix
               amountInUnits={myStake}
-              prefix={t`Your Stake:` + ' '}
+              prefix={`${t`Your Stake`}: `}
               symbol={NPMTokenSymbol}
               decimals={npmTokenDecimals}
             />
@@ -256,7 +256,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
 
       <div className='mb-16'>
         <ReceiveAmountInput
-          labelText={t`You Will Receive`}
+          labelText={t`You will receive`}
           tokenSymbol={vaultTokenSymbol}
           inputValue={receiveAmount}
         />

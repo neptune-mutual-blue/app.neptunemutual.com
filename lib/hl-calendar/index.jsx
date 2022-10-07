@@ -53,7 +53,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
             )}
             onClick={handlePrev}
           >
-            <span className='sr-only'>{t`previous`}</span>
+            <span className='sr-only'>{t`Previous`}</span>
             <ChevronLeftLgIcon aria-hidden='true' className='w-3 h-3 text-lg' />
           </button>
           <button
@@ -63,7 +63,7 @@ export const HlCalendar = ({ startDate, endDate }) => {
             )}
             onClick={handleNext}
           >
-            <span className='sr-only'>{t`next`}</span>
+            <span className='sr-only'>{t`Next`}</span>
             <ChevronRightLgIcon
               aria-hidden='true'
               className='w-3 h-3 text-lg'

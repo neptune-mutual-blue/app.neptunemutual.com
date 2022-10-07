@@ -7,7 +7,6 @@ import { registry, utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -43,7 +42,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Unstake NPM`)
+      notifyError(err, 'Unstake NPM')
     }
 
     try {
@@ -152,7 +151,7 @@ export const useUnstakeReportingStake = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Unstake & claim NPM`)
+      notifyError(err, 'Unstake & claim NPM')
     }
 
     try {

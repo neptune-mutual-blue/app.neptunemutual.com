@@ -65,7 +65,7 @@ export const useDisputeIncident = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, `approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -218,7 +218,7 @@ export const useDisputeIncident = ({
         }
       )
     } catch (err) {
-      notifyError(err, t`dispute`)
+      notifyError(err, 'dispute')
     } finally {
       cleanup()
     }
@@ -238,12 +238,12 @@ export const useDisputeIncident = ({
           : ''
 
       // set error if entered value is invalid
-      if (_value.isGreaterThan(_balance)) err = 'Insufficient balance'
-      else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient stake` }
+      if (_value.isGreaterThan(_balance)) err = 'Insufficient Balance'
+      else if (_minStake && _value.isLessThan(_minStake)) { err = t`Insufficient Stake` }
     }
 
     // set error if balance is less than minStake
-    if (_minStake && _balance.isLessThan(_minStake)) { err = t`Insufficient balance` }
+    if (_minStake && _balance.isLessThan(_minStake)) { err = t`Insufficient Balance` }
 
     return err
   }

@@ -7,7 +7,6 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { ADDRESS_ONE, BOND_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
 import { getInfo } from '@/src/services/protocol/bond/info'
-import { t } from '@lingui/macro'
 
 const defaultInfo = {
   lpTokenAddress: '',
@@ -35,7 +34,7 @@ export const useBondInfo = () => {
       }
 
       const handleError = (err) => {
-        notifyError(err, t`get bond info`)
+        notifyError(err, 'get bond info')
       }
 
       try {

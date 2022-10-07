@@ -8,7 +8,6 @@ import { useTxToast } from '@/src/hooks/useTxToast'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useNetwork } from '@/src/context/Network'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -43,7 +42,7 @@ export const useStakingPoolWithdraw = ({
       setWithdrawing(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`unstake ${tokenSymbol}`)
+      notifyError(err, `unstake ${tokenSymbol}`)
     }
 
     try {
@@ -167,7 +166,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       setWithdrawingRewards(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`withdraw rewards`)
+      notifyError(err, 'withdraw rewards')
     }
 
     try {

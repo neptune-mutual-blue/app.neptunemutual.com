@@ -7,7 +7,6 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { t } from '@lingui/macro'
 import DateLib from '@/lib/date/DateLib'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 
@@ -60,7 +59,7 @@ export const usePolicyFees = ({
       }
 
       const handleError = (err) => {
-        notifyError(err, t`get fees`)
+        notifyError(err, 'get fees')
       }
 
       try {

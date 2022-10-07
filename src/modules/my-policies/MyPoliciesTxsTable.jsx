@@ -122,7 +122,7 @@ export const MyPoliciesTxsTable = () => {
               <tbody data-testid='connect-wallet-tbody'>
                 <tr className='w-full text-center'>
                   <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet...</Trans>
+                    <Trans>Please connect your wallet</Trans>
                   </td>
                 </tr>
               </tbody>

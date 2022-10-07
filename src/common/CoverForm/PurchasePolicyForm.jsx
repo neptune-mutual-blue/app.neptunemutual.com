@@ -311,7 +311,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 })
               }}
             >
-              {purchasing ? t`Purchasing...` : t`Purchase policy`}
+              {purchasing ? t`Purchasing...` : t`Purchase Policy`}
             </RegularButton>
             )}
       </div>

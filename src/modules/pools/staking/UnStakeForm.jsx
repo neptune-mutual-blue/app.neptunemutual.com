@@ -74,7 +74,7 @@ export const UnStakeForm = ({
         disabled={withdrawing}
       >
         <p className='-ml-3'>
-          <Trans>Your Stake:</Trans>{' '}
+          <Trans>Your Stake</Trans>:{' '}
           <TokenAmountSpan
             amountInUnits={stakedAmount}
             symbol={stakingTokenSymbol}

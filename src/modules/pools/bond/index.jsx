@@ -195,7 +195,7 @@ const BondPage = () => {
         {error && <p className='px-3 text-FA5C2F'>{error}</p>}
         <div className='mt-16 receive'>
           <ReceiveAmountInput
-            labelText={t`You Will Receive`}
+            labelText={t`You will receive`}
             tokenSymbol={NPMTokenSymbol}
             inputValue={convertFromUnits(receiveAmount).toString()}
             data-testid='receive-amount-input'
