@@ -184,7 +184,7 @@ export const CastYourVote = ({ incidentReport }) => {
               {!canVote
                 ? (
                   <RegularButton
-                    className='py-6 w-full lg:w-64 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE'
+                    className='w-full py-6 font-semibold leading-6 tracking-wider uppercase lg:w-64 text-h5 whitespace-nowrap text-EEEEEE'
                     onClick={handleApprove}
                     disabled={
                     isError ||
@@ -208,7 +208,7 @@ export const CastYourVote = ({ incidentReport }) => {
                   )
                 : (
                   <RegularButton
-                    className='flex-auto w-full lg:w-64 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE'
+                    className='flex-auto w-full py-6 font-semibold leading-6 tracking-wider uppercase lg:w-64 text-h5 whitespace-nowrap text-EEEEEE'
                     onClick={() => handleReport(() => setValue(''))}
                     disabled={
                     isError ||
@@ -250,7 +250,7 @@ export const CastYourVote = ({ incidentReport }) => {
             passHref
           >
             <RegularButton
-              className='flex-auto w-full lg:w-64 mb-11 sm:mb-0 py-6 text-h5 uppercase font-semibold whitespace-nowrap tracking-wider leading-6 text-EEEEEE mt-4'
+              className='flex-auto w-full py-6 mt-4 font-semibold leading-6 tracking-wider uppercase lg:w-64 mb-11 sm:mb-0 text-h5 whitespace-nowrap text-EEEEEE'
             >
               <Trans>Add Dispute</Trans>
             </RegularButton>
