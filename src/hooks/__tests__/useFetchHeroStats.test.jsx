@@ -37,7 +37,7 @@ describe('useFetchHeroStats', () => {
     expect(result.data.reportingCovers).toBeDefined()
     expect(result.data.coverFee).toBeDefined()
     expect(result.data.covered).toBeDefined()
-    expect(result.data.tvlCover).toBeDefined()
+    expect(result.data.totalCoverage).toBeDefined()
     expect(result.data.tvlPool).toBeDefined()
 
     mockFn.fetch().unmock()

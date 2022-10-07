@@ -75,10 +75,10 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`TVL (Cover)`,
+                    name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
-                        heroData.tvlCover,
+                        heroData.totalCoverage,
                         liquidityTokenDecimals
                       ).toString(),
                       router.locale

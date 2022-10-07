@@ -518,7 +518,7 @@ export const testData = {
   heroStats: {
     availableCovers: 0,
     reportingCovers: 0,
-    tvlCover: '0',
+    totalCoverage: '0',
     tvlPool: '0',
     covered: '0',
     coverFee: '0'
