@@ -230,6 +230,7 @@ export const ReportingResolvedPage = () => {
           setSortType={setSortType}
           containerClass='flex-col sm:flex-row w-full p-8 bg-DAE2EB/[0.3] rounded-2xl z-10'
           searchClass='w-full'
+          reportingResolved='true'
         />
       </div>
 

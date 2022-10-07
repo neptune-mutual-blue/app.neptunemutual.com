@@ -101,7 +101,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
         onSubmit={onSubmit}
         className='px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24'
       >
-        <h2 className='mb-4 font-bold text-h2'>
+        <h2 className='mb-4 font-bold text-h2 font-sora'>
           <Trans>Submit Your Dispute</Trans>
         </h2>
 

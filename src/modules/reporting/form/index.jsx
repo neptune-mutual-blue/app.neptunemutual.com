@@ -171,7 +171,7 @@ export function ProofOfIncident ({ disabled, required }) {
                 handleDelete(i)
               }}
               className={classNames(
-                `flex-shrink p-2 ml-4 border rounded-md h-10 mt-18 border-CEEBED button-${i}`,
+                `flex-shrink ml-4 border rounded-md h-10 mt-18 px-2.5 border-E6EAEF bg-E6EAEF button-${i}`,
                 'disabled:opacity-40 disabled:cursor-not-allowed'
               )}
               title='Delete'
