@@ -106,7 +106,7 @@ export const ResolveIncident = ({
 
 const options = [
   {
-    label: t`Incident occurred`,
+    label: t`Incident Occurred`,
     id: 'decision-1',
     value: 'true'
   },

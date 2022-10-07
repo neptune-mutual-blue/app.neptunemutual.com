@@ -3,7 +3,6 @@ import { useWeb3React } from '@web3-react/core'
 
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { t } from '@lingui/macro'
 import { ADDRESS_ONE, PoolTypes, POOL_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
 
@@ -45,7 +44,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`get pool info`)
+      notifyError(err, 'get pool info')
     }
 
     try {

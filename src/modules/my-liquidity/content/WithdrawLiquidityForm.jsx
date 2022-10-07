@@ -172,7 +172,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             {isGreater(myStake, '0') && (
               <TokenAmountWithPrefix
                 amountInUnits={myStake}
-                prefix={t`Your Stake:` + ' '}
+                prefix={`${t`Your Stake`}: `}
                 symbol={NPMTokenSymbol}
                 decimals={NPMTokenDecimals}
                 data-testid='my-stake-prefix'
@@ -216,7 +216,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
 
         <div className='mt-6 modal-unlock'>
           <ReceiveAmountInput
-            labelText={t`You Will Receive`}
+            labelText={t`You will receive`}
             tokenSymbol={liquidityTokenSymbol}
             inputValue={formatAmount(
               convertFromUnits(

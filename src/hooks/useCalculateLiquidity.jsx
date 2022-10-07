@@ -8,7 +8,6 @@ import { registry } from '@neptunemutual/sdk'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { t } from '@lingui/macro'
 import { useMountedState } from '@/src/hooks/useMountedState'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 
@@ -34,7 +33,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`calculate liquidity`)
+      notifyError(err, 'calculate liquidity')
     }
 
     setLoading(true)

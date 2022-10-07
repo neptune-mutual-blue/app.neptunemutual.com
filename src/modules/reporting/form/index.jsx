@@ -139,7 +139,7 @@ export function ProofOfIncident ({ disabled, required }) {
         inputProps={{
           id: 'incident_url',
           name: 'incident_url',
-          placeholder: t`https://`,
+          placeholder: 'https://',
           required: required,
           disabled: disabled
         }}

@@ -75,7 +75,7 @@ export const useStakingPoolDeposit = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${tokenSymbol}`)
+      notifyError(err, `approve ${tokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -173,7 +173,7 @@ export const useStakingPoolDeposit = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`stake ${tokenSymbol}`)
+      notifyError(err, `stake ${tokenSymbol}`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)

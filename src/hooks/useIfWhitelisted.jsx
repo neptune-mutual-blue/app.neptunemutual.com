@@ -7,7 +7,6 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 
 export const useIfWhitelisted = ({ coverKey }) => {
   const [isUserWhitelisted, setIsUserWhitelisted] = useState(false)
@@ -23,7 +22,7 @@ export const useIfWhitelisted = ({ coverKey }) => {
     let ignore = false
 
     const handleError = (err) => {
-      notifyError(err, t`getting user whitelisted`)
+      notifyError(err, 'getting user whitelisted')
     }
 
     async function checkWhitelisted () {

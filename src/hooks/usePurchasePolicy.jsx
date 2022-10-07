@@ -123,7 +123,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${liquidityTokenSymbol}`)
+      notifyError(err, `approve ${liquidityTokenSymbol}`)
     }
 
     try {
@@ -204,7 +204,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`purchase policy`)
+      notifyError(err, 'purchase policy')
     }
 
     try {

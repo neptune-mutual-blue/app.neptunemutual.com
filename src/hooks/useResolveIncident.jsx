@@ -7,7 +7,6 @@ import { useTxToast } from '@/src/hooks/useTxToast'
 import { registry, utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -39,7 +38,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       setResolving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Resolve Incident`)
+      notifyError(err, 'Resolve Incident')
     }
 
     try {
@@ -133,7 +132,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Emergency resolve incident`)
+      notifyError(err, 'Emergency resolve incident')
     }
 
     try {

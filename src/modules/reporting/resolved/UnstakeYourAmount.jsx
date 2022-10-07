@@ -159,7 +159,7 @@ const UnstakeModal = ({
 
         <div className='my-8'>
           <div className='mb-5 font-semibold'>
-            <Trans>YOU WILL RECEIVE</Trans>
+            <Trans>You will receive</Trans>
           </div>
           <DisabledInput value={reward} unit={NPMTokenSymbol} />
         </div>

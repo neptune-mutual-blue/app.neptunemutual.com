@@ -55,7 +55,7 @@ export const ActiveReportingEmptyState = () => {
     >
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t`no data found`}
+        alt={t`No data found`}
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
@@ -95,7 +95,7 @@ export const ActiveReportingEmptyState = () => {
           className='w-full py-4 mt-6 text-sm font-medium uppercase'
           onClick={handleAddReport}
         >
-          <Trans>REPORT AN INCIDENT</Trans>
+          <Trans>Report an incident</Trans>
         </RegularButton>
       </div>
     </div>

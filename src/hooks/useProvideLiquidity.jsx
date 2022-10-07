@@ -87,7 +87,7 @@ export const useProvideLiquidity = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`approve DAI`)
+      notifyError(err, 'approve DAI')
     }
 
     const onTransactionResult = async (tx) => {
@@ -166,7 +166,7 @@ export const useProvideLiquidity = ({
       setNPMApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve NPM`)
+      notifyError(err, 'approve NPM')
     }
 
     const onTransactionResult = async (tx) => {
@@ -250,7 +250,7 @@ export const useProvideLiquidity = ({
       updateStakeAllowance(vaultTokenAddress)
     }
     const handleError = (err) => {
-      notifyError(err, t`add liquidity`)
+      notifyError(err, 'add liquidity')
     }
 
     try {

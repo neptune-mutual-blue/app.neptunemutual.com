@@ -25,7 +25,7 @@ export const DiversifiedLiquidityResolutionSources = ({ info, children }) => {
               <Trans>Vault Info</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>
-              {explainInterval(reportingPeriod)} <Trans>reporting period</Trans>
+              {explainInterval(reportingPeriod)} <Trans>Reporting Period</Trans>
             </p>
           </div>
         </div>

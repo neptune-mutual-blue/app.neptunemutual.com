@@ -17,7 +17,6 @@ import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -58,7 +57,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, `approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -133,7 +132,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setVoting(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`attest`)
+      notifyError(err, 'attest')
     }
 
     try {
@@ -221,7 +220,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       updateAllowance(governanceAddress)
     }
     const handleError = (err) => {
-      notifyError(err, t`refute`)
+      notifyError(err, 'refute')
     }
 
     try {

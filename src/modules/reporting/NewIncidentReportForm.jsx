@@ -229,14 +229,14 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
             <span className='flex items-center text-FA5C2F'>
               {/* Show error for Insufficent state */}
               {value && isGreater(minReportingStake, convertToUnits(value)) && (
-                <Trans>Insufficient stake</Trans>
+                <Trans>Insufficient Stake</Trans>
               )}
 
               {/* Show error for Insufficent balance */}
               {value &&
                 isGreater(convertToUnits(value), balance) &&
                 isGreater(convertToUnits(value), minReportingStake) && (
-                  <Trans>Insufficient balance</Trans>
+                  <Trans>Insufficient Balance</Trans>
               )}
             </span>
           </TokenAmountInput>
