@@ -3,10 +3,7 @@ import { sumOf } from '@/utils/bn'
 import DateLib from '@/lib/date/DateLib'
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
-import { getTotalCoverage } from '@/src/services/protocol/cover/liquidity'
-import { useNetwork } from '@/src/context/Network'
-import { useWeb3React } from '@web3-react/core'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
+import { MULTIPLIER } from '@/src/config/constants'
 
 const defaultData = {
   availableCovers: 0,
@@ -24,20 +21,30 @@ const getQuery = () => {
   {
     dedicatedCovers: covers(where: {supportsProducts: false}) {
       coverKey
+      vaults {
+        totalFlashLoanFees
+        totalCoverLiquidityAdded
+        totalCoverLiquidityRemoved
+      }
+      leverage
     }
     diversifiedCovers: covers(where: {supportsProducts: true}) {
       coverKey
+      vaults {
+        totalFlashLoanFees
+        totalCoverLiquidityAdded
+        totalCoverLiquidityRemoved
+      }
       products {
         productKey
+        capitalEfficiency
       }
+      leverage
     }
     reporting: incidentReports(where: {finalized: false}) {
       id
     }
     protocols {
-      totalFlashLoanFees
-      totalCoverLiquidityAdded
-      totalCoverLiquidityRemoved
       totalCoverFee
     }
     cxTokens(where: {expiryDate_gt: "${startOfMonth}"}) {
@@ -49,8 +56,6 @@ const getQuery = () => {
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData)
   const [loading, setLoading] = useState(false)
-  const { account, library } = useWeb3React()
-  const { networkId } = useNetwork()
   const fetchStats = useSubgraphFetch('useFetchHeroStats')
 
   useEffect(() => {
@@ -58,64 +63,50 @@ export const useFetchHeroStats = () => {
 
     ;(async function () {
       try {
-        if (!networkId) {
-          return
-        }
-
         const data = await fetchStats(getNetworkId(), getQuery())
 
         if (!data) {
           return
         }
 
-        const totalCoverLiquidityAdded = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
-        )
-        const totalCoverLiquidityRemoved = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityRemoved)
-        )
-        const totalFlashLoanFees = sumOf(
-          ...data.protocols.map((x) => x.totalFlashLoanFees)
-        )
-        const totalCoverFee = sumOf(
-          ...data.protocols.map((x) => x.totalCoverFee)
-        )
-        const totalCoveredAmount = sumOf(
-          ...data.cxTokens.map((x) => x.totalCoveredAmount)
-        )
-
-        let totalCoverage = totalCoverLiquidityAdded
-          .minus(totalCoverLiquidityRemoved)
-          .plus(totalFlashLoanFees)
-          .toString()
+        const totalCoverFee = sumOf(...data.protocols.map((x) => x.totalCoverFee))
+        const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => x.totalCoveredAmount))
 
         let availableCount = data.dedicatedCovers.length
         for (let i = 0; i < data.diversifiedCovers.length; i++) {
           availableCount += data.diversifiedCovers[i].products.length
         }
 
-        if (account) {
-          // Get data from provider if wallet's connected
-          const signerOrProvider = getProviderOrSigner(
-            library,
-            account,
-            networkId
-          )
+        let totalCoverage = '0'
+        data.dedicatedCovers.forEach(cover => {
+          const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
+          const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
+          const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
 
-          totalCoverage = await getTotalCoverage(
-            networkId,
-            [
-              ...data.diversifiedCovers.map(cover => ({
-                coverKey: cover.coverKey,
-                productKeys: cover.products.map(product => product.productKey)
-              })),
-              ...data.dedicatedCovers.map(cover => ({
-                coverKey: cover.coverKey,
-                productKeys: null
-              }))
-            ],
-            signerOrProvider.provider)
-        }
+          const coverage = totalCoverLiquidityAdded
+            .minus(totalCoverLiquidityRemoved)
+            .plus(totalFlashLoanFees)
+            .toString()
+
+          totalCoverage = sumOf(totalCoverage, coverage).toString()
+        })
+
+        data.diversifiedCovers.forEach(cover => {
+          const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
+          const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
+          const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
+          const medianEfficiency = sumOf(...cover.products.map((x) => x.capitalEfficiency)).dividedBy(cover.products.length)
+
+          const coverage = totalCoverLiquidityAdded
+            .minus(totalCoverLiquidityRemoved)
+            .plus(totalFlashLoanFees)
+            .multipliedBy(cover.leverage)
+            .multipliedBy(medianEfficiency)
+            .dividedBy(MULTIPLIER)
+            .toString()
+
+          totalCoverage = sumOf(totalCoverage, coverage).toString()
+        })
 
         setData({
           availableCovers: availableCount,
@@ -131,7 +122,7 @@ export const useFetchHeroStats = () => {
         setLoading(false)
       }
     })()
-  }, [account, fetchStats, library, networkId])
+  }, [fetchStats])
 
   return {
     data,
