@@ -29,7 +29,7 @@ export const Select = ({
               {prefix}
               {selected?.name}
             </span>
-            <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-9B9B9B'>
+            <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-black'>
               {icon}
             </span>
           </Listbox.Button>
