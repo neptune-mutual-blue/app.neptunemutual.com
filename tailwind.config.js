@@ -210,7 +210,8 @@ module.exports = {
         60: '60'
       },
       opacity: {
-        15: '.15'
+        15: '.15',
+        3: '.03'
       },
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto'
