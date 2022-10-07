@@ -73,8 +73,15 @@ const MyTransactionsTable = () => {
   const [maxPage, setMaxPage] = useState(1)
 
   const { account } = useWeb3React()
+  const { networkId } = useNetwork()
 
   useEffect(() => {
+    if (!networkId || !account) {
+      return
+    }
+
+    LSHistory.setId(account, networkId)
+
     const updateListener = TransactionHistory.on((item) => {
       setListOfTransactions((items) =>
         items.map((_item) => {
@@ -92,7 +99,7 @@ const MyTransactionsTable = () => {
     return () => {
       updateListener.off()
     }
-  }, [])
+  }, [account, networkId])
 
   const getNextPage = (page) => {
     const history = LSHistory.get(page)
