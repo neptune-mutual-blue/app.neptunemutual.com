@@ -77,8 +77,32 @@ const MyTransactionsTable = () => {
   const { networkId } = useNetwork()
 
   useEffect(() => {
-    if (account && networkId) LSHistory.setId(account, networkId)
+    if (account && networkId) {
+      LSHistory.setId(account, networkId)
+
+      const updateListener = TransactionHistory.on((item) => {
+        setListOfTransactions((items) =>
+          items.map((_item) => {
+            if (_item.hash === item.hash) {
+              Object.assign(_item, item)
+            }
+
+            return _item
+          })
+        )
+      })
+
+      getNextPage(1)
+
+      return () => {
+        updateListener.off()
+      }
+    }
+  }, [account, networkId])
+
+  const getNextPage = (page) => {
     const history = LSHistory.get(page)
+
     setListOfTransactions((current) => {
       const hashes = current.map(({ hash }) => hash)
 
@@ -87,24 +111,10 @@ const MyTransactionsTable = () => {
         ...history.data.filter((item) => !hashes.includes(item.hash))
       ]
     })
+
+    setPage(page)
     setMaxPage(history.maxPage)
-
-    const updateListener = TransactionHistory.on((item) => {
-      setListOfTransactions((items) =>
-        items.map((_item) => {
-          if (_item.hash === item.hash) {
-            Object.assign(_item, item)
-          }
-
-          return _item
-        })
-      )
-    })
-
-    return () => {
-      updateListener.off()
-    }
-  }, [page, account, networkId])
+  }
 
   return (
     <>
@@ -117,7 +127,6 @@ const MyTransactionsTable = () => {
           {account
             ? (
               <TBody
-                // isLoading={false}
                 columns={columns}
                 data={listOfTransactions}
               />
@@ -135,10 +144,9 @@ const MyTransactionsTable = () => {
         {
           (page < maxPage) && (
             <TableShowMore
-              // isLoading={loading}
               onShowMore={() => {
                 if (page < maxPage) {
-                  setPage((curPage) => curPage + 1)
+                  getNextPage(page + 1)
                 }
               }}
             />
@@ -154,7 +162,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 whitespace-nowrap'
+      className='w-52 px-6 py-6 whitespace-nowrap'
       title={DateLib.toLongDateFormat(row.timestamp / 1000, router.locale)}
       data-testid='timestamp-col'
     >
@@ -174,7 +182,7 @@ const DetailsRenderer = ({ row }) => {
   )
 
   return (
-    <td className='max-w-sm px-6 py-6' data-testid='details-col'>
+    <td className='w-auto px-6 py-6' data-testid='details-col'>
       <div className='flex items-center gap-5'>
         <div>{convertToIconVariant(row.status)}</div>
         <p>{title}</p>
@@ -194,7 +202,7 @@ const AmountRenderer = ({ row }) => {
   )
 
   return (
-    <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
+    <td className='max-w-sm min-w-120 px-6 py-6 text-right' data-testid='col-amount'>
       <p>{description}</p>
     </td>
   )
@@ -204,7 +212,7 @@ const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
 
   return (
-    <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
+    <td className='px-6 py-6 w-20' data-testid='col-actions'>
       <div className='flex items-center justify-end'>
         <a
           href={getTxLink(networkId, { hash: row.hash })}

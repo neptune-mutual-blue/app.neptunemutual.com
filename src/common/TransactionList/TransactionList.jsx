@@ -32,14 +32,6 @@ export function TransactionList ({
   const [page, setPage] = useState(1)
   const [maxPage, setMaxPage] = useState(1)
 
-  // const showMore = (event) => {
-  //   event.preventDefault()
-
-  //   if (page < maxPage) {
-  //     setPage((curPage) => curPage + 1)
-  //   }
-  // }
-
   useEffect(() => {
     toast.hide(isOpen)
     if (isOpen) {
@@ -94,9 +86,6 @@ export function TransactionList ({
           <NotificationsList data={listOfTransactions} />
         </div>
         <div className={`text-center py-8 ${page >= maxPage ? 'hidden' : ''}`}>
-          {/* <a href='#' className='underline' onClick={showMore}>
-            {t`View More`}
-          </a> */}
           <a href={Routes.Transactions} className='underline'>
             {t`View More`}
           </a>
