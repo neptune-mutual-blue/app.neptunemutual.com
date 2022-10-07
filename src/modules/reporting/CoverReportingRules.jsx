@@ -53,7 +53,7 @@ export const CoverReportingRules = ({
                     </div>
                   )}
 
-                  <Alert>
+                  <Alert closable>
                     <Trans>
                       If you just came to know about a recent incident of{' '}
                       {isDiversified ? coverInfo.infoObj.productName : coverInfo.infoObj.coverName}, carefully read the cover rules
