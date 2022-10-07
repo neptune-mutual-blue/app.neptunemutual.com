@@ -10,6 +10,7 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { useRouter } from 'next/router'
 import { useToast } from '@/lib/toast/context'
 import { TransactionHistory } from '@/src/services/transactions/transaction-history'
+import { Routes } from '@/src/config/routes'
 
 export function TransactionList ({
   isOpen = false,
@@ -30,14 +31,6 @@ export function TransactionList ({
   ] = useState([])
   const [page, setPage] = useState(1)
   const [maxPage, setMaxPage] = useState(1)
-
-  const showMore = (event) => {
-    event.preventDefault()
-
-    if (page < maxPage) {
-      setPage((curPage) => curPage + 1)
-    }
-  }
 
   useEffect(() => {
     toast.hide(isOpen)
@@ -91,8 +84,8 @@ export function TransactionList ({
         <div className='pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list'>
           <NotificationsList data={listOfTransactions} />
         </div>
-        <div className={`text-center py-8 ${page >= maxPage ? 'hidden' : ''}`}>
-          <a href='#' className='underline' onClick={showMore}>
+        <div className={`text-center py-4 ${page >= maxPage ? 'hidden' : ''}`}>
+          <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>
         </div>
@@ -161,7 +154,7 @@ function Notification ({
     >
       <div className='mr-4'>{convertToIconVariant(status)}</div>
       <div className='mr-4 grow'>
-        <p className='mb-1 text-sm font-bold font-sora'>{title}</p>
+        <p className='mb-1 text-sm font-semibold font-sora'>{title}</p>
         <p className='text-sm'>{description}</p>
         <p className='mt-2 text-xs leading-4 tracking-normal text-999BAB'>
           {fromNow(timestamp / 1000)}

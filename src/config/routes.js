@@ -98,6 +98,7 @@ const ViewProductReports = (coverKey, productKey) => {
 }
 
 const Home = '/'
+const TransactionHistory = '/transactions'
 const BondTransactions = '/pools/bond/transactions'
 const PolicyTransactions = '/my-policies/transactions'
 const LiquidityTransactions = '/my-liquidity/transactions'
@@ -112,6 +113,7 @@ const PodStakingPools = '/pools/pod-staking'
 
 export const Routes = {
   Home,
+  TransactionHistory,
   BondTransactions,
   PolicyTransactions,
   LiquidityTransactions,
