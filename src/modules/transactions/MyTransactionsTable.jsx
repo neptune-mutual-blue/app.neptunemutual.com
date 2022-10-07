@@ -11,9 +11,8 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
-const { TableWrapper, Table, THead, TBody, TableShowMore } = require('@/common/Table/Table')
-const { t, Trans } = require('@lingui/macro')
+import { t, Trans } from '@lingui/macro'
+import { TableWrapper, Table, THead, TBody, TableShowMore } from '@/common/Table/Table'
 
 const renderHeader = (col) => (
   <th
@@ -74,31 +73,26 @@ const MyTransactionsTable = () => {
   const [maxPage, setMaxPage] = useState(1)
 
   const { account } = useWeb3React()
-  const { networkId } = useNetwork()
 
   useEffect(() => {
-    if (account && networkId) {
-      LSHistory.setId(account, networkId)
+    const updateListener = TransactionHistory.on((item) => {
+      setListOfTransactions((items) =>
+        items.map((_item) => {
+          if (_item.hash === item.hash) {
+            Object.assign(_item, item)
+          }
 
-      const updateListener = TransactionHistory.on((item) => {
-        setListOfTransactions((items) =>
-          items.map((_item) => {
-            if (_item.hash === item.hash) {
-              Object.assign(_item, item)
-            }
+          return _item
+        })
+      )
+    })
 
-            return _item
-          })
-        )
-      })
+    getNextPage(1)
 
-      getNextPage(1)
-
-      return () => {
-        updateListener.off()
-      }
+    return () => {
+      updateListener.off()
     }
-  }, [account, networkId])
+  }, [])
 
   const getNextPage = (page) => {
     const history = LSHistory.get(page)

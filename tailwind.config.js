@@ -79,6 +79,7 @@ module.exports = {
         1.5: '1.5px'
       },
       boxShadow: {
+        dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)'
       },
