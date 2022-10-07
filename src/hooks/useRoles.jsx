@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { config, registry, utils, multicall } from '@neptunemutual/sdk'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -26,7 +27,7 @@ export const useRoles = () => {
 
     async function exec () {
       const handleError = (err) => {
-        notifyError(err, 'get roles')
+        notifyError(err, t`Could not get roles`)
       }
 
       try {

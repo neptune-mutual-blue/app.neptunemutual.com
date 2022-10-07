@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { t } from '@lingui/macro'
 
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -35,7 +36,7 @@ export const useClaimBond = () => {
       setClaiming(false)
     }
     const handleError = (err) => {
-      notifyError(err, 'claim bond')
+      notifyError(err, t`Could not claim bond`)
     }
 
     try {

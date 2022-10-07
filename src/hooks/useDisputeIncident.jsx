@@ -65,7 +65,7 @@ export const useDisputeIncident = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, `approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -218,7 +218,7 @@ export const useDisputeIncident = ({
         }
       )
     } catch (err) {
-      notifyError(err, 'dispute')
+      notifyError(err, t`Could not dispute`)
     } finally {
       cleanup()
     }

@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
@@ -38,7 +39,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       setResolving(false)
     }
     const handleError = (err) => {
-      notifyError(err, 'Resolve Incident')
+      notifyError(err, t`Could not Resolve Incident`)
     }
 
     try {
@@ -132,7 +133,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'Emergency resolve incident')
+      notifyError(err, t`Could not emergency resolve incident`)
     }
 
     try {

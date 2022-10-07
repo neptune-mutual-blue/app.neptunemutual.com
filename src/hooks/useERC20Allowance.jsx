@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
+import { t } from '@lingui/macro'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
@@ -91,7 +92,7 @@ export const useERC20Allowance = (tokenAddress) => {
       }
 
       const handleError = (err) => {
-        notifyError(err, 'get allowance')
+        notifyError(err, t`Could not get allowance`)
       }
 
       const onTransactionResult = (_allowance) => {

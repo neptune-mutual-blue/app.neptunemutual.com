@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
 
@@ -22,7 +23,7 @@ export const useIfWhitelisted = ({ coverKey }) => {
     let ignore = false
 
     const handleError = (err) => {
-      notifyError(err, 'getting user whitelisted')
+      notifyError(err, t`Could not getting user whitelisted`)
     }
 
     async function checkWhitelisted () {

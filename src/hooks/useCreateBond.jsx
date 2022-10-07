@@ -89,7 +89,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
         setReceiveAmountLoading(false)
       }
       const handleError = (err) => {
-        notifyError(err, 'calculate tokens')
+        notifyError(err, t`Could not calculate tokens`)
       }
 
       try {
@@ -191,7 +191,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, 'approve LP tokens')
+      notifyError(err, t`Could not approve LP tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -267,7 +267,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
       refetchBondInfo()
     }
     const handleError = (err) => {
-      notifyError(err, 'create bond')
+      notifyError(err, t`Could not create bond`)
     }
 
     try {

@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
@@ -42,7 +43,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, 'Unstake NPM')
+      notifyError(err, t`Could not Unstake NPM`)
     }
 
     try {
@@ -151,7 +152,7 @@ export const useUnstakeReportingStake = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, 'Unstake & claim NPM')
+      notifyError(err, t`Could not unstake & claim NPM`)
     }
 
     try {

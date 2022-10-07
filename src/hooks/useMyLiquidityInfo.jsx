@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
@@ -56,7 +57,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'get vault info')
+      notifyError(err, t`Could not get vault info`)
     }
 
     try {
@@ -155,7 +156,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const accrueInterest = async () => {
     const handleError = (err) => {
-      notifyError(err, 'accrue interest')
+      notifyError(err, t`Could not accrue interest`)
     }
 
     try {
