@@ -61,11 +61,13 @@ module.exports = {
       ],
       xxxl: '136px',
       xxl: '40px',
-      'receipt-info': ['24px', '36px']
+      'receipt-info': ['24px', '36px'],
+      md: ['20px', '23px']
     },
     fontFamily: {
       poppins: 'Poppins, sans-serif',
-      sora: 'Sora, sans-serif'
+      sora: 'Sora, sans-serif',
+      arial: 'Arial, Sora, sans-serif'
     },
     extend: {
       borderRadius: {
@@ -173,7 +175,8 @@ module.exports = {
         E6EAEF: '#E6EAEF',
         F5F9FC: '#F5F9FC',
         '2151B0': '#2151B0',
-        '003fbd': '#003FBD'
+        '003fbd': '#003FBD',
+        E03636: '#E03636'
       },
       minHeight: {
         360: '360px',
