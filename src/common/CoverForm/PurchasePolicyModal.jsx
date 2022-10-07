@@ -6,8 +6,8 @@ import { Routes } from '@/src/config/routes'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { useRouter } from 'next/router'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { CompleteSvg } from './assets/CompleteSvg'
-import { LoadingSvg } from './assets/LoadingSvg'
+import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
+import { Loader } from '@/common/Loader/Loader'
 
 /**
  * @param {{ isOpen: boolean, txHash: string }} prop
@@ -49,11 +49,11 @@ function Complete ({ txHash, onClose }) {
         disabled={false}
         onClick={onClose}
       />
-      <CompleteSvg className='w-14 h-14 mb-8 mt-6' />
-      <h4 className='font-bold mb-8 w-64 text-h2 leading-9 text-center'><Trans>Cover Purchased Successfully!</Trans></h4>
+      <SuccessIcon className='w-18 h-18 text-21AD8C' aria-hidden='true' />
+      <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-h2'><Trans>Cover Purchased Successfully!</Trans></h4>
 
       <RegularButton
-        className='p-6 font-semibold uppercase text-h6 text-white flex justify-center items-center min-w-sm w-full'
+        className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 min-w-sm'
         onClick={() => {
           window.open(Routes.ViewPolicyReceipt(txHash), '_blank')
           onClose()
@@ -69,9 +69,11 @@ function Complete ({ txHash, onClose }) {
 function Loading () {
   return (
     <div className='flex flex-col items-center'>
-      <LoadingSvg />
-      <h4 className='font-sora mt-6 text-h2 leading-9 font-bold text-center'><Trans>Transaction in progress</Trans></h4>
-      <p className='font-poppins text-para leading-6 mt-4 w-72 text-center'>
+      <Loader className='w-18 h-18 text-4e7dd9' />
+      <h4 className='font-bold leading-9 text-center mt-7 font-sora text-h2'>
+        <Trans>Transaction in progress</Trans>
+      </h4>
+      <p className='mt-4 leading-6 text-center font-poppins text-para w-72'>
         <Trans>Please do not exit this page while transaction is in progress</Trans>
       </p>
     </div>
