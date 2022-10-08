@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 import { useNetwork } from '@/src/context/Network'
@@ -44,7 +45,7 @@ export const usePoolInfo = ({ key, type = PoolTypes.TOKEN }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'get pool info')
+      notifyError(err, t`Could not get pool info`)
     }
 
     try {

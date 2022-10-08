@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -34,7 +35,7 @@ export const useBondInfo = () => {
       }
 
       const handleError = (err) => {
-        notifyError(err, 'get bond info')
+        notifyError(err, t`Could not get bond info`)
       }
 
       try {

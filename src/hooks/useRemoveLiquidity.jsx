@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
 
@@ -48,7 +49,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, `approve ${vaultTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${vaultTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -123,7 +124,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'remove liquidity')
+      notifyError(err, t`Could not remove liquidity`)
     }
 
     try {

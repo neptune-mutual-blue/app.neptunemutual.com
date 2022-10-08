@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { governance } from '@neptunemutual/sdk'
 
@@ -62,7 +63,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, `approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -214,7 +215,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         }
       )
     } catch (err) {
-      notifyError(err, 'report incident')
+      notifyError(err, t`Could not report incident`)
       cleanup()
     }
   }

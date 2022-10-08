@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 
 import { convertToUnits, isValidNumber } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -33,7 +34,7 @@ export const useCalculateLiquidity = ({ coverKey, podAmount }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'calculate liquidity')
+      notifyError(err, t`Could not calculate liquidity`)
     }
 
     setLoading(true)

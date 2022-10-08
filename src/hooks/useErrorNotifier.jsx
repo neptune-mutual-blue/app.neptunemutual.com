@@ -11,7 +11,7 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
   const notifyError = useCallback(
     (error, action = 'perform action') => {
       const title =
-        typeof error.data === 'string' ? error.data : `Could not ${action}`
+        typeof error.data === 'string' ? error.data : action
 
       console.error(error)
 

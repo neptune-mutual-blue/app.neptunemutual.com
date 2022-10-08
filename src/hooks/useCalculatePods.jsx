@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 
 import { convertToUnits, convertFromUnits, isValidNumber } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -38,7 +39,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'calculate pods')
+      notifyError(err, t`Could notcalculate pods`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)

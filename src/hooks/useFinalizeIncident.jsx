@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
@@ -37,7 +38,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, 'Finalize Incident')
+      notifyError(err, t`Could not finalize incident`)
     }
 
     try {
