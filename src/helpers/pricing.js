@@ -1,5 +1,5 @@
-const { PRICING_URL } = require('@/src/config/constants')
-const { getReplacedString } = require('@/utils/string')
+import { PRICING_URL } from '@/src/config/constants'
+import { getReplacedString } from '@/utils/string'
 
 export const getPricingData = async (networkId, payload) => {
   try {

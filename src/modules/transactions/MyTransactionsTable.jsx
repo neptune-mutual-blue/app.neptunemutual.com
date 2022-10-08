@@ -11,9 +11,8 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-
-const { TableWrapper, Table, THead, TBody, TableShowMore } = require('@/common/Table/Table')
-const { t, Trans } = require('@lingui/macro')
+import { t, Trans } from '@lingui/macro'
+import { TableWrapper, Table, THead, TBody, TableShowMore } from '@/common/Table/Table'
 
 const renderHeader = (col) => (
   <th
@@ -77,26 +76,28 @@ const MyTransactionsTable = () => {
   const { networkId } = useNetwork()
 
   useEffect(() => {
-    if (account && networkId) {
-      LSHistory.setId(account, networkId)
+    if (!networkId || !account) {
+      return
+    }
 
-      const updateListener = TransactionHistory.on((item) => {
-        setListOfTransactions((items) =>
-          items.map((_item) => {
-            if (_item.hash === item.hash) {
-              Object.assign(_item, item)
-            }
+    LSHistory.setId(account, networkId)
 
-            return _item
-          })
-        )
-      })
+    const updateListener = TransactionHistory.on((item) => {
+      setListOfTransactions((items) =>
+        items.map((_item) => {
+          if (_item.hash === item.hash) {
+            Object.assign(_item, item)
+          }
 
-      getNextPage(1)
+          return _item
+        })
+      )
+    })
 
-      return () => {
-        updateListener.off()
-      }
+    getNextPage(1)
+
+    return () => {
+      updateListener.off()
     }
   }, [account, networkId])
 

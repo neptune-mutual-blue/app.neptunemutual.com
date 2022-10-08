@@ -11,10 +11,10 @@ const List = ({ type, children }) => {
 
 /**
  *
- * @param {{parameters: Array}} props
+ * @param {{parameters: Array, titleClassName?: string}} props
  * @returns
  */
-const CoverParameters = ({ parameters }) => {
+const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-h4 font-sora' }) => {
   if (!Array.isArray(parameters) || parameters.length === 0) {
     return null
   }
@@ -24,7 +24,7 @@ const CoverParameters = ({ parameters }) => {
       {
         parameters.map((param, i) => (
           <div key={`parameter-${i}`}>
-            <h4 className='mt-10 mb-6 font-semibold text-h4 font-sora'>
+            <h4 className={titleClassName}>
               {param.parameter}
             </h4>
 
