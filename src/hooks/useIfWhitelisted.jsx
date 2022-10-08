@@ -23,7 +23,7 @@ export const useIfWhitelisted = ({ coverKey }) => {
     let ignore = false
 
     const handleError = (err) => {
-      notifyError(err, t`Could not getting user whitelisted`)
+      notifyError(err, t`Could not check user whitelist status`)
     }
 
     async function checkWhitelisted () {

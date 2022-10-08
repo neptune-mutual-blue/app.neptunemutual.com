@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 import { config, registry, utils, multicall } from '@neptunemutual/sdk'
 
 import { convertToUnits, isValidNumber } from '@/utils/bn'
@@ -59,7 +60,7 @@ export const usePolicyFees = ({
       }
 
       const handleError = (err) => {
-        notifyError(err, 'get fees')
+        notifyError(err, t`Could not get fees`)
       }
 
       try {

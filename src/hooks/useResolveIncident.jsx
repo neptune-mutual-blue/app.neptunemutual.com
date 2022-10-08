@@ -39,7 +39,7 @@ export const useResolveIncident = ({ coverKey, productKey, incidentDate }) => {
       setResolving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not Resolve Incident`)
+      notifyError(err, t`Could not resolve incident`)
     }
 
     try {

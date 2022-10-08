@@ -323,7 +323,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
             }
               data-testid='withdraw-button'
             >
-              {withdrawing ? t`Withdrawing..` : t`Withdraw`}
+              {withdrawing ? t`Withdrawing...` : t`Withdraw`}
             </RegularButton>
             )}
       </div>

@@ -43,7 +43,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not Unstake NPM`)
+      notifyError(err, t`Could not unstake NPM`)
     }
 
     try {

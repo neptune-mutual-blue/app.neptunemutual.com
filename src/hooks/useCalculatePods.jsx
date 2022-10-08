@@ -39,7 +39,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could notcalculate pods`)
+      notifyError(err, t`Could not calculate pods`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)
