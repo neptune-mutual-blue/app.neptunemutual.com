@@ -22,7 +22,7 @@ msgstr "# of Votes"
 msgid "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
 msgstr "A cover policy enables you to claim and receive payout when an incident occurs. To purchase a policy, select a cover from the home screen."
 
-#: src/common/SearchAndSortBar.jsx:21
+#: src/common/SearchAndSortBar.jsx:22
 #: src/modules/home/AvailableCovers.jsx:53
 #: src/modules/pools/pod-staking/index.jsx:38
 #: src/modules/pools/pod-staking/index.jsx:68
@@ -43,11 +43,13 @@ msgstr "APR"
 msgid "APR: {0}"
 msgstr "APR: {0}"
 
+#: src/common/CookiePolicy/CookiePolicy.jsx:58
 #: src/common/Disclaimer/DisclaimerModal.jsx:149
 msgid "Accept"
 msgstr "Accept"
 
 #: src/common/Header/AccountDetailsModal.jsx:82
+#: src/modules/reporting/RecentVotesTable.jsx:54
 msgid "Account"
 msgstr "Account"
 
@@ -68,7 +70,7 @@ msgstr "Accruing interest"
 msgid "Active"
 msgstr "Active"
 
-#: src/modules/reporting/CoverReportingRules.jsx:32
+#: src/modules/reporting/CoverReportingRules.jsx:35
 msgid "Active Reporting"
 msgstr "Active Reporting"
 
@@ -76,7 +78,7 @@ msgstr "Active Reporting"
 msgid "Add Dispute"
 msgstr "Add Dispute"
 
-#: src/modules/reporting/form/index.jsx:195
+#: src/modules/reporting/form/index.jsx:197
 msgid "Add new link"
 msgstr "Add new link"
 
@@ -98,7 +100,11 @@ msgstr "Adding Liquidity"
 msgid "All"
 msgstr "All"
 
-#: src/modules/my-liquidity/content/rules.jsx:108
+#: src/pages/transactions.jsx:36
+msgid "All Transaction History"
+msgstr "All Transaction History"
+
+#: src/modules/my-liquidity/content/rules.jsx:70
 msgid "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 
@@ -106,7 +112,7 @@ msgstr "All rules of individual \"{coverName}\" products are applicable to this 
 msgid "Amount available to claim"
 msgstr "Amount available to claim"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:163
+#: src/common/CoverForm/PurchasePolicyForm.jsx:166
 msgid "Amount you wish to cover"
 msgstr "Amount you wish to cover"
 
@@ -118,41 +124,35 @@ msgstr "Amount you wish to stake"
 msgid "Amount you wish to withdraw"
 msgstr "Amount you wish to withdraw"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:289
+#: src/common/CoverForm/PurchasePolicyForm.jsx:292
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:307
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:328
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:302
 #: src/modules/my-policies/ClaimCoverModal.jsx:162
 #: src/modules/pools/bond/index.jsx:233
 #: src/modules/pools/staking/StakeForm.jsx:137
-#: src/modules/reporting/NewDisputeReportForm.jsx:188
-#: src/modules/reporting/NewIncidentReportForm.jsx:243
+#: src/modules/reporting/NewDisputeReportForm.jsx:189
+#: src/modules/reporting/NewIncidentReportForm.jsx:263
 #: src/modules/reporting/active/CastYourVote.jsx:204
 msgid "Approve"
 msgstr "Approve"
 
 #: src/helpers/notification.js:54
+#: src/helpers/notification.js:130
+#: src/helpers/notification.js:165
+#: src/helpers/notification.js:203
 #: src/helpers/notification.js:241
+#: src/helpers/notification.js:280
 #: src/helpers/notification.js:338
 #: src/helpers/notification.js:356
+#: src/helpers/notification.js:465
+#: src/helpers/notification.js:518
 #: src/hooks/useProvideLiquidity.jsx:109
 #: src/hooks/useProvideLiquidity.jsx:109
 #: src/hooks/useProvideLiquidity.jsx:189
 #: src/hooks/useProvideLiquidity.jsx:189
 msgid "Approved {tokenSymbol} Successfully"
 msgstr "Approved {tokenSymbol} Successfully"
-
-#: src/helpers/notification.js:165
-#: src/helpers/notification.js:203
-#: src/helpers/notification.js:280
-#: src/helpers/notification.js:518
-msgid "Approved {tokenSymbol} tokens Successfully"
-msgstr "Approved {tokenSymbol} tokens Successfully"
-
-#: src/helpers/notification.js:130
-#: src/helpers/notification.js:465
-msgid "Approved {tokenSymbol} tokens successfully"
-msgstr "Approved {tokenSymbol} tokens successfully"
 
 #: src/helpers/notification.js:67
 #: src/helpers/notification.js:254
@@ -174,15 +174,15 @@ msgstr "Approving {tokenSymbol}"
 msgid "Approving {tokenSymbol} tokens"
 msgstr "Approving {tokenSymbol} tokens"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:285
+#: src/common/CoverForm/PurchasePolicyForm.jsx:288
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:303
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:324
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:302
 #: src/modules/my-policies/ClaimCoverModal.jsx:162
 #: src/modules/pools/bond/index.jsx:229
 #: src/modules/pools/staking/StakeForm.jsx:133
-#: src/modules/reporting/NewDisputeReportForm.jsx:188
-#: src/modules/reporting/NewIncidentReportForm.jsx:243
+#: src/modules/reporting/NewDisputeReportForm.jsx:189
+#: src/modules/reporting/NewIncidentReportForm.jsx:263
 #: src/modules/reporting/active/CastYourVote.jsx:200
 msgid "Approving..."
 msgstr "Approving..."
@@ -216,7 +216,7 @@ msgstr "Back"
 msgid "Balance:"
 msgstr "Balance:"
 
-#: src/modules/my-liquidity/content/rules.jsx:93
+#: src/modules/my-liquidity/content/rules.jsx:55
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 
@@ -266,7 +266,7 @@ msgid "Cannot go below minimum stake"
 msgstr "Cannot go below minimum stake"
 
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:48
-#: src/common/CoverForm/PurchasePolicyForm.jsx:151
+#: src/common/CoverForm/PurchasePolicyForm.jsx:154
 msgid "Cannot purchase policy, since the cover status is {statusLink}"
 msgstr "Cannot purchase policy, since the cover status is {statusLink}"
 
@@ -274,13 +274,9 @@ msgstr "Cannot purchase policy, since the cover status is {statusLink}"
 msgid "Cannot stake more than {maxStakableTokenAmount}"
 msgstr "Cannot stake more than {maxStakableTokenAmount}"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:284
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:285
 msgid "Capitalize"
 msgstr "Capitalize"
-
-#: src/hooks/useCapitalizePool.jsx:41
-msgid "Capitalize pool"
-msgstr "Capitalize pool"
 
 #: src/helpers/notification.js:421
 msgid "Capitalized pool successfully"
@@ -290,7 +286,7 @@ msgstr "Capitalized pool successfully"
 msgid "Capitalizing pool"
 msgstr "Capitalizing pool"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:284
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:285
 msgid "Capitalizing..."
 msgstr "Capitalizing..."
 
@@ -328,11 +324,11 @@ msgstr "Claim My Bond"
 msgid "Claim Now"
 msgstr "Claim Now"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:106
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:109
 msgid "Claim begins in"
 msgstr "Claim begins in"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:99
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:102
 msgid "Claim ends in"
 msgstr "Claim ends in"
 
@@ -415,13 +411,37 @@ msgid "Copy Address"
 msgstr "Copy Address"
 
 #: src/helpers/notification.js:506
+#: src/hooks/useMyLiquidityInfo.jsx:159
 msgid "Could not accrue interest"
 msgstr "Could not accrue interest"
 
+#: src/hooks/useProvideLiquidity.jsx:253
 #: src/hooks/useProvideLiquidity.jsx:283
 #: src/hooks/useProvideLiquidity.jsx:283
 msgid "Could not add liquidity"
 msgstr "Could not add liquidity"
+
+#: src/hooks/useProvideLiquidity.jsx:90
+msgid "Could not approve DAI"
+msgstr "Could not approve DAI"
+
+#: src/hooks/useCreateBond.jsx:194
+msgid "Could not approve LP tokens"
+msgstr "Could not approve LP tokens"
+
+#: src/hooks/useProvideLiquidity.jsx:169
+msgid "Could not approve NPM"
+msgstr "Could not approve NPM"
+
+#: src/hooks/useDisputeIncident.jsx:68
+#: src/hooks/useReportIncident.jsx:66
+#: src/hooks/useVote.jsx:60
+msgid "Could not approve {NPMTokenSymbol} tokens"
+msgstr "Could not approve {NPMTokenSymbol} tokens"
+
+#: src/hooks/usePurchasePolicy.jsx:128
+msgid "Could not approve {liquidityTokenSymbol}"
+msgstr "Could not approve {liquidityTokenSymbol}"
 
 #: src/helpers/notification.js:61
 #: src/helpers/notification.js:248
@@ -429,6 +449,7 @@ msgstr "Could not add liquidity"
 #: src/hooks/useProvideLiquidity.jsx:110
 #: src/hooks/useProvideLiquidity.jsx:190
 #: src/hooks/useProvideLiquidity.jsx:190
+#: src/hooks/useStakingPoolDeposit.jsx:78
 msgid "Could not approve {tokenSymbol}"
 msgstr "Could not approve {tokenSymbol}"
 
@@ -440,79 +461,150 @@ msgstr "Could not approve {tokenSymbol}"
 #: src/helpers/notification.js:363
 #: src/helpers/notification.js:472
 #: src/helpers/notification.js:525
+#: src/hooks/useClaimPolicyInfo.jsx:109
 msgid "Could not approve {tokenSymbol} tokens"
 msgstr "Could not approve {tokenSymbol} tokens"
 
+#: src/hooks/useRemoveLiquidity.jsx:52
+msgid "Could not approve {vaultTokenSymbol} tokens"
+msgstr "Could not approve {vaultTokenSymbol} tokens"
+
 #: src/helpers/notification.js:542
+#: src/hooks/useVote.jsx:135
 msgid "Could not attest"
 msgstr "Could not attest"
 
+#: src/hooks/useCalculateLiquidity.jsx:37
+msgid "Could not calculate liquidity"
+msgstr "Could not calculate liquidity"
+
+#: src/hooks/useCalculatePods.jsx:42
+msgid "Could not calculate pods"
+msgstr "Could not calculate pods"
+
+#: src/hooks/useCreateBond.jsx:92
+msgid "Could not calculate tokens"
+msgstr "Could not calculate tokens"
+
 #: src/helpers/notification.js:427
+#: src/hooks/useCapitalizePool.jsx:42
 msgid "Could not capitalize pool"
 msgstr "Could not capitalize pool"
 
+#: src/hooks/useIfWhitelisted.jsx:26
+msgid "Could not check user whitelist status"
+msgstr "Could not check user whitelist status"
+
+#: src/hooks/useClaimBond.jsx:39
+msgid "Could not claim bond"
+msgstr "Could not claim bond"
+
 #: src/helpers/notification.js:192
+#: src/hooks/useClaimPolicyInfo.jsx:207
 #: src/hooks/useClaimPolicyInfo.jsx:235
 #: src/hooks/useClaimPolicyInfo.jsx:235
 msgid "Could not claim policy"
 msgstr "Could not claim policy"
 
 #: src/helpers/notification.js:314
+#: src/hooks/useCreateBond.jsx:270
 msgid "Could not create bond"
 msgstr "Could not create bond"
 
 #: src/helpers/notification.js:156
+#: src/hooks/useDisputeIncident.jsx:221
 msgid "Could not dispute"
 msgstr "Could not dispute"
 
 #: src/helpers/notification.js:119
+#: src/hooks/useResolveIncident.jsx:136
 msgid "Could not emergency resolve incident"
 msgstr "Could not emergency resolve incident"
 
 #: src/helpers/notification.js:456
+#: src/hooks/useFinalizeIncident.jsx:41
 msgid "Could not finalize incident"
 msgstr "Could not finalize incident"
+
+#: src/hooks/useERC20Allowance.jsx:95
+msgid "Could not get allowance"
+msgstr "Could not get allowance"
+
+#: src/hooks/useBondInfo.jsx:38
+msgid "Could not get bond info"
+msgstr "Could not get bond info"
+
+#: src/hooks/usePolicyFees.jsx:63
+msgid "Could not get fees"
+msgstr "Could not get fees"
+
+#: src/hooks/usePoolInfo.jsx:48
+msgid "Could not get pool info"
+msgstr "Could not get pool info"
+
+#: src/hooks/useRoles.jsx:30
+msgid "Could not get roles"
+msgstr "Could not get roles"
+
+#: src/hooks/useMyLiquidityInfo.jsx:60
+msgid "Could not get vault info"
+msgstr "Could not get vault info"
 
 #: src/helpers/notification.js:382
 msgid "Could not provide liquidity"
 msgstr "Could not provide liquidity"
 
 #: src/helpers/notification.js:268
-#: src/hooks/usePurchasePolicy.jsx:234
-#: src/hooks/usePurchasePolicy.jsx:234
+#: src/hooks/usePurchasePolicy.jsx:208
+#: src/hooks/usePurchasePolicy.jsx:237
+#: src/hooks/usePurchasePolicy.jsx:237
 msgid "Could not purchase policy"
 msgstr "Could not purchase policy"
 
 #: src/helpers/notification.js:559
+#: src/hooks/useVote.jsx:223
 msgid "Could not refute"
 msgstr "Could not refute"
 
 #: src/helpers/notification.js:489
 #: src/helpers/notification.js:494
+#: src/hooks/useRemoveLiquidity.jsx:127
 msgid "Could not remove liquidity"
 msgstr "Could not remove liquidity"
 
 #: src/helpers/notification.js:230
+#: src/hooks/useReportIncident.jsx:218
 msgid "Could not report incident"
 msgstr "Could not report incident"
 
 #: src/helpers/notification.js:102
+#: src/hooks/useResolveIncident.jsx:42
 msgid "Could not resolve incident"
 msgstr "Could not resolve incident"
 
 #: src/helpers/notification.js:82
+#: src/hooks/useStakingPoolDeposit.jsx:176
 msgid "Could not stake {tokenSymbol}"
 msgstr "Could not stake {tokenSymbol}"
+
+#: src/hooks/useUnstakeReportingStake.jsx:155
+msgid "Could not unstake & claim NPM"
+msgstr "Could not unstake & claim NPM"
 
 #: src/helpers/notification.js:413
 msgid "Could not unstake & claim {symbol}"
 msgstr "Could not unstake & claim {symbol}"
+
+#: src/hooks/useUnstakeReportingStake.jsx:46
+msgid "Could not unstake NPM"
+msgstr "Could not unstake NPM"
 
 #: src/helpers/notification.js:397
 msgid "Could not unstake {symbol}"
 msgstr "Could not unstake {symbol}"
 
 #: src/helpers/notification.js:40
+#: src/hooks/useStakingPoolWithdraw.jsx:45
 msgid "Could not unstake {tokenSymbol}"
 msgstr "Could not unstake {tokenSymbol}"
 
@@ -521,6 +613,7 @@ msgid "Could not withdraw during lockup period"
 msgstr "Could not withdraw during lockup period"
 
 #: src/helpers/notification.js:22
+#: src/hooks/useStakingPoolWithdraw.jsx:169
 msgid "Could not withdraw rewards"
 msgstr "Could not withdraw rewards"
 
@@ -533,15 +626,23 @@ msgstr "Cover Fee"
 msgid "Cover Products"
 msgstr "Cover Products"
 
+#: src/common/CoverForm/PurchasePolicyModal.jsx:53
+msgid "Cover Purchased Successfully!"
+msgstr "Cover Purchased Successfully!"
+
 #: src/common/CoverRules/CoverRules.jsx:7
 msgid "Cover Rules"
 msgstr "Cover Rules"
 
 #: src/common/Cover/CoverCard.jsx:105
-#: src/common/Cover/ProductCard.jsx:101
-#: src/modules/reporting/active/ActiveReportingCard.jsx:96
+#: src/common/Cover/ProductCard.jsx:111
+#: src/modules/reporting/active/ActiveReportingCard.jsx:106
 msgid "Cover fee:"
 msgstr "Cover fee:"
+
+#: src/modules/home/Hero.jsx:78
+msgid "Coverage"
+msgstr "Coverage"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
 msgid "Coverage Period"
@@ -559,6 +660,7 @@ msgstr "Created bond successfully"
 msgid "Creating bond"
 msgstr "Creating bond"
 
+#: src/common/CookiePolicy/CookiePolicy.jsx:64
 #: src/common/Disclaimer/DisclaimerModal.jsx:138
 msgid "Decline"
 msgstr "Decline"
@@ -567,8 +669,8 @@ msgstr "Decline"
 msgid "Dedicated Pool"
 msgstr "Dedicated Pool"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:128
-#: src/modules/reporting/NewIncidentReportForm.jsx:175
+#: src/modules/reporting/NewDisputeReportForm.jsx:129
+#: src/modules/reporting/NewIncidentReportForm.jsx:195
 msgid "Description"
 msgstr "Description"
 
@@ -576,7 +678,7 @@ msgstr "Description"
 msgid "Didn’t find what you were looking for?"
 msgstr "Didn’t find what you were looking for?"
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:51
+#: src/common/Disclaimer/DisclaimerModal.jsx:52
 msgid "Disclaimer and Warranty"
 msgstr "Disclaimer and Warranty"
 
@@ -584,11 +686,11 @@ msgstr "Disclaimer and Warranty"
 msgid "Disconnect"
 msgstr "Disconnect"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:186
+#: src/modules/reporting/NewDisputeReportForm.jsx:187
 msgid "Dispute"
 msgstr "Dispute"
 
-#: src/modules/reporting/ReportComments.jsx:184
+#: src/modules/reporting/ReportComments.jsx:185
 msgid "Disputed by"
 msgstr "Disputed by"
 
@@ -597,23 +699,22 @@ msgid "Disputed successfully"
 msgstr "Disputed successfully"
 
 #: src/helpers/notification.js:159
-#: src/modules/reporting/NewDisputeReportForm.jsx:186
+#: src/modules/reporting/NewDisputeReportForm.jsx:187
 msgid "Disputing..."
 msgstr "Disputing..."
 
 #: src/common/SelectListBar/SelectListBar.jsx:18
-#: src/common/SelectListBar/__tests__/SelectListBar.test.jsx:29
-#: src/common/SelectListBar/__tests__/SelectListBar.test.jsx:55
-#: src/common/SelectListBar/__tests__/SelectListBar.test.jsx:55
+#: src/common/SelectListBar/__tests__/SelectListBar.test.jsx:56
+#: src/common/SelectListBar/__tests__/SelectListBar.test.jsx:56
 msgid "Diversified Pool"
 msgstr "Diversified Pool"
 
-#: src/common/Cover/ProductCard.jsx:116
-#: src/modules/reporting/active/ActiveReportingCard.jsx:115
+#: src/common/Cover/ProductCard.jsx:126
+#: src/modules/reporting/active/ActiveReportingCard.jsx:125
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 
-#: src/modules/my-liquidity/content/rules.jsx:34
+#: src/modules/my-liquidity/content/rules.jsx:43
 msgid "Download LP Cover Terms"
 msgstr "Download LP Cover Terms"
 
@@ -622,22 +723,18 @@ msgstr "Download LP Cover Terms"
 msgid "Earn"
 msgstr "Earn"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:94
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:97
 msgid "Emergency Resolved"
 msgstr "Emergency Resolved"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:138
+#: src/modules/reporting/resolved/ResolveIncident.jsx:163
 msgid "Emergency resolution"
 msgstr "Emergency resolution"
 
 #: src/modules/reporting/resolved/ResolveIncident.jsx:88
-#: src/modules/reporting/resolved/ResolveIncident.jsx:177
+#: src/modules/reporting/resolved/ResolveIncident.jsx:195
 msgid "Emergency resolve"
 msgstr "Emergency resolve"
-
-#: src/hooks/useResolveIncident.jsx:136
-msgid "Emergency resolve incident"
-msgstr "Emergency resolve incident"
 
 #: src/helpers/notification.js:112
 msgid "Emergency resolved incident successfully"
@@ -647,7 +744,7 @@ msgstr "Emergency resolved incident successfully"
 msgid "Emergency resolving incident"
 msgstr "Emergency resolving incident"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:176
+#: src/modules/reporting/resolved/ResolveIncident.jsx:194
 msgid "Emergency resolving..."
 msgstr "Emergency resolving..."
 
@@ -663,7 +760,7 @@ msgstr "Enter Amount you wish to provide"
 msgid "Enter Dispute Title"
 msgstr "Enter Dispute Title"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:143
+#: src/modules/reporting/NewIncidentReportForm.jsx:160
 msgid "Enter Incident Title"
 msgstr "Enter Incident Title"
 
@@ -671,15 +768,15 @@ msgstr "Enter Incident Title"
 msgid "Enter Npm Amount"
 msgstr "Enter Npm Amount"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:239
+#: src/common/CoverForm/PurchasePolicyForm.jsx:242
 msgid "Enter Referral Code"
 msgstr "Enter Referral Code"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:117
+#: src/modules/reporting/NewDisputeReportForm.jsx:118
 msgid "Enter the dispute title."
 msgstr "Enter the dispute title."
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:147
+#: src/modules/reporting/NewIncidentReportForm.jsx:165
 msgid "Enter the incident title."
 msgstr "Enter the incident title."
 
@@ -695,8 +792,8 @@ msgstr "Enter your POD"
 msgid "Enter your amount"
 msgstr "Enter your amount"
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:147
-#: src/modules/reporting/NewIncidentReportForm.jsx:194
+#: src/modules/reporting/NewDisputeReportForm.jsx:148
+#: src/modules/reporting/NewIncidentReportForm.jsx:214
 msgid "Enter your stake"
 msgstr "Enter your stake"
 
@@ -705,7 +802,7 @@ msgid "Enter your {tokenSymbol}"
 msgstr "Enter your {tokenSymbol}"
 
 #: src/common/TokenBalance.jsx:42
-#: src/hooks/useDisputeIncident.jsx:276
+#: src/hooks/useDisputeIncident.jsx:237
 msgid "Error"
 msgstr "Error"
 
@@ -737,17 +834,17 @@ msgid "Expires In"
 msgstr "Expires In"
 
 #: src/modules/reporting/HorizontalChartLegend.jsx:11
-#: src/modules/reporting/ReportComments.jsx:82
+#: src/modules/reporting/ReportComments.jsx:83
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:53
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:76
 #: src/modules/reporting/active/ActiveReportSummary.jsx:168
 #: src/modules/reporting/active/CastYourVote.jsx:138
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:154
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:93
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:155
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:96
 msgid "False Reporting"
 msgstr "False Reporting"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:154
+#: src/modules/reporting/resolved/ResolveIncident.jsx:115
 msgid "False reporting"
 msgstr "False reporting"
 
@@ -763,27 +860,27 @@ msgstr "Fee: {0}"
 msgid "Fees"
 msgstr "Fees"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:128
+#: src/common/CoverForm/PurchasePolicyForm.jsx:131
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:142
 #: src/modules/my-policies/ClaimCoverModal.jsx:82
 #: src/modules/pools/bond/index.jsx:174
 #: src/modules/pools/staking/StakeForm.jsx:69
-#: src/modules/reporting/NewIncidentReportForm.jsx:228
+#: src/modules/reporting/NewIncidentReportForm.jsx:248
 #: src/modules/reporting/active/CastYourVote.jsx:107
 msgid "Fetching allowance..."
 msgstr "Fetching allowance..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:130
+#: src/common/CoverForm/PurchasePolicyForm.jsx:133
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:189
 #: src/modules/my-policies/ClaimCoverModal.jsx:80
 #: src/modules/pools/bond/index.jsx:172
 #: src/modules/pools/staking/StakeForm.jsx:67
-#: src/modules/reporting/NewIncidentReportForm.jsx:232
+#: src/modules/reporting/NewIncidentReportForm.jsx:252
 #: src/modules/reporting/active/CastYourVote.jsx:105
 msgid "Fetching balance..."
 msgstr "Fetching balance..."
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:126
+#: src/common/CoverForm/PurchasePolicyForm.jsx:129
 msgid "Fetching fees..."
 msgstr "Fetching fees..."
 
@@ -795,13 +892,9 @@ msgstr "Fetching {NPMTokenSymbol} allowance..."
 msgid "Fetching {liquidityTokenSymbol} allowance..."
 msgstr "Fetching {liquidityTokenSymbol} allowance..."
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:266
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:267
 msgid "Finalize"
 msgstr "Finalize"
-
-#: src/hooks/useFinalizeIncident.jsx:41
-msgid "Finalize Incident"
-msgstr "Finalize Incident"
 
 #: src/helpers/notification.js:450
 msgid "Finalized incident successfully"
@@ -811,7 +904,7 @@ msgstr "Finalized incident successfully"
 msgid "Finalizing incident"
 msgstr "Finalizing incident"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:266
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:267
 msgid "Finalizing..."
 msgstr "Finalizing..."
 
@@ -822,10 +915,11 @@ msgstr "Get LP tokens"
 #: src/common/Header/Header.jsx:80
 #: src/modules/cover/CoverOptionsPage.jsx:24
 #: src/modules/cover/CoverOptionsPage.jsx:38
-#: src/modules/cover/add-liquidity/index.jsx:52
+#: src/modules/cover/add-liquidity/index.jsx:53
 #: src/modules/cover/purchase/index.jsx:60
-#: src/modules/reporting/ReportingHero.jsx:15
-#: src/modules/reporting/ReportingHero.jsx:34
+#: src/modules/reporting/ReportingHero.jsx:17
+#: src/modules/reporting/ReportingHero.jsx:36
+#: src/pages/transactions.jsx:27
 msgid "Home"
 msgstr "Home"
 
@@ -833,14 +927,14 @@ msgstr "Home"
 msgid "I Want to"
 msgstr "I Want to"
 
-#: src/modules/cover/add-liquidity/index.jsx:112
+#: src/modules/cover/add-liquidity/index.jsx:113
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:35
-#: src/modules/cover/add-liquidity/index.jsx:127
+#: src/modules/cover/add-liquidity/index.jsx:128
 #: src/modules/cover/purchase/index.jsx:121
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "I have read, understood, and agree to the terms of cover rules"
@@ -849,27 +943,28 @@ msgstr "I have read, understood, and agree to the terms of cover rules"
 msgid "If you do not want to keep approving for each transaction, enable this box."
 msgstr "If you do not want to keep approving for each transaction, enable this box."
 
-#: src/modules/reporting/CoverReportingRules.jsx:54
-msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of total dishonest stakes if you are the first person to report this incident. In addition to NPM rewards, you may also earn a percentage commission on individual claims payout.<0/><1/><2>Note: Dishonest reporters get 100% of their stakes forfeited which is distributed to honest reporters. You may lose all of your stakes if resolution is not in your favor.</2>"
-msgstr "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of total dishonest stakes if you are the first person to report this incident. In addition to NPM rewards, you may also earn a percentage commission on individual claims payout.<0/><1/><2>Note: Dishonest reporters get 100% of their stakes forfeited which is distributed to honest reporters. You may lose all of your stakes if resolution is not in your favor.</2>"
+#: src/modules/reporting/CoverReportingRules.jsx:57
+msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
+msgstr "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:104
+#: src/modules/my-liquidity/content/rules.jsx:66
 msgid "Important Note"
 msgstr "Important Note"
 
 #: src/modules/reporting/HorizontalChartLegend.jsx:8
-#: src/modules/reporting/ReportComments.jsx:79
+#: src/modules/reporting/ReportComments.jsx:80
 #: src/modules/reporting/VotesSummaryDoughnutCharts.jsx:43
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:75
 #: src/modules/reporting/active/ActiveReportSummary.jsx:123
 #: src/modules/reporting/active/CastYourVote.jsx:123
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:109
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:93
+#: src/modules/reporting/resolved/ResolveIncident.jsx:109
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:110
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:96
 msgid "Incident Occurred"
 msgstr "Incident Occurred"
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:215
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:197
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:198
 msgid "Incident Reporters"
 msgstr "Incident Reporters"
 
@@ -879,42 +974,32 @@ msgstr "Incident Reporters"
 msgid "Incident date"
 msgstr "Incident date"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:146
-msgid "Incident occurred"
-msgstr "Incident occurred"
-
 #: src/hooks/useValidateReferralCode.jsx:83
 msgid "Incorrect Referral Code"
 msgstr "Incorrect Referral Code"
 
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:104
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:105
 msgid "Insights"
 msgstr "Insights"
 
 #: src/hooks/useClaimPolicyInfo.jsx:311
 #: src/hooks/useCreateBond.jsx:151
-#: src/hooks/usePurchasePolicy.jsx:92
+#: src/hooks/useDisputeIncident.jsx:246
+#: src/hooks/usePurchasePolicy.jsx:94
 #: src/hooks/useStakingPoolDeposit.jsx:299
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:107
-#: src/modules/reporting/NewDisputeReportForm.jsx:172
+#: src/modules/reporting/NewDisputeReportForm.jsx:173
+#: src/modules/reporting/NewIncidentReportForm.jsx:239
 #: src/modules/reporting/active/CastYourVote.jsx:68
 msgid "Insufficient Balance"
 msgstr "Insufficient Balance"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:93
-#: src/modules/reporting/NewDisputeReportForm.jsx:165
+#: src/hooks/useDisputeIncident.jsx:242
+#: src/modules/reporting/NewDisputeReportForm.jsx:166
+#: src/modules/reporting/NewIncidentReportForm.jsx:232
 msgid "Insufficient Stake"
 msgstr "Insufficient Stake"
-
-#: src/hooks/useDisputeIncident.jsx:285
-#: src/modules/reporting/NewIncidentReportForm.jsx:219
-msgid "Insufficient balance"
-msgstr "Insufficient balance"
-
-#: src/hooks/useDisputeIncident.jsx:281
-#: src/modules/reporting/NewIncidentReportForm.jsx:212
-msgid "Insufficient stake"
-msgstr "Insufficient stake"
 
 #: src/hooks/useValidateReferralCode.jsx:80
 msgid "Invalid Referral Code"
@@ -928,7 +1013,7 @@ msgstr "Invalid amount to bond"
 msgid "Invalid amount to claim"
 msgstr "Invalid amount to claim"
 
-#: src/hooks/usePurchasePolicy.jsx:87
+#: src/hooks/usePurchasePolicy.jsx:89
 msgid "Invalid amount to cover"
 msgstr "Invalid amount to cover"
 
@@ -944,10 +1029,10 @@ msgstr "LAST SYNCED:"
 
 #: src/common/Cover/CoverCard.jsx:146
 #: src/common/Cover/CoverCard.jsx:194
-#: src/common/Cover/ProductCard.jsx:175
-#: src/common/Cover/ProductCard.jsx:223
+#: src/common/Cover/ProductCard.jsx:193
+#: src/common/Cover/ProductCard.jsx:243
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:307
-#: src/common/SearchAndSortBar.jsx:23
+#: src/common/SearchAndSortBar.jsx:24
 msgid "Liquidity"
 msgstr "Liquidity"
 
@@ -981,14 +1066,14 @@ msgstr "Maximum Bond"
 msgid "Maximum Limit:"
 msgstr "Maximum Limit:"
 
-#: src/hooks/usePurchasePolicy.jsx:98
+#: src/hooks/usePurchasePolicy.jsx:100
 msgid "Maximum protection available is {0}"
 msgstr "Maximum protection available is {0}"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:217
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:183
-#: src/modules/reporting/NewDisputeReportForm.jsx:158
-#: src/modules/reporting/NewIncidentReportForm.jsx:205
+#: src/modules/reporting/NewDisputeReportForm.jsx:159
+#: src/modules/reporting/NewIncidentReportForm.jsx:225
 #: src/modules/reporting/active/CastYourVote.jsx:170
 msgid "Minimum Stake:"
 msgstr "Minimum Stake:"
@@ -997,6 +1082,7 @@ msgstr "Minimum Stake:"
 msgid "My Active Protection"
 msgstr "My Active Protection"
 
+#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
 #: src/common/Header/Header.jsx:62
 #: src/modules/my-liquidity/details.jsx:52
 #: src/modules/my-liquidity/details.jsx:79
@@ -1004,10 +1090,6 @@ msgstr "My Active Protection"
 #: src/pages/my-liquidity/transactions.jsx:41
 msgid "My Liquidity"
 msgstr "My Liquidity"
-
-#: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
-msgid "My Liquidity:"
-msgstr "My Liquidity:"
 
 #: src/common/Header/Header.jsx:57
 #: src/modules/my-policies/ClaimDetailsPage.jsx:79
@@ -1021,6 +1103,10 @@ msgstr "My Policies"
 msgid "My Total Liquidity"
 msgstr "My Total Liquidity"
 
+#: src/pages/transactions.jsx:31
+msgid "My Transactions"
+msgstr "My Transactions"
+
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:266
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:233
 msgid "NEXT UNLOCK CYCLE"
@@ -1031,13 +1117,15 @@ msgid "NPM Logo"
 msgstr "NPM Logo"
 
 #: src/common/HeaderLogo.jsx:8
+#: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:135
 msgid "Neptune Mutual"
 msgstr "Neptune Mutual"
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:98
+#: src/common/Disclaimer/DisclaimerModal.jsx:99
 msgid "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
 msgstr "Neptune may change this disclaimer at any time without notice to you and without liability to you or any other party. It is your responsibility to periodically check this disclaimer for changes. If you do not agree to any changes made to this disclaimer, you should cease use of this testnet."
 
+#: lib/hl-calendar/index.jsx:66
 #: src/common/AcceptRulesForm/AcceptRulesForm.jsx:84
 msgid "Next"
 msgstr "Next"
@@ -1051,11 +1139,16 @@ msgid "No POD"
 msgstr "No POD"
 
 #: src/common/Table/Table.jsx:78
-#: src/modules/reporting/resolved/resolved.jsx:250
+#: src/modules/my-liquidity/index.jsx:49
+#: src/modules/my-policies/active/PoliciesActivePage.jsx:56
+#: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:62
+#: src/modules/pools/pod-staking/index.jsx:147
+#: src/modules/pools/staking/index.jsx:140
+#: src/modules/reporting/NewDisputeReportFormContainer.jsx:57
+#: src/modules/reporting/active/ActiveReportingEmptyState.jsx:58
+#: src/modules/reporting/resolved/resolved.jsx:251
 #: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:82
 #: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:48
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:82
 msgid "No data found"
 msgstr "No data found"
 
@@ -1063,7 +1156,7 @@ msgstr "No data found"
 msgid "No known incident found for any cover product. If you believe a cover incident has occurred, earn rewards by reporting the incident."
 msgstr "No known incident found for any cover product. If you believe a cover incident has occurred, earn rewards by reporting the incident."
 
-#: src/common/TransactionList/TransactionList.jsx:132
+#: src/common/TransactionList/TransactionList.jsx:124
 msgid "No transaction history to show"
 msgstr "No transaction history to show"
 
@@ -1071,8 +1164,7 @@ msgstr "No transaction history to show"
 msgid "No valid incidents are reported with the given timestamp"
 msgstr "No valid incidents are reported with the given timestamp"
 
-#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:95
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:95
+#: src/modules/reporting/NewDisputeReportFormContainer.jsx:70
 msgid "Not applicable for disputing"
 msgstr "Not applicable for disputing"
 
@@ -1080,7 +1172,7 @@ msgstr "Not applicable for disputing"
 msgid "Notification"
 msgstr "Notification"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:152
+#: src/modules/reporting/NewIncidentReportForm.jsx:170
 msgid "Observed Date & Time"
 msgstr "Observed Date & Time"
 
@@ -1096,16 +1188,21 @@ msgid "POD Staking"
 msgstr "POD Staking"
 
 #: src/hooks/useClaimPolicyInfo.jsx:301
-#: src/hooks/usePurchasePolicy.jsx:82
+#: src/hooks/usePurchasePolicy.jsx:84
 #: src/hooks/useStakingPoolDeposit.jsx:289
-msgid "Please connect your wallet"
-msgstr "Please connect your wallet"
-
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:119
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:125
 #: src/modules/pools/bond/MyBondTxsTable.jsx:117
+msgid "Please connect your wallet"
+msgstr "Please connect your wallet"
+
+#: src/modules/transactions/MyTransactionsTable.jsx:139
 msgid "Please connect your wallet..."
 msgstr "Please connect your wallet..."
+
+#: src/common/CoverForm/PurchasePolicyModal.jsx:77
+msgid "Please do not exit this page while transaction is in progress"
+msgstr "Please do not exit this page while transaction is in progress"
 
 #: src/hooks/useCreateBond.jsx:156
 msgid "Please specify a value"
@@ -1121,7 +1218,11 @@ msgstr "Please specify an amount"
 msgid "Pool"
 msgstr "Pool"
 
-#: src/modules/my-liquidity/content/CoveredProducts.jsx:57
+#: lib/hl-calendar/index.jsx:56
+msgid "Previous"
+msgstr "Previous"
+
+#: src/modules/my-liquidity/content/CoveredProducts.jsx:58
 msgid "Products Covered Under This Pool"
 msgstr "Products Covered Under This Pool"
 
@@ -1132,26 +1233,26 @@ msgstr "Proof of incident"
 
 #: src/common/Cover/CoverCard.jsx:143
 #: src/common/Cover/CoverCard.jsx:165
-#: src/common/Cover/ProductCard.jsx:172
-#: src/common/Cover/ProductCard.jsx:194
-#: src/modules/reporting/active/ActiveReportingCard.jsx:170
-#: src/modules/reporting/active/ActiveReportingCard.jsx:194
+#: src/common/Cover/ProductCard.jsx:190
+#: src/common/Cover/ProductCard.jsx:214
+#: src/modules/reporting/active/ActiveReportingCard.jsx:188
+#: src/modules/reporting/active/ActiveReportingCard.jsx:212
 msgid "Protection"
 msgstr "Protection"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:360
-#: src/modules/cover/add-liquidity/index.jsx:58
+#: src/modules/cover/add-liquidity/index.jsx:59
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
 msgstr "Provide Liquidity"
 
 #: src/modules/reporting/form/index.jsx:146
-#: src/modules/reporting/form/index.jsx:164
+#: src/modules/reporting/form/index.jsx:165
 msgid "Provide a URL confirming the nature of the incident."
 msgstr "Provide a URL confirming the nature of the incident."
 
-#: src/modules/reporting/NewDisputeReportForm.jsx:134
-#: src/modules/reporting/NewIncidentReportForm.jsx:181
+#: src/modules/reporting/NewDisputeReportForm.jsx:135
+#: src/modules/reporting/NewIncidentReportForm.jsx:201
 msgid "Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident."
 msgstr "Provide a brief explanation of the incident along with any of your own research or comments relating to the validity of the incident."
 
@@ -1160,29 +1261,23 @@ msgid "Provided Liquidity Successfully"
 msgstr "Provided Liquidity Successfully"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:356
+#: src/helpers/notification.js:385
 msgid "Providing Liquidity..."
 msgstr "Providing Liquidity..."
 
-#: src/helpers/notification.js:385
-msgid "Providing liquidity"
-msgstr "Providing liquidity"
-
+#: src/common/CoverForm/PurchasePolicyForm.jsx:317
 #: src/modules/cover/purchase/index.jsx:68
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
 msgstr "Purchase Policy"
-
-#: src/common/CoverForm/PurchasePolicyForm.jsx:314
-msgid "Purchase policy"
-msgstr "Purchase policy"
 
 #: src/modules/my-policies/PolicyCardFooter.jsx:89
 msgid "Purchased Policy"
 msgstr "Purchased Policy"
 
 #: src/helpers/notification.js:261
-#: src/hooks/usePurchasePolicy.jsx:233
-#: src/hooks/usePurchasePolicy.jsx:233
+#: src/hooks/usePurchasePolicy.jsx:236
+#: src/hooks/usePurchasePolicy.jsx:236
 msgid "Purchased Policy Successfully"
 msgstr "Purchased Policy Successfully"
 
@@ -1191,17 +1286,16 @@ msgid "Purchased {tokenAmountWithSymbol} {projectOrProductName} policy"
 msgstr "Purchased {tokenAmountWithSymbol} {projectOrProductName} policy"
 
 #: src/helpers/notification.js:273
-#: src/hooks/usePurchasePolicy.jsx:232
-#: src/hooks/usePurchasePolicy.jsx:232
+#: src/hooks/usePurchasePolicy.jsx:235
+#: src/hooks/usePurchasePolicy.jsx:235
 msgid "Purchasing Policy"
 msgstr "Purchasing Policy"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:314
+#: src/common/CoverForm/PurchasePolicyForm.jsx:317
 msgid "Purchasing..."
 msgstr "Purchasing..."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:48
-#: src/modules/reporting/active/ActiveReportingEmptyState.jsx:97
 msgid "REPORT AN INCIDENT"
 msgstr "REPORT AN INCIDENT"
 
@@ -1222,7 +1316,7 @@ msgstr "Reassurance:"
 msgid "Recent Votes"
 msgstr "Recent Votes"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:231
+#: src/common/CoverForm/PurchasePolicyForm.jsx:234
 msgid "Referral Code"
 msgstr "Referral Code"
 
@@ -1238,7 +1332,7 @@ msgstr "Removed Liquidity Successfully"
 msgid "Removed {tokenAmountWithSymbol} from {coverOrProjectName}"
 msgstr "Removed {tokenAmountWithSymbol} from {coverOrProjectName}"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewIncidentReportForm.jsx:261
 msgid "Report"
 msgstr "Report"
 
@@ -1251,15 +1345,19 @@ msgstr "Report Incident"
 msgid "Report Summary"
 msgstr "Report Summary"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:134
+#: src/modules/reporting/NewIncidentReportForm.jsx:151
+msgid "Report an Incident"
+msgstr "Report an Incident"
+
+#: src/modules/reporting/active/ActiveReportingEmptyState.jsx:98
 msgid "Report an incident"
 msgstr "Report an incident"
 
-#: src/modules/reporting/active/ActiveReportingCard.jsx:240
+#: src/modules/reporting/active/ActiveReportingCard.jsx:258
 msgid "Reported On:"
 msgstr "Reported On:"
 
-#: src/modules/reporting/ReportComments.jsx:168
+#: src/modules/reporting/ReportComments.jsx:169
 msgid "Reported by"
 msgstr "Reported by"
 
@@ -1269,8 +1367,8 @@ msgstr "Reported incident successfully"
 
 #: src/common/Header/Header.jsx:67
 #: src/common/HomeCard/HomeMainCard.jsx:23
-#: src/modules/reporting/ReportingHero.jsx:17
-#: src/modules/reporting/ReportingHero.jsx:44
+#: src/modules/reporting/ReportingHero.jsx:19
+#: src/modules/reporting/ReportingHero.jsx:46
 #: src/modules/reporting/ReportingTabs.jsx:27
 msgid "Reporting"
 msgstr "Reporting"
@@ -1279,8 +1377,10 @@ msgstr "Reporting"
 msgid "Reporting Info"
 msgstr "Reporting Info"
 
+#: src/common/Cover/CoverResolutionSources.jsx:32
+#: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:28
 #: src/modules/reporting/active/ActiveReportSummary.jsx:232
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:214
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:215
 msgid "Reporting Period"
 msgstr "Reporting Period"
 
@@ -1288,7 +1388,7 @@ msgstr "Reporting Period"
 msgid "Reporting incident"
 msgstr "Reporting incident"
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:241
+#: src/modules/reporting/NewIncidentReportForm.jsx:261
 #: src/modules/reporting/active/CastYourVote.jsx:221
 msgid "Reporting..."
 msgstr "Reporting..."
@@ -1304,10 +1404,6 @@ msgstr "Resolution Sources"
 #: src/modules/reporting/resolved/ResolveIncident.jsx:79
 msgid "Resolve"
 msgstr "Resolve"
-
-#: src/hooks/useResolveIncident.jsx:42
-msgid "Resolve Incident"
-msgstr "Resolve Incident"
 
 #: src/modules/reporting/ReportingTabs.jsx:17
 msgid "Resolved"
@@ -1337,15 +1433,15 @@ msgstr "Resolving incident"
 msgid "Resolving..."
 msgstr "Resolving..."
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:92
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:95
 msgid "Result:"
 msgstr "Result:"
 
-#: src/modules/my-liquidity/content/rules.jsx:172
+#: src/modules/my-liquidity/content/rules.jsx:134
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Risk Disclosure / Disclaimer"
 
-#: src/common/SearchAndSortBar.jsx:46
+#: src/common/SearchAndSortBar.jsx:47
 msgid "Search"
 msgstr "Search"
 
@@ -1353,36 +1449,36 @@ msgstr "Search"
 msgid "Search Language"
 msgstr "Search Language"
 
-#: src/common/SeeMoreParagraph.jsx:40
+#: src/common/SeeMoreParagraph.jsx:41
 msgid "See less"
 msgstr "See less"
 
-#: src/common/SeeMoreParagraph.jsx:40
+#: src/common/SeeMoreParagraph.jsx:41
 msgid "See more"
 msgstr "See more"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:195
+#: src/common/CoverForm/PurchasePolicyForm.jsx:198
 msgid "Select your coverage period"
 msgstr "Select your coverage period"
 
-#: src/modules/reporting/resolved/ResolveIncident.jsx:142
+#: src/modules/reporting/resolved/ResolveIncident.jsx:168
 msgid "Select your decision"
 msgstr "Select your decision"
 
 #: src/common/ProductsGrid/ProductsGrid.jsx:164
 #: src/common/Table/Table.jsx:39
-#: src/modules/home/AvailableCovers.jsx:169
+#: src/modules/home/AvailableCovers.jsx:178
 #: src/modules/pools/pod-staking/index.jsx:125
 #: src/modules/pools/staking/index.jsx:121
-#: src/modules/reporting/active/active.jsx:156
+#: src/modules/reporting/active/active.jsx:157
 msgid "Show More"
 msgstr "Show More"
 
 #: src/modules/reporting/active/CastYourVote.jsx:232
-msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
-msgstr "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
+msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
+msgstr "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
 
-#: src/common/SearchAndSortBar.jsx:58
+#: src/common/SearchAndSortBar.jsx:59
 msgid "Sort by:"
 msgstr "Sort by:"
 
@@ -1400,8 +1496,8 @@ msgstr "Stake"
 #: src/modules/reporting/VotesSummaryHorizontalChart.jsx:85
 #: src/modules/reporting/active/ActiveReportSummary.jsx:132
 #: src/modules/reporting/active/ActiveReportSummary.jsx:177
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:118
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:163
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:119
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:164
 msgid "Stake:"
 msgstr "Stake:"
 
@@ -1421,7 +1517,7 @@ msgstr "Staking {tokenSymbol}"
 msgid "Staking..."
 msgstr "Staking..."
 
-#: src/modules/my-liquidity/content/rules.jsx:116
+#: src/modules/my-liquidity/content/rules.jsx:78
 msgid "Standard Exclusions"
 msgstr "Standard Exclusions"
 
@@ -1444,10 +1540,6 @@ msgstr "Success"
 msgid "TVL"
 msgstr "TVL"
 
-#: src/modules/home/Hero.jsx:78
-msgid "TVL (Cover)"
-msgstr "TVL (Cover)"
-
 #: src/modules/home/Hero.jsx:88
 msgid "TVL (Pool)"
 msgstr "TVL (Pool)"
@@ -1460,23 +1552,23 @@ msgstr "Take me back to homepage"
 msgid "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 msgstr "The bond feature provides you NPM tokens at a discounted value for a vesting period of {vestingPeriodInterval}."
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:86
+#: src/common/Disclaimer/DisclaimerModal.jsx:87
 msgid "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
 msgstr "The cover creators, covers, covers availability, liquidity volume, protection amount, utilization ratio, as well as any other content in the testnet are fictitious and solely for the purpose of testing and experimenting. Neptune does not guarantee or warrant such information or content will be similar or close to the actual environment when the mainnet deploys. The logos and cover creators placed on the testnet are not intended to imply any official endorsement or commitment by those creators."
 
-#: src/modules/reporting/NewIncidentReportForm.jsx:163
+#: src/modules/reporting/NewIncidentReportForm.jsx:183
 msgid "The date and time you observed the incident."
 msgstr "The date and time you observed the incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:62
+#: src/modules/my-liquidity/content/rules.jsx:10
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:67
+#: src/common/Disclaimer/DisclaimerModal.jsx:68
 msgid "The purpose of this testnet environment is to test and conduct experiment on Neptune Mutual protocol without imposing risk to any digital assets or the main chain. Hence, this testnet environment is furnished for testing and experimenting only, and is subject to continuous updating, changing, improving, and/or periodically shut down without notice. The testnet environment may be malfunctioned, include technical errors or typographical errors. Any content, information, data, logo, including but not limited to covers providers, liquidity, protection policy are fictitious and should not be construed as a commitment by Neptune, and without warranties implied or statutory including without limitation warranties of merchantability, fitness for a particular use and non-infringement. Neptune accepts no responsibility or liability from any visitors on the testnet with regard to any issue incurred as a result of using or visiting the testnet environment."
 msgstr "The purpose of this testnet environment is to test and conduct experiment on Neptune Mutual protocol without imposing risk to any digital assets or the main chain. Hence, this testnet environment is furnished for testing and experimenting only, and is subject to continuous updating, changing, improving, and/or periodically shut down without notice. The testnet environment may be malfunctioned, include technical errors or typographical errors. Any content, information, data, logo, including but not limited to covers providers, liquidity, protection policy are fictitious and should not be construed as a commitment by Neptune, and without warranties implied or statutory including without limitation warranties of merchantability, fitness for a particular use and non-infringement. Neptune accepts no responsibility or liability from any visitors on the testnet with regard to any issue incurred as a result of using or visiting the testnet environment."
 
-#: src/modules/reporting/CoverReportingRules.jsx:37
+#: src/modules/reporting/CoverReportingRules.jsx:40
 msgid "There are no known incidents of {0}."
 msgstr "There are no known incidents of {0}."
 
@@ -1488,7 +1580,7 @@ msgstr "This report concluded on {longDate}"
 msgid "This report will be concluded on {longDate}"
 msgstr "This report will be concluded on {longDate}"
 
-#: src/common/Disclaimer/DisclaimerModal.jsx:60
+#: src/common/Disclaimer/DisclaimerModal.jsx:61
 msgid "This testnet environment is built by Neptune Mutual, i.e. its operating entity Neptune Tech Limited and/or its affiliated companies (collectively “Neptune”)."
 msgstr "This testnet environment is built by Neptune Mutual, i.e. its operating entity Neptune Tech Limited and/or its affiliated companies (collectively “Neptune”)."
 
@@ -1497,7 +1589,7 @@ msgid "Timestamp"
 msgstr "Timestamp"
 
 #: src/modules/reporting/NewDisputeReportForm.jsx:109
-#: src/modules/reporting/NewIncidentReportForm.jsx:139
+#: src/modules/reporting/NewIncidentReportForm.jsx:156
 msgid "Title"
 msgstr "Title"
 
@@ -1532,7 +1624,11 @@ msgstr "Total Liquidity:"
 msgid "Transaction List"
 msgstr "Transaction List"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:115
+#: src/common/CoverForm/PurchasePolicyModal.jsx:74
+msgid "Transaction in progress"
+msgstr "Transaction in progress"
+
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:119
 msgid "UNSTAKE"
 msgstr "UNSTAKE"
 
@@ -1550,18 +1646,10 @@ msgid "Unlock Date"
 msgstr "Unlock Date"
 
 #: src/modules/pools/staking/UnStakeForm.jsx:101
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:152
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:168
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:156
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:172
 msgid "Unstake"
 msgstr "Unstake"
-
-#: src/hooks/useUnstakeReportingStake.jsx:154
-msgid "Unstake & claim NPM"
-msgstr "Unstake & claim NPM"
-
-#: src/hooks/useUnstakeReportingStake.jsx:46
-msgid "Unstake NPM"
-msgstr "Unstake NPM"
 
 #: src/helpers/notification.js:407
 msgid "Unstaked & claimed {symbol} Successfully"
@@ -1587,31 +1675,31 @@ msgstr "Unstaking {symbol}"
 msgid "Unstaking {tokenSymbol}"
 msgstr "Unstaking {tokenSymbol}"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:168
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:172
 msgid "Unstaking..."
 msgstr "Unstaking..."
 
 #: src/modules/reporting/active/ActiveReportSummary.jsx:128
 #: src/modules/reporting/active/ActiveReportSummary.jsx:173
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:114
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:159
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:115
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:160
 msgid "User Votes:"
 msgstr "User Votes:"
 
 #: src/common/Cover/CoverCard.jsx:123
-#: src/common/Cover/ProductCard.jsx:151
-#: src/common/SearchAndSortBar.jsx:22
-#: src/modules/reporting/active/ActiveReportingCard.jsx:150
+#: src/common/Cover/ProductCard.jsx:169
+#: src/common/SearchAndSortBar.jsx:23
+#: src/modules/reporting/active/ActiveReportingCard.jsx:168
 #: src/modules/reporting/active/active.jsx:83
 msgid "Utilization ratio"
 msgstr "Utilization ratio"
 
 #: src/common/Cover/CoverCard.jsx:138
-#: src/modules/reporting/active/ActiveReportingCard.jsx:165
+#: src/modules/reporting/active/ActiveReportingCard.jsx:183
 msgid "Utilization ratio:"
 msgstr "Utilization ratio:"
 
-#: src/common/Cover/ProductCard.jsx:166
+#: src/common/Cover/ProductCard.jsx:184
 msgid "Utilization ratio: {0}"
 msgstr "Utilization ratio: {0}"
 
@@ -1619,11 +1707,15 @@ msgstr "Utilization ratio: {0}"
 msgid "Vault Info"
 msgstr "Vault Info"
 
-#: src/common/TransactionList/TransactionList.jsx:97
+#: src/common/TransactionList/TransactionList.jsx:89
 msgid "View More"
 msgstr "View More"
 
-#: src/common/TransactionList/TransactionList.jsx:177
+#: src/common/CoverForm/PurchasePolicyModal.jsx:62
+msgid "View Policy Receipt"
+msgstr "View Policy Receipt"
+
+#: src/common/TransactionList/TransactionList.jsx:169
 msgid "View Tx"
 msgstr "View Tx"
 
@@ -1638,6 +1730,10 @@ msgstr "View transaction"
 #: src/modules/home/AvailableCovers.jsx:130
 msgid "View:"
 msgstr "View:"
+
+#: src/common/CookiePolicy/CookiePolicy.jsx:45
+msgid "We use third-party cookies in order to personalize your experience."
+msgstr "We use third-party cookies in order to personalize your experience."
 
 #: src/modules/reporting/RecentVotesTable.jsx:60
 msgid "Weight"
@@ -1665,9 +1761,6 @@ msgid "Withdrawing rewards"
 msgstr "Withdrawing rewards"
 
 #: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:326
-msgid "Withdrawing.."
-msgstr "Withdrawing.."
-
 #: src/modules/pools/staking/UnStakeForm.jsx:101
 msgid "Withdrawing..."
 msgstr "Withdrawing..."
@@ -1676,31 +1769,25 @@ msgstr "Withdrawing..."
 msgid "Withdrawn rewards successfully"
 msgstr "Withdrawn rewards successfully"
 
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:158
-msgid "YOU WILL RECEIVE"
-msgstr "YOU WILL RECEIVE"
-
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:197
 #: src/modules/pools/staking/HarvestForm.jsx:42
 #: src/modules/pools/staking/StakingCard.jsx:207
 msgid "You Earned"
 msgstr "You Earned"
 
-#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:259
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:219
-#: src/modules/pools/bond/index.jsx:198
-msgid "You Will Receive"
-msgstr "You Will Receive"
-
-#: src/common/CoverForm/PurchasePolicyForm.jsx:136
+#: src/common/CoverForm/PurchasePolicyForm.jsx:139
 msgid "You are not whitelisted"
 msgstr "You are not whitelisted"
 
+#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:259
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:219
 #: src/modules/my-policies/ClaimCoverModal.jsx:128
+#: src/modules/pools/bond/index.jsx:198
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:162
 msgid "You will receive"
 msgstr "You will receive"
 
-#: src/common/CoverForm/PurchasePolicyForm.jsx:182
+#: src/common/CoverForm/PurchasePolicyForm.jsx:185
 msgid "You will receive:"
 msgstr "You will receive:"
 
@@ -1708,29 +1795,22 @@ msgstr "You will receive:"
 msgid "Your Bond"
 msgstr "Your Bond"
 
+#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:225
+#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:175
 #: src/modules/pools/pod-staking/PodStakingCard.jsx:95
 #: src/modules/pools/staking/HarvestForm.jsx:39
 #: src/modules/pools/staking/StakingCard.jsx:93
+#: src/modules/pools/staking/UnStakeForm.jsx:77
 #: src/modules/reporting/active/ActiveReportSummary.jsx:147
 #: src/modules/reporting/active/ActiveReportSummary.jsx:196
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:133
-#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:178
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:134
+#: src/modules/reporting/resolved/ResolvedReportSummary.jsx:179
 msgid "Your Stake"
 msgstr "Your Stake"
-
-#: src/common/LiquidityForms/ProvideLiquidityForm.jsx:225
-#: src/modules/my-liquidity/content/WithdrawLiquidityForm.jsx:175
-#: src/modules/pools/staking/UnStakeForm.jsx:77
-msgid "Your Stake:"
-msgstr "Your Stake:"
 
 #: src/common/Banner.jsx:30
 msgid "You’re on {0} Network. Get <0>Test Tokens</0> or <1>View Leaderboard</1>."
 msgstr "You’re on {0} Network. Get <0>Test Tokens</0> or <1>View Leaderboard</1>."
-
-#: src/modules/reporting/RecentVotesTable.jsx:54
-msgid "account"
-msgstr "account"
 
 #: src/common/Header/Header.jsx:225
 #: src/common/Header/Header.jsx:227
@@ -1739,77 +1819,12 @@ msgstr "account"
 msgid "account details"
 msgstr "account details"
 
-#: src/hooks/useMyLiquidityInfo.jsx:159
-msgid "accrue interest"
-msgstr "accrue interest"
-
-#: src/hooks/useProvideLiquidity.jsx:253
-msgid "add liquidity"
-msgstr "add liquidity"
-
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:66
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:64
 #: src/modules/pools/bond/MyBondTxsTable.jsx:65
+#: src/modules/transactions/MyTransactionsTable.jsx:48
 msgid "amount"
 msgstr "amount"
-
-#: src/hooks/useProvideLiquidity.jsx:90
-msgid "approve DAI"
-msgstr "approve DAI"
-
-#: src/hooks/useCreateBond.jsx:194
-msgid "approve LP tokens"
-msgstr "approve LP tokens"
-
-#: src/hooks/useProvideLiquidity.jsx:169
-msgid "approve NPM"
-msgstr "approve NPM"
-
-#: src/hooks/useDisputeIncident.jsx:70
-#: src/hooks/useReportIncident.jsx:66
-#: src/hooks/useVote.jsx:61
-msgid "approve {NPMTokenSymbol} tokens"
-msgstr "approve {NPMTokenSymbol} tokens"
-
-#: src/hooks/usePurchasePolicy.jsx:126
-msgid "approve {liquidityTokenSymbol}"
-msgstr "approve {liquidityTokenSymbol}"
-
-#: src/hooks/useStakingPoolDeposit.jsx:78
-msgid "approve {tokenSymbol}"
-msgstr "approve {tokenSymbol}"
-
-#: src/hooks/useClaimPolicyInfo.jsx:109
-msgid "approve {tokenSymbol} tokens"
-msgstr "approve {tokenSymbol} tokens"
-
-#: src/hooks/useRemoveLiquidity.jsx:52
-msgid "approve {vaultTokenSymbol} tokens"
-msgstr "approve {vaultTokenSymbol} tokens"
-
-#: src/hooks/useVote.jsx:136
-msgid "attest"
-msgstr "attest"
-
-#: src/hooks/useCalculateLiquidity.jsx:37
-msgid "calculate liquidity"
-msgstr "calculate liquidity"
-
-#: src/hooks/useCalculatePods.jsx:42
-msgid "calculate pods"
-msgstr "calculate pods"
-
-#: src/hooks/useCreateBond.jsx:92
-msgid "calculate tokens"
-msgstr "calculate tokens"
-
-#: src/hooks/useClaimBond.jsx:39
-msgid "claim bond"
-msgstr "claim bond"
-
-#: src/hooks/useClaimPolicyInfo.jsx:207
-msgid "claim policy"
-msgstr "claim policy"
 
 #: src/common/Banner.jsx:60
 #: src/common/TagsInput/TagsInput.jsx:44
@@ -1820,10 +1835,6 @@ msgstr "close"
 msgid "cover"
 msgstr "cover"
 
-#: src/hooks/useCreateBond.jsx:270
-msgid "create bond"
-msgstr "create bond"
-
 #: src/modules/reporting/ReportListing.jsx:79
 #: src/modules/reporting/resolved/resolved.jsx:186
 msgid "date and time"
@@ -1832,40 +1843,9 @@ msgstr "date and time"
 #: src/modules/my-liquidity/MyLiquidityTxsTable.jsx:60
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:58
 #: src/modules/pools/bond/MyBondTxsTable.jsx:59
+#: src/modules/transactions/MyTransactionsTable.jsx:42
 msgid "details"
 msgstr "details"
-
-#: src/hooks/useDisputeIncident.jsx:164
-msgid "dispute"
-msgstr "dispute"
-
-#: src/hooks/useERC20Allowance.jsx:95
-msgid "get allowance"
-msgstr "get allowance"
-
-#: src/hooks/usePolicyFees.jsx:63
-msgid "get fees"
-msgstr "get fees"
-
-#: src/hooks/usePoolInfo.jsx:48
-msgid "get pool info"
-msgstr "get pool info"
-
-#: src/hooks/useRoles.jsx:30
-msgid "get roles"
-msgstr "get roles"
-
-#: src/hooks/useMyLiquidityInfo.jsx:60
-msgid "get vault info"
-msgstr "get vault info"
-
-#: src/hooks/useIfWhitelisted.jsx:26
-msgid "getting user whitelisted"
-msgstr "getting user whitelisted"
-
-#: src/modules/reporting/form/index.jsx:142
-msgid "https://"
-msgstr "https://"
 
 #: src/common/Table/Table.jsx:39
 #: src/common/Table/Table.jsx:78
@@ -1874,79 +1854,35 @@ msgstr "https://"
 #: src/modules/cover/CoverOptionsPage.jsx:31
 #: src/modules/cover/CoverOptionsPage.jsx:40
 #: src/modules/cover/CoverOptionsPage.jsx:56
-#: src/modules/cover/add-liquidity/index.jsx:37
+#: src/modules/cover/add-liquidity/index.jsx:38
 #: src/modules/cover/purchase/index.jsx:37
 #: src/modules/my-liquidity/details.jsx:32
 #: src/modules/my-policies/ClaimDetailsPage.jsx:50
+#: src/modules/reporting/NewDisputeReportFormContainer.jsx:24
+#: src/modules/reporting/NewDisputeReportFormContainer.jsx:51
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:46
 #: src/modules/reporting/new/index.jsx:44
 #: src/modules/reporting/resolved/ResolveIncident.jsx:49
-#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:55
-#: src/modules/reporting/resolved/resolved.jsx:250
+#: src/modules/reporting/resolved/UnstakeYourAmount.jsx:63
+#: src/modules/reporting/resolved/resolved.jsx:251
 #: src/pages/my-liquidity/index.jsx:43
 #: src/pages/reports/[coverId]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[coverId]/incidents/[timestamp]/dispute.jsx:76
 #: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/details.jsx:42
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:36
-#: src/pages/reports/[coverId]/products/[productId]/incidents/[timestamp]/dispute.jsx:76
 msgid "loading..."
 msgstr "loading..."
-
-#: lib/hl-calendar/index.jsx:66
-msgid "next"
-msgstr "next"
-
-#: src/modules/my-liquidity/index.jsx:49
-#: src/modules/my-policies/active/PoliciesActivePage.jsx:56
-#: src/modules/my-policies/expired/PoliciesExpiredPage.jsx:62
-#: src/modules/pools/pod-staking/index.jsx:147
-#: src/modules/pools/staking/index.jsx:140
-#: src/modules/reporting/active/ActiveReportingEmptyState.jsx:58
-msgid "no data found"
-msgstr "no data found"
 
 #: src/modules/my-policies/ClaimCoverModal.jsx:97
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:190
 msgid "policy"
 msgstr "policy"
 
-#: lib/hl-calendar/index.jsx:56
-msgid "previous"
-msgstr "previous"
-
-#: src/hooks/usePurchasePolicy.jsx:207
-msgid "purchase policy"
-msgstr "purchase policy"
-
-#: src/hooks/useVote.jsx:224
-msgid "refute"
-msgstr "refute"
-
-#: src/hooks/useRemoveLiquidity.jsx:127
-msgid "remove liquidity"
-msgstr "remove liquidity"
-
-#: src/hooks/useReportIncident.jsx:217
-msgid "report incident"
-msgstr "report incident"
-
 #: src/modules/reporting/ReportListing.jsx:74
 msgid "reporter"
 msgstr "reporter"
 
-#: src/common/Cover/CoverResolutionSources.jsx:32
-#: src/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources.jsx:28
-msgid "reporting period"
-msgstr "reporting period"
-
 #: src/modules/reporting/active/ActiveReportingEmptyState.jsx:69
 msgid "select a cover"
 msgstr "select a cover"
-
-#: src/hooks/useStakingPoolDeposit.jsx:176
-msgid "stake {tokenSymbol}"
-msgstr "stake {tokenSymbol}"
 
 #: src/modules/pools/pod-staking/index.jsx:153
 msgid "staking pools found."
@@ -1987,10 +1923,6 @@ msgstr "total refuted stake"
 msgid "transaction overview button"
 msgstr "transaction overview button"
 
-#: src/hooks/useStakingPoolWithdraw.jsx:46
-msgid "unstake {tokenSymbol}"
-msgstr "unstake {tokenSymbol}"
-
 #: src/modules/pools/bond/BondInfoCard.jsx:67
 msgid "vesting term"
 msgstr "vesting term"
@@ -2003,9 +1935,6 @@ msgstr "votes"
 #: src/modules/my-policies/MyPoliciesTxsTable.jsx:52
 #: src/modules/pools/bond/MyBondTxsTable.jsx:53
 #: src/modules/reporting/RecentVotesTable.jsx:48
+#: src/modules/transactions/MyTransactionsTable.jsx:36
 msgid "when"
 msgstr "when"
-
-#: src/hooks/useStakingPoolWithdraw.jsx:170
-msgid "withdraw rewards"
-msgstr "withdraw rewards"
