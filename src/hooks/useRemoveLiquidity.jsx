@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
 
@@ -10,7 +11,6 @@ import { useTxPoster } from '@/src/context/TxPoster'
 import { useEffect, useState } from 'react'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -49,7 +49,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${vaultTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${vaultTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -124,7 +124,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`remove liquidity`)
+      notifyError(err, t`Could not remove liquidity`)
     }
 
     try {

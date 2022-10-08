@@ -51,7 +51,7 @@ const columns = [
     renderData: renderWhen
   },
   {
-    name: t`account`,
+    name: t`Account`,
     align: 'left',
     renderHeader,
     renderData: renderAccount

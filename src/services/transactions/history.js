@@ -70,7 +70,7 @@ class LSHistoryClass {
   setId (account, networkId) {
     this.id = `${account}:${networkId}`
 
-    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
+    if (!Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       this.state[this.id] = []
     }
 
@@ -130,7 +130,7 @@ class LSHistoryClass {
    * @param {number} [offset]
    * @returns
    */
-  get (page = 1, offset = 6) {
+  get (page = 1, offset = 5) {
     if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
       const list = this.state[this.id]
       const data = list.slice((page - 1) * offset, page * offset)

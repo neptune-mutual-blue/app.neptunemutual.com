@@ -24,6 +24,7 @@ import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
 import { Loader } from '@/common/Loader/Loader'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import { Routes } from '@/src/config/routes'
+import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -82,6 +83,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   })
 
   const {
+    txHash,
+    purchaseWaiting,
     balance,
     approving,
     purchasing,
@@ -311,7 +314,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 })
               }}
             >
-              {purchasing ? t`Purchasing...` : t`Purchase policy`}
+              {purchasing ? t`Purchasing...` : t`Purchase Policy`}
             </RegularButton>
             )}
       </div>
@@ -319,6 +322,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
       <div className='flex justify-center mt-20 md:justify-start'>
         <BackButton onClick={() => router.back()} />
       </div>
+
+      <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} />
     </div>
   )
 }

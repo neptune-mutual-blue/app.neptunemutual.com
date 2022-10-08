@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { t } from '@lingui/macro'
 
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -7,7 +8,6 @@ import { useTxToast } from '@/src/hooks/useTxToast'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useNetwork } from '@/src/context/Network'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -36,7 +36,7 @@ export const useClaimBond = () => {
       setClaiming(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`claim bond`)
+      notifyError(err, t`Could not claim bond`)
     }
 
     try {

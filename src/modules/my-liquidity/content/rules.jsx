@@ -1,15 +1,19 @@
-import CloseIcon from '@/icons/CloseIcon'
-import InfoWithHollowCircleIcon from '@/icons/InfoWithHollowCircleIcon'
+import { Alert } from '@/common/Alert/Alert'
 import { Trans } from '@lingui/macro'
-import { useState } from 'react'
 
 export function DiversifiedCoverRules ({ coverInfo }) {
-  const [showWarning, setShowWarning] = useState(true)
-
   return (
     <>
       <DownloadButton />
-      {showWarning && <WarningMessage handleClose={() => setShowWarning(false)} />}
+
+      <Alert closable>
+        <Trans>
+          The product(s) listed above are part of a diversified cover pool. The
+          payout for a diversified cover product is not guaranteed, so it will
+          be granted on a first-come, first-serve basis.
+        </Trans>
+      </Alert>
+
       <Notes coverInfo={coverInfo} />
     </>
   )
@@ -39,34 +43,6 @@ function DownloadButton () {
         <Trans>Download LP Cover Terms</Trans>
       </button>
     </div>
-  )
-}
-
-function WarningMessage ({ handleClose }) {
-  return (
-    <>
-      <div
-        className='flex justify-between pl-4 pr-2 py-4 text-sm bg-E52E2E bg-opacity-5 border-l-4 border-y border-r border-E52E2E'
-        data-testid='warning-message'
-      >
-        <div className='flex'>
-          <div className='text-E52E2E'>
-            <InfoWithHollowCircleIcon />
-          </div>
-          <p className='pl-6 leading-5 text-E52E2E max-w-2xl'>
-            <Trans>
-              The product(s) listed above are part of a diversified cover pool. The
-              payout for a diversified cover product is not guaranteed, so it will
-              be granted on a first-come, first-serve basis.
-            </Trans>
-          </p>
-        </div>
-
-        <div className='h-fit text-E52E2E' onClick={() => handleClose()}>
-          <CloseIcon className='scale-[1.7]' width='10' height='10' />
-        </div>
-      </div>
-    </>
   )
 }
 

@@ -94,7 +94,7 @@ export const MyLiquidityCoverCard = ({
         }
       >
         <span data-testid='liquidity'>
-          <Trans>My Liquidity:</Trans>{' '}
+          <Trans>My Liquidity</Trans>:{' '}
           {
             formatCurrency(
               convertFromUnits(totalPODs || '0', tokenDecimal),

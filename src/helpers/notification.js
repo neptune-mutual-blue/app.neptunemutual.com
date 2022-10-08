@@ -127,7 +127,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: displayValue(_data)
       }
     }
@@ -162,7 +162,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: displayValue(_data)
       }
     }
@@ -200,7 +200,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: displayValue(_data)
       }
     }
@@ -277,7 +277,7 @@ const actionMessages = {
 
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: displayValue(_data)
       }
     }
@@ -382,7 +382,7 @@ const actionMessages = {
       return { title: t`Could not provide liquidity`, description: '' }
     }
 
-    return { title: t`Providing liquidity`, description: '' }
+    return { title: t`Providing Liquidity...`, description: '' }
   },
   [METHODS.REPORTING_UNSTAKE]: (status, _data) => {
     const symbol = _data.tokenSymbol || 'NPM'
@@ -462,7 +462,7 @@ const actionMessages = {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: ''
       }
     }
@@ -515,7 +515,7 @@ const actionMessages = {
 
     if (status === STATUS.SUCCESS) {
       return {
-        title: t`Approved ${tokenSymbol} tokens Successfully`,
+        title: t`Approved ${tokenSymbol} Successfully`,
         description: ''
       }
     }

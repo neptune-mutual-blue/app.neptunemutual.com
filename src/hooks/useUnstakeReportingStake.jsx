@@ -1,3 +1,4 @@
+import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
@@ -7,7 +8,6 @@ import { registry, utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -43,7 +43,7 @@ export const useUnstakeReportingStake = ({
       setUnstaking(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Unstake NPM`)
+      notifyError(err, t`Could not unstake NPM`)
     }
 
     try {
@@ -152,7 +152,7 @@ export const useUnstakeReportingStake = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Unstake & claim NPM`)
+      notifyError(err, t`Could not unstake & claim NPM`)
     }
 
     try {

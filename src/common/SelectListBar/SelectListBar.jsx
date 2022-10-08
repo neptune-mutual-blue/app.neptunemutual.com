@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { Select } from '@/common/Select'
 import { t } from '@lingui/macro'
-import SmallGridIcon from '@/icons/SmallGridIcon'
 import { SORT_TYPES } from '@/utils/sorting'
+import FilterIcon from '@/icons/FilterIcon'
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -48,7 +48,7 @@ export const SelectListBar = ({
         selected={selectedOption}
         setSelected={handleSelectView}
         className={sortClass}
-        icon={<SmallGridIcon color='#9B9B9B' aria-hidden='true' />}
+        icon={<FilterIcon height={18} aria-hidden='true' />}
         direction='right'
       />
     </div>

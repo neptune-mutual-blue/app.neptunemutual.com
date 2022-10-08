@@ -9,9 +9,9 @@ export const useErrorNotifier = ({ duration } = defaultArgs) => {
   const toast = useToast()
 
   const notifyError = useCallback(
-    (error, action = 'perform action') => {
+    (error, message = 'Something went wrong') => {
       const title =
-        typeof error.data === 'string' ? error.data : `Could not ${action}`
+        typeof error.data === 'string' ? error.data : message
 
       console.error(error)
 

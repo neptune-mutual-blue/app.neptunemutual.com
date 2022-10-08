@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { t } from '@lingui/macro'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
@@ -9,7 +10,6 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import DateLib from '@/lib/date/DateLib'
 import { isGreater } from '@/utils/bn'
-import { t } from '@lingui/macro'
 import { ADDRESS_ONE, VAULT_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
 import { getInfo } from '@/src/services/protocol/vault/info'
@@ -57,7 +57,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`get vault info`)
+      notifyError(err, t`Could not get vault info`)
     }
 
     try {
@@ -156,7 +156,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
 
   const accrueInterest = async () => {
     const handleError = (err) => {
-      notifyError(err, t`accrue interest`)
+      notifyError(err, t`Could not accrue interest`)
     }
 
     try {

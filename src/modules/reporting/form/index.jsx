@@ -15,7 +15,7 @@ import DeleteIcon from '@/icons/delete-icon'
  */
 function InputHeader ({ label, id }) {
   return (
-    <Label htmlFor={id} className='mb-2 mt-6'>
+    <Label htmlFor={id} className='mt-6 mb-2'>
       {label}
     </Label>
   )
@@ -139,7 +139,7 @@ export function ProofOfIncident ({ disabled, required }) {
         inputProps={{
           id: 'incident_url',
           name: 'incident_url',
-          placeholder: t`https://`,
+          placeholder: 'https://',
           required: required,
           disabled: disabled
         }}
@@ -170,8 +170,9 @@ export function ProofOfIncident ({ disabled, required }) {
                 e && e.preventDefault()
                 handleDelete(i)
               }}
+              data-testid={`button-${i}`}
               className={classNames(
-                `flex-shrink p-2 ml-4 border rounded-md h-10 mt-18 border-CEEBED button-${i}`,
+                'text-404040 flex-shrink ml-4 border rounded-md h-10 mt-18 px-2.5 border-E6EAEF bg-E6EAEF',
                 'disabled:opacity-40 disabled:cursor-not-allowed'
               )}
               title='Delete'

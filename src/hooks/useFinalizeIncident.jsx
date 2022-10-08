@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
@@ -7,7 +8,6 @@ import { useTxPoster } from '@/src/context/TxPoster'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { registry, utils } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -38,7 +38,7 @@ export const useFinalizeIncident = ({ coverKey, productKey, incidentDate }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Finalize Incident`)
+      notifyError(err, t`Could not finalize incident`)
     }
 
     try {

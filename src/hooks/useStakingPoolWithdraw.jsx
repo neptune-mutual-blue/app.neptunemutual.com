@@ -1,5 +1,5 @@
 import { useState } from 'react'
-
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { registry } from '@neptunemutual/sdk'
@@ -8,7 +8,6 @@ import { useTxToast } from '@/src/hooks/useTxToast'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useNetwork } from '@/src/context/Network'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -43,7 +42,7 @@ export const useStakingPoolWithdraw = ({
       setWithdrawing(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`unstake ${tokenSymbol}`)
+      notifyError(err, t`Could not unstake ${tokenSymbol}`)
     }
 
     try {
@@ -167,7 +166,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
       setWithdrawingRewards(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`withdraw rewards`)
+      notifyError(err, t`Could not withdraw rewards`)
     }
 
     try {

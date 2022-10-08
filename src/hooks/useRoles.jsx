@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { config, registry, utils, multicall } from '@neptunemutual/sdk'
-import { t } from '@lingui/macro'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -27,7 +27,7 @@ export const useRoles = () => {
 
     async function exec () {
       const handleError = (err) => {
-        notifyError(err, t`get roles`)
+        notifyError(err, t`Could not get roles`)
       }
 
       try {

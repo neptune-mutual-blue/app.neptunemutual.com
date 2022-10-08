@@ -10,6 +10,7 @@ export const SearchAndSortBar = ({
   containerClass = 'min-w-sm',
   searchClass = '',
   sortClass = '',
+  reportingResolved = false,
   inputClass,
   searchValue,
   onSearchChange,
@@ -40,8 +41,8 @@ export const SearchAndSortBar = ({
       >
         <input
           className={classNames(
-            'md:w-64 w-full pl-4 pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none',
-            inputClass
+            'w-full pr-12 py-2 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none',
+            inputClass, reportingResolved ? 'pl-12' : 'pl-4'
           )}
           placeholder={t`Search`}
           value={searchValue}
@@ -49,7 +50,7 @@ export const SearchAndSortBar = ({
           data-testid='search-input'
         />
 
-        <div className='absolute right-3.5 flex items-center justify-center text-9B9B9B'>
+        <div className={classNames('absolute flex items-center justify-center text-black', reportingResolved ? 'left-3.5' : 'right-3.5')}>
           <SearchIcon width={24} height={24} data-testid='search-icon' />
         </div>
       </div>

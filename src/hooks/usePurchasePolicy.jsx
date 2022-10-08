@@ -27,7 +27,6 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { Routes } from '@/src/config/routes'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -45,6 +44,9 @@ export const usePurchasePolicy = ({
   const [approving, setApproving] = useState(false)
   const [purchasing, setPurchasing] = useState(false)
   const [error, setError] = useState('')
+
+  const [txHash, setTxHash] = useState('')
+  const [purchaseWaiting, setPurchaseWaiting] = useState(false)
 
   const txToast = useTxToast()
   const policyContractAddress = usePolicyAddress()
@@ -123,7 +125,7 @@ export const usePurchasePolicy = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${liquidityTokenSymbol}`)
+      notifyError(err, t`Could not approve ${liquidityTokenSymbol}`)
     }
 
     try {
@@ -197,14 +199,13 @@ export const usePurchasePolicy = ({
   const handlePurchase = async (onTxSuccess) => {
     setPurchasing(true)
 
-    const cleanup = () => {
+    const cleanup = async () => {
       setPurchasing(false)
-      updateAllowance(policyContractAddress)
-      updateBalance()
+      return Promise.all([updateAllowance(policyContractAddress), updateBalance()])
     }
 
     const handleError = (err) => {
-      notifyError(err, t`purchase policy`)
+      notifyError(err, t`Could not purchase policy`)
     }
 
     try {
@@ -216,6 +217,8 @@ export const usePurchasePolicy = ({
       )
 
       const onTransactionResult = async (tx) => {
+        setPurchaseWaiting(true)
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.POLICY_PURCHASE,
@@ -241,7 +244,7 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS
               })
 
-              tx.wait().then((receipt) => {
+              tx.wait().then(async (receipt) => {
                 if (receipt) {
                   const events = receipt.events
                   const event = events.find(
@@ -249,7 +252,7 @@ export const usePurchasePolicy = ({
                   )
                   const txHash = storePurchaseEvent(event, receipt.from)
 
-                  router.push(Routes.ViewPolicyReceipt(txHash))
+                  setTxHash(txHash)
                 }
               })
               onTxSuccess()
@@ -305,6 +308,8 @@ export const usePurchasePolicy = ({
     isGreaterOrEqual(allowance || '0', feeAmount || '0')
 
   return {
+    txHash,
+    purchaseWaiting,
     balance,
     allowance,
     approving,

@@ -160,8 +160,8 @@ describe('ProofOfIncident test with all the attributes', () => {
 
     const deleteButtons = screen.getAllByTitle('Delete')
     expect(deleteButtons.length).toEqual(2)
-    expect(deleteButtons[0]).toHaveClass('button-0')
-    expect(deleteButtons[1]).toHaveClass('button-1')
+    expect(screen.queryByTestId('button-0')).not.toBeNull()
+    expect(screen.queryByTestId('button-1')).not.toBeNull()
   })
 
   test('Remove one added link', () => {
@@ -177,8 +177,8 @@ describe('ProofOfIncident test with all the attributes', () => {
 
     const deleteButtons = screen.getAllByTitle('Delete')
     expect(deleteButtons.length).toEqual(2)
-    expect(deleteButtons[0]).toHaveClass('button-0')
-    expect(deleteButtons[1]).toHaveClass('button-1')
+    expect(screen.queryByTestId('button-0')).not.toBeNull()
+    expect(screen.queryByTestId('button-1')).not.toBeNull()
 
     fireEvent.click(deleteButtons[1])
 
@@ -240,8 +240,8 @@ describe('ProofOfIncident test with all the attributes', () => {
 
     const deleteButtons = screen.getAllByTitle('Delete')
     expect(deleteButtons.length).toEqual(2)
-    expect(deleteButtons[0]).toHaveClass('button-0')
-    expect(deleteButtons[1]).toHaveClass('button-1')
+    expect(screen.queryByTestId('button-0')).not.toBeNull()
+    expect(screen.queryByTestId('button-1')).not.toBeNull()
 
     fireEvent.click(deleteButtons[0])
 
@@ -315,8 +315,8 @@ describe('ProofOfIncident test with all the attributes', () => {
 
     const deleteButtons = screen.getAllByTitle('Delete')
     expect(deleteButtons.length).toEqual(2)
-    expect(deleteButtons[0]).toHaveClass('button-0')
-    expect(deleteButtons[1]).toHaveClass('button-1')
+    expect(screen.queryByTestId('button-0')).not.toBeNull()
+    expect(screen.queryByTestId('button-1')).not.toBeNull()
 
     fireEvent.click(deleteButtons[1])
 

@@ -61,11 +61,13 @@ module.exports = {
       ],
       xxxl: '136px',
       xxl: '40px',
-      'receipt-info': ['24px', '36px']
+      'receipt-info': ['24px', '36px'],
+      md: ['20px', '23px']
     },
     fontFamily: {
-      poppins: 'Poppins, sans-serif',
-      sora: 'Sora, sans-serif'
+      poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
       borderRadius: {
@@ -79,6 +81,7 @@ module.exports = {
         1.5: '1.5px'
       },
       boxShadow: {
+        dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)'
       },
@@ -173,7 +176,8 @@ module.exports = {
         E6EAEF: '#E6EAEF',
         F5F9FC: '#F5F9FC',
         '2151B0': '#2151B0',
-        '003fbd': '#003FBD'
+        '003fbd': '#003FBD',
+        E03636: '#E03636'
       },
       minHeight: {
         360: '360px',
@@ -208,9 +212,6 @@ module.exports = {
       },
       zIndex: {
         60: '60'
-      },
-      opacity: {
-        15: '.15'
       },
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto'

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { registry } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 
 import { convertToUnits, convertFromUnits, isValidNumber } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
@@ -8,7 +9,6 @@ import { useNetwork } from '@/src/context/Network'
 import { useDebounce } from '@/src/hooks/useDebounce'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
-import { t } from '@lingui/macro'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
@@ -39,7 +39,7 @@ export const useCalculatePods = ({ coverKey, value, podAddress }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`calculate pods`)
+      notifyError(err, t`Could not calculate pods`)
     }
 
     const signerOrProvider = getProviderOrSigner(library, account, networkId)

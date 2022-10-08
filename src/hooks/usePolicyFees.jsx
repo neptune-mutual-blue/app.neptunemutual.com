@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
+import { t } from '@lingui/macro'
 import { config, registry, utils, multicall } from '@neptunemutual/sdk'
 
 import { convertToUnits, isValidNumber } from '@/utils/bn'
@@ -7,7 +8,6 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useDebounce } from '@/src/hooks/useDebounce'
-import { t } from '@lingui/macro'
 import DateLib from '@/lib/date/DateLib'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 
@@ -60,7 +60,7 @@ export const usePolicyFees = ({
       }
 
       const handleError = (err) => {
-        notifyError(err, t`get fees`)
+        notifyError(err, t`Could not get fees`)
       }
 
       try {

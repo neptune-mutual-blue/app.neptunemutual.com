@@ -3,11 +3,12 @@ import { sumOf } from '@/utils/bn'
 import DateLib from '@/lib/date/DateLib'
 import { getNetworkId } from '@/src/config/environment'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { MULTIPLIER } from '@/src/config/constants'
 
 const defaultData = {
   availableCovers: 0,
   reportingCovers: 0,
-  tvlCover: '0',
+  totalCoverage: '0',
   tvlPool: '0',
   covered: '0',
   coverFee: '0'
@@ -18,80 +19,110 @@ const getQuery = () => {
 
   return `
   {
-    covers (where: {
-      supportsProducts: false
-    }) {
-      id
+    dedicatedCovers: covers(where: {supportsProducts: false}) {
+      coverKey
+      vaults {
+        totalFlashLoanFees
+        totalCoverLiquidityAdded
+        totalCoverLiquidityRemoved
+      }
+      leverage
     }
-    products {
-      id
+    diversifiedCovers: covers(where: {supportsProducts: true}) {
+      coverKey
+      vaults {
+        totalFlashLoanFees
+        totalCoverLiquidityAdded
+        totalCoverLiquidityRemoved
+      }
+      products {
+        productKey
+        capitalEfficiency
+      }
+      leverage
     }
-    reporting: incidentReports (where: {
-      finalized: false
-    }) {
+    reporting: incidentReports(where: {finalized: false}) {
       id
     }
     protocols {
-      totalFlashLoanFees
-      totalCoverLiquidityAdded
-      totalCoverLiquidityRemoved
       totalCoverFee
     }
-    cxTokens(where: {
-      expiryDate_gt: "${startOfMonth}"
-    }){
+    cxTokens(where: {expiryDate_gt: "${startOfMonth}"}) {
       totalCoveredAmount
     }
-  }
-  `
+  }`
 }
 
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData)
   const [loading, setLoading] = useState(false)
-  const fetchFetchHeroStats = useSubgraphFetch('useFetchHeroStats')
+  const fetchStats = useSubgraphFetch('useFetchHeroStats')
 
   useEffect(() => {
     setLoading(true)
 
-    fetchFetchHeroStats(getNetworkId(), getQuery())
-      .then((data) => {
-        const totalCoverLiquidityAdded = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityAdded)
-        )
-        const totalCoverLiquidityRemoved = sumOf(
-          ...data.protocols.map((x) => x.totalCoverLiquidityRemoved)
-        )
-        const totalFlashLoanFees = sumOf(
-          ...data.protocols.map((x) => x.totalFlashLoanFees)
-        )
-        const totalCoverFee = sumOf(
-          ...data.protocols.map((x) => x.totalCoverFee)
-        )
-        const totalCoveredAmount = sumOf(
-          ...data.cxTokens.map((x) => x.totalCoveredAmount)
-        )
+    ;(async function () {
+      try {
+        const data = await fetchStats(getNetworkId(), getQuery())
 
-        const tvlCover = totalCoverLiquidityAdded
-          .minus(totalCoverLiquidityRemoved)
-          .plus(totalFlashLoanFees)
-          .toString()
+        if (!data) {
+          return
+        }
 
-        const productsCount = data.products.length
-        const dedicatedPoolCount = data.covers.length
+        const totalCoverFee = sumOf(...data.protocols.map((x) => x.totalCoverFee))
+        const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => x.totalCoveredAmount))
+
+        let availableCount = data.dedicatedCovers.length
+        for (let i = 0; i < data.diversifiedCovers.length; i++) {
+          availableCount += data.diversifiedCovers[i].products.length
+        }
+
+        let totalCoverage = '0'
+        data.dedicatedCovers.forEach(cover => {
+          const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
+          const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
+          const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
+
+          const coverage = totalCoverLiquidityAdded
+            .minus(totalCoverLiquidityRemoved)
+            .plus(totalFlashLoanFees)
+            .toString()
+
+          totalCoverage = sumOf(totalCoverage, coverage).toString()
+        })
+
+        data.diversifiedCovers.forEach(cover => {
+          const totalCoverLiquidityAdded = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityAdded))
+          const totalCoverLiquidityRemoved = sumOf(...cover.vaults.map((x) => x.totalCoverLiquidityRemoved))
+          const totalFlashLoanFees = sumOf(...cover.vaults.map((x) => x.totalFlashLoanFees))
+          const medianEfficiency = sumOf(...cover.products.map((x) => x.capitalEfficiency)).dividedBy(cover.products.length)
+
+          const coverage = totalCoverLiquidityAdded
+            .minus(totalCoverLiquidityRemoved)
+            .plus(totalFlashLoanFees)
+            .multipliedBy(cover.leverage)
+            .multipliedBy(medianEfficiency)
+            .dividedBy(MULTIPLIER)
+            .toString()
+
+          totalCoverage = sumOf(totalCoverage, coverage).toString()
+        })
 
         setData({
-          availableCovers: productsCount + dedicatedPoolCount,
+          availableCovers: availableCount,
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
-          tvlCover: tvlCover,
+          totalCoverage: totalCoverage,
           tvlPool: '0'
         })
-      })
-      .catch((e) => console.error(e))
-      .finally(() => setLoading(false))
-  }, [fetchFetchHeroStats])
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [fetchStats])
 
   return {
     data,

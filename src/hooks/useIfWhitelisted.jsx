@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
 
@@ -7,7 +8,6 @@ import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useNetwork } from '@/src/context/Network'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 
 export const useIfWhitelisted = ({ coverKey }) => {
   const [isUserWhitelisted, setIsUserWhitelisted] = useState(false)
@@ -23,7 +23,7 @@ export const useIfWhitelisted = ({ coverKey }) => {
     let ignore = false
 
     const handleError = (err) => {
-      notifyError(err, t`getting user whitelisted`)
+      notifyError(err, t`Could not check user whitelist status`)
     }
 
     async function checkWhitelisted () {

@@ -29,7 +29,7 @@ export const CoverResolutionSources = ({ children, coverInfo }) => {
               <Trans>Resolution Sources</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>
-              {explainInterval(reportingPeriod)} <Trans>reporting period</Trans>
+              {explainInterval(reportingPeriod)} <Trans>Reporting Period</Trans>
             </p>
           </div>
           <div className='flex flex-col md:block sm:items-end'>

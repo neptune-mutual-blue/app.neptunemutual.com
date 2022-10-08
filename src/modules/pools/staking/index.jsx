@@ -137,7 +137,7 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
     <div className='flex flex-col items-center w-full pt-20'>
       <img
         src='/images/covers/empty-list-illustration.svg'
-        alt={t`no data found`}
+        alt={t`No data found`}
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>

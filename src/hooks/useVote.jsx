@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { registry, utils } from '@neptunemutual/sdk'
@@ -17,7 +17,6 @@ import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useTxPoster } from '@/src/context/TxPoster'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -58,7 +57,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -133,7 +132,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       setVoting(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`attest`)
+      notifyError(err, t`Could not attest`)
     }
 
     try {
@@ -221,7 +220,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
       updateAllowance(governanceAddress)
     }
     const handleError = (err) => {
-      notifyError(err, t`refute`)
+      notifyError(err, t`Could not refute`)
     }
 
     try {

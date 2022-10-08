@@ -106,7 +106,7 @@ export const useClaimPolicyInfo = ({
       setApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`approve ${tokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${tokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -204,7 +204,7 @@ export const useClaimPolicyInfo = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`claim policy`)
+      notifyError(err, t`Could not claim policy`)
     }
 
     try {

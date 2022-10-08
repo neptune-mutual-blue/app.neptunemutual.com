@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { governance } from '@neptunemutual/sdk'
 
@@ -17,7 +18,6 @@ import { useRouter } from 'next/router'
 import { useGovernanceAddress } from '@/src/hooks/contracts/useGovernanceAddress'
 import { useERC20Allowance } from '@/src/hooks/useERC20Allowance'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
-import { t } from '@lingui/macro'
 import {
   STATUS,
   TransactionHistory
@@ -63,7 +63,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
     }
 
     const handleError = (err) => {
-      notifyError(err, t`approve ${NPMTokenSymbol} tokens`)
+      notifyError(err, t`Could not approve ${NPMTokenSymbol} tokens`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -215,7 +215,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
         }
       )
     } catch (err) {
-      notifyError(err, t`report incident`)
+      notifyError(err, t`Could not report incident`)
       cleanup()
     }
   }

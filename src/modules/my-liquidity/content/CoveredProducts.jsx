@@ -90,8 +90,8 @@ function Product ({ productKey, infoObj, onClick }) {
       className='flex flex-col items-center justify-start pb-8'
       data-testid='cover-product'
     >
-      <div className='flex items-center justify-center bg-white rounded-full max-h-[96px] max-w-[96px]'>
-        <img src={imgSrc} alt={infoObj.productName} />
+      <div className='flex items-center justify-center w-20 h-20 p-4 bg-white rounded-full'>
+        <img src={imgSrc} alt={infoObj.productName} className='w-12 h-12' />
       </div>
       <button
         className='flex items-center pt-2 text-4e7dd9 font-sora'
