@@ -178,7 +178,6 @@ const DetailsRenderer = ({ row }) => {
           isDiversified={isDiversified}
           containerClass='grow-0'
           small
-          liquidityTxTable
         />
         <span className='pl-4 text-left whitespace-nowrap'>
           {row.type === 'PodsIssued'
