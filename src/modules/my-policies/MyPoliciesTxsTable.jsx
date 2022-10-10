@@ -178,7 +178,7 @@ const DetailsRenderer = ({ row }) => {
 
   const projectOrProductName = isDiversified
     ? coverInfo.infoObj.productName
-    : coverInfo.infoObj.projectName
+    : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
