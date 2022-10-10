@@ -25,11 +25,11 @@ export const DropdownOption = ({ option, selected, active }) => {
             key: isDiversified ? option.productKey : option.coverKey
           })}
           alt={
-            coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName
+            coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName
           }
         />
       </div>
-      {coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName}
+      {coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName}
     </span>
   )
 }
