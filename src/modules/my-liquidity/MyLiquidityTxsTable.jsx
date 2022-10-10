@@ -168,9 +168,7 @@ const DetailsRenderer = ({ row }) => {
     />
   )
 
-  const coverOrProjectName = isDiversified
-    ? coverInfo.infoObj.coverName
-    : coverInfo.infoObj.projectName
+  const coverOrProjectName = coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
 
   return (
     <td className='max-w-sm px-6 py-6'>
@@ -179,19 +177,18 @@ const DetailsRenderer = ({ row }) => {
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          diversifiedContainerClass='lg:w-8'
-          liquidityTxTable
+          small
         />
         <span className='pl-4 text-left whitespace-nowrap'>
           {row.type === 'PodsIssued'
             ? (
               <Trans>
-                Added {tokenAmountWithSymbol} to {coverOrProjectName}
+                Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover
               </Trans>
               )
             : (
               <Trans>
-                Removed {tokenAmountWithSymbol} from {coverOrProjectName}
+                Removed {tokenAmountWithSymbol} from {coverOrProjectName} Cover
               </Trans>
               )}
         </span>
@@ -209,7 +206,7 @@ const PodAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end whitespace-nowrap w-max'>
+      <div className='flex items-center justify-end whitespace-nowrap'>
         <span
           className={row.type === 'PodsIssued' ? 'text-404040' : 'text-FA5C2F'}
           title={

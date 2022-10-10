@@ -7,8 +7,7 @@ export const CoverAvatar = ({
   coverInfo,
   isDiversified,
   containerClass = 'grow',
-  diversifiedContainerClass = 'lg:w-18 lg:h-18',
-  liquidityTxTable = false
+  small = false
 }) => {
   if (!coverInfo) {
     return null
@@ -27,17 +26,19 @@ export const CoverAvatar = ({
               return (
                 <div
                   className={classNames(
-                    'inline-block max-w-full bg-FEFEFF rounded-full w-14 h-14',
+                    'inline-block max-w-full bg-FEFEFF rounded-full',
                     idx !== 0 && '-ml-7 lg:-ml-9 p-0.5',
-                    idx !== 0 && liquidityTxTable && 'lg:-ml-4',
-                    diversifiedContainerClass
+                    small ? 'w-11 h-11 lg:-ml-5' : 'w-14 h-14 lg:w-18 lg:h-18'
                   )}
                   key={item.id}
                 >
                   <img
                     src={imgSrc}
                     alt={item.infoObj.productName}
-                    className='w-full h-full p-4 rounded-full bg-DEEAF6'
+                    className={classNames(
+                      'w-full h-full rounded-full bg-DEEAF6',
+                      small ? 'p-2' : 'p-4'
+                    )}
                     data-testid='cover-img'
                     onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
                   />
@@ -55,8 +56,8 @@ export const CoverAvatar = ({
         : (
           <div
             className={classNames(
-              'max-w-full bg-DEEAF6 p-4 rounded-full w-14 lg:w-18 h-14 lg:h-18',
-              diversifiedContainerClass
+              'inline-flex justify-center items-center max-w-full bg-DEEAF6 rounded-full',
+              small ? 'w-10 h-10 p-2' : 'w-14 h-14 lg:w-18 lg:h-18 p-4'
             )}
           >
             <img

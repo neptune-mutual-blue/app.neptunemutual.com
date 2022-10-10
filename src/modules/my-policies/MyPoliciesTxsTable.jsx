@@ -15,7 +15,7 @@ import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import { isValidProduct } from '@/src/helpers/cover'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -26,6 +26,7 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import { CoverAvatar } from '@/common/CoverAvatar'
 
 const renderHeader = (col) => (
   <th
@@ -178,21 +179,17 @@ const DetailsRenderer = ({ row }) => {
 
   const projectOrProductName = isDiversified
     ? coverInfo.infoObj.productName
-    : coverInfo.infoObj.projectName
+    : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
       <div className='flex items-center whitespace-nowrap'>
-        <img
-          src={getCoverImgSrc({
-            key: !isDiversified ? row.cover.id : productKey
-          })}
-          alt={t`policy`}
-          className={classNames(isDiversified && 'bg-DEEAF6 rounded-full')}
-          height={32}
-          width={32}
+        <CoverAvatar
+          coverInfo={coverInfo}
+          isDiversified={isDiversified}
+          containerClass='grow-0'
+          small
         />
-
         <span className='pl-4 text-left whitespace-nowrap'>
           {row.type === 'CoverPurchased'
             ? (
