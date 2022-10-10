@@ -15,24 +15,21 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
       className={classNames(
         className,
         'border border-l-4 rounded p-5',
-        info ? 'border-4e7dd9 bg-F4F8FC' : 'border-E52E2E bg-E52E2E bg-opacity-5'
+        info ? 'border-4e7dd9 bg-F4F8FC text-4e7dd9' : 'border-E52E2E bg-E52E2E bg-opacity-5 text-E52E2E'
       )}
     >
       <div className='flex items-start'>
         <div aria-label='Alert' className='flex-shrink-0 pt-0.5'>
           <ExclamationCircleIcon
-            className={classNames(
-              'h-6 w-6',
-              info ? 'text-4e7dd9' : 'text-E52E2E'
-            )}
+            className='w-6 h-6'
             aria-hidden='true'
           />
         </div>
-        <p className='ml-3 text-E52E2E'>{children}</p>
+        <p className='ml-3'>{children}</p>
         {closable
           ? <button
               type='button'
-              className='p-1 ml-1 text-E52E2E'
+              className='p-1 ml-1'
               onClick={() => setShow(false)}
             >
             <CloseIcon className='w-4 h-4' aria-hidden='true' />
