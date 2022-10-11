@@ -37,10 +37,10 @@ export default function CoverPage () {
 
       {isDiversified
         ? (
-          <>
+          <div className='min-h-screen'>
             <HomeHero />
             <ProductsGrid />
-          </>
+          </div>
           )
         : (
           <CoverOptionsPage
