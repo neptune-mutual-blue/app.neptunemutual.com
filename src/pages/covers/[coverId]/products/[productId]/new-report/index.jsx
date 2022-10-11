@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { ComingSoon } from '@/common/ComingSoon'
-import { isDiversifiedCoversEnabled } from '@/src/config/environment'
+import { isDiversifiedCoversEnabled, isFeatureEnabled } from '@/src/config/environment'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
 
-const disabled = !isDiversifiedCoversEnabled()
+const disabled = !isDiversifiedCoversEnabled() || !isFeatureEnabled('reporting')
 
 export default function ReportingNewCoverPage () {
   const router = useRouter()
