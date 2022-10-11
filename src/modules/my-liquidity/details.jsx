@@ -96,7 +96,9 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
           <div className='col-span-3 md:col-span-2'>
             {/* Description */}
             <span className='hidden lg:block' data-testid='see-more-container'>
-              <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
+              <SeeMoreParagraph>
+                {coverInfo?.infoObj?.about}
+              </SeeMoreParagraph>
             </span>
 
             <div className='mt-12' data-testid='provide-liquidity-container'>
@@ -109,7 +111,9 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
           </div>
 
           <span className='block col-span-3 row-start-1 lg:hidden mb-11'>
-            <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
+            <SeeMoreParagraph>
+              {coverInfo?.infoObj?.about}
+            </SeeMoreParagraph>
           </span>
 
           <LiquidityResolutionSources
