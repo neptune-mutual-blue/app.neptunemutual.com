@@ -1,5 +1,5 @@
 import { classNames } from '@/utils/classnames'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { t } from '@lingui/macro'
 
 export const SeeMoreParagraph = ({ children }) => {
@@ -28,7 +28,7 @@ export const SeeMoreParagraph = ({ children }) => {
         className={classNames(!showFullText && 'max-h-14 overflow-hidden')}
         data-testid='text-wrapper'
       >
-        <p ref={elementRef}>{children}</p>
+        <div ref={elementRef}>{children}</div>
       </div>
 
       {/* Read more */}
