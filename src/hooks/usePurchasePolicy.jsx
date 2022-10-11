@@ -237,14 +237,29 @@ export const usePurchasePolicy = ({
             failure: t`Could not purchase policy`
           },
           {
-            onTxSuccess: () => {
+            onTxSuccess: async () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
                 status: STATUS.SUCCESS
               })
 
-              tx.wait().then(async (receipt) => {
+              try {
+                const receipt = await tx.wait(1)
+                if (receipt) {
+                  const events = receipt.events
+                  const event = events.find(
+                    (x) => x.event === 'CoverPurchased'
+                  )
+                  const txHash = storePurchaseEvent(event, receipt.from)
+
+                  setTxHash(txHash)
+                }
+              } catch (error) {
+                console.error(error)
+              }
+
+              tx.wait(1).then(async (receipt) => {
                 if (receipt) {
                   const events = receipt.events
                   const event = events.find(
