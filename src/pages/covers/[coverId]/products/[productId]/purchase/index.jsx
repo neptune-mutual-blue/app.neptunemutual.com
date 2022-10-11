@@ -4,10 +4,10 @@ import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 
 import { CoverPurchaseDetailsPage } from '@/src/modules/cover/purchase'
 import { ComingSoon } from '@/common/ComingSoon'
-import { isDiversifiedCoversEnabled } from '@/src/config/environment'
+import { isDiversifiedCoversEnabled, isFeatureEnabled } from '@/src/config/environment'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 
-const disabled = !isDiversifiedCoversEnabled()
+const disabled = !isDiversifiedCoversEnabled() || !isFeatureEnabled('policy')
 
 export default function CoverPurchaseDetails () {
   const router = useRouter()
