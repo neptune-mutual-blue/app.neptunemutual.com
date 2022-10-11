@@ -124,9 +124,14 @@ export const Header = () => {
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
 
   const network = (
-    <div className='inline-flex items-center justify-start w-6/12 mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg lg:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
+    <div className='inline-flex items-center justify-start w-6/12 mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg xl:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
       <figure title={NetworkNames[networkId] || 'Network'}>
-        <ChainLogo />{' '}
+        <span className='block lg:hidden xl:block'>
+          <ChainLogo width='44' height='44' />{' '}
+        </span>
+        <span className='hidden lg:block xl:hidden'>
+          <ChainLogo width='64' height='64' />{' '}
+        </span>
       </figure>
       <p
         className={classNames(
