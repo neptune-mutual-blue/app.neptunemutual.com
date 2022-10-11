@@ -144,7 +144,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
         data-testid='incident-report-form'
         ref={form}
         onSubmit={onSubmit}
-        className='px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24'
+        className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'
       >
         <h2 className='mb-4 font-bold text-h2 font-sora'>
           {/* @note: Intentional Capitalization of the word "Incident" below */}
@@ -152,7 +152,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
         </h2>
         <div className='flex flex-col md:flex-row'>
           <InputField
-            className='lg:flex-grow md:mr-4'
+            className='lg:flex-grow md:mr-12'
             label={t`Title`}
             inputProps={{
               id: 'incident_title',
@@ -166,7 +166,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
           />
 
           <InputField
-            className='lg:flex-shrink'
+            className='mb-6 lg:flex-shrink'
             label={t`Observed Date & Time`}
             inputProps={{
               max: max,
@@ -191,7 +191,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
 
         <div className='relative'>
           <InputDescription
-            className='mt-10'
+            className='mt-12'
             label={t`Description`}
             inputProps={{
               id: 'description',
@@ -207,7 +207,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
           />
         </div>
 
-        <div className='md:max-w-lg'>
+        <div className='mt-12 md:max-w-lg'>
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}

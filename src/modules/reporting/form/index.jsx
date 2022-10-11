@@ -148,10 +148,9 @@ export function ProofOfIncident ({ disabled, required }) {
 
       {fields.map((value, i) => {
         return (
-          <div key={i} className='flex flex-row'>
+          <div key={i} className='flex flex-row mt-12'>
             <InputField
               className='flex-grow'
-              label={t`Proof of incident`}
               inputProps={{
                 id: `incident_url_${i}`,
                 name: 'incident_url',
@@ -172,7 +171,7 @@ export function ProofOfIncident ({ disabled, required }) {
               }}
               data-testid={`button-${i}`}
               className={classNames(
-                'text-404040 flex-shrink ml-4 border rounded-md h-10 mt-18 px-2.5 border-E6EAEF bg-E6EAEF',
+                'text-404040 flex-shrink ml-4 border rounded-md h-10 mt-4 px-2.5 border-E6EAEF bg-E6EAEF',
                 'disabled:opacity-40 disabled:cursor-not-allowed'
               )}
               title='Delete'

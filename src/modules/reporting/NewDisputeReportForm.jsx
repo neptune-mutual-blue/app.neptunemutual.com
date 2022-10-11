@@ -94,12 +94,12 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   }
 
   return (
-    <Container className='pt-12 pb-24 bg-white border-t border-t-B0C4DB max-w-none md:bg-transparent'>
+    <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
       <form
         data-testid='dispute-report-form'
         ref={form}
         onSubmit={onSubmit}
-        className='px-2 mx-auto bg-white max-w-7xl md:py-16 md:px-24'
+        className='px-2 mx-auto bg-white border rounded-lg max-w-7xl md:py-16 md:px-24 border-B0C4DB'
       >
         <h2 className='mb-4 font-bold text-h2 font-sora'>
           <Trans>Submit Your Dispute</Trans>
@@ -107,6 +107,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
         <InputField
           label={t`Title`}
+          className='my-12'
           inputProps={{
             id: 'dispute_title',
             name: 'title',
@@ -125,7 +126,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
         <div className='relative'>
           <InputDescription
-            className='mt-10'
+            className='mt-12'
             label={t`Description`}
             inputProps={{
               id: 'description',
@@ -141,7 +142,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
           />
         </div>
 
-        <div className='md:max-w-lg'>
+        <div className='mt-12 md:max-w-lg'>
           <TokenAmountInput
             inputId='stake-amount'
             inputValue={value}

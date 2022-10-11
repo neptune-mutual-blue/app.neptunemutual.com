@@ -48,7 +48,7 @@ export const TokenBalance = ({
 
   return (
     <div
-      className='flex items-start justify-between px-3 mt-2 text-9B9B9B'
+      className='flex items-start justify-between mt-2 text-9B9B9B'
       data-testid='token-balance-container'
     >
       <div>
