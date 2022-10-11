@@ -189,7 +189,7 @@ export function ProofOfIncident ({ disabled, required }) {
         type='button'
         disabled={disabled}
         className={classNames(
-          'px-6 py-3 mt-4 text-black bg-transparent rounded-md border-B0C4DB bg-E6EAEF hover:underline',
+          'px-6 py-3 mt-4 text-black bg-transparent rounded-lg border border-B0C4DB bg-E6EAEF',
           'disabled:opacity-40 disabled:cursor-not-allowed'
         )}
       >
