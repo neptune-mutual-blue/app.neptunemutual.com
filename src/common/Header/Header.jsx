@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useNetwork } from '@/src/context/Network'
 import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import { ChainBgColor, ChainLogos, NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { ChainLogos, NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
@@ -124,13 +124,13 @@ export const Header = () => {
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
 
   const network = (
-    <div className='inline-flex items-center justify-center w-6/12 mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
-      <figure title={NetworkNames[networkId] || 'Network'} style={{ background: ChainBgColor[networkId] || ChainBgColor[1] }} className='flex items-center justify-center w-10 h-full'>
+    <div className='inline-flex items-center justify-start w-6/12 mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg lg:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
+      <figure title={NetworkNames[networkId] || 'Network'}>
         <ChainLogo />{' '}
       </figure>
       <p
         className={classNames(
-          'inline-block truncate px-4 py-2 md:py-3 lg:py-4 xl:py-2',
+          'inline-block truncate ml-2 py-2 pr-4 lg:py-4 xl:py-2',
           width >= 1200 && width <= 1439 && 'hidden'
         )}
       >
@@ -392,7 +392,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className='relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
+                            className='relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >
