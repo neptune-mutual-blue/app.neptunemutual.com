@@ -43,7 +43,7 @@ export const ProductsGrid = () => {
   const { getStatsByKey } = useSortableStats()
 
   const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC })
-  const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
+  const [showCount, setShowCount] = useState(12)
 
   const router = useRouter()
   const { coverId } = router.query
@@ -122,6 +122,7 @@ export const ProductsGrid = () => {
           setSortType={setSortType}
         />
       </div>
+
       <Content
         data={sortedProducts.slice(0, showCount)}
         hasMore={!isLastPage}
@@ -146,40 +147,32 @@ function Content ({
   hasMore = false,
   handleShowMore = () => {}
 }) {
-  if (data.length) {
-    return (
-      <>
-        <Grid className='gap-4 mt-14 lg:mb-24 mb-14'>
-          {data.map(({ id, coverKey, productKey }) => {
-            return (
-              <ProductCardWrapper
-                key={id}
-                coverKey={coverKey}
-                productKey={productKey}
-              />
-            )
-          })}
-        </Grid>
-        {!loading && hasMore && (
-          <NeutralButton
-            className='rounded-lg border-0.5'
-            onClick={handleShowMore}
-            data-testid='show-more-button'
-          >
-            <Trans>Show More</Trans>
-          </NeutralButton>
-        )}
-      </>
-    )
-  }
+  return (
+    <>
+      <Grid className='grid-rows-5 gap-4 mt-14 lg:mb-24 mb-14 lg:grid-rows-4'>
 
-  if (loading) {
-    return (
-      <Grid className='mb-24 mt-14' data-testid='loading-grid'>
-        <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
+        {data.map(({ id, coverKey, productKey }) => {
+          return (
+            <ProductCardWrapper
+              key={id}
+              coverKey={coverKey}
+              productKey={productKey}
+            />
+          )
+        })}
+        {loading && <CardSkeleton className='min-h-301' numberOfCards={6} />}
+        {data.length === 0 && <p data-testid='no-data' className='min-h-301'>No data found</p>}
       </Grid>
-    )
-  }
 
-  return <p data-testid='no-data'>No data found</p>
+      {hasMore && (
+        <NeutralButton
+          className='rounded-lg border-0.5'
+          onClick={handleShowMore}
+          data-testid='show-more-button'
+        >
+          <Trans>Show More</Trans>
+        </NeutralButton>
+      )}
+    </>
+  )
 }
