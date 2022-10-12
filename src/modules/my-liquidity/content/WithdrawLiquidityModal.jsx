@@ -16,7 +16,7 @@ export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
       disabled={isDisabled}
       data-testid='withdraw-liquidity-modal'
     >
-      <ModalWrapper className='max-w-2xl !px-0 bg-f1f3f6'>
+      <ModalWrapper className='max-w-2xl !px-0 bg-f6f7f9'>
         <div className='px-8 sm:px-12'>
           <Dialog.Title className='flex font-bold font-sora text-h2'>
             {modalTitle}

@@ -5,7 +5,7 @@ import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { CARDS_PER_PAGE, homeViewSelectionKey } from '@/src/config/constants'
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from '@/utils/sorting'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Trans, t } from '@lingui/macro'
@@ -41,7 +41,7 @@ const sorterData = {
 
 export const AvailableCovers = () => {
   const { query } = useRouter()
-  const coverView = query?.coverView || SORT_TYPES.ALL
+  const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
     supportsProducts: coverView === SORT_TYPES.DIVERSIFIED_POOL
@@ -171,7 +171,6 @@ export const AvailableCovers = () => {
 
       {sortedCovers.length > showCount && (
         <NeutralButton
-          className='rounded-lg border-0 bg-E6EAEF !text-black font-poppins leading-5 !p-4'
           onClick={handleShowMore}
           data-testid='show-more-button'
         >

@@ -118,7 +118,6 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
         </Grid>
         {!loading && hasMore && (
           <NeutralButton
-            className='rounded-lg border-0.5'
             onClick={handleShowMore}
             data-testid='show-more-button'
           >

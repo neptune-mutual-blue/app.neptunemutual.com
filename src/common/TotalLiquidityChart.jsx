@@ -134,7 +134,7 @@ const TotalLiquidityChart = ({ data }) => {
       maskFill: 'rgba(66, 137, 242, 0.3)',
       outlineWidth: 0,
       xAxis: {
-        tickInterval: 5 * 24 * 3600 * 1000,
+        // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
           format:
             "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",

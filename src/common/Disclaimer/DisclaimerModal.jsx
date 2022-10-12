@@ -53,7 +53,7 @@ export const DisclaimerModal = () => {
         </Title>
         <Description
           className={classNames(
-            'mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f1f3f6'
+            'mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f6f7f9'
           )}
           data-testid='disclaimer-description'
         >

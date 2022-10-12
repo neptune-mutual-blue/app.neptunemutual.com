@@ -150,7 +150,6 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
 
         {!loading && hasMore && (
           <NeutralButton
-            className='rounded-lg border-0.5'
             onClick={handleShowMore}
             data-testid='has-more-button'
           >

@@ -122,10 +122,10 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   ]
 
   return (
-    <div className='font-arial bg-white'>
+    <div className='bg-white font-arial'>
 
-      <div className='px-10 md:px-10 lg:max-w-5xl m-auto pt-4 pb-52'>
-        <div className='mt-9 flex cursor-pointer'>
+      <div className='px-10 pt-4 m-auto md:px-10 lg:max-w-5xl pb-52'>
+        <div className='flex cursor-pointer mt-9'>
 
           <Link href={Routes.Home} replace>
             <a>
@@ -134,7 +134,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
                   loading='lazy'
                   alt={t`Neptune Mutual`}
                   srcSet='/logos/neptune-mutual-full-beta.svg'
-                  className='w-full h-9 text-black'
+                  className='w-full text-black h-9'
                   data-testid='header-logo'
                 />
               </picture>
@@ -143,7 +143,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           <div className='flex-grow'> </div>
           <a
             href='https://neptunemutual.com'
-            className='mt-2 text-black items-end'
+            className='items-end mt-2 text-black'
           >
             neptunemutual.com
           </a>
@@ -156,8 +156,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         {
           policyReceiptData.map(([label, value]) => (
-            <div className='mt-4 text-lg leading-7 flex' key={label}>
-              <p className='font-bold mr-2'>{label}</p>
+            <div className='flex mt-4 text-lg leading-7' key={label}>
+              <p className='mr-2 font-bold'>{label}</p>
               <p>{value}</p>
             </div>
           ))
@@ -168,7 +168,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         <div className='mt-10'>
 
           <div className='text-lg leading-6 mt-3.5 mb-10'>
-            <p className='font-bold mr-2 mb-2 text-receipt-info leading-7'>On Behalf Of</p>
+            <p className='mb-2 mr-2 font-bold leading-7 text-receipt-info'>On Behalf Of</p>
             <p className='text-md'>{onBehalfOf}</p>
           </div>
 
@@ -177,26 +177,26 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
               key={i}
               className='flex pb-4 text-lg leading-6'
             >
-              <p className='flex-shrink-0 font-bold leading-5 max-w-60 w-full'>{label}</p>
+              <p className='flex-shrink-0 w-full font-bold leading-5 max-w-60'>{label}</p>
               <div className='overflow-hidden'>{value}</div>
             </div>
           ))}
 
           <div className='flex text-lg font-bold leading-6'>
-            <p className='max-w-60 w-full'>Premium Paid</p>
+            <p className='w-full max-w-60'>Premium Paid</p>
             <p className='uppercase'>{premuimPaid}</p>
           </div>
 
           <hr className='mt-12' />
 
-          <div className='mt-10 text-lg leading-5 flex'>
-            <p className='font-bold max-w-60 w-full flex-shrink-0'>Your cxDAI Address</p>
+          <div className='flex mt-10 text-lg leading-5'>
+            <p className='flex-shrink-0 w-full font-bold max-w-60'>Your cxDAI Address</p>
             <div className='flex items-center break-all'>
               {event.cxToken}
             </div>
           </div>
-          <div className='mt-6 text-lg leading-5 flex'>
-            <p className='font-bold max-w-60 w-full flex-shrink-0'>Transaction Receipt</p>
+          <div className='flex mt-6 text-lg leading-5'>
+            <p className='flex-shrink-0 w-full font-bold max-w-60'>Transaction Receipt</p>
             <div className='flex items-center break-all'>
               {txHash}
             </div>
@@ -205,9 +205,9 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         <hr className='my-10' />
 
-        <Alert className='!bg-white leading-5'>
-          <p className='text-lg font-bold text-E03636 pb-1'>Beta Version Disclaimer</p>
-          <p className='text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
+        <Alert printable>
+          <p className='text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
+          <p className='mt-1 text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
         </Alert>
 
         <DescriptionComponent
