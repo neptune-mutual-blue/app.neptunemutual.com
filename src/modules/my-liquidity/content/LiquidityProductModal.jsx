@@ -1,6 +1,7 @@
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
+import { getCoverImgSrc } from '@/src/helpers/cover'
 import * as Dialog from '@radix-ui/react-dialog'
 
 /**
@@ -14,6 +15,7 @@ import * as Dialog from '@radix-ui/react-dialog'
  * @returns
  */
 export function LiquidityProductModal ({ product, setShowModal }) {
+  const imgSrc = getCoverImgSrc({ key: product.productKey })
   const onClose = () => setShowModal(false)
   return (
     <ModalRegular
@@ -36,35 +38,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           >
             <CloseIcon width={24} height={24} />
           </button>
-          <svg
-            className='w-10'
-            width='40'
-            height='40'
-            viewBox='0 0 40 40'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <g clipPath='url(#clip0_7315_49925)'>
-              <path
-                d='M20 36.25C28.9746 36.25 36.25 28.9746 36.25 20C36.25 11.0254 28.9746 3.75 20 3.75C11.0254 3.75 3.75 11.0254 3.75 20C3.75 28.9746 11.0254 36.25 20 36.25Z'
-                fill='#364253'
-              />
-              <path
-                d='M19.9184 9.72266L15.3298 12.411L19.9184 15.1004L24.5933 12.411L19.9184 9.72266ZM20.673 24.0775V29.4552L26.9059 25.8995V20.5208L20.673 24.0775ZM25.3479 14.102V19.4808L20.672 22.1702V16.7914L25.3479 14.102ZM14.0928 19.4808L18.7687 22.1702V16.7914L14.0928 14.102V19.4808ZM14.0928 26.7669L18.7687 29.4552V24.0775L14.0928 21.3891V26.7669Z'
-                fill='white'
-              />
-            </g>
-            <defs>
-              <clipPath id='clip0_7315_49925'>
-                <rect
-                  width='32.5'
-                  height='32.5'
-                  fill='white'
-                  transform='translate(3.75 3.75)'
-                />
-              </clipPath>
-            </defs>
-          </svg>
+          <img src={imgSrc} alt={product.infoObj.productName} className='w-8 h-8' />
 
           <span className='flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 whitespace-nowrap text-ellipsis'>
             {product.infoObj.productName} Cover Terms
@@ -84,10 +58,10 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           </p>
 
           <ul
-            className='pl-8 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm'
+            className='mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
             data-testid='cover-rules'
           >
-            <CoverParameters parameters={product.infoObj.parameters} />
+            <CoverParameters titleClassName='text-sm mt-10 mb-6 font-semibold font-sora' parameters={product.infoObj.parameters} />
           </ul>
 
           <p className='py-2 text-sm font-bold leading-5 md:py-6 text-000000'>

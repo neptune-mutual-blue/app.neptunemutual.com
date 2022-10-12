@@ -1,4 +1,3 @@
-import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 
 const List = ({ type, children }) => {
   if (type === 'unordered') {
@@ -28,7 +27,7 @@ const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibol
               {param.parameter}
             </h4>
 
-            {param.text && <SeeMoreParagraph key={`parameter-paragraph-${i}`} text={param.text} />}
+            {param.text && <p key={`parameter-paragraph-${i}`}>{param.text}</p>}
 
             <List type={param.list.type}>
               {param.list.items.map((item, x) => (
