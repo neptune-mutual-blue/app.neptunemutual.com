@@ -19,7 +19,7 @@ export const SeeMoreParagraph = ({ text = '' }) => {
       className={classNames(!showFullText && 'overflow-hidden flex')}
       data-testid='text-wrapper'
     >
-      <p>{(!showFullText && hasOverflow) ? text.substring(0, 144) : text}
+      <p>{(!showFullText && hasOverflow) ? text.split(' ').slice(0, 144).join(' ') : text}
         {/* Read more */}
         {hasOverflow && (
           <span
