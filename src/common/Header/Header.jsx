@@ -385,7 +385,7 @@ export const MenuModal = ({
                     {({ onOpen }) => {
                       let button = (
                         <button
-                          className='justify-center inline-block w-full px-4 py-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
+                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
@@ -397,7 +397,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
+                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >
