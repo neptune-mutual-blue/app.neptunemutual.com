@@ -28,16 +28,13 @@ const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibol
               {param.parameter}
             </h4>
 
-            <SeeMoreParagraph key={`parameter-paragraph-${i}`}>
-              {param.text && param.text}
+            {param.text && <SeeMoreParagraph key={`parameter-paragraph-${i}`} text={param.text} />}
 
-              <List type={param.list.type}>
-                {param.list.items.map((item, x) => (
-                  <li key={x}>{item}</li>
-                ))}
-              </List>
-            </SeeMoreParagraph>
-
+            <List type={param.list.type}>
+              {param.list.items.map((item, x) => (
+                <li key={x}>{item}</li>
+              ))}
+            </List>
           </div>
         ))
       }

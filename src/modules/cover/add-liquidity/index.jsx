@@ -87,9 +87,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           <div className={classNames(acceptedRules ? 'col-span-3 md:col-span-2' : 'col-span-3')}>
             {/* Description */}
             <span className='hidden lg:block'>
-              <SeeMoreParagraph>
-                {coverInfo?.infoObj?.about}
-              </SeeMoreParagraph>
+              <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
             </span>
 
             {acceptedRules
@@ -139,9 +137,7 @@ export const CoverAddLiquidityDetailsPage = () => {
           </div>
 
           <span className='block col-span-3 row-start-1 lg:hidden mb-11'>
-            <SeeMoreParagraph>
-              {coverInfo?.infoObj?.about}
-            </SeeMoreParagraph>
+            <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
           </span>
 
           {acceptedRules && (

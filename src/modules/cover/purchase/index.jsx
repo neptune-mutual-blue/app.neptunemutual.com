@@ -97,10 +97,9 @@ export const CoverPurchaseDetailsPage = () => {
         <Container className='grid grid-cols-3 lg:gap-32'>
           <div className='col-span-3 md:col-span-2'>
             <span className='hidden lg:block'>
-              <SeeMoreParagraph>
-                {coverInfo.infoObj.about}
-              </SeeMoreParagraph>
-
+              <SeeMoreParagraph
+                text={coverInfo.infoObj.about}
+              />
             </span>
             {acceptedRules
               ? (
@@ -129,10 +128,9 @@ export const CoverPurchaseDetailsPage = () => {
           </div>
 
           <span className='block col-span-3 row-start-1 lg:hidden mb-11'>
-            <SeeMoreParagraph>
-              {coverInfo?.infoObj?.about}
-            </SeeMoreParagraph>
-
+            <SeeMoreParagraph
+              text={coverInfo?.infoObj?.about}
+            />
           </span>
           <CoverResolutionSources coverInfo={coverInfo}>
             <hr className='mt-4 mb-6 border-t border-B0C4DB/60' />

@@ -2,7 +2,7 @@ import { classNames } from '@/utils/classnames'
 import React, { useEffect, useRef, useState } from 'react'
 import { t } from '@lingui/macro'
 
-export const SeeMoreParagraph = ({ children }) => {
+export const SeeMoreParagraph = ({ text = '' }) => {
   const [showFullText, setShowFullText] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(false)
   const wrapperRef = useRef(null)
@@ -18,7 +18,7 @@ export const SeeMoreParagraph = ({ children }) => {
         elementRef.current &&
         elementRef.current.scrollHeight > wrapperRef.current.offsetHeight
     )
-  }, [children])
+  }, [text])
 
   return (
     <>
@@ -28,7 +28,7 @@ export const SeeMoreParagraph = ({ children }) => {
         className={classNames(!showFullText && 'max-h-14 overflow-hidden')}
         data-testid='text-wrapper'
       >
-        <div ref={elementRef}>{children}</div>
+        <p ref={elementRef}>{text}</p>
       </div>
 
       {/* Read more */}
