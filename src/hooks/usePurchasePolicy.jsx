@@ -259,17 +259,6 @@ export const usePurchasePolicy = ({
                 console.error(error)
               }
 
-              tx.wait(1).then(async (receipt) => {
-                if (receipt) {
-                  const events = receipt.events
-                  const event = events.find(
-                    (x) => x.event === 'CoverPurchased'
-                  )
-                  const txHash = storePurchaseEvent(event, receipt.from)
-
-                  setTxHash(txHash)
-                }
-              })
               onTxSuccess()
             },
             onTxFailure: () => {
