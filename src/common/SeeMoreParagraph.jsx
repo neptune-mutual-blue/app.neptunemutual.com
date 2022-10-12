@@ -1,46 +1,36 @@
 import { classNames } from '@/utils/classnames'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { t } from '@lingui/macro'
 
 export const SeeMoreParagraph = ({ text = '' }) => {
   const [showFullText, setShowFullText] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(false)
-  const wrapperRef = useRef(null)
-  const elementRef = useRef(null)
 
   const handleReadMore = () => {
     setShowFullText((prev) => !prev)
   }
 
   useEffect(() => {
-    setHasOverflow(
-      wrapperRef.current &&
-        elementRef.current &&
-        elementRef.current.scrollHeight > wrapperRef.current.offsetHeight
-    )
+    setHasOverflow(text.length > 144)
   }, [text])
 
   return (
-    <>
-
-      <div
-        ref={wrapperRef}
-        className={classNames(!showFullText && 'max-h-14 overflow-hidden')}
-        data-testid='text-wrapper'
-      >
-        <p ref={elementRef}>{text}</p>
-      </div>
-
-      {/* Read more */}
-      {hasOverflow && (
-        <button
-          onClick={handleReadMore}
-          className='mt-4 underline capitalize cursor-pointer opacity-40 hover:no-underline'
-          data-testid='button'
-        >
-          {showFullText ? t`See less` : t`See more`}
-        </button>
-      )}
-    </>
+    <div
+      className={classNames(!showFullText && 'overflow-hidden flex')}
+      data-testid='text-wrapper'
+    >
+      <p>{(!showFullText && hasOverflow) ? text.substring(0, 144) : text}
+        {/* Read more */}
+        {hasOverflow && (
+          <span
+            onClick={handleReadMore}
+            className='mt-4 ml-4 underline capitalize cursor-pointer w-fit opacity-40 hover:no-underline'
+            data-testid='button'
+          >
+            {showFullText ? t`See less` : t`See more`}
+          </span>
+        )}
+      </p>
+    </div>
   )
 }
