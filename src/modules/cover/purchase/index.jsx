@@ -24,6 +24,7 @@ import { log, logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 import { analyticsLogger } from '@/utils/logger'
+import CoveredBlockchains from '@/common/CoveredBlockChains'
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -62,6 +63,8 @@ export const CoverPurchaseDetailsPage = () => {
   const projectName = !isDiversified
     ? coverInfo?.infoObj?.coverName
     : coverInfo?.infoObj?.productName
+
+  const blockChains = coverInfo?.cover?.infoObj?.blockchains || []
 
   return (
     <main>
@@ -129,6 +132,7 @@ export const CoverPurchaseDetailsPage = () => {
               : (
                 <>
                   <CoverParameters parameters={coverInfo.infoObj?.parameters} />
+                  <CoveredBlockchains blockChains={blockChains} />
                   <AcceptRulesForm
                     onAccept={handleAcceptRules}
                     coverKey={coverKey}
