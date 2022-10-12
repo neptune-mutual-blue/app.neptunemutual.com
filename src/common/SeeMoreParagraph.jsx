@@ -11,7 +11,7 @@ export const SeeMoreParagraph = ({ text = '' }) => {
   }
 
   useEffect(() => {
-    setHasOverflow(text.length > 144)
+    setHasOverflow(text.split(' ').length > 144)
   }, [text])
 
   return (
