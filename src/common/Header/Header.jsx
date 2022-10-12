@@ -124,7 +124,7 @@ export const Header = () => {
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
 
   const network = (
-    <div className='inline-flex items-center justify-start w-6/12 mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg xl:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
+    <div className='inline-flex items-center justify-start w-full mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg xl:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
       <figure title={NetworkNames[networkId] || 'Network'}>
         <span className='block lg:hidden xl:block'>
           <ChainLogo width='44' height='44' />{' '}
@@ -135,7 +135,7 @@ export const Header = () => {
       </figure>
       <p
         className={classNames(
-          'inline-block truncate ml-2 py-2 pr-4 lg:py-4 xl:py-2',
+          'inline-block truncate ml-2 py-2 pr-4 lg:py-4 xl:py-2 w-full text-center',
           width >= 1200 && width <= 1439 && 'hidden'
         )}
       >
@@ -358,7 +358,7 @@ export const MenuModal = ({
                 <LanguageDropdown />
               </div>
               <div className='flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl'>
-                <div className='flex flex-col justify-start overflow-y-auto mb-28'>
+                <div className='flex flex-col justify-start mb-20 overflow-y-auto'>
                   {navigation.map((link) => {
                     return (
                       <Link
@@ -385,7 +385,7 @@ export const MenuModal = ({
                     {({ onOpen }) => {
                       let button = (
                         <button
-                          className='justify-center inline-block w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
+                          className='justify-center inline-block w-full px-4 py-2 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
@@ -397,7 +397,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className='relative flex items-center justify-center w-6/12 px-4 py-2 ml-2 text-sm font-medium leading-loose text-white border border-transparent rounded-md lg:py-4 xl:py-2 md:ml-4 bg-4e7dd9 hover:bg-opacity-75'
+                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >
@@ -412,7 +412,7 @@ export const MenuModal = ({
                         )
                       }
                       return (
-                        <div className='flex justify-between'>
+                        <div className='flex flex-col justify-between w-full'>
                           {network} {button}
                           {isAccountDetailsOpen && (
                             <AccountDetailsModal
