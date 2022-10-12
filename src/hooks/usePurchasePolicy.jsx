@@ -237,15 +237,14 @@ export const usePurchasePolicy = ({
             failure: t`Could not purchase policy`
           },
           {
-            onTxSuccess: async () => {
+            onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.POLICY_PURCHASE,
                 status: STATUS.SUCCESS
               })
 
-              try {
-                const receipt = await tx.wait(1)
+              tx.wait(1).then(async (receipt) => {
                 if (receipt) {
                   const events = receipt.events
                   const event = events.find(
@@ -255,9 +254,7 @@ export const usePurchasePolicy = ({
 
                   setTxHash(txHash)
                 }
-              } catch (error) {
-                console.error(error)
-              }
+              })
 
               onTxSuccess()
             },
