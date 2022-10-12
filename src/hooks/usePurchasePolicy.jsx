@@ -244,7 +244,7 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS
               })
 
-              tx.wait().then(async (receipt) => {
+              tx.wait(1).then(async (receipt) => {
                 if (receipt) {
                   const events = receipt.events
                   const event = events.find(
@@ -255,6 +255,7 @@ export const usePurchasePolicy = ({
                   setTxHash(txHash)
                 }
               })
+
               onTxSuccess()
             },
             onTxFailure: () => {
