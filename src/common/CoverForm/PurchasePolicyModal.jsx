@@ -3,12 +3,12 @@ import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
-import { RegularButton } from '@/common/Button/RegularButton'
 import { useRouter } from 'next/router'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { Loader } from '@/common/Loader/Loader'
 import Link from 'next/link'
+import { classNames } from '@/utils/classnames'
 
 /**
  * @param {{ isOpen: boolean, txHash: string }} prop
@@ -54,16 +54,18 @@ function Complete ({ txHash, onClose }) {
       <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-h2'><Trans>Cover Purchased Successfully!</Trans></h4>
 
       <Link href={Routes.ViewPolicyReceipt(txHash)}>
-        <a target='_blank'>
-          <RegularButton
-            className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
-            onClick={() => {
-              onClose()
-            }}
-          >
-            <Trans>View Policy Receipt</Trans>
-            <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
-          </RegularButton>
+        <a
+          target='_blank'
+          className={classNames(
+            'text-EEEEEE border border-4e7dd9 rounded-lg bg-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9',
+            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm')}
+          onClick={() => {
+            onClose()
+          }}
+        >
+
+          <Trans>View Policy Receipt</Trans>
+          <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
         </a>
       </Link>
     </div>
