@@ -56,7 +56,7 @@ function Complete ({ txHash, onClose }) {
       <Link href={Routes.ViewPolicyReceipt(txHash)}>
         <a target='_blank'>
           <RegularButton
-            className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 min-w-0 md:min-w-sm'
+            className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
             onClick={() => {
               onClose()
             }}
@@ -65,7 +65,6 @@ function Complete ({ txHash, onClose }) {
             <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
           </RegularButton>
         </a>
-
       </Link>
     </div>
   )
