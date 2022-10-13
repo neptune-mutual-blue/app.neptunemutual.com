@@ -121,7 +121,7 @@ export const ClaimDetailsPage = ({
           <h2 className='font-bold text-h2 font-sora'>
             <Trans>Available cxTokens for {coverOrProductName} to Claim</Trans>
           </h2>
-          <p className='w-full max-w-xl pt-6 pb-16 ml-0 text-lg'>
+          <p className='w-full max-w-xl py-6 mb-8 ml-0 text-lg'>
             <Trans>
               Claim your {coverOrProductName} cover cxTokens from the following
               addresses before the given claim date. Also indicated is the
@@ -130,7 +130,7 @@ export const ClaimDetailsPage = ({
           </p>
 
           {!loadingReports && reports.length === 0 && (
-            <Alert className='mb-8 -mt-8'>
+            <Alert>
               <Trans>
                 No valid incidents are reported with the given timestamp
               </Trans>

@@ -133,7 +133,7 @@ module.exports = {
         '999BAB': '#999BAB',
         '728FB2': '#728FB2',
         '4e7dd9': '#4e7dd9',
-        f1f3f6: '#f1f3f6',
+        f6f7f9: '#F6F7F9',
         EEEEEE: '#EEEEEE',
         F4F8FC: '#F4F8FC',
         '5F5F5F': '#5F5F5F',

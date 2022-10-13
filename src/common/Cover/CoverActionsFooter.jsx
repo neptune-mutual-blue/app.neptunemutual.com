@@ -11,7 +11,7 @@ export const CoverActionsFooter = ({ activeKey, coverKey, productKey }) => {
     <>
       {/* Cover Actions */}
       <div
-        className='pt-12 border-t sm:pt-20 pb-36 bg-f1f3f6 border-t-B0C4DB'
+        className='pt-12 border-t sm:pt-20 pb-36 bg-f6f7f9 border-t-B0C4DB'
         data-testid='main-container'
       >
         <Container>
