@@ -74,76 +74,73 @@ function Notes ({ coverInfo }) {
         </Trans>
       </p>
 
-      <p className='py-6 font-bold text-h3'>
-        <Trans>Standard Exclusions</Trans>
-      </p>
-
-      <p>
-        The standard exclusions are enforced on all covers. Neptune Mutual
-        reserves the right to update the exclusion list periodically.
-      </p>
-
-      <ul className='ml-6 list-disc'>
-        <li>
-          If we have reason to believe you are an attacker or are directly or
-          indirectly associated with an attacker, we reserve the right to
-          blacklist you or deny your claims.
-        </li>
-        <li>
-          In addition to coverage lag, we may also blacklist you or deny your
-          claims if you purchased coverage just before, on, or the same day of
-          the attack.
-        </li>
-        <li>Minimum total loss should exceed $1 million.</li>
-        <li>
-          Any loss in which the protocol continues to function as intended is
-          not covered.
-        </li>
-        <li>
-          Any type of 51 percent attack or consensus attack on the parent
-          blockchain is not covered.
-        </li>
-        <li>Consensus attack on the protocol is not covered.</li>
-        <li>Financial risk can not be covered.</li>
-        <li>Bridge-related losses not coverable.</li>
-        <li>Backend exploits are not coverable.</li>
-        <li>
-          {`Gross negligence or misconduct by a project's founders, employees,
-          development team, or former employees are not coverable.`}
-          <ul className='ml-6 list-disc'>
-            <li>Rug pull or theft of funds.</li>
-            <li>Project team confiscating user funds. </li>
-            <li>
-              Attacks by team members or former team members on their protocol.
-            </li>
-            <li>Compromised private key.</li>
-            <li>Compromised API access keys.</li>
-            <li>
-              Utilization of obsolete or vulnerable dependencies in the
-              application or DApp before the coverage period began
-            </li>
-            <li>
-              Developers or insiders creating backdoors to later exploit their
-              own protocol.
-            </li>
-          </ul>
-        </li>
-      </ul>
-
-      <p className='py-6 font-bold text-h3'>
-        <Trans>Risk Disclosure / Disclaimer</Trans>
-      </p>
-
-      <p className='pb-4'>
-        {'In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool\'s balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:'}
-      </p>
-
-      <a
-        href='https://docs.neptunemutual.com/usage/risk-factors'
-        className='break-all text-4e7dd9'
-      >
-        https://docs.neptunemutual.com/usage/risk-factors
-      </a>
+      <div className='max-w-[800px]'>
+        <p className='py-6 font-bold text-h3'>
+          <Trans>Standard Exclusions</Trans>
+        </p>
+        <p>
+          The standard exclusions are enforced on all covers. Neptune Mutual
+          reserves the right to update the exclusion list periodically.
+        </p>
+        <ul className='ml-6 list-disc'>
+          <li>
+            If we have reason to believe you are an attacker or are directly or
+            indirectly associated with an attacker, we reserve the right to
+            blacklist you or deny your claims.
+          </li>
+          <li>
+            In addition to coverage lag, we may also blacklist you or deny your
+            claims if you purchased coverage just before, on, or the same day of
+            the attack.
+          </li>
+          <li>Minimum total loss should exceed $1 million.</li>
+          <li>
+            Any loss in which the protocol continues to function as intended is
+            not covered.
+          </li>
+          <li>
+            Any type of 51 percent attack or consensus attack on the parent
+            blockchain is not covered.
+          </li>
+          <li>Consensus attack on the protocol is not covered.</li>
+          <li>Financial risk can not be covered.</li>
+          <li>Bridge-related losses not coverable.</li>
+          <li>Backend exploits are not coverable.</li>
+          <li>
+            {`Gross negligence or misconduct by a project's founders, employees,
+            development team, or former employees are not coverable.`}
+            <ul className='ml-6 list-disc'>
+              <li>Rug pull or theft of funds.</li>
+              <li>Project team confiscating user funds. </li>
+              <li>
+                Attacks by team members or former team members on their protocol.
+              </li>
+              <li>Compromised private key.</li>
+              <li>Compromised API access keys.</li>
+              <li>
+                Utilization of obsolete or vulnerable dependencies in the
+                application or DApp before the coverage period began
+              </li>
+              <li>
+                Developers or insiders creating backdoors to later exploit their
+                own protocol.
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <p className='py-6 font-bold text-h3'>
+          <Trans>Risk Disclosure / Disclaimer</Trans>
+        </p>
+        <p className='pb-4'>
+          {'In case of a diversified cover liquidity pool, it will only be able to offer payouts upto the pool\'s balance. It is critical that you comprehend all risk aspects before establishing any firm expectations. Please carefully assess the following document:'}
+        </p>
+        <a
+          href='https://docs.neptunemutual.com/usage/risk-factors'
+          className='break-all text-4e7dd9'
+        >
+          https://docs.neptunemutual.com/usage/risk-factors
+        </a>
+      </div>
     </div>
   )
 }

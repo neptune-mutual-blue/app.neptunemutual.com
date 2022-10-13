@@ -154,7 +154,7 @@ export const useERC20Allowance = (tokenAddress) => {
       onError,
       onRetryCancel,
       onTransactionResult: (tx) => {
-        tx?.wait().then(() => {
+        tx?.wait(1).then(() => {
           refetch(spender)
         })
 

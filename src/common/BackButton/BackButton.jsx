@@ -1,17 +1,17 @@
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import LeftArrow from '@/icons/LeftArrow'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
 export const BackButton = ({ onClick, className = '' }) => (
-  <OutlinedButton
+  <button
+    type='button'
+    onClick={onClick}
     className={classNames(
-      'flex group items-center rounded-big border border-solid border-4E7DD9',
+      'flex items-center font-poppins rounded-lg py-3 px-4 border-none bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9',
       className
     )}
-    onClick={onClick}
   >
     <LeftArrow />
     <Trans>Back</Trans>
-  </OutlinedButton>
+  </button>
 )

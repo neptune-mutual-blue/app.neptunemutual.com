@@ -5,7 +5,7 @@ import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { CARDS_PER_PAGE } from '@/src/config/constants'
+import { CARDS_PER_PAGE, homeViewSelectionKey } from '@/src/config/constants'
 import { SORT_TYPES, SORT_DATA_TYPES, sorter } from '@/utils/sorting'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Trans } from '@lingui/macro'
@@ -97,12 +97,12 @@ export const ProductsGrid = () => {
             href={{
               pathname: Routes.Home,
               query: {
-                coverView: SORT_TYPES.DIVERSIFIED_POOL
+                [homeViewSelectionKey]: SORT_TYPES.DIVERSIFIED_POOL
               }
             }}
             scroll={false}
           >
-            <a className='flex items-center px-4 py-2 mr-4 group rounded-big bg-9B9B9B/30'>
+            <a className='inline-flex items-center px-4 py-3 mr-6 text-black border-none rounded-lg font-poppins bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
               <LeftArrow />
               <Trans>Back</Trans>
             </a>
@@ -166,7 +166,6 @@ function Content ({
 
       {hasMore && (
         <NeutralButton
-          className='rounded-lg border-0.5'
           onClick={handleShowMore}
           data-testid='show-more-button'
         >

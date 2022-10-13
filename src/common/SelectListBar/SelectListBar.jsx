@@ -3,6 +3,7 @@ import { Select } from '@/common/Select'
 import { t } from '@lingui/macro'
 import { SORT_TYPES } from '@/utils/sorting'
 import FilterIcon from '@/icons/FilterIcon'
+import { homeViewSelectionKey } from '@/src/config/constants'
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -22,7 +23,7 @@ export const SelectListBar = ({
   const selectOptions = options ?? defaultOptions
 
   const selectedOption = defaultOptions.find(
-    (item) => item.value === query?.coverView
+    (item) => item.value === query[homeViewSelectionKey]
   ) || defaultOptions[0]
 
   const handleSelectView = (_selected) => {
@@ -30,7 +31,7 @@ export const SelectListBar = ({
       {
         query: {
           ...query,
-          coverView: _selected?.value
+          [homeViewSelectionKey]: _selected?.value
         }
       },
       undefined,

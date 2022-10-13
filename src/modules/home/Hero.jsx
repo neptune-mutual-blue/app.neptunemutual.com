@@ -137,7 +137,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
           </div>
         </div>
 
-        <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard p-14 border-0.5 border-B0C4DB'>
+        <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-14 border-0.5 border-B0C4DB'>
           <div className='mb-8'>
             <h3 className='mb-1 text-sm leading-5 font-poppins text-9B9B9B'>
               <Trans>Total Liquidity</Trans>

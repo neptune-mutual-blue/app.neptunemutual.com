@@ -85,7 +85,7 @@ class MyDocument extends Document {
         </Head>
         <body
           translate='no'
-          className='text-black font-poppins text-para bg-f1f3f6'
+          className='text-black font-poppins text-para bg-f6f7f9'
         >
           <NoScript />
           <Main />

@@ -27,6 +27,8 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { CoverAvatar } from '@/common/CoverAvatar'
+import { Routes } from '@/src/config/routes'
+import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 
 const renderHeader = (col) => (
   <th
@@ -281,6 +283,17 @@ const ActionsRenderer = ({ row }) => {
             <Tooltip.Arrow offset={16} className='fill-black' />
           </Tooltip.Content>
         </Tooltip.Root>
+
+        <a
+          href={Routes.ViewPolicyReceipt(row.transaction.id)}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='p-1 mr-4 text-black'
+          title='View Receipt'
+        >
+          <span className='sr-only'>View Receipt</span>
+          <PolicyReceiptIcon className='w-4 h-4' />
+        </a>
 
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
