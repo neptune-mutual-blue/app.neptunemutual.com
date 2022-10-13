@@ -80,6 +80,8 @@ export const useProvideLiquidity = ({
   }, [updateStakeAllowance, vaultTokenAddress])
 
   const handleLqTokenApprove = async () => {
+    console.log('handleLqTokenApprove')
+
     setLqApproving(true)
 
     const cleanup = () => {
@@ -96,7 +98,8 @@ export const useProvideLiquidity = ({
         methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
         status: STATUS.PENDING,
         data: {
-          tokenSymbol: liquidityTokenSymbol
+          tokenSymbol: liquidityTokenSymbol,
+          value: lqValue
         }
       })
 
@@ -160,6 +163,8 @@ export const useProvideLiquidity = ({
   }
 
   const handleNPMTokenApprove = async () => {
+    console.log('handleNPMTokenApprove')
+
     setNPMApproving(true)
 
     const cleanup = () => {
@@ -240,6 +245,7 @@ export const useProvideLiquidity = ({
   }
 
   const handleProvide = async (onTxSuccess) => {
+    console.log('handleProvide')
     setProviding(true)
 
     const cleanup = () => {
@@ -361,6 +367,18 @@ export const useProvideLiquidity = ({
         convertToUnits(lqValue || '0', liquidityTokenDecimals),
         myStablecoinBalance || '0'
       ))
+
+  console.log({
+    canProvideLiquidity,
+    isError,
+    lqValue,
+    params: {
+      lqValue,
+      isValidNumberLqValue: isValidNumber(lqValue),
+      hasLqTokenAllowance,
+      hasNPMTokenAllowance
+    }
+  })
 
   return {
     npmApproving,

@@ -70,6 +70,7 @@ export function TransactionList ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, page])
 
+  console.log({ listOfTransactions })
   return (
     <ModalRegular
       isOpen={isOpen}
