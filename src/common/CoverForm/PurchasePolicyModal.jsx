@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
 import { Loader } from '@/common/Loader/Loader'
+import Link from 'next/link'
 
 /**
  * @param {{ isOpen: boolean, txHash: string }} prop
@@ -52,16 +53,20 @@ function Complete ({ txHash, onClose }) {
       <SuccessIcon className='w-18 h-18 text-21AD8C' aria-hidden='true' />
       <h4 className='max-w-xs mt-8 font-bold leading-9 text-center text-h2'><Trans>Cover Purchased Successfully!</Trans></h4>
 
-      <RegularButton
-        className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 min-w-sm'
-        onClick={() => {
-          window.open(Routes.ViewPolicyReceipt(txHash), '_blank')
-          onClose()
-        }}
-      >
-        <Trans>View Policy Receipt</Trans>
-        <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
-      </RegularButton>
+      <Link href={Routes.ViewPolicyReceipt(txHash)}>
+        <a target='_blank'>
+          <RegularButton
+            className='flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 min-w-0 md:min-w-sm'
+            onClick={() => {
+              onClose()
+            }}
+          >
+            <Trans>View Policy Receipt</Trans>
+            <OpenInNewIcon className='w-4 h-4 ml-2' fill='currentColor' />
+          </RegularButton>
+        </a>
+
+      </Link>
     </div>
   )
 }
@@ -73,7 +78,7 @@ function Loading () {
       <h4 className='font-bold leading-9 text-center mt-7 font-sora text-h2'>
         <Trans>Transaction in progress</Trans>
       </h4>
-      <p className='mt-4 leading-6 text-center font-poppins text-para w-72'>
+      <p className='mt-4 leading-6 text-center font-poppins text-para md:w-72'>
         <Trans>Please do not exit this page while transaction is in progress</Trans>
       </p>
     </div>
