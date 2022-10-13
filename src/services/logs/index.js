@@ -20,12 +20,6 @@ const logCoverProductsSort = async (account, sortOrder) => {}
 
 const logCoverProductsViewChanged = async (account, view) => {}
 
-const logPageChange = async (account, oldPath, newPath) => {}
-
-const logViewCover = async (account, coverKey) => {}
-
-const logViewCoverProduct = async (account, coverKey, productKey) => {}
-
 const logPolicyPurchaseRulesAccepted = async (account, coverKey, productKey) => {}
 
 const logPolicyPurchase = async ({ account, coverKey, productKey, coverFee, coverFeeCurrency, protection, protectionCurrency, coveragePeriod, referralCode, tx }) => {}
@@ -33,6 +27,8 @@ const logPolicyPurchase = async ({ account, coverKey, productKey, coverFee, cove
 const logAddLiquidityRulesAccepted = async (account, coverKey) => {}
 
 const logAddLiquidity = async (account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx) => {}
+
+const logReportIncidentRulesAccepted = async (account, coverKey, productKey) => {}
 
 export {
   log,
@@ -45,11 +41,9 @@ export {
   logCoverProductsSeach,
   logCoverProductsSort,
   logCoverProductsViewChanged,
-  logPageChange,
-  logViewCover,
-  logViewCoverProduct,
   logPolicyPurchaseRulesAccepted,
   logPolicyPurchase,
   logAddLiquidityRulesAccepted,
-  logAddLiquidity
+  logAddLiquidity,
+  logReportIncidentRulesAccepted
 }
