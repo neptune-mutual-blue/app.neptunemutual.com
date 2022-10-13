@@ -23,6 +23,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { TransactionList } from '@/common/TransactionList'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { Routes } from '@/src/config/routes'
+import { logOpenConnectionPopup, logWalletDisconnected } from '@/src/services/logs'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -112,11 +113,15 @@ export const Header = () => {
 
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => !prev)
+    if (!isAccountDetailsOpen) {
+      logOpenConnectionPopup(account)
+    }
   }
 
   const handleDisconnect = () => {
     if (active) {
       logout()
+      logWalletDisconnected(account)
     }
     setIsAccountDetailsOpen(false)
   }

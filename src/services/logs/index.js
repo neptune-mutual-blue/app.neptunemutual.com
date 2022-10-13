@@ -6,7 +6,7 @@ const logPageLoad = async (account, path) => {}
 
 const logOpenConnectionPopup = async (account) => {}
 
-const logWalletConnected = async (account) => {}
+const logWalletConnected = async (account) => { console.log('opened popup', account) }
 
 const logWalletDisconnected = async (account) => {}
 

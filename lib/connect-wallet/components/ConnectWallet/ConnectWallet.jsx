@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import useAuth from '../../hooks/useAuth'
 import { Popup } from './Popup'
+import { logOpenConnectionPopup } from '@/src/services/logs'
 
 export default function ConnectWallet ({ networkId, notifier, children }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +19,7 @@ export default function ConnectWallet ({ networkId, notifier, children }) {
     if (active) {
       logout()
     }
+    logOpenConnectionPopup(null)
 
     setIsOpen(true)
   }
