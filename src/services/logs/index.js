@@ -2,7 +2,7 @@
 
 const log = async (funnel, journey, step, seq, account, event, props) => {}
 
-const logPageLoad = async (account, path) => { console.log(account, path) }
+const logPageLoad = async (account, path) => {}
 
 const logOpenConnectionPopup = async (account) => {}
 
