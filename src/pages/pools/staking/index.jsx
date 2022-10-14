@@ -5,6 +5,9 @@ import { StakingPage } from '@/src/modules/pools/staking'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { logPageLoad } from '@/src/services/logs'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -16,6 +19,11 @@ export function getStaticProps () {
 }
 
 export default function Staking ({ disabled }) {
+  const { account } = useWeb3React()
+  const router = useRouter()
+
+  logPageLoad(account ?? null, router.pathname)
+
   if (disabled) {
     return <ComingSoon />
   }

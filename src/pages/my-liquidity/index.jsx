@@ -15,6 +15,7 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCalculateTotalLiquidity } from '@/src/hooks/useCalculateTotalLiquidity'
+import { logPageLoad } from '@/src/services/logs'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -34,6 +35,8 @@ export default function MyLiquidity ({ disabled }) {
   const router = useRouter()
 
   const { liquidityTokenDecimals } = useAppConstants()
+
+  logPageLoad(account ?? null, router.pathname)
 
   if (disabled) {
     return <ComingSoon />

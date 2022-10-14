@@ -7,6 +7,8 @@ import { HomeHero } from '@/modules/home/Hero'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { isDiversifiedCoversEnabled } from '@/src/config/environment'
 import { ComingSoon } from '@/common/ComingSoon'
+import { useWeb3React } from '@web3-react/core'
+import { logPageLoad } from '@/src/services/logs'
 
 const disabled = !isDiversifiedCoversEnabled()
 
@@ -20,6 +22,10 @@ export default function CoverPage () {
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
 
   const isDiversified = coverInfo?.supportsProducts
+
+  const { account } = useWeb3React()
+
+  logPageLoad(account ?? null, router.pathname)
 
   if (disabled && isDiversified) {
     return <ComingSoon />

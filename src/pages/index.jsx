@@ -1,8 +1,16 @@
 import Head from 'next/head'
 
 import HomePage from '@/modules/home'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { logPageLoad } from '@/src/services/logs'
 
 export default function Home () {
+  const { account } = useWeb3React()
+  const router = useRouter()
+
+  logPageLoad(account ?? null, router.pathname)
+
   return (
     <main>
       <Head>

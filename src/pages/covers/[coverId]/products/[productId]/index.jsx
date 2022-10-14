@@ -6,16 +6,21 @@ import { useRouter } from 'next/router'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { isValidProduct } from '@/src/helpers/cover'
+import { useWeb3React } from '@web3-react/core'
+import { logPageLoad } from '@/src/services/logs'
 
 const disabled = !isDiversifiedCoversEnabled()
 
 export default function Options () {
   const router = useRouter()
+  const { account } = useWeb3React()
   const { coverId, productId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
   const coverProductInfo = useCoverOrProductData({ coverKey, productKey })
+
+  logPageLoad(account ?? null, router.pathname)
 
   if (disabled) {
     return <ComingSoon />

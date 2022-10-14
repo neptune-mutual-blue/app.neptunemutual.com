@@ -8,6 +8,9 @@ import { MyLiquidityTxsTable } from '@/src/modules/my-liquidity/MyLiquidityTxsTa
 import { isFeatureEnabled } from '@/src/config/environment'
 import { t, Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { logPageLoad } from '@/src/services/logs'
+import { useRouter } from 'next/router'
+import { useWeb3React } from '@web3-react/core'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -19,6 +22,11 @@ export function getStaticProps () {
 }
 
 export default function MyLiquidityTxs ({ disabled }) {
+  const { account } = useWeb3React()
+  const router = useRouter()
+
+  logPageLoad(account ?? null, router.pathname)
+
   if (disabled) {
     return <ComingSoon />
   }

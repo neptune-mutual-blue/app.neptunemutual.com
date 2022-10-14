@@ -6,6 +6,8 @@ import { CoverPurchaseDetailsPage } from '@/src/modules/cover/purchase'
 import { ComingSoon } from '@/common/ComingSoon'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { useWeb3React } from '@web3-react/core'
+import { logPageLoad } from '@/src/services/logs'
 
 const disabled = !isFeatureEnabled('policy')
 
@@ -14,6 +16,10 @@ export default function CoverPurchaseDetails () {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
+
+  const { account } = useWeb3React()
+
+  logPageLoad(account ?? null, router.pathname)
 
   if (disabled) {
     return <ComingSoon />
