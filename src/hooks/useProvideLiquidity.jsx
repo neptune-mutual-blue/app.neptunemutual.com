@@ -119,7 +119,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol
+                  tokenSymbol: liquidityTokenSymbol,
+                  value: lqValue
                 }
               })
             },
@@ -129,7 +130,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol
+                  tokenSymbol: liquidityTokenSymbol,
+                  value: lqValue
                 }
               })
             }
@@ -201,7 +203,9 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: NPMTokenSymbol
+                  tokenSymbol: NPMTokenSymbol,
+                  value: npmValue
+
                 }
               })
             },
@@ -211,7 +215,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: NPMTokenSymbol
+                  tokenSymbol: NPMTokenSymbol,
+                  value: npmValue
                 }
               })
             }
@@ -278,7 +283,8 @@ export const useProvideLiquidity = ({
           methodName: METHODS.LIQUIDITY_PROVIDE,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: vaultTokenSymbol
+            tokenSymbol: vaultTokenSymbol,
+            value: lqValue
           }
         })
         await txToast.push(
@@ -295,7 +301,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: vaultTokenSymbol
+                  tokenSymbol: vaultTokenSymbol,
+                  value: lqValue
                 }
               })
               onTxSuccess()
@@ -306,7 +313,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: vaultTokenSymbol
+                  tokenSymbol: vaultTokenSymbol,
+                  value: lqValue
                 }
               })
             }

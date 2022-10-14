@@ -17,12 +17,15 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false)
   const [withdrawing, setWithdrawing] = useState(false)
   const { library, account } = useWeb3React()
   const { networkId } = useNetwork()
+  const { NPMTokenSymbol } = useAppConstants()
+
   const {
     info: { vault: vaultTokenAddress, vaultTokenSymbol },
     refetchInfo,
@@ -58,7 +61,8 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         methodName: METHODS.LIQUIDITY_TOKEN_APPROVE,
         status: STATUS.PENDING,
         data: {
-          tokenSymbol: vaultTokenSymbol
+          tokenSymbol: vaultTokenSymbol,
+          value
         }
       })
 
@@ -68,21 +72,24 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.PENDING,
             {
-              tokenSymbol: vaultTokenSymbol
+              tokenSymbol: vaultTokenSymbol,
+              value
             }
           ).title,
           success: getActionMessage(
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.SUCCESS,
             {
-              tokenSymbol: vaultTokenSymbol
+              tokenSymbol: vaultTokenSymbol,
+              value
             }
           ).title,
           failure: getActionMessage(
             METHODS.LIQUIDITY_TOKEN_APPROVE,
             STATUS.FAILED,
             {
-              tokenSymbol: vaultTokenSymbol
+              tokenSymbol: vaultTokenSymbol,
+              value
             }
           ).title
         })
@@ -139,7 +146,11 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.LIQUIDITY_REMOVE,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value: npmValue,
+            tokenSymbol: NPMTokenSymbol
+          }
         })
 
         await txToast.push(
