@@ -4,6 +4,8 @@ import { t } from '@lingui/macro'
 import { SORT_TYPES } from '@/utils/sorting'
 import FilterIcon from '@/icons/FilterIcon'
 import { homeViewSelectionKey } from '@/src/config/constants'
+import { logCoverProductsViewChanged } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -12,6 +14,7 @@ export const SelectListBar = ({
   options = null
 }) => {
   const { query, replace } = useRouter()
+  const { account } = useWeb3React()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -39,6 +42,7 @@ export const SelectListBar = ({
         shallow: true
       }
     )
+    logCoverProductsViewChanged(account ?? null, _selected?.value)
   }
 
   return (

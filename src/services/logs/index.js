@@ -6,7 +6,7 @@ const logPageLoad = async (account, path) => {}
 
 const logOpenConnectionPopup = async (account) => {}
 
-const logWalletConnected = async (account) => { console.log('opened popup', account) }
+const logWalletConnected = async (account) => {}
 
 const logWalletDisconnected = async (account) => {}
 
@@ -14,7 +14,7 @@ const logViewAccountOnExplorer = async (account) => {}
 
 const logUnlimitedApprovalToggled = async (account, enabled) => {}
 
-const logCoverProductsSeach = async (account, searchTerm) => {}
+const logCoverProductsSearch = async (account, searchTerm) => {}
 
 const logCoverProductsSort = async (account, sortOrder) => {}
 
@@ -26,7 +26,7 @@ const logPolicyPurchase = async ({ account, coverKey, productKey, coverFee, cove
 
 const logAddLiquidityRulesAccepted = async (account, coverKey) => {}
 
-const logAddLiquidity = async (account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx) => {}
+const logAddLiquidity = async ({ account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx }) => {}
 
 const logReportIncidentRulesAccepted = async (account, coverKey, productKey) => {}
 
@@ -38,7 +38,7 @@ export {
   logWalletDisconnected,
   logViewAccountOnExplorer,
   logUnlimitedApprovalToggled,
-  logCoverProductsSeach,
+  logCoverProductsSearch,
   logCoverProductsSort,
   logCoverProductsViewChanged,
   logPolicyPurchaseRulesAccepted,

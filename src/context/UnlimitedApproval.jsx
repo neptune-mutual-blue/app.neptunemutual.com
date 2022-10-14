@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { MaxUint256 } from '@ethersproject/constants'
 import { KEYS, LocalStorage } from '@/utils/localstorage'
+import { logUnlimitedApprovalToggled } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 const UnlimitedApprovalContext = React.createContext({
   unlimitedApproval: false,
@@ -30,6 +32,7 @@ export function useUnlimitedApproval () {
 }
 
 export const UnlimitedApprovalProvider = ({ children }) => {
+  const { account } = useWeb3React()
   const [
     unlimitedApproval,
     /**
@@ -60,8 +63,9 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       LocalStorage.set(KEYS.UNLIMITED_APPROVAL, value)
       // @ts-ignore
       setUnlimitedApproval(value)
+      logUnlimitedApprovalToggled(account || null, value)
     },
-    []
+    [account]
   )
 
   const getApprovalAmount = useCallback(

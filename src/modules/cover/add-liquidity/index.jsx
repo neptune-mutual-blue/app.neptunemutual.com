@@ -20,6 +20,8 @@ import { DiversifiedCoverRules } from '@/modules/my-liquidity/content/rules'
 import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
 import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
+import { logAddLiquidityRulesAccepted } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -28,6 +30,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { account } = useWeb3React()
 
   const isDiversified = coverInfo?.supportsProducts
 
@@ -46,6 +49,7 @@ export const CoverAddLiquidityDetailsPage = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0)
     }
+    logAddLiquidityRulesAccepted(account ?? null, coverKey)
   }
 
   return (

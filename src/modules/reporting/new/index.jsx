@@ -8,6 +8,8 @@ import { ReportingHero } from '@/src/modules/reporting/ReportingHero'
 import { useFetchCoverProductActiveReportings } from '@/src/hooks/useFetchCoverProductActiveReportings'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { Routes } from '@/src/config/routes'
+import { logReportIncidentRulesAccepted } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export function NewIncidentReportPage ({
   coverKey,
@@ -15,6 +17,7 @@ export function NewIncidentReportPage ({
 }) {
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
+  const { account } = useWeb3React()
 
   const coverInfo = useCoverOrProductData({
     coverKey: coverKey,
@@ -46,6 +49,7 @@ export function NewIncidentReportPage ({
 
   const handleAcceptRules = () => {
     setAccepted(true)
+    logReportIncidentRulesAccepted(account ?? null, coverKey, productKey)
   }
 
   return (
