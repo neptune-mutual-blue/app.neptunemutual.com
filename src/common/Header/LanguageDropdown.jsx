@@ -2,9 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { useRouter } from 'next/router'
 import { Listbox, Transition } from '@headlessui/react'
 import {
-  DEBOUNCE_TIMEOUT,
-  languageKey,
-  localesKey
+  DEBOUNCE_TIMEOUT
 } from '@/src/config/constants'
 import { classNames } from '@/utils/classnames'
 import SelectedCircleIcon from '@/icons/SelectedCircleIcon'
@@ -15,6 +13,7 @@ import ChevronDownArrowIcon from '@/icons/ChevronDownArrowIcon'
 import { getBrowserLocale } from '@/utils/locale'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import GlobeLogo from '@/lib/connect-wallet/components/logos/Globe'
+import { languageKey, localesKey } from '@/src/config/locales'
 
 const LANGUAGES = Object.values(languageKey)
 const LANGUAGE_KEYS = Object.keys(languageKey)

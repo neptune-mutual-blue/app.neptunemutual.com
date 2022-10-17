@@ -1,11 +1,11 @@
 module.exports = {
   i18n: {
     locales: [
-      "en",
+      'en',
       // "es",
       // "fr",
-      // "ja",
-      // "zh",
+      'ja',
+      'zh'
       // "de",
       // "id",
       // "it",
@@ -15,7 +15,7 @@ module.exports = {
       // "tr",
       // "vi",
     ],
-    defaultLocale: "en",
-    localeDetection: false,
-  },
-};
+    defaultLocale: 'en',
+    localeDetection: false
+  }
+}
