@@ -76,15 +76,15 @@ export function TransactionList ({
       onClose={onClose}
       rootProps={{ modal: true, onOpenChange: onClose }}
       overlayClass='flex justify-end w-full h-full bg-transparent'
-      defaultContentClassNames='w-screen lg:w-auto absolute z-50 transform top-full -right-13 lg:-right-14 xl:right-5 px-4 lg:px-0 pt-3 rounded-3xl'
+      defaultContentClassNames=' w-screen lg:w-auto absolute z-50 transform top-full -right-13 lg:-right-14 xl:right-5 px-0 pt-0 lg:pt-3 lg:rounded-3xl'
       container={container}
       noBlur
     >
-      <div className='relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list'>
-        <div className='pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list'>
+      <div className='relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF lg:rounded-3xl shadow-tx-list'>
+        <div className='pr-4 overflow-y-auto min-h-tx-list-mobile lg:min-h-0 max-h-tx-list-mobile lg:max-h-tx-list'>
           <NotificationsList data={listOfTransactions} />
         </div>
-        <div className={`text-center py-4 ${page >= maxPage ? 'hidden' : ''}`}>
+        <div className={`text-center pt-10 lg:pt-4 pb-20 lg:pb-4 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>
