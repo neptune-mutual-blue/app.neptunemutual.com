@@ -376,18 +376,6 @@ export const useProvideLiquidity = ({
         myStablecoinBalance || '0'
       ))
 
-  console.log({
-    canProvideLiquidity,
-    isError,
-    lqValue,
-    params: {
-      lqValue,
-      isValidNumberLqValue: isValidNumber(lqValue),
-      hasLqTokenAllowance,
-      hasNPMTokenAllowance
-    }
-  })
-
   return {
     npmApproving,
     npmBalance: stakingTokenBalance,

@@ -6,7 +6,7 @@ import { useNetwork } from '@/src/context/Network'
 import { useState } from 'react'
 import { t, Trans } from '@lingui/macro'
 
-export const Banner = () => {
+export const Banner = ({ onClose = () => {} }) => {
   const { networkId } = useNetwork()
   const [show, setShow] = useState(true)
 
@@ -18,6 +18,7 @@ export const Banner = () => {
 
   const handleClose = () => {
     setShow(false)
+    onClose()
   }
 
   if (!show) return <></>
