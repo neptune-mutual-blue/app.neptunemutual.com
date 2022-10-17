@@ -64,7 +64,8 @@ export const CoverPurchaseDetailsPage = () => {
     ? coverInfo?.infoObj?.coverName
     : coverInfo?.infoObj?.productName
 
-  const blockChains = coverInfo?.cover?.infoObj?.blockchains || []
+  const blockChains = !isDiversified ? (coverInfo?.infoObj?.blockchains || []) : (coverInfo?.cover?.infoObj?.blockchains || [])
+  console.log(blockChains)
 
   return (
     <main>
