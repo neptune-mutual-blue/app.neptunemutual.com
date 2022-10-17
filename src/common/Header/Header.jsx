@@ -181,7 +181,7 @@ export const Header = () => {
                 href={Routes.Home}
                 locale={router.locale || router.defaultLocale}
               >
-                <a className='w-48'>
+                <a className='sm:w-48'>
                   <HeaderLogo />
                 </a>
               </Link>
