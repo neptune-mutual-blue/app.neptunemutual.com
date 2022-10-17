@@ -144,7 +144,7 @@ export const AccountDetailsModal = ({
           <p className='text-999BAB mt-3 text-xs tracking-normal leading-4.5'>
             <Trans>
               If you do not want to keep approving for each transaction, enable
-              this box.
+              this option.
             </Trans>
           </p>
         </div>
