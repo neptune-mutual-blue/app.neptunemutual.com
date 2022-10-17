@@ -42,6 +42,10 @@ export const CoverAddLiquidityDetailsPage = () => {
 
   const handleAcceptRules = () => {
     setAcceptedRules(true)
+
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0)
+    }
   }
 
   return (
