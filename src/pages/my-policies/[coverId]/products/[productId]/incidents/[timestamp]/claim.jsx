@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 const disabled = !isFeatureEnabled('claim')
 
@@ -15,7 +16,9 @@ export default function ClaimPolicyDiversifiedProduct () {
 
   const { account } = useWeb3React()
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   return (
     <ClaimDetailsPage

@@ -11,6 +11,7 @@ import { Routes } from '@/src/config/routes'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -25,7 +26,9 @@ export default function MyPoliciesTxs ({ disabled }) {
   const { account } = useWeb3React()
   const router = useRouter()
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

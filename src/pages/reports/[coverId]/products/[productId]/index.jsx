@@ -4,6 +4,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useWeb3React } from '@web3-react/core'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function Index () {
   const router = useRouter()
@@ -13,7 +14,9 @@ export default function Index () {
 
   const { account } = useWeb3React()
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   return (
     <>

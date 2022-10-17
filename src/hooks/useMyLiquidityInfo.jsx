@@ -19,6 +19,7 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
+import { logAccrueLiquidity } from '@/src/services/logs'
 
 export const defaultInfo = {
   withdrawalOpen: '0',
@@ -192,6 +193,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
                 methodName: METHODS.LIQUIDITY_INFO,
                 status: STATUS.SUCCESS
               })
+              logAccrueLiquidity(account, coverKey, tx.hash)
             },
             onTxFailure: () => {
               TransactionHistory.push({

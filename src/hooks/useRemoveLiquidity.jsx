@@ -17,6 +17,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
+import { logRemoveLiquidity } from '@/src/services/logs'
 import { useAppConstants } from '@/src/context/AppConstants'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
@@ -25,7 +26,6 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const { library, account } = useWeb3React()
   const { networkId } = useNetwork()
   const { NPMTokenSymbol } = useAppConstants()
-
   const {
     info: { vault: vaultTokenAddress, vaultTokenSymbol },
     refetchInfo,
@@ -170,6 +170,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
+              logRemoveLiquidity({ account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash })
               onTxSuccess()
             },
             onTxFailure: () => {

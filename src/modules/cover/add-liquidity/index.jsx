@@ -113,7 +113,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                   {isDiversified
                     ? (
                       <>
-                        <DiversifiedCoverRules coverInfo={coverInfo} />
+                        <DiversifiedCoverRules coverInfo={coverInfo} coverKey={coverKey} productKey={productKey} />
                         <AcceptRulesForm
                           onAccept={handleAcceptRules}
                           coverKey={coverKey}

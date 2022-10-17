@@ -30,6 +30,7 @@ import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
+import { logBondCreated, logBondLpTokenApproval } from '@/src/services/logs'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
@@ -224,6 +225,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_APPROVE,
                 status: STATUS.SUCCESS
               })
+              logBondLpTokenApproval(account, value, tx.hash)
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -306,6 +308,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_CREATE,
                 status: STATUS.SUCCESS
               })
+              logBondCreated(account, value, receiveAmount, tx.hash)
               onTxSuccess()
             },
             onTxFailure: () => {

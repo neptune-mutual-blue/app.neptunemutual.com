@@ -16,6 +16,7 @@ import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCalculateTotalLiquidity } from '@/src/hooks/useCalculateTotalLiquidity'
 import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -36,7 +37,9 @@ export default function MyLiquidity ({ disabled }) {
 
   const { liquidityTokenDecimals } = useAppConstants()
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

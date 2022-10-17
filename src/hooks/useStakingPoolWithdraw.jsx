@@ -14,6 +14,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
+import { logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -103,6 +104,7 @@ export const useStakingPoolWithdraw = ({
                   tokenSymbol
                 }
               })
+              logStakingPoolWithdraw(account, poolKey, value, tokenSymbol, tx.hash)
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -230,6 +232,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
                   tokenSymbol: rewardTokenSymbol
                 }
               })
+              logStakingPoolWithdrawRewards(account, poolKey, tx.hash)
               onTxSuccess()
             },
             onTxFailure: () => {

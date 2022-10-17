@@ -6,6 +6,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 const disabled = !isFeatureEnabled('reporting')
 
@@ -16,7 +17,9 @@ export default function ReportingNewCoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

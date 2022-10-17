@@ -3,13 +3,16 @@ import { PurchasePolicyReceipt } from '@/modules/my-policies/PurchasePolicyRecei
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 export default function PurchasePolicyReceiptPage () {
   const router = useRouter()
   const { txHash } = router.query
   const { account } = useWeb3React()
 
-  logPageLoad(account ?? null, router.pathname)
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   return (
     <main>
