@@ -144,7 +144,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             </h3>
             <div className='flex items-center'>
               <h2
-                className='pr-3 font-bold text-black text-h3 font-sora'
+                className='pr-3 font-bold text-black text-h4 xs:text-h3 font-sora'
                 data-testid='changedata-currency'
               >
                 {
@@ -160,7 +160,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               {changeData && changeData.diff && (
                 <p
                   className={classNames(
-                    'text-h6 font-sora font-bold flex items-center',
+                    'text-h7 xs:text-h6 font-sora font-bold flex items-center',
                     changeData.rise ? 'text-21AD8C' : 'text-DC2121'
                   )}
                   data-testid='changedata-percent'

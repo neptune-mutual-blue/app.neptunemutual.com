@@ -74,7 +74,7 @@ export const CoverOptionsPage = ({
           <h2 className='mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12'>
             <Trans>I Want to</Trans>
           </h2>
-          <div className='container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>
+          <div className='container grid  grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>
             {Object.keys(coverActions).map((actionKey) => {
               return (
                 <Link
