@@ -22,15 +22,21 @@ const getQuery = (account, limit, skip) => {
       }
     ) {
       id
+      poolType
       type
       account
-      key
       token
       amount
-      platformFee
       rewards
+      platformFee
+      pool {
+        stakingTokenSymbol
+        rewardTokenDecimals
+        stakingTokenDecimals
+        rewardTokenSymbol
+      }
       createdAtTimestamp
-      transaction {
+      transaction{
         id
       }
     }
@@ -62,7 +68,6 @@ export const useStakingTxs = ({ limit, page }) => {
       .then((_data) => {
         if (!_data) return
 
-        console.log(_data)
         const isLastPage =
           _data.poolTransactions.length === 0 ||
           _data.poolTransactions.length < limit

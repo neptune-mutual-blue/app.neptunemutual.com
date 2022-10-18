@@ -19,8 +19,6 @@ import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { t, Trans } from '@lingui/macro'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useStakingTxs } from '@/src/hooks/useStakingTxs'
-import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import DateLib from '@/lib/date/DateLib'
 import { getTokenImgSrc } from '@/src/helpers/token'
 
@@ -136,47 +134,64 @@ export const MyStakingTxsTable = () => {
   )
 }
 
+const getAppropriateData = (row) => {
+  if (row.type === 'Deposited') {
+    return {
+      symbol: row.pool.stakingTokenSymbol,
+      tokenDecimals: row.pool.stakingTokenDecimals,
+      amountToShow: row.amount,
+      textToShow: 'Staked ',
+      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol)]
+    }
+  }
+  if (row.type === 'RewardsWithdrawn') {
+    return {
+      symbol: row.pool.rewardTokenSymbol,
+      tokenDecimals: row.pool.rewardTokenDecimals,
+      amountToShow: row.rewards,
+      textToShow: 'Harvested ',
+      imgSrc: [getTokenImgSrc(row.pool.rewardTokenSymbol)]
+    }
+  }
+  if (row.type === 'Withdrawn') {
+    return {
+      symbol: `${row.pool.stakingTokenSymbol} / ${row.pool.rewardTokenSymbol}`,
+      tokenDecimals: row.pool.stakingTokenDecimals,
+      amountToShow: row.amount,
+      textToShow: 'Withdrawn & Harvested ',
+      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
+    }
+  }
+}
+
 const DetailsRenderer = ({ row }) => {
-  const tokenSymbol = useTokenSymbol(row.token)
-  const tokenDecimals = useTokenDecimals(row.token)
-  const getAmount = () => {
-    if (row.type === 'RewardsWithdrawn') {
-      return row.rewards
-    }
-    if (row.type === 'Deposited' || row.type === 'Withdrawn') {
-      return row.amount
-    }
-  }
-
-  const getType = () => {
-    if (row.type === 'RewardsWithdrawn') {
-      return 'Harvested '
-    }
-    if (row.type === 'Deposited') {
-      return 'Staked '
-    }
-    if (row.type === 'Withdrawn') {
-      return 'Withdrawn & Harvested '
-    }
-  }
-
-  const tokenImg = getTokenImgSrc(tokenSymbol)
-
+  const data = getAppropriateData(row)
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center w-max'>
-        <img src={tokenImg} alt='npm' height={32} width={32} />
+        {data.imgSrc.length === 1
+          ? (<img src={data.imgSrc[0]} alt='npm' height={32} width={32} />)
+          : (
+            <div className='relative inline-block'>
+              <div className='flex items-center justify-center'>
+                <img src={data.imgSrc[1]} height={32} width={32} className='z-20' alt='rewardTokenSymbol' />
+              </div>
+              <div className='absolute top-0 z-10 flex items-center justify-center -left-6'>
+                <img src={data.imgSrc[0]} alt='stakingTokenSymbol' height={32} width={32} className='inline-block' />
+              </div>
+            </div>
+            )}
         <span className='pl-4 text-left whitespace-nowrap'>
-          {getType()}
+          {data.textToShow}
           <TokenAmountSpan
             amountInUnits={
-              getAmount()
+              data.amountToShow
             }
             symbol={
-              tokenSymbol
+              data.symbol
             }
             decimals={
-              tokenDecimals
+              data.tokenDecimals
             }
           />
         </span>
@@ -188,18 +203,7 @@ const DetailsRenderer = ({ row }) => {
 const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
 
-  const tokenSymbol = useTokenSymbol(row.token)
-  const tokenDecimals = useTokenDecimals(row.token)
-  const getAmount = () => {
-    // type Deposited, Withdrawn -> amount
-    // type rewardwithdrawn -> platformfee, rewards
-    if (row.type === 'RewardsWithdrawn') {
-      return row.rewards
-    }
-    if (row.type === 'Deposited' || row.type === 'Withdrawn') {
-      return row.amount
-    }
-  }
+  const data = getAppropriateData(row)
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
@@ -207,18 +211,18 @@ const BondAmountRenderer = ({ row }) => {
         <TokenAmountSpan
           className={row.type === 'Deposited' ? 'text-404040' : 'text-FA5C2F'}
           amountInUnits={
-            getAmount()
+            data.amountToShow
           }
-          symbol={tokenSymbol}
-          decimals={tokenDecimals}
+          symbol={data.symbol}
+          decimals={data.tokenDecimals}
         />
         <button
           className='p-1 ml-3'
           onClick={() =>
             register(
               row.token,
-              tokenSymbol,
-              tokenDecimals
+              data.symbol,
+              data.tokenDecimals
             )}
           title='Add to Metamask'
         >
