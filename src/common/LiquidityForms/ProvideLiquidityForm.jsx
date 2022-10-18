@@ -287,7 +287,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
       <div className='mt-2'>
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
-          <div className='flex items-center gap-x-10'>
+          <div className='flex flex-col sm:flex-row  items-center gap-x-10'>
             <RegularButton
               disabled={
                 hasLqTokenAllowance ||
@@ -295,7 +295,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
                 lqErrorMsg ||
                 loadingMessage
               }
-              className='w-full p-6 font-semibold uppercase text-h6'
+              className='w-full p-6 font-semibold uppercase text-h6 mb-4 sm:mb-0'
               onClick={handleLqTokenApprove}
             >
               {lqApproving

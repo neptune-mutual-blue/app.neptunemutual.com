@@ -4,9 +4,10 @@ export const DisabledInput = ({ value, unit, ...rest }) => {
       <div className='flex items-stretch flex-grow'>
         <span
           data-testid={rest['data-testid']}
+          title={value}
           className='block w-full py-6 pl-6 border border-r-0 rounded-l-lg cursor-not-allowed border-B0C4DB'
         >
-          {value}
+          <span className='text-ellipsis overflow-hidden block sm:max-w-none max-w-9'>{value}</span>
         </span>
       </div>
 
