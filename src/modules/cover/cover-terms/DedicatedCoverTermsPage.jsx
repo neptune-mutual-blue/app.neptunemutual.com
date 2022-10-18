@@ -11,7 +11,7 @@ export const DedicatedCoverTermsPage = ({ coverInfo }) => {
   const effectiveDate = new Date().toISOString()
 
   return (
-    <div className='pt-10 bg-white pl-52 pr-52 font-sora pb-14 text-000000'>
+    <div>
       <Link href={Routes.Home} replace>
         <a className='block w-max'>
           <picture>

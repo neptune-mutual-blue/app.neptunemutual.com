@@ -33,11 +33,14 @@ export default function CoverPage () {
           content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
-      {
-        isDiversified
-          ? <DiversifiedCoverTermsPage coverInfo={coverInfo} />
-          : <DedicatedCoverTermsPage coverInfo={coverInfo} />
-      }
+
+      <div className='px-8 pt-8 bg-white md:pt-14 sm:px-12 md:px-20 lg:px-36 xl:px-56 font-sora pb-14 text-000000'>
+        {
+          isDiversified
+            ? <DiversifiedCoverTermsPage coverInfo={coverInfo} />
+            : <DedicatedCoverTermsPage coverInfo={coverInfo} />
+        }
+      </div>
 
     </main>
   )
