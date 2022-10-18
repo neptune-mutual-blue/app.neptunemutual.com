@@ -12,7 +12,7 @@ import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('bond')
+      disabled: !isFeatureEnabled('staking-pool')
     }
   }
 }
