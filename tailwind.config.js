@@ -184,9 +184,7 @@ module.exports = {
       minHeight: {
         360: '360px',
         301: '301px',
-        72: '72px',
-        'tx-list-mobile': 'calc(100vh - 203px)',
-        'tx-list-mobile-w-banner': 'calc(100vh - 234px)'
+        72: '72px'
       },
       maxHeight: {
         144: '36rem',

@@ -94,7 +94,6 @@ export const Header = () => {
 
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false)
   const [container, setContainer] = useState(null)
-  const [isBannerVisible, setIsBannerVisible] = useState(true)
 
   const { width } = useWindowSize()
 
@@ -169,7 +168,7 @@ export const Header = () => {
   return (
     <>
       <div className='bg-black text-EEEEEE'>
-        <Banner onClose={() => { setIsBannerVisible(false) }} />
+        <Banner />
         <div className='flex justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20'>
           <LanguageDropdown />
         </div>
@@ -297,7 +296,6 @@ export const Header = () => {
             isOpen={isTxDetailsPopupOpen}
             onClose={setIsTxDetailsPopupOpen}
             container={container}
-            isBannerVisible={isBannerVisible}
           />
         </nav>
         <MenuModal

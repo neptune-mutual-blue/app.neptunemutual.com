@@ -15,8 +15,7 @@ import { Routes } from '@/src/config/routes'
 export function TransactionList ({
   isOpen = false,
   onClose,
-  container,
-  isBannerVisible
+  container
 }) {
   const toast = useToast()
 
@@ -81,11 +80,11 @@ export function TransactionList ({
       container={container}
       noBlur
     >
-      <div className='relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF lg:rounded-3xl shadow-tx-list'>
-        <div className={`pr-4 overflow-y-auto ${isBannerVisible ? 'min-h-tx-list-mobile-w-banner' : 'min-h-tx-list-mobile'} lg:min-h-0 max-h-tx-list-mobile lg:max-h-tx-list`}>
+      <div className='flex flex-col min-h-screen lg:min-h-0 relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF lg:rounded-3xl shadow-tx-list'>
+        <div className='pr-4 overflow-y-auto lg:min-h-0 max-h-tx-list-mobile lg:max-h-tx-list'>
           <NotificationsList data={listOfTransactions} />
         </div>
-        <div className={`text-center pt-10 lg:pt-4 pb-20 lg:pb-4 ${page >= maxPage ? 'hidden' : ''}`}>
+        <div className={`grow text-center pt-10 lg:pt-4 lg:pb-4 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>
@@ -122,7 +121,7 @@ function NotificationsList ({ data }) {
   }
 
   return (
-    <div className='block p-4 whitespace-nowrap'>{t`No transaction history to show`}</div>
+    <div className='block p-4 whitespace-nowrap text-center'>{t`No transaction history to show`}</div>
   )
 }
 
