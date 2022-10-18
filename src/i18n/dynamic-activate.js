@@ -1,36 +1,6 @@
 /* istanbul ignore file */
+import { plurals } from '@/src/config/locales'
 import { i18n } from '@lingui/core'
-import {
-  en,
-  es,
-  fr,
-  ja,
-  zh,
-  de,
-  id,
-  it,
-  ko,
-  ru,
-  el,
-  tr,
-  vi
-} from 'make-plural/plurals'
-
-const plurals = {
-  en: en,
-  es: es,
-  fr: fr,
-  ja: ja,
-  zh: zh,
-  de: de,
-  id: id,
-  it: it,
-  ko: ko,
-  ru: ru,
-  el: el,
-  tr: tr,
-  vi: vi
-}
 
 /**
  * Load messages for requested locale and activate it.
