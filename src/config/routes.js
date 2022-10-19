@@ -110,6 +110,8 @@ const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
 const StakingPools = '/pools/staking'
 const PodStakingPools = '/pools/pod-staking'
+const StakingPoolsTransactions = '/pools/staking/transactions'
+const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
 
 export const Routes = {
   Home,
@@ -124,7 +126,9 @@ export const Routes = {
   ResolvedReports,
   BondPool,
   StakingPools,
+  StakingPoolsTransactions,
   PodStakingPools,
+  PodStakingPoolsTransactions,
   ViewCover,
   ViewProduct,
   ViewReport,

@@ -14,6 +14,8 @@ import { StakingCard } from '@/modules/pools/staking/StakingCard'
 import { useTokenStakingPools } from '@/src/hooks/useTokenStakingPools'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { toStringSafe } from '@/utils/string'
+import { Routes } from '@/src/config/routes'
+import Link from 'next/link'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -73,18 +75,25 @@ export const StakingPage = () => {
   return (
     <Container className='pt-16 pb-36'>
       <div className='flex justify-end'>
-        <SearchAndSortBar
-          searchValue={searchValue}
-          onSearchChange={(event) => {
-            setSearchValue(event.target.value)
-          }}
-          sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
-          containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
-          searchClass='w-full md:w-64 rounded-lg'
-          searchAndSortOptions={options}
-          sortType={sortType}
-          setSortType={setSortType}
-        />
+        <div className='flex items-center justify-between w-full'>
+          <Link href={Routes.StakingPoolsTransactions}>
+            <a className='inline-block font-medium text-h4 text-4e7dd9 hover:underline'>
+              <Trans>Transaction List</Trans>
+            </a>
+          </Link>
+          <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={(event) => {
+              setSearchValue(event.target.value)
+            }}
+            sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
+            containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
+            searchClass='w-full md:w-64 rounded-lg'
+            searchAndSortOptions={options}
+            sortType={sortType}
+            setSortType={setSortType}
+          />
+        </div>
       </div>
 
       <Content
