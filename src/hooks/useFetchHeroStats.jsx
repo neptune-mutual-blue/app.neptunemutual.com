@@ -7,6 +7,8 @@ import { MULTIPLIER } from '@/src/config/constants'
 
 const defaultData = {
   availableCovers: 0,
+  dedicatedCoverCount: 0,
+  productCount: 0,
   reportingCovers: 0,
   totalCoverage: '0',
   tvlPool: '0',
@@ -72,10 +74,14 @@ export const useFetchHeroStats = () => {
         const totalCoverFee = sumOf(...data.protocols.map((x) => x.totalCoverFee))
         const totalCoveredAmount = sumOf(...data.cxTokens.map((x) => x.totalCoveredAmount))
 
-        let availableCount = data.dedicatedCovers.length
+        const dedicatedCoverCount = data.dedicatedCovers.length
+        let productCount = 0
+
         for (let i = 0; i < data.diversifiedCovers.length; i++) {
-          availableCount += data.diversifiedCovers[i].products.length
+          productCount += data.diversifiedCovers[i].products.length
         }
+
+        const availableCount = dedicatedCoverCount + productCount
 
         let totalCoverage = '0'
         data.dedicatedCovers.forEach(cover => {
@@ -110,6 +116,8 @@ export const useFetchHeroStats = () => {
 
         setData({
           availableCovers: availableCount,
+          dedicatedCoverCount: dedicatedCoverCount,
+          productCount: productCount,
           reportingCovers: data.reporting.length,
           coverFee: totalCoverFee.toString(),
           covered: totalCoveredAmount.toString(),
