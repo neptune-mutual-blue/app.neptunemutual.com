@@ -7,10 +7,7 @@ import { StakingCardSubTitle } from '@/src/modules/pools/staking/StakingCardSubT
 import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
 import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { mergeAlternatively } from '@/utils/arrays'
 import { getTokenImgSrc } from '@/src/helpers/token'
-import { PoolCardStat } from '@/src/modules/pools/staking/PoolCardStat'
-import { classNames } from '@/utils/classnames'
 import { usePoolInfo } from '@/src/hooks/usePoolInfo'
 import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
 import { config } from '@neptunemutual/sdk'
@@ -86,10 +83,10 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     setStatsByKey(poolKey, { apr })
   }, [apr, poolKey, setStatsByKey])
 
-  const leftHalf = []
+  const stats = []
 
   if (hasStaked) {
-    leftHalf.push({
+    stats.push({
       title: t`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
@@ -98,14 +95,29 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         true
       ).long
     })
-  } else {
-    leftHalf.push({
-      title: t`Lockup Period`,
-      value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
+    stats.push({
+      title: t`You Earned`,
+      value: formatCurrency(
+        convertFromUnits(rewardAmount),
+        router.locale,
+        rewardTokenSymbol,
+        true
+      ).short,
+      tooltip: formatCurrency(
+        convertFromUnits(rewardAmount),
+        router.locale,
+        rewardTokenSymbol,
+        true
+      ).long
     })
   }
 
-  const rightHalf = [
+  stats.push({
+    title: t`Lockup Period`,
+    value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
+  })
+
+  stats.push(
     {
       title: t`TVL`,
       value: formatCurrency(
@@ -119,19 +131,9 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         'USD'
       ).long
     }
-  ]
+  )
 
-  const stats = mergeAlternatively(leftHalf, rightHalf, {
-    title: '',
-    value: '',
-    tooltip: ''
-  })
-
-  if (info.name === '') {
-    return <CardSkeleton numberOfCards={1} />
-  }
-
-  const stakeModalTitle = (
+  const modalTitle = (
     <div className='flex items-center'>
       <div className='mr-8'>
         <DoubleImage
@@ -148,84 +150,48 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     </div>
   )
 
-  const collectModalTitle = (
-    <div className='flex items-center'>
-      <div className='mr-8'>
-        <DoubleImage
-          images={[
-            { src: sTokenImgSrc, alt: stakingTokenSymbol },
-            { src: rTokenImgSrc, alt: rewardTokenSymbol }
-          ]}
-        />
-      </div>
-
-      <h3>Earn {rewardTokenSymbol}</h3>
-    </div>
-  )
+  if (info.name === '') {
+    return <CardSkeleton numberOfCards={1} />
+  }
 
   return (
-    <OutlinedCard className='px-6 pt-6 pb-10 bg-white'>
-      <div className='flex items-start justify-between'>
-        <div>
-          <DoubleImage
-            images={[
-              { src: sTokenImgSrc, alt: stakingTokenSymbol },
-              { src: rTokenImgSrc, alt: rewardTokenSymbol }
-            ]}
-          />
+    <div>
+      <OutlinedCard className='px-6 pt-6 pb-10 bg-white'>
+        <div className='flex items-start justify-between'>
+          <div>
+            <DoubleImage
+              images={[
+                { src: sTokenImgSrc, alt: stakingTokenSymbol },
+                { src: rTokenImgSrc, alt: rewardTokenSymbol }
+              ]}
+            />
+          </div>
+
+          <Badge className='text-21AD8C'>
+            <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
+          </Badge>
         </div>
 
-        <Badge className='text-21AD8C'>
-          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
-        </Badge>
-      </div>
-      <StakingCardTitle text={poolName} />
-      <StakingCardSubTitle text={t`Stake` + ' ' + stakingTokenSymbol} />
+        <StakingCardTitle text={poolName} />
+        <StakingCardSubTitle text={t`Stake` + ' ' + stakingTokenSymbol} />
 
-      <hr className='mt-4 border-t border-B0C4DB' />
+        <hr className='mt-4 mb-5 border-t border-B0C4DB' />
 
-      <div className='flex flex-wrap justify-between px-1 text-sm'>
-        {stats.map((x, idx) => {
-          return (
-            <div key={x.title} className='flex flex-col w-1/2 mt-8'>
-              <div
-                className={classNames(idx % 2 && 'text-right')}
-                title={x.tooltip}
-              >
-                <PoolCardStat title={x.title} value={x.value} />
-              </div>
+        {stats.map((x, i) => (
+          <div className='block mt-2' key={`stats-${i}`}>
+            <div className='flex flex-row text-sm justify-between w-full'>
+              <label className='capitalize font-semibold'>{x.title}</label>
+              <span title={x?.tooltip} className='text-7398C0 text-right'>{x.value}</span>
             </div>
-          )
-        })}
-      </div>
-      <div className='flex items-center mt-5'>
-        {hasStaked
-          ? (
-            <>
-              <div className='flex-1 text-sm'>
-                <PoolCardStat
-                  title={t`You Earned`}
-                  value={
-                  formatCurrency(
-                    convertFromUnits(rewardAmount),
-                    router.locale,
-                    rewardTokenSymbol,
-                    true
-                  ).short
-                }
-                  tooltip={
-                  formatCurrency(
-                    convertFromUnits(rewardAmount),
-                    router.locale,
-                    rewardTokenSymbol,
-                    true
-                  ).long
-                }
-                />
-              </div>
-              <div className='flex items-center'>
+          </div>
+        ))}
+
+        <div className='flex items-center mt-5'>
+          {hasStaked
+            ? (
+              <div className='flex items-center w-full'>
                 <StakingCardCTA
-                  className='text-white px-2 mr-2'
+                  className='text-white w-fit px-2 mr-2'
                   onClick={onStakeModalOpen}
                   aria-label='Add Stake'
                   title='Open Stake Modal'
@@ -233,43 +199,44 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
                   <AddIcon width={16} fill='currentColor' />
                 </StakingCardCTA>
                 <StakingCardCTA
-                  className='font-semibold uppercase text-sm px-5 py-2'
+                  className='font-semibold flex-grow uppercase text-sm px-5 py-2 w-auto'
                   onClick={onCollectModalOpen}
                 >
                   <Trans>Collect</Trans>
                 </StakingCardCTA>
               </div>
-            </>
-            )
-          : (
-            <StakingCardCTA onClick={onStakeModalOpen}>
-              <Trans>Stake</Trans>
-            </StakingCardCTA>
-            )}
-      </div>
-      <StakeModal
-        poolKey={poolKey}
-        info={info}
-        refetchInfo={refetchInfo}
-        lockupPeriod={lockupPeriod}
-        isOpen={isStakeModalOpen}
-        onClose={onStakeModalClose}
-        stakingTokenSymbol={stakingTokenSymbol}
-        modalTitle={stakeModalTitle}
-      />
-      <CollectRewardModal
-        poolKey={poolKey}
-        info={info}
-        refetchInfo={refetchInfo}
-        stakedAmount={stakedAmount}
-        rewardAmount={rewardAmount}
-        rewardTokenAddress={rewardTokenAddress}
-        rewardTokenSymbol={rewardTokenSymbol}
-        stakingTokenSymbol={stakingTokenSymbol}
-        isOpen={isCollectModalOpen}
-        onClose={onCollectModalClose}
-        modalTitle={collectModalTitle}
-      />
-    </OutlinedCard>
+              )
+            : (
+              <StakingCardCTA className='' onClick={onStakeModalOpen}>
+                <Trans>Stake</Trans>
+              </StakingCardCTA>
+              )}
+        </div>
+        <StakeModal
+          poolKey={poolKey}
+          info={info}
+          refetchInfo={refetchInfo}
+          lockupPeriod={lockupPeriod}
+          isOpen={isStakeModalOpen}
+          onClose={onStakeModalClose}
+          stakingTokenSymbol={stakingTokenSymbol}
+          modalTitle={modalTitle}
+        />
+        <CollectRewardModal
+          poolKey={poolKey}
+          info={info}
+          refetchInfo={refetchInfo}
+          stakedAmount={stakedAmount}
+          rewardAmount={rewardAmount}
+          rewardTokenAddress={rewardTokenAddress}
+          rewardTokenSymbol={rewardTokenSymbol}
+          stakingTokenSymbol={stakingTokenSymbol}
+          isOpen={isCollectModalOpen}
+          onClose={onCollectModalClose}
+          modalTitle={modalTitle}
+        />
+
+      </OutlinedCard>
+    </div>
   )
 }
