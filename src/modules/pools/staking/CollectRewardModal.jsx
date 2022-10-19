@@ -41,7 +41,7 @@ export const CollectRewardModal = ({
       disabled={isDisabled.w || isDisabled.wr}
       data-testid='collect-reward-modal'
     >
-      <ModalWrapper className='sm:min-w-600 bg-f6f7f9'>
+      <ModalWrapper className='sm:min-w-600 min-w-fit bg-f6f7f9'>
         <div>
           <Dialog.Title className='flex font-bold font-sora text-h2'>
             {modalTitle}

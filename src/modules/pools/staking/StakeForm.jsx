@@ -125,7 +125,7 @@ export const StakeForm = ({
           ? (
             <RegularButton
               disabled={isError || approving || !inputValue || loadingMessage}
-              className='w-full p-6 font-semibold uppercase text-h6'
+              className='min-w-75vw sm:min-w-auto sm:w-full p-6 font-semibold uppercase text-h6 '
               onClick={handleApprove}
             >
               {approving
@@ -142,7 +142,7 @@ export const StakeForm = ({
           : (
             <RegularButton
               disabled={isError || depositing || loadingMessage}
-              className='w-full p-6 font-semibold uppercase text-h6'
+              className='min-w-75vw sm:min-w-auto sm:w-full p-6 font-semibold uppercase text-h6'
               onClick={() => handleDeposit(onDepositSuccess)}
             >
               {depositing ? t`Staking...` : t`Stake`}

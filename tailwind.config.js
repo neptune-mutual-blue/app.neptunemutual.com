@@ -117,6 +117,7 @@ module.exports = {
         '90vw': '90vw'
       },
       minWidth: {
+        auto: 'auto',
         sm: '384px',
         5: '5px',
         60: '60px',
@@ -129,7 +130,12 @@ module.exports = {
         600: '600px',
         700: '700px',
         910: '910px',
-        '40vh': '40vh'
+        '40vh': '40vh',
+        '50vw': '50vw',
+        '60vw': '60vw',
+        '75vw': '75vw',
+        '90vw': '90vw',
+        '100vw': '100vw'
       },
       colors: {
         '999BAB': '#999BAB',
