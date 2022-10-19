@@ -41,9 +41,8 @@ export const DisclaimerModal = () => {
       onClose={handleClose}
       disabled
       data-testid='disclaimer-container'
-      className='px-0 h-5/6 sm:h-auto'
     >
-      <ModalWrapper className='max-w-5xl !rounded-xl sm:!rounded-3xl h-full flex flex-col bg-FEFEFF'>
+      <ModalWrapper className='max-w-5xl bg-FEFEFF'>
         <Title
           className='flex items-center font-semibold font-sora text-h4'
           data-testid='disclaimer-title'
