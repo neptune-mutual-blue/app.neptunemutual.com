@@ -849,7 +849,7 @@ msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "Ich habe die Deckungsregeln gelesen, verstanden und stimme ihnen zu"
 
 #: src/common/Header/AccountDetailsModal.jsx:143
-msgid "If you do not want to keep approving for each transaction, enable this box."
+msgid "If you do not want to keep approving for each transaction, enable this option."
 msgstr "Wenn Sie nicht weiterhin für jede Transaktion freigeben möchten, aktivieren Sie dieses Kästchen."
 
 #: src/modules/reporting/CoverReportingRules.jsx:54

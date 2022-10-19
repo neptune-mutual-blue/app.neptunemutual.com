@@ -969,7 +969,7 @@ msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "私はカバールールに関する諸条件を読んで理解し且つ同意します。"
 
 #: src/common/Header/AccountDetailsModal.jsx:145
-msgid "If you do not want to keep approving for each transaction, enable this box."
+msgid "If you do not want to keep approving for each transaction, enable this option."
 msgstr "取引ごとに承認したくない場合は、このボックスを有効にしてください。"
 
 #: src/modules/reporting/CoverReportingRules.jsx:57

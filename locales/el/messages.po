@@ -849,7 +849,7 @@ msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "Διάβασα, κατανοώ και συμφωνώ με τους όρους των κανόνων κάλυψης"
 
 #: src/common/Header/AccountDetailsModal.jsx:143
-msgid "If you do not want to keep approving for each transaction, enable this box."
+msgid "If you do not want to keep approving for each transaction, enable this option."
 msgstr "Αν δεν θέλετε να συνεχίσετε να εγκρίνετε για κάθε συναλλαγή, ενεργοποιήστε αυτό το πλαίσιο."
 
 #: src/modules/reporting/CoverReportingRules.jsx:54
