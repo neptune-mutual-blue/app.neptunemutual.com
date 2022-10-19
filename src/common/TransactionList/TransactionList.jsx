@@ -76,15 +76,15 @@ export function TransactionList ({
       onClose={onClose}
       rootProps={{ modal: true, onOpenChange: onClose }}
       overlayClass='flex justify-end w-full h-full bg-transparent'
-      defaultContentClassNames='w-screen lg:w-auto absolute z-50 transform top-full -right-13 lg:-right-14 xl:right-5 px-4 lg:px-0 pt-3 rounded-3xl'
+      defaultContentClassNames='w-screen md:w-auto absolute z-50 transform top-full -right-13 md:-right-10 xl:right-5 px-0 pt-0 md:pt-3 md:rounded-3xl'
       container={container}
       noBlur
     >
-      <div className='relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF rounded-3xl shadow-tx-list'>
-        <div className='pr-4 overflow-y-auto max-h-tx-list-mobile lg:max-h-tx-list'>
+      <div className='flex flex-col min-h-screen md:min-h-0 relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list'>
+        <div className='pr-4 overflow-y-auto md:min-h-0 max-h-tx-list-mobile md:max-h-tx-list'>
           <NotificationsList data={listOfTransactions} />
         </div>
-        <div className={`text-center py-4 ${page >= maxPage ? 'hidden' : ''}`}>
+        <div className={`grow text-center pt-10 md:pt-4 md:pb-4 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>
@@ -107,7 +107,7 @@ function NotificationsList ({ data }) {
 
   if (data.length) {
     return (
-      <div className='pt-2 lg:w-96'>
+      <div className='pt-2 md:w-96'>
         {data.map((transaction) => (
           <Notification
             {...transaction}
@@ -121,7 +121,7 @@ function NotificationsList ({ data }) {
   }
 
   return (
-    <div className='block p-4 whitespace-nowrap'>{t`No transaction history to show`}</div>
+    <div className='block p-4 whitespace-nowrap text-center'>{t`No transaction history to show`}</div>
   )
 }
 
@@ -148,13 +148,13 @@ function Notification ({
 
   return (
     <div
-      className='flex py-4 border-b border-B0C4DB/40'
+      className='flex py-4 border-b border-B0C4DB'
       key={hash}
       data-testid='notification-item'
     >
       <div className='mr-4'>{convertToIconVariant(status)}</div>
       <div className='mr-4 grow'>
-        <p className='mb-1 text-sm font-semibold font-sora'>{title}</p>
+        <p className='mb-1 text-sm font-bold font-sora'>{title}</p>
         <p className='text-sm'>{description}</p>
         <p className='mt-2 text-xs leading-4 tracking-normal text-999BAB'>
           {fromNow(timestamp / 1000)}

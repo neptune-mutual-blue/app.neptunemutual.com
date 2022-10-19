@@ -66,6 +66,7 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
         methodName: METHODS.VOTE_APPROVE,
         status: STATUS.PENDING,
         data: {
+          value,
           tokenSymbol: NPMTokenSymbol
         }
       })
@@ -75,12 +76,15 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
           tx,
           {
             pending: getActionMessage(METHODS.VOTE_APPROVE, STATUS.PENDING, {
+              value,
               tokenSymbol: NPMTokenSymbol
             }).title,
             success: getActionMessage(METHODS.VOTE_APPROVE, STATUS.SUCCESS, {
+              value,
               tokenSymbol: NPMTokenSymbol
             }).title,
             failure: getActionMessage(METHODS.VOTE_APPROVE, STATUS.FAILED, {
+              value,
               tokenSymbol: NPMTokenSymbol
             }).title
           },
@@ -89,14 +93,22 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_APPROVE,
-                status: STATUS.SUCCESS
+                status: STATUS.SUCCESS,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_APPROVE,
-                status: STATUS.FAILED
+                status: STATUS.FAILED,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
             }
           }
@@ -147,24 +159,41 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.VOTE_ATTEST,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: NPMTokenSymbol
+          }
         })
 
         await txToast.push(
           tx,
           {
-            pending: getActionMessage(METHODS.VOTE_ATTEST, STATUS.PENDING)
+            pending: getActionMessage(METHODS.VOTE_ATTEST, STATUS.PENDING, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            })
               .title,
-            success: getActionMessage(METHODS.VOTE_ATTEST, STATUS.SUCCESS)
+            success: getActionMessage(METHODS.VOTE_ATTEST, STATUS.SUCCESS, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            })
               .title,
-            failure: getActionMessage(METHODS.VOTE_ATTEST, STATUS.FAILED).title
+            failure: getActionMessage(METHODS.VOTE_ATTEST, STATUS.FAILED, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            }).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_ATTEST,
-                status: STATUS.SUCCESS
+                status: STATUS.SUCCESS,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
               onTxSuccess()
             },
@@ -172,7 +201,11 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_ATTEST,
-                status: STATUS.FAILED
+                status: STATUS.FAILED,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
             }
           }
@@ -235,31 +268,52 @@ export const useVote = ({ coverKey, productKey, value, incidentDate }) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.VOTE_REFUTE,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value,
+            tokenSymbol: NPMTokenSymbol
+          }
         })
 
         await txToast.push(
           tx,
           {
-            pending: getActionMessage(METHODS.VOTE_REFUTE, STATUS.PENDING)
+            pending: getActionMessage(METHODS.VOTE_REFUTE, STATUS.PENDING, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            })
               .title,
-            success: getActionMessage(METHODS.VOTE_REFUTE, STATUS.SUCCESS)
+            success: getActionMessage(METHODS.VOTE_REFUTE, STATUS.SUCCESS, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            })
               .title,
-            failure: getActionMessage(METHODS.VOTE_REFUTE, STATUS.FAILED).title
+            failure: getActionMessage(METHODS.VOTE_REFUTE, STATUS.FAILED, {
+              value,
+              tokenSymbol: NPMTokenSymbol
+            }).title
           },
           {
             onTxSuccess: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_REFUTE,
-                status: STATUS.SUCCESS
+                status: STATUS.SUCCESS,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.VOTE_REFUTE,
-                status: STATUS.FAILED
+                status: STATUS.FAILED,
+                data: {
+                  value,
+                  tokenSymbol: NPMTokenSymbol
+                }
               })
             }
           }
