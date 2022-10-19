@@ -45,7 +45,7 @@ const renderWhen = (row) => (
 
 const renderDetails = (row) => <DetailsRenderer row={row} />
 
-const renderAmount = (row) => <BondAmountRenderer row={row} />
+const renderAmount = (row) => <PoolAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
@@ -200,14 +200,14 @@ const DetailsRenderer = ({ row }) => {
   )
 }
 
-const BondAmountRenderer = ({ row }) => {
+const PoolAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
 
   const data = getAppropriateData(row)
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end w-max whitespace-nowrap'>
+      <div className='flex items-center justify-end w-full whitespace-nowrap'>
         <TokenAmountSpan
           className={row.type === 'Deposited' ? 'text-404040' : 'text-FA5C2F'}
           amountInUnits={
@@ -252,7 +252,7 @@ const ActionsRenderer = ({ row }) => {
           <Tooltip.Content side='top'>
             <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
               <p>
-                {/* {DateLib.toLongDateFormat(row.transaction.timestamp, 'UTC')} */}
+                {DateLib.toLongDateFormat(row.createdAtTimestamp, 'UTC')}
               </p>
             </div>
             <Tooltip.Arrow offset={16} className='fill-black' />
