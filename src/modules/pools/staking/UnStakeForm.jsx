@@ -11,6 +11,7 @@ import {
 } from '@/utils/bn'
 import { t, Trans } from '@lingui/macro'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import { Label } from '@/common/Label/Label'
 
 export const UnStakeForm = ({
   info,
@@ -73,7 +74,7 @@ export const UnStakeForm = ({
         tokenAddress={stakingTokenAddress}
         disabled={withdrawing}
       >
-        <p className='-ml-3'>
+        <p className=''>
           <Trans>Your Stake</Trans>:{' '}
           <TokenAmountSpan
             amountInUnits={stakedAmount}
@@ -82,11 +83,23 @@ export const UnStakeForm = ({
           />
         </p>
         {!canWithdraw && (
-          <p className='flex items-center -ml-3 text-FA5C2F'>
+          <p className='flex items-center text-FA5C2F'>
             <Trans>Could not withdraw during lockup period</Trans>
           </p>
         )}
       </TokenAmountInput>
+
+      <div className='mt-8 modal-unlock'>
+        <Label className='mb-3' htmlFor='modal-unlock-on'>
+          <Trans>Unlocks At Block</Trans>
+        </Label>
+        <p
+          id='modal-unlock-on'
+          className='font-medium text-7398C0 text-h4'
+        >
+          {info.canWithdrawFromBlockHeight}
+        </p>
+      </div>
 
       <RegularButton
         disabled={isError || withdrawing || !canWithdraw}

@@ -5,21 +5,18 @@ import { SingleImage } from '@/common/SingleImage'
 import { StakingCardTitle } from '@/src/modules/pools/staking/StakingCardTitle'
 import { StakingCardSubTitle } from '@/src/modules/pools/staking/StakingCardSubTitle'
 import { StakingCardCTA } from '@/src/modules/pools/staking/StakingCardCTA'
-import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { StakeModal } from '@/src/modules/pools/staking/StakeModal'
 import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { mergeAlternatively } from '@/utils/arrays'
 import { getTokenImgSrc } from '@/src/helpers/token'
-import { PoolCardStat } from '@/src/modules/pools/staking/PoolCardStat'
-import { classNames } from '@/utils/classnames'
+import { PoolCardStat } from '@/modules/pools/staking/PoolCardStat'
 import { usePoolInfo } from '@/src/hooks/usePoolInfo'
 import { convertFromUnits, isGreater, toBN } from '@/utils/bn'
 import { config } from '@neptunemutual/sdk'
 import { useNetwork } from '@/src/context/Network'
 import { explainInterval } from '@/utils/formatter/interval'
 import { formatCurrency } from '@/utils/formatter/currency'
-import { Badge } from '@/common/Badge/Badge'
 import { formatPercent } from '@/utils/formatter/percent'
+import { Badge } from '@/common/Badge/Badge'
 import { PoolTypes } from '@/src/config/constants'
 import { getApr } from '@/src/services/protocol/staking-pool/info/apr'
 import { t, Trans } from '@lingui/macro'
@@ -27,6 +24,7 @@ import { useRouter } from 'next/router'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { ModalTitle } from '@/common/Modal/ModalTitle'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -75,6 +73,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   )
 
   const rTokenImgSrc = getTokenImgSrc(rewardTokenSymbol)
+  const sTokenImgSrc = getTokenImgSrc(stakingTokenSymbol)
   const poolName = info.name
 
   const apr = getApr(networkId, {
@@ -88,10 +87,10 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
     setStatsByKey(poolKey, { apr })
   }, [apr, poolKey, setStatsByKey])
 
-  const leftHalf = []
+  const stats = []
 
   if (hasStaked) {
-    leftHalf.push({
+    stats.push({
       title: t`Your Stake`,
       value: formatCurrency(
         convertFromUnits(stakedAmount),
@@ -106,14 +105,29 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         true
       ).long
     })
-  } else {
-    leftHalf.push({
-      title: t`Lockup Period`,
-      value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
+    stats.push({
+      title: t`You Earned`,
+      value: formatCurrency(
+        convertFromUnits(rewardAmount),
+        router.locale,
+        rewardTokenSymbol,
+        true
+      ).short,
+      tooltip: formatCurrency(
+        convertFromUnits(rewardAmount),
+        router.locale,
+        rewardTokenSymbol,
+        true
+      ).long
     })
   }
 
-  const rightHalf = [
+  stats.push({
+    title: t`Lockup Period`,
+    value: `${explainInterval(data.lockupPeriodInBlocks * approxBlockTime)}`
+  })
+
+  stats.push(
     {
       title: t`TVL`,
       value: formatCurrency(
@@ -127,12 +141,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         'USD'
       ).long
     }
-  ]
-
-  const stats = mergeAlternatively(leftHalf, rightHalf, {
-    title: '',
-    value: ''
-  })
+  )
 
   if (info.name === '') {
     return <CardSkeleton numberOfCards={1} />
@@ -140,98 +149,63 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   const stakeModalTitle = (
     <ModalTitle imgSrc={rTokenImgSrc}>
-      <Trans>Stake</Trans> {stakingTokenSymbol}
+      <Trans>Stake {stakingTokenSymbol}</Trans>
     </ModalTitle>
   )
 
   const collectModalTitle = (
     <ModalTitle imgSrc={rTokenImgSrc}>
-      <Trans>Earn</Trans> {rewardTokenSymbol}
+      <Trans>Earn {rewardTokenSymbol}</Trans>
     </ModalTitle>
   )
 
   return (
-    <OutlinedCard
-      className='px-6 pt-6 pb-10 bg-white'
-      data-testid='pod-staking-card'
-    >
-      <div className='flex justify-between'>
+    <OutlinedCard className='px-6 pt-6 pb-10 bg-white' data-testid='pod-staking-card'>
+      <div className='flex items-start justify-between'>
         <div>
-          <SingleImage src={rTokenImgSrc} alt={rewardTokenSymbol} />
-          <StakingCardTitle text={poolName} />
-          <StakingCardSubTitle text={t`Stake` + ' ' + stakingTokenName} />
+          <SingleImage
+            src={rTokenImgSrc} alt={rewardTokenSymbol}
+          />
         </div>
-        <div>
-          <Badge className='text-21AD8C'>
-            <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
-          </Badge>
-        </div>
+        <Badge className='text-21AD8C'>
+          <Trans>APR: {formatPercent(apr, router.locale)}</Trans>
+        </Badge>
       </div>
 
-      <hr className='mt-4 border-t border-B0C4DB' />
+      <StakingCardTitle text={poolName} />
+      <StakingCardSubTitle text={t`Stake ${stakingTokenName}`} />
 
-      <div className='flex flex-wrap justify-between px-1 text-sm'>
-        {stats.map((x, idx) => {
-          return (
-            <div
-              key={x.title}
-              className='flex flex-col w-1/2 mt-8'
-              data-testid='pod-staking-card-stat'
-            >
-              <div
-                className={classNames(idx % 2 && 'text-right')}
-                title={x.tooltip}
-              >
-                <PoolCardStat title={x.title} value={x.value} />
-              </div>
-            </div>
-          )
-        })}
-      </div>
+      <hr className='mt-4 mb-5 border-t border-B0C4DB' />
+
+      {stats.map((x) => (
+        <div className='block mt-2' key={x.title}>
+          <div className='flex flex-row justify-between w-full text-sm'>
+            <PoolCardStat tooltip={x?.tooltip} value={x.value} title={x.title} />
+          </div>
+        </div>
+      ))}
+
       <div className='flex items-center mt-5'>
         {hasStaked
           ? (
-            <>
-              <div className='flex-1 text-sm' data-testid='pool-card-stat'>
-                <PoolCardStat
-                  title={t`You Earned`}
-                  value={
-                  formatCurrency(
-                    convertFromUnits(rewardAmount),
-                    router.locale,
-                    rewardTokenSymbol,
-                    true
-                  ).short
-                }
-                  tooltip={
-                  formatCurrency(
-                    convertFromUnits(rewardAmount),
-                    router.locale,
-                    rewardTokenSymbol,
-                    true
-                  ).long
-                }
-                />
-              </div>
-              <div className='flex items-center' data-testid='staking-cards'>
-                <StakingCardCTA
-                  className='text-white px-2 mr-2'
-                  onClick={onStakeModalOpen}
-                  data-testid='add-btn'
-                  aria-label='Add POD Stake'
-                  title='Open Stake Modal'
-                >
-                  <AddIcon width={16} fill='currentColor' />
-                </StakingCardCTA>
-                <StakingCardCTA
-                  className='font-semibold uppercase text-sm px-5 py-2'
-                  onClick={onCollectModalOpen}
-                  data-testid='collect-btn'
-                >
-                  <Trans>Collect</Trans>
-                </StakingCardCTA>
-              </div>
-            </>
+            <div className='flex items-center w-full' data-testid='staking-cards'>
+              <StakingCardCTA
+                className='px-2 mr-2 text-white w-fit'
+                onClick={onStakeModalOpen}
+                aria-label='Add POD Stake'
+                title='Open Stake Modal'
+                data-testid='add-btn'
+              >
+                <AddIcon width={16} fill='currentColor' />
+              </StakingCardCTA>
+              <StakingCardCTA
+                className='flex-grow w-auto px-5 py-2 text-sm font-semibold uppercase'
+                onClick={onCollectModalOpen}
+                data-testid='collect-btn'
+              >
+                <Trans>Collect</Trans>
+              </StakingCardCTA>
+            </div>
             )
           : (
             <StakingCardCTA onClick={onStakeModalOpen}>
@@ -262,6 +236,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
         onClose={onCollectModalClose}
         modalTitle={collectModalTitle}
       />
+
     </OutlinedCard>
   )
 }

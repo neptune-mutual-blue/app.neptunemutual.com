@@ -250,7 +250,9 @@ const ActionsRenderer = ({ row }) => {
         {/* Tooltip */}
         <Tooltip.Root>
           <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
-            <span className='sr-only'>Timestamp</span>
+            <span className='sr-only'>
+              <Trans>Timestamp</Trans>
+            </span>
             <ClockIcon className='w-4 h-4' />
           </Tooltip.Trigger>
 
