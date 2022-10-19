@@ -73,7 +73,7 @@ export const PodStakingCard = ({ data, tvl, getPriceByAddress }) => {
   )
 
   const rTokenImgSrc = getTokenImgSrc(rewardTokenSymbol)
-  const sTokenImgSrc = getTokenImgSrc(stakingTokenSymbol)
+  // const sTokenImgSrc = getTokenImgSrc(stakingTokenSymbol)
   const poolName = info.name
 
   const apr = getApr(networkId, {

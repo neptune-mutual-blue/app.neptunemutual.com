@@ -40,7 +40,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
   const rewardTokenAddress = info.rewardToken
   const stakingTokenSymbol = data.stakingTokenSymbol
   const rewardTokenSymbol = data.rewardTokenSymbol
-  const stakingTokenName = data.stakingTokenName
+  // const stakingTokenName = data.stakingTokenName
 
   const [isStakeModalOpen, setIsStakeModalOpen] = useState(false)
   const [isCollectModalOpen, setIsCollectModalOpen] = useState(false)

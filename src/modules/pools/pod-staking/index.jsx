@@ -76,7 +76,7 @@ export const PodStakingPage = () => {
     <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
         <div className='items-center justify-between w-full sm:flex'>
-          <Link href={Routes.StakingPoolsTransactions}>
+          <Link href={Routes.PodStakingPoolsTransactions}>
             <a className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
