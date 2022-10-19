@@ -1,10 +1,10 @@
 module.exports = {
   locales: [
-    "en",
+    'en',
     // "es",
     // "fr",
-    // "ja",
-    // "zh",
+    'ja',
+    'zh'
     // "de",
     // "id",
     // "it",
@@ -16,14 +16,14 @@ module.exports = {
   ],
   catalogs: [
     {
-      path: "<rootDir>/locales/{locale}/messages",
-      include: ["<rootDir>/src", "<rootDir>/lib"],
-    },
+      path: '<rootDir>/locales/{locale}/messages',
+      include: ['<rootDir>/src', '<rootDir>/lib']
+    }
   ],
   fallbackLocales: {
-    default: "en",
+    default: 'en'
   },
-  sourceLocale: "en",
-  format: "po",
-  formatOptions: { origins: true, lineNumbers: true },
-};
+  sourceLocale: 'en',
+  format: 'po',
+  formatOptions: { origins: true, lineNumbers: true }
+}

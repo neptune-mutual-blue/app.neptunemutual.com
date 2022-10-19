@@ -849,7 +849,7 @@ msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "Tôi đã đọc, hiểu và đồng ý với các điều khoản của quy tắc trang bìa"
 
 #: src/common/Header/AccountDetailsModal.jsx:143
-msgid "If you do not want to keep approving for each transaction, enable this box."
+msgid "If you do not want to keep approving for each transaction, enable this option."
 msgstr "Nếu bạn không muốn tiếp tục phê duyệt cho mỗi giao dịch, hãy bật hộp này."
 
 #: src/modules/reporting/CoverReportingRules.jsx:54

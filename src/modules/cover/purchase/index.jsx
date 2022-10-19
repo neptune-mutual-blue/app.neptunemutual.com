@@ -39,6 +39,10 @@ export const CoverPurchaseDetailsPage = () => {
 
   const handleAcceptRules = () => {
     setAcceptedRules(true)
+
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0)
+    }
   }
 
   const { activeCommitment, availableLiquidity } = coverStats

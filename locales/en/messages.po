@@ -940,8 +940,8 @@ msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "I have read, understood, and agree to the terms of cover rules"
 
 #: src/common/Header/AccountDetailsModal.jsx:145
-msgid "If you do not want to keep approving for each transaction, enable this box."
-msgstr "If you do not want to keep approving for each transaction, enable this box."
+msgid "If you do not want to keep approving for each transaction, enable this option."
+msgstr "If you do not want to keep approving for each transaction, enable this option."
 
 #: src/modules/reporting/CoverReportingRules.jsx:57
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
