@@ -5,7 +5,7 @@ const production = require('./headers.production')
 const get = (config) => {
   return [
     {
-      source: '/:path*',
+      source: '/(.*)',
       headers: config.map((x) => {
         return {
           key: x.key,
