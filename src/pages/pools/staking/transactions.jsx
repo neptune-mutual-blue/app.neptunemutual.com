@@ -36,7 +36,7 @@ export default function MyBondTxs ({ disabled }) {
         <Container className='px-2 py-20'>
           <BreadCrumbs
             pages={[
-              { name: t`Pool`, href: '/pools/bond', current: false },
+              { name: t`Pool`, href: '/pools/staking', current: false },
               {
                 name: t`Staking`,
                 current: false
