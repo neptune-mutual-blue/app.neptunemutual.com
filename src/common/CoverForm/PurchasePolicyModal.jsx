@@ -29,9 +29,8 @@ export const PurchasePolicyModal = ({
       isOpen={isOpen}
       onClose={hanldeClose}
       data-testid='purchase-policy-status'
-      className='max-w-lg'
     >
-      <ModalWrapper className='bg-f6f7f9 !p-10'>
+      <ModalWrapper className='max-w-lg bg-f6f7f9'>
         {
           txHash ? <Complete txHash={txHash} onClose={hanldeClose} /> : <Loading />
         }

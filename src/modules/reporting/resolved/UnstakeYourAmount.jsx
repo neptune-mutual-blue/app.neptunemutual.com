@@ -15,6 +15,7 @@ import { t, Trans } from '@lingui/macro'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
+import { Label } from '@/common/Label/Label'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -113,7 +114,6 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
 
       <RegularButton
         className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
-        disabled={!hasStake}
         onClick={() => setIsOpen(true)}
       >
         <Trans>UNSTAKE</Trans>
@@ -127,6 +127,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
         logoSrc={logoSrc}
         logoAlt={projectName}
         unstaking={unstaking}
+        hasStake={hasStake}
       />
     </div>
   )
@@ -139,13 +140,14 @@ const UnstakeModal = ({
   reward,
   logoSrc,
   logoAlt,
+  hasStake,
   unstaking
 }) => {
   const { NPMTokenSymbol } = useAppConstants()
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={unstaking}>
-      <ModalWrapper className='min-w-300 sm:min-w-500 lg:min-w-600 bg-f6f7f9'>
+      <ModalWrapper className='max-w-md bg-f6f7f9'>
         <Dialog.Title className='flex items-center'>
           <img
             className='w-10 h-10 mr-3 border rounded-full'
@@ -158,14 +160,14 @@ const UnstakeModal = ({
         </Dialog.Title>
 
         <div className='my-8'>
-          <div className='mb-5 font-semibold'>
+          <Label className='mb-4' htmlFor='receive-amount'>
             <Trans>You will receive</Trans>
-          </div>
+          </Label>
           <DisabledInput value={reward} unit={NPMTokenSymbol} />
         </div>
 
         <RegularButton
-          disabled={unstaking}
+          disabled={!hasStake || unstaking}
           className='w-full px-10 py-4 font-semibold uppercase'
           onClick={unstake}
         >

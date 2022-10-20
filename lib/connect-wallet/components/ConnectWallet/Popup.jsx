@@ -35,7 +35,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalWrapper className='max-w-md my-2 transition-all min-w-345 md:min-w-400 bg-f6f7f9'>
+      <ModalWrapper className='max-w-md transition-all bg-f6f7f9'>
         <Dialog.Title
           as='h3'
           className='font-bold leading-9 text-black font-sora text-h2'

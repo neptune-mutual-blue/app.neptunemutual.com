@@ -17,6 +17,7 @@ import { DEBOUNCE_TIMEOUT, MULTIPLIER } from '@/src/config/constants'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -89,7 +90,7 @@ export const ClaimCoverModal = ({
       disabled={approving || claiming}
       data-testid='claim-cover-modal'
     >
-      <div className='border-[1.5px] border-[#B0C4DB] relative inline-block w-full max-w-lg p-12 overflow-y-auto text-left align-middle min-w-300 lg:min-w-600 max-h-90vh bg-f6f7f9 rounded-3xl'>
+      <ModalWrapper className='max-w-md bg-f6f7f9'>
         <Dialog.Title
           className='flex items-center w-full font-bold font-sora text-h2'
           data-testid='dialog-title'
@@ -176,7 +177,7 @@ export const ClaimCoverModal = ({
               </RegularButton>
               )}
         </div>
-      </div>
+      </ModalWrapper>
     </ModalRegular>
   )
 }

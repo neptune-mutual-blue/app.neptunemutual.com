@@ -5,8 +5,8 @@ export const Modal = ({ isOpen = false, children, onClose }) => (
     <Portal>
       <Overlay className='fixed inset-0 z-40 bg-black bg-opacity-50 backdrop-blur-md' />
 
-      <Content className='fixed z-50 max-w-full max-h-screen px-4 overflow-y-auto text-center transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-max'>
-        <div className=''>{children}</div>
+      <Content className='fixed z-50 flex items-center justify-center w-full h-full px-4 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 max-h-90vh'>
+        {children}
       </Content>
     </Portal>
   </Root>

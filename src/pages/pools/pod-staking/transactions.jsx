@@ -6,18 +6,18 @@ import { HeroTitle } from '@/common/HeroTitle'
 import { isFeatureEnabled } from '@/src/config/environment'
 import Head from 'next/head'
 import { t, Trans } from '@lingui/macro'
-import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
+// import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 
 /* istanbul ignore next */
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('staking-pool')
+      disabled: !isFeatureEnabled('pod-staking-pool')
     }
   }
 }
 
-export default function MyStakingTxs ({ disabled }) {
+export default function MyPodStakingTxs ({ disabled }) {
   if (disabled) {
     return <ComingSoon />
   }
@@ -56,7 +56,7 @@ export default function MyStakingTxs ({ disabled }) {
       </Hero>
 
       <Container className='pt-14 pb-28'>
-        <MyStakingTxsTable />
+        {/* <MyStakingTxsTable /> */}
       </Container>
     </main>
   )

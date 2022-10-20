@@ -136,30 +136,42 @@ export const MyStakingTxsTable = () => {
 
 const getAppropriateData = (row) => {
   if (row.type === 'Deposited') {
-    return {
+    const data = {
       symbol: row.pool.stakingTokenSymbol,
       tokenDecimals: row.pool.stakingTokenDecimals,
       amountToShow: row.amount,
-      textToShow: 'Staked ',
       imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol)]
+    }
+
+    return {
+      ...data,
+      textToShow: <Trans>Staked <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
     }
   }
   if (row.type === 'RewardsWithdrawn') {
-    return {
+    const data = {
       symbol: row.pool.rewardTokenSymbol,
       tokenDecimals: row.pool.rewardTokenDecimals,
       amountToShow: row.rewards,
-      textToShow: 'Harvested ',
       imgSrc: [getTokenImgSrc(row.pool.rewardTokenSymbol)]
+    }
+
+    return {
+      ...data,
+      textToShow: <Trans>Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
     }
   }
   if (row.type === 'Withdrawn') {
-    return {
+    const data = {
       symbol: `${row.pool.stakingTokenSymbol} / ${row.pool.rewardTokenSymbol}`,
       tokenDecimals: row.pool.stakingTokenDecimals,
       amountToShow: row.amount,
-      textToShow: 'Withdrawn & Harvested ',
       imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
+    }
+
+    return {
+      ...data,
+      textToShow: <Trans>Withdrawn & Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
     }
   }
 }
@@ -184,15 +196,9 @@ const DetailsRenderer = ({ row }) => {
         <span className='pl-4 text-left whitespace-nowrap'>
           {data.textToShow}
           <TokenAmountSpan
-            amountInUnits={
-              data.amountToShow
-            }
-            symbol={
-              data.symbol
-            }
-            decimals={
-              data.tokenDecimals
-            }
+            amountInUnits={data.amountToShow}
+            symbol={data.symbol}
+            decimals={data.tokenDecimals}
           />
         </span>
       </div>

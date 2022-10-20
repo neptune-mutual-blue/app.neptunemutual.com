@@ -73,11 +73,11 @@ export const StakingPage = () => {
   ]
 
   return (
-    <Container className='pt-16 pb-36'>
+    <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
-        <div className='flex items-center justify-between w-full'>
+        <div className='items-center justify-between w-full sm:flex'>
           <Link href={Routes.StakingPoolsTransactions}>
-            <a className='inline-block font-medium text-h4 text-4e7dd9 hover:underline'>
+            <a className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'>
               <Trans>Transaction List</Trans>
             </a>
           </Link>
@@ -135,14 +135,17 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className='mb-24 mt-14'>
+      <Grid className='mb-24 mt-14' data-testid='loading-grid'>
         <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
       </Grid>
     )
   }
 
   return (
-    <div className='flex flex-col items-center w-full pt-20'>
+    <div
+      className='flex flex-col items-center w-full pt-20'
+      data-testid='no-pools-container'
+    >
       <img
         src='/images/covers/empty-list-illustration.svg'
         alt={t`No data found`}
