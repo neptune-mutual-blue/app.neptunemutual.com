@@ -1,4 +1,4 @@
-import { t, Trans } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import { classNames } from '@/utils/classnames'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 
@@ -22,7 +22,7 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
             </div>
           }
         >
-          <h4 className='font-bold leading-5 font-sora text-h5 lg:text-h3 text-4e7dd9' title={t`${heroData.dedicatedCoverCount} dedicated covers and ${heroData.productCount} products`}>
+          <h4 className='font-bold leading-5 font-sora text-h5 lg:text-h3 text-4e7dd9'>
             {heroData.availableCovers}
           </h4>
         </InfoTooltip>
