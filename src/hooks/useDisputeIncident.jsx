@@ -27,6 +27,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
 import { Routes } from '@/src/config/routes'
+import { logIncidentDisputed, logIncidentDisputeStakeApproved } from '@/src/services/logs'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -116,6 +117,7 @@ export const useDisputeIncident = ({
                 methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
+              logIncidentDisputeStakeApproved(account, coverKey, productKey, value, tx.hash)
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -204,6 +206,7 @@ export const useDisputeIncident = ({
               status: STATUS.SUCCESS
             })
 
+            logIncidentDisputed({ account, coverKey, productKey, stake: value, disputeTitle: payload.title, disputeDescription: payload.description, disputeProofs: payload.proofOfDispute, tx: tx.hash })
             router.replace(
               Routes.ViewReport(coverKey, productKey, incidentDate)
             )

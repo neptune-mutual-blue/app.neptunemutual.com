@@ -4,14 +4,22 @@ import { isDiversifiedCoversEnabled, isFeatureEnabled } from '@/src/config/envir
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
+import { logPageLoad } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
+import { useEffect } from 'react'
 
 const disabled = !isDiversifiedCoversEnabled() || !isFeatureEnabled('reporting')
 
 export default function ReportingNewCoverPage () {
   const router = useRouter()
+  const { account } = useWeb3React()
   const { productId, coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
+
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

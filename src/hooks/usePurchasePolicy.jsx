@@ -27,6 +27,7 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { logPolicyPurchase } from '@/src/services/logs'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -255,6 +256,8 @@ export const usePurchasePolicy = ({
                   setTxHash(txHash)
                 }
               })
+
+              logPolicyPurchase({ account, coverKey, productKey, coverFee: feeAmount, coverFeeCurrency: liquidityTokenSymbol, protection: value, protectionCurrency: liquidityTokenSymbol, coveragePeriod: coverMonth, referralCode: referralCode, tx: tx.hash })
 
               onTxSuccess()
             },

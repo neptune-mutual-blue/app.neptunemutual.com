@@ -1,10 +1,17 @@
 import { Alert } from '@/common/Alert/Alert'
+import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { Trans } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
-export function DiversifiedCoverRules ({ coverInfo }) {
+export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
+  const { account } = useWeb3React()
+
+  const onDownload = () => {
+    logCoverProductRulesDownload(account ?? null, coverKey, productKey)
+  }
   return (
     <>
-      <DownloadButton />
+      <DownloadButton onClick={onDownload} />
 
       <Alert closable>
         <Trans>
@@ -19,12 +26,12 @@ export function DiversifiedCoverRules ({ coverInfo }) {
   )
 }
 
-function DownloadButton () {
+function DownloadButton ({ onClick }) {
   return (
     <div className='text-center mt-7 xl:mt-0 mb-14 xl:text-left'>
       <button
         className='inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75'
-        onClick={() => {}}
+        onClick={onClick}
         data-testid='download-button'
       >
         <svg
