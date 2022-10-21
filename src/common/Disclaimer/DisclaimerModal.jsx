@@ -128,7 +128,7 @@ export const DisclaimerModal = () => {
             </label>
           </div>
 
-          <div className='flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6'>
+          <div className='flex flex-wrap justify-center xs:justify-end w-full gap-4 mt-6 sm:gap-6'>
             <button
               type='button'
               className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9'

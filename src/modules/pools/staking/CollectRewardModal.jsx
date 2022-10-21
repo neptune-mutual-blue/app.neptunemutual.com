@@ -53,7 +53,7 @@ export const CollectRewardModal = ({
           onClick={onClose}
         />
 
-        <div className='mt-6 -mx-8 sm:-mx-12'>
+        <div className='mt-6 -mx-10 sm:-mx-12'>
           <TabHeader
             onClick={setActiveTab}
             headers={headers}

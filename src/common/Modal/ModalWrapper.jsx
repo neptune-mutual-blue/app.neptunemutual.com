@@ -4,7 +4,8 @@ export const ModalWrapper = ({ className = '', children }) => {
   return (
     <div
       className={classNames(
-        'w-full relative border-[1.5px] border-B0C4DB flex flex-col p-8 sm:p-12 text-left align-middle rounded-3xl max-h-full m-auto',
+        'w-full relative border-[1.5px] border-B0C4DB flex flex-col p-5 text-left align-middle rounded-3xl max-h-full m-auto overflow-scroll xs:overflow-hidden',
+        'sm:p-12 xs:p-8',
         className
       )}
     >

@@ -27,6 +27,7 @@ export const TokenAmountInput = ({
           {labelText}
         </Label>
       )}
+
       <InputWithTrailingButton
         decimalLimit={tokenDecimals}
         error={error}
@@ -56,6 +57,7 @@ export const TokenAmountInput = ({
       >
         {children}
       </TokenBalance>
+
     </div>
   )
 }
