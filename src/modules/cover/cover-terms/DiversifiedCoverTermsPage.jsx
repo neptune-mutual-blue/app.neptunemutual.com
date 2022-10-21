@@ -3,7 +3,7 @@ import { CoverTerms } from '@/modules/cover/cover-terms/CoverTerms'
 import { Network } from '@/modules/cover/cover-terms/Network'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
-import { t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import Link from 'next/link'
 
 export const DiversifiedCoverTermsPage = ({ coverInfo }) => {
@@ -32,7 +32,7 @@ export const DiversifiedCoverTermsPage = ({ coverInfo }) => {
       <Divider className='border !border-black' />
 
       <p className='mt-3 text-lg font-semibold font-arial text-000000'>
-        As of: {effectiveDate}
+        <Trans>As of: {effectiveDate}</Trans>
       </p>
 
       <h1 className='mt-12 text-000000 text-h1'>{coverName}</h1>
@@ -40,7 +40,7 @@ export const DiversifiedCoverTermsPage = ({ coverInfo }) => {
       {
         blockchains?.length && (
           <div className='mt-5'>
-            <p className='font-semibold'>Covered Blockchain</p>
+            <p className='font-semibold'><Trans>Covered Blockchains</Trans></p>
             <div className='flex flex-wrap gap-2 mt-2'>
               {
                 blockchains.map((chain, idx) => <Network chainId={chain.chainId} key={idx} />)

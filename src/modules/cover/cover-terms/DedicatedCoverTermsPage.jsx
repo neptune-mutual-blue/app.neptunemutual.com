@@ -2,7 +2,7 @@ import { Divider } from '@/common/Divider/Divider'
 import { CoverTerms } from '@/modules/cover/cover-terms/CoverTerms'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
-import { t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 import Link from 'next/link'
 
 export const DedicatedCoverTermsPage = ({ coverInfo }) => {
@@ -29,7 +29,7 @@ export const DedicatedCoverTermsPage = ({ coverInfo }) => {
       <Divider className='border !border-black' />
 
       <p className='mt-3 text-lg font-semibold font-arial text-000000'>
-        As of: {effectiveDate}
+        <Trans>As of: {effectiveDate}</Trans>
       </p>
 
       <CoverTerms coverInfo={coverInfo} />

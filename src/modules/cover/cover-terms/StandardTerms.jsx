@@ -103,8 +103,8 @@ export const StandardsTerms = ({ className = '' }) => {
           text={[
             'The Neptune Mutual dApp is governed by the Neptune Mutual Association, based in Zug, Switzerland. Contact details are:',
             <React.Fragment key={1}>
-              <p>Poststrasse 24 / 6302 Zug, Switzerland</p>
-              <p>Contact form available on website:  https://neptunemutualassociation.org</p>
+              <span>Poststrasse 24 / 6302 Zug, Switzerland</span>
+              <span className='block'>Contact form available on website:  https://neptunemutualassociation.org</span>
             </React.Fragment>
           ]}
         />
