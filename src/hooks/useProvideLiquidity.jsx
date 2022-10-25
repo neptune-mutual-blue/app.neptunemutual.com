@@ -264,14 +264,13 @@ export const useProvideLiquidity = ({
     const handleError = (err) => {
       notifyError(err, t`Could not add liquidity`)
     }
-
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const lqAmount = convertToUnits(
         lqValue,
         liquidityTokenDecimals
       ).toString()
-      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString()
+      const npmAmount = convertToUnits(npmValue || '0', npmTokenDecimals).toString()
       const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,
