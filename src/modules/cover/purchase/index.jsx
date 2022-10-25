@@ -22,6 +22,7 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { Routes } from '@/src/config/routes'
 import { logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -109,6 +110,9 @@ export const CoverPurchaseDetailsPage = () => {
                 text={coverInfo.infoObj.about}
               />
             </span>
+
+            <StandardTermsConditionsLink />
+
             {acceptedRules
               ? (
                 <div className='mt-12'>

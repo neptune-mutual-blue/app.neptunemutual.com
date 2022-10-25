@@ -31,6 +31,7 @@ export const PoolTypes = {
 export const GITHUB_REPONAME = 'app.neptunemutual.com'
 export const GITHUB_USERNAME = 'neptune-mutual-blue'
 export const DISCORD_LINK = 'https://discord.gg/2qMGTtJtnW'
+export const STANDARD_TERMS_AND_CONDITIONS = 'https://docs.neptunemutual.com/usage/standard-terms-and-conditions'
 
 // Will end with `/`
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL

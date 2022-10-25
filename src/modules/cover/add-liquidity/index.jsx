@@ -22,6 +22,7 @@ import { Routes } from '@/src/config/routes'
 import { classNames } from '@/utils/classnames'
 import { logAddLiquidityRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -97,6 +98,8 @@ export const CoverAddLiquidityDetailsPage = () => {
             <span className='hidden lg:block'>
               <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
             </span>
+
+            <StandardTermsConditionsLink />
 
             {acceptedRules
               ? (
