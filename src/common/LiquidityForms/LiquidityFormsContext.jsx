@@ -43,7 +43,6 @@ export const LiquidityFormsProvider = ({ coverKey, children }) => {
     isWithdrawalWindowOpen
   } = useMyLiquidityInfo({ coverKey })
 
-  console.log(info)
   const { NPMTokenAddress } = useAppConstants()
   const {
     balance: stakingTokenBalance,

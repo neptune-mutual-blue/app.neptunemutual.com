@@ -92,7 +92,7 @@ export const LiquidityResolutionSources = ({
 const WithdrawLiquidityButton = ({ onOpen, myStake, podBalance }) => {
   return (
     <>
-      {isGreater(myStake, '0') && isGreater(podBalance, '0') && (
+      {(isGreater(myStake, '0') || isGreater(podBalance, '0')) && (
         <div className='flex justify-center mt-8 px-7'>
           <OutlinedButton
             className='text-sm font-medium leading-5 rounded-big'
