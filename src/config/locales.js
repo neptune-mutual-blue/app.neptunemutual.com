@@ -14,23 +14,7 @@ import {
   vi
 } from 'make-plural/plurals'
 
-export const SUPPORTED_LOCALES = [
-  'en',
-  'es',
-  'fr',
-  'ja',
-  'zh'
-]
-
 export const DEFAULT_LOCALE = 'en'
-
-export const LOCALE_LABEL = {
-  en: 'English',
-  es: 'Spanish',
-  fr: 'français',
-  ja: '日本語',
-  zh: '中文 ( 中国 )'
-}
 
 export const languageKey = {
   zh: 'Chinese - 中文',
@@ -79,3 +63,5 @@ export const plurals = {
   tr: tr,
   vi: vi
 }
+
+export const SUPPORTED_LOCALES = Object.keys(languageKey)
