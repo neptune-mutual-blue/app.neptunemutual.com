@@ -20,7 +20,7 @@ export const Banner = () => {
     setShow(false)
   }
 
-  if (!show) return <></>
+  if (!show) return null
 
   return (
     <div className='relative bg-4e7dd9' data-testid='banner-container'>
