@@ -10,6 +10,8 @@ import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources'
 import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
+import { logRemoveLiquidityModalOpen } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
@@ -18,6 +20,7 @@ export const LiquidityResolutionSources = ({
   isWithdrawalWindowOpen,
   accrueInterest
 }) => {
+  const { account } = useWeb3React()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { coverId } = router.query
@@ -35,6 +38,7 @@ export const LiquidityResolutionSources = ({
 
   const onOpen = () => {
     setIsOpen(true)
+    logRemoveLiquidityModalOpen(account ?? null, coverKey)
   }
 
   return (
@@ -88,7 +92,7 @@ export const LiquidityResolutionSources = ({
 const WithdrawLiquidityButton = ({ onOpen, myStake, podBalance }) => {
   return (
     <>
-      {isGreater(myStake, '0') && isGreater(podBalance, '0') && (
+      {(isGreater(myStake, '0') || isGreater(podBalance, '0')) && (
         <div className='flex justify-center mt-8 px-7'>
           <OutlinedButton
             className='text-sm font-medium leading-5 rounded-big'

@@ -14,6 +14,8 @@ import { StakingCard } from '@/modules/pools/staking/StakingCard'
 import { useTokenStakingPools } from '@/src/hooks/useTokenStakingPools'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { toStringSafe } from '@/utils/string'
+import { Routes } from '@/src/config/routes'
+import Link from 'next/link'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -71,20 +73,27 @@ export const StakingPage = () => {
   ]
 
   return (
-    <Container className='pt-16 pb-36'>
+    <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
-        <SearchAndSortBar
-          searchValue={searchValue}
-          onSearchChange={(event) => {
-            setSearchValue(event.target.value)
-          }}
-          sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
-          containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
-          searchClass='w-full md:w-64 rounded-lg'
-          searchAndSortOptions={options}
-          sortType={sortType}
-          setSortType={setSortType}
-        />
+        <div className='items-center justify-between w-full sm:flex'>
+          <Link href={Routes.StakingPoolsTransactions}>
+            <a className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'>
+              <Trans>Transaction List</Trans>
+            </a>
+          </Link>
+          <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={(event) => {
+              setSearchValue(event.target.value)
+            }}
+            sortClass='w-full md:w-48 lg:w-64 rounded-lg'
+            containerClass='flex-col md:flex-row min-w-fit md:min-w-sm'
+            searchClass='w-full md:w-64 rounded-lg'
+            searchAndSortOptions={options}
+            sortType={sortType}
+            setSortType={setSortType}
+          />
+        </div>
       </div>
 
       <Content
@@ -126,14 +135,17 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
 
   if (loading) {
     return (
-      <Grid className='mb-24 mt-14'>
+      <Grid className='mb-24 mt-14' data-testid='loading-grid'>
         <CardSkeleton numberOfCards={data.length || CARDS_PER_PAGE} />
       </Grid>
     )
   }
 
   return (
-    <div className='flex flex-col items-center w-full pt-20'>
+    <div
+      className='flex flex-col items-center w-full pt-20'
+      data-testid='no-pools-container'
+    >
       <img
         src='/images/covers/empty-list-illustration.svg'
         alt={t`No data found`}

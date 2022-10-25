@@ -1,4 +1,3 @@
-import 'tailwindcss/tailwind.css'
 import '@fontsource/poppins/latin.css'
 import '@fontsource/sora/latin.css'
 import '../styles/globals.css'

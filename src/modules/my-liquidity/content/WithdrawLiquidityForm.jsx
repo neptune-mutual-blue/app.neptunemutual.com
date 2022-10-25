@@ -185,12 +185,12 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               decimals={NPMTokenDecimals}
               data-testid='minimum-stake-prefix'
             />
-            {!isExit && npmErrorMsg && (
-              <p className='text-FA5C2F' data-testid='npm-error'>
-                {npmErrorMsg}
-              </p>
-            )}
           </TokenAmountInput>
+          {!isExit && npmErrorMsg && (
+            <p className='text-FA5C2F' data-testid='npm-error'>
+              {npmErrorMsg}
+            </p>
+          )}
         </div>
 
         <div className='mt-6'>

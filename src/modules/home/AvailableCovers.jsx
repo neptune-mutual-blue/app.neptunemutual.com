@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 
 import { Container } from '@/common/Container/Container'
 import { Grid } from '@/common/Grid/Grid'
@@ -20,6 +20,8 @@ import { utils } from '@neptunemutual/sdk'
 import { SelectListBar } from '@/common/SelectListBar/SelectListBar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { logCoverProductsSearch, logCoverProductsSort } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -41,6 +43,7 @@ const sorterData = {
 
 export const AvailableCovers = () => {
   const { query } = useRouter()
+  const { account } = useWeb3React()
   const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
@@ -96,11 +99,16 @@ export const AvailableCovers = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value)
+    logCoverProductsSearch(account ?? null, ev.target.value)
   }
 
   const handleShowMore = () => {
     setShowCount((val) => val + CARDS_PER_PAGE)
   }
+
+  useEffect(() => {
+    logCoverProductsSort(account ?? null, sortType)
+  }, [account, sortType])
 
   return (
     <Container className='py-16' data-testid='available-covers-container'>

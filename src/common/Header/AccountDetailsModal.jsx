@@ -12,6 +12,7 @@ import { Toggle } from '@/common/Toggle'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Trans } from '@lingui/macro'
+import { logViewAccountOnExplorer } from '@/src/services/logs'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -122,6 +123,7 @@ export const AccountDetailsModal = ({
               target='_blank'
               rel='noreferrer nofollow'
               className='flex items-center ml-3.5 cursor-pointer sm:ml-6'
+              onClick={() => logViewAccountOnExplorer(account)}
             >
               <OpenInNewIcon width={16} height={16} fill='#999BAB' />
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>

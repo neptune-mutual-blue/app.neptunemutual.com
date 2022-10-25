@@ -1,21 +1,32 @@
 import Head from 'next/head'
 
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
-import { PodStakingPage } from '@/src/modules/pools/pod-staking'
-import { ComingSoon } from '@/common/ComingSoon'
+import { StakingPage } from '@/src/modules/pools/staking'
 import { isFeatureEnabled } from '@/src/config/environment'
+import { ComingSoon } from '@/common/ComingSoon'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
+import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 /* istanbul ignore next */
 export function getStaticProps () {
   return {
     props: {
-      disabled: !isFeatureEnabled('pod-staking-pool')
+      disabled: !isFeatureEnabled('staking-pool')
     }
   }
 }
 
-export default function PodStaking ({ disabled }) {
+export default function Staking ({ disabled }) {
+  const { account } = useWeb3React()
+  const router = useRouter()
+
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
+
   if (disabled) {
     return <ComingSoon />
   }
@@ -29,9 +40,9 @@ export default function PodStaking ({ disabled }) {
           content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
-      <PoolsTabs active='pod-staking'>
+      <PoolsTabs active='staking'>
         <SortableStatsProvider>
-          <PodStakingPage />
+          <StakingPage />
         </SortableStatsProvider>
       </PoolsTabs>
     </main>

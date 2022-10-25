@@ -97,6 +97,17 @@ const ViewProductReports = (coverKey, productKey) => {
   return `/reports/${coverId}/products/${productId}`
 }
 
+const ViewCoverProductTerms = (coverKey, productKey) => {
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
+
+  if (productId === '') {
+    return `/covers/${coverId}/cover-terms`
+  }
+
+  return `/covers/${coverId}/products/${productId}/cover-terms`
+}
+
 const Home = '/'
 const TransactionHistory = '/transactions'
 const BondTransactions = '/pools/bond/transactions'
@@ -110,6 +121,8 @@ const ResolvedReports = '/reports/resolved'
 const BondPool = '/pools/bond'
 const StakingPools = '/pools/staking'
 const PodStakingPools = '/pools/pod-staking'
+const StakingPoolsTransactions = '/pools/staking/transactions'
+const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
 
 export const Routes = {
   Home,
@@ -124,7 +137,9 @@ export const Routes = {
   ResolvedReports,
   BondPool,
   StakingPools,
+  StakingPoolsTransactions,
   PodStakingPools,
+  PodStakingPoolsTransactions,
   ViewCover,
   ViewProduct,
   ViewReport,
@@ -136,5 +151,6 @@ export const Routes = {
   ReportNewIncident,
   ClaimPolicy,
   ViewCoverReports,
+  ViewCoverProductTerms,
   ViewProductReports
 }

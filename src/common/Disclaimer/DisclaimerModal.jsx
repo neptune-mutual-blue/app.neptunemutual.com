@@ -1,11 +1,10 @@
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { classNames } from '@/utils/classnames'
-import { Title, Description } from '@radix-ui/react-dialog'
+import { Title } from '@radix-ui/react-dialog'
 import { useState } from 'react'
 import { Trans } from '@lingui/macro'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { Checkbox } from '@/common/Checkbox/Checkbox'
 
 export const DisclaimerModal = () => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage(
@@ -42,29 +41,27 @@ export const DisclaimerModal = () => {
       onClose={handleClose}
       disabled
       data-testid='disclaimer-container'
-      className='px-0 h-5/6 sm:h-auto'
     >
-      <ModalWrapper className='max-w-5xl !rounded-xl sm:!rounded-3xl h-full flex flex-col bg-FEFEFF'>
+      <ModalWrapper className='max-w-5xl bg-FEFEFF'>
         <Title
-          className='flex items-center font-bold font-sora text-h4'
+          className='flex items-center font-semibold font-sora text-h4'
           data-testid='disclaimer-title'
         >
           <Trans>Disclaimer and Warranty</Trans>
         </Title>
-        <Description
-          className={classNames(
-            'mt-6 text-xs leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f6f7f9'
-          )}
+        <div
+          className='mt-6 pb-4 text-xs tracking-normal leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-4 lg:pr-0 border-b border-f6f7f9'
           data-testid='disclaimer-description'
         >
-          <span>
+
+          <p>
             <Trans>
               This testnet environment is built by Neptune Mutual, i.e. its
               operating entity Neptune Tech Limited and/or its affiliated
               companies (collectively “Neptune”).
             </Trans>
-          </span>
-          <span>
+          </p>
+          <p>
             <Trans>
               The purpose of this testnet environment is to test and conduct
               experiment on Neptune Mutual protocol without imposing risk to any
@@ -82,8 +79,8 @@ export const DisclaimerModal = () => {
               from any visitors on the testnet with regard to any issue incurred
               as a result of using or visiting the testnet environment.
             </Trans>
-          </span>
-          <span>
+          </p>
+          <p>
             <Trans>
               The cover creators, covers, covers availability, liquidity volume,
               protection amount, utilization ratio, as well as any other content
@@ -94,8 +91,8 @@ export const DisclaimerModal = () => {
               placed on the testnet are not intended to imply any official
               endorsement or commitment by those creators.
             </Trans>
-          </span>
-          <span>
+          </p>
+          <p>
             <Trans>
               Neptune may change this disclaimer at any time without notice to
               you and without liability to you or any other party. It is your
@@ -103,21 +100,24 @@ export const DisclaimerModal = () => {
               If you do not agree to any changes made to this disclaimer, you
               should cease use of this testnet.
             </Trans>
-          </span>
-        </Description>
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit}>
-          <div className='flex items-start gap-2 mt-3'>
-            <Checkbox
+          <div className='flex items-start mt-3'>
+            <input
               id='agreement-checkbox'
-              className='w-4 h-4 mt-1 cursor-pointer'
+              name='agreement-checkbox'
+              type='checkbox'
               checked={isAgreed}
-              onChange={(e) => setIsAgreed(e.target.checked)}
               data-testid='disclaimer-checkbox'
+              onChange={(e) => setIsAgreed(e.target.checked)}
+              className='w-5 h-5 mt-1 bg-white border-2 rounded cursor-pointer checkbox_custom focus:ring-4e7dd9 text-4e7dd9 border-9B9B9B focus:border-4e7dd9 focus:ring focus:ring-offset-0 focus:ring-opacity-30'
             />
+
             <label
               htmlFor='agreement-checkbox'
-              className='text-xs leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040'
+              className='text-xs tracking-normal leading-4.5 sm:text-sm sm:leading-6 cursor-pointer text-404040 ml-3'
               data-testid='disclaimer-checkbox-label'
             >
               <Trans>
@@ -128,7 +128,7 @@ export const DisclaimerModal = () => {
             </label>
           </div>
 
-          <div className='flex flex-wrap justify-end w-full gap-4 mt-6 sm:gap-6'>
+          <div className='flex flex-wrap justify-center xs:justify-end w-full gap-4 mt-6 sm:gap-6'>
             <button
               type='button'
               className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9'

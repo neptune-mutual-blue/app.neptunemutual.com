@@ -1,8 +1,11 @@
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
+import { Routes } from '@/src/config/routes'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { logCoverProductRulesDownload } from '@/src/services/logs'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useWeb3React } from '@web3-react/core'
 
 /**
  * @typedef {import('@/modules/my-liquidity/content/CoveredProducts').IProductBase} IProductBase
@@ -15,8 +18,17 @@ import * as Dialog from '@radix-ui/react-dialog'
  * @returns
  */
 export function LiquidityProductModal ({ product, setShowModal }) {
+  const { account } = useWeb3React()
+
   const imgSrc = getCoverImgSrc({ key: product.productKey })
   const onClose = () => setShowModal(false)
+
+  const onDownload = () => {
+    window.open(Routes.ViewCoverProductTerms(product.coverKey, product.productKey), '_blank')
+    logCoverProductRulesDownload(account ?? null, product.coverKey, product.productKey)
+    setShowModal(false)
+  }
+
   return (
     <ModalRegular
       isOpen
@@ -84,7 +96,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           >
             CLOSE
           </button>
-          <DownloadButton onClick={onClose} />
+          <DownloadButton onClick={onDownload} />
         </div>
       </div>
     </ModalRegular>

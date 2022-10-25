@@ -22,6 +22,7 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
+import { logAddLiquidity } from '@/src/services/logs'
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -80,6 +81,8 @@ export const useProvideLiquidity = ({
   }, [updateStakeAllowance, vaultTokenAddress])
 
   const handleLqTokenApprove = async () => {
+    console.log('handleLqTokenApprove')
+
     setLqApproving(true)
 
     const cleanup = () => {
@@ -96,7 +99,8 @@ export const useProvideLiquidity = ({
         methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
         status: STATUS.PENDING,
         data: {
-          tokenSymbol: liquidityTokenSymbol
+          tokenSymbol: liquidityTokenSymbol,
+          value: lqValue
         }
       })
 
@@ -116,7 +120,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol
+                  tokenSymbol: liquidityTokenSymbol,
+                  value: lqValue
                 }
               })
             },
@@ -126,7 +131,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: liquidityTokenSymbol
+                  tokenSymbol: liquidityTokenSymbol,
+                  value: lqValue
                 }
               })
             }
@@ -160,6 +166,8 @@ export const useProvideLiquidity = ({
   }
 
   const handleNPMTokenApprove = async () => {
+    console.log('handleNPMTokenApprove')
+
     setNPMApproving(true)
 
     const cleanup = () => {
@@ -196,7 +204,9 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: NPMTokenSymbol
+                  tokenSymbol: NPMTokenSymbol,
+                  value: npmValue
+
                 }
               })
             },
@@ -206,7 +216,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_STAKE_APPROVE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: NPMTokenSymbol
+                  tokenSymbol: NPMTokenSymbol,
+                  value: npmValue
                 }
               })
             }
@@ -240,6 +251,7 @@ export const useProvideLiquidity = ({
   }
 
   const handleProvide = async (onTxSuccess) => {
+    console.log('handleProvide')
     setProviding(true)
 
     const cleanup = () => {
@@ -252,14 +264,13 @@ export const useProvideLiquidity = ({
     const handleError = (err) => {
       notifyError(err, t`Could not add liquidity`)
     }
-
     try {
       const signerOrProvider = getProviderOrSigner(library, account, networkId)
       const lqAmount = convertToUnits(
         lqValue,
         liquidityTokenDecimals
       ).toString()
-      const npmAmount = convertToUnits(npmValue, npmTokenDecimals).toString()
+      const npmAmount = convertToUnits(npmValue || '0', npmTokenDecimals).toString()
       const vault = await registry.Vault.getInstance(
         networkId,
         coverKey,
@@ -272,7 +283,8 @@ export const useProvideLiquidity = ({
           methodName: METHODS.LIQUIDITY_PROVIDE,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: vaultTokenSymbol
+            tokenSymbol: vaultTokenSymbol,
+            value: lqValue
           }
         })
         await txToast.push(
@@ -289,9 +301,12 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.SUCCESS,
                 data: {
-                  tokenSymbol: vaultTokenSymbol
+                  tokenSymbol: vaultTokenSymbol,
+                  value: lqValue
                 }
               })
+              logAddLiquidity({ account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash })
+
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -300,7 +315,8 @@ export const useProvideLiquidity = ({
                 methodName: METHODS.LIQUIDITY_PROVIDE,
                 status: STATUS.FAILED,
                 data: {
-                  tokenSymbol: vaultTokenSymbol
+                  tokenSymbol: vaultTokenSymbol,
+                  value: lqValue
                 }
               })
             }

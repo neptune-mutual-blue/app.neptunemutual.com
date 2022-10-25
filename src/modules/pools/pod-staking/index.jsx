@@ -14,6 +14,8 @@ import { PodStakingCard } from '@/src/modules/pools/pod-staking/PodStakingCard'
 import { usePodStakingPools } from '@/src/hooks/usePodStakingPools'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { toStringSafe } from '@/utils/string'
+import { Routes } from '@/src/config/routes'
+import Link from 'next/link'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -71,23 +73,27 @@ export const PodStakingPage = () => {
   ]
 
   return (
-    <Container
-      className='pt-16 pb-36'
-      data-testid='pod-staking-page-container'
-    >
+    <Container className='pt-16 pb-36' data-testid='pod-staking-page-container'>
       <div className='flex justify-end'>
-        <SearchAndSortBar
-          searchValue={searchValue}
-          onSearchChange={(event) => {
-            setSearchValue(event.target.value)
-          }}
-          sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
-          containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
-          searchClass='w-full md:w-64 rounded-lg'
-          searchAndSortOptions={options}
-          sortType={sortType}
-          setSortType={setSortType}
-        />
+        <div className='items-center justify-between w-full sm:flex'>
+          <Link href={Routes.PodStakingPoolsTransactions}>
+            <a className='flex justify-center font-medium sm:inline-flex text-h4 text-4e7dd9 hover:underline'>
+              <Trans>Transaction List</Trans>
+            </a>
+          </Link>
+          <SearchAndSortBar
+            searchValue={searchValue}
+            onSearchChange={(event) => {
+              setSearchValue(event.target.value)
+            }}
+            sortClass='w-full md:w-48 lg:w-64 rounded-lg z-10'
+            containerClass='flex-col md:flex-row min-w-full md:min-w-sm'
+            searchClass='w-full md:w-64 rounded-lg'
+            searchAndSortOptions={options}
+            sortType={sortType}
+            setSortType={setSortType}
+          />
+        </div>
       </div>
 
       <Content
@@ -147,10 +153,9 @@ function Content ({ data, loading, hasMore, handleShowMore }) {
         className='w-48 h-48'
       />
       <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
-        <Trans>No POD</Trans>{' '}
-        <span className='whitespace-nowrap'>
-          <Trans>staking pools found.</Trans>
-        </span>
+        <Trans>
+          No <span className='whitespace-nowrap'>POD staking pools found.</span>
+        </Trans>
       </p>
     </div>
   )

@@ -5,6 +5,7 @@ import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { useStakingPoolWithdrawRewards } from '@/src/hooks/useStakingPoolWithdraw'
 import { Trans, t } from '@lingui/macro'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import { convertFromUnits } from '@/utils/bn'
 
 export const HarvestForm = ({
   info,
@@ -18,15 +19,17 @@ export const HarvestForm = ({
   setModalDisabled,
   onHarvestSuccess = () => {}
 }) => {
+  const rewardTokenDecimals = info.rewardTokenDecimals
+  const stakingTokenDecimals = info.stakingTokenDecimals
+
   const { handleWithdrawRewards, withdrawingRewards } =
     useStakingPoolWithdrawRewards({
       poolKey,
-      refetchInfo
+      refetchInfo,
+      rewardTokenSymbol,
+      rewardAmount: convertFromUnits(rewardAmount, rewardTokenDecimals).toString()
     })
   const { register } = useRegisterToken()
-
-  const rewardTokenDecimals = info.rewardTokenDecimals
-  const stakingTokenDecimals = info.stakingTokenDecimals
 
   useEffect(() => {
     setModalDisabled((val) => ({ ...val, wr: withdrawingRewards }))

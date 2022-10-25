@@ -7,7 +7,8 @@ export const DescriptionComponent = ({
   titleClassName = '',
   bullets = true
 }) => {
-  if (!text) return <></>
+  if (!text) return null
+
   return (
     <div className={className}>
       <h4

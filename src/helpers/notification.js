@@ -13,18 +13,18 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Withdrawn rewards successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not withdraw rewards`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Withdrawing rewards`, description: '' }
+    return { title: t`Withdrawing rewards`, description: displayValue(_data) }
   },
   [METHODS.UNSTAKING_DEPOSIT]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
@@ -93,35 +93,35 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Resolved incident successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not resolve incident`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Resolving incident`, description: '' }
+    return { title: t`Resolving incident`, description: displayValue(_data) }
   },
   [METHODS.RESOLVE_INCIDENT_COMPLETE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Emergency resolved incident successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not emergency resolve incident`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Emergency resolving incident`, description: '' }
+    return { title: t`Emergency resolving incident`, description: displayValue(_data) }
   },
   [METHODS.REPORT_DISPUTE_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
@@ -336,18 +336,18 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Approving ${tokenSymbol}`, description: '' }
+    return { title: t`Approving ${tokenSymbol}`, description: displayValue(_data) }
   },
   [METHODS.LIQUIDITY_STAKE_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
@@ -374,30 +374,30 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Provided Liquidity Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not provide liquidity`, description: '' }
+      return { title: t`Could not provide liquidity`, description: displayValue(_data) }
     }
 
-    return { title: t`Providing Liquidity...`, description: '' }
+    return { title: t`Providing Liquidity...`, description: displayValue(_data) }
   },
   [METHODS.REPORTING_UNSTAKE]: (status, _data) => {
     const symbol = _data.tokenSymbol || 'NPM'
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Unstaked ${symbol} Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not unstake ${symbol}`, description: '' }
+      return { title: t`Could not unstake ${symbol}`, description: displayValue(_data) }
     }
 
-    return { title: t`Unstaking ${symbol}`, description: '' }
+    return { title: t`Unstaking ${symbol}`, description: displayValue(_data) }
   },
   [METHODS.REPORTING_UNSTAKE_CLAIM]: (status, _data) => {
     const symbol = _data.tokenSymbol || 'NPM'
@@ -405,110 +405,110 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Unstaked & claimed ${symbol} Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not unstake & claim ${symbol}`, description: '' }
+      return { title: t`Could not unstake & claim ${symbol}`, description: displayValue(_data) }
     }
 
-    return { title: t`Unstaking & claiming ${symbol}`, description: '' }
+    return { title: t`Unstaking & claiming ${symbol}`, description: displayValue(_data) }
   },
   [METHODS.POOL_CAPITALIZE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Capitalized pool successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not capitalize pool`, description: '' }
+      return { title: t`Could not capitalize pool`, description: displayValue(_data) }
     }
 
-    return { title: t`Capitalizing pool`, description: '' }
+    return { title: t`Capitalizing pool`, description: displayValue(_data) }
   },
   [METHODS.BOND_CLAIM]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Claimed ${tokenSymbol} successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Claimed ${tokenSymbol} successfully`, description: '' }
+      return { title: t`Claimed ${tokenSymbol} successfully`, description: displayValue(_data) }
     }
 
-    return { title: t`Claiming ${tokenSymbol}`, description: '' }
+    return { title: t`Claiming ${tokenSymbol}`, description: displayValue(_data) }
   },
   [METHODS.INCIDENT_FINALIZE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Finalized incident successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
-      return { title: t`Could not finalize incident`, description: '' }
+      return { title: t`Could not finalize incident`, description: displayValue(_data) }
     }
 
-    return { title: t`Finalizing incident`, description: '' }
+    return { title: t`Finalizing incident`, description: displayValue(_data) }
   },
   [METHODS.LIQUIDITY_TOKEN_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Approving ${tokenSymbol} tokens`, description: '' }
+    return { title: t`Approving ${tokenSymbol} tokens`, description: displayValue(_data) }
   },
   [METHODS.LIQUIDITY_REMOVE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Removed Liquidity Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not remove liquidity`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Could not remove liquidity`, description: '' }
+    return { title: t`Could not remove liquidity`, description: displayValue(_data) }
   },
   [METHODS.LIQUIDITY_INFO]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Accrued interest successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not accrue interest`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Accruing interest`, description: '' }
+    return { title: t`Accruing interest`, description: displayValue(_data) }
   },
   [METHODS.VOTE_APPROVE]: (status, _data) => {
     const tokenSymbol = _data.tokenSymbol || ''
@@ -516,55 +516,55 @@ const actionMessages = {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Approved ${tokenSymbol} Successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not approve ${tokenSymbol} tokens`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Approving ${tokenSymbol} tokens`, description: '' }
+    return { title: t`Approving ${tokenSymbol} tokens`, description: displayValue(_data) }
   },
   [METHODS.VOTE_ATTEST]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: t`Attested successfully`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not attest`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Attesting...`, description: '' }
+    return { title: t`Attesting...`, description: displayValue(_data) }
   },
   [METHODS.VOTE_REFUTE]: (status, _data) => {
     if (status === STATUS.SUCCESS) {
       return {
         title: 'Refuted successfully',
-        description: ''
+        description: displayValue(_data)
       }
     }
 
     if (status === STATUS.FAILED) {
       return {
         title: t`Could not refute`,
-        description: ''
+        description: displayValue(_data)
       }
     }
 
-    return { title: t`Refuting`, description: '' }
+    return { title: t`Refuting`, description: displayValue(_data) }
   },
   generic: (_status, _data) => {
-    return { title: t`Notification`, description: '' }
+    return { title: t`Notification`, description: displayValue(_data) }
   }
 }
 

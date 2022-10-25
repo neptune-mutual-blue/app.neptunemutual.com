@@ -6,6 +6,9 @@ import { LiquidityFormsProvider } from '@/common/LiquidityForms/LiquidityFormsCo
 import { useRouter } from 'next/router'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { useWeb3React } from '@web3-react/core'
+import { logPageLoad } from '@/src/services/logs'
+import { useEffect } from 'react'
 
 const disabled = !isFeatureEnabled('liquidity')
 
@@ -14,6 +17,11 @@ export default function MyLiquidityCover () {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
+  const { account } = useWeb3React()
+
+  useEffect(() => {
+    logPageLoad(account ?? null, router.pathname)
+  }, [account, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

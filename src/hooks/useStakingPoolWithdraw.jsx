@@ -14,6 +14,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
+import { logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
 
 export const useStakingPoolWithdraw = ({
   value,
@@ -97,15 +98,24 @@ export const useStakingPoolWithdraw = ({
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_DEPOSIT,
-                status: STATUS.SUCCESS
+                status: STATUS.SUCCESS,
+                data: {
+                  value,
+                  tokenSymbol
+                }
               })
+              logStakingPoolWithdraw(account, poolKey, value, tokenSymbol, tx.hash)
               onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_DEPOSIT,
-                status: STATUS.FAILED
+                status: STATUS.FAILED,
+                data: {
+                  value,
+                  tokenSymbol
+                }
               })
             }
           }
@@ -144,7 +154,7 @@ export const useStakingPoolWithdraw = ({
   }
 }
 
-export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
+export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardTokenSymbol, rewardAmount }) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
   const { networkId } = useNetwork()
@@ -181,7 +191,11 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.UNSTAKING_WITHDRAW,
-          status: STATUS.PENDING
+          status: STATUS.PENDING,
+          data: {
+            value: rewardAmount,
+            tokenSymbol: rewardTokenSymbol
+          }
         })
 
         await txToast.push(
@@ -189,13 +203,22 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
           {
             pending: getActionMessage(
               METHODS.UNSTAKING_WITHDRAW,
-              STATUS.PENDING
+              STATUS.PENDING, {
+                value: rewardAmount,
+                tokenSymbol: rewardTokenSymbol
+              }
             ).title,
             success: getActionMessage(
               METHODS.UNSTAKING_WITHDRAW,
-              STATUS.SUCCESS
+              STATUS.SUCCESS, {
+                value: rewardAmount,
+                tokenSymbol: rewardTokenSymbol
+              }
             ).title,
-            failure: getActionMessage(METHODS.UNSTAKING_WITHDRAW, STATUS.FAILED)
+            failure: getActionMessage(METHODS.UNSTAKING_WITHDRAW, STATUS.FAILED, {
+              value: rewardAmount,
+              tokenSymbol: rewardTokenSymbol
+            })
               .title
           },
           {
@@ -203,15 +226,24 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo }) => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_WITHDRAW,
-                status: STATUS.SUCCESS
+                status: STATUS.SUCCESS,
+                data: {
+                  value: rewardAmount,
+                  tokenSymbol: rewardTokenSymbol
+                }
               })
+              logStakingPoolWithdrawRewards(account, poolKey, tx.hash)
               onTxSuccess()
             },
             onTxFailure: () => {
               TransactionHistory.push({
                 hash: tx.hash,
                 methodName: METHODS.UNSTAKING_WITHDRAW,
-                status: STATUS.FAILED
+                status: STATUS.FAILED,
+                data: {
+                  value: rewardAmount,
+                  tokenSymbol: rewardTokenSymbol
+                }
               })
             }
           }
