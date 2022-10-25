@@ -1,6 +1,7 @@
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
+import { Routes } from '@/src/config/routes'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
 import * as Dialog from '@radix-ui/react-dialog'
@@ -23,6 +24,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
   const onClose = () => setShowModal(false)
 
   const onDownload = () => {
+    window.open(Routes.ViewCoverProductTerms(product.coverKey, product.productKey), '_blank')
     logCoverProductRulesDownload(account ?? null, product.coverKey, product.productKey)
     setShowModal(false)
   }

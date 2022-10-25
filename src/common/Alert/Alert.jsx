@@ -37,7 +37,7 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
 
             {/* eslint-disable-next-line react/jsx-closing-tag-location */}
           </button>
-          : <></>}
+          : null}
       </div>
     </div>
   )

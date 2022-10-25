@@ -4,9 +4,19 @@ import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 import { Routes } from '@/src/config/routes'
 import { t, Trans } from '@lingui/macro'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
 export const DedicatedCoverTermsPage = ({ coverInfo }) => {
-  if (!coverInfo) return <></>
+  useEffect(() => {
+    if (!coverInfo) return
+
+    setTimeout(() => {
+      window.print()
+      window.close()
+    }, 500)
+  }, [coverInfo])
+
+  if (!coverInfo) return null
 
   const effectiveDate = new Date().toISOString()
 

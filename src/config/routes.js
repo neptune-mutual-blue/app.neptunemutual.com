@@ -97,6 +97,17 @@ const ViewProductReports = (coverKey, productKey) => {
   return `/reports/${coverId}/products/${productId}`
 }
 
+const ViewCoverProductTerms = (coverKey, productKey) => {
+  const coverId = safeParseBytes32String(coverKey)
+  const productId = safeParseBytes32String(productKey)
+
+  if (productId === '') {
+    return `/covers/${coverId}/cover-terms`
+  }
+
+  return `/covers/${coverId}/products/${productId}/cover-terms`
+}
+
 const Home = '/'
 const TransactionHistory = '/transactions'
 const BondTransactions = '/pools/bond/transactions'
@@ -140,5 +151,6 @@ export const Routes = {
   ReportNewIncident,
   ClaimPolicy,
   ViewCoverReports,
+  ViewCoverProductTerms,
   ViewProductReports
 }
