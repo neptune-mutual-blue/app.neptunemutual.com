@@ -145,7 +145,7 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Staked <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
+      textToShow: <Trans>Staked <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
     }
   }
   if (row.type === 'RewardsWithdrawn') {
@@ -158,12 +158,12 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
+      textToShow: <Trans>Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
     }
   }
   if (row.type === 'Withdrawn') {
     const data = {
-      symbol: `${row.pool.stakingTokenSymbol} / ${row.pool.rewardTokenSymbol}`,
+      symbol: `${row.pool.stakingTokenSymbol}`,
       tokenDecimals: row.pool.stakingTokenDecimals,
       amountToShow: row.amount,
       imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
@@ -171,7 +171,7 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Withdrawn & Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} />                  </Trans>
+      textToShow: <Trans>Withdrawn <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
     }
   }
 }
