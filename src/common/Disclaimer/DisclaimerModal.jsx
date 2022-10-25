@@ -50,7 +50,7 @@ export const DisclaimerModal = () => {
           <Trans>Disclaimer and Warranty</Trans>
         </Title>
         <div
-          className='mt-6 pb-4 text-xs tracking-normal leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-1 border-b border-f6f7f9'
+          className='mt-6 pb-4 text-xs tracking-normal leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-4 lg:pr-0 border-b border-f6f7f9'
           data-testid='disclaimer-description'
         >
 
