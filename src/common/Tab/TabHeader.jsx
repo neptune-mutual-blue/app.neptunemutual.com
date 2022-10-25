@@ -7,7 +7,7 @@ export const TabHeader = ({ activeTab, headers, onClick }) => {
       className='px-2 border-b border-b-B0C4DB xs:px-16 sm:min-w-fit'
       data-testid='tab-header-container'
     >
-      <div className='flex mx-auto max-w-7xl '>
+      <div className='flex mx-auto xs:max-w-7xl justify-center xs:justify-start '>
         {headers.map((header) => (
           <Tab key={header.name} active={activeTab === header.name}>
             <button

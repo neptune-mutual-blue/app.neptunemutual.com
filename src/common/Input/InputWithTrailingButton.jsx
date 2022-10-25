@@ -82,7 +82,7 @@ export const InputWithTrailingButton = ({
       />
       <div className='absolute inset-y-0 right-0 flex' ref={ref}>
         {unit && (
-          <div className='self-center px-4 whitespace-nowrap text-9B9B9B'>
+          <div className='self-center px-4 whitespace-nowrap text-9B9B9B hidden xs:block'>
             {unit}
           </div>
         )}
