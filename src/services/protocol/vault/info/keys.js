@@ -1,6 +1,5 @@
 import sdk, { multicall } from '@neptunemutual/sdk'
 import { keccak256 as solidityKeccak256 } from '@ethersproject/solidity'
-import { BigNumber } from '@ethersproject/bignumber'
 import { registry } from '../../../store-keys'
 
 const { Contract, Provider } = multicall
@@ -147,14 +146,7 @@ export const getKeys = async (provider, coverKey, account, metadata) => {
     {
       key: [sdk.utils.keyUtil.PROTOCOL.NS.COVER_LIQUIDITY_MIN_STAKE],
       returns: 'uint256',
-      property: 'minStakeToAddLiquidity',
-      compute: async ({ value }) => {
-        if (value.toString() === '0') {
-          return BigNumber.from('10').pow(18).mul('250')
-        }
-
-        return value
-      }
+      property: 'minStakeToAddLiquidity'
     },
     {
       returns: 'uint256',
