@@ -17,6 +17,7 @@ import { DiversifiedCoverProfileInfo } from '@/common/CoverProfileInfo/Diversifi
 import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityFormsContext'
 import { useRouter } from 'next/router'
 import { Routes } from '@/src/config/routes'
+import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 
 export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
@@ -98,6 +99,8 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
             <span className='hidden lg:block' data-testid='see-more-container'>
               <SeeMoreParagraph text={coverInfo?.infoObj?.about} />
             </span>
+
+            <StandardTermsConditionsLink />
 
             <div className='mt-12' data-testid='provide-liquidity-container'>
               <ProvideLiquidityForm
