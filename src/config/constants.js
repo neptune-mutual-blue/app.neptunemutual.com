@@ -76,3 +76,5 @@ export const NetworkUrlParam = {
 }
 
 export const homeViewSelectionKey = 'view'
+
+export const isProduction = process.env.NODE_ENV === 'production'
