@@ -24,7 +24,9 @@ export function middleware (req) {
   const country = req.geo?.country || ''
 
   if (!country || unavailableTo.length === 0) {
-    return NextResponse.next()
+    const response = NextResponse.next()
+    response.headers.set('Access-Control-Allow-Origin', 'null')
+    return response
   }
 
   const unavailable = unavailableTo.indexOf(country) > -1
@@ -35,7 +37,9 @@ export function middleware (req) {
     // return NextResponse.redirect(new URL('/unavailable', req.url))
   }
 
-  return NextResponse.next()
+  const response = NextResponse.next()
+  response.headers.set('Access-Control-Allow-Origin', 'null')
+  return response
 }
 
 // Supports both a single string value or an array of matchers
