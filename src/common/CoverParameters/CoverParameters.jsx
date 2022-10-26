@@ -10,10 +10,10 @@ const List = ({ type, children }) => {
 
 /**
  *
- * @param {{parameters: Array, titleClassName?: string}} props
+ * @param {{parameters: Array, titleClassName?: string, textClassName?: string}} props
  * @returns
  */
-const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-h4 font-sora' }) => {
+const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-h4 font-sora', textClassName = '' }) => {
   if (!Array.isArray(parameters) || parameters.length === 0) {
     return null
   }
@@ -27,11 +27,11 @@ const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibol
               {param.parameter}
             </h4>
 
-            {param.text && <p key={`parameter-paragraph-${i}`}>{param.text}</p>}
+            {param.text && <p className={textClassName} key={`parameter-paragraph-${i}`}>{param.text}</p>}
 
             <List type={param.list.type}>
               {param.list.items.map((item, x) => (
-                <li key={x}>{item}</li>
+                <li className={textClassName} key={x}>{item}</li>
               ))}
             </List>
           </div>

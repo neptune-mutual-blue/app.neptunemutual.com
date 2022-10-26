@@ -52,7 +52,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           </button>
           <img src={imgSrc} alt={product.infoObj.productName} className='w-8 h-8' />
 
-          <span className='flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 whitespace-nowrap text-ellipsis'>
+          <span className='flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis'>
             {product.infoObj.productName} Cover Terms
           </span>
           <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-poppins'>
@@ -64,28 +64,21 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             Cover Rules
           </p>
 
-          <p className='font-poppins text-404040 text-md md:text-sm'>
+          <p className='font-poppins text-404040 text-sm'>
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
           <ul
-            className='mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
+            className='mt-5 pb-2 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
             data-testid='cover-rules'
           >
-            <CoverParameters titleClassName='text-sm mt-10 mb-6 font-semibold font-sora' parameters={product.infoObj.parameters} />
+            <CoverParameters
+              titleClassName='text-sm mt-10 mb-6 font-semibold font-sora'
+              textClassName='font-poppins text-404040 text-m text-sm'
+              parameters={product.infoObj.parameters}
+            />
           </ul>
-
-          <p className='py-2 text-sm font-bold leading-5 md:py-6 text-000000'>
-            Exclusions
-          </p>
-
-          <p
-            className='font-poppins text-404040 text-md md:text-sm'
-            data-testid='cover-exclusions'
-          >
-            {product.infoObj.exclusions}
-          </p>
         </div>
 
         <div className='flex justify-end pt-6 border-t border-t-B0C4DB'>
