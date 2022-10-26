@@ -1,4 +1,5 @@
 /* istanbul ignore file */
+import { isProduction } from '@/src/config/constants'
 import { plurals } from '@/src/config/locales'
 import { i18n } from '@lingui/core'
 
@@ -8,8 +9,6 @@ import { i18n } from '@lingui/core'
  * many ways how to load messages — from REST API, from file, from cache, etc.
  */
 export const dynamicActivate = async (locale) => {
-  const isProduction = process.env.NODE_ENV === 'production'
-
   const messages = isProduction
     ? await import(`../../locales/${locale}/messages`)
     : await import(`@lingui/loader!../../locales/${locale}/messages.po`)

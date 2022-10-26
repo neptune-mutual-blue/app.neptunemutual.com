@@ -104,7 +104,7 @@ msgstr "全て"
 msgid "All Transaction History"
 msgstr "全ての取引履歴"
 
-#: src/modules/my-liquidity/content/rules.jsx:77
+#: src/modules/my-liquidity/content/rules.jsx:79
 msgid "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "各\"{coverName}\"商品のすべてのルールはこの資金プールに適用します。もしある商品に関わるインシデントが発生し、採決された場合、このプール中の資金で請求された給付金を支払います。"
 
@@ -187,8 +187,8 @@ msgstr "{tokenSymbol} トークンを承認中"
 msgid "Approving..."
 msgstr "承認中。。。"
 
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:32
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:35
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:42
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:45
 msgid "As of: {effectiveDate}"
 msgstr ""
 
@@ -221,7 +221,7 @@ msgstr "戻る"
 msgid "Balance:"
 msgstr "残高:"
 
-#: src/modules/my-liquidity/content/rules.jsx:62
+#: src/modules/my-liquidity/content/rules.jsx:64
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "この資金プールに流動性を提供し、或はポリシーを購入する前に、すべての商品パラメータをよくご評価ください。引受資本はこの\"{coverName}\"プールに集中し、また個々の商品に使われています。総合型カバープールはLPに対してより高いリターンを提供する一方、当然として専用のカバープールよりリスクが高くなります。"
 
@@ -661,7 +661,7 @@ msgid "Covered"
 msgstr "カバーされた"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:43
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:53
 msgid "Covered Blockchains"
 msgstr ""
 
@@ -731,7 +731,7 @@ msgstr "総合型資金プール"
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "総合型資金プールは {0}倍のレバレッジ係数と{1}の資本効率を有している"
 
-#: src/modules/my-liquidity/content/rules.jsx:50
+#: src/modules/my-liquidity/content/rules.jsx:52
 msgid "Download LP Cover Terms"
 msgstr "LPカバー規約をダウンロードする"
 
@@ -971,7 +971,7 @@ msgstr "取引ごとに承認したくない場合は、このボックスを有
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 msgstr "直近で発生した{0}に関するインシデントを知った場合、上記のカバールールをよくお読みください。あなたが最初のインシデント通報者になる場合、少数者側のステークしたトークンの{1}%を報酬として貰えます。"
 
-#: src/modules/my-liquidity/content/rules.jsx:73
+#: src/modules/my-liquidity/content/rules.jsx:75
 msgid "Important Note"
 msgstr "重要事項"
 
@@ -1142,8 +1142,8 @@ msgid "NPM Logo"
 msgstr "NPM ロゴ"
 
 #: src/common/HeaderLogo.jsx:8
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:20
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:23
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:30
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:33
 #: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:135
 msgid "Neptune Mutual"
 msgstr "Neptune Mutual"
@@ -1477,7 +1477,7 @@ msgstr "採決中"
 msgid "Result:"
 msgstr "結果："
 
-#: src/modules/my-liquidity/content/rules.jsx:139
+#: src/modules/my-liquidity/content/rules.jsx:141
 msgid "Risk Disclosure / Disclaimer"
 msgstr "リスクの開示/免責事項"
 
@@ -1569,7 +1569,7 @@ msgstr " {tokenSymbol}をステーキング中"
 msgid "Staking..."
 msgstr "ステーキング中..."
 
-#: src/modules/my-liquidity/content/rules.jsx:86
+#: src/modules/my-liquidity/content/rules.jsx:88
 msgid "Standard Exclusions"
 msgstr "基準の適用除外"
 
@@ -1612,7 +1612,7 @@ msgstr "このテストネットにおけるカバークリエイター、カバ
 msgid "The date and time you observed the incident."
 msgstr "このインシデントを発見した日付と時刻です。"
 
-#: src/modules/my-liquidity/content/rules.jsx:17
+#: src/modules/my-liquidity/content/rules.jsx:19
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "上記の商品は、総合型カバープールの一部になります。総合型カバープールにおける給付が保証されていませんので、先着順で支給されます。"
 
