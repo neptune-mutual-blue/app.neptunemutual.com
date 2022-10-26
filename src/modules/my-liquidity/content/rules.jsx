@@ -1,4 +1,5 @@
 import { Alert } from '@/common/Alert/Alert'
+import { Routes } from '@/src/config/routes'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
@@ -8,6 +9,7 @@ export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
 
   const onDownload = () => {
     logCoverProductRulesDownload(account ?? null, coverKey, productKey)
+    window.open(Routes.ViewCoverProductTerms(coverKey, productKey), '_blank')
   }
   return (
     <>
@@ -28,7 +30,7 @@ export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
 
 function DownloadButton ({ onClick }) {
   return (
-    <div className='text-center mt-7 xl:mt-0 mb-14 xl:text-left'>
+    <div className='text-center mt-7 xl:mt-4 mb-14 xl:text-left'>
       <button
         className='inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75'
         onClick={onClick}

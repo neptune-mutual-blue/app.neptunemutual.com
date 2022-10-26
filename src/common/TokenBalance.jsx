@@ -48,10 +48,10 @@ export const TokenBalance = ({
 
   return (
     <div
-      className='flex items-start justify-between mt-2 text-9B9B9B'
+      className='flex items-start flex-col-reverse xs:flex-row justify-between mt-2 text-9B9B9B'
       data-testid='token-balance-container'
     >
-      <div>
+      <div className='flex flex-col mt-3 xs:block xs:mt-0'>
         {balance && (
           <p
             title={
@@ -77,7 +77,7 @@ export const TokenBalance = ({
         )}
         {children}
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center justify-end w-full xs:w-fit'>
         <button
           type='button'
           title='Copy token address'

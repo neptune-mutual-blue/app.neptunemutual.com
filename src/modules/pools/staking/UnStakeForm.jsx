@@ -89,7 +89,7 @@ export const UnStakeForm = ({
         )}
       </TokenAmountInput>
 
-      <div className='mt-8 modal-unlock'>
+      <div className='mt-4 xs:mt-8 modal-unlock'>
         <Label className='mb-3' htmlFor='modal-unlock-on'>
           <Trans>Unlocks At Block</Trans>
         </Label>

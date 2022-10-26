@@ -41,7 +41,7 @@ export const CollectRewardModal = ({
       disabled={isDisabled.w || isDisabled.wr}
       data-testid='collect-reward-modal'
     >
-      <ModalWrapper className='max-w-md bg-f6f7f9'>
+      <ModalWrapper className='max-w-md bg-f6f7f9 xs:overflow-y-auto'>
         <div>
           <Dialog.Title className='flex font-bold font-sora text-h2'>
             {modalTitle}
@@ -53,7 +53,7 @@ export const CollectRewardModal = ({
           onClick={onClose}
         />
 
-        <div className='mt-6 -mx-8 sm:-mx-12'>
+        <div className='mt-6 -mx-10 sm:-mx-12'>
           <TabHeader
             onClick={setActiveTab}
             headers={headers}
