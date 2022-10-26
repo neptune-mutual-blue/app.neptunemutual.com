@@ -86,10 +86,6 @@ module.exports = [
     values: ['GET']
   },
   {
-    key: 'Access-Control-Allow-Origin',
-    values: ['null']
-  },
-  {
     key: 'Access-Control-Max-Age',
     values: ['600']
   }

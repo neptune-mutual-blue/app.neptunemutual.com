@@ -104,7 +104,7 @@ msgstr "All"
 msgid "All Transaction History"
 msgstr "All Transaction History"
 
-#: src/modules/my-liquidity/content/rules.jsx:77
+#: src/modules/my-liquidity/content/rules.jsx:79
 msgid "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 
@@ -187,8 +187,8 @@ msgstr "Approving {tokenSymbol} tokens"
 msgid "Approving..."
 msgstr "Approving..."
 
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:32
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:35
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:42
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:45
 msgid "As of: {effectiveDate}"
 msgstr "As of: {effectiveDate}"
 
@@ -221,7 +221,7 @@ msgstr "Back"
 msgid "Balance:"
 msgstr "Balance:"
 
-#: src/modules/my-liquidity/content/rules.jsx:62
+#: src/modules/my-liquidity/content/rules.jsx:64
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 
@@ -658,7 +658,7 @@ msgid "Covered"
 msgstr "Covered"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:43
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:53
 msgid "Covered Blockchains"
 msgstr "Covered Blockchains"
 
@@ -728,7 +728,7 @@ msgstr "Diversified Pool"
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 
-#: src/modules/my-liquidity/content/rules.jsx:50
+#: src/modules/my-liquidity/content/rules.jsx:52
 msgid "Download LP Cover Terms"
 msgstr "Download LP Cover Terms"
 
@@ -968,7 +968,7 @@ msgstr "If you do not want to keep approving for each transaction, enable this o
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 msgstr "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:73
+#: src/modules/my-liquidity/content/rules.jsx:75
 msgid "Important Note"
 msgstr "Important Note"
 
@@ -1139,8 +1139,8 @@ msgid "NPM Logo"
 msgstr "NPM Logo"
 
 #: src/common/HeaderLogo.jsx:8
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:20
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:23
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:30
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:33
 #: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:135
 msgid "Neptune Mutual"
 msgstr "Neptune Mutual"
@@ -1467,7 +1467,7 @@ msgstr "Resolving..."
 msgid "Result:"
 msgstr "Result:"
 
-#: src/modules/my-liquidity/content/rules.jsx:139
+#: src/modules/my-liquidity/content/rules.jsx:141
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Risk Disclosure / Disclaimer"
 
@@ -1559,7 +1559,7 @@ msgstr "Staking {tokenSymbol}"
 msgid "Staking..."
 msgstr "Staking..."
 
-#: src/modules/my-liquidity/content/rules.jsx:86
+#: src/modules/my-liquidity/content/rules.jsx:88
 msgid "Standard Exclusions"
 msgstr "Standard Exclusions"
 
@@ -1602,7 +1602,7 @@ msgstr "The cover creators, covers, covers availability, liquidity volume, prote
 msgid "The date and time you observed the incident."
 msgstr "The date and time you observed the incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:17
+#: src/modules/my-liquidity/content/rules.jsx:19
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 
