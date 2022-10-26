@@ -82,8 +82,8 @@ msgstr "異議の追加"
 msgid "Add new link"
 msgstr "新しいリンクの追加"
 
-#: src/hooks/useProvideLiquidity.jsx:295
-#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:294
 msgid "Added Liquidity Successfully"
 msgstr "流動性が追加されました"
 
@@ -91,8 +91,8 @@ msgstr "流動性が追加されました"
 msgid "Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover"
 msgstr " {coverOrProjectName} カバーに{tokenAmountWithSymbol} が追加されました"
 
-#: src/hooks/useProvideLiquidity.jsx:294
-#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:293
+#: src/hooks/useProvideLiquidity.jsx:293
 msgid "Adding Liquidity"
 msgstr "流動性の追加"
 
@@ -204,7 +204,7 @@ msgstr "認証中。。。"
 msgid "Available"
 msgstr "利用可能の"
 
-#: src/modules/cover/purchase/index.jsx:158
+#: src/modules/cover/purchase/index.jsx:162
 msgid "Available Liquidity:"
 msgstr "利用可能な流動性:"
 
@@ -424,8 +424,8 @@ msgid "Could not accrue interest"
 msgstr "利子を生成できませんでした"
 
 #: src/hooks/useProvideLiquidity.jsx:265
-#: src/hooks/useProvideLiquidity.jsx:296
-#: src/hooks/useProvideLiquidity.jsx:296
+#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:295
 msgid "Could not add liquidity"
 msgstr "流動性を追加できませんでした"
 
@@ -768,7 +768,7 @@ msgstr "インシデント緊急採決中"
 msgid "Emergency resolving..."
 msgstr "緊急採決中。。。"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:43
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:44
 msgid "Enter Amount"
 msgstr "金額を入力してください"
 
@@ -939,8 +939,8 @@ msgstr ""
 #: src/common/Header/Header.jsx:81
 #: src/modules/cover/CoverOptionsPage.jsx:24
 #: src/modules/cover/CoverOptionsPage.jsx:38
-#: src/modules/cover/add-liquidity/index.jsx:61
-#: src/modules/cover/purchase/index.jsx:68
+#: src/modules/cover/add-liquidity/index.jsx:62
+#: src/modules/cover/purchase/index.jsx:69
 #: src/modules/reporting/ReportingHero.jsx:17
 #: src/modules/reporting/ReportingHero.jsx:36
 #: src/pages/transactions.jsx:38
@@ -951,15 +951,15 @@ msgstr "ホーム"
 msgid "I Want to"
 msgstr "やりたいこと"
 
-#: src/modules/cover/add-liquidity/index.jsx:121
+#: src/modules/cover/add-liquidity/index.jsx:124
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "私はこの資金プール及びNeptune Mutual プロトコルに関するすべてのリスク、カバーの諸条件、除外事項及び基準除外事項を読んで、評価し、理解し且つ同意します。"
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:35
-#: src/modules/cover/add-liquidity/index.jsx:136
-#: src/modules/cover/purchase/index.jsx:129
+#: src/modules/cover/add-liquidity/index.jsx:139
+#: src/modules/cover/purchase/index.jsx:133
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "私はカバールールに関する諸条件を読んで理解し且つ同意します。"
 
@@ -1079,7 +1079,7 @@ msgstr "詳細"
 msgid "Market Price"
 msgstr "市場価格"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:34
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:35
 msgid "Max"
 msgstr "100％"
 
@@ -1109,8 +1109,8 @@ msgstr "私の有効保障"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
 #: src/common/Header/Header.jsx:63
-#: src/modules/my-liquidity/details.jsx:52
-#: src/modules/my-liquidity/details.jsx:79
+#: src/modules/my-liquidity/details.jsx:53
+#: src/modules/my-liquidity/details.jsx:80
 #: src/pages/my-liquidity/index.jsx:71
 #: src/pages/my-liquidity/transactions.jsx:52
 msgid "My Liquidity"
@@ -1279,7 +1279,7 @@ msgid "Protection"
 msgstr "保障"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:360
-#: src/modules/cover/add-liquidity/index.jsx:67
+#: src/modules/cover/add-liquidity/index.jsx:68
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
 msgstr "流動性の提供"
@@ -1306,7 +1306,7 @@ msgid "Providing Liquidity..."
 msgstr "流動性提供中"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:317
-#: src/modules/cover/purchase/index.jsx:76
+#: src/modules/cover/purchase/index.jsx:77
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
 msgstr "ポリシーの購入"
@@ -1656,7 +1656,7 @@ msgstr "トークンアドレスがコピーされました"
 msgid "Total Active Protection"
 msgstr "全ての有効保障"
 
-#: src/modules/cover/purchase/index.jsx:89
+#: src/modules/cover/purchase/index.jsx:90
 #: src/modules/home/Hero.jsx:143
 msgid "Total Liquidity"
 msgstr "総流動性"
@@ -1831,7 +1831,7 @@ msgid "Withdrawing..."
 msgstr "回収中"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:174
-msgid "Withdrawn & Harvested <0/>"
+msgid "Withdrawn <0/>"
 msgstr ""
 
 #: src/helpers/notification.js:15
@@ -1925,9 +1925,9 @@ msgstr "詳細"
 #: src/modules/cover/CoverOptionsPage.jsx:31
 #: src/modules/cover/CoverOptionsPage.jsx:40
 #: src/modules/cover/CoverOptionsPage.jsx:56
-#: src/modules/cover/add-liquidity/index.jsx:41
-#: src/modules/cover/purchase/index.jsx:40
-#: src/modules/my-liquidity/details.jsx:32
+#: src/modules/cover/add-liquidity/index.jsx:42
+#: src/modules/cover/purchase/index.jsx:41
+#: src/modules/my-liquidity/details.jsx:33
 #: src/modules/my-policies/ClaimDetailsPage.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:24
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:51

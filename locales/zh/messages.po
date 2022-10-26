@@ -82,8 +82,8 @@ msgstr "添加异议"
 msgid "Add new link"
 msgstr "添加新链接"
 
-#: src/hooks/useProvideLiquidity.jsx:295
-#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:294
 msgid "Added Liquidity Successfully"
 msgstr "已成功添加流动性"
 
@@ -91,8 +91,8 @@ msgstr "已成功添加流动性"
 msgid "Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover"
 msgstr "已添加 {tokenAmountWithSymbol} 至{coverOrProjectName} 保障"
 
-#: src/hooks/useProvideLiquidity.jsx:294
-#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:293
+#: src/hooks/useProvideLiquidity.jsx:293
 msgid "Adding Liquidity"
 msgstr "正在添加流动性"
 
@@ -204,7 +204,7 @@ msgstr "作证中"
 msgid "Available"
 msgstr "可用的"
 
-#: src/modules/cover/purchase/index.jsx:158
+#: src/modules/cover/purchase/index.jsx:162
 msgid "Available Liquidity:"
 msgstr "可用的流动性："
 
@@ -424,8 +424,8 @@ msgid "Could not accrue interest"
 msgstr "无法生息"
 
 #: src/hooks/useProvideLiquidity.jsx:265
-#: src/hooks/useProvideLiquidity.jsx:296
-#: src/hooks/useProvideLiquidity.jsx:296
+#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:295
 msgid "Could not add liquidity"
 msgstr "无法添加流动性"
 
@@ -768,7 +768,7 @@ msgstr "正在紧急裁决事件"
 msgid "Emergency resolving..."
 msgstr "紧急裁决中。。。"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:43
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:44
 msgid "Enter Amount"
 msgstr "填写金额"
 
@@ -939,8 +939,8 @@ msgstr ""
 #: src/common/Header/Header.jsx:81
 #: src/modules/cover/CoverOptionsPage.jsx:24
 #: src/modules/cover/CoverOptionsPage.jsx:38
-#: src/modules/cover/add-liquidity/index.jsx:61
-#: src/modules/cover/purchase/index.jsx:68
+#: src/modules/cover/add-liquidity/index.jsx:62
+#: src/modules/cover/purchase/index.jsx:69
 #: src/modules/reporting/ReportingHero.jsx:17
 #: src/modules/reporting/ReportingHero.jsx:36
 #: src/pages/transactions.jsx:38
@@ -951,15 +951,15 @@ msgstr "主页"
 msgid "I Want to"
 msgstr "我想要"
 
-#: src/modules/cover/add-liquidity/index.jsx:121
+#: src/modules/cover/add-liquidity/index.jsx:124
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "我已阅读，评估，理解，同意并接收该资金池以及Neptune Mutual协议中的所有风险，保障条款，排除条款以及标准不保事项。"
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:35
-#: src/modules/cover/add-liquidity/index.jsx:136
-#: src/modules/cover/purchase/index.jsx:129
+#: src/modules/cover/add-liquidity/index.jsx:139
+#: src/modules/cover/purchase/index.jsx:133
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "我已阅读，理解并同意本保障的条款与细则。"
 
@@ -1079,7 +1079,7 @@ msgstr "更多"
 msgid "Market Price"
 msgstr "市场价格"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:34
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:35
 msgid "Max"
 msgstr "100%"
 
@@ -1109,8 +1109,8 @@ msgstr "我的现正生效的保障"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
 #: src/common/Header/Header.jsx:63
-#: src/modules/my-liquidity/details.jsx:52
-#: src/modules/my-liquidity/details.jsx:79
+#: src/modules/my-liquidity/details.jsx:53
+#: src/modules/my-liquidity/details.jsx:80
 #: src/pages/my-liquidity/index.jsx:71
 #: src/pages/my-liquidity/transactions.jsx:52
 msgid "My Liquidity"
@@ -1277,7 +1277,7 @@ msgid "Protection"
 msgstr "保障金额"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:360
-#: src/modules/cover/add-liquidity/index.jsx:67
+#: src/modules/cover/add-liquidity/index.jsx:68
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
 msgstr "提供流动性"
@@ -1302,7 +1302,7 @@ msgid "Providing Liquidity..."
 msgstr "正在提供流动性。。。"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:317
-#: src/modules/cover/purchase/index.jsx:76
+#: src/modules/cover/purchase/index.jsx:77
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
 msgstr "购买保单"
@@ -1652,7 +1652,7 @@ msgstr "代币地址已成功复制"
 msgid "Total Active Protection"
 msgstr "所有正在生效的保障"
 
-#: src/modules/cover/purchase/index.jsx:89
+#: src/modules/cover/purchase/index.jsx:90
 #: src/modules/home/Hero.jsx:143
 msgid "Total Liquidity"
 msgstr "总流动性"
@@ -1827,7 +1827,7 @@ msgid "Withdrawing..."
 msgstr "正在提取中。。。"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:174
-msgid "Withdrawn & Harvested <0/>"
+msgid "Withdrawn <0/>"
 msgstr ""
 
 #: src/helpers/notification.js:15
@@ -1921,9 +1921,9 @@ msgstr "详情"
 #: src/modules/cover/CoverOptionsPage.jsx:31
 #: src/modules/cover/CoverOptionsPage.jsx:40
 #: src/modules/cover/CoverOptionsPage.jsx:56
-#: src/modules/cover/add-liquidity/index.jsx:41
-#: src/modules/cover/purchase/index.jsx:40
-#: src/modules/my-liquidity/details.jsx:32
+#: src/modules/cover/add-liquidity/index.jsx:42
+#: src/modules/cover/purchase/index.jsx:41
+#: src/modules/my-liquidity/details.jsx:33
 #: src/modules/my-policies/ClaimDetailsPage.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:24
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:51
