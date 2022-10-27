@@ -80,7 +80,7 @@ export const ActiveReportingCard = ({
             className='inline-block max-w-full'
           />
         </div>
-        <div date-testid='card-badge'>
+        <div data-testid='card-badge'>
           {
             isLoading
               ? <div

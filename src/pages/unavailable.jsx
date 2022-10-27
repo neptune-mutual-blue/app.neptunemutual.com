@@ -41,7 +41,7 @@ export default function PageNotAvailable () {
         <h2 className='my-6 font-bold leading-10 text-center text-h3 font-sora'>
           Oops, Neptune Mutual is not available in your region
         </h2>
-        <p className='mt-2 text-center text-9B9B9B'>
+        {/* <p className='mt-2 text-center text-9B9B9B'>
           Enter your email and we will notify when Neptune Mutual is available
         </p>
         <form className='max-w-md mx-auto mt-6'>
@@ -59,7 +59,7 @@ export default function PageNotAvailable () {
           >
             subscribe
           </button>
-        </form>
+        </form> */}
       </Container>
     </main>
   )

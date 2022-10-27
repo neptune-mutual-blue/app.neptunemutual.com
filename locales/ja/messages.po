@@ -82,8 +82,8 @@ msgstr "異議の追加"
 msgid "Add new link"
 msgstr "新しいリンクの追加"
 
-#: src/hooks/useProvideLiquidity.jsx:295
-#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:294
 msgid "Added Liquidity Successfully"
 msgstr "流動性が追加されました"
 
@@ -91,8 +91,8 @@ msgstr "流動性が追加されました"
 msgid "Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover"
 msgstr " {coverOrProjectName} カバーに{tokenAmountWithSymbol} が追加されました"
 
-#: src/hooks/useProvideLiquidity.jsx:294
-#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:293
+#: src/hooks/useProvideLiquidity.jsx:293
 msgid "Adding Liquidity"
 msgstr "流動性の追加"
 
@@ -104,7 +104,7 @@ msgstr "全て"
 msgid "All Transaction History"
 msgstr "全ての取引履歴"
 
-#: src/modules/my-liquidity/content/rules.jsx:77
+#: src/modules/my-liquidity/content/rules.jsx:79
 msgid "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "各\"{coverName}\"商品のすべてのルールはこの資金プールに適用します。もしある商品に関わるインシデントが発生し、採決された場合、このプール中の資金で請求された給付金を支払います。"
 
@@ -187,8 +187,8 @@ msgstr "{tokenSymbol} トークンを承認中"
 msgid "Approving..."
 msgstr "承認中。。。"
 
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:32
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:35
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:42
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:45
 msgid "As of: {effectiveDate}"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr "認証中。。。"
 msgid "Available"
 msgstr "利用可能の"
 
-#: src/modules/cover/purchase/index.jsx:158
+#: src/modules/cover/purchase/index.jsx:162
 msgid "Available Liquidity:"
 msgstr "利用可能な流動性:"
 
@@ -221,7 +221,7 @@ msgstr "戻る"
 msgid "Balance:"
 msgstr "残高:"
 
-#: src/modules/my-liquidity/content/rules.jsx:62
+#: src/modules/my-liquidity/content/rules.jsx:64
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "この資金プールに流動性を提供し、或はポリシーを購入する前に、すべての商品パラメータをよくご評価ください。引受資本はこの\"{coverName}\"プールに集中し、また個々の商品に使われています。総合型カバープールはLPに対してより高いリターンを提供する一方、当然として専用のカバープールよりリスクが高くなります。"
 
@@ -424,8 +424,8 @@ msgid "Could not accrue interest"
 msgstr "利子を生成できませんでした"
 
 #: src/hooks/useProvideLiquidity.jsx:265
-#: src/hooks/useProvideLiquidity.jsx:296
-#: src/hooks/useProvideLiquidity.jsx:296
+#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:295
 msgid "Could not add liquidity"
 msgstr "流動性を追加できませんでした"
 
@@ -661,7 +661,7 @@ msgid "Covered"
 msgstr "カバーされた"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:43
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:53
 msgid "Covered Blockchains"
 msgstr ""
 
@@ -731,7 +731,7 @@ msgstr "総合型資金プール"
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "総合型資金プールは {0}倍のレバレッジ係数と{1}の資本効率を有している"
 
-#: src/modules/my-liquidity/content/rules.jsx:50
+#: src/modules/my-liquidity/content/rules.jsx:52
 msgid "Download LP Cover Terms"
 msgstr "LPカバー規約をダウンロードする"
 
@@ -768,7 +768,7 @@ msgstr "インシデント緊急採決中"
 msgid "Emergency resolving..."
 msgstr "緊急採決中。。。"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:43
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:44
 msgid "Enter Amount"
 msgstr "金額を入力してください"
 
@@ -939,8 +939,8 @@ msgstr ""
 #: src/common/Header/Header.jsx:81
 #: src/modules/cover/CoverOptionsPage.jsx:24
 #: src/modules/cover/CoverOptionsPage.jsx:38
-#: src/modules/cover/add-liquidity/index.jsx:61
-#: src/modules/cover/purchase/index.jsx:68
+#: src/modules/cover/add-liquidity/index.jsx:62
+#: src/modules/cover/purchase/index.jsx:69
 #: src/modules/reporting/ReportingHero.jsx:17
 #: src/modules/reporting/ReportingHero.jsx:36
 #: src/pages/transactions.jsx:38
@@ -951,15 +951,15 @@ msgstr "ホーム"
 msgid "I Want to"
 msgstr "やりたいこと"
 
-#: src/modules/cover/add-liquidity/index.jsx:121
+#: src/modules/cover/add-liquidity/index.jsx:124
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "私はこの資金プール及びNeptune Mutual プロトコルに関するすべてのリスク、カバーの諸条件、除外事項及び基準除外事項を読んで、評価し、理解し且つ同意します。"
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:35
-#: src/modules/cover/add-liquidity/index.jsx:136
-#: src/modules/cover/purchase/index.jsx:129
+#: src/modules/cover/add-liquidity/index.jsx:139
+#: src/modules/cover/purchase/index.jsx:133
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "私はカバールールに関する諸条件を読んで理解し且つ同意します。"
 
@@ -971,7 +971,7 @@ msgstr "取引ごとに承認したくない場合は、このボックスを有
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 msgstr "直近で発生した{0}に関するインシデントを知った場合、上記のカバールールをよくお読みください。あなたが最初のインシデント通報者になる場合、少数者側のステークしたトークンの{1}%を報酬として貰えます。"
 
-#: src/modules/my-liquidity/content/rules.jsx:73
+#: src/modules/my-liquidity/content/rules.jsx:75
 msgid "Important Note"
 msgstr "重要事項"
 
@@ -1079,7 +1079,7 @@ msgstr "詳細"
 msgid "Market Price"
 msgstr "市場価格"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:34
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:35
 msgid "Max"
 msgstr "100％"
 
@@ -1109,8 +1109,8 @@ msgstr "私の有効保障"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
 #: src/common/Header/Header.jsx:63
-#: src/modules/my-liquidity/details.jsx:52
-#: src/modules/my-liquidity/details.jsx:79
+#: src/modules/my-liquidity/details.jsx:53
+#: src/modules/my-liquidity/details.jsx:80
 #: src/pages/my-liquidity/index.jsx:71
 #: src/pages/my-liquidity/transactions.jsx:52
 msgid "My Liquidity"
@@ -1142,8 +1142,8 @@ msgid "NPM Logo"
 msgstr "NPM ロゴ"
 
 #: src/common/HeaderLogo.jsx:8
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:20
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:23
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:30
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:33
 #: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:135
 msgid "Neptune Mutual"
 msgstr "Neptune Mutual"
@@ -1279,7 +1279,7 @@ msgid "Protection"
 msgstr "保障"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:360
-#: src/modules/cover/add-liquidity/index.jsx:67
+#: src/modules/cover/add-liquidity/index.jsx:68
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
 msgstr "流動性の提供"
@@ -1306,7 +1306,7 @@ msgid "Providing Liquidity..."
 msgstr "流動性提供中"
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:317
-#: src/modules/cover/purchase/index.jsx:76
+#: src/modules/cover/purchase/index.jsx:77
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
 msgstr "ポリシーの購入"
@@ -1477,7 +1477,7 @@ msgstr "採決中"
 msgid "Result:"
 msgstr "結果："
 
-#: src/modules/my-liquidity/content/rules.jsx:139
+#: src/modules/my-liquidity/content/rules.jsx:141
 msgid "Risk Disclosure / Disclaimer"
 msgstr "リスクの開示/免責事項"
 
@@ -1569,7 +1569,7 @@ msgstr " {tokenSymbol}をステーキング中"
 msgid "Staking..."
 msgstr "ステーキング中..."
 
-#: src/modules/my-liquidity/content/rules.jsx:86
+#: src/modules/my-liquidity/content/rules.jsx:88
 msgid "Standard Exclusions"
 msgstr "基準の適用除外"
 
@@ -1612,7 +1612,7 @@ msgstr "このテストネットにおけるカバークリエイター、カバ
 msgid "The date and time you observed the incident."
 msgstr "このインシデントを発見した日付と時刻です。"
 
-#: src/modules/my-liquidity/content/rules.jsx:17
+#: src/modules/my-liquidity/content/rules.jsx:19
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "上記の商品は、総合型カバープールの一部になります。総合型カバープールにおける給付が保証されていませんので、先着順で支給されます。"
 
@@ -1656,7 +1656,7 @@ msgstr "トークンアドレスがコピーされました"
 msgid "Total Active Protection"
 msgstr "全ての有効保障"
 
-#: src/modules/cover/purchase/index.jsx:89
+#: src/modules/cover/purchase/index.jsx:90
 #: src/modules/home/Hero.jsx:143
 msgid "Total Liquidity"
 msgstr "総流動性"
@@ -1831,7 +1831,7 @@ msgid "Withdrawing..."
 msgstr "回収中"
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:174
-msgid "Withdrawn & Harvested <0/>"
+msgid "Withdrawn <0/>"
 msgstr ""
 
 #: src/helpers/notification.js:15
@@ -1925,9 +1925,9 @@ msgstr "詳細"
 #: src/modules/cover/CoverOptionsPage.jsx:31
 #: src/modules/cover/CoverOptionsPage.jsx:40
 #: src/modules/cover/CoverOptionsPage.jsx:56
-#: src/modules/cover/add-liquidity/index.jsx:41
-#: src/modules/cover/purchase/index.jsx:40
-#: src/modules/my-liquidity/details.jsx:32
+#: src/modules/cover/add-liquidity/index.jsx:42
+#: src/modules/cover/purchase/index.jsx:41
+#: src/modules/my-liquidity/details.jsx:33
 #: src/modules/my-policies/ClaimDetailsPage.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:24
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:51

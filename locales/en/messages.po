@@ -82,8 +82,8 @@ msgstr "Add Dispute"
 msgid "Add new link"
 msgstr "Add new link"
 
-#: src/hooks/useProvideLiquidity.jsx:295
-#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:294
 msgid "Added Liquidity Successfully"
 msgstr "Added Liquidity Successfully"
 
@@ -91,8 +91,8 @@ msgstr "Added Liquidity Successfully"
 msgid "Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover"
 msgstr "Added {tokenAmountWithSymbol} to {coverOrProjectName} Cover"
 
-#: src/hooks/useProvideLiquidity.jsx:294
-#: src/hooks/useProvideLiquidity.jsx:294
+#: src/hooks/useProvideLiquidity.jsx:293
+#: src/hooks/useProvideLiquidity.jsx:293
 msgid "Adding Liquidity"
 msgstr "Adding Liquidity"
 
@@ -104,7 +104,7 @@ msgstr "All"
 msgid "All Transaction History"
 msgstr "All Transaction History"
 
-#: src/modules/my-liquidity/content/rules.jsx:77
+#: src/modules/my-liquidity/content/rules.jsx:79
 msgid "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 msgstr "All rules of individual \"{coverName}\" products are applicable to this pool. If a product's trigger event results resolution, liquidity from this pool will be used to pay out claims."
 
@@ -187,8 +187,8 @@ msgstr "Approving {tokenSymbol} tokens"
 msgid "Approving..."
 msgstr "Approving..."
 
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:32
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:35
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:42
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:45
 msgid "As of: {effectiveDate}"
 msgstr "As of: {effectiveDate}"
 
@@ -204,7 +204,7 @@ msgstr "Attesting..."
 msgid "Available"
 msgstr "Available"
 
-#: src/modules/cover/purchase/index.jsx:158
+#: src/modules/cover/purchase/index.jsx:162
 msgid "Available Liquidity:"
 msgstr "Available Liquidity:"
 
@@ -221,7 +221,7 @@ msgstr "Back"
 msgid "Balance:"
 msgstr "Balance:"
 
-#: src/modules/my-liquidity/content/rules.jsx:62
+#: src/modules/my-liquidity/content/rules.jsx:64
 msgid "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 msgstr "Before providing liquidity to or purchasing a product policy from this pool, please evaluate all product parameters thoroughly. The underwriting capital is concentrated in the \"{coverName}\" pool that covers individual products. Although diversified cover pools give LPs much higher returns, they are riskier by nature than dedicated cover pools."
 
@@ -421,8 +421,8 @@ msgid "Could not accrue interest"
 msgstr "Could not accrue interest"
 
 #: src/hooks/useProvideLiquidity.jsx:265
-#: src/hooks/useProvideLiquidity.jsx:296
-#: src/hooks/useProvideLiquidity.jsx:296
+#: src/hooks/useProvideLiquidity.jsx:295
+#: src/hooks/useProvideLiquidity.jsx:295
 msgid "Could not add liquidity"
 msgstr "Could not add liquidity"
 
@@ -658,7 +658,7 @@ msgid "Covered"
 msgstr "Covered"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:43
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:53
 msgid "Covered Blockchains"
 msgstr "Covered Blockchains"
 
@@ -728,7 +728,7 @@ msgstr "Diversified Pool"
 msgid "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 msgstr "Diversified pool with {0}x leverage factor and {1} capital efficiency"
 
-#: src/modules/my-liquidity/content/rules.jsx:50
+#: src/modules/my-liquidity/content/rules.jsx:52
 msgid "Download LP Cover Terms"
 msgstr "Download LP Cover Terms"
 
@@ -765,7 +765,7 @@ msgstr "Emergency resolving incident"
 msgid "Emergency resolving..."
 msgstr "Emergency resolving..."
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:43
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:44
 msgid "Enter Amount"
 msgstr "Enter Amount"
 
@@ -936,8 +936,8 @@ msgstr "Harvested <0/>"
 #: src/common/Header/Header.jsx:81
 #: src/modules/cover/CoverOptionsPage.jsx:24
 #: src/modules/cover/CoverOptionsPage.jsx:38
-#: src/modules/cover/add-liquidity/index.jsx:61
-#: src/modules/cover/purchase/index.jsx:68
+#: src/modules/cover/add-liquidity/index.jsx:62
+#: src/modules/cover/purchase/index.jsx:69
 #: src/modules/reporting/ReportingHero.jsx:17
 #: src/modules/reporting/ReportingHero.jsx:36
 #: src/pages/transactions.jsx:38
@@ -948,15 +948,15 @@ msgstr "Home"
 msgid "I Want to"
 msgstr "I Want to"
 
-#: src/modules/cover/add-liquidity/index.jsx:121
+#: src/modules/cover/add-liquidity/index.jsx:124
 msgid "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 msgstr "I have read, evaluated, understood, agreed to, and accepted all risks, cover terms, exclusions, standard exclusions of this pool and the Neptune Mutual protocol."
 
 #: src/common/AcceptCoverRulesForm/AcceptReportRulesForm.jsx:33
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:22
 #: src/common/Checkbox/__tests__/Checkbox.test.jsx:35
-#: src/modules/cover/add-liquidity/index.jsx:136
-#: src/modules/cover/purchase/index.jsx:129
+#: src/modules/cover/add-liquidity/index.jsx:139
+#: src/modules/cover/purchase/index.jsx:133
 msgid "I have read, understood, and agree to the terms of cover rules"
 msgstr "I have read, understood, and agree to the terms of cover rules"
 
@@ -968,7 +968,7 @@ msgstr "If you do not want to keep approving for each transaction, enable this o
 msgid "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 msgstr "If you just came to know about a recent incident of {0}, carefully read the cover rules above. You can earn flat {1}% of the minority fees if you are the first person to report this incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:73
+#: src/modules/my-liquidity/content/rules.jsx:75
 msgid "Important Note"
 msgstr "Important Note"
 
@@ -1076,7 +1076,7 @@ msgstr "MORE"
 msgid "Market Price"
 msgstr "Market Price"
 
-#: src/common/TokenAmountInput/TokenAmountInput.jsx:34
+#: src/common/TokenAmountInput/TokenAmountInput.jsx:35
 msgid "Max"
 msgstr "Max"
 
@@ -1106,8 +1106,8 @@ msgstr "My Active Protection"
 
 #: src/common/Cover/MyLiquidity/MyLiquidityCoverCard.jsx:97
 #: src/common/Header/Header.jsx:63
-#: src/modules/my-liquidity/details.jsx:52
-#: src/modules/my-liquidity/details.jsx:79
+#: src/modules/my-liquidity/details.jsx:53
+#: src/modules/my-liquidity/details.jsx:80
 #: src/pages/my-liquidity/index.jsx:71
 #: src/pages/my-liquidity/transactions.jsx:52
 msgid "My Liquidity"
@@ -1139,8 +1139,8 @@ msgid "NPM Logo"
 msgstr "NPM Logo"
 
 #: src/common/HeaderLogo.jsx:8
-#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:20
-#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:23
+#: src/modules/cover/cover-terms/DedicatedCoverTermsPage.jsx:30
+#: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:33
 #: src/modules/my-policies/PurchasePolicyReceipt/index.jsx:135
 msgid "Neptune Mutual"
 msgstr "Neptune Mutual"
@@ -1271,7 +1271,7 @@ msgid "Protection"
 msgstr "Protection"
 
 #: src/common/LiquidityForms/ProvideLiquidityForm.jsx:360
-#: src/modules/cover/add-liquidity/index.jsx:67
+#: src/modules/cover/add-liquidity/index.jsx:68
 #: src/utils/translations.js:8
 msgid "Provide Liquidity"
 msgstr "Provide Liquidity"
@@ -1296,7 +1296,7 @@ msgid "Providing Liquidity..."
 msgstr "Providing Liquidity..."
 
 #: src/common/CoverForm/PurchasePolicyForm.jsx:317
-#: src/modules/cover/purchase/index.jsx:76
+#: src/modules/cover/purchase/index.jsx:77
 #: src/utils/translations.js:6
 msgid "Purchase Policy"
 msgstr "Purchase Policy"
@@ -1467,7 +1467,7 @@ msgstr "Resolving..."
 msgid "Result:"
 msgstr "Result:"
 
-#: src/modules/my-liquidity/content/rules.jsx:139
+#: src/modules/my-liquidity/content/rules.jsx:141
 msgid "Risk Disclosure / Disclaimer"
 msgstr "Risk Disclosure / Disclaimer"
 
@@ -1559,7 +1559,7 @@ msgstr "Staking {tokenSymbol}"
 msgid "Staking..."
 msgstr "Staking..."
 
-#: src/modules/my-liquidity/content/rules.jsx:86
+#: src/modules/my-liquidity/content/rules.jsx:88
 msgid "Standard Exclusions"
 msgstr "Standard Exclusions"
 
@@ -1602,7 +1602,7 @@ msgstr "The cover creators, covers, covers availability, liquidity volume, prote
 msgid "The date and time you observed the incident."
 msgstr "The date and time you observed the incident."
 
-#: src/modules/my-liquidity/content/rules.jsx:17
+#: src/modules/my-liquidity/content/rules.jsx:19
 msgid "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 msgstr "The product(s) listed above are part of a diversified cover pool. The payout for a diversified cover product is not guaranteed, so it will be granted on a first-come, first-serve basis."
 
@@ -1646,7 +1646,7 @@ msgstr "Token address copied Successfully"
 msgid "Total Active Protection"
 msgstr "Total Active Protection"
 
-#: src/modules/cover/purchase/index.jsx:89
+#: src/modules/cover/purchase/index.jsx:90
 #: src/modules/home/Hero.jsx:143
 msgid "Total Liquidity"
 msgstr "Total Liquidity"
@@ -1821,8 +1821,8 @@ msgid "Withdrawing..."
 msgstr "Withdrawing..."
 
 #: src/modules/pools/staking/MyStakingTxsTable.jsx:174
-msgid "Withdrawn & Harvested <0/>"
-msgstr "Withdrawn & Harvested <0/>"
+msgid "Withdrawn <0/>"
+msgstr "Withdrawn <0/>"
 
 #: src/helpers/notification.js:15
 msgid "Withdrawn rewards successfully"
@@ -1915,9 +1915,9 @@ msgstr "details"
 #: src/modules/cover/CoverOptionsPage.jsx:31
 #: src/modules/cover/CoverOptionsPage.jsx:40
 #: src/modules/cover/CoverOptionsPage.jsx:56
-#: src/modules/cover/add-liquidity/index.jsx:41
-#: src/modules/cover/purchase/index.jsx:40
-#: src/modules/my-liquidity/details.jsx:32
+#: src/modules/cover/add-liquidity/index.jsx:42
+#: src/modules/cover/purchase/index.jsx:41
+#: src/modules/my-liquidity/details.jsx:33
 #: src/modules/my-policies/ClaimDetailsPage.jsx:50
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:24
 #: src/modules/reporting/NewDisputeReportFormContainer.jsx:51
