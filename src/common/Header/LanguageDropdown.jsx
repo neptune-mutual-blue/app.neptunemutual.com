@@ -90,6 +90,7 @@ export const LanguageDropdown = () => {
             <div className='flex items-center pb-4 mb-1 text-sm'>
               <SearchLanguageIcon width={16} height={16} className='mx-2.5' />
               <input
+                autoComplete='off'
                 className='w-full placeholder-[#B0C4DB] text-black outline-0 h-6 max-w-[250px] font-sora'
                 placeholder={t`Search Language`}
                 onChange={handleSearchLanguage}

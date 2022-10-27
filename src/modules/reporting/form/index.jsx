@@ -70,6 +70,7 @@ export function InputDescription ({ label, inputProps, className }) {
       <InputHeader label={label} id={inputProps.id} />
       <textarea
         {...rest}
+        autoComplete='off'
         className={classNames(inputClassName, 'disabled:cursor-not-allowed')}
         onChange={handleChange}
       />
