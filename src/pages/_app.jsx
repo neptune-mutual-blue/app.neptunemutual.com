@@ -17,11 +17,7 @@ import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
 
-const Wrappers = ({ disabled, children, noHeader }) => {
-  if (disabled) {
-    return children
-  }
-
+const Wrappers = ({ children, noHeader }) => {
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
@@ -46,14 +42,15 @@ function MyApp ({ Component, pageProps }) {
     setupMetamaskForFirefox()
   }, [])
 
+  if (pageProps.noWrappers) {
+    return <Component {...pageProps} />
+  }
+
   return (
     <>
       <ErrorBoundary>
         <LanguageProvider>
-          <Wrappers
-            disabled={pageProps.noWrappers}
-            noHeader={pageProps.noHeader}
-          >
+          <Wrappers noHeader={pageProps.noHeader}>
             <Component {...pageProps} />
           </Wrappers>
         </LanguageProvider>
