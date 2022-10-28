@@ -163,7 +163,7 @@ const EmergencyResolveModal = ({
             <Trans>Emergency resolution</Trans>
           </div>
         </Dialog.Title>
-        <form onSubmit={handleSubmit}>
+        <form autoComplete='off' onSubmit={handleSubmit}>
           <div className='mt-8 mb-6 font-semibold uppercase'>
             <Trans>Select your decision</Trans>
           </div>

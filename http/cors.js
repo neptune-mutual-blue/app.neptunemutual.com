@@ -11,8 +11,9 @@ export const getAllowed = (req) => {
   const { WHITELISTED_CORS_DOMAINS, FALLBACK_CORS_ORIGIN } = e
   const whitelistedDomains = WHITELISTED_CORS_DOMAINS ? WHITELISTED_CORS_DOMAINS.split(',').map(x => x.trim()) : []
 
-  if (req.headers.get('origin')) {
-    const url = new URL(req.headers.get('origin')) || { hostname: '', origin: '' }
+  const caller = req.headers.get('origin') || req.headers.get('referer')
+  if (caller) {
+    const url = new URL(caller) || { hostname: '', origin: '' }
     const { hostname, origin } = url
 
     for (const domain of whitelistedDomains) {

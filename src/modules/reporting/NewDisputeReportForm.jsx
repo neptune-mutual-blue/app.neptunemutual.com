@@ -96,6 +96,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
   return (
     <Container className='pt-12 bg-white border-t pb-44 border-t-B0C4DB max-w-none md:bg-transparent'>
       <form
+        autoComplete='off'
         data-testid='dispute-report-form'
         ref={form}
         onSubmit={onSubmit}
