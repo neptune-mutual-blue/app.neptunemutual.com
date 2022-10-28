@@ -373,7 +373,9 @@ export const CurrencyInput = forwardRef(
       return <CustomInput {...inputProps} />
     }
 
-    return <input {...inputProps} />
+    return (
+      <input autoComplete='off' {...inputProps} />
+    )
   }
 )
 

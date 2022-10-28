@@ -46,6 +46,7 @@ export default function PageNotAvailable () {
         </p>
         <form className='max-w-md mx-auto mt-6'>
           <input
+            autoComplete='off'
             type='email'
             name='email'
             id='email'

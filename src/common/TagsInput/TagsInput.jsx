@@ -48,6 +48,7 @@ export const TagsInput = ({ selectedTags, className }) => {
         ))}
       </ul>
       <input
+        autoComplete='off'
         placeholder='Tags'
         onKeyUp={(e) => addTags(e)}
         className={classNames(
