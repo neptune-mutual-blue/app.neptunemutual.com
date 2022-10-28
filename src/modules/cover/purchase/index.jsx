@@ -23,6 +23,7 @@ import { Routes } from '@/src/config/routes'
 import { logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
+import { analyticsLogger } from '@/utils/logger'
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -47,7 +48,7 @@ export const CoverPurchaseDetailsPage = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0)
     }
-    logPolicyPurchaseRulesAccepted(account ?? null, coverKey, productKey)
+    analyticsLogger(() => logPolicyPurchaseRulesAccepted(account ?? null, coverKey, productKey))
   }
 
   const { activeCommitment, availableLiquidity } = coverStats

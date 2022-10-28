@@ -9,6 +9,7 @@ import { isValidProduct } from '@/src/helpers/cover'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 const disabled = !isDiversifiedCoversEnabled()
 
@@ -22,7 +23,7 @@ export default function Options () {
   const coverProductInfo = useCoverOrProductData({ coverKey, productKey })
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [account, router.pathname])
 
   if (disabled) {

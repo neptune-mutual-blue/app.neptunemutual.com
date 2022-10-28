@@ -29,6 +29,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
 import { logStakingPoolDeposit } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -230,7 +231,7 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-                logStakingPoolDeposit(account, poolKey, value, tokenSymbol, tx.hash)
+                analyticsLogger(() => logStakingPoolDeposit(account, poolKey, value, tokenSymbol, tx.hash))
               },
               onTxFailure: () => {
                 TransactionHistory.push({

@@ -12,6 +12,7 @@ import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutio
 import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
 import { logRemoveLiquidityModalOpen } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
@@ -38,7 +39,7 @@ export const LiquidityResolutionSources = ({
 
   const onOpen = () => {
     setIsOpen(true)
-    logRemoveLiquidityModalOpen(account ?? null, coverKey)
+    analyticsLogger(() => logRemoveLiquidityModalOpen(account ?? null, coverKey))
   }
 
   return (

@@ -22,6 +22,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { logCoverProductsSearch, logCoverProductsSort } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -99,7 +100,7 @@ export const AvailableCovers = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value)
-    logCoverProductsSearch(account ?? null, ev.target.value)
+    analyticsLogger(() => logCoverProductsSearch(account ?? null, ev.target.value))
   }
 
   const handleShowMore = () => {
@@ -107,7 +108,7 @@ export const AvailableCovers = () => {
   }
 
   useEffect(() => {
-    logCoverProductsSort(account ?? null, sortType)
+    analyticsLogger(() => logCoverProductsSort(account ?? null, sortType))
   }, [account, sortType])
 
   return (

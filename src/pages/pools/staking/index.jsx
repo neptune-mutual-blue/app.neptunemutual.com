@@ -9,6 +9,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -24,7 +25,7 @@ export default function Staking ({ disabled }) {
   const router = useRouter()
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [account, router.pathname])
 
   if (disabled) {

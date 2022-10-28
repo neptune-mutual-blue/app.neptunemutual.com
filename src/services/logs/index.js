@@ -18,7 +18,7 @@ const logViewAccountOnExplorer = async (account) => {}
 
 const logUnlimitedApprovalToggled = async (account, enabled) => {}
 
-const logCoverProductsSeach = async (account, searchTerm) => {}
+const logCoverProductsSearch = async (account, searchTerm) => {}
 
 const logCoverProductsSort = async (account, sortOrder) => {}
 
@@ -54,7 +54,6 @@ const logBondCreated = async (account, lpTokenAmount, receiveAmount, tx) => { }
 
 const logBondClaimed = async (account, tx) => { }
 
-// left to check
 const logCoverProductRulesDownload = async (account, coverKey, productKey) => { }
 
 const logStakingPoolDepositPopupToggled = async (account, poolKey, opened) => { }
@@ -77,7 +76,7 @@ export {
   logWalletDisconnected,
   logViewAccountOnExplorer,
   logUnlimitedApprovalToggled,
-  logCoverProductsSeach,
+  logCoverProductsSearch,
   logCoverProductsSort,
   logCoverProductsViewChanged,
   logPolicyPurchaseRulesAccepted,

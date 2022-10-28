@@ -10,6 +10,7 @@ import { ComingSoon } from '@/common/ComingSoon'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 const disabled = !isDiversifiedCoversEnabled()
 
@@ -27,7 +28,7 @@ export default function CoverPage () {
   const { account } = useWeb3React()
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [account, router.pathname])
 
   if (disabled && isDiversified) {

@@ -4,6 +4,7 @@ import CloseIcon from '@/icons/CloseIcon'
 import { Routes } from '@/src/config/routes'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
 
@@ -25,7 +26,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
 
   const onDownload = () => {
     window.open(Routes.ViewCoverProductTerms(product.coverKey, product.productKey), '_blank')
-    logCoverProductRulesDownload(account ?? null, product.coverKey, product.productKey)
+    analyticsLogger(() => logCoverProductRulesDownload(account ?? null, product.coverKey, product.productKey))
     setShowModal(false)
   }
 
@@ -64,13 +65,13 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             Cover Rules
           </p>
 
-          <p className='font-poppins text-404040 text-sm'>
+          <p className='text-sm font-poppins text-404040'>
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
           <ul
-            className='mt-5 pb-2 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
+            className='pb-2 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
             data-testid='cover-rules'
           >
             <CoverParameters

@@ -4,6 +4,7 @@ import { HeaderLogo } from '@/common/HeaderLogo'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 
 /* istanbul ignore next */
 export const getStaticProps = async () => {
@@ -18,7 +19,7 @@ export default function PageNotAvailable () {
   const router = useRouter()
   const { account } = useWeb3React()
 
-  logPageLoad(account ?? null, router.pathname)
+  analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
 
   return (
     <main className='bg-white'>

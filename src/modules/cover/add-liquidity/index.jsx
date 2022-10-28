@@ -23,6 +23,7 @@ import { classNames } from '@/utils/classnames'
 import { logAddLiquidityRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
+import { analyticsLogger } from '@/utils/logger'
 
 export const CoverAddLiquidityDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -50,7 +51,7 @@ export const CoverAddLiquidityDetailsPage = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0)
     }
-    logAddLiquidityRulesAccepted(account ?? null, coverKey)
+    analyticsLogger(() => logAddLiquidityRulesAccepted(account ?? null, coverKey))
   }
 
   return (

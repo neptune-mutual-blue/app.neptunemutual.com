@@ -5,13 +5,14 @@ import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 export default function Home () {
   const { account } = useWeb3React()
   const router = useRouter()
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [router.pathname, account])
 
   return (

@@ -23,6 +23,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { logAddLiquidity } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 
 export const useProvideLiquidity = ({
   coverKey,
@@ -305,7 +306,7 @@ export const useProvideLiquidity = ({
                   value: lqValue
                 }
               })
-              logAddLiquidity({ account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash })
+              analyticsLogger(() => logAddLiquidity({ account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash }))
 
               onTxSuccess()
             },

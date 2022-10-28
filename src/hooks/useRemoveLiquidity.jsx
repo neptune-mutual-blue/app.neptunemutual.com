@@ -19,6 +19,7 @@ import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { logRemoveLiquidity } from '@/src/services/logs'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { analyticsLogger } from '@/utils/logger'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false)
@@ -170,7 +171,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
-              logRemoveLiquidity({ account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash })
+              analyticsLogger(() => logRemoveLiquidity({ account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash }))
               onTxSuccess()
             },
             onTxFailure: () => {

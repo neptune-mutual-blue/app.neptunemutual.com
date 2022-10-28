@@ -3,6 +3,7 @@ import { MaxUint256 } from '@ethersproject/constants'
 import { KEYS, LocalStorage } from '@/utils/localstorage'
 import { logUnlimitedApprovalToggled } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 const UnlimitedApprovalContext = React.createContext({
   unlimitedApproval: false,
@@ -63,7 +64,7 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       LocalStorage.set(KEYS.UNLIMITED_APPROVAL, value)
       // @ts-ignore
       setUnlimitedApproval(value)
-      logUnlimitedApprovalToggled(account || null, value)
+      analyticsLogger(() => logUnlimitedApprovalToggled(account || null, value))
     },
     [account]
   )

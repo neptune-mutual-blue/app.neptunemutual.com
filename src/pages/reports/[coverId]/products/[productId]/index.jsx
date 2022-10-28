@@ -1,6 +1,7 @@
 import ReportListing from '@/src/modules/reporting/ReportListing'
 import { logPageLoad } from '@/src/services/logs'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { analyticsLogger } from '@/utils/logger'
 import { useWeb3React } from '@web3-react/core'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -15,7 +16,7 @@ export default function Index () {
   const { account } = useWeb3React()
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [account, router.pathname])
 
   return (

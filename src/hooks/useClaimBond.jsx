@@ -16,6 +16,7 @@ import { METHODS } from '@/src/services/transactions/const'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { getActionMessage } from '@/src/helpers/notification'
 import { logBondClaimed } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 
 export const useClaimBond = () => {
   const [claiming, setClaiming] = useState(false)
@@ -78,7 +79,7 @@ export const useClaimBond = () => {
                 methodName: METHODS.BOND_CLAIM,
                 status: STATUS.SUCCESS
               })
-              logBondClaimed(account, tx.hash)
+              analyticsLogger(() => logBondClaimed(account, tx.hash))
               onTxSuccess()
             },
             onTxFailure: () => {

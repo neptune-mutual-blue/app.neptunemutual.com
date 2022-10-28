@@ -10,6 +10,7 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { Routes } from '@/src/config/routes'
 import { logReportIncidentRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 export function NewIncidentReportPage ({
   coverKey,
@@ -49,7 +50,7 @@ export function NewIncidentReportPage ({
 
   const handleAcceptRules = () => {
     setAccepted(true)
-    logReportIncidentRulesAccepted(account ?? null, coverKey, productKey)
+    analyticsLogger(() => logReportIncidentRulesAccepted(account ?? null, coverKey, productKey))
   }
 
   return (

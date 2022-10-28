@@ -6,6 +6,7 @@ import FilterIcon from '@/icons/FilterIcon'
 import { homeViewSelectionKey } from '@/src/config/constants'
 import { logCoverProductsViewChanged } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -42,7 +43,7 @@ export const SelectListBar = ({
         shallow: true
       }
     )
-    logCoverProductsViewChanged(account ?? null, _selected?.value)
+    analyticsLogger(() => logCoverProductsViewChanged(account ?? null, _selected?.value))
   }
 
   return (

@@ -7,6 +7,7 @@ import { NewIncidentReportPage } from '@/modules/reporting/new'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 const disabled = !isFeatureEnabled('reporting')
 
@@ -18,7 +19,7 @@ export default function ReportingNewCoverPage () {
   const productKey = safeFormatBytes32String(productId || '')
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
+    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
   }, [account, router.pathname])
 
   if (disabled) {
