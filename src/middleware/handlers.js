@@ -17,7 +17,7 @@ export function handleBuildManifest (req) {
 
   const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
   response.headers.set('Pragma', 'no-cache')
-  response.headers.set('Access-Control-Allow-Origin', 'null')
+  response.headers.delete('Access-Control-Allow-Origin')
   return response
 }
 
@@ -40,7 +40,7 @@ export function handleGeoBlocking (req) {
   if (isHTMLPage && !landingPage) {
     const response = NextResponse.rewrite(new URL('/unavailable', req.url), { status: 451 })
     response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Access-Control-Allow-Origin', 'null')
+    response.headers.delete('Access-Control-Allow-Origin')
     return response
   }
 
@@ -48,7 +48,19 @@ export function handleGeoBlocking (req) {
   if (req.url.includes('buildManifest')) {
     const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
     response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Access-Control-Allow-Origin', 'null')
+    response.headers.delete('Access-Control-Allow-Origin')
     return response
   }
+}
+
+/**
+ *
+ * @param {import("next/server").NextRequest} req
+ * @returns {Promise<Response | undefined> | Response | undefined}
+ */
+export function fallback () {
+  const response = NextResponse.next()
+  response.headers.set('Pragma', 'no-cache')
+  response.headers.delete('Access-Control-Allow-Origin')
+  return response
 }

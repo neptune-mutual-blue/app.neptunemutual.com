@@ -1,5 +1,4 @@
-import { handleBuildManifest, handleGeoBlocking } from '@/src/middleware/handlers'
-import { NextResponse } from 'next/server'
+import { handleBuildManifest, handleGeoBlocking, fallback } from '@/src/middleware/handlers'
 
 /**
  *
@@ -19,8 +18,7 @@ export function middleware (req) {
     return response
   }
 
-  response = NextResponse.next()
-  response.headers.set('Access-Control-Allow-Origin', 'null')
+  response = fallback()
   return response
 }
 
