@@ -18,7 +18,7 @@ export function middleware (req) {
     return response
   }
 
-  response = fallback()
+  response = fallback(req)
   return response
 }
 

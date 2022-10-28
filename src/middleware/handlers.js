@@ -1,3 +1,4 @@
+import { getAllowed } from 'http/cors'
 import { NextResponse } from 'next/server'
 
 /** @type string */
@@ -17,7 +18,7 @@ export function handleBuildManifest (req) {
 
   const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
   response.headers.set('Pragma', 'no-cache')
-  response.headers.delete('Access-Control-Allow-Origin')
+  response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
   return response
 }
 
@@ -40,7 +41,7 @@ export function handleGeoBlocking (req) {
   if (isHTMLPage && !landingPage) {
     const response = NextResponse.rewrite(new URL('/unavailable', req.url), { status: 451 })
     response.headers.set('Pragma', 'no-cache')
-    response.headers.delete('Access-Control-Allow-Origin')
+    response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
     return response
   }
 
@@ -48,7 +49,7 @@ export function handleGeoBlocking (req) {
   if (req.url.includes('buildManifest')) {
     const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
     response.headers.set('Pragma', 'no-cache')
-    response.headers.delete('Access-Control-Allow-Origin')
+    response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
     return response
   }
 }
@@ -58,9 +59,9 @@ export function handleGeoBlocking (req) {
  * @param {import("next/server").NextRequest} req
  * @returns {Promise<Response | undefined> | Response | undefined}
  */
-export function fallback () {
+export function fallback (req) {
   const response = NextResponse.next()
   response.headers.set('Pragma', 'no-cache')
-  response.headers.delete('Access-Control-Allow-Origin')
+  response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
   return response
 }
