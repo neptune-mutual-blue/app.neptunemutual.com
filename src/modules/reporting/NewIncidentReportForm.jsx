@@ -141,6 +141,7 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
   return (
     <Container className='pt-12 pb-24 bg-white max-w-none md:bg-transparent'>
       <form
+        autoComplete='off'
         data-testid='incident-report-form'
         ref={form}
         onSubmit={onSubmit}

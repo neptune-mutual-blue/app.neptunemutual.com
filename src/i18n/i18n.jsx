@@ -44,8 +44,13 @@ export function LanguageProvider ({ children }) {
   }, [])
 
   if (!loaded) {
+    // only log in browser
+    if (typeof window !== 'undefined') {
+      console.log('Could not fetch locale')
+    }
+
     // prevent the app from rendering with placeholder text before the locale is loaded
-    console.log('Could not fetch locale')
+    return null
   }
 
   return <I18nProvider i18n={i18n}>{children}</I18nProvider>

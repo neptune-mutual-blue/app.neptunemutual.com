@@ -44,8 +44,9 @@ export default function PageNotAvailable () {
         {/* <p className='mt-2 text-center text-9B9B9B'>
           Enter your email and we will notify when Neptune Mutual is available
         </p>
-        <form className='max-w-md mx-auto mt-6'>
+        <form autoComplete='off' className='max-w-md mx-auto mt-6'>
           <input
+            autoComplete='off'
             type='email'
             name='email'
             id='email'
