@@ -4,14 +4,14 @@ const connectSources = [
   process.env.NEXT_PUBLIC_API_URL,
   'https://api.thegraph.com/ipfs/',
   'https://ipfs.infura.io:5001/',
-  'https://*.clarity.ms/'
+  'https://i.clarity.ms/collect'
 ]
   .map((x) => (x || '').trim())
   .filter((x) => !!x)
   .join(' ')
 
 const scriptSources = [
-  'https://*.clarity.ms/'
+  'sha256-rNrSNhr/Pvvzp6cI3SL32f30QjoRqXymcoyzAdGpz4o='
 ]
   .map((x) => (x || '').trim())
   .filter((x) => !!x)
@@ -21,7 +21,7 @@ module.exports = [
   {
     key: 'Content-Security-Policy',
     values: [
-      `script-src 'self' ${scriptSources}`,
+      `script-src 'self' ${scriptSources || ''}`,
       `connect-src 'self' https://*.neptunemutual.com/ ${connectSources || ''}`,
       "style-src 'self' 'unsafe-inline'",
       'upgrade-insecure-requests',
@@ -32,7 +32,7 @@ module.exports = [
       "base-uri 'none'",
       "form-action 'none'",
       "object-src 'none'",
-      "img-src 'self' data:",
+      "img-src 'self' data: https://c.clarity.ms/",
       "font-src 'self'"
     ]
   },
