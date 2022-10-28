@@ -1,4 +1,35 @@
+import { isFeatureEnabled } from '@/src/config/environment'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+
+const Home = '/'
+const NotFound = '/404'
+const TransactionHistory = '/transactions'
+const BondTransactions = '/pools/bond/transactions'
+const PolicyTransactions = '/my-policies/transactions'
+const LiquidityTransactions = '/my-liquidity/transactions'
+const MyActivePolicies = '/my-policies/active'
+const MyExpiredPolicies = '/my-policies/expired'
+const MyLiquidity = '/my-liquidity'
+const ActiveReports = '/reports/active'
+const ResolvedReports = '/reports/resolved'
+const BondPool = '/pools/bond'
+const StakingPools = '/pools/staking'
+const PodStakingPools = '/pools/pod-staking'
+const StakingPoolsTransactions = '/pools/staking/transactions'
+const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
+
+const Pools = () => {
+  let url = null
+  if (isFeatureEnabled('bond')) {
+    url = BondPool
+  } else if (isFeatureEnabled('staking-pool')) {
+    url = StakingPools
+  } else if (isFeatureEnabled('pod-staking-pool')) {
+    url = PodStakingPools
+  }
+
+  return url
+}
 
 const ViewCover = (coverKey) => {
   const coverId = safeParseBytes32String(coverKey)
@@ -61,10 +92,10 @@ const ViewReport = (coverKey, productKey, incidentDate) => {
   const productId = safeParseBytes32String(productKey)
 
   if (productId === '') {
-    return `/reports/${coverId}/incidents/${incidentDate}`
+    return `/reports/${coverId}/incidents/${incidentDate}/details`
   }
 
-  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}`
+  return `/reports/${coverId}/products/${productId}/incidents/${incidentDate}/details`
 }
 
 const DisputeReport = (coverKey, productKey, incidentDate) => {
@@ -108,29 +139,14 @@ const ViewCoverProductTerms = (coverKey, productKey) => {
   return `/covers/${coverId}/products/${productId}/cover-terms`
 }
 
-const Home = '/'
-const TransactionHistory = '/transactions'
-const BondTransactions = '/pools/bond/transactions'
-const PolicyTransactions = '/my-policies/transactions'
-const LiquidityTransactions = '/my-liquidity/transactions'
-const MyPolicies = '/my-policies/active'
-const MyExpiredPolicies = '/my-policies/expired'
-const MyLiquidity = '/my-liquidity'
-const ActiveReports = '/reports/active'
-const ResolvedReports = '/reports/resolved'
-const BondPool = '/pools/bond'
-const StakingPools = '/pools/staking'
-const PodStakingPools = '/pools/pod-staking'
-const StakingPoolsTransactions = '/pools/staking/transactions'
-const PodStakingPoolsTransactions = '/pools/pod-staking/transactions'
-
 export const Routes = {
   Home,
+  NotFound,
   TransactionHistory,
   BondTransactions,
   PolicyTransactions,
   LiquidityTransactions,
-  MyPolicies,
+  MyActivePolicies,
   MyExpiredPolicies,
   MyLiquidity,
   ActiveReports,
@@ -140,6 +156,7 @@ export const Routes = {
   StakingPoolsTransactions,
   PodStakingPools,
   PodStakingPoolsTransactions,
+  Pools,
   ViewCover,
   ViewProduct,
   ViewReport,

@@ -18,9 +18,6 @@ const nextConfig = (phase) => {
 
       return http.headers.production
     },
-    redirects: async () => {
-      return http.redirects
-    },
     i18n,
     webpack: (config) => {
       config.module.rules.push({

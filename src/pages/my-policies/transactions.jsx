@@ -50,7 +50,7 @@ export default function MyPoliciesTxs ({ disabled }) {
             pages={[
               {
                 name: t`My Policies`,
-                href: Routes.MyPolicies,
+                href: Routes.MyActivePolicies,
                 current: false
               },
               { name: t`Transaction List`, href: '#', current: true }

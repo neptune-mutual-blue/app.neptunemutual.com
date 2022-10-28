@@ -30,14 +30,7 @@ const getNavigationLinks = (pathname = '') => {
   const liquidityEnabled = isFeatureEnabled('liquidity')
   const reportingEnabled = isFeatureEnabled('reporting')
 
-  let poolLink = null
-  if (isFeatureEnabled('bond')) {
-    poolLink = Routes.BondPool
-  } else if (isFeatureEnabled('staking-pool')) {
-    poolLink = Routes.StakingPools
-  } else if (isFeatureEnabled('pod-staking-pool')) {
-    poolLink = Routes.PodStakingPools
-  }
+  const poolLink = Routes.Pools()
 
   /**
    * @typedef Link
@@ -56,7 +49,7 @@ const getNavigationLinks = (pathname = '') => {
     },
     policyEnabled && {
       name: t`My Policies`,
-      href: Routes.MyPolicies,
+      href: Routes.MyActivePolicies,
       activeWhenStartsWith: '/my-policies'
     },
     liquidityEnabled && {

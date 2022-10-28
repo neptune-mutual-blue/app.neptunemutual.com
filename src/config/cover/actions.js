@@ -49,7 +49,7 @@ export const actions = {
     imgSrc: <ClaimCoverIcon />,
     smImgSrc: <ClaimCoverSmall />,
     footerImgSrc: '/cover-actions/claim.svg',
-    getHref: (_coverKey, _productKey) => Routes.MyPolicies,
+    getHref: (_coverKey, _productKey) => Routes.MyActivePolicies,
     action: 'claim'
   }
 }

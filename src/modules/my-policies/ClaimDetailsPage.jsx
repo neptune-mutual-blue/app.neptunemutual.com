@@ -77,7 +77,7 @@ export const ClaimDetailsPage = ({
               pages={[
                 {
                   name: t`My Policies`,
-                  href: Routes.MyPolicies,
+                  href: Routes.MyActivePolicies,
                   current: false
                 },
                 {
