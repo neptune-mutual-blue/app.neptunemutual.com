@@ -22,7 +22,7 @@ export const AcceptReportRulesForm = ({ onAccept, children }) => {
   return (
     <>
       {/* Accept Rules Form */}
-      <form onSubmit={handleSubmit} className='mt-20'>
+      <form autoComplete='off' onSubmit={handleSubmit} className='mt-20'>
         <Checkbox
           id='checkid'
           name='checkinputname'
