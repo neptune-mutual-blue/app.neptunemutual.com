@@ -4,18 +4,18 @@ const connectSources = [
   process.env.NEXT_PUBLIC_API_URL,
   'https://api.thegraph.com/ipfs/',
   'https://ipfs.infura.io:5001/',
-  'https://*.clarity.ms',
+  'https://*.clarity.ms'
 ].map((x) => (x || '').trim())
   .filter((x) => !!x)
   .join(' ')
 
 const scriptSources = [
-  'https://www.clarity.ms',
+  'https://www.clarity.ms'
 ]
   .map((x) => (x || '').trim())
   .filter((x) => !!x)
   .join(' ')
- 
+
 module.exports = [
   {
     key: 'Content-Security-Policy',
