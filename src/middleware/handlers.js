@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 /** @type string */
 const regions = process.env.NEXT_PUBLIC_UNSUPPORTED_REGIONS || ''
-const disableBuildManifest = false
+const disableBuildManifest = true
 const unavailableTo = regions.split(',').filter((x) => !!x)
 
 /**
