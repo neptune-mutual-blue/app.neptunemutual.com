@@ -11,7 +11,7 @@ const connectSources = [
 
 const scriptSources = [
   'https://www.clarity.ms',
-  'sha256-CecQ76KSCy0k2ELOhv5pV7uXElWIn/5wLmTJQK+sUf0='
+  "'sha256-CecQ76KSCy0k2ELOhv5pV7uXElWIn/5wLmTJQK+sUf0='"
 ]
   .map((x) => (x || '').trim())
   .filter((x) => !!x)
