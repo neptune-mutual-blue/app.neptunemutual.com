@@ -17,10 +17,13 @@ import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
 import Script from 'next/script'
-
-const clarityTrackingCode = process.env.NEXT_PUBLIC_CLARITY_TRACKING_CODE
+import { getNetworkId, testnetChainIds } from '@/src/config/environment'
 
 const Wrappers = ({ children, noHeader }) => {
+  const networkId = getNetworkId()
+  const isTestnet = testnetChainIds.indexOf(networkId) > -1
+  const clarityTrackingCode = isTestnet ? process.env.NEXT_PUBLIC_CLARITY_TRACKING_CODE_TESTNET : process.env.NEXT_PUBLIC_CLARITY_TRACKING_CODE_MAINNET
+
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>

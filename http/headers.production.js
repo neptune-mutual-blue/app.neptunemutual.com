@@ -4,14 +4,16 @@ const connectSources = [
   process.env.NEXT_PUBLIC_API_URL,
   'https://api.thegraph.com/ipfs/',
   'https://ipfs.infura.io:5001/',
-  'https://*.clarity.ms'
+  'https://www.clarity.ms',
+  'https://k.clarity.ms'
 ].map((x) => (x || '').trim())
   .filter((x) => !!x)
   .join(' ')
 
 const scriptSources = [
   'https://www.clarity.ms',
-  "'sha256-CecQ76KSCy0k2ELOhv5pV7uXElWIn/5wLmTJQK+sUf0='"
+  "'sha256-rQVoJavIMvAO//GNqJ6TvH9XTBf4ywtw1MrZswDVntw='",
+  "'sha256-vGXJIkwAvBT/h+c/qQFpe+Gt7LuAn4cISds/tR3BWC0='"
 ]
   .map((x) => (x || '').trim())
   .filter((x) => !!x)
@@ -32,7 +34,7 @@ module.exports = [
       "base-uri 'none'",
       "form-action 'none'",
       "object-src 'none'",
-      "img-src 'self' data: https://*.clarity.ms",
+      "img-src 'self' data: https://c.clarity.ms/c.gif https://c.bing.com/c.gif",
       "font-src 'self'"
     ]
   },
