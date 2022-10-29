@@ -66,7 +66,7 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       setUnlimitedApproval(value)
       analyticsLogger(() => logUnlimitedApprovalToggled(chainId ?? null, account ?? null, value))
     },
-    [account]
+    [account, chainId]
   )
 
   const getApprovalAmount = useCallback(
