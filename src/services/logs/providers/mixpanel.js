@@ -5,14 +5,15 @@ const stories = {
   LIQUIDITY_ADDED: 'Liquidity Added'
 }
 
-const init = (option) => {
-  option = option || {}
+// @TODO: remove after confirmation
+// const init = (option) => {
+//   option = option || {}
 
-  mixpanel.init(process.env.MIXPANEL_API_KEY, null, {
-    api_host: 'https://mp.analytics.neptunemutual.com',
-    ...option
-  })
-}
+//   mixpanel.init(process.env.MIXPANEL_API_KEY, null, {
+//     api_host: 'https://mp.analytics.neptunemutual.com',
+//     ...option
+//   })
+// }
 
 const log = (funnel, journey, step, seq, account, event, props) => {
   const track = () => {
