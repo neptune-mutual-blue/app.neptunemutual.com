@@ -15,7 +15,7 @@ export const SelectListBar = ({
   options = null
 }) => {
   const { query, replace } = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -43,7 +43,7 @@ export const SelectListBar = ({
         shallow: true
       }
     )
-    analyticsLogger(() => logCoverProductsViewChanged(account ?? null, _selected?.value))
+    analyticsLogger(() => logCoverProductsViewChanged(chainId ?? null, account ?? null, _selected?.value))
   }
 
   return (

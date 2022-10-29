@@ -21,7 +21,7 @@ export const LiquidityResolutionSources = ({
   isWithdrawalWindowOpen,
   accrueInterest
 }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { coverId } = router.query
@@ -39,7 +39,7 @@ export const LiquidityResolutionSources = ({
 
   const onOpen = () => {
     setIsOpen(true)
-    analyticsLogger(() => logRemoveLiquidityModalOpen(account ?? null, coverKey))
+    analyticsLogger(() => logRemoveLiquidityModalOpen(chainId ?? null, account ?? null, coverKey))
   }
 
   return (

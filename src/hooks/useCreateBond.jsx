@@ -226,7 +226,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondLpTokenApproval(account, value, tx.hash))
+              analyticsLogger(() => logBondLpTokenApproval(networkId, account, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -309,7 +309,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_CREATE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondCreated(account, value, receiveAmount, tx.hash))
+              analyticsLogger(() => logBondCreated(networkId, account, value, receiveAmount, tx.hash))
               onTxSuccess()
             },
             onTxFailure: () => {

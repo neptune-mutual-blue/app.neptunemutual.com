@@ -306,7 +306,7 @@ export const useProvideLiquidity = ({
                   value: lqValue
                 }
               })
-              analyticsLogger(() => logAddLiquidity({ account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash }))
+              analyticsLogger(() => logAddLiquidity({ network: networkId, account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash }))
 
               onTxSuccess()
             },

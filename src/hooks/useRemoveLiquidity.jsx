@@ -171,7 +171,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logRemoveLiquidity({ account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash }))
+              analyticsLogger(() => logRemoveLiquidity({ network: networkId, account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash }))
               onTxSuccess()
             },
             onTxFailure: () => {

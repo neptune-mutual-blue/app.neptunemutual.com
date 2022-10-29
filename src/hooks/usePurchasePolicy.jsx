@@ -258,7 +258,7 @@ export const usePurchasePolicy = ({
                 }
               })
 
-              analyticsLogger(() => logPolicyPurchase({ account, coverKey, productKey, coverFee: feeAmount, coverFeeCurrency: liquidityTokenSymbol, protection: value, protectionCurrency: liquidityTokenSymbol, coveragePeriod: coverMonth, referralCode: referralCode, tx: tx.hash }))
+              analyticsLogger(() => logPolicyPurchase({ network: networkId, account, coverKey, productKey, coverFee: feeAmount, coverFeeCurrency: liquidityTokenSymbol, protection: value, protectionCurrency: liquidityTokenSymbol, coveragePeriod: coverMonth, referralCode: referralCode, tx: tx.hash }))
 
               onTxSuccess()
             },

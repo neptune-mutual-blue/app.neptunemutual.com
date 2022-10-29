@@ -33,7 +33,7 @@ export function useUnlimitedApproval () {
 }
 
 export const UnlimitedApprovalProvider = ({ children }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [
     unlimitedApproval,
     /**
@@ -64,7 +64,7 @@ export const UnlimitedApprovalProvider = ({ children }) => {
       LocalStorage.set(KEYS.UNLIMITED_APPROVAL, value)
       // @ts-ignore
       setUnlimitedApproval(value)
-      analyticsLogger(() => logUnlimitedApprovalToggled(account || null, value))
+      analyticsLogger(() => logUnlimitedApprovalToggled(chainId ?? null, account ?? null, value))
     },
     [account]
   )

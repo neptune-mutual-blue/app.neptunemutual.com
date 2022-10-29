@@ -19,14 +19,14 @@ import { useWeb3React } from '@web3-react/core'
  * @returns
  */
 export function LiquidityProductModal ({ product, setShowModal }) {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   const imgSrc = getCoverImgSrc({ key: product.productKey })
   const onClose = () => setShowModal(false)
 
   const onDownload = () => {
     window.open(Routes.ViewCoverProductTerms(product.coverKey, product.productKey), '_blank')
-    analyticsLogger(() => logCoverProductRulesDownload(account ?? null, product.coverKey, product.productKey))
+    analyticsLogger(() => logCoverProductRulesDownload(chainId ?? null, account ?? null, product.coverKey, product.productKey))
     setShowModal(false)
   }
 

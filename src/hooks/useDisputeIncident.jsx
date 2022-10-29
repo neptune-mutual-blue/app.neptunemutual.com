@@ -118,7 +118,7 @@ export const useDisputeIncident = ({
                 methodName: METHODS.REPORT_DISPUTE_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logIncidentDisputeStakeApproved(account, coverKey, productKey, value, tx.hash))
+              analyticsLogger(() => logIncidentDisputeStakeApproved(networkId, account, coverKey, productKey, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -207,7 +207,7 @@ export const useDisputeIncident = ({
               status: STATUS.SUCCESS
             })
 
-            analyticsLogger(() => logIncidentDisputed({ account, coverKey, productKey, stake: value, disputeTitle: payload.title, disputeDescription: payload.description, disputeProofs: payload.proofOfDispute, tx: tx.hash }))
+            analyticsLogger(() => logIncidentDisputed({ network: networkId, account, coverKey, productKey, stake: value, disputeTitle: payload.title, disputeDescription: payload.description, disputeProofs: payload.proofOfDispute, tx: tx.hash }))
             router.replace(
               Routes.ViewReport(coverKey, productKey, incidentDate)
             )

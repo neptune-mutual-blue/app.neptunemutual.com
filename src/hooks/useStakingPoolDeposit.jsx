@@ -231,7 +231,7 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-                analyticsLogger(() => logStakingPoolDeposit(account, poolKey, value, tokenSymbol, tx.hash))
+                analyticsLogger(() => logStakingPoolDeposit(networkId, account, poolKey, value, tokenSymbol, tx.hash))
               },
               onTxFailure: () => {
                 TransactionHistory.push({

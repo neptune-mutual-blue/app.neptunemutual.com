@@ -25,11 +25,11 @@ export default function CoverPage () {
 
   const isDiversified = coverInfo?.supportsProducts
 
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled && isDiversified) {
     return <ComingSoon />

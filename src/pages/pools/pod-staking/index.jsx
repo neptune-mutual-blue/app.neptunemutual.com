@@ -21,12 +21,12 @@ export function getStaticProps () {
 }
 
 export default function PodStaking ({ disabled }) {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const router = useRouter()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

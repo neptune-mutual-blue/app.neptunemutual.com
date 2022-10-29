@@ -8,7 +8,7 @@ import { analyticsLogger } from '@/utils/logger'
 
 export default function ConnectWallet ({ networkId, notifier, children }) {
   const [isOpen, setIsOpen] = useState(false)
-  const { active } = useWeb3React()
+  const { active, chainId, account } = useWeb3React()
 
   const { logout } = useAuth(networkId, notifier)
 
@@ -20,7 +20,7 @@ export default function ConnectWallet ({ networkId, notifier, children }) {
     if (active) {
       logout()
     }
-    analyticsLogger(() => logOpenConnectionPopup(null))
+    analyticsLogger(() => logOpenConnectionPopup(chainId ?? null, account ?? null))
 
     setIsOpen(true)
   }

@@ -17,9 +17,9 @@ export const getStaticProps = async () => {
 
 export default function PageNotAvailable () {
   const router = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
-  analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
+  analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
 
   return (
     <main className='bg-white'>

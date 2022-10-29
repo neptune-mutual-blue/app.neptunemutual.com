@@ -9,11 +9,11 @@ import { analyticsLogger } from '@/utils/logger'
 export default function PurchasePolicyReceiptPage () {
   const router = useRouter()
   const { txHash } = router.query
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   return (
     <main>

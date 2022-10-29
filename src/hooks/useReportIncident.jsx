@@ -116,7 +116,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
                 status: STATUS.SUCCESS
               })
 
-              analyticsLogger(() => logIncidentReportStakeApproved(account, coverKey, productKey, value, tx.hash))
+              analyticsLogger(() => logIncidentReportStakeApproved(networkId, account, coverKey, productKey, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -204,7 +204,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
               status: STATUS.SUCCESS
             })
-            analyticsLogger(() => logIncidentReported({ account, coverKey, productKey, stake: value, incidentTitle: payload.title, incidentDate: payload.observed, incidentDescription: payload.description, incidentProofs: payload.proofOfIncident, tx: tx.hash }))
+            analyticsLogger(() => logIncidentReported({ network: networkId, account, coverKey, productKey, stake: value, incidentTitle: payload.title, incidentDate: payload.observed, incidentDescription: payload.description, incidentProofs: payload.proofOfIncident, tx: tx.hash }))
             await cleanup()
 
             router.replace(Routes.ActiveReports)

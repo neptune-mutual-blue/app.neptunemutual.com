@@ -18,7 +18,7 @@ export function NewIncidentReportPage ({
 }) {
   const [accepted, setAccepted] = useState(false)
   const router = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   const coverInfo = useCoverOrProductData({
     coverKey: coverKey,
@@ -50,7 +50,7 @@ export function NewIncidentReportPage ({
 
   const handleAcceptRules = () => {
     setAccepted(true)
-    analyticsLogger(() => logReportIncidentRulesAccepted(account ?? null, coverKey, productKey))
+    analyticsLogger(() => logReportIncidentRulesAccepted(chainId ?? null, account ?? null, coverKey, productKey))
   }
 
   return (

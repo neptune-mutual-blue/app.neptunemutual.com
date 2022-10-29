@@ -79,7 +79,7 @@ export const useClaimBond = () => {
                 methodName: METHODS.BOND_CLAIM,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondClaimed(account, tx.hash))
+              analyticsLogger(() => logBondClaimed(networkId, account, tx.hash))
               onTxSuccess()
             },
             onTxFailure: () => {

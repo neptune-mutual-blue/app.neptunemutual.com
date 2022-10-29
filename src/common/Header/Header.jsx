@@ -108,16 +108,16 @@ export const Header = () => {
   const handleToggleAccountPopup = () => {
     setIsAccountDetailsOpen((prev) => !prev)
     if (!isAccountDetailsOpen) {
-      analyticsLogger(() => logOpenConnectionPopup(account))
+      analyticsLogger(() => logOpenConnectionPopup(networkId, account))
     } else {
-      analyticsLogger(() => logCloseConnectionPopup(account))
+      analyticsLogger(() => logCloseConnectionPopup(networkId, account))
     }
   }
 
   const handleDisconnect = () => {
     if (active) {
       logout()
-      analyticsLogger(() => logWalletDisconnected(account))
+      analyticsLogger(() => logWalletDisconnected(networkId, account))
     }
     setIsAccountDetailsOpen(false)
   }

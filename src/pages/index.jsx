@@ -8,12 +8,12 @@ import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
 
 export default function Home () {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const router = useRouter()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
-  }, [router.pathname, account])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [router.pathname, account, chainId])
 
   return (
     <main>

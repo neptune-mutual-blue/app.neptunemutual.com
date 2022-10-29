@@ -124,7 +124,7 @@ export const AccountDetailsModal = ({
               target='_blank'
               rel='noreferrer nofollow'
               className='flex items-center ml-3.5 cursor-pointer sm:ml-6'
-              onClick={analyticsLogger(() => logViewAccountOnExplorer(account))}
+              onClick={analyticsLogger(() => logViewAccountOnExplorer(networkId, account))}
             >
               <OpenInNewIcon width={16} height={16} fill='#999BAB' />
               <span className='text-21AD8C text-xs tracking-normal ml-2.5'>

@@ -105,7 +105,7 @@ export const useStakingPoolWithdraw = ({
                   tokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdraw(account, poolKey, value, tokenSymbol, tx.hash))
+              analyticsLogger(() => logStakingPoolWithdraw(networkId, account, poolKey, value, tokenSymbol, tx.hash))
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -233,7 +233,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
                   tokenSymbol: rewardTokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdrawRewards(account, poolKey, tx.hash))
+              analyticsLogger(() => logStakingPoolWithdrawRewards(networkId, account, poolKey, tx.hash))
               onTxSuccess()
             },
             onTxFailure: () => {

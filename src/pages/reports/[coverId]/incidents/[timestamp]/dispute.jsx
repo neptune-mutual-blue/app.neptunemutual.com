@@ -17,11 +17,11 @@ export default function DisputeFormPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(account ?? null, router.pathname))
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled) {
     return <ComingSoon />
