@@ -21,7 +21,7 @@ export const PurchasePolicyModal = ({
   const router = useRouter()
 
   const hanldeClose = () => {
-    router.push(Routes.MyPolicies)
+    router.push(Routes.MyActivePolicies)
   }
 
   return (
