@@ -1,4 +1,11 @@
+import { getNetworkId, mainnetChainIds } from '@/src/config/environment'
 import * as amplitude from '@amplitude/analytics-browser'
+
+const networkId = getNetworkId()
+
+const isMainnet = mainnetChainIds.indexOf(networkId) > -1
+
+const apiKey = isMainnet ? process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY_MAINNET : process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY_TESTNET
 
 const events = {
   PREMIUM: 'PREMIUM',
@@ -25,7 +32,7 @@ const init = async (option) => {
   if (initialized) return
 
   try {
-    await amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY, null, {
+    await amplitude.init(apiKey, null, {
       serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
       serverZone: amplitude.Types.ServerZone.EU,
       ...option
