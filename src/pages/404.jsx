@@ -1,15 +1,16 @@
 import { Container } from '@/common/Container/Container'
 import { Routes } from '@/src/config/routes'
 import { logPageLoad } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 export default function PageNotFound () {
   const router = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
-  logPageLoad(account ?? null, router.pathname)
+  analyticsLogger(() => logPageLoad(chainId, account ?? null, router.pathname))
 
   return (
     <div className='max-w-full bg-white'>

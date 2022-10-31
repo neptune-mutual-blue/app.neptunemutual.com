@@ -7,19 +7,20 @@ import { NewIncidentReportPage } from '@/modules/reporting/new'
 import { logPageLoad } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 const disabled = !isDiversifiedCoversEnabled() || !isFeatureEnabled('reporting')
 
 export default function ReportingNewCoverPage () {
   const router = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const { productId, coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

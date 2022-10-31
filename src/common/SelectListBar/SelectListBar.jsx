@@ -6,6 +6,7 @@ import FilterIcon from '@/icons/FilterIcon'
 import { homeViewSelectionKey } from '@/src/config/constants'
 import { logCoverProductsViewChanged } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 export const SelectListBar = ({
   sortClassContainer,
@@ -14,7 +15,7 @@ export const SelectListBar = ({
   options = null
 }) => {
   const { query, replace } = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const defaultOptions = [
@@ -42,7 +43,7 @@ export const SelectListBar = ({
         shallow: true
       }
     )
-    logCoverProductsViewChanged(account ?? null, _selected?.value)
+    analyticsLogger(() => logCoverProductsViewChanged(chainId ?? null, account ?? null, _selected?.value))
   }
 
   return (

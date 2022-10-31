@@ -26,6 +26,7 @@ import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { logStakingPoolCollectPopupToggled, logStakingPoolDepositPopupToggled } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 // data from subgraph
 // info from `getInfo` on smart contract
@@ -51,20 +52,20 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
-    logStakingPoolDepositPopupToggled(account ?? null, poolKey, true)
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, true))
   }
   function onStakeModalClose () {
     setIsStakeModalOpen(false)
-    logStakingPoolDepositPopupToggled(account ?? null, poolKey, false)
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, false))
   }
 
   function onCollectModalClose () {
     setIsCollectModalOpen(false)
-    logStakingPoolCollectPopupToggled(account, poolKey, false)
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, false))
   }
   function onCollectModalOpen () {
     setIsCollectModalOpen(true)
-    logStakingPoolCollectPopupToggled(account, poolKey, true)
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, true))
   }
 
   const poolKey = data.key
