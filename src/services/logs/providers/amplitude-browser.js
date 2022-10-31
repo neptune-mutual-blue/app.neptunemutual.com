@@ -132,17 +132,19 @@ const logGesture = (network, name, description, eventData = {}, type = 'swipe') 
   }
 }
 
-const logPageLoad = (network, account = 'N/A', path) => {
+const logPageLoad = async (network, account = 'N/A', path) => {
   init()
 
   const eventName = 'page-load'
 
   try {
-    amplitude.track(eventName, {
+    const result = await amplitude.track(eventName, {
       network,
       account,
       path
-    })
+    }).promise
+
+    console.log(result)
   } catch (e) {
     console.log(`Error in logging ${eventName} event: `, e)
   }
