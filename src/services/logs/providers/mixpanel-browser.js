@@ -8,8 +8,8 @@ const stories = {
 const init = (option) => {
   option = option || {}
 
-  mixpanel.init(process.env.MIXPANEL_API_KEY, null, {
-    api_host: 'https://mp.analytics.neptunemutual.com',
+  mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_API_KEY, null, {
+    api_host: new URL(process.env.NEXT_PUBLIC_MIXPANEL_API_HOST).toString(),
     ...option
   })
 }

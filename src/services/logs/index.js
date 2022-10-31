@@ -4,7 +4,54 @@ import * as provider from './providers/amplitude-browser'
 
 const a = new Analytics(provider)
 
-const log = async (funnel, journey, step, seq, account, event, props) => {}
+const log = async (network, funnel, journey, step, seq, account, event, props) => {
+  try {
+    await a.log(network, funnel, journey, step, seq, account, event, props)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logPremium = async (network, account, coverKey, productKey, dollarValue) => {
+  // funnel: Policy Purchase
+  try {
+    await a.logPremium(network, account, coverKey, productKey, dollarValue)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logAddLiquidityRevenue = async (network, account, coverKey, productKey, dollarValue) => {
+  try {
+    await a.logAddLiquidityRevenue(network, account, coverKey, productKey, dollarValue)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logPageLoadWebsite = async (network, pageName = 'index') => {
+  try {
+    await a.logPageLoadWebsite(network, pageName)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logButtonClick = async (network, buttonName, buttonDescription, eventData = {}, type = 'click') => {
+  try {
+    await a.logButtonClick(network, buttonName, buttonDescription, eventData, type)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logGesture = async (network, name, description, eventData = {}, type = 'swipe') => {
+  try {
+    await a.logGesture(network, name, description, eventData, type)
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
 
 const logPageLoad = async (network, account, path) => {
   try {
@@ -258,6 +305,11 @@ const logStakingPoolWithdrawRewards = async (network, account, poolKey, tx) => {
 
 export {
   log,
+  logPremium,
+  logAddLiquidityRevenue,
+  logPageLoadWebsite,
+  logButtonClick,
+  logGesture,
   logPageLoad,
   logOpenExternalPage,
   logOpenConnectionPopup,

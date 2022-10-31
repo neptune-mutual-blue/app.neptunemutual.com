@@ -25,8 +25,8 @@ const init = async (option) => {
   if (initialized) return
 
   try {
-    await amplitude.init(process.env.AMPLITUDE_API_KEY, {
-      serverUrl: process.env.AMPLITUDE_SERVER_URL,
+    await amplitude.init(process.env.NEXT_PUBLIC_AMPLITUDE_API_KEY, null, {
+      serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
       serverZone: amplitude.Types.ServerZone.EU,
       ...option
     }).promise
@@ -132,17 +132,19 @@ const logGesture = (network, name, description, eventData = {}, type = 'swipe') 
   }
 }
 
-const logPageLoad = (network, account = 'N/A', path) => {
+const logPageLoad = async (network, account = 'N/A', path) => {
   init()
 
   const eventName = 'page-load'
 
   try {
-    amplitude.track(eventName, {
+    const result = await amplitude.track(eventName, {
       network,
       account,
       path
-    })
+    }).promise
+
+    console.log(result)
   } catch (e) {
     console.log(`Error in logging ${eventName} event: `, e)
   }
@@ -256,7 +258,7 @@ const logUnlimitedApprovalToggled = (network, account, enabled) => {
   }
 }
 
-const logCoverProductsSeach = (network, account = 'N/A', searchTerm) => {
+const logCoverProductsSearch = (network, account = 'N/A', searchTerm) => {
   init()
 
   const eventName = 'cover-products-search'
@@ -704,7 +706,7 @@ export {
   logWalletDisconnected,
   logViewAccountOnExplorer,
   logUnlimitedApprovalToggled,
-  logCoverProductsSeach,
+  logCoverProductsSearch,
   logCoverProductsSort,
   logCoverProductsViewChanged,
   logPolicyPurchaseRulesAccepted,
