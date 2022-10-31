@@ -1,7 +1,10 @@
 import { getNetworkId, mainnetChainIds } from '@/src/config/environment'
 import * as amplitude from '@amplitude/analytics-browser'
 
-const networkId = getNetworkId()
+let networkId
+if (typeof window !== 'undefined') {
+  networkId = getNetworkId()
+}
 
 const isMainnet = mainnetChainIds.indexOf(networkId) > -1
 
