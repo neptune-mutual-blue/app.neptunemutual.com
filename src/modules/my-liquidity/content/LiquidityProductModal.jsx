@@ -51,9 +51,9 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           >
             <CloseIcon width={24} height={24} />
           </button>
-          <img src={imgSrc} alt={product.infoObj.productName} className='w-8 h-8' />
+          <img src={imgSrc} alt={product.infoObj.productName} className='mb-2 md:mb-0 w-8 h-8' />
 
-          <span className='flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis'>
+          <span className='flex-grow overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis mb-1 md:mb-0'>
             {product.infoObj.productName} Cover Terms
           </span>
           <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-poppins'>
