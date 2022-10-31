@@ -136,7 +136,7 @@ const logPageLoad = async (network, account = 'N/A', path) => {
   init()
 
   const eventName = 'page-load'
-
+  console.log('here')
   try {
     const result = await amplitude.track(eventName, {
       network,
