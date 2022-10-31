@@ -195,11 +195,7 @@ const DetailsRenderer = ({ row }) => {
             )}
         <span className='pl-4 text-left whitespace-nowrap'>
           {data.textToShow}
-          <TokenAmountSpan
-            amountInUnits={data.amountToShow}
-            symbol={data.symbol}
-            decimals={data.tokenDecimals}
-          />
+
         </span>
       </div>
     </td>
