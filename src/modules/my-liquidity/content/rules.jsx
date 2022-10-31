@@ -1,14 +1,15 @@
 import { Alert } from '@/common/Alert/Alert'
 import { Routes } from '@/src/config/routes'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
 
   const onDownload = () => {
-    logCoverProductRulesDownload(account ?? null, coverKey, productKey)
+    analyticsLogger(() => logCoverProductRulesDownload(chainId ?? null, account ?? null, coverKey, productKey))
     window.open(Routes.ViewCoverProductTerms(coverKey, productKey), '_blank')
   }
   return (

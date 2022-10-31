@@ -11,6 +11,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -22,12 +23,12 @@ export function getStaticProps () {
 }
 
 export default function MyBondTxs ({ disabled }) {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const router = useRouter()
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

@@ -22,6 +22,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { logCoverProductsSearch, logCoverProductsSort } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
+import { useNetwork } from '@/src/context/Network'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -44,6 +46,7 @@ const sorterData = {
 export const AvailableCovers = () => {
   const { query } = useRouter()
   const { account } = useWeb3React()
+  const { networkId } = useNetwork()
   const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 
   const { data: groupCovers, loading: groupCoversLoading } = useCovers({
@@ -99,7 +102,7 @@ export const AvailableCovers = () => {
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value)
-    logCoverProductsSearch(account ?? null, ev.target.value)
+    analyticsLogger(() => logCoverProductsSearch(networkId ?? null, account ?? null, ev.target.value))
   }
 
   const handleShowMore = () => {
@@ -107,8 +110,8 @@ export const AvailableCovers = () => {
   }
 
   useEffect(() => {
-    logCoverProductsSort(account ?? null, sortType)
-  }, [account, sortType])
+    analyticsLogger(() => logCoverProductsSort(networkId ?? null, account ?? null, sortType))
+  }, [account, networkId, sortType])
 
   return (
     <Container className='py-16' data-testid='available-covers-container'>

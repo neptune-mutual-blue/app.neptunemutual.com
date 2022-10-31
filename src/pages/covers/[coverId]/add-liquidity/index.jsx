@@ -10,19 +10,20 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
+import { analyticsLogger } from '@/utils/logger'
 
 const disabled = !isFeatureEnabled('liquidity')
 
 export default function CoverAddLiquidityDetails () {
   const router = useRouter()
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
 
   useEffect(() => {
-    logPageLoad(account ?? null, router.pathname)
-  }, [account, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
+  }, [account, chainId, router.pathname])
 
   if (disabled) {
     return <ComingSoon />

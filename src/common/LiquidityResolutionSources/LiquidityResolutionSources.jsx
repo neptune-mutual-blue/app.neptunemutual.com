@@ -12,6 +12,7 @@ import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutio
 import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
 import { logRemoveLiquidityModalOpen } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
 
 export const LiquidityResolutionSources = ({
   isDiversified,
@@ -20,7 +21,7 @@ export const LiquidityResolutionSources = ({
   isWithdrawalWindowOpen,
   accrueInterest
 }) => {
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { coverId } = router.query
@@ -38,7 +39,7 @@ export const LiquidityResolutionSources = ({
 
   const onOpen = () => {
     setIsOpen(true)
-    logRemoveLiquidityModalOpen(account ?? null, coverKey)
+    analyticsLogger(() => logRemoveLiquidityModalOpen(chainId ?? null, account ?? null, coverKey))
   }
 
   return (

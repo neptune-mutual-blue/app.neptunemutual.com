@@ -26,6 +26,7 @@ import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { Routes } from '@/src/config/routes'
 import { logIncidentReported, logIncidentReportStakeApproved } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
@@ -115,7 +116,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
                 status: STATUS.SUCCESS
               })
 
-              logIncidentReportStakeApproved(account, coverKey, productKey, value, tx.hash)
+              analyticsLogger(() => logIncidentReportStakeApproved(networkId, account, coverKey, productKey, value, tx.hash))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -203,7 +204,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
               status: STATUS.SUCCESS
             })
-            logIncidentReported({ account, coverKey, productKey, stake: value, incidentTitle: payload.title, incidentDate: payload.observed, incidentDescription: payload.description, incidentProofs: payload.proofOfIncident, tx: tx.hash })
+            analyticsLogger(() => logIncidentReported({ network: networkId, account, coverKey, productKey, stake: value, incidentTitle: payload.title, incidentDate: payload.observed, incidentDescription: payload.description, incidentProofs: payload.proofOfIncident, tx: tx.hash }))
             await cleanup()
 
             router.replace(Routes.ActiveReports)
