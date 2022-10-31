@@ -40,28 +40,28 @@ function CookiePolicy ({ isOpen, onClose }) {
             &#8203;
           </span>
           <Transition.Child as={React.Fragment}>
-            <div className='overflow-hidden max-w-full xs:mx-1 sm:max-w-xl md:max-w-2xl bg-F5F9FC backdrop-blur-3xl flex flex-col md:flex-row font-poppins text-left px-8 py-6 text-h6 items-center relative bottom-0 md:bottom-8 rounded-t-2xl rounded-b-none md:rounded-b-2xl'>
+            <div className='overflow-hidden max-w-full xs:mx-1 sm:max-w-xl md:max-w-632 bg-F5F9FC backdrop-blur-3xl flex flex-col md:flex-row font-poppins text-left p-8 text-h6 items-center relative bottom-0 md:bottom-8 rounded-t-20 rounded-b-none md:rounded-b-20'>
               <p className='pb-4 md:pb-0 md:pr-4 tracking-normal'>
                 <Trans>
                   We use third-party cookies in order to personalize your
                   experience.
                 </Trans>
               </p>
-              <div className='whitespace-nowrap text-sm flex w-full md:w-auto'>
+              <div className='whitespace-nowrap text-sm flex w-full md:w-auto font-sora'>
                 <button
-                  className='border-2151B0 border-solid border bg-2151B0 text-white mr-4 md:mr-2 px-6 py-4 md:py-2 rounded-1 min-w-60 flex-grow'
+                  className='border-4e7dd9 border-solid border text-4e7dd9 py-3 md:py-2 mr-4 md:mr-2 rounded-1 w-105px text-h7 flex-grow'
+                  onClick={onClose}
+                >
+                  <Trans>Decline</Trans>
+                </button>
+                <button
+                  className='border-4e7dd9 border-solid border bg-4e7dd9 text-white py-3 md:py-2 rounded-1 w-105px text-h7 flex-grow'
                   onClick={() => {
                     LocalStorage.set(LocalStorage.KEYS.COOKIE_POLICY, true)
                     onClose()
                   }}
                 >
                   <Trans>Accept</Trans>
-                </button>
-                <button
-                  className='border-4e7dd9 border-solid border text-003fbd  px-6 py-4 md:py-2 rounded-1 min-w-60  flex-grow'
-                  onClick={onClose}
-                >
-                  <Trans>Decline</Trans>
                 </button>
               </div>
             </div>
