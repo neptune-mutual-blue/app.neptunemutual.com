@@ -2,6 +2,7 @@ import React from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Trans } from '@lingui/macro'
 import { LocalStorage } from '@/utils/localstorage'
+import { useCookies } from '@/src/context/Cookie'
 
 /**
  * @returns {boolean}
@@ -23,16 +24,18 @@ const getLSAcceptedCookie = () => {
 }
 
 function CookiePolicy ({ isOpen, onClose }) {
+  const { setAccepted } = useCookies()
+
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog
         as='div'
-        className='fixed top-0 left-0 right-0 bottom-0 overflow-y-auto z-60'
+        className='fixed top-0 bottom-0 left-0 right-0 overflow-y-auto z-60'
         onClose={onClose}
       >
-        <div className='min-h-full flex items-end justify-center'>
+        <div className='flex items-end justify-center min-h-full'>
           <Transition.Child as={React.Fragment}>
-            <Dialog.Overlay className='fixed top-0 left-0 right-0 bottom-0 bg-01052D bg-opacity-60' />
+            <Dialog.Overlay className='fixed top-0 bottom-0 left-0 right-0 bg-01052D bg-opacity-60' />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -40,28 +43,29 @@ function CookiePolicy ({ isOpen, onClose }) {
             &#8203;
           </span>
           <Transition.Child as={React.Fragment}>
-            <div className='overflow-hidden max-w-full xs:mx-1 sm:max-w-xl md:max-w-632 bg-F5F9FC backdrop-blur-3xl flex flex-col md:flex-row font-poppins text-left p-8 text-h6 items-center relative bottom-0 md:bottom-8 rounded-t-20 rounded-b-none md:rounded-b-20'>
-              <p className='pb-4 md:pb-0 md:pr-4 tracking-normal'>
+            <div className='relative bottom-0 flex flex-col items-center max-w-full px-8 py-6 overflow-hidden text-left rounded-b-none xs:mx-1 sm:max-w-xl md:max-w-2xl bg-F5F9FC backdrop-blur-3xl md:flex-row font-poppins text-h6 md:bottom-8 rounded-t-2xl md:rounded-b-2xl'>
+              <p className='pb-4 tracking-normal md:pb-0 md:pr-4'>
                 <Trans>
                   We use third-party cookies in order to personalize your
                   experience.
                 </Trans>
               </p>
-              <div className='whitespace-nowrap text-sm flex w-full md:w-auto font-sora'>
+              <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <button
-                  className='border-4e7dd9 border-solid border text-4e7dd9 py-3 md:py-2 mr-4 md:mr-2 rounded-1 w-105px text-h7 flex-grow'
-                  onClick={onClose}
-                >
-                  <Trans>Decline</Trans>
-                </button>
-                <button
-                  className='border-4e7dd9 border-solid border bg-4e7dd9 text-white py-3 md:py-2 rounded-1 w-105px text-h7 flex-grow'
+                  className='flex-grow px-6 py-4 mr-4 text-white border border-solid border-2151B0 bg-2151B0 md:mr-2 md:py-2 rounded-1 min-w-60'
                   onClick={() => {
                     LocalStorage.set(LocalStorage.KEYS.COOKIE_POLICY, true)
+                    setAccepted(true)
                     onClose()
                   }}
                 >
                   <Trans>Accept</Trans>
+                </button>
+                <button
+                  className='flex-grow px-6 py-4 border border-solid border-4e7dd9 text-003fbd md:py-2 rounded-1 min-w-60'
+                  onClick={onClose}
+                >
+                  <Trans>Decline</Trans>
                 </button>
               </div>
             </div>
