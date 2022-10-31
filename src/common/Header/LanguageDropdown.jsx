@@ -18,7 +18,12 @@ import { languageKey, localesKey } from '@/src/config/locales'
 const LANGUAGES = Object.values(languageKey)
 const LANGUAGE_KEYS = Object.keys(languageKey)
 
-export const LanguageDropdown = () => {
+/**
+ * @param {object} props
+ * @param {boolean?} [props.onOverlay]
+ * @returns
+ */
+export const LanguageDropdown = (props) => {
   const router = useRouter()
   const [searchValue, setSearchValue] = useState('')
 
@@ -86,7 +91,11 @@ export const LanguageDropdown = () => {
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Listbox.Options className='fixed z-50 top-8 right-8 xl:right-16 py-6 px-2 mt-1 overflow-auto min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg xl:top-10 border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none'>
+          <Listbox.Options className={classNames(
+            'z-50 py-6 px-2 mt-1 absolute h-fit top-4 right-0 overflow-auto min-w-[260px] sm:min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none',
+            props.onOverlay && 'left-0 w-fit'
+          )}
+          >
             <div className='flex items-center pb-4 mb-1 text-sm'>
               <SearchLanguageIcon width={16} height={16} className='mx-2.5' />
               <input
