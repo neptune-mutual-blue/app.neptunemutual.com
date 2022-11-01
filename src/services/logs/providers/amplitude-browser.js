@@ -46,7 +46,7 @@ const init = async (option) => {
   }
 }
 
-const log = (network, funnel, journey, step, seq, account, event, props) => {
+const log = async (network, funnel, journey, step, seq, account, event, props = {}) => {
   init({}, account)
 
   if (props) {
@@ -330,23 +330,35 @@ const logPolicyPurchaseRulesAccepted = (network, account = 'N/A', coverKey, prod
   }
 }
 
-const logPolicyPurchase = ({ network, account, coverKey, productKey, coverFee, coverFeeCurrency, protection, protectionCurrency, coveragePeriod, referralCode, tx }) => {
+const logPolicyPurchase = ({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx }) => {
   init()
 
   const eventName = 'policy-purchased'
 
   try {
     amplitude.track(eventName, {
+      networkId,
       network,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
         coverFee,
         coverFeeCurrency,
+        coverFeeFormatted,
+        sales,
+        salesCurrency,
+        salesFormatted,
         protection,
         protectionCurrency,
+        protectionFormatted,
         coveragePeriod,
+        coveragePeriodFormatted,
+        coveragePeriodMonth,
+        coveragePeriodMonthFormatted,
+        coveragePeriodYear,
         referralCode,
         tx
       }
@@ -372,21 +384,68 @@ const logAddLiquidityRulesAccepted = (network, account = 'N/A', coverKey) => {
   }
 }
 
-const logAddLiquidity = ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx }) => {
+const logAddLiquidity = ({
+  networkId,
+  network,
+  account,
+  coverKey,
+  coverName,
+  sales,
+  salesCurrency,
+  salesFormatted,
+  underwrittenProducts,
+  stake,
+  stakeCurrency,
+  stakeFormatted,
+  pot,
+  potCurrency,
+  potCurrencyFormatted,
+  liquidity,
+  liquidityCurrency,
+  liquidityFormatted,
+  tx,
+  unlockCycleOpen,
+  unlockCycleOpenMonth,
+  unlockCycleOpenMonthFormatted,
+  unlockCycleOpenYear,
+  unlockCycleClose,
+  unlockCycleCloseMonth,
+  unlockCycleCloseMonthFormatted,
+  unlockCycleCloseYear
+}) => {
   init()
 
   const eventName = 'liquidity-added'
 
   try {
     amplitude.track(eventName, {
+      networkId,
       network,
       account,
       coverKey,
+      coverName,
       details: {
         stake,
         stakeCurrency,
+        stakeFormatted,
         liquidity,
+        liquidityFormatted,
         liquidityCurrency,
+        sales,
+        salesCurrency,
+        salesFormatted,
+        underwrittenProducts,
+        pot,
+        potCurrency,
+        potCurrencyFormatted,
+        unlockCycleOpen,
+        unlockCycleOpenMonth,
+        unlockCycleOpenMonthFormatted,
+        unlockCycleOpenYear,
+        unlockCycleClose,
+        unlockCycleCloseMonth,
+        unlockCycleCloseMonthFormatted,
+        unlockCycleCloseYear,
         tx
       }
     })
@@ -411,7 +470,7 @@ const logRemoveLiquidityModalOpen = (network, account, coverKey) => {
   }
 }
 
-const logRemoveLiquidity = ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, exit, tx }) => {
+const logRemoveLiquidity = ({ network, networkId, account, coverName, coverKey, cost, costCurrency, costFormatted, underwrittenProducts, pot, potCurrency, potFormatted, stake, stakeCurrency, stakeFormatted, liquidity, liquidityCurrency, liquidityFormatted, exit, tx }) => {
   init()
 
   const eventName = 'liquidity-removed'
@@ -419,13 +478,24 @@ const logRemoveLiquidity = ({ network, account, coverKey, stake, stakeCurrency, 
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       details: {
+        cost,
+        costCurrency,
+        costFormatted,
+        underwrittenProducts,
+        pot,
+        potCurrency,
+        potFormatted,
         stake,
         stakeCurrency,
+        stakeFormatted,
         liquidity,
         liquidityCurrency,
+        liquidityFormatted,
         exit,
         tx
       }
@@ -471,7 +541,7 @@ const logIncidentReportStakeApproved = (network, account, coverKey, productKey, 
   }
 }
 
-const logIncidentReported = ({ network, account, coverKey, productKey, stake, incidentTitle, incidentDescription, incidentProofs, incidentDate, tx }) => {
+const logIncidentReported = ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, observed, observedMonth, observedMonthFormatted, observedYear, proofs, stake, stakeCurrency, stakeFormatted, tx }) => {
   init()
 
   const eventName = 'incident-reported'
@@ -479,15 +549,25 @@ const logIncidentReported = ({ network, account, coverKey, productKey, stake, in
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        title,
+        observed,
+        observedMonth,
+        observedMonthFormatted,
+        observedYear,
+        proofs,
         stake,
-        incidentTitle,
-        incidentDescription,
-        incidentProofs,
-        incidentDate,
+        stakeCurrency,
+        stakeFormatted,
         tx
       }
     })
@@ -515,7 +595,7 @@ const logIncidentDisputeStakeApproved = (network, account, coverKey, productKey,
   }
 }
 
-const logIncidentDisputed = ({ network, account, coverKey, productKey, stake, disputeTitle, disputeDescription, disputeProofs, tx }) => {
+const logIncidentDisputed = ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, proofs, stake, stakeCurrency, stakeFormatted, tx }) => {
   init()
 
   const eventName = 'incident-disputed'
@@ -523,14 +603,21 @@ const logIncidentDisputed = ({ network, account, coverKey, productKey, stake, di
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        title,
+        proofs,
         stake,
-        disputeTitle,
-        disputeDescription,
-        disputeProofs,
+        stakeCurrency,
+        stakeFormatted,
         tx
       }
     })
@@ -607,7 +694,7 @@ const logCoverProductRulesDownload = (network, account = 'N/A', coverKey, produc
   }
 }
 
-const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) => {
+const logStakingPoolDepositPopupToggled = (network, account, poolName, poolKey, opened) => {
   init()
 
   const eventName = 'staking-pool-deposit-popup-toggled'
@@ -616,6 +703,7 @@ const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) =>
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       opened
     })
@@ -624,7 +712,7 @@ const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) =>
   }
 }
 
-const logStakingPoolDeposit = (network, account, poolKey, stake, stakeCurrency, tx) => {
+const logStakingPoolDeposit = (network, account, poolName, poolKey, stake, stakeCurrency, tx) => {
   init()
 
   const eventName = 'staking-pool-deposited'
@@ -633,6 +721,7 @@ const logStakingPoolDeposit = (network, account, poolKey, stake, stakeCurrency, 
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       stake,
       stakeCurrency,
@@ -643,7 +732,7 @@ const logStakingPoolDeposit = (network, account, poolKey, stake, stakeCurrency, 
   }
 }
 
-const logStakingPoolCollectPopupToggled = (network, account, poolKey, opened) => {
+const logStakingPoolCollectPopupToggled = (network, account, poolName, poolKey, opened) => {
   init()
 
   const eventName = 'staking-pool-collect-popup-toggled'
@@ -652,6 +741,7 @@ const logStakingPoolCollectPopupToggled = (network, account, poolKey, opened) =>
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       opened
     })
@@ -660,7 +750,7 @@ const logStakingPoolCollectPopupToggled = (network, account, poolKey, opened) =>
   }
 }
 
-const logStakingPoolWithdraw = (network, account, poolKey, stake, stakeCurrency, tx) => {
+const logStakingPoolWithdraw = (network, account, poolName, poolKey, stake, stakeCurrency, tx) => {
   init()
 
   const eventName = 'staking-pool-withdrawn'
@@ -669,6 +759,7 @@ const logStakingPoolWithdraw = (network, account, poolKey, stake, stakeCurrency,
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       details: {
         stake,
@@ -681,7 +772,7 @@ const logStakingPoolWithdraw = (network, account, poolKey, stake, stakeCurrency,
   }
 }
 
-const logStakingPoolWithdrawRewards = (network, account, poolKey, tx) => {
+const logStakingPoolWithdrawRewards = (network, account, poolName, poolKey, tx) => {
   init()
 
   const eventName = 'staking-pool-rewards-withdrawn'
@@ -690,6 +781,7 @@ const logStakingPoolWithdrawRewards = (network, account, poolKey, tx) => {
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       tx
     })

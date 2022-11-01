@@ -26,7 +26,7 @@ import { BackButton } from '@/common/BackButton/BackButton'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { Routes } from '@/src/config/routes'
 
-export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
+export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
   const [npmValue, setNPMValue] = useState('')
   const router = useRouter()
@@ -62,7 +62,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
     lqValue,
     npmValue,
     liquidityTokenDecimals,
-    npmTokenDecimals
+    npmTokenDecimals,
+    underwrittenProducts
   })
 
   const {
@@ -287,7 +288,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
       <div className='mt-2'>
         <DataLoadingIndicator message={loadingMessage} />
         {!hasBothAllowances && (
-          <div className='flex flex-col sm:flex-row  items-center gap-x-10'>
+          <div className='flex flex-col items-center sm:flex-row gap-x-10'>
             <RegularButton
               disabled={
                 hasLqTokenAllowance ||
@@ -295,7 +296,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified }) => {
                 lqErrorMsg ||
                 loadingMessage
               }
-              className='w-full p-6 font-semibold uppercase text-h6 mb-4 sm:mb-0'
+              className='w-full p-6 mb-4 font-semibold uppercase text-h6 sm:mb-0'
               onClick={handleLqTokenApprove}
             >
               {lqApproving

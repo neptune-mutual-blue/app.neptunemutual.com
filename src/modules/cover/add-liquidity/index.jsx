@@ -109,6 +109,7 @@ export const CoverAddLiquidityDetailsPage = () => {
                     coverKey={coverKey}
                     info={info}
                     isDiversified={isDiversified}
+                    underwrittenProducts={isDiversified ? coverInfo?.products.length : 0}
                   />
                 </div>
                 )

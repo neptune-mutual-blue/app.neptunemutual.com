@@ -21,8 +21,8 @@ export default function MyLiquidityCover () {
   const { account, chainId } = useWeb3React()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
-  }, [account, chainId, router.pathname])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
+  }, [account, chainId, router.asPath])
 
   if (disabled) {
     return <ComingSoon />

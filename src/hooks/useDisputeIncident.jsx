@@ -29,6 +29,9 @@ import { getActionMessage } from '@/src/helpers/notification'
 import { Routes } from '@/src/config/routes'
 import { logIncidentDisputed, logIncidentDisputeStakeApproved } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
 
 export const useDisputeIncident = ({
   coverKey,
@@ -207,7 +210,29 @@ export const useDisputeIncident = ({
               status: STATUS.SUCCESS
             })
 
-            analyticsLogger(() => logIncidentDisputed({ network: networkId, account, coverKey, productKey, stake: value, disputeTitle: payload.title, disputeDescription: payload.description, disputeProofs: payload.proofOfDispute, tx: tx.hash }))
+            analyticsLogger(() => logIncidentDisputed({
+              network: NetworkNames[networkId],
+              networkId,
+              account,
+              coverKey,
+              coverName: safeParseBytes32String(coverKey),
+              productKey,
+              productName: safeParseBytes32String(productKey),
+              sales: 'N/A',
+              salesCurrency: 'N/A',
+              salesFormatted: 'N/A',
+              title: payload.title,
+              disputeProofs: payload.proofOfDispute,
+              stake: value,
+              stakeCurrency: NPMTokenSymbol,
+              stakeFormatted: formatCurrency(
+                value,
+                router.locale,
+                NPMTokenSymbol,
+                true
+              ).short,
+              tx: tx.hash
+            }))
             router.replace(
               Routes.ViewReport(coverKey, productKey, incidentDate)
             )

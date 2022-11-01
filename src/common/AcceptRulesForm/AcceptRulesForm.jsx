@@ -12,6 +12,9 @@ import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
 import { config } from '@neptunemutual/sdk'
+import { log } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
+import { useWeb3React } from '@web3-react/core'
 
 export const AcceptRulesForm = ({
   onAccept,
@@ -25,9 +28,13 @@ export const AcceptRulesForm = ({
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
   const { activeIncidentDate, productStatus } = useCoverStatsContext()
+  const { account, chainId } = useWeb3React()
 
   const handleChange = (ev) => {
     setChecked(ev.target.checked)
+    if (coverPurchasePage) {
+      analyticsLogger(() => log(chainId, 'Purchase Policy', 'pre-purchase-policy-page', 'acknowledgement-checkbox', 1, account, 'click'))
+    }
   }
 
   const handleSubmit = (ev) => {

@@ -20,7 +20,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { Routes } from '@/src/config/routes'
-import { logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
+import { log, logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 import { analyticsLogger } from '@/utils/logger'
@@ -48,7 +48,10 @@ export const CoverPurchaseDetailsPage = () => {
     if (typeof window !== 'undefined') {
       window.scrollTo(0, 0)
     }
-    analyticsLogger(() => logPolicyPurchaseRulesAccepted(chainId ?? null, account ?? null, coverKey, productKey))
+    analyticsLogger(() => {
+      log(chainId, 'Purchase Policy', 'pre-purchase-policy-page', 'acknowledgement-checkbox', 2, account, 'click')
+      logPolicyPurchaseRulesAccepted(chainId ?? null, account ?? null, coverId, productId)
+    })
   }
 
   const { activeCommitment, availableLiquidity } = coverStats

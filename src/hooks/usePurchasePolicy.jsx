@@ -6,7 +6,8 @@ import {
   convertToUnits,
   isValidNumber,
   isGreaterOrEqual,
-  isGreater
+  isGreater,
+  convertFromUnits
 } from '@/utils/bn'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { useTxToast } from '@/src/hooks/useTxToast'
@@ -27,8 +28,11 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { logPolicyPurchase } from '@/src/services/logs'
+import { log, logPolicyPurchase } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { getMonthNames } from '@/lib/dates'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -67,6 +71,10 @@ export const usePurchasePolicy = ({
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
   const router = useRouter()
+
+  const now = new Date()
+  const currentMonthIndex = now.getUTCMonth()
+  const year = now.getUTCFullYear()
 
   useEffect(() => {
     updateAllowance(policyContractAddress)
@@ -165,6 +173,9 @@ export const usePurchasePolicy = ({
                 methodName: METHODS.POLICY_APPROVE,
                 status: STATUS.SUCCESS
               })
+              analyticsLogger(() => {
+                log(networkId, 'Purchase Policy', 'purchase-policy-page', 'approve-button', 1, 'click')
+              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -258,7 +269,49 @@ export const usePurchasePolicy = ({
                 }
               })
 
-              analyticsLogger(() => logPolicyPurchase({ network: networkId, account, coverKey, productKey, coverFee: feeAmount, coverFeeCurrency: liquidityTokenSymbol, protection: value, protectionCurrency: liquidityTokenSymbol, coveragePeriod: coverMonth, referralCode: referralCode, tx: tx.hash }))
+              analyticsLogger(() => {
+                log(networkId, 'Purchase Policy', 'purchase-policy-page', 'purchase-policy-button', 2, 'click')
+                logPolicyPurchase({
+                  networkId,
+                  network: NetworkNames[networkId],
+                  account,
+                  coverKey,
+                  coverName: safeParseBytes32String(coverKey),
+                  productKey,
+                  productName: safeParseBytes32String(productKey),
+                  coverFee: feeAmount,
+                  coverFeeCurrency: liquidityTokenSymbol,
+                  coverFeeFormatted: formatCurrency(
+                    convertFromUnits(feeAmount, liquidityTokenDecimals),
+                    router.locale,
+                    liquidityTokenSymbol,
+                    true
+                  ).short,
+                  protection: value,
+                  protectionCurrency: liquidityTokenSymbol,
+                  protectionFormatted: formatCurrency(
+                    value,
+                    router.locale,
+                    liquidityTokenSymbol,
+                    true
+                  ).short,
+                  sales: value,
+                  salesCurrency: liquidityTokenSymbol,
+                  salesFormatted: formatCurrency(
+                    value,
+                    router.locale,
+                    liquidityTokenSymbol,
+                    true
+                  ).short,
+                  coveragePeriod: coverMonth,
+                  coverMonthFormatted: coverMonth + ' months',
+                  coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
+                  coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
+                  coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
+                  referralCode: referralCode,
+                  tx: tx.hash
+                })
+              })
 
               onTxSuccess()
             },

@@ -52,20 +52,20 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, true))
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, true))
   }
   function onStakeModalClose () {
     setIsStakeModalOpen(false)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, false))
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, false))
   }
 
   function onCollectModalClose () {
     setIsCollectModalOpen(false)
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, false))
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, false))
   }
   function onCollectModalOpen () {
     setIsCollectModalOpen(true)
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, true))
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, true))
   }
 
   const poolKey = data.key

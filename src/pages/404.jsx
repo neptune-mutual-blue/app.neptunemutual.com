@@ -15,7 +15,7 @@ export default function PageNotFound () {
   const { networkId } = useNetwork()
   const { isMainNet } = useValidateNetwork(networkId)
 
-  analyticsLogger(() => logPageLoad(chainId, account ?? null, router.pathname))
+  analyticsLogger(() => logPageLoad(chainId, account ?? null, router.asPath))
 
   return (
     <div className='max-w-full bg-white'>
