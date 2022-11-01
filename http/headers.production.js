@@ -4,7 +4,6 @@ const connectSources = [
   process.env.NEXT_PUBLIC_API_URL,
   process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL,
   'https://api.thegraph.com/ipfs/',
-  'https://ipfs.infura.io:5001/',
   'https://*.clarity.ms'
 ].map((x) => (x || '').trim())
   .filter((x) => !!x)
