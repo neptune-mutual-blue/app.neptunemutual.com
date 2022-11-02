@@ -47,6 +47,7 @@ export const ClaimCoverModal = ({
     value: delayedValue,
     cxTokenAddress,
     cxTokenDecimals: tokenDecimals,
+    cxTokenSymbol: tokenSymbol,
     coverKey,
     productKey,
     incidentDate,

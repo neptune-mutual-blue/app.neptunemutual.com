@@ -231,6 +231,22 @@ const logIncidentDisputed = async ({ network, networkId, account, coverKey, cove
   }
 }
 
+const logUnstakeReportingRewards = async ({ network, networkId, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, account, tx, stake, stakeCurrency, stakeFormatted, camp, withClaim }) => {
+  try {
+    await a.logUnstakeReportingRewards({ network, networkId, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, account, tx, stake, stakeCurrency, stakeFormatted, camp, withClaim })
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
+const logClaimCover = async ({ network, networkId, coverKey, coverName, productKey, productName, cost, costCurrency, costFormatted, account, tx, claim, claimCurrency, claimFormatted, fee, feeFormatted }) => {
+  try {
+    await a.logClaimCover({ network, networkId, coverKey, coverName, productKey, productName, cost, costCurrency, costFormatted, account, tx, claim, claimCurrency, claimFormatted, fee, feeFormatted })
+  } catch (err) {
+    console.log(`Unhandled Error: ${err}`)
+  }
+}
+
 const logBondLpTokenApproval = async (network, account, lpTokenAmount, tx) => {
   try {
     await a.logBondLpTokenApproval(network, account, lpTokenAmount, tx)
@@ -239,17 +255,17 @@ const logBondLpTokenApproval = async (network, account, lpTokenAmount, tx) => {
   }
 }
 
-const logBondCreated = async (network, account, lpTokenAmount, receiveAmount, tx) => {
+const logBondCreated = async ({ network, networkId, account, sales, salesCurrency, salesFormatted, bond, bondCurrency, bondFormatted, allocation, allocationCurrency, allocationFormatted, unlockPeriod, unlockPeriodFormatted, unlock, unlockMonth, unlockMonthformatted, unlockYear, tx }) => {
   try {
-    await a.logBondCreated(network, account, lpTokenAmount, receiveAmount, tx)
+    await a.logBondCreated(network, networkId, account, sales, salesCurrency, salesFormatted, bond, bondCurrency, bondFormatted, allocation, allocationCurrency, allocationFormatted, unlockPeriod, unlockPeriodFormatted, unlock, unlockMonth, unlockMonthformatted, unlockYear, tx)
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
 }
 
-const logBondClaimed = async (network, account, tx) => {
+const logBondClaimed = async ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, allocation, allocationCurrency, allocationFormatted }) => {
   try {
-    await a.logBondClaimed(network, account, tx)
+    await a.logBondClaimed({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, allocation, allocationCurrency, allocationFormatted })
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
@@ -271,9 +287,9 @@ const logStakingPoolDepositPopupToggled = async (network, account, poolName, poo
   }
 }
 
-const logStakingPoolDeposit = async (network, account, poolName, poolkey, stake, stakeCurrency, tx) => {
+const logStakingPoolDeposit = async ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStart, withdrawStartMonth, withdrawStartMonthFormatted, withdrawStartyear }) => {
   try {
-    await a.logStakingPoolDeposit(network, account, poolName, poolkey, stake, stakeCurrency, tx)
+    await a.logStakingPoolDeposit({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStart, withdrawStartMonth, withdrawStartMonthFormatted, withdrawStartyear })
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
@@ -287,17 +303,17 @@ const logStakingPoolCollectPopupToggled = async (network, account, poolName, poo
   }
 }
 
-const logStakingPoolWithdraw = async (network, account, poolName, poolkey, stake, stakeCurrency, tx) => {
+const logStakingPoolWithdraw = async ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, withdrawal, withdrawalCurrency, withdrawalFormatted, stake, stakeCurrency, stakeFormatted }) => {
   try {
-    await a.logStakingPoolWithdraw(network, account, poolName, poolkey, stake, stakeCurrency, tx)
+    await a.logStakingPoolWithdraw({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, withdrawal, withdrawalCurrency, withdrawalFormatted, stake, stakeCurrency, stakeFormatted })
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
 }
 
-const logStakingPoolWithdrawRewards = async (network, account, poolName, poolkey, tx) => {
+const logStakingPoolWithdrawRewards = async ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, reward, rewardCurrency, rewardFormatted, stake, stakeCurrency, stakeFormatted }) => {
   try {
-    await a.logStakingPoolWithdrawRewards(network, account, poolName, poolkey, tx)
+    await a.logStakingPoolWithdrawRewards({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, reward, rewardCurrency, rewardFormatted, stake, stakeCurrency, stakeFormatted })
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
@@ -333,6 +349,8 @@ export {
   logIncidentReported,
   logIncidentDisputeStakeApproved,
   logIncidentDisputed,
+  logUnstakeReportingRewards,
+  logClaimCover,
   logBondLpTokenApproval,
   logBondCreated,
   logBondClaimed,

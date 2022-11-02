@@ -33,7 +33,9 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
-    incidentDate: incidentReport.incidentDate
+    incidentDate: incidentReport.incidentDate,
+    incidentStatus: incidentReport.status,
+    willReceive
   })
 
   const isClaimExpired = useRetryUntilPassed(() => {

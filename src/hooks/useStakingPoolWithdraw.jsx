@@ -3,7 +3,7 @@ import { t } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 import { registry } from '@neptunemutual/sdk'
-import { convertToUnits } from '@/utils/bn'
+import { convertFromUnits, convertToUnits } from '@/utils/bn'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
@@ -16,10 +16,16 @@ import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { useTokenSymbol } from '@/src/hooks/useTokenSymbol'
 
 export const useStakingPoolWithdraw = ({
   value,
   poolKey,
+  poolInfo,
   tokenSymbol,
   refetchInfo
 }) => {
@@ -27,10 +33,14 @@ export const useStakingPoolWithdraw = ({
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
+  const router = useRouter()
 
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
+
+  const stakingTokenDecimals = useTokenDecimals(poolInfo?.stakingToken)
+  const stakingTokenSymbol = useTokenSymbol(poolInfo?.stakingToken)
 
   const handleWithdraw = async (onTxSuccess) => {
     if (!account || !networkId) {
@@ -105,7 +115,23 @@ export const useStakingPoolWithdraw = ({
                   tokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdraw(networkId, account, poolKey, value, tokenSymbol, tx.hash))
+              analyticsLogger(() => logStakingPoolWithdraw({
+                network: NetworkNames[networkId],
+                networkId,
+                sales: 'N/A',
+                salesCurrency: 'N/A',
+                salesFormatted: 'N/A',
+                account,
+                tx: tx.hash,
+                poolKey,
+                poolName: poolInfo.name,
+                withdrawal: value,
+                withdrawalCurrency: tokenSymbol,
+                withdrawalFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
+                stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
+                stakeCurrency: stakingTokenSymbol,
+                stakeFormatted: formatCurrency(convertFromUnits(poolInfo?.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -155,12 +181,14 @@ export const useStakingPoolWithdraw = ({
   }
 }
 
-export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardTokenSymbol, rewardAmount }) => {
+export const useStakingPoolWithdrawRewards = ({ poolKey, poolInfo, refetchInfo, rewardTokenSymbol, rewardAmount }) => {
   const [withdrawingRewards, setWithdrawingRewards] = useState(false)
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
-
+  const router = useRouter()
+  const stakingTokenDecimals = useTokenDecimals(poolInfo.stakingToken)
+  const stakingTokenSymbol = useTokenSymbol(poolInfo.stakingToken)
   const txToast = useTxToast()
   const { writeContract } = useTxPoster()
   const { notifyError } = useErrorNotifier()
@@ -233,7 +261,23 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, refetchInfo, rewardToke
                   tokenSymbol: rewardTokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdrawRewards(networkId, account, poolKey, tx.hash))
+              analyticsLogger(() => logStakingPoolWithdrawRewards({
+                network: NetworkNames[networkId],
+                networkId,
+                sales: 'N/A',
+                salesCurrency: 'N/A',
+                salesFormatted: 'N/A',
+                account,
+                tx: tx.hash,
+                poolKey,
+                poolName: poolInfo.name,
+                reward: rewardAmount,
+                rewardCurrency: rewardTokenSymbol,
+                rewardFormatted: formatCurrency(rewardAmount, router.locale, rewardTokenSymbol, true).short,
+                stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
+                stakeCurrency: stakingTokenSymbol,
+                stakeFormatted: formatCurrency(convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {

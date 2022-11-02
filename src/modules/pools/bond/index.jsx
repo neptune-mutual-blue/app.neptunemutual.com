@@ -56,7 +56,7 @@ const BondPage = () => {
     error,
     handleApprove,
     handleBond
-  } = useCreateBond({ info, value, refetchBondInfo })
+  } = useCreateBond({ info: { ...info, lpTokenSymbol }, value, refetchBondInfo })
 
   const roi = getAnnualDiscountRate(info.discountRate, info.vestingTerm)
   const marketPrice = convertToUnits(
@@ -176,7 +176,7 @@ const BondPage = () => {
 
   return (
     <Container
-      className='grid sm:gap-16 grid-cols-1 lg:grid-cols-3 pt-16 pb-36'
+      className='grid grid-cols-1 pt-16 sm:gap-16 lg:grid-cols-3 pb-36'
     >
       <div className='max-w-lg col-span-2'>
         <TokenAmountInput

@@ -22,7 +22,7 @@ export const ClaimBondModal = ({
   onClose,
   refetchBondInfo
 }) => {
-  const { handleClaim, claiming } = useClaimBond()
+  const { handleClaim, claiming } = useClaimBond({ claimable })
   const router = useRouter()
   const { NPMTokenSymbol } = useAppConstants()
 

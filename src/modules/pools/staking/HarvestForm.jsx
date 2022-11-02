@@ -25,6 +25,7 @@ export const HarvestForm = ({
   const { handleWithdrawRewards, withdrawingRewards } =
     useStakingPoolWithdrawRewards({
       poolKey,
+      poolInfo: info,
       refetchInfo,
       rewardTokenSymbol,
       rewardAmount: convertFromUnits(rewardAmount, rewardTokenDecimals).toString()
