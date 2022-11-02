@@ -795,7 +795,7 @@ const logStakingPoolDepositPopupToggled = (network, account, poolName, poolKey, 
   }
 }
 
-const logStakingPoolDeposit = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStart, withdrawStartMonth, withdrawStartMonthFormatted, withdrawStartyear }) => {
+const logStakingPoolDeposit = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight }) => {
   init()
 
   const eventName = 'staking-pool-deposited'
@@ -817,10 +817,7 @@ const logStakingPoolDeposit = ({ network, networkId, sales, salesCurrency, sales
         stakeFormatted,
         lockupPeriod,
         lockupPeriodFormatted,
-        withdrawStart,
-        withdrawStartMonth,
-        withdrawStartMonthFormatted,
-        withdrawStartyear,
+        withdrawStartHeight,
         tx
       }
     })

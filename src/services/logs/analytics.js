@@ -291,9 +291,9 @@ export class Analytics {
     }
   }
 
-  async logStakingPoolDeposit ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStart, withdrawStartMonth, withdrawStartMonthFormatted, withdrawStartyear }) {
+  async logStakingPoolDeposit ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight }) {
     try {
-      this.provider.logStakingPoolDeposit({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStart, withdrawStartMonth, withdrawStartMonthFormatted, withdrawStartyear })
+      this.provider.logStakingPoolDeposit({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight })
     } catch (error) {
       console.error('Unhandled Error', error)
     }

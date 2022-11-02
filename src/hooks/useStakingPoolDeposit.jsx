@@ -33,8 +33,6 @@ import { logStakingPoolDeposit } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { explainInterval } from '@/utils/formatter/interval'
-import DateLib from '@/lib/date/DateLib'
-import { getMonthNames } from '@/lib/dates'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -77,12 +75,8 @@ export const useStakingPoolDeposit = ({
   const lockupPeriod = toBN(info?.lockupPeriodInBlocks).multipliedBy(
     approxBlockTime
   )
-  const withdrawStartFromInfo = toBN(info?.canWithdrawFromBlockHeight).multipliedBy(approxBlockTime)
-  const withDraw = DateLib.addSeconds(new Date(), withdrawStartFromInfo.toString())
-  const withdrawStart = info.myStake === '0' ? withdrawStartFromInfo.toString() : ''
-  const withdrawStartMonth = info.myStake === '0' ? DateLib.toDateFormat(withDraw).split('/')[0] : ''
-  const withdrawStartMonthFormatted = info.myStake === '0' ? getMonthNames()[DateLib.toDateFormat(withDraw).split('/')[0] - 1] : ''
-  const withdrawStartyear = info.myStake === '0' ? DateLib.toDateFormat(withDraw).split('/')[2] : ''
+
+  const withdrawStartHeight = info?.canWithdrawFromBlockHeight
 
   useEffect(() => {
     updateAllowance(poolContractAddress)
@@ -265,10 +259,7 @@ export const useStakingPoolDeposit = ({
                   stakeFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
                   lockupPeriod,
                   lockupPeriodFormatted: explainInterval(lockupPeriod),
-                  withdrawStart,
-                  withdrawStartMonth,
-                  withdrawStartMonthFormatted,
-                  withdrawStartyear
+                  withdrawStartHeight
                 }))
               },
               onTxFailure: () => {
