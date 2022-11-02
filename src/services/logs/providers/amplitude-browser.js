@@ -36,8 +36,8 @@ const init = async (option) => {
 
   try {
     await amplitude.init(apiKey, null, {
-      // serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
-      serverZone: amplitude.Types.ServerZone.US,
+      serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
+      serverZone: amplitude.Types.ServerZone.EU,
       ...option
     }).promise
     initialized = true
