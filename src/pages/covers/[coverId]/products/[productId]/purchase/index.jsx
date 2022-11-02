@@ -21,7 +21,7 @@ export default function CoverPurchaseDetails () {
   const productKey = safeFormatBytes32String(productId || '')
 
   useEffect(() => {
-    analyticsLogger(logPageLoad(chainId ?? null, account ?? null, router.pathname))
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
   }, [account, chainId, router.pathname])
 
   if (disabled) {
