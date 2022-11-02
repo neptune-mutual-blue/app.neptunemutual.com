@@ -152,6 +152,7 @@ const logPolicyPurchaseRulesAccepted = async (network, account, coverKey, produc
 const logPolicyPurchase = async ({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx }) => {
   try {
     await a.logPolicyPurchase({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx })
+    log(networkId, 'Purchase Policy', 'purchase-policy-page', 'end', 9999, account, 'end')
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }

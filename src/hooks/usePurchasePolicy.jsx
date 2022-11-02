@@ -279,7 +279,7 @@ export const usePurchasePolicy = ({
                   coverName: safeParseBytes32String(coverKey),
                   productKey,
                   productName: safeParseBytes32String(productKey),
-                  coverFee: feeAmount,
+                  coverFee: convertFromUnits(feeAmount, liquidityTokenDecimals),
                   coverFeeCurrency: liquidityTokenSymbol,
                   coverFeeFormatted: formatCurrency(
                     convertFromUnits(feeAmount, liquidityTokenDecimals),

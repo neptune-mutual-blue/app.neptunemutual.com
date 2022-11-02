@@ -29,7 +29,6 @@ export const PurchasePolicyModal = ({
   const hanldeClose = () => {
     analyticsLogger(() => {
       log(chainId, 'Purchase Policy', 'purchase-policy-page', 'view-policy-receipt-button', 3, 'click')
-      log(chainId, 'Purchase Policy', 'purchase-policy-page', 'end', 4, 'click')
     })
     router.push(Routes.MyActivePolicies)
   }
