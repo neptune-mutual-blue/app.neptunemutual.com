@@ -74,7 +74,8 @@ module.exports = {
         1: '4px',
         big: '0.625rem',
         mdlg: '7px',
-        tooltip: '10px'
+        tooltip: '10px',
+        20: '20px'
       },
       borderWidth: {
         0.5: '0.5px',
@@ -114,7 +115,8 @@ module.exports = {
         52: '208px',
         56: '224px',
         60: '240px',
-        '90vw': '90vw'
+        '90vw': '90vw',
+        632: '632px'
       },
       minWidth: {
         auto: 'auto',
@@ -208,7 +210,8 @@ module.exports = {
         0.75: '0.175rem'
       },
       width: {
-        800: '800px'
+        800: '800px',
+        '105px': '105px'
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
