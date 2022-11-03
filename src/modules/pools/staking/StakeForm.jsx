@@ -17,7 +17,8 @@ export const StakeForm = ({
   onClose,
   stakingTokenSymbol,
   lockupPeriod,
-  setModalDisabled
+  setModalDisabled,
+  analyticsFunnelName
 }) => {
   const tokenAddress = info.stakingToken
   const [inputValue, setInputValue] = useState('')
@@ -41,7 +42,8 @@ export const StakeForm = ({
     tokenSymbol: stakingTokenSymbol,
     poolKey,
     info,
-    maximumStake: info.maximumStake
+    maximumStake: info.maximumStake,
+    analyticsFunnelName
   })
   const router = useRouter()
 

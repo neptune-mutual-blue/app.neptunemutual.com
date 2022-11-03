@@ -29,7 +29,7 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
-import { logStakingPoolDeposit } from '@/src/services/logs'
+import { log, logStakingPoolDeposit } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { explainInterval } from '@/utils/formatter/interval'
@@ -41,7 +41,8 @@ export const useStakingPoolDeposit = ({
   tokenSymbol,
   maximumStake,
   refetchInfo,
-  info
+  info,
+  analyticsFunnelName
 }) => {
   const [error, setError] = useState('')
   const [approving, setApproving] = useState(false)
@@ -139,6 +140,7 @@ export const useStakingPoolDeposit = ({
                 methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
+              log(networkId, analyticsFunnelName, 'stake-page', 'approve-button', 3, account, 'click')
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -176,6 +178,7 @@ export const useStakingPoolDeposit = ({
     if (!account || !networkId) {
       return
     }
+    log(networkId, 'Enter Staking Pool', 'stake-page', 'stake-button', 4, account, 'click')
 
     setDepositing(true)
 
@@ -261,6 +264,7 @@ export const useStakingPoolDeposit = ({
                   lockupPeriodFormatted: explainInterval(lockupPeriod),
                   withdrawStartHeight
                 }))
+                log(networkId, analyticsFunnelName, 'stake-page', 'end', 9999, account, 'closed')
               },
               onTxFailure: () => {
                 TransactionHistory.push({

@@ -14,7 +14,7 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
-import { logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
+import { log, logStakingPoolWithdraw, logStakingPoolWithdrawRewards } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -46,6 +46,8 @@ export const useStakingPoolWithdraw = ({
     if (!account || !networkId) {
       return
     }
+
+    log(networkId, 'Withdraw Reward', 'stake-page', 'unstake-modal-button', 4, account, 'click')
 
     setWithdrawing(true)
 
@@ -132,6 +134,7 @@ export const useStakingPoolWithdraw = ({
                 stakeCurrency: stakingTokenSymbol,
                 stakeFormatted: formatCurrency(convertFromUnits(poolInfo?.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
               }))
+              log(networkId, 'Withdraw Reward', 'stake-page', 'end', 9999, account, 'closed')
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -197,6 +200,7 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, poolInfo, refetchInfo, 
     if (!account || !networkId) {
       return
     }
+    log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-modal-button', 3, account, 'click')
 
     setWithdrawingRewards(true)
 
@@ -278,6 +282,8 @@ export const useStakingPoolWithdrawRewards = ({ poolKey, poolInfo, refetchInfo, 
                 stakeCurrency: stakingTokenSymbol,
                 stakeFormatted: formatCurrency(convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
               }))
+              log(networkId, 'Collect Staking Reward', 'stake-page', 'end', 9999, account, 'closed')
+
               onTxSuccess()
             },
             onTxFailure: () => {
