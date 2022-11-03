@@ -1,18 +1,21 @@
+import { useState } from 'react'
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
-import { FAUCET_URL, LEADERBOARD_URL } from '@/src/config/constants'
-import { testnetChainIds } from '@/src/config/environment'
+
+import { FAUCET_URL, LEADERBOARD_URL, TEST_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { useState } from 'react'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+
 import { t, Trans } from '@lingui/macro'
+import { classNames } from '@/utils/classnames'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
   const [show, setShow] = useState(true)
 
-  const isTestnet = testnetChainIds.indexOf(networkId) > -1
-
-  if (!networkId || !isTestnet) {
+  if (!networkId) {
     return null
   }
 
@@ -23,40 +26,58 @@ export const Banner = () => {
   if (!show) return null
 
   return (
-    <div className='relative bg-4e7dd9' data-testid='banner-container'>
+    <div className={classNames('relative', isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')} data-testid='banner-container'>
       <div className='flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7'>
         <div className='flex items-center justify-center flex-auto min-w-0'>
-          <p>
-            <Trans>
-              You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
-              <a
-                className='underline'
-                href={FAUCET_URL}
-                target='_blank'
-                rel='noopener noreferrer'
-                data-testid='faucet-link'
-              >
-                Test Tokens
-              </a>{' '}
-              or{' '}
-              <a
-                className='underline'
-                href={LEADERBOARD_URL}
-                target='_blank'
-                rel='noopener noreferrer'
-                data-testid='leaderboard-link'
-              >
-                View Leaderboard
-              </a>
-              .
-            </Trans>
-          </p>
+
+          {isMainNet
+            ? (
+              <p>
+                Searching for the testnet app? {' '}
+                <a
+                  className='underline'
+                  href={TEST_URL}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  data-testid='faucet-link'
+                >
+                  <Trans>click here</Trans>
+                </a>
+              </p>
+              )
+            : (
+              <p>
+                <Trans>
+                  You&#x2019;re on {NetworkNames[networkId]} Network. Get{' '}
+                  <a
+                    className='underline'
+                    href={FAUCET_URL}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    data-testid='faucet-link'
+                  >
+                    Test Tokens
+                  </a>{' '}
+                  or{' '}
+                  <a
+                    className='underline'
+                    href={LEADERBOARD_URL}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    data-testid='leaderboard-link'
+                  >
+                    View Leaderboard
+                  </a>
+                  .
+                </Trans>
+              </p>
+              )}
         </div>
         <button
           type='button'
           aria-label='Close'
           onClick={handleClose}
-          className='block p-1 ml-auto'
+          className={classNames('block p-1 ml-auto')}
           title={t`close`}
           data-testid='close-banner'
         >

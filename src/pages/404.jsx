@@ -5,10 +5,15 @@ import { analyticsLogger } from '@/utils/logger'
 import { useWeb3React } from '@web3-react/core'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { classNames } from '@/utils/classnames'
 
 export default function PageNotFound () {
   const router = useRouter()
   const { account, chainId } = useWeb3React()
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
 
   analyticsLogger(() => logPageLoad(chainId, account ?? null, router.pathname))
 
@@ -24,7 +29,10 @@ export default function PageNotFound () {
         </p>
         <Link href={Routes.Home} replace>
           <a
-            className='px-16 py-5 font-bold leading-8 tracking-wide uppercase border rounded-lg text-EEEEEE border-4e7dd9 bg-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+            className={classNames(
+              'px-16 py-5 font-bold leading-8 tracking-wide uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',
+              isMainNet ? 'border-4e7dd9 bg-4e7dd9 focus-visible:ring-4e7dd9' : 'border-5D52DC bg-5D52DC focus-visible:ring-5D52DC'
+            )}
           >
             Take me back to homepage
           </a>

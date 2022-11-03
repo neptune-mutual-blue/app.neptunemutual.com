@@ -4,6 +4,9 @@ import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { classNames } from '@/utils/classnames'
 
 export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
   const { account, chainId } = useWeb3React()
@@ -30,10 +33,16 @@ export function DiversifiedCoverRules ({ coverInfo, coverKey, productKey }) {
 }
 
 function DownloadButton ({ onClick }) {
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
   return (
     <div className='text-center mt-7 xl:mt-4 mb-14 xl:text-left'>
       <button
-        className='inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75'
+        className={classNames(
+          'inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75',
+          isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+        )}
         onClick={onClick}
         data-testid='download-button'
       >

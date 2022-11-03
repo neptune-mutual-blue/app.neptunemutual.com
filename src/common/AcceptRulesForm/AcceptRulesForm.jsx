@@ -6,6 +6,9 @@ import { Alert } from '@/common/Alert/Alert'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
 import { config } from '@neptunemutual/sdk'
@@ -17,6 +20,8 @@ export const AcceptRulesForm = ({
   productKey = config.constants.ZERO_BYTES32
 }) => {
   const router = useRouter()
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
   const { activeIncidentDate, productStatus } = useCoverStatsContext()
@@ -78,7 +83,8 @@ export const AcceptRulesForm = ({
           disabled={!checked}
           className={classNames(
             checked ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
-            'flex items-center bg-4e7dd9 text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center'
+            isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
+            'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center'
           )}
         >
           <Trans>Next</Trans>

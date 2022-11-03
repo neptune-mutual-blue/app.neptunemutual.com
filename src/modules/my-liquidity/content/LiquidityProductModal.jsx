@@ -7,6 +7,9 @@ import { logCoverProductRulesDownload } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { classNames } from '@/utils/classnames'
 
 /**
  * @typedef {import('@/modules/my-liquidity/content/CoveredProducts').IProductBase} IProductBase
@@ -98,9 +101,15 @@ export function LiquidityProductModal ({ product, setShowModal }) {
 }
 
 function DownloadButton ({ onClick }) {
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
   return (
     <button
-      className='inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto bg-4e7dd9 hover:bg-opacity-75'
+      className={classNames(
+        'inline-flex items-center justify-center flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75',
+        isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+      )}
       onClick={onClick}
       data-testid='download-button'
     >
