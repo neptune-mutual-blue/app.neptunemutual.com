@@ -25,12 +25,14 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { Routes } from '@/src/config/routes'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
 
 const BondPage = () => {
   const { networkId } = useNetwork()
   const { info, refetch: refetchBondInfo } = useBondInfo()
   const [value, setValue] = useState('')
-  const { account } = useWeb3React()
+  const { account, chainId } = useWeb3React()
   const lpTokenAddress = info.lpTokenAddress
   const lpTokenSymbol = useTokenSymbol(lpTokenAddress)
   const lpTokenDecimals = useTokenDecimals(lpTokenAddress)
@@ -174,6 +176,38 @@ const BondPage = () => {
     loadingMessage = t`Fetching allowance...`
   }
 
+  const handleLog = (sequence) => {
+    const funnel = 'Create Bond'
+    const journey = 'bond-page'
+    let step, event
+
+    switch (sequence) {
+      case 1:
+        step = 'approve-button'
+        event = 'click'
+        break
+
+      case 2:
+        step = 'bond-button'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'end'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        event = 'event'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }
+
   return (
     <Container
       className='grid grid-cols-1 pt-16 sm:gap-16 lg:grid-cols-3 pb-36'
@@ -222,7 +256,10 @@ const BondPage = () => {
               <RegularButton
                 disabled={error || approving || !value || loadingMessage}
                 className='w-full p-6 font-semibold uppercase text-h6'
-                onClick={handleApprove}
+                onClick={() => {
+                  handleApprove()
+                  handleLog(1)
+                }}
               >
                 {approving
                   ? (
@@ -243,6 +280,8 @@ const BondPage = () => {
                   handleBond(() => {
                     setValue('')
                   })
+                  handleLog(2)
+                  handleLog(9999)
                 }}
               >
                 {bonding

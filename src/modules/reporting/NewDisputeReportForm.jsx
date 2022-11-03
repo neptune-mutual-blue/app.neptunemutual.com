@@ -16,6 +16,9 @@ import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { useDisputeIncident } from '@/src/hooks/useDisputeIncident'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { isValidProduct } from '@/src/helpers/cover'
+import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
 
 export const NewDisputeReportForm = ({ incidentReport }) => {
   const form = useRef(null)
@@ -46,6 +49,8 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
   const tokenDecimals = useTokenDecimals(tokenAddress)
 
+  const { account, chainId } = useWeb3React()
+
   useEffect(() => {
     setButtonDisabled(approving || disputing || !value)
   }, [approving, disputing, value])
@@ -65,6 +70,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     if (!canDispute) {
       // ask for approval
       handleApprove()
+      handleLog(1)
       return
     }
 
@@ -91,6 +97,40 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
       stake: convertToUnits(value).toString()
     }
     handleDispute(payload)
+
+    handleLog(2)
+    handleLog(9999)
+  }
+
+  const handleLog = (sequence) => {
+    const funnel = 'Submit Dispute'
+    const journey = 'dispute-incident-page-with-form'
+
+    let step, event
+    switch (sequence) {
+      case 1:
+        step = 'approve-button'
+        event = 'click'
+        break
+
+      case 2:
+        step = 'dispute-button'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'report-incident-button'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
   }
 
   return (

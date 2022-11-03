@@ -18,6 +18,9 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
 
 export const ClaimCoverModal = ({
   modalTitle,
@@ -56,9 +59,51 @@ export const ClaimCoverModal = ({
   })
   const router = useRouter()
 
+  const { account, chainId } = useWeb3React()
+
+  const handleLog = (sequence) => {
+    const funnel = 'Claim Cover'
+    const journey = 'my-policies-list-claims-page'
+    let step, event
+
+    switch (sequence) {
+      case 2:
+        step = 'claim-cover-modal'
+        event = 'pop-up'
+        break
+
+      case 3:
+        step = 'approve-button'
+        event = 'click'
+        break
+
+      case 4:
+        step = 'claim-button'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'end'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        event = 'event'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }
+
   // Clear on modal close
   useEffect(() => {
-    if (isOpen) return
+    if (isOpen) {
+      handleLog(2)
+      return
+    }
 
     setValue('')
   }, [isOpen])
@@ -158,7 +203,10 @@ export const ClaimCoverModal = ({
               <RegularButton
                 className='w-full p-6 font-semibold uppercase text-h6'
                 disabled={!value || approving || error || loadingMessage}
-                onClick={handleApprove}
+                onClick={() => {
+                  handleApprove()
+                  handleLog(3)
+                }}
                 data-testid='approve-button'
               >
                 {approving ? t`Approving...` : t`Approve`}
@@ -168,10 +216,13 @@ export const ClaimCoverModal = ({
               <RegularButton
                 disabled={!canClaim || claiming || error || loadingMessage}
                 className='w-full p-6 font-semibold uppercase text-h6'
-                onClick={() =>
+                onClick={() => {
                   handleClaim(() => {
                     setValue('')
-                  })}
+                  })
+                  handleLog(4)
+                  handleLog(9999)
+                }}
                 data-testid='claim-button'
               >
                 {claiming ? t`Claiming...` : t`Claim`}
