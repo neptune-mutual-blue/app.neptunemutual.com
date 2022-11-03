@@ -30,10 +30,26 @@ export const AcceptRulesForm = ({
   const { activeIncidentDate, productStatus } = useCoverStatsContext()
   const { account, chainId } = useWeb3React()
 
+  const handleLog = (sequence, step, event) => {
+    const funnel = 'Provide Liquidity'
+    const journey = 'provide-liquidity-page'
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event)
+    })
+  }
+
   const handleChange = (ev) => {
     setChecked(ev.target.checked)
     if (coverPurchasePage) {
       analyticsLogger(() => log(chainId, 'Purchase Policy', 'pre-purchase-policy-page', 'acknowledgement-checkbox', 1, account, 'click'))
+    }
+
+    const isLiquidityPage = router.pathname.includes('add-liquidity')
+    const checked = ev.target.checked
+
+    if (isLiquidityPage && checked) {
+      handleLog(1, 'acknowledgement-checkbox', 'click')
     }
   }
 
@@ -42,6 +58,9 @@ export const AcceptRulesForm = ({
 
     if (checked) {
       onAccept()
+
+      handleLog(2, 'next-button', 'click')
+      handleLog(9999, 'end', 'closed')
     }
   }
 

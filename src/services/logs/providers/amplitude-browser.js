@@ -35,6 +35,17 @@ const init = async (option) => {
   if (initialized) return
 
   try {
+    const environment = process.env.NODE_ENV
+
+    if (environment === 'development') {
+      await amplitude.init(apiKey, null, {
+        serverZone: amplitude.Types.ServerZone.US,
+        ...option
+      }).promise
+      initialized = true
+      return
+    }
+
     await amplitude.init(apiKey, null, {
       serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
       serverZone: amplitude.Types.ServerZone.EU,
@@ -47,23 +58,23 @@ const init = async (option) => {
 }
 
 const log = async (network, funnel, journey, step, seq, account, event, props = {}) => {
-  init({}, account)
+  init({})
 
   if (props) {
-    amplitude.track(event, { network, funnel, journey, step, seq, ...props })
+    amplitude.track(event, { network, account, funnel, journey, step, seq, ...props })
     return
   }
 
   amplitude.track(event)
 }
 
-const logPremium = (account, coverKey, productKey, dollarValue) => {
+const logPremium = (network, account, coverKey, productKey, dollarValue) => {
   // funnel: Policy Purchase
   // journey: Purchase-Policy-Page-2
   // sequence: 9999
   // event: 'Closed/Won'
 
-  init({}, account)
+  init({})
 
   const productId = productKey ? `${coverKey}/${productKey}` : coverKey
 
@@ -81,7 +92,7 @@ const logAddLiquidityRevenue = (account, coverKey, productKey, dollarValue) => {
   // sequence: 9999
   // event: 'Closed/Won'
 
-  init({}, account)
+  init({})
 
   const productId = productKey ? `${coverKey}/${productKey}` : coverKey
 
@@ -89,21 +100,6 @@ const logAddLiquidityRevenue = (account, coverKey, productKey, dollarValue) => {
     .setProductId(productId)
     .setRevenueType(events.LIQUIDITY)
     .setPrice(dollarValue))
-}
-
-const logPageLoadWebsite = (network, pageName = 'index') => {
-  init()
-
-  const eventName = 'page-load'
-
-  try {
-    amplitude.track(eventName, {
-      network,
-      pageName
-    })
-  } catch (e) {
-    console.log(`Error in logging ${eventName} event: `, e)
-  }
 }
 
 const logButtonClick = (network, buttonName, buttonDescription, eventData = {}, type = 'click') => {
@@ -205,7 +201,7 @@ const logCloseConnectionPopup = (network, account = 'N/A') => {
 
 const logWalletConnected = (network, account) => {
   init()
-  registerUser(account)
+  registerUser(network, account)
 
   const eventName = 'wallet-connected'
 
@@ -910,7 +906,6 @@ export {
   logAddLiquidityRevenue,
   logPremium,
   logWalletConnected,
-  logPageLoadWebsite,
   logButtonClick,
   logGesture,
   logPageLoad,

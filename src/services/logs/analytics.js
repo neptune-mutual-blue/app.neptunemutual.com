@@ -19,9 +19,9 @@ export class Analytics {
     }
   }
 
-  async logPremium (account, coverKey, productKey, dollarValue) {
+  async logPremium (network, account, coverKey, productKey, dollarValue) {
     try {
-      await this.provider.logPremium(account, coverKey, productKey, dollarValue)
+      await this.provider.logPremium(network, account, coverKey, productKey, dollarValue)
     } catch (error) {
       console.error(error)
     }

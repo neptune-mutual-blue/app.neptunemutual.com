@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 import {
   convertFromUnits,
@@ -25,6 +25,11 @@ import { t, Trans } from '@lingui/macro'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useCoverActiveReportings } from '@/src/hooks/useCoverActiveReportings'
 import { Routes } from '@/src/config/routes'
+import { analyticsLogger } from '@/utils/logger'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -127,6 +132,12 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     requiredStake
   ])
 
+  const approvalSequence = useRef(0)
+
+  const productKey = safeFormatBytes32String('')
+  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { chainId, account } = useWeb3React()
+
   const handleMaxNPM = () => {
     if (!npmBalance) {
       return
@@ -195,6 +206,48 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   }
 
   const isInvalidNpm = toBN(requiredStake).isGreaterThan(0) ? !npmValue : false
+
+  const handleApprovalLog = (symbol, amount) => {
+    const funnel = 'Adding Liquidity'
+    const journey = `my-${router?.query?.coverId}-liquidity-page`
+
+    const sequence = approvalSequence.current + 1
+
+    const step = `approve-${symbol}-button`
+    const event = 'click'
+    const props = {
+      token: symbol,
+      approveAmount: amount
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, props)
+    })
+
+    approvalSequence.current += 1
+  }
+
+  const handleLog = () => {
+    const funnel = 'Adding Liquidity'
+    const journey = `my-${router?.query?.coverId}-liquidity-page`
+
+    const sequence1 = 3
+    const step1 = 'provide-liquidity-button'
+    const event1 = 'click'
+    const props1 = {
+      coverKey,
+      coverName: coverInfo?.infoObj?.coverName
+    }
+
+    const sequence2 = 9999
+    const step2 = 'end'
+    const event2 = 'closed'
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step1, sequence1, account, event1, props1)
+      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
+    })
+  }
 
   return (
     <div className='max-w-md' data-testid='add-liquidity-form'>
@@ -297,7 +350,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                 loadingMessage
               }
               className='w-full p-6 mb-4 font-semibold uppercase text-h6 sm:mb-0'
-              onClick={handleLqTokenApprove}
+              onClick={() => {
+                handleApprovalLog(liquidityTokenSymbol, lqValue)
+                handleLqTokenApprove()
+              }}
             >
               {lqApproving
                 ? (
@@ -318,7 +374,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                 loadingMessage
               }
               className='w-full p-6 font-semibold uppercase text-h6'
-              onClick={handleNPMTokenApprove}
+              onClick={() => {
+                handleApprovalLog(NPMTokenSymbol, npmValue)
+                handleNPMTokenApprove()
+              }}
             >
               {npmApproving
                 ? (
@@ -346,6 +405,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
             }
             className='w-full p-6 font-semibold uppercase text-h6'
             onClick={() => {
+              handleLog()
+
               handleProvide(() => {
                 setNPMValue('')
                 setLqValue('')
