@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { DisabledInput } from '@/common/Input/DisabledInput'
 import { Label } from '@/common/Label/Label'
@@ -61,7 +61,7 @@ export const ClaimCoverModal = ({
 
   const { account, chainId } = useWeb3React()
 
-  const handleLog = (sequence) => {
+  const handleLog = useCallback((sequence) => {
     const funnel = 'Claim Cover'
     const journey = 'my-policies-list-claims-page'
     let step, event
@@ -96,7 +96,7 @@ export const ClaimCoverModal = ({
     analyticsLogger(() => {
       log(chainId, funnel, journey, step, sequence, account, event, {})
     })
-  }
+  }, [account, chainId])
 
   // Clear on modal close
   useEffect(() => {
@@ -106,7 +106,7 @@ export const ClaimCoverModal = ({
     }
 
     setValue('')
-  }, [isOpen])
+  }, [handleLog, isOpen])
 
   const handleChooseMax = () => {
     setValue(convertFromUnits(balance, tokenDecimals).toString())
