@@ -16,7 +16,7 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export const ClaimBondModal = ({
   modalTitle,
