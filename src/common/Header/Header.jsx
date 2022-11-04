@@ -25,6 +25,7 @@ import { useWindowSize } from '@/src/hooks/useWindowSize'
 import { Routes } from '@/src/config/routes'
 import { logCloseConnectionPopup, logOpenConnectionPopup, logWalletDisconnected } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -90,6 +91,7 @@ export const Header = () => {
   const [isTxDetailsPopupOpen, setIsTxDetailsPopupOpen] = useState(false)
   const [container, setContainer] = useState(null)
 
+  const { isMainNet } = useValidateNetwork(networkId)
   const { width } = useWindowSize()
 
   const toggleMenu = () => {
@@ -215,7 +217,10 @@ export const Header = () => {
                 {({ onOpen }) => {
                   let button = (
                     <button
-                      className='inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md whitespace-nowrap bg-4e7dd9 hover:bg-opacity-75'
+                      className={classNames(
+                        'inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
+                        isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+                      )}
                       onClick={onOpen}
                       title={t`Connect wallet`}
                     >
@@ -226,7 +231,10 @@ export const Header = () => {
                   if (active) {
                     button = (
                       <button
-                        className='relative flex items-center px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md bg-4e7dd9 hover:bg-opacity-75'
+                        className={classNames(
+                          'relative flex items-center px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md hover:bg-opacity-75',
+                          isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+                        )}
                         onClick={handleToggleAccountPopup}
                         title={t`account details`}
                       >
@@ -331,6 +339,7 @@ export const MenuModal = ({
   handleDisconnect
 }) => {
   const router = useRouter()
+  const { isMainNet } = useValidateNetwork(networkId)
 
   const handleRouteNavigate = useCallback(() => {
     onClose()
@@ -386,7 +395,9 @@ export const MenuModal = ({
                     {({ onOpen }) => {
                       let button = (
                         <button
-                          className='justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
+                          className={classNames(
+                            'justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75',
+                            isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')}
                           onClick={onOpen}
                           title={t`Connect wallet`}
                         >
@@ -398,7 +409,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className='relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 bg-4e7dd9 hover:bg-opacity-75'
+                            className={classNames('relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75', isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')}
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >

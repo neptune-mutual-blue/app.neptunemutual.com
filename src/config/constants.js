@@ -67,6 +67,8 @@ export const SUBGRAPH_API_URLS = {
   43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL
 }
 
+export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptunemutual.com'
+
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',

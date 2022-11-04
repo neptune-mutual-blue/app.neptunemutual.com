@@ -7,6 +7,8 @@ import { fromNow } from '@/utils/formatter/relative-time'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { Routes } from '@/src/config/routes'
 
 export const PolicyCardFooter = ({
@@ -19,6 +21,8 @@ export const PolicyCardFooter = ({
 }) => {
   const now = DateLib.unix()
   const router = useRouter()
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
   const cxTokenDecimals = useTokenDecimals(cxToken.id)
 
   const isClaimable = report ? report.status === 'Claimable' : false
@@ -109,7 +113,10 @@ export const PolicyCardFooter = ({
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
           <a
-            className='flex justify-center py-2.5 w-full bg-4e7dd9 text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4'
+            className={classNames(
+              'flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4',
+              isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+            )}
             data-testid='claim-link'
           >
             <Trans>Claim</Trans>
