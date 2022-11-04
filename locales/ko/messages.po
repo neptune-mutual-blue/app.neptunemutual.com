@@ -1382,7 +1382,7 @@ msgid "Show More"
 msgstr "자세히보기"
 
 #: src/modules/reporting/active/CastYourVote.jsx:233
-msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
+msgid "Since you are the first person to dispute this incident reporting, you will need to stake at least {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "이 사건 보고에 대해 이의를 제기하는 첫 번째 사람이므로 최소 {0} 개의 NPM 토큰을 스테이킹해야 합니다. 다수가 동의하면 사건 보고자 대신 플랫폼 수수료의 {1}%를 받게 됩니다."
 
 #: src/common/SearchAndSortBar.jsx:57
