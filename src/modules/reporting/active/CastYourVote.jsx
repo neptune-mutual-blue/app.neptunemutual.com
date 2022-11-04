@@ -1,8 +1,7 @@
 import { Alert } from '@/common/Alert/Alert'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Label } from '@/common/Label/Label'
-import { useState, useEffect } from 'react'
-import { RadioReport } from '@/common/RadioReport/RadioReport'
+import { useState, useEffect, useMemo } from 'react'
 import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { useVote } from '@/src/hooks/useVote'
 import {
@@ -13,16 +12,23 @@ import {
   toBN
 } from '@/utils/bn'
 import Link from 'next/link'
-import { classNames } from '@/utils/classnames'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { t, Trans } from '@lingui/macro'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
+import { RadioReport } from '@/common/RadioReport/RadioReport'
 
-export const CastYourVote = ({ incidentReport }) => {
-  const [votingType, setVotingType] = useState('incident-occurred')
+export const CastYourVote = ({ incidentReport, idPrefix }) => {
+  const options = useMemo(() => {
+    return [
+      { label: t`Incident Occurred`, value: 'incident-occurred' },
+      { label: t`False Reporting`, value: 'false-reporting' }
+    ]
+  }, [])
+
+  const [votingType, setVotingType] = useState(options[0].value)
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
 
@@ -113,36 +119,22 @@ export const CastYourVote = ({ incidentReport }) => {
         <Trans>Cast Your Vote</Trans>
       </h3>
       <div className='flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row'>
-        <div
-          className={classNames(
-            'w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4 xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9',
-            votingType === 'incident-occurred' && 'border-2 border-[#4e7dd9]'
-          )}
-        >
-          <RadioReport
-            label={t`Incident Occurred`}
-            id='incident-radio'
-            value='incident-occurred'
-            name='vote-radio'
-            checked={votingType === 'incident-occurred'}
-            onChange={handleRadioChange}
-          />
-        </div>
-        <div
-          className={classNames(
-            'w-full h-18 sm:h-auto mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16 border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9',
-            votingType === 'false-reporting' && 'border-2 border-[#4e7dd9]'
-          )}
-        >
-          <RadioReport
-            label={t`False Reporting`}
-            id='false-radio'
-            name='vote-radio'
-            value='false-reporting'
-            checked={votingType === 'false-reporting'}
-            onChange={handleRadioChange}
-          />
-        </div>
+        {
+          options.map((option, idx) => {
+            return (
+              <RadioReport
+                key={idx}
+                label={option.label}
+                id={idPrefix + 'camp-' + idx}
+                name={idPrefix + 'camp'}
+                value={option.value}
+                checked={votingType === option.value}
+                onChange={handleRadioChange}
+                disabled={approving || voting}
+              />
+            )
+          })
+        }
       </div>
       {!isFirstDispute && (
         <>

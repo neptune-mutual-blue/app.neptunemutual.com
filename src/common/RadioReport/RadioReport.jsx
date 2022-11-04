@@ -1,10 +1,13 @@
 import { classNames } from '@/utils/classnames'
 
-export const RadioReport = ({ label, id, disabled, ...rest }) => {
+export const RadioReport = ({ label, id, disabled, checked, ...rest }) => {
   return (
-    <div
+    <label
+      htmlFor={id}
       className={classNames(
+        'w-full mb-4 bg-white border rounded-lg sm:mb-0 sm:bg-transparent sm:rounded-none sm:border-0 lg:mr-4  xl:mr-16',
         'flex items-center p-6 sm:p-0',
+        checked ? 'border-2 border-4e7dd9' : 'border-B0C4DB',
         disabled && 'cursor-not-allowed'
       )}
     >
@@ -16,17 +19,18 @@ export const RadioReport = ({ label, id, disabled, ...rest }) => {
         type='radio'
         id={id}
         disabled={disabled}
+        checked={checked}
         {...rest}
       />
-      <label
+      <span
         className={classNames(
-          'w-full h-full text-sm uppercase lg:h-auto lg:w-auto',
+          'text-sm uppercase',
           disabled && 'cursor-not-allowed'
         )}
-        htmlFor={id}
+
       >
         {label}
-      </label>
-    </div>
+      </span>
+    </label>
   )
 }
