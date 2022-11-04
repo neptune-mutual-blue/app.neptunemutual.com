@@ -223,7 +223,7 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
           <Alert info>
             <Trans>
               Since you are the first person to dispute this incident reporting,
-              you will need to stake atleast{' '}
+              you will need to stake at least{' '}
               {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
               NPM tokens. If the majority agree with you, you will earn{' '}
               {toBN(reporterCommission)

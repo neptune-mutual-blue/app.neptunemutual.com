@@ -1382,7 +1382,7 @@ msgid "Show More"
 msgstr "Показать больше"
 
 #: src/modules/reporting/active/CastYourVote.jsx:233
-msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
+msgid "Since you are the first person to dispute this incident reporting, you will need to stake at least {0} NPM tokens. If the majority agree with you, you will earn {1}% of the platform fee instead of the incident reporter."
 msgstr "Так как вы первый спорный факт этого инцидента, вам нужно поставить минимум {0} токенов Музея. При согласии большинства с вами вы будете получать {1}% от платы за платформу вместо корреспондента об инциденте."
 
 #: src/common/SearchAndSortBar.jsx:57
