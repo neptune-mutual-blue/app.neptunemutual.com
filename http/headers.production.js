@@ -1,4 +1,5 @@
 const connectSources = [
+  process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_API_URL,

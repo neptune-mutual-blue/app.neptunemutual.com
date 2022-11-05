@@ -52,6 +52,7 @@ export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
 export const LEADERBOARD_URL = 'https://leaderboard.neptunemutual.com/'
 
 export const POOL_URLS = {
+  1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   3: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   42: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001:
@@ -61,6 +62,7 @@ export const POOL_URLS = {
 }
 
 export const SUBGRAPH_API_URLS = {
+  1: process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
   3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
   42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
