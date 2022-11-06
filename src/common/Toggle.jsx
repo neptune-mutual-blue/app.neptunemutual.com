@@ -1,12 +1,17 @@
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { Switch } from '@headlessui/react'
 
 export function Toggle ({ enabled, setEnabled }) {
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
   return (
     <div className='' data-testid='toggle-container'>
       <Switch
         checked={enabled}
         onChange={setEnabled}
-        className={`${enabled ? 'bg-4e7dd9' : 'bg-B0C4DB'}
+        className={`${enabled ? (isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC') : 'bg-B0C4DB'}
           relative inline-flex flex-shrink-0 h-4 w-8 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
         data-testid='switch-component'
       >

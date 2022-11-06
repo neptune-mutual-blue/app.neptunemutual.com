@@ -108,7 +108,7 @@ export const ActiveReportSummary = ({
                 )
               : (
                 <div className='hidden md:block'> {/* hidden in mobile */}
-                  <CastYourVote incidentReport={incidentReport} />
+                  <CastYourVote incidentReport={incidentReport} idPrefix='desktop-' />
                 </div>
                 )}
           </>

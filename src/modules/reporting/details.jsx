@@ -80,7 +80,7 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
           // to be displayed in mobile only
           !reportingEnded && (
             <div className='block my-16 md:hidden'>
-              <CastYourVote incidentReport={incidentReport} />
+              <CastYourVote incidentReport={incidentReport} idPrefix='mobile' />
             </div>
           )
         }

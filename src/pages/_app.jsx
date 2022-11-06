@@ -16,16 +16,9 @@ import { useEffect } from 'react'
 import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
-import Script from 'next/script'
-import { getNetworkId, mainnetChainIds } from '@/src/config/environment'
+import { CookiesProvider } from '@/src/context/Cookie'
 
 const Wrappers = ({ children, noHeader }) => {
-  const networkId = getNetworkId()
-  const isMainnet = mainnetChainIds.indexOf(networkId) > -1
-  const clarityTrackingCode = isMainnet
-    ? process.env.NEXT_PUBLIC_CLARITY_TRACKING_CODE_MAINNET
-    : process.env.NEXT_PUBLIC_CLARITY_TRACKING_CODE_TESTNET
-
   return (
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
@@ -34,19 +27,6 @@ const Wrappers = ({ children, noHeader }) => {
             <UnlimitedApprovalProvider>
               <ToastProvider variant={DEFAULT_VARIANT}>
                 <TxPosterProvider>
-                  <Script
-                    id='ms-clarity'
-                    strategy='afterInteractive'
-                    dangerouslySetInnerHTML={{
-                      __html: `
-                        (function(c,l,a,r,i,t,y){
-                          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                        })(window, document, "clarity", "script", "${clarityTrackingCode}");
-                      `
-                    }}
-                  />
                   <MainLayout noHeader={noHeader}>{children}</MainLayout>
                 </TxPosterProvider>
               </ToastProvider>
@@ -69,13 +49,15 @@ function MyApp ({ Component, pageProps }) {
 
   return (
     <>
-      <ErrorBoundary>
-        <LanguageProvider>
-          <Wrappers noHeader={pageProps.noHeader}>
-            <Component {...pageProps} />
-          </Wrappers>
-        </LanguageProvider>
-      </ErrorBoundary>
+      <CookiesProvider>
+        <ErrorBoundary>
+          <LanguageProvider>
+            <Wrappers noHeader={pageProps.noHeader}>
+              <Component {...pageProps} />
+            </Wrappers>
+          </LanguageProvider>
+        </ErrorBoundary>
+      </CookiesProvider>
     </>
   )
 }

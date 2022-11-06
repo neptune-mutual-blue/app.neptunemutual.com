@@ -1,3 +1,4 @@
+import * as Tooltip from '@radix-ui/react-tooltip'
 import {
   Table,
   TableShowMore,
@@ -18,6 +19,7 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
+import ClockIcon from '@/icons/ClockIcon'
 
 const renderHeader = (col) => (
   <th
@@ -115,7 +117,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='px-6 py-6 max-w-xs w-max whitespace-nowrap'
+      className='max-w-xs px-6 py-6 w-max whitespace-nowrap'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -128,8 +130,8 @@ const AmountRenderer = ({ row }) => {
   const { NPMTokenSymbol } = useAppConstants()
 
   return (
-    <td className='px-6 py-6 max-w-sm'>
-      <div className='flex items-center whitespace-nowrap w-max'>
+    <td className='max-w-sm px-6 py-6'>
+      <div className='flex items-center justify-end whitespace-nowrap'>
         <div
           className={classNames(
             'w-4 h-4 mr-4 rounded',
@@ -137,7 +139,7 @@ const AmountRenderer = ({ row }) => {
           )}
         />
         <div
-          className='grow text-right'
+          className='text-right'
           title={
             formatCurrency(
               convertFromUnits(row.stake),
@@ -163,10 +165,34 @@ const AmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
+  const router = useRouter()
 
   return (
     <td className='px-6 py-6 min-w-60'>
       <div className='flex items-center justify-end'>
+        {/* Tooltip */}
+        <Tooltip.Root>
+          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+            <span className='sr-only'>
+              <Trans>Timestamp</Trans>
+            </span>
+            <ClockIcon className='w-4 h-4' />
+          </Tooltip.Trigger>
+
+          <Tooltip.Content side='top'>
+            <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
+              <p>
+                {DateLib.toLongDateFormat(
+                  row.transaction.timestamp,
+                  router.locale,
+                  'UTC'
+                )}
+              </p>
+            </div>
+            <Tooltip.Arrow offset={16} className='fill-black' />
+          </Tooltip.Content>
+        </Tooltip.Root>
+
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
           target='_blank'

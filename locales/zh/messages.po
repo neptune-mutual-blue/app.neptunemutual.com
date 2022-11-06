@@ -1511,7 +1511,7 @@ msgid "Show More"
 msgstr "显示更多"
 
 #: src/modules/reporting/active/CastYourVote.jsx:232
-msgid "Since you are the first person to dispute this incident reporting, you will need to stake atleast {0} NPM tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
+msgid "Since you are the first person to dispute this incident reporting, you will need to stake at least {0} NPM tokens. If the majority agree with you, you will earn {1}% of the \"incident occurred\" side's tokens."
 msgstr "由于您是首位对该事件通报提出异议的用户，您需要质押至少{0}NPM代币。如果您得到大多数投票者的支持，您将获取投票支持“事件已发生”一方所质押的代币的{1}%作为奖励。"
 
 #: src/common/SearchAndSortBar.jsx:60
