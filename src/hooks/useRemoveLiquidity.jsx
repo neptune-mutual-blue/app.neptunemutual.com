@@ -137,7 +137,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       setWithdrawing(false)
       updateAllowance(vaultTokenAddress)
 
-      // Both NPM and DAI should be updated after withdrawal is successful
+      // Both stakingToken and liquidityToken should be updated after withdrawal is successful
       // Will be reflected in provide liquidity form
       refetchInfo()
       updateStakingTokenBalance()

@@ -253,7 +253,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     <div className='max-w-md' data-testid='add-liquidity-form'>
       <div className='mb-16'>
         <TokenAmountInput
-          labelText={t`Enter your NPM stake`}
+          labelText={t`Enter your ${NPMTokenSymbol} stake`}
           onChange={handleNPMChange}
           handleChooseMax={handleMaxNPM}
           error={npmErrorMsg}

@@ -1,6 +1,10 @@
 import { config, registry, multicall } from '@neptunemutual/sdk'
 
 import {
+  FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
+  FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
+  FALLBACK_NPM_TOKEN_DECIMALS,
+  FALLBACK_NPM_TOKEN_SYMBOL,
   GET_CONTRACTS_INFO_URL,
   NetworkUrlParam
 } from '@/src/config/constants'
@@ -54,12 +58,12 @@ export const getAddressesFromApi = async (networkId) => {
 
     return {
       NPMTokenAddress: npmAddr.value,
-      NPMTokenSymbol: 'NPM',
-      NPMTokenDecimals: 18,
+      NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
+      NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
 
       liquidityTokenAddress: daiAddr.value,
-      liquidityTokenSymbol: 'DAI',
-      liquidityTokenDecimals: 6
+      liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
+      liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS
     }
   } catch (error) {
     console.error('could not get contract addresses from api', error)

@@ -190,7 +190,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           <hr className='mt-12' />
 
           <div className='flex mt-10 text-lg leading-5'>
-            <p className='flex-shrink-0 w-full font-bold max-w-60'>Your cxDAI Address</p>
+            <p className='flex-shrink-0 w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
             <div className='flex items-center break-all'>
               {event.cxToken}
             </div>

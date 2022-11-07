@@ -10,14 +10,15 @@ import {
   getAddressesFromProvider
 } from '@/src/services/contracts/getAddresses'
 import { useRoles } from '@/src/hooks/useRoles'
+import { FALLBACK_LIQUIDITY_TOKEN_DECIMALS, FALLBACK_LIQUIDITY_TOKEN_SYMBOL, FALLBACK_NPM_TOKEN_DECIMALS, FALLBACK_NPM_TOKEN_SYMBOL } from '@/src/config/constants'
 
 const initValue = {
   NPMTokenAddress: '',
-  NPMTokenDecimals: 18,
-  NPMTokenSymbol: 'NPM',
+  NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
+  NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
   liquidityTokenAddress: '',
-  liquidityTokenDecimals: 6,
-  liquidityTokenSymbol: 'DAI',
+  liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS,
+  liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
   poolsTvl: '0',
   getTVLById: (_id) => '0',
   getPriceByAddress: (_address) => '0',

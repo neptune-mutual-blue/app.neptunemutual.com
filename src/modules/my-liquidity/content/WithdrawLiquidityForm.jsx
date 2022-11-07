@@ -203,7 +203,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
       >
         <div className='flex flex-col mt-6'>
           <TokenAmountInput
-            labelText={t`Enter Npm Amount`}
+            labelText={t`Enter ${NPMTokenSymbol} Amount`}
             disabled={isExit}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}

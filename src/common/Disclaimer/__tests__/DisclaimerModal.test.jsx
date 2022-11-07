@@ -1,10 +1,10 @@
 import { screen, fireEvent } from '@/utils/unit-tests/test-utils'
-import { DisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
+import { TestnetDisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
 import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 
 describe('Disclaimer Modal test', () => {
   const setDisclaimerApproval = jest.fn()
-  const { initialRender } = initiateTest(DisclaimerModal, {}, () => {
+  const { initialRender } = initiateTest(TestnetDisclaimerModal, {}, () => {
     mockFn.useLocalStorage(() => [false, setDisclaimerApproval])
   })
 
