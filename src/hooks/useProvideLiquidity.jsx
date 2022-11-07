@@ -91,7 +91,7 @@ export const useProvideLiquidity = ({
     }
 
     const handleError = (err) => {
-      notifyError(err, t`Could not approve DAI`)
+      notifyError(err, t`Could not approve ${liquidityTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -106,7 +106,7 @@ export const useProvideLiquidity = ({
       })
 
       try {
-        const tokenSymbol = 'DAI'
+        const tokenSymbol = liquidityTokenSymbol
         await txToast.push(
           tx,
           {
@@ -167,15 +167,13 @@ export const useProvideLiquidity = ({
   }
 
   const handleNPMTokenApprove = async () => {
-    console.log('handleNPMTokenApprove')
-
     setNPMApproving(true)
 
     const cleanup = () => {
       setNPMApproving(false)
     }
     const handleError = (err) => {
-      notifyError(err, t`Could not approve NPM`)
+      notifyError(err, t`Could not approve ${NPMTokenSymbol}`)
     }
 
     const onTransactionResult = async (tx) => {
@@ -190,7 +188,7 @@ export const useProvideLiquidity = ({
       })
 
       try {
-        const tokenSymbol = 'NPM'
+        const tokenSymbol = NPMTokenSymbol
         await txToast.push(
           tx,
           {
