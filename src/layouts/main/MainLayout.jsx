@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from '@/common/Header/Header'
-import { DisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
+import { MainnetDisclaimerModal, TestnetDisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
 import { CookiePolicy, getLSAcceptedCookie } from '@/common/CookiePolicy'
 import Router from 'next/router'
@@ -48,7 +48,8 @@ export const MainLayout = ({ noHeader = false, children }) => {
           isOpen={isCookieOpen}
           onClose={() => setIsCookieOpen(false)}
         />
-        {!isMainNet && !isCookieOpen && <DisclaimerModal />}
+        {!isMainNet && !isCookieOpen && <TestnetDisclaimerModal />}
+        {isMainNet && !isCookieOpen && <MainnetDisclaimerModal />}
         <ScrollToTopButton />
       </div>
     </>

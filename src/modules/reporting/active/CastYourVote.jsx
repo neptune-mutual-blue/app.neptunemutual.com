@@ -183,7 +183,7 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
                       minReportingStake,
                       tokenDecimals
                     ).toString()}{' '}
-                    NPM
+                    {tokenSymbol}
                   </p>
                 )}
                 {error && (
