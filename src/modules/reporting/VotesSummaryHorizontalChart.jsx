@@ -6,6 +6,7 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import React from 'react'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 export const VotesSummaryHorizontalChart = ({
   yesPercent,
@@ -47,6 +48,7 @@ export const VotesSummaryHorizontalChart = ({
 
 const ToolTipContent = ({ majority }) => {
   const router = useRouter()
+  const { NPMTokenSymbol } = useAppConstants()
 
   if (!majority) {
     return null
@@ -82,7 +84,7 @@ const ToolTipContent = ({ majority }) => {
           </>
 
           <span className='text-sm leading-5 text-black opacity-40'>
-            <Trans>Stake:</Trans> {majority.stake} NPM
+            <Trans>Stake:</Trans> {majority.stake} {NPMTokenSymbol}
           </span>
         </div>
         <Tooltip.Arrow

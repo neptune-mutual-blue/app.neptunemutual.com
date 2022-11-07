@@ -200,7 +200,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
             <p className='text-9B9B9B'>
               <Trans>Minimum Stake:</Trans>{' '}
               {convertFromUnits(minReportingStake, tokenDecimals).toString()}{' '}
-              NPM
+              {tokenSymbol}
             </p>
             <span className='flex items-center text-FA5C2F'>
               {/* Show error for Insufficent state */}
