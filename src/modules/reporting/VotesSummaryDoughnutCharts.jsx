@@ -1,4 +1,5 @@
 import { PercentDoughnutChart } from '@/common/PercentDoughnutChart'
+import { useAppConstants } from '@/src/context/AppConstants'
 import { classNames } from '@/utils/classnames'
 import { formatPercent } from '@/utils/formatter/percent'
 import { t } from '@lingui/macro'
@@ -63,6 +64,7 @@ export const VotesSummaryDoughnutChart = ({ votes, yesPercent, noPercent }) => {
 }
 
 const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
+  const { NPMTokenSymbol } = useAppConstants()
   return (
     <div className='absolute flex flex-col items-center justify-center w-16 transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'>
       <h5
@@ -75,7 +77,7 @@ const DoughnutChartInsight = ({ title, percent, amountStaked, variant }) => {
       </h5>
       <p className='mt-1'>({percent})</p>
       <p className='opacity-40 whitespace-nowrap overflow-ellipsis'>
-        {amountStaked} NPM
+        {amountStaked} {NPMTokenSymbol}
       </p>
     </div>
   )

@@ -30,6 +30,8 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -37,6 +39,8 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const router = useRouter()
   const [npmErrorMsg, setNpmErrorMsg] = useState('')
   const [lqErrorMsg, setLqErrorMsg] = useState('')
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
 
   const {
     liquidityTokenAddress,
@@ -249,44 +253,48 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
     })
   }
 
+  const isStakeDisabled = isEqualTo(minStakeToAddLiquidity, 0) && isMainNet
+
   return (
     <div className='max-w-md' data-testid='add-liquidity-form'>
-      <div className='mb-16'>
-        <TokenAmountInput
-          labelText={t`Enter your ${NPMTokenSymbol} stake`}
-          onChange={handleNPMChange}
-          handleChooseMax={handleMaxNPM}
-          error={npmErrorMsg}
-          tokenAddress={NPMTokenAddress}
-          tokenSymbol={NPMTokenSymbol}
-          tokenBalance={npmBalance || '0'}
-          tokenDecimals={npmTokenDecimals}
-          inputId='npm-stake'
-          inputValue={npmValue}
-          disabled={lqApproving || providing}
-        >
-          {isGreater(minStakeToAddLiquidity, myStake) && (
-            <TokenAmountWithPrefix
-              amountInUnits={minStakeToAddLiquidity}
-              prefix={t`Minimum Stake:` + ' '}
-              symbol={NPMTokenSymbol}
-              decimals={npmTokenDecimals}
-            />
-          )}
-          {isGreater(myStake, '0') && (
-            <TokenAmountWithPrefix
-              amountInUnits={myStake}
-              prefix={`${t`Your Stake`}: `}
-              symbol={NPMTokenSymbol}
-              decimals={npmTokenDecimals}
-            />
-          )}
+      {!isStakeDisabled && (
+        <div className='mb-16'>
+          <TokenAmountInput
+            labelText={t`Enter your ${NPMTokenSymbol} stake`}
+            onChange={handleNPMChange}
+            handleChooseMax={handleMaxNPM}
+            error={npmErrorMsg}
+            tokenAddress={NPMTokenAddress}
+            tokenSymbol={NPMTokenSymbol}
+            tokenBalance={npmBalance || '0'}
+            tokenDecimals={npmTokenDecimals}
+            inputId='npm-stake'
+            inputValue={npmValue}
+            disabled={lqApproving || providing}
+          >
+            {isGreater(minStakeToAddLiquidity, myStake) && (
+              <TokenAmountWithPrefix
+                amountInUnits={minStakeToAddLiquidity}
+                prefix={t`Minimum Stake:` + ' '}
+                symbol={NPMTokenSymbol}
+                decimals={npmTokenDecimals}
+              />
+            )}
+            {isGreater(myStake, '0') && (
+              <TokenAmountWithPrefix
+                amountInUnits={myStake}
+                prefix={`${t`Your Stake`}: `}
+                symbol={NPMTokenSymbol}
+                decimals={npmTokenDecimals}
+              />
+            )}
 
-          {npmErrorMsg && (
-            <p className='flex items-center text-FA5C2F'>{npmErrorMsg}</p>
-          )}
-        </TokenAmountInput>
-      </div>
+            {npmErrorMsg && (
+              <p className='flex items-center text-FA5C2F'>{npmErrorMsg}</p>
+            )}
+          </TokenAmountInput>
+        </div>
+      )}
 
       <div className='mb-16'>
         <TokenAmountInput
@@ -366,29 +374,31 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
                   )}
             </RegularButton>
 
-            <RegularButton
-              disabled={
+            {!isStakeDisabled && (
+              <RegularButton
+                disabled={
                 hasNPMTokenAllowance ||
                 npmApproving ||
                 npmErrorMsg ||
                 loadingMessage
               }
-              className='w-full p-6 font-semibold uppercase text-h6'
-              onClick={() => {
-                handleApprovalLog(NPMTokenSymbol, npmValue)
-                handleNPMTokenApprove()
-              }}
-            >
-              {npmApproving
-                ? (
-                    t`Approving...`
-                  )
-                : (
-                  <>
-                    <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
-                  </>
-                  )}
-            </RegularButton>
+                className='w-full p-6 font-semibold uppercase text-h6'
+                onClick={() => {
+                  handleApprovalLog(NPMTokenSymbol, npmValue)
+                  handleNPMTokenApprove()
+                }}
+              >
+                {npmApproving
+                  ? (
+                      t`Approving...`
+                    )
+                  : (
+                    <>
+                      <Trans>Approve</Trans> {NPMTokenSymbol || t`Stake`}
+                    </>
+                    )}
+              </RegularButton>
+            )}
           </div>
         )}
 
