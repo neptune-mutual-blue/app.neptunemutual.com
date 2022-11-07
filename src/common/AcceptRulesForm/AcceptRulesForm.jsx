@@ -31,8 +31,20 @@ export const AcceptRulesForm = ({
   const { account, chainId } = useWeb3React()
 
   const handleLog = (sequence, step, event) => {
-    const funnel = 'Provide Liquidity'
-    const journey = 'provide-liquidity-page'
+    const isLiquidityPage = router.pathname.includes('add-liquidity')
+    const isPurchasePage = router.pathname.includes('purchase')
+
+    let funnel, journey
+
+    if (isLiquidityPage) {
+      funnel = 'Provide Liquidity'
+      journey = 'provide-liquidity-page'
+    }
+
+    if (isPurchasePage) {
+      funnel = 'Purchase Policy'
+      journey = 'pre-purchase-policy-page'
+    }
 
     analyticsLogger(() => {
       log(chainId, funnel, journey, step, sequence, account, event)

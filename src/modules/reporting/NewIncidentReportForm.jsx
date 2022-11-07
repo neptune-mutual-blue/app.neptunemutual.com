@@ -125,12 +125,13 @@ export function NewIncidentReportForm ({ coverKey, productKey }) {
         break
 
       case 9999:
-        step = 'report-incident-button'
+        step = 'end'
         event = 'closed'
         break
 
       default:
         step = 'step'
+        event = 'event'
         break
     }
 
