@@ -17,7 +17,8 @@ export const StakeForm = ({
   onClose,
   stakingTokenSymbol,
   lockupPeriod,
-  setModalDisabled
+  setModalDisabled,
+  analyticsFunnelName
 }) => {
   const tokenAddress = info.stakingToken
   const [inputValue, setInputValue] = useState('')
@@ -40,7 +41,9 @@ export const StakeForm = ({
     tokenAddress,
     tokenSymbol: stakingTokenSymbol,
     poolKey,
-    maximumStake: info.maximumStake
+    info,
+    maximumStake: info.maximumStake,
+    analyticsFunnelName
   })
   const router = useRouter()
 
@@ -125,7 +128,7 @@ export const StakeForm = ({
           ? (
             <RegularButton
               disabled={isError || approving || !inputValue || loadingMessage}
-              className='w-full sm:min-w-auto sm:w-full p-6 font-semibold uppercase text-h6 '
+              className='w-full p-6 font-semibold uppercase sm:min-w-auto sm:w-full text-h6 '
               onClick={handleApprove}
             >
               {approving
@@ -142,7 +145,7 @@ export const StakeForm = ({
           : (
             <RegularButton
               disabled={isError || depositing || loadingMessage}
-              className='min-w-75vw sm:min-w-auto sm:w-full p-6 font-semibold uppercase text-h6'
+              className='p-6 font-semibold uppercase min-w-75vw sm:min-w-auto sm:w-full text-h6'
               onClick={() => handleDeposit(onDepositSuccess)}
             >
               {depositing ? t`Staking...` : t`Stake`}

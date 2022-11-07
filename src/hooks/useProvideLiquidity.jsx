@@ -24,32 +24,53 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { logAddLiquidity } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
+import { useCalculatePods } from '@/src/hooks/useCalculatePods'
+import DateLib from '@/lib/date/DateLib'
+import { getMonthNames } from '@/lib/dates'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 
 export const useProvideLiquidity = ({
   coverKey,
   lqValue,
   npmValue,
   liquidityTokenDecimals,
-  npmTokenDecimals
+  npmTokenDecimals,
+  underwrittenProducts
 }) => {
   const [lqApproving, setLqApproving] = useState(false)
   const [npmApproving, setNPMApproving] = useState(false)
   const [providing, setProviding] = useState(false)
 
   const { networkId } = useNetwork()
+  const router = useRouter()
   const { library, account } = useWeb3React()
   const {
     info: {
       vault: vaultTokenAddress,
       vaultTokenSymbol,
       vaultTokenDecimals,
-      myStablecoinBalance
+      myStablecoinBalance,
+      withdrawalOpen,
+      withdrawalClose
     },
     stakingTokenBalance,
     stakingTokenBalanceLoading,
     updateStakingTokenBalance,
     refetchInfo
   } = useLiquidityFormsContext()
+
+  const { receiveAmount } = useCalculatePods({
+    coverKey,
+    value: lqValue,
+    podAddress: vaultTokenAddress
+  })
+
+  const withdrawalOpenDate = DateLib.toDateFormat(withdrawalOpen, router.locale)
+  const withdrawalCloseDate = DateLib.toDateFormat(withdrawalClose, router.locale)
+
   const {
     liquidityTokenAddress,
     NPMTokenAddress,
@@ -306,7 +327,55 @@ export const useProvideLiquidity = ({
                   value: lqValue
                 }
               })
-              analyticsLogger(() => logAddLiquidity({ network: networkId, account, coverKey, liquidity: lqValue, liquidityCurrency: liquidityTokenSymbol, stake: npmValue, stakeCurrency: NPMTokenSymbol, tx: tx.hash }))
+              analyticsLogger(() => logAddLiquidity({
+                network: NetworkNames[networkId],
+                networkId,
+                account,
+                coverKey,
+                coverName: safeParseBytes32String(coverKey),
+                stake: npmValue,
+                stakeCurrency: NPMTokenSymbol,
+                stakeFormatted: formatCurrency(
+                  npmValue,
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+                liquidity: lqValue,
+                liquidityFormatted: formatCurrency(
+                  lqValue,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short,
+                liquidityCurrency: liquidityTokenSymbol,
+                sales: lqValue,
+                salesFormatted: formatCurrency(
+                  lqValue,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short,
+                salesCurrency: liquidityTokenSymbol,
+                underwrittenProducts,
+                pot: receiveAmount,
+                potCurrency: vaultTokenSymbol,
+                potCurrencyFormatted: formatCurrency(
+                  receiveAmount,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short,
+                unlockCycleOpen: withdrawalOpen,
+                unlockCycleOpenMonth: withdrawalOpenDate.split('/')[0],
+                unlockCycleOpenMonthFormatted: getMonthNames(router.locale)[parseInt(withdrawalOpenDate.split('/')[0]) - 1],
+                unlockCycleOpenYear: withdrawalOpenDate.split('/')[2],
+                unlockCycleClose: withdrawalClose,
+                unlockCycleCloseMonth: withdrawalCloseDate.split('/')[0],
+                unlockCycleCloseMonthFormatted: getMonthNames(router.locale)[parseInt(withdrawalCloseDate.split('/')[0]) - 1],
+                unlockCycleCloseYear: withdrawalCloseDate.split('/')[2],
+                tx: tx.hash
+              }))
 
               onTxSuccess()
             },

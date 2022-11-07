@@ -28,17 +28,26 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
+import { analyticsLogger } from '@/utils/logger'
+import { logClaimCover } from '@/src/services/logs'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
+import { formatPercent } from '@/utils/formatter/percent'
 
 export const useClaimPolicyInfo = ({
   value,
   cxTokenAddress,
   cxTokenDecimals,
+  cxTokenSymbol,
   coverKey,
   productKey,
   incidentDate,
   claimPlatformFee,
   tokenSymbol
 }) => {
+  const router = useRouter()
   const [approving, setApproving] = useState(false)
   const [claiming, setClaiming] = useState(false)
   const [receiveAmount, setReceiveAmount] = useState('0')
@@ -157,6 +166,27 @@ export const useClaimPolicyInfo = ({
                 methodName: METHODS.CLAIM_COVER_APPROVE,
                 status: STATUS.SUCCESS
               })
+              analyticsLogger(() => logClaimCover({
+                network: NetworkNames[networkId],
+                networkId,
+                coverKey,
+                coverName: safeParseBytes32String(coverKey),
+                productKey,
+                productName: safeParseBytes32String(productKey),
+                cost: receiveAmount,
+                costCurrency: liquidityTokenDecimals,
+                costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenDecimals, true),
+                account,
+                tx,
+                claim: value,
+                claimCurrency: cxTokenSymbol,
+                claimFormatted: formatCurrency(value, router.locale, cxTokenSymbol, true),
+                fee: claimPlatformFee,
+                feeFormatted: formatPercent(
+                  toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
+                  router.locale
+                )
+              }))
             },
             onTxFailure: () => {
               TransactionHistory.push({

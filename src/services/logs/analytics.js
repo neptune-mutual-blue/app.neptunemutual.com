@@ -19,9 +19,9 @@ export class Analytics {
     }
   }
 
-  async logPremium (account, coverKey, productKey, dollarValue) {
+  async logPremium (network, account, coverKey, productKey, dollarValue) {
     try {
-      await this.provider.logPremium(account, coverKey, productKey, dollarValue)
+      await this.provider.logPremium(network, account, coverKey, productKey, dollarValue)
     } catch (error) {
       console.error(error)
     }
@@ -155,9 +155,9 @@ export class Analytics {
     }
   }
 
-  async logPolicyPurchase ({ network, account, coverKey, productKey, coverFee, coverFeeCurrency, protection, protectionCurrency, coveragePeriod, referralCode, tx }) {
+  async logPolicyPurchase ({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx }) {
     try {
-      this.provider.logPolicyPurchase({ network, account, coverKey, productKey, coverFee, coverFeeCurrency, protection, protectionCurrency, coveragePeriod, referralCode, tx })
+      this.provider.logPolicyPurchase({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -171,9 +171,9 @@ export class Analytics {
     }
   }
 
-  async logAddLiquidity ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx }) {
+  async logAddLiquidity ({ networkId, network, account, coverKey, coverName, sales, salesCurrency, salesFormatted, underwrittenProducts, stake, stakeCurrency, stakeFormatted, pot, potCurrency, potCurrencyFormatted, liquidity, liquidityCurrency, liquidityFormatted, tx, unlockCycleOpen, unlockCycleOpenMonth, unlockCycleOpenMonthFormatted, unlockCycleOpenYear, unlockCycleClose, unlockCycleCloseMonth, unlockCycleCloseMonthFormatted, unlockCycleCloseYear }) {
     try {
-      this.provider.logAddLiquidity({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx })
+      this.provider.logAddLiquidity({ networkId, network, account, coverKey, coverName, sales, salesCurrency, salesFormatted, underwrittenProducts, stake, stakeCurrency, stakeFormatted, pot, potCurrency, potCurrencyFormatted, liquidity, liquidityCurrency, liquidityFormatted, tx, unlockCycleOpen, unlockCycleOpenMonth, unlockCycleOpenMonthFormatted, unlockCycleOpenYear, unlockCycleClose, unlockCycleCloseMonth, unlockCycleCloseMonthFormatted, unlockCycleCloseYear })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -187,9 +187,9 @@ export class Analytics {
     }
   }
 
-  async logRemoveLiquidity ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, exit, tx }) {
+  async logRemoveLiquidity ({ network, networkId, account, coverName, coverKey, cost, costCurrency, costFormatted, underwrittenProducts, pot, potCurrency, potFormatted, stake, stakeCurrency, stakeFormatted, liquidity, liquidityCurrency, liquidityFormatted, exit, tx }) {
     try {
-      this.provider.logRemoveLiquidity({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, exit, tx })
+      this.provider.logRemoveLiquidity({ network, networkId, account, coverName, coverKey, cost, costCurrency, costFormatted, underwrittenProducts, pot, potCurrency, potFormatted, stake, stakeCurrency, stakeFormatted, liquidity, liquidityCurrency, liquidityFormatted, exit, tx })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -211,9 +211,9 @@ export class Analytics {
     }
   }
 
-  async logIncidentReported ({ network, account, coverKey, productKey, stake, incidentTitle, incidentDescription, incidentProofs, incidentDate, tx }) {
+  async logIncidentReported ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, observed, observedMonth, observedMonthFormatted, observedYear, proofs, stake, stakeCurrency, stakeFormatted, tx }) {
     try {
-      this.provider.logIncidentReported({ network, account, coverKey, productKey, stake, incidentTitle, incidentDescription, incidentProofs, incidentDate, tx })
+      this.provider.logIncidentReported({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, observed, observedMonth, observedMonthFormatted, observedYear, proofs, stake, stakeCurrency, stakeFormatted, tx })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -227,9 +227,25 @@ export class Analytics {
     }
   }
 
-  async logIncidentDisputed ({ network, account, coverKey, productKey, stake, disputeTitle, disputeDescription, disputeProofs, tx }) {
+  async logIncidentDisputed ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, proofs, stake, stakeCurrency, stakeFormatted, tx }) {
     try {
-      this.provider.logIncidentDisputed({ network, account, coverKey, productKey, stake, disputeTitle, disputeDescription, disputeProofs, tx })
+      this.provider.logIncidentDisputed({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, proofs, stake, stakeCurrency, stakeFormatted, tx })
+    } catch (error) {
+      console.error('Unhandled Error', error)
+    }
+  }
+
+  async logUnstakeReportingRewards ({ network, networkId, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, account, tx, stake, stakeCurrency, stakeFormatted, camp, withClaim }) {
+    try {
+      this.provider.logUnstakeReportingRewards({ network, networkId, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, account, tx, stake, stakeCurrency, stakeFormatted, camp, withClaim })
+    } catch (error) {
+      console.error('Unhandled Error', error)
+    }
+  }
+
+  async logClaimCover ({ network, networkId, coverKey, coverName, productKey, productName, cost, costCurrency, costFormatted, account, tx, claim, claimCurrency, claimFormatted, fee, feeFormatted }) {
+    try {
+      this.provider.logClaimCover({ network, networkId, coverKey, coverName, productKey, productName, cost, costCurrency, costFormatted, account, tx, claim, claimCurrency, claimFormatted, fee, feeFormatted })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -243,17 +259,17 @@ export class Analytics {
     }
   }
 
-  async logBondCreated (network, account, lpTokenAmount, receiveAmount, tx) {
+  async logBondCreated ({ network, networkId, account, sales, salesCurrency, salesFormatted, bond, bondCurrency, bondFormatted, allocation, allocationCurrency, allocationFormatted, unlockPeriod, unlockPeriodFormatted, unlock, unlockMonth, unlockMonthformatted, unlockYear, tx }) {
     try {
-      this.provider.logBondCreated(network, account, lpTokenAmount, receiveAmount, tx)
+      this.provider.logBondCreated({ network, networkId, account, sales, salesCurrency, salesFormatted, bond, bondCurrency, bondFormatted, allocation, allocationCurrency, allocationFormatted, unlockPeriod, unlockPeriodFormatted, unlock, unlockMonth, unlockMonthformatted, unlockYear, tx })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
   }
 
-  async logBondClaimed (network, account, tx) {
+  async logBondClaimed ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, allocation, allocationCurrency, allocationFormatted }) {
     try {
-      this.provider.logBondClaimed(network, account, tx)
+      this.provider.logBondClaimed({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, allocation, allocationCurrency, allocationFormatted })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -267,41 +283,41 @@ export class Analytics {
     }
   }
 
-  async logStakingPoolDepositPopupToggled (network, account, poolKey, opened) {
+  async logStakingPoolDepositPopupToggled (network, account, poolName, poolKey, opened) {
     try {
-      this.provider.logStakingPoolDepositPopupToggled(network, account, poolKey, opened)
+      this.provider.logStakingPoolDepositPopupToggled(network, account, poolName, poolKey, opened)
     } catch (error) {
       console.error('Unhandled Error', error)
     }
   }
 
-  async logStakingPoolDeposit (network, account, poolKey, stake, stakeCurrency, tx) {
+  async logStakingPoolDeposit ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight }) {
     try {
-      this.provider.logStakingPoolDeposit(network, account, poolKey, stake, stakeCurrency, tx)
+      this.provider.logStakingPoolDeposit({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
   }
 
-  async logStakingPoolCollectPopupToggled (network, account, poolKey, opened) {
+  async logStakingPoolCollectPopupToggled (network, account, poolName, poolKey, opened) {
     try {
-      this.provider.logStakingPoolCollectPopupToggled(network, account, poolKey, opened)
+      this.provider.logStakingPoolCollectPopupToggled(network, account, poolName, poolKey, opened)
     } catch (error) {
       console.error('Unhandled Error', error)
     }
   }
 
-  async logStakingPoolWithdraw (network, account, poolKey, stake, stakeCurrency, tx) {
+  async logStakingPoolWithdraw ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, withdrawal, withdrawalCurrency, withdrawalFormatted, stake, stakeCurrency, stakeFormatted }) {
     try {
-      this.provider.logStakingPoolWithdraw(network, account, poolKey, stake, stakeCurrency, tx)
+      this.provider.logStakingPoolWithdraw({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, withdrawal, withdrawalCurrency, withdrawalFormatted, stake, stakeCurrency, stakeFormatted })
     } catch (error) {
       console.error('Unhandled Error', error)
     }
   }
 
-  async logStakingPoolWithdrawRewards (network, account, poolKey, tx) {
+  async logStakingPoolWithdrawRewards ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, reward, rewardCurrency, rewardFormatted, stake, stakeCurrency, stakeFormatted }) {
     try {
-      this.provider.logStakingPoolWithdrawRewards(network, account, poolKey, tx)
+      this.provider.logStakingPoolWithdrawRewards(network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, reward, rewardCurrency, rewardFormatted, stake, stakeCurrency, stakeFormatted)
     } catch (error) {
       console.error('Unhandled Error', error)
     }

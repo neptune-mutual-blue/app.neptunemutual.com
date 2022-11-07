@@ -13,6 +13,10 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
+import { useCallback, useEffect } from 'react'
 
 export const ClaimBondModal = ({
   modalTitle,
@@ -22,9 +26,47 @@ export const ClaimBondModal = ({
   onClose,
   refetchBondInfo
 }) => {
-  const { handleClaim, claiming } = useClaimBond()
+  const { handleClaim, claiming } = useClaimBond({ claimable })
   const router = useRouter()
   const { NPMTokenSymbol } = useAppConstants()
+
+  const { chainId, account } = useWeb3React()
+
+  const handleLog = useCallback((sequence) => {
+    const funnel = 'Claim Bond'
+    const journey = 'bond-page'
+    let step, event
+
+    switch (sequence) {
+      case 2:
+        step = 'claim-bond-modal'
+        event = 'pop-up'
+        break
+
+      case 3:
+        step = 'claim-my-bond-button'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'end'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        event = 'event'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }, [account, chainId])
+
+  useEffect(() => {
+    if (isOpen) handleLog(2)
+  }, [handleLog, isOpen])
 
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
@@ -68,6 +110,9 @@ export const ClaimBondModal = ({
               onClose()
               refetchBondInfo()
             })
+
+            handleLog(3)
+            handleLog(9999)
           }}
           className='w-full p-6 mt-8 font-semibold uppercase text-h6'
         >
