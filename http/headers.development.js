@@ -5,7 +5,7 @@ const development = JSON.parse(JSON.stringify(production))
 development[0].values[0] = `${development[0].values[0]} 'unsafe-eval' 'unsafe-inline'`
 
 // connect-src
-development[0].values[1] = `${development[0].values[1]} http://localhost:3000 ws://localhost:3000 https://api2.amplitude.com/2/httpapi`
+development[0].values[1] = `${development[0].values[1]} http://localhost:3000 ws://localhost:3000`
 
 // upgrade-insecure-requests
 development[0].values[3] = ''
