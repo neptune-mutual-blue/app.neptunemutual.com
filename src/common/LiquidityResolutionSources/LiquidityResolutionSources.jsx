@@ -91,7 +91,7 @@ export const LiquidityResolutionSources = ({
       <div className='flex justify-end'>
         {isWithdrawalWindowOpen && (
           <button
-            className='mt-4 mr-2 text-sm text-4e7dd9 hover:underline disabled:hover:no-underline'
+            className='mt-4 mr-2 text-sm tracking-wide uppercase text-4e7dd9 hover:underline disabled:hover:no-underline'
             onClick={accrueInterest}
           >
             <Trans>Accrue</Trans>

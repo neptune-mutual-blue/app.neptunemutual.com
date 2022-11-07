@@ -16,7 +16,7 @@ export const RegularButton = forwardRef(
         className={classNames(
           props.disabled && 'opacity-75 cursor-not-allowed',
           isMainNet ? 'border-4e7dd9 bg-4e7dd9 focus-visible:ring-4e7dd9' : 'border-5D52DC bg-5D52DC focus-visible:ring-5D52DC',
-          'text-EEEEEE border rounded-lg  focus:outline-none focus-visible:ring-2 ',
+          'text-EEEEEE border rounded-lg  focus:outline-none focus-visible:ring-2 uppercase tracking-wide',
           className
         )}
         {...props}

@@ -82,14 +82,14 @@ export const InputWithTrailingButton = ({
       />
       <div className='absolute inset-y-0 right-0 flex' ref={ref}>
         {unit && (
-          <div className='self-center px-4 whitespace-nowrap text-9B9B9B hidden xs:block'>
+          <div className='self-center hidden px-4 whitespace-nowrap text-9B9B9B xs:block'>
             {unit}
           </div>
         )}
         <button
           type='button'
           className={classNames(
-            'font-sora px-6 m-px font-medium  rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+            'font-sora px-6 m-px font-medium uppercase tracking-wide rounded-r-mdlg bg-DAE2EB hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
             buttonClassName,
             buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
           )}

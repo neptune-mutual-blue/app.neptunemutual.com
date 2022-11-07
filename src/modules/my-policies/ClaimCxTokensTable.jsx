@@ -202,7 +202,7 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   return (
     <td className='px-6 py-6 text-right min-w-120'>
       <button
-        className='cursor-pointer text-4e7dd9 hover:underline'
+        className='tracking-wide uppercase cursor-pointer text-4e7dd9 hover:underline'
         onClick={() => {
           onOpen()
           handleLog()

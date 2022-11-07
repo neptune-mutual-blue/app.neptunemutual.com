@@ -110,7 +110,7 @@ export const AcceptRulesForm = ({
           className={classNames(
             checked ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
             isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
-            'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center'
+            'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide'
           )}
         >
           <Trans>Next</Trans>
