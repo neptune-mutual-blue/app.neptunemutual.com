@@ -28,6 +28,8 @@ import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
@@ -38,6 +40,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const [npmErrorMsg, setNpmErrorMsg] = useState('')
   const [podErrorMsg, setPodErrorMsg] = useState('')
   const [isExit, setIsExit] = useState(false)
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
 
   const {
     NPMTokenAddress,
@@ -195,48 +199,52 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     }
   }
 
+  const isStakeDisabled = isEqualTo(minStakeToAddLiquidity, 0) && isMainNet
+
   return (
     <>
       <div
         className='overflow-y-auto max-h-[50vh] px-8 sm:px-12'
         data-testid='withdraw-liquidity-form-inputs'
       >
-        <div className='flex flex-col mt-6'>
-          <TokenAmountInput
-            labelText={t`Enter ${NPMTokenSymbol} Amount`}
-            disabled={isExit}
-            handleChooseMax={handleChooseNpmMax}
-            inputValue={npmValue}
-            id='my-staked-amount'
-            onChange={handleNpmChange}
-            tokenAddress={NPMTokenAddress}
-            tokenSymbol={NPMTokenSymbol}
-            tokenDecimals={NPMTokenDecimals}
-            data-testid='npm-input'
-          >
-            {isGreater(myStake, '0') && (
+        {!isStakeDisabled && (
+          <div className='flex flex-col mt-6'>
+            <TokenAmountInput
+              labelText={t`Enter ${NPMTokenSymbol} Amount`}
+              disabled={isExit}
+              handleChooseMax={handleChooseNpmMax}
+              inputValue={npmValue}
+              id='my-staked-amount'
+              onChange={handleNpmChange}
+              tokenAddress={NPMTokenAddress}
+              tokenSymbol={NPMTokenSymbol}
+              tokenDecimals={NPMTokenDecimals}
+              data-testid='npm-input'
+            >
+              {isGreater(myStake, '0') && (
+                <TokenAmountWithPrefix
+                  amountInUnits={myStake}
+                  prefix={`${t`Your Stake`}: `}
+                  symbol={NPMTokenSymbol}
+                  decimals={NPMTokenDecimals}
+                  data-testid='my-stake-prefix'
+                />
+              )}
               <TokenAmountWithPrefix
-                amountInUnits={myStake}
-                prefix={`${t`Your Stake`}: `}
+                amountInUnits={minStakeToAddLiquidity}
+                prefix={t`Minimum Stake:` + ' '}
                 symbol={NPMTokenSymbol}
                 decimals={NPMTokenDecimals}
-                data-testid='my-stake-prefix'
+                data-testid='minimum-stake-prefix'
               />
+            </TokenAmountInput>
+            {!isExit && npmErrorMsg && (
+              <p className='text-FA5C2F' data-testid='npm-error'>
+                {npmErrorMsg}
+              </p>
             )}
-            <TokenAmountWithPrefix
-              amountInUnits={minStakeToAddLiquidity}
-              prefix={t`Minimum Stake:` + ' '}
-              symbol={NPMTokenSymbol}
-              decimals={NPMTokenDecimals}
-              data-testid='minimum-stake-prefix'
-            />
-          </TokenAmountInput>
-          {!isExit && npmErrorMsg && (
-            <p className='text-FA5C2F' data-testid='npm-error'>
-              {npmErrorMsg}
-            </p>
-          )}
-        </div>
+          </div>
+        )}
 
         <div className='mt-6'>
           <TokenAmountInput
@@ -340,7 +348,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               npmErrorMsg ||
               podErrorMsg ||
               receiveAmountLoading ||
-              !npmValue ||
               !podValue ||
               loadingAllowance ||
               !isAccrualComplete
@@ -365,7 +372,6 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
               npmErrorMsg ||
               podErrorMsg ||
               receiveAmountLoading ||
-              !npmValue ||
               !podValue ||
               loadingAllowance ||
               !isAccrualComplete
