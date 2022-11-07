@@ -15,12 +15,22 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { getActionMessage } from '@/src/helpers/notification'
+import { analyticsLogger } from '@/utils/logger'
+import { logUnstakeReportingRewards } from '@/src/services/logs'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
 
 export const useUnstakeReportingStake = ({
   coverKey,
   productKey,
-  incidentDate
+  incidentDate,
+  incidentStatus,
+  willReceive
 }) => {
+  const router = useRouter()
   const { account, library } = useWeb3React()
   const { networkId } = useNetwork()
 
@@ -30,7 +40,7 @@ export const useUnstakeReportingStake = ({
   const { notifyError } = useErrorNotifier()
   const [unstaking, setUnstaking] = useState(false)
 
-  const { NPMTokenSymbol } = useAppConstants()
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
 
   const unstake = async (onTxSuccess = () => {}) => {
     if (!networkId || !account) {
@@ -98,6 +108,26 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
+              analyticsLogger(() => logUnstakeReportingRewards({
+                network: NetworkNames[networkId],
+                networkId,
+                coverKey,
+                coverName: safeParseBytes32String(coverKey),
+                productKey,
+                productName: safeParseBytes32String(productKey),
+                details: {
+                  sales: 'N/A',
+                  salesCurrency: 'N/A',
+                  salesFormatted: 'N/A',
+                  account,
+                  tx: tx.hash,
+                  stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
+                  stakeCurrency: NPMTokenSymbol,
+                  stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
+                  camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
+                  withClaim: 'no'
+                }
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {
@@ -207,6 +237,26 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
+              analyticsLogger(() => logUnstakeReportingRewards({
+                network: NetworkNames[networkId],
+                networkId,
+                coverKey,
+                coverName: safeParseBytes32String(coverKey),
+                productKey,
+                productName: safeParseBytes32String(productKey),
+                details: {
+                  sales: 'N/A',
+                  salesCurrency: 'N/A',
+                  salesFormatted: 'N/A',
+                  account,
+                  tx: tx.hash,
+                  stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
+                  stakeCurrency: NPMTokenSymbol,
+                  stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
+                  camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
+                  withClaim: 'yes'
+                }
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {

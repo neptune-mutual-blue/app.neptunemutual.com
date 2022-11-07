@@ -19,6 +19,10 @@ import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { RadioReport } from '@/common/RadioReport/RadioReport'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
+import { useRouter } from 'next/router'
 
 export const CastYourVote = ({ incidentReport, idPrefix }) => {
   const options = useMemo(() => {
@@ -54,6 +58,9 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
   const { reporterCommission, minReportingStake } = useCoverStatsContext()
 
   const tokenDecimals = useTokenDecimals(tokenAddress)
+
+  const { account, chainId } = useWeb3React()
+  const { query } = useRouter()
 
   useEffect(() => {
     if (!value && error) {
@@ -111,6 +118,18 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
     loadingMessage = t`Fetching balance...`
   } else if (loadingAllowance) {
     loadingMessage = t`Fetching allowance...`
+  }
+
+  const handleLog = () => {
+    const funnel = 'Submit Dispute'
+    const journey = `${query?.coverId}${query?.productId ? '-' + query.productId : ''}-${query?.timestamp}-incident-page`
+    const sequence = 1
+    const step = 'add-dispute-button'
+    const event = 'click'
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
   }
 
   return (
@@ -243,6 +262,7 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
           >
             <RegularButton
               className='flex-auto w-full py-6 mt-4 font-semibold leading-6 tracking-wider uppercase lg:w-64 mb-11 sm:mb-0 text-h5 whitespace-nowrap text-EEEEEE'
+              onClick={handleLog}
             >
               <Trans>Add Dispute</Trans>
             </RegularButton>

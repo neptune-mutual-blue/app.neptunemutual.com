@@ -16,6 +16,10 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { Label } from '@/common/Label/Label'
+import { useWeb3React } from '@web3-react/core'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useRouter } from 'next/router'
 
 export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -33,7 +37,9 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
-    incidentDate: incidentReport.incidentDate
+    incidentDate: incidentReport.incidentDate,
+    incidentStatus: incidentReport.status,
+    willReceive
   })
 
   const isClaimExpired = useRetryUntilPassed(() => {
@@ -59,6 +65,9 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
     },
     [refetchInfo]
   )
+
+  const { account, chainId } = useWeb3React()
+  const { query } = useRouter()
 
   if (!coverInfo) {
     return <Trans>loading...</Trans>
@@ -90,6 +99,34 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
 
   const hasStake = !(convertFromUnits(willReceive).isZero())
 
+  const handleLog = () => {
+    const funnel = 'Submit Dispute'
+    const journey = `${query?.coverId}${query?.productId ? '-' + query.productId : ''}-${query?.timestamp}-incident-page`
+
+    const step = 'unstake-button'
+    const sequence = 1
+    const event = 'click'
+    const props = {
+      coverKey: incidentReport?.coverKey,
+      coverName: query?.coverId,
+      incidentDate: incidentReport?.incidentDate
+    }
+
+    if (query?.productId) {
+      props.productKey = incidentReport?.productKey
+      props.productName = query?.productId
+    }
+
+    const step2 = 'end'
+    const sequence2 = 9999
+    const event2 = 'closed'
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, props)
+      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
+    })
+  }
+
   return (
     <div className='flex flex-col items-center pt-4'>
       <span className={classNames('font-semibold', !isClaimableNow && 'mb-4')}>
@@ -114,7 +151,10 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
 
       <RegularButton
         className='w-full px-10 py-4 mb-16 font-semibold md:w-80'
-        onClick={() => setIsOpen(true)}
+        onClick={() => {
+          setIsOpen(true)
+          handleLog()
+        }}
       >
         <Trans>UNSTAKE</Trans>
       </RegularButton>

@@ -27,6 +27,11 @@ import { getActionMessage } from '@/src/helpers/notification'
 import { Routes } from '@/src/config/routes'
 import { logIncidentReported, logIncidentReportStakeApproved } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import DateLib from '@/lib/date/DateLib'
+import { getMonthNames } from '@/lib/dates'
 
 export const useReportIncident = ({ coverKey, productKey, value }) => {
   const router = useRouter()
@@ -153,6 +158,8 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
   const handleReport = async (payload) => {
     setReporting(true)
 
+    const observedDate = DateLib.toDateFormat(payload.observed)
+
     const cleanup = () => {
       setReporting(false)
       return Promise.all([updateAllowance(governanceContractAddress), updateBalance()])
@@ -204,7 +211,34 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
               status: STATUS.SUCCESS
             })
-            analyticsLogger(() => logIncidentReported({ network: networkId, account, coverKey, productKey, stake: value, incidentTitle: payload.title, incidentDate: payload.observed, incidentDescription: payload.description, incidentProofs: payload.proofOfIncident, tx: tx.hash }))
+            analyticsLogger(() => logIncidentReported({
+              network: NetworkNames[networkId],
+              networkId,
+              account,
+              coverKey,
+              coverName: safeParseBytes32String(coverKey),
+              productKey,
+              productName: safeParseBytes32String(productKey),
+              sales: 'N/A',
+              salesCurrency: 'N/A',
+              salesFormatted: 'N/A',
+
+              title: payload.title,
+              observed: payload.observed,
+              observedMonth: observedDate.split('/')[0],
+              observedMonthFormatted: getMonthNames(router.locale)[parseInt(observedDate.split('/')[0]) - 1],
+              observedYear: observedDate.split('/')[2],
+              proofs: payload.proofOfIncident,
+              stake: value,
+              stakeCurrency: NPMTokenSymbol,
+              stakeFormatted: formatCurrency(
+                value,
+                router.locale,
+                NPMTokenSymbol,
+                true
+              ).short,
+              tx: tx.hash
+            }))
             await cleanup()
 
             router.replace(Routes.ActiveReports)

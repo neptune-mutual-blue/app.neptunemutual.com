@@ -9,8 +9,8 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 
 const headers = [
   {
-    name: 'harvest',
-    displayAs: 'Harvest'
+    name: 'collect',
+    displayAs: 'Collect'
   },
   {
     name: 'withdraw',
@@ -60,7 +60,7 @@ export const CollectRewardModal = ({
             activeTab={activeTab}
           />
 
-          {activeTab === 'harvest'
+          {activeTab === 'collect'
             ? (
               <HarvestForm
                 info={info}

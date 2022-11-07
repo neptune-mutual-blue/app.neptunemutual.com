@@ -10,7 +10,7 @@ import { ModalTitle } from '@/common/Modal/ModalTitle'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { DedicatedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DedicatedLiquidityResolutionSources'
 import { DiversifiedLiquidityResolutionSources } from '@/common/LiquidityResolutionSources/DiversifiedLiquidityResolutionSources'
-import { logRemoveLiquidityModalOpen } from '@/src/services/logs'
+import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
 
@@ -37,9 +37,31 @@ export const LiquidityResolutionSources = ({
     setIsOpen(false)
   }
 
+  const handleLog = () => {
+    const funnel = 'Withdraw Liquidity'
+    const journey = `my-${router?.query?.coverId}-liquidity-page`
+
+    const sequence = 1
+    const step = 'withdraw-liquidity-button'
+    const event = 'click'
+    const props = {
+      coverKey,
+      coverName: coverInfo?.infoObj?.coverName
+    }
+
+    const sequence2 = 2
+    const step2 = 'withdraw-liquidity-modal'
+    const event2 = 'pop-up'
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, props)
+      log(chainId, funnel, journey, step2, sequence2, account, event2, {})
+    })
+  }
+
   const onOpen = () => {
     setIsOpen(true)
-    analyticsLogger(() => logRemoveLiquidityModalOpen(chainId ?? null, account ?? null, coverKey))
+    handleLog()
   }
 
   return (

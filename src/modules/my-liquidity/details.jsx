@@ -107,6 +107,7 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
                 coverKey={coverKey}
                 info={info}
                 isDiversified={isDiversified}
+                underwrittenProducts={isDiversified ? coverInfo?.products.length : 0}
               />
             </div>
           </div>

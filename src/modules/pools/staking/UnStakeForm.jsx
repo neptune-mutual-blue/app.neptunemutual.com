@@ -31,6 +31,7 @@ export const UnStakeForm = ({
     tokenAddress: info.stakingToken,
     tokenSymbol: stakingTokenSymbol,
     poolKey,
+    poolInfo: info,
     refetchInfo
   })
 

@@ -13,6 +13,9 @@ import { ClaimBondModal } from '@/src/modules/pools/bond/ClaimBondModal'
 import { useState } from 'react'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const BondInfoCard = ({
   roi,
@@ -24,12 +27,26 @@ export const BondInfoCard = ({
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
 
+  const { chainId } = useWeb3React()
+
   const onOpen = () => {
     setIsOpen(true)
   }
 
   const onClose = () => {
     setIsOpen(false)
+  }
+
+  const handleLog = () => {
+    const funnel = 'Claim Bond'
+    const journey = 'bond-page'
+    const step = 'claim-bond-button'
+    const event = 'click'
+    const sequence = 1
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
   }
 
   return (
@@ -74,7 +91,10 @@ export const BondInfoCard = ({
           {account && (
             <OutlinedButton
               type='button'
-              onClick={onOpen}
+              onClick={() => {
+                onOpen()
+                handleLog()
+              }}
               className={classNames('block px-4 py-2 rounded-lg mt-10 mx-auto')}
             >
               <Trans>Claim My Bond</Trans>
@@ -100,7 +120,7 @@ const BondInfoTooltipContent = ({ vestingPeriod }) => {
   return (
     <>
       <Tooltip.Content side='top'>
-        <div className='flex flex-col gap-y-1 text-xs leading-6 font-poppins max-w-60 md:max-w-sm text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview p-6 rounded-xl'>
+        <div className='flex flex-col p-6 text-xs leading-6 text-white bg-black gap-y-1 font-poppins max-w-60 md:max-w-sm bg-opacity-90 z-60 rounded-1 shadow-tx-overview rounded-xl'>
           <h3 className='font-bold font-sora text-EEEEEE'>What is Bond?</h3>
           <p className='mt-2 text-AABDCB'>
             <Trans>

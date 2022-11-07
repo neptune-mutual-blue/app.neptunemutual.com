@@ -35,6 +35,17 @@ const init = async (option) => {
   if (initialized) return
 
   try {
+    const environment = process.env.NODE_ENV
+
+    if (environment === 'development') {
+      await amplitude.init(apiKey, null, {
+        serverZone: amplitude.Types.ServerZone.US,
+        ...option
+      }).promise
+      initialized = true
+      return
+    }
+
     await amplitude.init(apiKey, null, {
       serverUrl: new URL(process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL).toString(),
       serverZone: amplitude.Types.ServerZone.EU,
@@ -46,24 +57,24 @@ const init = async (option) => {
   }
 }
 
-const log = (network, funnel, journey, step, seq, account, event, props) => {
-  init({}, account)
+const log = async (network, funnel, journey, step, seq, account, event, props = {}) => {
+  init({})
 
   if (props) {
-    amplitude.track(event, { network, funnel, journey, step, seq, ...props })
+    amplitude.track(event, { network, account, funnel, journey, step, seq, ...props })
     return
   }
 
   amplitude.track(event)
 }
 
-const logPremium = (account, coverKey, productKey, dollarValue) => {
+const logPremium = (network, account, coverKey, productKey, dollarValue) => {
   // funnel: Policy Purchase
   // journey: Purchase-Policy-Page-2
   // sequence: 9999
   // event: 'Closed/Won'
 
-  init({}, account)
+  init({})
 
   const productId = productKey ? `${coverKey}/${productKey}` : coverKey
 
@@ -81,7 +92,7 @@ const logAddLiquidityRevenue = (account, coverKey, productKey, dollarValue) => {
   // sequence: 9999
   // event: 'Closed/Won'
 
-  init({}, account)
+  init({})
 
   const productId = productKey ? `${coverKey}/${productKey}` : coverKey
 
@@ -89,21 +100,6 @@ const logAddLiquidityRevenue = (account, coverKey, productKey, dollarValue) => {
     .setProductId(productId)
     .setRevenueType(events.LIQUIDITY)
     .setPrice(dollarValue))
-}
-
-const logPageLoadWebsite = (network, pageName = 'index') => {
-  init()
-
-  const eventName = 'page-load'
-
-  try {
-    amplitude.track(eventName, {
-      network,
-      pageName
-    })
-  } catch (e) {
-    console.log(`Error in logging ${eventName} event: `, e)
-  }
 }
 
 const logButtonClick = (network, buttonName, buttonDescription, eventData = {}, type = 'click') => {
@@ -205,7 +201,7 @@ const logCloseConnectionPopup = (network, account = 'N/A') => {
 
 const logWalletConnected = (network, account) => {
   init()
-  registerUser(account)
+  registerUser(network, account)
 
   const eventName = 'wallet-connected'
 
@@ -330,23 +326,35 @@ const logPolicyPurchaseRulesAccepted = (network, account = 'N/A', coverKey, prod
   }
 }
 
-const logPolicyPurchase = ({ network, account, coverKey, productKey, coverFee, coverFeeCurrency, protection, protectionCurrency, coveragePeriod, referralCode, tx }) => {
+const logPolicyPurchase = ({ networkId, network, account, coverKey, productKey, coverName, productName, coverFee, coverFeeCurrency, coverFeeFormatted, sales, salesCurrency, salesFormatted, protection, protectionCurrency, protectionFormatted, coveragePeriod, coveragePeriodFormatted, coveragePeriodMonth, coveragePeriodMonthFormatted, coveragePeriodYear, referralCode, tx }) => {
   init()
 
   const eventName = 'policy-purchased'
 
   try {
     amplitude.track(eventName, {
+      networkId,
       network,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
         coverFee,
         coverFeeCurrency,
+        coverFeeFormatted,
+        sales,
+        salesCurrency,
+        salesFormatted,
         protection,
         protectionCurrency,
+        protectionFormatted,
         coveragePeriod,
+        coveragePeriodFormatted,
+        coveragePeriodMonth,
+        coveragePeriodMonthFormatted,
+        coveragePeriodYear,
         referralCode,
         tx
       }
@@ -372,21 +380,68 @@ const logAddLiquidityRulesAccepted = (network, account = 'N/A', coverKey) => {
   }
 }
 
-const logAddLiquidity = ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, tx }) => {
+const logAddLiquidity = ({
+  networkId,
+  network,
+  account,
+  coverKey,
+  coverName,
+  sales,
+  salesCurrency,
+  salesFormatted,
+  underwrittenProducts,
+  stake,
+  stakeCurrency,
+  stakeFormatted,
+  pot,
+  potCurrency,
+  potCurrencyFormatted,
+  liquidity,
+  liquidityCurrency,
+  liquidityFormatted,
+  tx,
+  unlockCycleOpen,
+  unlockCycleOpenMonth,
+  unlockCycleOpenMonthFormatted,
+  unlockCycleOpenYear,
+  unlockCycleClose,
+  unlockCycleCloseMonth,
+  unlockCycleCloseMonthFormatted,
+  unlockCycleCloseYear
+}) => {
   init()
 
   const eventName = 'liquidity-added'
 
   try {
     amplitude.track(eventName, {
+      networkId,
       network,
       account,
       coverKey,
+      coverName,
       details: {
         stake,
         stakeCurrency,
+        stakeFormatted,
         liquidity,
+        liquidityFormatted,
         liquidityCurrency,
+        sales,
+        salesCurrency,
+        salesFormatted,
+        underwrittenProducts,
+        pot,
+        potCurrency,
+        potCurrencyFormatted,
+        unlockCycleOpen,
+        unlockCycleOpenMonth,
+        unlockCycleOpenMonthFormatted,
+        unlockCycleOpenYear,
+        unlockCycleClose,
+        unlockCycleCloseMonth,
+        unlockCycleCloseMonthFormatted,
+        unlockCycleCloseYear,
         tx
       }
     })
@@ -411,7 +466,7 @@ const logRemoveLiquidityModalOpen = (network, account, coverKey) => {
   }
 }
 
-const logRemoveLiquidity = ({ network, account, coverKey, stake, stakeCurrency, liquidity, liquidityCurrency, exit, tx }) => {
+const logRemoveLiquidity = ({ network, networkId, account, coverName, coverKey, cost, costCurrency, costFormatted, underwrittenProducts, pot, potCurrency, potFormatted, stake, stakeCurrency, stakeFormatted, liquidity, liquidityCurrency, liquidityFormatted, exit, tx }) => {
   init()
 
   const eventName = 'liquidity-removed'
@@ -419,13 +474,24 @@ const logRemoveLiquidity = ({ network, account, coverKey, stake, stakeCurrency, 
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       details: {
+        cost,
+        costCurrency,
+        costFormatted,
+        underwrittenProducts,
+        pot,
+        potCurrency,
+        potFormatted,
         stake,
         stakeCurrency,
+        stakeFormatted,
         liquidity,
         liquidityCurrency,
+        liquidityFormatted,
         exit,
         tx
       }
@@ -471,7 +537,7 @@ const logIncidentReportStakeApproved = (network, account, coverKey, productKey, 
   }
 }
 
-const logIncidentReported = ({ network, account, coverKey, productKey, stake, incidentTitle, incidentDescription, incidentProofs, incidentDate, tx }) => {
+const logIncidentReported = ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, observed, observedMonth, observedMonthFormatted, observedYear, proofs, stake, stakeCurrency, stakeFormatted, tx }) => {
   init()
 
   const eventName = 'incident-reported'
@@ -479,15 +545,25 @@ const logIncidentReported = ({ network, account, coverKey, productKey, stake, in
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        title,
+        observed,
+        observedMonth,
+        observedMonthFormatted,
+        observedYear,
+        proofs,
         stake,
-        incidentTitle,
-        incidentDescription,
-        incidentProofs,
-        incidentDate,
+        stakeCurrency,
+        stakeFormatted,
         tx
       }
     })
@@ -515,7 +591,7 @@ const logIncidentDisputeStakeApproved = (network, account, coverKey, productKey,
   }
 }
 
-const logIncidentDisputed = ({ network, account, coverKey, productKey, stake, disputeTitle, disputeDescription, disputeProofs, tx }) => {
+const logIncidentDisputed = ({ network, networkId, account, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, title, proofs, stake, stakeCurrency, stakeFormatted, tx }) => {
   init()
 
   const eventName = 'incident-disputed'
@@ -523,15 +599,84 @@ const logIncidentDisputed = ({ network, account, coverKey, productKey, stake, di
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
       coverKey,
+      coverName,
       productKey,
+      productName,
       details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        title,
+        proofs,
         stake,
-        disputeTitle,
-        disputeDescription,
-        disputeProofs,
+        stakeCurrency,
+        stakeFormatted,
         tx
+      }
+    })
+  } catch (e) {
+    console.log(`Error in logging ${eventName} event: `, e)
+  }
+}
+
+const logUnstakeReportingRewards = ({ network, networkId, coverKey, coverName, productKey, productName, sales, salesCurrency, salesFormatted, account, tx, stake, stakeCurrency, stakeFormatted, camp, withClaim }) => {
+  init()
+
+  const eventName = 'unstake-rewards'
+
+  try {
+    amplitude.track(eventName, {
+      network,
+      networkId,
+      coverKey,
+      coverName,
+      productKey,
+      productName,
+      details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        account,
+        tx,
+        stake,
+        stakeCurrency,
+        stakeFormatted,
+        camp,
+        withClaim
+      }
+    })
+  } catch (e) {
+    console.log(`Error in logging ${eventName} event: `, e)
+  }
+}
+
+const logClaimCover = ({ network, networkId, coverKey, coverName, productKey, productName, cost, costCurrency, costFormatted, account, tx, claim, claimCurrency, claimFormatted, fee, feeFormatted }) => {
+  init()
+
+  const eventName = 'claim-cover'
+
+  try {
+    amplitude.track(eventName, {
+      network,
+      networkId,
+      coverKey,
+      coverName,
+      productKey,
+      productName,
+      details: {
+        cost,
+        costCurrency,
+        costFormatted,
+        account,
+        tx,
+        claim,
+        claimCurrency,
+        claimFormatted,
+        fee,
+        feeFormatted
       }
     })
   } catch (e) {
@@ -556,7 +701,7 @@ const logBondLpTokenApproval = (network, account, lpTokenAmount, tx) => {
   }
 }
 
-const logBondCreated = (network, account, lpTokenAmount, receiveAmount, tx) => {
+const logBondCreated = ({ network, networkId, account, sales, salesCurrency, salesFormatted, bond, bondCurrency, bondFormatted, allocation, allocationCurrency, allocationFormatted, unlockPeriod, unlockPeriodFormatted, unlock, unlockMonth, unlockMonthformatted, unlockYear, tx }) => {
   init()
 
   const eventName = 'bond-created'
@@ -564,9 +709,23 @@ const logBondCreated = (network, account, lpTokenAmount, receiveAmount, tx) => {
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
-      lpTokenAmount,
-      receiveAmount,
+      sales,
+      salesCurrency,
+      salesFormatted,
+      bond,
+      bondCurrency,
+      bondFormatted,
+      allocation,
+      allocationCurrency,
+      allocationFormatted,
+      unlockPeriod,
+      unlockPeriodFormatted,
+      unlock,
+      unlockMonth,
+      unlockMonthformatted,
+      unlockYear,
       tx
     })
   } catch (e) {
@@ -574,7 +733,7 @@ const logBondCreated = (network, account, lpTokenAmount, receiveAmount, tx) => {
   }
 }
 
-const logBondClaimed = (network, account, tx) => {
+const logBondClaimed = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, allocation, allocationCurrency, allocationFormatted }) => {
   init()
 
   const eventName = 'bond-claimed'
@@ -582,8 +741,15 @@ const logBondClaimed = (network, account, tx) => {
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
+      sales,
+      salesCurrency,
+      salesFormatted,
       account,
-      tx
+      tx,
+      allocation,
+      allocationCurrency,
+      allocationFormatted
     })
   } catch (e) {
     console.log(`Error in logging ${eventName} event: `, e)
@@ -607,7 +773,7 @@ const logCoverProductRulesDownload = (network, account = 'N/A', coverKey, produc
   }
 }
 
-const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) => {
+const logStakingPoolDepositPopupToggled = (network, account, poolName, poolKey, opened) => {
   init()
 
   const eventName = 'staking-pool-deposit-popup-toggled'
@@ -616,6 +782,7 @@ const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) =>
     amplitude.track(eventName, {
       network,
       account,
+      poolName,
       poolKey,
       opened
     })
@@ -624,7 +791,7 @@ const logStakingPoolDepositPopupToggled = (network, account, poolKey, opened) =>
   }
 }
 
-const logStakingPoolDeposit = (network, account, poolKey, stake, stakeCurrency, tx) => {
+const logStakingPoolDeposit = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, type, poolKey, poolName, stake, stakeCurrency, stakeFormatted, lockupPeriod, lockupPeriodFormatted, withdrawStartHeight }) => {
   init()
 
   const eventName = 'staking-pool-deposited'
@@ -632,47 +799,21 @@ const logStakingPoolDeposit = (network, account, poolKey, stake, stakeCurrency, 
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
+      poolName,
       poolKey,
-      stake,
-      stakeCurrency,
-      tx
-    })
-  } catch (e) {
-    console.log(`Error in logging ${eventName} event: `, e)
-  }
-}
-
-const logStakingPoolCollectPopupToggled = (network, account, poolKey, opened) => {
-  init()
-
-  const eventName = 'staking-pool-collect-popup-toggled'
-
-  try {
-    amplitude.track(eventName, {
-      network,
-      account,
-      poolKey,
-      opened
-    })
-  } catch (e) {
-    console.log(`Error in logging ${eventName} event: `, e)
-  }
-}
-
-const logStakingPoolWithdraw = (network, account, poolKey, stake, stakeCurrency, tx) => {
-  init()
-
-  const eventName = 'staking-pool-withdrawn'
-
-  try {
-    amplitude.track(eventName, {
-      network,
-      account,
-      poolKey,
+      type,
       details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
         stake,
         stakeCurrency,
+        stakeFormatted,
+        lockupPeriod,
+        lockupPeriodFormatted,
+        withdrawStartHeight,
         tx
       }
     })
@@ -681,7 +822,55 @@ const logStakingPoolWithdraw = (network, account, poolKey, stake, stakeCurrency,
   }
 }
 
-const logStakingPoolWithdrawRewards = (network, account, poolKey, tx) => {
+const logStakingPoolCollectPopupToggled = (network, account, poolName, poolKey, opened) => {
+  init()
+
+  const eventName = 'staking-pool-collect-popup-toggled'
+
+  try {
+    amplitude.track(eventName, {
+      network,
+      account,
+      poolName,
+      poolKey,
+      opened
+    })
+  } catch (e) {
+    console.log(`Error in logging ${eventName} event: `, e)
+  }
+}
+
+const logStakingPoolWithdraw = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, withdrawal, withdrawalCurrency, withdrawalFormatted, stake, stakeCurrency, stakeFormatted }) => {
+  init()
+
+  const eventName = 'staking-pool-withdrawn'
+
+  try {
+    amplitude.track(eventName, {
+      network,
+      networkId,
+      account,
+      poolName,
+      poolKey,
+      details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        withdrawal,
+        withdrawalCurrency,
+        withdrawalFormatted,
+        stake,
+        stakeCurrency,
+        stakeFormatted,
+        tx
+      }
+    })
+  } catch (e) {
+    console.log(`Error in logging ${eventName} event: `, e)
+  }
+}
+
+const logStakingPoolWithdrawRewards = ({ network, networkId, sales, salesCurrency, salesFormatted, account, tx, poolKey, poolName, reward, rewardCurrency, rewardFormatted, stake, stakeCurrency, stakeFormatted }) => {
   init()
 
   const eventName = 'staking-pool-rewards-withdrawn'
@@ -689,9 +878,23 @@ const logStakingPoolWithdrawRewards = (network, account, poolKey, tx) => {
   try {
     amplitude.track(eventName, {
       network,
+      networkId,
       account,
+      poolName,
       poolKey,
-      tx
+      details: {
+        sales,
+        salesCurrency,
+        salesFormatted,
+        reward,
+        rewardCurrency,
+        rewardFormatted,
+        stake,
+        stakeCurrency,
+        stakeFormatted,
+        tx
+
+      }
     })
   } catch (e) {
     console.log(`Error in logging ${eventName} event: `, e)
@@ -703,7 +906,6 @@ export {
   logAddLiquidityRevenue,
   logPremium,
   logWalletConnected,
-  logPageLoadWebsite,
   logButtonClick,
   logGesture,
   logPageLoad,
@@ -727,6 +929,8 @@ export {
   logIncidentReported,
   logIncidentDisputeStakeApproved,
   logIncidentDisputed,
+  logUnstakeReportingRewards,
+  logClaimCover,
   logBondLpTokenApproval,
   logBondCreated,
   logBondClaimed,
