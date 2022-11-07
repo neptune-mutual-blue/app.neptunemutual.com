@@ -4,9 +4,16 @@ export const getReplacedString = (
 ) => {
   const str = stringWithPlaceholders.replace(
     /{\w+}/g,
-    (placeholder) =>
-      replacements[placeholder.substring(1, placeholder.length - 1)] ||
-      placeholder
+    (placeholder) => {
+      const value = replacements[placeholder.substring(1, placeholder.length - 1)]
+
+      if (typeof value === 'undefined') {
+        return placeholder
+      }
+
+      return value
+    }
+
   )
 
   return str

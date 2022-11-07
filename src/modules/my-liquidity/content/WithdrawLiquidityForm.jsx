@@ -25,6 +25,9 @@ import { useLiquidityFormsContext } from '@/common/LiquidityForms/LiquidityForms
 import { t, Trans } from '@lingui/macro'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
   const router = useRouter()
@@ -73,6 +76,8 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     value: podValue || '0',
     npmValue: npmValue || '0'
   })
+
+  const { account, chainId } = useWeb3React()
 
   const unStakableAmount = toBN(myStake)
     .minus(minStakeToAddLiquidity)
@@ -142,11 +147,51 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
     loadingMessage = t`Fetching allowance...`
   }
 
+  const handleLog = (sequence) => {
+    const funnel = 'Withdraw Liquidity'
+    const journey = `my-${coverId}-liquidity-page`
+
+    let step, event
+    switch (sequence) {
+      case 3:
+        step = 'withdraw-liquidity-approval'
+        event = 'click'
+        break
+
+      case 4:
+        step = 'withdraw-liquidity'
+        event = 'click'
+        break
+
+      case 5:
+        step = 'withdraw-full-liquidity-checkbox'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'end'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        event = 'event'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }
+
   const handleExit = (ev) => {
     setIsExit(ev.target.checked)
     if (ev.target.checked) {
       setNpmValue(convertFromUnits(myStake).toString())
       setPodValue(convertFromUnits(balance).toString())
+
+      handleLog(5)
+      handleLog(9999)
     }
   }
 
@@ -158,7 +203,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
       >
         <div className='flex flex-col mt-6'>
           <TokenAmountInput
-            labelText={t`Enter Npm Amount`}
+            labelText={t`Enter ${NPMTokenSymbol} Amount`}
             disabled={isExit}
             handleChooseMax={handleChooseNpmMax}
             inputValue={npmValue}
@@ -285,7 +330,10 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
         {!canWithdraw
           ? (
             <RegularButton
-              onClick={handleApprove}
+              onClick={() => {
+                handleLog(3)
+                handleApprove()
+              }}
               className='w-full p-6 font-semibold uppercase text-h6'
               disabled={
               approving ||
@@ -305,6 +353,7 @@ export const WithdrawLiquidityForm = ({ setModalDisabled }) => {
           : (
             <RegularButton
               onClick={() => {
+                handleLog(4)
                 handleWithdraw(() => {
                   setPodValue('')
                   setNpmValue('')

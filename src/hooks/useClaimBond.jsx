@@ -17,10 +17,16 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { getActionMessage } from '@/src/helpers/notification'
 import { logBondClaimed } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { convertFromUnits } from '@/utils/bn'
+import { formatAmount } from '@/utils/formatter'
+import { useRouter } from 'next/router'
 
-export const useClaimBond = () => {
+export const useClaimBond = ({ claimable }) => {
   const [claiming, setClaiming] = useState(false)
 
+  const router = useRouter()
   const { NPMTokenSymbol } = useAppConstants()
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
@@ -79,7 +85,21 @@ export const useClaimBond = () => {
                 methodName: METHODS.BOND_CLAIM,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondClaimed(networkId, account, tx.hash))
+              analyticsLogger(() => logBondClaimed({
+                network: NetworkNames[networkId],
+                networkId,
+                sales: 'N/A',
+                salesCurrency: 'N/A',
+                salesFormatted: 'N/A',
+                account,
+                tx: tx.hash,
+                allocation: claimable,
+                allocationCurrency: NPMTokenSymbol,
+                allocationFormatted: formatCurrency(formatAmount(
+                  convertFromUnits(claimable).toString(),
+                  router.locale
+                )).short
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {

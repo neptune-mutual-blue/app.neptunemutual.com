@@ -15,7 +15,7 @@ function getChainIdFromDNS () {
       return '42'
     case 'bsctest':
       return '97'
-    case 'app':
+    case 'eth':
       return '1'
     case 'bsc':
       return '56'

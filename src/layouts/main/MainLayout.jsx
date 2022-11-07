@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from '@/common/Header/Header'
-import { DisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
+import { MainnetDisclaimerModal, TestnetDisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
 import { CookiePolicy, getLSAcceptedCookie } from '@/common/CookiePolicy'
 import Router from 'next/router'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
 
 export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
@@ -25,7 +27,7 @@ export const PageLoader = () => {
   }
 
   return (
-    <div className='w-full bg-gray-200 fixed top-0 z-50'>
+    <div className='fixed top-0 z-50 w-full bg-gray-200'>
       <div data-testid='progress-bar' className='w-full h-2 shim-progress' />
     </div>
   )
@@ -33,6 +35,8 @@ export const PageLoader = () => {
 
 export const MainLayout = ({ noHeader = false, children }) => {
   const [isCookieOpen, setIsCookieOpen] = useState(() => !getLSAcceptedCookie())
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
 
   return (
     <>
@@ -44,7 +48,8 @@ export const MainLayout = ({ noHeader = false, children }) => {
           isOpen={isCookieOpen}
           onClose={() => setIsCookieOpen(false)}
         />
-        {!isCookieOpen && <DisclaimerModal />}
+        {!isMainNet && !isCookieOpen && <TestnetDisclaimerModal />}
+        {isMainNet && !isCookieOpen && <MainnetDisclaimerModal />}
         <ScrollToTopButton />
       </div>
     </>

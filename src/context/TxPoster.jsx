@@ -55,12 +55,18 @@ export const TxPosterProvider = ({ children }) => {
       try {
         estimatedGas = await instance.estimateGas[methodName](...args)
 
-        const tx = await instance[methodName](...args, {
-          gasLimit: calculateGasMargin(estimatedGas),
-          ...overrides
-        })
+        try {
+          const tx = await instance[methodName](...args, {
+            gasLimit: calculateGasMargin(estimatedGas),
+            ...overrides
+          })
 
-        onTransactionResult(tx)
+          onTransactionResult(tx)
+        } catch (error) {
+          // This failure is not caused by estimating gas, so do not show the popup
+          // This might have been triggered by user rejecting the transaction
+          onError(error)
+        }
       } catch (err) {
         console.log(`Could not estimate gas for "${methodName}", args: `, args)
 

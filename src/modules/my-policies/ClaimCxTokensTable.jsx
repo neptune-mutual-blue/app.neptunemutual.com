@@ -19,6 +19,9 @@ import {
 } from '@/src/modules/my-policies/CxTokenRowContext'
 import { useRouter } from 'next/router'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 const renderHeader = (col) => (
   <th
@@ -174,6 +177,8 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   const { claimPlatformFee } = useCoverStatsContext()
   const [isOpen, setIsOpen] = useState(false)
 
+  const { account, chainId } = useWeb3React()
+
   const onClose = () => {
     setIsOpen(false)
   }
@@ -182,11 +187,26 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
     setIsOpen(true)
   }
 
+  const handleLog = () => {
+    const funnel = 'Claim Cover'
+    const journey = 'my-policies-list-claims-page'
+    const step = 'claim-link-button'
+    const event = 'click'
+    const sequence = 1
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }
+
   return (
     <td className='px-6 py-6 text-right min-w-120'>
       <button
         className='cursor-pointer text-4e7dd9 hover:underline'
-        onClick={onOpen}
+        onClick={() => {
+          onOpen()
+          handleLog()
+        }}
       >
         Claim
       </button>

@@ -46,7 +46,7 @@ const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderDetails = (row) => <DetailsRenderer row={row} />
 
-const renderAmount = (row) => <CxDaiAmountRenderer row={row} />
+const renderAmount = (row) => <CxTokenAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
@@ -210,7 +210,7 @@ const DetailsRenderer = ({ row }) => {
   )
 }
 
-const CxDaiAmountRenderer = ({ row }) => {
+const CxTokenAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()

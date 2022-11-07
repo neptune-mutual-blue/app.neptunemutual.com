@@ -9,7 +9,8 @@ import {
   isGreaterOrEqual,
   isEqualTo,
   isValidNumber,
-  convertFromUnits
+  convertFromUnits,
+  sumOf
 } from '@/utils/bn'
 import { useNetwork } from '@/src/context/Network'
 import { useTxToast } from '@/src/hooks/useTxToast'
@@ -32,6 +33,10 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { DEBOUNCE_TIMEOUT } from '@/src/config/constants'
 import { logBondCreated, logBondLpTokenApproval } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import DateLib from '@/lib/date/DateLib'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { getMonthNames } from '@/lib/dates'
 
 export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const debouncedValue = useDebounce(value, DEBOUNCE_TIMEOUT)
@@ -43,7 +48,7 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
 
   const { networkId } = useNetwork()
   const { account, library } = useWeb3React()
-  const { NPMTokenSymbol } = useAppConstants()
+  const { NPMTokenSymbol, NPMTokenDecimals } = useAppConstants()
   const bondContractAddress = useBondPoolAddress()
   const {
     allowance,
@@ -61,6 +66,9 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
   const { writeContract, contractRead } = useTxPoster()
   const { notifyError } = useErrorNotifier()
   const router = useRouter()
+
+  const unlockTimestamp = sumOf(DateLib.unix(), info.vestingTerm)
+  const unlockTImeFormatted = DateLib.toDateFormat(unlockTimestamp, router.locale)
 
   useEffect(() => {
     updateAllowance(bondContractAddress)
@@ -309,7 +317,27 @@ export const useCreateBond = ({ info, refetchBondInfo, value }) => {
                 methodName: METHODS.BOND_CREATE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondCreated(networkId, account, value, receiveAmount, tx.hash))
+              analyticsLogger(() => logBondCreated({
+                network: NetworkNames[networkId],
+                networkId,
+                account,
+                sales: value,
+                salesCurrency: info.lpTokenSymbol,
+                salesFormatted: formatCurrency(value, router.locale, info.lpTokenSymbol, true).short,
+                bond: value,
+                bondCurrency: info.lpTokenSymbol,
+                bondFormatted: formatCurrency(value, router.locale, info.lpTokenSymbol, true).short,
+                allocation: receiveAmount,
+                allocationCurrency: NPMTokenSymbol,
+                allocationFormatted: formatCurrency(convertFromUnits(receiveAmount, NPMTokenDecimals)).short,
+                unlockPeriod: unlockTimestamp.toString(),
+                unlockPeriodFormatted: fromNow(unlockTimestamp).replace('in ', ''),
+                unlock: unlockTimestamp.toString(),
+                unlockMonth: unlockTImeFormatted.split('/')[0],
+                unlockMonthformatted: getMonthNames()[unlockTImeFormatted.split('/')[0] - 1],
+                unlockYear: unlockTImeFormatted.split('/')[2],
+                tx: tx.hash
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {

@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { registry } from '@neptunemutual/sdk'
 
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { convertToUnits } from '@/utils/bn'
+import { convertFromUnits, convertToUnits } from '@/utils/bn'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useNetwork } from '@/src/context/Network'
@@ -20,13 +20,19 @@ import { getActionMessage } from '@/src/helpers/notification'
 import { logRemoveLiquidity } from '@/src/services/logs'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
+import { useCalculateLiquidity } from '@/src/hooks/useCalculateLiquidity'
 
 export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   const [approving, setApproving] = useState(false)
   const [withdrawing, setWithdrawing] = useState(false)
   const { library, account } = useWeb3React()
   const { networkId } = useNetwork()
-  const { NPMTokenSymbol } = useAppConstants()
+  const router = useRouter()
+  const { NPMTokenSymbol, liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const {
     info: { vault: vaultTokenAddress, vaultTokenSymbol },
     refetchInfo,
@@ -46,6 +52,12 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
   useEffect(() => {
     updateAllowance(vaultTokenAddress)
   }, [vaultTokenAddress, updateAllowance])
+
+  const { receiveAmount } =
+    useCalculateLiquidity({
+      coverKey,
+      podAmount: value
+    })
 
   const handleApprove = async () => {
     setApproving(true)
@@ -125,7 +137,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       setWithdrawing(false)
       updateAllowance(vaultTokenAddress)
 
-      // Both NPM and DAI should be updated after withdrawal is successful
+      // Both stakingToken and liquidityToken should be updated after withdrawal is successful
       // Will be reflected in provide liquidity form
       refetchInfo()
       updateStakingTokenBalance()
@@ -171,7 +183,47 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logRemoveLiquidity({ network: networkId, account, coverKey, stake: npmValue, stakeCurrency: NPMTokenSymbol, liquidity: value, liquidityCurrency: vaultTokenSymbol, exit, tx: tx.hash }))
+              analyticsLogger(() => logRemoveLiquidity({
+                network: NetworkNames[networkId],
+                networkId,
+                account,
+                coverKey,
+                coverName: safeParseBytes32String(coverKey),
+                stake: npmValue,
+                stakeCurrency: NPMTokenSymbol,
+                stakeFormatted: formatCurrency(
+                  npmValue,
+                  router.locale,
+                  NPMTokenSymbol,
+                  true
+                ).short,
+                pot: value,
+                potCurrency: vaultTokenSymbol,
+                potFormatted: formatCurrency(
+                  value,
+                  router.locale,
+                  vaultTokenSymbol,
+                  true
+                ).short,
+                liquidity: receiveAmount,
+                liquidityCurrency: liquidityTokenSymbol,
+                liquidityFormatted: formatCurrency(
+                  convertFromUnits(receiveAmount, liquidityTokenDecimals),
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short,
+                cost: receiveAmount * -1,
+                costCurrency: liquidityTokenSymbol,
+                costFormatted: formatCurrency(
+                  convertFromUnits(receiveAmount * -1, liquidityTokenDecimals),
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).short,
+                exit,
+                tx: tx.hash
+              }))
               onTxSuccess()
             },
             onTxFailure: () => {

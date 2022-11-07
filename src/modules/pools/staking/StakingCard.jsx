@@ -24,7 +24,7 @@ import { useRouter } from 'next/router'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { logStakingPoolCollectPopupToggled, logStakingPoolDepositPopupToggled } from '@/src/services/logs'
+import { log, logStakingPoolCollectPopupToggled, logStakingPoolDepositPopupToggled } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
 
@@ -40,6 +40,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
     key: data.key,
     type: PoolTypes.TOKEN
   })
+  const [analyticsFunnelName, setAnalyticsFunnelName] = useState('')
 
   const rewardTokenAddress = info.rewardToken
   const stakingTokenSymbol = data.stakingTokenSymbol
@@ -52,20 +53,22 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
 
   function onStakeModalOpen () {
     setIsStakeModalOpen(true)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, true))
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, true))
+    log(networkId, analyticsFunnelName, 'stake-page', 'staking-modal', 2, account, 'pop-up')
   }
   function onStakeModalClose () {
     setIsStakeModalOpen(false)
-    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, poolKey, false))
+    analyticsLogger(() => logStakingPoolDepositPopupToggled(networkId, account ?? null, data.name, poolKey, false))
   }
 
   function onCollectModalClose () {
     setIsCollectModalOpen(false)
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, false))
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, false))
   }
   function onCollectModalOpen () {
     setIsCollectModalOpen(true)
-    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, poolKey, true))
+    log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-modal', 2, account, 'pop-up')
+    analyticsLogger(() => logStakingPoolCollectPopupToggled(networkId, account, data.name, poolKey, true))
   }
 
   const poolKey = data.key
@@ -209,7 +212,11 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
             <div className='flex items-center w-full'>
               <StakingCardCTA
                 className='px-2 mr-2 text-white w-fit'
-                onClick={onStakeModalOpen}
+                onClick={() => {
+                  setAnalyticsFunnelName('Add Stake')
+                  log(networkId, 'Add Stake', 'stake-page', 'plus-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
+                  onStakeModalOpen()
+                }}
                 aria-label='Add Stake'
                 title='Open Stake Modal'
               >
@@ -217,14 +224,22 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
               </StakingCardCTA>
               <StakingCardCTA
                 className='flex-grow w-auto px-5 py-2 text-sm font-semibold uppercase'
-                onClick={onCollectModalOpen}
+                onClick={() => {
+                  log(networkId, 'Collect Staking Reward', 'stake-page', 'collect-card-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
+                  onCollectModalOpen()
+                }}
               >
                 <Trans>Collect</Trans>
               </StakingCardCTA>
             </div>
             )
           : (
-            <StakingCardCTA onClick={onStakeModalOpen}>
+            <StakingCardCTA onClick={() => {
+              setAnalyticsFunnelName('Enter Staking Pool')
+              log(networkId, 'Enter Staking Pool', 'stake-page', 'stake-button', 1, account, 'click', { poolKey, poolName, lockupPeriod: data.lockupPeriodInBlocks, lockupPeriodFormatted: lockupPeriod })
+              onStakeModalOpen()
+            }}
+            >
               <Trans>Stake</Trans>
             </StakingCardCTA>
             )}
@@ -238,6 +253,7 @@ export const StakingCard = ({ data, tvl, getPriceByAddress }) => {
         onClose={onStakeModalClose}
         stakingTokenSymbol={stakingTokenSymbol}
         modalTitle={stakeModalTitle}
+        analyticsFunnelName={analyticsFunnelName}
       />
       <CollectRewardModal
         poolKey={poolKey}

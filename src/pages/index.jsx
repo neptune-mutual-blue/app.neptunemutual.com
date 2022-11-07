@@ -12,8 +12,8 @@ export default function Home () {
   const router = useRouter()
 
   useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.pathname))
-  }, [router.pathname, account, chainId])
+    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
+  }, [account, chainId, router.asPath])
 
   return (
     <main>

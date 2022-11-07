@@ -32,7 +32,7 @@ export const CookiesProvider = ({ children }) => {
   return (
     <CookieContext.Provider value={{ accepted, setAccepted }}>
       {children}
-      {accepted && (
+      {accepted && clarityTrackingCode && (
         <Script
           id='ms-clarity'
           strategy='afterInteractive'

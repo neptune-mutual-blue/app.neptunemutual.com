@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useWeb3React } from '@web3-react/core'
 import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
-import { registry } from '@neptunemutual/sdk'
+import { config, registry } from '@neptunemutual/sdk'
 import {
   convertFromUnits,
   convertToUnits,
@@ -10,7 +10,8 @@ import {
   isGreater,
   isGreaterOrEqual,
   isValidNumber,
-  sort
+  sort,
+  toBN
 } from '@/utils/bn'
 import { useTxToast } from '@/src/hooks/useTxToast'
 import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
@@ -28,8 +29,10 @@ import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
-import { logStakingPoolDeposit } from '@/src/services/logs'
+import { log, logStakingPoolDeposit } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { explainInterval } from '@/utils/formatter/interval'
 
 export const useStakingPoolDeposit = ({
   value,
@@ -37,7 +40,9 @@ export const useStakingPoolDeposit = ({
   tokenAddress,
   tokenSymbol,
   maximumStake,
-  refetchInfo
+  refetchInfo,
+  info,
+  analyticsFunnelName
 }) => {
   const [error, setError] = useState('')
   const [approving, setApproving] = useState(false)
@@ -65,6 +70,14 @@ export const useStakingPoolDeposit = ({
 
   // Minimum of info.maximumStake, balance
   const maxStakableAmount = sort([maximumStake, balance])[0]
+
+  const approxBlockTime =
+    config.networks.getChainConfig(networkId).approximateBlockTime
+  const lockupPeriod = toBN(info?.lockupPeriodInBlocks).multipliedBy(
+    approxBlockTime
+  )
+
+  const withdrawStartHeight = info?.canWithdrawFromBlockHeight
 
   useEffect(() => {
     updateAllowance(poolContractAddress)
@@ -127,6 +140,7 @@ export const useStakingPoolDeposit = ({
                 methodName: METHODS.STAKING_DEPOSIT_TOKEN_APPROVE,
                 status: STATUS.SUCCESS
               })
+              log(networkId, analyticsFunnelName, 'stake-page', 'approve-button', 3, account, 'click')
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -164,6 +178,7 @@ export const useStakingPoolDeposit = ({
     if (!account || !networkId) {
       return
     }
+    log(networkId, 'Enter Staking Pool', 'stake-page', 'stake-button', 4, account, 'click')
 
     setDepositing(true)
 
@@ -231,7 +246,25 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-                analyticsLogger(() => logStakingPoolDeposit(networkId, account, poolKey, value, tokenSymbol, tx.hash))
+                analyticsLogger(() => logStakingPoolDeposit({
+                  network: NetworkNames[networkId],
+                  networkId,
+                  sales: 'N/A',
+                  salesCurrency: 'N/A',
+                  salesFormatted: 'N/A',
+                  account,
+                  tx: tx.hash,
+                  type: info.myStake === 0 ? 'enter' : 'add',
+                  poolKey,
+                  poolName: info.name,
+                  stake: value,
+                  stakeCurrency: tokenSymbol,
+                  stakeFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
+                  lockupPeriod,
+                  lockupPeriodFormatted: explainInterval(lockupPeriod),
+                  withdrawStartHeight
+                }))
+                log(networkId, analyticsFunnelName, 'stake-page', 'end', 9999, account, 'closed')
               },
               onTxFailure: () => {
                 TransactionHistory.push({
