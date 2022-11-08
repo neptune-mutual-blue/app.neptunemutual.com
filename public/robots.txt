@@ -1,2 +1,3 @@
-User-agent: *
-Allow: /
+User-Agent: *
+Allow: /app.neptunemutual.com/
+Disallow: /test.neptunemutual.com/
