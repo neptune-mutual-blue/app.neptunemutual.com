@@ -40,7 +40,7 @@ function DownloadButton ({ onClick }) {
     <div className='text-center mt-7 xl:mt-4 mb-14 xl:text-left'>
       <button
         className={classNames(
-          'inline-flex items-center justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75',
+          'inline-flex items-center tracking-wide justify-center flex-grow-0 px-5 py-3 text-sm font-medium leading-loose text-white uppercase border border-transparent rounded-md hover:bg-opacity-75',
           isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
         )}
         onClick={onClick}

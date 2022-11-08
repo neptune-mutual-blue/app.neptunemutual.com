@@ -52,7 +52,13 @@ function CookiePolicy ({ isOpen, onClose }) {
               </p>
               <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <button
-                  className='flex-grow px-6 py-4 mr-4 text-white border border-solid border-2151B0 bg-2151B0 md:mr-2 md:py-2 rounded-1 min-w-60'
+                  className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase border border-solid border-4e7dd9 text-003fbd md:py-2 rounded-1 min-w-60 md:mr-2'
+                  onClick={onClose}
+                >
+                  <Trans>Decline</Trans>
+                </button>
+                <button
+                  className='flex-grow px-6 py-4 tracking-wide text-white uppercase border border-solid border-2151B0 bg-2151B0 md:py-2 rounded-1 min-w-60'
                   onClick={() => {
                     LocalStorage.set(LocalStorage.KEYS.COOKIE_POLICY, true)
                     setAccepted(true)
@@ -60,12 +66,6 @@ function CookiePolicy ({ isOpen, onClose }) {
                   }}
                 >
                   <Trans>Accept</Trans>
-                </button>
-                <button
-                  className='flex-grow px-6 py-4 border border-solid border-4e7dd9 text-003fbd md:py-2 rounded-1 min-w-60'
-                  onClick={onClose}
-                >
-                  <Trans>Decline</Trans>
                 </button>
               </div>
             </div>

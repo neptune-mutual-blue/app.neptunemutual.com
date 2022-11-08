@@ -128,7 +128,7 @@ export const TestnetDisclaimerModal = () => {
           <div className='flex flex-wrap justify-center w-full gap-4 mt-6 xs:justify-end sm:gap-6'>
             <button
               type='button'
-              className='box-border p-3 font-medium border rounded-md border-4e7dd9 text-h6 text-4e7dd9'
+              className='box-border p-3 font-medium tracking-wide uppercase border rounded-md border-4e7dd9 text-h6 text-4e7dd9'
               onClick={handleDecline}
               data-testid='disclaimer-decline'
             >
@@ -137,7 +137,7 @@ export const TestnetDisclaimerModal = () => {
             <button
               type='submit'
               className={classNames(
-                'box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
+                'box-border text-h6 font-medium rounded-md p-3 text-white bg-4e7dd9 uppercase tracking-wide bg-opacity-100 cursor-pointer pointer-events-auto border-4e7dd9',
                 'disabled:bg-opacity-75 disabled:border-0 disabled:cursor-not-allowed'
               )}
               disabled={!isAgreed}
