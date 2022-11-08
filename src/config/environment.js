@@ -12,10 +12,6 @@ function getChainIdFromDNS () {
       return '80001'
     case 'fuji':
       return '43113'
-    case 'ropsten':
-      return '3'
-    case 'kovan':
-      return '42'
     case 'bsctest':
       return '97'
     case 'bsc':
@@ -40,7 +36,6 @@ export const isFeatureEnabled = (feature) => {
   return features.indexOf(feature) > -1
 }
 
-export const testnetChainIds = [3, 42, 97, 43113, 80001]
 export const mainnetChainIds = [1, 10, 56, 137, 42161, 43114]
 
 export const isDiversifiedCoversEnabled = () => process.env.NEXT_PUBLIC_ENABLE_V2 === 'true'
