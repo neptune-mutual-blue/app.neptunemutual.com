@@ -20,7 +20,7 @@ export const Select = ({
         >
           <Listbox.Button
             className={classNames(
-              'relative w-full py-2 pl-4 bg-white border rounded-lg cursor-default pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-default pr-14 focus:outline-none focus-visible:border-4e7dd9',
               open ? 'border-4e7dd9' : 'border-B0C4DB'
             )}
             data-testid='select-button'

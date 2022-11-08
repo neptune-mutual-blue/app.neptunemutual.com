@@ -203,13 +203,13 @@ const ForceTxModal = ({
 
         <div className='flex flex-col justify-end sm:flex-row'>
           <button
-            className='w-full p-3 mb-4 font-medium border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10'
+            className='w-full p-3 mb-4 font-medium tracking-wide uppercase border rounded sm:mb-0 sm:mr-6 sm:w-auto border-9B9B9B text-9B9B9B hover:bg-9B9B9B hover:bg-opacity-10'
             onClick={onClose}
           >
             Cancel
           </button>
           <button
-            className='w-full p-3 font-medium text-white rounded sm:w-auto bg-E52E2E'
+            className='w-full p-3 font-medium tracking-wide text-white uppercase rounded sm:w-auto bg-E52E2E'
             onClick={handleContinue}
           >
             Send Transaction Ignoring This Error

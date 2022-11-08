@@ -156,13 +156,56 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          account,
+          coverKey,
+          coverName: safeParseBytes32String(coverKey),
+          stake: npmValue,
+          stakeCurrency: NPMTokenSymbol,
+          stakeFormatted: formatCurrency(
+            npmValue,
+            router.locale,
+            NPMTokenSymbol,
+            true
+          ).short,
+          pot: value,
+          potCurrency: vaultTokenSymbol,
+          potFormatted: formatCurrency(
+            value,
+            router.locale,
+            vaultTokenSymbol,
+            true
+          ).short,
+          liquidity: receiveAmount,
+          liquidityCurrency: liquidityTokenSymbol,
+          liquidityFormatted: formatCurrency(
+            convertFromUnits(receiveAmount, liquidityTokenDecimals),
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          cost: receiveAmount * -1,
+          costCurrency: liquidityTokenSymbol,
+          costFormatted: formatCurrency(
+            convertFromUnits(receiveAmount * -1, liquidityTokenDecimals),
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          exit,
+          tx: tx.hash
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.LIQUIDITY_REMOVE,
           status: STATUS.PENDING,
           data: {
             value: npmValue,
-            tokenSymbol: NPMTokenSymbol
+            tokenSymbol: NPMTokenSymbol,
+            logData
           }
         })
 
@@ -183,47 +226,7 @@ export const useRemoveLiquidity = ({ coverKey, value, npmValue }) => {
                 methodName: METHODS.LIQUIDITY_REMOVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logRemoveLiquidity({
-                network: NetworkNames[networkId],
-                networkId,
-                account,
-                coverKey,
-                coverName: safeParseBytes32String(coverKey),
-                stake: npmValue,
-                stakeCurrency: NPMTokenSymbol,
-                stakeFormatted: formatCurrency(
-                  npmValue,
-                  router.locale,
-                  NPMTokenSymbol,
-                  true
-                ).short,
-                pot: value,
-                potCurrency: vaultTokenSymbol,
-                potFormatted: formatCurrency(
-                  value,
-                  router.locale,
-                  vaultTokenSymbol,
-                  true
-                ).short,
-                liquidity: receiveAmount,
-                liquidityCurrency: liquidityTokenSymbol,
-                liquidityFormatted: formatCurrency(
-                  convertFromUnits(receiveAmount, liquidityTokenDecimals),
-                  router.locale,
-                  liquidityTokenSymbol,
-                  true
-                ).short,
-                cost: receiveAmount * -1,
-                costCurrency: liquidityTokenSymbol,
-                costFormatted: formatCurrency(
-                  convertFromUnits(receiveAmount * -1, liquidityTokenDecimals),
-                  router.locale,
-                  liquidityTokenSymbol,
-                  true
-                ).short,
-                exit,
-                tx: tx.hash
-              }))
+              analyticsLogger(() => logRemoveLiquidity(logData))
               onTxSuccess()
             },
             onTxFailure: () => {

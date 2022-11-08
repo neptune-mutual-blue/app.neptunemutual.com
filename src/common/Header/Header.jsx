@@ -218,7 +218,7 @@ export const Header = () => {
                   let button = (
                     <button
                       className={classNames(
-                        'inline-block px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
+                        'inline-block uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
                         isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
                       )}
                       onClick={onOpen}
@@ -232,7 +232,7 @@ export const Header = () => {
                     button = (
                       <button
                         className={classNames(
-                          'relative flex items-center px-4 py-0 text-sm font-medium leading-loose text-white border border-transparent rounded-md hover:bg-opacity-75',
+                          'relative flex items-center uppercase px-4 py-0 text-sm font-semibold leading-loose text-white border border-transparent rounded-md hover:bg-opacity-75 tracking-wider',
                           isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
                         )}
                         onClick={handleToggleAccountPopup}
@@ -396,7 +396,7 @@ export const MenuModal = ({
                       let button = (
                         <button
                           className={classNames(
-                            'justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-medium leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75',
+                            'justify-center inline-block w-full px-4 py-4 mt-6 text-sm font-semibold leading-none text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75 uppercase tracking-wider',
                             isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')}
                           onClick={onOpen}
                           title={t`Connect wallet`}
@@ -409,7 +409,7 @@ export const MenuModal = ({
                         button = (
                           <button
                             aria-label='Account Details'
-                            className={classNames('relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-medium leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75', isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')}
+                            className={classNames('relative flex items-center justify-center w-full px-4 py-2 mt-6 text-sm font-semibold uppercase tracking-wider leading-loose text-white border border-transparent rounded-md md:py-3 lg:py-4 xl:py-2 hover:bg-opacity-75', isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')}
                             onClick={handleToggleAccountPopup}
                             title={t`account details`}
                           >

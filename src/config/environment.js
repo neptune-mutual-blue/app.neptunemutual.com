@@ -5,6 +5,9 @@ function getChainIdFromDNS () {
   const parts = window.location.host.split('.')
 
   switch (parts[0]) {
+    case 'app':
+    case 'eth':
+      return '1'
     case 'mumbai':
       return '80001'
     case 'fuji':
@@ -15,15 +18,13 @@ function getChainIdFromDNS () {
       return '42'
     case 'bsctest':
       return '97'
-    case 'eth':
-      return '1'
     case 'bsc':
       return '56'
     case 'polygon':
       return '137'
 
     default:
-      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '3'
+      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '43113'
   }
 }
 

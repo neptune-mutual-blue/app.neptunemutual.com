@@ -24,11 +24,11 @@ export const PurchasePolicyModal = ({
   txHash
 }) => {
   const router = useRouter()
-  const { chainId } = useWeb3React()
+  const { chainId, account } = useWeb3React()
 
   const hanldeClose = () => {
     analyticsLogger(() => {
-      log(chainId, 'Purchase Policy', 'purchase-policy-page', 'view-policy-receipt-button', 3, 'click')
+      log(chainId, 'Purchase Policy', 'purchase-policy-page', 'view-policy-receipt-button', 3, account, 'click')
     })
     router.push(Routes.MyActivePolicies)
   }

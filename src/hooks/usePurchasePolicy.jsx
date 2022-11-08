@@ -28,7 +28,7 @@ import {
 import { METHODS } from '@/src/services/transactions/const'
 import { getActionMessage } from '@/src/helpers/notification'
 import { storePurchaseEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import { log, logPolicyPurchase } from '@/src/services/logs'
+import { logPolicyPurchase } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { getMonthNames } from '@/lib/dates'
@@ -173,9 +173,6 @@ export const usePurchasePolicy = ({
                 methodName: METHODS.POLICY_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => {
-                log(networkId, 'Purchase Policy', 'purchase-policy-page', 'approve-button', 1, 'click')
-              })
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -232,13 +229,55 @@ export const usePurchasePolicy = ({
       const onTransactionResult = async (tx) => {
         setPurchaseWaiting(true)
 
+        const logData = {
+          networkId,
+          network: NetworkNames[networkId],
+          account,
+          coverKey,
+          coverName: safeParseBytes32String(coverKey),
+          productKey,
+          productName: safeParseBytes32String(productKey),
+          coverFee: convertFromUnits(feeAmount, liquidityTokenDecimals),
+          coverFeeCurrency: liquidityTokenSymbol,
+          coverFeeFormatted: formatCurrency(
+            convertFromUnits(feeAmount, liquidityTokenDecimals),
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          protection: value,
+          protectionCurrency: liquidityTokenSymbol,
+          protectionFormatted: formatCurrency(
+            value,
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          sales: value,
+          salesCurrency: liquidityTokenSymbol,
+          salesFormatted: formatCurrency(
+            value,
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          coveragePeriod: coverMonth,
+          coverMonthFormatted: coverMonth + ' months',
+          coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
+          coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
+          coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
+          referralCode: referralCode,
+          tx: tx.hash
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.POLICY_PURCHASE,
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: liquidityTokenSymbol
+            tokenSymbol: liquidityTokenSymbol,
+            logData
           }
         })
 
@@ -269,49 +308,7 @@ export const usePurchasePolicy = ({
                 }
               })
 
-              analyticsLogger(() => {
-                log(networkId, 'Purchase Policy', 'purchase-policy-page', 'purchase-policy-button', 2, 'click')
-                logPolicyPurchase({
-                  networkId,
-                  network: NetworkNames[networkId],
-                  account,
-                  coverKey,
-                  coverName: safeParseBytes32String(coverKey),
-                  productKey,
-                  productName: safeParseBytes32String(productKey),
-                  coverFee: convertFromUnits(feeAmount, liquidityTokenDecimals),
-                  coverFeeCurrency: liquidityTokenSymbol,
-                  coverFeeFormatted: formatCurrency(
-                    convertFromUnits(feeAmount, liquidityTokenDecimals),
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  protection: value,
-                  protectionCurrency: liquidityTokenSymbol,
-                  protectionFormatted: formatCurrency(
-                    value,
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  sales: value,
-                  salesCurrency: liquidityTokenSymbol,
-                  salesFormatted: formatCurrency(
-                    value,
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  coveragePeriod: coverMonth,
-                  coverMonthFormatted: coverMonth + ' months',
-                  coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
-                  coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
-                  coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
-                  referralCode: referralCode,
-                  tx: tx.hash
-                })
-              })
+              analyticsLogger(() => logPolicyPurchase(logData))
 
               onTxSuccess()
             },

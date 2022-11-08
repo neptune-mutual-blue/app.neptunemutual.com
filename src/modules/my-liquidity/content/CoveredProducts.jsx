@@ -94,7 +94,7 @@ function Product ({ productKey, infoObj, onClick }) {
         <img src={imgSrc} alt={infoObj.productName} className='w-12 h-12' />
       </div>
       <button
-        className='flex items-center pt-2 text-4e7dd9 font-sora'
+        className='flex items-center pt-2 tracking-wide uppercase text-4e7dd9 font-sora'
         onClick={onClick}
       >
         {infoObj.productName}

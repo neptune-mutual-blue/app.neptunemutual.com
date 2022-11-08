@@ -1,3 +1,4 @@
+import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { getNetworkId, mainnetChainIds } from '@/src/config/environment'
 import * as amplitude from '@amplitude/analytics-browser'
 
@@ -57,15 +58,12 @@ const init = async (option) => {
   }
 }
 
-const log = async (network, funnel, journey, step, seq, account, event, props = {}) => {
+const log = async (networkId, funnel, journey, step, seq, account, event, props = {}) => {
   init({})
 
-  if (props) {
-    amplitude.track(event, { network, account, funnel, journey, step, seq, ...props })
-    return
-  }
+  const network = NetworkNames[networkId] || 'N/A'
 
-  amplitude.track(event)
+  amplitude.track(event, { networkId, network, account, funnel, journey, step, seq, ...props })
 }
 
 const logPremium = (network, account, coverKey, productKey, dollarValue) => {
@@ -138,12 +136,14 @@ const logGesture = (network, name, description, eventData = {}, type = 'swipe') 
   }
 }
 
-const logPageLoad = (network, account = 'N/A', path) => {
+const logPageLoad = (networkId, account = 'N/A', path) => {
   init()
 
+  const network = NetworkNames[networkId] || 'N/A'
   const eventName = 'page-load'
   try {
     amplitude.track(eventName, {
+      networkId,
       network,
       account,
       path
