@@ -61,8 +61,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     liquidityTokenDecimals,
     liquidityTokenSymbol
   } = useAppConstants()
-  const { availableLiquidity: availableLiquidityInWei } =
-    useCoverStatsContext()
+  const { availableLiquidity: availableLiquidityInWei, coverageLag } = useCoverStatsContext()
   const availableLiquidity = convertFromUnits(
     availableLiquidityInWei,
     liquidityTokenDecimals
@@ -264,7 +263,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         </div>
       </div>
 
-      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} />}
+      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} coverageLag={coverageLag} />}
 
       <div className='mt-4'>
         <DataLoadingIndicator message={loadingMessage} />

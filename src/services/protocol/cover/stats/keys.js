@@ -6,7 +6,11 @@ import { MULTIPLIER } from '@/src/config/constants'
 const { Contract, Provider } = multicall
 
 export const getMetadataKeys = () => {
-  return [registry.policy('policy'), registry.governance('governance')]
+  return [
+    registry.policy('policy'),
+    registry.policyAdmin('policyAdmin'),
+    registry.governance('governance')
+  ]
 }
 
 export const getKeys = async (
@@ -16,18 +20,16 @@ export const getKeys = async (
   account,
   metadata
 ) => {
-  const { policy, governance } = metadata
+  const { policy, policyAdmin, governance } = metadata
 
   const ethcallProvider = new Provider(provider)
   await ethcallProvider.init()
 
   const policyContract = new Contract(policy, sdk.config.abis.IPolicy)
+  const policyAdminContract = new Contract(policyAdmin, sdk.config.abis.IPolicyAdmin)
+  const governanceContract = new Contract(governance, sdk.config.abis.IGovernance)
 
-  const governanceContract = new Contract(
-    governance,
-    sdk.config.abis.IGovernance
-  )
-
+  const getCoverageLagCall = await policyAdminContract.getCoverageLag(coverKey)
   const getCoverPoolSummaryCall = await policyContract.getCoverPoolSummary(
     coverKey,
     productKey
@@ -41,11 +43,12 @@ export const getKeys = async (
   const getFirstReportingStakeCall =
     await governanceContract.getFirstReportingStake(coverKey)
 
-  const [getCoverPoolSummaryResult, status, minReportingStake] =
+  const [getCoverPoolSummaryResult, status, minReportingStake, coverageLag] =
     await ethcallProvider.all([
       getCoverPoolSummaryCall,
       getStatusCall,
-      getFirstReportingStakeCall
+      getFirstReportingStakeCall,
+      getCoverageLagCall
     ])
 
   const totalPoolAmount = getCoverPoolSummaryResult.totalAmountInPool
@@ -80,6 +83,11 @@ export const getKeys = async (
       returns: 'uint256',
       property: 'availableLiquidity',
       compute: async () => availableLiquidity
+    },
+    {
+      returns: 'uint256',
+      property: 'coverageLag',
+      compute: async () => coverageLag
     },
     {
       key: [sdk.utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTER_COMMISSION],

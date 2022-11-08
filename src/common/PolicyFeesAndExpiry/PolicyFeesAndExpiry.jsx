@@ -2,14 +2,14 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 
-export const PolicyFeesAndExpiry = ({ data }) => {
+export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
   const { fee, rate } = data
   const router = useRouter()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
@@ -17,7 +17,10 @@ export const PolicyFeesAndExpiry = ({ data }) => {
   const rateConverted = toBN(rate).dividedBy(MULTIPLIER).toString()
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
+  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(DateLib.unix(), coverageLag)))
   const expires = DateLib.fromUnix(data.expiryDate)
+
+  console.log(startsAt)
 
   return (
     <>
@@ -62,7 +65,7 @@ export const PolicyFeesAndExpiry = ({ data }) => {
               <Trans>Coverage Period</Trans>
             </th>
             <td className='text-right text-4e7dd9'>
-              {DateLib.toLongDateFormat(new Date(), router.locale, 'UTC', {
+              {DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
@@ -75,7 +78,7 @@ export const PolicyFeesAndExpiry = ({ data }) => {
                 timeZoneName: 'short'
               })}
               {/* Tooltip */}
-              <CoveragePeriodTooltip startsAt={new Date()} endsAt={expires} />
+              <CoveragePeriodTooltip startsAt={startsAt} endsAt={expires} />
             </td>
           </tr>
         </tbody>
