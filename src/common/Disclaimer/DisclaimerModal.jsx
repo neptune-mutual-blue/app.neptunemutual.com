@@ -190,7 +190,7 @@ export const MainnetDisclaimerModal = () => {
           className='flex items-center font-semibold font-sora text-h4'
           data-testid='disclaimer-title'
         >
-          <Trans>Disclaimer for Neptune Mutual App</Trans>
+          <Trans>Disclaimer and Warranty</Trans>
         </Title>
         <div
           className='mt-6 pb-4 text-xs tracking-normal leading-4.5 sm:text-sm sm:leading-5 text-404040 flex flex-col gap-4 max-h-full sm:max-h-45vh overflow-y-auto pr-4 lg:pr-0 border-b border-f6f7f9'
@@ -204,7 +204,7 @@ export const MainnetDisclaimerModal = () => {
           <p><Trans>Neptune Mutual is not responsible for any error, delay, loss, corruption or interruption in the transmission of data on the blockchain.</Trans></p>
           <p><Trans>Neptune Mutual is not liable to any loss due to the maintenance on the protocol.</Trans></p>
           <p><Trans>Neptune Mutual is not liable for any loss, either in relation to the principal or interest, resulting from default, hack or exploit of the protocols to which cover pools lend funds as part of the yield optimisation strategies.</Trans></p>
-          <p><Trans>You agree and understand that your use of Neptune&apos;s marketplace, protocol and its products involve various risks, including but not limited to any risks of using blockchain technology and protocol, risks of fluctuation of prices of blockchain based digital assets, risks of change of governmental policie s and regulations, risks of any force majeure events, etc.</Trans></p>
+          <p><Trans>You agree and understand that your use of Neptune&apos;s marketplace, protocol and its products involve various risks, including but not limited to any risks of using blockchain technology and protocol, risks of fluctuation of prices of blockchain based digital assets, risks of change of governmental policies and regulations, risks of any force majeure events, etc.</Trans></p>
           <p><Trans>Neptune and its directors, staffs, employees, advisors, developers and/or any service providers to Neptune involved in creating the marketplace, protocol and/or any products will not be liable for any claims or damages associated with your use of the marketplace, protocol and/or products, including any direct, indirect, incidental, special, exemplary, punitive or consequential damages, or loss of products, digital assets, or any items of value. </Trans></p>
 
           <h3 className='font-semibold font-sora text-h5'><Trans>Neptune Mutual Association</Trans></h3>
