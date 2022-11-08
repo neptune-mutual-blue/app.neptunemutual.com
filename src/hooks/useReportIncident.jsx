@@ -178,13 +178,43 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
 
       const tx = wrappedResult.result.tx
 
+      const logData = {
+        network: NetworkNames[networkId],
+        networkId,
+        account,
+        coverKey,
+        coverName: safeParseBytes32String(coverKey),
+        productKey,
+        productName: safeParseBytes32String(productKey),
+        sales: 'N/A',
+        salesCurrency: 'N/A',
+        salesFormatted: 'N/A',
+
+        title: payload.title,
+        observed: payload.observed,
+        observedMonth: observedDate.split('/')[0],
+        observedMonthFormatted: getMonthNames(router.locale)[parseInt(observedDate.split('/')[0]) - 1],
+        observedYear: observedDate.split('/')[2],
+        proofs: payload.proofOfIncident,
+        stake: value,
+        stakeCurrency: NPMTokenSymbol,
+        stakeFormatted: formatCurrency(
+          value,
+          router.locale,
+          NPMTokenSymbol,
+          true
+        ).short,
+        tx: tx.hash
+      }
+
       TransactionHistory.push({
         hash: tx.hash,
         methodName: METHODS.REPORT_INCIDENT_COMPLETE,
         status: STATUS.PENDING,
         data: {
           value,
-          tokenSymbol: NPMTokenSymbol
+          tokenSymbol: NPMTokenSymbol,
+          logData
         }
       })
 
@@ -211,34 +241,7 @@ export const useReportIncident = ({ coverKey, productKey, value }) => {
               methodName: METHODS.REPORT_INCIDENT_COMPLETE,
               status: STATUS.SUCCESS
             })
-            analyticsLogger(() => logIncidentReported({
-              network: NetworkNames[networkId],
-              networkId,
-              account,
-              coverKey,
-              coverName: safeParseBytes32String(coverKey),
-              productKey,
-              productName: safeParseBytes32String(productKey),
-              sales: 'N/A',
-              salesCurrency: 'N/A',
-              salesFormatted: 'N/A',
-
-              title: payload.title,
-              observed: payload.observed,
-              observedMonth: observedDate.split('/')[0],
-              observedMonthFormatted: getMonthNames(router.locale)[parseInt(observedDate.split('/')[0]) - 1],
-              observedYear: observedDate.split('/')[2],
-              proofs: payload.proofOfIncident,
-              stake: value,
-              stakeCurrency: NPMTokenSymbol,
-              stakeFormatted: formatCurrency(
-                value,
-                router.locale,
-                NPMTokenSymbol,
-                true
-              ).short,
-              tx: tx.hash
-            }))
+            analyticsLogger(() => logIncidentReported(logData))
             await cleanup()
 
             router.replace(Routes.ActiveReports)

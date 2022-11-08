@@ -4,9 +4,9 @@ import * as provider from './providers/amplitude-browser'
 
 const a = new Analytics(provider)
 
-const log = async (network, funnel, journey, step, seq, account, event, props) => {
+const log = async (networkId, funnel, journey, step, seq, account, event, props) => {
   try {
-    await a.log(network, funnel, journey, step, seq, account, event, props)
+    await a.log(networkId, funnel, journey, step, seq, account, event, props)
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }
@@ -53,9 +53,9 @@ const logGesture = async (network, name, description, eventData = {}, type = 'sw
   }
 }
 
-const logPageLoad = async (network, account, path) => {
+const logPageLoad = async (networkId, account, path) => {
   try {
-    await a.logPageLoad(network, account, path)
+    await a.logPageLoad(networkId, account, path)
   } catch (err) {
     console.log(`Unhandled Error: ${err}`)
   }

@@ -11,9 +11,9 @@ export class Analytics {
     }
   }
 
-  async log (network, funnel, journey, step, seq, account, e, props) {
+  async log (networkId, funnel, journey, step, seq, account, e, props) {
     try {
-      await this.provider.log(network, funnel, journey, step, seq, account, e, props)
+      await this.provider.log(networkId, funnel, journey, step, seq, account, e, props)
     } catch (error) {
       console.error('Unhandled Error', error)
     }
@@ -59,9 +59,9 @@ export class Analytics {
     }
   }
 
-  async logPageLoad (network, account = 'N/A', path) {
+  async logPageLoad (networkId, account = 'N/A', path) {
     try {
-      this.provider.logPageLoad(network, account, path)
+      this.provider.logPageLoad(networkId, account, path)
     } catch (error) {
       console.error('Unhandled Error', error)
     }

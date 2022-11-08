@@ -202,11 +202,30 @@ export const useStakingPoolDeposit = ({
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          sales: 'N/A',
+          salesCurrency: 'N/A',
+          salesFormatted: 'N/A',
+          account,
+          tx: tx.hash,
+          type: info.myStake === 0 ? 'enter' : 'add',
+          poolKey,
+          poolName: info.name,
+          stake: value,
+          stakeCurrency: tokenSymbol,
+          stakeFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
+          lockupPeriod,
+          lockupPeriodFormatted: explainInterval(lockupPeriod),
+          withdrawStartHeight
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
           status: STATUS.PENDING,
-          data: { value, tokenSymbol }
+          data: { value, tokenSymbol, logData }
         })
 
         await txToast
@@ -246,24 +265,7 @@ export const useStakingPoolDeposit = ({
                   methodName: METHODS.STAKING_DEPOSIT_COMPLETE,
                   status: STATUS.SUCCESS
                 })
-                analyticsLogger(() => logStakingPoolDeposit({
-                  network: NetworkNames[networkId],
-                  networkId,
-                  sales: 'N/A',
-                  salesCurrency: 'N/A',
-                  salesFormatted: 'N/A',
-                  account,
-                  tx: tx.hash,
-                  type: info.myStake === 0 ? 'enter' : 'add',
-                  poolKey,
-                  poolName: info.name,
-                  stake: value,
-                  stakeCurrency: tokenSymbol,
-                  stakeFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
-                  lockupPeriod,
-                  lockupPeriodFormatted: explainInterval(lockupPeriod),
-                  withdrawStartHeight
-                }))
+                analyticsLogger(() => logStakingPoolDeposit(logData))
                 log(networkId, analyticsFunnelName, 'stake-page', 'end', 9999, account, 'closed')
               },
               onTxFailure: () => {

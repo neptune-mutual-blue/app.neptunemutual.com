@@ -166,27 +166,6 @@ export const useClaimPolicyInfo = ({
                 methodName: METHODS.CLAIM_COVER_APPROVE,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logClaimCover({
-                network: NetworkNames[networkId],
-                networkId,
-                coverKey,
-                coverName: safeParseBytes32String(coverKey),
-                productKey,
-                productName: safeParseBytes32String(productKey),
-                cost: receiveAmount,
-                costCurrency: liquidityTokenDecimals,
-                costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenDecimals, true),
-                account,
-                tx,
-                claim: value,
-                claimCurrency: cxTokenSymbol,
-                claimFormatted: formatCurrency(value, router.locale, cxTokenSymbol, true),
-                fee: claimPlatformFee,
-                feeFormatted: formatPercent(
-                  toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
-                  router.locale
-                )
-              }))
             },
             onTxFailure: () => {
               TransactionHistory.push({
@@ -246,6 +225,28 @@ export const useClaimPolicyInfo = ({
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          coverKey,
+          coverName: safeParseBytes32String(coverKey),
+          productKey,
+          productName: safeParseBytes32String(productKey),
+          cost: receiveAmount,
+          costCurrency: liquidityTokenDecimals,
+          costFormatted: formatCurrency(receiveAmount, router.locale, liquidityTokenDecimals, true),
+          account,
+          tx,
+          claim: value,
+          claimCurrency: cxTokenSymbol,
+          claimFormatted: formatCurrency(value, router.locale, cxTokenSymbol, true),
+          fee: claimPlatformFee,
+          feeFormatted: formatPercent(
+            toBN(claimPlatformFee).dividedBy(MULTIPLIER).toString(),
+            router.locale
+          )
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.CLAIM_COVER_COMPLETE,
@@ -253,7 +254,8 @@ export const useClaimPolicyInfo = ({
           data: {
             value,
             receiveAmount,
-            tokenSymbol
+            tokenSymbol,
+            logData
           }
         })
 
@@ -271,6 +273,8 @@ export const useClaimPolicyInfo = ({
                 methodName: METHODS.CLAIM_COVER_COMPLETE,
                 status: STATUS.SUCCESS
               })
+
+              analyticsLogger(() => logClaimCover(logData))
 
               refetchBalance()
               onTxSuccess()

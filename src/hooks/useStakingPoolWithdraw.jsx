@@ -68,13 +68,32 @@ export const useStakingPoolWithdraw = ({
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          sales: 'N/A',
+          salesCurrency: 'N/A',
+          salesFormatted: 'N/A',
+          account,
+          tx: tx.hash,
+          poolKey,
+          poolName: poolInfo.name,
+          withdrawal: value,
+          withdrawalCurrency: tokenSymbol,
+          withdrawalFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
+          stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
+          stakeCurrency: stakingTokenSymbol,
+          stakeFormatted: formatCurrency(convertFromUnits(poolInfo?.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.UNSTAKING_DEPOSIT,
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol
+            tokenSymbol,
+            logData
           }
         })
 
@@ -117,23 +136,7 @@ export const useStakingPoolWithdraw = ({
                   tokenSymbol
                 }
               })
-              analyticsLogger(() => logStakingPoolWithdraw({
-                network: NetworkNames[networkId],
-                networkId,
-                sales: 'N/A',
-                salesCurrency: 'N/A',
-                salesFormatted: 'N/A',
-                account,
-                tx: tx.hash,
-                poolKey,
-                poolName: poolInfo.name,
-                withdrawal: value,
-                withdrawalCurrency: tokenSymbol,
-                withdrawalFormatted: formatCurrency(value, router.locale, tokenSymbol, true).short,
-                stake: convertFromUnits(poolInfo.myStake, stakingTokenDecimals).toString(),
-                stakeCurrency: stakingTokenSymbol,
-                stakeFormatted: formatCurrency(convertFromUnits(poolInfo?.myStake, stakingTokenDecimals).toString(), router.locale, stakingTokenSymbol, true).short
-              }))
+              analyticsLogger(() => logStakingPoolWithdraw(logData))
               log(networkId, 'Withdraw Reward', 'stake-page', 'end', 9999, account, 'closed')
               onTxSuccess()
             },

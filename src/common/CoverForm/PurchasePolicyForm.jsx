@@ -25,6 +25,9 @@ import { Loader } from '@/common/Loader/Loader'
 import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
 import { Routes } from '@/src/config/routes'
 import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
+import { analyticsLogger } from '@/utils/logger'
+import { log } from '@/src/services/logs'
+import { useWeb3React } from '@web3-react/core'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -112,6 +115,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     productStatus
   } = useCoverStatsContext()
 
+  const { account, chainId } = useWeb3React()
+
   const handleChange = (val) => {
     if (typeof val === 'string') {
       setValue(val)
@@ -123,6 +128,38 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
+
+  const handleLog = (sequence) => {
+    const funnel = 'Purchase Policy'
+    const journey = 'purchase-policy-page'
+
+    let step, event
+    switch (sequence) {
+      case 1:
+        step = 'approve-button'
+        event = 'click'
+        break
+
+      case 2:
+        step = 'purchase-policy-button'
+        event = 'click'
+        break
+
+      case 9999:
+        step = 'end'
+        event = 'closed'
+        break
+
+      default:
+        step = 'step'
+        event = 'event'
+        break
+    }
+
+    analyticsLogger(() => {
+      log(chainId, funnel, journey, step, sequence, account, event, {})
+    })
+  }
 
   let loadingMessage = ''
   if (updatingFee) {
@@ -281,7 +318,10 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               isReferralCodeCheckPending
             }
               className='w-full p-6 font-semibold uppercase text-h6'
-              onClick={handleApprove}
+              onClick={() => {
+                handleApprove()
+                handleLog(1)
+              }}
             >
               {approving
                 ? (
@@ -312,6 +352,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                   setReferralCode('')
                   setCoverMonth('')
                 })
+                handleLog(2)
+                handleLog(9999)
               }}
             >
               {purchasing ? t`Purchasing...` : t`Purchase Policy`}

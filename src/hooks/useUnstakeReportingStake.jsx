@@ -64,12 +64,34 @@ export const useUnstakeReportingStake = ({
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          coverKey,
+          coverName: safeParseBytes32String(coverKey),
+          productKey,
+          productName: safeParseBytes32String(productKey),
+          details: {
+            sales: 'N/A',
+            salesCurrency: 'N/A',
+            salesFormatted: 'N/A',
+            account,
+            tx: tx.hash,
+            stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
+            stakeCurrency: NPMTokenSymbol,
+            stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
+            camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
+            withClaim: 'no'
+          }
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.REPORTING_UNSTAKE,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: NPMTokenSymbol
+            tokenSymbol: NPMTokenSymbol,
+            logData
           }
         })
 
@@ -108,26 +130,7 @@ export const useUnstakeReportingStake = ({
                   tokenSymbol: NPMTokenSymbol
                 }
               })
-              analyticsLogger(() => logUnstakeReportingRewards({
-                network: NetworkNames[networkId],
-                networkId,
-                coverKey,
-                coverName: safeParseBytes32String(coverKey),
-                productKey,
-                productName: safeParseBytes32String(productKey),
-                details: {
-                  sales: 'N/A',
-                  salesCurrency: 'N/A',
-                  salesFormatted: 'N/A',
-                  account,
-                  tx: tx.hash,
-                  stake: convertFromUnits(willReceive, NPMTokenDecimals).decimalPlaces(2).toString(),
-                  stakeCurrency: NPMTokenSymbol,
-                  stakeFormatted: formatCurrency(convertFromUnits(willReceive, NPMTokenDecimals).toString(), router.locale, NPMTokenSymbol, true).short,
-                  camp: incidentStatus === 'Claimable' ? 'yes' : 'no',
-                  withClaim: 'no'
-                }
-              }))
+              analyticsLogger(() => logUnstakeReportingRewards(logData))
               onTxSuccess()
             },
             onTxFailure: () => {
