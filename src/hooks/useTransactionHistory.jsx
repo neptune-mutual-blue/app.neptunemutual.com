@@ -9,6 +9,9 @@ import {
 } from '@/src/services/transactions/transaction-history'
 import { getActionMessage } from '@/src/helpers/notification'
 import { LSHistory } from '@/src/services/transactions/history'
+import { METHODS } from '@/src/services/transactions/const'
+import { logAddLiquidity, logBondClaimed, logBondCreated, logClaimCover, logIncidentDisputed, logIncidentReported, logPolicyPurchase, logRemoveLiquidity, logStakingPoolDeposit, logStakingPoolWithdraw, logUnstakeReportingRewards } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
 /**
  * @callback INotify
  * @param {string} title
@@ -19,6 +22,63 @@ import { LSHistory } from '@/src/services/transactions/history'
  * @prop {INotify} pushSuccess
  * @prop {INotify} pushError
  */
+
+const handleLog = (methodName, logData) => {
+  let logFunction = (a) => a
+
+  switch (methodName) {
+    case METHODS.POLICY_PURCHASE:
+      logFunction = logPolicyPurchase
+      break
+
+    case METHODS.LIQUIDITY_PROVIDE:
+      logFunction = logAddLiquidity
+      break
+
+    case METHODS.REPORT_DISPUTE_COMPLETE:
+      logFunction = logIncidentDisputed
+      break
+
+    case METHODS.LIQUIDITY_REMOVE:
+      logFunction = logRemoveLiquidity
+      break
+
+    case METHODS.REPORTING_UNSTAKE:
+      logFunction = logUnstakeReportingRewards
+      break
+
+    case METHODS.CLAIM_COVER_COMPLETE:
+      logFunction = logClaimCover
+      break
+
+    case METHODS.BOND_CREATE:
+      logFunction = logBondCreated
+      break
+
+    case METHODS.BOND_CLAIM:
+      logFunction = logBondClaimed
+      break
+
+    case METHODS.STAKING_DEPOSIT_COMPLETE:
+      logFunction = logStakingPoolDeposit
+      break
+
+    case METHODS.UNSTAKING_DEPOSIT:
+      logFunction = logStakingPoolWithdraw
+      break
+
+    case METHODS.REPORT_INCIDENT_COMPLETE:
+      logFunction = logIncidentReported
+      break
+
+    default:
+      break
+  }
+
+  analyticsLogger(() => {
+    logFunction(logData)
+  })
+}
 
 export function useTransactionHistory () {
   const { account, library } = useWeb3React()
@@ -56,6 +116,11 @@ export function useTransactionHistory () {
           TransactionHistory.process(
             TransactionHistory.callback(signerOrProvider.provider, {
               success: ({ hash, methodName, data }) => {
+                if (data?.logData) {
+                  handleLog(methodName, data.logData)
+                  delete data.logData
+                }
+
                 txToast.pushSuccess(
                   getActionMessage(methodName, STATUS.SUCCESS, data).title,
                   hash

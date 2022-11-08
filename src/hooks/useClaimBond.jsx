@@ -56,12 +56,29 @@ export const useClaimBond = ({ claimable }) => {
       )
 
       const onTransactionResult = async (tx) => {
+        const logData = {
+          network: NetworkNames[networkId],
+          networkId,
+          sales: 'N/A',
+          salesCurrency: 'N/A',
+          salesFormatted: 'N/A',
+          account,
+          tx: tx.hash,
+          allocation: claimable,
+          allocationCurrency: NPMTokenSymbol,
+          allocationFormatted: formatCurrency(formatAmount(
+            convertFromUnits(claimable).toString(),
+            router.locale
+          )).short
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.BOND_CLAIM,
           status: STATUS.PENDING,
           data: {
-            tokenSymbol: NPMTokenSymbol
+            tokenSymbol: NPMTokenSymbol,
+            logData
           }
         })
 
@@ -85,21 +102,7 @@ export const useClaimBond = ({ claimable }) => {
                 methodName: METHODS.BOND_CLAIM,
                 status: STATUS.SUCCESS
               })
-              analyticsLogger(() => logBondClaimed({
-                network: NetworkNames[networkId],
-                networkId,
-                sales: 'N/A',
-                salesCurrency: 'N/A',
-                salesFormatted: 'N/A',
-                account,
-                tx: tx.hash,
-                allocation: claimable,
-                allocationCurrency: NPMTokenSymbol,
-                allocationFormatted: formatCurrency(formatAmount(
-                  convertFromUnits(claimable).toString(),
-                  router.locale
-                )).short
-              }))
+              analyticsLogger(() => logBondClaimed(logData))
               onTxSuccess()
             },
             onTxFailure: () => {

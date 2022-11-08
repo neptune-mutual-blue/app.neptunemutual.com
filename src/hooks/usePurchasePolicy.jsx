@@ -229,13 +229,55 @@ export const usePurchasePolicy = ({
       const onTransactionResult = async (tx) => {
         setPurchaseWaiting(true)
 
+        const logData = {
+          networkId,
+          network: NetworkNames[networkId],
+          account,
+          coverKey,
+          coverName: safeParseBytes32String(coverKey),
+          productKey,
+          productName: safeParseBytes32String(productKey),
+          coverFee: convertFromUnits(feeAmount, liquidityTokenDecimals),
+          coverFeeCurrency: liquidityTokenSymbol,
+          coverFeeFormatted: formatCurrency(
+            convertFromUnits(feeAmount, liquidityTokenDecimals),
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          protection: value,
+          protectionCurrency: liquidityTokenSymbol,
+          protectionFormatted: formatCurrency(
+            value,
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          sales: value,
+          salesCurrency: liquidityTokenSymbol,
+          salesFormatted: formatCurrency(
+            value,
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short,
+          coveragePeriod: coverMonth,
+          coverMonthFormatted: coverMonth + ' months',
+          coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
+          coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
+          coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
+          referralCode: referralCode,
+          tx: tx.hash
+        }
+
         TransactionHistory.push({
           hash: tx.hash,
           methodName: METHODS.POLICY_PURCHASE,
           status: STATUS.PENDING,
           data: {
             value,
-            tokenSymbol: liquidityTokenSymbol
+            tokenSymbol: liquidityTokenSymbol,
+            logData
           }
         })
 
@@ -266,48 +308,7 @@ export const usePurchasePolicy = ({
                 }
               })
 
-              analyticsLogger(() => {
-                logPolicyPurchase({
-                  networkId,
-                  network: NetworkNames[networkId],
-                  account,
-                  coverKey,
-                  coverName: safeParseBytes32String(coverKey),
-                  productKey,
-                  productName: safeParseBytes32String(productKey),
-                  coverFee: convertFromUnits(feeAmount, liquidityTokenDecimals),
-                  coverFeeCurrency: liquidityTokenSymbol,
-                  coverFeeFormatted: formatCurrency(
-                    convertFromUnits(feeAmount, liquidityTokenDecimals),
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  protection: value,
-                  protectionCurrency: liquidityTokenSymbol,
-                  protectionFormatted: formatCurrency(
-                    value,
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  sales: value,
-                  salesCurrency: liquidityTokenSymbol,
-                  salesFormatted: formatCurrency(
-                    value,
-                    router.locale,
-                    liquidityTokenSymbol,
-                    true
-                  ).short,
-                  coveragePeriod: coverMonth,
-                  coverMonthFormatted: coverMonth + ' months',
-                  coveragePeriodMonth: currentMonthIndex + parseInt(coverMonth),
-                  coveragePeriodMonthFormatted: getMonthNames(router.locale)[(currentMonthIndex - 1 + parseInt(coverMonth)) % 12],
-                  coveragePeriodYear: (currentMonthIndex + parseInt(coverMonth)) % 12 === 0 ? year : year + 1,
-                  referralCode: referralCode,
-                  tx: tx.hash
-                })
-              })
+              analyticsLogger(() => logPolicyPurchase(logData))
 
               onTxSuccess()
             },
