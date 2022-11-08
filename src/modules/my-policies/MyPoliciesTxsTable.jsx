@@ -215,10 +215,12 @@ const CxTokenAmountRenderer = ({ row }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
+  const isClaimTx = row.type === 'Claimed'
+
   // @todo: cxTokenAmount will not be equal to daiAmount, if they don't have same decimals
-  const amount = row.type === 'Claimed' ? row.cxTokenAmount : row.daiAmount
+  const amount = isClaimTx ? row.cxTokenAmount : row.daiAmount
   const decimals =
-    row.type === 'Claimed' ? row.cxToken.tokenDecimals : liquidityTokenDecimals
+    isClaimTx ? row.cxToken.tokenDecimals : liquidityTokenDecimals
   const formattedCurrency = formatCurrency(
     convertFromUnits(amount, decimals),
     // convertFromUnits(row.cxTokenAmount, row.cxToken.tokenDecimals),
@@ -231,9 +233,7 @@ const CxTokenAmountRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
       <div className='flex items-center justify-end whitespace-nowrap'>
         <span
-          className={
-            row.type === 'CoverPurchased' ? 'text-404040' : 'text-FA5C2F'
-          }
+          className={isClaimTx ? 'text-FA5C2F' : 'text-404040'}
           title={formattedCurrency.long}
         >
           {formattedCurrency.short}
@@ -260,9 +260,25 @@ const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
   const router = useRouter()
 
+  const isCoverPurchase = row.type === 'CoverPurchased'
+
   return (
     <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
       <div className='flex items-center justify-end'>
+
+        {isCoverPurchase && (
+          <a
+            href={Routes.ViewPolicyReceipt(row.transaction.id)}
+            target='_blank'
+            rel='noreferrer noopener nofollow'
+            className='p-1 mr-4 text-black'
+            title='View Receipt'
+          >
+            <span className='sr-only'>View Receipt</span>
+            <PolicyReceiptIcon className='w-4 h-4' />
+          </a>
+        )}
+
         {/* Tooltip */}
         <Tooltip.Root>
           <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
@@ -285,17 +301,6 @@ const ActionsRenderer = ({ row }) => {
             <Tooltip.Arrow offset={16} className='fill-black' />
           </Tooltip.Content>
         </Tooltip.Root>
-
-        <a
-          href={Routes.ViewPolicyReceipt(row.transaction.id)}
-          target='_blank'
-          rel='noreferrer noopener nofollow'
-          className='p-1 mr-4 text-black'
-          title='View Receipt'
-        >
-          <span className='sr-only'>View Receipt</span>
-          <PolicyReceiptIcon className='w-4 h-4' />
-        </a>
 
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
