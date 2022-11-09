@@ -1,6 +1,10 @@
 import { NoScript } from '@/common/NoScript'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
+const opImageUri = 'https://app.neptunemutual.com/images/og.png'
+const title = 'Neptune Mutual Decentralized Insurance'
+const description = 'Neptune Mutual protects the Ethereum community from hacks and exploits through its unique parametric DeFi insurance marketplace designed to cover, protect and secure onchain digital assets; power by Ethereum, driven by stablecoins.'
+
 class MyDocument extends Document {
   render () {
     return (
@@ -82,6 +86,16 @@ class MyDocument extends Document {
             content='/icons/ms-icon-144x144.png'
           />
           <meta name='theme-color' content='#01052D' />
+
+          <meta property='og:type' content='website' />
+          <meta property='og:image' content={opImageUri} />
+          <meta property='og:title' content={title} />
+          <meta property='og:description' content={description} />
+
+          <meta name='twitter:card' content='summary' />
+          <meta name='twitter:title' content={title} />
+          <meta name='twitter:description' content={description} />
+          <meta name='twitter:image' content={opImageUri} />
         </Head>
         <body
           translate='no'
