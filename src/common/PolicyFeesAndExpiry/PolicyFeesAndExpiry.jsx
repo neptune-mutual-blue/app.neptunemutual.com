@@ -20,8 +20,6 @@ export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
   const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(DateLib.unix(), coverageLag)))
   const expires = DateLib.fromUnix(data.expiryDate)
 
-  console.log(startsAt)
-
   return (
     <>
       <hr className='py-1 mb-4 border-t mt-14 border-d4dfee' />
