@@ -1,6 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber'
 
 const extractBignumber = (value) => {
+  if (typeof value === 'boolean') {
+    return value
+  }
+
   if (!value) {
     return ''
   }
