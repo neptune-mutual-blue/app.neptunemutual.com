@@ -53,8 +53,6 @@ export const LEADERBOARD_URL = 'https://leaderboard.neptunemutual.com/'
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  3: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  42: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001:
     'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   43113:
@@ -63,8 +61,6 @@ export const POOL_URLS = {
 
 export const SUBGRAPH_API_URLS = {
   1: process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
-  3: process.env.NEXT_PUBLIC_ROPSTEN_SUBGRAPH_URL,
-  42: process.env.NEXT_PUBLIC_KOVAN_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
   43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL
 }
@@ -75,8 +71,7 @@ export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',
   43113: 'fuji',
-  1: '',
-  3: 'ropsten'
+  1: ''
 }
 
 export const homeViewSelectionKey = 'view'
