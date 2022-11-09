@@ -63,7 +63,7 @@ export const DescriptionComponent = ({
                 <>
                   {
                   childList.text &&
-                    <div className={classNames('pl-6 mt-4 space-y-4', childList.textClass ?? '')}>
+                    <div className={classNames('mt-4 space-y-4', childList.textClass ?? '')}>
                       {
                         Array.isArray(childList.text)
                           ? childList.text.map((t, i) => <p key={i}>{t}</p>)

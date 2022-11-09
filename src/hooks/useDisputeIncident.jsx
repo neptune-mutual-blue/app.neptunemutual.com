@@ -175,6 +175,30 @@ export const useDisputeIncident = ({
 
       const tx = wrappedResult.result.tx
 
+      const logData = {
+        network: NetworkNames[networkId],
+        networkId,
+        account,
+        coverKey,
+        coverName: safeParseBytes32String(coverKey),
+        productKey,
+        productName: safeParseBytes32String(productKey),
+        sales: 'N/A',
+        salesCurrency: 'N/A',
+        salesFormatted: 'N/A',
+        title: payload.title,
+        disputeProofs: payload.proofOfDispute,
+        stake: value,
+        stakeCurrency: NPMTokenSymbol,
+        stakeFormatted: formatCurrency(
+          value,
+          router.locale,
+          NPMTokenSymbol,
+          true
+        ).short,
+        tx: tx.hash
+      }
+
       TransactionHistory.push({
         hash: tx.hash,
         methodName: METHODS.REPORT_DISPUTE_COMPLETE,
@@ -182,7 +206,8 @@ export const useDisputeIncident = ({
         data: {
           value,
           tokenSymbol: NPMTokenSymbol,
-          date: incidentDate
+          date: incidentDate,
+          logData
         }
       })
 
@@ -210,29 +235,8 @@ export const useDisputeIncident = ({
               status: STATUS.SUCCESS
             })
 
-            analyticsLogger(() => logIncidentDisputed({
-              network: NetworkNames[networkId],
-              networkId,
-              account,
-              coverKey,
-              coverName: safeParseBytes32String(coverKey),
-              productKey,
-              productName: safeParseBytes32String(productKey),
-              sales: 'N/A',
-              salesCurrency: 'N/A',
-              salesFormatted: 'N/A',
-              title: payload.title,
-              disputeProofs: payload.proofOfDispute,
-              stake: value,
-              stakeCurrency: NPMTokenSymbol,
-              stakeFormatted: formatCurrency(
-                value,
-                router.locale,
-                NPMTokenSymbol,
-                true
-              ).short,
-              tx: tx.hash
-            }))
+            analyticsLogger(() => logIncidentDisputed(logData))
+
             router.replace(
               Routes.ViewReport(coverKey, productKey, incidentDate)
             )

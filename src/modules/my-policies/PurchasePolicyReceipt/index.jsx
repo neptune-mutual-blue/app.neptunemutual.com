@@ -15,6 +15,7 @@ import { t } from '@lingui/macro'
 import Link from 'next/link'
 import { Routes } from '@/src/config/routes'
 import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -230,6 +231,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           className='mt-6'
           bullets
         />
+
+        <StandardsTerms className='mt-8 text-lg' />
       </div>
     </div>
   )
