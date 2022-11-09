@@ -53,8 +53,9 @@ export const getAddressesFromApi = async (networkId) => {
     }
 
     const { data } = await response.json()
-    const npmAddr = data.find((item) => item.key === 'NPM') || {}
-    const daiAddr = data.find((item) => item.key === 'Stablecoin') || {}
+
+    const npmAddr = data.contracts.find((item) => item.key === 'NPM') || {}
+    const daiAddr = data.contracts.find((item) => item.key === 'Stablecoin') || {}
 
     return {
       NPMTokenAddress: npmAddr.value,

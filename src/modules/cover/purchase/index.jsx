@@ -24,6 +24,7 @@ import { log, logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
 import { analyticsLogger } from '@/utils/logger'
+import { Alert } from '@/common/Alert/Alert'
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -129,6 +130,11 @@ export const CoverPurchaseDetailsPage = () => {
               : (
                 <>
                   <CoverParameters parameters={coverInfo.infoObj?.parameters} />
+                  <Alert info closable>
+                    <Trans>
+                      The minimum of 10 NPM tokens will be required only after the TGE. For the time being, you may purchase policy and receive payouts when an incident is resolved.
+                    </Trans>
+                  </Alert>
                   <AcceptRulesForm
                     onAccept={handleAcceptRules}
                     coverKey={coverKey}

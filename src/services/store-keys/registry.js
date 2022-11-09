@@ -22,6 +22,17 @@ export const policy = (property = 'policy') => {
   }
 }
 
+export const policyAdmin = (property = 'policyAdmin') => {
+  return {
+    key: [
+      utils.keyUtil.PROTOCOL.NS.CONTRACTS,
+      utils.keyUtil.PROTOCOL.CNS.COVER_POLICY_ADMIN
+    ],
+    returns: 'address',
+    property
+  }
+}
+
 export const governance = (property = 'governance') => {
   return {
     key: [

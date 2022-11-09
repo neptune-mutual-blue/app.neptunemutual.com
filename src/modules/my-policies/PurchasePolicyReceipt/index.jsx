@@ -2,7 +2,7 @@ import { DescriptionComponent } from '@/modules/my-policies/PurchasePolicyReceip
 import { useRouter } from 'next/router'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { convertFromUnits, toBN } from '@/utils/bn'
+import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
@@ -14,6 +14,7 @@ import { Alert } from '@/common/Alert/Alert'
 import { t } from '@lingui/macro'
 import Link from 'next/link'
 import { Routes } from '@/src/config/routes'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
@@ -22,6 +23,10 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const { data: event } = useFetchCoverPurchasedEvent({ txHash })
   const coverInfo = useCoverOrProductData({
+    coverKey: event?.coverKey,
+    productKey: event?.productKey
+  })
+  const { info } = useFetchCoverStats({
     coverKey: event?.coverKey,
     productKey: event?.productKey
   })
@@ -56,6 +61,8 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     )
     .toString()
 
+  const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(event.createdAtTimestamp, info.coverageLag)))
+
   const onBehalfOfData = [
     {
       label: 'Protection',
@@ -79,7 +86,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     },
     {
       label: 'Start Date',
-      value: DateLib.toLongDateFormat(event.createdAtTimestamp, 'en-GB', '')
+      value: DateLib.toLongDateFormat(startsAt, 'en-GB', '')
     },
     {
       label: 'End Date',

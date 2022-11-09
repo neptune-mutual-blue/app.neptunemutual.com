@@ -21,6 +21,7 @@ export const defaultStats = {
   productStatus: '',
   totalPoolAmount: '0',
   availableLiquidity: '0',
+  coverageLag: '0',
   minReportingStake: '0'
 }
 
@@ -88,27 +89,18 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
         if (ignore || !data) return
 
         setInfo({
-          activeIncidentDate:
-            data.activeIncidentDate || defaultStats.activeIncidentDate,
-          claimPlatformFee:
-            data.claimPlatformFee || defaultStats.claimPlatformFee,
-          activeCommitment:
-            data.activeCommitment || defaultStats.activeCommitment,
-          isUserWhitelisted:
-            data.isUserWhitelisted || defaultStats.isUserWhitelisted,
-          reporterCommission:
-            data.reporterCommission || defaultStats.reporterCommission,
+          activeIncidentDate: data.activeIncidentDate || defaultStats.activeIncidentDate,
+          claimPlatformFee: data.claimPlatformFee || defaultStats.claimPlatformFee,
+          activeCommitment: data.activeCommitment || defaultStats.activeCommitment,
+          isUserWhitelisted: data.isUserWhitelisted || defaultStats.isUserWhitelisted,
+          reporterCommission: data.reporterCommission || defaultStats.reporterCommission,
           reportingPeriod: data.reportingPeriod || defaultStats.reportingPeriod,
-          requiresWhitelist:
-            data.requiresWhitelist || defaultStats.requiresWhitelist,
-          productStatus:
-            CoverStatus[data.productStatus] ||
-            CoverStatus[defaultStats.productStatus],
+          requiresWhitelist: data.requiresWhitelist || defaultStats.requiresWhitelist,
+          productStatus: CoverStatus[data.productStatus] || CoverStatus[defaultStats.productStatus],
           totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
-          availableLiquidity:
-            data.availableLiquidity || defaultStats.availableLiquidity,
-          minReportingStake:
-            data.minReportingStake || defaultStats.minReportingStake
+          availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
+          coverageLag: data.coverageLag || defaultStats.coverageLag,
+          minReportingStake: data.minReportingStake || defaultStats.minReportingStake
         })
       } catch (error) {
         console.error(error)
@@ -132,27 +124,18 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
       if (!data) return
 
       setInfo({
-        activeIncidentDate:
-          data.activeIncidentDate || defaultStats.activeIncidentDate,
-        claimPlatformFee:
-          data.claimPlatformFee || defaultStats.claimPlatformFee,
-        activeCommitment:
-          data.activeCommitment || defaultStats.activeCommitment,
-        isUserWhitelisted:
-          data.isUserWhitelisted || defaultStats.isUserWhitelisted,
-        reporterCommission:
-          data.reporterCommission || defaultStats.reporterCommission,
+        activeIncidentDate: data.activeIncidentDate || defaultStats.activeIncidentDate,
+        claimPlatformFee: data.claimPlatformFee || defaultStats.claimPlatformFee,
+        activeCommitment: data.activeCommitment || defaultStats.activeCommitment,
+        isUserWhitelisted: data.isUserWhitelisted || defaultStats.isUserWhitelisted,
+        reporterCommission: data.reporterCommission || defaultStats.reporterCommission,
         reportingPeriod: data.reportingPeriod || defaultStats.reportingPeriod,
-        requiresWhitelist:
-          data.requiresWhitelist || defaultStats.requiresWhitelist,
-        productStatus:
-          CoverStatus[data.productStatus] ||
-          CoverStatus[defaultStats.productStatus],
+        requiresWhitelist: data.requiresWhitelist || defaultStats.requiresWhitelist,
+        productStatus: CoverStatus[data.productStatus] || CoverStatus[defaultStats.productStatus],
         totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
-        availableLiquidity:
-          data.availableLiquidity || defaultStats.availableLiquidity,
-        minReportingStake:
-          data.minReportingStake || defaultStats.minReportingStake
+        availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
+        coverageLag: data.coverageLag || defaultStats.coverageLag,
+        minReportingStake: data.minReportingStake || defaultStats.minReportingStake
       })
     } catch (error) {
       console.error(error)

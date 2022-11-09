@@ -7,6 +7,7 @@ const defaultStats = {
   claimPlatformFee: '0',
   activeCommitment: '0',
   availableLiquidity: '0',
+  coverageLag: '0',
   isUserWhitelisted: false,
   reporterCommission: '0',
   reportingPeriod: '0',
@@ -40,6 +41,7 @@ export const CoverStatsProvider = ({
     productStatus,
     totalPoolAmount,
     availableLiquidity,
+    coverageLag,
     minReportingStake
   } = info
 
@@ -54,6 +56,7 @@ export const CoverStatsProvider = ({
         reportingPeriod,
         requiresWhitelist,
         availableLiquidity,
+        coverageLag,
         productStatus,
         totalPoolAmount,
         minReportingStake,
