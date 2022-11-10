@@ -28,6 +28,9 @@ import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
+import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import { useNetwork } from '@/src/context/Network'
+import { useNotifier } from '@/src/hooks/useNotifier'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -55,6 +58,8 @@ const getCoveragePeriodLabels = (locale) => {
 
 export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter()
+  const { notifier } = useNotifier()
+  const { networkId } = useNetwork()
 
   const [value, setValue] = useState('')
   const [referralCode, setReferralCode] = useState('')
@@ -300,14 +305,33 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         </div>
       </div>
 
-      {value && coverMonth && <PolicyFeesAndExpiry data={feeData} coverageLag={coverageLag} />}
+      {!account && (
+        <Alert info>
+          <div className='flex items-end justify-between ml-4'>
+            <div className='max-w-[265px]'>
+              <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
+              <p>Please connect your wallet to view the price quotation.</p>
+            </div>
+            <ConnectWallet networkId={networkId} notifier={notifier}>
+              {({ onOpen }) => {
+                return (
+                  <RegularButton className='px-2 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
+                )
+              }}
+            </ConnectWallet>
+          </div>
+        </Alert>
+      )}
 
-      <div className='mt-4'>
-        <DataLoadingIndicator message={loadingMessage} />
-        {!canPurchase
-          ? (
-            <RegularButton
-              disabled={
+      {account && (
+        <>
+          {value && coverMonth && <PolicyFeesAndExpiry data={feeData} coverageLag={coverageLag} />}
+          <div className='mt-4'>
+            <DataLoadingIndicator message={loadingMessage} />
+            {!canPurchase
+              ? (
+                <RegularButton
+                  disabled={
               !!error ||
               approving ||
               !value ||
@@ -316,26 +340,26 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               updatingBalance ||
               isReferralCodeCheckPending
             }
-              className='w-full p-6 font-semibold uppercase text-h6'
-              onClick={() => {
-                handleApprove()
-                handleLog(1)
-              }}
-            >
-              {approving
-                ? (
-                    t`Approving...`
-                  )
-                : (
-                  <>
-                    <Trans>Approve</Trans> {liquidityTokenSymbol}
-                  </>
-                  )}
-            </RegularButton>
-            )
-          : (
-            <RegularButton
-              disabled={
+                  className='w-full p-6 font-semibold uppercase text-h6'
+                  onClick={() => {
+                    handleApprove()
+                    handleLog(1)
+                  }}
+                >
+                  {approving
+                    ? (
+                        t`Approving...`
+                      )
+                    : (
+                      <>
+                        <Trans>Approve</Trans> {liquidityTokenSymbol}
+                      </>
+                      )}
+                </RegularButton>
+                )
+              : (
+                <RegularButton
+                  disabled={
               !!error ||
               purchasing ||
               !value ||
@@ -344,21 +368,23 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               updatingBalance ||
               !isValidReferralCode
             }
-              className='w-full p-6 font-semibold uppercase text-h6'
-              onClick={() => {
-                handlePurchase(() => {
-                  setValue('')
-                  setReferralCode('')
-                  setCoverMonth('')
-                })
-                handleLog(2)
-                handleLog(9999)
-              }}
-            >
-              {purchasing ? t`Purchasing...` : t`Purchase Policy`}
-            </RegularButton>
-            )}
-      </div>
+                  className='w-full p-6 font-semibold uppercase text-h6'
+                  onClick={() => {
+                    handlePurchase(() => {
+                      setValue('')
+                      setReferralCode('')
+                      setCoverMonth('')
+                    })
+                    handleLog(2)
+                    handleLog(9999)
+                  }}
+                >
+                  {purchasing ? t`Purchasing...` : t`Purchase Policy`}
+                </RegularButton>
+                )}
+          </div>
+        </>
+      )}
 
       <div className='flex justify-center mt-12 md:justify-start'>
         <BackButton onClick={() => router.back()} />
