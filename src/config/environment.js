@@ -1,30 +1,13 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
+import { detectChainId } from '@/utils/dns'
 
-function getChainIdFromDNS () {
-  // window.location.host - subdomain.domain.com
-  const parts = window.location.host.split('.')
+export const getNetworkId = () => {
+  const host = window.location.host
+  const chainId = detectChainId(host)
 
-  switch (parts[0]) {
-    case 'app':
-    case 'eth':
-      return '1'
-    case 'mumbai':
-      return '80001'
-    case 'fuji':
-      return '43113'
-    case 'bsctest':
-      return '97'
-    case 'bsc':
-      return '56'
-    case 'polygon':
-      return '137'
-
-    default:
-      return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '43113'
-  }
+  return parseInt(chainId, 10)
 }
 
-export const getNetworkId = () => parseInt(getChainIdFromDNS(), 10)
 export const getGraphURL = (networkId) => SUBGRAPH_API_URLS[networkId] || null
 
 export const isFeatureEnabled = (feature) => {
