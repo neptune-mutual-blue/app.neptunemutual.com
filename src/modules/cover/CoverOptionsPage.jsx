@@ -153,7 +153,6 @@ export const CoverOptionsPage = ({
                         coverActions[actionKey].description
                       )}
                       imgSrc={coverActions[actionKey].imgSrc}
-                      smImgSrc={coverActions[actionKey].smImgSrc}
                     />
                   </a>
                 </Link>

@@ -5,7 +5,7 @@ export const CoverActionCard = ({ title, description, imgSrc }) => {
     <OutlinedCard className='px-4 py-6 bg-white xl:p-10' type='link'>
       <div className='flex items-center'>
         <div className='ml-2 mr-4 md:ml-0 md:mr-6'>
-          <div className='flex items-center justify-center w-16 h-16 p-4 rounded-full md:w-24 md:h-24 bg-DEEAF6'>
+          <div className='flex items-center justify-center w-16 h-16 rounded-full md:w-24 md:h-24 bg-DEEAF6'>
             <img
               src={imgSrc}
               alt={title}
