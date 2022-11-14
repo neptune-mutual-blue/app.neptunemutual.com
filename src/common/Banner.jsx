@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 
@@ -8,12 +7,12 @@ import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
 import { t, Trans } from '@lingui/macro'
 import { classNames } from '@/utils/classnames'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
   const { isMainNet } = useValidateNetwork(networkId)
-
-  const [show, setShow] = useState(true)
+  const [show, setShow] = useLocalStorage('showAnnouncement', true)
 
   if (!networkId) {
     return null

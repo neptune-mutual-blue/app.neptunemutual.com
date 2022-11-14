@@ -1,3 +1,4 @@
+import { detectChainId } from '@/utils/dns'
 import { getAllowed } from 'http/cors'
 import { NextResponse } from 'next/server'
 
@@ -17,6 +18,30 @@ export function handleBuildManifest (req) {
   }
 
   const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
+  response.headers.set('Pragma', 'no-cache')
+  response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
+  return response
+}
+
+/**
+ *
+ * @param {import("next/server").NextRequest} req
+ * @returns {Promise<Response | undefined> | Response | undefined}
+ */
+export function handleRobotsTxt (req) {
+  if (!req.url.includes('robots.txt')) {
+    return
+  }
+
+  const mainnetChainIds = [1, 10, 56, 137, 42161, 43114]
+  const networkId = detectChainId(req.headers.get('Host'))
+
+  const isMainnet = mainnetChainIds.includes(parseInt(networkId))
+  if (isMainnet) {
+    return
+  }
+
+  const response = NextResponse.rewrite(new URL('/testnet-robots.txt', req.url))
   response.headers.set('Pragma', 'no-cache')
   response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
   return response
