@@ -2,7 +2,6 @@ import { Container } from '@/common/Container/Container'
 import { AcceptRulesForm } from '@/common/AcceptRulesForm/AcceptRulesForm'
 import { useRouter } from 'next/router'
 import { CoverActionsFooter } from '@/common/Cover/CoverActionsFooter'
-import { CoverResolutionSources } from '@/common/Cover/CoverResolutionSources'
 import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { convertFromUnits, toBN } from '@/utils/bn'
@@ -108,8 +107,8 @@ export const CoverPurchaseDetailsPage = () => {
 
       {/* Content */}
       <div className='pt-12 pb-24 border-t border-t-B0C4DB' data-testid='body'>
-        <Container className='grid grid-cols-3 lg:gap-32'>
-          <div className='col-span-3 md:col-span-2'>
+        <Container className='flex justify-center'>
+          <div className='w-2/3'>
             <span className='hidden lg:block'>
               <SeeMoreParagraph
                 text={coverInfo.infoObj.about}
@@ -120,7 +119,7 @@ export const CoverPurchaseDetailsPage = () => {
 
             {acceptedRules
               ? (
-                <div className='mt-12'>
+                <div className='flex justify-center w-full mt-12'>
                   <PurchasePolicyForm
                     coverKey={coverKey}
                     productKey={productKey}
@@ -154,36 +153,7 @@ export const CoverPurchaseDetailsPage = () => {
               text={coverInfo?.infoObj?.about}
             />
           </span>
-          <CoverResolutionSources coverInfo={coverInfo}>
-            <hr className='mt-4 mb-6 border-t border-B0C4DB/60' />
-            <div
-              className='flex justify-between pb-2'
-              title={
-                formatCurrency(
-                  convertFromUnits(
-                    availableLiquidity,
-                    liquidityTokenDecimals
-                  ).toString(),
-                  router.locale
-                ).long
-              }
-            >
-              <span className=''>
-                <Trans>Available Liquidity: </Trans>
-              </span>
-              <strong className='font-bold text-right'>
-                {
-                  formatCurrency(
-                    convertFromUnits(
-                      availableLiquidity,
-                      liquidityTokenDecimals
-                    ).toString(),
-                    router.locale
-                  ).short
-                }
-              </strong>
-            </div>
-          </CoverResolutionSources>
+
         </Container>
       </div>
 

@@ -3,16 +3,16 @@ import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import { formatCurrency } from '@/utils/formatter/currency'
 
-export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
+export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode }) => {
   const { fee, rate } = data
   const router = useRouter()
-  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
+  const { liquidityTokenSymbol, liquidityTokenDecimals } = useAppConstants()
 
   const rateConverted = toBN(rate).dividedBy(MULTIPLIER).toString()
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
@@ -20,14 +20,15 @@ export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
   const startsAt = DateLib.getEodInUTC(DateLib.fromUnix(sumOf(DateLib.unix(), coverageLag)))
   const expires = DateLib.fromUnix(data.expiryDate)
 
+  const secondText = `${value} ${liquidityTokenSymbol}`
+
   return (
     <>
-      <hr className='py-1 mb-4 border-t mt-14 border-d4dfee' />
-      <table className='w-full font-semibold text-black uppercase text-h6'>
+      <table className='w-full font-semibold text-black capitalize text-h6'>
         <tbody>
-          <tr className='flex justify-between mt-3'>
+          <tr className='flex justify-between'>
             <th className='font-semibold text-left'>
-              <Trans>Fees</Trans>
+              <Trans>Premium Rate:</Trans>
             </th>
             <td className='text-right text-4e7dd9'>
               {formatPercent(rateConverted, router.locale)}
@@ -35,40 +36,23 @@ export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left'>
-              <Trans>Cover Fee</Trans>
+              <Trans>{quotationStep ? 'Your Cover Amount:' : 'Cover Fee'}</Trans>
             </th>
-            <td
-              className='text-right text-4e7dd9'
-              title={
-                formatCurrency(
-                  coverFee,
-                  router.locale,
-                  liquidityTokenSymbol,
-                  true
-                ).long
-              }
-            >
-              {
-                formatCurrency(
-                  coverFee,
-                  router.locale,
-                  liquidityTokenSymbol,
-                  true
-                ).short
-              }
+            <td className='text-right text-4e7dd9' title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
+              {quotationStep ? secondText : formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).short}
             </td>
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left'>
-              <Trans>Coverage Period</Trans>
+              <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}:</Trans>
             </th>
             <td className='text-right text-4e7dd9'>
-              {DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
+              {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
               })}{' '}
-              -{' '}
+              {!quotationStep && '-'}{' '}
               {DateLib.toLongDateFormat(expires, router.locale, 'UTC', {
                 year: 'numeric',
                 month: 'short',
@@ -82,6 +66,14 @@ export const PolicyFeesAndExpiry = ({ data, coverageLag }) => {
         </tbody>
       </table>
       <hr className='mt-4 border-t border-d4dfee' />
+      <tr className='flex justify-between mt-3'>
+        <th className='font-semibold text-left uppercase'>
+          <Trans>Referral Code</Trans>
+        </th>
+        <td className='text-right text-4e7dd9'>
+          {referralCode}
+        </td>
+      </tr>
     </>
   )
 }
