@@ -8,8 +8,6 @@ import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
-import { getSubgraphData } from '@/src/services/subgraph'
-import { detectChainId } from '@/utils/dns'
 
 export default function Options () {
   const router = useRouter()
@@ -34,38 +32,42 @@ export default function Options () {
         />
       </Head>
 
-      <CoverOptionsPage
-        coverKey={coverKey}
-        productKey={productKey}
-        coverProductInfo={coverProductInfo}
-        isDiversified={isValidProduct(productKey)}
-      />
+      {!coverProductInfo && <p className='text-center'>No Data found</p>}
+      {coverProductInfo && (
+        <CoverOptionsPage
+          coverKey={coverKey}
+          productKey={productKey}
+          coverProductInfo={coverProductInfo}
+          isDiversified={isValidProduct(productKey)}
+        />
+      )}
+
     </main>
   )
 }
 
-export async function getServerSideProps ({ req, params }) {
-  const networkId = detectChainId(req.headers.host)
-  const coverKey = safeFormatBytes32String(params.coverId)
-  const productKey = safeFormatBytes32String(params.productId)
-  const data = await getSubgraphData(
-    networkId,
-    `{
-  product (id: "${coverKey}-${productKey}") {
-    id
-    coverKey
-    productKey
-  }
-}`
-  )
+// export async function getServerSideProps ({ req, params }) {
+//   const networkId = detectChainId(req.headers.host)
+//   const coverKey = safeFormatBytes32String(params.coverId)
+//   const productKey = safeFormatBytes32String(params.productId)
+//   const data = await getSubgraphData(
+//     networkId,
+//     `{
+//   product (id: "${coverKey}-${productKey}") {
+//     id
+//     coverKey
+//     productKey
+//   }
+// }`
+//   )
 
-  if (!data?.product) {
-    return {
-      notFound: true
-    }
-  }
+//   if (!data?.product) {
+//     return {
+//       notFound: true
+//     }
+//   }
 
-  return {
-    props: { }
-  }
-}
+//   return {
+//     props: { }
+//   }
+// }

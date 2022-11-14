@@ -9,8 +9,6 @@ import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
-import { getSubgraphData } from '@/src/services/subgraph'
-import { detectChainId } from '@/utils/dns'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -38,6 +36,7 @@ export default function CoverPage () {
           content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
+      {!coverInfo && <p className='text-center'>No Data Found</p>}
 
       {isDiversified
         ? (
@@ -46,7 +45,7 @@ export default function CoverPage () {
             <ProductsGrid />
           </div>
           )
-        : (
+        : (coverInfo &&
           <CoverOptionsPage
             coverKey={coverKey}
             productKey={productKey}
@@ -56,29 +55,4 @@ export default function CoverPage () {
           )}
     </main>
   )
-}
-
-export async function getServerSideProps ({ req, params }) {
-  const networkId = detectChainId(req.headers.host)
-  const coverKey = safeFormatBytes32String(params.coverId)
-  const data = await getSubgraphData(
-    networkId,
-    `{
-        cover (id: "${coverKey}") {
-          id
-          coverKey
-          supportsProducts
-        }
-      }`
-  )
-
-  if (!data?.cover) {
-    return {
-      notFound: true
-    }
-  }
-
-  return {
-    props: { }
-  }
 }
