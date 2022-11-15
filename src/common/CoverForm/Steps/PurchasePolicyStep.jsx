@@ -89,7 +89,8 @@ const PurchasePolicyStep = ({
               !coverMonth ||
               updatingFee ||
               updatingBalance ||
-              isReferralCodeCheckPending
+              isReferralCodeCheckPending ||
+              editForm
             }
               className='w-full p-6 font-semibold uppercase text-h6'
               onClick={() => {
@@ -117,7 +118,8 @@ const PurchasePolicyStep = ({
               !coverMonth ||
               updatingFee ||
               updatingBalance ||
-              !isValidReferralCode
+              !isValidReferralCode ||
+              editForm
             }
               className='w-full p-6 font-semibold uppercase text-h6'
               onClick={() => {
