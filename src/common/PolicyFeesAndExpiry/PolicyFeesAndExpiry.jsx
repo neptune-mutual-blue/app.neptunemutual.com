@@ -8,6 +8,7 @@ import { Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { formatCurrency } from '@/utils/formatter/currency'
+import { classNames } from '@/utils/classnames'
 
 export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode, editForm = false }) => {
   const { fee, rate } = data
@@ -30,7 +31,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left'>
               <Trans>Premium Rate:</Trans>
             </th>
-            <td className='text-right text-4e7dd9'>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
               {formatPercent(rateConverted, router.locale)}
             </td>
           </tr>
@@ -38,7 +39,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left'>
               <Trans>{quotationStep ? 'Your Cover Amount:' : 'Cover Fee'}</Trans>
             </th>
-            <td className='text-right text-4e7dd9' title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
               {quotationStep ? secondText : formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).short}
             </td>
           </tr>
@@ -47,7 +48,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
               <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}:</Trans>
             </th>
             {!editForm && (
-              <td className='text-right text-4e7dd9'>
+              <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
                 {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
                   year: 'numeric',
                   month: 'short',
@@ -61,7 +62,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
                   timeZoneName: 'short'
                 })}
                 {/* Tooltip */}
-                <CoveragePeriodTooltip startsAt={startsAt} endsAt={expires} />
+                {!quotationStep && <CoveragePeriodTooltip startsAt={startsAt} endsAt={expires} />}
               </td>
             )}
           </tr>
@@ -91,9 +92,9 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
 const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
   return (
     <Tooltip.Root>
-      <Tooltip.Trigger className='p-0.5'>
+      <Tooltip.Trigger className='pl-0.5'>
         <span className='sr-only'>Info</span>
-        <InfoCircleIcon width={24} className='fill-9B9B9B' />
+        <InfoCircleIcon width={15} className='fill-9B9B9B' />
       </Tooltip.Trigger>
 
       <Tooltip.Content side='top'>

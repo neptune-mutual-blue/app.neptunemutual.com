@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
@@ -72,6 +72,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const [value, setValue] = useState('')
   const [referralCode, setReferralCode] = useState('')
   const [coverMonth, setCoverMonth] = useState('')
+  const [nextButtonDisabled, setNextButtonDisabled] = useState(true)
   const {
     liquidityTokenAddress,
     liquidityTokenDecimals,
@@ -173,6 +174,15 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
       log(chainId, funnel, journey, step, sequence, account, event, {})
     })
   }
+
+  useEffect(() => {
+    if (formSteps === 0) {
+      !value ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
+    }
+    if (formSteps === 1) {
+      !coverMonth ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
+    }
+  }, [coverMonth, formSteps, value])
 
   let loadingMessage = ''
   if (updatingFee) {
@@ -358,10 +368,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             <BackButton className={formSteps === 0 && 'cursor-not-allowed opacity-50'} onClick={() => setFormSteps((prev) => prev - 1)} />
 
             <button
-              disabled={false}
+              disabled={nextButtonDisabled}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
+                nextButtonDisabled && 'cursor-not-allowed opacity-50',
                 'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4'
               )}
               onClick={() => setFormSteps((prev) => prev + 1)}

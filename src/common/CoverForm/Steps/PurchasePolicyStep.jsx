@@ -52,9 +52,16 @@ const PurchasePolicyStep = ({
   const { liquidityTokenAddress, liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
 
   const [editForm, setEditForm] = useState(false)
+  const [oldValue, setOldValue] = useState()
 
   const handleEditForm = () => {
+    setOldValue(value)
     setEditForm(true)
+  }
+
+  const handleCancel = () => {
+    handleChange(oldValue)
+    setEditForm(false)
   }
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
@@ -64,7 +71,7 @@ const PurchasePolicyStep = ({
       <DisabledInput value={coverFee} unit={liquidityTokenSymbol} />
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
         <p className='font-semibold'>You will Receive:</p>
-        <p className='flex items-center ml-2'>
+        <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short} (Claimable {liquidityTokenSymbol} Token)
           <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
         </p>
@@ -135,7 +142,7 @@ const PurchasePolicyStep = ({
           {!editForm && <OutlinedButton className='rounded-md' onClick={handleEditForm}>Edit</OutlinedButton>}
           {editForm && (
             <div className='flex'>
-              <OutlinedButton className='rounded-md' onClick={() => setEditForm(false)}>Cancel</OutlinedButton>
+              <OutlinedButton className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButton>
               <RegularButton className='px-4 ml-2' onClick={() => setEditForm(false)}>Done</RegularButton>
             </div>
           )}

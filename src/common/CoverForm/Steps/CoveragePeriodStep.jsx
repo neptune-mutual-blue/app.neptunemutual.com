@@ -9,7 +9,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
 
   return (
     <div className='mt-12'>
-      <p className='font-bold text-center text-h4 text-01052D'><Trans>Select your coverage period</Trans></p>
+      <p className='font-bold text-center capitalize text-h4 text-01052D'><Trans>Select your coverage period</Trans></p>
       <p className='mt-1 mb-8 text-lg text-center text-999BAB'>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</p>
       <div className='flex'>
         <Radio
