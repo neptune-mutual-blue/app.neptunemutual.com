@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import { formatCurrency } from '@/utils/formatter/currency'
 
-export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode }) => {
+export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode, editForm = false }) => {
   const { fee, rate } = data
   const router = useRouter()
   const { liquidityTokenSymbol, liquidityTokenDecimals } = useAppConstants()
@@ -46,34 +46,40 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left'>
               <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}:</Trans>
             </th>
-            <td className='text-right text-4e7dd9'>
-              {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-              })}{' '}
-              {!quotationStep && '-'}{' '}
-              {DateLib.toLongDateFormat(expires, router.locale, 'UTC', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                timeZoneName: 'short'
-              })}
-              {/* Tooltip */}
-              <CoveragePeriodTooltip startsAt={startsAt} endsAt={expires} />
-            </td>
+            {!editForm && (
+              <td className='text-right text-4e7dd9'>
+                {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                })}{' '}
+                {!quotationStep && '-'}{' '}
+                {DateLib.toLongDateFormat(expires, router.locale, 'UTC', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  timeZoneName: 'short'
+                })}
+                {/* Tooltip */}
+                <CoveragePeriodTooltip startsAt={startsAt} endsAt={expires} />
+              </td>
+            )}
           </tr>
         </tbody>
       </table>
-      <hr className='mt-4 border-t border-d4dfee' />
-      <tr className='flex justify-between mt-3'>
-        <th className='font-semibold text-left uppercase'>
-          <Trans>Referral Code</Trans>
-        </th>
-        <td className='text-right text-4e7dd9'>
-          {referralCode}
-        </td>
-      </tr>
+      {!editForm && (
+        <>
+          <hr className='mt-4 border-t border-d4dfee' />
+          <tr className='flex justify-between mt-3'>
+            <th className='font-semibold text-left uppercase'>
+              <Trans>Referral Code</Trans>
+            </th>
+            <td className='text-right text-4e7dd9'>
+              {referralCode}
+            </td>
+          </tr>
+        </>
+      )}
     </>
   )
 }

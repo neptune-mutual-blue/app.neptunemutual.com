@@ -215,7 +215,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   return (
     <div className='flex flex-col w-full'>
-      <StepsIndicator />
+      {formSteps === 0 && value && <StepsIndicator completed='50' />}
+      {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full border border-B0C4DB rounded-2xl bg-FEFEFF p-9' data-testid='purchase-policy-form'>
         <h4 className='flex items-center justify-center pb-6 mb-6 text-sm font-bold text-center capitalize border-b border-dashed font-sora border-b-B0C4DB'>
           <div className='w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6'>
@@ -267,9 +268,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
         {formSteps === 3 && (
           <PurchasePolicyStep
+            coverName={productName || coverName}
             feeData={feeData}
-            liquidityTokenSymbol={liquidityTokenSymbol}
-            liquidityTokenDecimals={liquidityTokenDecimals}
             value={value}
             approving={approving}
             canPurchase={canPurchase}
@@ -289,12 +289,18 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             updatingBalance={updatingBalance}
             updatingFee={updatingFee}
             referralCode={referralCode}
+            handleChange={handleChange}
+            balance={balance}
+            coverPeriodLabels={coverPeriodLabels}
+            handleRadioChange={handleRadioChange}
+            referralCodeErrorMessage={referralCodeErrorMessage}
+            hasReferralCode={hasReferralCode}
           />
         )}
 
         {showReferral && formSteps === 1 && (
           <div className='mt-11'>
-            <Label htmlFor='incident_title' className='mb-2'>
+            <Label htmlFor='incident_title' className='mb-2 text-center'>
               <Trans>Referral Code</Trans>
             </Label>
 
@@ -347,7 +353,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
           </Alert>
         )}
 
-        {!formSteps >= 3 && (
+        {formSteps < 3 && (
           <div className='flex justify-end mt-12'>
             <BackButton className={formSteps === 0 && 'cursor-not-allowed opacity-50'} onClick={() => setFormSteps((prev) => prev - 1)} />
 
@@ -381,14 +387,15 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   )
 }
 
-const ReferralCodeStatus = ({
+export const ReferralCodeStatus = ({
   isReferralCodeCheckPending,
-  isValidReferralCode
+  isValidReferralCode,
+  statusIndicatorClass = 'right-6 top-6'
 }) => {
   if (isReferralCodeCheckPending) {
     return (
       <Loader
-        className='absolute w-6 h-6 right-6 top-6 text-4e7dd9'
+        className={classNames('absolute w-6 h-6  text-4e7dd9', statusIndicatorClass)}
         aria-hidden='true'
         data-testid='loader'
       />
@@ -398,7 +405,7 @@ const ReferralCodeStatus = ({
   if (isValidReferralCode) {
     return (
       <SuccessIcon
-        className='absolute w-6 h-6 text-21AD8C right-6 top-6'
+        className={classNames('absolute w-6 h-6 text-21AD8C', statusIndicatorClass)}
         aria-hidden='true'
       />
     )
@@ -406,7 +413,7 @@ const ReferralCodeStatus = ({
 
   return (
     <ErrorIcon
-      className='absolute w-6 h-6 text-FA5C2F right-6 top-6'
+      className={classNames('absolute w-6 h-6 text-FA5C2F', statusIndicatorClass)}
       aria-hidden='true'
     />
   )
