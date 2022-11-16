@@ -1,8 +1,9 @@
 import RefreshDoubleIcon from '@/icons/RefreshDoubleIcon'
+import { classNames } from '@/lib/toast/utils'
 
-export const DataLoadingIndicator = ({ message }) => {
+export const DataLoadingIndicator = ({ className = 'px-2 py-1 mt-2', message }) => {
   return (
-    <div className='flex items-center justify-end px-2 py-1 mt-2 text-xs tracking-normal'>
+    <div className={classNames('flex items-center justify-end text-xs tracking-normal', className)}>
       {message
         ? (
           <>

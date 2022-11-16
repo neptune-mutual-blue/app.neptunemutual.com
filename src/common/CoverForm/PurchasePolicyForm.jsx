@@ -74,7 +74,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const [coverMonth, setCoverMonth] = useState('')
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true)
   const {
-    liquidityTokenAddress,
     liquidityTokenDecimals,
     liquidityTokenSymbol
   } = useAppConstants()
@@ -101,7 +100,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const {
     txHash,
     purchaseWaiting,
-    balance,
     approving,
     purchasing,
     canPurchase,
@@ -242,10 +240,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps === 0 && (
           <PurchaseAmountStep
             approving={approving}
-            balance={balance}
             error={error}
             handleChange={handleChange}
-            liquidityTokenAddress={liquidityTokenAddress}
             liquidityTokenDecimals={liquidityTokenDecimals}
             liquidityTokenSymbol={liquidityTokenSymbol}
             purchasing={purchasing}
@@ -300,7 +296,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             updatingFee={updatingFee}
             referralCode={referralCode}
             handleChange={handleChange}
-            balance={balance}
             coverPeriodLabels={coverPeriodLabels}
             handleRadioChange={handleRadioChange}
             referralCodeErrorMessage={referralCodeErrorMessage}
@@ -311,7 +306,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {showReferral && formSteps === 1 && (
           <div className='mt-11'>
             <Label htmlFor='incident_title' className='mb-2 text-center'>
-              <Trans>Referral Code</Trans>
+              <Trans>Enter Referral Code</Trans>
             </Label>
 
             <div className='relative'>

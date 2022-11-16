@@ -1,6 +1,5 @@
 import * as Tooltip from '@radix-ui/react-tooltip'
-import { DisabledInput } from '@/common/Input/DisabledInput'
-import { convertFromUnits, isValidNumber } from '@/utils/bn'
+import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
@@ -9,13 +8,14 @@ import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
 import { t, Trans } from '@lingui/macro'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Radio } from '@/common/Radio/Radio'
 import { Label } from '@/common/Label/Label'
 import { RegularInput } from '@/common/Input/RegularInput'
 import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
+import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { classNames } from '@/utils/classnames'
 
 const PurchasePolicyStep = ({
   coverName,
@@ -40,7 +40,6 @@ const PurchasePolicyStep = ({
   setCoverMonth,
   referralCode,
   handleChange,
-  balance,
   coverPeriodLabels,
   handleRadioChange,
   referralCodeErrorMessage,
@@ -49,10 +48,12 @@ const PurchasePolicyStep = ({
 }) => {
   const { fee } = feeData
   const router = useRouter()
-  const { liquidityTokenAddress, liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
 
   const [editForm, setEditForm] = useState(false)
   const [oldValue, setOldValue] = useState()
+
+  const [radioProgress, setRadioProgress] = useState(0)
 
   const handleEditForm = () => {
     setOldValue(value)
@@ -64,13 +65,42 @@ const PurchasePolicyStep = ({
     setEditForm(false)
   }
 
+  useEffect(() => {
+    if (coverMonth === '3') {
+      setRadioProgress(100)
+    }
+    if (coverMonth === '2') {
+      setRadioProgress(50)
+    }
+    if (coverMonth === '1') {
+      setRadioProgress(0)
+    }
+  }, [coverMonth])
+
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
 
   return (
     <div>
-      <DisabledInput value={coverFee} unit={liquidityTokenSymbol} />
+      <p className='text-lg font-bold text-center text-receipt-info'><Trans>Purchase Policy</Trans></p>
+      <p
+        className='mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
+        title={
+                formatCurrency(
+                  coverFee,
+                  router.locale,
+                  liquidityTokenSymbol,
+                  true
+                ).long
+              }
+      >{formatCurrency(
+        coverFee,
+        router.locale,
+        liquidityTokenSymbol,
+        true
+      ).short}
+      </p>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
-        <p className='font-semibold'>You will Receive:</p>
+        <p className='font-semibold uppercase'>You will Receive:</p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short} (Claimable {liquidityTokenSymbol} Token)
           <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
@@ -140,42 +170,39 @@ const PurchasePolicyStep = ({
       <hr className='my-8 border-t border-dashed border-B0C4DB' />
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
         <div className='flex items-center justify-between'>
-          <p className='font-bold text-h4'>Coverage Information</p>
-          {!editForm && <OutlinedButton className='rounded-md' onClick={handleEditForm}>Edit</OutlinedButton>}
+          <p className='font-bold text-receipt-info'>Coverage Information</p>
+          {!editForm && <OutlinedButton className='rounded-md !py-1' onClick={handleEditForm}>Edit</OutlinedButton>}
           {editForm && (
             <div className='flex'>
-              <OutlinedButton className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButton>
-              <RegularButton className='px-4 ml-2' onClick={() => setEditForm(false)}>Done</RegularButton>
+              <OutlinedButton className='rounded-md !py-1' onClick={handleCancel}>Cancel</OutlinedButton>
+              <RegularButton className='px-4 ml-2 !py-1' onClick={() => setEditForm(false)}>Done</RegularButton>
             </div>
           )}
         </div>
-        <p className='mt-8 text-lg capitalize'>Amount you wish to cover</p>
-        <TokenAmountInput
-          onChange={handleChange}
-          error={!!error}
-          handleChooseMax={() => {}}
-          tokenAddress={liquidityTokenAddress}
-          tokenSymbol={liquidityTokenSymbol}
-          tokenDecimals={liquidityTokenDecimals}
-          tokenBalance={balance}
-          inputId='cover-amount'
-          inputValue={value}
-          disabled={approving || purchasing || !editForm}
-          buttonClassName='hidden'
-        >
-          {value && isValidNumber(value) && (
-            <div
-              className='flex items-center text-15aac8'
-              title={formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long}
-            >
-              <p>
-                <Trans>You will receive:</Trans>{' '}
-                {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short}
-              </p>
-            </div>
-          )}
-          {error && <p className='flex items-center text-FA5C2F'>{error}</p>}
-        </TokenAmountInput>
+        <p className='mt-8 mb-4 text-lg font-semibold tracking-wider uppercase'>Amount you wish to cover</p>
+        <div className={classNames(!editForm && 'opacity-40')}>
+          <InputWithTrailingButton
+            decimalLimit={liquidityTokenDecimals}
+            error={!!error}
+            buttonProps={{
+              children: t`Max`,
+              onClick: () => {},
+              disabled: approving || purchasing || !editForm,
+              buttonClassName: 'hidden'
+            }}
+            unit={liquidityTokenSymbol}
+            unitClass='font-bold'
+            inputProps={{
+              id: 'cover-amount',
+              disabled: approving || purchasing || !editForm,
+              placeholder: t`Enter Amount`,
+              value: value,
+              onChange: handleChange,
+              allowNegativeValue: false
+            }}
+          />
+        </div>
+        {error && <p className='flex items-center text-FA5C2F'>{error}</p>}
         <div className='mt-6'>
           <PolicyFeesAndExpiry
             value={value}
@@ -184,11 +211,16 @@ const PurchasePolicyStep = ({
             referralCode={referralCode}
             quotationStep={false}
             editForm={editForm}
+            updatingFee={updatingFee}
           />
           {editForm && (
-            <div className='flex mt-13'>
+            <div className='relative flex mt-13'>
+              <div className='absolute h-2 bg-999BAB bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
+              <div className='absolute h-2 bg-4e7dd9 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
               <Radio
-                label={coverPeriodLabels[0]}
+                label={`${coverPeriodLabels[0].substr(0, 3)} 31`}
+                className='!items-start flex-col'
+                labelClass='mt-2'
                 id='period-1'
                 value='1'
                 name='cover-period'
@@ -197,7 +229,9 @@ const PurchasePolicyStep = ({
                 checked={coverMonth === '1'}
               />
               <Radio
-                label={coverPeriodLabels[1]}
+                label={`${coverPeriodLabels[1].substr(0, 3)} 31`}
+                className='!items-center flex-col'
+                labelClass='mt-2'
                 id='period-2'
                 value='2'
                 name='cover-period'
@@ -206,7 +240,9 @@ const PurchasePolicyStep = ({
                 checked={coverMonth === '2'}
               />
               <Radio
-                label={coverPeriodLabels[2]}
+                label={`${coverPeriodLabels[2].substr(0, 3)} 31`}
+                className='!items-end flex-col'
+                labelClass='mt-2'
                 id='period-3'
                 value='3'
                 name='cover-period'
@@ -221,7 +257,7 @@ const PurchasePolicyStep = ({
               <hr className='mt-4 border-t border-d4dfee' />
 
               <div className='flex justify-between mt-11'>
-                <Label htmlFor='referral_code' className='mt-3 mb-2'>
+                <Label htmlFor='referral_code' className='mt-3 mb-2 tracking-wider'>
                   <Trans>Referral Code</Trans>
                 </Label>
 
@@ -274,7 +310,7 @@ const CxDaiToolTip = ({ liquidityTokenSymbol, coverName }) => {
       </Tooltip.Trigger>
 
       <Tooltip.Content side='right'>
-        <div className='px-4 py-4 text-xs tracking-normal bg-black rounded-lg md:max-w-70 max-w-15 text-EEEEEE'>
+        <div className='w-full p-2 text-xs tracking-normal bg-black rounded-lg max-w-70 text-EEEEEE'>
           <p>
             You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction.
           </p>

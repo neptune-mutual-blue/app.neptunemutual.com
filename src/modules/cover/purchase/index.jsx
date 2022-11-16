@@ -66,33 +66,34 @@ export const CoverPurchaseDetailsPage = () => {
   return (
     <main>
       {/* hero */}
-      <Hero>
-        <Container className='px-2 py-20'>
-          <BreadCrumbs
-            pages={[
-              { name: t`Home`, href: '/', current: false },
-              {
-                name: projectName,
-                href: isDiversified
-                  ? Routes.ViewProduct(coverKey, productKey)
-                  : Routes.ViewCover(coverKey),
-                current: false
-              },
-              { name: t`Purchase Policy`, current: true }
-            ]}
-          />
-          <div className='flex flex-wrap md:flex-nowrap'>
-            <CoverProfileInfo
-              coverKey={coverKey}
-              productKey={productKey}
-              imgSrc={imgSrc}
-              projectName={projectName}
-              links={coverInfo?.infoObj?.links}
+      {!acceptedRules && (
+        <Hero>
+          <Container className='px-2 py-20'>
+            <BreadCrumbs
+              pages={[
+                { name: t`Home`, href: '/', current: false },
+                {
+                  name: projectName,
+                  href: isDiversified
+                    ? Routes.ViewProduct(coverKey, productKey)
+                    : Routes.ViewCover(coverKey),
+                  current: false
+                },
+                { name: t`Purchase Policy`, current: true }
+              ]}
             />
+            <div className='flex flex-wrap md:flex-nowrap'>
+              <CoverProfileInfo
+                coverKey={coverKey}
+                productKey={productKey}
+                imgSrc={imgSrc}
+                projectName={projectName}
+                links={coverInfo?.infoObj?.links}
+              />
 
-            {/* Total Liquidity */}
-            <HeroStat title={t`Total Liquidity`}>
-              {
+              {/* Total Liquidity */}
+              <HeroStat title={t`Total Liquidity`}>
+                {
                 formatCurrency(
                   convertFromUnits(totalLiquidity, liquidityTokenDecimals),
                   router.locale,
@@ -100,22 +101,29 @@ export const CoverPurchaseDetailsPage = () => {
                   true
                 ).long
               }
-            </HeroStat>
-          </div>
-        </Container>
-      </Hero>
+              </HeroStat>
+            </div>
+          </Container>
+        </Hero>
+      )}
 
       {/* Content */}
       <div className='pt-12 pb-24 border-t border-t-B0C4DB' data-testid='body'>
         <Container className='flex justify-center'>
           <div className='w-2/3'>
-            <span className='hidden lg:block'>
-              <SeeMoreParagraph
-                text={coverInfo.infoObj.about}
-              />
-            </span>
+            {!acceptedRules
+              ? (
+                <>
+                  <span className='hidden lg:block'>
+                    <SeeMoreParagraph
+                      text={coverInfo.infoObj.about}
+                    />
+                  </span>
 
-            <StandardTermsConditionsLink />
+                  <StandardTermsConditionsLink />
+                </>
+                )
+              : null}
 
             {acceptedRules
               ? (
@@ -157,11 +165,13 @@ export const CoverPurchaseDetailsPage = () => {
         </Container>
       </div>
 
-      <CoverActionsFooter
-        activeKey='purchase'
-        coverKey={coverKey}
-        productKey={productKey}
-      />
+      {!acceptedRules && (
+        <CoverActionsFooter
+          activeKey='purchase'
+          coverKey={coverKey}
+          productKey={productKey}
+        />
+      )}
     </main>
   )
 }
