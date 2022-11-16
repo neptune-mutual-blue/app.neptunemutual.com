@@ -63,10 +63,10 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
           checked={coverMonth === '3'}
         />
       </div>
-      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>
-        <div className='flex justify-between font-semibold uppercase'>Your Cover Amount: <span className='font-normal'>{value} {tokenSymbol}</span></div>
-        <div className='flex justify-between mt-4 font-semibold uppercase'>Cover Expires On:
-          <span className='font-normal'>
+      <div className='w-full px-2 py-6 mt-8 text-center rounded-lg md:px-8 bg-F3F5F7'>
+        <div className='flex justify-between font-semibold uppercase'><span className='w-1/2 text-left'>Your Cover Amount: </span><span className='w-1/2 font-normal text-right'>{value} {tokenSymbol}</span></div>
+        <div className='flex justify-between mt-4 font-semibold uppercase'><span className='w-1/2 text-left'>Cover Expires On:</span>
+          <span className='font-normal text-right fw-1/2'>
             {DateLib.toLongDateFormat(DateLib.fromUnix(feeData.expiryDate), router.locale, 'UTC', {
               year: 'numeric',
               month: 'short',

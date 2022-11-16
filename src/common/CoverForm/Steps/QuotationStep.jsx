@@ -29,7 +29,7 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
         true
       ).short}
       </p>
-      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>
+      <div className='w-full px-2 py-6 mt-8 text-center rounded-lg md:px-8 bg-F3F5F7'>
         {value && coverMonth && <PolicyFeesAndExpiry value={value} data={feeData} coverageLag={coverageLag} referralCode={referralCode} />}
       </div>
     </div>

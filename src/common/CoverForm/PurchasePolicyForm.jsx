@@ -227,7 +227,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     <div className='flex flex-col w-full'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
-      <div className='w-full border border-B0C4DB rounded-2xl bg-FEFEFF p-9' data-testid='purchase-policy-form'>
+      <div className='w-full p-4 border border-B0C4DB rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
         <h4 className='flex items-center justify-center pb-6 mb-6 text-sm font-bold text-center capitalize border-b border-dashed font-sora border-b-B0C4DB'>
           <div className='w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6'>
             <img
@@ -359,7 +359,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
 
         {formSteps < 3 && (
-          <div className='flex justify-end mt-12'>
+          <div className='flex flex-wrap justify-end mt-12'>
             <BackButton className={formSteps === 0 && 'cursor-not-allowed opacity-50'} onClick={() => setFormSteps((prev) => prev - 1)} />
 
             <button
@@ -368,7 +368,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
                 nextButtonDisabled && 'cursor-not-allowed opacity-50',
-                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4'
+                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0'
               )}
               onClick={() => {
                 if (formSteps === 1) {

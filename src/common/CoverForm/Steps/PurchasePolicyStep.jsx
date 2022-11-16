@@ -168,13 +168,13 @@ const PurchasePolicyStep = ({
       </div>
 
       <hr className='my-8 border-t border-dashed border-B0C4DB' />
-      <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
-        <div className='flex items-center justify-between'>
+      <div className='w-full px-2 py-6 mt-8 rounded-lg md:px-8 bg-F3F5F7'>
+        <div className='flex flex-col items-center justify-between'>
           <p className='font-bold text-receipt-info'>Coverage Information</p>
-          {!editForm && <OutlinedButton className='rounded-md !py-1' onClick={handleEditForm}>Edit</OutlinedButton>}
+          {!editForm && <OutlinedButton className='rounded-md !py-1 mt-3 md:mt-0' onClick={handleEditForm}>Edit</OutlinedButton>}
           {editForm && (
-            <div className='flex'>
-              <OutlinedButtonCancel className='rounded-md !py-1 !hover:bg-4e7dd9' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
+            <div className='flex mt-3 md:mt-0'>
+              <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
               <RegularButton className='px-4 ml-2 !py-1' onClick={() => setEditForm(false)}>Done</RegularButton>
             </div>
           )}
