@@ -27,7 +27,7 @@ import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/Connect
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { getCoverImgSrc } from '@/src/helpers/cover'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import StepsIndicator from '@/common/StepsIndicator'
 import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
 import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
@@ -175,12 +175,12 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   useEffect(() => {
     if (formSteps === 0) {
-      !value ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
+      (!value || error) ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
     }
     if (formSteps === 1) {
       !coverMonth ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
     }
-  }, [coverMonth, formSteps, value])
+  }, [coverMonth, error, formSteps, value])
 
   let loadingMessage = ''
   if (updatingFee) {
@@ -217,9 +217,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   const hasReferralCode = !!referralCode.trim().length
+  const isDiversified = isValidProduct(productKey)
 
   const coverName = safeParseBytes32String(coverKey)
   const productName = safeParseBytes32String(productKey)
+  const coverImgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
     <div className='flex flex-col w-full'>
@@ -229,9 +231,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         <h4 className='flex items-center justify-center pb-6 mb-6 text-sm font-bold text-center capitalize border-b border-dashed font-sora border-b-B0C4DB'>
           <div className='w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6'>
             <img
-              src={getCoverImgSrc({
-                key: productKey || coverKey
-              })} alt=''
+              src={coverImgSrc} alt=''
             />
           </div>
           <span>{productName || coverName} Price Quotation</span>
@@ -370,7 +370,12 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 nextButtonDisabled && 'cursor-not-allowed opacity-50',
                 'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4'
               )}
-              onClick={() => setFormSteps((prev) => prev + 1)}
+              onClick={() => {
+                if (formSteps === 1) {
+                  !isValidReferralCode && setReferralCode('')
+                }
+                setFormSteps((prev) => prev + 1)
+              }}
             >
               {formSteps === 0 && (
                 <>
@@ -394,7 +399,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 }
 
 export const ReferralCodeStatus = ({
-  isReferralCodeCheckPending,
+  isReferralCodeCheckPending = true,
   isValidReferralCode,
   statusIndicatorClass = 'right-6 top-6'
 }) => {

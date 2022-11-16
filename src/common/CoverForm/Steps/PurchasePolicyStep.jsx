@@ -3,7 +3,7 @@ import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
 import InfoCircleIcon from '@/icons/InfoCircleIcon'
-import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import { OutlinedButton, OutlinedButtonCancel } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
@@ -100,7 +100,7 @@ const PurchasePolicyStep = ({
       ).short}
       </p>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
-        <p className='font-semibold uppercase'>You will Receive:</p>
+        <p className='font-semibold tracking-wider uppercase'>You will Receive:</p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short} (Claimable {liquidityTokenSymbol} Token)
           <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
@@ -174,7 +174,7 @@ const PurchasePolicyStep = ({
           {!editForm && <OutlinedButton className='rounded-md !py-1' onClick={handleEditForm}>Edit</OutlinedButton>}
           {editForm && (
             <div className='flex'>
-              <OutlinedButton className='rounded-md !py-1' onClick={handleCancel}>Cancel</OutlinedButton>
+              <OutlinedButtonCancel className='rounded-md !py-1 !hover:bg-4e7dd9' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
               <RegularButton className='px-4 ml-2 !py-1' onClick={() => setEditForm(false)}>Done</RegularButton>
             </div>
           )}
@@ -214,13 +214,13 @@ const PurchasePolicyStep = ({
             updatingFee={updatingFee}
           />
           {editForm && (
-            <div className='relative flex mt-13'>
+            <div className='relative flex mt-11'>
               <div className='absolute h-2 bg-999BAB bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
               <div className='absolute h-2 bg-4e7dd9 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
               <Radio
                 label={`${coverPeriodLabels[0].substr(0, 3)} 31`}
                 className='!items-start flex-col'
-                labelClass='mt-2'
+                labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-1'
                 value='1'
                 name='cover-period'
@@ -231,7 +231,7 @@ const PurchasePolicyStep = ({
               <Radio
                 label={`${coverPeriodLabels[1].substr(0, 3)} 31`}
                 className='!items-center flex-col'
-                labelClass='mt-2'
+                labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-2'
                 value='2'
                 name='cover-period'
@@ -242,7 +242,7 @@ const PurchasePolicyStep = ({
               <Radio
                 label={`${coverPeriodLabels[2].substr(0, 3)} 31`}
                 className='!items-end flex-col'
-                labelClass='mt-2'
+                labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-3'
                 value='3'
                 name='cover-period'
@@ -254,9 +254,9 @@ const PurchasePolicyStep = ({
           )}
           {editForm && (
             <>
-              <hr className='mt-4 border-t border-d4dfee' />
+              <hr className='border-t mt-7 border-B0C4DB' />
 
-              <div className='flex justify-between mt-11'>
+              <div className='flex justify-between mt-6'>
                 <Label htmlFor='referral_code' className='mt-3 mb-2 tracking-wider'>
                   <Trans>Referral Code</Trans>
                 </Label>

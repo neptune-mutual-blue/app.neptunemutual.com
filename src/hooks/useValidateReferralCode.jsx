@@ -42,7 +42,7 @@ export function useValidateReferralCode (referralCode) {
       if (trimmedValue.length === 0) {
         // if it's empty we set true immediately
         setErrorMessage('')
-        setIsValid(false)
+        setIsValid(true)
         return
       }
 
