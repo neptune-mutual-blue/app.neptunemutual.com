@@ -16,6 +16,7 @@ import { RegularInput } from '@/common/Input/RegularInput'
 import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import { classNames } from '@/utils/classnames'
+import { Alert } from '@/common/Alert/Alert'
 
 const PurchasePolicyStep = ({
   coverName,
@@ -107,6 +108,10 @@ const PurchasePolicyStep = ({
         </p>
       </div>
 
+      {error && error === 'Insufficient Balance' && (
+        <Alert className='flex items-center text-FA5C2F'>Your balance is not enough to pay the fee. Please reload your wallet.</Alert>
+      )}
+
       <div className='mt-4'>
         <DataLoadingIndicator message={loadingMessage} />
         {!canPurchase
@@ -169,9 +174,9 @@ const PurchasePolicyStep = ({
 
       <hr className='my-8 border-t border-dashed border-B0C4DB' />
       <div className='w-full px-2 py-6 mt-8 rounded-lg md:px-8 bg-F3F5F7'>
-        <div className='flex flex-col items-center justify-between'>
+        <div className='flex flex-col items-center justify-between md:flex-row'>
           <p className='font-bold text-receipt-info'>Coverage Information</p>
-          {!editForm && <OutlinedButton className='rounded-md !py-1 mt-3 md:mt-0' onClick={handleEditForm}>Edit</OutlinedButton>}
+          {!editForm && <OutlinedButton disabled={approving} className={classNames('rounded-md !py-1 mt-3 md:mt-0', approving && 'opacity-60 cursor-not-allowed')} onClick={!approving && handleEditForm}>Edit</OutlinedButton>}
           {editForm && (
             <div className='flex mt-3 md:mt-0'>
               <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>

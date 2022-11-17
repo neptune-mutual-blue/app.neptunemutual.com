@@ -2,7 +2,7 @@ import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { classNames } from '@/utils/classnames'
 
-export const OutlinedButton = ({ onClick, children, className }) => {
+export const OutlinedButton = ({ onClick, children, className, ...rest }) => {
   const { networkId } = useNetwork()
   const { isMainNet } = useValidateNetwork(networkId)
 
@@ -15,6 +15,7 @@ export const OutlinedButton = ({ onClick, children, className }) => {
         'text-4e7dd9 py-3 px-4 border hover:text-white focus:outline-none focus-visible:ring-2 uppercase tracking-wide',
         className
       )}
+      {...rest}
     >
       {children}
     </button>

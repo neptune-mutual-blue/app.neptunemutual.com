@@ -30,7 +30,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
         <tbody>
           <tr className='flex justify-between'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>Premium Rate:</Trans>
+              <Trans>Premium Rate</Trans>
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
               {updatingFee ? <DataLoadingIndicator className='mt-0' message='Fetching fees...' /> : formatPercent(rateConverted, router.locale)}
@@ -38,7 +38,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>{quotationStep ? 'Your Cover Amount:' : 'Cover Fee'}</Trans>
+              <Trans>{quotationStep ? 'Your Cover Amount' : 'Cover Fee'}</Trans>
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
@@ -47,7 +47,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}:</Trans>
+              <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}</Trans>
             </th>
             {!editForm && (
               <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
