@@ -359,8 +359,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
 
         {formSteps < 3 && (
-          <div className='flex flex-wrap justify-end mt-12'>
-            <BackButton className={formSteps === 0 && 'cursor-not-allowed opacity-50'} onClick={() => setFormSteps((prev) => prev - 1)} />
+          <div className='flex flex-wrap xs:flex-row-reverse sm:justify-start justify-end mt-12'>
 
             <button
               disabled={nextButtonDisabled}
@@ -386,6 +385,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               {formSteps === 1 && <Trans>View Quotation</Trans>}
               {formSteps === 2 && <Trans>Purchase Policy</Trans>}
             </button>
+
+            {formSteps > 0 && <BackButton className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')} onClick={() => setFormSteps((prev) => prev - 1)} />}
 
           </div>
         )}

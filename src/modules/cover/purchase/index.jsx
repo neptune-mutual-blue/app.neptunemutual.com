@@ -110,11 +110,12 @@ export const CoverPurchaseDetailsPage = () => {
       {/* Content */}
       <div className='pt-12 pb-24 border-t border-t-B0C4DB' data-testid='body'>
         <Container className='flex justify-center'>
+
           <div className='w-full md:w-2/3'>
             {!acceptedRules
               ? (
                 <>
-                  <span className='hidden lg:block'>
+                  <span className='lg:block'>
                     <SeeMoreParagraph
                       text={coverInfo.infoObj.about}
                     />
@@ -155,14 +156,6 @@ export const CoverPurchaseDetailsPage = () => {
                 </>
                 )}
           </div>
-
-          {!acceptedRules && (
-            <span className='block col-span-3 row-start-1 lg:hidden mb-11'>
-              <SeeMoreParagraph
-                text={coverInfo?.infoObj?.about}
-              />
-            </span>
-          )}
 
         </Container>
       </div>
