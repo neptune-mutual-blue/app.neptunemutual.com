@@ -115,7 +115,7 @@ export const CoverPurchaseDetailsPage = () => {
             {!acceptedRules
               ? (
                 <>
-                  <span className='lg:block'>
+                  <span>
                     <SeeMoreParagraph
                       text={coverInfo.infoObj.about}
                     />

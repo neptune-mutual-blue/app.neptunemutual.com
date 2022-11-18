@@ -36,6 +36,7 @@ import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import LeftArrow from '@/icons/LeftArrow'
 import QuotationStep from '@/common/CoverForm/Steps/QuotationStep'
 import PurchasePolicyStep from '@/common/CoverForm/Steps/PurchasePolicyStep'
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -224,7 +225,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const coverImgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex flex-col w-616'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 border border-B0C4DB rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
@@ -386,15 +387,22 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               {formSteps === 2 && <Trans>Purchase Policy</Trans>}
             </button>
 
+            {formSteps === 0 && (
+              <OutlinedButton
+                onClick={() => router.back()}
+                className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 bg-E6EAEF border-none hover:bg-E6EAEF focus-visible:ring-E6EAEF ')}
+              >
+                <Trans>Cancel</Trans>
+              </OutlinedButton>
+            )}
+
             {formSteps > 0 && <BackButton className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')} onClick={() => setFormSteps((prev) => prev - 1)} />}
 
           </div>
         )}
         <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} />
       </div>
-      <div className='flex justify-center mt-12 md:justify-start'>
-        <BackButton onClick={() => router.back()} />
-      </div>
+
     </div>
   )
 }
