@@ -22,8 +22,8 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
   }, [coverMonth])
 
   return (
-    <div className='mt-12'>
-      <p className='font-bold text-center capitalize text-h4 text-01052D'><Trans>Select your coverage period</Trans></p>
+    <div className='mt-6'>
+      <p className='font-bold text-center capitalize text-receipt-info text-01052D'><Trans>Select your coverage period</Trans></p>
       <p className='mt-1 mb-8 text-lg text-center text-999BAB'>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</p>
       <div className='relative flex'>
         <div className='absolute h-2 bg-999BAB bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
@@ -63,7 +63,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
           checked={coverMonth === '3'}
         />
       </div>
-      <div className='w-full px-2 py-6 mt-8 text-center rounded-lg md:px-8 bg-F3F5F7'>
+      <div className='w-full px-2 py-6 text-center rounded-lg mt-11 md:px-8 bg-F3F5F7'>
         <div className='flex justify-between font-semibold uppercase'><span className='w-1/2 text-left'>Your Cover Amount: </span><span className='w-1/2 font-normal text-right'>{value} {tokenSymbol}</span></div>
         <div className='flex justify-between mt-4 font-semibold uppercase'><span className='w-1/2 text-left'>Cover Expires On:</span>
           <span className='font-normal text-right fw-1/2'>
