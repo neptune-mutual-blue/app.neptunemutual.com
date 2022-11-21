@@ -104,12 +104,12 @@ export const CoverCard = ({
       >
         <Trans>Cover fee:</Trans>{' '}
         {formatPercent(
-          coverInfo.infoObj.pricingFloor / MULTIPLIER,
+          toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
           router.locale
         )}
         -
         {formatPercent(
-          coverInfo.infoObj.pricingCeiling / MULTIPLIER,
+          toBN(coverStats.policyRateCeiling).dividedBy(MULTIPLIER),
           router.locale
         )}
       </div>
