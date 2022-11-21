@@ -30,6 +30,7 @@ export const getKeys = async (
   const governanceContract = new Contract(governance, sdk.config.abis.IGovernance)
 
   const getCoverageLagCall = await policyAdminContract.getCoverageLag(coverKey)
+  const getPolicyRatesCall = await policyAdminContract.getPolicyRates(coverKey)
   const getCoverPoolSummaryCall = await policyContract.getCoverPoolSummary(
     coverKey,
     productKey
@@ -43,12 +44,13 @@ export const getKeys = async (
   const getFirstReportingStakeCall =
     await governanceContract.getFirstReportingStake(coverKey)
 
-  const [getCoverPoolSummaryResult, status, minReportingStake, coverageLag] =
+  const [getCoverPoolSummaryResult, status, minReportingStake, coverageLag, policyRates] =
     await ethcallProvider.all([
       getCoverPoolSummaryCall,
       getStatusCall,
       getFirstReportingStakeCall,
-      getCoverageLagCall
+      getCoverageLagCall,
+      getPolicyRatesCall
     ])
 
   const totalPoolAmount = getCoverPoolSummaryResult.totalAmountInPool
@@ -88,6 +90,16 @@ export const getKeys = async (
       returns: 'uint256',
       property: 'coverageLag',
       compute: async () => coverageLag
+    },
+    {
+      returns: 'uint256',
+      property: 'policyRateFloor',
+      compute: async () => policyRates.floor
+    },
+    {
+      returns: 'uint256',
+      property: 'policyRateCeiling',
+      compute: async () => policyRates.ceiling
     },
     {
       key: [sdk.utils.keyUtil.PROTOCOL.NS.GOVERNANCE_REPORTER_COMMISSION],
