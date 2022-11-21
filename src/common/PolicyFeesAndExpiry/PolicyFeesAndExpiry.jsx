@@ -78,7 +78,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
               <Trans>Referral Code</Trans>
             </th>
             <td className='text-right text-4e7dd9'>
-              {referralCode}
+              {referralCode || <span className='font-semibold'>-</span>}
             </td>
           </tr>
         </>

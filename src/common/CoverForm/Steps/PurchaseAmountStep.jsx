@@ -30,7 +30,7 @@ const PurchaseAmountStep = ({ handleChange, error, liquidityTokenSymbol, liquidi
           allowNegativeValue: false
         }}
       />
-      {error && <p className='flex items-center text-FA5C2F'>{error}</p>}
+      {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
       <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available {formatCurrency(availableLiquidity, router.locale).short}</div>
     </>

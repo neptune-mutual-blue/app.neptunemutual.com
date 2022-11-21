@@ -187,7 +187,13 @@ const PurchasePolicyStep = ({
           {editForm && (
             <div className='flex mt-3 md:mt-0'>
               <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
-              <RegularButton className='px-4 ml-2 !py-1' onClick={() => setEditForm(false)}>Done</RegularButton>
+              <RegularButton
+                className='px-4 ml-2 !py-1' onClick={() => {
+                  setEditForm(false)
+                  !isValidReferralCode && setReferralCode('')
+                }}
+              >Done
+              </RegularButton>
             </div>
           )}
         </div>
