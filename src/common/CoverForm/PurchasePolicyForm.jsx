@@ -338,8 +338,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
         {!account && (
           <Alert info>
-            <div className='flex items-end justify-between ml-4'>
-              <div className='max-w-[265px]'>
+            <div className='flex flex-wrap items-end justify-between ml-4'>
+              <div className='max-w-[265px] mb-4 md:mb-0'>
                 <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
                 <p>Please connect your wallet to view the price quotation.</p>
               </div>
