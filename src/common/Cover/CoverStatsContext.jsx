@@ -8,6 +8,8 @@ const defaultStats = {
   activeCommitment: '0',
   availableLiquidity: '0',
   coverageLag: '0',
+  policyRateCeiling: '0',
+  policyRateFloor: '0',
   isUserWhitelisted: false,
   reporterCommission: '0',
   reportingPeriod: '0',
@@ -42,6 +44,8 @@ export const CoverStatsProvider = ({
     totalPoolAmount,
     availableLiquidity,
     coverageLag,
+    policyRateCeiling,
+    policyRateFloor,
     minReportingStake
   } = info
 
@@ -57,6 +61,8 @@ export const CoverStatsProvider = ({
         requiresWhitelist,
         availableLiquidity,
         coverageLag,
+        policyRateCeiling,
+        policyRateFloor,
         productStatus,
         totalPoolAmount,
         minReportingStake,

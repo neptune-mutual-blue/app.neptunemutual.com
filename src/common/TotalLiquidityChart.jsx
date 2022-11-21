@@ -19,16 +19,14 @@ const TotalLiquidityChart = ({ data }) => {
   const chartRef = useRef()
   const router = useRouter()
 
-  const yAxisMin =
-    (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0
+  const yAxisMin = (chartData.length >= 2 && sort(chartData.map((x) => x.y))[0]) || 0
 
   const chartOptions = {
     xAxis: {
       labels: {
         format:
           "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
-        useHTML: true,
-        align: 'left'
+        useHTML: true
       },
       crosshair: {
         color: '#4E7DD9',
@@ -142,7 +140,7 @@ const TotalLiquidityChart = ({ data }) => {
           style: {
             color: '#01052D'
           },
-          align: 'left',
+          align: 'right',
           y: 14
         }
       }

@@ -105,16 +105,12 @@ export const ActiveReportingCard = ({
         >
           <Trans>Cover fee:</Trans>{' '}
           {formatPercent(
-            (isDiversified
-              ? coverInfo.cover.infoObj.pricingFloor
-              : coverInfo.infoObj.pricingFloor) / MULTIPLIER,
+            toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
             router.locale
           )}
           -
           {formatPercent(
-            (isDiversified
-              ? coverInfo.cover.infoObj.pricingCeiling
-              : coverInfo.infoObj.pricingCeiling) / MULTIPLIER,
+            toBN(coverStats.policyRateCeiling).dividedBy(MULTIPLIER),
             router.locale
           )}
         </div>
