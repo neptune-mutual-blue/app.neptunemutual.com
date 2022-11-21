@@ -103,14 +103,18 @@ export const AccountDetailsModal = ({
 
         <div className='px-4 py-3.5 bg-white border mt-7 border-B0C4DB rounded-big'>
           <div className='flex flex-col-reverse items-center justify-between sm:flex-row'>
-            <span className='flex items-center text-xs tracking-normal text-364253 whitespace-nowrap'>
-              <span>
-                <Trans>Connected with</Trans> {wallet.name}
-              </span>
-              <span className='ml-2'>
-                <wallet.Icon width={12} height={12} />
-              </span>
-            </span>
+            {
+              wallet && (
+                <span className='flex items-center text-xs tracking-normal text-364253 whitespace-nowrap'>
+                  <span>
+                    <Trans>Connected with</Trans> {wallet.name}
+                  </span>
+                  <span className='ml-2'>
+                    <wallet.Icon width={12} height={12} />
+                  </span>
+                </span>
+              )
+            }
             <button
               onClick={handleDisconnect}
               className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4e7dd9'

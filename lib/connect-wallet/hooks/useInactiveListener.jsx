@@ -13,7 +13,7 @@ export function useInactiveListener (networkId, notifier) {
 
     const connectorName = window.localStorage.getItem(ACTIVE_CONNECTOR_KEY)
 
-    if (connectorName !== ConnectorNames.Injected) {
+    if (connectorName !== ConnectorNames.Injected && connectorName !== ConnectorNames.Coinbase) {
       return
     }
 

@@ -1,8 +1,13 @@
 export const Option = (props) => {
   const { id, name, Icon, onClick } = props
 
-  if (name.toLowerCase() === 'metamask') {
-    if (!(window.web3 || window.ethereum)) {
+  const isMetamask = name.toLowerCase() === 'metamask'
+  const isCoinbase = name.toLowerCase() === 'coinbase'
+  const isOkx = name.toLowerCase() === 'okx wallet'
+  const isBinance = name.toLowerCase() === 'binance'
+
+  if (isMetamask) {
+    if (!window.ethereum?.isMetaMask) {
       return (
         <a
           href='https://metamask.io/'
@@ -17,7 +22,26 @@ export const Option = (props) => {
     }
   }
 
-  if (name.toLowerCase() === 'okx wallet') {
+  if (isCoinbase) {
+    if (
+      !window.ethereum ||
+      (!window.ethereum?.providers?.length && window.ethereum?.isMetaMask)
+    ) {
+      return (
+        <a
+          href='https://www.coinbase.com/wallet'
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+        >
+          <Icon className='mr-6' width={24} />
+          <p>Install Coinbase Wallet</p>
+        </a>
+      )
+    }
+  }
+
+  if (isOkx) {
     if (!(window.okxwallet)) {
       return (
         <a
@@ -33,7 +57,7 @@ export const Option = (props) => {
     }
   }
 
-  if (name.toLowerCase() === 'binance chain wallet') {
+  if (isBinance) {
     if (!window.BinanceChain) {
       return (
         <a
