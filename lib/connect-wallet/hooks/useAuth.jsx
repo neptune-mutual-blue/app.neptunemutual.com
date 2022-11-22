@@ -66,7 +66,13 @@ const activateConnector = async (
           const hasSetup = await setupNetwork(connectorName, networkId)
 
           if (hasSetup) {
-            return activate(connector, clearConnectionData)
+            try {
+              await activate(connector, clearConnectionData)
+              window.localStorage.setItem(ACTIVE_CONNECTOR_KEY, connectorName)
+              return
+            } catch (err) {
+              console.log('Error in connecting to wallet... ', err)
+            }
           }
 
           clearConnectionData()

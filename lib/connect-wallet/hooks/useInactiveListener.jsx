@@ -3,6 +3,7 @@ import { useWeb3React } from '@web3-react/core'
 import { ConnectorNames } from '../config/connectors'
 import { ACTIVE_CONNECTOR_KEY } from '../config/localstorage'
 import useAuth from './useAuth'
+import { getCorrectEthereumProvider } from '@/lib/connect-wallet/utils/wallet'
 
 export function useInactiveListener (networkId, notifier) {
   const { login, logout } = useAuth(networkId, notifier)
@@ -17,7 +18,9 @@ export function useInactiveListener (networkId, notifier) {
       return
     }
 
-    if (ethereum && ethereum.on && !active && !error) {
+    const provider = getCorrectEthereumProvider(ethereum)
+
+    if (provider && provider.on && !active && !error) {
       const handleChainChanged = async (chainId) => {
         console.log("Handling 'chainChanged' event with payload", chainId)
         await logout()
@@ -31,13 +34,13 @@ export function useInactiveListener (networkId, notifier) {
         }
       }
 
-      ethereum.on('chainChanged', handleChainChanged)
-      ethereum.on('accountsChanged', handleAccountsChanged)
+      provider.on('chainChanged', handleChainChanged)
+      provider.on('accountsChanged', handleAccountsChanged)
 
       return () => {
-        if (ethereum.removeListener) {
-          ethereum.removeListener('chainChanged', handleChainChanged)
-          ethereum.removeListener('accountsChanged', handleAccountsChanged)
+        if (provider.removeListener) {
+          provider.removeListener('chainChanged', handleChainChanged)
+          provider.removeListener('accountsChanged', handleAccountsChanged)
         }
       }
     }
@@ -46,18 +49,20 @@ export function useInactiveListener (networkId, notifier) {
   useEffect(() => {
     const { ethereum } = window
 
-    if (ethereum && ethereum.on) {
+    const provider = getCorrectEthereumProvider(ethereum)
+
+    if (provider && provider.on) {
       const handleChainChanged = async (chainId) => {
         const chainIdOnChange = await parseInt(chainId)
         if (networkId !== chainIdOnChange) {
           logout()
         }
       }
-      ethereum.on('chainChanged', handleChainChanged)
+      provider.on('chainChanged', handleChainChanged)
 
       return () => {
-        if (ethereum.removeListener) {
-          ethereum.removeListener('chainChanged', handleChainChanged)
+        if (provider.removeListener) {
+          provider.removeListener('chainChanged', handleChainChanged)
         }
       }
     }
