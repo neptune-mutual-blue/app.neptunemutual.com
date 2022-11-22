@@ -72,6 +72,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const [showReferral, setShowReferral] = useState(false)
   const [value, setValue] = useState('')
   const [referralCode, setReferralCode] = useState('')
+  const [isReferralCodeCheckPending, setIsReferralCodeCheckPending] = useState(false)
   const [coverMonth, setCoverMonth] = useState('')
   const [nextButtonDisabled, setNextButtonDisabled] = useState(true)
   const {
@@ -86,9 +87,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   const {
     isValid: isValidReferralCode,
-    errorMessage: referralCodeErrorMessage,
-    isPending: isReferralCodeCheckPending
-  } = useValidateReferralCode(referralCode)
+    errorMessage: referralCodeErrorMessage
+  } = useValidateReferralCode(referralCode, setIsReferralCodeCheckPending)
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -138,6 +138,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const handleRadioChange = (e) => {
     setShowReferral(true)
     setCoverMonth(e.target.value)
+  }
+
+  function referralCodeChange (e) {
+    setIsReferralCodeCheckPending(true)
+    setReferralCode(e.target.value)
   }
 
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
@@ -288,6 +293,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             handleLog={handleLog}
             handlePurchase={handlePurchase}
             isReferralCodeCheckPending={isReferralCodeCheckPending}
+            referralCodeChange={referralCodeChange}
             isValidReferralCode={isValidReferralCode}
             loadingMessage={loadingMessage}
             purchasing={purchasing}
@@ -318,7 +324,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 id='referral_code'
                 placeholder={t`Enter Referral Code`}
                 value={referralCode}
-                onChange={(e) => setReferralCode(e.target.value)}
+                onChange={referralCodeChange}
                 disabled={approving}
                 type='text'
                 data-testid='referral-input'

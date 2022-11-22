@@ -35,6 +35,7 @@ const PurchasePolicyStep = ({
   handleLog,
   purchasing,
   isValidReferralCode,
+  referralCodeChange,
   handlePurchase,
   setValue,
   setReferralCode,
@@ -188,6 +189,7 @@ const PurchasePolicyStep = ({
             <div className='flex mt-3 md:mt-0'>
               <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
               <RegularButton
+                disabled={isReferralCodeCheckPending}
                 className='px-4 ml-2 !py-1' onClick={() => {
                   setEditForm(false)
                   !isValidReferralCode && setReferralCode('')
@@ -286,7 +288,7 @@ const PurchasePolicyStep = ({
                     id='referral_code'
                     placeholder={t`Enter Referral Code`}
                     value={referralCode}
-                    onChange={(e) => setReferralCode(e.target.value)}
+                    onChange={referralCodeChange}
                     disabled={approving}
                     type='text'
                     data-testid='referral-input'
