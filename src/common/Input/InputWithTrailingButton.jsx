@@ -17,6 +17,7 @@ import CurrencyInput from '@/lib/react-currency-input-field'
 export const InputWithTrailingButton = ({
   inputProps,
   unit,
+  unitClass = '',
   buttonProps: { buttonClassName, ...buttonProps },
   error,
   decimalLimit
@@ -82,7 +83,7 @@ export const InputWithTrailingButton = ({
       />
       <div className='absolute inset-y-0 right-0 flex' ref={ref}>
         {unit && (
-          <div className='self-center hidden px-4 whitespace-nowrap text-9B9B9B xs:block'>
+          <div className={classNames('self-center hidden px-4 whitespace-nowrap text-9B9B9B xs:block', unitClass)}>
             {unit}
           </div>
         )}

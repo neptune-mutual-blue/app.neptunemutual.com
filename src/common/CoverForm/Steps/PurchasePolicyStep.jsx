@@ -82,9 +82,9 @@ const PurchasePolicyStep = ({
 
   return (
     <div>
-      <p className='text-lg font-bold text-center text-receipt-info'><Trans>Purchase Policy</Trans></p>
+      <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
       <p
-        className='mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
+        className='flex justify-center mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
         title={
                 formatCurrency(
                   coverFee,
@@ -93,12 +93,18 @@ const PurchasePolicyStep = ({
                   true
                 ).long
               }
-      >{formatCurrency(
-        coverFee,
-        router.locale,
-        liquidityTokenSymbol,
-        true
-      ).short}
+      >{updatingFee
+        ? (
+          <span>
+            <DataLoadingIndicator className='mt-0 text-center' message='Fetching fees...' />
+          </span>
+          )
+        : formatCurrency(
+          coverFee,
+          router.locale,
+          liquidityTokenSymbol,
+          true
+        ).short}
       </p>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
         <p className='font-semibold tracking-wider uppercase'>You will Receive:</p>
@@ -172,7 +178,8 @@ const PurchasePolicyStep = ({
             )}
       </div>
 
-      <hr className='my-8 border-t border-dashed border-B0C4DB' />
+      <p className='h-px my-8 bg-left-top bg-repeat-x bg-dashed-border bg-dashed-size' />
+
       <div className='w-full px-2 py-6 mt-8 rounded-lg md:px-8 bg-F3F5F7'>
         <div className='flex flex-col items-center justify-between md:flex-row'>
           <p className='font-bold text-receipt-info'>Coverage Information</p>
@@ -180,7 +187,13 @@ const PurchasePolicyStep = ({
           {editForm && (
             <div className='flex mt-3 md:mt-0'>
               <OutlinedButtonCancel className='rounded-md' onClick={handleCancel}>Cancel</OutlinedButtonCancel>
-              <RegularButton className='px-4 ml-2 !py-1' onClick={() => setEditForm(false)}>Done</RegularButton>
+              <RegularButton
+                className='px-4 ml-2 !py-1' onClick={() => {
+                  setEditForm(false)
+                  !isValidReferralCode && setReferralCode('')
+                }}
+              >Done
+              </RegularButton>
             </div>
           )}
         </div>
@@ -196,7 +209,7 @@ const PurchasePolicyStep = ({
               buttonClassName: 'hidden'
             }}
             unit={liquidityTokenSymbol}
-            unitClass='font-bold'
+            unitClass='font-semibold !text-black'
             inputProps={{
               id: 'cover-amount',
               disabled: approving || purchasing || !editForm,
@@ -207,7 +220,7 @@ const PurchasePolicyStep = ({
             }}
           />
         </div>
-        {error && <p className='flex items-center text-FA5C2F'>{error}</p>}
+        {error && error !== 'Insufficient Balance' && <p className='flex items-center text-FA5C2F'>{error}</p>}
         <div className='mt-6'>
           <PolicyFeesAndExpiry
             value={value}
@@ -268,7 +281,7 @@ const PurchasePolicyStep = ({
 
                 <div className='relative'>
                   <RegularInput
-                    className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 !h-3'
+                    className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 !h-3 text-center'
                     error={!!referralCodeErrorMessage}
                     id='referral_code'
                     placeholder={t`Enter Referral Code`}
@@ -288,12 +301,6 @@ const PurchasePolicyStep = ({
                       />
                       )
                     : null}
-
-                  {referralCodeErrorMessage && (
-                    <p className='flex items-center mt-2 ml-3 text-FA5C2F'>
-                      {referralCodeErrorMessage}
-                    </p>
-                  )}
                 </div>
               </div>
             </>

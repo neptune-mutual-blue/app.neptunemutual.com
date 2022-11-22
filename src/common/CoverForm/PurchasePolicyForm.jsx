@@ -228,15 +228,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     <div className='flex flex-col w-616'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
-      <div className='w-full p-4 border border-B0C4DB rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
-        <h4 className='flex items-center justify-center pb-6 mb-6 text-sm font-bold text-center capitalize border-b border-dashed font-sora border-b-B0C4DB'>
-          <div className='w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6'>
+      <div className='w-full p-4 rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
+        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize font-sora'>
+          <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img
               src={coverImgSrc} alt=''
             />
           </div>
           <span>{productName || coverName} Price Quotation</span>
         </h4>
+        <p className='h-px mb-6 bg-left-top bg-repeat-x bg-dashed-border bg-dashed-size' />
 
         {formSteps === 0 && (
           <PurchaseAmountStep
@@ -305,14 +306,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
 
         {showReferral && formSteps === 1 && (
-          <div className='mt-11'>
+          <div className='mt-14'>
             <Label htmlFor='incident_title' className='mb-2 text-center'>
               <Trans>Enter Referral Code</Trans>
             </Label>
 
             <div className='relative'>
               <RegularInput
-                className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 '
+                className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
                 placeholder={t`Enter Referral Code`}
@@ -331,20 +332,14 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                   />
                   )
                 : null}
-
-              {referralCodeErrorMessage && (
-                <p className='flex items-center mt-2 ml-3 text-FA5C2F'>
-                  {referralCodeErrorMessage}
-                </p>
-              )}
             </div>
           </div>
         )}
 
         {!account && (
           <Alert info>
-            <div className='flex items-end justify-between ml-4'>
-              <div className='max-w-[265px]'>
+            <div className='flex flex-wrap items-end justify-between ml-4'>
+              <div className='max-w-[265px] mb-4 md:mb-0'>
                 <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
                 <p>Please connect your wallet to view the price quotation.</p>
               </div>
@@ -360,7 +355,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         )}
 
         {formSteps < 3 && (
-          <div className='flex flex-wrap xs:flex-row-reverse sm:justify-start justify-end mt-12'>
+          <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
 
             <button
               disabled={nextButtonDisabled}
