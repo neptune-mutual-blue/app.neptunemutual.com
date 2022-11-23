@@ -36,7 +36,7 @@ export const PurchasePolicyModal = ({
   return (
     <ModalRegular
       isOpen={isOpen}
-      onClose={hanldeClose}
+      onClose={txHash ? hanldeClose : () => {}}
       data-testid='purchase-policy-status'
     >
       <ModalWrapper className='max-w-lg bg-f6f7f9'>

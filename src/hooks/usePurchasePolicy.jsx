@@ -33,6 +33,7 @@ import { analyticsLogger } from '@/utils/logger'
 import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { getMonthNames } from '@/lib/dates'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -114,18 +115,28 @@ export const usePurchasePolicy = ({
       return
     }
 
+    if (isGreater(convertToUnits(MIN_PROPOSAL_AMOUNT, liquidityTokenDecimals), convertToUnits(value, liquidityTokenDecimals) || 0)) {
+      setError(
+        t`Minimum propsal amount should be greater than ${
+          formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+        }`
+      )
+      return
+    }
+
+    if (isGreater(convertToUnits(value, liquidityTokenDecimals) || 0, convertToUnits(MAX_PROPOSAL_AMOUNT, liquidityTokenDecimals))) {
+      setError(
+        t`Maximum propsal amount should be less than ${
+          formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).short
+        }`
+      )
+      return
+    }
+
     if (error) {
       setError('')
     }
-  }, [
-    account,
-    availableLiquidity,
-    balance,
-    error,
-    feeAmount,
-    router.locale,
-    value
-  ])
+  }, [account, availableLiquidity, balance, error, feeAmount, liquidityTokenDecimals, liquidityTokenSymbol, router.locale, value])
 
   const handleApprove = async () => {
     setApproving(true)

@@ -109,6 +109,15 @@ export const usePolicyFees = ({
           expiryDate: getExpiryDateResult.toString()
         })
       } catch (err) {
+        setData({
+          fee: '0',
+          utilizationRatio: '0',
+          totalAvailableLiquidity: '0',
+          floor: '0',
+          ceiling: '0',
+          rate: '0',
+          expiryDate: '0'
+        })
         handleError(err)
         cleanup()
       }
