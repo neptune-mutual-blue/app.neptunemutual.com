@@ -17,6 +17,22 @@ export const Option = (props) => {
     }
   }
 
+  if (name.toLowerCase() === 'okx wallet') {
+    if (!(window.okxwallet)) {
+      return (
+        <a
+          href='https://chrome.google.com/webstore/detail/okex-wallet/mcohilncbfahbmgdjkbpemcciiolgcge'
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+        >
+          <Icon className='mr-6' width={24} />
+          <p>Install OKX Wallet</p>
+        </a>
+      )
+    }
+  }
+
   if (name.toLowerCase() === 'binance chain wallet') {
     if (!window.BinanceChain) {
       return (

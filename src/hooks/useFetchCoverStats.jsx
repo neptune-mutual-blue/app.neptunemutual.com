@@ -22,6 +22,8 @@ export const defaultStats = {
   totalPoolAmount: '0',
   availableLiquidity: '0',
   coverageLag: '0',
+  policyRateCeiling: '0',
+  policyRateFloor: '0',
   minReportingStake: '0'
 }
 
@@ -100,6 +102,8 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
           totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
           availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
           coverageLag: data.coverageLag || defaultStats.coverageLag,
+          policyRateCeiling: data.policyRateCeiling || defaultStats.policyRateCeiling,
+          policyRateFloor: data.policyRateFloor || defaultStats.policyRateFloor,
           minReportingStake: data.minReportingStake || defaultStats.minReportingStake
         })
       } catch (error) {
@@ -135,6 +139,8 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
         totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
         availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
         coverageLag: data.coverageLag || defaultStats.coverageLag,
+        policyRateCeiling: data.policyRateCeiling || defaultStats.policyRateCeiling,
+        policyRateFloor: data.policyRateFloor || defaultStats.policyRateFloor,
         minReportingStake: data.minReportingStake || defaultStats.minReportingStake
       })
     } catch (error) {

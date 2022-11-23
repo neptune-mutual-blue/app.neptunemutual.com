@@ -85,3 +85,6 @@ export const FALLBACK_LIQUIDITY_TOKEN_DECIMALS = 6
 
 export const MIN_PROPOSAL_AMOUNT = 10
 export const MAX_PROPOSAL_AMOUNT = 10_000_000
+
+export const MIN_LIQUIDITY = 10
+export const MAX_LIQUIDITY = 10_000_000
