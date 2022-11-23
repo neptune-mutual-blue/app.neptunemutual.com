@@ -5,26 +5,23 @@ export const Loader = ({ className, ...rest }) => {
     <svg
       className={classNames(
         'animate-spin',
-        className || 'h-8 w-8 -ml-1 mr-3 text-4e7dd9'
-      )}
+        className || 'h-12 w-12 -ml-1 mr-3 text-4e7dd9')}
       xmlns='http://www.w3.org/2000/svg'
       fill='none'
-      viewBox='0 0 24 24'
+      viewBox='0 0 38 38'
       {...rest}
+      // stroke='#4e7dd9'
     >
-      <circle
-        className='opacity-25'
-        cx='12'
-        cy='12'
-        r='10'
-        stroke='currentColor'
-        strokeWidth='4'
-      />
-      <path
-        className='opacity-75'
-        fill='currentColor'
-        d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-      />
+      <g fill='none' fill-rule='evenodd'>
+        <g transform='translate(1 1)' stroke-width='2'>
+          <circle
+            stroke='currentColor'
+            stroke-opacity='.25' cx='18' cy='18' r='18'
+          />
+          <path stroke='currentColor' d='M36 18c0-9.94-8.06-18-18-18' />
+        </g>
+      </g>
     </svg>
+
   )
 }

@@ -115,6 +115,7 @@ module.exports = {
         52: '208px',
         56: '224px',
         60: '240px',
+        70: '282px',
         '90vw': '90vw',
         632: '632px'
       },
@@ -188,7 +189,9 @@ module.exports = {
         '2151B0': '#2151B0',
         '003fbd': '#003FBD',
         E03636: '#E03636',
-        '5D52DC': '#5D52DC'
+        '5D52DC': '#5D52DC',
+        F3F5F7: '#F3F5F7',
+        D9D9D9: '#D9D9D9'
       },
       minHeight: {
         360: '360px',
@@ -212,12 +215,17 @@ module.exports = {
       },
       width: {
         800: '800px',
-        '105px': '105px'
+        '105px': '105px',
+        616: '616px'
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
         'gradient-big': 'url(/gradient-big.svg)',
-        'gradient-slim': 'url(/gradient-slim.svg)'
+        'gradient-slim': 'url(/gradient-slim.svg)',
+        'dashed-border': 'linear-gradient(to right, #B0C4DB 50%, transparent 50%)'
+      },
+      backgroundSize: {
+        'dashed-size': '20px'
       },
       transitionTimingFunction: {
         menu: 'cubic-bezier(0.4, 0, 0.2, 1)'
