@@ -2,14 +2,31 @@ import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
-const PurchaseAmountStep = ({ handleChange, error, liquidityTokenSymbol, liquidityTokenDecimals, value, approving, purchasing, availableLiquidity }) => {
+const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDecimals, value, approving, purchasing, availableLiquidity }) => {
   const router = useRouter()
+  const [error, setError] = useState('')
+
+  function handleChange (val) {
+    setError('')
+    setValue(val)
+
+    if (parseFloat(val) > parseFloat(availableLiquidity)) {
+      setError(t`Maximum protection available is ${
+        formatCurrency(availableLiquidity, router.locale).long
+      }`)
+    }
+  }
 
   return (
     <>
-      <p className='font-bold text-center text-receipt-info text-01052D'><Trans>How Much Protection Do You Require?</Trans></p>
-      <p className='mt-1 mb-8 text-lg text-center text-999BAB'>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</p>
+      <p className='font-bold text-center text-receipt-info text-01052D'>
+        <Trans>How Much Protection Do You Require?</Trans>
+      </p>
+      <p className='mt-1 mb-8 text-lg text-center text-999BAB'>
+        <Trans>Don&apos;t worry, you&apos;re not required to make a purchase just yet.</Trans>
+      </p>
       <InputWithTrailingButton
         decimalLimit={liquidityTokenDecimals}
         error={!!error}

@@ -66,7 +66,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
-  const isMainNet = useValidateNetwork()
+  const isMainNet = useValidateNetwork(networkId)
 
   const [formSteps, setFormSteps] = useState(0)
   const [showReferral, setShowReferral] = useState(false)
@@ -247,8 +247,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps === 0 && (
           <PurchaseAmountStep
             approving={approving}
-            error={error}
-            handleChange={handleChange}
+            setValue={setValue}
             liquidityTokenDecimals={liquidityTokenDecimals}
             liquidityTokenSymbol={liquidityTokenSymbol}
             purchasing={purchasing}
