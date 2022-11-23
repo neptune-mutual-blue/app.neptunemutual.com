@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { RegularButton } from '@/common/Button/RegularButton'
 import { getMonthNames } from '@/lib/dates'
-import { convertFromUnits } from '@/utils/bn'
+import { convertFromUnits, isGreater } from '@/utils/bn'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { useAppConstants } from '@/src/context/AppConstants'
@@ -37,6 +37,7 @@ import LeftArrow from '@/icons/LeftArrow'
 import QuotationStep from '@/common/CoverForm/Steps/QuotationStep'
 import PurchasePolicyStep from '@/common/CoverForm/Steps/PurchasePolicyStep'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -74,7 +75,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const [referralCode, setReferralCode] = useState('')
   const [isReferralCodeCheckPending, setIsReferralCodeCheckPending] = useState(false)
   const [coverMonth, setCoverMonth] = useState('')
-  const [nextButtonDisabled, setNextButtonDisabled] = useState(true)
+
   const {
     liquidityTokenDecimals,
     liquidityTokenSymbol
@@ -179,15 +180,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     })
   }
 
-  useEffect(() => {
-    if (formSteps === 0) {
-      (value && parseFloat(value) < parseFloat(availableLiquidity)) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
-    }
+  let canProceed = true
+  if (formSteps === 0) {
+    const invalidAmount = !value || isGreater(value, availableLiquidity) ||
+    isGreater(value, MAX_PROPOSAL_AMOUNT) ||
+    isGreater(MIN_PROPOSAL_AMOUNT, value)
 
-    if (formSteps === 1) {
-      !coverMonth ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
-    }
-  }, [coverMonth, error, formSteps, value])
+    canProceed = account && !invalidAmount
+  } else if (formSteps === 1) {
+    canProceed = !!coverMonth
+  }
 
   let loadingMessage = ''
   if (updatingFee) {
@@ -258,7 +260,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps === 1 && (
           <CoveragePeriodStep
             value={value}
-            setCoverMonth={setCoverMonth}
             approving={approving}
             coverMonth={coverMonth}
             coverPeriodLabels={coverPeriodLabels}
@@ -364,11 +365,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps < 3 && (
           <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
             <button
-              disabled={nextButtonDisabled || !!account}
+              disabled={!canProceed}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
-                nextButtonDisabled && 'cursor-not-allowed opacity-50',
+                'disabled:cursor-not-allowed disabled:opacity-50',
                 'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0'
               )}
               onClick={() => {

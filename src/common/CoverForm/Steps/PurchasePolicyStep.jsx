@@ -100,7 +100,7 @@ const PurchasePolicyStep = ({
             </span>
             )
           : formatCurrency(
-            error ? 'N/A' : coverFee,
+            coverFee,
             router.locale,
             liquidityTokenSymbol,
             true
