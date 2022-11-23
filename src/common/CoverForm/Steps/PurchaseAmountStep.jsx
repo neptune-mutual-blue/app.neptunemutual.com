@@ -1,4 +1,5 @@
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
@@ -15,6 +16,12 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
     if (parseFloat(val) > parseFloat(availableLiquidity)) {
       setError(t`Maximum protection available is ${
         formatCurrency(availableLiquidity, router.locale).long
+      }`)
+    }
+
+    if (parseFloat(val) < MIN_PROPOSAL_AMOUNT) {
+      setError(t`Minimum propsal amount should be greater than ${
+        formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       }`)
     }
   }

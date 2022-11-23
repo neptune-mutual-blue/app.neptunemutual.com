@@ -181,8 +181,9 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   useEffect(() => {
     if (formSteps === 0) {
-      value ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
+      (value && parseFloat(value) < parseFloat(availableLiquidity)) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
     }
+
     if (formSteps === 1) {
       !coverMonth ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
     }

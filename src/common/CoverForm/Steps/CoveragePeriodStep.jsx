@@ -41,6 +41,7 @@ const CoveragePeriodStep = ({ setCoverMonth, value, coverPeriodLabels, approving
           value='1'
           name='cover-period-1'
           disabled={approving || purchasing}
+          onChange={handleClick}
           onClick={handleClick}
           checked={parseInt(coverMonth) >= 1}
         />
@@ -52,6 +53,7 @@ const CoveragePeriodStep = ({ setCoverMonth, value, coverPeriodLabels, approving
           value='2'
           name='cover-period-2'
           disabled={approving || purchasing}
+          onChange={handleClick}
           onClick={handleClick}
           checked={parseInt(coverMonth) >= 2}
         />
@@ -63,6 +65,7 @@ const CoveragePeriodStep = ({ setCoverMonth, value, coverPeriodLabels, approving
           value='3'
           name='cover-period-3'
           disabled={approving || purchasing}
+          onChange={handleClick}
           onClick={handleClick}
           checked={parseInt(coverMonth) >= 3}
         />

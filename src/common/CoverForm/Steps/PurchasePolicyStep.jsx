@@ -86,31 +86,30 @@ const PurchasePolicyStep = ({
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
       <p
         className='flex justify-center mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
-        title={
-                formatCurrency(
-                  coverFee,
-                  router.locale,
-                  liquidityTokenSymbol,
-                  true
-                ).long
-              }
-      >{updatingFee
-        ? (
-          <span>
-            <DataLoadingIndicator className='mt-0 text-center' message='Fetching fees...' />
-          </span>
-          )
-        : formatCurrency(
+        title={formatCurrency(
           coverFee,
           router.locale,
           liquidityTokenSymbol,
           true
-        ).short}
+        ).long}
+      >
+        {updatingFee
+          ? (
+            <span>
+              <DataLoadingIndicator className='mt-0 text-center' message='Fetching fees...' />
+            </span>
+            )
+          : formatCurrency(
+            error ? 'N/A' : coverFee,
+            router.locale,
+            liquidityTokenSymbol,
+            true
+          ).short}
       </p>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
         <p className='font-semibold tracking-wider uppercase'>You will Receive:</p>
         <p className='flex items-center'>
-          {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short} (Claimable {liquidityTokenSymbol} Token)
+          {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
           <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
         </p>
       </div>
