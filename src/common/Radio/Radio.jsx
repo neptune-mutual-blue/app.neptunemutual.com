@@ -43,7 +43,7 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
     >
       <input
         className={classNames(
-          'cursor-pointer relative appearance-none rounded-full w-5 h-5 bg-EEEEEE border-1.5 border-B0C4DB z-20 focus:outline-none focus:border-B0C4DB m-0 p-0',
+          'cursor-pointer relative appearance-none rounded-full w-5 h-5 bg-transparent border-1.5 border-B0C4DB z-20 focus:outline-none focus:border-B0C4DB m-0 p-0',
           disabled && 'cursor-not-allowed'
         )}
         type='radio'
@@ -52,7 +52,7 @@ const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...
         {...rest}
       />
 
-      {rest.checked && <div className={classNames('w-3 h-3 bg-4e7dd9 rounded-full z-[21] absolute top-1', rest.value === '1' && 'left-1', rest.value === '3' && 'right-1')} />}
+      <div className={classNames('w-5 h-5 bg-EEEEEE rounded-full z-[19] absolute flex align-middle justify-center')}>  {rest.checked && <div className={classNames('w-3 h-3 bg-4e7dd9 rounded-full my-auto')} />} </div>
 
       <label
         className={classNames(
