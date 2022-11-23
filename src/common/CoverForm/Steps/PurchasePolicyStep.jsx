@@ -10,7 +10,7 @@ import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndE
 import { t, Trans } from '@lingui/macro'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useEffect, useState } from 'react'
-import { Radio } from '@/common/Radio/Radio'
+import { CustomRadio } from '@/common/Radio/Radio'
 import { Label } from '@/common/Label/Label'
 import { RegularInput } from '@/common/Input/RegularInput'
 import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
@@ -237,38 +237,38 @@ const PurchasePolicyStep = ({
             <div className='relative flex mt-11'>
               <div className='absolute h-2 bg-999BAB bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
               <div className='absolute h-2 bg-4e7dd9 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
-              <Radio
+              <CustomRadio
                 label={`${coverPeriodLabels[0].substr(0, 3)} 31`}
                 className='!items-start flex-col'
                 labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-1'
                 value='1'
-                name='cover-period'
+                name='cover-period-1'
                 disabled={approving || purchasing}
-                onChange={handleRadioChange}
-                checked={coverMonth === '1'}
+                onClick={handleRadioChange}
+                checked={parseInt(coverMonth) >= 1}
               />
-              <Radio
+              <CustomRadio
                 label={`${coverPeriodLabels[1].substr(0, 3)} 31`}
                 className='!items-center flex-col'
                 labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-2'
                 value='2'
-                name='cover-period'
+                name='cover-period-2'
                 disabled={approving || purchasing}
-                onChange={handleRadioChange}
-                checked={coverMonth === '2'}
+                onClick={handleRadioChange}
+                checked={parseInt(coverMonth) >= 2}
               />
-              <Radio
+              <CustomRadio
                 label={`${coverPeriodLabels[2].substr(0, 3)} 31`}
                 className='!items-end flex-col'
                 labelClass='mt-2 !text-h5 tracking-wider'
                 id='period-3'
                 value='3'
-                name='cover-period'
+                name='cover-period-3'
                 disabled={approving || purchasing}
-                onChange={handleRadioChange}
-                checked={coverMonth === '3'}
+                onClick={handleRadioChange}
+                checked={parseInt(coverMonth) >= 3}
               />
             </div>
           )}
