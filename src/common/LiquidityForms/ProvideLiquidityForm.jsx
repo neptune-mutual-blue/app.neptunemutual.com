@@ -32,6 +32,7 @@ import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useNetwork } from '@/src/context/Network'
+import { MAX_LIQUIDITY, MIN_LIQUIDITY } from '@/src/config/constants'
 
 export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwrittenProducts }) => {
   const [lqValue, setLqValue] = useState('')
@@ -123,6 +124,10 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
       isEqualTo(convertToUnits(lqValue, liquidityTokenDecimals), 0)
     ) {
       setLqErrorMsg(t`Please specify an amount`)
+    } else if (lqValue && isGreater(MIN_LIQUIDITY, lqValue)) {
+      setLqErrorMsg(t`Liquidity is below threshold`)
+    } else if (lqValue && isGreater(lqValue, MAX_LIQUIDITY)) {
+      setLqErrorMsg(t`Liquidity is above threshold`)
     } else {
       setLqErrorMsg('')
     }
