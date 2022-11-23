@@ -364,7 +364,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps < 3 && (
           <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
             <button
-              disabled={nextButtonDisabled}
+              disabled={nextButtonDisabled || !!account}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
