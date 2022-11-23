@@ -66,7 +66,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
-  const isMainNet = useValidateNetwork()
+  const isMainNet = useValidateNetwork(networkId)
 
   const [formSteps, setFormSteps] = useState(0)
   const [showReferral, setShowReferral] = useState(false)
@@ -181,8 +181,9 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   useEffect(() => {
     if (formSteps === 0) {
-      (!value || error) ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
+      (value && parseFloat(value) < parseFloat(availableLiquidity)) ? setNextButtonDisabled(false) : setNextButtonDisabled(true)
     }
+
     if (formSteps === 1) {
       !coverMonth ? setNextButtonDisabled(true) : setNextButtonDisabled(false)
     }
@@ -247,8 +248,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps === 0 && (
           <PurchaseAmountStep
             approving={approving}
-            error={error}
-            handleChange={handleChange}
+            setValue={setValue}
             liquidityTokenDecimals={liquidityTokenDecimals}
             liquidityTokenSymbol={liquidityTokenSymbol}
             purchasing={purchasing}
@@ -258,6 +258,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {formSteps === 1 && (
           <CoveragePeriodStep
             value={value}
+            setCoverMonth={setCoverMonth}
             approving={approving}
             coverMonth={coverMonth}
             coverPeriodLabels={coverPeriodLabels}
@@ -362,9 +363,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
         {formSteps < 3 && (
           <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
-
             <button
-              disabled={nextButtonDisabled}
+              disabled={nextButtonDisabled || !!account}
               className={classNames(
                 formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
                 isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
@@ -397,7 +397,11 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
               </OutlinedButton>
             )}
 
-            {formSteps > 0 && <BackButton className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')} onClick={() => setFormSteps((prev) => prev - 1)} />}
+            {formSteps > 0 && (
+              <BackButton
+                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')}
+                onClick={() => setFormSteps((prev) => prev - 1)}
+              />)}
 
           </div>
         )}
