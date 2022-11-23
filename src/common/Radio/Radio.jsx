@@ -1,6 +1,6 @@
 import { classNames } from '@/utils/classnames'
 
-export const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
+const Radio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
   return (
     <div
       className={classNames(
@@ -31,3 +31,40 @@ export const Radio = ({ label, id, disabled, className = '', labelClass = '', ..
     </div>
   )
 }
+
+const CustomRadio = ({ label, id, disabled, className = '', labelClass = '', ...rest }) => {
+  return (
+    <div
+      className={classNames(
+        'flex items-center w-full flex-1 z-10',
+        className,
+        disabled && 'cursor-not-allowed'
+      )}
+    >
+      <input
+        className={classNames(
+          'cursor-pointer relative appearance-none rounded-full w-5 h-5 bg-EEEEEE border-1.5 border-B0C4DB z-20 focus:outline-none focus:border-B0C4DB m-0 p-0',
+          disabled && 'cursor-not-allowed'
+        )}
+        type='radio'
+        id={id}
+        disabled={disabled}
+        {...rest}
+      />
+
+      {rest.checked && <div className={classNames('w-3 h-3 bg-4e7dd9 rounded-full z-[21] absolute top-1', rest.value === '1' && 'left-1', rest.value === '3' && 'right-1')} />}
+
+      <label
+        className={classNames(
+          'cursor-pointer text-sm uppercase flex-1', labelClass,
+          disabled && 'cursor-not-allowed'
+        )}
+        htmlFor={id}
+      >
+        {label}
+      </label>
+    </div>
+  )
+}
+
+export { Radio, CustomRadio }
