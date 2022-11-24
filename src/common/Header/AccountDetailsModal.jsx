@@ -113,7 +113,7 @@ export const AccountDetailsModal = ({
             </span>
             <button
               onClick={handleDisconnect}
-              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 text-xxs text-4e7dd9'
+              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4e7dd9'
             >
               <Trans>Disconnect</Trans>
             </button>
