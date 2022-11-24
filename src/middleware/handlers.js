@@ -52,6 +52,22 @@ export function handleRobotsTxt (req) {
  * @param {import("next/server").NextRequest} req
  * @returns {Promise<Response | undefined> | Response | undefined}
  */
+export function handleSiteManifest (req) {
+  if (!req.url.includes('manifest.json')) {
+    return
+  }
+
+  const response = NextResponse.next()
+  response.headers.set('Pragma', 'no-cache')
+  response.headers.set('Access-Control-Allow-Origin', '*')
+  return response
+}
+
+/**
+ *
+ * @param {import("next/server").NextRequest} req
+ * @returns {Promise<Response | undefined> | Response | undefined}
+ */
 export function handleGeoBlocking (req) {
   const country = req.geo?.country || ''
   const isGeoBlocked = country && unavailableTo.indexOf(country) > -1

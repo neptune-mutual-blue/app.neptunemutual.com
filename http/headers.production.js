@@ -4,6 +4,7 @@ const connectSources = [
   process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
   process.env.NEXT_PUBLIC_API_URL,
   process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL,
+  'https://mainnet.infura.io',
   'https://api.thegraph.com/ipfs/',
   'https://*.clarity.ms'
 ].map((x) => (x || '').trim())
@@ -27,7 +28,7 @@ module.exports = [
       `connect-src 'self' ${connectSources}`,
       "style-src 'self' 'unsafe-inline'",
       'upgrade-insecure-requests',
-      "frame-ancestors 'none'",
+      'frame-ancestors https://gnosis-safe.io https://app.safe.global',
       "default-src 'none'",
       "prefetch-src 'self'",
       "manifest-src 'self'",

@@ -11,3 +11,11 @@ An open source interface for Neptune Mutual &mdash; a protocol that provides you
 ## Contributions
 
 For steps on local deployment, development, and code contribution, please see [CONTRIBUTING](./CONTRIBUTING.md).
+
+## Gnosis Connector
+
+The following are the changes required for allowing the app for connecting with Gnosis wallet
+
+- Add Gnosis Safe domains to `frame-ancestors` directive. For example: `https://gnosis-safe.io` or `https://app.safe.global`
+- Add Gnosis Safe RPC to `connect-src` directive. For example: `https://mainnet.infura.io`
+- Allow `manifest.json` file to be accessed from Gnosis Safe domains

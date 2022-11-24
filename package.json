@@ -18,6 +18,8 @@
     "@ethersproject/providers": "5.5.1",
     "@fontsource/poppins": "4.5.0",
     "@fontsource/sora": "4.5.0",
+    "@gnosis.pm/safe-apps-provider": "0.13.2",
+    "@gnosis.pm/safe-apps-sdk": "7.8.0",
     "@headlessui/react": "1.4.1",
     "@lingui/react": "3.13.2",
     "@metamask/post-message-stream": "4.0.0",
