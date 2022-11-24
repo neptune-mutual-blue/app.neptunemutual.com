@@ -45,29 +45,3 @@ export default function Options () {
     </main>
   )
 }
-
-// export async function getServerSideProps ({ req, params }) {
-//   const networkId = detectChainId(req.headers.host)
-//   const coverKey = safeFormatBytes32String(params.coverId)
-//   const productKey = safeFormatBytes32String(params.productId)
-//   const data = await getSubgraphData(
-//     networkId,
-//     `{
-//   product (id: "${coverKey}-${productKey}") {
-//     id
-//     coverKey
-//     productKey
-//   }
-// }`
-//   )
-
-//   if (!data?.product) {
-//     return {
-//       notFound: true
-//     }
-//   }
-
-//   return {
-//     props: { }
-//   }
-// }
