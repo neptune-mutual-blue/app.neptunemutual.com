@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { ComingSoon } from '@/common/ComingSoon'
-import { isDiversifiedCoversEnabled, isFeatureEnabled } from '@/src/config/environment'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { NewIncidentReportPage } from '@/modules/reporting/new'
@@ -9,7 +9,7 @@ import { useWeb3React } from '@web3-react/core'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
 
-const disabled = !isDiversifiedCoversEnabled() || !isFeatureEnabled('reporting')
+const disabled = !isFeatureEnabled('reporting')
 
 export default function ReportingNewCoverPage () {
   const router = useRouter()

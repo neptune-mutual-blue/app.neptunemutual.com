@@ -1,6 +1,6 @@
 const e = {
-  WHITELISTED_CORS_DOMAINS: process.env.WHITELISTED_CORS_DOMAINS || '',
-  FALLBACK_CORS_ORIGIN: process.env.FALLBACK_CORS_ORIGIN || 'https://app.neptunemutual.com'
+  WHITELISTED_CORS_DOMAINS: process.env.NEXT_WHITELISTED_CORS_DOMAINS || '',
+  FALLBACK_CORS_ORIGIN: process.env.NEXT_FALLBACK_CORS_ORIGIN || 'https://app.neptunemutual.com'
 }
 
 /**

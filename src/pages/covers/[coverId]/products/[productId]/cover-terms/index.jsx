@@ -2,11 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { isDiversifiedCoversEnabled } from '@/src/config/environment'
-import { ComingSoon } from '@/common/ComingSoon'
 import { DedicatedCoverTermsPage } from '@/modules/cover/cover-terms/DedicatedCoverTermsPage'
-
-const disabled = !isDiversifiedCoversEnabled()
 
 export default function CoverPage () {
   const router = useRouter()
@@ -16,12 +12,6 @@ export default function CoverPage () {
   const productKey = safeFormatBytes32String(productId)
 
   const coverInfo = useCoverOrProductData({ coverKey, productKey })
-
-  const isDiversified = coverInfo?.supportsProducts
-
-  if (disabled && isDiversified) {
-    return <ComingSoon />
-  }
 
   return (
     <main>
