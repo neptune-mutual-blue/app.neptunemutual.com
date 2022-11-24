@@ -319,7 +319,7 @@ const CxDaiToolTip = ({ liquidityTokenSymbol, coverName }) => {
     <Tooltip.Root>
       <Tooltip.Trigger className='p-0.5'>
         <span className='sr-only'>Info</span>
-        <InfoCircleIcon width={15} className='fill-9B9B9B' />
+        <InfoCircleIcon width={15} height={15} className='fill-9B9B9B' />
       </Tooltip.Trigger>
 
       <Tooltip.Content side='right'>
