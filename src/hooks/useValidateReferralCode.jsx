@@ -25,10 +25,9 @@ function isValidReferralCode (referralCode) {
 /**
  *
  * @param {string} referralCode
- * @returns {{isValid: boolean, errorMessage: string, isPending: boolean}}
+ * @returns {{isValid: boolean, errorMessage: string}}
  */
-export function useValidateReferralCode (referralCode) {
-  const [isPending, setIsPending] = useState(false)
+export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPending) {
   const [isValid, setIsValid] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -51,9 +50,6 @@ export function useValidateReferralCode (referralCode) {
         let isValidRef = false
 
         try {
-          // immediately disable submit button
-          setIsPending(true)
-
           const result = await fetchValidateReferralCode(
             REFERRAL_CODE_VALIDATION_URL,
             {
@@ -68,7 +64,7 @@ export function useValidateReferralCode (referralCode) {
         } catch (e) {
           isValidRef = false
         } finally {
-          setIsPending(false)
+          setIsReferralCodeCheckPending(false)
         }
 
         setIsValid(isValidRef)
@@ -83,7 +79,7 @@ export function useValidateReferralCode (referralCode) {
       setErrorMessage(t`Incorrect Referral Code`)
       setIsValid(false)
     })()
-  }, [debouncedValue, fetchValidateReferralCode])
+  }, [debouncedValue, fetchValidateReferralCode, setIsReferralCodeCheckPending])
 
-  return { isValid, errorMessage, isPending }
+  return { isValid, errorMessage }
 }

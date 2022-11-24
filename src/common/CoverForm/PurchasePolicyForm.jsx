@@ -1,19 +1,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { Radio } from '@/common/Radio/Radio'
-import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
-import { TokenAmountInput } from '@/common/TokenAmountInput/TokenAmountInput'
 import { RegularButton } from '@/common/Button/RegularButton'
 import { getMonthNames } from '@/lib/dates'
-import { convertFromUnits, isValidNumber } from '@/utils/bn'
+import { convertFromUnits, isGreater } from '@/utils/bn'
 import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
 import { usePolicyFees } from '@/src/hooks/usePolicyFees'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { formatCurrency } from '@/utils/formatter/currency'
 import { Alert } from '@/common/Alert/Alert'
 import Link from 'next/link'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
 import { t, Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { Label } from '@/common/Label/Label'
@@ -31,6 +26,18 @@ import { useWeb3React } from '@web3-react/core'
 import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
+import StepsIndicator from '@/common/StepsIndicator'
+import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
+import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
+import { classNames } from '@/utils/classnames'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import LeftArrow from '@/icons/LeftArrow'
+import QuotationStep from '@/common/CoverForm/Steps/QuotationStep'
+import PurchasePolicyStep from '@/common/CoverForm/Steps/PurchasePolicyStep'
+import { OutlinedButton } from '@/common/Button/OutlinedButton'
+import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -60,12 +67,16 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
+  const isMainNet = useValidateNetwork(networkId)
 
+  const [formSteps, setFormSteps] = useState(0)
+  const [showReferral, setShowReferral] = useState(false)
   const [value, setValue] = useState('')
   const [referralCode, setReferralCode] = useState('')
+  const [isReferralCodeCheckPending, setIsReferralCodeCheckPending] = useState(false)
   const [coverMonth, setCoverMonth] = useState('')
+
   const {
-    liquidityTokenAddress,
     liquidityTokenDecimals,
     liquidityTokenSymbol
   } = useAppConstants()
@@ -77,9 +88,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
 
   const {
     isValid: isValidReferralCode,
-    errorMessage: referralCodeErrorMessage,
-    isPending: isReferralCodeCheckPending
-  } = useValidateReferralCode(referralCode)
+    errorMessage: referralCodeErrorMessage
+  } = useValidateReferralCode(referralCode, setIsReferralCodeCheckPending)
 
   const { loading: updatingFee, data: feeData } = usePolicyFees({
     value,
@@ -92,7 +102,6 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   const {
     txHash,
     purchaseWaiting,
-    balance,
     approving,
     purchasing,
     canPurchase,
@@ -128,7 +137,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   const handleRadioChange = (e) => {
+    setShowReferral(true)
     setCoverMonth(e.target.value)
+  }
+
+  function referralCodeChange (e) {
+    setIsReferralCodeCheckPending(true)
+    setReferralCode(e.target.value)
   }
 
   const coverPeriodLabels = getCoveragePeriodLabels(router.locale)
@@ -163,6 +178,17 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     analyticsLogger(() => {
       log(chainId, funnel, journey, step, sequence, account, event, {})
     })
+  }
+
+  let canProceed = true
+  if (formSteps === 0) {
+    const invalidAmount = !value || isGreater(value, availableLiquidity) ||
+    isGreater(value, MAX_PROPOSAL_AMOUNT) ||
+    isGreater(MIN_PROPOSAL_AMOUNT, value)
+
+    canProceed = account && !invalidAmount
+  } else if (formSteps === 1) {
+    canProceed = !!coverMonth
   }
 
   let loadingMessage = ''
@@ -200,209 +226,202 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
   }
 
   const hasReferralCode = !!referralCode.trim().length
+  const isDiversified = isValidProduct(productKey)
+
+  const coverName = safeParseBytes32String(coverKey)
+  const productName = safeParseBytes32String(productKey)
+  const coverImgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
-    <div className='max-w-lg' data-testid='purchase-policy-form'>
-      <TokenAmountInput
-        labelText={t`Amount you wish to cover`}
-        onChange={handleChange}
-        error={!!error}
-        handleChooseMax={() => {}}
-        tokenAddress={liquidityTokenAddress}
-        tokenSymbol={liquidityTokenSymbol}
-        tokenDecimals={liquidityTokenDecimals}
-        tokenBalance={balance}
-        inputId='cover-amount'
-        inputValue={value}
-        disabled={approving || purchasing}
-        buttonClassName='hidden'
-      >
-        {value && isValidNumber(value) && (
-          <div
-            className='flex items-center text-15aac8'
-            title={formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long}
-          >
-            <p>
-              <Trans>You will receive:</Trans>{' '}
-              {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).short}
-            </p>
+    <div className='flex flex-col w-616'>
+      {formSteps === 0 && value && <StepsIndicator completed='50' />}
+      {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
+      <div className='w-full p-4 rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
+        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize font-sora'>
+          <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
+            <img
+              src={coverImgSrc} alt=''
+            />
+          </div>
+          <span>{productName || coverName} Price Quotation</span>
+        </h4>
+        <p className='h-px mb-6 bg-left-top bg-repeat-x bg-dashed-border bg-dashed-size' />
+
+        {formSteps === 0 && (
+          <PurchaseAmountStep
+            approving={approving}
+            setValue={setValue}
+            liquidityTokenDecimals={liquidityTokenDecimals}
+            liquidityTokenSymbol={liquidityTokenSymbol}
+            purchasing={purchasing}
+            value={value}
+            availableLiquidity={availableLiquidity}
+          />)}
+        {formSteps === 1 && (
+          <CoveragePeriodStep
+            value={value}
+            approving={approving}
+            coverMonth={coverMonth}
+            coverPeriodLabels={coverPeriodLabels}
+            handleRadioChange={handleRadioChange}
+            purchasing={purchasing}
+            tokenSymbol={liquidityTokenSymbol}
+            feeData={feeData}
+          />)}
+
+        {formSteps === 2 && (
+          <QuotationStep
+            feeData={feeData}
+            value={value}
+            coverMonth={coverMonth}
+            coverageLag={coverageLag}
+            liquidityTokenDecimals={liquidityTokenDecimals}
+            liquidityTokenSymbol={liquidityTokenSymbol}
+            referralCode={referralCode}
+          />
+        )}
+
+        {formSteps === 3 && (
+          <PurchasePolicyStep
+            coverName={productName || coverName}
+            feeData={feeData}
+            value={value}
+            approving={approving}
+            canPurchase={canPurchase}
+            coverMonth={coverMonth}
+            coverageLag={coverageLag}
+            error={error}
+            handleApprove={handleApprove}
+            handleLog={handleLog}
+            handlePurchase={handlePurchase}
+            isReferralCodeCheckPending={isReferralCodeCheckPending}
+            referralCodeChange={referralCodeChange}
+            isValidReferralCode={isValidReferralCode}
+            loadingMessage={loadingMessage}
+            purchasing={purchasing}
+            setCoverMonth={setCoverMonth}
+            setReferralCode={setReferralCode}
+            setValue={setValue}
+            updatingBalance={updatingBalance}
+            updatingFee={updatingFee}
+            referralCode={referralCode}
+            handleChange={handleChange}
+            coverPeriodLabels={coverPeriodLabels}
+            handleRadioChange={handleRadioChange}
+            referralCodeErrorMessage={referralCodeErrorMessage}
+            hasReferralCode={hasReferralCode}
+          />
+        )}
+
+        {showReferral && formSteps === 1 && (
+          <div className='mt-14'>
+            <Label htmlFor='incident_title' className='mb-2 text-center'>
+              <Trans>Enter Referral Code</Trans>
+            </Label>
+
+            <div className='relative'>
+              <RegularInput
+                className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 text-center'
+                error={!!referralCodeErrorMessage}
+                id='referral_code'
+                placeholder={t`Enter Referral Code`}
+                value={referralCode}
+                onChange={referralCodeChange}
+                disabled={approving}
+                type='text'
+                data-testid='referral-input'
+              />
+
+              {hasReferralCode
+                ? (
+                  <ReferralCodeStatus
+                    isReferralCodeCheckPending={isReferralCodeCheckPending}
+                    isValidReferralCode={isValidReferralCode}
+                  />
+                  )
+                : null}
+            </div>
           </div>
         )}
-        {error && <p className='flex items-center text-FA5C2F'>{error}</p>}
-      </TokenAmountInput>
-      <div className='mt-12'>
-        <div className='flex items-center gap-2 mb-4'>
-          <label
-            className='block font-semibold text-black uppercase text-h6'
-            htmlFor='cover-period'
-          >
-            <Trans>Select your coverage period</Trans>
-          </label>
-        </div>
-        <div className='flex'>
-          <Radio
-            label={coverPeriodLabels[0]}
-            id='period-1'
-            value='1'
-            name='cover-period'
-            disabled={approving || purchasing}
-            onChange={handleRadioChange}
-            checked={coverMonth === '1'}
-          />
-          <Radio
-            label={coverPeriodLabels[1]}
-            id='period-2'
-            value='2'
-            name='cover-period'
-            disabled={approving || purchasing}
-            onChange={handleRadioChange}
-            checked={coverMonth === '2'}
-          />
-          <Radio
-            label={coverPeriodLabels[2]}
-            id='period-3'
-            value='3'
-            name='cover-period'
-            disabled={approving || purchasing}
-            onChange={handleRadioChange}
-            checked={coverMonth === '3'}
-          />
-        </div>
-      </div>
 
-      <div className='mt-11'>
-        <Label htmlFor='incident_title' className='mb-2'>
-          <Trans>Referral Code</Trans>
-        </Label>
-
-        <div className='relative'>
-          <RegularInput
-            className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 '
-            error={!!referralCodeErrorMessage}
-            id='referral_code'
-            placeholder={t`Enter Referral Code`}
-            value={referralCode}
-            onChange={(e) => setReferralCode(e.target.value)}
-            disabled={approving}
-            type='text'
-            data-testid='referral-input'
-          />
-
-          {hasReferralCode
-            ? (
-              <ReferralCodeStatus
-                isReferralCodeCheckPending={isReferralCodeCheckPending}
-                isValidReferralCode={isValidReferralCode}
-              />
-              )
-            : null}
-
-          {referralCodeErrorMessage && (
-            <p className='flex items-center mt-2 ml-3 text-FA5C2F'>
-              {referralCodeErrorMessage}
-            </p>
-          )}
-        </div>
-      </div>
-
-      {!account && (
-        <Alert info>
-          <div className='flex items-end justify-between ml-4'>
-            <div className='max-w-[265px]'>
-              <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
-              <p>Please connect your wallet to view the price quotation.</p>
+        {!account && (
+          <Alert info>
+            <div className='flex flex-wrap items-end justify-between ml-4'>
+              <div className='max-w-[265px] mb-4 md:mb-0'>
+                <h5 className='font-semibold text-h5'>Wallet Not Connected.</h5>
+                <p>Please connect your wallet to view the price quotation.</p>
+              </div>
+              <ConnectWallet networkId={networkId} notifier={notifier}>
+                {({ onOpen }) => {
+                  return (
+                    <RegularButton className='px-2 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
+                  )
+                }}
+              </ConnectWallet>
             </div>
-            <ConnectWallet networkId={networkId} notifier={notifier}>
-              {({ onOpen }) => {
-                return (
-                  <RegularButton className='px-2 text-xs h-fit' onClick={onOpen}>Connect Wallet</RegularButton>
-                )
+          </Alert>
+        )}
+
+        {formSteps < 3 && (
+          <div className='flex flex-wrap justify-end mt-12 xs:flex-row-reverse sm:justify-start'>
+            <button
+              disabled={!canProceed}
+              className={classNames(
+                formSteps >= 0 ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
+                isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
+                'disabled:cursor-not-allowed disabled:opacity-50',
+                'flex items-center text-EEEEEE py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0'
+              )}
+              onClick={() => {
+                if (formSteps === 1) {
+                  !isValidReferralCode && setReferralCode('')
+                }
+                setFormSteps((prev) => prev + 1)
               }}
-            </ConnectWallet>
-          </div>
-        </Alert>
-      )}
+            >
+              {formSteps === 0 && (
+                <>
+                  <Trans>Next</Trans>
+                  <LeftArrow variant='right' />
+                </>
+              )}
+              {formSteps === 1 && <Trans>View Quotation</Trans>}
+              {formSteps === 2 && <Trans>Purchase Policy</Trans>}
+            </button>
 
-      {account && (
-        <>
-          {value && coverMonth && <PolicyFeesAndExpiry data={feeData} coverageLag={coverageLag} />}
-          <div className='mt-4'>
-            <DataLoadingIndicator message={loadingMessage} />
-            {!canPurchase
-              ? (
-                <RegularButton
-                  disabled={
-              !!error ||
-              approving ||
-              !value ||
-              !coverMonth ||
-              updatingFee ||
-              updatingBalance ||
-              isReferralCodeCheckPending
-            }
-                  className='w-full p-6 font-semibold uppercase text-h6'
-                  onClick={() => {
-                    handleApprove()
-                    handleLog(1)
-                  }}
-                >
-                  {approving
-                    ? (
-                        t`Approving...`
-                      )
-                    : (
-                      <>
-                        <Trans>Approve</Trans> {liquidityTokenSymbol}
-                      </>
-                      )}
-                </RegularButton>
-                )
-              : (
-                <RegularButton
-                  disabled={
-              !!error ||
-              purchasing ||
-              !value ||
-              !coverMonth ||
-              updatingFee ||
-              updatingBalance ||
-              !isValidReferralCode
-            }
-                  className='w-full p-6 font-semibold uppercase text-h6'
-                  onClick={() => {
-                    handlePurchase(() => {
-                      setValue('')
-                      setReferralCode('')
-                      setCoverMonth('')
-                    })
-                    handleLog(2)
-                    handleLog(9999)
-                  }}
-                >
-                  {purchasing ? t`Purchasing...` : t`Purchase Policy`}
-                </RegularButton>
-                )}
-          </div>
-        </>
-      )}
+            {formSteps === 0 && (
+              <OutlinedButton
+                onClick={() => router.back()}
+                className={classNames('text-[#01052D] hover:text-[#01052D] flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center ml-4 mt-2 md:mt-0 bg-E6EAEF border-none hover:bg-E6EAEF focus-visible:ring-E6EAEF ')}
+              >
+                <Trans>Cancel</Trans>
+              </OutlinedButton>
+            )}
 
-      <div className='flex justify-center mt-12 md:justify-start'>
-        <BackButton onClick={() => router.back()} />
+            {formSteps > 0 && (
+              <BackButton
+                className={classNames('flex items-center py-3 px-4 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide ml-4 mt-2 md:mt-0')}
+                onClick={() => setFormSteps((prev) => prev - 1)}
+              />)}
+
+          </div>
+        )}
+        <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} />
       </div>
 
-      <PurchasePolicyModal isOpen={purchaseWaiting || Boolean(txHash)} txHash={txHash} />
     </div>
   )
 }
 
-const ReferralCodeStatus = ({
-  isReferralCodeCheckPending,
-  isValidReferralCode
+export const ReferralCodeStatus = ({
+  isReferralCodeCheckPending = true,
+  isValidReferralCode,
+  statusIndicatorClass = 'right-6 top-6'
 }) => {
   if (isReferralCodeCheckPending) {
     return (
       <Loader
-        className='absolute w-6 h-6 right-6 top-6 text-4e7dd9'
+        className={classNames('absolute w-6 h-6  text-4e7dd9', statusIndicatorClass)}
         aria-hidden='true'
         data-testid='loader'
       />
@@ -412,7 +431,7 @@ const ReferralCodeStatus = ({
   if (isValidReferralCode) {
     return (
       <SuccessIcon
-        className='absolute w-6 h-6 text-21AD8C right-6 top-6'
+        className={classNames('absolute w-6 h-6 text-21AD8C', statusIndicatorClass)}
         aria-hidden='true'
       />
     )
@@ -420,7 +439,7 @@ const ReferralCodeStatus = ({
 
   return (
     <ErrorIcon
-      className='absolute w-6 h-6 text-FA5C2F right-6 top-6'
+      className={classNames('absolute w-6 h-6 text-FA5C2F', statusIndicatorClass)}
       aria-hidden='true'
     />
   )
