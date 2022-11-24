@@ -14,6 +14,7 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Trans } from '@lingui/macro'
 import { logViewAccountOnExplorer } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -67,8 +68,16 @@ export const AccountDetailsModal = ({
   handleDisconnect,
   account
 }) => {
-  const wallet = wallets.find((x) => x.id === '1') // @todo: needs to be dynamic
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval()
+  const [connectorName, setConnectorName] = useState('injected')
+
+  useEffect(() => {
+    if (process.browser) {
+      setConnectorName(window.localStorage.getItem(ACTIVE_CONNECTOR_KEY))
+    }
+  }, [])
+
+  const wallet = wallets.find((x) => x.connectorName === connectorName)
 
   return (
     <ModalRegular
