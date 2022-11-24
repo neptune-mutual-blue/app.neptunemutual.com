@@ -25,7 +25,8 @@ module.exports = [
     values: [
       `script-src 'self' ${scriptSources}`,
       `connect-src 'self' ${connectSources}`,
-      "style-src 'self' 'unsafe-inline'",
+      // "style-src 'self' 'unsafe-inline'",
+      "style-src 'self'",
       'upgrade-insecure-requests',
       "frame-ancestors 'none'",
       "default-src 'none'",
