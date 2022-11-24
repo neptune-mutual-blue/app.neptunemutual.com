@@ -106,8 +106,8 @@ const PurchasePolicyStep = ({
             true
           ).short}
       </p>
-      <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7'>
-        <p className='font-semibold tracking-wider uppercase'>You will Receive:</p>
+      <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7 text-h6'>
+        <p className='font-semibold tracking-wider uppercase'><Trans>You will Receive:</Trans></p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
           <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
@@ -115,7 +115,7 @@ const PurchasePolicyStep = ({
       </div>
 
       {error && error === 'Insufficient Balance' && (
-        <Alert className='flex items-center text-FA5C2F'>Your balance is not enough to pay the fee. Please reload your wallet.</Alert>
+        <Alert className='flex items-center text-FA5C2F'><Trans>Your balance is not enough to pay the fee. Please reload your wallet.</Trans></Alert>
       )}
 
       <div className='mt-4'>
@@ -319,16 +319,20 @@ const CxDaiToolTip = ({ liquidityTokenSymbol, coverName }) => {
     <Tooltip.Root>
       <Tooltip.Trigger className='p-0.5'>
         <span className='sr-only'>Info</span>
-        <InfoCircleIcon width={24} className='fill-9B9B9B' />
+        <InfoCircleIcon width={15} className='fill-9B9B9B' />
       </Tooltip.Trigger>
 
       <Tooltip.Content side='right'>
         <div className='w-full p-2 text-xs tracking-normal bg-black rounded-lg max-w-70 text-EEEEEE'>
           <p>
-            You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction.
+            <Trans>
+              You will receive cx{liquidityTokenSymbol} or Claimable {liquidityTokenSymbol} upon successful completion of this transaction.
+            </Trans>
           </p>
           <p className='mt-6'>
-            The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {coverName} cover resolves as “Incident Occured”
+            <Trans>
+              The cx{liquidityTokenSymbol} token will be redeemable for {liquidityTokenSymbol} at a 1:1 ratio if {coverName} cover resolves as “Incident Occured”
+            </Trans>
           </p>
         </div>
         <Tooltip.Arrow offset={16} className='fill-black' />
