@@ -21,8 +21,6 @@ export const isFeatureEnabled = (feature) => {
 
 export const mainnetChainIds = [1, 10, 56, 137, 42161, 43114]
 
-export const isDiversifiedCoversEnabled = () => process.env.NEXT_PUBLIC_ENABLE_V2 === 'true'
-
 export const timeouts = {
   waitForTransactionWithTimeout: 30000
 }

@@ -5,14 +5,10 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { HomeHero } from '@/modules/home/Hero'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
-import { isDiversifiedCoversEnabled } from '@/src/config/environment'
-import { ComingSoon } from '@/common/ComingSoon'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
-
-const disabled = !isDiversifiedCoversEnabled()
 
 export default function CoverPage () {
   const router = useRouter()
@@ -30,10 +26,6 @@ export default function CoverPage () {
   useEffect(() => {
     analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
   }, [account, chainId, router.asPath])
-
-  if (disabled && isDiversified) {
-    return <ComingSoon />
-  }
 
   return (
     <main>
