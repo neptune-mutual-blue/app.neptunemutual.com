@@ -16,7 +16,7 @@ export default function Options () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const coverProductInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo: coverProductInfo, loading } = useCoverOrProductData({ coverKey, productKey })
 
   useEffect(() => {
     analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
@@ -32,7 +32,8 @@ export default function Options () {
         />
       </Head>
 
-      {!coverProductInfo && <p className='text-center'>No Data found</p>}
+      {loading && <p className='text-center'>loading...</p>}
+      {!loading && !coverProductInfo && <p className='text-center'>No Data found</p>}
       {coverProductInfo && (
         <CoverOptionsPage
           coverKey={coverKey}

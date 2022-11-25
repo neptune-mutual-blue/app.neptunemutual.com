@@ -144,7 +144,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
   const approvalSequence = useRef(0)
 
   const productKey = safeFormatBytes32String('')
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
   const { chainId, account } = useWeb3React()
 
   const handleMaxNPM = () => {

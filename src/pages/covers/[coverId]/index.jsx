@@ -17,7 +17,7 @@ export default function CoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
 
   const isDiversified = coverInfo?.supportsProducts
 
@@ -36,7 +36,8 @@ export default function CoverPage () {
           content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
         />
       </Head>
-      {!coverInfo && <p className='text-center'>No Data Found</p>}
+      {loading && <p className='text-center'>loading...</p>}
+      {!loading && !coverInfo && <p className='text-center'>No Data Found</p>}
 
       {isDiversified
         ? (

@@ -10,7 +10,7 @@ import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 
 export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp }) {
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: coverKey,
     productKey: productKey
   })

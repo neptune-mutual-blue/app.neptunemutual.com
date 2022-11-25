@@ -75,7 +75,7 @@ export const PolicyCardFooter = ({
 
   const { account, chainId } = useWeb3React()
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: coverKey,
     productKey: productKey
   })

@@ -33,7 +33,7 @@ export const ActiveReportingCard = ({
 }) => {
   const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
   const { info: coverStats, isLoading } = useFetchCoverStats({
     coverKey,
     productKey

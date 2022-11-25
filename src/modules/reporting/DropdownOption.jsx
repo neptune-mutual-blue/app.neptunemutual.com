@@ -4,7 +4,7 @@ import { classNames } from '@/utils/classnames'
 import { utils } from '@neptunemutual/sdk'
 
 export const DropdownOption = ({ option, selected, active }) => {
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: option?.coverKey,
     productKey: option?.productKey || utils.keyUtil.toBytes32('')
   })
