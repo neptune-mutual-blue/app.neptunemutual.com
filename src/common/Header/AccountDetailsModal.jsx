@@ -14,6 +14,7 @@ import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { Trans } from '@lingui/macro'
 import { logViewAccountOnExplorer } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
+import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -67,8 +68,16 @@ export const AccountDetailsModal = ({
   handleDisconnect,
   account
 }) => {
-  const wallet = wallets.find((x) => x.id === '1') // @todo: needs to be dynamic
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval()
+  const [connectorName, setConnectorName] = useState('injected')
+
+  useEffect(() => {
+    if (process.browser) {
+      setConnectorName(window.localStorage.getItem(ACTIVE_CONNECTOR_KEY))
+    }
+  }, [])
+
+  const wallet = wallets.find((x) => x.connectorName === connectorName)
 
   return (
     <ModalRegular
@@ -104,7 +113,7 @@ export const AccountDetailsModal = ({
             </span>
             <button
               onClick={handleDisconnect}
-              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 text-xxs text-4e7dd9'
+              className='px-2 py-1 mb-2 tracking-wide uppercase border rounded-lg border-4e7dd9 sm:mb-0 sm:ml-28 md:ml-0 text-xxs text-4e7dd9'
             >
               <Trans>Disconnect</Trans>
             </button>
