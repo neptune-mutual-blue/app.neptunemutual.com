@@ -50,7 +50,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
               <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}</Trans>
             </th>
             {!editForm && (
-              <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
+              <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
                 {!quotationStep && DateLib.toLongDateFormat(startsAt, router.locale, 'UTC', {
                   year: 'numeric',
                   month: 'short',
@@ -96,7 +96,7 @@ const CoveragePeriodTooltip = ({ startsAt, endsAt }) => {
     <Tooltip.Root>
       <Tooltip.Trigger className='pl-0.5'>
         <span className='sr-only'>Info</span>
-        <InfoCircleIcon width={15} className='fill-9B9B9B' />
+        <InfoCircleIcon width={15} height={15} className='fill-9B9B9B' />
       </Tooltip.Trigger>
 
       <Tooltip.Content side='top'>
