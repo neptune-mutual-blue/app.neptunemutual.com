@@ -645,7 +645,7 @@ msgstr "カバールール"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:111
 #: src/modules/reporting/active/ActiveReportingCard.jsx:106
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "カバー料金："
 
 #: src/modules/home/Hero.jsx:78

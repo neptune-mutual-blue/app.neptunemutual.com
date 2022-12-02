@@ -546,7 +546,7 @@ msgstr "Правила обложки"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:101
 #: src/modules/reporting/active/ActiveReportingCard.jsx:96
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "Комиссия за обложку:"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62

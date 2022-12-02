@@ -103,7 +103,7 @@ export const ActiveReportingCard = ({
           className='mt-1 text-sm uppercase text-7398C0 lg:mt-2'
           data-testid='cover-fee'
         >
-          <Trans>Cover fee:</Trans>{' '}
+          <Trans>Annual Cover fee:</Trans>{' '}
           {formatPercent(
             toBN(coverStats.policyRateFloor).dividedBy(MULTIPLIER),
             router.locale

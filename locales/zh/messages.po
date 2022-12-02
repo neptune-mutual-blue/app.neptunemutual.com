@@ -645,7 +645,7 @@ msgstr "保障条款"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:111
 #: src/modules/reporting/active/ActiveReportingCard.jsx:106
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "保费："
 
 #: src/modules/home/Hero.jsx:78
