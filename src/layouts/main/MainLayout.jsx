@@ -11,14 +11,17 @@ export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
 
   useEffect(() => {
-    Router.events.on('routeChangeStart', () => setShowLoader(true))
-    Router.events.on('routeChangeComplete', () => setShowLoader(false))
-    Router.events.on('routeChangeError', () => setShowLoader(false))
+    const show = () => setShowLoader(true)
+    const hide = () => setShowLoader(false)
+
+    Router.events.on('routeChangeStart', show)
+    Router.events.on('routeChangeComplete', hide)
+    Router.events.on('routeChangeError', hide)
 
     return () => {
-      Router.events.off('routeChangeStart', () => setShowLoader(false))
-      Router.events.off('routeChangeComplete', () => setShowLoader(false))
-      Router.events.off('routeChangeError', () => setShowLoader(false))
+      Router.events.off('routeChangeStart', show)
+      Router.events.off('routeChangeComplete', hide)
+      Router.events.off('routeChangeError', hide)
     }
   }, [])
 

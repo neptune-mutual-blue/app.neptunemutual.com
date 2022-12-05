@@ -649,7 +649,7 @@ msgid "Annual Cover fee:"
 msgstr "保费："
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
+msgid "Capacity"
 msgstr "保障"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62

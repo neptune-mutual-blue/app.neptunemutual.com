@@ -646,7 +646,7 @@ msgid "Annual Cover fee:"
 msgstr "Cover fee:"
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
+msgid "Capacity"
 msgstr "Coverage"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62

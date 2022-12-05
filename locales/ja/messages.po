@@ -649,7 +649,7 @@ msgid "Annual Cover fee:"
 msgstr "カバー料金："
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
+msgid "Capacity"
 msgstr "カバレッジ"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
