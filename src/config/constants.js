@@ -49,7 +49,6 @@ export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{c
 export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`
 
 export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
-export const LEADERBOARD_URL = 'https://leaderboard.neptunemutual.com/'
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
