@@ -1,42 +1,7 @@
-const connectSources = [
-  process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
-  process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
-  process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL,
-  process.env.NEXT_PUBLIC_API_URL,
-  process.env.NEXT_PUBLIC_AMPLITUDE_SERVER_URL,
-  'https://api.thegraph.com/ipfs/',
-  'https://*.clarity.ms'
-].map((x) => (x || '').trim())
-  .filter((x) => !!x)
-  .join(' ')
-
-const scriptSources = [
-  'https://www.clarity.ms',
-  "'sha256-zthm0kQjQC5KNYhnvew0wTIJUipygNCviMTobzxBOWI='",
-  "'sha256-9tYg3h6otKKt4HOOPkt0t20+cGoG+94EljCiDDUItLY='"
-]
-  .map((x) => (x || '').trim())
-  .filter((x) => !!x)
-  .join(' ')
-
 module.exports = [
   {
     key: 'Content-Security-Policy',
-    values: [
-      `script-src 'self' ${scriptSources}`,
-      `connect-src 'self' ${connectSources}`,
-      "style-src 'self' 'unsafe-inline'",
-      'upgrade-insecure-requests',
-      "frame-ancestors 'none'",
-      "default-src 'none'",
-      "prefetch-src 'self'",
-      "manifest-src 'self'",
-      "base-uri 'none'",
-      "form-action 'none'",
-      "object-src 'none'",
-      "img-src 'self' data: https://*.clarity.ms https://*.bing.com",
-      "font-src 'self'"
-    ]
+    values: [process.env.NEXT_PUBLIC_HEADERS_CONTENT_SECURITY_POLICY || '']
   },
   {
     key: 'X-DNS-Prefetch-Control',

@@ -1,4 +1,4 @@
-import { handleBuildManifest, handleGeoBlocking, handleRobotsTxt, fallback } from '@/src/middleware/handlers'
+import { handleBuildManifest, handleGeoBlocking, handleRobotsTxt, fallback, handleSiteManifest } from '@/src/middleware/handlers'
 
 /**
  *
@@ -13,6 +13,12 @@ export function middleware (req) {
   }
 
   response = handleRobotsTxt(req)
+
+  if (response) {
+    return response
+  }
+
+  response = handleSiteManifest(req)
 
   if (response) {
     return response

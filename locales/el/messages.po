@@ -546,7 +546,7 @@ msgstr "Κανόνες Εξώφυλλου"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:101
 #: src/modules/reporting/active/ActiveReportingCard.jsx:96
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "Χρέωση κάλυψης:"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
@@ -554,7 +554,7 @@ msgid "Coverage Period"
 msgstr ""
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "Καλυμμένο"
 
 #: src/helpers/notification.js:302

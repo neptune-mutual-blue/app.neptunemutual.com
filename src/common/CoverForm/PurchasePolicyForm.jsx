@@ -236,7 +236,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
     <div className='flex flex-col w-616'>
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
-      <div className='w-full p-4 rounded-2xl bg-FEFEFF md:p-9' data-testid='purchase-policy-form'>
+      <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>
         <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize font-sora'>
           <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img

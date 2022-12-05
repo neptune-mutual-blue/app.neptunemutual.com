@@ -645,11 +645,11 @@ msgstr "カバールール"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:111
 #: src/modules/reporting/active/ActiveReportingCard.jsx:106
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "カバー料金："
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
+msgid "Capacity"
 msgstr "カバレッジ"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
@@ -657,7 +657,7 @@ msgid "Coverage Period"
 msgstr "カバレッジ期間"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "カバーされた"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15

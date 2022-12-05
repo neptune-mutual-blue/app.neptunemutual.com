@@ -8,6 +8,7 @@ import { NetworkNames } from '../config/chains'
 import { setupNetwork } from '../utils/wallet'
 import * as notifications from '../utils/notifications'
 import { ConnectorNames } from '../config/connectors'
+import { UserRejectedRequestErrorWalletConnect } from '@/lib/connect-wallet/walletconnect/errors'
 
 const handleInjectedError = async (notify, error) => {
   const { NoEthereumProviderError, UserRejectedRequestErrorInjected } =
@@ -18,6 +19,10 @@ const handleInjectedError = async (notify, error) => {
   }
 
   if (error instanceof UserRejectedRequestErrorInjected) {
+    return notifications.authError(notify, error)
+  }
+
+  if (error instanceof UserRejectedRequestErrorWalletConnect) {
     return notifications.authError(notify, error)
   }
 

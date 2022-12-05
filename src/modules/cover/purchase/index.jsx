@@ -140,7 +140,7 @@ export const CoverPurchaseDetailsPage = () => {
                   <CoverParameters parameters={coverInfo.infoObj?.parameters} />
                   <Alert info closable>
                     <Trans>
-                      The minimum of 10 NPM tokens will be required only after the TGE. For the time being, you may purchase policy and receive payouts when an incident is resolved.
+                      The minimum NPM token requirement will only be applicable after the TGE. For the time being, you may purchase policy and receive payouts when an incident is resolved.
                     </Trans>
                   </Alert>
                   <AcceptRulesForm
