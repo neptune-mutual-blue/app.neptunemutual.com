@@ -105,7 +105,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`Covered`,
+                    name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
                         heroData.covered,

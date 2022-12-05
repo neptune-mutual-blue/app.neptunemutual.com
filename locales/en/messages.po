@@ -654,7 +654,7 @@ msgid "Coverage Period"
 msgstr "Coverage Period"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "Covered"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15

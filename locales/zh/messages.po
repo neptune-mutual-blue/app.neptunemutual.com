@@ -657,7 +657,7 @@ msgid "Coverage Period"
 msgstr "保障期间"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "已保障"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15

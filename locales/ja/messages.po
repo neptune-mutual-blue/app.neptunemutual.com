@@ -657,7 +657,7 @@ msgid "Coverage Period"
 msgstr "カバレッジ期間"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "カバーされた"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15

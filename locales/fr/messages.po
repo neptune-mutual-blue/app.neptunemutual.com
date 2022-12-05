@@ -663,7 +663,7 @@ msgid "Coverage Period"
 msgstr "Période de couverture"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "Couvert"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15

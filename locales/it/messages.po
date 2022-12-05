@@ -554,7 +554,7 @@ msgid "Coverage Period"
 msgstr ""
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "Coperto"
 
 #: src/helpers/notification.js:302
