@@ -161,7 +161,7 @@ const WhenRenderer = ({ row }) => {
 const DetailsRenderer = ({ row }) => {
   const productKey = row.productKey
   const { liquidityTokenDecimals } = useAppConstants()
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: row.cover.id,
     productKey
   })

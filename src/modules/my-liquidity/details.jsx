@@ -23,14 +23,25 @@ export const ProvideLiquidityToCover = ({ coverKey, productKey }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
   const isDiversified = coverInfo?.supportsProducts
 
   const { accrueInterest, isWithdrawalWindowOpen, info } =
     useLiquidityFormsContext()
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   const projectName = isDiversified

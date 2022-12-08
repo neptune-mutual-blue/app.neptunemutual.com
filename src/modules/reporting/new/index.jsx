@@ -20,7 +20,7 @@ export function NewIncidentReportPage ({
   const router = useRouter()
   const { account, chainId } = useWeb3React()
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo, loading } = useCoverOrProductData({
     coverKey: coverKey,
     productKey: productKey
   })
@@ -44,8 +44,19 @@ export function NewIncidentReportPage ({
     )
   }, [activeReportings, coverKey, productKey, router])
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   const handleAcceptRules = () => {

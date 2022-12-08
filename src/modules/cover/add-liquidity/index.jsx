@@ -31,7 +31,7 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
   const { account, chainId } = useWeb3React()
 
   const isDiversified = coverInfo?.supportsProducts
@@ -39,8 +39,20 @@ export const CoverAddLiquidityDetailsPage = () => {
   const { info, isWithdrawalWindowOpen, accrueInterest } =
     useLiquidityFormsContext()
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   const imgSrc = getCoverImgSrc({ key: coverKey })

@@ -150,7 +150,7 @@ const WhenRenderer = ({ row }) => {
 
 const DetailsRenderer = ({ row }) => {
   const productKey = safeFormatBytes32String('')
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: row.cover.id,
     productKey: productKey
   })

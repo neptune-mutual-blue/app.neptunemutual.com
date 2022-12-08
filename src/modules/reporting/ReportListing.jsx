@@ -112,7 +112,7 @@ const ReportListing = (props) => {
   const [reports, setReports] = useState([])
   const fetchReports = useSubgraphFetch('ReportListing')
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey,
     productKey
   })

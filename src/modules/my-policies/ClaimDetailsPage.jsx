@@ -29,7 +29,7 @@ export const ClaimDetailsPage = ({
   const router = useRouter()
   const { page, limit, setPage } = usePagination()
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo, loading } = useCoverOrProductData({
     coverKey: coverKey,
     productKey: productKey
   })
@@ -46,8 +46,19 @@ export const ClaimDetailsPage = ({
     })
   const { liquidityTokenDecimals } = useAppConstants()
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   if (disabled) {

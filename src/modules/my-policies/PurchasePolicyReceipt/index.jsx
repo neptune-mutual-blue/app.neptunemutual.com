@@ -22,7 +22,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
   const { data: event } = useFetchCoverPurchasedEvent({ txHash })
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: event?.coverKey,
     productKey: event?.productKey
   })

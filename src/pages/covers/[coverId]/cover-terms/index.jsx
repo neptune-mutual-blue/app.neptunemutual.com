@@ -12,7 +12,7 @@ export default function CoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String('')
 
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
 
   const isDiversified = coverInfo?.supportsProducts
 
