@@ -11,7 +11,7 @@ export const ProductCardWrapper = ({
   progressBgColor = undefined,
   ...rest
 }) => {
-  const productInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo: productInfo } = useCoverOrProductData({ coverKey, productKey })
 
   if (!productInfo) {
     return <CardSkeleton numberOfCards={1} {...rest} />
