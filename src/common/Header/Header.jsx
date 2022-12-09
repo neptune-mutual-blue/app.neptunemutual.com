@@ -359,16 +359,16 @@ export const MenuModal = ({
         <Portal>
           <Overlay className='fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-md' />
 
-          <Content className='fixed z-50 w-full max-h-screen px-4 overflow-y-auto transform -translate-x-1/2 -translate-y-48 top-48 lg:top-1/4 lg:-translate-y-1/4 left-1/2'>
-            <div className='flex flex-col items-end justify-between min-h-screen px-4 text-center'>
-              <div className='flex justify-end w-full max-w-full pt-6 mx-auto mb-7 sm:mb-14 xl:px-8 xl:py-0'>
+          <Content className='fixed inset-0 z-50 w-full max-h-screen px-4 overflow-y-auto'>
+            <div className='flex flex-col items-end justify-between min-h-screen px-4 pt-6 text-center'>
+              <div className='absolute right-6 top-6'>
                 <BurgerMenu isOpen onToggle={onClose} />
               </div>
               <div className='w-full sm:px-16'>
                 <LanguageDropdown onOverlay />
               </div>
               <div className='flex flex-col flex-grow w-full text-left align-middle transition-all transform shadow-xl sm:px-16 sm:align-baseline rounded-2xl'>
-                <div className='flex flex-col justify-start mb-20 overflow-y-auto'>
+                <div className='flex flex-col justify-start mb-auto overflow-y-auto'>
                   {navigation.map((link) => {
                     return (
                       <Link
