@@ -59,6 +59,16 @@ export function NewIncidentReportPage ({
     )
   }
 
+  const isDiversified = coverInfo?.supportsProducts
+
+  if (!loading && isDiversified) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
+  }
+
   const handleAcceptRules = () => {
     setAccepted(true)
     analyticsLogger(() => logReportIncidentRulesAccepted(chainId ?? null, account ?? null, coverKey, productKey))
