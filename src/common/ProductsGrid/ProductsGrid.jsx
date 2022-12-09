@@ -50,7 +50,7 @@ export const ProductsGrid = () => {
   const coverKey = safeFormatBytes32String(coverId)
 
   const productKey = safeFormatBytes32String('')
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: (coverInfo?.products || []).map((cover) => ({

@@ -32,14 +32,25 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
   const { account, chainId } = useWeb3React()
 
   const coverStats = useCoverStatsContext()
   const isDiversified = isValidProduct(productKey)
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   const handleAcceptRules = () => {

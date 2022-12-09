@@ -22,7 +22,7 @@ export async function getCoverData (networkId, coverKey) {
 }`
   )
 
-  if (!data) return null
+  if (!data.cover) return null
 
   const products = await Promise.all(
     data.cover.products.map(async (product) => ({
@@ -67,7 +67,7 @@ export async function getCoverProductData (networkId, coverKey, productKey) {
 }`
   )
 
-  if (!data) return null
+  if (!data?.product) return null
 
   return {
     id: data.product.id,

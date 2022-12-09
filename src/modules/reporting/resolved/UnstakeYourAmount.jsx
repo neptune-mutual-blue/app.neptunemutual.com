@@ -25,7 +25,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
   const [isOpen, setIsOpen] = useState(false)
   const isDiversified = isValidProduct(incidentReport.productKey)
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey
   })

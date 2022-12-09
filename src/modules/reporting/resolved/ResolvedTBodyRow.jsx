@@ -17,7 +17,7 @@ export const ResolvedTBodyRow = ({
   totalRefutedStake
 }) => {
   const { setStatsByKey } = useSortableStats()
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
   const router = useRouter()

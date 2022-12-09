@@ -36,7 +36,7 @@ export const ResolveIncident = ({
   const isDiversified = isValidProduct(incidentReport.productKey)
 
   const { refetch: refetchCoverStats } = useCoverStatsContext()
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey
   })
