@@ -360,7 +360,7 @@ export const MenuModal = ({
           <Overlay className='fixed inset-0 z-40 overflow-y-auto bg-black bg-opacity-80 backdrop-blur-md' />
 
           <Content className='fixed inset-0 z-50 w-full max-h-screen px-4 overflow-y-auto'>
-            <div className='flex flex-col items-end justify-between min-h-screen px-4 pt-6 text-center'>
+            <div className='flex flex-col items-end justify-between min-h-screen px-4 py-24 pt-6 text-center'>
               <div className='absolute right-6 top-6'>
                 <BurgerMenu isOpen onToggle={onClose} />
               </div>
