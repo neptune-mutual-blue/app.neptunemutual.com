@@ -93,7 +93,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
       value: DateLib.toLongDateFormat(event.expiresOn, 'en-GB', '')
     },
     {
-      label: 'Referral Code',
+      label: 'Cashback Code',
       value: safeParseBytes32String(event.referralCode) || '---'
     }
   ]
