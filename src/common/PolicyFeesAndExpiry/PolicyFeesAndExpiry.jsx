@@ -75,7 +75,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           <hr className='mt-4 border-t border-d4dfee' />
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold tracking-wider text-left uppercase'>
-              <Trans>Referral Code</Trans>
+              <Trans>Cashback Code</Trans>
             </th>
             <td className='text-right text-4e7dd9'>
               {referralCode || <span className='font-semibold'>-</span>}

@@ -277,7 +277,7 @@ const PurchasePolicyStep = ({
 
               <div className='flex justify-between mt-6'>
                 <Label htmlFor='referral_code' className='mt-3 mb-2 tracking-wider'>
-                  <Trans>Referral Code</Trans>
+                  <Trans>Cashback Code</Trans>
                 </Label>
 
                 <div className='relative'>
@@ -285,7 +285,7 @@ const PurchasePolicyStep = ({
                     className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 !h-3 text-center'
                     error={!!referralCodeErrorMessage}
                     id='referral_code'
-                    placeholder={t`Enter Referral Code`}
+                    placeholder={t`Enter Cashback Code`}
                     value={referralCode}
                     onChange={referralCodeChange}
                     disabled={approving}

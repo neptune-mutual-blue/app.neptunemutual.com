@@ -316,7 +316,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
         {showReferral && formSteps === 1 && (
           <div className='mt-14'>
             <Label htmlFor='incident_title' className='mb-2 text-center'>
-              <Trans>Enter Referral Code</Trans>
+              <Trans>Enter Cashback Code</Trans>
             </Label>
 
             <div className='relative'>
@@ -324,7 +324,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
                 className='leading-none disabled:cursor-not-allowed !text-h5 !pr-14 focus-visible:ring-0 text-center'
                 error={!!referralCodeErrorMessage}
                 id='referral_code'
-                placeholder={t`Enter Referral Code`}
+                placeholder={t`Enter Cashback Code`}
                 value={referralCode}
                 onChange={referralCodeChange}
                 disabled={approving}
