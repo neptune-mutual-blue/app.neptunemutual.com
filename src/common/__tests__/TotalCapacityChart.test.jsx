@@ -1,12 +1,12 @@
-import { TotalLiquidityChart } from '@/common/TotalLiquidityChart'
+import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { testData } from '@/utils/unit-tests/test-data'
 // import { testData } from "@/utils/unit-tests/test-data";
 import { initiateTest, mockFn } from '@/utils/unit-tests/test-mockup-fn'
 import { screen } from '@testing-library/react'
 
-describe('TotalLiquidityChart', () => {
+describe('TotalCapacityChart', () => {
   const { initialRender, rerenderFn } = initiateTest(
-    TotalLiquidityChart,
+    TotalCapacityChart,
     {},
     () => {
       mockFn.useAppConstants()
