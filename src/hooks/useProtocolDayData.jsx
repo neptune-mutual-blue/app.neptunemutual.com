@@ -7,7 +7,7 @@ const toObj = (data = []) => {
   const obj = {}
 
   data.forEach(x => {
-    obj[x.date] = x.totalLiquidity
+    obj[x.date] = x.totalCapacity
   })
 
   return obj
@@ -26,13 +26,13 @@ const getFilledData = (dailyData) => {
     if (typeof dataObj[unix] !== 'undefined') {
       filledData.push({
         date: unix,
-        totalLiquidity: dataObj[unix]
+        totalCapacity: dataObj[unix]
       })
       prev = dataObj[unix]
     } else {
       filledData.push({
         date: unix,
-        totalLiquidity: prev
+        totalCapacity: prev
       })
     }
 
@@ -48,7 +48,7 @@ const getQuery = () => {
   {
     protocolDayDatas {
       date
-      totalLiquidity
+      totalCapacity
     }
   }              
 `
