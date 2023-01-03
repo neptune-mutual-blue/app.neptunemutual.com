@@ -19,7 +19,7 @@ export class TransactionHistory {
    * @prop {import('@/src/services/transactions/const').E_METHODS} methodName
    * @prop {number} status
    * @prop {any} [data]
-   *
+   * @prop {boolean} [read]
    *
    * @param {AddItem} item
    */
@@ -44,6 +44,43 @@ export class TransactionHistory {
       timestamp: Date.now(),
       ...item
     })
+  }
+
+  /**
+   * @param {string} hash
+   * @param {string} key
+   * @param {any} value
+   */
+  static updateProperty (hash, key, value) {
+    const itemToUpdate = LSHistory.isExisting(hash)
+
+    if (itemToUpdate) {
+      const updatedItem = {
+        ...itemToUpdate,
+        [key]: value
+      }
+
+      LSHistory.updateItem(updatedItem)
+
+      TransactionHistory.emit(updatedItem)
+    }
+  }
+
+  /**
+   */
+  static markAllAsRead () {
+    const { data } = LSHistory.getUnread(1, 9999)
+
+    if (data.length) {
+      data.map(_item => {
+        const updatedItem = { ..._item, read: true }
+
+        LSHistory.updateItem(updatedItem)
+        TransactionHistory.emit(updatedItem)
+
+        return true
+      })
+    }
   }
 
   /**

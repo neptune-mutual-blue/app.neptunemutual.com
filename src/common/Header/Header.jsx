@@ -18,7 +18,6 @@ import { Root, Overlay, Content, Portal } from '@radix-ui/react-dialog'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { t, Trans } from '@lingui/macro'
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
-import { TransactionOverviewIcon } from '@/icons/TransactionOverviewIcon'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import { TransactionList } from '@/common/TransactionList'
 import { useWindowSize } from '@/src/hooks/useWindowSize'
@@ -26,6 +25,10 @@ import { Routes } from '@/src/config/routes'
 import { logCloseConnectionPopup, logOpenConnectionPopup, logWalletDisconnected } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { BellIcon } from '@/icons/BellIcon'
+import { IconWithBadge } from '@/common/IconWithBadge'
+import { LSHistory } from '@/src/services/transactions/history'
+import { TransactionHistory } from '@/src/services/transactions/transaction-history'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -93,6 +96,16 @@ export const Header = () => {
 
   const { isMainNet } = useValidateNetwork(networkId)
   const { width } = useWindowSize()
+
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    TransactionHistory.on(() => {
+      setUnread(() => {
+        return LSHistory.getUnreadCount()
+      })
+    })
+  }, [])
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev)
@@ -282,11 +295,14 @@ export const Header = () => {
                 onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
               >
                 <span className='sr-only'>{t`transaction overview button`}</span>
-                <TransactionOverviewIcon
-                  className={classNames(
-                    isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
-                  )}
-                />
+                <IconWithBadge number={unread}>
+                  <BellIcon
+                    className={classNames(
+                      isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
+                    )}
+                  />
+                </IconWithBadge>
+
               </button>
             </TransactionOverviewTooltip>
           </div>
