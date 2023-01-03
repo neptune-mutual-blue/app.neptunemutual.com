@@ -196,7 +196,8 @@ module.exports = {
       minHeight: {
         360: '360px',
         301: '301px',
-        72: '72px'
+        72: '72px',
+        'vh-content': 'calc(100vh - 110px)'
       },
       maxHeight: {
         144: '36rem',
@@ -220,6 +221,7 @@ module.exports = {
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
+        404: "url('/404.jpg')",
         'gradient-big': 'url(/gradient-big.svg)',
         'gradient-slim': 'url(/gradient-slim.svg)',
         'dashed-border': 'linear-gradient(to right, #B0C4DB 50%, transparent 50%)'
