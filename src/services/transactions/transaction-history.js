@@ -1,5 +1,5 @@
-import { LSHistory } from '@/src/services/transactions/history'
 import { timeouts } from '@/src/config/environment'
+import { LSHistory } from '@/src/services/transactions/history'
 
 export const STATUS = {
   PENDING: 2,
@@ -47,43 +47,6 @@ export class TransactionHistory {
     LSHistory.add(newItem)
 
     TransactionHistory.emit(newItem)
-  }
-
-  /**
-   * @param {string} hash
-   * @param {string} key
-   * @param {any} value
-   */
-  static updateProperty (hash, key, value) {
-    const itemToUpdate = LSHistory.isExisting(hash)
-
-    if (itemToUpdate) {
-      const updatedItem = {
-        ...itemToUpdate,
-        [key]: value
-      }
-
-      LSHistory.updateItem(updatedItem)
-
-      TransactionHistory.emit(updatedItem)
-    }
-  }
-
-  /**
-   */
-  static markAllAsRead () {
-    const { data } = LSHistory.getUnread(1, 9999)
-
-    if (data.length) {
-      data.map(_item => {
-        const updatedItem = { ..._item, read: true }
-
-        LSHistory.updateItem(updatedItem)
-        TransactionHistory.emit(updatedItem)
-
-        return true
-      })
-    }
   }
 
   /**
