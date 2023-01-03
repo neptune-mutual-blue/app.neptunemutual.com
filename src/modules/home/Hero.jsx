@@ -5,7 +5,7 @@ import { HomeCard } from '@/common/HomeCard/HomeCard'
 import { HomeMainCard } from '@/common/HomeCard/HomeMainCard'
 import IncreaseIcon from '@/icons/IncreaseIcon'
 import { Hero } from '@/common/Hero'
-import { TotalLiquidityChart } from '@/common/TotalLiquidityChart'
+import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits, toBN } from '@/utils/bn'
@@ -25,10 +25,12 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const [changeData, setChangeData] = useState(null)
   const { data } = useProtocolDayData()
 
+  const currentCapacity = (data && data.length > 0) ? data[data.length - 1].totalCapacity : '0'
+
   useEffect(() => {
     if (data && data.length >= 2) {
-      const lastSecond = toBN(data[data.length - 2].totalLiquidity)
-      const last = toBN(data[data.length - 1].totalLiquidity)
+      const lastSecond = toBN(data[data.length - 2].totalCapacity)
+      const last = toBN(data[data.length - 1].totalCapacity)
 
       const diff =
         lastSecond.isGreaterThan(0) &&
@@ -40,7 +42,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
       })
     } else if (data && data.length === 1) {
       setChangeData({
-        last: toBN(data[0].totalLiquidity).toString(),
+        last: toBN(data[0].totalCapacity).toString(),
         diff: null,
         rise: false
       })
@@ -75,10 +77,10 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`Coverage`,
+                    name: t`Capacity`,
                     amount: formatCurrency(
                       convertFromUnits(
-                        heroData.totalCoverage,
+                        currentCapacity,
                         liquidityTokenDecimals
                       ).toString(),
                       router.locale
@@ -105,7 +107,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
-                    name: t`Covered`,
+                    name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
                         heroData.covered,
@@ -140,7 +142,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
         <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-14 border-0.5 border-B0C4DB'>
           <div className='mb-8'>
             <h3 className='mb-1 text-sm leading-5 font-poppins text-9B9B9B'>
-              <Trans>Total Liquidity</Trans>
+              <Trans>Total Capacity</Trans>
             </h3>
             <div className='flex items-center'>
               <h2
@@ -184,7 +186,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             className='flex-1 min-h-360'
             data-testid='liquidity-chart-wrapper'
           >
-            <TotalLiquidityChart data={data} />
+            <TotalCapacityChart data={data} />
           </div>
         </div>
       </Container>

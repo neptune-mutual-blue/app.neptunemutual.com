@@ -24,7 +24,7 @@ export const MyLiquidityCoverCard = ({
   const router = useRouter()
 
   const productKey = safeFormatBytes32String('')
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} />

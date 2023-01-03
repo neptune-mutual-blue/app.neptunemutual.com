@@ -29,7 +29,7 @@ export const ActiveReportingEmptyState = () => {
     }
   }, [covers])
 
-  const selectedCover = useCoverOrProductData({
+  const { coverInfo: selectedCover } = useCoverOrProductData({
     coverKey: selected?.coverKey,
     productKey: selected?.productKey || utils.keyUtil.toBytes32('')
   })

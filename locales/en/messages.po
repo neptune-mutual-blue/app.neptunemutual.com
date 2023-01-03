@@ -642,20 +642,20 @@ msgstr "Cover Rules"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:111
 #: src/modules/reporting/active/ActiveReportingCard.jsx:106
-msgid "Cover fee:"
-msgstr "Cover fee:"
+msgid "Annual Cover fee:"
+msgstr "Annual Cover fee:"
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
-msgstr "Coverage"
+msgid "Capacity"
+msgstr "Capacity"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
 msgid "Coverage Period"
 msgstr "Coverage Period"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
-msgstr "Covered"
+msgid "Coverage"
+msgstr "Coverage"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
 #: src/modules/cover/cover-terms/DiversifiedCoverTermsPage.jsx:53

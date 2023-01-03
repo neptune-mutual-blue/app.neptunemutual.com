@@ -1,7 +1,7 @@
 import CloseIcon from '@/icons/CloseIcon'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 
-import { FAUCET_URL, LEADERBOARD_URL, TEST_URL } from '@/src/config/constants'
+import { FAUCET_URL, TEST_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
@@ -56,18 +56,7 @@ export const Banner = () => {
                     data-testid='faucet-link'
                   >
                     Test Tokens
-                  </a>{' '}
-                  or{' '}
-                  <a
-                    className='underline'
-                    href={LEADERBOARD_URL}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    data-testid='leaderboard-link'
-                  >
-                    View Leaderboard
-                  </a>
-                  .
+                  </a>.
                 </Trans>
               </p>
               )}

@@ -12,7 +12,7 @@ import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import ReportComments from '@/modules/reporting/ReportComments'
 
 export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey
   })

@@ -18,7 +18,7 @@ import { isValidProduct } from '@/src/helpers/cover'
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo
 
-  const coverInfo = useCoverOrProductData({
+  const { coverInfo } = useCoverOrProductData({
     coverKey: policyInfo.coverKey,
     productKey: policyInfo.productKey
   })

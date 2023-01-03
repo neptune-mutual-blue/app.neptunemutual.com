@@ -12,7 +12,7 @@ export const CoverCardWrapper = ({
   ...rest
 }) => {
   const productKey = utils.keyUtil.toBytes32('')
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
 
   if (!coverInfo) {
     return <CardSkeleton numberOfCards={1} {...rest} />

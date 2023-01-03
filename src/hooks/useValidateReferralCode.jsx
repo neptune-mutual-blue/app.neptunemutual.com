@@ -73,10 +73,10 @@ export function useValidateReferralCode (referralCode, setIsReferralCodeCheckPen
           return
         }
 
-        setErrorMessage(t`Invalid Referral Code`)
+        setErrorMessage(t`Invalid Cashback Code`)
         return
       }
-      setErrorMessage(t`Incorrect Referral Code`)
+      setErrorMessage(t`Incorrect Cashback Code`)
       setIsValid(false)
     })()
   }, [debouncedValue, fetchValidateReferralCode, setIsReferralCodeCheckPending])

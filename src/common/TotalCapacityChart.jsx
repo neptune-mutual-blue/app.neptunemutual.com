@@ -12,7 +12,7 @@ if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
 }
 
-const TotalLiquidityChart = ({ data }) => {
+const TotalCapacityChart = ({ data }) => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const [chartData, setChartData] = useState([])
@@ -59,7 +59,7 @@ const TotalLiquidityChart = ({ data }) => {
     series: [
       {
         type: 'areaspline',
-        name: 'Total Liquidity Chart',
+        name: 'Total Capacity Chart',
         data: chartData,
         lineWidth: 3,
         lineColor: '#4E7DD9',
@@ -162,11 +162,11 @@ const TotalLiquidityChart = ({ data }) => {
 
     if (data) {
       const _chartData = []
-      data.forEach(({ date, totalLiquidity }) => {
+      data.forEach(({ date, totalCapacity }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(
-            convertFromUnits(totalLiquidity, liquidityTokenDecimals).toString()
+            convertFromUnits(totalCapacity, liquidityTokenDecimals).toString()
           )
         })
       })
@@ -205,4 +205,4 @@ const TotalLiquidityChart = ({ data }) => {
   )
 }
 
-export { TotalLiquidityChart }
+export { TotalCapacityChart }

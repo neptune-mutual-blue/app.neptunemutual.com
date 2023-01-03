@@ -32,14 +32,25 @@ export const CoverPurchaseDetailsPage = () => {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
-  const coverInfo = useCoverOrProductData({ coverKey, productKey })
+  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
   const { account, chainId } = useWeb3React()
 
   const coverStats = useCoverStatsContext()
   const isDiversified = isValidProduct(productKey)
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+  if (!loading && !coverInfo) {
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   const handleAcceptRules = () => {
@@ -140,7 +151,7 @@ export const CoverPurchaseDetailsPage = () => {
                   <CoverParameters parameters={coverInfo.infoObj?.parameters} />
                   <Alert info closable>
                     <Trans>
-                      The minimum of 10 NPM tokens will be required only after the TGE. For the time being, you may purchase policy and receive payouts when an incident is resolved.
+                      The minimum NPM token requirement will only be applicable after the TGE. For the time being, you may purchase policy and receive payouts when an incident is resolved.
                     </Trans>
                   </Alert>
                   <AcceptRulesForm

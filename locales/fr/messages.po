@@ -651,11 +651,11 @@ msgstr "Règles de couverture"
 #: src/common/Cover/CoverCard.jsx:105
 #: src/common/Cover/ProductCard.jsx:111
 #: src/modules/reporting/active/ActiveReportingCard.jsx:106
-msgid "Cover fee:"
+msgid "Annual Cover fee:"
 msgstr "Frais de couverture:"
 
 #: src/modules/home/Hero.jsx:78
-msgid "Coverage"
+msgid "Capacity"
 msgstr "Couverture"
 
 #: src/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry.jsx:62
@@ -663,7 +663,7 @@ msgid "Coverage Period"
 msgstr "Période de couverture"
 
 #: src/modules/home/Hero.jsx:108
-msgid "Covered"
+msgid "Coverage"
 msgstr "Couvert"
 
 #: src/modules/cover/cover-terms/CoverTerms.jsx:15
