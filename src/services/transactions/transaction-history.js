@@ -40,10 +40,13 @@ export class TransactionHistory {
       return
     }
 
-    LSHistory.add({
+    const newItem = {
       timestamp: Date.now(),
       ...item
-    })
+    }
+    LSHistory.add(newItem)
+
+    TransactionHistory.emit(newItem)
   }
 
   /**
