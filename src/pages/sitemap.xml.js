@@ -2,7 +2,7 @@ import { Routes } from '@/src/config/routes'
 import { getCoversAndProductsNames } from '@/utils/fetch/covers'
 import { getIncidentReports } from '@/utils/fetch/reports'
 
-const BASE_URL = 'https://app.neptunemutual.com'
+const BASE_URL = process.env.NEXT_FALLBACK_CORS_ORIGIN || 'https://app.neptunemutual.net'
 
 function generateSiteMap (covers, reports) {
   return `<?xml version="1.0" encoding="UTF-8"?>

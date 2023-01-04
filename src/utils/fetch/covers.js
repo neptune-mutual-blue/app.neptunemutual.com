@@ -6,7 +6,6 @@ const query = `
   covers {
     coverKey,
     products {
-      coverKey,
       productKey
     }
   }
