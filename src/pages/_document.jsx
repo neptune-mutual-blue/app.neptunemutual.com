@@ -1,7 +1,7 @@
 import { NoScript } from '@/common/NoScript'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
-const opImageUri = 'https://app.neptunemutual.com/images/og.png'
+const opImageUri = 'https://app.neptunemutual.net/images/og.png'
 const title = 'Neptune Mutual Decentralized Insurance'
 const description = 'Neptune Mutual protects the Ethereum community from hacks and exploits through its unique parametric DeFi insurance marketplace designed to cover, protect and secure onchain digital assets; power by Ethereum, driven by stablecoins.'
 
