@@ -1,18 +1,26 @@
-import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { t } from '@lingui/macro'
-import { useEffect, useState } from 'react'
-import { LSHistory } from '@/src/services/transactions/history'
-import { convertToIconVariant } from '@/common/TransactionList/helpers'
-import { getActionMessage } from '@/src/helpers/notification'
-import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { useNetwork } from '@/src/context/Network'
-import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import { useToast } from '@/lib/toast/context'
-import { TransactionHistory } from '@/src/services/transactions/transaction-history'
-import { Routes } from '@/src/config/routes'
+
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { convertToIconVariant } from '@/common/TransactionList/helpers'
 import CheckIcon from '@/icons/CheckIcon'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { useToast } from '@/lib/toast/context'
+import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
+import { getActionMessage } from '@/src/helpers/notification'
+import { LSHistory } from '@/src/services/transactions/history'
+import {
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import { classNames } from '@/utils/classnames'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { t } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export function TransactionList ({
   isOpen = false,
@@ -21,6 +29,7 @@ export function TransactionList ({
 }) {
   const toast = useToast()
   const [activeTab, setActiveTab] = useState('all')
+  const { account } = useWeb3React()
 
   const [
     /**
@@ -37,6 +46,11 @@ export function TransactionList ({
 
   useEffect(() => {
     toast.hide(isOpen)
+
+    if (!account) {
+      setListOfTransactions([])
+      return
+    }
 
     if (isOpen) {
       const history = activeTab === 'unread'
@@ -68,7 +82,7 @@ export function TransactionList ({
     setMaxPage(1)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, page, activeTab])
+  }, [isOpen, page, activeTab, account])
 
   const handleTabChange = tab => {
     setActiveTab(tab || 'all')

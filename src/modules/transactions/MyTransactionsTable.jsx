@@ -1,3 +1,17 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
+import { useRouter } from 'next/router'
+
+import {
+  Table,
+  TableShowMore,
+  TableWrapper,
+  TBody,
+  THead
+} from '@/common/Table/Table'
 import { convertToIconVariant } from '@/common/TransactionList'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
@@ -5,14 +19,16 @@ import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
 import { getActionMessage } from '@/src/helpers/notification'
 import { LSHistory } from '@/src/services/transactions/history'
-import { TransactionHistory } from '@/src/services/transactions/transaction-history'
+import {
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
 import { classNames } from '@/utils/classnames'
 import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { t, Trans } from '@lingui/macro'
-import { TableWrapper, Table, THead, TBody, TableShowMore } from '@/common/Table/Table'
 
 const renderHeader = (col) => (
   <th
@@ -212,6 +228,11 @@ const AmountRenderer = ({ row }) => {
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
 
+  const handleLinkClick = () => {
+    if (!row.hash) return
+    TransactionHistory.updateProperty(row.hash, 'read', true)
+  }
+
   return (
     <td className='w-20 px-6 py-6' data-testid='col-actions'>
       <div className='flex items-center justify-end'>
@@ -221,6 +242,7 @@ const ActionsRenderer = ({ row }) => {
           rel='noreferrer noopener nofollow'
           className='p-1 text-black'
           title='Open in explorer'
+          onClick={handleLinkClick}
         >
           <span className='sr-only'>Open transaction in explorer</span>
           <OpenInNewIcon className='w-4 h-4' />
