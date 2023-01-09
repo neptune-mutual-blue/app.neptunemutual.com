@@ -4,7 +4,7 @@ const { getGraphURL } = require('@/src/config/environment')
 const query = `
 {
   covers {
-    coverKey,
+    coverKey
     products {
       productKey
     }

@@ -4,8 +4,8 @@ const { getGraphURL } = require('@/src/config/environment')
 const query = `
 {
   incidentReports {
-    coverKey,
-    productKey,
+    coverKey
+    productKey
     incidentDate
   }
 }
