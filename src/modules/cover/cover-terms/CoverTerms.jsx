@@ -1,4 +1,6 @@
-import { DescriptionComponent } from '@/modules/cover/cover-terms/DescriptionComponent'
+import {
+  DescriptionComponent
+} from '@/modules/cover/cover-terms/DescriptionComponent'
 import { Network } from '@/modules/cover/cover-terms/Network'
 import { Trans } from '@lingui/macro'
 
@@ -7,7 +9,9 @@ export const CoverTerms = ({ coverInfo }) => {
 
   return (
     <div>
-      <h1 className='mt-12 text-000000 text-h1'><Trans>{coverName ?? productName} Cover Terms</Trans></h1>
+      <h1 className='mt-12 text-000000 text-h1'>
+        <Trans>{coverName ?? productName} Cover Terms</Trans>
+      </h1>
 
       {
         blockchains?.length && (

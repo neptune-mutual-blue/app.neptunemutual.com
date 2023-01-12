@@ -1,15 +1,20 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { useRouter } from 'next/router'
+
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import InfoCircleIcon from '@/icons/InfoCircleIcon'
 import DateLib from '@/lib/date/DateLib'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+import {
+  convertFromUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import InfoCircleIcon from '@/icons/InfoCircleIcon'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { classNames } from '@/utils/classnames'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = true, referralCode, editForm = false, updatingFee }) => {
   const { fee, rate } = data
@@ -38,7 +43,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>{quotationStep ? 'Your Cover Amount' : 'Cover Fee'}</Trans>
+              {quotationStep ? <Trans>Your Cover Amount</Trans> : <Trans>Cover Fee</Trans>}
             </th>
             <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
@@ -47,7 +52,9 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
           </tr>
           <tr className='flex justify-between mt-3'>
             <th className='font-semibold text-left uppercase'>
-              <Trans>{quotationStep ? 'Cover Expires On' : 'Coverage Period'}</Trans>
+              {quotationStep
+                ? <Trans>Cover Expires On</Trans>
+                : <Trans>Coverage Period</Trans>}
             </th>
             {!editForm && (
               <td className={classNames('text-right flex justify-center', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')}>
