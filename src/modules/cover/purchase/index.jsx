@@ -1,29 +1,45 @@
-import { Container } from '@/common/Container/Container'
-import { AcceptRulesForm } from '@/common/AcceptRulesForm/AcceptRulesForm'
-import { useRouter } from 'next/router'
-import { CoverActionsFooter } from '@/common/Cover/CoverActionsFooter'
-import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { HeroStat } from '@/common/HeroStat'
-import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
-import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
-import { Hero } from '@/common/Hero'
-import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { useState } from 'react'
-import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { t, Trans } from '@lingui/macro'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { Routes } from '@/src/config/routes'
-import { log, logPolicyPurchaseRulesAccepted } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { StandardTermsConditionsLink } from '@/common/StandardTermsConditionsLink'
-import { analyticsLogger } from '@/utils/logger'
+
+import { useRouter } from 'next/router'
+
+import { AcceptRulesForm } from '@/common/AcceptRulesForm/AcceptRulesForm'
 import { Alert } from '@/common/Alert/Alert'
+import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
+import { Container } from '@/common/Container/Container'
+import { CoverActionsFooter } from '@/common/Cover/CoverActionsFooter'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { PurchasePolicyForm } from '@/common/CoverForm/PurchasePolicyForm'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
+import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
+import { Hero } from '@/common/Hero'
+import { HeroStat } from '@/common/HeroStat'
+import { SeeMoreParagraph } from '@/common/SeeMoreParagraph'
+import {
+  StandardTermsConditionsLink
+} from '@/common/StandardTermsConditionsLink'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import {
+  log,
+  logPolicyPurchaseRulesAccepted
+} from '@/src/services/logs'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { analyticsLogger } from '@/utils/logger'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export const CoverPurchaseDetailsPage = () => {
   const [acceptedRules, setAcceptedRules] = useState(false)
@@ -143,6 +159,7 @@ export const CoverPurchaseDetailsPage = () => {
                   <PurchasePolicyForm
                     coverKey={coverKey}
                     productKey={productKey}
+                    coverInfo={coverInfo}
                   />
                 </div>
                 )
