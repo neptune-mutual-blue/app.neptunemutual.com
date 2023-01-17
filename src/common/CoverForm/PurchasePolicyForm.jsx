@@ -77,7 +77,7 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const PurchasePolicyForm = ({ coverKey, productKey }) => {
+export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
@@ -276,6 +276,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             purchasing={purchasing}
             value={value}
             availableLiquidity={availableLiquidity}
+            coverInfo={coverInfo}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep
