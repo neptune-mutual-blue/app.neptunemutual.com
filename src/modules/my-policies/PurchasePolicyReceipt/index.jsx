@@ -123,28 +123,31 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
   }
 
   const policyReceiptData = [
-    [
-      'Date:',
-      new Date(date).toUTCString()
-    ],
-    [
-      'Receipt no:',
-      receiptNo
-    ],
-    [
-      'Purchaser:',
-      purchaser
-    ]
+    {
+      label: 'Date:',
+      value: new Date(date).toUTCString(),
+      valueClassName: 'break-words'
+    },
+    {
+      label: 'Receipt no:',
+      value: receiptNo,
+      valueClassName: 'break-all'
+    }, {
+      label: 'Purchaser:',
+      value: purchaser,
+      valueClassName: 'break-all'
+    }
+
   ]
 
   return (
     <div className='bg-white font-arial'>
 
       <div className='px-10 pt-4 m-auto md:px-10 lg:max-w-5xl pb-52'>
-        <div className='flex cursor-pointer mt-9'>
+        <div className='flex flex-col sm:flex-row cursor-pointer mt-9'>
 
           <Link href={Routes.Home} replace>
-            <a>
+            <a className='w-fit sm:w-auto'>
               <picture>
                 <img
                   loading='lazy'
@@ -171,10 +174,10 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
         </h1>
 
         {
-          policyReceiptData.map(([label, value]) => (
+          policyReceiptData.map(({ label, value, valueClassName }, i) => (
             <div className='flex mt-4 text-lg leading-7' key={label}>
               <p className='mr-2 font-bold'>{label}</p>
-              <p className='break-all'>{value}</p>
+              <p className={valueClassName}>{value}</p>
             </div>
           ))
         }
