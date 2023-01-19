@@ -42,21 +42,21 @@ export function CoverTermsModal ({ item, setShowModal }) {
       className='md:w-max'
       overlayProps={{ onClick: onClose }}
     >
-      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 xs:p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
+      <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
         <Dialog.Title
-          className='flex flex-col items-center w-full pt-12 pb-5 font-bold border-b md:p-3 md:pt-0 md:flex-row font-sora border-b-B0C4DB'
+          className='flex flex-row items-center w-full pb-5 font-bold border-b md:p-3 font-sora border-b-B0C4DB'
         >
           <button
             aria-label='Close'
             onClick={onClose}
-            className='absolute cursor-pointer right-5 top-5 md:hidden'
+            className='absolute cursor-pointer right-5 top-5'
             title='close'
           >
             <CloseIcon width={24} height={24} />
           </button>
-          <img src={imgSrc} alt={item.infoObj.productName || item.infoObj.coverName} className='w-8 h-8 mb-2 md:mb-0' />
+          <img src={imgSrc} alt={item.infoObj.productName || item.infoObj.coverName} className='w-8 h-8' />
 
-          <span className='flex-grow mb-1 overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis md:mb-0'>
+          <span className='flex-grow overflow-hidden font-bold text-h4 pl-3 md:text-h3 text-ellipsis'>
             {item.infoObj.productName || item.infoObj.coverName} Cover Terms
           </span>
         </Dialog.Title>

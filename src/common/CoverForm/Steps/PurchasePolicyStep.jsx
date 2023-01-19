@@ -1,22 +1,35 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
-import { convertFromUnits } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
-import InfoCircleIcon from '@/icons/InfoCircleIcon'
-import { OutlinedButton, OutlinedButtonCancel } from '@/common/Button/OutlinedButton'
-import { RegularButton } from '@/common/Button/RegularButton'
-import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
-import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
-import { t, Trans } from '@lingui/macro'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { useEffect, useState } from 'react'
-import { CustomRadio } from '@/common/Radio/Radio'
-import { Label } from '@/common/Label/Label'
-import { RegularInput } from '@/common/Input/RegularInput'
-import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
-import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
-import { classNames } from '@/utils/classnames'
+
 import { Alert } from '@/common/Alert/Alert'
+import {
+  OutlinedButton,
+  OutlinedButtonCancel
+} from '@/common/Button/OutlinedButton'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { ReferralCodeStatus } from '@/common/CoverForm/PurchasePolicyForm'
+import { DataLoadingIndicator } from '@/common/DataLoadingIndicator'
+import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import { RegularInput } from '@/common/Input/RegularInput'
+import { Label } from '@/common/Label/Label'
+import {
+  PolicyFeesAndExpiry
+} from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
+import { CustomRadio } from '@/common/Radio/Radio'
+import InfoCircleIcon from '@/icons/InfoCircleIcon'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { convertFromUnits } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import * as Tooltip from '@radix-ui/react-tooltip'
 
 const PurchasePolicyStep = ({
   coverName,

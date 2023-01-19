@@ -1,8 +1,11 @@
-import { PolicyFeesAndExpiry } from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
+import { useRouter } from 'next/router'
+
+import {
+  PolicyFeesAndExpiry
+} from '@/common/PolicyFeesAndExpiry/PolicyFeesAndExpiry'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 
 const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityTokenDecimals, liquidityTokenSymbol, referralCode }) => {
   const { fee } = feeData
@@ -10,7 +13,7 @@ const QuotationStep = ({ value, coverMonth, coverageLag, feeData, liquidityToken
 
   const coverFee = convertFromUnits(fee, liquidityTokenDecimals).toString()
   return (
-    <div>
+    <div className='mb-6'>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
       <p
         className='mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'

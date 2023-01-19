@@ -7,6 +7,7 @@ import { Alert } from '@/common/Alert/Alert'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
 import { RegularButton } from '@/common/Button/RegularButton'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
 import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
@@ -89,6 +90,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
   const [referralCode, setReferralCode] = useState('')
   const [isReferralCodeCheckPending, setIsReferralCodeCheckPending] = useState(false)
   const [coverMonth, setCoverMonth] = useState('')
+  const [rulesAccepted, setRulesAccepted] = useState(false)
 
   const {
     liquidityTokenDecimals,
@@ -203,6 +205,8 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
     canProceed = account && !invalidAmount
   } else if (formSteps === 1) {
     canProceed = !!coverMonth
+  } else if (formSteps === 2) {
+    canProceed = rulesAccepted
   }
 
   let loadingMessage = ''
@@ -291,15 +295,28 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
           />)}
 
         {formSteps === 2 && (
-          <QuotationStep
-            feeData={feeData}
-            value={value}
-            coverMonth={coverMonth}
-            coverageLag={coverageLag}
-            liquidityTokenDecimals={liquidityTokenDecimals}
-            liquidityTokenSymbol={liquidityTokenSymbol}
-            referralCode={referralCode}
-          />
+          <>
+            <QuotationStep
+              feeData={feeData}
+              value={value}
+              coverMonth={coverMonth}
+              coverageLag={coverageLag}
+              liquidityTokenDecimals={liquidityTokenDecimals}
+              liquidityTokenSymbol={liquidityTokenSymbol}
+              referralCode={referralCode}
+            />
+
+            <Checkbox
+              name='terms_parameters_exclusions'
+              id='terms_parameters_exclusions'
+              onChange={() => { setRulesAccepted(!rulesAccepted) }}
+            >
+              <Trans>
+                I have read, understood, and agree to the cover terms, parameters, and exclusions, as well as the standard exclusions.
+              </Trans>
+            </Checkbox>
+
+          </>
         )}
 
         {formSteps === 3 && (
