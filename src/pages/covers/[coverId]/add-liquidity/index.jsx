@@ -1,4 +1,3 @@
-import Head from 'next/head'
 
 import { CoverAddLiquidityDetailsPage } from '@/src/modules/cover/add-liquidity'
 import { ComingSoon } from '@/common/ComingSoon'
@@ -11,6 +10,7 @@ import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 const disabled = !isFeatureEnabled('liquidity')
 
@@ -31,13 +31,7 @@ export default function CoverAddLiquidityDetails () {
 
   return (
     <>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
 
       <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
         <LiquidityFormsProvider coverKey={coverKey}>
