@@ -1,9 +1,16 @@
-import React, { useCallback, useState } from 'react'
-import { MaxUint256 } from '@ethersproject/constants'
-import { KEYS, LocalStorage } from '@/utils/localstorage'
+import React, {
+  useCallback,
+  useState
+} from 'react'
+
 import { logUnlimitedApprovalToggled } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
+import {
+  KEYS,
+  LocalStorage
+} from '@/utils/localstorage'
 import { analyticsLogger } from '@/utils/logger'
+import { MaxUint256 } from '@ethersproject/constants'
+import { useWeb3React } from '@web3-react/core'
 
 const UnlimitedApprovalContext = React.createContext({
   unlimitedApproval: false,
@@ -52,7 +59,7 @@ export const UnlimitedApprovalProvider = ({ children }) => {
 
         throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE)
       },
-      false
+      true
     )
   )
 
