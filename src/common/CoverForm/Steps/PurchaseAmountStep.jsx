@@ -1,14 +1,31 @@
-import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
-import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
-import { isGreater } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 
-const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDecimals, value, approving, purchasing, availableLiquidity }) => {
+import { useRouter } from 'next/router'
+
+import { CoverTermsModal } from '@/common/CoverForm/CoverTermsModal'
+import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
+import StandardTermsConditionsIcon from '@/icons/StandardTermsConditionsIcon'
+import {
+  MAX_PROPOSAL_AMOUNT,
+  MIN_PROPOSAL_AMOUNT
+} from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { isGreater } from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+
+const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDecimals, value, approving, purchasing, availableLiquidity, coverInfo }) => {
   const router = useRouter()
   const [error, setError] = useState('')
+  const [showModal, setShowModal] = useState(false)
+
+  const { networkId } = useNetwork()
+  const isMainNet = useValidateNetwork(networkId)
 
   function handleChange (val) {
     setError('')
@@ -27,6 +44,10 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
         formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
       }`)
     }
+  }
+
+  const handleShowCoverTerms = () => {
+    setShowModal(true)
   }
 
   return (
@@ -60,6 +81,18 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
       <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available {formatCurrency(availableLiquidity, router.locale).short}</div>
+
+      <button
+        className={classNames('flex items-center gap-2 p-1 pr-0 mx-auto mt-8',
+          isMainNet ? 'text-4e7dd9' : 'text-5D52DC'
+        )}
+        onClick={handleShowCoverTerms}
+      >
+        <StandardTermsConditionsIcon />
+        <p className='text-sm font-poppins'>View Cover Parameter</p>
+      </button>
+
+      {showModal && <CoverTermsModal item={coverInfo} setShowModal={setShowModal} />}
     </>
   )
 }

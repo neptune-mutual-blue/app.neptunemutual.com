@@ -1,43 +1,57 @@
 import { useState } from 'react'
+
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { RegularButton } from '@/common/Button/RegularButton'
-import { getMonthNames } from '@/lib/dates'
-import { convertFromUnits, isGreater } from '@/utils/bn'
-import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
-import { usePolicyFees } from '@/src/hooks/usePolicyFees'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { Alert } from '@/common/Alert/Alert'
-import Link from 'next/link'
-import { t, Trans } from '@lingui/macro'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { Label } from '@/common/Label/Label'
-import { RegularInput } from '@/common/Input/RegularInput'
 import { BackButton } from '@/common/BackButton/BackButton'
-import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
-import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
-import { Loader } from '@/common/Loader/Loader'
-import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
-import { Routes } from '@/src/config/routes'
-import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
-import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import { useNetwork } from '@/src/context/Network'
-import { useNotifier } from '@/src/hooks/useNotifier'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import StepsIndicator from '@/common/StepsIndicator'
-import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
-import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
-import { classNames } from '@/utils/classnames'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import LeftArrow from '@/icons/LeftArrow'
-import QuotationStep from '@/common/CoverForm/Steps/QuotationStep'
-import PurchasePolicyStep from '@/common/CoverForm/Steps/PurchasePolicyStep'
 import { OutlinedButton } from '@/common/Button/OutlinedButton'
-import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
+import { RegularButton } from '@/common/Button/RegularButton'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
+import { PurchasePolicyModal } from '@/common/CoverForm/PurchasePolicyModal'
+import CoveragePeriodStep from '@/common/CoverForm/Steps/CoveragePeriodStep'
+import PurchaseAmountStep from '@/common/CoverForm/Steps/PurchaseAmountStep'
+import PurchasePolicyStep from '@/common/CoverForm/Steps/PurchasePolicyStep'
+import QuotationStep from '@/common/CoverForm/Steps/QuotationStep'
+import { RegularInput } from '@/common/Input/RegularInput'
+import { Label } from '@/common/Label/Label'
+import { Loader } from '@/common/Loader/Loader'
+import StepsIndicator from '@/common/StepsIndicator'
+import LeftArrow from '@/icons/LeftArrow'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import { getMonthNames } from '@/lib/dates'
+import ErrorIcon from '@/lib/toast/components/icons/ErrorIcon'
+import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
+import {
+  MAX_PROPOSAL_AMOUNT,
+  MIN_PROPOSAL_AMOUNT
+} from '@/src/config/constants'
+import { Routes } from '@/src/config/routes'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useNetwork } from '@/src/context/Network'
+import {
+  getCoverImgSrc,
+  isValidProduct
+} from '@/src/helpers/cover'
+import { useNotifier } from '@/src/hooks/useNotifier'
+import { usePolicyFees } from '@/src/hooks/usePolicyFees'
+import { usePurchasePolicy } from '@/src/hooks/usePurchasePolicy'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useValidateReferralCode } from '@/src/hooks/useValidateReferralCode'
+import { log } from '@/src/services/logs'
+import {
+  convertFromUnits,
+  isGreater
+} from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
+import { analyticsLogger } from '@/utils/logger'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
@@ -63,7 +77,7 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const PurchasePolicyForm = ({ coverKey, productKey }) => {
+export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
   const router = useRouter()
   const { notifier } = useNotifier()
   const { networkId } = useNetwork()
@@ -256,6 +270,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey }) => {
             purchasing={purchasing}
             value={value}
             availableLiquidity={availableLiquidity}
+            coverInfo={coverInfo}
           />)}
         {formSteps === 1 && (
           <CoveragePeriodStep
