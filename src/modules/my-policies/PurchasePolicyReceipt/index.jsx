@@ -1,21 +1,29 @@
-import { DescriptionComponent } from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
-import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
+
+import { Alert } from '@/common/Alert/Alert'
+import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
+import DateLib from '@/lib/date/DateLib'
+import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
+import {
+  DescriptionComponent
+} from '@/modules/my-policies/PurchasePolicyReceipt/DescriptionComponent'
+import { Routes } from '@/src/config/routes'
 import { useAppConstants } from '@/src/context/AppConstants'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import {
+  useFetchCoverPurchasedEvent
+} from '@/src/hooks/useFetchCoverPurchasedEvent'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import {
+  convertFromUnits,
+  sumOf,
+  toBN
+} from '@/utils/bn'
+import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
-
-import { useFetchCoverPurchasedEvent } from '@/src/hooks/useFetchCoverPurchasedEvent'
-import DateLib from '@/lib/date/DateLib'
-import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
-import { Alert } from '@/common/Alert/Alert'
 import { t } from '@lingui/macro'
-import Link from 'next/link'
-import { Routes } from '@/src/config/routes'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { StandardsTerms } from '@/modules/cover/cover-terms/StandardTerms'
 
 export const PurchasePolicyReceipt = ({ txHash }) => {
   const router = useRouter()
@@ -166,7 +174,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           policyReceiptData.map(([label, value]) => (
             <div className='flex mt-4 text-lg leading-7' key={label}>
               <p className='mr-2 font-bold'>{label}</p>
-              <p>{value}</p>
+              <p className='break-all'>{value}</p>
             </div>
           ))
         }
@@ -177,7 +185,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
           <div className='text-lg leading-6 mt-3.5 mb-10'>
             <p className='mb-2 mr-2 font-bold leading-7 text-receipt-info'>On Behalf Of</p>
-            <p className='text-md'>{onBehalfOf}</p>
+            <p className='text-md break-all'>{onBehalfOf}</p>
           </div>
 
           {onBehalfOfData.map(({ label, value }, i) => (
@@ -185,26 +193,26 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
               key={i}
               className='flex pb-4 text-lg leading-6'
             >
-              <p className='flex-shrink-0 w-full font-bold leading-5 max-w-60'>{label}</p>
+              <p className='flex-shrink-0 w-1/2 md:w-full font-bold leading-5 max-w-60'>{label}</p>
               <div className='overflow-hidden'>{value}</div>
             </div>
           ))}
 
           <div className='flex text-lg font-bold leading-6'>
-            <p className='w-full max-w-60'>Premium Paid</p>
+            <p className='w-1/2 md:w-full max-w-60'>Premium Paid</p>
             <p className='uppercase'>{premuimPaid}</p>
           </div>
 
           <hr className='mt-12' />
 
           <div className='flex mt-10 text-lg leading-5'>
-            <p className='flex-shrink-0 w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
+            <p className='flex-shrink-0 w-1/2 md:w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
             <div className='flex items-center break-all'>
               {event.cxToken}
             </div>
           </div>
           <div className='flex mt-6 text-lg leading-5'>
-            <p className='flex-shrink-0 w-full font-bold max-w-60'>Transaction Receipt</p>
+            <p className='flex-shrink-0 w-1/2 md:w-full font-bold max-w-60'>Transaction Receipt</p>
             <div className='flex items-center break-all'>
               {txHash}
             </div>
