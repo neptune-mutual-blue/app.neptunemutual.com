@@ -75,10 +75,7 @@ export const AvailableCovers = () => {
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts()
   const { getStatsByKey } = useSortableStats()
-  const [sortType, setSortType] = useState({
-    name: t`Select`,
-    value: ''
-  })
+  const [sortType, setSortType] = useState({ name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO })
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const coversLoading =
