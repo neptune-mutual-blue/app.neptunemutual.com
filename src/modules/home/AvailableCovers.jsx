@@ -145,6 +145,7 @@ export const AvailableCovers = () => {
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar
+            loading={coversLoading}
             searchValue={searchValue}
             onSearchChange={searchHandler}
             sortClass='w-auto mb-4 md:mb-0'
@@ -154,6 +155,7 @@ export const AvailableCovers = () => {
             setSortType={setSortType}
           />
           <SelectListBar
+            loading={coversLoading}
             sortClassContainer='w-full md:w-auto md:ml-2'
             prefix={t`View:` + ' '}
             sortClass='w-auto'
