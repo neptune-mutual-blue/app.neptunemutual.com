@@ -52,15 +52,15 @@ export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
 
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  80001:
-    'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  43113:
-    'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
+  80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  42161: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  43113: 'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
 }
 
 export const SUBGRAPH_API_URLS = {
   1: process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  42161: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL,
   43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL
 }
 
@@ -70,6 +70,7 @@ export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',
   43113: 'fuji',
+  42161: 'arbitrum',
   1: ''
 }
 

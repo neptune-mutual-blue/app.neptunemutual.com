@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { useRouter } from 'next/router'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
@@ -9,6 +8,7 @@ import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -29,13 +29,7 @@ export default function CoverPage () {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
       {loading && <p className='text-center'>loading...</p>}
       {!loading && !coverInfo && <p className='text-center'>No Data Found</p>}
 

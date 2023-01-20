@@ -62,7 +62,8 @@ module.exports = {
       xxxl: '136px',
       xxl: '40px',
       'receipt-info': ['24px', '36px'],
-      md: ['20px', '23px']
+      md: ['20px', '23px'],
+      badge: ['11px', '13px']
     },
     fontFamily: {
       poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
@@ -91,6 +92,7 @@ module.exports = {
       },
       spacing: {
         /* 72px */
+        '9px': '9px',
         9.5: '38px',
         13: '52px',
         42: '168px',
@@ -128,6 +130,7 @@ module.exports = {
         300: '300px',
         345: '345px',
         400: '400px',
+        416: '416px',
         500: '500px',
         550: '550px',
         600: '600px',
@@ -191,7 +194,8 @@ module.exports = {
         E03636: '#E03636',
         '5D52DC': '#5D52DC',
         F3F5F7: '#F3F5F7',
-        D9D9D9: '#D9D9D9'
+        D9D9D9: '#D9D9D9',
+        '5E6C83': '#5E6C83'
       },
       minHeight: {
         360: '360px',
@@ -204,7 +208,7 @@ module.exports = {
         '100vh': '100vh',
         '30vh': '30vh',
         '45vh': '45vh',
-        'tx-list': 'min(calc(100vh - 170px), 34rem)',
+        'tx-list': 'min(calc(100vh - 270px), 34rem)',
         'tx-list-mobile': 'calc(100vh - 262px)',
         '50vh': '50vh'
       },
