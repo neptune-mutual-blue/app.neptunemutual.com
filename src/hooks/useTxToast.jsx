@@ -24,7 +24,7 @@ export const useTxToast = () => {
 
     const loadingToastId = toast.pushLoading({
       title: titles.pending,
-      message: <ViewTxLink txLink={txLink} />,
+      message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
       lifetime: TOAST_NO_TIMEOUT
     })
 
@@ -36,7 +36,7 @@ export const useTxToast = () => {
     if (type === 'Success') {
       toast.pushSuccess({
         title: titles.success,
-        message: <ViewTxLink txLink={txLink} />,
+        message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
         lifetime: TOAST_NO_TIMEOUT
       })
 
@@ -46,7 +46,7 @@ export const useTxToast = () => {
 
     toast.pushError({
       title: titles.failure,
-      message: <ViewTxLink txLink={txLink} />,
+      message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
       lifetime: TOAST_NO_TIMEOUT
     })
 

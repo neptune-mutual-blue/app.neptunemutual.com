@@ -1,31 +1,59 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useNetwork } from '@/src/context/Network'
-import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import { ChainLogos, NetworkNames } from '@/lib/connect-wallet/config/chains'
-import { useNotifier } from '@/src/hooks/useNotifier'
-import { classNames } from '@/utils/classnames'
-import { useWeb3React } from '@web3-react/core'
-import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
-import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
-import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+
 import { Banner } from '@/common/Banner'
-import { truncateAddress } from '@/utils/address'
-import { HeaderLogo } from '@/common/HeaderLogo'
 import { BurgerMenu } from '@/common/BurgerMenu/BurgerMenu'
-import { Root, Overlay, Content, Portal } from '@radix-ui/react-dialog'
-import { isFeatureEnabled } from '@/src/config/environment'
-import { t, Trans } from '@lingui/macro'
+import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
-import { TransactionOverviewIcon } from '@/icons/TransactionOverviewIcon'
-import * as Tooltip from '@radix-ui/react-tooltip'
+import { HeaderLogo } from '@/common/HeaderLogo'
+import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
-import { useWindowSize } from '@/src/hooks/useWindowSize'
+import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
+import { BellIcon } from '@/icons/BellIcon'
+import ConnectWallet
+  from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
+import {
+  ChainLogos,
+  NetworkNames
+} from '@/lib/connect-wallet/config/chains'
+import useAuth from '@/lib/connect-wallet/hooks/useAuth'
+import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
-import { logCloseConnectionPopup, logOpenConnectionPopup, logWalletDisconnected } from '@/src/services/logs'
-import { analyticsLogger } from '@/utils/logger'
+import { useNetwork } from '@/src/context/Network'
+import { useNotifier } from '@/src/hooks/useNotifier'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useWindowSize } from '@/src/hooks/useWindowSize'
+import {
+  logCloseConnectionPopup,
+  logOpenConnectionPopup,
+  logWalletDisconnected
+} from '@/src/services/logs'
+import { LSHistory } from '@/src/services/transactions/history'
+import {
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { truncateAddress } from '@/utils/address'
+import { classNames } from '@/utils/classnames'
+import { analyticsLogger } from '@/utils/logger'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import {
+  Content,
+  Overlay,
+  Portal,
+  Root
+} from '@radix-ui/react-dialog'
+import * as Tooltip from '@radix-ui/react-tooltip'
+import { useWeb3React } from '@web3-react/core'
 
 const getNavigationLinks = (pathname = '') => {
   const policyEnabled = isFeatureEnabled('policy')
@@ -93,6 +121,27 @@ export const Header = () => {
 
   const { isMainNet } = useValidateNetwork(networkId)
   const { width } = useWindowSize()
+
+  const [unread, setUnread] = useState(0)
+
+  useEffect(() => {
+    TransactionHistory.on(() => {
+      setUnread(() => {
+        return LSHistory.getUnreadCount()
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!account) {
+      setUnread(0)
+      return
+    }
+
+    setUnread(() => {
+      return LSHistory.getUnreadCount()
+    })
+  }, [account])
 
   const toggleMenu = () => {
     setIsOpen((prev) => !prev)
@@ -282,11 +331,14 @@ export const Header = () => {
                 onClick={() => setIsTxDetailsPopupOpen((val) => !val)}
               >
                 <span className='sr-only'>{t`transaction overview button`}</span>
-                <TransactionOverviewIcon
-                  className={classNames(
-                    isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
-                  )}
-                />
+                <IconWithBadge number={unread}>
+                  <BellIcon
+                    className={classNames(
+                      isTxDetailsPopupOpen ? 'text-white' : 'text-999BAB'
+                    )}
+                  />
+                </IconWithBadge>
+
               </button>
             </TransactionOverviewTooltip>
           </div>
