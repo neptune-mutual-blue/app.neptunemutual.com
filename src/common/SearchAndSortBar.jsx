@@ -45,6 +45,7 @@ export const SearchAndSortBar = ({
           autoComplete='off'
           className={classNames(
             'w-full pr-12 py-3 border border-B0C4DB bg-white rounded-lg placeholder-9B9B9B focus:outline-none',
+            loading && 'cursor-not-allowed',
             inputClass, reportingResolved ? 'pl-12' : 'pl-4'
           )}
           placeholder={t`Search`}
