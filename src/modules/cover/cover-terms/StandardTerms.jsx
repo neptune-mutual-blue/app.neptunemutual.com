@@ -11,7 +11,7 @@ export const StandardsTerms = ({ className = '' }) => {
           Latest version of the Standard Terms and Conditions will apply.
         </Trans>
       </p>
-      <a className='underline text-para sm:text-lg mt-4 block' href='https://docs.neptunemutual.com/usage/standard-terms-and-conditions' target='_blank' rel='noreferrer'>
+      <a className='underline text-para sm:text-lg mt-4 block break-all' href='https://docs.neptunemutual.com/usage/standard-terms-and-conditions' target='_blank' rel='noreferrer'>
         https://docs.neptunemutual.com/usage/standard-terms-and-conditions
       </a>
     </div>
