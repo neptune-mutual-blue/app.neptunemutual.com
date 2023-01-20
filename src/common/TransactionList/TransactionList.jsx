@@ -134,7 +134,7 @@ export function TransactionList ({
         <div className='pr-4 mt-4 overflow-y-auto md:min-h-0 max-h-tx-list-mobile md:max-h-tx-list'>
           <NotificationsList data={listOfTransactions} activeTab={activeTab} />
         </div>
-        <div className={`grow text-center pt-10 md:pt-6 ${page >= maxPage ? 'hidden' : ''}`}>
+        <div className={`grow text-center pt-10 md:pt-6 -ml-8 md:ml-0 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>

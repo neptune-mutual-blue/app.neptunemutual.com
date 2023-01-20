@@ -208,7 +208,7 @@ module.exports = {
         '100vh': '100vh',
         '30vh': '30vh',
         '45vh': '45vh',
-        'tx-list': 'min(calc(100vh - 170px), 34rem)',
+        'tx-list': 'min(calc(100vh - 270px), 34rem)',
         'tx-list-mobile': 'calc(100vh - 262px)',
         '50vh': '50vh'
       },
