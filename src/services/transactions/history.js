@@ -9,7 +9,7 @@ import { LocalStorage } from '@/utils/localstorage'
  * @prop {number} timestamp
  * @prop {number} status 0 - failure | 1 - success | pending - 2
  * @prop {object} [data]
- *
+ * @prop {boolean} [read]
  *
  * @typedef {Object.<string, IHistoryEntry[]>} THistory
  */
@@ -125,6 +125,24 @@ class LSHistoryClass {
   }
 
   /**
+   * @param {IHistoryEntry} item
+   */
+  updateItem (item) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
+      const itemToUpdate = this.state[this.id].find(
+        ({ hash }) => item.hash === hash
+      )
+
+      itemToUpdate.methodName = item.methodName
+      itemToUpdate.status = item.status
+      itemToUpdate.data = item.data
+      itemToUpdate.read = item.read
+    }
+
+    this._update()
+  }
+
+  /**
    *
    * @param {number} [page]
    * @param {number} [offset]
@@ -144,6 +162,41 @@ class LSHistoryClass {
       data: [],
       maxPage: 1
     }
+  }
+
+  /**
+   *
+   * @param {number} [page]
+   * @param {number} [offset]
+   * @returns {{data: IHistoryEntry[], maxPage: number}}
+   */
+  getUnread (page = 1, offset = 5) {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
+      const _state = this.state[this.id]
+      const list = _state.filter(_item => !_item.read)
+      const data = list.slice((page - 1) * offset, page * offset)
+
+      return {
+        data,
+        maxPage: Math.ceil(list.length / offset)
+      }
+    }
+    return {
+      data: [],
+      maxPage: 1
+    }
+  }
+
+  /**
+   *
+   * @returns { number }
+   */
+  getUnreadCount () {
+    if (Object.prototype.hasOwnProperty.call(this.state, this.id)) {
+      const _state = this.state[this.id]
+      return _state.filter(_item => !_item.read).length
+    }
+    return 0
   }
 
   getAllPending () {
