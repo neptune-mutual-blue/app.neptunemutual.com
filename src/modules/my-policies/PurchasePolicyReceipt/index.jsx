@@ -170,7 +170,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         <hr className='mt-4 mb-6 sm:mb-10' />
 
-        <h1 className='font-bold text-md sm:text-receipt-info leading-9'>
+        <h1 className='font-bold text-md mb-4 sm:mb-0 sm:text-h1 leading-9'>
           {policyName} Policy Receipt
         </h1>
 
