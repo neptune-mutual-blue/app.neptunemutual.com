@@ -77,6 +77,7 @@ export const AvailableCovers = () => {
   const { getStatsByKey } = useSortableStats()
   const [sortType, setSortType] = useState({ name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO })
   const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
+  const [isCardLoading, setIsCardLoading] = useState(true)
 
   const coversLoading =
     coverView === SORT_TYPES.ALL ? flattenedCoversLoading : groupCoversLoading
@@ -145,7 +146,7 @@ export const AvailableCovers = () => {
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar
-            loading={flattenedCoversLoading || groupCoversLoading}
+            loading={flattenedCoversLoading || groupCoversLoading || isCardLoading}
             searchValue={searchValue}
             onSearchChange={searchHandler}
             sortClass='w-auto mb-4 md:mb-0'
@@ -155,7 +156,7 @@ export const AvailableCovers = () => {
             setSortType={setSortType}
           />
           <SelectListBar
-            loading={flattenedCoversLoading || groupCoversLoading}
+            loading={flattenedCoversLoading || groupCoversLoading || isCardLoading}
             sortClassContainer='w-full md:w-auto md:ml-2'
             prefix={t`View:` + ' '}
             sortClass='w-auto'
@@ -185,6 +186,7 @@ export const AvailableCovers = () => {
                   key={c.id}
                   coverKey={c.coverKey}
                   productKey={c.productKey}
+                  setIsCardLoading={setIsCardLoading}
                 />
               )
             }
@@ -194,6 +196,7 @@ export const AvailableCovers = () => {
                 key={c.id}
                 coverKey={c.coverKey}
                 className='min-h-301'
+                setIsCardLoading={setIsCardLoading}
               />
             )
           })}

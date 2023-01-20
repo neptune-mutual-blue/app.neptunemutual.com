@@ -1,14 +1,16 @@
 import Link from 'next/link'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+
 import { ProductCard } from '@/common/Cover/ProductCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { Routes } from '@/src/config/routes'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 
 export const ProductCardWrapper = ({
   coverKey,
   productKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
+  setIsCardLoading,
   ...rest
 }) => {
   const { coverInfo: productInfo } = useCoverOrProductData({ coverKey, productKey })
@@ -29,6 +31,7 @@ export const ProductCardWrapper = ({
           productInfo={productInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
+          setIsCardLoading={setIsCardLoading}
           {...rest}
         />
       </a>

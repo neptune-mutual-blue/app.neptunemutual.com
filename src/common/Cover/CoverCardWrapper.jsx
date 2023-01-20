@@ -1,14 +1,16 @@
 import Link from 'next/link'
-import { utils } from '@neptunemutual/sdk'
-import { Routes } from '@/src/config/routes'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+
 import { CoverCard } from '@/common/Cover/CoverCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import { Routes } from '@/src/config/routes'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { utils } from '@neptunemutual/sdk'
 
 export const CoverCardWrapper = ({
   coverKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
+  setIsCardLoading,
   ...rest
 }) => {
   const productKey = utils.keyUtil.toBytes32('')
@@ -29,6 +31,7 @@ export const CoverCardWrapper = ({
           coverInfo={coverInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
+          setIsCardLoading={setIsCardLoading}
           {...rest}
         />
       </a>

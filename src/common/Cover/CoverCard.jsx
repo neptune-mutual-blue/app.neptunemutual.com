@@ -1,29 +1,38 @@
 import React, { useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 
-import { Divider } from '@/common/Divider/Divider'
-import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { formatPercent } from '@/utils/formatter/percent'
-import { MULTIPLIER } from '@/src/config/constants'
-import { Trans } from '@lingui/macro'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { utils } from '@neptunemutual/sdk'
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
-import SheildIcon from '@/icons/SheildIcon'
-import { CoverAvatar } from '@/common/CoverAvatar'
+import {
+  Badge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { CoverAvatar } from '@/common/CoverAvatar'
+import { Divider } from '@/common/Divider/Divider'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
+import SheildIcon from '@/icons/SheildIcon'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import { Trans } from '@lingui/macro'
+import { utils } from '@neptunemutual/sdk'
 
 export const CoverCard = ({
   coverKey,
   coverInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
+  setIsCardLoading,
   className = ''
 }) => {
   const router = useRouter()
@@ -31,10 +40,16 @@ export const CoverCard = ({
   const { liquidityTokenDecimals } = useAppConstants()
 
   const productKey = utils.keyUtil.toBytes32('')
-  const { info: coverStats } = useFetchCoverStats({
+  const { info: coverStats, isLoading } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey
   })
+
+  useEffect(() => {
+    if (typeof setIsCardLoading === 'function') {
+      setIsCardLoading(isLoading)
+    }
+  }, [isLoading, setIsCardLoading])
 
   const isDiversified = coverInfo?.supportsProducts
   const { activeCommitment, productStatus, availableLiquidity } = coverStats
