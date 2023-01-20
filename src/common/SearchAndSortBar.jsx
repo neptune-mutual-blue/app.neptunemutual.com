@@ -1,10 +1,11 @@
+import { useState } from 'react'
+
 import { Select } from '@/common/Select'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import SearchIcon from '@/icons/SearchIcon'
 import { classNames } from '@/utils/classnames'
-import { useState } from 'react'
-import { t } from '@lingui/macro'
-import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { SORT_TYPES } from '@/utils/sorting'
+import { t } from '@lingui/macro'
 
 export const SearchAndSortBar = ({
   containerClass = 'min-w-sm',
@@ -19,6 +20,7 @@ export const SearchAndSortBar = ({
   searchAndSortOptions = null
 }) => {
   const defaultOptions = [
+    { name: t`Select`, value: '' },
     { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
     { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
     { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY }
