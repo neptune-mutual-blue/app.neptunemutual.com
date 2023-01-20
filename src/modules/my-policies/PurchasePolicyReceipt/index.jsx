@@ -176,7 +176,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         {
           policyReceiptData.map(({ label, value, valueClassName }, i) => (
-            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-para sm:text-lg leading-7' key={label}>
+            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-para sm:text-lg leading-7' key={`${i}-${label}`}>
               <p className='mr-2 font-bold'>{label}</p>
               <p className={valueClassName}>{value}</p>
             </div>
