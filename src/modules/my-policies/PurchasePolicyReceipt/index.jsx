@@ -144,10 +144,10 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     <div className='bg-white font-arial'>
 
       <div className='px-10 pt-4 m-auto md:px-10 lg:max-w-5xl pb-52'>
-        <div className='flex flex-col sm:flex-row cursor-pointer mt-9'>
+        <div className='flex flex-col sm:flex-row cursor-pointer mt-9 text-center'>
 
           <Link href={Routes.Home} replace>
-            <a className='w-fit sm:w-auto'>
+            <a className='sm:w-auto'>
               <picture>
                 <img
                   loading='lazy'
@@ -168,71 +168,72 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
           </a>
         </div>
 
-        <hr className='mt-4 mb-10' />
-        <h1 className='font-bold leading-9 text-receipt-info'>
+        <hr className='mt-4 mb-6 sm:mb-10' />
+
+        <h1 className='font-bold text-md sm:text-receipt-info leading-9'>
           {policyName} Policy Receipt
         </h1>
 
         {
           policyReceiptData.map(({ label, value, valueClassName }, i) => (
-            <div className='flex mt-4 text-lg leading-7' key={label}>
+            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-para sm,:text-lg leading-7' key={label}>
               <p className='mr-2 font-bold'>{label}</p>
               <p className={valueClassName}>{value}</p>
             </div>
           ))
         }
 
-        <hr className='mt-12' />
+        <hr className='mt-6 sm:mt-12' />
 
-        <div className='mt-10'>
+        <div className='mt-6 sm:mt-10'>
 
-          <div className='text-lg leading-6 mt-3.5 mb-10'>
-            <p className='mb-2 mr-2 font-bold leading-7 text-receipt-info'>On Behalf Of</p>
-            <p className='text-md break-all'>{onBehalfOf}</p>
+          <div className='text-lg leading-6 mt-3.5 mb-4 sm:mb-10'>
+            <p className='mb-2 mr-2 font-bold leading-7 text-md sm:text-receipt-info'>On Behalf Of</p>
+            <p className='text-para sm:text-md break-all'>{onBehalfOf}</p>
           </div>
 
           {onBehalfOfData.map(({ label, value }, i) => (
             <div
               key={i}
-              className='flex pb-4 text-lg leading-6'
+              className='flex flex-col sm:flex-row gap-2 sm:gap-0 pb-4 text-para sm:text-lg leading-6'
             >
-              <p className='flex-shrink-0 w-1/2 md:w-full font-bold leading-5 max-w-60'>{label}</p>
+              <p className='sm:flex-shrink-0 sm:w-1/2 md:w-full font-bold leading-5 sm:max-w-60'>{label}</p>
               <div className='overflow-hidden'>{value}</div>
             </div>
           ))}
 
-          <div className='flex text-lg font-bold leading-6'>
+          <div className='flex flex-col sm:flex-row gap-1 sm:gap-0 text-para sm:text-lg font-bold leading-6'>
             <p className='w-1/2 md:w-full max-w-60'>Premium Paid</p>
             <p className='uppercase'>{premuimPaid}</p>
           </div>
 
-          <hr className='mt-12' />
+          <hr className='mt-6 sm:mt-12' />
 
-          <div className='flex mt-10 text-lg leading-5'>
-            <p className='flex-shrink-0 w-1/2 md:w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
-            <div className='flex items-center break-all'>
+          <div className='flex flex-col sm:flex-row mt-6 sm:mt-10 text-para sm:text-lg leading-5'>
+            <p className='flex-shrink-0 sm:w-1/2 md:w-full font-bold max-w-60'>Your {'cx' + liquidityTokenSymbol} Address</p>
+            <div className='flex items-center break-all mt-2 sm:mt-0'>
               {event.cxToken}
             </div>
           </div>
-          <div className='flex mt-6 text-lg leading-5'>
-            <p className='flex-shrink-0 w-1/2 md:w-full font-bold max-w-60'>Transaction Receipt</p>
-            <div className='flex items-center break-all'>
+          <div className='flex flex-col sm:flex-row mt-4 sm:mt-6 text-para sm:text-lg leading-5'>
+            <p className='flex-shrink-0 sm:w-1/2 md:w-full font-bold max-w-60'>Transaction Receipt</p>
+            <div className='flex items-center break-all mt-2 sm:mt-0'>
               {txHash}
             </div>
           </div>
         </div>
 
-        <hr className='my-10' />
+        <hr className='my-6 sm:my-10' />
 
         <Alert printable>
-          <p className='text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
-          <p className='mt-1 text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
+          <p className='text-sm sm:text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
+          <p className='mt-1 text-sm sm:text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
         </Alert>
 
         <DescriptionComponent
           title='Cover Rules'
           text={text.coverRules}
-          className='mt-13'
+          className='mt-6 sm:mt-13'
           bullets
         />
 
