@@ -117,7 +117,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
     policyInfo: coverInfo?.infoObj?.about,
     coverRules: [
       'Carefully read the following terms and conditions. For a successful claim payout, all of the following points must be true.',
-      <CoverParameters key='cover_params' parameters={coverInfo?.infoObj?.parameters} titleClassName='text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
+      <CoverParameters key='cover_params' textClassName='text-para sm:text-lg' parameters={coverInfo?.infoObj?.parameters} titleClassName='text-para sm:text-lg font-bold mt-6 leading-5 mb-2 font-arial' />
     ],
     exclusions: coverInfo?.infoObj?.exclusions
   }
@@ -176,7 +176,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         {
           policyReceiptData.map(({ label, value, valueClassName }, i) => (
-            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-para sm,:text-lg leading-7' key={label}>
+            <div className='flex flex-col sm:flex-row mt-2 sm:mt-4 text-para sm:text-lg leading-7' key={label}>
               <p className='mr-2 font-bold'>{label}</p>
               <p className={valueClassName}>{value}</p>
             </div>
@@ -227,7 +227,7 @@ export const PurchasePolicyReceipt = ({ txHash }) => {
 
         <Alert printable>
           <p className='text-sm sm:text-lg font-bold text-E03636'>Beta Version Disclaimer</p>
-          <p className='mt-1 text-sm sm:text-lg text-E03636'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
+          <p className='mt-1 text-sm sm:text-lg text-E03636 sm:leading-6'>As you are participating in the beta version of the Neptune Mutual protocol, it is possible that the terms and exclusions may change.</p>
         </Alert>
 
         <DescriptionComponent
