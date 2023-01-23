@@ -33,12 +33,16 @@ export const NetworkSwitchPopup = () => {
     <ModalRegular
       isOpen={open}
       onClose={handleClosePopup}
+      className='w-max h-max'
+      overlayProps={{
+        onClick: handleClosePopup
+      }}
     >
-      <div className='relative pt-12 bg-f6f7f9 px-14 pb-11 rounded-3xl'>
+      <div className='relative px-10 pt-12 bg-f6f7f9 md:px-14 pb-11 rounded-3xl'>
         <ModalCloseButton
           onClick={handleClosePopup}
+          className='hidden md:block'
         />
-
         <div>
           <div className='text-center'>
             <p className='leading-4 font-poppins text-h5'>Ethereum gas fees too high?</p>
