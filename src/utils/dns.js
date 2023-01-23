@@ -15,7 +15,7 @@ export const detectChainId = (host = '') => {
   switch (subdomain) {
     case 'safe.app':
     case 'app':
-    case 'eth':
+    case 'ethereum':
       return '1'
     case 'mumbai':
       return '80001'
