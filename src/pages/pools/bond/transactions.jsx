@@ -5,13 +5,13 @@ import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { MyBondTxsTable } from '@/src/modules/pools/bond/MyBondTxsTable'
 import { isFeatureEnabled } from '@/src/config/environment'
-import Head from 'next/head'
 import { t, Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -36,13 +36,7 @@ export default function MyBondTxs ({ disabled }) {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
 
       <Hero>
         <Container className='px-2 py-20'>

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Trans } from '@lingui/macro'
@@ -11,6 +10,7 @@ import { Routes } from '@/src/config/routes'
 import { logReportIncidentRulesAccepted } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 export function NewIncidentReportPage ({
   coverKey,
@@ -76,13 +76,7 @@ export function NewIncidentReportPage ({
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
 
       {/* hero */}
       <ReportingHero coverKey={coverKey} productKey={productKey} coverInfo={coverInfo} />
