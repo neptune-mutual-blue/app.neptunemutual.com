@@ -48,8 +48,6 @@ export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`
 export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`
 
-export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
-
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
   80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
@@ -65,6 +63,10 @@ export const SUBGRAPH_API_URLS = {
 }
 
 export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptunemutual.net'
+export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
+export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
+export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
+export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
