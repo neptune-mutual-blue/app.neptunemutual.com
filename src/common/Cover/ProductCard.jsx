@@ -34,7 +34,6 @@ export const ProductCard = ({
   productInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
-  setIsCardLoading,
   className = ''
 }) => {
   const router = useRouter()
@@ -45,12 +44,6 @@ export const ProductCard = ({
     coverKey: coverKey,
     productKey: productKey
   })
-
-  useEffect(() => {
-    if (typeof setIsCardLoading === 'function') {
-      setIsCardLoading(isLoading)
-    }
-  }, [isLoading, setIsCardLoading])
 
   const { activeCommitment, productStatus, availableLiquidity } = coverStats
   const imgSrc = getCoverImgSrc({ key: productKey })

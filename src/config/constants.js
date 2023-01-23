@@ -4,7 +4,7 @@ export const DAYS = 86400
 export const DEFAULT_GAS_LIMIT = '6000000'
 export const ADDRESS_ONE = process.env.NEXT_PUBLIC_FALLBACK_ACCOUNT || '0x0000000000000000000000000000000000000001'
 export const ROWS_PER_PAGE = 50
-export const CARDS_PER_PAGE = 50
+export const CARDS_PER_PAGE = 100
 export const GAS_MARGIN_MULTIPLIER = 1.5
 
 export const DEBOUNCE_TIMEOUT = 400

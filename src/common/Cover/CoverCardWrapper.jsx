@@ -10,7 +10,6 @@ export const CoverCardWrapper = ({
   coverKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
-  setIsCardLoading,
   ...rest
 }) => {
   const productKey = utils.keyUtil.toBytes32('')
@@ -31,7 +30,6 @@ export const CoverCardWrapper = ({
           coverInfo={coverInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
-          setIsCardLoading={setIsCardLoading}
           {...rest}
         />
       </a>

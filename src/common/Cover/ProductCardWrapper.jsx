@@ -10,7 +10,6 @@ export const ProductCardWrapper = ({
   productKey,
   progressFgColor = undefined,
   progressBgColor = undefined,
-  setIsCardLoading,
   ...rest
 }) => {
   const { coverInfo: productInfo } = useCoverOrProductData({ coverKey, productKey })
@@ -31,7 +30,6 @@ export const ProductCardWrapper = ({
           productInfo={productInfo}
           progressFgColor={progressFgColor}
           progressBgColor={progressBgColor}
-          setIsCardLoading={setIsCardLoading}
           {...rest}
         />
       </a>

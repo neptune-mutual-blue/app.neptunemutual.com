@@ -32,7 +32,6 @@ export const CoverCard = ({
   coverInfo,
   progressFgColor = undefined,
   progressBgColor = undefined,
-  setIsCardLoading,
   className = ''
 }) => {
   const router = useRouter()
@@ -40,16 +39,10 @@ export const CoverCard = ({
   const { liquidityTokenDecimals } = useAppConstants()
 
   const productKey = utils.keyUtil.toBytes32('')
-  const { info: coverStats, isLoading } = useFetchCoverStats({
+  const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
     productKey: productKey
   })
-
-  useEffect(() => {
-    if (typeof setIsCardLoading === 'function') {
-      setIsCardLoading(isLoading)
-    }
-  }, [isLoading, setIsCardLoading])
 
   const isDiversified = coverInfo?.supportsProducts
   const { activeCommitment, productStatus, availableLiquidity } = coverStats
