@@ -48,28 +48,31 @@ export const COVER_STATS_URL = `${API_BASE_URL}protocol/cover/stats/{networkId}/
 export const VAULT_INFO_URL = `${API_BASE_URL}protocol/vault/info/{networkId}/{coverKey}/{account}`
 export const REFERRAL_CODE_VALIDATION_URL = `${API_BASE_URL}protocol/cover/referral-code`
 
-export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
-
 export const POOL_URLS = {
   1: 'https://app.sushi.com/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  80001:
-    'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
-  43113:
-    'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
+  80001: 'https://legacy.quickswap.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  42161: 'https://app.uniswap.org/#/add/{liquidityTokenAddress}/{NPMTokenAddress}',
+  43113: 'https://legacy.pangolin.exchange/#/add/{liquidityTokenAddress}/{NPMTokenAddress}'
 }
 
 export const SUBGRAPH_API_URLS = {
   1: process.env.NEXT_PUBLIC_ETHEREUM_SUBGRAPH_URL,
   80001: process.env.NEXT_PUBLIC_MUMBAI_SUBGRAPH_URL,
+  42161: process.env.NEXT_PUBLIC_ARBITRUM_SUBGRAPH_URL,
   43113: process.env.NEXT_PUBLIC_FUJI_SUBGRAPH_URL
 }
 
-export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptunemutual.com'
+export const TEST_URL = process.env.NEXT_PUBLIC_TEST_URL || 'https://test.neptunemutual.net'
+export const FAUCET_URL = 'https://faucet.neptunemutual.com/'
+export const ETHEREUM_APP_URL = 'https://ethereum.neptunemutual.net/'
+export const ARBITRUM_APP_URL = 'https://arbitrum.neptunemutual.net/'
+export const ARBITRUM_BRIDGE_URL = 'https://bridge.arbitrum.io/'
 
 export const NetworkUrlParam = {
   97: 'bsc-testnet',
   80001: 'mumbai',
   43113: 'fuji',
+  42161: 'arbitrum',
   1: ''
 }
 

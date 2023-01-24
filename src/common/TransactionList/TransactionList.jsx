@@ -1,16 +1,26 @@
-import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { t } from '@lingui/macro'
-import { useEffect, useState } from 'react'
-import { LSHistory } from '@/src/services/transactions/history'
-import { convertToIconVariant } from '@/common/TransactionList/helpers'
-import { getActionMessage } from '@/src/helpers/notification'
-import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { useNetwork } from '@/src/context/Network'
-import { fromNow } from '@/utils/formatter/relative-time'
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { useRouter } from 'next/router'
+
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { convertToIconVariant } from '@/common/TransactionList/helpers'
+import CheckIcon from '@/icons/CheckIcon'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useToast } from '@/lib/toast/context'
-import { TransactionHistory } from '@/src/services/transactions/transaction-history'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
+import { getActionMessage } from '@/src/helpers/notification'
+import { LSHistory } from '@/src/services/transactions/history'
+import {
+  TransactionHistory
+} from '@/src/services/transactions/transaction-history'
+import { classNames } from '@/utils/classnames'
+import { fromNow } from '@/utils/formatter/relative-time'
+import { t } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export function TransactionList ({
   isOpen = false,
@@ -18,6 +28,8 @@ export function TransactionList ({
   container
 }) {
   const toast = useToast()
+  const [activeTab, setActiveTab] = useState('all')
+  const { account } = useWeb3React()
 
   const [
     /**
@@ -34,28 +46,30 @@ export function TransactionList ({
 
   useEffect(() => {
     toast.hide(isOpen)
-    if (isOpen) {
-      const history = LSHistory.get(page)
-      setListOfTransactions((current) => {
-        const hashes = current.map(({ hash }) => hash)
 
-        return [
-          ...current,
-          ...history.data.filter((item) => !hashes.includes(item.hash))
-        ]
+    if (!account) {
+      setListOfTransactions([])
+      return
+    }
+
+    if (isOpen) {
+      const history = activeTab === 'unread'
+        ? LSHistory.getUnread(page)
+        : LSHistory.get(page)
+
+      setListOfTransactions(() => {
+        return [...history.data]
       })
       setMaxPage(history.maxPage)
 
-      const updateListener = TransactionHistory.on((item) => {
-        setListOfTransactions((items) =>
-          items.map((_item) => {
-            if (_item.hash === item.hash) {
-              Object.assign(_item, item)
-            }
+      const updateListener = TransactionHistory.on(() => {
+        const history = activeTab === 'unread'
+          ? LSHistory.getUnread(page)
+          : LSHistory.get(page)
 
-            return _item
-          })
-        )
+        setListOfTransactions(() => {
+          return [...history.data]
+        })
       })
 
       return () => {
@@ -68,7 +82,15 @@ export function TransactionList ({
     setMaxPage(1)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, page])
+  }, [isOpen, page, activeTab, account])
+
+  const handleTabChange = tab => {
+    setActiveTab(tab || 'all')
+  }
+
+  const handleMarkAllAsRead = () => {
+    TransactionHistory.markAllAsRead()
+  }
 
   return (
     <ModalRegular
@@ -80,11 +102,39 @@ export function TransactionList ({
       container={container}
       noBlur
     >
-      <div className='flex flex-col min-h-screen md:min-h-0 relative pl-4 overflow-hidden font-poppins bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list'>
-        <div className='pr-4 overflow-y-auto md:min-h-0 max-h-tx-list-mobile md:max-h-tx-list'>
-          <NotificationsList data={listOfTransactions} />
+      <div className='relative flex flex-col min-h-screen pb-4 pl-8 overflow-hidden md:pl-4 md:min-h-0 font-poppins bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list md:min-w-416'>
+        <p className='mt-6 font-bold text-h5 font-poppins'>Transactions</p>
+
+        <div className='flex gap-2 pr-4 mt-4'>
+          <button
+            onClick={() => handleTabChange('all')}
+            className={classNames('rounded-2xl text-sm leading-5 py-0.5 px-4 text-white',
+              activeTab === 'all' && 'bg-364253'
+            )}
+          >
+            All
+          </button>
+          <button
+            onClick={() => handleTabChange('unread')}
+            className={classNames('rounded-2xl text-sm leading-5 py-0.5 px-4 text-white',
+              activeTab === 'unread' && 'bg-364253'
+            )}
+          >
+            Unread
+          </button>
+          <button
+            className='flex items-center gap-2 text-xs leading-4.5 ml-auto'
+            onClick={handleMarkAllAsRead}
+          >
+            <CheckIcon />
+            <span>Mark all as read</span>
+          </button>
         </div>
-        <div className={`grow text-center pt-10 md:pt-4 md:pb-4 ${page >= maxPage ? 'hidden' : ''}`}>
+
+        <div className='pr-4 mt-4 overflow-y-auto md:min-h-0 max-h-tx-list-mobile md:max-h-tx-list'>
+          <NotificationsList data={listOfTransactions} activeTab={activeTab} />
+        </div>
+        <div className={`grow text-center pt-10 md:pt-6 -ml-8 md:ml-0 ${page >= maxPage ? 'hidden' : ''}`}>
           <a href={Routes.TransactionHistory} className='text-sm underline hover:no-underline'>
             {t`View More`}
           </a>
@@ -98,22 +148,24 @@ export function TransactionList ({
  *
  * @param {{
  *  data: import('@/src/services/transactions/history').IHistoryEntry[],
+ *  activeTab: string
  * }} prop
  * @returns
  */
-function NotificationsList ({ data }) {
+function NotificationsList ({ data, activeTab }) {
   const { networkId } = useNetwork()
   const { locale } = useRouter()
 
   if (data.length) {
     return (
-      <div className='pt-2 md:w-96'>
+      <div className='md:w-96'>
         {data.map((transaction) => (
           <Notification
             {...transaction}
             networkId={networkId}
             locale={locale}
             key={transaction.hash}
+            read={transaction.read}
           />
         ))}
       </div>
@@ -121,7 +173,13 @@ function NotificationsList ({ data }) {
   }
 
   return (
-    <div className='block p-4 whitespace-nowrap text-center'>{t`No transaction history to show`}</div>
+    <div className='block p-4 text-center whitespace-nowrap'>
+      {
+        activeTab === 'unread'
+          ? t`No unread notifications`
+          : t`No transaction history to show`
+        }
+    </div>
   )
 }
 
@@ -135,7 +193,8 @@ function Notification ({
   status,
   data,
   networkId,
-  locale
+  locale,
+  read = false
 }) {
   const txLink = getTxLink(networkId, { hash })
 
@@ -146,9 +205,14 @@ function Notification ({
     locale
   )
 
+  const handleLinkClick = () => {
+    if (!hash) return
+    TransactionHistory.updateProperty(hash, 'read', true)
+  }
+
   return (
     <div
-      className='flex py-4 border-b border-B0C4DB'
+      className='relative flex p-2 rounded-lg border-B0C4DB hover:bg-5E6C83'
       key={hash}
       data-testid='notification-item'
     >
@@ -165,9 +229,14 @@ function Notification ({
         href={txLink}
         target='_blank'
         rel='noreferrer'
+        onClick={handleLinkClick}
       >
         {t`View Tx`} &gt;
       </a>
+
+      {!read && (
+        <i className='absolute rounded-full w-9px h-9px bg-4e7dd9 top-2 right-2' />
+      )}
     </div>
   )
 }

@@ -30,6 +30,7 @@
     "editor.tabSize": 2,
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "cSpell.words": [
+        "arbitrum",
         "nosniff"
     ]
 }

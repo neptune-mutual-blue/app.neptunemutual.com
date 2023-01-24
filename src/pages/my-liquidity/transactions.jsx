@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { ComingSoon } from '@/common/ComingSoon'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
@@ -13,6 +12,7 @@ import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -37,13 +37,7 @@ export default function MyLiquidityTxs ({ disabled }) {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
 
       <Hero>
         <Container className='px-2 py-20'>

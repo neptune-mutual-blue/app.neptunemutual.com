@@ -2,14 +2,14 @@ import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
 import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
+import { classNames } from '@/utils/classnames'
 import { analyticsLogger } from '@/utils/logger'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { classNames } from '@/utils/classnames'
 
 /**
  * @typedef {import('@/modules/my-liquidity/content/CoveredProducts').IProductBase} IProductBase
@@ -102,13 +102,19 @@ export function LiquidityProductModal ({ product, setShowModal }) {
 
 function DownloadButton ({ onClick }) {
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
+
+  const buttonBg = isArbitrum
+    ? 'bg-1D9AEE'
+    : isMainNet
+      ? 'bg-4e7dd9'
+      : 'bg-5D52DC'
 
   return (
     <button
       className={classNames(
         'inline-flex items-center justify-center tracking-wide flex-grow-0 w-full px-4 py-3 text-white uppercase border border-transparent rounded md:w-auto hover:bg-opacity-75',
-        isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+        buttonBg
       )}
       onClick={onClick}
       data-testid='download-button'

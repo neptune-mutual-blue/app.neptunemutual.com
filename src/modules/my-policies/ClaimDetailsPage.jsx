@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { BreadCrumbs } from '@/common/BreadCrumbs/BreadCrumbs'
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
@@ -19,6 +18,7 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { isValidProduct } from '@/src/helpers/cover'
 import { Routes } from '@/src/config/routes'
 import { useRouter } from 'next/router'
+import { Seo } from '@/common/Seo'
 
 export const ClaimDetailsPage = ({
   disabled,
@@ -74,13 +74,7 @@ export const ClaimDetailsPage = ({
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
       <main>
-        <Head>
-          <title>Neptune Mutual Covers</title>
-          <meta
-            name='description'
-            content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-          />
-        </Head>
+        <Seo />
 
         <Hero>
           <Container className='px-2 py-20'>

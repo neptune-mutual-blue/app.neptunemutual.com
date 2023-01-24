@@ -4,8 +4,8 @@ import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HeroTitle } from '@/common/HeroTitle'
 import { isFeatureEnabled } from '@/src/config/environment'
-import Head from 'next/head'
 import { t, Trans } from '@lingui/macro'
+import { Seo } from '@/common/Seo'
 // import { MyStakingTxsTable } from '@/modules/pools/staking/MyStakingTxsTable'
 
 /* istanbul ignore next */
@@ -24,13 +24,7 @@ export default function MyPodStakingTxs ({ disabled }) {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
 
       <Hero>
         <Container className='px-2 py-20'>

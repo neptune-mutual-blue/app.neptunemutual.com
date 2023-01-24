@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { mainnetChainIds } from '@/src/config/environment'
 
 /**
@@ -7,13 +6,14 @@ import { mainnetChainIds } from '@/src/config/environment'
  * @returns
  */
 export const useValidateNetwork = (networkId) => {
-  const [isMainNet, setIsMainNet] = useState(false)
+  const isMainNet = mainnetChainIds.indexOf(networkId) > -1
+  const isEthereum = networkId === 1
+  const isArbitrum = networkId === 42161
 
-  useEffect(() => {
-    if (networkId) {
-      setIsMainNet(mainnetChainIds.indexOf(networkId) > -1)
-    }
-  }, [networkId])
-
-  return { isMainNet, isTestNet: !isMainNet }
+  return {
+    isEthereum,
+    isMainNet,
+    isTestNet: !isMainNet,
+    isArbitrum
+  }
 }

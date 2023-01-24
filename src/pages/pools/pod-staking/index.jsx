@@ -1,4 +1,3 @@
-import Head from 'next/head'
 
 import { PoolsTabs } from '@/src/modules/pools/PoolsTabs'
 import { PodStakingPage } from '@/src/modules/pools/pod-staking'
@@ -10,6 +9,7 @@ import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -34,13 +34,7 @@ export default function PodStaking ({ disabled }) {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
       <PoolsTabs active='pod-staking'>
         <SortableStatsProvider>
           <PodStakingPage />

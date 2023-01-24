@@ -3,6 +3,7 @@ import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useToast } from '@/lib/toast/context'
 import { TOAST_DEFAULT_TIMEOUT, TOAST_NO_TIMEOUT } from '@/src/config/toast'
 import { useNetwork } from '@/src/context/Network'
+import { delay } from '@/utils/delay'
 
 export const useTxToast = () => {
   const { networkId } = useNetwork()
@@ -24,11 +25,12 @@ export const useTxToast = () => {
 
     const loadingToastId = toast.pushLoading({
       title: titles.pending,
-      message: <ViewTxLink txLink={txLink} />,
+      message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
       lifetime: TOAST_NO_TIMEOUT
     })
 
     const receipt = await tx.wait(1)
+    await delay()
     const type = receipt.status === 1 ? 'Success' : 'Error'
 
     toast.remove(loadingToastId)
@@ -36,7 +38,7 @@ export const useTxToast = () => {
     if (type === 'Success') {
       toast.pushSuccess({
         title: titles.success,
-        message: <ViewTxLink txLink={txLink} />,
+        message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
         lifetime: TOAST_NO_TIMEOUT
       })
 
@@ -46,7 +48,7 @@ export const useTxToast = () => {
 
     toast.pushError({
       title: titles.failure,
-      message: <ViewTxLink txLink={txLink} />,
+      message: <ViewTxLink txLink={txLink} txHash={tx?.hash} />,
       lifetime: TOAST_NO_TIMEOUT
     })
 

@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { ReportingTabs } from '@/src/modules/reporting/ReportingTabs'
 import { ReportingActivePage } from '@/src/modules/reporting/active/active'
 import { ComingSoon } from '@/common/ComingSoon'
@@ -9,6 +8,7 @@ import { useRouter } from 'next/router'
 import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
 import { analyticsLogger } from '@/utils/logger'
+import { Seo } from '@/common/Seo'
 
 /* istanbul ignore next */
 export function getStaticProps () {
@@ -33,13 +33,7 @@ export default function ReportingActive ({ disabled }) {
 
   return (
     <main>
-      <Head>
-        <title>Neptune Mutual Covers</title>
-        <meta
-          name='description'
-          content='Get guaranteed payouts from our parametric cover model. Resolve incidents faster without the need for claims assessment.'
-        />
-      </Head>
+      <Seo />
       <ReportingTabs active='active'>
         <SortableStatsProvider>
           <ReportingActivePage />

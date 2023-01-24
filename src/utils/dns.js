@@ -1,15 +1,29 @@
+const getSubdomain = (hostname = '') => {
+  try {
+    const urlParts = hostname.split('.')
+    const subdomain = urlParts.length >= 3 ? urlParts.slice(0, -2).join('.') : ''
+    return subdomain
+  } catch (error) { }
+
+  return ''
+}
+
 export const detectChainId = (host = '') => {
   // host format - subdomain.domain.com
-  const parts = host.split('.')
+  const subdomain = getSubdomain(host)
 
-  switch (parts[0]) {
+  switch (subdomain) {
+    case 'safe.app':
     case 'app':
-    case 'eth':
+    case 'ethereum':
       return '1'
     case 'mumbai':
       return '80001'
     case 'fuji':
       return '43113'
+    case 'safe.arbitrum':
+    case 'arbitrum':
+      return '42161'
     case 'bsctest':
       return '97'
     case 'bsc':

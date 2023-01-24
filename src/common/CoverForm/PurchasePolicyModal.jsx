@@ -1,18 +1,19 @@
-import { ModalRegular } from '@/common/Modal/ModalRegular'
-import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
-import { Trans } from '@lingui/macro'
-import { Routes } from '@/src/config/routes'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import { Loader } from '@/common/Loader/Loader'
+import { ModalCloseButton } from '@/common/Modal/ModalCloseButton'
+import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import SuccessIcon from '@/lib/toast/components/icons/SuccessIcon'
-import { Loader } from '@/common/Loader/Loader'
-import Link from 'next/link'
-import { classNames } from '@/utils/classnames'
+import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
+import { classNames } from '@/utils/classnames'
+import { analyticsLogger } from '@/utils/logger'
+import { Trans } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
 /**
@@ -53,7 +54,13 @@ export const PurchasePolicyModal = ({
  */
 function Complete ({ txHash, onClose }) {
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
+
+  const linkColor = isArbitrum
+    ? 'bg-1D9AEE border-1D9AEE focus-visible:ring-1D9AEE'
+    : isMainNet
+      ? 'bg-4e7dd9 border-4e7dd9 focus-visible:ring-4e7dd9'
+      : 'bg-5D52DC border-5D52DC focus-visible:ring-5D52DC'
 
   return (
     <div className='flex flex-col items-center'>
@@ -68,9 +75,10 @@ function Complete ({ txHash, onClose }) {
         <a
           target='_blank'
           className={classNames(
-            isMainNet ? 'bg-4e7dd9 border-4e7dd9 focus-visible:ring-4e7dd9' : 'bg-5D52DC border-5D52DC focus-visible:ring-5D52DC',
+            linkColor,
             'text-EEEEEE border rounded-lg focus:outline-none focus-visible:ring-2 ',
-            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm')}
+            'flex items-center justify-center w-full p-6 mt-8 font-semibold text-white uppercase text-h6 md:min-w-sm'
+          )}
           onClick={() => {
             onClose()
           }}
