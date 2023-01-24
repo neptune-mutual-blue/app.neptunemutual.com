@@ -1,11 +1,13 @@
-
-import HomePage from '@/modules/home'
-import { useWeb3React } from '@web3-react/core'
-import { useRouter } from 'next/router'
-import { logPageLoad } from '@/src/services/logs'
 import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
+
+import { useRouter } from 'next/router'
+
+import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { Seo } from '@/common/Seo'
+import HomePage from '@/modules/home'
+import { logPageLoad } from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
+import { useWeb3React } from '@web3-react/core'
 
 export default function Home () {
   const { account, chainId } = useWeb3React()
@@ -19,6 +21,8 @@ export default function Home () {
     <main>
       <Seo />
       <HomePage />
+
+      <NetworkSwitchPopup />
     </main>
   )
 }
