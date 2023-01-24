@@ -4,14 +4,20 @@ import { classNames } from '@/utils/classnames'
 
 export const OutlinedButton = ({ onClick, children, className, ...rest }) => {
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
+
+  const buttonColor = isArbitrum
+    ? 'border-1D9AEE hover:bg-1D9AEE focus-visible:ring-1D9AEE'
+    : isMainNet
+      ? 'border-4e7dd9 hover:bg-4e7dd9 focus-visible:ring-4e7dd9'
+      : 'border-5D52DC hover:bg-5D52DC focus-visible:ring-5D52DC'
 
   return (
     <button
       type='button'
       onClick={onClick}
       className={classNames(
-        isMainNet ? 'border-4e7dd9 hover:bg-4e7dd9 focus-visible:ring-4e7dd9' : 'border-5D52DC hover:bg-5D52DC focus-visible:ring-5D52DC',
+        buttonColor,
         'text-4e7dd9 py-3 px-4 border hover:text-white focus:outline-none focus-visible:ring-2 uppercase tracking-wide',
         className
       )}
@@ -21,16 +27,23 @@ export const OutlinedButton = ({ onClick, children, className, ...rest }) => {
     </button>
   )
 }
+
 export const OutlinedButtonCancel = ({ onClick, children, className }) => {
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
+
+  const buttonColor = isArbitrum
+    ? 'border-1D9AEE focus-visible:ring-1D9AEE'
+    : isMainNet
+      ? 'border-4e7dd9 focus-visible:ring-4e7dd9'
+      : 'border-5D52DC focus-visible:ring-5D52DC'
 
   return (
     <button
       type='button'
       onClick={onClick}
       className={classNames(
-        isMainNet ? 'border-4e7dd9 focus-visible:ring-4e7dd9' : 'border-5D52DC focus-visible:ring-5D52DC',
+        buttonColor,
         'text-4e7dd9 py-1 px-4 border focus:outline-none focus-visible:ring-2 uppercase tracking-wide hover:opacity-80',
         className
       )}
