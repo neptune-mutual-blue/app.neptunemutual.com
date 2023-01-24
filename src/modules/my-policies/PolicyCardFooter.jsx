@@ -1,19 +1,26 @@
-import { convertFromUnits, isGreater } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
-import DateLib from '@/lib/date/DateLib'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import DateLib from '@/lib/date/DateLib'
+import { Routes } from '@/src/config/routes'
+import { useNetwork } from '@/src/context/Network'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { log } from '@/src/services/logs'
+import {
+  convertFromUnits,
+  isGreater
+} from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { fromNow } from '@/utils/formatter/relative-time'
-import { t, Trans } from '@lingui/macro'
-import { useRouter } from 'next/router'
-import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { Routes } from '@/src/config/routes'
-import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
-import { log } from '@/src/services/logs'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export const PolicyCardFooter = ({
   coverKey,
@@ -26,7 +33,7 @@ export const PolicyCardFooter = ({
   const now = DateLib.unix()
   const router = useRouter()
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
   const cxTokenDecimals = useTokenDecimals(cxToken.id)
 
   const isClaimable = report ? report.status === 'Claimable' : false
@@ -121,6 +128,12 @@ export const PolicyCardFooter = ({
     })
   }
 
+  const buttonBg = isArbitrum
+    ? 'bg-1D9AEE'
+    : isMainNet
+      ? 'bg-4e7dd9'
+      : 'bg-5D52DC'
+
   return (
     <>
       {/* Stats */}
@@ -167,7 +180,7 @@ export const PolicyCardFooter = ({
           <a
             className={classNames(
               'flex justify-center py-2.5 w-full text-white text-sm font-semibold uppercase rounded-lg mt-2 mb-4',
-              isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC'
+              buttonBg
             )}
             data-testid='claim-link'
             onClick={handleLog}
