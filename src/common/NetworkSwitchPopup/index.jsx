@@ -38,10 +38,10 @@ export const NetworkSwitchPopup = () => {
         onClick: handleClosePopup
       }}
     >
-      <div className='relative px-10 pt-12 bg-f6f7f9 md:px-14 pb-11 rounded-3xl'>
+      <div className='relative p-6 pb-10 md:pt-12 bg-f6f7f9 md:px-14 md:pb-11 rounded-3xl'>
         <ModalCloseButton
           onClick={handleClosePopup}
-          className='hidden md:block'
+          className='relative ml-auto md:absolute mb-2.5 md:mb-0 !top-0 !right-0 md:!top-6 md:!right-6'
         />
         <div>
           <div className='text-center'>
@@ -52,7 +52,7 @@ export const NetworkSwitchPopup = () => {
           <div className='mt-4'>
             <img src='/images/arbitrum.svg' className='mx-auto' width={80} height={80} alt='arbitrum logo image' />
             <a
-              className='flex items-center p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4e7dd9 w-max'
+              className='flex items-center justify-center w-full p-4 pl-6 mx-auto mt-6 text-white rounded-big bg-4e7dd9 md:w-max'
               href={ARBITRUM_APP_URL}
               target='_blank'
               rel='noreferrer'
