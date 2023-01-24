@@ -173,7 +173,7 @@ export const PolicyCardFooter = ({
       </div>
 
       {/* Link */}
-      {report && withinClaimPeriod && (
+      {report && withinClaimPeriod && !isPolicyExpired && (
         <Link
           href={Routes.ClaimPolicy(coverKey, productKey, report.incidentDate)}
         >
