@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
-import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { Seo } from '@/common/Seo'
 import HomePage from '@/modules/home'
 import { logPageLoad } from '@/src/services/logs'
@@ -22,7 +21,6 @@ export default function Home () {
       <Seo />
       <HomePage />
 
-      <NetworkSwitchPopup />
     </main>
   )
 }
