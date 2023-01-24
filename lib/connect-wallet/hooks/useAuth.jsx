@@ -1,14 +1,20 @@
-import { useCallback, useEffect } from 'react'
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core'
+import {
+  useCallback,
+  useEffect
+} from 'react'
 
-import { ACTIVE_CONNECTOR_KEY } from '../config/localstorage'
-import { getConnectorByName } from '../utils/connectors'
-import { wallets } from '../config/wallets'
+import {
+  UnsupportedChainIdError,
+  useWeb3React
+} from '@web3-react/core'
+
 import { NetworkNames } from '../config/chains'
-import { setupNetwork } from '../utils/wallet'
-import * as notifications from '../utils/notifications'
 import { ConnectorNames } from '../config/connectors'
-import { UserRejectedRequestErrorWalletConnect } from '@/lib/connect-wallet/walletconnect/errors'
+import { ACTIVE_CONNECTOR_KEY } from '../config/localstorage'
+import { wallets } from '../config/wallets'
+import { getConnectorByName } from '../utils/connectors'
+import * as notifications from '../utils/notifications'
+import { setupNetwork } from '../utils/wallet'
 
 const handleInjectedError = async (notify, error) => {
   const { NoEthereumProviderError, UserRejectedRequestErrorInjected } =
@@ -19,10 +25,6 @@ const handleInjectedError = async (notify, error) => {
   }
 
   if (error instanceof UserRejectedRequestErrorInjected) {
-    return notifications.authError(notify, error)
-  }
-
-  if (error instanceof UserRejectedRequestErrorWalletConnect) {
     return notifications.authError(notify, error)
   }
 
