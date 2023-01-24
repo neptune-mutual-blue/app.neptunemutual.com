@@ -9,6 +9,7 @@ import { useErrorNotifier } from '@/src/hooks/useErrorNotifier'
 import { useTxPoster } from '@/src/context/TxPoster'
 import { useUnlimitedApproval } from '@/src/context/UnlimitedApproval'
 import { useAuthValidation } from '@/src/hooks/useAuthValidation'
+import { delay } from '@/utils/delay'
 
 export const useERC20Allowance = (tokenAddress) => {
   const [allowance, setAllowance] = useState('0')
@@ -154,9 +155,9 @@ export const useERC20Allowance = (tokenAddress) => {
       onError,
       onRetryCancel,
       onTransactionResult: (tx) => {
-        tx?.wait(1).then(() => {
-          refetch(spender)
-        })
+        tx?.wait(1)
+          .then(() => delay())
+          .then(() => refetch(spender))
 
         onTransactionResult(tx)
       }

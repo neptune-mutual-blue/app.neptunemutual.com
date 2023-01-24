@@ -1,17 +1,23 @@
 import CloseIcon from '@/icons/CloseIcon'
-
-import { ARBITRUM_APP_URL, ARBITRUM_BRIDGE_URL, ETHEREUM_APP_URL, FAUCET_URL } from '@/src/config/constants'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-
-import { t, Trans } from '@lingui/macro'
-import { classNames } from '@/utils/classnames'
-import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
+import {
+  ARBITRUM_APP_URL,
+  ARBITRUM_BRIDGE_URL,
+  ETHEREUM_APP_URL,
+  FAUCET_URL
+} from '@/src/config/constants'
+import { useNetwork } from '@/src/context/Network'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { classNames } from '@/utils/classnames'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
 
 export const Banner = () => {
   const { networkId } = useNetwork()
-  const { isMainNet, isEthereum } = useValidateNetwork(networkId)
+  const { isMainNet, isEthereum, isArbitrum } = useValidateNetwork(networkId)
   const [show, setShow] = useLocalStorage('showAnnouncement', true)
 
   if (!networkId) {
@@ -24,8 +30,20 @@ export const Banner = () => {
 
   if (!show) return null
 
+  const bannerBackground = isArbitrum
+    ? 'bg-1D9AEE'
+    : isMainNet
+      ? 'bg-4e7dd9'
+      : 'bg-5D52DC'
+
   return (
-    <div className={classNames('relative', isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC')} data-testid='banner-container'>
+    <div
+      className={classNames(
+        'relative',
+        bannerBackground
+      )}
+      data-testid='banner-container'
+    >
       <div className='flex items-center justify-center p-3 mx-auto my-0 text-sm text-white lg:py-3 max-w-7xl lg:px-7'>
         <div className='flex items-center justify-center flex-auto min-w-0'>
 

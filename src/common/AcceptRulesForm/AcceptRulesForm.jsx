@@ -1,19 +1,20 @@
-import { Checkbox } from '@/common/Checkbox/Checkbox'
-import { classNames } from '@/utils/classnames'
 import { useState } from 'react'
-import { Trans } from '@lingui/macro'
-import { Alert } from '@/common/Alert/Alert'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
+import { Alert } from '@/common/Alert/Alert'
+import { Checkbox } from '@/common/Checkbox/Checkbox'
+import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import LeftArrow from '@/icons/LeftArrow'
 import { Routes } from '@/src/config/routes'
-import { config } from '@neptunemutual/sdk'
+import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { log } from '@/src/services/logs'
+import { classNames } from '@/utils/classnames'
 import { analyticsLogger } from '@/utils/logger'
+import { Trans } from '@lingui/macro'
+import { config } from '@neptunemutual/sdk'
 import { useWeb3React } from '@web3-react/core'
 
 export const AcceptRulesForm = ({
@@ -24,7 +25,7 @@ export const AcceptRulesForm = ({
 }) => {
   const router = useRouter()
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
+  const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
   const coverPurchasePage = router.pathname.includes('purchase')
   const [checked, setChecked] = useState(false)
   const { activeIncidentDate, productStatus } = useCoverStatsContext()
@@ -101,6 +102,12 @@ export const AcceptRulesForm = ({
     )
   }
 
+  const buttonBg = isArbitrum
+    ? 'bg-1D9AEE'
+    : isMainNet
+      ? 'bg-4e7dd9'
+      : 'bg-5D52DC'
+
   return (
     <>
       {/* Accept Rules Form */}
@@ -121,7 +128,7 @@ export const AcceptRulesForm = ({
           disabled={!checked}
           className={classNames(
             checked ? 'hover:bg-opacity-80' : 'opacity-50 cursor-not-allowed',
-            isMainNet ? 'bg-4e7dd9' : 'bg-5D52DC',
+            buttonBg,
             'flex items-center text-EEEEEE py-3 px-4 mt-8 rounded-big w-full sm:w-auto justify-center uppercase tracking-wide'
           )}
         >

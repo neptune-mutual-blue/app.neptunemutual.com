@@ -34,6 +34,7 @@ import { safeParseBytes32String } from '@/utils/formatter/bytes32String'
 import { getMonthNames } from '@/lib/dates'
 import { NetworkNames } from '@/lib/connect-wallet/config/chains'
 import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
+import { delay } from '@/utils/delay'
 
 export const usePurchasePolicy = ({
   coverKey,
@@ -307,17 +308,19 @@ export const usePurchasePolicy = ({
                 status: STATUS.SUCCESS
               })
 
-              tx.wait(1).then(async (receipt) => {
-                if (receipt) {
-                  const events = receipt.events
-                  const event = events.find(
-                    (x) => x.event === 'CoverPurchased'
-                  )
-                  const txHash = storePurchaseEvent(event, receipt.from)
+              tx.wait(1)
+                .then((receipt) => delay(receipt))
+                .then(async (receipt) => {
+                  if (receipt) {
+                    const events = receipt.events
+                    const event = events.find(
+                      (x) => x.event === 'CoverPurchased'
+                    )
+                    const txHash = storePurchaseEvent(event, receipt.from)
 
-                  setTxHash(txHash)
-                }
-              })
+                    setTxHash(txHash)
+                  }
+                })
 
               analyticsLogger(() => logPolicyPurchase(logData))
 
