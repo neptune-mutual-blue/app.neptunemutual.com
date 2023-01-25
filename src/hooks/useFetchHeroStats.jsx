@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { getNetworkId } from '@/src/config/environment'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { getHeroStats } from '@/src/services/aggregated-stats/hero-stats'
 
 const defaultData = {
@@ -17,7 +16,6 @@ const defaultData = {
 export const useFetchHeroStats = () => {
   const [data, setData] = useState(defaultData)
   const [loading, setLoading] = useState(false)
-  const fetchStats = useSubgraphFetch('useFetchHeroStats')
 
   useEffect(() => {
     setLoading(true)
@@ -25,8 +23,6 @@ export const useFetchHeroStats = () => {
     ;(async function () {
       try {
         const _data = await getHeroStats(getNetworkId())
-
-        console.log(Array.from(new Set(_data.reportingKeys)))
 
         setData({
           ..._data,
@@ -39,7 +35,7 @@ export const useFetchHeroStats = () => {
         setLoading(false)
       }
     })()
-  }, [fetchStats])
+  }, [])
 
   return {
     data,

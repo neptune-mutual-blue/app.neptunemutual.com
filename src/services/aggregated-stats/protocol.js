@@ -19,8 +19,6 @@ async function getIndividualProtocolDayData (networkId) {
     query
   )
 
-  console.log(data, networkId)
-
   if (!data) return
 
   if (!Array.isArray(data.protocolDayDatas) || !data.protocolDayDatas.length) {

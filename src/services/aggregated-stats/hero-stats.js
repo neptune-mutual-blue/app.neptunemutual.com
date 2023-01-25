@@ -145,7 +145,6 @@ export async function getHeroStats (currentNetworkId) {
   const result = await Promise.all(promises)
 
   return result.reduce((prev, curr) => {
-    console.log(prev)
     return {
       availableKeys: [...prev.availableKeys, ...curr.availableKeys],
       reportingKeys: [...prev.reportingKeys, ...curr.reportingKeys],
