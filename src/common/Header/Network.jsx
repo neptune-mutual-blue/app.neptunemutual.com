@@ -1,4 +1,6 @@
 import {
+  useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState
@@ -59,6 +61,22 @@ export const Network = ({ closeMenu = () => {} }) => {
     if (open && width >= 1200) setOpen(false)
   })
 
+  const handleKeyPress = useCallback((e) => {
+    if (!open || width < 1200) return
+
+    if (e.key === 'Escape' || e.code === 'Escape') {
+      setOpen(false)
+    }
+  }, [open, width])
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [handleKeyPress])
+
   const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
 
   return (
@@ -99,12 +117,13 @@ export const Network = ({ closeMenu = () => {} }) => {
         </button>
 
         {
-          open && (
+          (open && width >= 1200) && (
             <ul
               className='absolute right-0 hidden p-6 border rounded-lg min-w-250 top-dropdown bg-FEFEFF border-B0C4DB shadow-dropdown xl:block'
               tabIndex={-1}
             >
-              <div className='pb-4 space-y-2 border-b text-000000 border-B0C4DB'>
+              {/* <div className='pb-4 space-y-2 border-b text-000000 border-B0C4DB'> */}
+              <div className='pb-4 space-y-2 text-000000'>
                 <p className='text-sm font-semibold leading-6 font-poppins'>
                   Switch Network
                 </p>
@@ -175,21 +194,19 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                   Switch Network
                 </p>
 
-                <div className='mt-6 space-y-4'>
+                <div className='mt-6 space-y-4 md:mt-10 md:space-y-6'>
                   {
                     networks.map(({ name, href, Icon, active }, i) => (
                       <li key={i} value={name}>
                         <a
-                          className='flex items-center gap-1.5 justify-between'
+                          className='flex items-center gap-2'
                           href={href}
                           tabIndex={0}
                         >
-                          <div className='flex items-center gap-1.5'>
-                            <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
-                              <Icon width='32' height='32' />
-                            </div>
-                            <span className='text-md font-poppins'>{name}</span>
+                          <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
+                            <Icon width='32' height='32' />
                           </div>
+                          <span className='text-md font-poppins'>{name}</span>
 
                           {
                             active && (
