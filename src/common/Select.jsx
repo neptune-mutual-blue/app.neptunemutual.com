@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 
+import CheckBlue from '@/icons/CheckBlue'
 import { classNames } from '@/utils/classnames'
 import {
   Listbox,
@@ -16,6 +17,8 @@ export const Select = ({
   direction = 'left',
   loading = false
 }) => {
+  const selectedObj = selected
+
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
@@ -25,7 +28,8 @@ export const Select = ({
         >
           <Listbox.Button
             className={classNames(
-              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-default pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              loading && 'cursor-not-allowed',
               open ? 'border-4e7dd9' : 'border-B0C4DB'
             )}
             data-testid='select-button'
@@ -67,14 +71,14 @@ export const Select = ({
                     <>
                       <span
                         className={classNames(
-                          'block truncate px-4 py-2 capitalize rounded',
-                          selected
+                          'flex truncate px-4 py-2 capitalize rounded items-center justify-between',
+                          selectedObj.value === option.value
                             ? 'bg-EEEEEE bg-opacity-50'
                             : '',
                           active ? 'bg-EEEEEE rounded-lg' : ''
                         )}
                       >
-                        {option.name}
+                        {option.name} {selectedObj.value === option.value && <span className='ml-8'><CheckBlue /></span>}
                       </span>
                     </>
                   )}
