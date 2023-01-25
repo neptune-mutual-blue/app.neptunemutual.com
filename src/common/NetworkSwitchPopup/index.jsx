@@ -8,11 +8,11 @@ import TrendUpIcon from '@/icons/TrendUpIcon'
 import { ARBITRUM_APP_URL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import {
   Dialog,
   Transition
 } from '@headlessui/react'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
 export const NetworkSwitchPopup = () => {
   const [open, setOpen] = useState(false)
