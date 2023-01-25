@@ -1,4 +1,8 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, {
+  useCallback,
+  useMemo,
+  useState
+} from 'react'
 
 const defaultValue = {
   setStatsByKey: (_key, _obj) => {},

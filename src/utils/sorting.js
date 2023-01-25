@@ -15,6 +15,8 @@ export const SORT_TYPES = {
   DEDICATED_POOL: 'dedicated'
 }
 
+export const DEFAULT_SORT = { name: 'Utilization ratio', value: SORT_TYPES.UTILIZATION_RATIO }
+
 export const SORT_DATA_TYPES = {
   BIGNUMBER: 'BIGNUMBER',
   STRING: 'STRING'
