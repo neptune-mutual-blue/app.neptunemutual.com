@@ -93,7 +93,6 @@ export const AvailableCovers = () => {
           : null
       const id = _productKey ? cover.productKey : cover?.coverKey
       const stats = getStatsByKey(id)
-      console.log(getStatsByKey(id))
 
       return {
         ...cover,

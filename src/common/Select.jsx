@@ -17,8 +17,6 @@ export const Select = ({
   direction = 'left',
   loading = false
 }) => {
-  const selectedObj = selected
-
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
@@ -67,21 +65,21 @@ export const Select = ({
                     )}
                   value={option}
                 >
-                  {({ selected, active }) => (
-                    <>
+                  {({ active }) => {
+                    return (
                       <span
                         className={classNames(
                           'flex truncate px-4 py-2 capitalize rounded items-center justify-between',
-                          selectedObj.value === option.value
+                          selected.value === option.value
                             ? 'bg-EEEEEE bg-opacity-50'
                             : '',
                           active ? 'bg-EEEEEE rounded-lg' : ''
                         )}
                       >
-                        {option.name} {selectedObj.value === option.value && <span className='ml-8'><CheckBlue /></span>}
+                        {option.name} {selected.value === option.value && <span className='ml-8'><CheckBlue /></span>}
                       </span>
-                    </>
-                  )}
+                    )
+                  }}
                 </Listbox.Option>
               ))}
             </Listbox.Options>
