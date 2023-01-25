@@ -123,7 +123,7 @@ export const Network = ({ closeMenu = () => {} }) => {
               tabIndex={-1}
             >
               {/* <div className='pb-4 space-y-2 border-b text-000000 border-B0C4DB'> */}
-              <div className='pb-4 space-y-2 text-000000'>
+              <div className='space-y-2 text-000000'>
                 <p className='text-sm font-semibold leading-6 font-poppins'>
                   Switch Network
                 </p>
@@ -172,7 +172,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
   return (
     <div>
       <Root open={open} onOpenChange={onClose}>
-        <Portal>
+        <Portal className='xl:hidden'>
           <Overlay className='fixed inset-0 z-50 bg-black bg-opacity-80 backdrop-blur-md' />
 
           <Content className='fixed inset-0 w-full max-h-screen z-60'>
@@ -180,7 +180,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
               <BurgerMenu isOpen onToggle={closeMobileMenu} />
             </div>
 
-            <div className='px-8 pb-8 mt-14'>
+            <div className='px-10 pb-10 md:px-27 mt-14'>
               <button
                 className='-ml-4 p-4 flex items-center gap-2.5 text-white font-poppins text-h5 leading-5 uppercase'
                 onClick={onClose}
@@ -190,7 +190,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
               </button>
 
               <ul className='mt-8 text-white'>
-                <p className='font-semibold text-md font-poppins'>
+                <p className='font-semibold leading-6 text-md md:text-h2 font-poppins'>
                   Switch Network
                 </p>
 
@@ -206,7 +206,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                           <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
                             <Icon width='32' height='32' />
                           </div>
-                          <span className='text-md font-poppins'>{name}</span>
+                          <span className='leading-6 text-md md:text-h2 font-poppins'>{name}</span>
 
                           {
                             active && (
