@@ -1,80 +1,21 @@
-import DateLib from '@/lib/date/DateLib'
 import { useNetwork } from '@/src/context/Network'
-import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
+import { getGroupedProtocolDayData } from '@/src/services/aggregated-stats/protocol'
 import { useState, useEffect } from 'react'
-
-const toObj = (data = []) => {
-  const obj = {}
-
-  data.forEach(x => {
-    obj[x.date] = x.totalCapacity
-  })
-
-  return obj
-}
-
-const getFilledData = (dailyData) => {
-  const dataObj = toObj(dailyData)
-  const startDateUnix = dailyData[0].date
-
-  const filledData = []
-
-  let dt = DateLib.fromUnix(startDateUnix)
-  let prev = '0'
-  while (dt < new Date()) {
-    const unix = DateLib.toUnix(dt)
-    if (typeof dataObj[unix] !== 'undefined') {
-      filledData.push({
-        date: unix,
-        totalCapacity: dataObj[unix]
-      })
-      prev = dataObj[unix]
-    } else {
-      filledData.push({
-        date: unix,
-        totalCapacity: prev
-      })
-    }
-
-    filledData.push()
-    dt = DateLib.addDays(dt, 1)
-  }
-
-  return filledData
-}
-
-const getQuery = () => {
-  return `
-  {
-    protocolDayDatas {
-      date
-      totalCapacity
-    }
-  }              
-`
-}
 
 export const useProtocolDayData = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const { networkId } = useNetwork()
-  const fetchProtocolDayData = useSubgraphFetch('useProtocolDayData')
 
   useEffect(() => {
     setLoading(true)
 
-    fetchProtocolDayData(networkId, getQuery())
+    getGroupedProtocolDayData(networkId)
       .then((_data) => {
         if (!_data) return
 
-        if (!Array.isArray(_data.protocolDayDatas) || !_data.protocolDayDatas.length) {
-          return
-        }
-
-        const filledData = getFilledData(_data.protocolDayDatas)
-
-        setData(filledData)
+        setData(_data)
       })
       .catch((err) => {
         console.error(err)
@@ -82,7 +23,7 @@ export const useProtocolDayData = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [fetchProtocolDayData, networkId])
+  }, [networkId])
 
   return {
     data,
