@@ -1,15 +1,22 @@
+import {
+  useEffect,
+  useState
+} from 'react'
+
 import { ModalRegular } from '@/common/Modal/ModalRegular'
+import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { classNames } from '@/utils/classnames'
-import { Title } from '@radix-ui/react-dialog'
-import { useState } from 'react'
 import { Trans } from '@lingui/macro'
-import { ModalWrapper } from '@/common/Modal/ModalWrapper'
+import { Title } from '@radix-ui/react-dialog'
 
-export const TestnetDisclaimerModal = () => {
+export const TestnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage('disclaimerApproval', false)
-  const [isOpen, setIsOpen] = useState(!disclaimerApproval)
   const [isAgreed, setIsAgreed] = useState(false)
+
+  useEffect(() => {
+    setIsOpen(!disclaimerApproval)
+  }, [disclaimerApproval, setIsOpen])
 
   const handleClose = () => {
     setIsOpen(false)
@@ -152,10 +159,13 @@ export const TestnetDisclaimerModal = () => {
   )
 }
 
-export const MainnetDisclaimerModal = () => {
+export const MainnetDisclaimerModal = ({ isOpen, setIsOpen }) => {
   const [disclaimerApproval, setDisclaimerApproval] = useLocalStorage('disclaimerApproval', false)
-  const [isOpen, setIsOpen] = useState(!disclaimerApproval)
   const [isAgreed, setIsAgreed] = useState(false)
+
+  useEffect(() => {
+    setIsOpen(!disclaimerApproval)
+  }, [disclaimerApproval, setIsOpen])
 
   const handleClose = () => {
     setIsOpen(false)

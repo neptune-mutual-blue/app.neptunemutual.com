@@ -1,11 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import { Header } from '@/common/Header/Header'
-import { MainnetDisclaimerModal, TestnetDisclaimerModal } from '@/common/Disclaimer/DisclaimerModal'
-import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
-import { CookiePolicy, getLSAcceptedCookie } from '@/common/CookiePolicy'
+import React, {
+  useEffect,
+  useState
+} from 'react'
+
 import Router from 'next/router'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+
+import {
+  CookiePolicy,
+  getLSAcceptedCookie
+} from '@/common/CookiePolicy'
+import {
+  MainnetDisclaimerModal,
+  TestnetDisclaimerModal
+} from '@/common/Disclaimer/DisclaimerModal'
+import { Header } from '@/common/Header/Header'
+import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
+import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
 import { useNetwork } from '@/src/context/Network'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
 export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
@@ -38,6 +50,8 @@ export const PageLoader = () => {
 
 export const MainLayout = ({ noHeader = false, children }) => {
   const [isCookieOpen, setIsCookieOpen] = useState(() => !getLSAcceptedCookie())
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
+
   const { networkId } = useNetwork()
   const { isMainNet } = useValidateNetwork(networkId)
 
@@ -47,12 +61,27 @@ export const MainLayout = ({ noHeader = false, children }) => {
       {!noHeader && <Header />}
       <div className='relative sm:static'>
         {children}
+
         <CookiePolicy
           isOpen={isCookieOpen}
           onClose={() => setIsCookieOpen(false)}
         />
-        {!isMainNet && !isCookieOpen && <TestnetDisclaimerModal />}
-        {isMainNet && !isCookieOpen && <MainnetDisclaimerModal />}
+
+        {(!isMainNet && !isCookieOpen) && (
+          <TestnetDisclaimerModal
+            isOpen={isDisclaimerOpen}
+            setIsOpen={setIsDisclaimerOpen}
+          />
+        )}
+
+        {(isMainNet && !isCookieOpen) && (
+          <MainnetDisclaimerModal
+            isOpen={isDisclaimerOpen}
+            setIsOpen={setIsDisclaimerOpen}
+          />
+        )}
+
+        {(!isCookieOpen && !isDisclaimerOpen) && <NetworkSwitchPopup />}
         <ScrollToTopButton />
       </div>
     </>
