@@ -1,22 +1,30 @@
 import React, { useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 
-import { Divider } from '@/common/Divider/Divider'
-import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
-import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits, toBN } from '@/utils/bn'
-import { formatPercent } from '@/utils/formatter/percent'
-import { MULTIPLIER } from '@/src/config/constants'
-import { Trans } from '@lingui/macro'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useAppConstants } from '@/src/context/AppConstants'
-import { classNames } from '@/utils/classnames'
-import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
+import {
+  Badge,
+  E_CARD_STATUS,
+  identifyStatus
+} from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { Divider } from '@/common/Divider/Divider'
+import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
+import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import SheildIcon from '@/icons/SheildIcon'
+import { MULTIPLIER } from '@/src/config/constants'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { getCoverImgSrc } from '@/src/helpers/cover'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import {
+  convertFromUnits,
+  toBN
+} from '@/utils/bn'
+import { classNames } from '@/utils/classnames'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { formatPercent } from '@/utils/formatter/percent'
+import { Trans } from '@lingui/macro'
 
 const lineContentArray = new Array(3).fill(1)
 

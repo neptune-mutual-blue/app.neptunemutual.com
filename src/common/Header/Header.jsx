@@ -12,6 +12,7 @@ import { Banner } from '@/common/Banner'
 import { BurgerMenu } from '@/common/BurgerMenu/BurgerMenu'
 import { AccountDetailsModal } from '@/common/Header/AccountDetailsModal'
 import { LanguageDropdown } from '@/common/Header/LanguageDropdown'
+import { Network } from '@/common/Header/Network'
 import { HeaderLogo } from '@/common/HeaderLogo'
 import { IconWithBadge } from '@/common/IconWithBadge'
 import { TransactionList } from '@/common/TransactionList'
@@ -19,17 +20,12 @@ import AccountBalanceWalletIcon from '@/icons/AccountBalanceWalletIcon'
 import { BellIcon } from '@/icons/BellIcon'
 import ConnectWallet
   from '@/lib/connect-wallet/components/ConnectWallet/ConnectWallet'
-import {
-  ChainLogos,
-  NetworkNames
-} from '@/lib/connect-wallet/config/chains'
 import useAuth from '@/lib/connect-wallet/hooks/useAuth'
 import { isFeatureEnabled } from '@/src/config/environment'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { useWindowSize } from '@/src/hooks/useWindowSize'
 import {
   logCloseConnectionPopup,
   logOpenConnectionPopup,
@@ -120,7 +116,6 @@ export const Header = () => {
   const [container, setContainer] = useState(null)
 
   const { isMainNet, isArbitrum } = useValidateNetwork(networkId)
-  const { width } = useWindowSize()
 
   const [unread, setUnread] = useState(0)
 
@@ -172,29 +167,6 @@ export const Header = () => {
     }
     setIsAccountDetailsOpen(false)
   }
-
-  const ChainLogo = ChainLogos[networkId] || ChainLogos[1]
-
-  const network = (
-    <div className='inline-flex items-center justify-start w-full mr-2 overflow-hidden text-sm font-normal leading-loose rounded-lg xl:justify-center md:mr-4 xl:w-auto xl:mr-0 text-FEFEFF bg-364253'>
-      <figure title={NetworkNames[networkId] || 'Network'}>
-        <span className='block lg:hidden xl:block'>
-          <ChainLogo width='44' height='44' />{' '}
-        </span>
-        <span className='hidden lg:block xl:hidden'>
-          <ChainLogo width='64' height='64' />{' '}
-        </span>
-      </figure>
-      <p
-        className={classNames(
-          'inline-block truncate ml-2 py-2 pr-4 lg:py-4 xl:py-2 w-full text-center',
-          width >= 1200 && width <= 1439 && 'hidden'
-        )}
-      >
-        {NetworkNames[networkId] || 'Network'}
-      </p>
-    </div>
-  )
 
   const TransactionOverviewTooltip = ({ children, hide }) => (
     <Tooltip.Root delayDuration={200}>
@@ -302,7 +274,8 @@ export const Header = () => {
                   return (
                     <div className='ml-10 sm:pl-6 xl:pl-8'>
                       <div className='flex space-x-4'>
-                        {network} {button}
+                        <Network />
+                        {button}
                         {isAccountDetailsOpen && (
                           <AccountDetailsModal
                             {...{
@@ -369,7 +342,7 @@ export const Header = () => {
           isOpen={isOpen}
           onClose={onClose}
           navigation={navigation}
-          network={network}
+          network={<Network closeMenu={onClose} />}
           networkId={networkId}
           notifier={notifier}
           active={active}

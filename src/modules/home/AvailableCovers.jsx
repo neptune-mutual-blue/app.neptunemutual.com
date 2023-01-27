@@ -1,29 +1,50 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, {
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 
-import { Container } from '@/common/Container/Container'
-import { Grid } from '@/common/Grid/Grid'
-import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { NeutralButton } from '@/common/Button/NeutralButton'
-import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { CARDS_PER_PAGE, homeViewSelectionKey } from '@/src/config/constants'
-import { SORT_TYPES, SORT_DATA_TYPES, sorter } from '@/utils/sorting'
-import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { Trans, t } from '@lingui/macro'
-import { toStringSafe } from '@/utils/string'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
-import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
-import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
-import { useCovers } from '@/src/hooks/useCovers'
-import { isValidProduct } from '@/src/helpers/cover'
-import { utils } from '@neptunemutual/sdk'
-import { SelectListBar } from '@/common/SelectListBar/SelectListBar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { logCoverProductsSearch, logCoverProductsSort } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
-import { analyticsLogger } from '@/utils/logger'
+
+import { NeutralButton } from '@/common/Button/NeutralButton'
+import { Container } from '@/common/Container/Container'
+import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
+import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
+import { Grid } from '@/common/Grid/Grid'
+import { SearchAndSortBar } from '@/common/SearchAndSortBar'
+import { SelectListBar } from '@/common/SelectListBar/SelectListBar'
+import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
+import {
+  CARDS_PER_PAGE,
+  homeViewSelectionKey
+} from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useCovers } from '@/src/hooks/useCovers'
+import {
+  useFlattenedCoverProducts
+} from '@/src/hooks/useFlattenedCoverProducts'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import {
+  logCoverProductsSearch,
+  logCoverProductsSort
+} from '@/src/services/logs'
+import { analyticsLogger } from '@/utils/logger'
+import {
+  DEFAULT_SORT,
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
+} from '@/utils/sorting'
+import { toStringSafe } from '@/utils/string'
+import {
+  t,
+  Trans
+} from '@lingui/macro'
+import { utils } from '@neptunemutual/sdk'
+import { useWeb3React } from '@web3-react/core'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -55,11 +76,8 @@ export const AvailableCovers = () => {
   const { data: flattenedCovers, loading: flattenedCoversLoading } =
     useFlattenedCoverProducts()
   const { getStatsByKey } = useSortableStats()
-  const [sortType, setSortType] = useState({
-    name: t`A-Z`,
-    value: SORT_TYPES.ALL
-  })
-  const [showCount, setShowCount] = useState(12)
+  const [sortType, setSortType] = useState(DEFAULT_SORT)
+  const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const coversLoading =
     coverView === SORT_TYPES.ALL ? flattenedCoversLoading : groupCoversLoading
@@ -128,6 +146,7 @@ export const AvailableCovers = () => {
         </Link>
         <div className='flex flex-wrap items-center justify-end w-full md:flex-nowrap xl:w-auto'>
           <SearchAndSortBar
+            loading={coversLoading}
             searchValue={searchValue}
             onSearchChange={searchHandler}
             sortClass='w-auto mb-4 md:mb-0'
@@ -137,6 +156,7 @@ export const AvailableCovers = () => {
             setSortType={setSortType}
           />
           <SelectListBar
+            loading={coversLoading}
             sortClassContainer='w-full md:w-auto md:ml-2'
             prefix={t`View:` + ' '}
             sortClass='w-auto'

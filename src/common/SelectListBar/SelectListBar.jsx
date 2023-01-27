@@ -1,18 +1,20 @@
 import { useRouter } from 'next/router'
+
 import { Select } from '@/common/Select'
-import { t } from '@lingui/macro'
-import { SORT_TYPES } from '@/utils/sorting'
 import FilterIcon from '@/icons/FilterIcon'
 import { homeViewSelectionKey } from '@/src/config/constants'
 import { logCoverProductsViewChanged } from '@/src/services/logs'
-import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
+import { SORT_TYPES } from '@/utils/sorting'
+import { t } from '@lingui/macro'
+import { useWeb3React } from '@web3-react/core'
 
 export const SelectListBar = ({
   sortClassContainer,
   sortClass,
   prefix,
-  options = null
+  options = null,
+  loading = false
 }) => {
   const { query, replace } = useRouter()
   const { account, chainId } = useWeb3React()
@@ -56,6 +58,7 @@ export const SelectListBar = ({
         className={sortClass}
         icon={<FilterIcon height={18} aria-hidden='true' />}
         direction='right'
+        loading={loading}
       />
     </div>
   )

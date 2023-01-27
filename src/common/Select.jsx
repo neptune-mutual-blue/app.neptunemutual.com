@@ -1,6 +1,11 @@
 import { Fragment } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
+
+import CheckBlue from '@/icons/CheckBlue'
 import { classNames } from '@/utils/classnames'
+import {
+  Listbox,
+  Transition
+} from '@headlessui/react'
 
 export const Select = ({
   prefix = '',
@@ -9,7 +14,8 @@ export const Select = ({
   setSelected,
   className = 'w-64',
   icon,
-  direction = 'left'
+  direction = 'left',
+  loading = false
 }) => {
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -20,7 +26,8 @@ export const Select = ({
         >
           <Listbox.Button
             className={classNames(
-              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-default pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
+              loading && 'cursor-not-allowed',
               open ? 'border-4e7dd9' : 'border-B0C4DB'
             )}
             data-testid='select-button'
@@ -42,7 +49,8 @@ export const Select = ({
             <Listbox.Options
               className={classNames(
                 'absolute z-10 w-full py-3 mt-1 overflow-auto text-base bg-white border rounded-md shadow-dropdown md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 max-h-60 px-3',
-                direction === 'right' && 'right-0'
+                direction === 'right' && 'right-0',
+                loading && 'hidden'
               )}
               data-testid='options-container'
             >
@@ -57,21 +65,21 @@ export const Select = ({
                     )}
                   value={option}
                 >
-                  {({ selected, active }) => (
-                    <>
+                  {({ active }) => {
+                    return (
                       <span
                         className={classNames(
-                          'block truncate px-4 py-2 capitalize rounded',
-                          selected
+                          'flex truncate px-4 py-2 capitalize rounded items-center justify-between',
+                          selected.value === option.value
                             ? 'bg-EEEEEE bg-opacity-50'
                             : '',
                           active ? 'bg-EEEEEE rounded-lg' : ''
                         )}
                       >
-                        {option.name}
+                        {option.name} {selected.value === option.value && <span className='ml-8'><CheckBlue /></span>}
                       </span>
-                    </>
-                  )}
+                    )
+                  }}
                 </Listbox.Option>
               ))}
             </Listbox.Options>

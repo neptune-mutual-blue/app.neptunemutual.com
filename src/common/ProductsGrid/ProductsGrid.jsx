@@ -1,23 +1,35 @@
-import React, { useMemo, useState } from 'react'
+import React, {
+  useMemo,
+  useState
+} from 'react'
 
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
+import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
-import { NeutralButton } from '@/common/Button/NeutralButton'
-import { useSearchResults } from '@/src/hooks/useSearchResults'
-import { CARDS_PER_PAGE, homeViewSelectionKey } from '@/src/config/constants'
-import { SORT_TYPES, SORT_DATA_TYPES, sorter } from '@/utils/sorting'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
-import { Trans } from '@lingui/macro'
-import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { toStringSafe } from '@/utils/string'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useRouter } from 'next/router'
-import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import LeftArrow from '@/icons/LeftArrow'
+import {
+  CARDS_PER_PAGE,
+  homeViewSelectionKey
+} from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import Link from 'next/link'
+import { useSortableStats } from '@/src/context/SortableStatsContext'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { useSearchResults } from '@/src/hooks/useSearchResults'
+import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
+import {
+  DEFAULT_SORT,
+  SORT_DATA_TYPES,
+  SORT_TYPES,
+  sorter
+} from '@/utils/sorting'
+import { toStringSafe } from '@/utils/string'
+import { Trans } from '@lingui/macro'
 
 /**
  *
@@ -42,8 +54,8 @@ const sorterData = {
 export const ProductsGrid = () => {
   const { getStatsByKey } = useSortableStats()
 
-  const [sortType, setSortType] = useState({ name: SORT_TYPES.ALPHABETIC })
-  const [showCount, setShowCount] = useState(12)
+  const [sortType, setSortType] = useState(DEFAULT_SORT)
+  const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const router = useRouter()
   const { coverId } = router.query
@@ -53,10 +65,12 @@ export const ProductsGrid = () => {
   const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: (coverInfo?.products || []).map((cover) => ({
-      ...cover,
-      ...getStatsByKey(cover.productKey)
-    })),
+    list: (coverInfo?.products || []).map((cover) => {
+      return {
+        ...cover,
+        ...getStatsByKey(cover.productKey)
+      }
+    }),
     filter: (item, term) => {
       return (
         toStringSafe(item.infoObj.productName).indexOf(toStringSafe(term)) > -1
@@ -124,7 +138,7 @@ export const ProductsGrid = () => {
       </div>
 
       <Content
-        data={sortedProducts.slice(0, showCount)}
+        data={sortedProducts}
         hasMore={!isLastPage}
         handleShowMore={handleShowMore}
       />
