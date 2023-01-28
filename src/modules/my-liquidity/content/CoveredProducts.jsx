@@ -16,6 +16,7 @@ import { useState } from 'react'
  * @prop {Array} parameters
  * @prop {string} tags
  * @prop {string} exclusions
+ * @prop {string} capitalEfficiency
  *
  * @typedef IProductBase
  * @prop {string} coverKey
