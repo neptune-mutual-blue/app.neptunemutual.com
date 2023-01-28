@@ -1,12 +1,15 @@
 import { CoverParameters } from '@/common/CoverParameters/CoverParameters'
 import { ModalRegular } from '@/common/Modal/ModalRegular'
 import CloseIcon from '@/icons/CloseIcon'
+import { MULTIPLIER } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
 import { useNetwork } from '@/src/context/Network'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { logCoverProductRulesDownload } from '@/src/services/logs'
+import { toBN } from '@/utils/bn'
 import { classNames } from '@/utils/classnames'
+import { formatPercent } from '@/utils/formatter/percent'
 import { analyticsLogger } from '@/utils/logger'
 import * as Dialog from '@radix-ui/react-dialog'
 import { useWeb3React } from '@web3-react/core'
@@ -60,7 +63,12 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             {product.infoObj.productName} Cover Terms
           </span>
           <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-poppins'>
-            70% Capital Efficiency
+            {formatPercent(
+              toBN(product.infoObj?.capitalEfficiency)
+                .dividedBy(MULTIPLIER)
+                .toString()
+            )}{' '}
+            Capital Efficiency
           </span>
         </Dialog.Title>
         <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-sora min-h-[0] h-full'>
