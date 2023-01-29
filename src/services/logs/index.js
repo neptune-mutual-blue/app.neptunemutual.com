@@ -1,7 +1,8 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import { Analytics } from './analytics'
-import * as provider from './providers/amplitude-browser'
+import * as provider from './providers/empty'
 
+// DISABLED AMPLITUDE ANALYTICS
 const a = new Analytics(provider)
 
 const log = async (networkId, funnel, journey, step, seq, account, event, props) => {

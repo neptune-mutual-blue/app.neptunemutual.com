@@ -1,7 +1,7 @@
 module.exports = [
   {
     key: 'Content-Security-Policy',
-    values: [process.env.NEXT_PUBLIC_HEADERS_CONTENT_SECURITY_POLICY || '']
+    values: [(process.env.NEXT_PUBLIC_HEADERS_CONTENT_SECURITY_POLICY || '').trim()]
   },
   {
     key: 'X-DNS-Prefetch-Control',
