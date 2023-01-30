@@ -1,6 +1,7 @@
 import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
 import {
   isBinanceInstalled,
+  isCoinbaseInstalled,
   isMetaMaskInstalled,
   isMobile,
   isOkxInstalled
@@ -10,6 +11,7 @@ export const Option = (props) => {
   const { id, name, Icon, onClick, connectorName } = props
 
   const optionMetamask = connectorName === ConnectorNames.Injected
+  const optionCoinbase = connectorName === ConnectorNames.CoinbaseWallet
   const optionOkx = connectorName === ConnectorNames.OKXWallet
   const optionBinance = connectorName === ConnectorNames.BSC
 
@@ -17,6 +19,7 @@ export const Option = (props) => {
     if (
       (optionMetamask && !isMetaMaskInstalled()) ||
       (optionOkx && !isOkxInstalled()) ||
+      (optionCoinbase && !isCoinbaseInstalled()) ||
       (optionBinance && !isBinanceInstalled())
     ) {
       return <></>
@@ -33,6 +36,20 @@ export const Option = (props) => {
       >
         <Icon className='mr-6' width={24} />
         <p>Install Metamask</p>
+      </a>
+    )
+  }
+
+  if (optionCoinbase && !isCoinbaseInstalled()) {
+    return (
+      <a
+        href='https://www.coinbase.com/wallet/downloads'
+        target='_blank'
+        rel='noreferrer noopener nofollow'
+        className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      >
+        <Icon className='mr-6' width={24} />
+        <p>Install Coinbase Wallet</p>
       </a>
     )
   }

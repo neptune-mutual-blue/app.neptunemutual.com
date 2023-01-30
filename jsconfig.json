@@ -5,6 +5,10 @@
     "jsx": "preserve",
     "checkJs": true,
     "baseUrl": ".",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
     "paths": {
       "@/lib/*": [
         "lib/*"
