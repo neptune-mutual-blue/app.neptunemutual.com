@@ -14,7 +14,7 @@ export const useRegisterToken = () => {
       ? `${API_BASE_URL}images/tokens/${symbol.toLowerCase()}.svg`
       : undefined
 
-    registerToken(address, symbol, decimals, image)
+    registerToken(networkId, address, symbol, decimals, image)
       .then(console.log)
       .catch(console.error)
   }
