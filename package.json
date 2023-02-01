@@ -13,7 +13,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@binance-chain/bsc-connector": "1.0.0",
     "@ethersproject/providers": "5.5.1",
     "@fontsource/poppins": "4.5.0",
     "@fontsource/sora": "4.5.0",
@@ -27,7 +26,6 @@
     "@radix-ui/react-dialog": "0.1.6",
     "@radix-ui/react-tooltip": "0.1.0",
     "@web3-react/core": "6.1.9",
-    "@web3-react/injected-connector": "6.0.7",
     "bignumber.js": "9.0.2",
     "chart.js": "3.5.1",
     "highcharts": "9.1.2",

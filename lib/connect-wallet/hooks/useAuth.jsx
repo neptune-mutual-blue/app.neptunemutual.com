@@ -117,8 +117,9 @@ const useAuth = (networkId, notify = console.log) => {
   }, [connector])
 
   const login = useCallback(
-    (connectorName) =>
-      activateConnector(connectorName, activate, networkId, notify),
+    (connectorName) => {
+      return activateConnector(connectorName, activate, networkId, notify)
+    },
     [activate, networkId, notify]
   )
 
