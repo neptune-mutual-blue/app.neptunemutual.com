@@ -30,11 +30,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
     setIsConnecting(true)
     const wallet = wallets.find((x) => x.id === id)
     const connectorName = wallet.connectorName
-    login(connectorName).then(() => {
-      setIsConnecting(false)
-    }).catch(() => {
-      setIsConnecting(false)
-    })
+    login(connectorName)
   }
 
   return (
