@@ -30,14 +30,17 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
     setIsConnecting(true)
     const wallet = wallets.find((x) => x.id === id)
     const connectorName = wallet.connectorName
-    login(connectorName)
+    login(connectorName).then(() => {
+      setIsConnecting(false)
+    }).catch(() => {
+      setIsConnecting(false)
+    })
   }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-md transition-all bg-f6f7f9'>
         <Dialog.Title
-          as='h3'
           className='font-bold leading-9 text-black font-sora text-h2'
         >
           <Trans>Connect wallet</Trans>
