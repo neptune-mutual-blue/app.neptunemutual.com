@@ -92,7 +92,7 @@ export const LanguageDropdown = (props) => {
           leaveTo='opacity-0'
         >
           <Listbox.Options className={classNames(
-            'z-50 py-6 px-2 mt-1 absolute h-fit top-4 right-0 overflow-auto min-w-[260px] sm:min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none',
+            'z-50 py-6 px-2 mt-4 absolute h-fit top-4 right-0 overflow-auto min-w-[260px] sm:min-w-[274px] text-base bg-[#FEFEFF] border rounded-md shadow-lg border-B0C4DB ring-1 ring-black ring-opacity-5 focus:outline-none',
             props.onOverlay && 'left-0 w-fit'
           )}
           >

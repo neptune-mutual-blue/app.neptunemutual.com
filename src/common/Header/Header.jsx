@@ -199,7 +199,7 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <div className='flex justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20'>
+        <div className='justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 hidden md:flex'>
           <LanguageDropdown />
         </div>
       </div>
@@ -415,7 +415,7 @@ export const MenuModal = ({
                       >
                         <a
                           className={classNames(
-                            'text-h2 leading-6 sm:text-xxl pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
+                            'text-h2 leading-6 pt-8 sm:pt-12 pb-3 sm:pb-4 mb-5 sm:mb-8 border-b-4 w-fit',
                             router.pathname === link.href
                               ? 'border-4e7dd9 text-4e7dd9 font-semibold'
                               : 'border-transparent text-white'
