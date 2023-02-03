@@ -34,7 +34,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
         <div className='absolute h-2 bg-4e7dd9 border-l-white border-l-2 border-r-white border-r-2 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
 
         <CustomRadio
-          label={`${coverPeriodLabels[0].substr(0, 3)} 31`}
+          label={`${coverPeriodLabels[0]}`}
           className='!items-start flex-col'
           labelClass='mt-2'
           id='period-1'
@@ -46,7 +46,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
           checked={parseInt(coverMonth) >= 1}
         />
         <CustomRadio
-          label={`${coverPeriodLabels[1].substr(0, 3)} 31`}
+          label={`${coverPeriodLabels[1]}`}
           className='!items-center flex-col'
           labelClass='mt-2'
           id='period-2'
@@ -58,7 +58,7 @@ const CoveragePeriodStep = ({ value, coverPeriodLabels, approving, purchasing, h
           checked={parseInt(coverMonth) >= 2}
         />
         <CustomRadio
-          label={`${coverPeriodLabels[2].substr(0, 3)} 31`}
+          label={`${coverPeriodLabels[2]}`}
           className='!items-end flex-col'
           labelClass='mt-2'
           id='period-3'

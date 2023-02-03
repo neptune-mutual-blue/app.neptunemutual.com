@@ -2,7 +2,6 @@ import * as Tooltip from '@radix-ui/react-tooltip'
 import { usePolicyTxs } from '@/src/hooks/usePolicyTxs'
 import {
   Table,
-  TableShowMore,
   TableWrapper,
   TBody,
   THead
@@ -29,6 +28,7 @@ import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
+import { NeutralButton } from '@/common/Button/NeutralButton'
 
 const renderHeader = (col) => (
   <th
@@ -131,15 +131,19 @@ export const MyPoliciesTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => prev + 1)
-            }}
-          />
-        )}
       </TableWrapper>
+      {hasMore && (
+        <NeutralButton
+          className='mt-4'
+          isLoading={loading}
+          onClick={() => {
+            setPage((prev) => prev + 1)
+          }}
+        >
+          <Trans>Show More</Trans>
+        </NeutralButton>
+
+      )}
     </>
   )
 }

@@ -54,27 +54,33 @@ import {
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
 
+const getMonthEnd = (month, fullYear) => {
+  const d = new Date(fullYear, month + 1, 0)
+  return d.getDate()
+}
+
 const getCoveragePeriodLabels = (locale) => {
   const now = new Date()
   const day = now.getUTCDate()
   const currentMonthIndex = now.getUTCMonth()
+  const fullYear = now.getUTCFullYear()
 
-  const monthNames = getMonthNames(locale)
+  const monthNames = getMonthNames(locale, true)
 
   // Note: Refer `getExpiryDateInternal` in protocol
   // https://github.com/neptune-mutual-blue/protocol/blob/a98fcce3657d80814f2aca67a4a8a3534ff8da2d/contracts/libraries/CoverUtilV1.sol#L599-L613
   if (day >= 25) {
     return [
-      monthNames[(currentMonthIndex + 1 + 0) % 12],
-      monthNames[(currentMonthIndex + 1 + 1) % 12],
-      monthNames[(currentMonthIndex + 1 + 2) % 12]
+      monthNames[(currentMonthIndex + 1) % 12] + getMonthEnd((currentMonthIndex + 1), fullYear),
+      monthNames[(currentMonthIndex + 2) % 12] + getMonthEnd((currentMonthIndex + 2), fullYear),
+      monthNames[(currentMonthIndex + 3) % 12] + getMonthEnd((currentMonthIndex + 3), fullYear)
     ]
   }
 
   return [
-    monthNames[(currentMonthIndex + 0) % 12],
-    monthNames[(currentMonthIndex + 1) % 12],
-    monthNames[(currentMonthIndex + 2) % 12]
+    monthNames[(currentMonthIndex + 0) % 12] + ' ' + getMonthEnd((currentMonthIndex + 0), fullYear),
+    monthNames[(currentMonthIndex + 1) % 12] + ' ' + getMonthEnd((currentMonthIndex + 1), fullYear),
+    monthNames[(currentMonthIndex + 2) % 12] + ' ' + getMonthEnd((currentMonthIndex + 2), fullYear)
   ]
 }
 

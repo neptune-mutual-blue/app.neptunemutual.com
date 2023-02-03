@@ -7,7 +7,6 @@ import React, {
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { CoverCardWrapper } from '@/common/Cover/CoverCardWrapper'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
@@ -77,7 +76,7 @@ export const AvailableCovers = () => {
     useFlattenedCoverProducts()
   const { getStatsByKey } = useSortableStats()
   const [sortType, setSortType] = useState(DEFAULT_SORT)
-  const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
+  // const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const coversLoading =
     coverView === SORT_TYPES.ALL ? flattenedCoversLoading : groupCoversLoading
@@ -123,9 +122,9 @@ export const AvailableCovers = () => {
     analyticsLogger(() => logCoverProductsSearch(networkId ?? null, account ?? null, ev.target.value))
   }
 
-  const handleShowMore = () => {
-    setShowCount((val) => val + CARDS_PER_PAGE)
-  }
+  // const handleShowMore = () => {
+  //   setShowCount((val) => val + CARDS_PER_PAGE)
+  // }
 
   useEffect(() => {
     analyticsLogger(() => logCoverProductsSort(networkId ?? null, account ?? null, sortType))
@@ -176,8 +175,8 @@ export const AvailableCovers = () => {
         )}
 
         {!coversLoading &&
-          sortedCovers.map((c, idx) => {
-            if (idx > showCount - 1) return null
+          sortedCovers.map((c) => {
+            // if (idx > showCount - 1) return null
 
             if (coverView === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
               return (
@@ -200,14 +199,14 @@ export const AvailableCovers = () => {
           })}
       </Grid>
 
-      {sortedCovers.length > showCount && (
+      {/* {sortedCovers.length > showCount && (
         <NeutralButton
           onClick={handleShowMore}
           data-testid='show-more-button'
         >
           <Trans>Show More</Trans>
         </NeutralButton>
-      )}
+      )} */}
     </Container>
   )
 }
