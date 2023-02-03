@@ -4,11 +4,11 @@ import { isMobile } from '@/lib/connect-wallet/utils/userAgent'
 export const Option = (props) => {
   const { id, name, Icon, onClick, connectorName, isAvailable } = props
 
-  if (isMobile() && !isAvailable) {
+  if (isMobile() && !isAvailable()) {
     return null
   }
 
-  if (isAvailable) {
+  if (isAvailable()) {
     return (
       <button
         key={id}
