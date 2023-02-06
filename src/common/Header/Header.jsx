@@ -199,7 +199,7 @@ export const Header = () => {
     <>
       <div className='bg-black text-EEEEEE'>
         <Banner />
-        <div className='justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 hidden md:flex'>
+        <div className='justify-end max-w-full py-0 pr-4 mx-auto sm:px-6 xl:px-20 hidden xl:flex'>
           <LanguageDropdown />
         </div>
       </div>
