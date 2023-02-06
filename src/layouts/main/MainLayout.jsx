@@ -18,6 +18,7 @@ import { NetworkSwitchPopup } from '@/common/NetworkSwitchPopup'
 import { ScrollToTopButton } from '@/common/ScrollToTop/ScrollToTopButton'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { Footer } from '@/common/Footer/Footer'
 
 export const PageLoader = () => {
   const [showLoader, setShowLoader] = useState(false)
@@ -58,7 +59,9 @@ export const MainLayout = ({ noHeader = false, children }) => {
   return (
     <>
       <PageLoader />
+
       {!noHeader && <Header />}
+
       <div className='relative sm:static'>
         {children}
 
@@ -84,6 +87,8 @@ export const MainLayout = ({ noHeader = false, children }) => {
         {(!isCookieOpen && !isDisclaimerOpen) && <NetworkSwitchPopup />}
         <ScrollToTopButton />
       </div>
+
+      <Footer />
     </>
   )
 }
