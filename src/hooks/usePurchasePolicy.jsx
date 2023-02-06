@@ -107,11 +107,11 @@ export const usePurchasePolicy = ({
       return
     }
 
-    if (isGreater(value || 0, availableLiquidity || 0)) {
+    if (isGreaterOrEqual(value || 0, availableLiquidity || 0)) {
       setError(
         t`Maximum protection available is ${
           formatCurrency(availableLiquidity, router.locale).short
-        }`
+        }` + '. Choose a amount less than available.'
       )
       return
     }

@@ -34,16 +34,18 @@ export function PageNotFound () {
         <p className='mb-11 text-h5'>
           Oops! Looks like you&#x2019;re heading to a wrong planet.
         </p>
-        <Link href={Routes.Home} replace>
-          <a
-            className={classNames(
-              'px-16 py-5 font-bold leading-8 tracking-wide uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',
-              linkColor
-            )}
-          >
-            Take me back to homepage
-          </a>
-        </Link>
+        {(router.pathname !== Routes.Home) && (
+          <Link href={Routes.Home} replace>
+            <a
+              className={classNames(
+                'px-16 py-5 font-bold leading-8 tracking-wide uppercase border rounded-lg text-EEEEEE focus:outline-none focus-visible:ring-2',
+                linkColor
+              )}
+            >
+              Take me back to homepage
+            </a>
+          </Link>
+        )}
       </Container>
     </div>
   )

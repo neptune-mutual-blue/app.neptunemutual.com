@@ -1,46 +1,55 @@
 import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
-import {
-  isBinanceInstalled,
-  isMetaMaskInstalled,
-  isMobile,
-  isOkxInstalled
-} from '@/lib/connect-wallet/utils/userAgent'
+import { isMobile } from '@/lib/connect-wallet/utils/userAgent'
 
 export const Option = (props) => {
-  const { id, name, Icon, onClick, connectorName } = props
+  const { id, name, Icon, onClick, connectorName, isAvailable } = props
 
-  const optionMetamask = connectorName === ConnectorNames.Injected
-  const optionOkx = connectorName === ConnectorNames.OKXWallet
-  const optionBinance = connectorName === ConnectorNames.BSC
-
-  if (isMobile()) {
-    if (
-      (optionMetamask && !isMetaMaskInstalled()) ||
-      (optionOkx && !isOkxInstalled()) ||
-      (optionBinance && !isBinanceInstalled())
-    ) {
-      return <></>
-    }
+  if (isAvailable()) {
+    return (
+      <button
+        key={id}
+        onClick={onClick}
+        type='button'
+        className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      >
+        <Icon className='mr-6' width={24} />
+        <p>{name}</p>
+      </button>
+    )
   }
 
-  if (optionMetamask && !isMetaMaskInstalled()) {
+  if (connectorName === ConnectorNames.MetaMask) {
     return (
       <a
-        href='https://metamask.io/'
+        href={`https://metamask.app.link/dapp/${typeof window === 'undefined' ? 'ethereum.neptunemutual.net' : window.location.host}`}
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
       >
         <Icon className='mr-6' width={24} />
-        <p>Install Metamask</p>
+        <p>Open MetaMask</p>
       </a>
     )
   }
 
-  if (optionOkx && !isOkxInstalled()) {
+  if (connectorName === ConnectorNames.CoinbaseWallet) {
     return (
       <a
-        href='https://chrome.google.com/webstore/detail/okex-wallet/mcohilncbfahbmgdjkbpemcciiolgcge'
+        href='https://www.coinbase.com/wallet/downloads'
+        target='_blank'
+        rel='noreferrer noopener nofollow'
+        className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
+      >
+        <Icon className='mr-6' width={24} />
+        <p>Install Coinbase Wallet</p>
+      </a>
+    )
+  }
+
+  if (connectorName === ConnectorNames.OKXWallet) {
+    return (
+      <a
+        href='https://www.okx.com/download'
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
@@ -51,10 +60,10 @@ export const Option = (props) => {
     )
   }
 
-  if (optionBinance && !isBinanceInstalled()) {
+  if (!isMobile() && connectorName === ConnectorNames.BSC) {
     return (
       <a
-        href='https://docs.binance.org/smart-chain/wallet/binance.html'
+        href='https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp'
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
@@ -65,15 +74,5 @@ export const Option = (props) => {
     )
   }
 
-  return (
-    <button
-      key={id}
-      onClick={onClick}
-      type='button'
-      className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
-    >
-      <Icon className='mr-6' width={24} />
-      <p>{name}</p>
-    </button>
-  )
+  return null
 }

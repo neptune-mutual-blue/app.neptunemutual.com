@@ -1,6 +1,6 @@
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 import { MAX_PROPOSAL_AMOUNT, MIN_PROPOSAL_AMOUNT } from '@/src/config/constants'
-import { isGreater } from '@/utils/bn'
+import { isGreater, isGreaterOrEqual } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
@@ -23,10 +23,10 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
     setError('')
     setValue(val)
 
-    if (isGreater(val, availableLiquidity)) {
+    if (isGreaterOrEqual(val, availableLiquidity)) {
       setError(t`Maximum protection available is ${
         formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
-      }`)
+      }` + '. Choose a amount less than available.')
     } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
       setError(t`Maximum proposal threshold is ${
         formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
@@ -72,7 +72,7 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
       />
       {error && error !== 'Please connect your wallet' && <p className='flex items-center text-FA5C2F'>{error}</p>}
 
-      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available {formatCurrency(availableLiquidity, router.locale).short}</div>
+      <div className='w-full px-8 py-6 mt-8 text-center rounded-lg bg-F3F5F7'>Maximum Available: {formatCurrency(availableLiquidity, router.locale).short}</div>
       <button
         className={classNames('flex items-center gap-2 p-1 pr-0 mx-auto mt-8',
           isMainNet ? 'text-4e7dd9' : 'text-5D52DC'

@@ -29,7 +29,7 @@ export const BreadCrumbs = ({ pages, ...rest }) => {
 }
 
 const Crumb = ({ page, isLast }) => {
-  if (!page.href) {
+  if (!page.href || isLast) {
     return <div className='ml-1 capitalize'>{page.name}</div>
   }
 

@@ -12,7 +12,7 @@ const IconLink = ({ href, iconText, icon }) => {
   return (
     <a
       href={href}
-      className='inline-block mr-4 hover:text-4e7dd9'
+      className='inline-block mr-4 hover:fill-4e7dd9 hover:text-4e7dd9'
       target='_blank'
       rel='noreferrer nofollow noopener'
       data-testid='icon-link'

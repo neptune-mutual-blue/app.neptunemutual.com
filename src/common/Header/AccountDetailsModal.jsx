@@ -15,6 +15,7 @@ import { Trans } from '@lingui/macro'
 import { logViewAccountOnExplorer } from '@/src/services/logs'
 import { analyticsLogger } from '@/utils/logger'
 import { ACTIVE_CONNECTOR_KEY } from '@/lib/connect-wallet/config/localstorage'
+import { ConnectorNames } from '@/lib/connect-wallet/config/connectors'
 
 const CopyAddressComponent = ({ account }) => {
   const [isCopied, setIsCopied] = useState(false)
@@ -69,7 +70,7 @@ export const AccountDetailsModal = ({
   account
 }) => {
   const { unlimitedApproval, setUnlimitedApproval } = useUnlimitedApproval()
-  const [connectorName, setConnectorName] = useState('injected')
+  const [connectorName, setConnectorName] = useState(ConnectorNames.Injected)
 
   useEffect(() => {
     if (process.browser) {

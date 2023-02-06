@@ -37,7 +37,10 @@ export const detectChainId = (host = '') => {
 }
 
 export const validateHost = () => {
-  if (typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_DNS || '').split(',').indexOf(window.location.hostname) === -1) {
+  if (typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_DNS || '')
+    .split(',')
+    .map(x => x.trim())
+    .indexOf(window.location.hostname) === -1) {
     return false
   }
 

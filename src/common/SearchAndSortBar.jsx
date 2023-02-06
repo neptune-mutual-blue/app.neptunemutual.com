@@ -54,7 +54,7 @@ export const SearchAndSortBar = ({
           disabled={loading}
         />
 
-        <div className={classNames('absolute flex items-center justify-center text-black', reportingResolved ? 'left-3.5' : 'right-3.5')}>
+        <div className={classNames('absolute flex items-center justify-center text-9B9B9B', reportingResolved ? 'left-3.5' : 'right-3.5')}>
           <SearchIcon width={24} height={24} data-testid='search-icon' />
         </div>
       </div>
@@ -66,6 +66,7 @@ export const SearchAndSortBar = ({
         selected={sortType ?? selected}
         setSelected={setSortType ?? setSelected}
         className={sortClass}
+        direction='right'
         icon={<ChevronDownIcon className='w-6 h-6' aria-hidden='true' />}
       />
     </div>
