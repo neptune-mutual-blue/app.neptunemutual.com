@@ -8,11 +8,11 @@ import TelegramIcon from '@/icons/TelegramIcon'
 import TwitterIcon from '@/icons/TwitterIcon'
 import WebsiteIcon from '@/icons/WebsiteIcon'
 
-const IconLink = ({ href, iconText, icon, fillable = false }) => {
+const IconLink = ({ href, iconText, icon }) => {
   return (
     <a
       href={href}
-      className={`inline-block mr-4 ${fillable ? 'hover:fill-4e7dd9' : 'hover:text-4e7dd9'}`}
+      className='inline-block mr-4 hover:fill-4e7dd9 hover:text-4e7dd9'
       target='_blank'
       rel='noreferrer nofollow noopener'
       data-testid='icon-link'
@@ -57,7 +57,6 @@ export const SocialIconLinks = ({ links }) => {
         <IconLink
           href={blog}
           iconText='Blog'
-          fillable
           icon={<BlogIcon width={24} />}
         />
       )}
@@ -66,7 +65,6 @@ export const SocialIconLinks = ({ links }) => {
         <IconLink
           href={discord}
           iconText='Discord'
-          fillable
           icon={<DiscordIcon width={24} />}
         />
       )}
@@ -75,7 +73,6 @@ export const SocialIconLinks = ({ links }) => {
         <IconLink
           href={documentation}
           iconText='Documentation'
-          fillable
           icon={<DocumentationIcon width={24} />}
         />
       )}
@@ -84,7 +81,6 @@ export const SocialIconLinks = ({ links }) => {
         <IconLink
           href={github}
           iconText='Github'
-          fillable
           icon={<GithubIcon width={24} />}
         />
       )}
@@ -101,7 +97,6 @@ export const SocialIconLinks = ({ links }) => {
         <IconLink
           href={website}
           iconText='Website'
-          fillable
           icon={<WebsiteIcon width={24} />}
         />
       )}
