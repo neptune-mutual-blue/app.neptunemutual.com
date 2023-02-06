@@ -4,10 +4,6 @@ import { isMobile } from '@/lib/connect-wallet/utils/userAgent'
 export const Option = (props) => {
   const { id, name, Icon, onClick, connectorName, isAvailable } = props
 
-  if (isMobile() && !isAvailable()) {
-    return null
-  }
-
   if (isAvailable()) {
     return (
       <button
@@ -25,13 +21,13 @@ export const Option = (props) => {
   if (connectorName === ConnectorNames.MetaMask) {
     return (
       <a
-        href='https://metamask.io/'
+        href={`https://metamask.app.link/dapp/${typeof window === 'undefined' ? 'ethereum.neptunemutual.net' : window.location.host}`}
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
       >
         <Icon className='mr-6' width={24} />
-        <p>Install Metamask</p>
+        <p>Open MetaMask</p>
       </a>
     )
   }
@@ -53,7 +49,7 @@ export const Option = (props) => {
   if (connectorName === ConnectorNames.OKXWallet) {
     return (
       <a
-        href='https://chrome.google.com/webstore/detail/okex-wallet/mcohilncbfahbmgdjkbpemcciiolgcge'
+        href='https://www.okx.com/download'
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'
@@ -64,10 +60,10 @@ export const Option = (props) => {
     )
   }
 
-  if (connectorName === ConnectorNames.BSC) {
+  if (!isMobile() && connectorName === ConnectorNames.BSC) {
     return (
       <a
-        href='https://docs.binance.org/smart-chain/wallet/binance.html'
+        href='https://chrome.google.com/webstore/detail/binance-chain-wallet/fhbohimaelbohpjbbldcngcnapndodjp'
         target='_blank'
         rel='noreferrer noopener nofollow'
         className='flex items-center w-full px-6 py-4 mb-4 bg-white border rounded-lg border-d4dfee focus:border-4e7dd9 focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'

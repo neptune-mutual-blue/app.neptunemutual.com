@@ -12,13 +12,13 @@ export const Seo = ({
   const { networkId } = useNetwork()
   const { isTestNet, isEthereum, isArbitrum } = useValidateNetwork(networkId)
 
-  let opImageUri = 'https://app.neptunemutual.net/images/og.png'
+  let opImageUri = 'https://test.neptunemutual.net/images/og.png'
 
   if (isEthereum) {
-    opImageUri = 'https://app.neptunemutual.net/images/neptune-mutual-arbitrum-marketplace-open-graph-image.png'
+    opImageUri = 'https://ethereum.neptunemutual.net/images/neptune-mutual-arbitrum-marketplace-open-graph-image.png'
   }
   if (isArbitrum) {
-    opImageUri = 'https://app.neptunemutual.net/images/neptune-mutual-ethereum-marketplace-open-graph-image.png'
+    opImageUri = 'https://arbitrum.neptunemutual.net/images/neptune-mutual-ethereum-marketplace-open-graph-image.png'
   }
 
   return (
