@@ -58,7 +58,7 @@ export const Footer = () => {
             {
               socials.map(({ href, Icon, isExternal }, i) => (
                 <a href={href} key={i} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
-                  <Icon width='24' height='24' />
+                  <Icon width='24' height='24' className='text-1D2939' />
                 </a>
               ))
             }

@@ -41,17 +41,12 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   )
 }
 
-function isReactFragment (variableToInspect) {
-  if (variableToInspect.type) {
-    return variableToInspect.type === React.Fragment
-  }
-  return variableToInspect === React.Fragment
-}
-
 export const TableTitle = ({
   columns,
   title
 }) => {
+  if (!title || !columns) return <></>
+
   return (
     <tr className='bg-FEFEFF'>
       <th className='px-6 py-5' colSpan={columns.length}>{title}</th>
@@ -59,11 +54,20 @@ export const TableTitle = ({
   )
 }
 
+/**
+ *
+ * @param {Object} props
+ * @param {any[]} props.columns
+ * @param {string} [props.theadClass]
+ * @param {string} [props.rowClass]
+ * @param {string | import('react').ReactElement} [props.title]
+ * @returns
+ */
 export const THead = ({
   columns,
   theadClass = 'bg-black text-white',
   rowClass = '',
-  title = <></>,
+  title = '',
   ...rest
 }) => {
   return (
@@ -73,10 +77,8 @@ export const THead = ({
         theadClass
       )} {...rest}
     >
-      {!isReactFragment(title) && (
-        <TableTitle title={title} columns={columns} />
-      )}
-      <tr className={classNames('border-y border-B0C4DB', rowClass)}>
+      <TableTitle title={title} columns={columns} />
+      <tr className={classNames('border-y border-B0C4DB', rowClass, !title && 'border-t-0')}>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>
         })}

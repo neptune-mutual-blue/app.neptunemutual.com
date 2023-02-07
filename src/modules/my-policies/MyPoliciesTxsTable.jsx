@@ -173,7 +173,7 @@ export const MyPoliciesTxsTable = () => {
             columns={columns}
             data-testid='policy-txs-table-header'
             theadClass='bg-f6f7f9'
-            title={<Title blockNumber={blockNumber} networkId={networkId} />}
+            title={(blockNumber && networkId) ? <Title blockNumber={blockNumber} networkId={networkId} /> : ''}
           />
           {account
             ? (
@@ -194,10 +194,10 @@ export const MyPoliciesTxsTable = () => {
               )}
         </Table>
       </TableWrapper>
-      {hasMore && (
+      {(hasMore && account) && (
         <NeutralButton
           className='mt-4'
-          isLoading={loading}
+          disabled={loading}
           onClick={() => {
             setPage((prev) => prev + 1)
           }}

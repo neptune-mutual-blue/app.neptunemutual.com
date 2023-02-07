@@ -168,7 +168,7 @@ export const MyStakingTxsTable = () => {
           <THead
             columns={columns}
             theadClass='bg-f6f7f9'
-            title={<Title blockNumber={blockNumber} networkId={networkId} />}
+            title={(blockNumber && networkId) && <Title blockNumber={blockNumber} networkId={networkId} />}
           />
           {account
             ? (
@@ -188,7 +188,7 @@ export const MyStakingTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
+        {(hasMore && account) && (
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {

@@ -18,7 +18,7 @@ import {
 } from '@/common/Table/Table'
 import { ResolvedTBodyRow } from '@/modules/reporting/resolved/ResolvedTBodyRow'
 import DateLib from '@/lib/date/DateLib'
-import { fromNow } from '@/utils/formatter/relative-time'
+import { getUtcFormatString } from '@/utils/formatter/relative-time'
 import { convertFromUnits } from '@/utils/bn'
 import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
 import { Routes } from '@/src/config/routes'
@@ -137,7 +137,7 @@ export const ReportingResolvedPage = () => {
           className='w-max'
           title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}
         >
-          {fromNow(row.resolvedOn)}
+          {getUtcFormatString(row.resolvedOn)}
         </span>
       </td>
     )
@@ -151,10 +151,10 @@ export const ReportingResolvedPage = () => {
     )
   }
 
-  const renderTotalRefutedStake = (row) => {
+  const renderYourStake = () => {
     return (
       <td className='px-6 py-6 text-right'>
-        {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
+        {convertFromUnits('0').decimalPlaces(0).toNumber()}
       </td>
     )
   }
@@ -181,22 +181,22 @@ export const ReportingResolvedPage = () => {
       renderData: renderCover
     },
     {
-      name: t`date and time`,
-      align: 'left',
-      renderHeader,
-      renderData: renderDateAndTime
-    },
-    {
-      name: t`total attested stake`,
+      name: t`total stake`,
       align: 'right',
       renderHeader,
       renderData: renderTotalAttestedStake
     },
     {
-      name: t`total refuted stake`,
+      name: t`your stake`,
       align: 'right',
       renderHeader,
-      renderData: renderTotalRefutedStake
+      renderData: renderYourStake
+    },
+    {
+      name: t`date and time`,
+      align: 'left',
+      renderHeader,
+      renderData: renderDateAndTime
     },
     {
       name: t`status`,
@@ -214,6 +214,8 @@ export const ReportingResolvedPage = () => {
 
     return Routes.ViewReport(coverKey, productKey, timestamp)
   }
+
+  console.log({ resolvedCardInfoArray })
 
   return (
     <Container className='pt-16 pb-36'>

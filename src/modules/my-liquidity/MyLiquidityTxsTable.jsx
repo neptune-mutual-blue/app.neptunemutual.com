@@ -168,7 +168,7 @@ export const MyLiquidityTxsTable = () => {
           <THead
             columns={columns}
             data-testid='table-head'
-            title={<Title blockNumber={blockNumber} networkId={networkId} />}
+            title={(blockNumber && networkId) && <Title blockNumber={blockNumber} networkId={networkId} />}
             theadClass='bg-f6f7f9'
           />
           {account
@@ -185,7 +185,7 @@ export const MyLiquidityTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
+        {(hasMore && account) && (
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
