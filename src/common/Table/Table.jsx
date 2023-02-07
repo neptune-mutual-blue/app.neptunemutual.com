@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { t } from '@lingui/macro'
 import { classNames } from '@/utils/classnames'
 
@@ -14,7 +14,7 @@ export const TableWrapper = ({ children, ...rest }) => {
   return (
     <>
       <div
-        className='relative mt-8 overflow-x-auto bg-white text-404040 rounded-3xl lg:overflow-hidden'
+        className='relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl lg:overflow-hidden'
         {...rest}
       >
         {children}
@@ -41,9 +41,29 @@ export const TableShowMore = ({ isLoading = false, onShowMore }) => {
   )
 }
 
+function isReactFragment (variableToInspect) {
+  if (variableToInspect.type) {
+    return variableToInspect.type === React.Fragment
+  }
+  return variableToInspect === React.Fragment
+}
+
+export const TableTitle = ({
+  columns,
+  title
+}) => {
+  return (
+    <tr className='bg-FEFEFF'>
+      <th className='px-6 py-5' colSpan={columns.length}>{title}</th>
+    </tr>
+  )
+}
+
 export const THead = ({
   columns,
   theadClass = 'bg-black text-white',
+  rowClass = '',
+  title = <></>,
   ...rest
 }) => {
   return (
@@ -53,7 +73,10 @@ export const THead = ({
         theadClass
       )} {...rest}
     >
-      <tr>
+      {!isReactFragment(title) && (
+        <TableTitle title={title} columns={columns} />
+      )}
+      <tr className={classNames('border-y border-B0C4DB', rowClass)}>
         {columns.map((col, idx) => {
           return <Fragment key={idx}>{col.renderHeader(col)}</Fragment>
         })}

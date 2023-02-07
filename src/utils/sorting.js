@@ -69,3 +69,27 @@ export const sorter = ({ selector, list, datatype, ascending }) => {
 
   return list
 }
+
+const getNestedObjectValue = (object, key = '') => {
+  return key.split('.').reduce((acc, curr) => {
+    return acc ? acc[curr] : object[curr]
+  }, null)
+}
+
+export const sortDataByKey = (data = [], sortKey, sortType) => {
+  return data.sort((prev, curr) => {
+    const prevValue = getNestedObjectValue(prev, sortKey) || ''
+    const currValue = getNestedObjectValue(curr, sortKey) || ''
+
+    if (Number(prevValue) && Number(currValue)) {
+      if (sortType === 'asc') return Number(prevValue) - Number(currValue)
+      if (sortType === 'desc') return Number(currValue) - Number(prevValue)
+      return 0
+    }
+
+    if (sortType === 'asc') return prevValue.localeCompare(currValue)
+    if (sortType === 'desc') return currValue.localeCompare(prevValue)
+
+    return 0
+  })
+}

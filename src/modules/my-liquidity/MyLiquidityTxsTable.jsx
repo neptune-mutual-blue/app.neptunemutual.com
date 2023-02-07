@@ -25,19 +25,48 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Fragment } from 'react'
+import { useEffect, useState } from 'react'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
+import DownArrow from '@/icons/DownArrow'
+import { sortDataByKey } from '@/utils/sorting'
 
-const renderHeader = (col) => (
+const renderHeader = (col, sortKey, sorts, handleSort) => (
   <th
     scope='col'
     className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
+      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
       col.align === 'right' ? 'text-right' : 'text-left'
     )}
   >
-    {col.name}
+    {
+      sortKey
+        ? (
+          <button
+            className={classNames(
+              'flex gap-1 w-max cursor-pointer',
+              col.align === 'right' ? 'ml-auto' : 'mr-auto'
+            )}
+            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
+          >
+            <span
+              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
+            >
+              {col.name}
+            </span>
+            <DownArrow className={classNames(
+              'transform',
+              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            )}
+            />
+          </button>
+          )
+        : (
+          <>
+            {col.name}
+          </>
+          )
+    }
   </th>
 )
 
@@ -49,11 +78,11 @@ const renderAmount = (row) => <PodAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-export const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -76,45 +105,79 @@ export const columns = [
   }
 ]
 
+const Title = ({ blockNumber, networkId }) => (
+  <>
+    {blockNumber && (
+      <p
+        className='font-semibold w-max text-h5 text-1D2939'
+        data-testid='block-number'
+      >
+        <Trans>Last Synced:</Trans>{' '}
+        <a
+          href={getBlockLink(networkId, blockNumber)}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='pl-1 text-4e7dd9'
+        >
+          #{blockNumber}
+        </a>
+      </p>
+    )}
+  </>
+)
+
 export const MyLiquidityTxsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = useLiquidityTxs({
     page,
     limit
   })
+  const [sorts, setSorts] = useState({})
 
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
   const { blockNumber, transactions } = data
+  const [sortedData, setSortedData] = useState(transactions)
+
+  useEffect(() => {
+    setSortedData(transactions)
+  }, [transactions])
+
+  const handleSort = (colName, sortKey) => {
+    const _sorts = {
+      ...sorts,
+      [colName]: !sorts[colName]
+        ? { type: 'asc', key: sortKey }
+        : {
+            ...sorts[colName],
+            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
+          }
+    }
+    setSorts(_sorts)
+
+    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
+    setSortedData([..._sortedData])
+  }
+
+  const columns = getColumns(sorts, handleSort)
   return (
     <>
-      {blockNumber && (
-        <p
-          className='mb-8 text-xs font-semibold text-right text-9B9B9B'
-          data-testid='block-number'
-        >
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper data-testid='table-wrapper'>
         <Table>
-          <THead columns={columns} data-testid='table-head' />
+          <THead
+            columns={columns}
+            data-testid='table-head'
+            title={<Title blockNumber={blockNumber} networkId={networkId} />}
+            theadClass='bg-f6f7f9'
+          />
           {account
             ? (
-              <TBody isLoading={loading} columns={columns} data={transactions} />
+              <TBody isLoading={loading} columns={columns} data={sortedData} />
               )
             : (
               <tbody data-testid='no-account-message'>
-                <tr className='w-full text-center'>
+                <tr className='w-full text-center first'>
                   <td className='p-6' colSpan={columns.length}>
                     <Trans>Please connect your wallet</Trans>
                   </td>
@@ -140,7 +203,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 whitespace-nowrap'
+      className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -172,14 +235,14 @@ const DetailsRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6'>
-      <div className='flex items-center w-max'>
+      <div className='flex items-center gap-1 w-max'>
         <CoverAvatar
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          small
+          xs
         />
-        <span className='pl-4 text-left whitespace-nowrap'>
+        <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'PodsIssued'
             ? (
               <Trans>
@@ -206,9 +269,9 @@ const PodAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end whitespace-nowrap'>
+      <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
         <span
-          className={row.type === 'PodsIssued' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'PodsIssued' ? 'text-01052D' : 'text-FA5C2F'}
           title={
             formatCurrency(
               convertFromUnits(row.podAmount, tokenDecimals),
@@ -249,7 +312,7 @@ const ActionsRenderer = ({ row }) => {
       <div className='flex items-center justify-end'>
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>

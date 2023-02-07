@@ -93,23 +93,21 @@ export const ReportingResolvedPage = () => {
     { name: t`Resolved date`, value: SORT_TYPES.RESOLVED_DATE }
   ]
 
-  const renderHeader = (col) => {
-    return (
-      <th
-        scope='col'
-        className={classNames(
-          'px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap',
-          col.align === 'right' ? 'text-right' : 'text-left'
-        )}
-      >
-        {col.name}
-      </th>
-    )
-  }
+  const renderHeader = (col) => (
+    <th
+      scope='col'
+      className={classNames(
+        'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
+        col.align === 'right' ? 'text-right' : 'text-left'
+      )}
+    >
+      {col.name}
+    </th>
+  )
 
   const renderCover = (row) => {
     return (
-      <td className='max-w-xs px-6 py-2 text-sm'>
+      <td className='max-w-xs px-6 py-6 text-sm'>
         <span className='flex items-center w-max'>
           <img
             src={row.imgSrc}
@@ -119,8 +117,8 @@ export const ReportingResolvedPage = () => {
                 : row.coverInfo?.infoObj.coverName || row.coverInfo?.infoObj.projectName
             }
             className='rounded-full bg-DEEAF6'
-            width={48}
-            height={48}
+            width={24}
+            height={24}
           />
           <p className='ml-2 text-sm text-black font-poppins grow'>
             {row.isDiversified
@@ -134,7 +132,7 @@ export const ReportingResolvedPage = () => {
 
   const renderDateAndTime = (row) => {
     return (
-      <td className='px-6 py-2 text-sm max-w-180'>
+      <td className='px-6 py-6 text-sm max-w-180'>
         <span
           className='w-max'
           title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}
@@ -147,7 +145,7 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalAttestedStake = (row) => {
     return (
-      <td className='px-6 py-2 text-right'>
+      <td className='px-6 py-6 text-right'>
         {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
       </td>
     )
@@ -155,7 +153,7 @@ export const ReportingResolvedPage = () => {
 
   const renderTotalRefutedStake = (row) => {
     return (
-      <td className='px-6 py-2 text-right'>
+      <td className='px-6 py-6 text-right'>
         {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
       </td>
     )
@@ -164,7 +162,7 @@ export const ReportingResolvedPage = () => {
   const renderStatus = (row) => {
     const status = identifyStatus(row.status)
     return (
-      <td className='px-6 py-2 text-right'>
+      <td className='px-6 py-6 text-right'>
         {status !== E_CARD_STATUS.NORMAL && (
           <Badge
             className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
@@ -175,11 +173,11 @@ export const ReportingResolvedPage = () => {
     )
   }
 
-  const columns = [
+  const columns = useMemo(() => [
     {
       name: t`cover`,
       align: 'left',
-      renderHeader,
+      renderHeader: renderHeader,
       renderData: renderCover
     },
     {
@@ -206,7 +204,7 @@ export const ReportingResolvedPage = () => {
       renderHeader,
       renderData: renderStatus
     }
-  ]
+  ], [])
 
   const getUrl = (reportId) => {
     const keysArray = reportId.split('-')
@@ -230,7 +228,7 @@ export const ReportingResolvedPage = () => {
           setSortType={setSortType}
           containerClass='flex-col sm:flex-row w-full p-8 bg-DAE2EB/[0.3] rounded-2xl z-10'
           searchClass='w-full'
-          reportingResolved='true'
+          reportingResolved
         />
       </div>
 
@@ -238,7 +236,8 @@ export const ReportingResolvedPage = () => {
         <TableWrapper>
           <Table>
             <THead
-              theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]'
+              theadClass='bg-F9FAFA'
+              rowClass='border-t-0'
               columns={columns}
             />
             <tbody
@@ -247,7 +246,7 @@ export const ReportingResolvedPage = () => {
             >
               {resolvedCardInfoArray.length === 0 && (
                 <tr className='text-center'>
-                  <td className='px-0 py-2' colSpan={columns.length}>
+                  <td className='px-0 py-6' colSpan={columns.length}>
                     {loading ? t`loading...` : t`No data found`}
                   </td>
                 </tr>

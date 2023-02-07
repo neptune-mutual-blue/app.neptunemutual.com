@@ -20,16 +20,46 @@ import { useNetwork } from '@/src/context/Network'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { t, Trans } from '@lingui/macro'
 import { usePagination } from '@/src/hooks/usePagination'
+import DownArrow from '@/icons/DownArrow'
+import { sortDataByKey } from '@/utils/sorting'
+import { useEffect, useState } from 'react'
 
-const renderHeader = (col) => (
+const renderHeader = (col, sortKey, sorts, handleSort) => (
   <th
     scope='col'
     className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
+      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
       col.align === 'right' ? 'text-right' : 'text-left'
     )}
   >
-    {col.name}
+    {
+      sortKey
+        ? (
+          <button
+            className={classNames(
+              'flex gap-1 w-max cursor-pointer',
+              col.align === 'right' ? 'ml-auto' : 'mr-auto'
+            )}
+            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
+          >
+            <span
+              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
+            >
+              {col.name}
+            </span>
+            <DownArrow className={classNames(
+              'transform',
+              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            )}
+            />
+          </button>
+          )
+        : (
+          <>
+            {col.name}
+          </>
+          )
+    }
   </th>
 )
 
@@ -48,11 +78,11 @@ const renderAmount = (row) => <BondAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -75,6 +105,27 @@ const columns = [
   }
 ]
 
+const Title = ({ blockNumber, networkId }) => (
+  <>
+    {blockNumber && (
+      <p
+        className='font-semibold w-max text-h5 text-1D2939'
+        data-testid='block-number'
+      >
+        <Trans>Last Synced:</Trans>{' '}
+        <a
+          href={getBlockLink(networkId, blockNumber)}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='pl-1 text-4e7dd9'
+        >
+          #{blockNumber}
+        </a>
+      </p>
+    )}
+  </>
+)
+
 export const MyBondTxsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = useBondTxs({ page, limit })
@@ -84,30 +135,46 @@ export const MyBondTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
+  const [sorts, setSorts] = useState({})
+  const [sortedData, setSortedData] = useState(transactions)
+
+  useEffect(() => {
+    setSortedData(transactions)
+  }, [transactions])
+
+  const handleSort = (colName, sortKey) => {
+    const _sorts = {
+      ...sorts,
+      [colName]: !sorts[colName]
+        ? { type: 'asc', key: sortKey }
+        : {
+            ...sorts[colName],
+            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
+          }
+    }
+    setSorts(_sorts)
+
+    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
+    setSortedData([..._sortedData])
+  }
+
+  const columns = getColumns(sorts, handleSort)
+
   return (
     <>
-      {blockNumber && (
-        <p className='mb-8 text-xs font-semibold text-right text-9B9B9B'>
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper>
         <Table>
-          <THead columns={columns} />
+          <THead
+            columns={columns}
+            theadClass='bg-f6f7f9'
+            title={<Title blockNumber={blockNumber} networkId={networkId} />}
+          />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={sortedData}
               />
               )
             : (
@@ -135,7 +202,7 @@ export const MyBondTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   return (
-    <td className='px-6 py-6 max-w-sm'>
+    <td className='max-w-sm px-6 py-6 text-sm leading-5 text-01052D'>
       <div className='flex items-center w-max'>
         <img src='/images/tokens/npm.svg' alt='npm' height={32} width={32} />
         <span className='pl-4 text-left whitespace-nowrap'>
@@ -165,10 +232,10 @@ const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
 
   return (
-    <td className='px-6 py-6 text-right max-w-sm'>
-      <div className='flex items-center justify-end w-max whitespace-nowrap'>
+    <td className='max-w-sm px-6 py-6 text-right'>
+      <div className='flex items-center justify-end text-sm leading-6 w-max whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.type === 'BondCreated' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'BondCreated' ? 'text-01052D' : 'text-FA5C2F'}
           amountInUnits={
             row.type === 'BondCreated' ? row.npmToVestAmount : row.claimAmount
           }
@@ -201,7 +268,7 @@ const ActionsRenderer = ({ row }) => {
       <div className='flex items-center justify-end'>
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-sm leading-5 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>

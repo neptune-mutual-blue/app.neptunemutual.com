@@ -92,6 +92,7 @@ module.exports = {
       },
       spacing: {
         /* 72px */
+        4.5: '18px',
         '9px': '9px',
         8.5: '34px',
         9.5: '38px',
@@ -203,7 +204,9 @@ module.exports = {
         D9D9D9: '#D9D9D9',
         '5E6C83': '#5E6C83',
         '1D9AEE': '#1D9AEE',
-        667085: '#667085'
+        667085: '#667085',
+        '1D2939': '#1D2939',
+        F9FAFA: '#F9FAFA'
       },
       minHeight: {
         360: '360px',

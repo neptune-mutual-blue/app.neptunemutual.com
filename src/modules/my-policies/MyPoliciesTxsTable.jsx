@@ -29,16 +29,46 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { NeutralButton } from '@/common/Button/NeutralButton'
+import DownArrow from '@/icons/DownArrow'
+import { useEffect, useState } from 'react'
+import { sortDataByKey } from '@/utils/sorting'
 
-const renderHeader = (col) => (
+const renderHeader = (col, sortKey, sorts, handleSort) => (
   <th
     scope='col'
     className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
+      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
       col.align === 'right' ? 'text-right' : 'text-left'
     )}
   >
-    {col.name}
+    {
+      sortKey
+        ? (
+          <button
+            className={classNames(
+              'flex gap-1 w-max cursor-pointer',
+              col.align === 'right' ? 'ml-auto' : 'mr-auto'
+            )}
+            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
+          >
+            <span
+              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
+            >
+              {col.name}
+            </span>
+            <DownArrow className={classNames(
+              'transform',
+              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            )}
+            />
+          </button>
+          )
+        : (
+          <>
+            {col.name}
+          </>
+          )
+    }
   </th>
 )
 
@@ -50,11 +80,11 @@ const renderAmount = (row) => <CxTokenAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-export const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -77,6 +107,27 @@ export const columns = [
   }
 ]
 
+const Title = ({ blockNumber, networkId }) => (
+  <>
+    {blockNumber && (
+      <p
+        className='font-semibold w-max text-h5 text-1D2939'
+        data-testid='block-number'
+      >
+        <Trans>Last Synced:</Trans>{' '}
+        <a
+          href={getBlockLink(networkId, blockNumber)}
+          target='_blank'
+          rel='noreferrer noopener nofollow'
+          className='pl-1 text-4e7dd9'
+        >
+          #{blockNumber}
+        </a>
+      </p>
+    )}
+  </>
+)
+
 export const MyPoliciesTxsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = usePolicyTxs({
@@ -89,36 +140,47 @@ export const MyPoliciesTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
+  const [sorts, setSorts] = useState({})
+  const [sortedData, setSortedData] = useState(transactions)
+
+  useEffect(() => {
+    setSortedData(transactions)
+  }, [transactions])
+
+  const handleSort = (colName, sortKey) => {
+    const _sorts = {
+      ...sorts,
+      [colName]: !sorts[colName]
+        ? { type: 'asc', key: sortKey }
+        : {
+            ...sorts[colName],
+            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
+          }
+    }
+    setSorts(_sorts)
+
+    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
+    setSortedData([..._sortedData])
+  }
+
+  const columns = getColumns(sorts, handleSort)
+
   return (
     <>
-      {blockNumber && (
-        <p
-          className='mb-8 text-xs font-semibold text-right text-9B9B9B'
-          data-testid='block-number'
-        >
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper data-testid='policy-txs-table-wrapper'>
         <Table>
           <THead
             columns={columns}
             data-testid='policy-txs-table-header'
+            theadClass='bg-f6f7f9'
+            title={<Title blockNumber={blockNumber} networkId={networkId} />}
           />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={sortedData}
               />
               )
             : (
@@ -153,7 +215,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 whitespace-nowrap'
+      className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
       data-testid='timestamp-col'
     >
@@ -194,9 +256,9 @@ const DetailsRenderer = ({ row }) => {
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          small
+          xs
         />
-        <span className='pl-4 text-left whitespace-nowrap'>
+        <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'CoverPurchased'
             ? (
               <Trans>
@@ -235,9 +297,9 @@ const CxTokenAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
-      <div className='flex items-center justify-end whitespace-nowrap'>
+      <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
         <span
-          className={isClaimTx ? 'text-FA5C2F' : 'text-404040'}
+          className={isClaimTx ? 'text-FA5C2F' : 'text-01052D'}
           title={formattedCurrency.long}
         >
           {formattedCurrency.short}
@@ -269,27 +331,13 @@ const ActionsRenderer = ({ row }) => {
   return (
     <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
       <div className='flex items-center justify-end'>
-
-        {isCoverPurchase && (
-          <a
-            href={Routes.ViewPolicyReceipt(row.transaction.id)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='p-1 mr-4 text-black'
-            title='View Receipt'
-          >
-            <span className='sr-only'>View Receipt</span>
-            <PolicyReceiptIcon className='w-4 h-4' />
-          </a>
-        )}
-
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>
-            <ClockIcon className='w-4 h-4' />
+            <ClockIcon className='w-4 h-4 text-01052D' />
           </Tooltip.Trigger>
 
           <Tooltip.Content side='top'>
@@ -305,6 +353,19 @@ const ActionsRenderer = ({ row }) => {
             <Tooltip.Arrow offset={16} className='fill-black' />
           </Tooltip.Content>
         </Tooltip.Root>
+
+        {isCoverPurchase && (
+          <a
+            href={Routes.ViewPolicyReceipt(row.transaction.id)}
+            target='_blank'
+            rel='noreferrer noopener nofollow'
+            className='p-1 mr-4 text-black'
+            title='View Receipt'
+          >
+            <span className='sr-only'>View Receipt</span>
+            <PolicyReceiptIcon className='w-4 h-4' />
+          </a>
+        )}
 
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
