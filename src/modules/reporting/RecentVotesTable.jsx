@@ -119,8 +119,6 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
     setSortedData(transactions)
   }, [transactions])
 
-  console.log({ sortedData })
-
   const handleSort = (colName, sortKey) => {
     const _sorts = {
       ...sorts,

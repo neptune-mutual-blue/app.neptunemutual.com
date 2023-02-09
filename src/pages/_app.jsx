@@ -17,8 +17,6 @@ import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
 import { MainLayout } from '@/src/layouts/main/MainLayout'
 import { CookiesProvider } from '@/src/context/Cookie'
-import { validateHost } from '@/utils/dns'
-import { PageNotFound } from '@/common/page-not-found'
 
 const Wrappers = ({ children, noHeader }) => {
   return (
@@ -49,9 +47,9 @@ function MyApp ({ Component, pageProps }) {
     return <Component {...pageProps} />
   }
 
-  if (!validateHost()) {
-    return <PageNotFound />
-  }
+  // if (!validateHost()) {
+  //   return <PageNotFound />
+  // }
 
   return (
     <>
