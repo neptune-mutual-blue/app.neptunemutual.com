@@ -172,7 +172,6 @@ export const MyPoliciesTxsTable = () => {
           <THead
             columns={columns}
             data-testid='policy-txs-table-header'
-            theadClass='bg-f6f7f9'
             title={(blockNumber && networkId) ? <Title blockNumber={blockNumber} networkId={networkId} /> : ''}
           />
           {account

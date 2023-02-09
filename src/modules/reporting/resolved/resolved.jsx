@@ -22,6 +22,8 @@ import { getUtcFormatString } from '@/utils/formatter/relative-time'
 import { convertFromUnits } from '@/utils/bn'
 import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
 import { Routes } from '@/src/config/routes'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -143,22 +145,6 @@ export const ReportingResolvedPage = () => {
     )
   }
 
-  const renderTotalAttestedStake = (row) => {
-    return (
-      <td className='px-6 py-6 text-right'>
-        {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
-      </td>
-    )
-  }
-
-  const renderYourStake = () => {
-    return (
-      <td className='px-6 py-6 text-right'>
-        {convertFromUnits('0').decimalPlaces(0).toNumber()}
-      </td>
-    )
-  }
-
   const renderStatus = (row) => {
     const status = identifyStatus(row.status)
     return (
@@ -182,15 +168,9 @@ export const ReportingResolvedPage = () => {
     },
     {
       name: t`total stake`,
-      align: 'right',
+      align: 'left',
       renderHeader,
-      renderData: renderTotalAttestedStake
-    },
-    {
-      name: t`your stake`,
-      align: 'right',
-      renderHeader,
-      renderData: renderYourStake
+      renderData: (row) => <RenderTotalAttestedStake row={row} />
     },
     {
       name: t`date and time`,
@@ -215,8 +195,6 @@ export const ReportingResolvedPage = () => {
     return Routes.ViewReport(coverKey, productKey, timestamp)
   }
 
-  console.log({ resolvedCardInfoArray })
-
   return (
     <Container className='pt-16 pb-36'>
       <div className='flex justify-end'>
@@ -238,7 +216,6 @@ export const ReportingResolvedPage = () => {
         <TableWrapper>
           <Table>
             <THead
-              theadClass='bg-F9FAFA'
               rowClass='border-t-0'
               columns={columns}
             />
@@ -282,5 +259,32 @@ export const ReportingResolvedPage = () => {
         </TableWrapper>
       </div>
     </Container>
+  )
+}
+
+const RenderTotalAttestedStake = ({ row }) => {
+  const { NPMTokenSymbol } = useAppConstants()
+  const router = useRouter()
+
+  return (
+    <td
+      className='px-6 py-6' title={
+      formatCurrency(
+        convertFromUnits(row.totalAttestedStake),
+        router.locale,
+        NPMTokenSymbol,
+        true
+      ).long
+    }
+    >
+      {
+          formatCurrency(
+            convertFromUnits(row.totalAttestedStake),
+            router.locale,
+            NPMTokenSymbol,
+            true
+          ).short
+        }
+    </td>
   )
 }

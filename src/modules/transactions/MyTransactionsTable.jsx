@@ -29,16 +29,45 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
+import DownArrow from '@/icons/DownArrow'
+import { sortDataByKey } from '@/utils/sorting'
 
-const renderHeader = (col) => (
+const renderHeader = (col, sortKey, sorts, handleSort) => (
   <th
     scope='col'
     className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
+      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
       col.align === 'right' ? 'text-right' : 'text-left'
     )}
   >
-    {col.name}
+    {
+      sortKey
+        ? (
+          <button
+            className={classNames(
+              'flex gap-1 w-max cursor-pointer',
+              col.align === 'right' ? 'ml-auto' : 'mr-auto'
+            )}
+            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
+          >
+            <span
+              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
+            >
+              {col.name}
+            </span>
+            <DownArrow className={classNames(
+              'transform',
+              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
+            )}
+            />
+          </button>
+          )
+        : (
+          <>
+            {col.name}
+          </>
+          )
+    }
   </th>
 )
 
@@ -47,11 +76,11 @@ const renderDetails = (row) => <DetailsRenderer row={row} />
 const renderAmount = (row) => <AmountRenderer row={row} />
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -90,6 +119,31 @@ const MyTransactionsTable = () => {
 
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
+
+  const [sorts, setSorts] = useState({})
+  const [sortedData, setSortedData] = useState(listOfTransactions)
+
+  useEffect(() => {
+    setSortedData(listOfTransactions)
+  }, [listOfTransactions])
+
+  const handleSort = (colName, sortKey) => {
+    const _sorts = {
+      ...sorts,
+      [colName]: !sorts[colName]
+        ? { type: 'asc', key: sortKey }
+        : {
+            ...sorts[colName],
+            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
+          }
+    }
+    setSorts(_sorts)
+
+    const _sortedData = sortDataByKey(listOfTransactions, sortKey, _sorts[colName].type)
+    setSortedData([..._sortedData])
+  }
+
+  const columns = getColumns(sorts, handleSort)
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -145,7 +199,7 @@ const MyTransactionsTable = () => {
             ? (
               <TBody
                 columns={columns}
-                data={listOfTransactions}
+                data={sortedData}
               />
               )
             : (
@@ -179,7 +233,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='px-6 py-6 w-52 whitespace-nowrap'
+      className='px-6 py-6 text-sm leading-5 w-52 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.timestamp / 1000, router.locale)}
       data-testid='timestamp-col'
     >
@@ -199,7 +253,7 @@ const DetailsRenderer = ({ row }) => {
   )
 
   return (
-    <td className='w-auto px-6 py-6' data-testid='details-col'>
+    <td className='w-auto px-6 py-6 text-sm leading-5 text-01052D' data-testid='details-col'>
       <div className='flex items-center gap-5'>
         <div>{convertToIconVariant(row.status)}</div>
         <p>{title}</p>
@@ -219,7 +273,7 @@ const AmountRenderer = ({ row }) => {
   )
 
   return (
-    <td className='max-w-sm px-6 py-6 text-right min-w-120' data-testid='col-amount'>
+    <td className='max-w-sm px-6 py-6 text-sm leading-6 text-right min-w-120 text-01052D' data-testid='col-amount'>
       <p>{description}</p>
     </td>
   )
@@ -234,13 +288,13 @@ const ActionsRenderer = ({ row }) => {
   }
 
   return (
-    <td className='w-20 px-6 py-6' data-testid='col-actions'>
-      <div className='flex items-center justify-end'>
+    <td className='w-48 px-6 py-6' data-testid='col-actions'>
+      <div className='flex items-center justify-center gap-6'>
         <a
           href={getTxLink(networkId, { hash: row.hash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
-          className='p-1 text-black'
+          className='p-1 text-01052D'
           title='Open in explorer'
           onClick={handleLinkClick}
         >

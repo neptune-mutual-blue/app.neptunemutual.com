@@ -27,7 +27,7 @@ const renderHeader = (col) => (
   <th
     scope='col'
     className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
+      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
       col.align === 'right' ? 'text-right' : 'text-left'
     )}
   >
@@ -36,7 +36,7 @@ const renderHeader = (col) => (
 )
 
 const renderAddress = (row) => (
-  <td className='max-w-sm px-6 py-6 text-404040 whitespace-nowrap'>
+  <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
     {row.cxToken.id}
   </td>
 )
@@ -132,7 +132,7 @@ const CxTokenAmountRenderer = () => {
     <>
       <td className='max-w-sm px-6 py-6 text-right'>
         <span
-          className='whitespace-nowrap w-max'
+          className='text-sm leading-6 whitespace-nowrap w-max text-01052D'
           title={
             formatCurrency(
               convertFromUnits(balance, tokenDecimals),
@@ -164,7 +164,7 @@ export const ClaimBeforeColumnRenderer = () => {
   return (
     <td className='max-w-sm px-6 py-6'>
       <span
-        className='text-left whitespace-nowrap w-max'
+        className='text-sm leading-5 text-left whitespace-nowrap w-max text-01052D'
         title={DateLib.toLongDateFormat(claimExpiryDate, router.locale)}
       >
         {fromNow(claimExpiryDate)}
@@ -202,7 +202,7 @@ export const ClaimActionsColumnRenderer = ({ row, extraData }) => {
   return (
     <td className='px-6 py-6 text-right min-w-120'>
       <button
-        className='tracking-wide uppercase cursor-pointer text-4e7dd9 hover:underline'
+        className='text-sm leading-6 tracking-wide uppercase cursor-pointer text-4e7dd9 hover:underline'
         onClick={() => {
           onOpen()
           handleLog()

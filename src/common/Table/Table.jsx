@@ -65,7 +65,7 @@ export const TableTitle = ({
  */
 export const THead = ({
   columns,
-  theadClass = 'bg-black text-white',
+  theadClass = 'bg-F9FAFA text-white',
   rowClass = '',
   title = '',
   ...rest
