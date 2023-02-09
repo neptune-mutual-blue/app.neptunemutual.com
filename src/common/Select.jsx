@@ -28,7 +28,8 @@ export const Select = ({
             className={classNames(
               'relative w-full py-3 pl-4 bg-white border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
               loading && 'cursor-not-allowed',
-              open ? 'border-4e7dd9' : 'border-B0C4DB'
+              open ? 'border-4e7dd9' : 'border-B0C4DB',
+              'bg-red'
             )}
             data-testid='select-button'
           >
