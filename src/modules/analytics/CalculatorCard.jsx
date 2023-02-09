@@ -1,13 +1,8 @@
-import { useState, useEffect} from 'react'
+import { useState } from 'react'
 
-
-import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { t, Trans } from '@lingui/macro'
 import { CalculatorCardTitle } from '@/src/modules/analytics/CalculatorCardTitle'
 import { classNames } from '@/utils/classnames'
-
-import { formatCurrency } from '@/utils/formatter/currency'
-import {isGreaterOrEqual} from '@/utils/bn'
 
 import { useAppConstants } from '@/src/context/AppConstants'
 import { PolicyCalculation } from '@/src/modules/analytics/PolicyCalculation'
@@ -15,7 +10,7 @@ import { DateRangePicker } from '@/src/modules/analytics/DateRangePicker'
 import { CoverOptions } from '@/src/modules/analytics/CoverOptions'
 import { AmountHandler } from '@/src/modules/analytics/AmountHandler'
 
-export const CalculatorCard = ({ value, approving, purchasing}) => {
+export const CalculatorCard = ({ approving, purchasing }) => {
   const {
     liquidityTokenDecimals,
     liquidityTokenSymbol
@@ -27,28 +22,9 @@ export const CalculatorCard = ({ value, approving, purchasing}) => {
   function handleChange (val) {
     setError('')
     setValue(val)
-
-    if (isGreaterOrEqual(val, availableLiquidity)) {
-      setError(t`Maximum protection available is ${
-        formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
-      }` + '. Choose a amount less than available.')
-    } else if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
-      setError(t`Maximum proposal threshold is ${
-        formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      }`)
-    } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
-      setError(t`Minimum proposal threshold is ${
-        formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
-      }`)
-    }
   }
 
-
   const buttonBg = 'bg-5D52DC'
-  const searchClass = ''
-  const inputClass = ''
-  const reportingResolved = ''
-  const sortType = ''
   const setSortType = ''
   const defaultOptions = [
     { name: t`OKEX Exchange`, value: 'SORT_TYPES.ALPHABETIC' },
@@ -57,14 +33,12 @@ export const CalculatorCard = ({ value, approving, purchasing}) => {
   ]
   const [selected, setSelected] = useState(defaultOptions[0])
 
-
-
   return (
     <>
       <div className='pb-8'>
-        <CalculatorCardTitle text={"Calculator "} />
+        <CalculatorCardTitle text='Calculator ' />
       </div>
-      <div className="pb-8">
+      <div className='pb-8'>
         <div className='block uppercase font-semibold pb-2'>
           Select a cover
         </div>
@@ -75,10 +49,12 @@ export const CalculatorCard = ({ value, approving, purchasing}) => {
         <div className='block uppercase font-semibold pb-2'>
           Amount you wish to cover
         </div>
-        <AmountHandler liquidityTokenDecimals={liquidityTokenDecimals} 
+        <AmountHandler
+          liquidityTokenDecimals={liquidityTokenDecimals}
           liquidityTokenSymbol={liquidityTokenSymbol}
-          error={error} 
-          approving={approving} purchasing={purchasing} value={val} handleChange={handleChange} />
+          error={error}
+          approving={approving} purchasing={purchasing} value={val} handleChange={handleChange}
+        />
       </div>
 
       <div className='pb-8'>

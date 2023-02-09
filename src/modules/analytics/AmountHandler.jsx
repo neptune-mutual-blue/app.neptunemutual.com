@@ -1,7 +1,7 @@
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 import { InputWithTrailingButton } from '@/common/Input/InputWithTrailingButton'
 
-export const AmountHandler = ({ liquidityTokenSymbol, liquidityTokenDecimals, error, approving, purchasing, value, handleChange}) => {
+export const AmountHandler = ({ liquidityTokenSymbol, liquidityTokenDecimals, error, approving, purchasing, value, handleChange }) => {
   return (
     <div>
       <InputWithTrailingButton

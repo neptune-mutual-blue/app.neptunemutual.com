@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { CustomRadio } from '@/common/Radio/Radio'
 
@@ -34,9 +34,7 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const DateRangePicker = ({  approving, purchasing}) =>{
-
-  const [showReferral, setShowReferral] = useState(false)
+export const DateRangePicker = ({ approving, purchasing }) => {
   const [coverMonth, setCoverMonth] = useState('')
 
   useEffect(() => {
@@ -57,7 +55,6 @@ export const DateRangePicker = ({  approving, purchasing}) =>{
   const [radioProgress, setRadioProgress] = useState(0)
 
   const handleRadioChange = (e) => {
-    setShowReferral(true)
     setCoverMonth(e.target.value)
   }
 

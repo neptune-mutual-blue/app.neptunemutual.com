@@ -9,9 +9,9 @@ export const PolicyCalculation = () => {
           $10,345 (15%)
         </div>
         <div>
-          <a href='' className={'text-5D52DC'}> Buy Cover > </a>
+          <a className='text-5D52DC'> Buy Cover &lt; </a>
         </div>
       </div>
-    </div>   
-  );
+    </div>
+  )
 }

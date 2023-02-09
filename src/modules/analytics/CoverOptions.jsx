@@ -1,15 +1,12 @@
-import {useState, useEffect} from 'react'
-import { Select } from '@/common/Select'
-import ChevronDownIcon from '@/icons/ChevronDownIcon'
+import { useState, useEffect } from 'react'
 import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { utils } from '@neptunemutual/sdk'
 import { ReportingDropdown } from '@/src/modules/reporting/reporting-dropdown'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 
-export const CoverOptions = ({ defaultOptions, setSortType}) =>{
-
-  const { data: covers, loading } = useFlattenedCoverProducts()
+export const CoverOptions = () => {
+  const { data: covers } = useFlattenedCoverProducts()
 
   const [selected, setSelected] = useState({})
 
@@ -24,7 +21,7 @@ export const CoverOptions = ({ defaultOptions, setSortType}) =>{
       ignore = true
     }
   }, [covers])
-  
+
   const { coverInfo: selectedCover } = useCoverOrProductData({
     coverKey: selected?.coverKey,
     productKey: selected?.productKey || utils.keyUtil.toBytes32('')

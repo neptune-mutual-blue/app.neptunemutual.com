@@ -17,7 +17,7 @@ import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { useNetwork } from '@/src/context/Network'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
@@ -27,8 +27,8 @@ import { useStakingTxs } from '@/src/hooks/useStakingTxs'
 import DateLib from '@/lib/date/DateLib'
 import { getTokenImgSrc } from '@/src/helpers/token'
 
-import { AnalyticsTitle } from "@/src/modules/analytics/AnalyticsTitle"
-import { AnalyticsStats } from "@/src/modules/analytics/AnalyticsStats"
+import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
+import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
 
 const renderHeader = (col) => (
   <th
@@ -94,11 +94,9 @@ export const AnalyticsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = useStakingTxs({ page, limit })
 
-  const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
-  const { blockNumber, transactions } = data
-
+  const { transactions } = data
 
   return (
     <div>

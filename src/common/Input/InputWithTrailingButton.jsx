@@ -18,7 +18,7 @@ export const InputWithTrailingButton = ({
   inputProps,
   unit,
   unitClass = '',
-  paddingStyles= 'py-6 pl-6',
+  paddingStyles = 'py-6 pl-6',
   buttonProps: { buttonClassName, ...buttonProps },
   error,
   decimalLimit
