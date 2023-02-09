@@ -49,10 +49,6 @@ function MyApp ({ Component, pageProps }) {
     return <Component {...pageProps} />
   }
 
-  if (!validateHost()) {
-    return <PageNotFound />
-  }
-
   return (
     <>
       <CookiesProvider>
