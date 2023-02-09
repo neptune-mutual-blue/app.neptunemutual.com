@@ -178,7 +178,7 @@ const DetailsRenderer = ({ row }) => {
 
   const tokenAmountWithSymbol = (
     <TokenAmountSpan
-      amountInUnits={row.daiAmount}
+      amountInUnits={row.stablecoinAmount}
       decimals={liquidityTokenDecimals}
     />
   )
@@ -221,8 +221,8 @@ const CxTokenAmountRenderer = ({ row }) => {
 
   const isClaimTx = row.type === 'Claimed'
 
-  // @todo: cxTokenAmount will not be equal to daiAmount, if they don't have same decimals
-  const amount = isClaimTx ? row.cxTokenAmount : row.daiAmount
+  // @todo: cxTokenAmount will not be equal to stablecoinAmount, if they don't have same decimals
+  const amount = isClaimTx ? row.cxTokenAmount : row.stablecoinAmount
   const decimals =
     isClaimTx ? row.cxToken.tokenDecimals : liquidityTokenDecimals
   const formattedCurrency = formatCurrency(
