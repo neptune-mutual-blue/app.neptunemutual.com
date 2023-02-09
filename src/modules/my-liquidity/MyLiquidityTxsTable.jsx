@@ -12,9 +12,8 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -25,50 +24,11 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useEffect, useState } from 'react'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-import DownArrow from '@/icons/DownArrow'
-import { sortDataByKey } from '@/utils/sorting'
-
-const renderHeader = (col, sortKey, sorts, handleSort) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {
-      sortKey
-        ? (
-          <button
-            className={classNames(
-              'flex gap-1 w-max cursor-pointer',
-              col.align === 'right' ? 'ml-auto' : 'mr-auto'
-            )}
-            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
-          >
-            <span
-              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
-            >
-              {col.name}
-            </span>
-            <DownArrow className={classNames(
-              'transform',
-              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
-            )}
-            />
-          </button>
-          )
-        : (
-          <>
-            {col.name}
-          </>
-          )
-    }
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/modules/my-liquidity/render'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -105,60 +65,19 @@ export const getColumns = (sorts = {}, handleSort = () => {}) => [
   }
 ]
 
-const Title = ({ blockNumber, networkId }) => (
-  <>
-    {blockNumber && (
-      <p
-        className='font-semibold w-max text-h5 text-1D2939'
-        data-testid='block-number'
-      >
-        <Trans>Last Synced:</Trans>{' '}
-        <a
-          href={getBlockLink(networkId, blockNumber)}
-          target='_blank'
-          rel='noreferrer noopener nofollow'
-          className='pl-1 text-4e7dd9'
-        >
-          #{blockNumber}
-        </a>
-      </p>
-    )}
-  </>
-)
-
 export const MyLiquidityTxsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = useLiquidityTxs({
     page,
     limit
   })
-  const [sorts, setSorts] = useState({})
 
   const { networkId } = useNetwork()
   const { account } = useWeb3React()
 
   const { blockNumber, transactions } = data
-  const [sortedData, setSortedData] = useState(transactions)
 
-  useEffect(() => {
-    setSortedData(transactions)
-  }, [transactions])
-
-  const handleSort = (colName, sortKey) => {
-    const _sorts = {
-      ...sorts,
-      [colName]: !sorts[colName]
-        ? { type: 'asc', key: sortKey }
-        : {
-            ...sorts[colName],
-            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
-          }
-    }
-    setSorts(_sorts)
-
-    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
-    setSortedData([..._sortedData])
-  }
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
   const columns = getColumns(sorts, handleSort)
   return (
@@ -168,7 +87,7 @@ export const MyLiquidityTxsTable = () => {
           <THead
             columns={columns}
             data-testid='table-head'
-            title={(blockNumber && networkId) && <Title blockNumber={blockNumber} networkId={networkId} />}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
           {account
             ? (

@@ -18,48 +18,8 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
-import DownArrow from '@/icons/DownArrow'
-import { sortDataByKey } from '@/utils/sorting'
-import { useEffect, useState } from 'react'
-
-const renderHeader = (col, sortKey, sorts, handleSort) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {
-      sortKey
-        ? (
-          <button
-            className={classNames(
-              'flex gap-1 w-max cursor-pointer',
-              col.align === 'right' ? 'ml-auto' : 'mr-auto'
-            )}
-            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
-          >
-            <span
-              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
-            >
-              {col.name}
-            </span>
-            <DownArrow className={classNames(
-              'transform',
-              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
-            )}
-            />
-          </button>
-          )
-        : (
-          <>
-            {col.name}
-          </>
-          )
-    }
-  </th>
-)
+import { renderHeader } from '@/modules/my-liquidity/render'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -112,28 +72,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const { transactions } = data
 
-  const [sorts, setSorts] = useState({})
-  const [sortedData, setSortedData] = useState(transactions)
-
-  useEffect(() => {
-    setSortedData(transactions)
-  }, [transactions])
-
-  const handleSort = (colName, sortKey) => {
-    const _sorts = {
-      ...sorts,
-      [colName]: !sorts[colName]
-        ? { type: 'asc', key: sortKey }
-        : {
-            ...sorts[colName],
-            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
-          }
-    }
-    setSorts(_sorts)
-
-    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
-    setSortedData([..._sortedData])
-  }
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
   const columns = getColumns(sorts, handleSort)
 

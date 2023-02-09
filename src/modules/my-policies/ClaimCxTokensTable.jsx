@@ -7,7 +7,6 @@ import {
   THead,
   TableShowMore
 } from '@/common/Table/Table'
-import { classNames } from '@/utils/classnames'
 import { ClaimCoverModal } from '@/src/modules/my-policies/ClaimCoverModal'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
@@ -22,18 +21,7 @@ import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { renderHeader } from '@/modules/my-liquidity/render'
 
 const renderAddress = (row) => (
   <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>

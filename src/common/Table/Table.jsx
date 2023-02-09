@@ -45,7 +45,9 @@ export const TableTitle = ({
   columns,
   title
 }) => {
-  if (!title || !columns) return <></>
+  if (!title || !columns) {
+    return null
+  }
 
   return (
     <tr className='bg-FEFEFF'>

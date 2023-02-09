@@ -10,9 +10,8 @@ import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { useBondTxs } from '@/src/hooks/useBondTxs'
@@ -20,48 +19,9 @@ import { useNetwork } from '@/src/context/Network'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { t, Trans } from '@lingui/macro'
 import { usePagination } from '@/src/hooks/usePagination'
-import DownArrow from '@/icons/DownArrow'
-import { sortDataByKey } from '@/utils/sorting'
-import { useEffect, useState } from 'react'
-
-const renderHeader = (col, sortKey, sorts, handleSort) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {
-      sortKey
-        ? (
-          <button
-            className={classNames(
-              'flex gap-1 w-max cursor-pointer',
-              col.align === 'right' ? 'ml-auto' : 'mr-auto'
-            )}
-            onClick={handleSort ? () => handleSort(col.name, sortKey) : () => {}}
-          >
-            <span
-              className='font-semibold text-xs leading-4.5 uppercase whitespace-nowrap'
-            >
-              {col.name}
-            </span>
-            <DownArrow className={classNames(
-              'transform',
-              sorts[col.name] && (sorts[col.name].type === 'asc' ? 'rotate-180' : 'rotate-0')
-            )}
-            />
-          </button>
-          )
-        : (
-          <>
-            {col.name}
-          </>
-          )
-    }
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/modules/my-liquidity/render'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => (
   <td
@@ -105,27 +65,6 @@ export const getColumns = (sorts = {}, handleSort = () => {}) => [
   }
 ]
 
-const Title = ({ blockNumber, networkId }) => (
-  <>
-    {blockNumber && (
-      <p
-        className='font-semibold w-max text-h5 text-1D2939'
-        data-testid='block-number'
-      >
-        <Trans>Last Synced:</Trans>{' '}
-        <a
-          href={getBlockLink(networkId, blockNumber)}
-          target='_blank'
-          rel='noreferrer noopener nofollow'
-          className='pl-1 text-4e7dd9'
-        >
-          #{blockNumber}
-        </a>
-      </p>
-    )}
-  </>
-)
-
 export const MyBondTxsTable = () => {
   const { page, limit, setPage } = usePagination()
   const { data, loading, hasMore } = useBondTxs({ page, limit })
@@ -135,28 +74,7 @@ export const MyBondTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
-  const [sorts, setSorts] = useState({})
-  const [sortedData, setSortedData] = useState(transactions)
-
-  useEffect(() => {
-    setSortedData(transactions)
-  }, [transactions])
-
-  const handleSort = (colName, sortKey) => {
-    const _sorts = {
-      ...sorts,
-      [colName]: !sorts[colName]
-        ? { type: 'asc', key: sortKey }
-        : {
-            ...sorts[colName],
-            type: sorts[colName].type === 'asc' ? 'desc' : 'asc'
-          }
-    }
-    setSorts(_sorts)
-
-    const _sortedData = sortDataByKey(transactions, sortKey, _sorts[colName].type)
-    setSortedData([..._sortedData])
-  }
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
 
   const columns = getColumns(sorts, handleSort)
 
@@ -166,7 +84,7 @@ export const MyBondTxsTable = () => {
         <Table>
           <THead
             columns={columns}
-            title={(blockNumber && networkId) && <Title blockNumber={blockNumber} networkId={networkId} />}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
           {account
             ? (
