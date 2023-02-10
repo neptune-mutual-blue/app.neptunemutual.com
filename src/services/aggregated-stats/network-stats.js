@@ -48,6 +48,15 @@ const getQuery = () => {
     allCxTokens: cxTokens {
       totalCoveredAmount
     }
+    protocolDayDatas (
+      orderBy: date,
+      orderDirection: desc,
+      first: 1
+    ) {
+      id
+      date
+      totalCapacity
+    }
   }`
 }
 
@@ -132,6 +141,8 @@ async function getIndividualHeroStats (networkId) {
     totalCoverage = sumOf(totalCoverage, coverage).toString()
   })
 
+  const totalCapacity = data.protocolDayDatas.length > 0 ? data.protocolDayDatas[0].totalCapacity : '0'
+
   return {
     networkId,
     availableKeys: getAvailableKeys(data),
@@ -141,6 +152,7 @@ async function getIndividualHeroStats (networkId) {
     coverFee: totalCoverFee.toString(),
     totalCoveredAmount: totalCoveredAmount.toString(),
     activeCoveredAmount: activeCoveredAmount.toString(),
+    totalCapacity: totalCapacity.toString(),
     totalCoverage: totalCoverage,
     tvlPool: '0',
     tvlCover
@@ -169,6 +181,7 @@ export async function getNetworkStats (currentNetworkId) {
       totalNonUniqueDedicatedCoverCount: prev.totalNonUniqueDedicatedCoverCount + curr.dedicatedCoverCount,
       totalNonUniqueProductCount: prev.totalNonUniqueProductCount + curr.productCount,
       totalCoverFee: sumOf(prev.totalCoverFee, curr.coverFee).toString(),
+      totalCapacity: sumOf(prev.totalCapacity, curr.totalCapacity).toString(),
       totalCoveredAmount: sumOf(prev.totalCoveredAmount, curr.totalCoveredAmount).toString(),
       activeCoveredAmount: sumOf(prev.activeCoveredAmount, curr.activeCoveredAmount).toString(),
       totalCoverage: sumOf(prev.totalCoverage, curr.totalCoverage).toString(),
@@ -181,6 +194,7 @@ export async function getNetworkStats (currentNetworkId) {
     totalNonUniqueDedicatedCoverCount: 0,
     totalNonUniqueProductCount: 0,
     totalCoverFee: '0',
+    totalCapacity: '0',
     totalCoveredAmount: '0',
     activeCoveredAmount: '0',
     totalCoverage: '0',
