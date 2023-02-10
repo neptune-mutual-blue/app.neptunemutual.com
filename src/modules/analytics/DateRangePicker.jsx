@@ -17,8 +17,6 @@ const getCoveragePeriodLabels = (locale) => {
 
   const monthNames = getMonthNames(locale, true)
 
-  // Note: Refer `getExpiryDateInternal` in protocol
-  // https://github.com/neptune-mutual-blue/protocol/blob/a98fcce3657d80814f2aca67a4a8a3534ff8da2d/contracts/libraries/CoverUtilV1.sol#L599-L613
   if (day >= 25) {
     return [
       monthNames[(currentMonthIndex + 1) % 12] + getMonthEnd((currentMonthIndex + 1), fullYear),
@@ -34,9 +32,7 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const DateRangePicker = ({ approving, purchasing }) => {
-  const [coverMonth, setCoverMonth] = useState('')
-
+export const DateRangePicker = ({ approving, purchasing, handleRadioChange, coverMonth }) => {
   useEffect(() => {
     if (coverMonth === '3') {
       setRadioProgress(100)
@@ -54,19 +50,13 @@ export const DateRangePicker = ({ approving, purchasing }) => {
 
   const [radioProgress, setRadioProgress] = useState(0)
 
-  const handleRadioChange = (e) => {
-    setCoverMonth(e.target.value)
-  }
-
   function handleClick (e) {
     handleRadioChange(e)
   }
-
   return (
-    <div className='relative flex pb-4'>
+    <div className='relative flex'>
       <div className='absolute h-2 bg-999BAB  bg-opacity-30 top-1.5' style={{ width: 'calc(100% - 20px)' }} />
       <div className='absolute h-2 bg-4e7dd9 border-l-white border-l-2 border-r-white border-r-2 top-1.5' style={{ width: `calc(0% + ${radioProgress}%)` }} />
-
       <CustomRadio
         label={`${coverPeriodLabels[0]}`}
         className='!items-start flex-col'

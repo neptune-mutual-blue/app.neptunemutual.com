@@ -1,34 +1,23 @@
-
-import * as Tooltip from '@radix-ui/react-tooltip'
 import {
   Table,
-  TableShowMore,
   TableWrapper,
   TBody,
   THead
 } from '@/common/Table/Table'
 
-import ChevronRightLgIcon from '@/icons/ChevronRightLgIcon'
-import ChevronLeftLgIcon from '@/icons/ChevronLeftLgIcon'
-import AddCircleIcon from '@/icons/AddCircleIcon'
-import ClockIcon from '@/icons/ClockIcon'
-import OpenInNewIcon from '@/icons/OpenInNewIcon'
-
-import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { fromNow } from '@/utils/formatter/relative-time'
-import { useNetwork } from '@/src/context/Network'
-import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { t, Trans } from '@lingui/macro'
-import { usePagination } from '@/src/hooks/usePagination'
-import { useStakingTxs } from '@/src/hooks/useStakingTxs'
-import DateLib from '@/lib/date/DateLib'
-import { getTokenImgSrc } from '@/src/helpers/token'
+
+import { formatCurrency } from '@/utils/formatter/currency'
+import { convertFromUnits } from '@/utils/bn'
+import { useRouter } from 'next/router'
+import { useAppConstants } from '@/src/context/AppConstants'
 
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
+
+import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
 
 const renderHeader = (col) => (
   <th
@@ -42,85 +31,111 @@ const renderHeader = (col) => (
   </th>
 )
 
-const renderWhen = (row) => (
+const RenderNetwork = ({ LogoIcon, name }) => (
   <td
     className='px-6 py-6'
-    title={DateLib.toLongDateFormat(row.createdAtTimestamp)}
   >
-    {fromNow(row.createdAtTimestamp)}
+    <div className='flex flex-row '>
+      <LogoIcon width='32' height='32' classnames='inline-block' style={{ borderRadius: '50%', marginRight: '4px' }} />
+      <span> {name} </span>
+    </div>
   </td>
 )
 
-const renderDetails = (row) => <DetailsRenderer row={row} />
+const RenderCover = ({ coverFee }) => {
+  const router = useRouter()
+  const { liquidityTokenDecimals } = useAppConstants()
+  return (
+    <td
+      className='px-6 py-6'
+    >
+      <span>
+        {formatCurrency(
+          convertFromUnits(
+            coverFee,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short}
+      </span>
+    </td>
+  )
+}
 
-const renderAmount = (row) => <PoolAmountRenderer row={row} />
+const RenderCapacity = ({ capacity }) => {
+  const router = useRouter()
+  const { liquidityTokenDecimals } = useAppConstants()
+  return (
+    <td
+      className='px-6 py-6'
+    >
+      <span>
+        {formatCurrency(
+          convertFromUnits(
+            capacity,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short}
+      </span>
+    </td>
+  )
+}
 
-const renderActions = (row) => <ActionsRenderer row={row} />
-
+const RenderTVL = () => <td />
 const columns = [
   {
     name: t`Network`,
     align: 'left',
     renderHeader,
-    renderData: renderWhen
+    renderData: RenderNetwork
   },
   {
     name: t`Cover Fee Earned`,
     align: 'left',
     renderHeader,
-    renderData: renderDetails
+    renderData: RenderCover
   },
   {
     name: t`TVL`,
     align: 'right',
     renderHeader,
-    renderData: renderAmount
+    renderData: RenderTVL
   },
   {
     name: t`Capacity`,
-    align: 'right',
+    align: 'left',
     renderHeader,
-    renderData: renderAmount
-  },
-  {
-    name: '',
-    align: 'Capacity',
-    renderHeader,
-    renderData: renderActions
+    renderData: RenderCapacity
   }
 ]
 
 export const AnalyticsTable = () => {
-  const { page, limit, setPage } = usePagination()
-  const { data, loading, hasMore } = useStakingTxs({ page, limit })
+  const { data: TVLStats, loading } = useFetchAnalyticsTVLStats()
 
   const { account } = useWeb3React()
-
-  const { transactions } = data
 
   return (
     <div>
       <AnalyticsTitle />
       <AnalyticsStats />
 
-      <div className='flex flex-start justify-between pb-8'>
+      <hr className='h-px bg-B0C4DB border-0 dark:bg-B0C4DB' />
+
+      <div className='flex flex-start justify-between pt-16 pb-8'>
         <div>
           <h2> TVL Distribution </h2>
         </div>
-        <div className='flex'>
-          <ChevronLeftLgIcon className='w-6 h-6' aria-hidden='true' />
-          <ChevronRightLgIcon className='w-6 h-6' aria-hidden='true' />
-        </div>
       </div>
-      <TableWrapper>
+      <TableWrapper className='border-collapse rounded-2xl border-1 border-B0C4DB'>
         <Table>
-          <THead theadClass='bg-f6f7f9 text-black' columns={columns} />
+          <THead theadClass='bg-f6f7f9 text-black font-normal border-b-1 border-B0C4DB rounded-2xl' columns={columns} />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={TVLStats}
               />
               )
             : (
@@ -133,157 +148,7 @@ export const AnalyticsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
-          <TableShowMore
-            isLoading={loading}
-            onShowMore={() => {
-              setPage((prev) => prev + 1)
-            }}
-          />
-        )}
       </TableWrapper>
     </div>
-  )
-}
-
-const getAppropriateData = (row) => {
-  if (row.type === 'Deposited') {
-    const data = {
-      symbol: row.pool.stakingTokenSymbol,
-      tokenDecimals: row.pool.stakingTokenDecimals,
-      amountToShow: row.amount,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol)]
-    }
-
-    return {
-      ...data,
-      textToShow: <Trans>Staked <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
-    }
-  }
-  if (row.type === 'RewardsWithdrawn') {
-    const data = {
-      symbol: row.pool.rewardTokenSymbol,
-      tokenDecimals: row.pool.rewardTokenDecimals,
-      amountToShow: row.rewards,
-      imgSrc: [getTokenImgSrc(row.pool.rewardTokenSymbol)]
-    }
-
-    return {
-      ...data,
-      textToShow: <Trans>Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
-    }
-  }
-  if (row.type === 'Withdrawn') {
-    const data = {
-      symbol: `${row.pool.stakingTokenSymbol}`,
-      tokenDecimals: row.pool.stakingTokenDecimals,
-      amountToShow: row.amount,
-      imgSrc: [getTokenImgSrc(row.pool.stakingTokenSymbol), getTokenImgSrc(row.pool.rewardTokenSymbol)]
-    }
-
-    return {
-      ...data,
-      textToShow: <Trans>Withdrawn <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
-    }
-  }
-}
-
-const DetailsRenderer = ({ row }) => {
-  const data = getAppropriateData(row)
-  return (
-    <td className='max-w-sm px-6 py-6'>
-      <div className='flex items-center w-max'>
-        {data.imgSrc.length === 1
-          ? (<img src={data.imgSrc[0]} alt='npm' height={32} width={32} />)
-          : (
-            <div className='relative inline-block'>
-              <div className='flex items-center justify-center'>
-                <img src={data.imgSrc[1]} height={32} width={32} className='z-20' alt='rewardTokenSymbol' />
-              </div>
-              <div className='absolute top-0 z-10 flex items-center justify-center -left-6'>
-                <img src={data.imgSrc[0]} alt='stakingTokenSymbol' height={32} width={32} className='inline-block' />
-              </div>
-            </div>
-            )}
-        <span className='pl-4 text-left whitespace-nowrap'>
-          {data.textToShow}
-
-        </span>
-      </div>
-    </td>
-  )
-}
-
-const PoolAmountRenderer = ({ row }) => {
-  const { register } = useRegisterToken()
-
-  const data = getAppropriateData(row)
-
-  return (
-    <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end w-full whitespace-nowrap'>
-        <TokenAmountSpan
-          className={row.type === 'Deposited' ? 'text-404040' : 'text-FA5C2F'}
-          amountInUnits={
-            data.amountToShow
-          }
-          symbol={data.symbol}
-          decimals={data.tokenDecimals}
-        />
-        <button
-          className='p-1 ml-3'
-          onClick={() =>
-            register(
-              row.token,
-              data.symbol,
-              data.tokenDecimals
-            )}
-          title='Add to Metamask'
-        >
-          <span className='sr-only'>Add to metamask</span>
-          <AddCircleIcon className='w-4 h-4' />
-        </button>
-      </div>
-    </td>
-  )
-}
-
-const ActionsRenderer = ({ row }) => {
-  const { networkId } = useNetwork()
-
-  return (
-    <td className='px-6 py-6 min-w-120'>
-      <div className='flex items-center justify-end'>
-        {/* Tooltip */}
-        <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
-            <span className='sr-only'>
-              <Trans>Timestamp</Trans>
-            </span>
-            <ClockIcon className='w-4 h-4' />
-          </Tooltip.Trigger>
-
-          <Tooltip.Content side='top'>
-            <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
-              <p>
-                {DateLib.toLongDateFormat(row.createdAtTimestamp, 'UTC')}
-              </p>
-            </div>
-            <Tooltip.Arrow offset={16} className='fill-black' />
-          </Tooltip.Content>
-        </Tooltip.Root>
-
-        <a
-          href={getTxLink(networkId, { hash: row.transaction.id })}
-          target='_blank'
-          rel='noreferrer noopener nofollow'
-          className='p-1 text-black'
-          title='Open in explorer'
-        >
-          <span className='sr-only'>Open in explorer</span>
-          <OpenInNewIcon className='w-4 h-4' />
-        </a>
-      </div>
-    </td>
   )
 }

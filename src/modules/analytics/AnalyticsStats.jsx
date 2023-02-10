@@ -37,7 +37,7 @@ export const AnalyticsStats = () => {
         ).short
       }
       />
-      <StatsCard title='Commitment' value='$70.0M' />
+      <StatsCard title='Commitment' value='N/A' />
       <StatsCard
         title='Cover Fee' value={
         formatCurrency(

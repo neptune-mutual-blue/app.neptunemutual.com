@@ -80,7 +80,8 @@ module.exports = {
       },
       borderWidth: {
         0.5: '0.5px',
-        1.5: '1.5px'
+        1.5: '1.5px',
+        1: '1px',
       },
       boxShadow: {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
