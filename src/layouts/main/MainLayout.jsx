@@ -49,7 +49,7 @@ export const PageLoader = () => {
 }
 
 export const MainLayout = ({ noHeader = false, children }) => {
-  const [isCookieOpen, setIsCookieOpen] = useState(() => !getLSAcceptedCookie())
+  const [isCookieOpen, setIsCookieOpen] = useState(() => getLSAcceptedCookie() === undefined)
   const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false)
 
   const { networkId } = useNetwork()

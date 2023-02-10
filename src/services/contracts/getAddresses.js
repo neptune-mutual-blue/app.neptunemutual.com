@@ -55,14 +55,14 @@ export const getAddressesFromApi = async (networkId) => {
     const { data } = await response.json()
 
     const npmAddr = data.contracts.find((item) => item.key === 'NPM') || {}
-    const daiAddr = data.contracts.find((item) => item.key === 'Stablecoin') || {}
+    const stablecoinAddr = data.contracts.find((item) => item.key === 'Stablecoin') || {}
 
     return {
       NPMTokenAddress: npmAddr.value,
       NPMTokenSymbol: FALLBACK_NPM_TOKEN_SYMBOL,
       NPMTokenDecimals: FALLBACK_NPM_TOKEN_DECIMALS,
 
-      liquidityTokenAddress: daiAddr.value,
+      liquidityTokenAddress: stablecoinAddr.value,
       liquidityTokenSymbol: FALLBACK_LIQUIDITY_TOKEN_SYMBOL,
       liquidityTokenDecimals: FALLBACK_LIQUIDITY_TOKEN_DECIMALS
     }

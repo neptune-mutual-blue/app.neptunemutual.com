@@ -10,7 +10,7 @@ const query = `
     date
     totalCapacity
   }
-}              
+}
 `
 
 async function getIndividualProtocolDayData (networkId) {

@@ -23,7 +23,7 @@ const getQuery = (limit, page, account) => {
       productKey
       onBehalfOf
       cxTokenAmount
-      daiAmount
+      stablecoinAmount
       cxToken {
         id
         tokenSymbol

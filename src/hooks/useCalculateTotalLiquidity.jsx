@@ -30,11 +30,11 @@ export const useCalculateTotalLiquidity = ({ liquidityList = [] }) => {
         calls.push(instance.calculateLiquidity(podAmount))
       })
 
-      const amountsInDai = await multiCallProvider.all(calls)
+      const amountsInStablecoin = await multiCallProvider.all(calls)
 
       if (ignore) return
       setMyTotalLiquidity(
-        sumOf(...amountsInDai.map((x) => x.toString())).toString()
+        sumOf(...amountsInStablecoin.map((x) => x.toString())).toString()
       )
     }
 

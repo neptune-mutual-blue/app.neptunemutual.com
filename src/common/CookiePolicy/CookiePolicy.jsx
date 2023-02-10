@@ -8,30 +8,40 @@ import { useCookies } from '@/src/context/Cookie'
  * @returns {boolean}
  */
 const getLSAcceptedCookie = () => {
-  return LocalStorage.get(
-    LocalStorage.KEYS.COOKIE_POLICY,
-    (value) => {
-      const acceptedCookie = JSON.parse(value)
+  if (typeof window === 'undefined') {
+    return
+  }
 
-      if (typeof acceptedCookie === 'boolean') {
-        return acceptedCookie
-      }
+  const value = window.localStorage.getItem(LocalStorage.KEYS.COOKIE_POLICY)
 
-      throw new Error(LocalStorage.LOCAL_STORAGE_ERRORS.INVALID_SHAPE)
-    },
-    false
-  )
+  if (typeof value === 'string') {
+    return JSON.parse(value)
+  }
 }
 
 function CookiePolicy ({ isOpen, onClose }) {
   const { setAccepted } = useCookies()
+
+  const handleClose = () => {
+    onClose()
+  }
+
+  const handleAccepted = () => {
+    setAccepted(true)
+    onClose()
+  }
+
+  const handleDecline = () => {
+    setAccepted(false)
+    onClose()
+  }
 
   return (
     <Transition appear show={isOpen} as={React.Fragment}>
       <Dialog
         as='div'
         className='fixed top-0 bottom-0 left-0 right-0 overflow-y-auto z-60'
-        onClose={onClose}
+        onClose={handleClose}
       >
         <div className='flex items-end justify-center min-h-full'>
           <Transition.Child as={React.Fragment}>
@@ -53,17 +63,13 @@ function CookiePolicy ({ isOpen, onClose }) {
               <div className='flex w-full text-sm whitespace-nowrap md:w-auto'>
                 <button
                   className='flex-grow px-6 py-4 mr-4 tracking-wide uppercase border border-solid border-4e7dd9 text-003fbd md:py-2 rounded-1 min-w-60 md:mr-2'
-                  onClick={onClose}
+                  onClick={handleDecline}
                 >
                   <Trans>Decline</Trans>
                 </button>
                 <button
                   className='flex-grow px-6 py-4 tracking-wide text-white uppercase border border-solid border-2151B0 bg-2151B0 md:py-2 rounded-1 min-w-60'
-                  onClick={() => {
-                    LocalStorage.set(LocalStorage.KEYS.COOKIE_POLICY, true)
-                    setAccepted(true)
-                    onClose()
-                  }}
+                  onClick={handleAccepted}
                 >
                   <Trans>Accept</Trans>
                 </button>
