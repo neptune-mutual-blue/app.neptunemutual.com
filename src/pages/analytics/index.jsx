@@ -37,9 +37,9 @@ export default function Analytics ({ disabled }) {
   return (
     <main>
       <Seo />
-      <Hero className='lg:px-8'>
+      <Hero >
         <Container
-          className='flex flex-col-reverse justify-between lg:gap-8 py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row'
+          className='flex flex-col-reverse justify-between lg:gap-8 py-10 md:py-16 md:px-10 lg:py-28 md:flex-col-reverse lg:flex-row md:px-7'
         >
           <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-10 border-0.5 border-B0C4DB'>
             <AnalyticsTable />
