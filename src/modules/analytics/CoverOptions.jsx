@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { utils } from '@neptunemutual/sdk'
 import { ReportingDropdown } from '@/src/modules/reporting/reporting-dropdown'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 
-export const CoverOptions = () => {
+export const CoverOptions = ({ selected, setSelected }) => {
   const { data: covers } = useFlattenedCoverProducts()
-
-  const [selected, setSelected] = useState({})
 
   useEffect(() => {
     let ignore = false
@@ -20,7 +18,7 @@ export const CoverOptions = () => {
     return () => {
       ignore = true
     }
-  }, [covers])
+  }, [covers, setSelected])
 
   const { coverInfo: selectedCover } = useCoverOrProductData({
     coverKey: selected?.coverKey,
