@@ -12,7 +12,7 @@ export const SearchAndSortBar = ({
   searchClass = '',
   sortClass = '',
   reportingResolved = false,
-  inputClass,
+  inputClass = '',
   searchValue,
   onSearchChange,
   sortType,

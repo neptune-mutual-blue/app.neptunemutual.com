@@ -9,8 +9,7 @@ import {
 import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
-import { classNames } from '@/utils/classnames'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useWeb3React } from '@web3-react/core'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
@@ -29,18 +28,9 @@ import { CoverAvatar } from '@/common/CoverAvatar'
 import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { NeutralButton } from '@/common/Button/NeutralButton'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/modules/my-liquidity/render'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -50,11 +40,11 @@ const renderAmount = (row) => <CxTokenAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-export const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -89,36 +79,25 @@ export const MyPoliciesTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
+
+  const columns = getColumns(sorts, handleSort)
+
   return (
     <>
-      {blockNumber && (
-        <p
-          className='mb-8 text-xs font-semibold text-right text-9B9B9B'
-          data-testid='block-number'
-        >
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper data-testid='policy-txs-table-wrapper'>
         <Table>
           <THead
             columns={columns}
             data-testid='policy-txs-table-header'
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
           />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={sortedData}
               />
               )
             : (
@@ -132,10 +111,10 @@ export const MyPoliciesTxsTable = () => {
               )}
         </Table>
       </TableWrapper>
-      {hasMore && (
+      {(hasMore && account) && (
         <NeutralButton
           className='mt-4'
-          isLoading={loading}
+          disabled={loading}
           onClick={() => {
             setPage((prev) => prev + 1)
           }}
@@ -153,7 +132,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 whitespace-nowrap'
+      className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
       data-testid='timestamp-col'
     >
@@ -194,9 +173,9 @@ const DetailsRenderer = ({ row }) => {
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          small
+          xs
         />
-        <span className='pl-4 text-left whitespace-nowrap'>
+        <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'CoverPurchased'
             ? (
               <Trans>
@@ -235,9 +214,9 @@ const CxTokenAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right' data-testid='col-amount'>
-      <div className='flex items-center justify-end whitespace-nowrap'>
+      <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
         <span
-          className={isClaimTx ? 'text-FA5C2F' : 'text-404040'}
+          className={isClaimTx ? 'text-FA5C2F' : 'text-01052D'}
           title={formattedCurrency.long}
         >
           {formattedCurrency.short}
@@ -269,27 +248,13 @@ const ActionsRenderer = ({ row }) => {
   return (
     <td className='px-6 py-6 min-w-120' data-testid='col-actions'>
       <div className='flex items-center justify-end'>
-
-        {isCoverPurchase && (
-          <a
-            href={Routes.ViewPolicyReceipt(row.transaction.id)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='p-1 mr-4 text-black'
-            title='View Receipt'
-          >
-            <span className='sr-only'>View Receipt</span>
-            <PolicyReceiptIcon className='w-4 h-4' />
-          </a>
-        )}
-
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>
-            <ClockIcon className='w-4 h-4' />
+            <ClockIcon className='w-4 h-4 text-01052D' />
           </Tooltip.Trigger>
 
           <Tooltip.Content side='top'>
@@ -305,6 +270,19 @@ const ActionsRenderer = ({ row }) => {
             <Tooltip.Arrow offset={16} className='fill-black' />
           </Tooltip.Content>
         </Tooltip.Root>
+
+        {isCoverPurchase && (
+          <a
+            href={Routes.ViewPolicyReceipt(row.transaction.id)}
+            target='_blank'
+            rel='noreferrer noopener nofollow'
+            className='p-1 mr-4 text-black'
+            title='View Receipt'
+          >
+            <span className='sr-only'>View Receipt</span>
+            <PolicyReceiptIcon className='w-4 h-4' />
+          </a>
+        )}
 
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}

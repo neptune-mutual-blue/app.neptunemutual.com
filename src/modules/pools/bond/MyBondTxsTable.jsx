@@ -10,9 +10,8 @@ import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { useBondTxs } from '@/src/hooks/useBondTxs'
@@ -20,18 +19,9 @@ import { useNetwork } from '@/src/context/Network'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { t, Trans } from '@lingui/macro'
 import { usePagination } from '@/src/hooks/usePagination'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/modules/my-liquidity/render'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => (
   <td
@@ -48,11 +38,11 @@ const renderAmount = (row) => <BondAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -84,30 +74,24 @@ export const MyBondTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
+
+  const columns = getColumns(sorts, handleSort)
+
   return (
     <>
-      {blockNumber && (
-        <p className='mb-8 text-xs font-semibold text-right text-9B9B9B'>
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper>
         <Table>
-          <THead columns={columns} />
+          <THead
+            columns={columns}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
+          />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={sortedData}
               />
               )
             : (
@@ -120,7 +104,7 @@ export const MyBondTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
+        {(hasMore && account) && (
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
@@ -135,7 +119,7 @@ export const MyBondTxsTable = () => {
 
 const DetailsRenderer = ({ row }) => {
   return (
-    <td className='px-6 py-6 max-w-sm'>
+    <td className='max-w-sm px-6 py-6 text-sm leading-5 text-01052D'>
       <div className='flex items-center w-max'>
         <img src='/images/tokens/npm.svg' alt='npm' height={32} width={32} />
         <span className='pl-4 text-left whitespace-nowrap'>
@@ -165,10 +149,10 @@ const BondAmountRenderer = ({ row }) => {
   const { register } = useRegisterToken()
 
   return (
-    <td className='px-6 py-6 text-right max-w-sm'>
-      <div className='flex items-center justify-end w-max whitespace-nowrap'>
+    <td className='max-w-sm px-6 py-6 text-right'>
+      <div className='flex items-center justify-end text-sm leading-6 w-max whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.type === 'BondCreated' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'BondCreated' ? 'text-01052D' : 'text-FA5C2F'}
           amountInUnits={
             row.type === 'BondCreated' ? row.npmToVestAmount : row.claimAmount
           }
@@ -198,10 +182,10 @@ const ActionsRenderer = ({ row }) => {
 
   return (
     <td className='px-6 py-6 min-w-120'>
-      <div className='flex items-center justify-end'>
+      <div className='flex items-center justify-center gap-6'>
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-sm leading-5 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>

@@ -7,6 +7,7 @@
  */
 
 import DateLib from '@/lib/date/DateLib'
+import { getMonthNames } from '@/lib/dates'
 
 const SECOND = 1000
 const MINUTE = 60 * SECOND
@@ -130,4 +131,17 @@ export const fromNow = (date) => {
 
     return (isFuture ? unit.futureN : unit.pastN).replace('#', x)
   }
+}
+
+export const getUtcFormatString = (timestamp, locale = 'en') => {
+  const date = new Date(parseInt(timestamp) * 1000)
+  const time = `${date.toUTCString().match(/\s\d{2}:\d{2}/)[0].trim()} UTC`
+
+  const monthNames = getMonthNames(locale)
+  const monthName = monthNames[date.getUTCMonth()]
+  const exactDate = String(date.getUTCDate()).padStart(2, '0')
+  const fullYear = date.getUTCFullYear()
+  const fullDate = `${monthName} ${exactDate}, ${fullYear}`
+
+  return [time, fullDate].join(' | ')
 }

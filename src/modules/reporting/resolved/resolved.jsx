@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useCallback, useMemo, useState } from 'react'
 import { Container } from '@/common/Container/Container'
 import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { ReportStatus } from '@/src/config/constants'
@@ -9,7 +9,6 @@ import { t } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { toStringSafe } from '@/utils/string'
 import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { classNames } from '@/utils/classnames'
 import {
   Table,
   TableWrapper,
@@ -18,10 +17,13 @@ import {
 } from '@/common/Table/Table'
 import { ResolvedTBodyRow } from '@/modules/reporting/resolved/ResolvedTBodyRow'
 import DateLib from '@/lib/date/DateLib'
-import { fromNow } from '@/utils/formatter/relative-time'
+import { getUtcFormatString } from '@/utils/formatter/relative-time'
 import { convertFromUnits } from '@/utils/bn'
 import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
 import { Routes } from '@/src/config/routes'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { renderHeader } from '@/modules/my-liquidity/render'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -59,6 +61,8 @@ export const ReportingResolvedPage = () => {
   const router = useRouter()
   const { getStatsByKey } = useSortableStats()
 
+  const { NPMTokenSymbol } = useAppConstants()
+
   const { searchValue, setSearchValue, filtered } = useSearchResults({
     list: incidentReports.map((report) => {
       return {
@@ -93,23 +97,9 @@ export const ReportingResolvedPage = () => {
     { name: t`Resolved date`, value: SORT_TYPES.RESOLVED_DATE }
   ]
 
-  const renderHeader = (col) => {
-    return (
-      <th
-        scope='col'
-        className={classNames(
-          'px-6 pt-6 pb-2 font-bold text-xs uppercase whitespace-nowrap',
-          col.align === 'right' ? 'text-right' : 'text-left'
-        )}
-      >
-        {col.name}
-      </th>
-    )
-  }
-
   const renderCover = (row) => {
     return (
-      <td className='max-w-xs px-6 py-2 text-sm'>
+      <td className='max-w-xs px-6 py-6 text-sm'>
         <span className='flex items-center w-max'>
           <img
             src={row.imgSrc}
@@ -119,8 +109,8 @@ export const ReportingResolvedPage = () => {
                 : row.coverInfo?.infoObj.coverName || row.coverInfo?.infoObj.projectName
             }
             className='rounded-full bg-DEEAF6'
-            width={48}
-            height={48}
+            width={24}
+            height={24}
           />
           <p className='ml-2 text-sm text-black font-poppins grow'>
             {row.isDiversified
@@ -132,39 +122,23 @@ export const ReportingResolvedPage = () => {
     )
   }
 
-  const renderDateAndTime = (row) => {
+  const renderDateAndTime = useCallback((row) => {
     return (
-      <td className='px-6 py-2 text-sm max-w-180'>
+      <td className='px-6 py-6 text-sm leading-5 max-w-180 text-404040'>
         <span
           className='w-max'
           title={DateLib.toLongDateFormat(row.resolvedOn, row.locale)}
         >
-          {fromNow(row.resolvedOn)}
+          {getUtcFormatString(row.resolvedOn, router.locale)}
         </span>
       </td>
     )
-  }
-
-  const renderTotalAttestedStake = (row) => {
-    return (
-      <td className='px-6 py-2 text-right'>
-        {convertFromUnits(row.totalAttestedStake).decimalPlaces(0).toNumber()}
-      </td>
-    )
-  }
-
-  const renderTotalRefutedStake = (row) => {
-    return (
-      <td className='px-6 py-2 text-right'>
-        {convertFromUnits(row.totalRefutedStake).decimalPlaces(0).toNumber()}
-      </td>
-    )
-  }
+  }, [router.locale])
 
   const renderStatus = (row) => {
     const status = identifyStatus(row.status)
     return (
-      <td className='px-6 py-2 text-right'>
+      <td className='px-6 py-6 text-right'>
         {status !== E_CARD_STATUS.NORMAL && (
           <Badge
             className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
@@ -175,12 +149,82 @@ export const ReportingResolvedPage = () => {
     )
   }
 
-  const columns = [
+  const renderTotalAttestedStake = useCallback((row) => {
+    if (!row.totalAttestedStake) {
+      return null
+    }
+
+    return (
+      <td
+        className='px-6 py-6 text-sm leading-5 text-01052D w-52'
+        title={
+          formatCurrency(
+            convertFromUnits(row?.totalAttestedStake),
+            router.locale,
+            NPMTokenSymbol,
+            true
+          ).long
+        }
+      >
+        {
+            formatCurrency(
+              convertFromUnits(row?.totalAttestedStake),
+              router.locale,
+              NPMTokenSymbol,
+              true
+            ).short
+          }
+      </td>
+    )
+  }, [NPMTokenSymbol, router.locale])
+
+  const renderTotalRefutedStake = useCallback((row) => {
+    if (!row.totalAttestedStake) {
+      return null
+    }
+
+    return (
+      <td
+        className='px-6 py-2 text-sm leading-5 text-01052D w-52'
+        title={
+          formatCurrency(
+            convertFromUnits(row.totalRefutedStake),
+            router.locale,
+            NPMTokenSymbol,
+            true
+          ).long
+        }
+      >
+        {
+          formatCurrency(
+            convertFromUnits(row.totalRefutedStake),
+            router.locale,
+            NPMTokenSymbol,
+            true
+          ).short
+        }
+      </td>
+    )
+  }, [NPMTokenSymbol, router.locale])
+
+  const columns = useMemo(() => [
     {
       name: t`cover`,
       align: 'left',
       renderHeader,
       renderData: renderCover
+    },
+    {
+      name: t`total attested stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalAttestedStake
+    },
+    {
+      name: t`total refuted stake`,
+      align: 'left',
+      renderHeader,
+      renderData: renderTotalRefutedStake
     },
     {
       name: t`date and time`,
@@ -189,24 +233,12 @@ export const ReportingResolvedPage = () => {
       renderData: renderDateAndTime
     },
     {
-      name: t`total attested stake`,
-      align: 'right',
-      renderHeader,
-      renderData: renderTotalAttestedStake
-    },
-    {
-      name: t`total refuted stake`,
-      align: 'right',
-      renderHeader,
-      renderData: renderTotalRefutedStake
-    },
-    {
       name: t`status`,
       align: 'right',
       renderHeader,
       renderData: renderStatus
     }
-  ]
+  ], [renderDateAndTime, renderTotalAttestedStake, renderTotalRefutedStake])
 
   const getUrl = (reportId) => {
     const keysArray = reportId.split('-')
@@ -230,7 +262,7 @@ export const ReportingResolvedPage = () => {
           setSortType={setSortType}
           containerClass='flex-col sm:flex-row w-full p-8 bg-DAE2EB/[0.3] rounded-2xl z-10'
           searchClass='w-full'
-          reportingResolved='true'
+          reportingResolved
         />
       </div>
 
@@ -238,7 +270,7 @@ export const ReportingResolvedPage = () => {
         <TableWrapper>
           <Table>
             <THead
-              theadClass='bg-white text-[#9B9B9B] font-poppins border-b-[1px] border-[#DAE2EB]'
+              rowClass='border-t-0'
               columns={columns}
             />
             <tbody
@@ -247,7 +279,7 @@ export const ReportingResolvedPage = () => {
             >
               {resolvedCardInfoArray.length === 0 && (
                 <tr className='text-center'>
-                  <td className='px-0 py-2' colSpan={columns.length}>
+                  <td className='px-0 py-6' colSpan={columns.length}>
                     {loading ? t`loading...` : t`No data found`}
                   </td>
                 </tr>
