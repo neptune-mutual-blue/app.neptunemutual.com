@@ -28,7 +28,7 @@ import {
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />

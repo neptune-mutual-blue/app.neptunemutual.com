@@ -29,7 +29,7 @@ import { Routes } from '@/src/config/routes'
 import PolicyReceiptIcon from '@/icons/PolicyReceiptIcon'
 import { NeutralButton } from '@/common/Button/NeutralButton'
 import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
@@ -173,7 +173,7 @@ const DetailsRenderer = ({ row }) => {
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          xs
+          size='xs'
         />
         <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'CoverPurchased'

@@ -21,7 +21,7 @@ import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useWeb3React } from '@web3-react/core'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 
 const renderAddress = (row) => (
   <td className='max-w-sm px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'>
