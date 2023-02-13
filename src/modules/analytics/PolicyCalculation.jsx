@@ -1,17 +1,16 @@
 export const PolicyCalculation = ({ feeData, loadingFeeData }) => {
-  console.log(feeData, ' -- fee Data ')
   return (
-    <div className='pt-6'>
-      <div className='block uppercase font-light pt-4 pb-1'>
+    <div className='pt-27'>
+      <div className='block uppercase font-normal font-poppins text-sm text-01052D pb-8'>
         Your policy fee is
       </div>
-      <div className='flex items-start justify-between'>
+      <div className='flex items-end justify-between'>
 
-        <div className='block uppercase font-bold'>
+        <div className='block text-01052D uppercase font-semibold leading-6 text-lg leading-6'>
           ${!loadingFeeData && feeData ? feeData.fee : '0'} ({!loadingFeeData && feeData ? feeData.rate : '0'}%)
         </div>
         <div>
-          <a className='text-5D52DC'> Buy Cover &gt; </a>
+          <a className='text-4B7EE1 font-inter font-bold text-sm leading-5'> Buy Cover &gt; </a>
         </div>
       </div>
     </div>

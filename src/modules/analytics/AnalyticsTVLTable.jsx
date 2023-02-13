@@ -5,7 +5,6 @@ import {
   THead
 } from '@/common/Table/Table'
 
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
 import { t, Trans } from '@lingui/macro'
 
@@ -14,29 +13,16 @@ import { convertFromUnits } from '@/utils/bn'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 
-import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
-import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
+import { renderHeader } from '@/src/common/Table/renderHeader'
 
 import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
 
 const RenderNetwork = ({ LogoIcon, name }) => (
   <td
     className='px-6 py-6'
   >
     <div className='flex flex-row '>
-      <LogoIcon width='32' height='32' classnames='inline-block' style={{ borderRadius: '50%', marginRight: '4px' }} />
+      <LogoIcon width='24' height='24' style={{ borderRadius: '50%', marginRight: '8px' }} />
       <span> {name} </span>
     </div>
   </td>
@@ -110,26 +96,23 @@ const columns = [
   }
 ]
 
-export const AnalyticsTable = () => {
+export const AnalyticsTVLTable = () => {
   const { data: TVLStats, loading } = useFetchAnalyticsTVLStats()
 
   const { account } = useWeb3React()
 
   return (
     <div>
-      <AnalyticsTitle />
-      <AnalyticsStats />
+      <hr className='h-px border-0.5 border-B0C4DB' />
 
-      <hr className='h-px bg-B0C4DB border-0 dark:bg-B0C4DB' />
-
-      <div className='flex flex-start justify-between pt-16 pb-8'>
+      <div className='flex flex-start justify-between pt-40 pb-25'>
         <div>
           <h2> TVL Distribution </h2>
         </div>
       </div>
-      <TableWrapper className='border-collapse rounded-2xl border-1 border-B0C4DB'>
+      <TableWrapper className='border-collapse rounded-2xl border-1 border-B0C4DB '>
         <Table>
-          <THead theadClass='bg-f6f7f9 text-black font-normal border-b-1 border-B0C4DB rounded-2xl' columns={columns} />
+          <THead theadClass='bg-f6f7f9 text-black font-normal border-b-1 border-B0C4DB rounded-2xl text-404040' columns={columns} />
           {account
             ? (
               <TBody

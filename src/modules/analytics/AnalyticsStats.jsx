@@ -14,7 +14,7 @@ export const AnalyticsStats = () => {
   const { data: heroData } = useFetchHeroStats()
 
   return (
-    <div className='flex items-start justify-between pb-16 '>
+    <div className='flex items-start justify-between pb-40 '>
       <StatsCard
         title='Total Capacity' value={
         formatCurrency(
