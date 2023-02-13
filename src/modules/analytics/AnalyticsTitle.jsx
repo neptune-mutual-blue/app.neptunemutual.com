@@ -1,10 +1,7 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
-import { useFetchHeroStats } from '@/src/hooks/useFetchHeroStats'
 import { AnalyticsDropdown } from '@/src/modules/analytics/AnalyticsDropdown'
 
-export const AnalyticsTitle = ({ options, selected, setSelected }) => {
-  const { data: heroData } = useFetchHeroStats()
-
+export const AnalyticsTitle = ({ options, selected, setSelected, statsData, loading }) => {
   return (
     <div className='flex flex-start items-center justify-between pb-40'>
       <div className='flex'>
@@ -17,7 +14,7 @@ export const AnalyticsTitle = ({ options, selected, setSelected }) => {
         </div>
       </div>
       <div className='text-21AD8C text-sm leading-5 font-inter'>
-        {heroData.availableCovers} covers, {heroData.reportingCovers} Reporting
+        {loading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
       </div>
     </div>
   )

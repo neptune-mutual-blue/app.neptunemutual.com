@@ -11,10 +11,6 @@ const coverFeeQuery = `
   protocols {
     totalCoverFee
   }
-}              
-`
-const totalCapacityQuery = `
-{
   protocolDayDatas(
   orderBy: date, orderDirection:  desc,first: 1) {
     date
@@ -30,10 +26,9 @@ const TEST_NET = [
 
 async function getTVLStats ({ chainId, name, LogoIcon }) {
   const coverFeeData = await getSubgraphData(chainId, coverFeeQuery)
-  const capcityData = await getSubgraphData(chainId, totalCapacityQuery)
   return {
     coverFee: coverFeeData.protocols[0].totalCoverFee,
-    capacity: capcityData.protocolDayDatas[0].totalCapacity,
+    capacity: coverFeeData.protocolDayDatas[0].totalCapacity,
     name,
     LogoIcon
   }

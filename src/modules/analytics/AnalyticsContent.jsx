@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
 import { AnalyticsTVLTable } from '@/src/modules/analytics/AnalyticsTVLTable'
+import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 
 const DROPDOWN_OPTIONS = [
   { label: 'TVL Distribution', value: 'TVL Distribution', type: 'option' },
@@ -19,11 +20,15 @@ const DROPDOWN_OPTIONS = [
 
 export const AnalyticsContent = () => {
   const [selected, setSelected] = useState(DROPDOWN_OPTIONS[0])
+  const { data: statsData, loading } = useNetworkStats()
   return (
     <div>
-      <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} />
-      <AnalyticsStats />
-      {selected && selected.value === DROPDOWN_OPTIONS[0].value && <AnalyticsTVLTable />}
+      <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} loading={loading} statsData={statsData} />
+      {selected && selected.value === DROPDOWN_OPTIONS[0].value &&
+        <div>
+          <AnalyticsStats loading={loading} statsData={statsData} />
+          <AnalyticsTVLTable />
+        </div>}
     </div>
   )
 }
