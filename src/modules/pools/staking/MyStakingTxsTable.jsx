@@ -21,7 +21,7 @@ import { useStakingTxs } from '@/src/hooks/useStakingTxs'
 import DateLib from '@/lib/date/DateLib'
 import { getTokenImgSrc } from '@/src/helpers/token'
 import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => (

@@ -27,7 +27,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { LastSynced } from '@/common/LastSynced'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
@@ -158,7 +158,7 @@ const DetailsRenderer = ({ row }) => {
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          xs
+          size='xs'
         />
         <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'PodsIssued'

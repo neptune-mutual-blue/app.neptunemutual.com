@@ -1,5 +1,5 @@
 import { getCoverImgSrc } from '@/src/helpers/cover'
-import React from 'react'
+import { useMemo } from 'react'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
@@ -7,9 +7,31 @@ export const CoverAvatar = ({
   coverInfo,
   isDiversified,
   containerClass = 'grow',
-  small = false,
-  xs = false
+  size = 'default'
 }) => {
+  const sizeClasses = useMemo(() => {
+    const classes = {
+      diversifiedWrapper: 'w-14 h-14 lg:w-18 lg:h-18',
+      diversifiedImg: 'p-4',
+      dedicatedWrapper: 'w-14 h-14 lg:w-18 lg:h-18 p-4',
+      dedicatedImg: ''
+    }
+
+    if (size === 'small') {
+      classes.diversifiedWrapper = 'w-11 h-11 lg:-ml-5'
+      classes.diversifiedImg = 'p-2'
+      classes.dedicatedWrapper = 'w-10 h-10 p-2'
+    }
+
+    if (size === 'xs') {
+      classes.diversifiedWrapper = 'w-6 h-6'
+      classes.dedicatedWrapper = 'w-6 h-6'
+      classes.dedicatedImg = 'w-4.5 h-4.5'
+    }
+
+    return classes
+  }, [size])
+
   if (!coverInfo) {
     return null
   }
@@ -29,9 +51,7 @@ export const CoverAvatar = ({
                   className={classNames(
                     'inline-block max-w-full bg-FEFEFF rounded-full',
                     idx !== 0 && '-ml-7 lg:-ml-9 p-0.5',
-                    small
-                      ? 'w-11 h-11 lg:-ml-5'
-                      : xs ? 'w-6 h-6' : 'w-14 h-14 lg:w-18 lg:h-18'
+                    sizeClasses.diversifiedWrapper
                   )}
                   key={item.id}
                 >
@@ -40,7 +60,7 @@ export const CoverAvatar = ({
                     alt={item.infoObj.productName}
                     className={classNames(
                       'w-full h-full rounded-full bg-DEEAF6',
-                      small ? 'p-2' : 'p-4'
+                      sizeClasses.diversifiedImg
                     )}
                     data-testid='cover-img'
                     onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
@@ -60,9 +80,7 @@ export const CoverAvatar = ({
           <div
             className={classNames(
               'inline-flex justify-center items-center max-w-full bg-DEEAF6 rounded-full',
-              small
-                ? 'w-10 h-10 p-2'
-                : xs ? 'w-6 h-6' : 'w-14 h-14 lg:w-18 lg:h-18 p-4'
+              sizeClasses.dedicatedWrapper
             )}
           >
             <img
@@ -72,7 +90,7 @@ export const CoverAvatar = ({
                 ? coverInfo.infoObj.productName
                 : coverInfo.infoObj.coverName
             }
-              className={classNames('inline-block', xs && 'w-4.5 h-4.5')}
+              className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
               onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
             />

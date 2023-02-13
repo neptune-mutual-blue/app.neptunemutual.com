@@ -23,7 +23,7 @@ import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
 import { Routes } from '@/src/config/routes'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { renderHeader } from '@/modules/my-liquidity/render'
+import { renderHeader } from '@/common/Table/renderHeader'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}

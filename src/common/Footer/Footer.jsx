@@ -19,8 +19,10 @@ export const Footer = () => {
 
             <div className='text-01052D'>
               <p className='font-bold leading-7 font-sora text-h3'>Need assistance?</p>
-              <a href='https://discord.com/invite/2qMGTtJtnW' target='_blank' className='mt-2 font-semibold hover:underline text-h5' rel='noreferrer'>Contact us on Discord</a>
-              <DiscordIcon className='mt-4' width='48' height='48' />
+              <p className='mt-2 font-semibold text-h5'>Contact us on Discord</p>
+              <a className='hover:fill-4e7dd9 hover:text-4e7dd9' href='https://discord.com/invite/2qMGTtJtnW' target='_blank' rel='noreferrer'>
+                <DiscordIcon className='mt-4' width='48' height='48' />
+              </a>
             </div>
           </div>
 
@@ -33,7 +35,7 @@ export const Footer = () => {
                 <div className='mt-4 space-y-3 font-medium text-h5 text-364253'>
                   {
                     links.map(({ text, href, isExternal }, idx) => (
-                      <a className='block' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
+                      <a className='block hover:text-4e7dd9' href={href} key={idx} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
                         {text}
                       </a>
                     ))
@@ -58,7 +60,7 @@ export const Footer = () => {
             {
               socials.map(({ href, Icon, isExternal }, i) => (
                 <a href={href} key={i} target={isExternal ? '_blank' : ''} rel='noreferrer noopener'>
-                  <Icon width='24' height='24' className='text-1D2939' />
+                  <Icon width='24' height='24' className='text-1D2939 hover:fill-4e7dd9 hover:text-4e7dd9' />
                 </a>
               ))
             }
