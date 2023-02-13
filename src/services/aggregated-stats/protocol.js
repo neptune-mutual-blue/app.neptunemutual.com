@@ -10,7 +10,12 @@ const query = `
     date
     totalCapacity
   }
-}
+
+  protocolMonthDatas {
+    id
+    nonCumulativeCoverFee
+  }
+}              
 `
 
 async function getIndividualProtocolDayData (networkId) {
@@ -27,7 +32,7 @@ async function getIndividualProtocolDayData (networkId) {
 
   const filledData = getFilledData(data.protocolDayDatas)
 
-  return filledData
+  return { protocolDayDatas: filledData, protocolMonthDatas: data.protocolMonthDatas }
 }
 
 export async function getGroupedProtocolDayData (networkId) {
@@ -45,11 +50,13 @@ export async function getGroupedProtocolDayData (networkId) {
     promises.push(getIndividualProtocolDayData(parseInt(id)))
   }
 
-  const result = await Promise.all(promises)
+  const results = await Promise.all(promises)
+  const dayResults = results.map(res => res.protocolDayDatas)
+  const monthResults = results[0].protocolMonthDatas
 
   const obj = {}
 
-  result.forEach(arr => {
+  dayResults.forEach(arr => {
     arr.forEach(val => {
       obj[val.date] = sumOf(val.totalCapacity, obj[val.date] || '0')
     })
@@ -57,12 +64,15 @@ export async function getGroupedProtocolDayData (networkId) {
 
   const sorted = Object.entries(obj).sort(([a], [b]) => parseInt(a) - parseInt(b))
 
-  return sorted.reduce((prev, curr) => {
-    prev.push({
-      date: curr[0],
-      totalCapacity: curr[1]
-    })
+  return {
+    groupedProtocolDayData: sorted.reduce((prev, curr) => {
+      prev.push({
+        date: curr[0],
+        totalCapacity: curr[1]
+      })
 
-    return prev
-  }, [])
+      return prev
+    }, []),
+    groupedProtocolMonthData: monthResults
+  }
 }

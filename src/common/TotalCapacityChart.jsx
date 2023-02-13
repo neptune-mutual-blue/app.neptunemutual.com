@@ -162,7 +162,7 @@ const TotalCapacityChart = ({ data }) => {
 
     if (data) {
       const _chartData = []
-      data.forEach(({ date, totalCapacity }) => {
+      data.groupedProtocolDayData.forEach(({ date, totalCapacity }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(

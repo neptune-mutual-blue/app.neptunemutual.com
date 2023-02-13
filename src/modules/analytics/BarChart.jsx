@@ -9,6 +9,8 @@ import {
   Legend
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
 
 ChartJS.register(
   CategoryScale,
@@ -19,18 +21,14 @@ ChartJS.register(
   Legend
 )
 
-function getRandomInt (min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
+export function BarChart ({ labels, yAxisData }) {
+  const router = useRouter()
 
-export function BarChart () {
-  const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
-
-  const data = {
+  const barData = {
     labels,
     datasets: [
       {
-        data: labels.map(() => getRandomInt(50, 1000)),
+        data: yAxisData,
         backgroundColor: '#4E7DD9',
         barPercentage: 0.4,
         borderDash: [10, 9]
@@ -53,6 +51,11 @@ export function BarChart () {
           drawBorder: false,
           borderDash: [2, 3]
 
+        },
+        ticks: {
+          callback: function (val) {
+            return val === 0 ? 0 : formatCurrency(this.getLabelForValue(val).replace(/,/g, ''), router.locale, '', true, true).short
+          }
         }
       }
     },
@@ -63,5 +66,6 @@ export function BarChart () {
 
     }
   }
-  return <Bar options={options} data={data} />
+
+  return <Bar options={options} data={barData} />
 }

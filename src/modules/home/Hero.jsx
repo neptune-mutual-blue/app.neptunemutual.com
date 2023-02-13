@@ -25,12 +25,12 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const [changeData, setChangeData] = useState(null)
   const { data } = useProtocolDayData()
 
-  const currentCapacity = (data && data.length > 0) ? data[data.length - 1].totalCapacity : '0'
+  const currentCapacity = (data && data.groupedProtocolDayData && data.groupedProtocolDayData.length > 0) ? data.groupedProtocolDayData[data.groupedProtocolDayData.length - 1].totalCapacity : '0'
 
   useEffect(() => {
-    if (data && data.length >= 2) {
-      const lastSecond = toBN(data[data.length - 2].totalCapacity)
-      const last = toBN(data[data.length - 1].totalCapacity)
+    if (data && data.groupedProtocolDayData && data.groupedProtocolDayData.length >= 2) {
+      const lastSecond = toBN(data.groupedProtocolDayData[data.groupedProtocolDayData.length - 2].totalCapacity)
+      const last = toBN(data.groupedProtocolDayData[data.groupedProtocolDayData.length - 1].totalCapacity)
 
       const diff =
         lastSecond.isGreaterThan(0) &&
@@ -40,9 +40,9 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
         diff: diff && diff.absoluteValue().toString(),
         rise: diff && diff.isGreaterThanOrEqualTo(0)
       })
-    } else if (data && data.length === 1) {
+    } else if (data && data.groupedProtocolDayData && data.groupedProtocolDayData.length === 1) {
       setChangeData({
-        last: toBN(data[0].totalCapacity).toString(),
+        last: toBN(data.groupedProtocolDayData[0].totalCapacity).toString(),
         diff: null,
         rise: false
       })

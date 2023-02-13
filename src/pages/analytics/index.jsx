@@ -1,7 +1,7 @@
 import { Container } from '@/common/Container/Container'
 import { Hero } from '@/common/Hero'
 import { HomeCard } from '@/common/HomeCard/HomeCard'
-import { BarChart } from '@/modules/analytics/BarChart'
+import CoverEarning from '@/modules/analytics/CoverEarning'
 import { classNames } from '@/utils/classnames'
 import React from 'react'
 
@@ -74,18 +74,7 @@ function AnalyticsPage () {
             </div>
           </div>
 
-          <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-10 border-0.5 border-B0C4DB'>
-            <div className='mb-8'>
-              <h1 className='mb-1 font-bold text-h2'>
-                Analytics
-              </h1>
-            </div>
-            <div
-              className='flex-1 min-h-360'
-            >
-              <BarChart />
-            </div>
-          </div>
+          <CoverEarning />
         </Container>
         <hr className='border-b border-B0C4DB' />
       </Hero>
