@@ -1,3 +1,4 @@
+import { UAParser } from 'ua-parser-js'
 import { getAllowed } from 'http/cors'
 import { NextResponse } from 'next/server'
 
@@ -5,6 +6,34 @@ import { NextResponse } from 'next/server'
 const regions = process.env.NEXT_PUBLIC_UNSUPPORTED_REGIONS || ''
 const disableBuildManifest = false
 const unavailableTo = regions.split(',').filter((x) => !!x)
+
+function getIosCsp () {
+  const defaultValue = process.env.NEXT_PUBLIC_HEADERS_CONTENT_SECURITY_POLICY || ''
+
+  const value = defaultValue.split(';').map(part => {
+    if (part.startsWith('script-src ')) {
+      return part + " 'unsafe-inline' 'unsafe-eval'"
+    }
+
+    return part
+  }).join(';')
+
+  return value
+}
+
+/**
+ *
+ * @param {import("next/server").NextResponse} res
+ * @param {import("next/server").NextRequest} req
+ */
+function addCommonHeaders (res, req) {
+  res.headers.set('Pragma', 'no-cache')
+
+  const parser = new UAParser(req.headers.get('User-Agent'))
+  if (parser.getOS().name === 'iOS') {
+    res.headers.set('Content-Security-Policy', getIosCsp())
+  }
+}
 
 /**
  *
@@ -17,7 +46,7 @@ export function handleBuildManifest (req) {
   }
 
   const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
-  response.headers.set('Pragma', 'no-cache')
+  addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
   return response
 }
@@ -33,7 +62,7 @@ export function handleSiteManifest (req) {
   }
 
   const response = NextResponse.next()
-  response.headers.set('Pragma', 'no-cache')
+  addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', '*')
   return response
 }
@@ -56,7 +85,7 @@ export function handleGeoBlocking (req) {
 
   if (isHTMLPage && !landingPage) {
     const response = NextResponse.rewrite(new URL('/unavailable', req.url), { status: 451 })
-    response.headers.set('Pragma', 'no-cache')
+    addCommonHeaders(response, req)
     response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
     return response
   }
@@ -64,7 +93,7 @@ export function handleGeoBlocking (req) {
   // Need to avoid redirecting back to home page
   if (req.url.includes('buildManifest')) {
     const response = NextResponse.rewrite(new URL('/buildManifest.js', req.url))
-    response.headers.set('Pragma', 'no-cache')
+    addCommonHeaders(response, req)
     response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
     return response
   }
@@ -77,7 +106,7 @@ export function handleGeoBlocking (req) {
  */
 export function fallback (req) {
   const response = NextResponse.next()
-  response.headers.set('Pragma', 'no-cache')
+  addCommonHeaders(response, req)
   response.headers.set('Access-Control-Allow-Origin', getAllowed(req))
   return response
 }
