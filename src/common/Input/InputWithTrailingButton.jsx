@@ -77,6 +77,7 @@ export const InputWithTrailingButton = ({
           error
             ? 'border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F'
             : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9',
+          inputFieldProps.className,
           inputFieldProps.disabled && 'cursor-not-allowed'
         )}
         style={{ paddingRight: `${width || 64}px` }}

@@ -63,12 +63,13 @@ module.exports = {
       xxl: '40px',
       'receipt-info': ['24px', '36px'],
       md: ['20px', '23px'],
-      badge: ['11px', '13px']
+      badge: ['11px', '13px'],
     },
     fontFamily: {
       poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
       sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      inter: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
     },
     extend: {
       borderRadius: {
@@ -80,12 +81,18 @@ module.exports = {
       },
       borderWidth: {
         0.5: '0.5px',
-        1.5: '1.5px'
+        1.5: '1.5px',
+        1: '1px',
+
+      },
+      borderColor: {
+        B0C4DB: '#B0C4DB',
       },
       boxShadow: {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
-        coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)'
+        coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
+        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
       },
       flex: {
         2: '2 2 0%'
@@ -107,7 +114,16 @@ module.exports = {
         '15%': '15%',
         '80%': '80%',
         0.75: '0.175rem',
-        dropdown: 'calc(100% + 8px)'
+        dropdown: 'calc(100% + 8px)',
+        /* For analytics segment, implementing the spacing */
+        40: '40px',
+        8: '8px',
+        25: '25px',
+        16: '16px',
+        24: '24px',
+        27: '27px',
+        32: '32px',
+
       },
       lineHeight: {
         4.5: '18px',
@@ -206,7 +222,8 @@ module.exports = {
         '1D9AEE': '#1D9AEE',
         667085: '#667085',
         '1D2939': '#1D2939',
-        F9FAFA: '#F9FAFA'
+        F9FAFA: '#F9FAFA',
+        '4B7EE1': '#4B7EE1',
       },
       minHeight: {
         360: '360px',
