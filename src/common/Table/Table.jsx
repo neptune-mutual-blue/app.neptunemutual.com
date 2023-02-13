@@ -115,7 +115,7 @@ export const TBody = ({
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
-                    {col.renderData(row, extraData)}
+                    {col.renderData(row, extraData, idx)}
                   </Fragment>
                 )
               })}
