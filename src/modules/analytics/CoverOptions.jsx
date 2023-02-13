@@ -24,7 +24,7 @@ export const CoverOptions = ({ selected, setSelected }) => {
     coverKey: selected?.coverKey,
     productKey: selected?.productKey || utils.keyUtil.toBytes32('')
   })
-  console.log(covers, ' -- covers')
+
   return (
     <div>
       <ReportingDropdown

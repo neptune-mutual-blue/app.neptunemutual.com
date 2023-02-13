@@ -105,12 +105,12 @@ export const AnalyticsTVLTable = () => {
     <div>
       <hr className='h-px border-0.5 border-B0C4DB' />
 
-      <div className='flex flex-start justify-between pt-40 pb-25'>
+      <div className='flex flex-start justify-between pt-10 pb-25px'>
         <div>
           <h2> TVL Distribution </h2>
         </div>
       </div>
-      <TableWrapper className='border-collapse rounded-2xl border-1 border-B0C4DB '>
+      <TableWrapper className='border-collapse rounded-2xl border-B0C4DB '>
         <Table>
           <THead theadClass='bg-f6f7f9 text-black font-normal border-b-1 border-B0C4DB rounded-2xl text-404040' columns={columns} />
           {account

@@ -63,15 +63,15 @@ export const CalculatorCard = ({ approving, purchasing }) => {
 
   return (
     <>
-      <div className='pb-24'>
+      <div className='pb-6'>
         <CalculatorCardTitle text='Calculator ' />
       </div>
-      <div className='pb-27'>
+      <div className='pb-7'>
         <InputLabel label='Select a cover' />
         <CoverOptions className='z-60' selected={selectedCover} setSelected={setSelectedCover} setSortType={setSortType} />
       </div>
 
-      <div className='pb-27'>
+      <div className='pb-7'>
         <InputLabel label='Amount you wish to cover' />
         <AmountHandler
           liquidityTokenDecimals={liquidityTokenDecimals}
@@ -80,7 +80,7 @@ export const CalculatorCard = ({ approving, purchasing }) => {
           approving={approving} purchasing={purchasing} value={amount} handleChange={handleChange}
         />
       </div>
-      <div className='pb-27'>
+      <div className='pb-7'>
         <InputLabel label='Set expiry' />
         <DateRangePicker handleRadioChange={handleRadioChange} coverMonth={coverMonth} approving={approving} purchasing={purchasing} />
       </div>

@@ -82,11 +82,6 @@ module.exports = {
       borderWidth: {
         0.5: '0.5px',
         1.5: '1.5px',
-        1: '1px',
-
-      },
-      borderColor: {
-        B0C4DB: '#B0C4DB',
       },
       boxShadow: {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
@@ -116,14 +111,8 @@ module.exports = {
         0.75: '0.175rem',
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
-        40: '40px',
-        8: '8px',
-        25: '25px',
-        16: '16px',
-        24: '24px',
-        27: '27px',
-        32: '32px',
-
+        '25px': '25px',
+        '32px': '32px',
       },
       lineHeight: {
         4.5: '18px',

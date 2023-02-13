@@ -38,7 +38,6 @@ export async function getAnalyticsTVLData () {
   const { isMainNet } = getNetworkInfo(getNetworkId())
 
   const promises = []
-  console.log(isMainNet, ' --- main net ')
   if (isMainNet) {
     // promises.push(getTVLStats(getNetworkId()))
   } else {
@@ -61,7 +60,6 @@ export const useFetchAnalyticsTVLStats = () => {
     ;(async function () {
       try {
         const _data = await getAnalyticsTVLData()
-        console.log(_data, ' -- data inside hook')
         setData(_data)
       } catch (error) {
         console.error(error)
