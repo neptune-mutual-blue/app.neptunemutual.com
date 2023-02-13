@@ -80,7 +80,6 @@ export const CalculatorCard = ({ approving, purchasing }) => {
           approving={approving} purchasing={purchasing} value={amount} handleChange={handleChange}
         />
       </div>
-
       <div className='pb-27'>
         <InputLabel label='Set expiry' />
         <DateRangePicker handleRadioChange={handleRadioChange} coverMonth={coverMonth} approving={approving} purchasing={purchasing} />

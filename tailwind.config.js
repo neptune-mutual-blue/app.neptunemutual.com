@@ -83,6 +83,7 @@ module.exports = {
         0.5: '0.5px',
         1.5: '1.5px',
         1: '1px',
+
       },
       borderColor: {
         B0C4DB: '#B0C4DB',
