@@ -167,9 +167,11 @@ export async function getNetworkStats (currentNetworkId) {
   for (const id in SUBGRAPH_API_URLS) {
     const match = getNetworkInfo(parseInt(id)).isMainNet === isMainNet
 
-    if (match) {
-      promises.push(getIndividualHeroStats(parseInt(id)))
+    if (!match) {
+      continue
     }
+
+    promises.push(getIndividualHeroStats(parseInt(id)))
   }
 
   const result = await Promise.all(promises)
