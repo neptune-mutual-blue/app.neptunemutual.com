@@ -10,8 +10,8 @@ const defaultData = {
     totalNonUniqueDedicatedCoverCount: 0,
     totalNonUniqueProductCount: 0,
     totalCoverFee: '0',
-    totalCoveredAmount: '0',
-    activeCoveredAmount: '0',
+    totalCoveredAmount: '0', // covered
+    activeCoveredAmount: '0', // commitment
     totalCoverage: '0',
     totalTvlPool: '0',
     totalTvlCover: '0'
