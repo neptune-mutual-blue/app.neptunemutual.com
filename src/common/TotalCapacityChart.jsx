@@ -162,11 +162,11 @@ const TotalCapacityChart = ({ data }) => {
 
     if (data) {
       const _chartData = []
-      data.forEach(({ date, totalCapacity }) => {
+      data.forEach(({ date, value }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(
-            convertFromUnits(totalCapacity, liquidityTokenDecimals).toString()
+            convertFromUnits(value, liquidityTokenDecimals).toString()
           )
         })
       })

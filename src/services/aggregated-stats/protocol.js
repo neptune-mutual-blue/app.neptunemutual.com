@@ -1,14 +1,16 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
 import { getSubgraphData } from '@/src/services/subgraph'
-import { sumOf } from '@/utils/bn'
 import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getSortedData } from '@/src/services/aggregated-stats/sort-data'
 
 const query = `
 {
   protocolDayDatas {
     date
     totalCapacity
+    totalLiquidity
+    totalCovered
   }
 }
 `
@@ -47,22 +49,7 @@ export async function getGroupedProtocolDayData (networkId) {
 
   const result = await Promise.all(promises)
 
-  const obj = {}
+  const sortedData = getSortedData(result)
 
-  result.forEach(arr => {
-    arr.forEach(val => {
-      obj[val.date] = sumOf(val.totalCapacity, obj[val.date] || '0')
-    })
-  })
-
-  const sorted = Object.entries(obj).sort(([a], [b]) => parseInt(a) - parseInt(b))
-
-  return sorted.reduce((prev, curr) => {
-    prev.push({
-      date: curr[0],
-      totalCapacity: curr[1]
-    })
-
-    return prev
-  }, [])
+  return sortedData
 }

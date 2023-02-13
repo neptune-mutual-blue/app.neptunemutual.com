@@ -26,7 +26,11 @@ export const useProtocolDayData = () => {
   }, [networkId])
 
   return {
-    data,
+    data: {
+      totalCapacity: data?.totalCapacity || [],
+      totalCovered: data?.totalCovered || [],
+      totalLiquidity: data?.totalLiquidity || []
+    },
     loading
   }
 }
