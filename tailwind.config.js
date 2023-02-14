@@ -113,6 +113,8 @@ module.exports = {
         /* For analytics segment, implementing the spacing */
         '25px': '25px',
         '32px': '32px',
+        '18px': '18px',
+        '10px': '10px'
       },
       lineHeight: {
         4.5: '18px',

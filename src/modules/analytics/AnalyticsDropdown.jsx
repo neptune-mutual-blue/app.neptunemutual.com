@@ -8,6 +8,8 @@ export const AnalyticsDropdown = ({
   icon,
   direction = 'right',
   loading = false,
+  labelClass = '',
+  buttonClass = '',
   selected,
   setSelected
 }) => {
@@ -20,11 +22,12 @@ export const AnalyticsDropdown = ({
           className={classNames(
             'relative w-full pt-9px pb-9px pl-4 bg-f6f7f9 border rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
             loading && 'cursor-not-allowed',
+            buttonClass,
             'border-none'
           )}
           data-testid='select-button'
         >
-          <span className='block text-center truncate text-000000 text-xs font-normal'>
+          <span className={classNames('block text-left truncate text-000000 text-xs font-normal', labelClass)}>
             {selected?.label}
           </span>
           <span className='absolute inset-y-0 right-0 flex items-center pr-2 text-000000 text-xs pointer-events-none'>
