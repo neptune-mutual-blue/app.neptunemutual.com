@@ -14,7 +14,7 @@ export const TableWrapper = ({ children, ...rest }) => {
   return (
     <>
       <div
-        className='relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl lg:overflow-hidden'
+        className='relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl xl:overflow-hidden'
         {...rest}
       >
         {children}

@@ -1,8 +1,13 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
 import { AnalyticsTVLTable } from '@/src/modules/analytics/AnalyticsTVLTable'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
+import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+import { TotalCapacityChart } from '@/common/TotalCapacityChart'
+import { TopAccounts } from '@/modules/analytics/TopAccounts'
+import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
+import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
 
 const DROPDOWN_OPTIONS = [
   { label: 'TVL Distribution', value: 'TVL Distribution', type: 'option' },
@@ -21,14 +26,32 @@ const DROPDOWN_OPTIONS = [
 export const AnalyticsContent = () => {
   const [selected, setSelected] = useState(DROPDOWN_OPTIONS[0])
   const { data: statsData, loading } = useNetworkStats()
+
+  const { data: { totalCovered, totalLiquidity } } = useProtocolDayData()
+  const { data: userData } = useProtocolUsersData()
+
+  const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
+
+  const Components = useMemo(() => {
+    return {
+      'TVL Distribution': (
+        <div>
+          <AnalyticsStats loading={loading} statsData={statsData} />
+          <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
+        </div>
+      ),
+      Demand: <TotalCapacityChart data={totalCovered} />,
+      'Cover TVL': <TotalCapacityChart data={totalLiquidity} />,
+      'Top Accounts': <TopAccounts userData={userData} />
+    }
+  }, [loading, statsData, totalCovered, totalLiquidity, userData, TVLStats, tvlStatsLoading])
+
   return (
     <div>
       <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} loading={loading} statsData={statsData} />
-      {selected && selected.value === DROPDOWN_OPTIONS[0].value &&
-        <div>
-          <AnalyticsStats loading={loading} statsData={statsData} />
-          <AnalyticsTVLTable />
-        </div>}
+      {
+        selected && Components[selected.value] && Components[selected.value]
+      }
     </div>
   )
 }

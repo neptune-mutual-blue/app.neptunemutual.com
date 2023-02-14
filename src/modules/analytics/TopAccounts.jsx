@@ -1,5 +1,4 @@
 import { renderHeader } from '@/common/Table/renderHeader'
-import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
 import { convertFromUnits } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { t } from '@lingui/macro'
@@ -11,7 +10,7 @@ import { classNames } from '@/utils/classnames'
 const renderAccount = (row, _, rowIndex) => {
   return (
     <td
-      className='max-w-xs px-6 py-4.5 text-sm whitespace-nowrap text-01052D flex gap-2.5'
+      className='px-6 py-4.5 text-sm whitespace-nowrap text-01052D flex gap-2.5'
     >
       <span
         className={
@@ -75,8 +74,7 @@ const columns = [
   }
 ]
 
-export const TopAccounts = () => {
-  const { data } = useProtocolUsersData()
+export const TopAccounts = ({ userData = [] }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   const { locale } = useRouter()
 
@@ -92,7 +90,7 @@ export const TopAccounts = () => {
             locale
           }}
           columns={columns}
-          data={data.slice(0, 7)}
+          data={userData.slice(0, 7)}
         />
       </Table>
     </TableWrapper>
