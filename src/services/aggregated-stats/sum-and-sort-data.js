@@ -1,6 +1,6 @@
 const { sumOf } = require('@/utils/bn')
 
-const getSortedData = (data) => {
+const getCumulativeDataObject = (data) => {
   const obj = {}
 
   data.forEach(arr => {
@@ -17,6 +17,12 @@ const getSortedData = (data) => {
       })
     })
   })
+
+  return obj
+}
+
+const getCumulativeSortedData = (data) => {
+  const obj = getCumulativeDataObject(data)
 
   const finalObject = {}
   Object.keys(obj).forEach(key => {
@@ -35,4 +41,4 @@ const getSortedData = (data) => {
   return finalObject
 }
 
-export { getSortedData }
+export { getCumulativeSortedData }

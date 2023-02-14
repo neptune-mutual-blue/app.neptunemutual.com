@@ -2,7 +2,7 @@ import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
 import { getSubgraphData } from '@/src/services/subgraph'
 import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
-import { getSortedData } from '@/src/services/aggregated-stats/sort-data'
+import { getCumulativeSortedData } from '@/src/services/aggregated-stats/sum-and-sort-data'
 
 const query = `
 {
@@ -49,7 +49,7 @@ export async function getGroupedProtocolDayData (networkId) {
 
   const result = await Promise.all(promises)
 
-  const sortedData = getSortedData(result)
+  const sortedData = getCumulativeSortedData(result)
 
   return sortedData
 }

@@ -6,8 +6,11 @@ import { TableWrapper, TBody, THead, Table } from '@/common/Table/Table'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useRouter } from 'next/router'
 import { classNames } from '@/utils/classnames'
+import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 
-const renderAccount = (row, _, rowIndex) => {
+const renderAccount = (row, { page }, rowIndex) => {
+  const trueRowIndex = (rowIndex + 1) + ((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE)
+
   return (
     <td
       className='px-6 py-4.5 text-sm whitespace-nowrap text-01052D flex gap-2.5'
@@ -15,11 +18,11 @@ const renderAccount = (row, _, rowIndex) => {
       <span
         className={
           classNames('w-5 h-5 rounded-full shrink-0 flex items-center justify-center',
-            rowIndex < 3 ? 'bg-4e7dd9 text-white' : 'bg-DEEAF6 text-01052D'
+            trueRowIndex < 4 ? 'bg-4e7dd9 text-white' : 'bg-DEEAF6 text-01052D'
           )
         }
       >
-        {rowIndex + 1}
+        {trueRowIndex}
       </span> {row.id}
     </td>
   )
@@ -74,23 +77,26 @@ const columns = [
   }
 ]
 
-export const TopAccounts = ({ userData = [] }) => {
+export const TopAccounts = ({ userData = [], page = 1 }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   const { locale } = useRouter()
 
+  const paginatedData = userData.slice((page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE, (page - 1) * TOP_ACCOUNTS_ROWS_PER_PAGE + TOP_ACCOUNTS_ROWS_PER_PAGE)
+
   return (
-    <TableWrapper>
+    <TableWrapper className='mt-0'>
       <Table>
         <THead
           columns={columns}
         />
         <TBody
           extraData={{
+            page,
             liquidityTokenDecimals,
             locale
           }}
           columns={columns}
-          data={userData.slice(0, 7)}
+          data={paginatedData}
         />
       </Table>
     </TableWrapper>

@@ -87,7 +87,8 @@ const TotalCapacityChart = ({ data }) => {
       }
     ],
     chart: {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      height: '456px'
     },
     navigation: {
       buttonOptions: {
@@ -194,7 +195,7 @@ const TotalCapacityChart = ({ data }) => {
   }, [data, chartData.length, liquidityTokenDecimals])
 
   return (
-    <div data-testid='total-liquidity-chart'>
+    <div data-testid='total-liquidity-chart' className='h-full'>
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}

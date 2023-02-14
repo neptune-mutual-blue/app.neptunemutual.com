@@ -90,3 +90,5 @@ export const MAX_PROPOSAL_AMOUNT = 10_000_000
 
 export const MIN_LIQUIDITY = 10
 export const MAX_LIQUIDITY = 10_000_000
+
+export const TOP_ACCOUNTS_ROWS_PER_PAGE = 7

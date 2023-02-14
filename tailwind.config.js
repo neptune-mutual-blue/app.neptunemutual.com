@@ -47,7 +47,6 @@ module.exports = {
       xs: [
         '12px',
         {
-          letterSpacing: '0.05em',
           lineHeight: '24px'
         }
       ],
@@ -68,8 +67,7 @@ module.exports = {
     fontFamily: {
       poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
       sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      inter: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
       borderRadius: {
@@ -111,8 +109,7 @@ module.exports = {
         0.75: '0.175rem',
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
-        '25px': '25px',
-        '32px': '32px'
+        '25px': '25px'
       },
       lineHeight: {
         4.5: '18px',

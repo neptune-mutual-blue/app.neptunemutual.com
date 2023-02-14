@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
 import { AnalyticsTVLTable } from '@/src/modules/analytics/AnalyticsTVLTable'
@@ -8,6 +8,8 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { TopAccounts } from '@/modules/analytics/TopAccounts'
 import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
 import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
+import { ArrowButtons } from '@/modules/analytics/ArrowButtons'
+import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 
 const DROPDOWN_OPTIONS = [
   { label: 'TVL Distribution', value: 'TVL Distribution', type: 'option' },
@@ -32,25 +34,52 @@ export const AnalyticsContent = () => {
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
 
-  const Components = useMemo(() => {
-    return {
-      'TVL Distribution': (
+  const ReportLabels = (
+    <div className='text-sm leading-5 text-21AD8C'>
+      {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
+    </div>
+  )
+
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const Components = {
+    'TVL Distribution': {
+      render: () => (
         <div>
           <AnalyticsStats loading={loading} statsData={statsData} />
           <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
         </div>
-      ),
-      Demand: <TotalCapacityChart data={totalCovered} />,
-      'Cover TVL': <TotalCapacityChart data={totalLiquidity} />,
-      'Top Accounts': <TopAccounts userData={userData} />
+      )
+    },
+    Demand: {
+      render: () => <TotalCapacityChart data={totalCovered} />
+    },
+    'Cover TVL': {
+      render: () => <TotalCapacityChart data={totalLiquidity} />
+    },
+    'Top Accounts': {
+      render: () => <TopAccounts userData={userData} page={currentPage} />,
+      trailing: (
+        <ArrowButtons
+          onPrev={() => setCurrentPage(currentPage - 1)}
+          onNext={() => setCurrentPage(currentPage + 1)}
+          hasPrev={currentPage > 1}
+          hasNext={currentPage < (Math.abs(userData.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
+        />
+      )
     }
-  }, [loading, statsData, totalCovered, totalLiquidity, userData, TVLStats, tvlStatsLoading])
+  }
 
   return (
-    <div>
-      <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} loading={loading} statsData={statsData} />
+    <div className='flex flex-col h-full'>
+      <AnalyticsTitle
+        setSelected={setSelected}
+        selected={selected}
+        options={DROPDOWN_OPTIONS}
+        trailing={Components[selected.value].trailing ?? ReportLabels}
+      />
       {
-        selected && Components[selected.value] && Components[selected.value]
+        selected && Components[selected.value] && Components[selected.value].render()
       }
     </div>
   )

@@ -5,8 +5,7 @@ import {
   THead
 } from '@/common/Table/Table'
 
-import { useWeb3React } from '@web3-react/core'
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
@@ -20,7 +19,7 @@ const RenderNetwork = ({ LogoIcon, name }) => (
     className='px-6 py-4'
   >
     <div className='flex flex-row text-sm leading-5 text-01052D'>
-      <LogoIcon width='24' height='24' style={{ borderRadius: '50%', marginRight: '8px' }} />
+      <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
       <span> {name} </span>
     </div>
   </td>
@@ -66,7 +65,26 @@ const RenderCapacity = ({ capacity }) => {
   )
 }
 
-const RenderTVL = () => <td className='px-6 py-4 text-sm leading-5 text-right text-01052D'><i>N/A</i></td>
+const RenderTVL = ({ tvl }) => {
+  const router = useRouter()
+  const { liquidityTokenDecimals } = useAppConstants()
+
+  return (
+    <td
+      className='px-6 py-4 text-sm leading-5 text-right text-01052D'
+    >
+      <span>
+        {formatCurrency(
+          convertFromUnits(
+            tvl,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short}
+      </span>
+    </td>
+  )
+}
 const columns = [
   {
     name: t`Network`,
@@ -95,37 +113,23 @@ const columns = [
 ]
 
 export const AnalyticsTVLTable = ({ data, loading }) => {
-  const { account } = useWeb3React()
-
   return (
     <div>
-      <hr className='h-px border-0.5 border-B0C4DB' />
+      <hr className='h-px border-B0C4DB' />
 
       <div className='flex justify-between pt-10 flex-start pb-25px'>
         <div>
-          <h2> TVL Distribution </h2>
+          <h2 className='text-h3'>TVL Distribution </h2>
         </div>
       </div>
-      <TableWrapper>
+      <TableWrapper className='mt-0'>
         <Table>
           <THead columns={columns} />
-          {account
-            ? (
-              <TBody
-                isLoading={loading}
-                columns={columns}
-                data={data}
-              />
-              )
-            : (
-              <tbody>
-                <tr className='w-full text-center'>
-                  <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet</Trans>
-                  </td>
-                </tr>
-              </tbody>
-              )}
+          <TBody
+            isLoading={loading}
+            columns={columns}
+            data={data}
+          />
         </Table>
       </TableWrapper>
     </div>
