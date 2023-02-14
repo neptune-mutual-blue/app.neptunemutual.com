@@ -1,7 +1,7 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { AnalyticsDropdown } from '@/src/modules/analytics/AnalyticsDropdown'
 
-export const AnalyticsTitle = ({ options, selected, setSelected, statsData, loading }) => {
+export const AnalyticsTitle = ({ options, selected, setSelected, loading, trailing }) => {
   return (
     <div className='flex flex-start items-center justify-between pb-10'>
       <div className='flex'>
@@ -13,9 +13,7 @@ export const AnalyticsTitle = ({ options, selected, setSelected, statsData, load
           <AnalyticsDropdown options={options} setSelected={setSelected} selected={selected} icon={<ChevronDownIcon className='w-6 h-6' aria-hidden='true' />} />
         </div>
       </div>
-      <div className='text-21AD8C text-sm leading-5'>
-        {loading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
-      </div>
+      {trailing}
     </div>
   )
 }

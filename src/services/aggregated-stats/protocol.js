@@ -13,6 +13,15 @@ const query = `
 }
 `
 
+const protocolMonthCoverFeeQuery = `
+{
+  protocolMonthDatas {
+    id
+    nonCumulativeCoverFee
+  }
+}
+`
+
 async function getIndividualProtocolDayData (networkId) {
   const data = await getSubgraphData(
     networkId,
@@ -61,6 +70,58 @@ export async function getGroupedProtocolDayData (networkId) {
     prev.push({
       date: curr[0],
       totalCapacity: curr[1]
+    })
+
+    return prev
+  }, [])
+}
+
+async function getIndividualProtocolMonthData (networkId) {
+  const data = await getSubgraphData(
+    networkId,
+    protocolMonthCoverFeeQuery
+  )
+
+  if (!data) return
+
+  if (!Array.isArray(data.protocolMonthDatas) || !data.protocolMonthDatas.length) {
+    return
+  }
+
+  return data.protocolMonthDatas
+}
+
+export async function getGroupedProtocolMonthData (networkId) {
+  const { isMainNet } = getNetworkInfo(networkId)
+
+  const promises = []
+
+  for (const id in SUBGRAPH_API_URLS) {
+    const match = getNetworkInfo(parseInt(id)).isMainNet === isMainNet
+
+    if (!match) {
+      continue
+    }
+
+    promises.push(getIndividualProtocolMonthData(parseInt(id)))
+  }
+
+  const result = await Promise.all(promises)
+
+  const obj = {}
+
+  result.forEach(arr => {
+    arr.forEach(val => {
+      obj[val.id] = sumOf(val.nonCumulativeCoverFee, obj[val.id] || '0')
+    })
+  })
+
+  const sorted = Object.entries(obj).sort(([a], [b]) => parseInt(a) - parseInt(b))
+
+  return sorted.reduce((prev, curr) => {
+    prev.push({
+      id: curr[0],
+      nonCumulativeCoverFee: curr[1]
     })
 
     return prev

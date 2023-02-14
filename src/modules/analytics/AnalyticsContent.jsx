@@ -1,34 +1,89 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
-import { AnalyticsStats } from '@/src/modules/analytics/AnalyticsStats'
-import { AnalyticsTVLTable } from '@/src/modules/analytics/AnalyticsTVLTable'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
+import useCoverEarningAnalytics from '@/src/hooks/useCoverEarningAnalytics'
+import PreviousNext from '@/common/PreviousNext'
+import { AnalyticsStats } from '@/modules/analytics/AnalyticsStats'
+import { AnalyticsTVLTable } from '@/modules/analytics/AnalyticsTVLTable'
+import CoverEarning from '@/modules/analytics/CoverEarning'
 
-const DROPDOWN_OPTIONS = [
-  { label: 'TVL Distribution', value: 'TVL Distribution', type: 'option' },
-  { label: 'Quick Info', value: 'Quick Info', type: 'option' },
-  { label: 'Growth', value: 'Growth', type: 'label' },
-  { label: 'Demand', value: 'Demand', type: 'option' },
-  { label: 'Cover TVL', value: 'Cover TVL', type: 'option' },
-  { label: 'Pool TVL', value: 'Pool TVL', type: 'option' },
-  { label: 'Other Insights', value: 'Other Insights', type: 'label' },
-  { label: 'Top Accounts', value: 'Top Accounts', type: 'option' },
-  { label: 'Premium Earned', value: 'Premium Earned', type: 'option' },
-  { label: 'Cover Earnings', value: 'Cover Earnings', type: 'option' },
-  { label: 'In Consensus', value: 'In Consensus', type: 'option' }
-]
+const AllDropdownOptions = {
+  TVL_DISTRIBUTION: 'TVL Distribution',
+  QUICK_INFO: 'Quick Info',
+  GROWTH: 'Growth',
+  DEMAND: 'Demand',
+  COVER_TVL: 'Cover TVL',
+  POOL_TVL: 'Pool TVL',
+  OTHER_INSIGHTS: 'Other Insights',
+  TOP: 'Top Accounts',
+  PREMIUM: 'Premium Earned',
+  COVER_EARNINGS: 'Cover Earnings',
+  In: 'In Consensus'
+}
+
+const dropdownLabels = [AllDropdownOptions.GROWTH, AllDropdownOptions.OTHER_INSIGHTS]
+
+const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
+  label: value, value: value, type: dropdownLabels.includes(value) ? 'label' : 'option'
+}))
 
 export const AnalyticsContent = () => {
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS[0])
+  const [selectedValue, setSelectedValue] = useState(AllDropdownOptions.TVL_DISTRIBUTION)
+  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
+
+  useEffect(() => {
+    if (selected) {
+      setSelectedValue(selected.value)
+    }
+  }, [selected])
+
   const { data: statsData, loading } = useNetworkStats()
+
+  const { hasNext: coverEarningHasNext, hasPrevious: coverEarningHasPrevious, labels, onNext: onCoverEarningNext, onPrevious: onCoverEarningPrevious, yAxisData } = useCoverEarningAnalytics()
+
+  const getTrailingTitleComponent = () => {
+    switch (selectedValue) {
+      case AllDropdownOptions.TVL_DISTRIBUTION:
+        return (
+          <div className='text-21AD8C text-sm leading-5'>
+            {loading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
+          </div>
+        )
+      case AllDropdownOptions.COVER_EARNINGS:
+        return (
+          <PreviousNext onNext={onCoverEarningNext} onPrevious={onCoverEarningPrevious} hasNext={coverEarningHasNext} hasPrevious={coverEarningHasPrevious} />
+        )
+      default:
+        return null
+    }
+  }
+
+  const getAnalyticsComponent = () => {
+    switch (selectedValue) {
+      case AllDropdownOptions.TVL_DISTRIBUTION:
+        return (
+          <>
+            <AnalyticsStats loading={loading} statsData={statsData} />
+            <AnalyticsTVLTable />
+          </>
+        )
+      case AllDropdownOptions.COVER_EARNINGS:
+        return (
+          <CoverEarning labels={labels} yAxisData={yAxisData} />
+        )
+      default:
+        return null
+    }
+  }
+
   return (
-    <div>
-      <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} loading={loading} statsData={statsData} />
-      {selected && selected.value === DROPDOWN_OPTIONS[0].value &&
-        <div>
-          <AnalyticsStats loading={loading} statsData={statsData} />
-          <AnalyticsTVLTable />
-        </div>}
-    </div>
+    <>
+      <AnalyticsTitle setSelected={setSelected} selected={selected} options={DROPDOWN_OPTIONS} loading={loading} trailing={getTrailingTitleComponent()} />
+
+      <div>
+        {getAnalyticsComponent()}
+      </div>
+
+    </>
   )
 }
