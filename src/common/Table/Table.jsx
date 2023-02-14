@@ -10,11 +10,14 @@ export const Table = ({ children }) => {
   )
 }
 
-export const TableWrapper = ({ children, ...rest }) => {
+export const TableWrapper = ({ children, className = '', ...rest }) => {
   return (
     <>
       <div
-        className='relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl lg:overflow-hidden'
+        className={classNames(
+          'relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl xl:overflow-hidden',
+          className
+        )}
         {...rest}
       >
         {children}
@@ -115,7 +118,7 @@ export const TBody = ({
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
-                    {col.renderData(row, extraData)}
+                    {col.renderData(row, extraData, idx)}
                   </Fragment>
                 )
               })}

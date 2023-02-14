@@ -1,8 +1,8 @@
 import { useNetwork } from '@/src/context/Network'
-import { getGroupedProtocolDayData } from '@/src/services/aggregated-stats/protocol'
+import { getGroupedProtocolMonthData } from '@/src/services/aggregated-stats/protocol'
 import { useState, useEffect } from 'react'
 
-export const useProtocolDayData = () => {
+export const useProtocolMonthData = () => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -11,7 +11,7 @@ export const useProtocolDayData = () => {
   useEffect(() => {
     setLoading(true)
 
-    getGroupedProtocolDayData(networkId)
+    getGroupedProtocolMonthData(networkId)
       .then((_data) => {
         if (!_data) return
 
@@ -26,11 +26,7 @@ export const useProtocolDayData = () => {
   }, [networkId])
 
   return {
-    data: {
-      totalCapacity: data?.totalCapacity || [],
-      totalCovered: data?.totalCovered || [],
-      totalLiquidity: data?.totalLiquidity || []
-    },
+    data,
     loading
   }
 }

@@ -2,9 +2,13 @@ import DateLib from '@/lib/date/DateLib'
 
 const toObj = (data = []) => {
   const obj = {}
+  const objectKeys = Object.keys(data[0]).filter(k => k !== 'date')
 
   data.forEach(x => {
-    obj[x.date] = x.totalCapacity
+    obj[x.date] = {}
+    objectKeys.forEach(key => {
+      obj[x.date][key] = x[key]
+    })
   })
 
   return obj
@@ -14,26 +18,30 @@ export const getFilledData = (dailyData) => {
   const dataObj = toObj(dailyData)
   const startDateUnix = dailyData[0].date
 
+  const objectKeys = Object.keys(dailyData[0]).filter(k => k !== 'date')
+
   const filledData = []
 
   let dt = DateLib.fromUnix(startDateUnix)
-  let prev = '0'
+  const prev = {}
   while (dt < new Date()) {
     const unix = DateLib.toUnix(dt)
-    if (typeof dataObj[unix] !== 'undefined') {
-      filledData.push({
-        date: unix,
-        totalCapacity: dataObj[unix]
-      })
-      prev = dataObj[unix]
-    } else {
-      filledData.push({
-        date: unix,
-        totalCapacity: prev
-      })
+
+    const item = {
+      date: unix
     }
 
-    filledData.push()
+    objectKeys.forEach((key) => {
+      if (typeof dataObj[unix] !== 'undefined' && typeof dataObj[unix][key] !== 'undefined') {
+        item[key] = dataObj[unix][key]
+
+        prev[key] = dataObj[unix][key]
+      } else {
+        item[key] = prev[key] || '0'
+      }
+    })
+
+    filledData.push(item)
     dt = DateLib.addDays(dt, 1)
   }
 

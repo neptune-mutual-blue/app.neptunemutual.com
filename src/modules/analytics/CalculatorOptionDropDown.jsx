@@ -17,7 +17,7 @@ export const CalculatorOptionDropDown = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div className='relative w-full'>
-        <Listbox.Button className='relative w-full pt-18px pb-18px pl-18px bg-white border border-0.5 rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
+        <Listbox.Button className='relative w-full pt-4.5 pb-4.5 pl-4.5 bg-white border border-0.5 rounded-lg cursor-default border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
           <span className='flex items-center truncate text-01052D text-sm'>
             {prefix}
             <span className='ml-10px'>
