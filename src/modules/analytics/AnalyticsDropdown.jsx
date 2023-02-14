@@ -8,8 +8,6 @@ export const AnalyticsDropdown = ({
   icon,
   direction = 'right',
   loading = false,
-  labelClass = '',
-  buttonClass = '',
   selected,
   setSelected
 }) => {
