@@ -30,7 +30,7 @@ const getQuery = () => {
 
 export const useConsensusAnalytics = () => {
   const [data, setData] = useState({
-    incidentReports: [],
+    incidentReports: []
   })
   const [loading, setLoading] = useState(false)
 
@@ -44,8 +44,8 @@ export const useConsensusAnalytics = () => {
       .then((_data) => {
         if (!_data) return
 
-        setData((prev) => ({
-          incidentReports: _data.incidentReports,
+        setData(() => ({
+          incidentReports: _data.incidentReports
         }))
       })
       .catch((err) => {
@@ -58,8 +58,8 @@ export const useConsensusAnalytics = () => {
 
   return {
     data: {
-      incidentReports: data.incidentReports,
+      incidentReports: data.incidentReports
     },
-    loading,
+    loading
   }
 }

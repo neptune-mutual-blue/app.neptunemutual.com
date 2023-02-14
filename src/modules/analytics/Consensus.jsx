@@ -26,7 +26,7 @@ const renderStatus = (row) => {
   )
 }
 
-const renderAttestedStake = (row) => {
+const renderAttestedStake = () => {
   return (
     <td className='text-right'>
       <Badge className='rounded-full bg-21AD8C'>
@@ -36,7 +36,7 @@ const renderAttestedStake = (row) => {
   )
 }
 
-const renderRefutedStake = (row) => {
+const renderRefutedStake = () => {
   return (
     <td className='text-right'>
       <Badge className='rounded-full bg-FA5C2F'>
@@ -51,7 +51,7 @@ const columns = [
     name: t`cover`,
     align: 'left',
     renderHeader,
-    renderData: (row) => {
+    renderData: () => {
       return (
         <td
           className='max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'
