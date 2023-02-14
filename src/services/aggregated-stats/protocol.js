@@ -3,6 +3,7 @@ import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
 import { getSubgraphData } from '@/src/services/subgraph'
 import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
 import { getCumulativeSortedData } from '@/src/services/aggregated-stats/sum-and-sort-data'
+import { sumOf } from '@/utils/bn'
 
 const query = `
 {
