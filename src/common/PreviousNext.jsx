@@ -1,12 +1,15 @@
-import ChevronLeftLgIcon from '@/icons/ChevronLeftLgIcon'
-import ChevronRightLgIcon from '@/icons/ChevronRightLgIcon'
-import React from 'react'
+import ChevronDownIcon from '@/icons/ChevronDownIcon'
 
-function PreviousNext ({ onNext, onPrevious, hasPrevious, hasNext }) {
+const PreviousNext = ({ hasPrevious = true, hasNext = true, onPrevious = () => {}, onNext = () => {} }) => {
   return (
-    <div className='flex'>
-      <ChevronLeftLgIcon onClick={hasPrevious ? onPrevious : undefined} className='w-4 h-4 mr-5 cursor-pointer' stroke={hasPrevious ? 'black' : '#999BAB'} />
-      <ChevronRightLgIcon onClick={hasNext ? onNext : undefined} className='w-4 h-4 cursor-pointer' stroke={hasNext ? 'black' : '#999BAB'} />
+    <div className='flex items-center gap-2'>
+      <button disabled={!hasPrevious} onClick={onPrevious} className='disabled:text-999BAB disabled:cursor-not-allowed'>
+        <ChevronDownIcon className='w-4 h-4 transform rotate-90' />
+      </button>
+
+      <button disabled={!hasNext} onClick={onNext} className='disabled:text-999BAB disabled:cursor-not-allowed'>
+        <ChevronDownIcon className='w-4 h-4 transform -rotate-90' />
+      </button>
     </div>
   )
 }

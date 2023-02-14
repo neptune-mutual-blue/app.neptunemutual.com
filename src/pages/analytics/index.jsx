@@ -1,7 +1,5 @@
 
 import { Hero } from '@/common/Hero'
-import { ComingSoon } from '@/common/ComingSoon'
-import { isFeatureEnabled } from '@/src/config/environment'
 import { useRouter } from 'next/router'
 import { useWeb3React } from '@web3-react/core'
 import { logPageLoad } from '@/src/services/logs'
@@ -13,16 +11,7 @@ import { AnalyticsContent } from '@/modules/analytics/AnalyticsContent'
 import { Container } from '@/common/Container/Container'
 import { classNames } from '@/utils/classnames'
 
-/* istanbul ignore next */
-export function getStaticProps () {
-  return {
-    props: {
-      disabled: !isFeatureEnabled('pod-staking-pool')
-    }
-  }
-}
-
-export default function Analytics ({ disabled }) {
+export default function Analytics () {
   const { account, chainId } = useWeb3React()
   const router = useRouter()
 
@@ -30,15 +19,11 @@ export default function Analytics ({ disabled }) {
     analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
   }, [account, chainId, router.asPath])
 
-  if (disabled) {
-    return <ComingSoon />
-  }
-
   return (
     <main>
       <Seo />
       <Hero>
-        <Container className='flex flex-col-reverse justify-between py-10 md:py-16 md:px-10  md:flex-col-reverse md:px-6 lg:flex-row lg:py-28 lg:gap-32px lg:px-32px'>
+        <Container className='flex flex-col-reverse justify-between gap-8 py-10 md:py-16 md:px-6 md:flex-col-reverse lg:flex-row lg:py-28 lg:px-8'>
           <div className='grid grid-rows-[auto_1fr] w-full bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-10 border-0.5 border-B0C4DB'>
             <AnalyticsContent />
           </div>
