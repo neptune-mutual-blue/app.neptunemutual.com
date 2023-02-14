@@ -74,7 +74,7 @@ function useCoverEarningAnalytics () {
       }
       ).map(val => Number(convertFromUnits(val, liquidityTokenDecimals))))
     }
-  }, [data, dateRange])
+  }, [data, dateRange, liquidityTokenDecimals])
 
   const hasPrevious = useMemo(() => {
     if (data) {
