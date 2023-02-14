@@ -35,8 +35,8 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
 }))
 
 export const AnalyticsContent = () => {
-  const [selectedValue, setSelectedValue] = useState(AllDropdownOptions.TVL_DISTRIBUTION)
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
+  const [selectedValue, setSelectedValue] = useState(AllDropdownOptions.IN_CONSENSUS)
+  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.IN_CONSENSUS))
 
   useEffect(() => {
     if (selected) {
