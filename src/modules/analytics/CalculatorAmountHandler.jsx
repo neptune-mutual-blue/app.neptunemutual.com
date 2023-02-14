@@ -24,6 +24,7 @@ export const CalculatorAmountHandler = ({
 }) => {
   const ref = useRef(null)
   const [width, setWidth] = useState()
+  const [focus, setFocus] = useState(false)
   const [inputValue, setInputValue] = useState(inputProps.value ?? '')
   const { locale } = useRouter()
 
@@ -78,9 +79,12 @@ export const CalculatorAmountHandler = ({
             ? 'border-FA5C2F focus:outline-none focus-visible:ring-0 focus-visible:ring-FA5C2F'
             : 'border-B0C4DB focus:outline-none focus-visible:ring-0 focus-visible:ring-4e7dd9 border-0.5',
           inputFieldProps.className,
-          inputFieldProps.disabled && 'cursor-not-allowed'
+          inputFieldProps.disabled && 'cursor-not-allowed',
+          focus || inputValue ? 'text-01052D' : '9B9B9B'
         )}
         style={{ paddingRight: `${width || 64}px` }}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
       />
       <div className='absolute inset-y-0 right-0 flex px-0 my-0 mx-0 py-0' ref={ref}>
         {unit && (
