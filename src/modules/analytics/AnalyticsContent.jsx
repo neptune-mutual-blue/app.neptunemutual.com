@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
@@ -35,14 +35,7 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
 }))
 
 export const AnalyticsContent = () => {
-  const [selectedValue, setSelectedValue] = useState(AllDropdownOptions.TVL_DISTRIBUTION)
   const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
-
-  useEffect(() => {
-    if (selected) {
-      setSelectedValue(selected.value)
-    }
-  }, [selected])
 
   const { data: statsData, loading } = useNetworkStats()
 
@@ -68,7 +61,7 @@ export const AnalyticsContent = () => {
   )
 
   const getTrailingTitleComponent = () => {
-    switch (selectedValue) {
+    switch (selected.value) {
       case AllDropdownOptions.COVER_EARNINGS:
         return (
           <PreviousNext
@@ -93,7 +86,7 @@ export const AnalyticsContent = () => {
   }
 
   const getAnalyticsComponent = () => {
-    switch (selectedValue) {
+    switch (selected.value) {
       case AllDropdownOptions.TVL_DISTRIBUTION:
         return (
           <>
