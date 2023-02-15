@@ -211,7 +211,8 @@ module.exports = {
         667085: '#667085',
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
-        '4B7EE1': '#4B7EE1'
+        '4B7EE1': '#4B7EE1',
+        'EAF7F8': '#EAF7F8',
       },
       minHeight: {
         360: '360px',

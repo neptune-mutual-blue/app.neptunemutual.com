@@ -13,6 +13,7 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { TopAccounts } from '@/modules/analytics/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import Consensus from '@/modules/analytics/Consensus'
+import { AnalyticsQuickInfoTable } from './AnalyticsQuickInfoTable'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -92,6 +93,13 @@ export const AnalyticsContent = () => {
           <>
             <AnalyticsStats loading={loading} statsData={statsData} />
             <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
+          </>
+        )
+      case AllDropdownOptions.QUICK_INFO:
+        return (
+          <>
+            <AnalyticsStats loading={loading} statsData={statsData} />
+            <AnalyticsQuickInfoTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
       case AllDropdownOptions.DEMAND:
