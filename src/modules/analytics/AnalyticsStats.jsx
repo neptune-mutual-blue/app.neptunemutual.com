@@ -16,7 +16,7 @@ export const AnalyticsStats = ({ loading, statsData }) => {
 }
 
 const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
-  <div className='flex items-start justify-between pb-10 '>
+  <div className='flex items-start justify-between pb-6 lg:pb-10 flex-wrap gap-x-2 gap-y-4'>
     <StatsCard
       title='Total Capacity' value={
               formatCurrency(

@@ -110,7 +110,8 @@ module.exports = {
         0.75: '0.175rem',
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
-        '25px': '25px'
+        '25px': '25px',
+        '10px': '10px'
       },
       lineHeight: {
         4.5: '18px',
@@ -253,7 +254,8 @@ module.exports = {
         60: '60'
       },
       gridTemplateRows: {
-        'basket-modal': 'auto 1fr auto'
+        'basket-modal': 'auto 1fr auto',
+        'analytics-card': 'auto 1fr'
       }
     }
   },
