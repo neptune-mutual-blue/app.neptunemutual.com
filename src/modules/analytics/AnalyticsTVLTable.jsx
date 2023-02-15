@@ -5,8 +5,7 @@ import {
   THead
 } from '@/common/Table/Table'
 
-import { useWeb3React } from '@web3-react/core'
-import { t, Trans } from '@lingui/macro'
+import { t } from '@lingui/macro'
 
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
@@ -15,14 +14,12 @@ import { useAppConstants } from '@/src/context/AppConstants'
 
 import { renderHeader } from '@/src/common/Table/renderHeader'
 
-import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
-
 const RenderNetwork = ({ LogoIcon, name }) => (
   <td
-    className='px-6 py-6'
+    className='px-6 py-4'
   >
-    <div className='flex flex-row '>
-      <LogoIcon width='24' height='24' style={{ borderRadius: '50%', marginRight: '8px' }} />
+    <div className='flex flex-row text-sm leading-5 text-01052D'>
+      <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
       <span> {name} </span>
     </div>
   </td>
@@ -33,7 +30,7 @@ const RenderCover = ({ coverFee }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   return (
     <td
-      className='px-6 py-6'
+      className='px-6 py-4 text-sm leading-5 text-01052D'
     >
       <span>
         {formatCurrency(
@@ -53,7 +50,7 @@ const RenderCapacity = ({ capacity }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   return (
     <td
-      className='px-6 py-6'
+      className='px-6 py-4 text-sm leading-5 text-right text-01052D'
     >
       <span>
         {formatCurrency(
@@ -68,7 +65,26 @@ const RenderCapacity = ({ capacity }) => {
   )
 }
 
-const RenderTVL = () => <td />
+const RenderTVL = ({ tvl }) => {
+  const router = useRouter()
+  const { liquidityTokenDecimals } = useAppConstants()
+
+  return (
+    <td
+      className='px-6 py-4 text-sm leading-5 text-right text-01052D'
+    >
+      <span>
+        {formatCurrency(
+          convertFromUnits(
+            tvl,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short}
+      </span>
+    </td>
+  )
+}
 const columns = [
   {
     name: t`Network`,
@@ -90,46 +106,30 @@ const columns = [
   },
   {
     name: t`Capacity`,
-    align: 'left',
+    align: 'right',
     renderHeader,
     renderData: RenderCapacity
   }
 ]
 
-export const AnalyticsTVLTable = () => {
-  const { data: TVLStats, loading } = useFetchAnalyticsTVLStats()
-
-  const { account } = useWeb3React()
-
+export const AnalyticsTVLTable = ({ data, loading }) => {
   return (
     <div>
-      <hr className='h-px border-0.5 border-B0C4DB' />
+      <hr className='h-px border-B0C4DB' />
 
-      <div className='flex flex-start justify-between pt-10 pb-25px'>
+      <div className='flex justify-between pt-10 flex-start pb-25px'>
         <div>
-          <h2> TVL Distribution </h2>
+          <h2 className='text-h3'>TVL Distribution </h2>
         </div>
       </div>
-      <TableWrapper className='border-collapse rounded-2xl border-B0C4DB '>
+      <TableWrapper className='mt-0'>
         <Table>
-          <THead theadClass='bg-f6f7f9 text-black font-normal border-b-1 border-B0C4DB rounded-2xl text-404040' columns={columns} />
-          {account
-            ? (
-              <TBody
-                isLoading={loading}
-                columns={columns}
-                data={TVLStats}
-              />
-              )
-            : (
-              <tbody>
-                <tr className='w-full text-center'>
-                  <td className='p-6' colSpan={columns.length}>
-                    <Trans>Please connect your wallet</Trans>
-                  </td>
-                </tr>
-              </tbody>
-              )}
+          <THead columns={columns} />
+          <TBody
+            isLoading={loading}
+            columns={columns}
+            data={data}
+          />
         </Table>
       </TableWrapper>
     </div>

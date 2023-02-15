@@ -23,14 +23,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
   const router = useRouter()
 
   const [changeData, setChangeData] = useState(null)
-  const { data } = useProtocolDayData()
+  const { data: { totalCapacity } } = useProtocolDayData()
 
-  const currentCapacity = (data && data.length > 0) ? data[data.length - 1].totalCapacity : '0'
+  const currentCapacity = (totalCapacity && totalCapacity.length > 0) ? totalCapacity[totalCapacity.length - 1].value : '0'
 
   useEffect(() => {
-    if (data && data.length >= 2) {
-      const lastSecond = toBN(data[data.length - 2].totalCapacity)
-      const last = toBN(data[data.length - 1].totalCapacity)
+    if (totalCapacity && totalCapacity.length >= 2) {
+      const lastSecond = toBN(totalCapacity[totalCapacity.length - 2].value)
+      const last = toBN(totalCapacity[totalCapacity.length - 1].value)
 
       const diff =
         lastSecond.isGreaterThan(0) &&
@@ -40,14 +40,14 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
         diff: diff && diff.absoluteValue().toString(),
         rise: diff && diff.isGreaterThanOrEqualTo(0)
       })
-    } else if (data && data.length === 1) {
+    } else if (totalCapacity && totalCapacity.length === 1) {
       setChangeData({
-        last: toBN(data[0].totalCapacity).toString(),
+        last: toBN(totalCapacity[0].value).toString(),
         diff: null,
         rise: false
       })
     }
-  }, [data])
+  }, [totalCapacity])
 
   return (
     <Hero big>
@@ -186,7 +186,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
             className='flex-1 min-h-360'
             data-testid='liquidity-chart-wrapper'
           >
-            <TotalCapacityChart data={data} />
+            <TotalCapacityChart data={totalCapacity} />
           </div>
         </div>
       </Container>

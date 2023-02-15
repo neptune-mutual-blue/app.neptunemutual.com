@@ -87,7 +87,8 @@ const TotalCapacityChart = ({ data }) => {
       }
     ],
     chart: {
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      height: '456px'
     },
     navigation: {
       buttonOptions: {
@@ -162,11 +163,11 @@ const TotalCapacityChart = ({ data }) => {
 
     if (data) {
       const _chartData = []
-      data.forEach(({ date, totalCapacity }) => {
+      data.forEach(({ date, value }) => {
         _chartData.push({
           x: date * 1000,
           y: parseFloat(
-            convertFromUnits(totalCapacity, liquidityTokenDecimals).toString()
+            convertFromUnits(value, liquidityTokenDecimals).toString()
           )
         })
       })
@@ -194,7 +195,7 @@ const TotalCapacityChart = ({ data }) => {
   }, [data, chartData.length, liquidityTokenDecimals])
 
   return (
-    <div data-testid='total-liquidity-chart'>
+    <div data-testid='total-liquidity-chart' className='h-full'>
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}
