@@ -10,9 +10,8 @@ import AddCircleIcon from '@/icons/AddCircleIcon'
 import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import { useNetwork } from '@/src/context/Network'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
@@ -21,18 +20,9 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useStakingTxs } from '@/src/hooks/useStakingTxs'
 import DateLib from '@/lib/date/DateLib'
 import { getTokenImgSrc } from '@/src/helpers/token'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => (
   <td
@@ -49,11 +39,11 @@ const renderAmount = (row) => <PoolAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'createdAtTimestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -85,30 +75,24 @@ export const MyStakingTxsTable = () => {
 
   const { blockNumber, transactions } = data
 
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
+
+  const columns = getColumns(sorts, handleSort)
+
   return (
     <>
-      {blockNumber && (
-        <p className='mb-8 text-xs font-semibold text-right text-9B9B9B'>
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper>
         <Table>
-          <THead columns={columns} />
+          <THead
+            columns={columns}
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
+          />
           {account
             ? (
               <TBody
                 isLoading={loading}
                 columns={columns}
-                data={transactions}
+                data={sortedData}
               />
               )
             : (
@@ -121,7 +105,7 @@ export const MyStakingTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
+        {(hasMore && account) && (
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
@@ -145,7 +129,13 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Staked <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
+      textToShow: (
+        <Trans>Staked <TokenAmountSpan
+          className='text-sm leading-5 text-01052D'
+          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+                      />
+        </Trans>
+      )
     }
   }
   if (row.type === 'RewardsWithdrawn') {
@@ -158,7 +148,13 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Harvested <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
+      textToShow: (
+        <Trans>Harvested <TokenAmountSpan
+          className='text-sm leading-5 text-01052D'
+          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+                         />
+        </Trans>
+      )
     }
   }
   if (row.type === 'Withdrawn') {
@@ -171,7 +167,13 @@ const getAppropriateData = (row) => {
 
     return {
       ...data,
-      textToShow: <Trans>Withdrawn <TokenAmountSpan amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals} /></Trans>
+      textToShow: (
+        <Trans>Withdrawn <TokenAmountSpan
+          className='text-sm leading-5 text-01052D'
+          amountInUnits={data.amountToShow} symbol={data.symbol} decimals={data.tokenDecimals}
+                         />
+        </Trans>
+      )
     }
   }
 }
@@ -193,7 +195,7 @@ const DetailsRenderer = ({ row }) => {
               </div>
             </div>
             )}
-        <span className='pl-4 text-left whitespace-nowrap'>
+        <span className='pl-4 text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {data.textToShow}
 
         </span>
@@ -209,9 +211,9 @@ const PoolAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end w-full whitespace-nowrap'>
+      <div className='flex items-center justify-end w-full text-sm leading-6 whitespace-nowrap'>
         <TokenAmountSpan
-          className={row.type === 'Deposited' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'Deposited' ? 'text-01052D' : 'text-FA5C2F'}
           amountInUnits={
             data.amountToShow
           }
@@ -241,10 +243,10 @@ const ActionsRenderer = ({ row }) => {
 
   return (
     <td className='px-6 py-6 min-w-120'>
-      <div className='flex items-center justify-end'>
+      <div className='flex items-center justify-center gap-6'>
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>

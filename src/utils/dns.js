@@ -35,14 +35,3 @@ export const detectChainId = (host = '') => {
       return process.env.NEXT_PUBLIC_FALLBACK_NETWORK || '43113'
   }
 }
-
-export const validateHost = () => {
-  if (typeof window !== 'undefined' && (process.env.NEXT_PUBLIC_DNS || '')
-    .split(',')
-    .map(x => x.trim())
-    .indexOf(window.location.hostname) === -1) {
-    return false
-  }
-
-  return true
-}

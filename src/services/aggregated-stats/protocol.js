@@ -10,7 +10,7 @@ const query = `
     date
     totalCapacity
   }
-}              
+}
 `
 
 async function getIndividualProtocolDayData (networkId) {
@@ -36,13 +36,13 @@ export async function getGroupedProtocolDayData (networkId) {
   const promises = []
 
   for (const id in SUBGRAPH_API_URLS) {
-    if (isMainNet && getNetworkInfo(parseInt(id)).isMainNet) {
-      promises.push(getIndividualProtocolDayData(parseInt(id)))
+    const match = getNetworkInfo(parseInt(id)).isMainNet === isMainNet
+
+    if (!match) {
+      continue
     }
 
-    if (!isMainNet && !getNetworkInfo(parseInt(id)).isMainNet) {
-      promises.push(getIndividualProtocolDayData(parseInt(id)))
-    }
+    promises.push(getIndividualProtocolDayData(parseInt(id)))
   }
 
   const result = await Promise.all(promises)

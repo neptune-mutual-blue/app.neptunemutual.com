@@ -311,7 +311,7 @@ export const ProvideLiquidityForm = ({ coverKey, info, isDiversified, underwritt
           tokenSymbol={liquidityTokenSymbol}
           tokenDecimals={liquidityTokenDecimals}
           tokenBalance={myStablecoinBalance || '0'}
-          inputId='dai-amount'
+          inputId='stablecoin-amount'
           inputValue={lqValue}
           disabled={lqApproving || providing}
         >

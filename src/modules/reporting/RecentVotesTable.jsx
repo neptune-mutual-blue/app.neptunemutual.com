@@ -1,4 +1,3 @@
-import * as Tooltip from '@radix-ui/react-tooltip'
 import {
   Table,
   TableShowMore,
@@ -19,24 +18,13 @@ import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
-import ClockIcon from '@/icons/ClockIcon'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm tracking-wider uppercase',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { renderHeader } from '@/common/Table/renderHeader'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
 const renderAccount = (row) => (
-  <td className='px-6 py-6'>
+  <td className='px-6 py-6 text-sm leading-5 text-01052D'>
     <span className='whitespace-nowrap'>{row.witness}</span>
   </td>
 )
@@ -45,11 +33,11 @@ const renderAmount = (row) => <AmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -84,6 +72,18 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   const { transactions } = data
 
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
+
+  const columns = getColumns(sorts, handleSort)
+
+  const Title = () => (
+    <p
+      className='font-semibold w-max text-h5 text-1D2939'
+    >
+      <Trans>Recent Votes</Trans>
+    </p>
+  )
+
   return (
     <>
       <h3 className='mb-6 font-bold text-center text-h4 font-sora mt-14 md:text-left'>
@@ -92,11 +92,14 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
       <TableWrapper>
         <Table>
-          <THead columns={columns} />
+          <THead
+            columns={columns}
+            title={<Title />}
+          />
           <TBody
             isLoading={loading}
             columns={columns}
-            data={transactions}
+            data={sortedData}
           />
         </Table>
         {hasMore && (
@@ -117,7 +120,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 w-max whitespace-nowrap'
+      className='max-w-xs px-6 py-6 text-sm leading-5 w-max whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -139,7 +142,7 @@ const AmountRenderer = ({ row }) => {
           )}
         />
         <div
-          className='text-right'
+          className='text-sm leading-6 text-right text-01052D'
           title={
             formatCurrency(
               convertFromUnits(row.stake),
@@ -165,34 +168,10 @@ const AmountRenderer = ({ row }) => {
 
 const ActionsRenderer = ({ row }) => {
   const { networkId } = useNetwork()
-  const router = useRouter()
 
   return (
     <td className='px-6 py-6 min-w-60'>
       <div className='flex items-center justify-end'>
-        {/* Tooltip */}
-        <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
-            <span className='sr-only'>
-              <Trans>Timestamp</Trans>
-            </span>
-            <ClockIcon className='w-4 h-4' />
-          </Tooltip.Trigger>
-
-          <Tooltip.Content side='top'>
-            <div className='max-w-sm p-3 text-sm leading-6 text-white bg-black rounded-xl'>
-              <p>
-                {DateLib.toLongDateFormat(
-                  row.transaction.timestamp,
-                  router.locale,
-                  'UTC'
-                )}
-              </p>
-            </div>
-            <Tooltip.Arrow offset={16} className='fill-black' />
-          </Tooltip.Content>
-        </Tooltip.Root>
-
         <a
           href={getTxLink(networkId, { hash: row.transaction.id })}
           target='_blank'

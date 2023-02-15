@@ -110,7 +110,7 @@ const PurchasePolicyStep = ({
         <p className='font-semibold tracking-wider uppercase'><Trans>You will Receive:</Trans></p>
         <p className='flex items-center'>
           {formatCurrency(value, router.locale, 'cx' + liquidityTokenSymbol, true).long} (Claimable {liquidityTokenSymbol} Token)
-          <CxDaiToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
+          <CxUsdToolTip liquidityTokenSymbol={liquidityTokenSymbol} coverName={coverName} />
         </p>
       </div>
 
@@ -314,7 +314,7 @@ const PurchasePolicyStep = ({
 
 export default PurchasePolicyStep
 
-const CxDaiToolTip = ({ liquidityTokenSymbol, coverName }) => {
+const CxUsdToolTip = ({ liquidityTokenSymbol, coverName }) => {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger className='p-0.5'>

@@ -12,9 +12,8 @@ import ClockIcon from '@/icons/ClockIcon'
 import OpenInNewIcon from '@/icons/OpenInNewIcon'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
-import { classNames } from '@/utils/classnames'
 import { useWeb3React } from '@web3-react/core'
-import { getBlockLink, getTxLink } from '@/lib/connect-wallet/utils/explorer'
+import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -25,21 +24,11 @@ import { usePagination } from '@/src/hooks/usePagination'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { Fragment } from 'react'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { LastSynced } from '@/common/LastSynced'
+import { renderHeader } from '@/common/Table/renderHeader'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -49,11 +38,11 @@ const renderAmount = (row) => <PodAmountRenderer row={row} />
 
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-export const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'transaction.timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -87,34 +76,26 @@ export const MyLiquidityTxsTable = () => {
   const { account } = useWeb3React()
 
   const { blockNumber, transactions } = data
+
+  const { sorts, handleSort, sortedData } = useSortData({ data: transactions })
+
+  const columns = getColumns(sorts, handleSort)
   return (
     <>
-      {blockNumber && (
-        <p
-          className='mb-8 text-xs font-semibold text-right text-9B9B9B'
-          data-testid='block-number'
-        >
-          <Trans>LAST SYNCED:</Trans>{' '}
-          <a
-            href={getBlockLink(networkId, blockNumber)}
-            target='_blank'
-            rel='noreferrer noopener nofollow'
-            className='pl-1 text-4e7dd9'
-          >
-            #{blockNumber}
-          </a>
-        </p>
-      )}
       <TableWrapper data-testid='table-wrapper'>
         <Table>
-          <THead columns={columns} data-testid='table-head' />
+          <THead
+            columns={columns}
+            data-testid='table-head'
+            title={<LastSynced blockNumber={blockNumber} networkId={networkId} />}
+          />
           {account
             ? (
-              <TBody isLoading={loading} columns={columns} data={transactions} />
+              <TBody isLoading={loading} columns={columns} data={sortedData} />
               )
             : (
               <tbody data-testid='no-account-message'>
-                <tr className='w-full text-center'>
+                <tr className='w-full text-center first'>
                   <td className='p-6' colSpan={columns.length}>
                     <Trans>Please connect your wallet</Trans>
                   </td>
@@ -122,7 +103,7 @@ export const MyLiquidityTxsTable = () => {
               </tbody>
               )}
         </Table>
-        {hasMore && (
+        {(hasMore && account) && (
           <TableShowMore
             isLoading={loading}
             onShowMore={() => {
@@ -140,7 +121,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='max-w-xs px-6 py-6 whitespace-nowrap'
+      className='max-w-xs px-6 py-6 text-sm leading-5 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.transaction.timestamp, router.locale)}
     >
       {fromNow(row.transaction.timestamp)}
@@ -172,14 +153,14 @@ const DetailsRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6'>
-      <div className='flex items-center w-max'>
+      <div className='flex items-center gap-1 w-max'>
         <CoverAvatar
           coverInfo={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
-          small
+          size='xs'
         />
-        <span className='pl-4 text-left whitespace-nowrap'>
+        <span className='text-sm leading-5 text-left whitespace-nowrap text-01052D'>
           {row.type === 'PodsIssued'
             ? (
               <Trans>
@@ -206,9 +187,9 @@ const PodAmountRenderer = ({ row }) => {
 
   return (
     <td className='max-w-sm px-6 py-6 text-right'>
-      <div className='flex items-center justify-end whitespace-nowrap'>
+      <div className='flex items-center justify-end text-sm leading-6 whitespace-nowrap'>
         <span
-          className={row.type === 'PodsIssued' ? 'text-404040' : 'text-FA5C2F'}
+          className={row.type === 'PodsIssued' ? 'text-01052D' : 'text-FA5C2F'}
           title={
             formatCurrency(
               convertFromUnits(row.podAmount, tokenDecimals),
@@ -245,11 +226,11 @@ const ActionsRenderer = ({ row }) => {
   const router = useRouter()
 
   return (
-    <td className='px-6 py-6 min-w-120'>
-      <div className='flex items-center justify-end'>
+    <td className='w-48 px-6 py-6 min-w-120'>
+      <div className='flex items-center justify-center gap-6'>
         {/* Tooltip */}
         <Tooltip.Root>
-          <Tooltip.Trigger className='p-1 mr-4 text-9B9B9B'>
+          <Tooltip.Trigger className='p-1 mr-4 text-01052D'>
             <span className='sr-only'>
               <Trans>Timestamp</Trans>
             </span>

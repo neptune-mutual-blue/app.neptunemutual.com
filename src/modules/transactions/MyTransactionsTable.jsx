@@ -22,36 +22,25 @@ import { LSHistory } from '@/src/services/transactions/history'
 import {
   TransactionHistory
 } from '@/src/services/transactions/transaction-history'
-import { classNames } from '@/utils/classnames'
 import { fromNow } from '@/utils/formatter/relative-time'
 import {
   t,
   Trans
 } from '@lingui/macro'
 import { useWeb3React } from '@web3-react/core'
-
-const renderHeader = (col) => (
-  <th
-    scope='col'
-    className={classNames(
-      'px-6 py-6 font-bold text-sm uppercase whitespace-nowrap',
-      col.align === 'right' ? 'text-right' : 'text-left'
-    )}
-  >
-    {col.name}
-  </th>
-)
+import { renderHeader } from '@/common/Table/renderHeader'
+import { useSortData } from '@/src/hooks/useSortData'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 const renderDetails = (row) => <DetailsRenderer row={row} />
 const renderAmount = (row) => <AmountRenderer row={row} />
 const renderActions = (row) => <ActionsRenderer row={row} />
 
-const columns = [
+export const getColumns = (sorts = {}, handleSort = () => {}) => [
   {
     name: t`when`,
     align: 'left',
-    renderHeader,
+    renderHeader: (col) => renderHeader(col, 'timestamp', sorts, handleSort),
     renderData: renderWhen
   },
   {
@@ -90,6 +79,10 @@ const MyTransactionsTable = () => {
 
   const { account } = useWeb3React()
   const { networkId } = useNetwork()
+
+  const { sorts, handleSort, sortedData } = useSortData({ data: listOfTransactions })
+
+  const columns = getColumns(sorts, handleSort)
 
   useEffect(() => {
     if (!networkId || !account) {
@@ -145,7 +138,7 @@ const MyTransactionsTable = () => {
             ? (
               <TBody
                 columns={columns}
-                data={listOfTransactions}
+                data={sortedData}
               />
               )
             : (
@@ -179,7 +172,7 @@ const WhenRenderer = ({ row }) => {
 
   return (
     <td
-      className='px-6 py-6 w-52 whitespace-nowrap'
+      className='px-6 py-6 text-sm leading-5 w-52 whitespace-nowrap text-01052D'
       title={DateLib.toLongDateFormat(row.timestamp / 1000, router.locale)}
       data-testid='timestamp-col'
     >
@@ -199,7 +192,7 @@ const DetailsRenderer = ({ row }) => {
   )
 
   return (
-    <td className='w-auto px-6 py-6' data-testid='details-col'>
+    <td className='w-auto px-6 py-6 text-sm leading-5 text-01052D' data-testid='details-col'>
       <div className='flex items-center gap-5'>
         <div>{convertToIconVariant(row.status)}</div>
         <p>{title}</p>
@@ -219,7 +212,7 @@ const AmountRenderer = ({ row }) => {
   )
 
   return (
-    <td className='max-w-sm px-6 py-6 text-right min-w-120' data-testid='col-amount'>
+    <td className='max-w-sm px-6 py-6 text-sm leading-6 text-right min-w-120 text-01052D' data-testid='col-amount'>
       <p>{description}</p>
     </td>
   )
@@ -234,13 +227,13 @@ const ActionsRenderer = ({ row }) => {
   }
 
   return (
-    <td className='w-20 px-6 py-6' data-testid='col-actions'>
-      <div className='flex items-center justify-end'>
+    <td className='w-48 px-6 py-6' data-testid='col-actions'>
+      <div className='flex items-center justify-center gap-6'>
         <a
           href={getTxLink(networkId, { hash: row.hash })}
           target='_blank'
           rel='noreferrer noopener nofollow'
-          className='p-1 text-black'
+          className='p-1 text-01052D'
           title='Open in explorer'
           onClick={handleLinkClick}
         >

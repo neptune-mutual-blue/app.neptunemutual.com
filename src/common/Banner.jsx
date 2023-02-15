@@ -57,8 +57,6 @@ export const Banner = () => {
                         <a
                           className='underline'
                           href={ARBITRUM_APP_URL}
-                          target='_blank'
-                          rel='noopener noreferrer'
                         >
                           Use Neptune Mutual on Arbitrum
                         </a>
@@ -72,8 +70,6 @@ export const Banner = () => {
                         <a
                           className='underline'
                           href={ETHEREUM_APP_URL}
-                          target='_blank'
-                          rel='noopener noreferrer'
                         >
                           Use Neptune Mutual on Ethereum
                         </a>{' '}

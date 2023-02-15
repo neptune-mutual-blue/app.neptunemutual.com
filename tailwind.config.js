@@ -63,12 +63,13 @@ module.exports = {
       xxl: '40px',
       'receipt-info': ['24px', '36px'],
       md: ['20px', '23px'],
-      badge: ['11px', '13px']
+      badge: ['11px', '13px'],
     },
     fontFamily: {
       poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
       sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      inter: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
     },
     extend: {
       borderRadius: {
@@ -80,19 +81,22 @@ module.exports = {
       },
       borderWidth: {
         0.5: '0.5px',
-        1.5: '1.5px'
+        1.5: '1.5px',
       },
       boxShadow: {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
-        coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)'
+        coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
+        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
       },
       flex: {
         2: '2 2 0%'
       },
       spacing: {
         /* 72px */
+        4.5: '18px',
         '9px': '9px',
+        8.5: '34px',
         9.5: '38px',
         13: '52px',
         42: '168px',
@@ -105,10 +109,14 @@ module.exports = {
         '15%': '15%',
         '80%': '80%',
         0.75: '0.175rem',
-        dropdown: 'calc(100% + 8px)'
+        dropdown: 'calc(100% + 8px)',
+        /* For analytics segment, implementing the spacing */
+        '25px': '25px',
+        '32px': '32px',
       },
       lineHeight: {
         4.5: '18px',
+        7.5: '30px',
         '53px': '53px'
       },
       maxWidth: {
@@ -129,6 +137,7 @@ module.exports = {
         5: '5px',
         60: '60px',
         120: '120px',
+        205: '205px',
         250: '250px',
         300: '300px',
         345: '345px',
@@ -199,7 +208,11 @@ module.exports = {
         F3F5F7: '#F3F5F7',
         D9D9D9: '#D9D9D9',
         '5E6C83': '#5E6C83',
-        '1D9AEE': '#1D9AEE'
+        '1D9AEE': '#1D9AEE',
+        667085: '#667085',
+        '1D2939': '#1D2939',
+        F9FAFA: '#F9FAFA',
+        '4B7EE1': '#4B7EE1',
       },
       minHeight: {
         360: '360px',
