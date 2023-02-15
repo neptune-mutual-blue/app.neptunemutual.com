@@ -29,6 +29,9 @@ function getIosCsp () {
 function addCommonHeaders (res, req) {
   res.headers.set('Pragma', 'no-cache')
 
+  res.headers.set('ua-1', req.headers.get('User-Agent'))
+  res.headers.set('ua-2', req.headers.get('user-agent'))
+
   const parser = new UAParser(req.headers.get('User-Agent'))
   if (parser.getOS().name === 'iOS') {
     res.headers.set('Content-Security-Policy', getIosCsp())
