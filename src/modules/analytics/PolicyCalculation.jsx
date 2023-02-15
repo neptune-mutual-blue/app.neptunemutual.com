@@ -1,4 +1,4 @@
-import RightPointerSideIcon from '@/icons/RightPointerSideIcon'
+import ArrowRight from '@/icons/ArrowRight'
 import { actions } from '@/src/config/cover/actions'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { isValidProduct } from '@/src/helpers/cover'
@@ -9,10 +9,8 @@ import { useRouter } from 'next/router'
 export const PolicyCalculation = ({
   feeData,
   loading,
-  linkDisabled,
   selected,
-  amount,
-  coverMonth
+  amount
 }) => {
   const router = useRouter()
   const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
@@ -32,13 +30,12 @@ export const PolicyCalculation = ({
       isValidProduct(selected?.productKey) ? selected?.productKey : ''
     )
 
-    router.push({
-      pathname: link,
-      query: {
-        amount,
-        month: coverMonth
-      }
-    })
+    const routerObject = {
+      pathname: link
+    }
+
+    if (amount) routerObject.query = { amount }
+    router.push(routerObject)
   }
 
   return (
@@ -65,9 +62,9 @@ export const PolicyCalculation = ({
           <button
             className='flex items-center gap-1 px-0 py-0 mx-0 my-0 text-sm font-bold leading-5 text-4B7EE1 disabled:cursor-not-allowed'
             onClick={handleBuyCover}
-            disabled={linkDisabled}
+            disabled={!selected}
           >
-            Buy Cover <RightPointerSideIcon className='w-4 h-4' />
+            Buy Cover <ArrowRight className='w-4 h-4' />
           </button>
         </div>
       </div>

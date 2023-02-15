@@ -29,6 +29,7 @@ export const calculateCoverPolicyFee = async ({
   const signerOrProvider = await getProviderOrSigner(library, account, networkId)
 
   let returnData = defaultInfo
+  let err = null
 
   try {
     const policyContractAddress = await registry.PolicyContract.getAddress(
@@ -73,7 +74,12 @@ export const calculateCoverPolicyFee = async ({
     }
 
     returnData = data
-  } catch {}
+  } catch (error) {
+    err = error
+  }
 
-  return returnData
+  return {
+    data: returnData,
+    error: err
+  }
 }

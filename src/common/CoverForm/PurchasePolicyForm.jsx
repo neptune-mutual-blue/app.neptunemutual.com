@@ -121,26 +121,10 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
     productKey
   })
 
-  function areValidQueries (query) {
-    if (!query.amount || !query.month) return false
-
-    const { amount, month } = query
-    if (
-      Number(amount) &&
-      Number(month) && Number(month) > 0 && Number(month) <= 3
-    ) return true
-
-    return false
-  }
-
   useEffect(() => {
-    if (!areValidQueries(router.query)) return
-
-    const { amount, month } = router.query
-    if (typeof amount === 'string' && typeof month === 'string') {
+    const { amount } = router.query
+    if (typeof amount === 'string' && Number(amount)) {
       setValue(amount)
-      setCoverMonth(month)
-      setFormSteps(3)
     }
   }, [router.query])
 

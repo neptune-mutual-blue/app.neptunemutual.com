@@ -26,7 +26,7 @@ export const Alert = ({ children, info = undefined, className = '', closable = f
             aria-hidden='true'
           />
         </div>
-        <p className='flex-1 ml-3'>{children}</p>
+        <div className='flex-1 ml-3'>{children}</div>
         {closable
           ? <button
               type='button'

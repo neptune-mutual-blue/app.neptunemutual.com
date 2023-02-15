@@ -34,27 +34,45 @@ export const CalculatorOptionDropDown = ({
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Listbox.Options className='absolute z-30 w-full px-8 py-8 mt-2 overflow-auto text-base bg-white border shadow-lg border-B0C4DB shadow-lightCard rounded-2xl max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none'>
-            {options.map((option, optionIdx) => (
-              <Listbox.Option
-                key={optionIdx}
-                id='reporting-dropdown'
-                className={({ active }) =>
-                  classNames(
-                    'cursor-pointer select-none relative px-1',
-                    active ? 'text-4e7dd9' : 'text-black'
-                  )}
-                value={option}
-              >
-                {({ selected: _selected, active }) => (
+          <Listbox.Options className='absolute z-30 w-full px-8 py-6 mt-2 overflow-auto text-base bg-white border shadow-lg border-B0C4DB shadow-lightCard rounded-2xl max-h-80 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+            {
+              selected && (
+                <Listbox.Option
+                  className='relative px-1 cursor-pointer select-none text-4e7dd9'
+                  value={selected}
+                >
                   <DropdownOption
-                    active={active}
-                    option={option}
-                    selected={_selected}
+                    active
+                    option={selected}
+                    selected={selected}
                   />
-                )}
-              </Listbox.Option>
-            ))}
+                </Listbox.Option>
+              )
+            }
+
+            {
+              selected && options.filter(opt => opt.id !== selected.id)
+                .map((option, optionIdx) => (
+                  <Listbox.Option
+                    key={optionIdx}
+                    id='reporting-dropdown'
+                    className={({ active }) =>
+                      classNames(
+                        'cursor-pointer select-none relative px-1',
+                        active ? 'text-4e7dd9' : 'text-black'
+                      )}
+                    value={option}
+                  >
+                    {({ selected: _selected, active }) => (
+                      <DropdownOption
+                        active={active}
+                        option={option}
+                        selected={_selected}
+                      />
+                    )}
+                  </Listbox.Option>
+                ))
+            }
           </Listbox.Options>
         </Transition>
       </div>
@@ -74,11 +92,11 @@ const DropdownOption = ({ option, selected, active }) => {
     <>
       <span
         className={classNames(
-          'truncate px-2 py-2 flex items-center text-sm leading-5',
+          'truncate p-2 flex items-center text-sm leading-5 gap-1 overflow-hidden',
           active ? 'bg-EEEEEE bg-opacity-50 rounded-lg' : ''
         )}
       >
-        <div className='w-8 h-8 p-1 mr-2 rounded-full'>
+        <div className='w-8 h-8 p-1 rounded-full shrink-0'>
           <img
             src={getCoverImgSrc({
               key: isDiversified ? option.productKey : option.coverKey
@@ -88,10 +106,14 @@ const DropdownOption = ({ option, selected, active }) => {
             }
           />
         </div>
-        {coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName}
-        {selected && <CheckBlue className='absolute h-6 mr-2 right-2 text-4e7dd9' />}
+
+        <span className='overflow-hidden truncate'>
+          {coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName}
+        </span>
+
+        {selected && <CheckBlue className='h-6 ml-auto text-4e7dd9 shrink-0' />}
       </span>
-      {selected && <hr className='h-px border-0 bg-B0C4DB dark:bg-B0C4DB' />}
+      {selected && <hr className='h-px my-2 border-0 bg-B0C4DB dark:bg-B0C4DB' />}
     </>
   )
 }
