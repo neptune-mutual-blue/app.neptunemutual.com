@@ -89,25 +89,25 @@ const columns = [
   {
     name: t`Network`,
     align: 'left',
-    renderHeader,
+    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
     renderData: RenderNetwork
   },
   {
     name: t`Cover Fee Earned`,
     align: 'left',
-    renderHeader,
+    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
     renderData: RenderCover
   },
   {
     name: t`TVL`,
     align: 'right',
-    renderHeader,
+    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
     renderData: RenderTVL
   },
   {
     name: t`Capacity`,
     align: 'right',
-    renderHeader,
+    renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
     renderData: RenderCapacity
   }
 ]
@@ -124,7 +124,7 @@ export const AnalyticsTVLTable = ({ data, loading }) => {
       </div>
       <TableWrapper className='mt-0'>
         <Table>
-          <THead theadClass='bg-f6f7f9 text-999BAB lg:text-404040' columns={columns} />
+          <THead theadClass='bg-f6f7f9' columns={columns} />
           <TBody
             isLoading={loading}
             columns={columns}
