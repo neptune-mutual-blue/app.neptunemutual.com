@@ -14,7 +14,7 @@ import { isValidProduct } from '@/src/helpers/cover'
 import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
 import { useWeb3React } from '@web3-react/core'
 
-export const CalculatorCard = ({ approving, purchasing }) => {
+export const CalculatorCard = () => {
   const { account, library } = useWeb3React()
 
   const {
@@ -75,15 +75,14 @@ export const CalculatorCard = ({ approving, purchasing }) => {
           buttonProps={{
             children: t`Max`,
             onClick: () => {},
-            disabled: approving || purchasing,
             buttonClassName: 'hidden'
           }}
           unit={liquidityTokenSymbol}
           inputProps={{
             id: 'cover-amount',
-            disabled: approving || purchasing,
             placeholder: t`Enter Amount`,
             value: amount,
+            disabled: resultLoading,
             onChange: handleChange,
             allowNegativeValue: false
           }}
@@ -91,13 +90,17 @@ export const CalculatorCard = ({ approving, purchasing }) => {
       </div>
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Set expiry' />
-        <DateRangePicker handleRadioChange={handleRadioChange} coverMonth={coverMonth} approving={approving} purchasing={purchasing} />
+        <DateRangePicker
+          handleRadioChange={handleRadioChange}
+          coverMonth={coverMonth}
+          disabled={resultLoading}
+        />
       </div>
 
       <div className='pb-4 lg:pb-7'>
         <button
           type='button'
-          disabled={!amount || !coverMonth}
+          disabled={!amount || !coverMonth || resultLoading || !account}
           className={classNames(
             'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
             buttonBg,
