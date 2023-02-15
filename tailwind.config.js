@@ -254,7 +254,8 @@ module.exports = {
         60: '60'
       },
       gridTemplateRows: {
-        'basket-modal': 'auto 1fr auto'
+        'basket-modal': 'auto 1fr auto',
+        'analytics-card': 'auto 1fr'
       }
     }
   },

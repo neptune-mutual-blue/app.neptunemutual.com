@@ -15,7 +15,7 @@ export const TableWrapper = ({ children, className = '', ...rest }) => {
     <>
       <div
         className={classNames(
-          'relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl xl:overflow-hidden',
+          'relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl',
           className
         )}
         {...rest}
@@ -53,8 +53,8 @@ export const TableTitle = ({
   }
 
   return (
-    <tr className='bg-FEFEFF'>
-      <th className='px-6 py-5' colSpan={columns.length}>{title}</th>
+    <tr className='bg-FEFEFF text-999BAB lg:text-404040 '>
+      <th className='px-6 py-5 text-999BAB lg:text-404040' colSpan={columns.length}>{title}</th>
     </tr>
   )
 }

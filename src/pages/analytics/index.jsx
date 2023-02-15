@@ -23,8 +23,8 @@ export default function Analytics () {
     <main>
       <Seo />
       <Hero>
-        <Container className='flex flex-col-reverse justify-between gap-8 py-10 md:py-16 md:px-6 md:flex-col-reverse lg:flex-row lg:py-28 lg:px-8'>
-          <div className='grid grid-rows-[auto_1fr] w-full bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-10 border-0.5 border-B0C4DB'>
+        <Container className='flex flex-col justify-between py-8 px-4 gap-8 lg:gap-8 py-10 md:py-16 md:px-6 md:flex-col-reverse lg:flex-row lg:py-28 lg:px-8'>
+          <div className='grid grid-cols-1 grid-rows-analytics-card w-full bg-white rounded-2xl shadow-homeCard px-4 py-4 lg:p-10 border-0.5 border-B0C4DB'>
             <AnalyticsContent />
           </div>
           <div className={classNames('-mt-4 mb-4 lg:m-0 md:flex lg:flex-col lg:gap-4 md:w-full lg:w-auto lg:pt-0 lg:h-full shadow-homeCard',

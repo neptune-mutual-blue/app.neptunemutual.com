@@ -18,7 +18,7 @@ const RenderNetwork = ({ LogoIcon, name }) => (
   <td
     className='px-6 py-4'
   >
-    <div className='flex flex-row text-sm leading-5 text-01052D'>
+    <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
       <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
       <span> {name} </span>
     </div>
@@ -115,16 +115,16 @@ const columns = [
 export const AnalyticsTVLTable = ({ data, loading }) => {
   return (
     <div>
-      <hr className='h-px border-B0C4DB' />
+      <hr className='border-t-0.5 border-t-B0C4DB' />
 
-      <div className='flex justify-between pt-10 flex-start pb-25px'>
+      <div className='flex justify-between pt-6 pb-6 lg:pt-10 flex-start lg:pb-25px'>
         <div>
           <h2 className='text-h3'>TVL Distribution </h2>
         </div>
       </div>
       <TableWrapper className='mt-0'>
         <Table>
-          <THead columns={columns} />
+          <THead theadClass='bg-f6f7f9 text-999BAB lg:text-404040' columns={columns} />
           <TBody
             isLoading={loading}
             columns={columns}
