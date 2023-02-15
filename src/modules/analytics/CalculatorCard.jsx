@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { t, Trans } from '@lingui/macro'
 import { CalculatorCardTitle } from '@/src/modules/analytics/CalculatorCardTitle'
 import { classNames } from '@/utils/classnames'
-import { useWeb3React } from '@web3-react/core'
 
 import { useAppConstants } from '@/src/context/AppConstants'
 import { PolicyCalculation } from '@/src/modules/analytics/PolicyCalculation'
@@ -11,18 +10,21 @@ import { DateRangePicker } from '@/src/modules/analytics/DateRangePicker'
 import { CoverOptions } from '@/src/modules/analytics/CoverOptions'
 import { CalculatorAmountHandler } from '@/src/modules/analytics/CalculatorAmountHandler'
 import { InputLabel } from '@/src/modules/analytics/InputLabel'
+import { isValidProduct } from '@/src/helpers/cover'
 import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
+import { useWeb3React } from '@web3-react/core'
 
 export const CalculatorCard = ({ approving, purchasing }) => {
-  const { library, account } = useWeb3React()
+  const { account, library } = useWeb3React()
 
   const {
     liquidityTokenDecimals,
     liquidityTokenSymbol
   } = useAppConstants()
-
   const [error, setError] = useState('')
   const [amount, setAmount] = useState('')
+  const [result, setResult] = useState(null)
+  const [resultLoading, setResultLoading] = useState(false)
 
   function handleChange (val) {
     setError('')
@@ -30,7 +32,6 @@ export const CalculatorCard = ({ approving, purchasing }) => {
   }
 
   const buttonBg = 'bg-5D52DC'
-  const setSortType = ''
 
   const [coverMonth, setCoverMonth] = useState('')
 
@@ -38,27 +39,22 @@ export const CalculatorCard = ({ approving, purchasing }) => {
     setCoverMonth(e.target.value)
   }
 
-  const [selectedCover, setSelectedCover] = useState({})
-  const [loadingFeeData, setLoadingFeeData] = useState(false)
-  const [feeData, setFeeData] = useState(null)
+  const [selectedCover, setSelectedCover] = useState(null)
 
   const calculatePolicyFee = async () => {
-    setLoadingFeeData(true)
-    setFeeData(null)
-    const payload = {
+    setResultLoading(true)
+    const data = await calculateCoverPolicyFee({
       value: amount,
-      coverMonth: coverMonth,
-      coverKey: selectedCover.coverKey,
-      productKey: selectedCover.productKey,
+      account,
+      library,
+      coverKey: selectedCover?.coverKey || '',
+      productKey: isValidProduct(selectedCover?.productKey) && (selectedCover?.productKey || ''),
+      coverMonth,
       liquidityTokenDecimals
-    }
-    try {
-      const data = await calculateCoverPolicyFee({ library, account, ...payload })
-      setFeeData(data)
-    } catch (err) {
-    } finally {
-      setLoadingFeeData(false)
-    }
+    })
+
+    setResult(data)
+    setResultLoading(false)
   }
 
   return (
@@ -68,13 +64,13 @@ export const CalculatorCard = ({ approving, purchasing }) => {
       </div>
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Select a cover' />
-        <CoverOptions className='z-60' selected={selectedCover} setSelected={setSelectedCover} setSortType={setSortType} />
+        <CoverOptions selected={selectedCover} setSelected={setSelectedCover} />
       </div>
 
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Amount you wish to cover' />
         <CalculatorAmountHandler
-          error={error}
+          error={Boolean(error)}
           value={amount}
           buttonProps={{
             children: t`Max`,
@@ -101,7 +97,7 @@ export const CalculatorCard = ({ approving, purchasing }) => {
       <div className='pb-4 lg:pb-7'>
         <button
           type='button'
-          disabled={amount === '' || coverMonth === ''}
+          disabled={!amount || !coverMonth}
           className={classNames(
             'block w-full pt-3 pb-3 uppercase px-4 py-0 text-sm font-semibold tracking-wider leading-loose text-white border border-transparent rounded-md whitespace-nowrap hover:bg-opacity-75',
             buttonBg,
@@ -114,7 +110,14 @@ export const CalculatorCard = ({ approving, purchasing }) => {
           <Trans>Calculate policy fee</Trans>
         </button>
       </div>
-      <PolicyCalculation loadingFeeData={loadingFeeData} feeData={feeData} />
+      <PolicyCalculation
+        feeData={result}
+        loading={resultLoading}
+        linkDisabled={!amount || !coverMonth}
+        selected={selectedCover}
+        amount={amount}
+        coverMonth={coverMonth}
+      />
     </>
   )
 }

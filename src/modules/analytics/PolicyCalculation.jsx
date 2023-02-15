@@ -1,18 +1,74 @@
 import RightPointerSideIcon from '@/icons/RightPointerSideIcon'
+import { actions } from '@/src/config/cover/actions'
+import { useAppConstants } from '@/src/context/AppConstants'
+import { isValidProduct } from '@/src/helpers/cover'
+import { convertFromUnits } from '@/utils/bn'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
 
-export const PolicyCalculation = ({ feeData, loadingFeeData }) => {
+export const PolicyCalculation = ({
+  feeData,
+  loading,
+  linkDisabled,
+  selected,
+  amount,
+  coverMonth
+}) => {
+  const router = useRouter()
+  const { liquidityTokenDecimals, liquidityTokenSymbol } = useAppConstants()
+
+  const coverFee = convertFromUnits(feeData?.fee || '', liquidityTokenDecimals).toString()
+  const formattedCoverFee = formatCurrency(
+    coverFee,
+    router.locale,
+    liquidityTokenSymbol,
+    true
+  ).short
+  const coverRate = Number(feeData?.rate || '0') / 100
+
+  const handleBuyCover = () => {
+    const link = actions.purchase.getHref(
+      selected?.coverKey,
+      isValidProduct(selected?.productKey) ? selected?.productKey : ''
+    )
+
+    router.push({
+      pathname: link,
+      query: {
+        amount,
+        month: coverMonth
+      }
+    })
+  }
+
   return (
     <div>
-      <div className='block uppercase font-normal font-poppins text-sm text-01052D pb-2'>
+      <div className='block pb-2 text-sm font-normal uppercase font-poppins text-01052D'>
         Your policy fee is
       </div>
       <div className='flex items-end justify-between'>
 
-        <div className='block text-01052D uppercase font-semibold leading-6 text-lg leading-6'>
-          ${!loadingFeeData && feeData ? feeData.fee : '0'} ({!loadingFeeData && feeData ? feeData.rate : '0'}%)
+        <div className='block text-lg font-semibold leading-6 uppercase text-01052D'>
+          {
+            loading
+              ? (
+                <i className='capitalize'>Fetching fees...</i>
+                )
+              : (
+                <>
+                  {formattedCoverFee} ({coverRate}%)
+                </>
+                )
+          }
         </div>
         <div>
-          <a className='text-4B7EE1 font-bold text-sm leading-5 flex flex-row items-center px-0 my-0 py-0 mx-0'> Buy Cover <span className='ml-3'><RightPointerSideIcon className='w-8 h-4' /> </span> </a>
+          <button
+            className='flex items-center gap-1 px-0 py-0 mx-0 my-0 text-sm font-bold leading-5 text-4B7EE1 disabled:cursor-not-allowed'
+            onClick={handleBuyCover}
+            disabled={linkDisabled}
+          >
+            Buy Cover <RightPointerSideIcon className='w-4 h-4' />
+          </button>
         </div>
       </div>
     </div>
