@@ -10,7 +10,8 @@
     "lang:extract": "cross-env NODE_ENV=development lingui extract --clean",
     "lang": "yarn lang:extract && lingui compile",
     "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ethersproject/providers": "5.5.1",
@@ -58,6 +59,7 @@
     "eslint-plugin-node": "~11.1.0",
     "eslint-plugin-promise": "~5.1.0",
     "eslint-plugin-unused-imports": "2.0.0",
+    "husky": "^8.0.3",
     "jest": "28.1.0",
     "jest-environment-jsdom": "28.1.0",
     "postcss": "8.4.4",
