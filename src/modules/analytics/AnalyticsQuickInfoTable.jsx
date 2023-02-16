@@ -4,62 +4,97 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
+import { getCoverImgSrc } from '@/src/helpers/cover'
+import { formatPercent } from '@/utils/formatter/percent'
+import { formatCurrency } from '@/utils/formatter/currency'
 
 import { t } from '@lingui/macro'
+import { utils } from '@neptunemutual/sdk'
+import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 
-import { formatCurrency } from '@/utils/formatter/currency'
-import { convertFromUnits } from '@/utils/bn'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 
 import { renderHeader } from '@/src/common/Table/renderHeader'
+import {
+  useFlattenedCoverProducts
+} from '@/src/hooks/useFlattenedCoverProducts'
+import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
+import { convertFromUnits, toBN } from '@/utils/bn'
 
-const RenderNetwork = ({ LogoIcon, name }) => (
-  <td
-    className='px-6 py-4'
-  >
-    <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
-      <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
-      <span> {name} </span>
-    </div>
-  </td>
-)
-
-const RenderUtilisationRatio = ({ coverFee }) => {
-  const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
+const RenderNetwork = ({ coverKey, productKey }) => {
+  const key = utils.keyUtil.toBytes32('')
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
+  const imgSrc = getCoverImgSrc({ key: productKey })
   return (
-    <td
-      className='px-6 py-4 text-sm leading-5 text-01052D'
-    >
-      <div className='inline-block px-2 py-2 text-21AD8C text-sm bg-EAF7F8 rounded-xl'>
-        {formatCurrency(
-          convertFromUnits(
-            coverFee,
-            liquidityTokenDecimals
-          ).toString(),
-          router.locale
-        ).short}
+    <td className='px-6 py-4'>
+      <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
+        <img src={imgSrc} alt={coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName} width='24' height='24' className='mr-2 rounded-full shrink-0' />
+        <span> {coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName}  </span>
       </div>
     </td>
   )
 }
 
-const RenderCapacity = ({ capacity }) => {
+const RenderUtilisationRatio = ({ coverKey, productKey }) => {
   const router = useRouter()
+  const key = utils.keyUtil.toBytes32('')
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
+
+  const { info: coverStats } = useFetchCoverStats({
+    coverKey: coverKey,
+    productKey: productKey
+  })
+
+  const isDiversified = coverInfo?.supportsProducts
+  const { activeCommitment, availableLiquidity } = coverStats
+
+  const liquidity = isDiversified
+    ? coverStats.totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
+    : toBN(availableLiquidity).plus(activeCommitment).toString()
+  const utilization = toBN(liquidity).isEqualTo(0)
+    ? '0'
+    : toBN(activeCommitment).dividedBy(liquidity).decimalPlaces(2).toString()
+  return (
+    <td
+      className='px-6 py-4 text-sm leading-5 text-01052D'
+    >
+      <div className='inline-block px-2 py-2 text-21AD8C text-sm bg-EAF7F8 rounded-xl'>
+        {formatPercent(utilization, router.locale)}
+      </div>
+    </td>
+  )
+}
+
+const RenderCapacity = ({ coverKey, productKey }) => {
   const { liquidityTokenDecimals } = useAppConstants()
+  const router = useRouter()
+  const key = utils.keyUtil.toBytes32('')
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
+
+  const { info: coverStats } = useFetchCoverStats({
+    coverKey: coverKey,
+    productKey: productKey
+  })
+
+  const isDiversified = coverInfo?.supportsProducts
+  const { activeCommitment, availableLiquidity } = coverStats
+
+  const liquidity = isDiversified
+    ? coverStats.totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
+    : toBN(availableLiquidity).plus(activeCommitment).toString()
+
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
     >
       <span>
-        {formatCurrency(
-          convertFromUnits(
-            capacity,
-            liquidityTokenDecimals
-          ).toString(),
+        {
+        formatCurrency(
+          convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
           router.locale
-        ).short}
+        ).short
+      }
       </span>
     </td>
   )
@@ -67,7 +102,7 @@ const RenderCapacity = ({ capacity }) => {
 
 const columns = [
   {
-    name: t`Network`,
+    name: t`Cover`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
     renderData: RenderNetwork
@@ -86,7 +121,9 @@ const columns = [
   }
 ]
 
-export const AnalyticsQuickInfoTable = ({ data, loading }) => {
+export const AnalyticsQuickInfoTable = () => {
+  const { data: flattenedCovers, loading: flattenedCoversLoading } =
+    useFlattenedCoverProducts()
   return (
     <div>
       <hr className='border-t-0.5 border-t-B0C4DB' />
@@ -100,9 +137,9 @@ export const AnalyticsQuickInfoTable = ({ data, loading }) => {
         <Table>
           <THead theadClass='bg-f6f7f9' columns={columns} />
           <TBody
-            isLoading={loading}
+            isLoading={flattenedCoversLoading}
             columns={columns}
-            data={data}
+            data={flattenedCovers}
           />
         </Table>
       </TableWrapper>
