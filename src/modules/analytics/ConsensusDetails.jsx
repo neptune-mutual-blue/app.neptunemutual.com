@@ -82,8 +82,10 @@ function ConsensusDetails ({ consensusDetails }) {
                 className='w-5 h-5 mr-2'
                 data-testid='cover-img'
                 // @ts-ignore
-                onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
-                />
+                onError={
+                  (ev) => (ev.target.src = '/images/covers/empty.svg')
+                }
+              />
               <div className='text-sm mr-6'>
                 {consensusDetails.name}
               </div>

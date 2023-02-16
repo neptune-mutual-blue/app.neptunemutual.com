@@ -68,7 +68,7 @@ export const AnalyticsContent = () => {
     switch (selected.value) {
       case AllDropdownOptions.COVER_EARNINGS:
         return (
-          <div className="mb-4">
+          <div className='mb-4'>
             <PreviousNext
               onNext={onCoverEarningNext}
               onPrevious={onCoverEarningPrevious}
