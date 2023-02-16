@@ -81,7 +81,7 @@ const StakeText = ({ amount, locale }) => {
   )
 }
 
-const CoverCell = ({ row, setConsensusDetails }, index) => {
+const CoverCell = ({ row, setConsensusDetails }) => {
   const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
 
   const isDiversified = isValidProduct(coverInfo?.productKey)
@@ -115,7 +115,7 @@ const CoverCell = ({ row, setConsensusDetails }, index) => {
   )
 }
 
-const ProtectionCell = ({ row, locale, liquidityTokenDecimals }, index) => {
+const ProtectionCell = ({ row, locale, liquidityTokenDecimals }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
