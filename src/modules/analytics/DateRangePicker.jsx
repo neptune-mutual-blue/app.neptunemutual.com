@@ -32,7 +32,7 @@ const getCoveragePeriodLabels = (locale) => {
   ]
 }
 
-export const DateRangePicker = ({ approving, purchasing, handleRadioChange, coverMonth }) => {
+export const DateRangePicker = ({ handleRadioChange, coverMonth, disabled }) => {
   useEffect(() => {
     if (coverMonth === '3') {
       setRadioProgress(100)
@@ -64,7 +64,7 @@ export const DateRangePicker = ({ approving, purchasing, handleRadioChange, cove
         id='period-1'
         value='1'
         name='cover-period-1'
-        disabled={approving || purchasing}
+        disabled={disabled}
         onChange={handleClick}
         onClick={handleClick}
         checked={parseInt(coverMonth) >= 1}
@@ -76,7 +76,7 @@ export const DateRangePicker = ({ approving, purchasing, handleRadioChange, cove
         id='period-2'
         value='2'
         name='cover-period-2'
-        disabled={approving || purchasing}
+        disabled={disabled}
         onChange={handleClick}
         onClick={handleClick}
         checked={parseInt(coverMonth) >= 2}
@@ -88,7 +88,7 @@ export const DateRangePicker = ({ approving, purchasing, handleRadioChange, cove
         id='period-3'
         value='3'
         name='cover-period-3'
-        disabled={approving || purchasing}
+        disabled={disabled}
         onChange={handleClick}
         onClick={handleClick}
         checked={parseInt(coverMonth) >= 3}
@@ -121,7 +121,7 @@ const DateRangerPickerRadio = ({ label, id, disabled, className = '', labelClass
 
       <label
         className={classNames(
-          'cursor-pointer text-sm uppercase flex-1 text-01052D leading-5 tracking-wider text-xs', labelClass,
+          'cursor-pointer text-xs uppercase flex-1 text-01052D', labelClass,
           disabled && 'cursor-not-allowed'
         )}
         htmlFor={id}

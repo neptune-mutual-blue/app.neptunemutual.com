@@ -22,10 +22,9 @@ const AllDropdownOptions = {
   GROWTH: 'Growth',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
-  POOL_TVL: 'Pool TVL',
+  TOTAL_CAPACITY: 'Total Capacity',
   OTHER_INSIGHTS: 'Other Insights',
   TOP_ACCOUNTS: 'Top Accounts',
-  PREMIUM: 'Premium Earned',
   COVER_EARNINGS: 'Cover Earnings',
   IN_CONSENSUS: 'In Consensus'
 }
@@ -41,7 +40,7 @@ export const AnalyticsContent = () => {
 
   const { data: statsData, loading } = useNetworkStats()
 
-  const { data: { totalCovered, totalLiquidity } } = useProtocolDayData()
+  const { data: { totalCovered, totalLiquidity, totalCapacity } } = useProtocolDayData()
   const { data: userData } = useProtocolUsersData()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
@@ -59,7 +58,7 @@ export const AnalyticsContent = () => {
   } = useCoverEarningAnalytics()
 
   const ReportLabels = (
-    <div className='text-21AD8C text-sm leading-5'>
+    <div className='text-sm leading-5 text-21AD8C'>
       {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
     </div>
   )
@@ -100,20 +99,29 @@ export const AnalyticsContent = () => {
             <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
+
       case AllDropdownOptions.DEMAND:
         return <TotalCapacityChart data={totalCovered} />
+
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
+
+      case AllDropdownOptions.TOTAL_CAPACITY:
+        return <TotalCapacityChart data={totalCapacity} />
+
       case AllDropdownOptions.TOP_ACCOUNTS:
         return <TopAccounts userData={userData} page={currentPage} />
+
       case AllDropdownOptions.COVER_EARNINGS:
         return (
           <CoverEarning labels={labels} yAxisData={yAxisData} />
         )
+
       case AllDropdownOptions.IN_CONSENSUS:
         return (
           <Consensus setConsensusDetails={setConsensusDetails} />
         )
+
       default:
         return null
     }

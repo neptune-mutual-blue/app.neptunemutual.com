@@ -177,6 +177,8 @@ export async function getNetworkStats (currentNetworkId) {
   const result = await Promise.all(promises)
 
   const combined = result.reduce((prev, curr) => {
+    if (!curr) return prev
+
     return {
       uniqueAvailableKeys: Array.from(new Set([...prev.uniqueAvailableKeys, ...curr.availableKeys])),
       uniqueReportingKeys: Array.from(new Set([...prev.uniqueReportingKeys, ...curr.reportingKeys])),

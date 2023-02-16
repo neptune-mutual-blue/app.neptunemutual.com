@@ -38,13 +38,13 @@ const renderAttestedStake = (row, { locale }) => {
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
-        <Badge className='rounded-full bg-21AD8C mr-2'>
+        <Badge className='mr-2 rounded-full bg-21AD8C'>
           Yes
         </Badge>
-        {StakeText({
-          amount: row.totalAttestedStake,
-          locale
-        })}
+        <StakeText
+          amount={row.totalAttestedStake}
+          locale={locale}
+        />
       </div>
     </td>
   )
@@ -54,13 +54,13 @@ const renderRefutedStake = (row, { locale }) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
-        <Badge className='rounded-full bg-FA5C2F mr-2'>
+        <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
         </Badge>
-        {StakeText({
-          amount: row.totalRefutedStake,
-          locale
-        })}
+        <StakeText
+          amount={row.totalRefutedStake}
+          locale={locale}
+        />
 
       </div>
     </td>
@@ -90,7 +90,7 @@ const CoverCell = ({ row, setConsensusDetails }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
   return (
-    <td
+    <div
       className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D cursor-pointer' onClick={() => {
         setConsensusDetails({
           name,
@@ -111,7 +111,7 @@ const CoverCell = ({ row, setConsensusDetails }) => {
       <div className='text-sm'>
         {name}
       </div>
-    </td>
+    </div>
   )
 }
 
@@ -164,13 +164,13 @@ const columns = [
     renderData: renderStatus
   },
   {
-    name: t`total attested stake`,
+    name: t`attested`,
     align: 'right',
     renderHeader,
     renderData: renderAttestedStake
   },
   {
-    name: t`total refuted stake`,
+    name: t`refuted`,
     align: 'right',
     renderHeader,
     renderData: renderRefutedStake
