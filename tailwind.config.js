@@ -43,11 +43,11 @@ module.exports = {
       h7: ['13px', '16px'],
       sm: ['14px', '16px'],
       lg: '18px',
+      xl: ['23px', '33px'],
       xxs: ['10px', '8px'],
       xs: [
         '12px',
         {
-          letterSpacing: '0.05em',
           lineHeight: '24px'
         }
       ],
@@ -63,13 +63,12 @@ module.exports = {
       xxl: '40px',
       'receipt-info': ['24px', '36px'],
       md: ['20px', '23px'],
-      badge: ['11px', '13px'],
+      badge: ['11px', '13px']
     },
     fontFamily: {
       poppins: 'Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
       sora: 'Sora, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
-      inter: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif',
+      arial: 'Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",sans-serif'
     },
     extend: {
       borderRadius: {
@@ -81,13 +80,13 @@ module.exports = {
       },
       borderWidth: {
         0.5: '0.5px',
-        1.5: '1.5px',
+        1.5: '1.5px'
       },
       boxShadow: {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
-        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);',
+        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);'
       },
       flex: {
         2: '2 2 0%'
@@ -112,7 +111,7 @@ module.exports = {
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
         '25px': '25px',
-        '32px': '32px',
+        '10px': '10px'
       },
       lineHeight: {
         4.5: '18px',
@@ -212,7 +211,7 @@ module.exports = {
         667085: '#667085',
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
-        '4B7EE1': '#4B7EE1',
+        '4B7EE1': '#4B7EE1'
       },
       minHeight: {
         360: '360px',
@@ -255,7 +254,8 @@ module.exports = {
         60: '60'
       },
       gridTemplateRows: {
-        'basket-modal': 'auto 1fr auto'
+        'basket-modal': 'auto 1fr auto',
+        'analytics-card': 'auto 1fr'
       }
     }
   },

@@ -84,7 +84,7 @@ const PurchasePolicyStep = ({
   return (
     <div>
       <p className='text-lg text-center text-999BAB'><Trans>You Will Pay</Trans></p>
-      <p
+      <div
         className='flex justify-center mt-1 mb-8 font-bold text-center text-h1 text-4e7dd9'
         title={formatCurrency(
           coverFee,
@@ -105,7 +105,7 @@ const PurchasePolicyStep = ({
             liquidityTokenSymbol,
             true
           ).short}
-      </p>
+      </div>
       <div className='w-full px-8 py-6 mt-8 rounded-lg bg-F3F5F7 text-h6'>
         <p className='font-semibold tracking-wider uppercase'><Trans>You will Receive:</Trans></p>
         <p className='flex items-center'>
@@ -245,6 +245,7 @@ const PurchasePolicyStep = ({
                 name='cover-period-1'
                 disabled={approving || purchasing}
                 onClick={handleRadioChange}
+                onChange={() => {}}
                 checked={parseInt(coverMonth) >= 1}
               />
               <CustomRadio
@@ -256,6 +257,7 @@ const PurchasePolicyStep = ({
                 name='cover-period-2'
                 disabled={approving || purchasing}
                 onClick={handleRadioChange}
+                onChange={() => {}}
                 checked={parseInt(coverMonth) >= 2}
               />
               <CustomRadio
@@ -267,6 +269,7 @@ const PurchasePolicyStep = ({
                 name='cover-period-3'
                 disabled={approving || purchasing}
                 onClick={handleRadioChange}
+                onChange={() => {}}
                 checked={parseInt(coverMonth) >= 3}
               />
             </div>

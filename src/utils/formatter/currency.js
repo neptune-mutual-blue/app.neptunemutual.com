@@ -24,7 +24,8 @@ export const formatCurrency = (
   input,
   locale = 'en',
   currency = 'USD',
-  token = false
+  token = false,
+  alwaysShort = false
 ) => {
   const number = parseFloat(Math.abs(input).toString())
 
@@ -41,7 +42,7 @@ export const formatCurrency = (
     result = parseFloat(number.toFixed(2))
   }
 
-  if (number >= 1e5 && number < 1e6) {
+  if (((alwaysShort && number >= 1e3) || (!alwaysShort && number >= 1e5)) && number < 1e6) {
     symbol = 'K'
     result = +(number / 1e3).toFixed(2)
   }

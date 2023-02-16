@@ -1,14 +1,26 @@
 import { SUBGRAPH_API_URLS } from '@/src/config/constants'
 import { getFilledData } from '@/src/services/aggregated-stats/fill-data'
 import { getSubgraphData } from '@/src/services/subgraph'
-import { sumOf } from '@/utils/bn'
 import { getNetworkInfo } from '@/src/hooks/useValidateNetwork'
+import { getCumulativeSortedData } from '@/src/services/aggregated-stats/sum-and-sort-data'
+import { sumOf } from '@/utils/bn'
 
 const query = `
 {
   protocolDayDatas {
     date
     totalCapacity
+    totalLiquidity
+    totalCovered
+  }
+}
+`
+
+const protocolMonthCoverFeeQuery = `
+{
+  protocolMonthDatas {
+    id
+    nonCumulativeCoverFee
   }
 }
 `
@@ -47,11 +59,50 @@ export async function getGroupedProtocolDayData (networkId) {
 
   const result = await Promise.all(promises)
 
+  const sortedData = getCumulativeSortedData(result)
+
+  return sortedData
+}
+
+async function getIndividualProtocolMonthData (networkId) {
+  const data = await getSubgraphData(
+    networkId,
+    protocolMonthCoverFeeQuery
+  )
+
+  if (!data) return
+
+  if (!Array.isArray(data.protocolMonthDatas) || !data.protocolMonthDatas.length) {
+    return
+  }
+
+  return data.protocolMonthDatas
+}
+
+export async function getGroupedProtocolMonthData (networkId) {
+  const { isMainNet } = getNetworkInfo(networkId)
+
+  const promises = []
+
+  for (const id in SUBGRAPH_API_URLS) {
+    const match = getNetworkInfo(parseInt(id)).isMainNet === isMainNet
+
+    if (!match) {
+      continue
+    }
+
+    promises.push(getIndividualProtocolMonthData(parseInt(id)))
+  }
+
+  const result = await Promise.all(promises)
+
   const obj = {}
 
   result.forEach(arr => {
+    if (!Array.isArray(arr)) return
+
     arr.forEach(val => {
-      obj[val.date] = sumOf(val.totalCapacity, obj[val.date] || '0')
+      obj[val.id] = sumOf(val.nonCumulativeCoverFee, obj[val.id] || '0')
     })
   })
 
@@ -59,8 +110,8 @@ export async function getGroupedProtocolDayData (networkId) {
 
   return sorted.reduce((prev, curr) => {
     prev.push({
-      date: curr[0],
-      totalCapacity: curr[1]
+      id: curr[0],
+      nonCumulativeCoverFee: curr[1]
     })
 
     return prev

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -120,6 +120,13 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
     coverKey,
     productKey
   })
+
+  useEffect(() => {
+    const { amount } = router.query
+    if (typeof amount === 'string' && Number(amount)) {
+      setValue(amount)
+    }
+  }, [router.query])
 
   const {
     txHash,

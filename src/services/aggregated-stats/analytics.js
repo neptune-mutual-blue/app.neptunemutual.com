@@ -5,11 +5,16 @@ import { getSubgraphData } from '@/src/services/subgraph'
 
 import EthLogo from 'lib/connect-wallet/components/logos/EthLogo.jsx'
 import ArbitrumLogo from 'lib/connect-wallet/components/logos/ArbitrumLogo.jsx'
+import AvaxLogo from '@/lib/connect-wallet/components/logos/AvaxLogo'
+import { toBN } from '@/utils/bn'
 
 const coverFeeQuery = `
 {
   protocols {
     totalCoverFee
+    totalCoverLiquidityAdded
+    totalCoverLiquidityRemoved
+    totalFlashLoanFees
   }
   protocolDayDatas(
   orderBy: date, orderDirection:  desc,first: 1) {
@@ -19,19 +24,53 @@ const coverFeeQuery = `
 }              
 `
 
-const TEST_NET = [
+const MAIN_NETS = [
   { chainId: 1, name: 'Ethereum', LogoIcon: EthLogo },
   { chainId: 42161, name: 'Arbitrum', LogoIcon: ArbitrumLogo }
 ]
 
+const TEST_NET = [
+  { chainId: 43113, name: 'Avalance Fuji', LogoIcon: AvaxLogo }
+]
+
+const calculateTvlCover = (data) => {
+  const {
+    totalCoverLiquidityAdded,
+    totalCoverLiquidityRemoved,
+    totalFlashLoanFees,
+    totalCoverFee
+  } = data
+
+  const tvlCover = toBN(totalCoverLiquidityAdded)
+    .minus(totalCoverLiquidityRemoved)
+    .plus(totalFlashLoanFees)
+    .plus(totalCoverFee)
+    .toString()
+
+  return tvlCover
+}
+
 async function getTVLStats ({ chainId, name, LogoIcon }) {
-  const coverFeeData = await getSubgraphData(chainId, coverFeeQuery)
-  return {
-    coverFee: coverFeeData.protocols[0].totalCoverFee,
-    capacity: coverFeeData.protocolDayDatas[0].totalCapacity,
+  const { protocols, protocolDayDatas } = await getSubgraphData(chainId, coverFeeQuery)
+
+  const stats = {
     name,
-    LogoIcon
+    LogoIcon,
+    coverFee: '0',
+    tvl: '0',
+    capacity: '0'
   }
+
+  if (Array.isArray(protocols) && protocols.length) {
+    stats.coverFee = protocols[0].totalCoverFee
+    stats.tvl = calculateTvlCover(protocols[0])
+  }
+
+  if (Array.isArray(protocols) && protocols.length) {
+    stats.capacity = protocolDayDatas[0].totalCapacity
+  }
+
+  return stats
 }
 
 export async function getAnalyticsTVLData () {
@@ -39,7 +78,9 @@ export async function getAnalyticsTVLData () {
 
   const promises = []
   if (isMainNet) {
-    // promises.push(getTVLStats(getNetworkId()))
+    MAIN_NETS.forEach(function (item) {
+      promises.push(getTVLStats(item))
+    })
   } else {
     TEST_NET.forEach(function (item) {
       promises.push(getTVLStats(item))
@@ -55,9 +96,9 @@ export const useFetchAnalyticsTVLStats = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
 
-    ;(async function () {
+    (async function () {
       try {
         const _data = await getAnalyticsTVLData()
         setData(_data)

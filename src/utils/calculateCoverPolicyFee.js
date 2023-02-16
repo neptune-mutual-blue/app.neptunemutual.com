@@ -28,6 +28,9 @@ export const calculateCoverPolicyFee = async ({
   const networkId = getNetworkId()
   const signerOrProvider = await getProviderOrSigner(library, account, networkId)
 
+  let returnData = defaultInfo
+  let err = null
+
   try {
     const policyContractAddress = await registry.PolicyContract.getAddress(
       networkId,
@@ -59,7 +62,7 @@ export const calculateCoverPolicyFee = async ({
     )
 
     const [getCoverFeeInfoResult, getExpiryDateResult] = await multiCallProvider.all([getCoverFeeInfoCall, getExpiryDateCall])
-    return {
+    const data = {
       fee: getCoverFeeInfoResult.fee.toString(),
       utilizationRatio: getCoverFeeInfoResult.utilizationRatio.toString(),
       totalAvailableLiquidity:
@@ -69,7 +72,14 @@ export const calculateCoverPolicyFee = async ({
       rate: getCoverFeeInfoResult.rate.toString(),
       expiryDate: getExpiryDateResult.toString()
     }
-  } catch (err) {
-    return defaultInfo
+
+    returnData = data
+  } catch (error) {
+    err = error
+  }
+
+  return {
+    data: returnData,
+    error: err
   }
 }
