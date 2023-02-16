@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { utils } from '@neptunemutual/sdk'
-import { ReportingDropdown } from '@/src/modules/reporting/reporting-dropdown'
+import { CalculatorOptionDropDown } from '@/src/modules/analytics/CalculatorOptionDropDown'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 
 export const CoverOptions = ({ selected, setSelected }) => {
@@ -27,7 +27,7 @@ export const CoverOptions = ({ selected, setSelected }) => {
 
   return (
     <div>
-      <ReportingDropdown
+      <CalculatorOptionDropDown
         options={covers}
         selected={selected}
         setSelected={setSelected}
@@ -37,7 +37,7 @@ export const CoverOptions = ({ selected, setSelected }) => {
           selectedCover?.infoObj?.productName
         }
         prefix={
-          <div className='w-8 h-8 p-1 mr-2 rounded-full bg-DEEAF6'>
+          <div className='w-5 h-5 rounded-full'>
             <img
               src={getCoverImgSrc({
                 key: selectedCover?.productKey || selectedCover?.coverKey

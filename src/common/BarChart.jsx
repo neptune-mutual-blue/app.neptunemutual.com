@@ -67,5 +67,5 @@ export function BarChart ({ labels, yAxisData }) {
     }
   }
 
-  return <Bar options={options} data={barData} />
+  return <Bar className='h-500' options={options} data={barData} />
 }

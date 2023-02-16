@@ -102,7 +102,7 @@ function ConsensusDetails ({ consensusDetails }) {
 
       </div>
 
-      <div className='flex items-start flex-wrap gap-x-6 gap-y-10 my-10'>
+      <div className='grid grid-cols-analytics-stat-cards lg:flex items-start flex-wrap gap-x-6 gap-y-10 my-6'>
         <StatsCard
           titleClass='text-999BAB'
           title='Liquidity' value={formatCurrency(
@@ -155,7 +155,7 @@ function ConsensusDetails ({ consensusDetails }) {
         />
       </div>
       <hr className='h-px border-B0C4DB' />
-      <div className='text-xs flex items-center my-11'>
+      <div className='text-xs flex items-center my-7'>
         <span className='mr-2'>
           Resolution:
         </span>

@@ -1,7 +1,7 @@
 import DownArrow from '@/icons/DownArrow'
 import { classNames } from '@/utils/classnames'
 
-export const renderHeader = (col, sortKey, sorts, handleSort) => {
+export const renderHeader = (col, sortKey, sorts, handleSort, className) => {
   const sortFn = handleSort ? () => handleSort(col.name, sortKey) : () => {}
 
   const CellChild = () => {
@@ -36,6 +36,7 @@ export const renderHeader = (col, sortKey, sorts, handleSort) => {
       scope='col'
       className={classNames(
         'px-6 py-3 font-semibold text-xs leading-4.5 uppercase whitespace-nowrap text-404040',
+        className,
         col.align === 'right' ? 'text-right' : 'text-left'
       )}
     >

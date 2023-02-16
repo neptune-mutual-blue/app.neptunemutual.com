@@ -37,7 +37,7 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
 }))
 
 export const AnalyticsContent = () => {
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.IN_CONSENSUS))
+  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
 
   const { data: statsData, loading } = useNetworkStats()
 

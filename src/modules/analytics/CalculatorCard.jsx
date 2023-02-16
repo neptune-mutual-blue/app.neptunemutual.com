@@ -9,7 +9,7 @@ import { useAppConstants } from '@/src/context/AppConstants'
 import { PolicyCalculation } from '@/src/modules/analytics/PolicyCalculation'
 import { DateRangePicker } from '@/src/modules/analytics/DateRangePicker'
 import { CoverOptions } from '@/src/modules/analytics/CoverOptions'
-import { AmountHandler } from '@/src/modules/analytics/AmountHandler'
+import { CalculatorAmountHandler } from '@/src/modules/analytics/CalculatorAmountHandler'
 import { InputLabel } from '@/src/modules/analytics/InputLabel'
 import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
 
@@ -63,29 +63,42 @@ export const CalculatorCard = ({ approving, purchasing }) => {
 
   return (
     <>
-      <div className='pb-6'>
+      <div className='pb-4 lg:pb-6'>
         <CalculatorCardTitle text='Calculator ' />
       </div>
-      <div className='pb-7'>
+      <div className='pb-4 lg:pb-6'>
         <InputLabel label='Select a cover' />
         <CoverOptions className='z-60' selected={selectedCover} setSelected={setSelectedCover} setSortType={setSortType} />
       </div>
 
-      <div className='pb-7'>
+      <div className='pb-4 lg:pb-6'>
         <InputLabel label='Amount you wish to cover' />
-        <AmountHandler
-          liquidityTokenDecimals={liquidityTokenDecimals}
-          liquidityTokenSymbol={liquidityTokenSymbol}
+        <CalculatorAmountHandler
           error={error}
-          approving={approving} purchasing={purchasing} value={amount} handleChange={handleChange}
+          value={amount}
+          buttonProps={{
+            children: t`Max`,
+            onClick: () => {},
+            disabled: approving || purchasing,
+            buttonClassName: 'hidden'
+          }}
+          unit={liquidityTokenSymbol}
+          inputProps={{
+            id: 'cover-amount',
+            disabled: approving || purchasing,
+            placeholder: t`Enter Amount`,
+            value: amount,
+            onChange: handleChange,
+            allowNegativeValue: false
+          }}
         />
       </div>
-      <div className='pb-7'>
+      <div className='pb-4 lg:pb-6'>
         <InputLabel label='Set expiry' />
         <DateRangePicker handleRadioChange={handleRadioChange} coverMonth={coverMonth} approving={approving} purchasing={purchasing} />
       </div>
 
-      <div>
+      <div className='pb-4 lg:pb-7'>
         <button
           type='button'
           disabled={amount === '' || coverMonth === ''}

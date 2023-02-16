@@ -16,9 +16,9 @@ export const AnalyticsStats = ({ loading, statsData }) => {
 }
 
 const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
-  <div className='flex items-start justify-between pb-10 '>
+  <div className='flex items-start justify-between pb-6 lg:pb-10 flex-wrap gap-x-2 gap-y-4'>
     <StatsCard
-      titleClass='text-404040'
+      titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
       title='Total Capacity' value={
               formatCurrency(
@@ -31,7 +31,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
               }
     />
     <StatsCard
-      titleClass='text-404040'
+      titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
       title='Covered' value={
               formatCurrency(
@@ -44,7 +44,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
             }
     />
     <StatsCard
-      titleClass='text-404040'
+      titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
       title='Commitment' value={
               formatCurrency(
@@ -57,7 +57,7 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
             }
     />
     <StatsCard
-      titleClass='text-404040'
+      titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
       title='Cover Fee' value={
               formatCurrency(

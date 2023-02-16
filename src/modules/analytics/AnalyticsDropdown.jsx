@@ -23,7 +23,7 @@ export const AnalyticsDropdown = ({
           )}
           data-testid='select-button'
         >
-          <span className='block text-xs font-normal text-center truncate text-000000'>
+          <span className='block text-xs font-normal text-left lg:text-center truncate text-000000'>
             {selected?.label}
           </span>
           <span className='absolute inset-y-0 right-0 flex items-center pr-2 text-xs pointer-events-none text-000000'>
@@ -77,7 +77,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
               active ? 'bg-EEEEEE rounded-lg' : ''
             )}
           >
-            {option.label} {selected.value === option.value && <CheckBlue className='absolute h-6 right-2 text-4e7dd9' />}
+            {option.label} {selected.value === option.value && <CheckBlue className='absolute h-6 right-8 lg:right-2 text-4e7dd9' />}
           </span>
         )
       }}
