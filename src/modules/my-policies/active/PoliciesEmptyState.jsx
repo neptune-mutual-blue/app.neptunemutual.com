@@ -1,5 +1,5 @@
 import { RegularButton } from '@/common/Button/RegularButton'
-import { CoverDropdown } from '@/modules/my-policies/active/CoverDropdown'
+import { CoverDropdown } from '@/common/CoverDropdown'
 import { actions } from '@/src/config/cover/actions'
 import { useNetwork } from '@/src/context/Network'
 import { isValidProduct } from '@/src/helpers/cover'
