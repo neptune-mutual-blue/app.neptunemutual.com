@@ -110,7 +110,7 @@ export const CalculatorCard = () => {
         />
       </div>
 
-      <div className='pb-4 lg:pb-7'>
+      <div className='pb-6 lg:pb-10'>
         {
             account
               ? (

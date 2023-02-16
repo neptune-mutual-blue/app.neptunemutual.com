@@ -23,7 +23,7 @@ export default function Analytics () {
     <main>
       <Seo />
       <Hero>
-        <Container className='flex flex-col justify-between gap-8 px-4 py-8 lg:gap-8 md:py-16 md:px-6 md:flex-col-reverse lg:flex-row lg:py-28 lg:px-8'>
+        <Container className='flex flex-col justify-between py-8 px-4 gap-8 lg:gap-8 md:py-16 md:px-6 lg:flex-row lg:py-28 lg:px-8'>
           <div className='grid grid-cols-1 grid-rows-analytics-card w-full bg-white rounded-2xl shadow-homeCard px-4 py-4 lg:p-10 border-0.5 border-B0C4DB'>
             <AnalyticsContent />
           </div>
@@ -32,7 +32,7 @@ export default function Analytics () {
           >
             <div className='flex-1 lg:flex-2 lg:flex lg:flex-col'>
               <div
-                className='flex flex-col mb-2 md:mb-0 lg:mb-5 md:justify-center lg:justify-start lg:flex-1'
+                className='flex flex-col md:justify-center lg:justify-start lg:flex-1'
                 data-testid='tvl-homecard'
               >
                 <div

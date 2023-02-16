@@ -13,6 +13,8 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { TopAccounts } from '@/modules/analytics/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import Consensus from '@/modules/analytics/Consensus'
+import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
+import { BackButton } from '@/common/BackButton/BackButton'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -43,6 +45,8 @@ export const AnalyticsContent = () => {
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
 
+  const [consensusDetails, setConsensusDetails] = useState()
+
   const [currentPage, setCurrentPage] = useState(1)
   const {
     hasNext: coverEarningHasNext,
@@ -63,12 +67,14 @@ export const AnalyticsContent = () => {
     switch (selected.value) {
       case AllDropdownOptions.COVER_EARNINGS:
         return (
-          <PreviousNext
-            onNext={onCoverEarningNext}
-            onPrevious={onCoverEarningPrevious}
-            hasNext={coverEarningHasNext}
-            hasPrevious={coverEarningHasPrevious}
-          />
+          <div className='mb-4'>
+            <PreviousNext
+              onNext={onCoverEarningNext}
+              onPrevious={onCoverEarningPrevious}
+              hasNext={coverEarningHasNext}
+              hasPrevious={coverEarningHasPrevious}
+            />
+          </div>
         )
       case AllDropdownOptions.TOP_ACCOUNTS:
         return (
@@ -113,7 +119,7 @@ export const AnalyticsContent = () => {
 
       case AllDropdownOptions.IN_CONSENSUS:
         return (
-          <Consensus />
+          <Consensus setConsensusDetails={setConsensusDetails} />
         )
 
       default:
@@ -127,11 +133,23 @@ export const AnalyticsContent = () => {
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={getTrailingTitleComponent()}
+        trailing={consensusDetails ? null : getTrailingTitleComponent()}
+        title={consensusDetails ? 'Consensus Details' : undefined}
+        trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
+        leading={consensusDetails
+          ? (
+            <BackButton
+              onClick={() => {
+                setConsensusDetails(undefined)
+              }}
+              className='py-2.5 px-3 text-sm mr-4'
+            />
+            )
+          : null}
       />
 
       <div>
-        {getAnalyticsComponent()}
+        {consensusDetails ? <ConsensusDetails consensusDetails={consensusDetails} /> : getAnalyticsComponent()}
       </div>
     </>
   )
