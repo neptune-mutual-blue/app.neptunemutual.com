@@ -68,12 +68,14 @@ export const AnalyticsContent = () => {
     switch (selected.value) {
       case AllDropdownOptions.COVER_EARNINGS:
         return (
-          <PreviousNext
-            onNext={onCoverEarningNext}
-            onPrevious={onCoverEarningPrevious}
-            hasNext={coverEarningHasNext}
-            hasPrevious={coverEarningHasPrevious}
-          />
+          <div className="mb-4">
+            <PreviousNext
+              onNext={onCoverEarningNext}
+              onPrevious={onCoverEarningPrevious}
+              hasNext={coverEarningHasNext}
+              hasPrevious={coverEarningHasPrevious}
+            />
+          </div>
         )
       case AllDropdownOptions.TOP_ACCOUNTS:
         return (
@@ -125,6 +127,7 @@ export const AnalyticsContent = () => {
         options={DROPDOWN_OPTIONS}
         trailing={consensusDetails ? null : getTrailingTitleComponent()}
         title={consensusDetails ? 'Consensus Details' : undefined}
+        trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
         leading={consensusDetails
           ? (
             <BackButton

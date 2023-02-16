@@ -44,7 +44,6 @@ export function BarChart ({ labels, yAxisData }) {
         grid: {
           display: false
         }
-
       },
       y: {
         grid: {
@@ -67,5 +66,5 @@ export function BarChart ({ labels, yAxisData }) {
     }
   }
 
-  return <Bar className='h-500' options={options} data={barData} />
+  return <Bar className='h-391 lg:h-auto' options={options} data={barData} />
 }

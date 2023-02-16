@@ -72,19 +72,21 @@ function ConsensusDetails ({ consensusDetails }) {
 
   return (
     <div>
-      <div className='flex justify-between'>
+      <div className='lg:flex justify-between'>
         <div>
-          <div className='flex items-center'>
-            <img
-              src={consensusDetails.imgSrc}
-              alt={consensusDetails.name}
-              className='w-5 h-5 mr-2'
-              data-testid='cover-img'
-            // @ts-ignore
-              onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
-            />
-            <div className='text-sm mr-6'>
-              {consensusDetails.name}
+          <div className='flex items-center justify-between lg:justify-start'>
+            <div className='flex items-center'>
+              <img
+                src={consensusDetails.imgSrc}
+                alt={consensusDetails.name}
+                className='w-5 h-5 mr-2'
+                data-testid='cover-img'
+                // @ts-ignore
+                onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
+                />
+              <div className='text-sm mr-6'>
+                {consensusDetails.name}
+              </div>
             </div>
             <PreviousNext />
           </div>
@@ -95,7 +97,7 @@ function ConsensusDetails ({ consensusDetails }) {
 
         {status !== E_CARD_STATUS.NORMAL && (
           <CardStatusBadge
-            className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
+            className='mt-3 lg:mt-0 rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
             status={status}
           />
         )}

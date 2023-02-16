@@ -98,7 +98,7 @@ export const CalculatorCard = ({ approving, purchasing }) => {
         <DateRangePicker handleRadioChange={handleRadioChange} coverMonth={coverMonth} approving={approving} purchasing={purchasing} />
       </div>
 
-      <div className='pb-4 lg:pb-7'>
+      <div className='pb-6 lg:pb-10'>
         <button
           type='button'
           disabled={amount === '' || coverMonth === ''}
