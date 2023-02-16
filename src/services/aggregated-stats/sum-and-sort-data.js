@@ -4,6 +4,8 @@ const getCumulativeDataObject = (data) => {
   const obj = {}
 
   data.forEach(arr => {
+    if (!Array.isArray(arr) || !arr.length) return
+
     const objectKeys = Object.keys(arr[0]).filter(k => k !== 'date')
 
     arr.forEach(val => {
