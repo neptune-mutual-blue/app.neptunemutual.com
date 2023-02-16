@@ -45,7 +45,7 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
             <th className='font-semibold text-left uppercase'>
               {quotationStep ? <Trans>Your Cover Amount</Trans> : <Trans>Cover Fee</Trans>}
             </th>
-            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep && formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long}>
+            <td className={classNames('text-right', quotationStep ? 'text-black font-normal' : 'text-4e7dd9')} title={!quotationStep ? formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).long : ''}>
               {updatingFee && <DataLoadingIndicator className='mt-0' message='Fetching fees...' />}
               {!updatingFee && (quotationStep ? secondText : formatCurrency(coverFee, router.locale, liquidityTokenSymbol, true).short)}
             </td>
@@ -80,14 +80,18 @@ export const PolicyFeesAndExpiry = ({ value, data, coverageLag, quotationStep = 
       {!editForm && (
         <>
           <hr className='mt-4 border-t border-d4dfee' />
-          <tr className='flex justify-between mt-3'>
-            <th className='font-semibold tracking-wider text-left uppercase'>
-              <Trans>Cashback Code</Trans>
-            </th>
-            <td className='text-right text-4e7dd9'>
-              {referralCode || <span className='font-semibold'>-</span>}
-            </td>
-          </tr>
+          <table>
+            <tbody>
+              <tr className='flex justify-between mt-3'>
+                <th className='font-semibold tracking-wider text-left uppercase'>
+                  <Trans>Cashback Code</Trans>
+                </th>
+                <td className='text-right text-4e7dd9'>
+                  {referralCode || <span className='font-semibold'>-</span>}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </>
       )}
     </>

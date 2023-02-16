@@ -38,7 +38,7 @@ const renderAttestedStake = (row) => {
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
-        <Badge className='rounded-full bg-21AD8C mr-2'>
+        <Badge className='mr-2 rounded-full bg-21AD8C'>
           Yes
         </Badge>
         <StakeText amount={row.totalAttestedStake} />
@@ -51,7 +51,7 @@ const renderRefutedStake = (row) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
-        <Badge className='rounded-full bg-FA5C2F mr-2'>
+        <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
         </Badge>
         <StakeText amount={row.totalRefutedStake} />
@@ -86,7 +86,7 @@ const CoverCell = ({ row }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
   return (
-    <td className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <div className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       <img
         src={imgSrc}
         alt={name}
@@ -98,7 +98,7 @@ const CoverCell = ({ row }) => {
       <div className='text-sm'>
         {name}
       </div>
-    </td>
+    </div>
   )
 }
 

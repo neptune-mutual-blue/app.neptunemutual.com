@@ -51,15 +51,26 @@ const calculateTvlCover = (data) => {
 }
 
 async function getTVLStats ({ chainId, name, LogoIcon }) {
-  const coverFeeData = await getSubgraphData(chainId, coverFeeQuery)
+  const { protocols, protocolDayDatas } = await getSubgraphData(chainId, coverFeeQuery)
 
-  return {
-    coverFee: coverFeeData.protocols[0].totalCoverFee,
-    capacity: coverFeeData.protocolDayDatas[0].totalCapacity,
-    tvl: calculateTvlCover(coverFeeData.protocols[0]),
+  const stats = {
     name,
-    LogoIcon
+    LogoIcon,
+    coverFee: '0',
+    tvl: '0',
+    capacity: '0'
   }
+
+  if (Array.isArray(protocols) && protocols.length) {
+    stats.coverFee = protocols[0].totalCoverFee
+    stats.tvl = calculateTvlCover(protocols[0])
+  }
+
+  if (Array.isArray(protocols) && protocols.length) {
+    stats.capacity = protocolDayDatas[0].totalCapacity
+  }
+
+  return stats
 }
 
 export async function getAnalyticsTVLData () {

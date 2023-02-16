@@ -99,6 +99,8 @@ export async function getGroupedProtocolMonthData (networkId) {
   const obj = {}
 
   result.forEach(arr => {
+    if (!Array.isArray(arr)) return
+
     arr.forEach(val => {
       obj[val.id] = sumOf(val.nonCumulativeCoverFee, obj[val.id] || '0')
     })
