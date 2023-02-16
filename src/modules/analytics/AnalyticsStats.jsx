@@ -18,6 +18,8 @@ export const AnalyticsStats = ({ loading, statsData }) => {
 const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
   <div className='flex items-start justify-between pb-10 '>
     <StatsCard
+      titleClass='text-404040'
+      valueClass='uppercase'
       title='Total Capacity' value={
               formatCurrency(
                 convertFromUnits(
@@ -29,6 +31,8 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
               }
     />
     <StatsCard
+      titleClass='text-404040'
+      valueClass='uppercase'
       title='Covered' value={
               formatCurrency(
                 convertFromUnits(
@@ -40,6 +44,8 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
             }
     />
     <StatsCard
+      titleClass='text-404040'
+      valueClass='uppercase'
       title='Commitment' value={
               formatCurrency(
                 convertFromUnits(
@@ -51,6 +57,8 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
             }
     />
     <StatsCard
+      titleClass='text-404040'
+      valueClass='uppercase'
       title='Cover Fee' value={
               formatCurrency(
                 convertFromUnits(

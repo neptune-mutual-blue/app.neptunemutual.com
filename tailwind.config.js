@@ -151,7 +151,8 @@ module.exports = {
         '60vw': '60vw',
         '75vw': '75vw',
         '90vw': '90vw',
-        '100vw': '100vw'
+        '100vw': '100vw',
+        'analytics-stat': '99.2px'
       },
       colors: {
         '999BAB': '#999BAB',
@@ -254,6 +255,9 @@ module.exports = {
       },
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto'
+      },
+      gridTemplateColumns: {
+        'auto-1fr': 'auto 1fr'
       }
     }
   },

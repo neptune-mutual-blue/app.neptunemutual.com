@@ -13,6 +13,8 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { TopAccounts } from '@/modules/analytics/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import Consensus from '@/modules/analytics/Consensus'
+import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
+import { BackButton } from '@/common/BackButton/BackButton'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -35,7 +37,7 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
 }))
 
 export const AnalyticsContent = () => {
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
+  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.IN_CONSENSUS))
 
   const { data: statsData, loading } = useNetworkStats()
 
@@ -43,6 +45,8 @@ export const AnalyticsContent = () => {
   const { data: userData } = useProtocolUsersData()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
+
+  const [consensusDetails, setConsensusDetails] = useState()
 
   const [currentPage, setCurrentPage] = useState(1)
   const {
@@ -106,7 +110,7 @@ export const AnalyticsContent = () => {
         )
       case AllDropdownOptions.IN_CONSENSUS:
         return (
-          <Consensus />
+          <Consensus setConsensusDetails={setConsensusDetails} />
         )
       default:
         return null
@@ -119,11 +123,22 @@ export const AnalyticsContent = () => {
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={getTrailingTitleComponent()}
+        trailing={consensusDetails ? null : getTrailingTitleComponent()}
+        title={consensusDetails ? 'Consensus Details' : undefined}
+        leading={consensusDetails
+          ? (
+            <BackButton
+              onClick={() => {
+                setConsensusDetails(undefined)
+              }}
+              className='py-2.5 px-3 text-sm mr-4'
+            />
+            )
+          : null}
       />
 
       <div>
-        {getAnalyticsComponent()}
+        {consensusDetails ? <ConsensusDetails consensusDetails={consensusDetails} /> : getAnalyticsComponent()}
       </div>
     </>
   )
