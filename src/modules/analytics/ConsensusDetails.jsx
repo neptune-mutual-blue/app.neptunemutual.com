@@ -103,7 +103,10 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const liquidityText = formatCurrency(
     convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-    router.locale
+    router.locale,
+    'USD',
+    false,
+    true
   )
 
   return (
