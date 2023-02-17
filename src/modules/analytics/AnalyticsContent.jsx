@@ -76,7 +76,7 @@ export const AnalyticsContent = () => {
     if (selected.value === AllDropdownOptions.COVER_EARNINGS) {
       fetchCoverEarningData()
     }
-  }, [selected.value])
+  }, [selected.value, fetchConsensusData, fetchCoverEarningData])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>

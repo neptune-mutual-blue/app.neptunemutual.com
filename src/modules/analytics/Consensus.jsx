@@ -139,7 +139,7 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setD
     newData.incidentReports[index] = newRow
 
     setData(newData)
-  }, [info, data, index, row, setData])
+  }, [info, data, index, row, setData, isLoading])
 
   return (
     <div>
