@@ -33,7 +33,7 @@ const renderStatus = (row) => {
   )
 }
 
-const renderAttestedStake = (row, { locale }) => {
+const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
@@ -44,13 +44,14 @@ const renderAttestedStake = (row, { locale }) => {
         <StakeText
           amount={row.totalAttestedStake}
           locale={locale}
+          NPMTokenSymbol={NPMTokenSymbol}
         />
       </div>
     </td>
   )
 }
 
-const renderRefutedStake = (row, { locale }) => {
+const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
@@ -60,6 +61,7 @@ const renderRefutedStake = (row, { locale }) => {
         <StakeText
           amount={row.totalRefutedStake}
           locale={locale}
+          NPMTokenSymbol={NPMTokenSymbol}
         />
 
       </div>
@@ -67,16 +69,18 @@ const renderRefutedStake = (row, { locale }) => {
   )
 }
 
-const StakeText = ({ amount, locale }) => {
+const StakeText = ({ amount, locale, NPMTokenSymbol }) => {
+  const textForm = formatCurrency(
+    convertFromUnits(amount),
+    locale,
+    NPMTokenSymbol,
+    true,
+    true
+  )
+
   return (
-    <div>
-      {formatCurrency(
-        convertFromUnits(amount),
-        locale,
-        '',
-        true,
-        true
-      ).short}
+    <div title={textForm.long}>
+      {textForm.short.split(' ')[0]}
     </div>
   )
 }
@@ -99,7 +103,8 @@ const CoverCell = ({ row, setData, data, index }) => {
     newData.incidentReports[index] = newRow
 
     setData(newData)
-  }, [coverInfo, data, imgSrc, index, name, row, setData])
+    // eslint-disable-next-line
+  }, [coverInfo, row, imgSrc, index])
 
   return (
     <div
@@ -113,7 +118,7 @@ const CoverCell = ({ row, setData, data, index }) => {
             // @ts-ignore
         onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
       />
-      <div className='text-sm whitespace-nowrap overflow-ellipsis overflow-hidden'>
+      <div className='text-sm whitespace-nowrap overflow-ellipsis overflow-hidden' title={name}>
         {name}
       </div>
     </div>
@@ -124,11 +129,14 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setD
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
-    ? ''
+    ? {
+        short: '',
+        long: ''
+      }
     : formatCurrency(
       convertFromUnits(info.activeCommitment, liquidityTokenDecimals).toString(),
       locale
-    ).short
+    )
 
   useEffect(() => {
     const newRow = row
@@ -139,11 +147,12 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setD
     newData.incidentReports[index] = newRow
 
     setData(newData)
-  }, [info, data, index, row, setData, isLoading])
+    // eslint-disable-next-line
+  }, [info, row, isLoading])
 
   return (
-    <div>
-      {protectionLong}
+    <div title={protectionLong.long}>
+      {protectionLong.short}
     </div>
   )
 }
@@ -201,7 +210,7 @@ const columns = [
 
 function Consensus ({ data, loading, setData, setConsensusIndex }) {
   const router = useRouter()
-  const { liquidityTokenDecimals } = useAppConstants()
+  const { liquidityTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
   return (
     <div>
@@ -219,7 +228,8 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
               liquidityTokenDecimals,
               setData,
               data,
-              setConsensusIndex
+              setConsensusIndex,
+              NPMTokenSymbol
             }}
             onRowClick={(idx) => {
               setConsensusIndex(idx)

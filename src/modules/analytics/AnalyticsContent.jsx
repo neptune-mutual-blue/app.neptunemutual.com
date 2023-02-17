@@ -76,7 +76,8 @@ export const AnalyticsContent = () => {
     if (selected.value === AllDropdownOptions.COVER_EARNINGS) {
       fetchCoverEarningData()
     }
-  }, [selected.value, fetchConsensusData, fetchCoverEarningData])
+    // eslint-disable-next-line
+  }, [selected.value])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>
@@ -148,6 +149,17 @@ export const AnalyticsContent = () => {
     }
   }
 
+  const leading = consensusIndex !== -1
+    ? (
+      <BackButton
+        onClick={() => {
+          setConsensusIndex(-1)
+        }}
+        className='py-2.5 px-3 text-sm mr-4'
+      />
+      )
+    : null
+
   return (
     <>
       <AnalyticsTitle
@@ -157,16 +169,7 @@ export const AnalyticsContent = () => {
         trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
         title={consensusIndex === -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
-        leading={consensusIndex !== -1
-          ? (
-            <BackButton
-              onClick={() => {
-                setConsensusIndex(-1)
-              }}
-              className='py-2.5 px-3 text-sm mr-4'
-            />
-            )
-          : null}
+        leading={leading}
       />
 
       <div>

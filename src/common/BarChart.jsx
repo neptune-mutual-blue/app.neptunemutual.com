@@ -66,7 +66,9 @@ export function BarChart ({ labels, yAxisData, loading }) {
     }
   }
 
-  return loading
-    ? <div className='h-391 lg:h-fill grid items-center justify-center'>Loading...</div>
-    : <Bar className='h-391 lg:h-auto' options={options} data={barData} />
+  if (loading) {
+    return <div className='h-391 lg:h-fill grid items-center justify-center'>Loading...</div>
+  }
+
+  return <Bar className='h-391 lg:h-auto' options={options} data={barData} />
 }
