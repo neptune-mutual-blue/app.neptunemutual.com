@@ -214,7 +214,7 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
     <div>
       <div className='text-xl'>Protocols In Consensus</div>
 
-      <TableWrapper className='lg:overflow-x-hidden'>
+      <TableWrapper className='xl:overflow-x-hidden'>
         <Table>
           <THead
             columns={columns}
