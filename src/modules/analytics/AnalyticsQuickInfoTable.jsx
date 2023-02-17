@@ -4,7 +4,7 @@ import {
   TBody,
   THead
 } from '@/common/Table/Table'
-import { getCoverImgSrc } from '@/src/helpers/cover'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { formatPercent } from '@/utils/formatter/percent'
 import { formatCurrency } from '@/utils/formatter/currency'
 
@@ -25,14 +25,16 @@ import { convertFromUnits, toBN } from '@/utils/bn'
 import { useState } from 'react'
 
 const RenderNetwork = ({ coverKey, productKey }) => {
-  const key = utils.keyUtil.toBytes32('')
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
-  const imgSrc = getCoverImgSrc({ key: productKey })
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: productKey })
+  const isDiversified = isValidProduct(coverInfo?.productKey)
+  const name = isDiversified ? coverInfo?.infoObj?.productName : coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || ''
+  const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+
   return (
     <td className='px-6 py-4'>
       <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
         <img src={imgSrc} alt={coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName} width='24' height='24' className='mr-2 rounded-full shrink-0' />
-        <span> {coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName}  </span>
+        <span> {name}  </span>
       </div>
     </td>
   )
@@ -52,7 +54,7 @@ const RenderUtilisationRatio = ({ coverKey, productKey }) => {
   const { activeCommitment, availableLiquidity } = coverStats
 
   const liquidity = isDiversified
-    ? coverStats.totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
+    ? coverStats.totalPoolAmount
     : toBN(availableLiquidity).plus(activeCommitment).toString()
   const utilization = toBN(liquidity).isEqualTo(0)
     ? '0'
@@ -107,19 +109,19 @@ const columns = [
     name: t`Cover`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderNetwork
+    renderData: (row) => <RenderNetwork productKey={row.productKey} coverKey={row.coverKey} />
   },
   {
-    name: t`Utilisation Ratio`,
+    name: t`Utilization Ratio`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderUtilisationRatio
+    renderData: (row) => <RenderUtilisationRatio productKey={row.productKey} coverKey={row.coverKey} />
   },
   {
     name: t`Capacity`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderCapacity
+    renderData: (row) => <RenderCapacity productKey={row.productKey} coverKey={row.coverKey} />
   }
 ]
 
@@ -135,10 +137,8 @@ export const AnalyticsQuickInfoTable = () => {
   const paginateRight = () => {
     setInitialVal(initialVal + 1)
   }
-  const maxPage = Math.floor(flattenedCovers.length / defaultSize);
+  const maxPage = Math.floor(flattenedCovers.length / defaultSize)
 
-  console.log(initialVal < maxPage ? flattenedCovers.slice(defaultSize * initialVal, (initialVal+1) * defaultSize ) 
-  : flattenedCovers.slice(initialVal*defaultSize) , ' - lets see ');
   return (
     <div>
       <hr className='border-t-0.5 border-t-B0C4DB' />
@@ -148,8 +148,10 @@ export const AnalyticsQuickInfoTable = () => {
           <h2 className='text-h3'>Top Covers </h2>
         </div>
         <div className='flex gap-x-5'>
-          <PreviousNext onPrevious={paginateLeft} onNext={paginateRight} 
-          hasPrevious={initialVal > 0} hasNext={initialVal < maxPage}  />
+          <PreviousNext
+            onPrevious={paginateLeft} onNext={paginateRight}
+            hasPrevious={initialVal > 0} hasNext={initialVal < maxPage}
+          />
         </div>
       </div>
       <TableWrapper className='mt-0'>
@@ -158,7 +160,7 @@ export const AnalyticsQuickInfoTable = () => {
           <TBody
             isLoading={flattenedCoversLoading}
             columns={columns}
-            data={initialVal < maxPage ? flattenedCovers.slice(defaultSize * initialVal, (initialVal+1) * defaultSize ) : flattenedCovers.slice(initialVal*defaultSize) }
+            data={initialVal < maxPage ? flattenedCovers.slice(defaultSize * initialVal, (initialVal + 1) * defaultSize) : flattenedCovers.slice(initialVal * defaultSize)}
           />
         </Table>
       </TableWrapper>

@@ -152,7 +152,8 @@ module.exports = {
         '60vw': '60vw',
         '75vw': '75vw',
         '90vw': '90vw',
-        '100vw': '100vw'
+        '100vw': '100vw',
+        'analytics-stat': '99.2px'
       },
       colors: {
         '999BAB': '#999BAB',
@@ -232,7 +233,8 @@ module.exports = {
       height: {
         500: '500px',
         '100vh': '100vh',
-        0.75: '0.175rem'
+        0.75: '0.175rem',
+        391: '391px'
       },
       width: {
         800: '800px',
@@ -257,6 +259,10 @@ module.exports = {
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto',
         'analytics-card': 'auto 1fr'
+      },
+      gridTemplateColumns: {
+        'auto-1fr': 'auto 1fr',
+        'analytics-stat-cards': '1fr 1fr 1fr'
       }
     }
   },

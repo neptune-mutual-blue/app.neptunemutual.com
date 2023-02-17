@@ -18,15 +18,15 @@ export const AnalyticsDropdown = ({
       >
         <Listbox.Button
           className={classNames(
-            'relative w-full pt-9px pb-9px pl-4 bg-f6f7f9 rounded-lg cursor-pointer pr-14 focus:outline-none focus-visible:border-4e7dd9',
+            'flex items-center gap-2 w-full py-2 px-4 bg-f6f7f9 rounded-lg cursor-pointer focus:outline-none focus-visible:border-4e7dd9',
             loading && 'cursor-not-allowed'
           )}
           data-testid='select-button'
         >
-          <span className='block text-xs font-normal text-left lg:text-center truncate text-000000'>
+          <span className='block text-xs font-normal text-left truncate lg:text-center text-000000'>
             {selected?.label}
           </span>
-          <span className='absolute inset-y-0 right-0 flex items-center pr-2 text-xs pointer-events-none text-000000'>
+          <span className='flex items-center text-xs pointer-events-none text-000000'>
             {icon}
           </span>
         </Listbox.Button>

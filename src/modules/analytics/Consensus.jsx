@@ -33,42 +33,46 @@ const renderStatus = (row) => {
   )
 }
 
-const renderAttestedStake = (row) => {
+const renderAttestedStake = (row, { locale }) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
-        <Badge className='rounded-full bg-21AD8C mr-2'>
+        <Badge className='mr-2 rounded-full bg-21AD8C'>
           Yes
         </Badge>
-        <StakeText amount={row.totalAttestedStake} />
+        <StakeText
+          amount={row.totalAttestedStake}
+          locale={locale}
+        />
       </div>
     </td>
   )
 }
 
-const renderRefutedStake = (row) => {
+const renderRefutedStake = (row, { locale }) => {
   return (
     <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
-        <Badge className='rounded-full bg-FA5C2F mr-2'>
+        <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
         </Badge>
-        <StakeText amount={row.totalRefutedStake} />
+        <StakeText
+          amount={row.totalRefutedStake}
+          locale={locale}
+        />
 
       </div>
     </td>
   )
 }
 
-const StakeText = ({ amount }) => {
-  const router = useRouter()
-
+const StakeText = ({ amount, locale }) => {
   return (
     <div>
       {formatCurrency(
         convertFromUnits(amount),
-        router.locale,
+        locale,
         '',
         true,
         true
@@ -77,7 +81,7 @@ const StakeText = ({ amount }) => {
   )
 }
 
-const CoverCell = ({ row }) => {
+const CoverCell = ({ row, setConsensusDetails }) => {
   const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
 
   const isDiversified = isValidProduct(coverInfo?.productKey)
@@ -86,7 +90,16 @@ const CoverCell = ({ row }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
   return (
-    <td className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <div
+      className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D cursor-pointer' onClick={() => {
+        setConsensusDetails({
+          name,
+          imgSrc,
+          coverInfo,
+          incidentReport: row
+        })
+      }}
+    >
       <img
         src={imgSrc}
         alt={name}
@@ -98,21 +111,18 @@ const CoverCell = ({ row }) => {
       <div className='text-sm'>
         {name}
       </div>
-    </td>
+    </div>
   )
 }
 
-const ProtectionCell = ({ row }) => {
-  const router = useRouter()
-
-  const { liquidityTokenDecimals } = useAppConstants()
+const ProtectionCell = ({ row, locale, liquidityTokenDecimals }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
     ? ''
     : formatCurrency(
       convertFromUnits(info.activeCommitment, liquidityTokenDecimals).toString(),
-      router.locale
+      locale
     ).short
 
   return (
@@ -122,20 +132,20 @@ const ProtectionCell = ({ row }) => {
   )
 }
 
-const renderCover = (row) => {
+const renderCover = (row, { setConsensusDetails }) => {
   return (
     <td className=''>
-      <CoverCell row={row} />
+      <CoverCell row={row} setConsensusDetails={setConsensusDetails} />
     </td>
   )
 }
 
-const renderProtection = (row) => {
+const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
   return (
     <td
       className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
     >
-      <ProtectionCell row={row} />
+      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} />
     </td>
   )
 }
@@ -154,13 +164,13 @@ const columns = [
     renderData: renderStatus
   },
   {
-    name: t`total attested stake`,
+    name: t`attested`,
     align: 'right',
     renderHeader,
     renderData: renderAttestedStake
   },
   {
-    name: t`total refuted stake`,
+    name: t`refuted`,
     align: 'right',
     renderHeader,
     renderData: renderRefutedStake
@@ -173,8 +183,10 @@ const columns = [
   }
 ]
 
-function Consensus () {
+function Consensus ({ setConsensusDetails }) {
   const { data, loading } = useConsensusAnalytics()
+  const router = useRouter()
+  const { liquidityTokenDecimals } = useAppConstants()
 
   return (
     <div>
@@ -186,7 +198,12 @@ function Consensus () {
             columns={columns}
           />
           <TBody
-            extraData={{}}
+            isLoading={loading}
+            extraData={{
+              locale: router.locale,
+              liquidityTokenDecimals,
+              setConsensusDetails
+            }}
             columns={columns}
             data={loading ? [] : data.incidentReports}
           />

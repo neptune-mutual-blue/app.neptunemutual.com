@@ -1,6 +1,6 @@
-export const StatsCard = ({ title, value }) => (
+export const StatsCard = ({ title, value, titleClass = '', valueClass = '' }) => (
   <div>
-    <div className='text-xs font-normal leading-5 font-poppins pb-2 text-999BAB lg:text-404040'> {title}</div>
-    <div className='text-h5 lg:text-h3 leading-6 font-normal font-poppins uppercase text-01052D'>{value}</div>
+    <div className={'lg:min-w-analytics-stat text-xs font-normal leading-5 font-poppins pb-2 ' + titleClass}> {title}</div>
+    <div className={'text-h5 lg:text-h3 leading-6 font-normal font-poppins text-01052D ' + valueClass}>{value}</div>
   </div>
 )

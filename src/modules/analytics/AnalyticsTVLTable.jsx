@@ -90,25 +90,25 @@ const columns = [
     name: t`Network`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderNetwork
+    renderData: (row) => <RenderNetwork LogoIcon={row.LogoIcon} name={row.name} />
   },
   {
     name: t`Cover Fee Earned`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderCover
+    renderData: (row) => <RenderCover coverFee={row.coverFee} />
   },
   {
     name: t`TVL`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderTVL
+    renderData: (row) => <RenderTVL tvl={row.tvl} />
   },
   {
     name: t`Capacity`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderCapacity
+    renderData: (row) => <RenderCapacity capacity={row.capacity} />
   }
 ]
 
