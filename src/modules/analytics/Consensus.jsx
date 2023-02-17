@@ -22,10 +22,10 @@ const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadg
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
   return (
-    <td style={{ minWidth: '148px', maxWidth: '148px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 text-sm leading-5 whitespace-nowrap text-01052D'>
       {status !== E_CARD_STATUS.NORMAL && (
         <CardStatusBadge
-          className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
+          className='rounded-1 py-0.5 !px-1.5 leading-4.5 border-0 tracking-normal inline-block !text-xs'
           status={status}
         />
       )}
@@ -35,7 +35,7 @@ const renderStatus = (row) => {
 
 const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td style={{ minWidth: '118px', maxWidth: '118px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 pr-8 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
         <Badge className='mr-2 rounded-full bg-21AD8C'>
@@ -53,7 +53,7 @@ const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
 
 const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td style={{ minWidth: '118px', maxWidth: '118px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 text-sm leading-5 text-center pr-7 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
         <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
@@ -107,7 +107,7 @@ const CoverCell = ({ row, setData, index }) => {
 
   return (
     <div
-      className='flex items-center px-6 py-4.5 text-sm leading-5 text-01052D cursor-pointer'
+      className='flex items-center text-sm leading-5 cursor-pointer w-[154px] text-01052D'
     >
       <img
         src={imgSrc}
@@ -117,7 +117,7 @@ const CoverCell = ({ row, setData, index }) => {
             // @ts-ignore
         onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
       />
-      <div className='text-sm whitespace-nowrap overflow-ellipsis overflow-hidden' title={name}>
+      <div className='overflow-hidden text-sm whitespace-nowrap overflow-ellipsis' title={name}>
         {name}
       </div>
     </div>
@@ -157,7 +157,7 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData })
 
 const renderCover = (row, { setData }, index) => {
   return (
-    <td style={{ minWidth: '214px', maxWidth: '214px' }}>
+    <td className='px-6 py-4 pr-9'>
       <CoverCell row={row} setData={setData} index={index} />
     </td>
   )
@@ -166,7 +166,7 @@ const renderCover = (row, { setData }, index) => {
 const renderProtection = (row, { liquidityTokenDecimals, locale, setData }, index) => {
   return (
     <td
-      className='px-6 py-4.5 text-sm leading-5 text-01052D'
+      className='max-w-xs px-6 py-5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
     >
       <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} setData={setData} index={index} />
     </td>
