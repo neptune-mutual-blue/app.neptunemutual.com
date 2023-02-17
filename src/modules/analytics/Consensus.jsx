@@ -35,7 +35,7 @@ const renderStatus = (row) => {
 
 const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
         <Badge className='mr-2 rounded-full bg-21AD8C'>
@@ -53,7 +53,7 @@ const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
 
 const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
         <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
@@ -188,13 +188,13 @@ const columns = [
   },
   {
     name: t`attested`,
-    align: 'right',
+    align: 'left',
     renderHeader,
     renderData: renderAttestedStake
   },
   {
     name: t`refuted`,
-    align: 'right',
+    align: 'left',
     renderHeader,
     renderData: renderRefutedStake
   },

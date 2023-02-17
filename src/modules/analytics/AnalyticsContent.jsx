@@ -171,7 +171,7 @@ export const AnalyticsContent = () => {
         selected={selected}
         options={DROPDOWN_OPTIONS}
         trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
-        title={consensusIndex === -1 ? 'Consensus Details' : undefined}
+        title={consensusIndex !== -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
         leading={leading}
       />
