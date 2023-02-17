@@ -252,8 +252,7 @@ module.exports = {
         menu: 'cubic-bezier(0.4, 0, 0.2, 1)'
       },
       zIndex: {
-        60: '60',
-        30: '30'
+        60: '60'
       },
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto',

@@ -3,7 +3,7 @@ import { AnalyticsDropdown } from '@/src/modules/analytics/AnalyticsDropdown'
 
 export const AnalyticsTitle = ({ options, selected, setSelected, trailing }) => {
   return (
-    <div>
+    <>
       <div className='hidden lg:flex items-center justify-between pb-10 flex-start'>
         <div className='flex'>
           <div className='mr-6 font-bold leading-9 text-h3 lg:text-h2 font-sora text-000000'>
@@ -43,6 +43,6 @@ export const AnalyticsTitle = ({ options, selected, setSelected, trailing }) => 
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
