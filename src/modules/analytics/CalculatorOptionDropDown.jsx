@@ -20,7 +20,7 @@ export const CalculatorOptionDropDown = ({
         <Listbox.Button className='cursor-pointer relative w-full pt-4.5 pb-4.5 pl-4.5 bg-white border-0.5 rounded-lg border-B0C4DB focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
           <span className='flex items-center text-sm truncate text-01052D'>
             {prefix}
-            <span className='ml-10px'>
+            <span className='ml-2.5'>
               {selectedName}
             </span>
           </span>
