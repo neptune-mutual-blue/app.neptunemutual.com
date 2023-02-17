@@ -85,7 +85,7 @@ const StakeText = ({ amount, locale, NPMTokenSymbol }) => {
   )
 }
 
-const CoverCell = ({ row, setData, data, index }) => {
+const CoverCell = ({ row, setData, index }) => {
   const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
 
   const isDiversified = isValidProduct(coverInfo?.productKey)
@@ -94,17 +94,16 @@ const CoverCell = ({ row, setData, data, index }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
   useEffect(() => {
-    const newRow = row
-    newRow.coverInfo = coverInfo
-    newRow.name = name
-    newRow.imgSrc = imgSrc
+    setData((_data) => {
+      const newRow = row
+      newRow.coverInfo = coverInfo
+      newRow.name = name
+      newRow.imgSrc = imgSrc
+      _data.incidentReports[index] = newRow
 
-    const newData = data
-    newData.incidentReports[index] = newRow
-
-    setData(newData)
-    // eslint-disable-next-line
-  }, [coverInfo, row, imgSrc, index])
+      return _data
+    })
+  }, [coverInfo, row, imgSrc, index, name, setData])
 
   return (
     <div
@@ -125,7 +124,7 @@ const CoverCell = ({ row, setData, data, index }) => {
   )
 }
 
-const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setData }) => {
+const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
@@ -139,16 +138,15 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setD
     )
 
   useEffect(() => {
-    const newRow = row
-    newRow.coverStats = info
-    newRow.coverStatsLoading = isLoading
+    setData((_data) => {
+      const newRow = row
+      newRow.coverStats = info
+      newRow.coverStatsLoading = isLoading
+      _data.incidentReports[index] = newRow
 
-    const newData = data
-    newData.incidentReports[index] = newRow
-
-    setData(newData)
-    // eslint-disable-next-line
-  }, [info, row, isLoading])
+      return _data
+    })
+  }, [info, row, isLoading, setData, index])
 
   return (
     <div title={protectionLong.long}>
@@ -165,12 +163,12 @@ const renderCover = (row, { data, setData }, index) => {
   )
 }
 
-const renderProtection = (row, { liquidityTokenDecimals, locale, data, setData }, index) => {
+const renderProtection = (row, { liquidityTokenDecimals, locale, setData }, index) => {
   return (
     <td
       className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
     >
-      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} data={data} setData={setData} index={index} />
+      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} setData={setData} index={index} />
     </td>
   )
 }
@@ -227,7 +225,6 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
               locale: router.locale,
               liquidityTokenDecimals,
               setData,
-              data,
               setConsensusIndex,
               NPMTokenSymbol
             }}

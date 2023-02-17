@@ -41,7 +41,7 @@ export const AnalyticsContent = () => {
 
   const { data: statsData, loading } = useNetworkStats()
 
-  const { data: { totalCovered, totalLiquidity, totalCapacity } } = useProtocolDayData()
+  const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: userData } = useProtocolUsersData()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
@@ -75,6 +75,10 @@ export const AnalyticsContent = () => {
 
     if (selected.value === AllDropdownOptions.COVER_EARNINGS) {
       fetchCoverEarningData()
+    }
+
+    if ([AllDropdownOptions.COVER_TVL, AllDropdownOptions.DEMAND, AllDropdownOptions.TOTAL_CAPACITY].includes(selected.value)) {
+      fetchProtocolDayData()
     }
     // eslint-disable-next-line
   }, [selected.value])
