@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
@@ -15,6 +15,7 @@ import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import Consensus from '@/modules/analytics/Consensus'
 import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
+import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -40,12 +41,12 @@ export const AnalyticsContent = () => {
 
   const { data: statsData, loading } = useNetworkStats()
 
-  const { data: { totalCovered, totalLiquidity, totalCapacity } } = useProtocolDayData()
+  const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: userData } = useProtocolUsersData()
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
 
-  const [consensusDetails, setConsensusDetails] = useState()
+  const [consensusIndex, setConsensusIndex] = useState(-1)
 
   const [currentPage, setCurrentPage] = useState(1)
   const {
@@ -54,8 +55,33 @@ export const AnalyticsContent = () => {
     labels,
     onNext: onCoverEarningNext,
     onPrevious: onCoverEarningPrevious,
-    yAxisData
+    yAxisData,
+    fetchData: fetchCoverEarningData,
+    loading: coverEarningLoading
   } = useCoverEarningAnalytics()
+
+  const {
+    data: consensusData,
+    loading: consensusLoading,
+    fetchData: fetchConsensusData,
+    setData: setConsensusData
+  } = useConsensusAnalytics()
+
+  useEffect(() => {
+    // Lazy loading data
+    if (selected.value === AllDropdownOptions.IN_CONSENSUS) {
+      fetchConsensusData()
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_EARNINGS) {
+      fetchCoverEarningData()
+    }
+
+    if ([AllDropdownOptions.COVER_TVL, AllDropdownOptions.DEMAND, AllDropdownOptions.TOTAL_CAPACITY].includes(selected.value)) {
+      fetchProtocolDayData()
+    }
+    // eslint-disable-next-line
+  }, [selected.value])
 
   const ReportLabels = (
     <div className='text-sm leading-5 text-21AD8C'>
@@ -114,12 +140,12 @@ export const AnalyticsContent = () => {
 
       case AllDropdownOptions.COVER_EARNINGS:
         return (
-          <CoverEarning labels={labels} yAxisData={yAxisData} />
+          <CoverEarning labels={labels} yAxisData={yAxisData} loading={coverEarningLoading} />
         )
 
       case AllDropdownOptions.IN_CONSENSUS:
         return (
-          <Consensus setConsensusDetails={setConsensusDetails} />
+          <Consensus loading={consensusLoading} data={consensusData} setData={setConsensusData} setConsensusIndex={setConsensusIndex} />
         )
 
       default:
@@ -127,29 +153,31 @@ export const AnalyticsContent = () => {
     }
   }
 
+  const leading = consensusIndex !== -1
+    ? (
+      <BackButton
+        onClick={() => {
+          setConsensusIndex(-1)
+        }}
+        className='py-2.5 px-3 text-sm mr-4'
+      />
+      )
+    : null
+
   return (
     <>
       <AnalyticsTitle
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={consensusDetails ? null : getTrailingTitleComponent()}
-        title={consensusDetails ? 'Consensus Details' : undefined}
+        trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
+        title={consensusIndex === -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
-        leading={consensusDetails
-          ? (
-            <BackButton
-              onClick={() => {
-                setConsensusDetails(undefined)
-              }}
-              className='py-2.5 px-3 text-sm mr-4'
-            />
-            )
-          : null}
+        leading={leading}
       />
 
       <div>
-        {consensusDetails ? <ConsensusDetails consensusDetails={consensusDetails} /> : getAnalyticsComponent()}
+        {consensusIndex !== -1 ? <ConsensusDetails consensusIndex={consensusIndex} data={consensusData} setConsensusIndex={setConsensusIndex} /> : getAnalyticsComponent()}
       </div>
     </>
   )
