@@ -6,7 +6,6 @@ import {
 } from '@/common/Table/Table'
 import { t } from '@lingui/macro'
 import { renderHeader } from '@/common/Table/renderHeader'
-import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
 import * as CardStatusBadgeDefault from '@/common/CardStatusBadge'
 import { Badge } from '@/common/Badge/Badge'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
@@ -16,6 +15,7 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadgeDefault
 
@@ -81,7 +81,7 @@ const StakeText = ({ amount, locale }) => {
   )
 }
 
-const CoverCell = ({ row, setConsensusDetails }) => {
+const CoverCell = ({ row, setData, data, index }) => {
   const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
 
   const isDiversified = isValidProduct(coverInfo?.productKey)
@@ -89,16 +89,21 @@ const CoverCell = ({ row, setConsensusDetails }) => {
   const name = isDiversified ? coverInfo?.infoObj?.productName : coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || ''
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
+  useEffect(() => {
+    const newRow = row
+    newRow.coverInfo = coverInfo
+    newRow.name = name
+    newRow.imgSrc = imgSrc
+
+    const newData = data
+    newData.incidentReports[index] = newRow
+
+    setData(newData)
+  }, [coverInfo, data, imgSrc, index, name, row, setData])
+
   return (
     <div
-      className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D cursor-pointer' onClick={() => {
-        setConsensusDetails({
-          name,
-          imgSrc,
-          coverInfo,
-          incidentReport: row
-        })
-      }}
+      className='flex items-center max-w-15 px-6 py-4.5 text-sm leading-5 text-01052D cursor-pointer'
     >
       <img
         src={imgSrc}
@@ -108,14 +113,14 @@ const CoverCell = ({ row, setConsensusDetails }) => {
             // @ts-ignore
         onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
       />
-      <div className='text-sm'>
+      <div className='text-sm whitespace-nowrap overflow-ellipsis overflow-hidden'>
         {name}
       </div>
     </div>
   )
 }
 
-const ProtectionCell = ({ row, locale, liquidityTokenDecimals }) => {
+const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, data, setData }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
@@ -125,6 +130,17 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals }) => {
       locale
     ).short
 
+  useEffect(() => {
+    const newRow = row
+    newRow.coverStats = info
+    newRow.coverStatsLoading = isLoading
+
+    const newData = data
+    newData.incidentReports[index] = newRow
+
+    setData(newData)
+  }, [info, data, index, row, setData])
+
   return (
     <div>
       {protectionLong}
@@ -132,20 +148,20 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals }) => {
   )
 }
 
-const renderCover = (row, { setConsensusDetails }) => {
+const renderCover = (row, { data, setData }, index) => {
   return (
     <td className=''>
-      <CoverCell row={row} setConsensusDetails={setConsensusDetails} />
+      <CoverCell row={row} data={data} setData={setData} index={index} />
     </td>
   )
 }
 
-const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
+const renderProtection = (row, { liquidityTokenDecimals, locale, data, setData }, index) => {
   return (
     <td
       className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
     >
-      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} />
+      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} data={data} setData={setData} index={index} />
     </td>
   )
 }
@@ -183,8 +199,7 @@ const columns = [
   }
 ]
 
-function Consensus ({ setConsensusDetails }) {
-  const { data, loading } = useConsensusAnalytics()
+function Consensus ({ data, loading, setData, setConsensusIndex }) {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -202,7 +217,12 @@ function Consensus ({ setConsensusDetails }) {
             extraData={{
               locale: router.locale,
               liquidityTokenDecimals,
-              setConsensusDetails
+              setData,
+              data,
+              setConsensusIndex
+            }}
+            onRowClick={(idx) => {
+              setConsensusIndex(idx)
             }}
             columns={columns}
             data={loading ? [] : data.incidentReports}

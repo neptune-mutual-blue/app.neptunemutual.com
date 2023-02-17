@@ -21,7 +21,7 @@ const getInitialDateRange = (from) => {
 function useCoverEarningAnalytics () {
   const [dateRange, setDateRange] = useState(getInitialDateRange(new Date()))
 
-  const { data } = useProtocolMonthData()
+  const { data, loading, fetchData } = useProtocolMonthData()
 
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -108,7 +108,9 @@ function useCoverEarningAnalytics () {
     onNext,
     onPrevious,
     labels,
-    yAxisData
+    yAxisData,
+    loading,
+    fetchData
   }
 }
 

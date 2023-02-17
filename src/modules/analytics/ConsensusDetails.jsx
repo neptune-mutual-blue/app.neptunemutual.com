@@ -4,7 +4,6 @@ import PreviousNext from '@/common/PreviousNext'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { isValidProduct } from '@/src/helpers/cover'
-import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { convertFromUnits, sumOf, toBN } from '@/utils/bn'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
@@ -12,18 +11,19 @@ import { useRouter } from 'next/router'
 import { StatsCard } from './StatsCard'
 const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadgeDefault
 
-function ConsensusDetails ({ consensusDetails }) {
-  const status = identifyStatus(consensusDetails.incidentReport.status)
+function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
+  const row = data.incidentReports[consensusIndex]
+  const status = identifyStatus(row.status)
 
   const { NPMTokenSymbol, liquidityTokenDecimals } = useAppConstants()
   const router = useRouter()
 
-  const isDiversified = isValidProduct(consensusDetails.coverInfo?.productKey)
-  const coverName = consensusDetails.coverInfo.cover?.infoObj.coverName
+  const isDiversified = isValidProduct(row.coverInfo?.productKey)
+  const coverName = row.coverInfo.cover?.infoObj.coverName
 
-  const totalAttested = consensusDetails.incidentReport.totalAttestedStake
-  const totalRefuted = consensusDetails.incidentReport.totalRefutedStake
-  const isResolved = consensusDetails.incidentReport.resolved
+  const totalAttested = row.totalAttestedStake
+  const totalRefuted = row.totalRefutedStake
+  const isResolved = row.resolved
 
   const totalStake = sumOf(totalAttested, totalRefuted)
 
@@ -39,7 +39,8 @@ function ConsensusDetails ({ consensusDetails }) {
     ).multipliedBy(100)
     .decimalPlaces(2)
 
-  const { info: coverStats, isLoading: coverStatsLoading } = useFetchCoverStats({ coverKey: consensusDetails.incidentReport.coverKey, productKey: consensusDetails.incidentReport.productKey })
+  const coverStats = row.coverStats
+  const coverStatsLoading = row.coverStatsLoading
 
   const { activeCommitment, availableLiquidity, totalPoolAmount } = coverStats
 
@@ -55,9 +56,9 @@ function ConsensusDetails ({ consensusDetails }) {
     ? '0'
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
 
-  const leverage = consensusDetails.coverInfo.cover?.infoObj.leverage
+  const leverage = row.coverInfo.cover?.infoObj.leverage
   const efficiency = formatPercent(
-    toBN(consensusDetails.coverInfo?.infoObj.capitalEfficiency)
+    toBN(row.coverInfo?.infoObj.capitalEfficiency)
       .dividedBy(MULTIPLIER)
       .toString()
   )
@@ -77,8 +78,8 @@ function ConsensusDetails ({ consensusDetails }) {
           <div className='flex items-center justify-between lg:justify-start'>
             <div className='flex items-center'>
               <img
-                src={consensusDetails.imgSrc}
-                alt={consensusDetails.name}
+                src={row.imgSrc}
+                alt={row.name}
                 className='w-5 h-5 mr-2'
                 data-testid='cover-img'
                 // @ts-ignore
@@ -87,10 +88,17 @@ function ConsensusDetails ({ consensusDetails }) {
                 }
               />
               <div className='text-sm mr-6'>
-                {consensusDetails.name}
+                {row.name}
               </div>
             </div>
-            <PreviousNext />
+            <PreviousNext
+              hasNext={consensusIndex < (data.incidentReports.length - 1)} hasPrevious={consensusIndex > 0} onPrevious={() => {
+                setConsensusIndex(consensusIndex - 1)
+              }}
+              onNext={() => {
+                setConsensusIndex(consensusIndex + 1)
+              }}
+            />
           </div>
           {isDiversified && (
             <div className='text-xs text-21AD8C mt-2.5'>{coverName}</div>
