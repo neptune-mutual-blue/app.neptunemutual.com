@@ -6,7 +6,6 @@ import { classNames } from '@/utils/classnames'
 export const AnalyticsDropdown = ({
   options,
   icon,
-  direction = 'right',
   loading = false,
   selected,
   setSelected
@@ -14,11 +13,11 @@ export const AnalyticsDropdown = ({
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div
-        className='relative w-full'
+        className='relative w-full md:w-max'
       >
         <Listbox.Button
           className={classNames(
-            'flex items-center gap-2 w-full py-2 px-4 bg-f6f7f9 rounded-lg cursor-pointer focus:outline-none focus-visible:border-4e7dd9',
+            'flex items-center gap-2 w-full md:w-max py-2 px-4 bg-f6f7f9 rounded-lg cursor-pointer focus:outline-none focus-visible:border-4e7dd9 justify-between',
             loading && 'cursor-not-allowed'
           )}
           data-testid='select-button'
@@ -38,8 +37,7 @@ export const AnalyticsDropdown = ({
         >
           <Listbox.Options
             className={classNames(
-              'absolute z-30 w-full mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl',
-              direction === 'right' && 'right-0',
+              'absolute z-30 w-full min-w-250 lg:min-w-max mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl left-0 lg:right-0 lg:left-auto',
               loading && 'hidden'
             )}
             data-testid='options-container'

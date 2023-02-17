@@ -77,7 +77,7 @@ export const CalculatorCard = () => {
       </div>
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Select a cover' />
-        <CoverOptions selected={selectedCover} setSelected={setSelectedCover} />
+        <CoverOptions setSelected={setSelectedCover} />
       </div>
 
       <div className='pb-4 lg:pb-6'>

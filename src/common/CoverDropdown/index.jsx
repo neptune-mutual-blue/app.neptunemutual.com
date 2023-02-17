@@ -16,10 +16,11 @@ import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
  * @param {(selected: any) => any} props.onChange
  * @param {string} [props.className]
  * @param {React.ReactElement | (({selected, name, image}) => React.ReactElement)} [props.renderButton]
- * @param {React.ReactElement | (({name, image, option, optionIdx, selected, active}) => React.ReactElement)} [props.renderOption]
+ * @param {React.ReactElement | (({name, image, option, optionIdx, isSelected, active}) => React.ReactElement)} [props.renderOption]
  * @param {string} [props.buttonClass]
  * @param {string | ((active?: boolean) => string)} [props.optionClass]
  * @param {string} [props.optionsClass]
+ * @param {boolean} [props.selectedOptionOnTop]
  * @returns
  */
 export const CoverDropdown = ({
@@ -29,7 +30,8 @@ export const CoverDropdown = ({
   optionClass = '',
   optionsClass = '',
   renderButton,
-  renderOption
+  renderOption,
+  selectedOptionOnTop = false
 }) => {
   const { data: flattenedCovers } = useFlattenedCoverProducts()
 
@@ -139,7 +141,7 @@ export const CoverDropdown = ({
         return renderOption({
           name,
           image,
-          selected,
+          isSelected: _selected,
           active,
           option,
           optionIdx: index
@@ -158,6 +160,8 @@ export const CoverDropdown = ({
       />
     )
   }
+
+  const filteredOptions = (selectedOptionOnTop && selected) ? covers.filter(opt => opt.id !== selected.id) : covers
 
   return (
     <Listbox value={selected} onChange={handleSelect}>
@@ -178,11 +182,29 @@ export const CoverDropdown = ({
           leaveTo='opacity-0'
         >
           <Listbox.Options className={classNames(
-            'absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none',
+            'absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-80 ring-1 ring-black ring-opacity-5 focus:outline-none border shadow-lg border-B0C4DB',
             optionsClass
           )}
           >
-            {covers.map((option, optionIdx) => (
+            {
+              selectedOptionOnTop && (
+                <Listbox.Option
+                  className='relative px-1 cursor-pointer select-none text-4e7dd9'
+                  value={selected}
+                >
+                  {({ selected: _selected, active }) => (
+                    <Option
+                      active={active}
+                      option={selected}
+                      _selected={_selected}
+                      index={0}
+                    />
+                  )}
+                </Listbox.Option>
+              )
+            }
+
+            {filteredOptions.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
                 id='reporting-dropdown'
