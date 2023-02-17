@@ -13,6 +13,7 @@ import { TotalCapacityChart } from '@/common/TotalCapacityChart'
 import { TopAccounts } from '@/modules/analytics/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import Consensus from '@/modules/analytics/Consensus'
+import { AnalyticsQuickInfoTable } from './AnalyticsQuickInfoTable'
 import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
@@ -125,7 +126,13 @@ export const AnalyticsContent = () => {
             <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
-
+      case AllDropdownOptions.QUICK_INFO:
+        return (
+          <>
+            <AnalyticsStats loading={loading} statsData={statsData} />
+            <AnalyticsQuickInfoTable />
+          </>
+        )
       case AllDropdownOptions.DEMAND:
         return <TotalCapacityChart data={totalCovered} />
 

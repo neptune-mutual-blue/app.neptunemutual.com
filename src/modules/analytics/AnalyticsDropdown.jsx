@@ -38,7 +38,7 @@ export const AnalyticsDropdown = ({
         >
           <Listbox.Options
             className={classNames(
-              'absolute z-10 w-full mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl',
+              'absolute z-30 w-full mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl',
               direction === 'right' && 'right-0',
               loading && 'hidden'
             )}
@@ -64,7 +64,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
       data-testid={`option-${optionIdx + 1}`}
       className={({ active }) =>
         classNames(
-          'cursor-default select-none relative pb-2',
+          'cursor-default select-none relative p-0 pb-2 w-full',
           active ? 'text-4e7dd9' : 'text-black'
         )}
       value={option}
@@ -73,7 +73,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
         return (
           <span
             className={classNames(
-              'flex truncate pl-2 pr-16 py-2 capitalize rounded items-center justify-between leading-5 font-normal font-poppins text-sm text-000000 w-56',
+              'flex truncate pl-2 py-2 capitalize rounded items-center justify-between leading-5 font-normal font-poppins text-sm text-000000 lg:w-56',
               active ? 'bg-EEEEEE rounded-lg' : ''
             )}
           >
