@@ -1,14 +1,18 @@
 import { useNetwork } from '@/src/context/Network'
 import { getGroupedProtocolMonthData } from '@/src/services/aggregated-stats/protocol'
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 
-export const useProtocolMonthData = () => {
+export const useProtocolMonthData = (cache = true) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  const fetched = useRef(false)
+
   const { networkId } = useNetwork()
 
-  useEffect(() => {
+  const fetchData = () => {
+    if (cache && fetched.current) return
+
     setLoading(true)
 
     getGroupedProtocolMonthData(networkId)
@@ -16,6 +20,8 @@ export const useProtocolMonthData = () => {
         if (!_data) return
 
         setData(_data)
+
+        fetched.current = true
       })
       .catch((err) => {
         console.error(err)
@@ -23,10 +29,11 @@ export const useProtocolMonthData = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [networkId])
+  }
 
   return {
     data,
-    loading
+    loading,
+    fetchData
   }
 }

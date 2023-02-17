@@ -4,6 +4,16 @@ import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { classNames } from '@/utils/classnames'
 import { DropdownOption } from '@/modules/reporting/DropdownOption'
 
+/**
+ *
+ * @param {Object} props
+ * @param {string | React.ReactNode} [props.prefix]
+ * @param {any[]} props.options
+ * @param {any} props.selected
+ * @param {((value: any) => any)} props.setSelected
+ * @param {string | React.ReactNode} props.selectedName
+ * @returns
+ */
 export const ReportingDropdown = ({
   prefix = '',
   options,
@@ -29,7 +39,7 @@ export const ReportingDropdown = ({
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Listbox.Options className='absolute w-full z-60 py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none'>
+          <Listbox.Options className='absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg z-60 max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none'>
             {options.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
