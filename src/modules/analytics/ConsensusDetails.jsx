@@ -45,6 +45,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const { activeCommitment, availableLiquidity, totalPoolAmount } = coverStats
 
   const liquidity = isDiversified ? totalPoolAmount : toBN(availableLiquidity).plus(activeCommitment).toString()
+
   const protection = activeCommitment
   const protectionLong = coverStatsLoading
     ? { short: '-', long: '-' }
