@@ -22,7 +22,7 @@ const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadg
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <td style={{ minWidth: '148px', maxWidth: '148px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       {status !== E_CARD_STATUS.NORMAL && (
         <CardStatusBadge
           className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
@@ -35,7 +35,7 @@ const renderStatus = (row) => {
 
 const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td style={{ minWidth: '118px', maxWidth: '118px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
         <Badge className='mr-2 rounded-full bg-21AD8C'>
@@ -53,7 +53,7 @@ const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
 
 const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td style={{ minWidth: '118px', maxWidth: '118px' }} className='px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
         <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
@@ -107,7 +107,7 @@ const CoverCell = ({ row, setData, index }) => {
 
   return (
     <div
-      className='flex items-center max-w-15 px-6 py-4.5 text-sm leading-5 text-01052D cursor-pointer'
+      className='flex items-center px-6 py-4.5 text-sm leading-5 text-01052D cursor-pointer'
     >
       <img
         src={imgSrc}
@@ -155,10 +155,10 @@ const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData })
   )
 }
 
-const renderCover = (row, { data, setData }, index) => {
+const renderCover = (row, { setData }, index) => {
   return (
-    <td className=''>
-      <CoverCell row={row} data={data} setData={setData} index={index} />
+    <td style={{ minWidth: '214px', maxWidth: '214px' }}>
+      <CoverCell row={row} setData={setData} index={index} />
     </td>
   )
 }
@@ -166,7 +166,7 @@ const renderCover = (row, { data, setData }, index) => {
 const renderProtection = (row, { liquidityTokenDecimals, locale, setData }, index) => {
   return (
     <td
-      className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
+      className='px-6 py-4.5 text-sm leading-5 text-01052D'
     >
       <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} setData={setData} index={index} />
     </td>
@@ -188,13 +188,13 @@ const columns = [
   },
   {
     name: t`attested`,
-    align: 'right',
+    align: 'left',
     renderHeader,
     renderData: renderAttestedStake
   },
   {
     name: t`refuted`,
-    align: 'right',
+    align: 'left',
     renderHeader,
     renderData: renderRefutedStake
   },
@@ -214,7 +214,7 @@ function Consensus ({ data, loading, setData, setConsensusIndex }) {
     <div>
       <div className='text-xl'>Protocols In Consensus</div>
 
-      <TableWrapper>
+      <TableWrapper className='xl:overflow-x-hidden'>
         <Table>
           <THead
             columns={columns}

@@ -45,6 +45,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
   const { activeCommitment, availableLiquidity, totalPoolAmount } = coverStats
 
   const liquidity = isDiversified ? totalPoolAmount : toBN(availableLiquidity).plus(activeCommitment).toString()
+
   const protection = activeCommitment
   const protectionLong = coverStatsLoading
     ? { short: '-', long: '-' }
@@ -103,7 +104,10 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   const liquidityText = formatCurrency(
     convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-    router.locale
+    router.locale,
+    'USD',
+    false,
+    true
   )
 
   return (
@@ -193,7 +197,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
           title='Mode' value={isDiversified ? 'FC-FS' : '-'}
         />
       </div>
-      <hr className='h-px border-B0C4DB' />
+      <hr className='border-t-0.5 border-t-B0C4DB' />
       <div className='text-xs flex items-center my-6 lg:my-10'>
         <span className='mr-2'>
           Resolution:
