@@ -54,7 +54,8 @@ const TotalCapacityChart = ({ data }) => {
       gridLineWidth: 0.5,
       min: yAxisMin,
       lineWidth: 0,
-      lineColor: '#01052D'
+      lineColor: '#01052D',
+      showLastLabel: true
     },
     series: [
       {
@@ -195,7 +196,7 @@ const TotalCapacityChart = ({ data }) => {
   }, [data, chartData.length, liquidityTokenDecimals])
 
   return (
-    <div data-testid='total-liquidity-chart' className='h-full'>
+    <div data-testid='total-liquidity-chart' className='h-full pt-1'>
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}

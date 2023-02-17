@@ -100,7 +100,7 @@ const DropdownOption = ({ option, selected, active }) => {
           <img
             src={getCoverImgSrc({
               key: isDiversified ? option.productKey : option.coverKey
-            })}
+            }) || '/images/covers/empty.svg'}
             alt={
               coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || coverInfo?.infoObj?.productName
             }
