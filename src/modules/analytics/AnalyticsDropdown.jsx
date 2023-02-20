@@ -37,7 +37,7 @@ export const AnalyticsDropdown = ({
         >
           <Listbox.Options
             className={classNames(
-              'absolute z-30 w-full min-w-250 lg:min-w-max mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl left-0 lg:right-0 lg:left-auto',
+              'absolute z-30 w-full min-w-250 lg:min-w-max mt-2 overflow-auto text-base bg-white border shadow-lightCard md:w-auto border-B0C4DB focus:outline-none focus-visible:border-4e7dd9 p-8 rounded-2xl left-0',
               loading && 'hidden'
             )}
             data-testid='options-container'

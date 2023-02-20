@@ -42,12 +42,12 @@ const RenderNetwork = ({ coverKey, productKey }) => {
 
 const RenderUtilisationRatio = ({ coverKey, productKey }) => {
   const router = useRouter()
-  const key = utils.keyUtil.toBytes32('')
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
+  const _productKey = isValidProduct(productKey) ? productKey : utils.keyUtil.toBytes32('')
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: _productKey })
 
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
-    productKey: productKey
+    productKey: _productKey
   })
 
   const isDiversified = coverInfo?.supportsProducts
@@ -59,11 +59,12 @@ const RenderUtilisationRatio = ({ coverKey, productKey }) => {
   const utilization = toBN(liquidity).isEqualTo(0)
     ? '0'
     : toBN(activeCommitment).dividedBy(liquidity).decimalPlaces(2).toString()
+
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-01052D'
     >
-      <div className='inline-block px-2 py-2 text-21AD8C text-sm bg-EAF7F8 rounded-xl'>
+      <div className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-xl'>
         {formatPercent(utilization, router.locale)}
       </div>
     </td>
@@ -73,12 +74,12 @@ const RenderUtilisationRatio = ({ coverKey, productKey }) => {
 const RenderCapacity = ({ coverKey, productKey }) => {
   const { liquidityTokenDecimals } = useAppConstants()
   const router = useRouter()
-  const key = utils.keyUtil.toBytes32('')
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: key })
+  const _productKey = isValidProduct(productKey) ? productKey : utils.keyUtil.toBytes32('')
+  const { coverInfo } = useCoverOrProductData({ coverKey, productKey: _productKey })
 
   const { info: coverStats } = useFetchCoverStats({
     coverKey: coverKey,
-    productKey: productKey
+    productKey: _productKey
   })
 
   const isDiversified = coverInfo?.supportsProducts
@@ -125,19 +126,19 @@ const columns = [
   }
 ]
 
+const ROWS_PER_PAGE = 3
 export const AnalyticsQuickInfoTable = () => {
-  const { data: flattenedCovers, loading: flattenedCoversLoading } =
-    useFlattenedCoverProducts()
-  const defaultSize = 3
-  const [initialVal, setInitialVal] = useState(0)
+  const { data: flattenedCovers, loading: flattenedCoversLoading } = useFlattenedCoverProducts()
+  const [page, setPage] = useState(1)
 
   const paginateLeft = () => {
-    setInitialVal(initialVal - 1)
+    setPage(page - 1)
   }
   const paginateRight = () => {
-    setInitialVal(initialVal + 1)
+    setPage(page + 1)
   }
-  const maxPage = Math.floor(flattenedCovers.length / defaultSize)
+
+  const paginatedData = flattenedCovers.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
 
   return (
     <div>
@@ -149,8 +150,10 @@ export const AnalyticsQuickInfoTable = () => {
         </div>
         <div className='flex gap-x-5'>
           <PreviousNext
-            onPrevious={paginateLeft} onNext={paginateRight}
-            hasPrevious={initialVal > 0} hasNext={initialVal < maxPage}
+            onPrevious={paginateLeft}
+            onNext={paginateRight}
+            hasPrevious={page > 1}
+            hasNext={page < (Math.abs(flattenedCovers.length / ROWS_PER_PAGE))}
           />
         </div>
       </div>
@@ -160,7 +163,7 @@ export const AnalyticsQuickInfoTable = () => {
           <TBody
             isLoading={flattenedCoversLoading}
             columns={columns}
-            data={initialVal < maxPage ? flattenedCovers.slice(defaultSize * initialVal, (initialVal + 1) * defaultSize) : flattenedCovers.slice(initialVal * defaultSize)}
+            data={paginatedData}
           />
         </Table>
       </TableWrapper>

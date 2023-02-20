@@ -15,7 +15,7 @@ import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
  * @param {Object} props
  * @param {(selected: any) => any} props.onChange
  * @param {string} [props.className]
- * @param {React.ReactElement | (({selected, name, image}) => React.ReactElement)} [props.renderButton]
+ * @param {React.ReactElement | (({selected, name, image, open}) => React.ReactElement)} [props.renderButton]
  * @param {React.ReactElement | (({name, image, option, optionIdx, isSelected, active}) => React.ReactElement)} [props.renderOption]
  * @param {string} [props.buttonClass]
  * @param {string | ((active?: boolean) => string)} [props.optionClass]
@@ -97,13 +97,14 @@ export const CoverDropdown = ({
     if (onChange) onChange(val)
   }
 
-  const Button = () => {
+  const Button = ({ open }) => {
     if (renderButton) {
       if (typeof renderButton === 'function') {
         return renderButton({
           selected,
           name: selectedName,
-          image: selectedImageSrc
+          image: selectedImageSrc,
+          open
         })
       }
 
@@ -173,7 +174,9 @@ export const CoverDropdown = ({
           )}
           disabled={!selected}
         >
-          <Button />
+          {({ open }) => (
+            <Button open={open} />
+          )}
         </Listbox.Button>
         <Transition
           as={Fragment}

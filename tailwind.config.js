@@ -86,7 +86,8 @@ module.exports = {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
-        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);'
+        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'cover-dropdown': '0px 4px 11px rgba(0, 0, 0, 0.06)'
       },
       flex: {
         2: '2 2 0%'
@@ -213,7 +214,7 @@ module.exports = {
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
         '4B7EE1': '#4B7EE1',
-        'EAF7F8': '#EAF7F8',
+        EAF7F8: '#EAF7F8'
       },
       minHeight: {
         360: '360px',
