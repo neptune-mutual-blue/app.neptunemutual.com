@@ -17,6 +17,7 @@ import { AnalyticsQuickInfoTable } from './AnalyticsQuickInfoTable'
 import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
+import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -44,6 +45,8 @@ export const AnalyticsContent = () => {
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: userData } = useProtocolUsersData()
+
+  const { data: flattenedCovers, loading: flattenedCoversLoading, fetchData: fetchFlattenedCoversData } = useFlattenedCoverProducts(false, true, true)
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
 
@@ -80,6 +83,10 @@ export const AnalyticsContent = () => {
 
     if ([AllDropdownOptions.COVER_TVL, AllDropdownOptions.DEMAND, AllDropdownOptions.TOTAL_CAPACITY].includes(selected.value)) {
       fetchProtocolDayData()
+    }
+
+    if (selected.value === AllDropdownOptions.QUICK_INFO) {
+      fetchFlattenedCoversData()
     }
     // eslint-disable-next-line
   }, [selected.value])
@@ -130,7 +137,7 @@ export const AnalyticsContent = () => {
         return (
           <>
             <AnalyticsStats loading={loading} statsData={statsData} />
-            <AnalyticsQuickInfoTable />
+            <AnalyticsQuickInfoTable flattenedCovers={flattenedCovers} loading={flattenedCoversLoading} />
           </>
         )
       case AllDropdownOptions.DEMAND:

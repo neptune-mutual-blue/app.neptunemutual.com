@@ -115,7 +115,7 @@ export const TBody = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr className={onRowClick ? 'cursor-pointer' : undefined} onClick={() => onRowClick(idx)} role='row'>
+            <tr className={onRowClick ? 'cursor-pointer' : undefined} onClick={() => onRowClick ? onRowClick(idx) : () => {}} role='row'>
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>
