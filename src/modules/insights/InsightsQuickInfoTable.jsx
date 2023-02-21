@@ -26,9 +26,18 @@ const RenderNetwork = ({ coverKey, productKey, infoObj }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
-    <td className='px-6 py-4'>
-      <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
-        <img src={imgSrc} alt={infoObj?.coverName || infoObj?.projectName} width='24' height='24' className='mr-2 rounded-full shrink-0' />
+    <td className='px-6 py-4 w-80'>
+      <div
+        className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'
+        title={name}
+      >
+        <img
+          src={imgSrc}
+          alt={infoObj?.coverName || infoObj?.projectName}
+          width='24'
+          height='24'
+          className='mr-2 rounded-full shrink-0'
+        />
         <span> {name}  </span>
       </div>
     </td>
@@ -40,7 +49,10 @@ const RenderUtilisationRatio = ({ stats, locale }) => {
     <td
       className='px-6 py-4 text-sm leading-5 text-01052D'
     >
-      <div className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-xl'>
+      <div
+        className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-xl'
+        title={formatPercent(stats.utilization, locale)}
+      >
         {formatPercent(stats.utilization, locale)}
       </div>
     </td>
@@ -52,7 +64,14 @@ const RenderCapacity = ({ stats, locale, liquidityTokenDecimals }) => {
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
     >
-      <span>
+      <span
+        title={
+          formatCurrency(
+            convertFromUnits(stats.liquidity, liquidityTokenDecimals).toString(),
+            locale
+          ).long
+        }
+      >
         {
         formatCurrency(
           convertFromUnits(stats.liquidity, liquidityTokenDecimals).toString(),
@@ -101,7 +120,7 @@ export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
   const { liquidityTokenDecimals } = useAppConstants()
 
   const filtered = flattenedCovers.filter(cover => {
-    return toBN(cover.stats.utilization).isGreaterThanOrEqualTo(0.70)
+    return toBN(cover.stats.utilization).isGreaterThanOrEqualTo(0.7)
   })
 
   const sorted = sorter({

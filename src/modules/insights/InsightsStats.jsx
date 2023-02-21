@@ -20,54 +20,93 @@ const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
     <StatsCard
       titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
-      title='Total Capacity' value={
-              formatCurrency(
-                convertFromUnits(
-                  statsData?.combined?.totalCapacity || 0,
-                  liquidityTokenDecimals
-                ).toString(),
-                router.locale
-              ).short
-              }
+      title='Total Capacity'
+      value={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCapacity || 0,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short
+      }
+      tooltip={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCapacity || 0,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).long
+      }
     />
     <StatsCard
       titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
-      title='Covered' value={
-              formatCurrency(
-                convertFromUnits(
-                  statsData?.combined?.totalCoveredAmount,
-                  liquidityTokenDecimals
-                ).toString(),
-                router.locale
-              ).short
-            }
+      title='Covered'
+      value={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCoveredAmount,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short
+      }
+      tooltip={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCoveredAmount,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).long
+      }
     />
     <StatsCard
       titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
       title='Commitment' value={
-              formatCurrency(
-                convertFromUnits(
-                  statsData?.combined?.activeCoveredAmount,
-                  liquidityTokenDecimals
-                ).toString(),
-                router.locale
-              ).short
-            }
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.activeCoveredAmount,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short
+      }
+      tooltip={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.activeCoveredAmount,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).long
+      }
     />
     <StatsCard
       titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'
-      title='Cover Fee' value={
-              formatCurrency(
-                convertFromUnits(
-                  statsData?.combined?.totalCoverFee,
-                  liquidityTokenDecimals
-                ).toString(),
-                router.locale
-              ).short
-            }
+      title='Cover Fee'
+      value={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCoverFee,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).short
+      }
+      tooltip={
+        formatCurrency(
+          convertFromUnits(
+            statsData?.combined?.totalCoverFee,
+            liquidityTokenDecimals
+          ).toString(),
+          router.locale
+        ).long
+      }
     />
   </div>
 )

@@ -45,7 +45,19 @@ export const PolicyCalculation = ({
       </div>
       <div className='flex items-end justify-between'>
 
-        <div className='block text-lg font-semibold leading-6 uppercase text-01052D'>
+        <div
+          className='block text-lg font-semibold leading-6 uppercase text-01052D'
+          title={
+            !loading
+              ? formatCurrency(
+                coverFee,
+                router.locale,
+                liquidityTokenSymbol,
+                true
+              ).long
+              : 'fetching...'
+          }
+        >
           {
             loading
               ? (

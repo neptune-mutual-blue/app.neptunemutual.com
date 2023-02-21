@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
+import { HomeHero } from '@/modules/home/Hero'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
@@ -11,7 +12,6 @@ import { logPageLoad } from '@/src/services/logs'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { analyticsLogger } from '@/utils/logger'
 import { useWeb3React } from '@web3-react/core'
-import { Insights } from '@/modules/insights'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -39,7 +39,7 @@ export default function CoverPage () {
       {isDiversified
         ? (
           <div className='min-h-screen'>
-            <Insights />
+            <HomeHero />
             <SortableStatsProvider>
               <ProductsGrid />
             </SortableStatsProvider>

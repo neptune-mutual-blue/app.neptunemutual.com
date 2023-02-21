@@ -114,10 +114,10 @@ export const useCovers = ({ supportsProducts, fetchStats = false, fetchInfo = fa
             }
           }
         }
-
-        if (index === data.length - 1) setLoading(false)
       } catch (error) {
         console.error(error)
+      } finally {
+        if (index === data.length - 1) setLoading(false)
       }
 
       setUpdatedData(_prev => {

@@ -120,10 +120,10 @@ export const useFlattenedCoverProducts = (eager = true, fetchStats = false, fetc
             }
           }
         }
-
-        if (index === data.length - 1) setLoading(false)
       } catch (error) {
         console.error(error)
+      } finally {
+        if (index === data.length - 1) setLoading(false)
       }
 
       setUpdatedData(_prev => {

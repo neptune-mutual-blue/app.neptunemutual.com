@@ -58,7 +58,7 @@ const DropdownOption = ({ name, image, isSelected, active }) => {
           />
         </div>
 
-        <span className='overflow-hidden truncate'>
+        <span className='truncate whitespace-normal max-h-10'>
           {name}
         </span>
 
