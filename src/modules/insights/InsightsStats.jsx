@@ -1,10 +1,10 @@
-import { StatsCard } from '@/src/modules/analytics/StatsCard'
+import { StatsCard } from '@/src/modules/insights/StatsCard'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
 import { useRouter } from 'next/router'
 import { useAppConstants } from '@/src/context/AppConstants'
 
-export const AnalyticsStats = ({ loading, statsData }) => {
+export const InsightsStats = ({ loading, statsData }) => {
   const router = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
@@ -16,7 +16,7 @@ export const AnalyticsStats = ({ loading, statsData }) => {
 }
 
 const StatDisplay = ({ liquidityTokenDecimals, router, statsData }) => (
-  <div className='grid grid-cols-analytics-stat-cards lg:flex items-start justify-between pb-6 lg:pb-10 flex-wrap gap-x-2 gap-y-4'>
+  <div className='grid flex-wrap items-start justify-between pb-6 grid-cols-analytics-stat-cards lg:flex lg:pb-10 gap-x-2 gap-y-4'>
     <StatsCard
       titleClass='text-999BAB lg:text-404040'
       valueClass='uppercase'

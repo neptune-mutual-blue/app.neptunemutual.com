@@ -112,7 +112,7 @@ const columns = [
   }
 ]
 
-export const AnalyticsTVLTable = ({ data, loading }) => {
+export const InsightsTVLTable = ({ data, loading }) => {
   return (
     <div>
       <hr className='border-t-0.5 border-t-B0C4DB' />

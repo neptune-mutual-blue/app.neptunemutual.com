@@ -3,7 +3,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import CheckBlue from '@/icons/CheckBlue'
 import { classNames } from '@/utils/classnames'
 
-export const AnalyticsDropdown = ({
+export const InsightsDropdown = ({
   options,
   icon,
   loading = false,

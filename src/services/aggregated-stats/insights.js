@@ -73,7 +73,7 @@ async function getTVLStats ({ chainId, name, LogoIcon }) {
   return stats
 }
 
-export async function getAnalyticsTVLData () {
+export async function getInsightsTVLData () {
   const { isMainNet } = getNetworkInfo(getNetworkId())
 
   const promises = []
@@ -91,7 +91,7 @@ export async function getAnalyticsTVLData () {
   return result
 }
 
-export const useFetchAnalyticsTVLStats = () => {
+export const useFetchInsightsTVLStats = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -100,7 +100,7 @@ export const useFetchAnalyticsTVLStats = () => {
 
     (async function () {
       try {
-        const _data = await getAnalyticsTVLData()
+        const _data = await getInsightsTVLData()
         setData(_data)
       } catch (error) {
         console.error(error)

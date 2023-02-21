@@ -18,7 +18,7 @@ const getInitialDateRange = (from) => {
   return [new Date(eightMonthsBack), new Date(currentDate.getTime())]
 }
 
-function useCoverEarningAnalytics () {
+function useCoverEarningInsights () {
   const [dateRange, setDateRange] = useState(getInitialDateRange(new Date()))
 
   const { data, loading, fetchData } = useProtocolMonthData()
@@ -114,4 +114,4 @@ function useCoverEarningAnalytics () {
   }
 }
 
-export default useCoverEarningAnalytics
+export default useCoverEarningInsights

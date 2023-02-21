@@ -19,7 +19,7 @@ export const CoverOptions = ({ setSelected }) => {
           <DropdownOption name={name} image={image} active={active} isSelected={isSelected} />
         )}
         optionClass={(active) => classNames(
-          'cursor-pointer select-none relative',
+          'cursor-pointer select-none relative !p-0',
           active ? 'text-4e7dd9' : 'text-black'
         )}
       />

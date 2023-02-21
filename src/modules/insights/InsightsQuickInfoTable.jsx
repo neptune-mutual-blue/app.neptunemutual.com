@@ -86,7 +86,7 @@ const columns = [
 ]
 
 const ROWS_PER_PAGE = 3
-export const AnalyticsQuickInfoTable = ({ flattenedCovers, loading }) => {
+export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
   useCovers({ supportsProducts: true, fetchInfo: true })
   const [page, setPage] = useState(1)
 

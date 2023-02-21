@@ -58,11 +58,13 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
     : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
 
   const leverage = row.coverInfo.cover?.infoObj.leverage
-  const efficiency = formatPercent(
-    toBN(row.coverInfo?.infoObj.capitalEfficiency)
-      .dividedBy(MULTIPLIER)
-      .toString()
-  )
+  const efficiency = isDiversified
+    ? formatPercent(
+      toBN(row.coverInfo?.infoObj.capitalEfficiency)
+        .dividedBy(MULTIPLIER)
+        .toString()
+    )
+    : formatPercent(1, router.locale)
 
   const protectionBN = toBN(protection)
 
@@ -112,7 +114,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
   return (
     <div>
-      <div className='lg:flex justify-between'>
+      <div className='justify-between lg:flex'>
         <div>
           <div className='flex items-center justify-between lg:justify-start'>
             <div className='flex items-center'>
@@ -126,7 +128,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
                   (ev) => (ev.target.src = '/images/covers/empty.svg')
                 }
               />
-              <div className='text-sm mr-6'>
+              <div className='mr-6 text-sm'>
                 {row.name}
               </div>
             </div>
@@ -153,7 +155,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
 
       </div>
 
-      <div className='grid grid-cols-analytics-stat-cards lg:flex items-start flex-wrap gap-x-6 gap-y-10 my-6 lg:my-10'>
+      <div className='grid flex-wrap items-start my-6 grid-cols-analytics-stat-cards lg:flex gap-x-6 gap-y-10 lg:my-10'>
         <StatsCard
           titleClass='text-999BAB'
           title='Liquidity' value={liquidityText.short}
@@ -161,7 +163,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         />
         <StatsCard
           titleClass='text-999BAB'
-          title='Utilization' value={utilization + '%'}
+          title='Utilization' value={formatPercent(utilization, router.locale)}
         />
         <StatsCard
           titleClass='text-999BAB'
@@ -198,17 +200,17 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         />
       </div>
       <hr className='border-t-0.5 border-t-B0C4DB' />
-      <div className='text-xs flex items-center my-6 lg:my-10'>
+      <div className='flex items-center my-6 text-xs lg:my-10'>
         <span className='mr-2'>
           Resolution:
         </span>
-        <Badge className='text-364253 px-1 border-none bg-F3F5F7'>{isResolved ? 'Resolved' : 'Pending'}</Badge>
+        <Badge className='px-1 border-none text-364253 bg-F3F5F7'>{isResolved ? 'Resolved' : 'Pending'}</Badge>
       </div>
-      <div className='grid grid-cols-auto-1fr items-center gap-x-4 gap-y-6 text-sm'>
+      <div className='grid items-center text-sm grid-cols-auto-1fr gap-x-4 gap-y-6'>
         <div title={attested.long}>{attested.short}</div>
         <div>
           <div
-            className='h-2 bg-21AD8C rounded-full' style={{
+            className='h-2 rounded-full bg-21AD8C' style={{
               width: attestedPercentage.toString() + '%'
             }}
           />
@@ -216,7 +218,7 @@ function ConsensusDetails ({ consensusIndex, setConsensusIndex, data }) {
         <div title={refuted.long}>{refuted.short}</div>
         <div>
           <div
-            className='h-2 bg-FA5C2F rounded-full' style={{
+            className='h-2 rounded-full bg-FA5C2F' style={{
               width: refutedPercentage.toString() + '%'
             }}
           />

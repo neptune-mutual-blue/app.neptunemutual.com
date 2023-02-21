@@ -1,10 +1,10 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
-import { AnalyticsDropdown } from '@/src/modules/analytics/AnalyticsDropdown'
+import { InsightsDropdown } from '@/src/modules/insights/InsightsDropdown'
 
-export const AnalyticsTitle = ({ title = 'Insights', options, selected, setSelected, trailing, leading, trailAfterDropdownInMobile = false }) => {
+export const InsightsTitle = ({ title = 'Insights', options, selected, setSelected, trailing, leading, trailAfterDropdownInMobile = false }) => {
   const analyticsDropdown = (
-    <div className='text-sm text-000000 w-full mb-6 lg:mb-0 lg:w-auto'>
-      <AnalyticsDropdown
+    <div className='w-full mb-6 text-sm text-000000 lg:mb-0 lg:w-auto'>
+      <InsightsDropdown
         options={options}
         setSelected={setSelected}
         selected={selected}
@@ -15,7 +15,7 @@ export const AnalyticsTitle = ({ title = 'Insights', options, selected, setSelec
 
   return (
     <>
-      <div className='hidden lg:flex items-center justify-between pb-10 flex-start'>
+      <div className='items-center justify-between hidden pb-10 lg:flex flex-start'>
         <div className='flex items-center'>
           {leading}
           <div className='mr-6 font-bold leading-9 text-h2 font-sora text-000000'>

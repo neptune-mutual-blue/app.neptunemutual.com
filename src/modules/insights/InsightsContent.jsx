@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'
-import { AnalyticsTitle } from '@/src/modules/analytics/AnalyticsTitle'
+import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
 import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
 import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
-import { useFetchAnalyticsTVLStats } from '@/src/services/aggregated-stats/analytics'
-import useCoverEarningAnalytics from '@/src/hooks/useCoverEarningAnalytics'
+import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
+import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
 import PreviousNext from '@/common/PreviousNext'
-import { AnalyticsStats } from '@/modules/analytics/AnalyticsStats'
-import { AnalyticsTVLTable } from '@/modules/analytics/AnalyticsTVLTable'
-import CoverEarning from '@/modules/analytics/CoverEarning'
+import { InsightsStats } from '@/modules/insights/InsightsStats'
+import { InsightsTVLTable } from '@/modules/insights/InsightsTVLTable'
+import CoverEarning from '@/modules/insights/CoverEarning'
 import { TotalCapacityChart } from '@/common/TotalCapacityChart'
-import { TopAccounts } from '@/modules/analytics/TopAccounts'
+import { TopAccounts } from '@/modules/insights/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
-import Consensus from '@/modules/analytics/Consensus'
-import { AnalyticsQuickInfoTable } from './AnalyticsQuickInfoTable'
-import ConsensusDetails from '@/modules/analytics/ConsensusDetails'
+import Consensus from '@/modules/insights/Consensus'
+import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
+import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
-import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
+import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 
 const AllDropdownOptions = {
@@ -38,7 +38,7 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
   label: value, value: value, type: dropdownLabels.includes(value) ? 'label' : 'option'
 }))
 
-export const AnalyticsContent = () => {
+export const InsightsContent = () => {
   const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
 
   const { data: statsData, loading } = useNetworkStats()
@@ -48,7 +48,7 @@ export const AnalyticsContent = () => {
 
   const { data: flattenedCovers, loading: flattenedCoversLoading, fetchData: fetchFlattenedCoversData } = useFlattenedCoverProducts(false, true, true)
 
-  const { data: TVLStats, loading: tvlStatsLoading } = useFetchAnalyticsTVLStats()
+  const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
 
   const [consensusIndex, setConsensusIndex] = useState(-1)
 
@@ -62,14 +62,14 @@ export const AnalyticsContent = () => {
     yAxisData,
     fetchData: fetchCoverEarningData,
     loading: coverEarningLoading
-  } = useCoverEarningAnalytics()
+  } = useCoverEarningInsights()
 
   const {
     data: consensusData,
     loading: consensusLoading,
     fetchData: fetchConsensusData,
     setData: setConsensusData
-  } = useConsensusAnalytics()
+  } = useConsensusInsights()
 
   useEffect(() => {
     // Lazy loading data
@@ -124,20 +124,20 @@ export const AnalyticsContent = () => {
     }
   }
 
-  const getAnalyticsComponent = () => {
+  const getInsightsComponent = () => {
     switch (selected.value) {
       case AllDropdownOptions.TVL_DISTRIBUTION:
         return (
           <>
-            <AnalyticsStats loading={loading} statsData={statsData} />
-            <AnalyticsTVLTable data={TVLStats} loading={tvlStatsLoading} />
+            <InsightsStats loading={loading} statsData={statsData} />
+            <InsightsTVLTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
       case AllDropdownOptions.QUICK_INFO:
         return (
           <>
-            <AnalyticsStats loading={loading} statsData={statsData} />
-            <AnalyticsQuickInfoTable flattenedCovers={flattenedCovers} loading={flattenedCoversLoading} />
+            <InsightsStats loading={loading} statsData={statsData} />
+            <InsightsQuickInfoTable flattenedCovers={flattenedCovers} loading={flattenedCoversLoading} />
           </>
         )
       case AllDropdownOptions.DEMAND:
@@ -180,7 +180,7 @@ export const AnalyticsContent = () => {
 
   return (
     <>
-      <AnalyticsTitle
+      <InsightsTitle
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
@@ -191,7 +191,15 @@ export const AnalyticsContent = () => {
       />
 
       <div>
-        {consensusIndex !== -1 ? <ConsensusDetails consensusIndex={consensusIndex} data={consensusData} setConsensusIndex={setConsensusIndex} /> : getAnalyticsComponent()}
+        {consensusIndex !== -1
+          ? (
+            <ConsensusDetails
+              consensusIndex={consensusIndex}
+              data={consensusData}
+              setConsensusIndex={setConsensusIndex}
+            />
+            )
+          : getInsightsComponent()}
       </div>
     </>
   )
