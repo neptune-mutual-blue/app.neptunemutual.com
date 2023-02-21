@@ -6,8 +6,6 @@ import { Listbox, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
 
-import { useCoversAndProducts } from '@/src/context/CoversAndProductsData'
-import { useNetwork } from '@/src/context/Network'
 import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
 
 /**
@@ -15,7 +13,7 @@ import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
  * @param {Object} props
  * @param {(selected: any) => any} props.onChange
  * @param {string} [props.className]
- * @param {React.ReactElement | (({selected, name, image}) => React.ReactElement)} [props.renderButton]
+ * @param {React.ReactElement | (({selected, name, image, open}) => React.ReactElement)} [props.renderButton]
  * @param {React.ReactElement | (({name, image, option, optionIdx, isSelected, active}) => React.ReactElement)} [props.renderOption]
  * @param {string} [props.buttonClass]
  * @param {string | ((active?: boolean) => string)} [props.optionClass]
@@ -33,51 +31,21 @@ export const CoverDropdown = ({
   renderOption,
   selectedOptionOnTop = false
 }) => {
-  const { data: flattenedCovers } = useFlattenedCoverProducts()
+  const { data: covers } = useFlattenedCoverProducts(true, false, true)
 
   const [selected, setSelected] = useState(null)
-  const [covers, setCovers] = useState([])
-
-  const { networkId } = useNetwork()
-  const { getCoverOrProductData } = useCoversAndProducts()
-
-  useEffect(() => {
-    let ignore = false
-
-    if (ignore || !flattenedCovers || !flattenedCovers.length || !networkId) return
-
-    flattenedCovers.forEach((cover) => {
-      const coverKey = cover?.coverKey
-      const productKey = cover?.productKey
-
-      if (!coverKey || !productKey) return
-      getCoverOrProductData({ coverKey, productKey, networkId })
-        .then((data) => {
-          if (ignore || !data) return
-          setCovers(prev => {
-            const sorted = sorter({
-              datatype: SORT_DATA_TYPES.STRING,
-              list: [...prev, data],
-              selector: (cover) => cover?.infoObj.coverName || cover?.infoObj.productName
-            })
-
-            return [...sorted]
-          })
-        })
-        // .catch(console.error)
-    })
-
-    return () => {
-      ignore = true
-    }
-  }, [flattenedCovers, getCoverOrProductData, networkId])
 
   useEffect(() => {
     let ignore = false
 
     if (!ignore && covers.length) {
-      setSelected(covers[0])
-      if (onChange) onChange(covers[0])
+      const sorted = sorter({
+        datatype: SORT_DATA_TYPES.STRING,
+        list: [...covers],
+        selector: (cover) => cover?.infoObj?.coverName || cover?.infoObj?.productName || ''
+      })
+      setSelected(sorted[0])
+      if (onChange) onChange(sorted[0])
     }
 
     return () => {
@@ -89,7 +57,7 @@ export const CoverDropdown = ({
   selected?.infoObj.productName
 
   const selectedImageSrc = getCoverImgSrc({
-    key: selected?.productKey || selected?.coverKey
+    key: isValidProduct(selected?.productKey) ? selected?.productKey : selected?.coverKey
   })
 
   const handleSelect = (val) => {
@@ -97,13 +65,14 @@ export const CoverDropdown = ({
     if (onChange) onChange(val)
   }
 
-  const Button = () => {
+  const Button = ({ open }) => {
     if (renderButton) {
       if (typeof renderButton === 'function') {
         return renderButton({
           selected,
           name: selectedName,
-          image: selectedImageSrc
+          image: selectedImageSrc,
+          open
         })
       }
 
@@ -161,7 +130,13 @@ export const CoverDropdown = ({
     )
   }
 
-  const filteredOptions = (selectedOptionOnTop && selected) ? covers.filter(opt => opt.id !== selected.id) : covers
+  const sorted = sorter({
+    datatype: SORT_DATA_TYPES.STRING,
+    list: [...covers],
+    selector: (cover) => cover?.infoObj?.coverName || cover?.infoObj?.productName || ''
+  })
+
+  const filteredOptions = (selectedOptionOnTop && selected) ? sorted.filter(opt => opt.id !== selected.id) : sorted
 
   return (
     <Listbox value={selected} onChange={handleSelect}>
@@ -173,7 +148,9 @@ export const CoverDropdown = ({
           )}
           disabled={!selected}
         >
-          <Button />
+          {({ open }) => (
+            <Button open={open} />
+          )}
         </Listbox.Button>
         <Transition
           as={Fragment}

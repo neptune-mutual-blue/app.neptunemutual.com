@@ -132,19 +132,27 @@ export async function getHeroStats (currentNetworkId) {
 
   const promises = []
 
+  let currentNetworkIndex = 0
   for (const id in SUBGRAPH_API_URLS) {
-    if (isMainNet && getNetworkInfo(parseInt(id)).isMainNet) {
+    if (
+      (isMainNet && getNetworkInfo(parseInt(id)).isMainNet) ||
+      (!isMainNet && !getNetworkInfo(parseInt(id)).isMainNet)
+    ) {
       promises.push(getIndividualHeroStats(parseInt(id)))
-    }
-
-    if (!isMainNet && !getNetworkInfo(parseInt(id)).isMainNet) {
-      promises.push(getIndividualHeroStats(parseInt(id)))
+      if (parseInt(id) === currentNetworkId) currentNetworkIndex = promises.length - 1
     }
   }
 
   const result = await Promise.all(promises)
 
-  return result.reduce((prev, curr) => {
+  return result.reduce((prev, curr, idx) => {
+    const currentNetwork = idx === currentNetworkIndex
+      ? {
+          dedicatedCoverCount: curr.dedicatedCoverCount,
+          productCount: curr.productCount
+        }
+      : prev.currentNetwork
+
     return {
       availableKeys: [...prev.availableKeys, ...curr.availableKeys],
       reportingKeys: [...prev.reportingKeys, ...curr.reportingKeys],
@@ -153,7 +161,8 @@ export async function getHeroStats (currentNetworkId) {
       coverFee: sumOf(prev.coverFee, curr.coverFee).toString(),
       covered: sumOf(prev.covered, curr.covered).toString(),
       totalCoverage: sumOf(prev.totalCoverage, curr.totalCoverage).toString(),
-      tvlPool: sumOf(prev.tvlPool, curr.tvlPool).toString()
+      tvlPool: sumOf(prev.tvlPool, curr.tvlPool).toString(),
+      currentNetwork
     }
   }, {
     availableKeys: [],

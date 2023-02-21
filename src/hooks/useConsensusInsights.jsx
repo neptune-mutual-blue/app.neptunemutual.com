@@ -28,7 +28,7 @@ const getQuery = () => {
 `
 }
 
-export const useConsensusAnalytics = () => {
+export const useConsensusInsights = () => {
   const [data, setData] = useState({
     incidentReports: []
   })
@@ -36,7 +36,7 @@ export const useConsensusAnalytics = () => {
   const fetched = useRef(false)
 
   const { networkId } = useNetwork()
-  const fetchConsensusAnalytics = useSubgraphFetch('useConsensusAnalytics')
+  const fetchConsensusAnalytics = useSubgraphFetch('useConsensusInsights')
 
   const fetchData = () => {
     if (fetched.current) {

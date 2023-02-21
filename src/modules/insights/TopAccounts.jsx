@@ -45,6 +45,15 @@ const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
   return (
     <td
       className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
+      title={
+        formatCurrency(
+          convertFromUnits(
+            row.totalProtection,
+            liquidityTokenDecimals
+          ).toString(),
+          locale
+        ).long
+      }
     >
       {
       formatCurrency(

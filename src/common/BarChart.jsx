@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 )
 
-export function BarChart ({ labels, yAxisData, loading }) {
+export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = undefined }) {
   const router = useRouter()
 
   const barData = {
@@ -61,13 +61,20 @@ export function BarChart ({ labels, yAxisData, loading }) {
     plugins: {
       legend: {
         display: false
-      }
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            if (formatTooltipLabel) return formatTooltipLabel(context.raw)
+          }
 
+        }
+      }
     }
   }
 
   if (loading) {
-    return <div className='h-391 lg:h-fill grid items-center justify-center'>Loading...</div>
+    return <div className='grid items-center justify-center h-391 lg:h-fill'>Loading...</div>
   }
 
   return <Bar className='h-391 lg:h-auto' options={options} data={barData} />
