@@ -117,7 +117,7 @@ const CoverCell = ({ row, setData, index }) => {
             // @ts-ignore
         onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
       />
-      <div className='overflow-hidden text-sm whitespace-nowrap overflow-ellipsis' title={name}>
+      <div className='overflow-hidden text-sm overflow-ellipsis' title={name}>
         {name}
       </div>
     </div>

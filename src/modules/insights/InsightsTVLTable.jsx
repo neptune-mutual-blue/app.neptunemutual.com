@@ -18,7 +18,7 @@ const RenderNetwork = ({ LogoIcon, name }) => (
   <td
     className='px-6 py-4'
   >
-    <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap' title={name}>
+    <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={name}>
       <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
       <span> {name} </span>
     </div>

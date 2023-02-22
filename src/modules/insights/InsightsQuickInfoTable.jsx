@@ -26,9 +26,9 @@ const RenderNetwork = ({ coverKey, productKey, infoObj }) => {
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
-    <td className='px-6 py-4 w-80'>
+    <td className='px-6 py-4 min-w-300 w-80'>
       <div
-        className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'
+        className='flex flex-row text-sm leading-5 whitespace-normal text-01052D'
         title={name}
       >
         <img
@@ -128,6 +128,7 @@ export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
     list: [...filtered],
     selector: (cover) => cover?.stats.utilization
   })
+
   const paginatedData = sorted.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
 
   return (
@@ -143,7 +144,7 @@ export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
             onPrevious={paginateLeft}
             onNext={paginateRight}
             hasPrevious={page > 1}
-            hasNext={page < (Math.floor(sorted.length / ROWS_PER_PAGE))}
+            hasNext={page < (Math.ceil(sorted.length / ROWS_PER_PAGE))}
           />
         </div>
       </div>
