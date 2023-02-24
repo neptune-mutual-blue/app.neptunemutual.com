@@ -7,9 +7,9 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
-import { Bar } from 'react-chartjs-2'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
+import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(
   CategoryScale,
@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 )
 
-export function BarChart ({ labels, yAxisData }) {
+export function BarChart ({ labels, yAxisData, loading, formatTooltipLabel = undefined }) {
   const router = useRouter()
 
   const barData = {
@@ -44,7 +44,6 @@ export function BarChart ({ labels, yAxisData }) {
         grid: {
           display: false
         }
-
       },
       y: {
         grid: {
@@ -62,10 +61,21 @@ export function BarChart ({ labels, yAxisData }) {
     plugins: {
       legend: {
         display: false
-      }
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            if (formatTooltipLabel) return formatTooltipLabel(context.raw)
+          }
 
+        }
+      }
     }
   }
 
-  return <Bar options={options} data={barData} />
+  if (loading) {
+    return <div className='grid items-center justify-center h-391 lg:h-fill'>Loading...</div>
+  }
+
+  return <Bar className='h-391 lg:h-auto' options={options} data={barData} />
 }

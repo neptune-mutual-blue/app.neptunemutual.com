@@ -1,14 +1,18 @@
 import { useNetwork } from '@/src/context/Network'
 import { getGroupedProtocolDayData } from '@/src/services/aggregated-stats/protocol'
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 
-export const useProtocolDayData = () => {
+export const useProtocolDayData = (eager = true) => {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const { networkId } = useNetwork()
 
-  useEffect(() => {
+  const fetched = useRef(false)
+
+  const fetchData = useCallback(() => {
+    if (fetched.current) return
+
     setLoading(true)
 
     getGroupedProtocolDayData(networkId)
@@ -16,6 +20,8 @@ export const useProtocolDayData = () => {
         if (!_data) return
 
         setData(_data)
+
+        fetched.current = true
       })
       .catch((err) => {
         console.error(err)
@@ -25,12 +31,19 @@ export const useProtocolDayData = () => {
       })
   }, [networkId])
 
+  useEffect(() => {
+    if (eager) {
+      fetchData()
+    }
+  }, [networkId, eager, fetchData])
+
   return {
     data: {
       totalCapacity: data?.totalCapacity || [],
       totalCovered: data?.totalCovered || [],
       totalLiquidity: data?.totalLiquidity || []
     },
-    loading
+    loading,
+    fetchData
   }
 }

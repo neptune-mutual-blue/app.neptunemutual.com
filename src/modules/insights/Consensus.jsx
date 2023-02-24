@@ -6,7 +6,6 @@ import {
 } from '@/common/Table/Table'
 import { t } from '@lingui/macro'
 import { renderHeader } from '@/common/Table/renderHeader'
-import { useConsensusAnalytics } from '@/src/hooks/useConsensusAnalytics'
 import * as CardStatusBadgeDefault from '@/common/CardStatusBadge'
 import { Badge } from '@/common/Badge/Badge'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
@@ -16,16 +15,17 @@ import { formatCurrency } from '@/utils/formatter/currency'
 import { convertFromUnits } from '@/utils/bn'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const { Badge: CardStatusBadge, identifyStatus, E_CARD_STATUS } = CardStatusBadgeDefault
 
 const renderStatus = (row) => {
   const status = identifyStatus(row.status)
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 text-sm leading-5 whitespace-nowrap text-01052D'>
       {status !== E_CARD_STATUS.NORMAL && (
         <CardStatusBadge
-          className='rounded-1 py-0 leading-4 border-0 tracking-normal inline-block !text-xs'
+          className='rounded-1 py-0.5 !px-1.5 leading-4.5 border-0 tracking-normal inline-block !text-xs'
           status={status}
         />
       )}
@@ -33,51 +33,59 @@ const renderStatus = (row) => {
   )
 }
 
-const renderAttestedStake = (row) => {
+const renderAttestedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 pr-8 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
 
         <Badge className='mr-2 rounded-full bg-21AD8C'>
           Yes
         </Badge>
-        <StakeText amount={row.totalAttestedStake} />
+        <StakeText
+          amount={row.totalAttestedStake}
+          locale={locale}
+          NPMTokenSymbol={NPMTokenSymbol}
+        />
       </div>
     </td>
   )
 }
 
-const renderRefutedStake = (row) => {
+const renderRefutedStake = (row, { locale, NPMTokenSymbol }) => {
   return (
-    <td className='max-w-xs px-6 py-4.5 text-sm leading-5 text-center whitespace-nowrap text-01052D'>
+    <td className='max-w-xs p-4 text-sm leading-5 text-center pr-7 whitespace-nowrap text-01052D'>
       <div className='flex items-center justify-center'>
         <Badge className='mr-2 rounded-full bg-FA5C2F'>
           No
         </Badge>
-        <StakeText amount={row.totalRefutedStake} />
+        <StakeText
+          amount={row.totalRefutedStake}
+          locale={locale}
+          NPMTokenSymbol={NPMTokenSymbol}
+        />
 
       </div>
     </td>
   )
 }
 
-const StakeText = ({ amount }) => {
-  const router = useRouter()
+const StakeText = ({ amount, locale, NPMTokenSymbol }) => {
+  const textForm = formatCurrency(
+    convertFromUnits(amount),
+    locale,
+    NPMTokenSymbol,
+    true,
+    true
+  )
 
   return (
-    <div>
-      {formatCurrency(
-        convertFromUnits(amount),
-        router.locale,
-        '',
-        true,
-        true
-      ).short}
+    <div title={textForm.long}>
+      {textForm.short.split(' ')[0]}
     </div>
   )
 }
 
-const CoverCell = ({ row }) => {
+const CoverCell = ({ row, setData, index }) => {
   const { coverInfo } = useCoverOrProductData({ coverKey: row.coverKey, productKey: row.productKey })
 
   const isDiversified = isValidProduct(coverInfo?.productKey)
@@ -85,8 +93,22 @@ const CoverCell = ({ row }) => {
   const name = isDiversified ? coverInfo?.infoObj?.productName : coverInfo?.infoObj?.coverName || coverInfo?.infoObj?.projectName || ''
   const imgSrc = getCoverImgSrc({ key: isDiversified ? row.productKey : row.coverKey })
 
+  useEffect(() => {
+    setData((_data) => {
+      const newRow = row
+      newRow.coverInfo = coverInfo
+      newRow.name = name
+      newRow.imgSrc = imgSrc
+      _data.incidentReports[index] = newRow
+
+      return _data
+    })
+  }, [coverInfo, row, imgSrc, index, name, setData])
+
   return (
-    <div className='flex items-center max-w-xs px-6 py-4.5 text-sm leading-5 whitespace-nowrap text-01052D'>
+    <div
+      className='flex items-center text-sm leading-5 cursor-pointer w-[154px] text-01052D'
+    >
       <img
         src={imgSrc}
         alt={name}
@@ -95,47 +117,58 @@ const CoverCell = ({ row }) => {
             // @ts-ignore
         onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
       />
-      <div className='text-sm'>
+      <div className='overflow-hidden text-sm overflow-ellipsis' title={name}>
         {name}
       </div>
     </div>
   )
 }
 
-const ProtectionCell = ({ row }) => {
-  const router = useRouter()
-
-  const { liquidityTokenDecimals } = useAppConstants()
+const ProtectionCell = ({ row, locale, liquidityTokenDecimals, index, setData }) => {
   const { info, isLoading } = useFetchCoverStats({ coverKey: row.coverKey, productKey: row.productKey })
 
   const protectionLong = isLoading
-    ? ''
+    ? {
+        short: '',
+        long: ''
+      }
     : formatCurrency(
       convertFromUnits(info.activeCommitment, liquidityTokenDecimals).toString(),
-      router.locale
-    ).short
+      locale
+    )
+
+  useEffect(() => {
+    setData((_data) => {
+      const newRow = row
+      newRow.coverStats = info
+      newRow.coverStatsLoading = isLoading
+      _data.incidentReports[index] = newRow
+
+      return _data
+    })
+  }, [info, row, isLoading, setData, index])
 
   return (
-    <div>
-      {protectionLong}
+    <div title={protectionLong.long}>
+      {protectionLong.short}
     </div>
   )
 }
 
-const renderCover = (row) => {
+const renderCover = (row, { setData }, index) => {
   return (
-    <td className=''>
-      <CoverCell row={row} />
+    <td className='px-6 py-4 pr-9'>
+      <CoverCell row={row} setData={setData} index={index} />
     </td>
   )
 }
 
-const renderProtection = (row) => {
+const renderProtection = (row, { liquidityTokenDecimals, locale, setData }, index) => {
   return (
     <td
-      className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
+      className='max-w-xs px-6 py-5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
     >
-      <ProtectionCell row={row} />
+      <ProtectionCell row={row} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} setData={setData} index={index} />
     </td>
   )
 }
@@ -154,14 +187,14 @@ const columns = [
     renderData: renderStatus
   },
   {
-    name: t`total attested stake`,
-    align: 'right',
+    name: t`attested`,
+    align: 'left',
     renderHeader,
     renderData: renderAttestedStake
   },
   {
-    name: t`total refuted stake`,
-    align: 'right',
+    name: t`refuted`,
+    align: 'left',
     renderHeader,
     renderData: renderRefutedStake
   },
@@ -173,20 +206,31 @@ const columns = [
   }
 ]
 
-function Consensus () {
-  const { data, loading } = useConsensusAnalytics()
+function Consensus ({ data, loading, setData, setConsensusIndex }) {
+  const router = useRouter()
+  const { liquidityTokenDecimals, NPMTokenSymbol } = useAppConstants()
 
   return (
     <div>
       <div className='text-xl'>Protocols In Consensus</div>
 
-      <TableWrapper>
+      <TableWrapper className='xl:overflow-x-hidden'>
         <Table>
           <THead
             columns={columns}
           />
           <TBody
-            extraData={{}}
+            isLoading={loading}
+            extraData={{
+              locale: router.locale,
+              liquidityTokenDecimals,
+              setData,
+              setConsensusIndex,
+              NPMTokenSymbol
+            }}
+            onRowClick={(idx) => {
+              setConsensusIndex(idx)
+            }}
             columns={columns}
             data={loading ? [] : data.incidentReports}
           />

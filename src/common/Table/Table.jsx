@@ -15,7 +15,7 @@ export const TableWrapper = ({ children, className = '', ...rest }) => {
     <>
       <div
         className={classNames(
-          'relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-3xl',
+          'relative mt-8 overflow-x-auto bg-white border text-404040 border-B0C4DB rounded-xl',
           className
         )}
         {...rest}
@@ -98,7 +98,8 @@ export const TBody = ({
   data = [],
   isLoading = false,
   extraData = {},
-  RowWrapper = Fragment
+  RowWrapper = Fragment,
+  onRowClick = undefined
 }) => {
   return (
     <tbody className='divide-y divide-DAE2EB' data-testid='app-table-body'>
@@ -114,7 +115,7 @@ export const TBody = ({
 
         return (
           <RowWrapper key={idx} {...wrapperProps}>
-            <tr role='row'>
+            <tr className={onRowClick ? 'cursor-pointer' : undefined} onClick={() => onRowClick ? onRowClick(idx) : () => {}} role='row'>
               {columns.map((col, _idx) => {
                 return (
                   <Fragment key={_idx}>

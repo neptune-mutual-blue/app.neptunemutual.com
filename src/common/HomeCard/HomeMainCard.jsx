@@ -17,8 +17,8 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
         <InfoTooltip
           infoComponent={
             <div>
-              <p>{heroData.dedicatedCoverCount} <Trans>Dedicated covers</Trans></p>
-              <p>{heroData.productCount} <Trans>Products</Trans></p>
+              <p>{heroData?.currentNetwork?.dedicatedCoverCount} <Trans>Dedicated covers</Trans></p>
+              <p>{heroData?.currentNetwork?.productCount} <Trans>Products</Trans></p>
             </div>
           }
         >

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useNetwork } from '@/src/context/Network'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 
@@ -28,16 +28,21 @@ const getQuery = () => {
 `
 }
 
-export const useConsensusAnalytics = () => {
+export const useConsensusInsights = () => {
   const [data, setData] = useState({
     incidentReports: []
   })
   const [loading, setLoading] = useState(false)
+  const fetched = useRef(false)
 
   const { networkId } = useNetwork()
-  const fetchConsensusAnalytics = useSubgraphFetch('useConsensusAnalytics')
+  const fetchConsensusAnalytics = useSubgraphFetch('useConsensusInsights')
 
-  useEffect(() => {
+  const fetchData = () => {
+    if (fetched.current) {
+      return
+    }
+
     setLoading(true)
 
     fetchConsensusAnalytics(networkId, getQuery())
@@ -47,6 +52,8 @@ export const useConsensusAnalytics = () => {
         setData(() => ({
           incidentReports: _data.incidentReports
         }))
+
+        fetched.current = true
       })
       .catch((err) => {
         console.error(err)
@@ -54,12 +61,14 @@ export const useConsensusAnalytics = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [fetchConsensusAnalytics, networkId])
+  }
 
   return {
     data: {
       incidentReports: data.incidentReports
     },
-    loading
+    loading,
+    setData,
+    fetchData
   }
 }

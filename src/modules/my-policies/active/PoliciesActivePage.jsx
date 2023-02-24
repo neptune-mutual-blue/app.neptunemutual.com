@@ -5,8 +5,9 @@ import { Grid } from '@/common/Grid/Grid'
 import { PolicyCard } from '@/src/modules/my-policies/PolicyCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import { CARDS_PER_PAGE } from '@/src/config/constants'
-import { t, Trans } from '@lingui/macro'
+import { Trans } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
+import { PoliciesEmptyState } from '@/modules/my-policies/active/PoliciesEmptyState'
 
 export const PoliciesActivePage = ({ data, loading }) => {
   return (
@@ -46,23 +47,5 @@ function ActivePolicies ({ data, loading }) {
     )
   }
 
-  return (
-    <div
-      className='flex flex-col items-center w-full pt-20'
-      data-testid='empty-text'
-    >
-      <img
-        src='/images/covers/empty-list-illustration.svg'
-        alt={t`No data found`}
-        className='w-48 h-48'
-      />
-      <p className='max-w-full mt-8 text-center text-h5 text-404040 w-96'>
-        <Trans>
-          A cover policy enables you to claim and receive payout when an
-          incident occurs. To purchase a policy, select a cover from the home
-          screen.
-        </Trans>
-      </p>
-    </div>
-  )
+  return <PoliciesEmptyState />
 }

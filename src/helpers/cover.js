@@ -1,5 +1,7 @@
 import { utils } from '@neptunemutual/sdk'
 import { parseBytes32String } from '@ethersproject/strings'
+import { toBN } from '@/utils/bn'
+import { CoverStatus } from '@/src/config/constants'
 
 /**
  *
@@ -96,4 +98,32 @@ export const getParsedProductInfo = async (ipfsStr = '', ipfsHash) => {
     links: {},
     resolutionSources: []
   }
+}
+
+export const getCoverStats = (stats, isDiversified) => {
+  let newStats = {
+    liquidity: '0',
+    protection: '0',
+    utilization: '0'
+  }
+  const { activeCommitment, availableLiquidity, totalPoolAmount } = stats
+
+  const liquidity = isDiversified
+    ? totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
+    : toBN(availableLiquidity).plus(activeCommitment).toString()
+
+  const protection = activeCommitment
+  const utilization = toBN(liquidity).isEqualTo(0)
+    ? '0'
+    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
+
+  newStats = {
+    ...stats,
+    productStatus: CoverStatus[stats.productStatus],
+    liquidity,
+    protection,
+    utilization
+  }
+
+  return newStats
 }

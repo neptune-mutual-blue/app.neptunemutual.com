@@ -86,7 +86,8 @@ module.exports = {
         dropdown: '0px 4px 10px rgba(0, 0, 0, 0.2)',
         actionCard: '0px 4px 64px rgba(78, 125, 217, 0.4)',
         coverCard: '0px 6px 8px rgba(0, 0, 0, 0.1)',
-        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);'
+        lightCard: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        'cover-dropdown': '0px 4px 11px rgba(0, 0, 0, 0.06)'
       },
       flex: {
         2: '2 2 0%'
@@ -111,7 +112,7 @@ module.exports = {
         dropdown: 'calc(100% + 8px)',
         /* For analytics segment, implementing the spacing */
         '25px': '25px',
-        '10px': '10px'
+        '524px': '524px'
       },
       lineHeight: {
         4.5: '18px',
@@ -152,7 +153,8 @@ module.exports = {
         '60vw': '60vw',
         '75vw': '75vw',
         '90vw': '90vw',
-        '100vw': '100vw'
+        '100vw': '100vw',
+        'analytics-stat': '99.2px'
       },
       colors: {
         '999BAB': '#999BAB',
@@ -211,7 +213,8 @@ module.exports = {
         667085: '#667085',
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
-        '4B7EE1': '#4B7EE1'
+        '4B7EE1': '#4B7EE1',
+        EAF7F8: '#EAF7F8'
       },
       minHeight: {
         360: '360px',
@@ -231,7 +234,8 @@ module.exports = {
       height: {
         500: '500px',
         '100vh': '100vh',
-        0.75: '0.175rem'
+        0.75: '0.175rem',
+        391: '391px'
       },
       width: {
         800: '800px',
@@ -256,6 +260,10 @@ module.exports = {
       gridTemplateRows: {
         'basket-modal': 'auto 1fr auto',
         'analytics-card': 'auto 1fr'
+      },
+      gridTemplateColumns: {
+        'auto-1fr': 'auto 1fr',
+        'analytics-stat-cards': '1fr 1fr 1fr'
       }
     }
   },

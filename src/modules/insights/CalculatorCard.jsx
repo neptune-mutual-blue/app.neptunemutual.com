@@ -1,14 +1,14 @@
 import { useState } from 'react'
 
 import { t, Trans } from '@lingui/macro'
-import { CalculatorCardTitle } from '@/src/modules/analytics/CalculatorCardTitle'
+import { CalculatorCardTitle } from '@/src/modules/insights/CalculatorCardTitle'
 
 import { useAppConstants } from '@/src/context/AppConstants'
-import { PolicyCalculation } from '@/src/modules/analytics/PolicyCalculation'
-import { DateRangePicker } from '@/src/modules/analytics/DateRangePicker'
-import { CoverOptions } from '@/src/modules/analytics/CoverOptions'
-import { CalculatorAmountHandler } from '@/src/modules/analytics/CalculatorAmountHandler'
-import { InputLabel } from '@/src/modules/analytics/InputLabel'
+import { PolicyCalculation } from '@/src/modules/insights/PolicyCalculation'
+import { DateRangePicker } from '@/src/modules/insights/DateRangePicker'
+import { CoverOptions } from '@/src/modules/insights/CoverOptions'
+import { CalculatorAmountHandler } from '@/src/modules/insights/CalculatorAmountHandler'
+import { InputLabel } from '@/src/modules/insights/InputLabel'
 import { isValidProduct } from '@/src/helpers/cover'
 import { calculateCoverPolicyFee } from '@/utils/calculateCoverPolicyFee'
 import { useWeb3React } from '@web3-react/core'
@@ -77,7 +77,7 @@ export const CalculatorCard = () => {
       </div>
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Select a cover' />
-        <CoverOptions selected={selectedCover} setSelected={setSelectedCover} />
+        <CoverOptions setSelected={setSelectedCover} />
       </div>
 
       <div className='pb-4 lg:pb-6'>
@@ -110,7 +110,7 @@ export const CalculatorCard = () => {
         />
       </div>
 
-      <div className='pb-4 lg:pb-7'>
+      <div className='pb-6 lg:pb-10'>
         {
             account
               ? (

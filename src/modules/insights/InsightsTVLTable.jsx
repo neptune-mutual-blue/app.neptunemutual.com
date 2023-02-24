@@ -18,7 +18,7 @@ const RenderNetwork = ({ LogoIcon, name }) => (
   <td
     className='px-6 py-4'
   >
-    <div className='flex flex-row text-sm leading-5 text-01052D whitespace-nowrap'>
+    <div className='flex flex-row text-sm leading-5 w-54 text-01052D' title={name}>
       <LogoIcon width='24' height='24' className='mr-2 rounded-full shrink-0' />
       <span> {name} </span>
     </div>
@@ -32,7 +32,17 @@ const RenderCover = ({ coverFee }) => {
     <td
       className='px-6 py-4 text-sm leading-5 text-01052D'
     >
-      <span>
+      <span
+        title={
+          formatCurrency(
+            convertFromUnits(
+              coverFee,
+              liquidityTokenDecimals
+            ).toString(),
+            router.locale
+          ).long
+        }
+      >
         {formatCurrency(
           convertFromUnits(
             coverFee,
@@ -52,7 +62,17 @@ const RenderCapacity = ({ capacity }) => {
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
     >
-      <span>
+      <span
+        title={
+          formatCurrency(
+            convertFromUnits(
+              capacity,
+              liquidityTokenDecimals
+            ).toString(),
+            router.locale
+          ).long
+        }
+      >
         {formatCurrency(
           convertFromUnits(
             capacity,
@@ -73,7 +93,17 @@ const RenderTVL = ({ tvl }) => {
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
     >
-      <span>
+      <span
+        title={
+          formatCurrency(
+            convertFromUnits(
+              tvl,
+              liquidityTokenDecimals
+            ).toString(),
+            router.locale
+          ).long
+        }
+      >
         {formatCurrency(
           convertFromUnits(
             tvl,
@@ -90,29 +120,29 @@ const columns = [
     name: t`Network`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderNetwork
+    renderData: (row) => <RenderNetwork LogoIcon={row.LogoIcon} name={row.name} />
   },
   {
     name: t`Cover Fee Earned`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderCover
+    renderData: (row) => <RenderCover coverFee={row.coverFee} />
   },
   {
     name: t`TVL`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderTVL
+    renderData: (row) => <RenderTVL tvl={row.tvl} />
   },
   {
     name: t`Capacity`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: RenderCapacity
+    renderData: (row) => <RenderCapacity capacity={row.capacity} />
   }
 ]
 
-export const AnalyticsTVLTable = ({ data, loading }) => {
+export const InsightsTVLTable = ({ data, loading }) => {
   return (
     <div>
       <hr className='border-t-0.5 border-t-B0C4DB' />

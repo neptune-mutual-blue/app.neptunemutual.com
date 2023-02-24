@@ -13,17 +13,20 @@ const renderAccount = (row, { page }, rowIndex) => {
 
   return (
     <td
-      className='px-6 py-4.5 text-sm whitespace-nowrap text-01052D flex gap-2.5'
+      className='flex items-center gap-2 px-6 py-4 text-sm whitespace-nowrap text-01052D'
     >
-      <span
-        className={
-          classNames('w-5 h-5 rounded-full shrink-0 flex items-center justify-center',
+      <div className='p-0.5'>
+        <span
+          className={
+          classNames('w-5 h-5 rounded-full shrink-0 flex text-sm items-center justify-center',
             trueRowIndex < 4 ? 'bg-4e7dd9 text-white' : 'bg-DEEAF6 text-01052D'
           )
         }
-      >
-        {trueRowIndex}
-      </span> {row.id}
+        >
+          {trueRowIndex}
+        </span>
+      </div>
+      <span className='w-auto lg:w-[396px]'>{row.id}</span>
     </td>
   )
 }
@@ -42,6 +45,15 @@ const renderProtection = (row, { liquidityTokenDecimals, locale }) => {
   return (
     <td
       className='max-w-xs px-6 py-4.5 text-sm leading-5 text-right whitespace-nowrap text-01052D'
+      title={
+        formatCurrency(
+          convertFromUnits(
+            row.totalProtection,
+            liquidityTokenDecimals
+          ).toString(),
+          locale
+        ).long
+      }
     >
       {
       formatCurrency(
