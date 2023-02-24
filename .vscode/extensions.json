@@ -3,6 +3,9 @@
         "bradlc.vscode-tailwindcss",
         "esbenp.prettier-vscode",
         "ricard.postcss",
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "dozerg.tsimportsorter",
+        "streetsidesoftware.code-spell-checker",
+        "heybourn.headwind"
     ]
 }
