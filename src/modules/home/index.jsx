@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { AvailableCovers } from '@/modules/home/AvailableCovers'
-import { HomeHero } from '@/modules/home/Hero'
+import { Insights } from '@/modules/insights'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 
 export default function HomePage () {
   return (
     <>
-      <HomeHero />
+      <Insights />
 
       <SortableStatsProvider>
         <AvailableCovers />
