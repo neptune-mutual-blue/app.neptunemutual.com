@@ -39,7 +39,7 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
 }))
 
 export const InsightsContent = () => {
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TVL_DISTRIBUTION))
+  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TOTAL_CAPACITY))
 
   const { data: statsData, loading } = useNetworkStats()
 

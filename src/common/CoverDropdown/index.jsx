@@ -31,7 +31,7 @@ export const CoverDropdown = ({
   renderOption,
   selectedOptionOnTop = false
 }) => {
-  const { data: covers } = useFlattenedCoverProducts(true, false, true)
+  const { data: covers } = useFlattenedCoverProducts(true, true, true)
 
   const [selected, setSelected] = useState(null)
 

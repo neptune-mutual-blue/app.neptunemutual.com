@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { t, Trans } from '@lingui/macro'
 import { CalculatorCardTitle } from '@/src/modules/insights/CalculatorCardTitle'
@@ -16,6 +16,11 @@ import ConnectWallet from '@/lib/connect-wallet/components/ConnectWallet/Connect
 import { useNotifier } from '@/src/hooks/useNotifier'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { getErrorMessage } from '@/src/helpers/tx'
+import { convertFromUnits, isGreater, isGreaterOrEqual } from '@/utils/bn'
+import { MIN_PROPOSAL_AMOUNT, MAX_PROPOSAL_AMOUNT } from '@/src/config/constants'
+import { formatCurrency } from '@/utils/formatter/currency'
+import { useRouter } from 'next/router'
 
 export const CalculatorCard = () => {
   const { account, library } = useWeb3React()
@@ -33,9 +38,36 @@ export const CalculatorCard = () => {
   const [result, setResult] = useState(null)
   const [resultLoading, setResultLoading] = useState(false)
 
+  const router = useRouter()
+
+  const [selectedCover, setSelectedCover] = useState(null)
+
+  const availableLiquidity = useMemo(() => {
+    return convertFromUnits(
+      selectedCover?.stats?.availableLiquidity || '0',
+      liquidityTokenDecimals
+    ).toString()
+  }, [selectedCover, liquidityTokenDecimals])
+
   function handleChange (val) {
-    setError('')
+    let error = ''
+
+    if (isGreater(val, MAX_PROPOSAL_AMOUNT)) {
+      error = t`Maximum proposal threshold is ${
+        formatCurrency(MAX_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      }`
+    } else if (isGreater(availableLiquidity, 0) && isGreaterOrEqual(val, availableLiquidity)) {
+      error = t`Maximum protection available is ${
+        formatCurrency(availableLiquidity, router.locale, liquidityTokenSymbol, true).long
+      }`
+    } else if (isGreater(MIN_PROPOSAL_AMOUNT, val)) {
+      error = t`Minimum proposal threshold is ${
+        formatCurrency(MIN_PROPOSAL_AMOUNT, router.locale, liquidityTokenSymbol, true).long
+      }`
+    }
+
     setAmount(val)
+    setError(error)
   }
 
   const [coverMonth, setCoverMonth] = useState('')
@@ -44,11 +76,9 @@ export const CalculatorCard = () => {
     setCoverMonth(e.target.value)
   }
 
-  const [selectedCover, setSelectedCover] = useState(null)
-
   const calculatePolicyFee = async () => {
     setResultLoading(true)
-    const { data } = await calculateCoverPolicyFee({
+    const { data, error } = await calculateCoverPolicyFee({
       value: amount,
       account,
       library,
@@ -57,6 +87,7 @@ export const CalculatorCard = () => {
       coverMonth,
       liquidityTokenDecimals
     })
+    if (error) setError(getErrorMessage(error))
 
     setResult(data)
     setResultLoading(false)
@@ -83,7 +114,7 @@ export const CalculatorCard = () => {
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Amount you wish to cover' />
         <CalculatorAmountHandler
-          error={Boolean(error)}
+          error={error}
           value={amount}
           buttonProps={{
             children: t`Max`,
@@ -116,7 +147,7 @@ export const CalculatorCard = () => {
               ? (
                 <button
                   type='button'
-                  disabled={!amount || !coverMonth || resultLoading || !selectedCover}
+                  disabled={!amount || !coverMonth || resultLoading || !selectedCover || Boolean(error)}
                   className={buttonClass}
                   title={t`Calculate policy fee`}
                   onClick={calculatePolicyFee}
