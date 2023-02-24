@@ -107,6 +107,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               <HomeCard
                 items={[
                   {
+                    // Active Protection (or) Commitment
                     name: t`Coverage`,
                     amount: formatCurrency(
                       convertFromUnits(
