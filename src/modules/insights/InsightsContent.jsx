@@ -18,6 +18,7 @@ import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -38,8 +39,10 @@ const DROPDOWN_OPTIONS = Object.values(AllDropdownOptions).map(value => ({
   label: value, value: value, type: dropdownLabels.includes(value) ? 'label' : 'option'
 }))
 
+const FALLBACK_SELECTION = DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TOTAL_CAPACITY)
+
 export const InsightsContent = () => {
-  const [selected, setSelected] = useState(DROPDOWN_OPTIONS.find((option) => option.value === AllDropdownOptions.TOTAL_CAPACITY))
+  const [selected, setSelected] = useLocalStorage('current-insights', FALLBACK_SELECTION)
 
   const { data: statsData, loading } = useNetworkStats()
 
