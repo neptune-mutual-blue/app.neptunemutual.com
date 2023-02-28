@@ -58,11 +58,11 @@ export const useCovers = ({ supportsProducts, fetchStats = false, fetchInfo = fa
 
   useEffect(() => {
     let ignore = false
-    if (!data.length || !networkId || ignore) return
+    if (!data.length || !networkId || ignore || (!fetchInfo && !fetchStats)) return
 
     setLoading(true)
 
-    data.forEach(async (cover, index) => {
+    data.forEach((cover, index) => {
       const coverKey = cover.coverKey
       const productKey = (isValidProduct(cover.productKey)) ? cover.productKey : utils.keyUtil.toBytes32('')
 
@@ -76,28 +76,41 @@ export const useCovers = ({ supportsProducts, fetchStats = false, fetchInfo = fa
       let stats = defaultStats
       let info = { infoObj: {} }
 
-      try {
-        if (fetchInfo) { // getch coverInfo
-          const res = await getCoverOrProductData({ coverKey, productKey, networkId })
-          if (res) info = res
+      const requests = []
+      if (fetchInfo) { // getch coverInfo
+        const request = {
+          method: getCoverOrProductData,
+          args: [{ coverKey, productKey, networkId }],
+          validate: (res) => {
+            if (res) info = res
+          }
         }
+        requests.push(request)
+      }
 
-        if (fetchStats) { // getch coverstats
-          if (account) {
-            const signerOrProvider = getProviderOrSigner(library, account, networkId)
-            const res = await getStats(
+      if (fetchStats) { // getch coverstats
+        if (account) {
+          const signerOrProvider = getProviderOrSigner(library, account, networkId)
+          const request = {
+            method: getStats,
+            args: [
               networkId,
               coverKey,
               productKey,
               account,
               signerOrProvider.provider
-            )
-
-            if (res && Object.keys(res).length) {
-              stats = res
+            ],
+            validate: (res) => {
+              if (res && Object.keys(res).length) {
+                stats = res
+              }
             }
-          } else {
-            const response = await fetch(
+          }
+          requests.push(request)
+        } else {
+          const request = {
+            method: fetch,
+            args: [
               getReplacedString(COVER_STATS_URL, replacements),
               {
                 method: 'GET',
@@ -106,26 +119,35 @@ export const useCovers = ({ supportsProducts, fetchStats = false, fetchInfo = fa
                   Accept: 'application/json'
                 }
               }
-            )
-
-            if (response.ok) {
-              const res = (await response.json()).data
-              stats = res
+            ],
+            validate: async (res) => {
+              if (res.ok) {
+                const dataResponse = (await res.json()).data
+                stats = dataResponse
+              }
             }
           }
+          requests.push(request)
         }
-      } catch (error) {
-        console.error(error)
-      } finally {
-        if (index === data.length - 1) setLoading(false)
       }
 
-      setUpdatedData(_prev => {
-        if (ignore) return _prev
+      requests.forEach(({ method, args, validate }) => {
+        method(...args)
+          .then(async (response) => {
+            await validate(response)
 
-        const _updated = [..._prev]
-        _updated[index] = { ...cover, stats: getCoverStats(stats, supportsProducts), ...info }
-        return [..._updated]
+            setUpdatedData(_prev => {
+              if (ignore) return _prev
+
+              const _updated = [..._prev]
+              _updated[index] = { ...cover, stats: getCoverStats(stats, supportsProducts), ...info }
+              return [..._updated]
+            })
+          })
+          .catch(error => console.error(error))
+          .finally(() => {
+            if (index === data.length - 1) setLoading(false)
+          })
       })
     })
 

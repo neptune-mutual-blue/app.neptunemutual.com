@@ -29,14 +29,22 @@ export const CoverOptions = ({ setSelected }) => {
 
 const DropdownButton = ({ name, image, open }) => (
   <div className='flex items-center justify-between gap-2'>
-    <div className='flex items-center gap-2'>
-      <img
-        src={image || '/images/covers/empty.svg'}
-        alt={name}
-        className='w-6 h-6 p-0.5'
-      />
-      <span className='text-sm'>{name}</span>
-    </div>
+    {
+      name
+        ? (
+          <div className='flex items-center gap-2'>
+            <img
+              src={image || '/images/covers/empty.svg'}
+              alt={name}
+              className='w-6 h-6 p-0.5'
+            />
+            <span className='text-sm'>{name}</span>
+          </div>
+          )
+        : (
+          <i className='text-sm text-728FB2'>Fetching...</i>
+          )
+    }
 
     <UpArrowFilled className={classNames('w-4 h-4 transform', open ? 'rotate-0' : 'rotate-180')} aria-hidden='true' />
   </div>
