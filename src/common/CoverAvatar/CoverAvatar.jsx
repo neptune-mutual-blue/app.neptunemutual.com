@@ -4,7 +4,7 @@ import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
 export const CoverAvatar = ({
-  coverInfo,
+  coverOrProductData,
   isDiversified,
   containerClass = 'grow',
   size = 'default'
@@ -32,12 +32,12 @@ export const CoverAvatar = ({
     return classes
   }, [size])
 
-  if (!coverInfo) {
+  if (!coverOrProductData) {
     return null
   }
 
-  const { coverKey, productKey, products } = coverInfo
-  const isCover = Array.isArray(coverInfo.products)
+  const { coverKey, productKey, products } = coverOrProductData
+  const isCover = Array.isArray(coverOrProductData.products)
 
   return (
     <div className={classNames('flex items-center', containerClass)}>
@@ -87,8 +87,8 @@ export const CoverAvatar = ({
               src={getCoverImgSrc({ key: isDiversified ? productKey : coverKey })}
               alt={
               isDiversified
-                ? coverInfo.infoObj.productName
-                : coverInfo.infoObj.coverName
+                ? coverOrProductData.productInfoDetails.productName
+                : coverOrProductData.coverInfoDetails.coverName
             }
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
