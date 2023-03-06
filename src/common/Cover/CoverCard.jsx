@@ -21,7 +21,7 @@ import { classNames } from '@/utils/classnames'
 
 export const CoverCard = ({
   coverKey,
-  coverInfo,
+  coverData,
   progressFgColor = undefined,
   progressBgColor = undefined,
   className = ''
@@ -31,40 +31,42 @@ export const CoverCard = ({
   const { liquidityTokenDecimals } = useAppConstants()
 
   const productKey = utils.keyUtil.toBytes32('')
-  const { info: coverStats } = useFetchCoverStats({
-    coverKey: coverKey,
-    productKey: productKey
-  })
 
-  const isDiversified = coverInfo?.supportsProducts
-  const { activeCommitment, productStatus, availableLiquidity } = coverStats
+  const { info: coverStats } = useFetchCoverStats({ coverKey, productKey })
+  const { productStatus } = coverStats
 
-  const liquidity = isDiversified
-    ? coverStats.totalPoolAmount // for diversified cover -> liquidity does not consider capital efficiency
-    : toBN(availableLiquidity).plus(activeCommitment).toString()
-  const protection = activeCommitment
-  const utilization = toBN(liquidity).isEqualTo(0)
-    ? '0'
-    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
+  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+
+  const capacity = coverData.capacity
+  const utilization = coverData.utilizationRatio
 
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(coverKey, {
-      liquidity,
       utilization,
-      infoObj: coverInfo?.infoObj
+      liquidity: capacity,
+      text: coverData?.coverInfoDetails.coverName || coverData?.coverInfoDetails.projectName
     })
-  }, [coverInfo?.infoObj, coverKey, liquidity, setStatsByKey, utilization])
+  }, [coverData?.coverInfoDetails, coverKey, capacity, setStatsByKey, utilization])
 
   const protectionLong = formatCurrency(
-    convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
+    convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
+    router.locale
+  ).long
+  const protectionShort = formatCurrency(
+    convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
+    router.locale
+  ).short
+
+  const capacityLong = formatCurrency(
+    convertFromUnits(capacity, liquidityTokenDecimals).toString(),
     router.locale
   ).long
 
-  const liquidityLong = formatCurrency(
-    convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+  const capacityShort = formatCurrency(
+    convertFromUnits(capacity, liquidityTokenDecimals).toString(),
     router.locale
-  ).long
+  ).short
 
   const status = isDiversified
     ? E_CARD_STATUS.DIVERSIFIED
@@ -73,13 +75,13 @@ export const CoverCard = ({
   return (
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
       <div className='flex items-start min-h-72'>
-        <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
+        <CoverAvatar coverOrProductData={coverData} isDiversified={isDiversified} />
         <InfoTooltip
-          disabled={coverInfo.products?.length === 0}
+          disabled={coverData.products?.length === 0}
           infoComponent={
             <div>
               <p>
-                Leverage Ration: <b>{coverInfo.infoObj?.leverage}x</b>
+                Leverage Factor: <b>{coverData.coverInfoDetails?.leverage}x</b>
               </p>
               <p>Determines available capital to underwrite</p>
             </div>
@@ -96,7 +98,7 @@ export const CoverCard = ({
         className='mt-4 font-semibold text-black uppercase text-h4 font-sora'
         data-testid='project-name'
       >
-        {coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
+        {coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName}
       </p>
       <div
         className='mt-1 uppercase text-h7 opacity-40 lg:text-sm text-01052D lg:mt-2'
@@ -143,7 +145,7 @@ export const CoverCard = ({
               <Trans>Protection</Trans>: {protectionLong}
             </p>
             <p>
-              <Trans>Liquidity</Trans>: {liquidityLong}
+              <Trans>Liquidity</Trans>: {capacityLong}
             </p>
           </div>
         }
@@ -175,15 +177,7 @@ export const CoverCard = ({
               <SheildIcon className='w-4 h-4 text-01052D' />
             </span>
             <p>
-              {
-                formatCurrency(
-                  convertFromUnits(
-                    activeCommitment,
-                    liquidityTokenDecimals
-                  ).toString(),
-                  router.locale
-                ).short
-              }
+              {protectionShort}
             </p>
           </div>
         </InfoTooltip>
@@ -191,21 +185,16 @@ export const CoverCard = ({
           arrow={false}
           infoComponent={
             <div>
-              <Trans>Liquidity</Trans>: {liquidityLong}
+              <Trans>Liquidity</Trans>: {capacityLong}
             </div>
           }
         >
           <div
             className='flex-1 text-right'
-            title={liquidityLong}
+            title={capacityLong}
             data-testid='liquidity'
           >
-            {
-              formatCurrency(
-                convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
-                router.locale
-              ).short
-            }
+            {capacityShort}
           </div>
         </InfoTooltip>
       </div>

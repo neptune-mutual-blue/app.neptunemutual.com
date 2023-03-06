@@ -1,4 +1,4 @@
-import { AvailableCovers } from '@/modules/home/AvailableCovers'
+import { AvailableCovers } from '@/modules/home/AvailableCovers2'
 import { Insights } from '@/modules/insights'
 import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 

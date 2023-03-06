@@ -12,6 +12,7 @@ import { TxPosterProvider } from '@/src/context/TxPoster'
 import { LanguageProvider } from '../i18n'
 import { DEFAULT_VARIANT } from '@/src/config/toast'
 import { CoversAndProductsProvider } from '@/src/context/CoversAndProductsData'
+import { CoversAndProductsProvider2 } from '@/src/context/CoversAndProductsData2'
 import { useEffect } from 'react'
 import { setupMetamaskForFirefox } from '@/utils/metamask-firefox'
 import ErrorBoundary from '@/common/ErrorBoundary'
@@ -23,15 +24,17 @@ const Wrappers = ({ children, noHeader }) => {
     <Web3ReactProvider getLibrary={getLibrary}>
       <NetworkProvider>
         <AppConstantsProvider>
-          <CoversAndProductsProvider>
-            <UnlimitedApprovalProvider>
-              <ToastProvider variant={DEFAULT_VARIANT}>
-                <TxPosterProvider>
-                  <MainLayout noHeader={noHeader}>{children}</MainLayout>
-                </TxPosterProvider>
-              </ToastProvider>
-            </UnlimitedApprovalProvider>
-          </CoversAndProductsProvider>
+          <CoversAndProductsProvider2>
+            <CoversAndProductsProvider>
+              <UnlimitedApprovalProvider>
+                <ToastProvider variant={DEFAULT_VARIANT}>
+                  <TxPosterProvider>
+                    <MainLayout noHeader={noHeader}>{children}</MainLayout>
+                  </TxPosterProvider>
+                </ToastProvider>
+              </UnlimitedApprovalProvider>
+            </CoversAndProductsProvider>
+          </CoversAndProductsProvider2>
         </AppConstantsProvider>
       </NetworkProvider>
     </Web3ReactProvider>

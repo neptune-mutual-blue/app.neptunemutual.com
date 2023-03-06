@@ -155,7 +155,7 @@ const DetailsRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center gap-1 w-max'>
         <CoverAvatar
-          coverInfo={coverInfo}
+          coverOrProductData={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
           size='xs'

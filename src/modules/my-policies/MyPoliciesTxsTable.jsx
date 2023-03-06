@@ -170,7 +170,7 @@ const DetailsRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
       <div className='flex items-center whitespace-nowrap'>
         <CoverAvatar
-          coverInfo={coverInfo}
+          coverOrProductData={coverInfo}
           isDiversified={isDiversified}
           containerClass='grow-0'
           size='xs'

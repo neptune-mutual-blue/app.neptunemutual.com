@@ -31,7 +31,7 @@ const lineContentArray = new Array(3).fill(1)
 export const ProductCard = ({
   coverKey,
   productKey,
-  productInfo,
+  productData,
   progressFgColor = undefined,
   progressBgColor = undefined,
   className = ''
@@ -45,31 +45,28 @@ export const ProductCard = ({
     productKey: productKey
   })
 
-  const { activeCommitment, productStatus, availableLiquidity } = coverStats
+  const { productStatus } = coverStats
   const imgSrc = getCoverImgSrc({ key: productKey })
 
-  const liquidity = toBN(availableLiquidity).plus(activeCommitment).toString()
-  const protection = activeCommitment
-  const utilization = toBN(liquidity).isEqualTo(0)
-    ? '0'
-    : toBN(protection).dividedBy(liquidity).decimalPlaces(2).toString()
+  const capacity = productData.capacity
+  const utilization = productData.utilizationRatio
 
   // Used for sorting purpose only
   useEffect(() => {
     setStatsByKey(productKey, {
-      liquidity,
       utilization,
-      infoObj: productInfo?.infoObj
+      liquidity: capacity,
+      text: productData.productInfoDetails?.productName
     })
-  }, [liquidity, productInfo?.infoObj, productKey, setStatsByKey, utilization])
+  }, [capacity, productData?.productInfoDetails, productKey, setStatsByKey, utilization])
 
   const protectionLong = formatCurrency(
-    convertFromUnits(activeCommitment, liquidityTokenDecimals).toString(),
+    convertFromUnits(productData.commitment, liquidityTokenDecimals).toString(),
     router.locale
   ).long
 
   const liquidityLong = formatCurrency(
-    convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+    convertFromUnits(capacity, liquidityTokenDecimals).toString(),
     router.locale
   ).long
 
@@ -85,7 +82,7 @@ export const ProductCard = ({
         >
           <img
             src={imgSrc}
-            alt={productInfo.infoObj?.productName}
+            alt={productData.productInfoDetails?.productName}
             className='inline-block'
             data-testid='cover-img'
             // @ts-ignore
@@ -109,7 +106,7 @@ export const ProductCard = ({
         className='mt-4 font-semibold text-black uppercase text-h4 font-sora'
         data-testid='project-name'
       >
-        {productInfo.infoObj?.productName}
+        {productData.productInfoDetails?.productName}
       </p>
       <div className='flex items-center justify-between'>
         <div
@@ -127,15 +124,15 @@ export const ProductCard = ({
             router.locale
           )}
         </div>
-        {productInfo.cover?.infoObj.leverage && (
+        {productData.coverInfoDetails?.leverageFactor && (
           <InfoTooltip
             infoComponent={
               <p>
                 <Trans>
-                  Diversified pool with {productInfo.cover.infoObj.leverage}x
+                  Diversified pool with {productData.coverInfoDetails.leverageFactor}x
                   leverage factor and{' '}
                   {formatPercent(
-                    toBN(productInfo.infoObj.capitalEfficiency)
+                    toBN(productData.capitalEfficiency)
                       .dividedBy(MULTIPLIER)
                       .toString()
                   )}{' '}
@@ -146,9 +143,9 @@ export const ProductCard = ({
           >
             <div className='rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5'>
               <p className='opacity-60'>
-                D{productInfo.cover.infoObj.leverage}x
+                D{productData.coverInfoDetails.leverageFactor}x
                 {formatPercent(
-                  toBN(productInfo.infoObj.capitalEfficiency)
+                  toBN(productData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
                     .toString(),
                   router.locale,
@@ -235,7 +232,7 @@ export const ProductCard = ({
               {
                 formatCurrency(
                   convertFromUnits(
-                    activeCommitment,
+                    productData.commitment,
                     liquidityTokenDecimals
                   ).toString(),
                   router.locale
@@ -259,7 +256,7 @@ export const ProductCard = ({
           >
             {
               formatCurrency(
-                convertFromUnits(liquidity, liquidityTokenDecimals).toString(),
+                convertFromUnits(capacity, liquidityTokenDecimals).toString(),
                 router.locale
               ).short
             }
