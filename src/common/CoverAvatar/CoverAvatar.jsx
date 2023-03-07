@@ -32,12 +32,24 @@ export const CoverAvatar = ({
     return classes
   }, [size])
 
+  const { coverKey, productKey, products } = coverOrProductData
+  const isCover = Array.isArray(coverOrProductData.products)
+
+  const infoObj = useMemo(() => {
+    if (!coverOrProductData) return null
+
+    if (coverOrProductData.coverInfoDetails || coverOrProductData.productInfoDetails) {
+      return (isDiversified && Object.entries(coverOrProductData.productInfoDetails).length)
+        ? coverOrProductData.productInfoDetails
+        : coverOrProductData.coverInfoDetails
+    }
+
+    return coverOrProductData.infoObj
+  }, [coverOrProductData, isDiversified])
+
   if (!coverOrProductData) {
     return null
   }
-
-  const { coverKey, productKey, products } = coverOrProductData
-  const isCover = Array.isArray(coverOrProductData.products)
 
   return (
     <div className={classNames('flex items-center', containerClass)}>
@@ -87,8 +99,8 @@ export const CoverAvatar = ({
               src={getCoverImgSrc({ key: isDiversified ? productKey : coverKey })}
               alt={
               isDiversified
-                ? coverOrProductData.productInfoDetails.productName
-                : coverOrProductData.coverInfoDetails.coverName
+                ? infoObj.productName
+                : infoObj.coverName
             }
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
