@@ -39,6 +39,7 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
   : '/'
 
 export const IPFS_HASH_URL = 'https://ipfs.io/ipfs/{ipfsHash}'
+export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`
 export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{productKey}/{account}/{incidentDate}`

@@ -40,7 +40,7 @@ export const MyLiquidityCoverCard = ({
   return (
     <OutlinedCard className='p-6 bg-white' type='link'>
       <div className='flex justify-between'>
-        <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
+        <CoverAvatar coverOrProductData={coverInfo} isDiversified={isDiversified} />
         <div>
           {/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}
           <InfoTooltip
@@ -48,7 +48,7 @@ export const MyLiquidityCoverCard = ({
             infoComponent={
               <div>
                 <p>
-                  Leverage Ration: <b>{infoObj?.leverage}x</b>
+                  Leverage Factor: <b>{infoObj?.leverage}x</b>
                 </p>
                 <p>Determines available capital to underwrite</p>
               </div>

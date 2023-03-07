@@ -86,14 +86,14 @@ export const PolicyCard = ({ policyInfo }) => {
       <OutlinedCard className='p-6 bg-white' type='normal'>
         <div>
           <div className='flex justify-between'>
-            <CoverAvatar coverInfo={coverInfo} isDiversified={isDiversified} />
+            <CoverAvatar coverOrProductData={coverInfo} isDiversified={isDiversified} />
             <div>
               <InfoTooltip
                 disabled={coverInfo.products?.length === 0}
                 infoComponent={
                   <div>
                     <p>
-                      Leverage Ration: <b>{infoObj?.leverage}x</b>
+                      Leverage Factor: <b>{infoObj?.leverage}x</b>
                     </p>
                     <p>Determines available capital to underwrite</p>
                   </div>
