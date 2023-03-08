@@ -1,11 +1,9 @@
-import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useMemo } from 'react'
 import { classNames } from '@/utils/classnames'
 import { Trans } from '@lingui/macro'
 
 export const CoverAvatar = ({
-  coverOrProductData,
-  isDiversified,
+  imgs = [],
   containerClass = 'grow',
   size = 'default'
 }) => {
@@ -25,6 +23,7 @@ export const CoverAvatar = ({
 
     if (size === 'xs') {
       classes.diversifiedWrapper = 'w-6 h-6'
+      classes.diversifiedImg = 'p-1'
       classes.dedicatedWrapper = 'w-6 h-6'
       classes.dedicatedImg = 'w-4.5 h-4.5'
     }
@@ -32,32 +31,16 @@ export const CoverAvatar = ({
     return classes
   }, [size])
 
-  const { coverKey, productKey, products } = coverOrProductData
-  const isCover = Array.isArray(coverOrProductData.products)
-
-  const infoObj = useMemo(() => {
-    if (!coverOrProductData) return null
-
-    if (coverOrProductData.coverInfoDetails || coverOrProductData.productInfoDetails) {
-      return (isDiversified && Object.entries(coverOrProductData.productInfoDetails).length)
-        ? coverOrProductData.productInfoDetails
-        : coverOrProductData.coverInfoDetails
-    }
-
-    return coverOrProductData.infoObj
-  }, [coverOrProductData, isDiversified])
-
-  if (!coverOrProductData) {
+  if (!imgs || imgs.length < 1) {
     return null
   }
 
   return (
     <div className={classNames('flex items-center', containerClass)}>
-      {isDiversified && isCover
+      {imgs.length > 1
         ? (
           <>
-            {products.slice(0, 3).map((item, idx) => {
-              const imgSrc = getCoverImgSrc({ key: item.productKey })
+            {imgs.slice(0, 3).map((item, idx) => {
               return (
                 <div
                   className={classNames(
@@ -65,11 +48,11 @@ export const CoverAvatar = ({
                     idx !== 0 && '-ml-7 lg:-ml-9 p-0.5',
                     sizeClasses.diversifiedWrapper
                   )}
-                  key={item.id}
+                  key={item.src}
                 >
                   <img
-                    src={imgSrc}
-                    alt={item.infoObj.productName}
+                    src={item.src}
+                    alt={item.alt}
                     className={classNames(
                       'w-full h-full rounded-full bg-DEEAF6',
                       sizeClasses.diversifiedImg
@@ -81,9 +64,9 @@ export const CoverAvatar = ({
               )
             })}
 
-            {products.length > 3 && (
+            {imgs.length > 3 && (
               <p className='ml-2 text-xs opacity-40 text-01052D'>
-                +{products.length - 3} <Trans>MORE</Trans>
+                +{imgs.length - 3} <Trans>MORE</Trans>
               </p>
             )}
           </>
@@ -96,12 +79,8 @@ export const CoverAvatar = ({
             )}
           >
             <img
-              src={getCoverImgSrc({ key: isDiversified ? productKey : coverKey })}
-              alt={
-              isDiversified
-                ? infoObj.productName
-                : infoObj.coverName
-            }
+              src={imgs[0].src}
+              alt={imgs[0].alt}
               className={classNames('inline-block', sizeClasses.dedicatedImg)}
               data-testid='cover-img'
               onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}

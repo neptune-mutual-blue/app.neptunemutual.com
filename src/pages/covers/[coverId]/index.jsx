@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHero } from '@/modules/home/Hero'
-import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
 import { logPageLoad } from '@/src/services/logs'
@@ -40,9 +39,7 @@ export default function CoverPage () {
         ? (
           <div className='min-h-screen'>
             <HomeHero />
-            <SortableStatsProvider>
-              <ProductsGrid />
-            </SortableStatsProvider>
+            <ProductsGrid />
           </div>
           )
         : (coverInfo &&

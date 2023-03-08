@@ -6,6 +6,7 @@ import { getReplacedString } from '@/utils/string'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const CoversAndProductsDataContext = createContext({
+  loading: false,
   data: [],
 
   // eslint-disable-next-line unused-imports/no-unused-vars
@@ -13,6 +14,9 @@ const CoversAndProductsDataContext = createContext({
 
   // eslint-disable-next-line unused-imports/no-unused-vars
   getCoverByCoverKey: (coverKey) => null,
+
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  getProductsByCoverKey: (coverKey) => null,
 
   // eslint-disable-next-line unused-imports/no-unused-vars
   getProduct: (coverKey, productKey) => null,
@@ -33,30 +37,46 @@ export function useCoversAndProducts2 () {
 }
 
 export const CoversAndProductsProvider2 = ({ children }) => {
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const { networkId } = useNetwork()
 
   useEffect(() => {
     (async function () {
-      const replacements = { networkId }
+      try {
+        const replacements = { networkId }
 
-      const response = await fetch(
-        getReplacedString(PRODUCT_SUMMARY_URL, replacements),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
+        setLoading(true)
+        const response = await fetch(
+          getReplacedString(PRODUCT_SUMMARY_URL, replacements),
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
+            }
           }
+        )
+
+        if (!response.ok) {
+          return
         }
-      )
 
-      if (!response.ok) {
-        return
+        const res = await response.json()
+
+        setData(res.data
+          .filter(x => x.chainId.toString() === networkId.toString())
+          .sort((a, b) => {
+            const text1 = a?.productInfoDetails?.productName || (a?.coverInfoDetails?.coverName || a?.coverInfoDetails?.projectName) || ''
+            const text2 = b?.productInfoDetails?.productName || (b?.coverInfoDetails?.coverName || b?.coverInfoDetails?.projectName) || ''
+            return text1.localeCompare(text2, 'en')
+          })
+        )
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+        console.error(error)
       }
-
-      const res = await response.json()
-      setData(res.data.filter(x => x.chainId.toString() === networkId.toString()))
     })()
   }, [networkId])
 
@@ -88,7 +108,11 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   }
 
   const getCoverByCoverKey = (coverKey) => {
-    return data.find(x => x.coverKey === coverKey)
+    return data.find(x => x.coverKey === coverKey && !x.productKey)
+  }
+
+  const getProductsByCoverKey = (coverKey) => {
+    return data.filter(x => x.coverKey === coverKey && x.coverInfoDetails.supportsProducts && x.productKey)
   }
 
   const getProduct = (coverKey, productKey) => {
@@ -97,8 +121,10 @@ export const CoversAndProductsProvider2 = ({ children }) => {
 
   return (
     <CoversAndProductsDataContext.Provider value={{
+      loading,
       data,
       getCoverByCoverKey,
+      getProductsByCoverKey,
       getCoverOrProduct,
       getProduct,
       getAllProducts,
