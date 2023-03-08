@@ -48,11 +48,10 @@ const sorterData = {
   }
 }
 
-const coversLoading = false
 export const AvailableCovers = () => {
   const { query } = useRouter()
   const [sortType, setSortType] = useState(DEFAULT_SORT)
-  const { getDedicatedCovers, getDiversifiedCovers, getAllProducts } = useCoversAndProducts2()
+  const { loading: coversLoading, getDedicatedCovers, getDiversifiedCovers, getAllProducts } = useCoversAndProducts2()
 
   const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 

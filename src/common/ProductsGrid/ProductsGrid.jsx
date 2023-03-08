@@ -53,7 +53,7 @@ export const ProductsGrid = () => {
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
 
-  const { getProductsByCoverKey, getCoverByCoverKey } = useCoversAndProducts2()
+  const { loading, getProductsByCoverKey, getCoverByCoverKey } = useCoversAndProducts2()
 
   const coverData = getCoverByCoverKey(coverKey)
 
@@ -127,6 +127,7 @@ export const ProductsGrid = () => {
       </div>
 
       <Content
+        loading={loading}
         data={sortedCovers}
       />
     </Container>
