@@ -451,7 +451,7 @@ export const testData = {
           key: '0x6262382d65786368616e67650000000000000000000000000000000000000000',
           account: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
           cxTokenAmount: '1000000000000000000000',
-          daiAmount: '1000000000000000000000',
+          stablecoinAmount: '1000000000000000000000',
           cxToken: {
             id: '0x4a1801c51b1acb083cc198fc3022d08eac0b583d',
             tokenSymbol: 'cxUSD',
@@ -470,7 +470,7 @@ export const testData = {
           key: '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
           account: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
           cxTokenAmount: '100000000000000000000',
-          daiAmount: '100000000000000000000',
+          stablecoinAmount: '100000000000000000000',
           cxToken: {
             id: '0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1',
             tokenSymbol: 'cxUSD',
@@ -489,7 +489,7 @@ export const testData = {
           key: '0x616e696d617465642d6272616e64730000000000000000000000000000000000',
           account: '0x2d2caD7Eed8EDD9B11E30C01C45483fA40E819d9',
           cxTokenAmount: '100000000000000000000',
-          daiAmount: '100000000000000000000',
+          stablecoinAmount: '100000000000000000000',
           cxToken: {
             id: '0x1e26d3104132c01ffb4bd219c2865a6436dc6ee1',
             tokenSymbol: 'cxUSD',
