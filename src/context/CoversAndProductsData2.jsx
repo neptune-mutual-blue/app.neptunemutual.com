@@ -15,6 +15,9 @@ const CoversAndProductsDataContext = createContext({
   getCoverByCoverKey: (coverKey) => null,
 
   // eslint-disable-next-line unused-imports/no-unused-vars
+  getProductsByCoverKey: (coverKey) => null,
+
+  // eslint-disable-next-line unused-imports/no-unused-vars
   getProduct: (coverKey, productKey) => null,
 
   getAllProducts: () => null,
@@ -88,7 +91,11 @@ export const CoversAndProductsProvider2 = ({ children }) => {
   }
 
   const getCoverByCoverKey = (coverKey) => {
-    return data.find(x => x.coverKey === coverKey)
+    return data.find(x => x.coverKey === coverKey && !x.productKey)
+  }
+
+  const getProductsByCoverKey = (coverKey) => {
+    return data.filter(x => x.coverKey === coverKey && x.coverInfoDetails.supportsProducts && x.productKey)
   }
 
   const getProduct = (coverKey, productKey) => {
@@ -99,6 +106,7 @@ export const CoversAndProductsProvider2 = ({ children }) => {
     <CoversAndProductsDataContext.Provider value={{
       data,
       getCoverByCoverKey,
+      getProductsByCoverKey,
       getCoverOrProduct,
       getProduct,
       getAllProducts,

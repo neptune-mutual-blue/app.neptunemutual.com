@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
@@ -14,7 +13,6 @@ import { ProgressBar } from '@/common/ProgressBar/ProgressBar'
 import SheildIcon from '@/icons/SheildIcon'
 import { MULTIPLIER } from '@/src/config/constants'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { getCoverImgSrc } from '@/src/helpers/cover'
 import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import {
@@ -25,6 +23,7 @@ import { classNames } from '@/utils/classnames'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { formatPercent } from '@/utils/formatter/percent'
 import { Trans } from '@lingui/macro'
+import { CoverAvatar } from '@/common/CoverAvatar'
 
 const lineContentArray = new Array(3).fill(1)
 
@@ -37,7 +36,6 @@ export const ProductCard = ({
   className = ''
 }) => {
   const router = useRouter()
-  const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
 
   const { info: coverStats, isLoading } = useFetchCoverStats({
@@ -46,19 +44,9 @@ export const ProductCard = ({
   })
 
   const { productStatus } = coverStats
-  const imgSrc = getCoverImgSrc({ key: productKey })
 
   const capacity = productData.capacity
   const utilization = productData.utilizationRatio
-
-  // Used for sorting purpose only
-  useEffect(() => {
-    setStatsByKey(productKey, {
-      utilization,
-      liquidity: capacity,
-      text: productData.productInfoDetails?.productName
-    })
-  }, [capacity, productData?.productInfoDetails, productKey, setStatsByKey, utilization])
 
   const protectionLong = formatCurrency(
     convertFromUnits(productData.commitment, liquidityTokenDecimals).toString(),
@@ -75,20 +63,11 @@ export const ProductCard = ({
   return (
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
       <div className='flex items-start justify-between min-h-72'>
-        <div
-          className={classNames(
-            'inline-block max-w-full bg-DEEAF6 p-4 rounded-full w-14 lg:w-18 h-14 lg:h-18'
-          )}
-        >
-          <img
-            src={imgSrc}
-            alt={productData.productInfoDetails?.productName}
-            className='inline-block'
-            data-testid='cover-img'
-            // @ts-ignore
-            onError={(ev) => (ev.target.src = '/images/covers/empty.svg')}
-          />
-        </div>
+        <CoverAvatar imgs={[{
+          src: getCoverImgSrc({ key: productData.productKey }),
+          alt: productData.productInfoDetails?.productName
+        }]}
+        />
         <div>
           {
             isLoading

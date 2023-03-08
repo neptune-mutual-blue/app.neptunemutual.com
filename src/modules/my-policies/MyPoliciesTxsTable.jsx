@@ -13,7 +13,7 @@ import { getTxLink } from '@/lib/connect-wallet/utils/explorer'
 import { useWeb3React } from '@web3-react/core'
 import { useRegisterToken } from '@/src/hooks/useRegisterToken'
 import { convertFromUnits } from '@/utils/bn'
-import { isValidProduct } from '@/src/helpers/cover'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { fromNow } from '@/utils/formatter/relative-time'
 import DateLib from '@/lib/date/DateLib'
 import { formatCurrency } from '@/utils/formatter/currency'
@@ -162,6 +162,7 @@ const DetailsRenderer = ({ row }) => {
     />
   )
 
+  const coverKey = row.cover.id
   const projectOrProductName = isDiversified
     ? coverInfo.infoObj.productName
     : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
@@ -170,8 +171,15 @@ const DetailsRenderer = ({ row }) => {
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
       <div className='flex items-center whitespace-nowrap'>
         <CoverAvatar
-          coverOrProductData={coverInfo}
-          isDiversified={isDiversified}
+          imgs={isDiversified
+            ? [{
+                src: getCoverImgSrc({ key: productKey }),
+                alt: projectOrProductName
+              }]
+            : [{
+                src: getCoverImgSrc({ key: coverKey }),
+                alt: projectOrProductName
+              }]}
           containerClass='grow-0'
           size='xs'
         />

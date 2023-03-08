@@ -6,7 +6,6 @@ import React, {
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { NeutralButton } from '@/common/Button/NeutralButton'
 import { Container } from '@/common/Container/Container'
 import { ProductCardWrapper } from '@/common/Cover/ProductCardWrapper'
 import { Grid } from '@/common/Grid/Grid'
@@ -14,12 +13,9 @@ import { SearchAndSortBar } from '@/common/SearchAndSortBar'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import LeftArrow from '@/icons/LeftArrow'
 import {
-  CARDS_PER_PAGE,
   homeViewSelectionKey
 } from '@/src/config/constants'
 import { Routes } from '@/src/config/routes'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useSearchResults } from '@/src/hooks/useSearchResults'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import {
@@ -28,79 +24,72 @@ import {
   SORT_TYPES,
   sorter
 } from '@/utils/sorting'
-import { toStringSafe } from '@/utils/string'
 import { Trans } from '@lingui/macro'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { isValidProduct } from '@/src/helpers/cover'
 
 /**
- *
- *
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
  */
 const sorterData = {
   [SORT_TYPES.ALPHABETIC]: {
-    selector: (cover) => cover.infoObj.productName,
+    selector: (data) => data.text,
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.LIQUIDITY]: {
-    selector: (cover) => cover.liquidity,
+    selector: (data) => data.capacity,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (cover) => cover.utilization,
+    selector: (data) => data.utilizationRatio,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
 
 export const ProductsGrid = () => {
-  const { getStatsByKey } = useSortableStats()
-
   const [sortType, setSortType] = useState(DEFAULT_SORT)
-  const [showCount, setShowCount] = useState(CARDS_PER_PAGE)
 
   const router = useRouter()
   const { coverId } = router.query
   const coverKey = safeFormatBytes32String(coverId)
 
-  const productKey = safeFormatBytes32String('')
-  const { coverInfo } = useCoverOrProductData({ coverKey, productKey })
+  const { getProductsByCoverKey, getCoverByCoverKey } = useCoversAndProducts2()
+
+  const coverData = getCoverByCoverKey(coverKey)
 
   const { searchValue, setSearchValue, filtered } = useSearchResults({
-    list: (coverInfo?.products || []).map((cover) => {
-      return {
-        ...cover,
-        ...getStatsByKey(cover.productKey)
-      }
-    }),
-    filter: (item, term) => {
-      return (
-        toStringSafe(item.infoObj.productName).indexOf(toStringSafe(term)) > -1
-      )
+    list: getProductsByCoverKey(coverKey),
+    filter: (data, searchTerm) => {
+      const isDiversifiedProduct = isValidProduct(data.productKey)
+      const text = isDiversifiedProduct
+        ? data.productInfoDetails?.productName
+        : data?.coverInfoDetails.coverName || data?.coverInfoDetails.projectName
+
+      return (text.toLowerCase().includes(searchTerm.toLowerCase()))
     }
   })
 
-  const sortedProducts = useMemo(
+  const sortedCovers = useMemo(
     () =>
       sorter({
-        ...sorterData[sortType.name],
-        list: filtered
+        ...sorterData[sortType.value],
+        list: filtered.map(data => {
+          const isDiversifiedProduct = isValidProduct(data.productKey)
+          const text = isDiversifiedProduct
+            ? data.productInfoDetails?.productName
+            : data?.coverInfoDetails.coverName || data?.coverInfoDetails.projectName
+          return {
+            ...data,
+            text
+          }
+        })
       }),
 
-    [filtered, sortType.name]
+    [filtered, sortType.value]
   )
-
-  const isLastPage =
-    sortedProducts.length === 0 || sortedProducts.length <= showCount
 
   const searchHandler = (ev) => {
     setSearchValue(ev.target.value)
-  }
-
-  const handleShowMore = () => {
-    setShowCount((val) => val + CARDS_PER_PAGE)
-  }
-
-  if (!coverInfo) {
-    return null
   }
 
   return (
@@ -122,7 +111,7 @@ export const ProductsGrid = () => {
             </a>
           </Link>
           <h1 className='font-bold text-h3 lg:text-h2 font-sora'>
-            {coverInfo?.infoObj?.coverName}
+            {coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.productName || ''}
           </h1>
         </div>
 
@@ -138,28 +127,15 @@ export const ProductsGrid = () => {
       </div>
 
       <Content
-        data={sortedProducts}
-        hasMore={!isLastPage}
-        handleShowMore={handleShowMore}
+        data={sortedCovers}
       />
     </Container>
   )
 }
 
-/**
- *
- * @param {{
- * data: any[];
- * loading?: boolean;
- * hasMore: boolean;
- * handleShowMore: function;
- * }} ContentProps
- */
 function Content ({
-  data,
-  loading = false,
-  hasMore = false,
-  handleShowMore = () => {}
+  data = [],
+  loading = false
 }) {
   return (
     <>
@@ -178,14 +154,6 @@ function Content ({
         {data.length === 0 && <p data-testid='no-data' className='min-h-301'>No data found</p>}
       </Grid>
 
-      {hasMore && (
-        <NeutralButton
-          onClick={handleShowMore}
-          data-testid='show-more-button'
-        >
-          <Trans>Show More</Trans>
-        </NeutralButton>
-      )}
     </>
   )
 }

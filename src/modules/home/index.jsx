@@ -1,6 +1,5 @@
 import { AvailableCovers } from '@/modules/home/AvailableCovers2'
 import { Insights } from '@/modules/insights'
-import { SortableStatsProvider } from '@/src/context/SortableStatsContext'
 
 export default function HomePage () {
   return (
@@ -11,9 +10,9 @@ export default function HomePage () {
         <img className='hidden object-cover max-w-full overflow-hidden md:inline-block md:h-80 xl:h-96 rounded-xl' src='/avatars-coming-soon.webp' alt='avatars coming soon' />
         <img className='inline-block object-cover max-w-full overflow-hidden md:hidden rounded-xl' src='/avatars-coming-soon-mobile.webp' alt='avatars coming soon' />
       </div>
-      <SortableStatsProvider>
-        <AvailableCovers />
-      </SortableStatsProvider>
+
+      <AvailableCovers />
+
     </>
   )
 }

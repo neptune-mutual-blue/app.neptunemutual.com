@@ -29,7 +29,6 @@ import {
   t,
   Trans
 } from '@lingui/macro'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
 
 /**
  * @type {Object.<string, {selector:(any) => any, datatype: any, ascending?: boolean }>}
@@ -40,11 +39,11 @@ const sorterData = {
     datatype: SORT_DATA_TYPES.STRING
   },
   [SORT_TYPES.LIQUIDITY]: {
-    selector: (data) => data.liquidity,
+    selector: (data) => data.capacity,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   },
   [SORT_TYPES.UTILIZATION_RATIO]: {
-    selector: (data) => data.utilization,
+    selector: (data) => data.utilizationRatio,
     datatype: SORT_DATA_TYPES.BIGNUMBER
   }
 }
@@ -54,7 +53,6 @@ export const AvailableCovers = () => {
   const { query } = useRouter()
   const [sortType, setSortType] = useState(DEFAULT_SORT)
   const { getDedicatedCovers, getDiversifiedCovers, getAllProducts } = useCoversAndProducts2()
-  const { getStatsByKey } = useSortableStats()
 
   const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 
@@ -68,10 +66,12 @@ export const AvailableCovers = () => {
   const { filtered, searchValue, setSearchValue } = useSearchResults({
     list: list,
     filter: (data, searchTerm) => {
-      const isProduct = isValidProduct(data.productKey)
-      const stats = getStatsByKey(isProduct ? data.productKey : data.coverKey)
+      const isDiversifiedProduct = isValidProduct(data.productKey)
+      const text = isDiversifiedProduct
+        ? data.productInfoDetails?.productName
+        : data?.coverInfoDetails.coverName || data?.coverInfoDetails.projectName
 
-      return (stats.text.toLowerCase().includes(searchTerm.toLowerCase()))
+      return (text.toLowerCase().includes(searchTerm.toLowerCase()))
     }
   })
 
@@ -79,17 +79,19 @@ export const AvailableCovers = () => {
     () =>
       sorter({
         ...sorterData[sortType.value],
-        list: filtered.map(x => {
-          const isProduct = isValidProduct(x.productKey)
-          const stats = getStatsByKey(isProduct ? x.productKey : x.coverKey)
+        list: filtered.map(data => {
+          const isDiversifiedProduct = isValidProduct(data.productKey)
+          const text = isDiversifiedProduct
+            ? data.productInfoDetails?.productName
+            : data?.coverInfoDetails.coverName || data?.coverInfoDetails.projectName
           return {
-            ...x,
-            ...stats
+            ...data,
+            text
           }
         })
       }),
 
-    [filtered, getStatsByKey, sortType.value]
+    [filtered, sortType.value]
   )
 
   const searchHandler = (ev) => {
