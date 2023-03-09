@@ -1,12 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
 
 import HighchartsExporting from 'highcharts/modules/exporting'
-import { convertFromUnits, sort } from '@/utils/bn'
-import { formatCurrency } from '@/utils/formatter/currency'
-import { useRouter } from 'next/router'
-import { useAppConstants } from '@/src/context/AppConstants'
 import { useNetwork } from '@/src/context/Network'
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 
@@ -29,12 +25,12 @@ const HistoricalRoi = ({ loading, data }) => {
       labels: {
         format:
           "<span class='font-poppins text-black uppercase'>{value:%b %y}</span>",
-        useHTML: true,
+        useHTML: true
       },
       ordinal: false,
       minRange: 1 * 24 * 3600 * 1000,
       lineWidth: 0,
-      lineColor: '#01052D',
+      lineColor: '#01052D'
     },
     yAxis: {
       opposite: false,
@@ -42,7 +38,7 @@ const HistoricalRoi = ({ loading, data }) => {
         formatter: function () {
           return `<span class='font-poppins text-black'>${this.value}%</span>`
         },
-        useHTML: true,
+        useHTML: true
       },
       gridLineDashStyle: 'Dash',
       gridLineColor: '#01052D40',
@@ -50,14 +46,14 @@ const HistoricalRoi = ({ loading, data }) => {
       min: 0,
       lineWidth: 0,
       lineColor: '#01052D',
-      showLastLabel: true,
+      showLastLabel: true
     },
     plotOptions: {
       areaspline: {
         lineWidth: 1, // Reduce the line width to make it more pointy
         step: true, // Set step to true to draw the line as a step line
-        linecap: 'square',
-      },
+        linecap: 'square'
+      }
     },
     series: [
       {
@@ -67,7 +63,7 @@ const HistoricalRoi = ({ loading, data }) => {
           .filter((item) => item.chainId === '1' || item.chainId === '43113')
           .map((item) => ({
             x: new Date(item.startDate).valueOf(),
-            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2)),
+            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
           }))
           .sort((a, b) => a.x - b.x),
         lineWidth: 3,
@@ -77,32 +73,32 @@ const HistoricalRoi = ({ loading, data }) => {
             x1: 0,
             y1: 0,
             x2: 0,
-            y2: 1,
+            y2: 1
           },
           stops: [
             [0, 'rgba(78, 125, 217, 0.2)'],
-            [1, 'rgba(78, 125, 217, 0)'],
-          ],
+            [1, 'rgba(78, 125, 217, 0)']
+          ]
         },
         marker: {
           fillColor: 'white',
           lineWidth: 2,
           radius: 3,
-          lineColor: '#4E7DD9',
+          lineColor: '#4E7DD9'
         },
         animation: {
-          duration: 500,
-        },
-      },
+          duration: 500
+        }
+      }
     ],
     chart: {
       backgroundColor: 'transparent',
-      height: '424px',
+      height: '424px'
     },
     navigation: {
       buttonOptions: {
-        enabled: false,
-      },
+        enabled: false
+      }
     },
     rangeSelector: { enabled: false },
     credits: { enabled: false },
@@ -116,20 +112,20 @@ const HistoricalRoi = ({ loading, data }) => {
       borderWidth: 0,
       shadow: false,
       shape: 'rect',
-      pointFormat: `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold font-poppins tracking-normal text-01052D text-h6'>{point.y}%</p></div>`,
+      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold font-poppins tracking-normal text-01052D text-h6\'>{point.y}%</p></div>',
       headerFormat: '',
       hideDelay: 100,
-      outside: false,
+      outside: false
     },
     navigator: {
       handles: {
         symbols: [
           'url(/icons/chart-navigator-handle.svg)',
-          'url(/icons/chart-navigator-handle.svg)',
+          'url(/icons/chart-navigator-handle.svg)'
         ],
         lineWidth: 1,
         width: 20,
-        height: 30,
+        height: 30
       },
       maskFill: 'rgba(66, 137, 242, 0.3)',
       outlineWidth: 0,
@@ -140,16 +136,16 @@ const HistoricalRoi = ({ loading, data }) => {
             "<span class='font-poppins text-black uppercase'>{value:%b %y}</span>",
           useHTML: true,
           style: {
-            color: '#01052D',
+            color: '#01052D'
           },
           align: 'right',
-          y: 14,
-        },
-      },
+          y: 14
+        }
+      }
     },
     scrollbar: {
-      enabled: false,
-    },
+      enabled: false
+    }
   }
 
   if (isMainNet) {
@@ -162,7 +158,7 @@ const HistoricalRoi = ({ loading, data }) => {
           .filter((item) => item.chainId === '42161')
           .map((item) => ({
             x: new Date(item.startDate).valueOf(),
-            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2)),
+            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
           }))
           .sort((a, b) => a.x - b.x),
         lineWidth: 3,
@@ -172,23 +168,23 @@ const HistoricalRoi = ({ loading, data }) => {
             x1: 0,
             y1: 0,
             x2: 0,
-            y2: 1,
+            y2: 1
           },
           stops: [
             [0, 'rgb(33, 173, 140, 0.2)'],
-            [1, 'rgb(33, 173, 140, 0)'],
-          ],
+            [1, 'rgb(33, 173, 140, 0)']
+          ]
         },
         marker: {
           fillColor: 'white',
           lineWidth: 2,
           radius: 3,
-          lineColor: '#4E7DD9',
+          lineColor: '#4E7DD9'
         },
         animation: {
-          duration: 500,
-        },
-      },
+          duration: 500
+        }
+      }
     ]
   }
 
@@ -210,25 +206,27 @@ const HistoricalRoi = ({ loading, data }) => {
       )}
 
       <div className='flex justify-center items-center gap-4 mt-3'>
-        {!isMainNet ? (
-          <>
-            <div className='flex items-center gap-1'>
-              <div className='rounded-full h-4 w-4 border-4 border-4e7dd9'></div>
-              <span className='text-sm font-semibold'>Fuji</span>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className='flex items-center gap-1'>
-              <div className='rounded-full h-4 w-4 border-4 border-4e7dd9'></div>
-              <span className='text-sm font-semibold'>Ethereum</span>
-            </div>
-            <div className='flex items-center gap-1'>
-              <div className='rounded-full h-4 w-4 border-4 border-[#21AD8C]'></div>
-              <span className='text-sm font-semibold'>Arbitrum</span>
-            </div>
-          </>
-        )}
+        {!isMainNet
+          ? (
+            <>
+              <div className='flex items-center gap-1'>
+                <div className='rounded-full h-4 w-4 border-4 border-4e7dd9' />
+                <span className='text-sm font-semibold'>Fuji</span>
+              </div>
+            </>
+            )
+          : (
+            <>
+              <div className='flex items-center gap-1'>
+                <div className='rounded-full h-4 w-4 border-4 border-4e7dd9' />
+                <span className='text-sm font-semibold'>Ethereum</span>
+              </div>
+              <div className='flex items-center gap-1'>
+                <div className='rounded-full h-4 w-4 border-4 border-[#21AD8C]' />
+                <span className='text-sm font-semibold'>Arbitrum</span>
+              </div>
+            </>
+            )}
       </div>
     </div>
   )
