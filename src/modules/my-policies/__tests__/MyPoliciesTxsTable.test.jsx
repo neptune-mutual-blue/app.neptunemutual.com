@@ -190,7 +190,7 @@ describe('MyPoliciesTxsTable test', () => {
           .getAllByTestId('details-col')[0]
           .querySelector('span')
         const text = formatCurrency(
-          convertFromUnits(testData.policies.data.transactions[0].daiAmount),
+          convertFromUnits(testData.policies.data.transactions[0].stablecoinAmount),
           'en'
         ).short
         expect(span).toHaveTextContent(text)
@@ -202,7 +202,7 @@ describe('MyPoliciesTxsTable test', () => {
           .querySelector('span > span')
         const text = formatCurrency(
           convertFromUnits(
-            testData.policies.data.transactions[0].daiAmount,
+            testData.policies.data.transactions[0].stablecoinAmount,
             testData.appConstants.liquidityTokenDecimals
           ),
           'en'

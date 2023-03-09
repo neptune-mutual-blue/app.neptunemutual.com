@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 import { Divider } from '@/common/Divider/Divider'
@@ -10,7 +9,6 @@ import { formatPercent } from '@/utils/formatter/percent'
 import { MULTIPLIER } from '@/src/config/constants'
 import { Trans } from '@lingui/macro'
 import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
-import { useSortableStats } from '@/src/context/SortableStatsContext'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { utils } from '@neptunemutual/sdk'
 import { Badge, E_CARD_STATUS, identifyStatus } from '@/common/CardStatusBadge'
@@ -18,6 +16,8 @@ import SheildIcon from '@/icons/SheildIcon'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
 import { classNames } from '@/utils/classnames'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { getCoverImgSrc } from '@/src/helpers/cover'
 
 export const CoverCard = ({
   coverKey,
@@ -27,8 +27,8 @@ export const CoverCard = ({
   className = ''
 }) => {
   const router = useRouter()
-  const { setStatsByKey } = useSortableStats()
   const { liquidityTokenDecimals } = useAppConstants()
+  const { getProductsByCoverKey } = useCoversAndProducts2()
 
   const productKey = utils.keyUtil.toBytes32('')
 
@@ -39,15 +39,6 @@ export const CoverCard = ({
 
   const capacity = coverData.capacity
   const utilization = coverData.utilizationRatio
-
-  // Used for sorting purpose only
-  useEffect(() => {
-    setStatsByKey(coverKey, {
-      utilization,
-      liquidity: capacity,
-      text: coverData?.coverInfoDetails.coverName || coverData?.coverInfoDetails.projectName
-    })
-  }, [coverData?.coverInfoDetails, coverKey, capacity, setStatsByKey, utilization])
 
   const protectionLong = formatCurrency(
     convertFromUnits(coverData.commitment, liquidityTokenDecimals).toString(),
@@ -75,8 +66,17 @@ export const CoverCard = ({
   return (
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
       <div className='flex items-start min-h-72'>
-        <CoverAvatar coverOrProductData={coverData} isDiversified={isDiversified} />
-
+        <CoverAvatar
+          imgs={isDiversified
+            ? getProductsByCoverKey(coverKey).map(x => ({
+              src: getCoverImgSrc({ key: x.productKey }),
+              alt: x.productInfoDetails?.productName
+            }))
+            : [{
+                src: getCoverImgSrc({ key: coverKey }),
+                alt: coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
+              }]}
+        />
         <div>
           {status !== E_CARD_STATUS.NORMAL && (
             <Badge status={status} className='rounded' />

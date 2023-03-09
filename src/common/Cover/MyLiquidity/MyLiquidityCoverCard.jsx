@@ -13,6 +13,7 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { Badge, E_CARD_STATUS } from '@/common/CardStatusBadge'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
+import { getCoverImgSrc } from '@/src/helpers/cover'
 
 export const MyLiquidityCoverCard = ({
   coverKey,
@@ -30,8 +31,9 @@ export const MyLiquidityCoverCard = ({
     return <CardSkeleton numberOfCards={1} />
   }
 
-  const { infoObj, products } = coverInfo
+  const { products } = coverInfo
   const isDiversified = coverInfo?.supportsProducts
+  const coverOrProjectName = coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
 
   const reassurancePercent = toBN(info.totalReassurance)
     .dividedBy(sumOf(info.totalLiquidity, info.totalReassurance))
@@ -40,7 +42,16 @@ export const MyLiquidityCoverCard = ({
   return (
     <OutlinedCard className='p-6 bg-white' type='link'>
       <div className='flex justify-between'>
-        <CoverAvatar coverOrProductData={coverInfo} isDiversified={isDiversified} />
+        <CoverAvatar imgs={isDiversified
+          ? products.map(x => ({
+            src: getCoverImgSrc({ key: x.productKey }),
+            alt: x.infoObj.productName
+          }))
+          : [{
+              src: getCoverImgSrc({ key: coverKey }),
+              alt: coverOrProjectName
+            }]}
+        />
         <div>
           {/* <Badge className="text-21AD8C">APR: {"25"}%</Badge> */}
           <InfoTooltip
@@ -48,7 +59,7 @@ export const MyLiquidityCoverCard = ({
             infoComponent={
               <div>
                 <p>
-                  Leverage Factor: <b>{infoObj?.leverage}x</b>
+                  Leverage Factor: <b>{coverInfo.infoObj?.leverage}x</b>
                 </p>
                 <p>Determines available capital to underwrite</p>
               </div>
@@ -66,7 +77,7 @@ export const MyLiquidityCoverCard = ({
         className='mt-4 font-semibold uppercase text-h4 font-sora'
         data-testid='title'
       >
-        {infoObj?.coverName}
+        {coverInfo.infoObj?.coverName}
       </h4>
       {/* Divider */}
       <Divider />

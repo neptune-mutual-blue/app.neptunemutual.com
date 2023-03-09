@@ -29,6 +29,7 @@ import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
+import { getCoverImgSrc } from '@/src/helpers/cover'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -136,7 +137,6 @@ const DetailsRenderer = ({ row }) => {
     productKey: productKey
   })
   const { liquidityTokenDecimals } = useAppConstants()
-  const isDiversified = coverInfo?.supportsProducts
 
   if (!coverInfo) {
     return null
@@ -149,14 +149,24 @@ const DetailsRenderer = ({ row }) => {
     />
   )
 
+  const coverKey = row.cover.id
+  const { products } = coverInfo
+  const isDiversified = coverInfo?.supportsProducts
   const coverOrProjectName = coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
 
   return (
     <td className='max-w-sm px-6 py-6'>
       <div className='flex items-center gap-1 w-max'>
         <CoverAvatar
-          coverOrProductData={coverInfo}
-          isDiversified={isDiversified}
+          imgs={isDiversified
+            ? products.map(x => ({
+              src: getCoverImgSrc({ key: x.productKey }),
+              alt: x.infoObj.productName
+            }))
+            : [{
+                src: getCoverImgSrc({ key: coverKey }),
+                alt: coverOrProjectName
+              }]}
           containerClass='grow-0'
           size='xs'
         />

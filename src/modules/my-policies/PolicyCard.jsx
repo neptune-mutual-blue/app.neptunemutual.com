@@ -13,7 +13,7 @@ import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import React from 'react'
 import { CoverAvatar } from '@/common/CoverAvatar'
 import { InfoTooltip } from '@/common/Cover/InfoTooltip'
-import { isValidProduct } from '@/src/helpers/cover'
+import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo
@@ -49,10 +49,10 @@ export const PolicyCard = ({ policyInfo }) => {
   }
 
   const { infoObj } = coverInfo
-  const { coverName, productName } = infoObj
+  const { coverName, projectName, productName } = infoObj
 
   const isDiversified = isValidProduct(policyInfo.productKey)
-  const policyCoverName = isDiversified ? productName : coverName
+  const projectOrProductName = isDiversified ? productName : (coverName || projectName)
 
   const now = DateLib.unix()
   const isPolicyExpired = isGreater(now, validityEndsAt)
@@ -86,7 +86,16 @@ export const PolicyCard = ({ policyInfo }) => {
       <OutlinedCard className='p-6 bg-white' type='normal'>
         <div>
           <div className='flex justify-between'>
-            <CoverAvatar coverOrProductData={coverInfo} isDiversified={isDiversified} />
+            <CoverAvatar imgs={isDiversified
+              ? [{
+                  src: getCoverImgSrc({ key: policyInfo.productKey }),
+                  alt: projectOrProductName
+                }]
+              : [{
+                  src: getCoverImgSrc({ key: policyInfo.coverKey }),
+                  alt: projectOrProductName
+                }]}
+            />
             <div>
               <InfoTooltip
                 disabled={coverInfo.products?.length === 0}
@@ -111,7 +120,7 @@ export const PolicyCard = ({ policyInfo }) => {
             className='mt-4 font-semibold uppercase text-h4 font-sora'
             data-testid='policy-card-title'
           >
-            {policyCoverName}
+            {projectOrProductName}
           </h4>
         </div>
         {/* Divider */}
@@ -119,7 +128,6 @@ export const PolicyCard = ({ policyInfo }) => {
         <PolicyCardFooter
           coverKey={policyInfo.coverKey}
           productKey={policyInfo.productKey}
-          isDiversified={isDiversified}
           cxToken={policyInfo.cxToken}
           report={report}
           tokenBalance={balance}
