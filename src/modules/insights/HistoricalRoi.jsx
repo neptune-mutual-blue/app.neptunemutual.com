@@ -58,7 +58,7 @@ const HistoricalRoi = ({ loading, data }) => {
     series: [
       {
         type: 'areaspline',
-        name: 'Total Capacity Chart',
+        name: isMainNet ? 'Ethereum' : 'Fuji',
         data: (data ?? [])
           .filter((item) => item.chainId === '1' || item.chainId === '43113')
           .map((item) => ({
@@ -112,7 +112,7 @@ const HistoricalRoi = ({ loading, data }) => {
       borderWidth: 0,
       shadow: false,
       shape: 'rect',
-      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold font-poppins tracking-normal text-01052D text-h6\'>{point.y}%</p></div>',
+      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold font-poppins tracking-normal text-01052D text-h6\'><div class=\'text-xs\'>{series.name}</div><div class=\'text-h6 text-sm text-black\'>{point.y}%</div></p></div>',
       headerFormat: '',
       hideDelay: 100,
       outside: false
@@ -153,7 +153,7 @@ const HistoricalRoi = ({ loading, data }) => {
       ...chartOptions.series,
       {
         type: 'areaspline',
-        name: 'Total Capacity Chart',
+        name: 'Arbitrum',
         data: (data ?? [])
           .filter((item) => item.chainId === '42161')
           .map((item) => ({
