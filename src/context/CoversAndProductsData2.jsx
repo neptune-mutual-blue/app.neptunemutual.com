@@ -38,25 +38,29 @@ export const CoversAndProductsProvider2 = ({ children }) => {
 
   useEffect(() => {
     (async function () {
-      const replacements = { networkId }
+      try {
+        const replacements = { networkId }
 
-      const response = await fetch(
-        getReplacedString(PRODUCT_SUMMARY_URL, replacements),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
+        const response = await fetch(
+          getReplacedString(PRODUCT_SUMMARY_URL, replacements),
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Accept: 'application/json'
+            }
           }
+        )
+
+        if (!response.ok) {
+          return
         }
-      )
 
-      if (!response.ok) {
-        return
+        const res = await response.json()
+        setData(res.data.filter(x => x.chainId.toString() === networkId.toString()))
+      } catch (err) {
+
       }
-
-      const res = await response.json()
-      setData(res.data.filter(x => x.chainId.toString() === networkId.toString()))
     })()
   }, [networkId])
 

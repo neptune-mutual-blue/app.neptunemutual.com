@@ -76,23 +76,12 @@ export const CoverCard = ({
     <OutlinedCard className={classNames('p-6 bg-white', className)} type='link'>
       <div className='flex items-start min-h-72'>
         <CoverAvatar coverOrProductData={coverData} isDiversified={isDiversified} />
-        <InfoTooltip
-          disabled={coverData.products?.length === 0}
-          infoComponent={
-            <div>
-              <p>
-                Leverage Factor: <b>{coverData.coverInfoDetails?.leverage}x</b>
-              </p>
-              <p>Determines available capital to underwrite</p>
-            </div>
-          }
-        >
-          <div>
-            {status !== E_CARD_STATUS.NORMAL && (
-              <Badge status={status} className='rounded' />
-            )}
-          </div>
-        </InfoTooltip>
+
+        <div>
+          {status !== E_CARD_STATUS.NORMAL && (
+            <Badge status={status} className='rounded' />
+          )}
+        </div>
       </div>
       <p
         className='mt-4 font-semibold text-black uppercase text-h4 font-sora'
