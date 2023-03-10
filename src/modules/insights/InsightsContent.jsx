@@ -17,7 +17,6 @@ import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
-import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 
 const AllDropdownOptions = {
@@ -48,8 +47,6 @@ export const InsightsContent = () => {
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: userData } = useProtocolUsersData()
-
-  const { data: flattenedCovers, loading: flattenedCoversLoading, fetchData: fetchFlattenedCoversData } = useFlattenedCoverProducts(false, true, true)
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
 
@@ -88,9 +85,6 @@ export const InsightsContent = () => {
       fetchProtocolDayData()
     }
 
-    if (selected.value === AllDropdownOptions.QUICK_INFO) {
-      fetchFlattenedCoversData()
-    }
     // eslint-disable-next-line
   }, [selected.value])
 
@@ -140,7 +134,7 @@ export const InsightsContent = () => {
         return (
           <>
             <InsightsStats loading={loading} statsData={statsData} />
-            <InsightsQuickInfoTable flattenedCovers={flattenedCovers} loading={flattenedCoversLoading} />
+            <InsightsQuickInfoTable />
           </>
         )
       case AllDropdownOptions.DEMAND:
