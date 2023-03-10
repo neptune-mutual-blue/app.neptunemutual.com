@@ -13,10 +13,6 @@ if (typeof Highcharts === 'object') {
 const HistoricalRoi = ({ loading, data }) => {
   const chartRef = useRef()
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
-
   const { networkId } = useNetwork()
   const { isMainNet } = useValidateNetwork(networkId)
 
