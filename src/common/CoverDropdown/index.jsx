@@ -4,6 +4,7 @@ import { classNames } from '@/utils/classnames'
 import { Listbox, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
+import { Trans } from '@lingui/macro'
 
 /**
  *
@@ -113,7 +114,7 @@ export const CoverDropdown = ({
   }
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p><Trans>loading...</Trans></p>
   }
 
   return (

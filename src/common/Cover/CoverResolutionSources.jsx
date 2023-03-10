@@ -4,9 +4,8 @@ import { Trans } from '@lingui/macro'
 import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 import { SecondaryCard } from '@/common/SecondaryCard/SecondaryCard'
 
-export const CoverResolutionSources = ({ children, coverInfo }) => {
+export const CoverResolutionSources = ({ children, resolutionSources = [] }) => {
   const { reportingPeriod } = useCoverStatsContext()
-  const resolutionSources = coverInfo?.infoObj.resolutionSources || []
 
   return (
     <div className='col-span-3 row-start-2 lg:col-auto lg:row-start-auto'>

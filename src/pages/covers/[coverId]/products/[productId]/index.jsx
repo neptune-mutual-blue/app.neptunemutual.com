@@ -4,6 +4,7 @@ import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
 import { isValidProduct } from '@/src/helpers/cover'
 import { Seo } from '@/common/Seo'
 import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
+import { Trans } from '@lingui/macro'
 
 export default function Options () {
   const router = useRouter()
@@ -31,11 +32,19 @@ export default function Options () {
 
 function Content ({ loading, productData, coverKey, productKey }) {
   if (loading) {
-    return <p className='text-center'>loading...</p>
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
   }
 
   if (!productData) {
-    return <p className='text-center'>No Data Found</p>
+    return (
+      <p className='text-center'>
+        <Trans>No Data Found</Trans>
+      </p>
+    )
   }
 
   return (

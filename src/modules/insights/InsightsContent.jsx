@@ -25,7 +25,7 @@ const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
   GROWTH: 'Growth',
-  HISTORICAL_ROI: 'Historical ROI',
+  HISTORICAL_ROI: 'LP\'s Historical ROI',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',

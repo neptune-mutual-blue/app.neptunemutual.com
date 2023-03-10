@@ -6,10 +6,6 @@ import { isFeatureEnabled } from '@/src/config/environment'
 import { Trans } from '@lingui/macro'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { useWeb3React } from '@web3-react/core'
-import { logPageLoad } from '@/src/services/logs'
-import { useEffect } from 'react'
-import { analyticsLogger } from '@/utils/logger'
 import { Seo } from '@/common/Seo'
 
 const disabled = !isFeatureEnabled('reporting')
@@ -20,17 +16,11 @@ export default function IncidentResolvedCoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { data, loading, refetch } = useFetchReport({
+  const { data: incidentReportData, loading, refetch } = useFetchReport({
     coverKey: coverKey,
     productKey: productKey,
     incidentDate: timestamp
   })
-
-  const { account, chainId } = useWeb3React()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
 
   if (disabled) {
     return <ComingSoon />
@@ -41,25 +31,41 @@ export default function IncidentResolvedCoverPage () {
       <main>
         <Seo />
 
-        {loading && (
-          <p className='text-center'>
-            <Trans>loading...</Trans>
-          </p>
-        )}
-
-        {!data.incidentReport && (
-          <p className='text-center'>
-            <Trans>No data found</Trans>
-          </p>
-        )}
-
-        {data.incidentReport && (
-          <ReportingDetailsPage
-            incidentReport={data.incidentReport}
-            refetchReport={refetch}
-          />
-        )}
+        <Content
+          coverKey={coverKey}
+          productKey={productKey}
+          loading={loading}
+          incidentReportData={incidentReportData}
+          refetch={refetch}
+        />
       </main>
     </CoverStatsProvider>
+  )
+}
+
+function Content ({ loading, incidentReportData, refetch, coverKey, productKey }) {
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+
+  if (!incidentReportData) {
+    return (
+      <p className='text-center'>
+        <Trans>No data found</Trans>
+      </p>
+    )
+  }
+
+  return (
+    <ReportingDetailsPage
+      coverKey={coverKey}
+      productKey={productKey}
+      incidentReport={incidentReportData}
+      refetchReport={refetch}
+    />
   )
 }

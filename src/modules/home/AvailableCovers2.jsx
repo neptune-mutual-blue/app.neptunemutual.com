@@ -55,12 +55,15 @@ export const AvailableCovers = () => {
 
   const coverView = query[homeViewSelectionKey] || SORT_TYPES.ALL
 
-  let list = getAllProducts()
-  if (coverView === SORT_TYPES.DEDICATED_POOL) {
-    list = getDedicatedCovers()
-  } else if (coverView === SORT_TYPES.DIVERSIFIED_POOL) {
-    list = getDiversifiedCovers()
-  }
+  const list = useMemo(() => {
+    if (coverView === SORT_TYPES.DEDICATED_POOL) {
+      return getDedicatedCovers()
+    } else if (coverView === SORT_TYPES.DIVERSIFIED_POOL) {
+      return getDiversifiedCovers()
+    }
+
+    return getAllProducts()
+  }, [coverView, getAllProducts, getDedicatedCovers, getDiversifiedCovers])
 
   const { filtered, searchValue, setSearchValue } = useSearchResults({
     list: list,
@@ -138,7 +141,7 @@ export const AvailableCovers = () => {
         )}
 
         {!coversLoading && sortedCovers.length === 0 && (
-          <p data-testid='no-data' className='min-h-301'>No data found</p>
+          <p data-testid='no-data' className='min-h-301'><Trans>No Data Found</Trans></p>
         )}
 
         {!coversLoading &&
