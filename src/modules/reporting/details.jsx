@@ -46,8 +46,10 @@ export const ReportingDetailsPage = ({ incidentReport, refetchReport }) => {
       <ReportingHero
         coverKey={incidentReport.coverKey}
         productKey={incidentReport.productKey}
+        incidentDate={incidentReport.incidentDate}
         coverInfo={coverInfo}
-        reportStatus={{ resolved: incidentReport.resolved }}
+        type='details'
+        isResolved={incidentReport.resolved}
       />
       <hr className='border-B0C4DB' />
       <Container className='py-16'>

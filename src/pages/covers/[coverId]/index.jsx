@@ -1,16 +1,12 @@
-import { useEffect } from 'react'
 
 import { useRouter } from 'next/router'
 
 import { ProductsGrid } from '@/common/ProductsGrid/ProductsGrid'
 import { Seo } from '@/common/Seo'
 import { HomeHero } from '@/modules/home/Hero'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { CoverOptionsPage } from '@/src/modules/cover/CoverOptionsPage'
-import { logPageLoad } from '@/src/services/logs'
 import { safeFormatBytes32String } from '@/utils/formatter/bytes32String'
-import { analyticsLogger } from '@/utils/logger'
-import { useWeb3React } from '@web3-react/core'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
 export default function CoverPage () {
   const router = useRouter()
@@ -19,37 +15,46 @@ export default function CoverPage () {
   const coverKey = safeFormatBytes32String(coverId)
   const productKey = safeFormatBytes32String(productId || '')
 
-  const { coverInfo, loading } = useCoverOrProductData({ coverKey, productKey })
-
-  const isDiversified = coverInfo?.supportsProducts
-
-  const { account, chainId } = useWeb3React()
-
-  useEffect(() => {
-    analyticsLogger(() => logPageLoad(chainId ?? null, account ?? null, router.asPath))
-  }, [account, chainId, router.asPath])
+  const { getCoverByCoverKey, loading } = useCoversAndProducts2()
+  const coverData = getCoverByCoverKey(coverKey)
 
   return (
     <main>
       <Seo />
-      {loading && <p className='text-center'>loading...</p>}
-      {!loading && !coverInfo && <p className='text-center'>No Data Found</p>}
-
-      {isDiversified
-        ? (
-          <div className='min-h-screen'>
-            <HomeHero />
-            <ProductsGrid />
-          </div>
-          )
-        : (coverInfo &&
-          <CoverOptionsPage
-            coverKey={coverKey}
-            productKey={productKey}
-            coverProductInfo={coverInfo}
-            isDiversified={isDiversified}
-          />
-          )}
+      <Content
+        loading={loading}
+        coverData={coverData}
+        coverKey={coverKey}
+        productKey={productKey}
+      />
     </main>
+  )
+}
+
+function Content ({ loading, coverData, coverKey, productKey }) {
+  if (loading) {
+    return <p className='text-center'>loading...</p>
+  }
+
+  if (!coverData) {
+    return <p className='text-center'>No Data Found</p>
+  }
+
+  const isDiversified = coverData?.coverInfoDetails?.supportsProducts
+
+  return (isDiversified
+    ? (
+      <div className='min-h-screen'>
+        <HomeHero />
+        <ProductsGrid />
+      </div>
+      )
+    : (
+      <CoverOptionsPage
+        coverKey={coverKey}
+        productKey={productKey}
+        coverOrProductData={coverData}
+        isDiversified={isDiversified}
+      />)
   )
 }

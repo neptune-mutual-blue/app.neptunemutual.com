@@ -79,7 +79,12 @@ export function NewIncidentReportPage ({
       <Seo />
 
       {/* hero */}
-      <ReportingHero coverKey={coverKey} productKey={productKey} coverInfo={coverInfo} />
+      <ReportingHero
+        coverKey={coverKey}
+        productKey={productKey}
+        coverInfo={coverInfo}
+        type='new-report'
+      />
       <hr className='border-B0C4DB' />
 
       {accepted
