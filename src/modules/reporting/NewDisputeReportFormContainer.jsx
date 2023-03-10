@@ -39,10 +39,8 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
         coverKey={coverKey}
         productKey={productKey}
         coverInfo={coverInfo}
-        reportStatus={{
-          resolved: data.incidentReport?.resolved,
-          dispute: true
-        }}
+        incidentDate={timestamp}
+        type='new-dispute'
       />
       <hr className='border-t border-t-B0C4DB' />
 

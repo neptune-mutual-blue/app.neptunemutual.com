@@ -5,53 +5,58 @@ import { CoverProfileInfo } from '@/common/CoverProfileInfo/CoverProfileInfo'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { t } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
-import { useRouter } from 'next/router'
 
-export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = null }) => {
-  const router = useRouter()
+export const ReportingHero = ({ coverKey, productKey, coverInfo, incidentDate = null, type = '', isResolved = false }) => {
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
+  const coverName = isDiversified
+    ? coverInfo?.cover.infoObj.coverName || coverInfo?.cover.infoObj.projectName
+    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
+  const productName = coverInfo?.infoObj.productName
+  const socialLinks = coverInfo?.infoObj.links
 
-  const breadcrumbData = reportStatus
-    ? [
-        { name: t`Home`, href: '/', current: false },
-        {
-          name: t`Reporting`,
-          href: reportStatus.resolved
-            ? Routes.ResolvedReports
-            : Routes.ActiveReports,
-          current: false
-        },
-        {
-          name: isDiversified
-            ? coverInfo?.infoObj.productName
-            : coverInfo?.infoObj.coverName,
-          current: !reportStatus.dispute,
-          href: reportStatus.dispute
-            ? router.asPath.replace('/dispute', '/details')
-            : ''
-        }
-      ]
-    : [
-        { name: t`Home`, href: '/', current: false },
-        {
-          name: isDiversified
-            ? coverInfo?.infoObj.productName
-            : coverInfo?.infoObj.coverName,
-          href: isDiversified
-            ? Routes.ViewProduct(coverKey, productKey)
-            : Routes.ViewCover(coverKey),
-          current: false
-        },
-        { name: t`Reporting`, current: true }
-      ]
+  let breadcrumbData = []
 
-  if (reportStatus?.dispute) {
-    breadcrumbData.push({
-      name: 'Dispute',
-      current: true
-    })
+  breadcrumbData = [
+    { name: t`Home`, href: '/' },
+    { name: coverName, href: Routes.ViewCover(coverKey) },
+    isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
+    { name: t`Reporting`, href: '' }
+  ].filter(Boolean)
+
+  if (type === 'new-report') {
+    breadcrumbData = [
+      { name: t`Home`, href: '/' },
+      { name: coverName, href: Routes.ViewCover(coverKey) },
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
+      { name: t`Reporting`, href: '' }
+    ].filter(Boolean)
   }
+
+  if (type === 'details') {
+    breadcrumbData = [
+      { name: t`Home`, href: '/' },
+      { name: t`Reporting`, href: isResolved ? Routes.ResolvedReports : Routes.ActiveReports },
+      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) }
+    ].filter(Boolean)
+  }
+
+  if (type === 'new-dispute') {
+    breadcrumbData = [
+      { name: t`Home`, href: '/' },
+      !isDiversified && { name: coverName, href: Routes.ViewCover(coverKey) },
+      isDiversified && { name: productName, href: Routes.ViewProduct(coverKey, productKey) },
+      { name: t`Reporting`, href: Routes.ViewReport(coverKey, productKey, incidentDate) },
+      { name: t`Dispute`, href: '' }
+    ].filter(Boolean)
+  }
+
+  breadcrumbData = breadcrumbData.map((breadcrumb, i, arr) => {
+    return (i === arr.length - 1)
+      ? { ...breadcrumb, current: true }
+      : { ...breadcrumb, current: false }
+  })
 
   return (
     <Hero>
@@ -62,12 +67,8 @@ export const ReportingHero = ({ coverKey, productKey, coverInfo, reportStatus = 
             coverKey={coverKey}
             productKey={productKey}
             imgSrc={imgSrc}
-            links={coverInfo?.infoObj.links}
-            projectName={
-              isDiversified
-                ? coverInfo?.infoObj.productName
-                : coverInfo?.infoObj.coverName
-            }
+            links={socialLinks}
+            projectName={isDiversified ? productName : coverName}
           />
         </div>
       </Container>

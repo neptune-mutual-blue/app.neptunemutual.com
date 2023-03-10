@@ -147,7 +147,11 @@ const ReportListing = (props) => {
 
   return (
     <>
-      <ReportingHero coverKey={coverKey} productKey={productKey} coverInfo={coverInfo} />
+      <ReportingHero
+        coverKey={coverKey}
+        productKey={productKey}
+        coverInfo={coverInfo}
+      />
       <hr className='border-B0C4DB' />
       <Container className='pt-16 pb-36'>
         <TableWrapper>

@@ -1,31 +1,21 @@
 import { RegularButton } from '@/common/Button/RegularButton'
 import { Label } from '@/common/Label/Label'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { actions } from '@/src/config/cover/actions'
 import { t, Trans } from '@lingui/macro'
-import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { CoverDropdown } from '@/common/CoverDropdown'
 import { isValidProduct } from '@/src/helpers/cover'
+import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
 
 export const ActiveReportingEmptyState = () => {
   const router = useRouter()
 
-  const { data: covers, loading } = useFlattenedCoverProducts()
-
-  const [selected, setSelected] = useState(null)
-
-  useEffect(() => {
-    let ignore = false
-
-    if (!ignore && covers && covers.length > 0) {
-      setSelected(covers[0])
-    }
-
-    return () => {
-      ignore = true
-    }
-  }, [covers])
+  const {
+    loading,
+    covers,
+    selected,
+    setSelected
+  } = useCoverDropdown()
 
   const handleAddReport = () => {
     if (!selected) return
@@ -37,9 +27,7 @@ export const ActiveReportingEmptyState = () => {
 
   if (loading) {
     return (
-      <>
-        <Trans>loading...</Trans>
-      </>
+      <Trans>loading...</Trans>
     )
   }
 
@@ -64,7 +52,10 @@ export const ActiveReportingEmptyState = () => {
           <Trans>select a cover</Trans>
         </Label>
         <CoverDropdown
-          onChange={setSelected}
+          loading={loading}
+          covers={covers}
+          selected={selected}
+          setSelected={setSelected}
         />
         <RegularButton
           className='w-full py-4 mt-6 text-sm font-medium uppercase'

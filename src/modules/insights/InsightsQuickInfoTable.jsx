@@ -14,52 +14,54 @@ import { renderHeader } from '@/src/common/Table/renderHeader'
 import PreviousNext from '@/src/common/PreviousNext'
 
 import { convertFromUnits, toBN } from '@/utils/bn'
-import { useState } from 'react'
-import { useCovers } from '@/src/hooks/useCovers'
+import { useMemo, useState } from 'react'
 import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { useRouter } from 'next/router'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
-const RenderNetwork = ({ coverKey, productKey, infoObj }) => {
+const RenderProductName = ({ coverKey, productKey, data }) => {
   const isDiversified = isValidProduct(productKey)
-  const name = isDiversified ? infoObj?.productName : infoObj?.coverName || infoObj?.projectName || ''
+  const coverOrProductName = !isDiversified
+    ? data?.coverInfoDetails?.coverName || data?.coverInfoDetails?.projectName
+    : data?.productInfoDetails?.productName
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
 
   return (
     <td className='px-6 py-4 min-w-300 w-80'>
       <div
         className='flex flex-row text-sm leading-5 whitespace-normal text-01052D'
-        title={name}
+        title={coverOrProductName}
       >
         <img
           src={imgSrc}
-          alt={infoObj?.coverName || infoObj?.projectName}
+          alt={coverOrProductName}
           width='24'
           height='24'
           className='mr-2 rounded-full shrink-0'
         />
-        <span> {name}  </span>
+        <span> {coverOrProductName}  </span>
       </div>
     </td>
   )
 }
 
-const RenderUtilisationRatio = ({ stats, locale }) => {
+const RenderUtilizationRatio = ({ ratio, locale }) => {
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-01052D'
     >
       <div
         className='inline-block px-2 py-2 text-sm text-21AD8C bg-EAF7F8 rounded-xl'
-        title={formatPercent(stats.utilization, locale)}
+        title={formatPercent(ratio, locale)}
       >
-        {formatPercent(stats.utilization, locale)}
+        {formatPercent(ratio, locale)}
       </div>
     </td>
   )
 }
 
-const RenderCapacity = ({ stats, locale, liquidityTokenDecimals }) => {
+const RenderCapacity = ({ capacity, locale, liquidityTokenDecimals }) => {
   return (
     <td
       className='px-6 py-4 text-sm leading-5 text-right text-01052D'
@@ -67,14 +69,14 @@ const RenderCapacity = ({ stats, locale, liquidityTokenDecimals }) => {
       <span
         title={
           formatCurrency(
-            convertFromUnits(stats.liquidity, liquidityTokenDecimals).toString(),
+            convertFromUnits(capacity, liquidityTokenDecimals).toString(),
             locale
           ).long
         }
       >
         {
         formatCurrency(
-          convertFromUnits(stats.liquidity, liquidityTokenDecimals).toString(),
+          convertFromUnits(capacity, liquidityTokenDecimals).toString(),
           locale
         ).short
       }
@@ -88,25 +90,25 @@ const columns = [
     name: t`Cover`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row) => <RenderNetwork infoObj={row.infoObj} productKey={row.productKey} coverKey={row.coverKey} />
+    renderData: (row) => <RenderProductName data={row} productKey={row.productKey} coverKey={row.coverKey} />
   },
   {
     name: t`Utilization Ratio`,
     align: 'left',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row, { locale }) => <RenderUtilisationRatio stats={row.stats} locale={locale} />
+    renderData: (row, { locale }) => <RenderUtilizationRatio ratio={row.utilizationRatio} locale={locale} />
   },
   {
     name: t`Capacity`,
     align: 'right',
     renderHeader: col => renderHeader(col, null, null, null, 'xs:text-999BAB lg:text-404040'),
-    renderData: (row, { locale, liquidityTokenDecimals }) => <RenderCapacity stats={row.stats} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} />
+    renderData: (row, { locale, liquidityTokenDecimals }) => <RenderCapacity capacity={row.capacity} liquidityTokenDecimals={liquidityTokenDecimals} locale={locale} />
   }
 ]
 
 const ROWS_PER_PAGE = 3
-export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
-  useCovers({ supportsProducts: true, fetchInfo: true })
+
+export const InsightsQuickInfoTable = () => {
   const [page, setPage] = useState(1)
 
   const paginateLeft = () => {
@@ -116,20 +118,24 @@ export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
     setPage(page + 1)
   }
 
+  const { loading, getAllProducts } = useCoversAndProducts2()
+  const topCovers = useMemo(() => {
+    const products = getAllProducts()
+      .filter(x => toBN(x.utilizationRatio).isGreaterThanOrEqualTo(0.7))
+
+    const result = sorter({
+      datatype: SORT_DATA_TYPES.BIGNUMBER,
+      list: products,
+      selector: x => x.utilizationRatio
+    })
+
+    return result
+  }, [getAllProducts])
+
   const { locale } = useRouter()
   const { liquidityTokenDecimals } = useAppConstants()
 
-  const filtered = flattenedCovers.filter(cover => {
-    return toBN(cover.stats.utilization).isGreaterThanOrEqualTo(0.7)
-  })
-
-  const sorted = sorter({
-    datatype: SORT_DATA_TYPES.BIGNUMBER,
-    list: [...filtered],
-    selector: (cover) => cover?.stats.utilization
-  })
-
-  const paginatedData = sorted.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
+  const paginatedData = topCovers.slice((page - 1) * ROWS_PER_PAGE, (page - 1) * ROWS_PER_PAGE + ROWS_PER_PAGE)
 
   return (
     <div>
@@ -144,7 +150,7 @@ export const InsightsQuickInfoTable = ({ flattenedCovers, loading }) => {
             onPrevious={paginateLeft}
             onNext={paginateRight}
             hasPrevious={page > 1}
-            hasNext={page < (Math.ceil(sorted.length / ROWS_PER_PAGE))}
+            hasNext={page < (Math.ceil(topCovers.length / ROWS_PER_PAGE))}
           />
         </div>
       </div>

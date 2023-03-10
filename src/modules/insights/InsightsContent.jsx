@@ -17,7 +17,6 @@ import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 import ConsensusDetails from '@/modules/insights/ConsensusDetails'
 import { BackButton } from '@/common/BackButton/BackButton'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
-import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
@@ -51,8 +50,6 @@ export const InsightsContent = () => {
 
   const { data: { totalCovered, totalLiquidity, totalCapacity }, fetchData: fetchProtocolDayData } = useProtocolDayData(false)
   const { data: userData } = useProtocolUsersData()
-
-  const { data: flattenedCovers, loading: flattenedCoversLoading, fetchData: fetchFlattenedCoversData } = useFlattenedCoverProducts(false, true, true)
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
@@ -90,10 +87,6 @@ export const InsightsContent = () => {
 
     if ([AllDropdownOptions.COVER_TVL, AllDropdownOptions.DEMAND, AllDropdownOptions.TOTAL_CAPACITY].includes(selected.value)) {
       fetchProtocolDayData()
-    }
-
-    if (selected.value === AllDropdownOptions.QUICK_INFO) {
-      fetchFlattenedCoversData()
     }
 
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI) {
@@ -148,7 +141,7 @@ export const InsightsContent = () => {
         return (
           <>
             <InsightsStats loading={loading} statsData={statsData} />
-            <InsightsQuickInfoTable flattenedCovers={flattenedCovers} loading={flattenedCoversLoading} />
+            <InsightsQuickInfoTable />
           </>
         )
       case AllDropdownOptions.DEMAND:
