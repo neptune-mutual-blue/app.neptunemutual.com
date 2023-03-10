@@ -77,23 +77,11 @@ export const CoverCard = ({
                 alt: coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName
               }]}
         />
-        <InfoTooltip
-          disabled={coverData.products?.length === 0}
-          infoComponent={
-            <div>
-              <p>
-                Leverage Factor: <b>{coverData.coverInfoDetails?.leverage}x</b>
-              </p>
-              <p>Determines available capital to underwrite</p>
-            </div>
-          }
-        >
-          <div>
-            {status !== E_CARD_STATUS.NORMAL && (
-              <Badge status={status} className='rounded' />
-            )}
-          </div>
-        </InfoTooltip>
+        <div>
+          {status !== E_CARD_STATUS.NORMAL && (
+            <Badge status={status} className='rounded' />
+          )}
+        </div>
       </div>
       <p
         className='mt-4 font-semibold text-black uppercase text-h4 font-sora'

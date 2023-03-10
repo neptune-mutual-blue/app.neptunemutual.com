@@ -43,10 +43,10 @@ export const CoversAndProductsProvider2 = ({ children }) => {
 
   useEffect(() => {
     (async function () {
+      setLoading(true)
       try {
         const replacements = { networkId }
 
-        setLoading(true)
         const response = await fetch(
           getReplacedString(PRODUCT_SUMMARY_URL, replacements),
           {
@@ -72,11 +72,11 @@ export const CoversAndProductsProvider2 = ({ children }) => {
             return text1.localeCompare(text2, 'en')
           })
         )
-        setLoading(false)
       } catch (error) {
-        setLoading(false)
         console.error(error)
       }
+
+      setLoading(false)
     })()
   }, [networkId])
 
