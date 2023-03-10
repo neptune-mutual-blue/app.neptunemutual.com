@@ -3,11 +3,19 @@ import CheckBlue from '@/icons/CheckBlue'
 import { classNames } from '@/utils/classnames'
 import UpArrowFilled from '@/icons/UpArrowFilled'
 
-export const CoverOptions = ({ setSelected }) => {
+export const CoverOptions = ({
+  loading,
+  covers,
+  selected,
+  setSelected
+}) => {
   return (
     <div>
       <CoverDropdown
-        onChange={setSelected}
+        loading={loading}
+        covers={covers}
+        selected={selected}
+        setSelected={setSelected}
         className=''
         optionsClass='z-30 !p-4 border ring-0 shadow-cover-dropdown border-B0C4DB
         ring-1 ring-black ring-opacity-5 focus:outline-none rou !mt-2 rounded-2xl'

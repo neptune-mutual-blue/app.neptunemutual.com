@@ -18,7 +18,7 @@ import { useWeb3React } from '@web3-react/core'
 
 const getBreadCrumbs = (
   isDiversified,
-  coverProductInfo,
+  coverOrProductData,
   coverKey,
   productKey
 ) => {
@@ -26,12 +26,12 @@ const getBreadCrumbs = (
     return [
       { name: t`Home`, href: '/', current: false },
       {
-        name: coverProductInfo?.cover?.infoObj?.coverName || t`loading...`,
+        name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
         href: Routes.ViewCover(coverKey),
         current: true
       },
       {
-        name: coverProductInfo?.infoObj?.productName || t`loading...`,
+        name: coverOrProductData?.productInfoDetails?.productName || t`loading...`,
         href: Routes.ViewProduct(coverKey, productKey),
         current: true
       }
@@ -40,7 +40,7 @@ const getBreadCrumbs = (
   return [
     { name: t`Home`, href: '/', current: false },
     {
-      name: coverProductInfo?.infoObj?.coverName || t`loading...`,
+      name: coverOrProductData?.coverInfoDetails?.coverName || t`loading...`,
       href: Routes.ViewCover(coverKey),
       current: true
     }
@@ -48,17 +48,13 @@ const getBreadCrumbs = (
 }
 
 export const CoverOptionsPage = ({
-  coverProductInfo,
+  coverOrProductData,
   coverKey,
   productKey,
   isDiversified
 }) => {
   const router = useRouter()
   const { account, chainId } = useWeb3React()
-
-  if (!coverProductInfo) {
-    return <Trans>loading...</Trans>
-  }
 
   const handleLog = action => {
     let funnel = ''
@@ -116,7 +112,7 @@ export const CoverOptionsPage = ({
         <BreadCrumbs
           pages={getBreadCrumbs(
             isDiversified,
-            coverProductInfo,
+            coverOrProductData,
             coverKey,
             productKey
           )}

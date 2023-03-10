@@ -21,6 +21,7 @@ import { convertFromUnits, isGreater, isGreaterOrEqual } from '@/utils/bn'
 import { MIN_PROPOSAL_AMOUNT, MAX_PROPOSAL_AMOUNT } from '@/src/config/constants'
 import { formatCurrency } from '@/utils/formatter/currency'
 import { useRouter } from 'next/router'
+import { useCoverDropdown } from '@/src/hooks/useCoverDropdown'
 
 export const CalculatorCard = () => {
   const { account, library } = useWeb3React()
@@ -40,7 +41,12 @@ export const CalculatorCard = () => {
 
   const router = useRouter()
 
-  const [selectedCover, setSelectedCover] = useState(null)
+  const {
+    loading,
+    covers,
+    selected: selectedCover,
+    setSelected: setSelectedCover
+  } = useCoverDropdown()
 
   const availableLiquidity = useMemo(() => {
     return convertFromUnits(
@@ -108,7 +114,12 @@ export const CalculatorCard = () => {
       </div>
       <div className='pb-4 lg:pb-6'>
         <InputLabel label='Select a cover' />
-        <CoverOptions setSelected={setSelectedCover} />
+        <CoverOptions
+          loading={loading}
+          covers={covers}
+          selected={selectedCover}
+          setSelected={setSelectedCover}
+        />
       </div>
 
       <div className='pb-4 lg:pb-6'>

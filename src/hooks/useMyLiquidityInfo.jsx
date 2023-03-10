@@ -12,7 +12,6 @@ import DateLib from '@/lib/date/DateLib'
 import { isGreater } from '@/utils/bn'
 import { ADDRESS_ONE, VAULT_INFO_URL } from '@/src/config/constants'
 import { getReplacedString } from '@/utils/string'
-import { getInfo } from '@/src/services/protocol/vault/info'
 import { METHODS } from '@/src/services/transactions/const'
 import {
   STATUS,
@@ -65,20 +64,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     try {
       let data
 
-      if (account) {
-        // Get data from provider if wallet's connected
-        const signerOrProvider = getProviderOrSigner(
-          library,
-          account,
-          networkId
-        )
-        data = await getInfo(
-          networkId,
-          coverKey,
-          account,
-          signerOrProvider.provider
-        )
-      } else {
+      {
         // Get data from API if wallet's not connected
         const response = await fetch(
           getReplacedString(VAULT_INFO_URL, {
@@ -130,7 +116,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err)
     }
-  }, [account, coverKey, library, networkId, notifyError])
+  }, [coverKey, networkId, notifyError])
 
   useEffect(() => {
     let ignore = false

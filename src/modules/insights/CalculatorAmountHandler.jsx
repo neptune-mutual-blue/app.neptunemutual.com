@@ -7,7 +7,7 @@ import CurrencyInput from '@/lib/react-currency-input-field'
 /**
  *
  * @param {object} param
- * @param {HTMLInputElement} param.inputProps
+ * @param {React.ComponentProps<'input'> & { allowNegativeValue?: boolean }} param.inputProps
  * @param {React.ComponentProps<'button'> & React.RefAttributes<HTMLButtonElement> & { buttonClassName?: string }} param.buttonProps
  * @param {string} param.unit
  * @param {string} [param.error]

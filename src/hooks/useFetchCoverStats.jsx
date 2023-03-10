@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
 import { useNetwork } from '@/src/context/Network'
 import { getReplacedString } from '@/utils/string'
 import {
@@ -7,8 +6,6 @@ import {
   CoverStatus,
   COVER_STATS_URL
 } from '@/src/config/constants'
-import { getStats } from '@/src/services/protocol/cover/stats'
-import { getProviderOrSigner } from '@/lib/connect-wallet/utils/web3'
 
 export const defaultStats = {
   activeIncidentDate: '0',
@@ -30,7 +27,7 @@ export const defaultStats = {
 export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const [info, setInfo] = useState(defaultStats)
   const [isLoading, setIsLoading] = useState(false)
-  const { account, library } = useWeb3React()
+
   const { networkId } = useNetwork()
 
   const fetcher = useCallback(async () => {
@@ -38,17 +35,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
 
     let data = null
 
-    if (account) {
-      // Get data from provider if wallet's connected
-      const signerOrProvider = getProviderOrSigner(library, account, networkId)
-      data = await getStats(
-        networkId,
-        coverKey,
-        productKey,
-        account,
-        signerOrProvider.provider
-      )
-    } else {
+    {
       // Get data from API if wallet's not connected
       const response = await fetch(
         getReplacedString(COVER_STATS_URL, {
@@ -78,7 +65,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
     }
 
     return data
-  }, [account, coverKey, library, networkId, productKey])
+  }, [coverKey, networkId, productKey])
 
   useEffect(() => {
     let ignore = false
@@ -99,8 +86,8 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
           reportingPeriod: data.reportingPeriod || defaultStats.reportingPeriod,
           requiresWhitelist: data.requiresWhitelist || defaultStats.requiresWhitelist,
           productStatus: CoverStatus[data.productStatus] || CoverStatus[defaultStats.productStatus],
-          totalPoolAmount: data.totalPoolAmount || defaultStats.totalPoolAmount,
-          availableLiquidity: data.availableLiquidity || defaultStats.availableLiquidity,
+          totalPoolAmount: data.tvl || defaultStats.totalPoolAmount,
+          availableLiquidity: data.availableForUnderwriting || defaultStats.availableLiquidity,
           coverageLag: data.coverageLag || defaultStats.coverageLag,
           policyRateCeiling: data.policyRateCeiling || defaultStats.policyRateCeiling,
           policyRateFloor: data.policyRateFloor || defaultStats.policyRateFloor,

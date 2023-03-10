@@ -1,60 +1,41 @@
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useFlattenedCoverProducts } from '@/src/hooks/useFlattenedCoverProducts'
 import { classNames } from '@/utils/classnames'
 import { Listbox, Transition } from '@headlessui/react'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment } from 'react'
 import { CoverDropdownOption } from '@/common/CoverDropdown/CoverDropdownOption'
-
-import { sorter, SORT_DATA_TYPES } from '@/utils/sorting'
 
 /**
  *
  * @param {Object} props
- * @param {(selected: any) => any} props.onChange
+ * @param {any} props.selected
+ * @param {boolean} props.loading
+ * @param {any[]} props.covers
+ * @param {(selected: any) => any} props.setSelected
  * @param {string} [props.className]
  * @param {React.ReactElement | (({selected, name, image, open}) => React.ReactElement)} [props.renderButton]
  * @param {React.ReactElement | (({name, image, option, optionIdx, isSelected, active}) => React.ReactElement)} [props.renderOption]
  * @param {string} [props.buttonClass]
  * @param {string | ((active?: boolean) => string)} [props.optionClass]
  * @param {string} [props.optionsClass]
- * @param {boolean} [props.selectedOptionOnTop]
  * @returns
  */
 export const CoverDropdown = ({
-  onChange,
+  selected,
+  setSelected,
+  covers,
+  loading,
   className = '',
   buttonClass = '',
   optionClass = '',
   optionsClass = '',
   renderButton,
-  renderOption,
-  selectedOptionOnTop = false
+  renderOption
 }) => {
-  const { data: covers } = useFlattenedCoverProducts(true, true, true)
-
-  const [selected, setSelected] = useState(null)
-
-  useEffect(() => {
-    let ignore = false
-
-    if (!ignore && covers.length) {
-      const sorted = sorter({
-        datatype: SORT_DATA_TYPES.STRING,
-        list: [...covers],
-        selector: (cover) => cover?.infoObj?.coverName || cover?.infoObj?.productName || ''
-      })
-      setSelected(sorted[0])
-      if (onChange) onChange(sorted[0])
-    }
-
-    return () => {
-      ignore = true
-    }
-  }, [covers, onChange])
-
-  const selectedName = selected?.infoObj.coverName ||
-  selected?.infoObj.productName
+  const isDiversified = isValidProduct(selected?.productKey)
+  const selectedName = isDiversified
+    ? selected?.productInfoDetails.productName
+    : selected?.coverInfoDetails.coverName || selected?.coverInfoDetails.projectName
 
   const selectedImageSrc = getCoverImgSrc({
     key: isValidProduct(selected?.productKey) ? selected?.productKey : selected?.coverKey
@@ -62,7 +43,6 @@ export const CoverDropdown = ({
 
   const handleSelect = (val) => {
     setSelected(val)
-    if (onChange) onChange(val)
   }
 
   const Button = ({ open }) => {
@@ -100,7 +80,9 @@ export const CoverDropdown = ({
 
   const Option = ({ active, option, _selected, index }) => {
     const isDiversified = isValidProduct(option?.productKey)
-    const name = option?.infoObj?.coverName || option?.infoObj?.projectName || option?.infoObj?.productName
+    const name = isDiversified
+      ? option?.productInfoDetails.productName
+      : option?.coverInfoDetails.coverName || option?.coverInfoDetails.projectName
     const image = getCoverImgSrc({
       key: isDiversified ? option.productKey : option.coverKey
     })
@@ -130,13 +112,9 @@ export const CoverDropdown = ({
     )
   }
 
-  const sorted = sorter({
-    datatype: SORT_DATA_TYPES.STRING,
-    list: [...covers],
-    selector: (cover) => cover?.infoObj?.coverName || cover?.infoObj?.productName || ''
-  })
-
-  const filteredOptions = (selectedOptionOnTop && selected) ? sorted.filter(opt => opt.id !== selected.id) : sorted
+  if (loading) {
+    return <p>Loading...</p>
+  }
 
   return (
     <Listbox value={selected} onChange={handleSelect}>
@@ -163,25 +141,8 @@ export const CoverDropdown = ({
             optionsClass
           )}
           >
-            {
-              selectedOptionOnTop && (
-                <Listbox.Option
-                  className='relative px-1 cursor-pointer select-none text-4e7dd9'
-                  value={selected}
-                >
-                  {({ selected: _selected, active }) => (
-                    <Option
-                      active={active}
-                      option={selected}
-                      _selected={_selected}
-                      index={0}
-                    />
-                  )}
-                </Listbox.Option>
-              )
-            }
 
-            {filteredOptions.map((option, optionIdx) => (
+            {covers.map((option, optionIdx) => (
               <Listbox.Option
                 key={optionIdx}
                 id='reporting-dropdown'
