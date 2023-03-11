@@ -58,7 +58,7 @@ export const useConsensusReportingInfo = ({
           networkId,
           coverKey,
           productKey,
-          account: ADDRESS_ONE,
+          account: account || ADDRESS_ONE,
           incidentDate
         }),
         {

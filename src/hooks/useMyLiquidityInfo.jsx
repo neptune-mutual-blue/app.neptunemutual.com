@@ -70,7 +70,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
           getReplacedString(VAULT_INFO_URL, {
             networkId,
             coverKey,
-            account: ADDRESS_ONE
+            account: account || ADDRESS_ONE
           }),
           {
             method: 'GET',
@@ -116,7 +116,7 @@ export const useMyLiquidityInfo = ({ coverKey }) => {
     } catch (err) {
       handleError(err)
     }
-  }, [coverKey, networkId, notifyError])
+  }, [account, coverKey, networkId, notifyError])
 
   useEffect(() => {
     let ignore = false
