@@ -58,7 +58,7 @@ export const useBondInfo = () => {
           const response = await fetch(
             getReplacedString(BOND_INFO_URL, {
               networkId,
-              account: ADDRESS_ONE
+              account: account || ADDRESS_ONE
             }),
             {
               method: 'GET',

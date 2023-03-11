@@ -6,6 +6,7 @@ import {
   CoverStatus,
   COVER_STATS_URL
 } from '@/src/config/constants'
+import { useWeb3React } from '@web3-react/core'
 
 export const defaultStats = {
   activeIncidentDate: '0',
@@ -28,6 +29,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
   const [info, setInfo] = useState(defaultStats)
   const [isLoading, setIsLoading] = useState(false)
 
+  const { account } = useWeb3React()
   const { networkId } = useNetwork()
 
   const fetcher = useCallback(async () => {
@@ -42,7 +44,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
           networkId,
           coverKey,
           productKey,
-          account: ADDRESS_ONE
+          account: account || ADDRESS_ONE
         }),
         {
           method: 'GET',
@@ -65,7 +67,7 @@ export const useFetchCoverStats = ({ coverKey, productKey }) => {
     }
 
     return data
-  }, [coverKey, networkId, productKey])
+  }, [account, coverKey, networkId, productKey])
 
   useEffect(() => {
     let ignore = false
