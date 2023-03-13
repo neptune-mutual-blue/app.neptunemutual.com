@@ -53,7 +53,7 @@ function CookiePolicy ({ isOpen, onClose }) {
             &#8203;
           </span>
           <Transition.Child as={React.Fragment}>
-            <div className='relative bottom-0 flex flex-col items-center max-w-full px-8 py-6 overflow-hidden text-left rounded-b-none xs:mx-1 sm:max-w-xl md:max-w-2xl bg-F5F9FC backdrop-blur-3xl md:flex-row font-poppins text-h6 md:bottom-8 rounded-t-2xl md:rounded-b-2xl'>
+            <div className='relative bottom-0 flex flex-col items-center max-w-full px-8 py-6 overflow-hidden text-left rounded-b-none xs:mx-1 sm:max-w-xl md:max-w-2xl bg-F5F9FC backdrop-blur-3xl md:flex-row font-inter text-h6 md:bottom-8 rounded-t-2xl md:rounded-b-2xl'>
               <p className='pb-4 tracking-normal md:pb-0 md:pr-4'>
                 <Trans>
                   We use third-party cookies in order to personalize your

@@ -96,10 +96,10 @@ function Loading () {
   return (
     <div className='flex flex-col items-center'>
       <Loader className='w-18 h-18 text-4e7dd9' />
-      <h4 className='font-bold leading-9 text-center mt-7 font-sora text-h2'>
+      <h4 className='font-bold leading-9 text-center mt-7 font-inter text-h2'>
         <Trans>Transaction in progress</Trans>
       </h4>
-      <p className='mt-4 leading-6 text-center font-poppins text-para md:w-72'>
+      <p className='mt-4 leading-6 text-center font-inter text-para md:w-72'>
         <Trans>Please do not exit this page while transaction is in progress</Trans>
       </p>
     </div>

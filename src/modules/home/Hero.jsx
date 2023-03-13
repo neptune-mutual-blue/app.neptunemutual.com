@@ -58,7 +58,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
       )}
       {title && (
         <Container className='pt-0'>
-          <h2 className='font-bold text-black text-h2 font-sora mb-14'>
+          <h2 className='font-bold text-black text-h2 font-inter mb-14'>
             {title}
           </h2>
         </Container>
@@ -142,12 +142,12 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
 
         <div className='flex flex-col flex-1 min-w-0 bg-white rounded-2xl shadow-homeCard px-6 py-8 lg:p-14 border-0.5 border-B0C4DB'>
           <div className='mb-8'>
-            <h3 className='mb-1 text-sm leading-5 font-poppins text-9B9B9B'>
+            <h3 className='mb-1 text-sm leading-5 font-inter text-9B9B9B'>
               <Trans>Total Capacity</Trans>
             </h3>
             <div className='flex items-center'>
               <h2
-                className='pr-3 font-bold text-black text-h4 xs:text-h3 font-sora'
+                className='pr-3 font-bold text-black text-h4 xs:text-h3 font-inter'
                 data-testid='changedata-currency'
               >
                 {
@@ -163,7 +163,7 @@ export const HomeHero = ({ breadcrumbs = [], title = '' }) => {
               {changeData && changeData.diff && (
                 <p
                   className={classNames(
-                    'text-h7 xs:text-h6 font-sora font-bold flex items-center',
+                    'text-h7 xs:text-h6 font-inter font-bold flex items-center',
                     changeData.rise ? 'text-21AD8C' : 'text-DC2121'
                   )}
                   data-testid='changedata-percent'

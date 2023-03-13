@@ -102,8 +102,8 @@ export function TransactionList ({
       container={container}
       noBlur
     >
-      <div className='relative flex flex-col min-h-screen pb-4 pl-8 overflow-hidden md:pl-4 md:min-h-0 font-poppins bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list md:min-w-416'>
-        <p className='mt-6 font-bold text-h5 font-poppins'>Transactions</p>
+      <div className='relative flex flex-col min-h-screen pb-4 pl-8 overflow-hidden md:pl-4 md:min-h-0 font-inter bg-3A4557 text-FEFEFF md:rounded-3xl shadow-tx-list md:min-w-416'>
+        <p className='mt-6 font-bold text-h5 font-inter'>Transactions</p>
 
         <div className='flex gap-2 pr-4 mt-4'>
           <button
@@ -218,7 +218,7 @@ function Notification ({
     >
       <div className='mr-4'>{convertToIconVariant(status)}</div>
       <div className='mr-4 grow'>
-        <p className='mb-1 text-sm font-bold font-sora'>{title}</p>
+        <p className='mb-1 text-sm font-bold font-inter'>{title}</p>
         <p className='text-sm'>{description}</p>
         <p className='mt-2 text-xs leading-4 tracking-normal text-999BAB'>
           {fromNow(timestamp / 1000)}

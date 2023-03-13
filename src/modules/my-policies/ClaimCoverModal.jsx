@@ -138,7 +138,7 @@ export const ClaimCoverModal = ({
     >
       <ModalWrapper className='max-w-md bg-f6f7f9'>
         <Dialog.Title
-          className='flex items-center w-full font-bold font-sora text-h2'
+          className='flex items-center w-full font-bold font-inter text-h2'
           data-testid='dialog-title'
         >
           <img src={imgSrc} alt={t`policy`} height={48} width={48} />

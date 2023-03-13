@@ -25,7 +25,7 @@ const TotalCapacityChart = ({ data }) => {
     xAxis: {
       labels: {
         format:
-          "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
+          "<span class='font-inter text-black uppercase'>{value:%b %e}</span>",
         useHTML: true
       },
       crosshair: {
@@ -45,7 +45,7 @@ const TotalCapacityChart = ({ data }) => {
             this.value === 0
               ? { short: '0' }
               : formatCurrency(this.value, router.locale, '', true)
-          return `<span class='font-poppins text-black'>${fo.short}</span>`
+          return `<span class='font-inter text-black'>${fo.short}</span>`
         },
         useHTML: true
       },
@@ -104,9 +104,9 @@ const TotalCapacityChart = ({ data }) => {
       useHTML: true,
       padding: 0,
       formatter: function () {
-        return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold font-poppins tracking-normal text-01052D text-h6'>${
+        return `<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold font-inter tracking-normal text-01052D text-h6'>${
           formatCurrency(this.y, router.locale).short
-        }</p><p class='text-xs leading-4.5 tracking-normal font-poppins font-semibold text-5C738F uppercase'>${Highcharts.dateFormat(
+        }</p><p class='text-xs leading-4.5 tracking-normal font-inter font-semibold text-5C738F uppercase'>${Highcharts.dateFormat(
           '%b %e, %H:%S',
           new Date(this.x).getTime()
         )} UTC</p></div>`
@@ -137,7 +137,7 @@ const TotalCapacityChart = ({ data }) => {
         // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
           format:
-            "<span class='font-poppins text-black uppercase'>{value:%b %e}</span>",
+            "<span class='font-inter text-black uppercase'>{value:%b %e}</span>",
           useHTML: true,
           style: {
             color: '#01052D'

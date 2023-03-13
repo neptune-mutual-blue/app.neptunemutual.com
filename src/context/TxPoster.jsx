@@ -170,14 +170,14 @@ const ForceTxModal = ({
     <ModalRegular isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-2xl bg-FEFEFF'>
         <Dialog.Title className='flex items-center'>
-          <div className='mb-4 font-semibold text-black font-sora text-h4'>
+          <div className='mb-4 font-semibold text-black font-inter text-h4'>
             EVM Error Occurred While Processing Your Request
           </div>
         </Dialog.Title>
 
         <div className='overflow-y-auto text-sm max-h-54'>
           <div className='mb-5'>
-            <p className='leading-5 text-404040 font-poppins'>
+            <p className='leading-5 text-404040 font-inter'>
               We attempted to submit your transaction but ran into an unexpected
               error. The smart contract sent the following error message:
             </p>
@@ -195,7 +195,7 @@ const ForceTxModal = ({
         <Divider className='mt-0 mb-4' />
 
         <div className='mb-5'>
-          <p className='text-sm leading-5 text-404040 font-poppins'>
+          <p className='text-sm leading-5 text-404040 font-inter'>
             While we do not suggest it, you may force this transaction to be
             sent nonetheless.
           </p>

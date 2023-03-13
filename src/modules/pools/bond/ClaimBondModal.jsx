@@ -71,7 +71,7 @@ export const ClaimBondModal = ({
   return (
     <ModalRegular isOpen={isOpen} onClose={onClose} disabled={claiming}>
       <ModalWrapper className='max-w-md bg-f6f7f9'>
-        <Dialog.Title className='font-bold font-sora text-h2'>
+        <Dialog.Title className='font-bold font-inter text-h2'>
           {modalTitle}
         </Dialog.Title>
         <ModalCloseButton

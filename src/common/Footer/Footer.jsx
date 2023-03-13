@@ -18,7 +18,7 @@ export const Footer = () => {
             />
 
             <div className='text-01052D'>
-              <p className='font-bold leading-7 font-sora text-h3'>Need assistance?</p>
+              <p className='font-bold leading-7 font-inter text-h3'>Need assistance?</p>
               <p className='mt-2 font-semibold text-h5'>Contact us on Discord</p>
               <a className='hover:fill-4e7dd9 hover:text-4e7dd9' href='https://discord.com/invite/2qMGTtJtnW' target='_blank' rel='noreferrer'>
                 <DiscordIcon className='mt-4' width='48' height='48' />
@@ -48,7 +48,7 @@ export const Footer = () => {
         </div>
 
         <div className='py-8 mt-12 border-y border-B0C4DB text-364253'>
-          <p className='font-sora font-semibold text-lg leading-7.5'>Risk Warning</p>
+          <p className='font-inter font-semibold text-lg leading-7.5'>Risk Warning</p>
           <p className='mt-2 text-sm leading-6'>
             Trading crypto assets involves significant risk and can result in the loss of your capital. You should not invest more than you can afford to lose and you should ensure that you fully understand the risks involved. Before trading, please take into consideration your level of experience, investment objectives, and seek independent financial advice if necessary. It is your responsibility to ascertain whether you are permitted to use the services of Neptune Mutual based on the legal requirements in your country of residence.
           </p>

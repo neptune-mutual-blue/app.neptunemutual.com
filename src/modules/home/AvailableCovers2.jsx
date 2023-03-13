@@ -102,13 +102,14 @@ export const AvailableCovers = () => {
 
   return (
     <Container className='py-16'>
+      <h1>This is a test statement</h1>
       <div
         id='cover-products'
         className='flex flex-wrap items-center justify-between'
       >
         <Link href='#cover-products'>
           <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-sora'>
+            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-inter'>
               <Trans>Cover Products</Trans>
             </h1>
           </a>

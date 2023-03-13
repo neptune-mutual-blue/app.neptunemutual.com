@@ -124,7 +124,7 @@ export const Network = ({ closeMenu = () => {} }) => {
             >
               {/* <div className='pb-4 space-y-2 border-b text-000000 border-B0C4DB'> */}
               <div className='space-y-2 text-000000'>
-                <p className='text-sm font-semibold leading-6 font-poppins'>
+                <p className='text-sm font-semibold leading-6 font-inter'>
                   Switch Network
                 </p>
                 {
@@ -139,7 +139,7 @@ export const Network = ({ closeMenu = () => {} }) => {
                             <div className='flex items-center justify-center w-4 h-4 overflow-hidden rounded-full'>
                               <Icon width='32' height='32' />
                             </div>
-                            <span className='text-sm leading-6 font-poppins'>{name}</span>
+                            <span className='text-sm leading-6 font-inter'>{name}</span>
                           </div>
 
                           {
@@ -182,7 +182,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
 
             <div className='px-10 pb-10 md:px-27 mt-14'>
               <button
-                className='-ml-4 p-4 flex items-center gap-2.5 text-white font-poppins text-h5 leading-5 uppercase'
+                className='-ml-4 p-4 flex items-center gap-2.5 text-white font-inter text-h5 leading-5 uppercase'
                 onClick={onClose}
               >
                 <LeftArrow />
@@ -190,7 +190,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
               </button>
 
               <ul className='mt-8 text-white'>
-                <p className='font-semibold leading-6 text-md md:text-h2 font-poppins'>
+                <p className='font-semibold leading-6 text-md md:text-h2 font-inter'>
                   Switch Network
                 </p>
 
@@ -206,7 +206,7 @@ const NetworkModalMobile = ({ open, onClose, networks, closeMobileMenu }) => {
                           <div className='flex items-center justify-center w-8 h-8 overflow-hidden rounded-full'>
                             <Icon width='32' height='32' />
                           </div>
-                          <span className='leading-6 text-md md:text-h2 font-poppins'>{name}</span>
+                          <span className='leading-6 text-md md:text-h2 font-inter'>{name}</span>
 
                           {
                             active && (

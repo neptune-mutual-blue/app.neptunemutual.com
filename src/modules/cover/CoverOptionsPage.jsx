@@ -121,7 +121,7 @@ export const CoverOptionsPage = ({
 
       <div className='min-h-screen py-6 md:px-2 lg:px-8 pt-7 lg:pt-28'>
         <Container className='pb-16'>
-          <h2 className='mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-sora md:mb-6 lg:mb-12'>
+          <h2 className='mb-4 font-bold text-center text-h4 md:text-h3 lg:text-h2 font-inter md:mb-6 lg:mb-12'>
             <Trans>I Want to</Trans>
           </h2>
           <div className='container grid grid-cols-2 gap-4 mx-auto mb-6 justify-items-center lg:gap-8 sm:grid-cols-2 lg:grid-cols-4 md:mb-8 lg:mb-14'>

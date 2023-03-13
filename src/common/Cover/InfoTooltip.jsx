@@ -36,7 +36,7 @@ export const InfoTooltip = ({
     </Tooltip.Trigger>
     <Tooltip.Content
       className={classNames(
-        'flex flex-col gap-y-1 text-xs leading-5 font-poppins max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview',
+        'flex flex-col gap-y-1 text-xs leading-5 font-inter max-w-56 text-white bg-black bg-opacity-90 z-60 rounded-1 shadow-tx-overview',
         className || 'p-4'
       )}
       side={position}

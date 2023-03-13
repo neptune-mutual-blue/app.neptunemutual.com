@@ -42,7 +42,7 @@ export default function PageNotAvailable () {
           alt='Access Denied'
           className='block mx-auto w-52 h-52'
         />
-        <h2 className='my-6 font-bold leading-10 text-center text-h3 font-sora'>
+        <h2 className='my-6 font-bold leading-10 text-center text-h3 font-inter'>
           Oops, Neptune Mutual is not available in your region
         </h2>
         {/* <p className='mt-2 text-center text-9B9B9B'>
@@ -60,7 +60,7 @@ export default function PageNotAvailable () {
           />
           <button
             type='submit'
-            className='block w-full px-10 py-5 mt-6 font-bold uppercase rounded-lg bg-4e7dd9 text-EEEEEE text-h5 font-sora'
+            className='block w-full px-10 py-5 mt-6 font-bold uppercase rounded-lg bg-4e7dd9 text-EEEEEE text-h5 font-inter'
           >
             subscribe
           </button>

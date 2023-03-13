@@ -117,7 +117,7 @@ export const PolicyCard = ({ policyInfo }) => {
             </div>
           </div>
           <h4
-            className='mt-4 font-semibold uppercase text-h4 font-sora'
+            className='mt-4 font-semibold uppercase text-h4 font-inter'
             data-testid='policy-card-title'
           >
             {projectOrProductName}

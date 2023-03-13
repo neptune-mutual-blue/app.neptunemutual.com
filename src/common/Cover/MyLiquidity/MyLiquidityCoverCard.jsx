@@ -74,7 +74,7 @@ export const MyLiquidityCoverCard = ({
         </div>
       </div>
       <h4
-        className='mt-4 font-semibold uppercase text-h4 font-sora'
+        className='mt-4 font-semibold uppercase text-h4 font-inter'
         data-testid='title'
       >
         {coverInfo.infoObj?.coverName}

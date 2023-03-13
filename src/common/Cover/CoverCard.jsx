@@ -84,7 +84,7 @@ export const CoverCard = ({
         </div>
       </div>
       <p
-        className='mt-4 font-semibold text-black uppercase text-h4 font-sora'
+        className='mt-4 font-semibold text-black uppercase text-h4 font-inter'
         data-testid='project-name'
       >
         {coverData.coverInfoDetails.coverName || coverData.coverInfoDetails.projectName}

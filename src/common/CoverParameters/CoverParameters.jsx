@@ -13,7 +13,7 @@ const List = ({ type, children }) => {
  * @param {{parameters: Array, titleClassName?: string, textClassName?: string}} props
  * @returns
  */
-const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-h4 font-sora', textClassName = '' }) => {
+const CoverParameters = ({ parameters, titleClassName = 'mt-10 mb-6 font-semibold text-h4 font-inter', textClassName = '' }) => {
   if (!Array.isArray(parameters) || parameters.length === 0) {
     return null
   }

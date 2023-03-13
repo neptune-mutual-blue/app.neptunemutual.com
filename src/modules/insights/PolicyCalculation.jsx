@@ -40,7 +40,7 @@ export const PolicyCalculation = ({
 
   return (
     <div>
-      <div className='block pb-2 text-sm font-normal uppercase font-poppins text-01052D'>
+      <div className='block pb-2 text-sm font-normal uppercase font-inter text-01052D'>
         Your policy fee is
       </div>
       <div className='flex items-end justify-between'>

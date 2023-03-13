@@ -112,7 +112,7 @@ export const ReportingResolvedPage = () => {
             width={24}
             height={24}
           />
-          <p className='ml-2 text-sm text-black font-poppins grow'>
+          <p className='ml-2 text-sm text-black font-inter grow'>
             {row.isDiversified
               ? row.coverInfo?.infoObj.productName
               : row.coverInfo?.infoObj.coverName || row.coverInfo?.infoObj.projectName}

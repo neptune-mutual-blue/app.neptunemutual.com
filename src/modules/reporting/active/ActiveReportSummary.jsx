@@ -73,7 +73,7 @@ export const ActiveReportSummary = ({
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
         <div className='flex-1 p-6 pb-0 sm:pb-6 lg:p-10 md:border-r border-B0C4DB min-w-300'>
-          <h2 className='mb-6 font-bold text-center text-h3 font-sora lg:text-left'>
+          <h2 className='mb-6 font-bold text-center text-h3 font-inter lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -116,7 +116,7 @@ export const ActiveReportSummary = ({
 
         {/* Right half */}
         <div className='p-6 pt-0 lg:p-10 sm:pt-6'>
-          <h3 className='mb-4 font-bold text-h4 font-sora'>Insights</h3>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>Insights</h3>
           <InsightsTable
             insights={[
               {
@@ -211,7 +211,7 @@ export const ActiveReportSummary = ({
           />
 
           <hr className='mt-6 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
@@ -228,7 +228,7 @@ export const ActiveReportSummary = ({
           )}
 
           <hr className='mt-8 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus

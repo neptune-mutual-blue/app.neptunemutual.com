@@ -21,7 +21,7 @@ export const DiversifiedLiquidityResolutionSources = ({ info, children }) => {
       <SecondaryCard>
         <div className='flex flex-wrap justify-between md:block'>
           <div>
-            <h3 className='font-semibold text-h4 font-sora'>
+            <h3 className='font-semibold text-h4 font-inter'>
               <Trans>Vault Info</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>

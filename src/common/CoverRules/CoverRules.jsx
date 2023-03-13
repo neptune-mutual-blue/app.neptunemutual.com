@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro'
 export const CoverRules = ({ rules = '' }) => {
   return (
     <div>
-      <h4 className='mt-10 mb-6 font-semibold text-h4 font-sora'>
+      <h4 className='mt-10 mb-6 font-semibold text-h4 font-inter'>
         <Trans>Cover Rules</Trans>
       </h4>
       <p className='mb-4'>

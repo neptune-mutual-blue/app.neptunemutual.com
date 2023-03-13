@@ -80,7 +80,7 @@ const PurchaseAmountStep = ({ setValue, liquidityTokenSymbol, liquidityTokenDeci
         onClick={handleShowCoverTerms}
       >
         <StandardTermsConditionsIcon />
-        <p className='text-sm font-poppins'>View Cover Parameter</p>
+        <p className='text-sm font-inter'>View Cover Parameter</p>
       </button>
 
       {showModal && <CoverTermsModal item={coverInfo} setShowModal={setShowModal} />}

@@ -24,7 +24,7 @@ export const ReportingPeriodStatus = ({ resolutionTimestamp }) => {
           <InfoIcon className='w-4 h-4 text-999BAB' aria-hidden='true' />
         </Tooltip.Trigger>
         <Tooltip.Content side='top'>
-          <div className='max-w-md p-2 text-xs text-white bg-black rounded font-poppins'>
+          <div className='max-w-md p-2 text-xs text-white bg-black rounded font-inter'>
             {isPast
               ? (
                 <Trans>This report concluded on {longDate}</Trans>

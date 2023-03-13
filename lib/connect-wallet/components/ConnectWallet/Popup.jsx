@@ -37,7 +37,7 @@ export const Popup = ({ isOpen, onClose, networkId, notifier }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalWrapper className='max-w-md transition-all bg-f6f7f9'>
         <Dialog.Title
-          className='font-bold leading-9 text-black font-sora text-h2'
+          className='font-bold leading-9 text-black font-inter text-h2'
         >
           <Trans>Connect wallet</Trans>
         </Dialog.Title>

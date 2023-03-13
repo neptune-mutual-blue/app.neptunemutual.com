@@ -81,7 +81,7 @@ export const ResolvedReportSummary = ({
       <OutlinedCard className='bg-white md:flex'>
         {/* Left half */}
         <div className='flex-1 p-10 md:border-r border-B0C4DB'>
-          <h2 className='mb-6 font-bold text-center text-h3 font-sora lg:text-left'>
+          <h2 className='mb-6 font-bold text-center text-h3 font-inter lg:text-left'>
             <Trans>Report Summary</Trans>
           </h2>
 
@@ -103,7 +103,7 @@ export const ResolvedReportSummary = ({
 
         {/* Right half */}
         <div className='p-10'>
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>
             <Trans>Insights</Trans>
           </h3>
           <InsightsTable
@@ -196,7 +196,7 @@ export const ResolvedReportSummary = ({
           />
 
           <hr className='mt-6 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>
             <Trans>Incident Reporters</Trans>
           </h3>
           <IncidentReporter
@@ -213,7 +213,7 @@ export const ResolvedReportSummary = ({
           )}
 
           <hr className='mt-8 mb-6 border-t border-d4dfee' />
-          <h3 className='mb-4 font-bold text-h4 font-sora'>
+          <h3 className='mb-4 font-bold text-h4 font-inter'>
             <Trans>Reporting Period</Trans>
           </h3>
           <ReportingPeriodStatus
@@ -253,7 +253,7 @@ export const ResolvedReportSummary = ({
             <>
               <button
                 className={classNames(
-                  'mt-2 text-sm font-poppins text-4e7dd9',
+                  'mt-2 text-sm font-inter text-4e7dd9',
                   (finalizing || !roles.isGovernanceAgent) &&
                     'cursor-not-allowed opacity-50'
                 )}
@@ -273,7 +273,7 @@ export const ResolvedReportSummary = ({
 
               <button
                 className={classNames(
-                  'mt-2 text-sm font-poppins text-4e7dd9',
+                  'mt-2 text-sm font-inter text-4e7dd9',
                   (capitalizing || !roles.isLiquidityManager) &&
                     'cursor-not-allowed opacity-50'
                 )}

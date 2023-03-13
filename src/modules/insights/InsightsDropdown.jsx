@@ -69,16 +69,16 @@ export const InsightsDropdown = ({
                       }, 0)
                     }
                   }}
-                  placeholder='Search' className='px-4 py-2 border-1 w-full rounded-2 leading-5 border-D6D6D6' type='text'
+                  placeholder='Search' className='w-full px-4 py-2 leading-5 border-1 rounded-2 border-D6D6D6' type='text'
                 />
                 <div className='absolute top-2.5 right-4'>
-                  <SearchIcon className='h-4 w-4' />
+                  <SearchIcon className='w-4 h-4' />
                 </div>
               </div>
 
             </div>
 
-            <div className='h-435 overflow-auto'>
+            <div className='overflow-auto h-435'>
               {filteredOptions.length === 0 && <div className='py-2.5 px-6 italic'>No items found</div>}
               {filteredOptions.map((option, optionIdx) => (
                 <Fragment key={optionIdx}>

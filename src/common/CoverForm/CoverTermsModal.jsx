@@ -44,7 +44,7 @@ export function CoverTermsModal ({ item, setShowModal }) {
     >
       <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
         <Dialog.Title
-          className='flex flex-row items-center w-full pb-5 font-bold border-b md:p-3 font-sora border-b-B0C4DB'
+          className='flex flex-row items-center w-full pb-5 font-bold border-b md:p-3 font-inter border-b-B0C4DB'
         >
           <button
             aria-label='Close'
@@ -60,22 +60,22 @@ export function CoverTermsModal ({ item, setShowModal }) {
             {item.infoObj.productName || item.infoObj.coverName} Cover Terms
           </span>
         </Dialog.Title>
-        <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-sora min-h-[0] h-full'>
+        <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-inter min-h-[0] h-full'>
           <p className='py-2 text-sm font-bold leading-5 md:py-6 text-000000'>
             Cover Rules
           </p>
 
-          <p className='text-sm font-poppins text-404040'>
+          <p className='text-sm font-inter text-404040'>
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
           <ul
-            className='pb-2 mt-5 list-disc text-md marker:text-xs font-poppins text-404040 md:text-sm md:leading-5'
+            className='pb-2 mt-5 list-disc text-md marker:text-xs font-inter text-404040 md:text-sm md:leading-5'
           >
             <CoverParameters
-              titleClassName='text-sm mt-10 mb-6 font-semibold font-sora'
-              textClassName='font-poppins text-404040 text-m text-sm'
+              titleClassName='text-sm mt-10 mb-6 font-semibold font-inter'
+              textClassName='font-inter text-404040 text-m text-sm'
               parameters={item.infoObj.parameters}
             />
           </ul>
@@ -102,7 +102,7 @@ function DownloadButton ({ onClick }) {
       onClick={onClick}
     >
       <PDFFileIcon />
-      <span className='font-semibold uppercase text-h6 font-poppins'>
+      <span className='font-semibold uppercase text-h6 font-inter'>
         Download PDF
       </span>
     </button>

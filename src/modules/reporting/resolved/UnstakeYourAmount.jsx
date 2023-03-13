@@ -180,7 +180,7 @@ const UnstakeModal = ({
             alt={logoAlt}
             src={logoSrc}
           />
-          <span className='font-bold font-sora text-h2'>
+          <span className='font-bold font-inter text-h2'>
             <Trans>Unstake</Trans>
           </span>
         </Dialog.Title>

@@ -123,7 +123,7 @@ export const ClaimDetailsPage = ({
         </Hero>
 
         <Container className='px-2 pt-12 pb-36'>
-          <h2 className='font-bold text-h2 font-sora'>
+          <h2 className='font-bold text-h2 font-inter'>
             <Trans>Available cxTokens for {coverOrProductName} to Claim</Trans>
           </h2>
           <p className='w-full max-w-xl py-6 mb-8 ml-0 text-lg'>

@@ -181,7 +181,7 @@ export const Header = () => {
         alignOffset={15}
       >
         <Tooltip.Arrow className='' offset={8} fill='#01052D' height={7} />
-        <span className='text-xs font-light leading-4 font-poppins'>
+        <span className='text-xs font-light leading-4 font-inter'>
           Your transaction statuses will be collected in this tray. Feel free to
           navigate through the screens while you wait.
         </span>

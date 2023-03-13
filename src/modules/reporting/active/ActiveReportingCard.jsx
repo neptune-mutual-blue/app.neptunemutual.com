@@ -93,7 +93,7 @@ export const ActiveReportingCard = ({
           }
         </div>
       </div>
-      <h4 className='mt-4 font-semibold uppercase text-h4 font-sora'>
+      <h4 className='mt-4 font-semibold uppercase text-h4 font-inter'>
         {isDiversified
           ? coverInfo.infoObj.productName
           : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName}
@@ -131,7 +131,7 @@ export const ActiveReportingCard = ({
               </p>
             }
           >
-            <div className='rounded bg-EEEEEE font-poppins text-black text-xs px-1 border-9B9B9B border-0.5'>
+            <div className='rounded bg-EEEEEE font-inter text-black text-xs px-1 border-9B9B9B border-0.5'>
               <p className='opacity-60'>
                 D{coverInfo.cover.infoObj.leverage}x
                 {formatPercent(

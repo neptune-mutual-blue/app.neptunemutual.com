@@ -28,7 +28,7 @@ export function PageNotFound () {
     <div className='max-w-full bg-white'>
       <Container className='flex flex-col items-center bg-top bg-no-repeat bg-contain py-28 sm:bg-auto bg-404-background bg-origin-content'>
         <img src='/404.svg' alt='404 page not found' />
-        <p className='py-3 my-12 font-bold leading-10 text-center font-sora text-xxxl'>
+        <p className='py-3 my-12 font-bold leading-10 text-center font-inter text-xxxl'>
           404
         </p>
         <p className='mb-11 text-h5'>
