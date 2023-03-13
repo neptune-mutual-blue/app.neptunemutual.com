@@ -152,7 +152,11 @@ function Content ({
           )
         })}
         {loading && <CardSkeleton className='min-h-301' numberOfCards={6} />}
-        {data.length === 0 && <p data-testid='no-data' className='min-h-301'>No data found</p>}
+        {data.length === 0 && (
+          <p data-testid='no-data' className='min-h-301'>
+            <Trans>No Data Found</Trans>
+          </p>
+        )}
       </Grid>
 
     </>

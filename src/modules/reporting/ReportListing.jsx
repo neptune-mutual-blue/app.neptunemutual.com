@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { t } from '@lingui/macro'
+import { t, Trans } from '@lingui/macro'
 
 import { ReportingHero } from '@/modules/reporting/ReportingHero'
 
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useSubgraphFetch } from '@/src/hooks/useSubgraphFetch'
 import { useNetwork } from '@/src/context/Network'
 import { Routes } from '@/src/config/routes'
@@ -19,6 +18,8 @@ import { truncateAddress } from '@/utils/address'
 import { Table, TableWrapper, THead } from '@/common/Table/Table'
 import { Container } from '@/common/Container/Container'
 import { Badge, identifyStatus } from '@/common/CardStatusBadge'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
 /**
  *
@@ -112,10 +113,9 @@ const ReportListing = (props) => {
   const [reports, setReports] = useState([])
   const fetchReports = useSubgraphFetch('ReportListing')
 
-  const { coverInfo } = useCoverOrProductData({
-    coverKey,
-    productKey
-  })
+  const isDiversified = isValidProduct(productKey)
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
   useEffect(() => {
     if (!coverKey) {
@@ -141,8 +141,12 @@ const ReportListing = (props) => {
     push(Routes.ViewReport(coverKey, productKey, timestamp))
   }
 
-  if (!coverInfo) {
-    return null
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
   }
 
   return (
@@ -150,7 +154,7 @@ const ReportListing = (props) => {
       <ReportingHero
         coverKey={coverKey}
         productKey={productKey}
-        coverInfo={coverInfo}
+        coverOrProductData={coverOrProductData}
       />
       <hr className='border-B0C4DB' />
       <Container className='pt-16 pb-36'>

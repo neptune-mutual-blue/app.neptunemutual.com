@@ -13,7 +13,6 @@ import { useCallback, useState } from 'react'
 import { ModalWrapper } from '@/common/Modal/ModalWrapper'
 import { t, Trans } from '@lingui/macro'
 import { useAppConstants } from '@/src/context/AppConstants'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useRetryUntilPassed } from '@/src/hooks/useRetryUntilPassed'
 import { Label } from '@/common/Label/Label'
 import { useWeb3React } from '@web3-react/core'
@@ -21,17 +20,12 @@ import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
 import { useRouter } from 'next/router'
 
-export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) => {
+export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo, projectOrProductName }) => {
   const [isOpen, setIsOpen] = useState(false)
   const isDiversified = isValidProduct(incidentReport.productKey)
 
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: incidentReport.coverKey,
-    productKey: incidentReport.productKey
-  })
-
   const logoSrc = getCoverImgSrc({
-    key: !isDiversified ? incidentReport.coverKey : incidentReport.productKey
+    key: isDiversified ? incidentReport.productKey : incidentReport.coverKey
   })
 
   const { unstake, unstakeWithClaim, unstaking } = useUnstakeReportingStake({
@@ -68,14 +62,6 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
 
   const { account, chainId } = useWeb3React()
   const { query } = useRouter()
-
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
-  }
-
-  const projectName = isDiversified
-    ? coverInfo?.infoObj.productName
-    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
 
   const now = DateLib.unix()
 
@@ -165,7 +151,7 @@ export const UnstakeYourAmount = ({ incidentReport, willReceive, refetchInfo }) 
         unstake={handleUnstake}
         reward={convertFromUnits(willReceive).decimalPlaces(2).toString()}
         logoSrc={logoSrc}
-        logoAlt={projectName}
+        logoAlt={projectOrProductName}
         unstaking={unstaking}
         hasStake={hasStake}
       />

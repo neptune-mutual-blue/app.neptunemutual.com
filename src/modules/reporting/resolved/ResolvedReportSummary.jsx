@@ -27,7 +27,8 @@ export const ResolvedReportSummary = ({
   no,
   myYes,
   myNo,
-  willReceive
+  willReceive,
+  projectOrProductName
 }) => {
   const router = useRouter()
   const { productId } = router.query
@@ -96,6 +97,7 @@ export const ResolvedReportSummary = ({
             incidentReport={incidentReport}
             willReceive={willReceive}
             refetchInfo={refetchInfo}
+            projectOrProductName={projectOrProductName}
           />
         </div>
 

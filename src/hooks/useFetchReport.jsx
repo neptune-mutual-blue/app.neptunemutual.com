@@ -63,7 +63,7 @@ const getQuery = (reportId) => {
  * @returns
  */
 export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
-  const [data, setData] = useState({})
+  const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const fetchReport = useSubgraphFetch('useFetchReport')
 
@@ -74,7 +74,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
 
     return fetchReport(getNetworkId(), getQuery(reportId))
       .then((data) => {
-        if (!data) {
+        if (!data || !data.incidentReport) {
           return
         }
 
@@ -89,7 +89,7 @@ export const useFetchReport = ({ coverKey, productKey, incidentDate }) => {
   }, [getData])
 
   return {
-    data: { incidentReport: data },
+    data,
     loading,
     refetch: getData
   }
