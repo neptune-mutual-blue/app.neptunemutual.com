@@ -1,5 +1,4 @@
-import '@fontsource/poppins/latin.css'
-import '@fontsource/sora/latin.css'
+import '@fontsource/inter/latin.css'
 import '../styles/globals.css'
 import '../common/GaugeChart/GaugeChart.css'
 
