@@ -83,7 +83,7 @@ export const InsightsDropdown = ({
               {filteredOptions.map((option, optionIdx) => (
                 <Fragment key={optionIdx}>
                   {option.type === 'label'
-                    ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 font-poppins text-000000'>{option.label}</Listbox.Label></>
+                    ? <> <hr className='h-px border-0 bg-D6D6D6 ' /> <Listbox.Label className='block py-2.5 px-6 text-sm font-semibold leading-5 font-inter text-000000'>{option.label}</Listbox.Label></>
                     : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
                 </Fragment>
               ))}
@@ -111,7 +111,7 @@ const ListChoice = ({ optionIdx, option, selected }) => {
         return (
           <span
             className={classNames(
-              'flex truncate gap-2 py-2.5 px-6 capitalize rounded items-center justify-between leading-5 font-normal font-poppins text-sm text-000000',
+              'flex truncate gap-2 py-2.5 px-6 capitalize rounded items-center justify-between leading-5 font-normal font-inter text-sm text-000000',
               active ? 'bg-EEEEEE rounded-lg' : ''
             )}
           >

@@ -102,7 +102,6 @@ export const AvailableCovers = () => {
 
   return (
     <Container className='py-16'>
-      <h1>This is a test statement</h1>
       <div
         id='cover-products'
         className='flex flex-wrap items-center justify-between'

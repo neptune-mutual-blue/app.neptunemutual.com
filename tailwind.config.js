@@ -29,8 +29,8 @@ module.exports = {
     },
     fontSize: {
       h1: ['33px', '48px'],
-      h2: ['28px', '40px'],
-      h3: ['23px', '32px'],
+      h2: ['30px', '40px'],
+      h3: ['24px', '32px'],
       h4: ['19px', '24px'],
       h5: ['16px', '24px'],
       h6: [
@@ -43,7 +43,7 @@ module.exports = {
       h7: ['13px', '16px'],
       sm: ['14px', '16px'],
       lg: '18px',
-      xl: ['23px', '33px'],
+      xl: ['24px', '33px'],
       xxs: ['10px', '8px'],
       xs: [
         '12px',
