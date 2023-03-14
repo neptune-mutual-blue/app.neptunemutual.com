@@ -57,15 +57,17 @@ export const InsightsDropdown = ({
 
                 <input
                   value={search} onChange={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
                     setSearch(e.target.value)
                   }}
                   onKeyDown={(e) => {
                     e.stopPropagation()
                   }}
-                  onKeyUp={(e) => {
-                    e.stopPropagation()
+                  onBlurCapture={(e) => {
+                    if (e.relatedTarget?.id.includes('headlessui-listbox')) {
+                      setTimeout(() => {
+                        e.target.focus()
+                      }, 0)
+                    }
                   }}
                   placeholder='Search' className='px-4 py-2 border-1 w-full rounded-2 leading-5 border-D6D6D6' type='text'
                 />
@@ -76,7 +78,7 @@ export const InsightsDropdown = ({
 
             </div>
 
-            <div className='h-306 overflow-auto'>
+            <div className='h-435 overflow-auto'>
               {filteredOptions.length === 0 && <div className='py-2.5 px-6 italic'>No items found</div>}
               {filteredOptions.map((option, optionIdx) => (
                 <Fragment key={optionIdx}>
