@@ -99,7 +99,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         ticks: {
           callback: function (value) {
             if (dataKey === 'incomePercent') {
-              return `${Number(value) * 100}%`
+              return `${(Number(value) * 100).toFixed(0)}%`
             }
 
             const amount = convertFromUnits(value, liquidityTokenDecimals).toString()
@@ -112,14 +112,19 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
             lineHeight: 1.125
           }
         },
+        beginAtZero: true,
         suggestedMax: (function () {
-          if (dataKey === 'incomePercent') return 1
-
           const max = getMaxDataValue(data, dataKey)
+
+          if (dataKey === 'incomePercent') {
+            return max < 1 ? Number(max) + 0.02 : Number(max) + 0.25
+          }
+
           return parseInt(sumOf(max, '10000000000').toString())
         })()
       },
       y: {
+        beginAtZero: true,
         grid: {
           display: false,
           borderColor: '#999BAB',
