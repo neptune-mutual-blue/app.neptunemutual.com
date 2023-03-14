@@ -22,8 +22,8 @@ import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
 
 const AllDropdownOptions = {
-  TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
+  TVL_DISTRIBUTION: 'TVL Distribution',
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
   DEMAND: 'Demand',

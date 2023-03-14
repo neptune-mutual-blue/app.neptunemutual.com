@@ -216,7 +216,8 @@ module.exports = {
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
         '4B7EE1': '#4B7EE1',
-        EAF7F8: '#EAF7F8'
+        EAF7F8: '#EAF7F8',
+        D6D6D6: '#D6D6D6'
       },
       minHeight: {
         360: '360px',
@@ -243,7 +244,8 @@ module.exports = {
       width: {
         800: '800px',
         '105px': '105px',
-        616: '616px'
+        616: '616px',
+        276: '276px'
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
