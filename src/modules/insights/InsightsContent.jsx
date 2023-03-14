@@ -25,6 +25,8 @@ import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover
 import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useNetwork } from '@/src/context/Network'
 import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
+import { ProtectionChart } from '@/modules/insights/ProtectionChart'
+import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -32,6 +34,8 @@ const AllDropdownOptions = {
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
   HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
+  MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
+  MONTHLY_EARNING: 'Protection by Month (Earning)',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -75,6 +79,8 @@ export const InsightsContent = () => {
     loading: coverEarningLoading
   } = useCoverEarningInsights()
 
+  const { data: protectionData, fetchMonthlyProtectionData, labels: protectionLabels, loading: protectionDataLoading } = useProtectionChartData()
+
   const {
     data: consensusData,
     loading: consensusLoading,
@@ -102,6 +108,10 @@ export const InsightsContent = () => {
 
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI_BY_COVER) {
       fetchHistoricalDataByCover()
+    }
+
+    if ([AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING].includes(selected.value)) {
+      fetchMonthlyProtectionData()
     }
     // eslint-disable-next-line
   }, [selected.value])
@@ -171,6 +181,7 @@ export const InsightsContent = () => {
             <InsightsTVLTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
+
       case AllDropdownOptions.QUICK_INFO:
         return (
           <>
@@ -178,6 +189,7 @@ export const InsightsContent = () => {
             <InsightsQuickInfoTable />
           </>
         )
+
       case AllDropdownOptions.DEMAND:
         return <TotalCapacityChart data={totalCovered} />
 
@@ -185,7 +197,31 @@ export const InsightsContent = () => {
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
 
       case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
-        return <HistoricalRoiByCover selectedChain={selectedChain} loading={historicalDataByCoverLoading} data={historicalDataByCover} />
+        return (
+          <HistoricalRoiByCover
+            selectedChain={selectedChain}
+            loading={historicalDataByCoverLoading} data={historicalDataByCover}
+          />
+        )
+
+      case AllDropdownOptions.MONTHLY_DISTRIBUTION:
+        return (
+          <ProtectionChart
+            loading={protectionDataLoading}
+            data={protectionData}
+            labels={protectionLabels}
+          />
+        )
+
+      case AllDropdownOptions.MONTHLY_EARNING:
+        return (
+          <ProtectionChart
+            loading={protectionDataLoading}
+            data={protectionData}
+            labels={protectionLabels}
+            dataKey='incomePercent'
+          />
+        )
 
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
