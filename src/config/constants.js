@@ -42,6 +42,7 @@ export const IPFS_HASH_URL = 'https://ipfs.io/ipfs/{ipfsHash}'
 export const PRODUCT_SUMMARY_URL = `${API_BASE_URL}home/product-summary/{networkId}`
 export const getHistoricalDataURL = (chainId) => `${API_BASE_URL}home/charts/historical-apr/${chainId}`
 export const getHistoricalDataByCoverURL = (chainId) => `${API_BASE_URL}home/charts/historical-apr-by-cover/${chainId}`
+export const getMonthlyProtectionDataURL = (chainId) => `${API_BASE_URL}home/charts/protection-by-month/${chainId}`
 export const PRICING_URL = `${API_BASE_URL}pricing/{networkId}`
 export const POOL_INFO_URL = `${API_BASE_URL}protocol/staking-pools/info/{type}/{networkId}/{key}/{account}`
 export const UNSTAKE_INFO_URL = `${API_BASE_URL}protocol/consensus/unstake-info/{networkId}/{coverKey}/{productKey}/{account}/{incidentDate}`
