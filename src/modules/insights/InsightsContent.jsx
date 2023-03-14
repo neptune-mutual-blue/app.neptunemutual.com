@@ -20,12 +20,18 @@ import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
+import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
+import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
+import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
+  HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -53,6 +59,7 @@ export const InsightsContent = () => {
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
+  const { data: historicalDataByCover, loading: historicalDataByCoverLoading, fetchHistoricalDataByCover } = useHistoricalRoiDataByCover()
 
   const [consensusIndex, setConsensusIndex] = useState(-1)
 
@@ -92,6 +99,10 @@ export const InsightsContent = () => {
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI) {
       fetchHistoricalData()
     }
+
+    if (selected.value === AllDropdownOptions.HISTORICAL_ROI_BY_COVER) {
+      fetchHistoricalDataByCover()
+    }
     // eslint-disable-next-line
   }, [selected.value])
 
@@ -100,6 +111,20 @@ export const InsightsContent = () => {
       {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
     </div>
   )
+
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
+  const chains = isMainNet
+    ? [
+        { label: 'Ethereum', value: '1' },
+        { label: 'Arbitrum', value: '42161' }
+      ]
+    : [
+        { label: 'Fuji', value: '43113' }
+      ]
+
+  const [selectedChain, setSelectedChain] = useState(isMainNet ? '1' : '43113')
 
   const getTrailingTitleComponent = () => {
     switch (selected.value) {
@@ -121,6 +146,15 @@ export const InsightsContent = () => {
             onPrevious={() => setCurrentPage(currentPage - 1)}
             hasNext={currentPage < (Math.abs(userData.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
             hasPrevious={currentPage > 1}
+          />
+        )
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+
+        return (
+          <OutlineButtonList
+            options={chains} onChange={(value) => {
+              setSelectedChain(value)
+            }} selected={selectedChain}
           />
         )
       default:
@@ -149,6 +183,9 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
+
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+        return <HistoricalRoiByCover selectedChain={selectedChain} loading={historicalDataByCoverLoading} data={historicalDataByCover} />
 
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
@@ -191,7 +228,7 @@ export const InsightsContent = () => {
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
+        trailing={consensusIndex !== -1 ? null : getTrailingTitleComponent()}
         title={consensusIndex !== -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
         leading={leading}
