@@ -1,12 +1,11 @@
 import { getMonthlyProtectionDataURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
-import { sumOf, toBN } from '@/utils/bn'
+import { sortDates } from '@/utils/sorting'
 import { useState, useRef } from 'react'
 
 const getAggregatedDataWithLabels = (data = []) => {
   const aggregatedData = {}
-  const labels = []
+  let labels = []
 
   data.forEach(item => {
     const chain = item.chainId
@@ -18,7 +17,8 @@ const getAggregatedDataWithLabels = (data = []) => {
       income: item.income,
       expired: item.expired,
       expiresOn: item.expiresOn,
-      networkName: item.networkName
+      networkName: item.networkName,
+      incomePercent: item.feeRate
     })
 
     const label = item.expiry
@@ -37,34 +37,25 @@ const getAggregatedDataWithLabels = (data = []) => {
           income: '0',
           expired: true,
           expiresOn: new Date().toISOString(),
-          networkName
+          networkName,
+          incomePercent: '0'
         }
         aggregatedData[chain].splice(idx, 0, data)
       }
     })
   })
 
-  const sums = {}
-  labels.forEach(label => {
-    sums[label] = Object.keys(aggregatedData).reduce((acc, curr) => {
-      const item = aggregatedData[curr].find(i => i.label === label)
-      return sumOf(acc, item?.income || '').toString()
-    }, '0')
-  })
-
   Object.keys(aggregatedData).forEach(chain => {
-    aggregatedData[chain].forEach((data, idx) => {
-      const label = data.label
-      const sum = sums[label]
-      const income = data.income
-      const incomePercent = toBN(toBN(income).dividedBy(sum)).multipliedBy(100).toFixed(2).toString()
-
-      aggregatedData[chain][idx] = {
-        ...aggregatedData[chain][idx],
-        incomePercent
-      }
-    })
+    const arr = aggregatedData[chain]
+    const sortedArr = sortDates(
+      arr,
+      x => x.label
+    )
+    aggregatedData[chain] = sortedArr
   })
+
+  const key = Object.keys(aggregatedData)[0]
+  labels = aggregatedData[key].map(i => i.label)
 
   return {
     data: aggregatedData,
@@ -79,7 +70,6 @@ const useProtectionChartData = () => {
   const [labels, setLabels] = useState([])
 
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
 
   const fetchMonthlyProtectionData = async () => {
     if (fetched.current) return
@@ -88,7 +78,7 @@ const useProtectionChartData = () => {
 
     try {
       const response = await fetch(
-        getMonthlyProtectionDataURL(isMainNet ? 1 : 43113),
+        getMonthlyProtectionDataURL(networkId),
         {
           method: 'GET',
           headers: {

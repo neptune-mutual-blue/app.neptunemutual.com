@@ -67,15 +67,17 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
     }
 
     return {
-      labels: labels,
+      labels,
       datasets: Object.keys(data).map(chain => {
         return {
           label: data[chain].length ? data[chain][0].networkName : '',
           data: data[chain].map(item => parseFloat(item[dataKey])),
           backgroundColor: ['1', '43113'].includes(chain) ? '#4E7DD9' : '#21AD8C',
-          barPercentage: 0.9,
-          borderWidth: 0
-          // barThickness: 15
+          barPercentage: 1,
+          borderWidth: 0,
+          maxBarThickness: 17,
+          categoryPercentage: 1
+          // barThickness: 17
         }
       })
     }
@@ -91,12 +93,13 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
         grid: {
           display: true,
           borderDash: [2, 5],
-          borderWidth: 0
+          borderWidth: 0,
+          drawTicks: false
         },
         ticks: {
           callback: function (value) {
             if (dataKey === 'incomePercent') {
-              return `${value}%`
+              return `${Number(value) * 100}%`
             }
 
             const amount = convertFromUnits(value, liquidityTokenDecimals).toString()
@@ -110,7 +113,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           }
         },
         suggestedMax: (function () {
-          if (dataKey === 'incomePercent') return 100
+          if (dataKey === 'incomePercent') return 1
 
           const max = getMaxDataValue(data, dataKey)
           return parseInt(sumOf(max, '10000000000').toString())
@@ -174,11 +177,8 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           label: function () {
             const item = getTooltipItem(data, this)
 
-            const dateString = new Date(item.expiresOn)
-              .toDateString()
-              .split(' ')
-              .slice(1, 3)
-              .join(' ')
+            const dateString = item.label
+              .replace('-', ' ')
               .toUpperCase()
 
             let label = `<p class="mt-1 text-xs leading-4.5 text-01052D">
@@ -190,7 +190,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
               const formatted = formatCurrency(amount, locale).long
 
               label += `<p class="text-sm leading-5 font-semibold">
-              ${Math.round(item.incomePercent)}% / ${formatted}
+              ${Math.round(item.incomePercent * 100)}% / ${formatted}
               <p>`
             }
 
@@ -216,8 +216,6 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
             } else {
               footerHtml = `<p class="mt-0.5 leading-5 text-01052D font-semibold">${formatted}</p>`
             }
-
-            // console.log({ footerHtml })
 
             return footerHtml
           }
@@ -246,7 +244,7 @@ const ProtectionChart = ({ loading, data, labels, dataKey = 'protection' }) => {
           ? (
             <>
               <div className='flex items-center gap-1'>
-                <div className='w-4 h-4 border-4 rounded-full border-4e7dd9' />
+                <div className='w-3.5 h-3.5 rounded-full bg-4e7dd9' />
                 <span className='text-sm font-semibold'>Fuji</span>
               </div>
             </>
