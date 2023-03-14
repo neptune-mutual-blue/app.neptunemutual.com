@@ -1,10 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
 
 import HighchartsExporting from 'highcharts/modules/exporting'
-import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { hyphenToPascalCase } from '@/utils/hypenToPascalCase'
 
 if (typeof Highcharts === 'object') {
   HighchartsExporting(Highcharts)
@@ -14,7 +13,10 @@ const colors = {
   'popular-defi-apps': '#4E7DD9',
   prime: '#7800D6',
   okx: '#21AD8C',
-  binance: '#B48B34'
+  binance: '#B48B34',
+  coinbase: '#FA5C2F',
+  defi: '#D60000',
+  huobi: '#454545'
 }
 
 const getColorForCover = (cover) => {
@@ -23,23 +25,24 @@ const getColorForCover = (cover) => {
   return color ?? '#454545'
 }
 
-const HistoricalRoiByCover = ({ loading, data }) => {
+function hexToRgba (hex, alpha) {
+  // Remove the '#' character from the hex string
+  hex = hex.replace('#', '')
+
+  // Split the hex string into red, green, and blue components
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+
+  // Create the RGBA string using the red, green, blue, and alpha values
+  const rgba = 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')'
+
+  // Return the RGBA string
+  return rgba
+}
+
+const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartRef = useRef()
-
-  const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
-
-  // const chains = isMainNet
-  //   ? {
-  //       1: 'Ethereum',
-  //       42161: 'Arbitrum'
-  //     }
-  //   : {
-  //       43113: 'Fuji'
-  //     }
-
-  // eslint-disable-next-line
-  const [selectedChain, _] = useState(isMainNet ? '1' : '43113')
 
   const groupCovers = {}
 
@@ -55,7 +58,45 @@ const HistoricalRoiByCover = ({ loading, data }) => {
     })
   }
 
-  console.log(groupCovers)
+  const series = Object.entries(groupCovers).map(([key, value]) => {
+    const color = getColorForCover(key)
+
+    return {
+      type: 'areaspline',
+      showInNavigator: true,
+      name: hyphenToPascalCase(key),
+      data: value
+        .map((item) => ({
+          x: new Date(item.startDate).valueOf(),
+          y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
+        }))
+        .sort((a, b) => a.x - b.x),
+      lineWidth: 3,
+      lineColor: color,
+      color: color,
+      fillColor: {
+        linearGradient: {
+          x1: 0,
+          y1: 0,
+          x2: 0,
+          y2: 1
+        },
+        stops: [
+          [0, hexToRgba(color, 0.2)],
+          [1, hexToRgba(color, 0)]
+        ]
+      },
+      marker: {
+        fillColor: 'white',
+        lineWidth: 2,
+        radius: 3,
+        lineColor: color
+      },
+      animation: {
+        duration: 500
+      }
+    }
+  })
 
   const chartOptions = {
     xAxis: {
@@ -92,41 +133,7 @@ const HistoricalRoiByCover = ({ loading, data }) => {
         linecap: 'square'
       }
     },
-    series: Object.entries(groupCovers).map(([key, value]) => {
-      return {
-        type: 'areaspline',
-        name: key,
-        data: value
-          .map((item) => ({
-            x: new Date(item.startDate).valueOf(),
-            y: parseFloat((parseFloat(item.apr) * 100).toFixed(2))
-          }))
-          .sort((a, b) => a.x - b.x),
-        lineWidth: 3,
-        lineColor: getColorForCover(key),
-        fillColor: {
-          linearGradient: {
-            x1: 0,
-            y1: 0,
-            x2: 0,
-            y2: 1
-          },
-          stops: [
-            [0, 'rgba(78, 125, 217, 0.2)'],
-            [1, 'rgba(78, 125, 217, 0)']
-          ]
-        },
-        marker: {
-          fillColor: 'white',
-          lineWidth: 2,
-          radius: 3,
-          lineColor: getColorForCover(key)
-        },
-        animation: {
-          duration: 500
-        }
-      }
-    }),
+    series,
     chart: {
       backgroundColor: 'transparent',
       height: '424px'
@@ -143,16 +150,38 @@ const HistoricalRoiByCover = ({ loading, data }) => {
       xDateFormat: false,
       useHTML: true,
       padding: 0,
-      // pointFormat: ``,
       backgroundColor: 'rgba(255, 255, 255, 0)',
       borderWidth: 0,
       shadow: false,
       shape: 'rect',
-      pointFormat:
-        "<div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'><p class='font-semibold font-poppins tracking-normal text-01052D text-h6'><div class='text-xs'>{series.name}</div><div class='text-h6 text-sm text-black'>{point.y}%</div></p></div>",
+      formatter: function () {
+        const result = []
+        for (let i = 0; i < this.points.length; i += 4) {
+          result.push(this.points.slice(i, i + 4))
+        }
+
+        return `
+          <div class='px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip'>
+            <div class='grid gap-4' style='grid-template-columns: ${Array.from({ length: result.length }).map(() => 'auto').join(' ')};'>
+              ${result.map(group => (
+                `<div>
+                  ${group.map((point, index) => (
+                    `
+                    <p class='font-semibold font-poppins tracking-normal text-01052D${index !== group.length ? ' mb-2.5' : ''}${index === 0 ? ' -mt-2.5' : ''}'>
+                      <div class='text-xs font-semibold' style="color: ${point.series.color};font-size: 12px;line-height: 24px;">${point.series.name}</div>
+                      <div class='text-sm font-semibold text-black'>${point.y}%</div>
+                    </p>
+                    `
+                  )).join('')}
+                </div>`
+              )).join('')}
+            </div>
+          </div>`
+      },
       headerFormat: '',
       hideDelay: 100,
-      outside: false
+      outside: false,
+      shared: true
     },
     navigator: {
       handles: {
@@ -202,15 +231,18 @@ const HistoricalRoiByCover = ({ loading, data }) => {
         />
       )}
 
-      <div className='flex justify-center items-center gap-4 mt-3'>
-        {Object.entries(groupCovers).map(([key]) => (
+      <div className='flex flex-wrap justify-center items-center gap-4 mt-3'>
+        {Object.keys(groupCovers).map((key) => (
           <div className='flex items-center gap-1' key={key}>
             <div
-              className={`rounded-full h-4 w-4 border-4 border-[${getColorForCover(
-                key
-              )}]`}
+              className='rounded-full h-3.5 w-3.5'
+              style={{
+                background: getColorForCover(
+                  key
+                )
+              }}
             />
-            <span className='text-sm font-semibold'>{key}</span>
+            <span className='text-sm font-semibold'>{hyphenToPascalCase(key)}</span>
           </div>
         ))}
       </div>

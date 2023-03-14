@@ -46,14 +46,15 @@ const HistoricalRoi = ({ loading, data }) => {
     },
     plotOptions: {
       areaspline: {
-        lineWidth: 1, // Reduce the line width to make it more pointy
-        step: true, // Set step to true to draw the line as a step line
+        lineWidth: 1,
+        step: true,
         linecap: 'square'
       }
     },
     series: [
       {
         type: 'areaspline',
+        showInNavigator: true,
         name: isMainNet ? 'Ethereum' : 'Fuji',
         data: (data ?? [])
           .filter((item) => item.chainId === '1' || item.chainId === '43113')
@@ -103,7 +104,6 @@ const HistoricalRoi = ({ loading, data }) => {
       xDateFormat: false,
       useHTML: true,
       padding: 0,
-      // pointFormat: ``,
       backgroundColor: 'rgba(255, 255, 255, 0)',
       borderWidth: 0,
       shadow: false,
@@ -126,7 +126,6 @@ const HistoricalRoi = ({ loading, data }) => {
       maskFill: 'rgba(66, 137, 242, 0.3)',
       outlineWidth: 0,
       xAxis: {
-        // tickInterval: 5 * 24 * 3600 * 1000,
         labels: {
           format:
             "<span class='font-poppins text-black uppercase'>{value:%b %y}</span>",
@@ -150,6 +149,7 @@ const HistoricalRoi = ({ loading, data }) => {
       {
         type: 'areaspline',
         name: 'Arbitrum',
+        showInNavigator: true,
         data: (data ?? [])
           .filter((item) => item.chainId === '42161')
           .map((item) => ({
@@ -184,12 +184,6 @@ const HistoricalRoi = ({ loading, data }) => {
     ]
   }
 
-  // useEffect(() => {
-  //   if (chartRef.current && chartRef?.current?.chart) {
-  //     chartRef.current?.chart?.showLoading()
-  //   }
-  // }, [])
-
   return (
     <div data-testid='total-liquidity-chart' className='h-full pt-1'>
       {!loading && (
@@ -214,11 +208,11 @@ const HistoricalRoi = ({ loading, data }) => {
           : (
             <>
               <div className='flex items-center gap-1'>
-                <div className='rounded-full h-4 w-4 border-4 border-4e7dd9' />
+                <div className='rounded-full h-3.5 w-3.5 bg-4e7dd9' />
                 <span className='text-sm font-semibold'>Ethereum</span>
               </div>
               <div className='flex items-center gap-1'>
-                <div className='rounded-full h-4 w-4 border-4 border-[#21AD8C]' />
+                <div className='rounded-full h-3.5 w-3.5 bg-21AD8C' />
                 <span className='text-sm font-semibold'>Arbitrum</span>
               </div>
             </>

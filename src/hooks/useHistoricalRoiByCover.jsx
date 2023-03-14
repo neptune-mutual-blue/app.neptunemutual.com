@@ -1,6 +1,5 @@
 import { getHistoricalDataByCoverURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useState, useRef } from 'react'
 
 const useHistoricalRoiDataByCover = () => {
@@ -9,7 +8,6 @@ const useHistoricalRoiDataByCover = () => {
   const [data, setData] = useState([])
 
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
 
   const fetchHistoricalDataByCover = async () => {
     if (fetched.current) return
@@ -18,7 +16,7 @@ const useHistoricalRoiDataByCover = () => {
 
     try {
       const response = await fetch(
-        getHistoricalDataByCoverURL(isMainNet ? 1 : 43113),
+        getHistoricalDataByCoverURL(networkId),
         {
           method: 'GET',
           headers: {

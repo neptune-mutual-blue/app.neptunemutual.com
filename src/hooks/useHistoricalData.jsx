@@ -1,6 +1,5 @@
 import { getHistoricalDataURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useState, useRef } from 'react'
 
 const useHistoricalData = () => {
@@ -9,7 +8,6 @@ const useHistoricalData = () => {
   const [data, setData] = useState([])
 
   const { networkId } = useNetwork()
-  const { isMainNet } = useValidateNetwork(networkId)
 
   const fetchHistoricalData = async () => {
     if (fetched.current) return
@@ -18,7 +16,7 @@ const useHistoricalData = () => {
 
     try {
       const response = await fetch(
-        getHistoricalDataURL(isMainNet ? 1 : 43113),
+        getHistoricalDataURL(networkId),
         {
           method: 'GET',
           headers: {

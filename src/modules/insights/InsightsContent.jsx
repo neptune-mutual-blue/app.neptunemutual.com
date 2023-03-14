@@ -22,6 +22,9 @@ import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
 import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
 import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
+import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
@@ -109,6 +112,20 @@ export const InsightsContent = () => {
     </div>
   )
 
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
+  const chains = isMainNet
+    ? [
+        { label: 'Ethereum', value: '1' },
+        { label: 'Arbitrum', value: '42161' }
+      ]
+    : [
+        { label: 'Fuji', value: '43113' }
+      ]
+
+  const [selectedChain, setSelectedChain] = useState(isMainNet ? '1' : '43113')
+
   const getTrailingTitleComponent = () => {
     switch (selected.value) {
       case AllDropdownOptions.COVER_EARNINGS:
@@ -129,6 +146,15 @@ export const InsightsContent = () => {
             onPrevious={() => setCurrentPage(currentPage - 1)}
             hasNext={currentPage < (Math.abs(userData.length / TOP_ACCOUNTS_ROWS_PER_PAGE))}
             hasPrevious={currentPage > 1}
+          />
+        )
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+
+        return (
+          <OutlineButtonList
+            options={chains} onChange={(value) => {
+              setSelectedChain(value)
+            }} selected={selectedChain}
           />
         )
       default:
@@ -159,7 +185,7 @@ export const InsightsContent = () => {
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
 
       case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
-        return <HistoricalRoiByCover loading={historicalDataByCoverLoading} data={historicalDataByCover} />
+        return <HistoricalRoiByCover selectedChain={selectedChain} loading={historicalDataByCoverLoading} data={historicalDataByCover} />
 
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
@@ -202,7 +228,7 @@ export const InsightsContent = () => {
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
+        trailing={consensusIndex !== -1 ? null : getTrailingTitleComponent()}
         title={consensusIndex !== -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
         leading={leading}
