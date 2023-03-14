@@ -1,6 +1,7 @@
 import { getMonthNames } from '@/lib/dates'
 import { toBNSafe } from '@/utils/bn'
 import { toStringSafe } from '@/utils/string'
+import { t } from '@lingui/macro'
 
 // Don't translate these
 export const SORT_TYPES = {
@@ -16,7 +17,13 @@ export const SORT_TYPES = {
   DEDICATED_POOL: 'dedicated'
 }
 
-export const DEFAULT_SORT = { name: 'Utilization ratio', value: SORT_TYPES.UTILIZATION_RATIO }
+export const DEFAULT_SORT_OPTIONS = [
+  { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
+  { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
+  { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY }
+]
+
+export const DEFAULT_SORT = DEFAULT_SORT_OPTIONS[0]
 
 export const SORT_DATA_TYPES = {
   BIGNUMBER: 'BIGNUMBER',

@@ -4,7 +4,7 @@ import { Select } from '@/common/Select'
 import ChevronDownIcon from '@/icons/ChevronDownIcon'
 import SearchIcon from '@/icons/SearchIcon'
 import { classNames } from '@/utils/classnames'
-import { SORT_TYPES } from '@/utils/sorting'
+import { DEFAULT_SORT_OPTIONS } from '@/utils/sorting'
 import { t } from '@lingui/macro'
 
 export const SearchAndSortBar = ({
@@ -17,16 +17,10 @@ export const SearchAndSortBar = ({
   onSearchChange,
   sortType,
   setSortType,
-  searchAndSortOptions = null,
+  optionsProp = null,
   loading = false
 }) => {
-  const defaultOptions = [
-    { name: t`A-Z`, value: SORT_TYPES.ALPHABETIC },
-    { name: t`Utilization ratio`, value: SORT_TYPES.UTILIZATION_RATIO },
-    { name: t`Liquidity`, value: SORT_TYPES.LIQUIDITY }
-  ]
-
-  const options = searchAndSortOptions ?? defaultOptions
+  const options = optionsProp ?? DEFAULT_SORT_OPTIONS
   const [selected, setSelected] = useState(options[0])
 
   return (
