@@ -31,7 +31,7 @@ const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
-  HISTORICAL_ROI_BY_COVER: 'Historical ROI By Cover',
+  HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
