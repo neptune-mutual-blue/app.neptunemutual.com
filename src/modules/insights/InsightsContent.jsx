@@ -20,12 +20,15 @@ import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
+import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
+import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
 
 const AllDropdownOptions = {
   TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
+  HISTORICAL_ROI_BY_COVER: 'Historical ROI By Cover',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -53,6 +56,7 @@ export const InsightsContent = () => {
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
+  const { data: historicalDataByCover, loading: historicalDataByCoverLoading, fetchHistoricalDataByCover } = useHistoricalRoiDataByCover()
 
   const [consensusIndex, setConsensusIndex] = useState(-1)
 
@@ -91,6 +95,10 @@ export const InsightsContent = () => {
 
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI) {
       fetchHistoricalData()
+    }
+
+    if (selected.value === AllDropdownOptions.HISTORICAL_ROI_BY_COVER) {
+      fetchHistoricalDataByCover()
     }
     // eslint-disable-next-line
   }, [selected.value])
@@ -149,6 +157,9 @@ export const InsightsContent = () => {
 
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
+
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+        return <HistoricalRoiByCover loading={historicalDataByCoverLoading} data={historicalDataByCover} />
 
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
