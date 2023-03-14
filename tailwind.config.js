@@ -245,7 +245,7 @@ module.exports = {
         800: '800px',
         '105px': '105px',
         616: '616px',
-        276: '276px'
+        324: '324px'
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",

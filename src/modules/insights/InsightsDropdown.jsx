@@ -23,7 +23,7 @@ export const InsightsDropdown = ({
       }}
     >
       <div
-        className='relative w-full md:w-max'
+        className='relative w-full'
       >
         <Listbox.Button
           className={classNames(
@@ -47,7 +47,7 @@ export const InsightsDropdown = ({
         >
           <Listbox.Options
             className={classNames(
-              'absolute z-30 w-full lg:w-276 mt-2 overflow-auto text-base bg-white border shadow-lightCard border-D6D6D6 focus:outline-none focus-visible:border-4e7dd9 rounded-2xl left-0',
+              'absolute z-30 w-full md:w-324 mt-2 overflow-auto text-base bg-white border shadow-lightCard border-D6D6D6 focus:outline-none focus-visible:border-4e7dd9 rounded-2xl left-0',
               loading && 'hidden'
             )}
             data-testid='options-container'
