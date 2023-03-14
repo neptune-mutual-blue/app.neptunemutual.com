@@ -29,8 +29,8 @@ import { ProtectionChart } from '@/modules/insights/ProtectionChart'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
 
 const AllDropdownOptions = {
-  TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
+  TVL_DISTRIBUTION: 'TVL Distribution',
   GROWTH: 'Growth',
   HISTORICAL_ROI: 'LP\'s Historical ROI',
   HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',

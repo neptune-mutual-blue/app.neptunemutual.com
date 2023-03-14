@@ -73,12 +73,14 @@ module.exports = {
     extend: {
       borderRadius: {
         1: '4px',
+        2: '8px',
         big: '0.625rem',
         mdlg: '7px',
         tooltip: '10px',
         20: '20px'
       },
       borderWidth: {
+        1: '1px',
         0.5: '0.5px',
         1.5: '1.5px'
       },
@@ -214,7 +216,8 @@ module.exports = {
         '1D2939': '#1D2939',
         F9FAFA: '#F9FAFA',
         '4B7EE1': '#4B7EE1',
-        EAF7F8: '#EAF7F8'
+        EAF7F8: '#EAF7F8',
+        D6D6D6: '#D6D6D6'
       },
       minHeight: {
         360: '360px',
@@ -235,12 +238,14 @@ module.exports = {
         500: '500px',
         '100vh': '100vh',
         0.75: '0.175rem',
-        391: '391px'
+        391: '391px',
+        435: '435px'
       },
       width: {
         800: '800px',
         '105px': '105px',
-        616: '616px'
+        616: '616px',
+        324: '324px'
       },
       backgroundImage: {
         '404-background': "url('/404_bg.svg')",
