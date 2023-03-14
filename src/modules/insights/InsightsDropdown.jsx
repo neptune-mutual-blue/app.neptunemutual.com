@@ -1,7 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import CheckBlue from '@/icons/CheckBlue'
 import { classNames } from '@/utils/classnames'
+import SearchIcon from '@/icons/SearchIcon'
 
 export const InsightsDropdown = ({
   options,
@@ -10,6 +11,10 @@ export const InsightsDropdown = ({
   selected,
   setSelected
 }) => {
+  const [search, setSearch] = useState('')
+
+  const filteredOptions = search ? options.filter((option) => option.type !== 'label' && option.label.toLowerCase().includes(search.toLowerCase())) : options
+
   return (
     <Listbox value={selected} onChange={setSelected}>
       <div
@@ -42,13 +47,29 @@ export const InsightsDropdown = ({
             )}
             data-testid='options-container'
           >
-            {options.map((option, optionIdx) => (
-              <Fragment key={optionIdx}>
-                {option.type === 'label'
-                  ? <> <hr className='h-px border-0 bg-B0C4DB dark:bg-B0C4DB' /> <Listbox.Label className='block pt-4 pb-2 pl-2 text-sm font-semibold leading-5 font-poppins text-000000'>{option.label}</Listbox.Label></>
-                  : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
-              </Fragment>
-            ))}
+            <div className='relative'>
+              <input
+                value={search} onChange={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setSearch(e.target.value)
+                }} placeholder='Search' className='px-4 py-2 border-1 w-full rounded-2 leading-5 border-B0C4DB mb-2' type='text'
+              />
+              <div className='absolute top-2.5 right-4'>
+                <SearchIcon className='h-4 w-4' />
+              </div>
+            </div>
+
+            <div className='h-306 overflow-auto -mr-4 pr-4'>
+              {filteredOptions.map((option, optionIdx) => (
+                <Fragment key={optionIdx}>
+                  {option.type === 'label'
+                    ? <> <hr className='h-px border-0 bg-B0C4DB dark:bg-B0C4DB' /> <Listbox.Label className='block pt-4 pb-2 pl-2 text-sm font-semibold leading-5 font-poppins text-000000'>{option.label}</Listbox.Label></>
+                    : <ListChoice optionIdx={optionIdx} option={option} selected={selected} />}
+                </Fragment>
+              ))}
+            </div>
+
           </Listbox.Options>
         </Transition>
       </div>

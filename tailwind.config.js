@@ -73,12 +73,14 @@ module.exports = {
     extend: {
       borderRadius: {
         1: '4px',
+        2: '8px',
         big: '0.625rem',
         mdlg: '7px',
         tooltip: '10px',
         20: '20px'
       },
       borderWidth: {
+        1: '1px',
         0.5: '0.5px',
         1.5: '1.5px'
       },
@@ -235,7 +237,8 @@ module.exports = {
         500: '500px',
         '100vh': '100vh',
         0.75: '0.175rem',
-        391: '391px'
+        391: '391px',
+        306: '306px'
       },
       width: {
         800: '800px',
