@@ -6,8 +6,8 @@ import { OutlinedCard } from '@/common/OutlinedCard/OutlinedCard'
 import { CardSkeleton } from '@/common/Skeleton/CardSkeleton'
 import DateLib from '@/lib/date/DateLib'
 import { ReportStatus } from '@/src/config/constants'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useERC20Balance } from '@/src/hooks/useERC20Balance'
 import { useFetchCoverStats } from '@/src/hooks/useFetchCoverStats'
 import { useValidReport } from '@/src/hooks/useValidReport'
@@ -16,42 +16,32 @@ import { isGreater } from '@/utils/bn'
 
 export const PolicyCard = ({ policyInfo }) => {
   const { cxToken } = policyInfo
+  const coverKey = policyInfo.coverKey
+  const productKey = policyInfo.productKey
+  const isDiversified = isValidProduct(productKey)
 
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey
-  })
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
-  const { info: coverStats } = useFetchCoverStats({
-    coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey
-  })
-
-  const { productStatus } = coverStats
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 
   const validityStartsAt = cxToken.creationDate || '0'
   const validityEndsAt = cxToken.expiryDate || '0'
-
-  const {
-    data: { report }
-  } = useValidReport({
+  const { data: { report } } = useValidReport({
     start: validityStartsAt,
     end: validityEndsAt,
-    coverKey: policyInfo.coverKey,
-    productKey: policyInfo.productKey
+    coverKey,
+    productKey
   })
 
   const { balance } = useERC20Balance(cxToken.id)
 
-  if (!coverInfo) {
+  const { info: coverStats } = useFetchCoverStats({ coverKey, productKey })
+  const { productStatus } = coverStats
+
+  if (loading) {
     return <CardSkeleton numberOfCards={1} />
   }
-
-  const { infoObj } = coverInfo
-  const { coverName, projectName, productName } = infoObj
-
-  const isDiversified = isValidProduct(policyInfo.productKey)
-  const projectOrProductName = isDiversified ? productName : (coverName || projectName)
 
   const now = DateLib.unix()
   const isPolicyExpired = isGreater(now, validityEndsAt)
@@ -97,12 +87,10 @@ export const PolicyCard = ({ policyInfo }) => {
             />
             <div>
               <InfoTooltip
-                disabled={coverInfo.products?.length === 0}
+                disabled={!isDiversified}
                 infoComponent={
                   <div>
-                    <p>
-                      Leverage Factor: <b>{infoObj?.leverage}x</b>
-                    </p>
+                    Leverage Factor: <b>{coverOrProductData.leverage}x</b>
                     <p>Determines available capital to underwrite</p>
                   </div>
                 }
@@ -116,7 +104,7 @@ export const PolicyCard = ({ policyInfo }) => {
             </div>
           </div>
           <h4
-            className='mt-4 font-semibold uppercase text-lg'
+            className='mt-4 text-lg font-semibold uppercase'
             data-testid='policy-card-title'
           >
             {projectOrProductName}

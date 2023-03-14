@@ -21,7 +21,6 @@ import { useNetwork } from '@/src/context/Network'
 import { t, Trans } from '@lingui/macro'
 import { useRouter } from 'next/router'
 import { usePagination } from '@/src/hooks/usePagination'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
 import { useAppConstants } from '@/src/context/AppConstants'
 import { TokenAmountSpan } from '@/common/TokenAmountSpan'
 import { CoverAvatar } from '@/common/CoverAvatar'
@@ -31,6 +30,7 @@ import { NeutralButton } from '@/common/Button/NeutralButton'
 import { LastSynced } from '@/common/LastSynced'
 import { renderHeader } from '@/common/Table/renderHeader'
 import { useSortData } from '@/src/hooks/useSortData'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
 const renderWhen = (row) => <WhenRenderer row={row} />
 
@@ -143,43 +143,28 @@ const WhenRenderer = ({ row }) => {
 
 const DetailsRenderer = ({ row }) => {
   const productKey = row.productKey
+  const coverKey = row.cover.id
   const { liquidityTokenDecimals } = useAppConstants()
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: row.cover.id,
-    productKey
-  })
+  const { loading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
 
   const isDiversified = isValidProduct(productKey)
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
+  const projectOrProductName = isDiversified ? coverOrProductData?.productInfoDetails?.productName : coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
 
-  if (!coverInfo) {
+  if (loading) {
     return null
   }
 
-  const tokenAmountWithSymbol = (
-    <TokenAmountSpan
-      amountInUnits={row.stablecoinAmount}
-      decimals={liquidityTokenDecimals}
-    />
-  )
-
-  const coverKey = row.cover.id
-  const projectOrProductName = isDiversified
-    ? coverInfo.infoObj.productName
-    : coverInfo.infoObj.coverName || coverInfo.infoObj.projectName
+  const tokenAmountWithSymbol = <TokenAmountSpan amountInUnits={row.stablecoinAmount} decimals={liquidityTokenDecimals} />
 
   return (
     <td className='max-w-sm px-6 py-6' data-testid='details-col'>
       <div className='flex items-center whitespace-nowrap'>
         <CoverAvatar
-          imgs={isDiversified
-            ? [{
-                src: getCoverImgSrc({ key: productKey }),
-                alt: projectOrProductName
-              }]
-            : [{
-                src: getCoverImgSrc({ key: coverKey }),
-                alt: projectOrProductName
-              }]}
+          imgs={[{
+            src: getCoverImgSrc({ key: isDiversified ? productKey : coverKey }),
+            alt: projectOrProductName
+          }]}
           containerClass='grow-0'
           size='xs'
         />

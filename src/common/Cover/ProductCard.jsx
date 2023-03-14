@@ -103,12 +103,12 @@ export const ProductCard = ({
             router.locale
           )}
         </div>
-        {productData.coverInfoDetails?.leverageFactor && (
+        {productData.leverage && (
           <InfoTooltip
             infoComponent={
               <p>
                 <Trans>
-                  Diversified pool with {productData.coverInfoDetails.leverageFactor}x
+                  Diversified pool with {productData.leverage}x
                   leverage factor and{' '}
                   {formatPercent(
                     toBN(productData.capitalEfficiency)
@@ -122,7 +122,7 @@ export const ProductCard = ({
           >
             <div className='rounded bg-EEEEEE text-black text-xs px-1 border-9B9B9B border-0.5'>
               <p className='opacity-60'>
-                D{productData.coverInfoDetails.leverageFactor}x
+                D{productData.leverage}x
                 {formatPercent(
                   toBN(productData.capitalEfficiency)
                     .dividedBy(MULTIPLIER)
