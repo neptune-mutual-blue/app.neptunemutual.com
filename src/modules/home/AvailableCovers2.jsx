@@ -24,6 +24,7 @@ import {
   SORT_DATA_TYPES,
   SORT_TYPES
 } from '@/utils/sorting'
+import { toStringSafe } from '@/utils/string'
 import {
   t,
   Trans
@@ -61,37 +62,47 @@ const SearchQueryParam = 'search'
 const sortOptions = DEFAULT_SORT_OPTIONS
 const defaultSortOption = DEFAULT_SORT_OPTIONS[1]
 
+const getSelectedSortOption = (query) => {
+  const selectedSort = typeof query[SortQueryParam] === 'string' ? query[SortQueryParam] : defaultSortOption.value
+  return sortOptions.find((item) => item.value === selectedSort) || defaultSortOption
+}
+
+const getSelectedViewOption = (query) => {
+  const selectedView = typeof query[ViewQueryParam] === 'string' ? query[ViewQueryParam] : defaultViewOption.value
+  return viewOptions.find((item) => item.value === selectedView) || defaultViewOption
+}
+
 export const AvailableCovers = () => {
   const { query, replace } = useRouter()
   const { loading: coversLoading, getDedicatedCovers, getDiversifiedCovers, getAllProducts } = useCoversAndProducts2()
 
   const searchTerm = typeof query[SearchQueryParam] === 'string' ? query[SearchQueryParam] : ''
+  const selectedSortOption = getSelectedSortOption(query)
+  const selectedViewOption = getSelectedViewOption(query)
 
-  const selectedSort = query[SortQueryParam] || defaultSortOption.value
-  const selectedSortOption = sortOptions.find((item) => item.value === selectedSort)
+  const list = useMemo(() => {
+    if (selectedViewOption.value === SORT_TYPES.DEDICATED_POOL) {
+      return getDedicatedCovers()
+    } else if (selectedViewOption.value === SORT_TYPES.DIVERSIFIED_POOL) {
+      return getDiversifiedCovers()
+    }
+    return getAllProducts()
+  }, [getAllProducts, getDedicatedCovers, getDiversifiedCovers, selectedViewOption.value])
 
-  const selectedView = query[ViewQueryParam] || defaultViewOption.value
-  const selectedViewOption = viewOptions.find((item) => item.value === selectedView)
+  const filtered = useMemo(() => {
+    return list.filter((item) => {
+      try {
+        const isDiversifiedProduct = isValidProduct(item.productKey)
+        const text = (isDiversifiedProduct
+          ? item.productInfoDetails?.productName
+          : item?.coverInfoDetails?.coverName || item?.coverInfoDetails?.projectName) || ''
 
-  let list = getAllProducts()
-  if (selectedView === SORT_TYPES.DEDICATED_POOL) {
-    list = getDedicatedCovers()
-  } else if (selectedView === SORT_TYPES.DIVERSIFIED_POOL) {
-    list = getDiversifiedCovers()
-  }
+        return toStringSafe(text).includes(toStringSafe(searchTerm))
+      } catch (err) { /* swallow */ }
 
-  const filtered = list.filter((item) => {
-    try {
-      const isDiversifiedProduct = isValidProduct(item.productKey)
-      const text = (isDiversifiedProduct
-        ? item.productInfoDetails?.productName
-        : item?.coverInfoDetails?.coverName || item?.coverInfoDetails?.projectName) || ''
-
-      return text.toLowerCase().includes(searchTerm.toLowerCase())
-    } catch (err) { /* swallow */ }
-
-    return true
-  })
+      return true
+    })
+  }, [list, searchTerm])
 
   const sortedCovers = useMemo(
     () =>
@@ -109,18 +120,19 @@ export const AvailableCovers = () => {
   )
 
   const handleViewFilterChange = (option) => {
-    replace(
-      {
-        query: { ...query, [ViewQueryParam]: option.value }
-      },
-      undefined,
-      { shallow: true }
-    )
+    const newUrl = { query: { ...query } }
+    if (option.value && option.value !== defaultViewOption.value) {
+      newUrl.query[ViewQueryParam] = option.value
+    } else {
+      delete newUrl.query[ViewQueryParam]
+    }
+
+    replace(newUrl, undefined, { shallow: true })
   }
 
   const handleSortFilterChange = (option) => {
     const newUrl = { query: { ...query } }
-    if (option.value) {
+    if (option.value && option.value !== defaultSortOption.value) {
       newUrl.query[SortQueryParam] = option.value
     } else {
       delete newUrl.query[SortQueryParam]
@@ -196,7 +208,7 @@ export const AvailableCovers = () => {
           sortedCovers.map((c) => {
             // if (idx > showCount - 1) return null
 
-            if (selectedView === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
+            if (selectedViewOption.value === SORT_TYPES.ALL && isValidProduct(c.productKey)) {
               return (
                 <ProductCardWrapper
                   className='min-h-301'

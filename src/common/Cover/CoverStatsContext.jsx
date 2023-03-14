@@ -27,10 +27,7 @@ export const CoverStatsProvider = ({
   productKey = safeFormatBytes32String(''),
   children
 }) => {
-  const { info, refetch } = useFetchCoverStats({
-    coverKey,
-    productKey
-  })
+  const { info, refetch } = useFetchCoverStats({ coverKey, productKey })
 
   const {
     activeIncidentDate,

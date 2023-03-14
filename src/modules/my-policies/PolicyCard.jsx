@@ -35,9 +35,7 @@ export const PolicyCard = ({ policyInfo }) => {
   })
 
   const { balance } = useERC20Balance(cxToken.id)
-
-  const { info: coverStats } = useFetchCoverStats({ coverKey, productKey })
-  const { productStatus } = coverStats
+  const { info: { productStatus } } = useFetchCoverStats({ coverKey, productKey })
 
   if (loading) {
     return <CardSkeleton numberOfCards={1} />
@@ -75,15 +73,10 @@ export const PolicyCard = ({ policyInfo }) => {
       <OutlinedCard className='p-6 bg-white' type='normal'>
         <div>
           <div className='flex justify-between'>
-            <CoverAvatar imgs={isDiversified
-              ? [{
-                  src: getCoverImgSrc({ key: policyInfo.productKey }),
-                  alt: projectOrProductName
-                }]
-              : [{
-                  src: getCoverImgSrc({ key: policyInfo.coverKey }),
-                  alt: projectOrProductName
-                }]}
+            <CoverAvatar imgs={[{
+              src: getCoverImgSrc({ key: isDiversified ? productKey : coverKey }),
+              alt: projectOrProductName
+            }]}
             />
             <div>
               <InfoTooltip
