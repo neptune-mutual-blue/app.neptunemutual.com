@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock.src'
 
@@ -44,6 +44,8 @@ function hexToRgba (hex, alpha) {
 const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   const chartRef = useRef()
 
+  const [selectedCover, setSelectedCover] = useState()
+
   const groupCovers = {}
 
   if (data) {
@@ -59,6 +61,10 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
   }
 
   const series = Object.entries(groupCovers).map(([key, value]) => {
+    if (selectedCover && selectedCover !== key) {
+      return undefined
+    }
+
     const color = getColorForCover(key)
 
     return {
@@ -96,7 +102,7 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
         duration: 500
       }
     }
-  })
+  }).filter(v => v !== undefined)
 
   const chartOptions = {
     xAxis: {
@@ -233,7 +239,15 @@ const HistoricalRoiByCover = ({ loading, selectedChain, data }) => {
 
       <div className='flex flex-wrap justify-center items-center gap-4 mt-3'>
         {Object.keys(groupCovers).map((key) => (
-          <div className='flex items-center gap-1' key={key}>
+          <div
+            role='checkbox' aria-checked={selectedCover === key} onClick={() => {
+              if (selectedCover === key) {
+                setSelectedCover(undefined)
+              } else {
+                setSelectedCover(key)
+              }
+            }} className={`cursor-pointer${selectedCover ? selectedCover === key ? '' : ' opacity-50' : ''} flex items-center gap-1`} key={key}
+          >
             <div
               className='rounded-full h-3.5 w-3.5'
               style={{
