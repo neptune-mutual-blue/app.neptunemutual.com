@@ -13,6 +13,7 @@
   left: 50%;
   top: 50%;
   transform-origin: 0% 0%;
+  transition: all 1s;
 }
 
 .gauge.chart .breakpoints div {
@@ -32,4 +33,8 @@
   color: #9b9b9b;
   line-height: 30px;
   display: block;
+}
+
+.gauge.chart circle {
+  transition: all 1s;
 }

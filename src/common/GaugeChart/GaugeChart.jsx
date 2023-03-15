@@ -1,4 +1,5 @@
 import { linspace } from '@/utils/linspace'
+import { useEffect, useState } from 'react'
 
 const formatBreakpoint = (breakpoint) => {
   if (breakpoint % 1 === 0) {
@@ -18,14 +19,22 @@ const GaugeChart = ({
   const chartRadius = chartDiameter / 2
   const strokeWidthHalf = strokeWidth / 2
 
+  const [percent, setPercent] = useState(0)
+
   const percentage = ((value - min) / (max - min))
   const circumference = Math.PI * (chartDiameter - strokeWidth)
 
-  const dashArray = `${circumference * 0.75 * percentage}, ${circumference}`
+  const dashArray = `${circumference * 0.75 * percent}, ${circumference}`
   const dashArrayBG = `${circumference * 0.75}, ${circumference}`
 
   const breakpointAngles = linspace(45, 315, 11)
   const breakponts = linspace(min, max, 11)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPercent(percentage)
+    }, 0)
+  }, [])
 
   const breakpointLine = (
     <svg
@@ -71,7 +80,7 @@ const GaugeChart = ({
           height={`${chartRadius - strokeWidth - 8}px`}
           viewBox='0 0 9 113'
           style={{
-            transform: `rotateZ(${270 * percentage + 47}deg)`
+            transform: `rotateZ(${270 * percent + 47}deg)`
           }}
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
