@@ -1,32 +1,34 @@
-import { useEffect, useState } from 'react'
-import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
-import { useNetworkStats } from '@/src/hooks/useNetworkStats'
-import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
-import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
-import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
-import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
+import { BackButton } from '@/common/BackButton/BackButton'
+import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
 import PreviousNext from '@/common/PreviousNext'
+import { TotalCapacityChart } from '@/common/TotalCapacityChart'
+import Consensus from '@/modules/insights/Consensus'
+import ConsensusDetails from '@/modules/insights/ConsensusDetails'
+import CoverEarning from '@/modules/insights/CoverEarning'
+import { GasPriceSummary } from '@/modules/insights/GasPriceSummary'
+import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
+import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
 import { InsightsStats } from '@/modules/insights/InsightsStats'
 import { InsightsTVLTable } from '@/modules/insights/InsightsTVLTable'
-import CoverEarning from '@/modules/insights/CoverEarning'
-import { TotalCapacityChart } from '@/common/TotalCapacityChart'
+import { ProtectionChart } from '@/modules/insights/ProtectionChart'
 import { TopAccounts } from '@/modules/insights/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
-import Consensus from '@/modules/insights/Consensus'
-import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
-import ConsensusDetails from '@/modules/insights/ConsensusDetails'
-import { BackButton } from '@/common/BackButton/BackButton'
-import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
-import { useLocalStorage } from '@/src/hooks/useLocalStorage'
-import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
-import { useHistoricalData } from '@/src/hooks/useHistoricalData'
-import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
-import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
-import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
 import { useNetwork } from '@/src/context/Network'
-import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
-import { ProtectionChart } from '@/modules/insights/ProtectionChart'
+import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
+import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
+import { useGasSummaryData } from '@/src/hooks/useGasSummaryData'
+import { useHistoricalData } from '@/src/hooks/useHistoricalData'
+import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
+import { useLocalStorage } from '@/src/hooks/useLocalStorage'
+import { useNetworkStats } from '@/src/hooks/useNetworkStats'
 import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
+import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
+import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
+import { useEffect, useState } from 'react'
+import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -36,6 +38,7 @@ const AllDropdownOptions = {
   HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
   MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
   MONTHLY_EARNING: 'Protection by Month (Earning)',
+  GAS_PRICE_SUMMARY: 'Gas Price Summary',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -81,6 +84,8 @@ export const InsightsContent = () => {
 
   const { data: protectionData, fetchMonthlyProtectionData, labels: protectionLabels, loading: protectionDataLoading } = useProtectionChartData()
 
+  const { data: gasSummaryData, fetchGasSummary, loading: gasSummaryLoading } = useGasSummaryData()
+
   const {
     data: consensusData,
     loading: consensusLoading,
@@ -108,6 +113,10 @@ export const InsightsContent = () => {
 
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI_BY_COVER) {
       fetchHistoricalDataByCover()
+    }
+
+    if (selected.value === AllDropdownOptions.GAS_PRICE_SUMMARY) {
+      fetchGasSummary()
     }
 
     if ([AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING].includes(selected.value)) {
@@ -138,6 +147,8 @@ export const InsightsContent = () => {
 
   const getTrailingTitleComponent = () => {
     switch (selected.value) {
+      case AllDropdownOptions.GAS_PRICE_SUMMARY:
+        return null
       case AllDropdownOptions.COVER_EARNINGS:
         return (
           <div className='mb-4'>
@@ -235,6 +246,11 @@ export const InsightsContent = () => {
       case AllDropdownOptions.COVER_EARNINGS:
         return (
           <CoverEarning labels={labels} yAxisData={yAxisData} loading={coverEarningLoading} />
+        )
+
+      case AllDropdownOptions.GAS_PRICE_SUMMARY:
+        return (
+          <GasPriceSummary data={gasSummaryData} loading={gasSummaryLoading} />
         )
 
       case AllDropdownOptions.IN_CONSENSUS:
