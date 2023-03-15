@@ -10,12 +10,13 @@ import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
 import { InsightsStats } from '@/modules/insights/InsightsStats'
 import { InsightsTVLTable } from '@/modules/insights/InsightsTVLTable'
-import { ProtectionChart } from '@/modules/insights/ProtectionChart'
+import { ProtectionChart } from '@/modules/insights/ProtectionChart/ProtectionChart'
 import { TopAccounts } from '@/modules/insights/TopAccounts'
 import { TOP_ACCOUNTS_ROWS_PER_PAGE } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import useCoverEarningInsights from '@/src/hooks/useCoverEarningInsights'
+import { useCoverInsightsData } from '@/src/hooks/useCoverInsightsData'
 import { useGasSummaryData } from '@/src/hooks/useGasSummaryData'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
 import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
@@ -29,6 +30,17 @@ import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
 import { useFetchInsightsTVLStats } from '@/src/services/aggregated-stats/insights'
 import { useEffect, useState } from 'react'
 import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
+import { useNetworkStats } from '@/src/hooks/useNetworkStats'
+import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
+import { useProtocolDayData } from '@/src/hooks/useProtocolDayData'
+import { useProtocolUsersData } from '@/src/hooks/useProtocolUsersData'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { InsightsTitle } from '@/src/modules/insights/InsightsTitle'
+import {
+  useFetchInsightsTVLStats
+} from '@/src/services/aggregated-stats/insights'
+
+import { InsightsQuickInfoTable } from './InsightsQuickInfoTable'
 
 const AllDropdownOptions = {
   QUICK_INFO: 'Quick Info',
@@ -39,6 +51,9 @@ const AllDropdownOptions = {
   MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
   MONTHLY_EARNING: 'Protection by Month (Earning)',
   GAS_PRICE_SUMMARY: 'Gas Price Summary',
+  COVER_SOLD: 'Cover Sold by Pool',
+  COVER_PREMIUM: 'Cover Premium by Pool',
+  COVER_EXPIRING: 'Cover Expiring This Month',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -87,6 +102,13 @@ export const InsightsContent = () => {
   const { data: gasSummaryData, fetchGasSummary, loading: gasSummaryLoading } = useGasSummaryData()
 
   const {
+    data: coverSoldOrPremiumData,
+    fetchCoverSoldOrPremiumData,
+    labels: soldOrPremiumLabels,
+    loading: coverDataLoading
+  } = useCoverInsightsData()
+
+  const {
     data: consensusData,
     loading: consensusLoading,
     fetchData: fetchConsensusData,
@@ -121,6 +143,18 @@ export const InsightsContent = () => {
 
     if ([AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING].includes(selected.value)) {
       fetchMonthlyProtectionData()
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_SOLD) {
+      fetchCoverSoldOrPremiumData('sold')
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_PREMIUM) {
+      fetchCoverSoldOrPremiumData('premium')
+    }
+
+    if (selected.value === AllDropdownOptions.COVER_EXPIRING) {
+      fetchCoverSoldOrPremiumData('expiring')
     }
     // eslint-disable-next-line
   }, [selected.value])
@@ -231,6 +265,36 @@ export const InsightsContent = () => {
             data={protectionData}
             labels={protectionLabels}
             dataKey='incomePercent'
+          />
+        )
+
+      case AllDropdownOptions.COVER_SOLD:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.sold}
+            labels={soldOrPremiumLabels?.sold ?? []}
+            dataKey='totalProtection'
+          />
+        )
+
+      case AllDropdownOptions.COVER_PREMIUM:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.premium}
+            labels={soldOrPremiumLabels?.premium ?? []}
+            dataKey='totalPremium'
+          />
+        )
+
+      case AllDropdownOptions.COVER_EXPIRING:
+        return (
+          <ProtectionChart
+            loading={coverDataLoading}
+            data={coverSoldOrPremiumData?.expiring}
+            labels={soldOrPremiumLabels?.expiring ?? []}
+            dataKey='totalProtection'
           />
         )
 
