@@ -15,7 +15,6 @@ import { useCoverStatsContext } from '@/common/Cover/CoverStatsContext'
 
 import { useDisputeIncident } from '@/src/hooks/useDisputeIncident'
 import { useTokenDecimals } from '@/src/hooks/useTokenDecimals'
-import { isValidProduct } from '@/src/helpers/cover'
 import { useWeb3React } from '@web3-react/core'
 import { analyticsLogger } from '@/utils/logger'
 import { log } from '@/src/services/logs'
@@ -25,8 +24,6 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
 
   const [value, setValue] = useState('')
   const [buttonDisabled, setButtonDisabled] = useState(false)
-
-  const isDiversified = isValidProduct(incidentReport.productKey)
 
   const { minReportingStake } = useCoverStatsContext()
   const {
@@ -43,8 +40,7 @@ export const NewDisputeReportForm = ({ incidentReport }) => {
     coverKey: incidentReport.coverKey,
     productKey: incidentReport.productKey,
     incidentDate: incidentReport.incidentDate,
-    minStake: minReportingStake,
-    isDiversified
+    minStake: minReportingStake
   })
 
   const tokenDecimals = useTokenDecimals(tokenAddress)

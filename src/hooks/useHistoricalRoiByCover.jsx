@@ -1,22 +1,22 @@
-import { getHistoricalDataURL } from '@/src/config/constants'
+import { getHistoricalDataByCoverURL } from '@/src/config/constants'
 import { useNetwork } from '@/src/context/Network'
 import { useState, useRef } from 'react'
 
-const useHistoricalData = () => {
+const useHistoricalRoiDataByCover = () => {
   const fetched = useRef(false)
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
 
   const { networkId } = useNetwork()
 
-  const fetchHistoricalData = async () => {
+  const fetchHistoricalDataByCover = async () => {
     if (fetched.current) return
 
     setLoading(true)
 
     try {
       const response = await fetch(
-        getHistoricalDataURL(networkId),
+        getHistoricalDataByCoverURL(networkId),
         {
           method: 'GET',
           headers: {
@@ -42,10 +42,10 @@ const useHistoricalData = () => {
   }
 
   return {
-    fetchHistoricalData,
+    fetchHistoricalDataByCover,
     loading,
     data
   }
 }
 
-export { useHistoricalData }
+export { useHistoricalRoiDataByCover }

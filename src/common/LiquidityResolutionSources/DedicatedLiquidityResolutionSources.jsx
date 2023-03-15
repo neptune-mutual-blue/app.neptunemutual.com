@@ -18,7 +18,7 @@ export const DedicatedLiquidityResolutionSources = ({
   const reassuranceAmount = info.totalReassurance
 
   return (
-    <CoverResolutionSources coverInfo={coverInfo}>
+    <CoverResolutionSources resolutionSources={coverInfo?.infoObj.resolutionSources || []}>
       <hr className='mt-4 mb-6 border-t border-B0C4DB/60' />
       <div
         className='flex justify-between pb-2'

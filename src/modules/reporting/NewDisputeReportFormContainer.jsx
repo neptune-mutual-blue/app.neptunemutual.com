@@ -7,30 +7,21 @@ import DateLib from '@/lib/date/DateLib'
 import { isGreater } from '@/utils/bn'
 import { Trans } from '@lingui/macro'
 import { CoverStatsProvider } from '@/common/Cover/CoverStatsContext'
-import { useCoverOrProductData } from '@/src/hooks/useCoverOrProductData'
+import { isValidProduct } from '@/src/helpers/cover'
+import { useCoversAndProducts2 } from '@/src/context/CoversAndProductsData2'
 
 export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp }) {
-  const { coverInfo } = useCoverOrProductData({
-    coverKey: coverKey,
-    productKey: productKey
-  })
-  const { data, loading } = useFetchReport({
-    coverKey: coverKey,
-    productKey: productKey,
-    incidentDate: timestamp
-  })
+  const isDiversified = isValidProduct(productKey)
+  const { loading: dataLoading, getProduct, getCoverByCoverKey } = useCoversAndProducts2()
+  const coverOrProductData = isDiversified ? getProduct(coverKey, productKey) : getCoverByCoverKey(coverKey)
 
-  if (!coverInfo) {
-    return <Trans>loading...</Trans>
+  if (dataLoading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
   }
-
-  const now = DateLib.unix()
-  const reportingEnded = data?.incidentReport
-    ? isGreater(now, data.incidentReport.resolutionTimestamp || '0')
-    : false
-
-  const canDispute =
-    !reportingEnded && data?.incidentReport?.totalRefutedCount === '0'
 
   return (
     <CoverStatsProvider coverKey={coverKey} productKey={productKey}>
@@ -38,39 +29,62 @@ export function NewDisputeReportFormContainer ({ coverKey, productKey, timestamp
       <ReportingHero
         coverKey={coverKey}
         productKey={productKey}
-        coverInfo={coverInfo}
+        coverOrProductData={coverOrProductData}
         incidentDate={timestamp}
         type='new-dispute'
       />
       <hr className='border-t border-t-B0C4DB' />
 
-      {loading && (
-        <p className='text-center'>
-          <Trans>loading...</Trans>
-        </p>
-      )}
-
-      {!loading && !data.incidentReport && (
-        <p className='text-center'>
-          <Trans>No data found</Trans>
-        </p>
-      )}
-
-      {data.incidentReport && (
-        <div>
-          {canDispute
-            ? (
-              <NewDisputeReportForm incidentReport={data.incidentReport} />
-              )
-            : (
-              <Container className='py-16'>
-                <Alert>
-                  <Trans>Not applicable for disputing</Trans>
-                </Alert>
-              </Container>
-              )}
-        </div>
-      )}
+      <DisputeForm
+        coverKey={coverKey}
+        productKey={productKey}
+        timestamp={timestamp}
+      />
     </CoverStatsProvider>
+  )
+}
+
+function DisputeForm ({ coverKey, productKey, timestamp }) {
+  const { data: incidentReportData, loading } = useFetchReport({
+    coverKey: coverKey,
+    productKey: productKey,
+    incidentDate: timestamp
+  })
+
+  if (loading) {
+    return (
+      <p className='text-center'>
+        <Trans>loading...</Trans>
+      </p>
+    )
+  }
+
+  if (!incidentReportData) {
+    return (
+      <p className='text-center'>
+        <Trans>No data found</Trans>
+      </p>
+    )
+  }
+
+  const now = DateLib.unix()
+  const reportingEnded = incidentReportData
+    ? isGreater(now, incidentReportData.resolutionTimestamp || '0')
+    : false
+
+  const canDispute = !reportingEnded && incidentReportData?.totalRefutedCount === '0'
+
+  return (
+    canDispute
+      ? (
+        <NewDisputeReportForm incidentReport={incidentReportData} />
+        )
+      : (
+        <Container className='py-16'>
+          <Alert>
+            <Trans>Not applicable for disputing</Trans>
+          </Alert>
+        </Container>
+        )
   )
 }

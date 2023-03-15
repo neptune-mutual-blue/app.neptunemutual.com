@@ -20,12 +20,22 @@ import { useConsensusInsights } from '@/src/hooks/useConsensusInsights'
 import { useLocalStorage } from '@/src/hooks/useLocalStorage'
 import { HistoricalRoi } from '@/modules/insights/HistoricalRoi'
 import { useHistoricalData } from '@/src/hooks/useHistoricalData'
+import { HistoricalRoiByCover } from '@/modules/insights/HistoricalRoiByCover'
+import { useHistoricalRoiDataByCover } from '@/src/hooks/useHistoricalRoiByCover'
+import { useValidateNetwork } from '@/src/hooks/useValidateNetwork'
+import { useNetwork } from '@/src/context/Network'
+import { OutlineButtonList } from '@/common/OutlineButtonList/OutlineButtonList'
+import { ProtectionChart } from '@/modules/insights/ProtectionChart'
+import { useProtectionChartData } from '@/src/hooks/useProtectionChartData'
 
 const AllDropdownOptions = {
-  TVL_DISTRIBUTION: 'TVL Distribution',
   QUICK_INFO: 'Quick Info',
+  TVL_DISTRIBUTION: 'TVL Distribution',
   GROWTH: 'Growth',
-  HISTORICAL_ROI: 'Historical ROI',
+  HISTORICAL_ROI: 'LP\'s Historical ROI',
+  HISTORICAL_ROI_BY_COVER: 'LP\'s Historical ROI by Cover',
+  MONTHLY_DISTRIBUTION: 'Protection by Month (Distribution)',
+  MONTHLY_EARNING: 'Protection by Month (Earning)',
   DEMAND: 'Demand',
   COVER_TVL: 'Cover TVL',
   TOTAL_CAPACITY: 'Total Capacity',
@@ -53,6 +63,7 @@ export const InsightsContent = () => {
 
   const { data: TVLStats, loading: tvlStatsLoading } = useFetchInsightsTVLStats()
   const { data: historicalData, loading: historicalDataLoading, fetchHistoricalData } = useHistoricalData()
+  const { data: historicalDataByCover, loading: historicalDataByCoverLoading, fetchHistoricalDataByCover } = useHistoricalRoiDataByCover()
 
   const [consensusIndex, setConsensusIndex] = useState(-1)
 
@@ -67,6 +78,8 @@ export const InsightsContent = () => {
     fetchData: fetchCoverEarningData,
     loading: coverEarningLoading
   } = useCoverEarningInsights()
+
+  const { data: protectionData, fetchMonthlyProtectionData, labels: protectionLabels, loading: protectionDataLoading } = useProtectionChartData()
 
   const {
     data: consensusData,
@@ -92,6 +105,14 @@ export const InsightsContent = () => {
     if (selected.value === AllDropdownOptions.HISTORICAL_ROI) {
       fetchHistoricalData()
     }
+
+    if (selected.value === AllDropdownOptions.HISTORICAL_ROI_BY_COVER) {
+      fetchHistoricalDataByCover()
+    }
+
+    if ([AllDropdownOptions.MONTHLY_DISTRIBUTION, AllDropdownOptions.MONTHLY_EARNING].includes(selected.value)) {
+      fetchMonthlyProtectionData()
+    }
     // eslint-disable-next-line
   }, [selected.value])
 
@@ -100,6 +121,20 @@ export const InsightsContent = () => {
       {tvlStatsLoading ? '' : `${statsData?.combined?.availableCovers} Covers, ${statsData?.combined?.reportingCovers} Reporting`}
     </div>
   )
+
+  const { networkId } = useNetwork()
+  const { isMainNet } = useValidateNetwork(networkId)
+
+  const chains = isMainNet
+    ? [
+        { label: 'Arbitrum', value: '42161' },
+        { label: 'Ethereum', value: '1' }
+      ]
+    : [
+        { label: 'Fuji', value: '43113' }
+      ]
+
+  const [selectedChain, setSelectedChain] = useState(isMainNet ? '42161' : '43113')
 
   const getTrailingTitleComponent = () => {
     switch (selected.value) {
@@ -123,6 +158,15 @@ export const InsightsContent = () => {
             hasPrevious={currentPage > 1}
           />
         )
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+
+        return (
+          <OutlineButtonList
+            options={chains} onChange={(value) => {
+              setSelectedChain(value)
+            }} selected={selectedChain}
+          />
+        )
       default:
         return ReportLabels
     }
@@ -137,6 +181,7 @@ export const InsightsContent = () => {
             <InsightsTVLTable data={TVLStats} loading={tvlStatsLoading} />
           </>
         )
+
       case AllDropdownOptions.QUICK_INFO:
         return (
           <>
@@ -144,11 +189,39 @@ export const InsightsContent = () => {
             <InsightsQuickInfoTable />
           </>
         )
+
       case AllDropdownOptions.DEMAND:
         return <TotalCapacityChart data={totalCovered} />
 
       case AllDropdownOptions.HISTORICAL_ROI:
         return <HistoricalRoi loading={historicalDataLoading} data={historicalData} />
+
+      case AllDropdownOptions.HISTORICAL_ROI_BY_COVER:
+        return (
+          <HistoricalRoiByCover
+            selectedChain={selectedChain}
+            loading={historicalDataByCoverLoading} data={historicalDataByCover}
+          />
+        )
+
+      case AllDropdownOptions.MONTHLY_DISTRIBUTION:
+        return (
+          <ProtectionChart
+            loading={protectionDataLoading}
+            data={protectionData}
+            labels={protectionLabels}
+          />
+        )
+
+      case AllDropdownOptions.MONTHLY_EARNING:
+        return (
+          <ProtectionChart
+            loading={protectionDataLoading}
+            data={protectionData}
+            labels={protectionLabels}
+            dataKey='incomePercent'
+          />
+        )
 
       case AllDropdownOptions.COVER_TVL:
         return <TotalCapacityChart data={totalLiquidity} />
@@ -191,7 +264,7 @@ export const InsightsContent = () => {
         setSelected={setSelected}
         selected={selected}
         options={DROPDOWN_OPTIONS}
-        trailing={consensusIndex === -1 ? null : getTrailingTitleComponent()}
+        trailing={consensusIndex !== -1 ? null : getTrailingTitleComponent()}
         title={consensusIndex !== -1 ? 'Consensus Details' : undefined}
         trailAfterDropdownInMobile={selected.value === AllDropdownOptions.COVER_EARNINGS}
         leading={leading}

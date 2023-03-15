@@ -6,14 +6,12 @@ import { getCoverImgSrc, isValidProduct } from '@/src/helpers/cover'
 import { t } from '@lingui/macro'
 import { Routes } from '@/src/config/routes'
 
-export const ReportingHero = ({ coverKey, productKey, coverInfo, incidentDate = null, type = '', isResolved = false }) => {
+export const ReportingHero = ({ coverKey, productKey, coverOrProductData, incidentDate = null, type = '', isResolved = false }) => {
   const isDiversified = isValidProduct(productKey)
   const imgSrc = getCoverImgSrc({ key: isDiversified ? productKey : coverKey })
-  const coverName = isDiversified
-    ? coverInfo?.cover.infoObj.coverName || coverInfo?.cover.infoObj.projectName
-    : coverInfo?.infoObj.coverName || coverInfo?.infoObj.projectName
-  const productName = coverInfo?.infoObj.productName
-  const socialLinks = coverInfo?.infoObj.links
+  const coverName = coverOrProductData?.coverInfoDetails.coverName || coverOrProductData?.coverInfoDetails.projectName
+  const productName = coverOrProductData?.productInfoDetails?.productName
+  const socialLinks = isDiversified ? coverOrProductData?.productInfoDetails.links : coverOrProductData?.coverInfoDetails.links
 
   let breadcrumbData = []
 
