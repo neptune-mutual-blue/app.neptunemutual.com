@@ -96,7 +96,7 @@ export const CalculatorAmountHandler = ({
           <button
             type='button'
             className={classNames(
-              'font-inter border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
+              'border-B0C4DB border-0.5 px-6 m-px font-normal uppercase tracking-wide rounded-r-mdlg hover:bg-DEEAF6 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-0 focus-visible:ring-4e7dd9',
               buttonClassName,
               buttonProps.disabled ? 'cursor-not-allowed' : 'hover:bg-DEEAF6'
             )}

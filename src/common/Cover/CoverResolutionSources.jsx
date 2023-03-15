@@ -12,7 +12,7 @@ export const CoverResolutionSources = ({ children, resolutionSources = [] }) => 
       <SecondaryCard>
         <div className='flex flex-wrap justify-between md:block'>
           <div>
-            <h3 className='font-semibold text-h4 font-inter'>
+            <h3 className='font-semibold text-h4'>
               <Trans>Resolution Sources</Trans>
             </h3>
             <p className='mt-1 mb-6 text-sm opacity-50'>

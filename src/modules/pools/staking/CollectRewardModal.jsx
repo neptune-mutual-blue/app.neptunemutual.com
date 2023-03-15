@@ -43,7 +43,7 @@ export const CollectRewardModal = ({
     >
       <ModalWrapper className='max-w-md bg-f6f7f9 xs:overflow-y-auto'>
         <div>
-          <Dialog.Title className='flex font-bold font-inter text-h2'>
+          <Dialog.Title className='flex font-bold text-h2'>
             {modalTitle}
           </Dialog.Title>
         </div>

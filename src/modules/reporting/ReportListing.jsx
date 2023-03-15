@@ -161,7 +161,7 @@ const ReportListing = (props) => {
         <TableWrapper>
           <Table>
             <THead
-              theadClass='bg-white text-[#9B9B9B] font-inter border-b-[1px] border-[#DAE2EB]'
+              theadClass='bg-white text-[#9B9B9B] border-b-[1px] border-[#DAE2EB]'
               columns={columns}
             />
             <tbody className='divide-y divide-DAE2EB'>

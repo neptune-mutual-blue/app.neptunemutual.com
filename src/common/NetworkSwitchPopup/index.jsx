@@ -48,8 +48,8 @@ export const NetworkSwitchPopup = () => {
         />
         <div>
           <div className='text-center'>
-            <p className='leading-4 font-inter text-h5'>Ethereum gas fees too high?</p>
-            <p className='mt-2 font-semibold font-inter text-h4'>Use Neptune Mutual on Arbitrum</p>
+            <p className='leading-4 text-h5'>Ethereum gas fees too high?</p>
+            <p className='mt-2 font-semibold text-h4'>Use Neptune Mutual on Arbitrum</p>
           </div>
 
           <div className='mt-4'>
@@ -59,7 +59,7 @@ export const NetworkSwitchPopup = () => {
               href={ARBITRUM_APP_URL}
               onClick={handleClosePopup}
             >
-              <span className='font-semibold leading-5 uppercase font-inter text-h5'>Switch to arbitrum</span>
+              <span className='font-semibold leading-5 uppercase text-h5'>Switch to arbitrum</span>
               <TrendUpIcon className='flex-shrink-0' />
             </a>
           </div>

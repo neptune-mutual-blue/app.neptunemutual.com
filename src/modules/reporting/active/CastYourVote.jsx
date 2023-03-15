@@ -134,7 +134,7 @@ export const CastYourVote = ({ incidentReport, idPrefix }) => {
 
   return (
     <>
-      <h3 className='font-bold text-center lg:text-left text-h3 font-inter'>
+      <h3 className='font-bold text-center lg:text-left text-h3'>
         <Trans>Cast Your Vote</Trans>
       </h3>
       <div className='flex flex-col items-center justify-between max-w-lg mt-6 mb-8 sm:justify-start sm:items-start sm:flex-row'>

@@ -11,7 +11,7 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
       )}
     >
       <div className='flex flex-col items-center justify-between w-full lg:py-4 border-r-0.5 border-E8E8ED'>
-        <h4 className='mb-2 leading-5 font-inter lg:mb-0 text-h7 lg:text-h5 text-9B9B9B'>
+        <h4 className='mb-2 leading-5 lg:mb-0 text-h7 lg:text-h5 text-9B9B9B'>
           <Trans>Available</Trans>
         </h4>
         <InfoTooltip
@@ -22,17 +22,17 @@ export const HomeMainCard = ({ heroData, className = '' }) => {
             </div>
           }
         >
-          <h4 className='font-bold leading-5 font-inter text-h5 lg:text-h3 text-4e7dd9'>
+          <h4 className='font-bold leading-5 text-h5 lg:text-h3 text-4e7dd9'>
             {heroData.availableCovers}
           </h4>
         </InfoTooltip>
       </div>
 
       <div className='flex flex-col items-center justify-between w-full'>
-        <h4 className='mb-2 lg:mb-0 font-inter text-h7 lg:text-h5 text-9B9B9B'>
+        <h4 className='mb-2 lg:mb-0 text-h7 lg:text-h5 text-9B9B9B'>
           <Trans>Reporting</Trans>
         </h4>
-        <h4 className='font-bold leading-5 font-inter text-h5 lg:text-h3 text-4e7dd9'>
+        <h4 className='font-bold leading-5 text-h5 lg:text-h3 text-4e7dd9'>
           {heroData.reportingCovers}
         </h4>
       </div>

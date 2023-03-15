@@ -89,7 +89,7 @@ export const AccountDetailsModal = ({
       <ModalWrapper className='max-w-lg transition-all bg-f6f7f9'>
         <Dialog.Title
           as='h3'
-          className='font-bold leading-9 text-black font-inter text-h2'
+          className='font-bold leading-9 text-black text-h2'
         >
           <Trans>Account</Trans>
         </Dialog.Title>
@@ -120,7 +120,7 @@ export const AccountDetailsModal = ({
             </button>
           </div>
 
-          <div className='flex items-center justify-center mt-1 font-bold sm:mt-3 font-inter text-404040 sm:justify-start'>
+          <div className='flex items-center justify-center mt-1 font-bold sm:mt-3 text-404040 sm:justify-start'>
             {account ? <Identicon account={account} /> : <div />}
             <div className='ml-3'>
               {account?.substring(0, 6) + '...' + account?.slice(-4)}

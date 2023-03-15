@@ -18,7 +18,7 @@ export const WithdrawLiquidityModal = ({ modalTitle, isOpen, onClose }) => {
     >
       <ModalWrapper className='max-w-lg !px-0 bg-f6f7f9'>
         <div className='px-8 sm:px-12'>
-          <Dialog.Title className='flex font-bold font-inter text-h2'>
+          <Dialog.Title className='flex font-bold text-h2'>
             {modalTitle}
           </Dialog.Title>
         </div>

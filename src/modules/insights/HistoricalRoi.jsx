@@ -20,7 +20,7 @@ const HistoricalRoi = ({ loading, data }) => {
     xAxis: {
       labels: {
         format:
-          "<span class='font-inter text-black uppercase'>{value:%b %y}</span>",
+          "<span class='text-black uppercase'>{value:%b %y}</span>",
         useHTML: true
       },
       ordinal: false,
@@ -32,7 +32,7 @@ const HistoricalRoi = ({ loading, data }) => {
       opposite: false,
       labels: {
         formatter: function () {
-          return `<span class='font-inter text-black'>${this.value}%</span>`
+          return `<span class='text-black'>${this.value}%</span>`
         },
         useHTML: true
       },
@@ -108,7 +108,7 @@ const HistoricalRoi = ({ loading, data }) => {
       borderWidth: 0,
       shadow: false,
       shape: 'rect',
-      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold font-inter tracking-normal text-01052D text-h6\'><div class=\'text-xs\'>{series.name}</div><div class=\'text-h6 text-sm text-black\'>{point.y}%</div></p></div>',
+      pointFormat: '<div class=\'px-4 pr-6 py-3 bg-white bg-opacity-95 rounded-tooltip border border-B0C4DB shadow-hc-tooltip\'><p class=\'font-semibold tracking-normal text-01052D text-h6\'><div class=\'text-xs\'>{series.name}</div><div class=\'text-h6 text-sm text-black\'>{point.y}%</div></p></div>',
       headerFormat: '',
       hideDelay: 100,
       outside: false
@@ -128,7 +128,7 @@ const HistoricalRoi = ({ loading, data }) => {
       xAxis: {
         labels: {
           format:
-            "<span class='font-inter text-black uppercase'>{value:%b %y}</span>",
+            "<span class='text-black uppercase'>{value:%b %y}</span>",
           useHTML: true,
           style: {
             color: '#01052D'

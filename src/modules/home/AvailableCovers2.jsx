@@ -108,7 +108,7 @@ export const AvailableCovers = () => {
       >
         <Link href='#cover-products'>
           <a>
-            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2 font-inter'>
+            <h1 className='mb-3 font-bold xl:mb-0 text-h3 lg:text-h2'>
               <Trans>Cover Products</Trans>
             </h1>
           </a>

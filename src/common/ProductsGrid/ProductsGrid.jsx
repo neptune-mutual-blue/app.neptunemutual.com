@@ -105,12 +105,12 @@ export const ProductsGrid = () => {
             }}
             scroll={false}
           >
-            <a className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg font-inter bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
+            <a className='inline-flex items-center px-4 py-3 mr-6 tracking-wide text-black uppercase border-none rounded-lg bg-E6EAEF hover:bg-opacity-80 disabled:bg-EEEEEE disabled:text-9B9B9B focus:outline-none focus-visible:ring-2 focus-visible:ring-4e7dd9'>
               <LeftArrow />
               <Trans>Back</Trans>
             </a>
           </Link>
-          <h1 className='font-bold text-h3 lg:text-h2 font-inter'>
+          <h1 className='font-bold text-h3 lg:text-h2'>
             {coverData?.coverInfoDetails?.coverName || coverData?.coverInfoDetails?.productName || ''}
           </h1>
         </div>

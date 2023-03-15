@@ -86,7 +86,7 @@ export const RecentVotesTable = ({ coverKey, productKey, incidentDate }) => {
 
   return (
     <>
-      <h3 className='mb-6 font-bold text-center text-h4 font-inter mt-14 md:text-left'>
+      <h3 className='mb-6 font-bold text-center text-h4 mt-14 md:text-left'>
         <Trans>Recent Votes</Trans>
       </h3>
 

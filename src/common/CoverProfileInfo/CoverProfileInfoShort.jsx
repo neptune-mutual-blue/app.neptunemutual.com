@@ -22,7 +22,7 @@ export const CoverProfileInfoShort = ({
         />
       </div>
       <div>
-        <h4 className={classNames('font-inter font-bold', fontSizeClass)}>
+        <h4 className={classNames('font-bold', fontSizeClass)}>
           {title}
         </h4>
       </div>

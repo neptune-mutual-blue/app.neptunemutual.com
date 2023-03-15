@@ -14,7 +14,7 @@ export const Network = ({ chainId }) => {
       </figure>
       <p
         className={classNames(
-          'inline-block truncate py-1 px-2 w-full text-center text-000000 text-sm leading-6 font-inter'
+          'inline-block truncate py-1 px-2 w-full text-center text-000000 text-sm leading-6'
         )}
       >
         {NetworkName}

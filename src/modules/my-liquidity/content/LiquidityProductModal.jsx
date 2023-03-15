@@ -46,7 +46,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
     >
       <div className='grid grid-rows-basket-modal border-1.5 border-B0C4DB relative w-full max-w-lg p-2 xs:p-6 md:p-11 pb-9 text-left align-middle md:min-w-700 lg:min-w-910 max-h-90vh bg-FEFEFF rounded-3xl overflow-hidden'>
         <Dialog.Title
-          className='flex flex-col items-center w-full pt-12 pb-5 font-bold border-b md:p-3 md:pt-0 md:flex-row font-inter border-b-B0C4DB'
+          className='flex flex-col items-center w-full pt-12 pb-5 font-bold border-b md:p-3 md:pt-0 md:flex-row border-b-B0C4DB'
           data-testid='dialog-title'
         >
           <button
@@ -62,7 +62,7 @@ export function LiquidityProductModal ({ product, setShowModal }) {
           <span className='flex-grow mb-1 overflow-hidden font-bold text-h4 md:pl-3 md:text-h3 text-ellipsis md:mb-0'>
             {product.infoObj.productName} Cover Terms
           </span>
-          <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap font-inter'>
+          <span className='text-sm font-normal leading-5 md:pl-3 md:text-h5 lg:text-h4 md:font-semibold text-9B9B9B whitespace-nowrap'>
             {formatPercent(
               toBN(product.infoObj?.capitalEfficiency)
                 .dividedBy(MULTIPLIER)
@@ -71,23 +71,23 @@ export function LiquidityProductModal ({ product, setShowModal }) {
             Capital Efficiency
           </span>
         </Dialog.Title>
-        <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto font-inter min-h-[0] h-full'>
+        <div className='py-2 pr-6 -mr-6 md:pr-7 md:-mr-7 overflow-y-auto min-h-[0] h-full'>
           <p className='py-2 text-sm font-bold leading-5 md:py-6 text-000000'>
             Cover Rules
           </p>
 
-          <p className='text-sm font-inter text-404040'>
+          <p className='text-sm text-404040'>
             Carefully read the following terms and conditions. For a successful
             claim payout, all of the following points must be true.
           </p>
 
           <ul
-            className='pb-2 mt-5 list-disc text-md marker:text-xs font-inter text-404040 md:text-sm md:leading-5'
+            className='pb-2 mt-5 list-disc text-md marker:text-xs text-404040 md:text-sm md:leading-5'
             data-testid='cover-rules'
           >
             <CoverParameters
-              titleClassName='text-sm mt-10 mb-6 font-semibold font-inter'
-              textClassName='font-inter text-404040 text-m text-sm'
+              titleClassName='text-sm mt-10 mb-6 font-semibold'
+              textClassName='text-404040 text-m text-sm'
               parameters={product.infoObj.parameters}
             />
           </ul>

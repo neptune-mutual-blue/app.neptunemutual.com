@@ -16,7 +16,7 @@ export const IconWithBadge = ({ number, children }) => {
         <div
           className={classNames(
             'bg-E52E2E py-0.5 pb-px px-1 rounded-1',
-            'text-white text-badge font-inter',
+            'text-white text-badge',
             'absolute -top-1 -right-1'
           )}
         >

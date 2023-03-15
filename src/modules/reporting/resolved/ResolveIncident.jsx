@@ -159,7 +159,7 @@ const EmergencyResolveModal = ({
             alt={logoAlt}
             src={logoSource}
           />
-          <div className='font-bold capitalize font-inter text-h2'>
+          <div className='font-bold capitalize text-h2'>
             <Trans>Emergency resolution</Trans>
           </div>
         </Dialog.Title>

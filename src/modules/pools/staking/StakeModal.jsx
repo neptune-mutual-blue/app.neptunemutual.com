@@ -25,7 +25,7 @@ export const StakeModal = ({
       data-testid='staking-modal'
     >
       <ModalWrapper className='max-w-md bg-f6f7f9 xs:overflow-y-auto'>
-        <Dialog.Title className='flex items-center font-bold font-inter text-h2'>
+        <Dialog.Title className='flex items-center font-bold text-h2'>
           {modalTitle}
         </Dialog.Title>
 

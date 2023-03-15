@@ -35,7 +35,7 @@ export const CoverReportingRules = ({
             <div>
               <AcceptReportRulesForm onAccept={handleAcceptRules}>
                 <div className='mt-16'>
-                  <h2 className='mb-6 font-bold font-inter text-h2'>
+                  <h2 className='mb-6 font-bold text-h2'>
                     <Trans>Active Reporting</Trans>
                   </h2>
 

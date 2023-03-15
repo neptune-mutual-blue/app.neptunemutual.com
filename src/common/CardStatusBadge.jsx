@@ -106,7 +106,7 @@ export const Badge = ({
     <div className='text-FEFEFF' {...props}>
       <div
         className={classNames(
-          'px-2 font-inter text-xs whitespace-nowrap',
+          'px-2 text-xs whitespace-nowrap',
           className,
           info.className
         )}

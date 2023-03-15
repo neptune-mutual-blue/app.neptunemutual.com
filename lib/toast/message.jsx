@@ -69,7 +69,7 @@ const ToastMessage = ({
           <div className='flex-shrink-0'>{Var.icon}</div>
 
           <div className='flex-1 w-0 ml-3'>
-            <p className='font-light text-para font-inter'>
+            <p className='font-light text-para'>
               {title || Var.name}
             </p>
             <div className='mt-3 text-sm text-EEEEEE'>{message}</div>

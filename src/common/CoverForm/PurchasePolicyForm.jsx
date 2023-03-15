@@ -274,7 +274,7 @@ export const PurchasePolicyForm = ({ coverKey, productKey, coverInfo }) => {
       {formSteps === 0 && value && <StepsIndicator completed='50' />}
       {formSteps === 1 && <StepsIndicator completed={value && coverMonth ? '100' : '50'} />}
       <div className='w-full p-4 rounded-xl bg-FEFEFF md:p-9 border-B0C4DB border-1.5' data-testid='purchase-policy-form'>
-        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize font-inter'>
+        <h4 className='flex items-center justify-center pb-6 text-sm font-bold text-center capitalize'>
           <div className='w-8 h-8 p-1 mr-2.5 rounded-full bg-DEEAF6'>
             <img
               src={coverImgSrc} alt=''
